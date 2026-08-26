@@ -49,9 +49,22 @@ passes it.
 | `python tools/roll.py dice 2d6 --target R03-L07` | Seeded dice. All randomness passes through here. |
 | `python tools/roll.py table T-RUM --target R03 [--count n]` | Seeded table draws. |
 | `python tools/ledger.py start\|done\|complete\|built\|decorated ...` | Move the progress record and regenerate `STATE.md`. |
+| `python -m unittest discover -s tests` | Run the tests. |
 
 `tools/common.py` is the shared library: repository layout, the table catalogue
 of SPEC.md section 4.7, frontmatter and markdown parsing. It is not a CLI.
+
+## Tests
+
+Every mechanical check carries a case in `tests/test_validate.py` that breaks one
+thing and proves the check reports it. **A new or changed check arrives with its
+case**, and `test_every_check_has_a_case` fails if one is missing. A check with no
+case is indistinguishable from a check that no longer runs.
+
+`tests/test_tools.py` holds the round trip: a tree scaffolded from nothing must
+pass the checks with no errors. That test is what makes "`scaffold.py` fixes the
+shape and `validate.py` checks it, so the two agree by construction" a fact
+rather than an intention. Run the suite before closing any milestone.
 
 ## Body shape
 

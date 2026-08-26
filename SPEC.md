@@ -359,6 +359,10 @@ A container is a named grouping that gives the diagram layer a tier to draw. It 
 │   ├── roll.py
 │   ├── ledger.py
 │   └── router.py
+├── tests/
+│   ├── harness.py               # a throwaway copy of the repo, and one tool run
+│   ├── test_validate.py         # one case per mechanical check, proving it fires
+│   └── test_tools.py            # scaffold, roll, ledger, and the scaffold round trip
 ├── state/
 │   └── ledger.json              # canonical progress record
 ├── build/
@@ -760,6 +764,11 @@ Each check has a severity. `ERROR` fails the run. `REPORT` prints and continues.
 | **M23** | `->` appears only inside a feature connection pointer. | ERROR |
 | **M24** | No bare mechanical value appears in prose, and no token appears in player-facing text. | REPORT |
 | **M25** | No `[[ ... ]]` note survives in a file the Decorator has closed. | REPORT |
+
+**Every check carries a negative case** in `tests/test_validate.py` that breaks
+one thing and asserts the check reports it at the severity above. A check with
+no case cannot be told apart from a check that no longer runs, so a new or
+changed check arrives with its case.
 
 ### 14.2. Judgement rubric
 
