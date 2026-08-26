@@ -1,0 +1,56 @@
+# Every number with two consumers lives here. A number only a writer reads
+# stays inline in the pattern that uses it.
+#
+# Consumers are named beside each block. A key with one named consumer is a
+# bug: move it back inline.
+schema_version: 1
+
+# Written by: patterns (setting/region/location architect).
+# Checked by: validate.py M3.
+tags:
+  count: 3
+
+# Written by: patterns/cells/*, region architect.
+# Checked by: validate.py M6.
+region_weights:
+  low:
+    locations_min: 12
+    locations_max: 20
+    high_min: 2
+  medium:
+    locations_min: 20
+    locations_max: 40
+    high_min: 3
+  high:
+    locations_min: 40
+    locations_max: 60
+    high_min: 4
+
+# Written by: patterns/region/builder.
+# Checked by: validate.py M19.
+region_tables:
+  rows: 6
+  die: d6
+  weather_rows: 6
+
+# Written by: patterns/region/architect.
+# Checked by: validate.py M4.
+difficulty:
+  dice: [d4, d6, d8, d10, d12]
+  average: d8
+
+# Written by: patterns/region/architect, patterns/location/architect.
+# Checked by: validate.py M4, M5.
+region_types: [SAFE, WILD, DANGEROUS]
+location_weights: [LOW, MEDIUM, HIGH]
+
+# Written by: GENRE.example.md.
+# Checked by: resolve_deps.py (Milestone 2).
+genre:
+  max_words: 2000
+
+# Written by: patterns/location/builder.
+# Checked by: validate.py M18.
+naming:
+  min_root_length: 2
+  stop_words: ["the", "of", "a", "an", "and", "at", "in", "on", "to", "by", "for"]

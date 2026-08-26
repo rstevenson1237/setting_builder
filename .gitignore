@@ -1,0 +1,5 @@
+__pycache__/
+*.pyc
+
+# Resolved dependency bundles are rebuilt from patterns on every call.
+build/bundles/
