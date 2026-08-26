@@ -14,7 +14,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from harness import LEDGER, REGION, Sandbox  # noqa: E402
+from harness import GENRE, L03, LEDGER, REGION, ROUTER, Sandbox  # noqa: E402
 
 import common  # noqa: E402
 import ledger as ledger_mod  # noqa: E402
@@ -308,6 +308,307 @@ class TestCommon(unittest.TestCase):
             self.assertEqual(len(edges), 1)
             self.assertEqual((edges[0].source, edges[0].target, edges[0].one_way),
                              ("R03-L03", "R03-L07", False))
+
+
+# --------------------------------------------------------------------------
+# Routing and dependency resolution
+# --------------------------------------------------------------------------
+
+PATTERN = """---
+id: {id}
+target: {target}
+phase: {phase}
+writes: [Features, Exits]
+dependencies:
+{dependencies}
+schema_version: 1
+---
+
+## Patterns
+Write the thing.
+
+## Excluded patterns
+Nothing that belongs to a neighbour.
+
+## Design questions
+What is here that is worth the walk?
+"""
+
+LOCATION_DEPENDENCIES = """  - table:T-ARC
+  - region:${REGION_CODE}
+  - container:${CONTAINER_ID}
+  - siblings:location:${REGION_CODE}
+  - cell:${CELL}
+  - config"""
+
+GENRE_TEXT = """# The Ashen Reach
+
+Water over everything that was built, and nothing rotted.
+
+## Constants
+The water gives no sound back.
+"""
+
+
+def a_pattern(sandbox: Sandbox, name: str, *, id: str, target: str, phase: str = "builder",
+              dependencies: str = "  - config") -> None:
+    sandbox.write(f"patterns/{name}.md",
+                  PATTERN.format(id=id, target=target, phase=phase,
+                                 dependencies=dependencies))
+
+
+def a_genre(sandbox: Sandbox, text: str = GENRE_TEXT) -> None:
+    sandbox.write(GENRE, text)
+
+
+def a_cell(sandbox: Sandbox, cell: str, line: str) -> None:
+    sandbox.write(f"patterns/cells/{cell}.md", f"# {cell}\n\n{line}\n")
+
+
+class TestRouter(unittest.TestCase):
+    """The index is generated from frontmatter, and never hand-maintained."""
+
+    def test_the_committed_index_is_current(self) -> None:
+        """A pattern change that skipped the router is a stale router table."""
+        with Sandbox() as sandbox:
+            result = sandbox.run("router.py", "--check")
+            self.assertEqual(result.returncode, 0, result.stderr)
+
+    def test_a_new_pattern_reaches_the_index(self) -> None:
+        with Sandbox() as sandbox:
+            a_pattern(sandbox, "location/builder", id="location.builder.fields",
+                      target="location", dependencies=LOCATION_DEPENDENCIES)
+            self.assertEqual(sandbox.run("router.py", "--check").returncode, 1)
+            self.assertEqual(sandbox.run("router.py").returncode, 0)
+
+            index = sandbox.read(ROUTER)
+            self.assertIn("`location.builder.fields`", index)
+            self.assertIn("| location | builder |", index)
+            self.assertIn("`cell:${CELL}`", index)
+            self.assertEqual(sandbox.run("router.py", "--check").returncode, 0)
+
+    def test_a_broken_pattern_stops_the_write(self) -> None:
+        """An index built from unchecked frontmatter routes calls that cannot resolve."""
+        cases = [
+            ("phase: builder", "phase: polisher", "phase"),
+            ("  - config", "  - table:T-ZZZ", "catalogue"),
+            ("## Design questions\n", "## Questions\n", "Design questions"),
+            ("schema_version: 1", "schema_version: 2", "schema_version"),
+        ]
+        for old, new, expected in cases:
+            with self.subTest(expected=expected), Sandbox() as sandbox:
+                before = sandbox.read(ROUTER)
+                a_pattern(sandbox, "region/builder", id="region.builder.fields",
+                          target="region")
+                sandbox.sub("patterns/region/builder.md", old, new)
+
+                result = sandbox.run("router.py")
+                self.assertEqual(result.returncode, 1)
+                self.assertIn(expected, result.stderr)
+                self.assertEqual(sandbox.read(ROUTER), before, "a broken pattern wrote an index")
+
+    def test_a_duplicate_id_is_refused(self) -> None:
+        with Sandbox() as sandbox:
+            a_pattern(sandbox, "region/builder", id="region.builder.fields", target="region")
+            a_pattern(sandbox, "region/builder-again", id="region.builder.fields",
+                      target="region")
+            result = sandbox.run("router.py")
+            self.assertEqual(result.returncode, 1)
+            self.assertIn("already used by", result.stderr)
+
+    def test_cells_and_templates_are_not_routed(self) -> None:
+        """A cell file carries no target or phase, so routing one would fail the run."""
+        with Sandbox() as sandbox:
+            a_cell(sandbox, "WILD_HIGH", "The arrival, and the thing worth leaving the road for.")
+            sandbox.write("patterns/templates/location.md", "## Features\n")
+            self.assertEqual(sandbox.run("router.py").returncode, 0)
+
+            index = sandbox.read(ROUTER)
+            self.assertNotIn("templates/location.md", index)
+            self.assertIn("| `WILD_HIGH` | `patterns/cells/WILD_HIGH.md` | yes |", index)
+            self.assertIn("| `SAFE_LOW` | `patterns/cells/SAFE_LOW.md` | no |", index)
+
+
+class TestResolveDeps(unittest.TestCase):
+    """One bundle per generation call, and two rules a writer cannot talk past."""
+
+    BUNDLE = "build/bundles/location.builder.fields-R03-L07.md"
+
+    def a_location_call(self, sandbox: Sandbox) -> None:
+        a_genre(sandbox)
+        a_cell(sandbox, "WILD_HIGH", "A landmark is what a party leaves the road for.")
+        a_cell(sandbox, "WILD_LOW", "Connective ground, and it should read as questionable.")
+        a_pattern(sandbox, "location/builder", id="location.builder.fields",
+                  target="location", dependencies=LOCATION_DEPENDENCIES)
+
+    def test_a_bundle_carries_the_injected_and_the_declared(self) -> None:
+        with Sandbox() as sandbox:
+            self.a_location_call(sandbox)
+            result = sandbox.run("resolve_deps.py", "--pattern", "location.builder.fields",
+                                 "--target", "R03-L07")
+            self.assertEqual(result.returncode, 0, result.stderr)
+
+            bundle = sandbox.read(self.BUNDLE)
+            # Injected without being declared (SPEC.md 7.3).
+            self.assertIn("## Genre", bundle)
+            self.assertIn("The water gives no sound back.", bundle)
+            self.assertIn("## Mechanics", bundle)
+            self.assertIn("{TEST: Sanity}", bundle)
+            # Declared.
+            self.assertIn("## Table T-ARC", bundle)
+            self.assertIn("## Region R03", bundle)
+            self.assertIn("## Container drowned-tier", bundle)
+            self.assertIn("## Config", bundle)
+            self.assertIn("locations_min", bundle)
+
+    def test_exactly_one_cell_resolves(self) -> None:
+        """A writer never carries the other eight (SPEC.md 7.5)."""
+        with Sandbox() as sandbox:
+            self.a_location_call(sandbox)
+            sandbox.run("resolve_deps.py", "--pattern", "location.builder.fields",
+                        "--target", "R03-L07")
+            bundle = sandbox.read(self.BUNDLE)
+            self.assertIn("A landmark is what a party leaves the road for.", bundle)
+            self.assertNotIn("Connective ground", bundle)
+
+    def test_siblings_carry_identity_and_no_content(self) -> None:
+        with Sandbox() as sandbox:
+            self.a_location_call(sandbox)
+            sandbox.run("resolve_deps.py", "--pattern", "location.builder.fields",
+                        "--target", "R03-L07")
+            bundle = sandbox.read(self.BUNDLE)
+            siblings = bundle.split("## Sibling locations in R03")[1].split("\n## ")[0]
+            self.assertIn("R03-L03", siblings)
+            self.assertNotIn("R03-L07", siblings, "a target is not its own sibling")
+
+            body = sandbox.read(L03).split("## Player Overview")[1]
+            sentence = next(line for line in body.split("\n") if len(line.split()) > 8)
+            self.assertNotIn(sentence.strip(), bundle,
+                             "a sibling's prose reached the bundle")
+
+    def test_the_variables_come_from_the_target(self) -> None:
+        with Sandbox() as sandbox:
+            self.a_location_call(sandbox)
+            sandbox.run("resolve_deps.py", "--pattern", "location.builder.fields",
+                        "--target", "R03-L07")
+            fm = common.split_frontmatter(sandbox.read(self.BUNDLE))[0]
+            self.assertEqual(fm["dependencies"], [
+                "table:T-ARC", "region:R03", "container:drowned-tier",
+                "siblings:location:R03", "cell:WILD_HIGH", "config",
+            ])
+
+    def test_an_unfilled_variable_names_the_flag_that_fills_it(self) -> None:
+        """A region target implies no cell, so the resolver asks rather than guesses."""
+        with Sandbox() as sandbox:
+            a_genre(sandbox)
+            a_cell(sandbox, "WILD_HIGH", "A landmark.")
+            a_pattern(sandbox, "region/builder", id="region.builder.fields", target="region",
+                      dependencies="  - cell:${CELL}")
+
+            refused = sandbox.run("resolve_deps.py", "--pattern", "region.builder.fields",
+                                  "--target", "R03")
+            self.assertEqual(refused.returncode, 1)
+            self.assertIn("--var CELL=", refused.stderr)
+
+            filled = sandbox.run("resolve_deps.py", "--pattern", "region.builder.fields",
+                                 "--target", "R03", "--var", "CELL=WILD_HIGH")
+            self.assertEqual(filled.returncode, 0, filled.stderr)
+
+    def test_the_s_boundary_is_mechanical(self) -> None:
+        """S content reaches a player through a T table, never directly (SPEC.md 7.4)."""
+        with Sandbox() as sandbox:
+            a_genre(sandbox)
+            a_cell(sandbox, "WILD_HIGH", "A landmark.")
+            a_pattern(sandbox, "location/builder", id="location.builder.fields",
+                      target="location", dependencies="  - table:S-HIS")
+            a_pattern(sandbox, "region/builder", id="region.builder.fields",
+                      target="region", dependencies="  - table:S-HIS")
+
+            refused = sandbox.run("resolve_deps.py", "--pattern", "location.builder.fields",
+                                  "--target", "R03-L07")
+            self.assertEqual(refused.returncode, 1)
+            self.assertIn("S tables are referee-facing", refused.stderr)
+            self.assertFalse(sandbox.path(self.BUNDLE).exists())
+
+            allowed = sandbox.run("resolve_deps.py", "--pattern", "region.builder.fields",
+                                  "--target", "R03")
+            self.assertEqual(allowed.returncode, 0, allowed.stderr)
+
+            self.assertEqual(sandbox.run("resolve_deps.py", "--check").returncode, 1)
+
+    def test_the_genre_cap_is_enforced(self) -> None:
+        """GENRE.md enters every bundle, so its size is a tax on every call."""
+        with Sandbox() as sandbox:
+            self.a_location_call(sandbox)
+            cap = common.load_weights(sandbox.root)["genre"]["max_words"]
+            a_genre(sandbox, GENRE_TEXT + "\n" + " ".join(["water"] * (cap + 1)))
+
+            refused = sandbox.run("resolve_deps.py", "--pattern", "location.builder.fields",
+                                  "--target", "R03-L07")
+            self.assertEqual(refused.returncode, 1)
+            self.assertIn(f"over the {cap} word cap", refused.stderr)
+            self.assertEqual(sandbox.run("resolve_deps.py", "--check").returncode, 1)
+
+    def test_a_missing_input_is_an_error_not_a_thinner_bundle(self) -> None:
+        cases = [
+            (lambda s: s.path(GENRE).unlink(), "GENRE.md does not exist"),
+            (lambda s: s.path("patterns/cells/WILD_HIGH.md").unlink(), "Milestone 3"),
+        ]
+        for remove, expected in cases:
+            with self.subTest(expected=expected), Sandbox() as sandbox:
+                self.a_location_call(sandbox)
+                remove(sandbox)
+                result = sandbox.run("resolve_deps.py", "--pattern", "location.builder.fields",
+                                     "--target", "R03-L07")
+                self.assertEqual(result.returncode, 1)
+                self.assertIn(expected, result.stderr)
+                self.assertFalse(sandbox.path(self.BUNDLE).exists())
+
+    def test_stdout_writes_no_bundle(self) -> None:
+        """/generate samples a pattern without touching the tree (SPEC.md 12.1)."""
+        with Sandbox() as sandbox:
+            self.a_location_call(sandbox)
+            result = sandbox.run("resolve_deps.py", "--pattern", "location.builder.fields",
+                                 "--target", "R03-L07", "--stdout")
+            self.assertEqual(result.returncode, 0, result.stderr)
+            self.assertIn("# Bundle: location.builder.fields for R03-L07", result.stdout)
+            self.assertFalse(sandbox.path(self.BUNDLE).exists())
+
+    def test_an_output_template_reaches_the_bundle(self) -> None:
+        with Sandbox() as sandbox:
+            self.a_location_call(sandbox)
+            sandbox.write("patterns/templates/location.md", "### <Feature name>\n")
+            sandbox.sub("patterns/location/builder.md", "schema_version: 1",
+                        "output_template: templates/location.md\nschema_version: 1")
+
+            self.assertEqual(sandbox.run("resolve_deps.py", "--pattern",
+                                         "location.builder.fields", "--target",
+                                         "R03-L07").returncode, 0)
+            self.assertIn("### <Feature name>", sandbox.read(self.BUNDLE))
+
+            sandbox.path("patterns/templates/location.md").unlink()
+            missing = sandbox.run("resolve_deps.py", "--pattern", "location.builder.fields",
+                                  "--target", "R03-L07")
+            self.assertEqual(missing.returncode, 1)
+            self.assertIn("output_template", missing.stderr)
+
+    def test_a_resolved_diagram_does_not_read_as_a_hand_drawn_one(self) -> None:
+        """A bundle carries a copy of a derived diagram. M13 is about authored ones."""
+        with Sandbox() as sandbox:
+            self.a_location_call(sandbox)
+            sandbox.write("build/diagrams/T4_R03_DROWNED_TIER.md",
+                          "```mermaid\nflowchart TD\n  R03_L03 --> R03_L07\n```\n")
+            sandbox.run("resolve_deps.py", "--pattern", "location.builder.fields",
+                        "--target", "R03-L07")
+
+            self.assertIn("flowchart TD", sandbox.read(self.BUNDLE))
+            named = [f["code"] for f in sandbox.findings("M13")]
+            self.assertFalse([code for code in named if "bundles" in code], named)
+
+    def test_check_passes_on_the_committed_tree(self) -> None:
+        with Sandbox() as sandbox:
+            result = sandbox.run("resolve_deps.py", "--check")
+            self.assertEqual(result.returncode, 0, result.stderr)
 
 
 if __name__ == "__main__":

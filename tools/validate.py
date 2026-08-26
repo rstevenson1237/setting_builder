@@ -62,6 +62,12 @@ REPORT_CHECKS = {"M24", "M25"}
 # and may illustrate freely.
 MERMAID_SCAN_DIRS = ("setting", "build")
 
+# Two directories inside that scan hold derived mermaid rather than authored
+# mermaid. `build/diagrams/` is where every diagram is written, and a bundle in
+# `build/bundles/` carries a copy of one it resolved. Neither is hand-edited and
+# neither is spliced.
+MERMAID_SKIP_DIRS = (common.DIAGRAMS_DIR, common.BUNDLES_DIR)
+
 RE_HTML_COMMENT = re.compile(r"<!--.*?-->", re.DOTALL)
 RE_EDGE_LABEL = re.compile(r"(-->\s*\|[^|]+\||--\s*[^->\n]+\s*-->)")
 
@@ -680,12 +686,13 @@ class Validator:
         gate = Gate("diagrams", None, "the diagram layer is built at Milestone 5")
         directory = self.root / common.DIAGRAMS_DIR
 
+        skip = [self.root / name for name in MERMAID_SKIP_DIRS]
         for base in MERMAID_SCAN_DIRS:
             root_dir = self.root / base
             if not root_dir.is_dir():
                 continue
             for path in sorted(root_dir.rglob("*.md")):
-                if path.is_relative_to(directory):
+                if any(path.is_relative_to(skipped) for skipped in skip):
                     continue
                 if common.RE_MERMAID_BLOCK.search(path.read_text(encoding="utf-8")):
                     self.add("M13", str(path.relative_to(self.root)),
