@@ -6,7 +6,7 @@ region: R05
 container: the-bell-shafts
 cell: DANGEROUS_LOW
 pattern: CHAMBER
-sources: []
+sources: [T-ARC-12, T-LNG-51, T-PUZ-07, T-TR1-08]
 schema_version: 1
 ---
 
@@ -29,3 +29,6 @@ schema_version: 1
 
 | To | Type | Cue |
 | :--- | :--- | :--- |
+| R05-L12 | doorway | The cell gives onto silted floor with a stair coming down into it. |
+| R05-L15 | doorway | A squared opening pegged over, the pegs seated from inside the frame, nothing broken. |
+| R05-L18 | low doorway | Soot on every surface, and one clean patch at shoulder height where a hand has been going. |

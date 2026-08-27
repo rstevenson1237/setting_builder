@@ -6,7 +6,7 @@ region: R05
 container: the-bell-shafts
 cell: DANGEROUS_LOW
 pattern: CHAMBER
-sources: []
+sources: [T-ARC-10, T-HAZ-09, T-LNG-74, T-TR3-08]
 schema_version: 1
 ---
 
@@ -29,3 +29,6 @@ schema_version: 1
 
 | To | Type | Cue |
 | :--- | :--- | :--- |
+| R05-L12 | doorway | The uneven floor ends at dressed slab, and there is a stair beyond it. |
+| R05-L20 | shaft | A shaft going up with no sound in it at all. |
+| R05-L21 | flooded cut | The floor slopes into running water, and the cut past it is dark. |

@@ -6,7 +6,7 @@ region: R01
 container: the-reed-ground
 cell: SAFE_LOW
 pattern: STRETCH
-sources: []
+sources: [T-ARC-07, T-HAZ-10, T-LNG-15, T-LOR-11]
 schema_version: 1
 ---
 
@@ -30,3 +30,6 @@ schema_version: 1
 
 | To | Type | Cue |
 | :--- | :--- | :--- |
+| R01-L01 | kept lane | The lane opens out, the ground firms under the boot, and there is tallow smoke ahead of it. |
+| R01-L05 | cut edge | The last wick stands alone at the end of the lane, and the light does not reach past it. |
+| R01-L08 | side door | One house standing with its shutters down on the lane side, and no wick in its niche at any hour. |

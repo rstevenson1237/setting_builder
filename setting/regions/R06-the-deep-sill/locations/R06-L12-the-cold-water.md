@@ -6,7 +6,7 @@ region: R06
 container: the-deep-water
 cell: DANGEROUS_LOW
 pattern: STRETCH
-sources: []
+sources: [T-BES-09, T-HAZ-02, T-HAZ-09, T-LNG-72]
 schema_version: 1
 ---
 
@@ -29,3 +29,5 @@ schema_version: 1
 
 | To | Type | Cue |
 | :--- | :--- | :--- |
+| R06-L10 | deep water | The water shallows, and there is a shaft foot ahead with pegs above it. |
+| R06-L16 | low water | The water shallows to the knee, and the cold comes off the chest. |

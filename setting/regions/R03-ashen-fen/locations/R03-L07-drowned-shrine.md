@@ -116,3 +116,4 @@ the fresh rope on the causeway frame is the same fact stated a mile away.
 | To | Type | Cue |
 | :--- | :--- | :--- |
 | R03-L03 | sunk span | Shallow water over slabs running west, and the reeds beginning again at the far end of it. |
+| R03-L13 | dressed floor | The dressed floor runs on inward from the shelf, and the water over it stays at a hand. |

@@ -6,7 +6,7 @@ region: R06
 container: the-deep-water
 cell: DANGEROUS_LOW
 pattern: STRETCH
-sources: []
+sources: [T-BES-09, T-HAZ-02, T-LNG-73, T-TR3-01]
 schema_version: 1
 ---
 
@@ -29,3 +29,6 @@ schema_version: 1
 
 | To | Type | Cue |
 | :--- | :--- | :--- |
+| R06-L10 | low water | The water deepens, and the silt goes out from underfoot. |
+| R06-L12 | low water | The water deepens and closes on the first step. |
+| R06-L18 | low water | The silt goes out, and the stone under the water is older than the shafts and was never cut. |

@@ -6,7 +6,7 @@ region: R02
 container: the-long-span
 cell: WILD_LOW
 pattern: STRETCH
-sources: []
+sources: [T-ARC-01, T-HAZ-11, T-LOR-12, T-PRC-01]
 schema_version: 1
 ---
 
@@ -29,3 +29,5 @@ schema_version: 1
 
 | To | Type | Cue |
 | :--- | :--- | :--- |
+| R02-L05 | raised span | The smoke stands over the road behind, a mile of it, level along the top. |
+| R03-L01 | raised span | The slab goes under a hand of water and comes up again forty yards on, and the reeds stop dead a chain out on both sides. |

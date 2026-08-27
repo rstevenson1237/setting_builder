@@ -6,7 +6,7 @@ region: R04
 container: the-still-ground
 cell: SAFE_LOW
 pattern: THRESHOLD
-sources: []
+sources: [T-ARC-10, T-HAZ-01, T-LNG-58, T-TR1-05]
 schema_version: 1
 ---
 
@@ -30,3 +30,5 @@ schema_version: 1
 
 | To | Type | Cue |
 | :--- | :--- | :--- |
+| R04-L01 | slipway | The slipway comes up onto firm ground, and there is a wall standing beyond it. |
+| R04-L03 | wall foot | The landing gives onto a wall that runs unbroken on three sides. |

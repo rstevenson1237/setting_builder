@@ -49,7 +49,7 @@ BREAKS: dict[str, tuple[object, tuple[int, ...], str]] = {
             (), "ERROR"),
     "M14": (lambda s: s.sub(L03, "sources: [T-ARC-02", "sources: [S-HIS-01, T-ARC-02"),
             (), "ERROR"),
-    "M15": (lambda s: s.sub(L03, "T-NAM-01, ", ""), (10,), "ERROR"),
+    "M15": (lambda s: s.strip_citations("T-NAM"), (10,), "ERROR"),
     "M16": (lambda s: s.sub(L07, "(LORE, T-LOR-03)", "(LORE, T-LOR-99)"), (), "ERROR"),
     "M17": (lambda s: s.sub(L07, "is a **votive shelf**", "is a **brass altar**"),
             (), "ERROR"),
@@ -133,7 +133,7 @@ class TestSeverity(unittest.TestCase):
         """M15 cannot be true before step 10 writes the citations."""
         with Sandbox() as sandbox:
             sandbox.reopen_steps(10)
-            sandbox.sub(L03, "T-NAM-01, ", "")
+            sandbox.strip_citations("T-NAM")
 
             before = [f for f in sandbox.findings("M15") if f["code"] == "T-NAM"]
             self.assertEqual(len(before), 1)

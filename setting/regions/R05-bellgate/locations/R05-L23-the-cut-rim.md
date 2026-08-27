@@ -6,7 +6,7 @@ region: R05
 container: the-bell-shafts
 cell: DANGEROUS_LOW
 pattern: CHAMBER
-sources: []
+sources: [T-ARC-05, T-LNG-46, T-LOR-05, T-TR5-03]
 schema_version: 1
 ---
 
@@ -29,3 +29,6 @@ schema_version: 1
 
 | To | Type | Cue |
 | :--- | :--- | :--- |
+| R05-L11 | shaft | A shaft coming out at the second turn of a stair, and there is daylight two turns above it. |
+| R05-L17 | rim | The rim gives onto a shaft cut at an angle with rope still on its pegs. |
+| R05-L19 | rim | The hasty rim gives onto a rim cut square and kept. |

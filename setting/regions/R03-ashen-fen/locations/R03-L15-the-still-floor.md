@@ -6,7 +6,7 @@ region: R03
 container: drowned-tier
 cell: WILD_LOW
 pattern: STRETCH
-sources: []
+sources: [T-ARC-04, T-HAZ-03, T-LNG-48, T-TR1-07]
 schema_version: 1
 ---
 
@@ -29,3 +29,5 @@ schema_version: 1
 
 | To | Type | Cue |
 | :--- | :--- | :--- |
+| R03-L13 | dressed floor | The floor runs back toward the road, and the water on it is a hand deep the whole way. |
+| R03-L16 | floor edge | The dressed floor ends at a straight edge, and the water past it is not measured. |

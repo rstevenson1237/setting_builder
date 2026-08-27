@@ -6,7 +6,7 @@ region: R05
 container: the-bell-shafts
 cell: DANGEROUS_LOW
 pattern: DESCENT
-sources: []
+sources: [T-ARC-05, T-BES-08, T-HAZ-12, T-LNG-20]
 schema_version: 1
 ---
 
@@ -29,3 +29,5 @@ schema_version: 1
 
 | To | Type | Cue |
 | :--- | :--- | :--- |
+| R05-L14 | shaft | The silence ends, and the cold comes up again. |
+| R05-L22 | shaft | The floor at the shaft foot is uneven, and the stone on it is not dressed. |

@@ -233,6 +233,7 @@ class TestRoll(unittest.TestCase):
 class TestLedger(unittest.TestCase):
     def test_complete_refuses_while_targets_are_pending(self) -> None:
         with Sandbox() as sandbox:
+            sandbox.clear_step(9)
             sandbox.run("ledger.py", "start", "9", "--targets", "R03-L03", "R03-L07")
             refused = sandbox.run("ledger.py", "complete", "9")
             self.assertEqual(refused.returncode, 1)
@@ -348,13 +349,28 @@ class TestCommon(unittest.TestCase):
         self.assertEqual(common.diagram_name(1, "SETTING"), "T1_SETTING.md")
 
     def test_edges_read_their_one_way_column(self) -> None:
+        """The parser, stated against a table the test writes.
+
+        Reading the region's own table would assert the build's current graph
+        rather than the column's meaning, and would fail every time a location
+        is added.
+        """
         with Sandbox() as sandbox:
+            sandbox.write(
+                "setting/regions/R03-ashen-fen/connections.md",
+                "---\ncode: R03\nscale: region\nschema_version: 1\n---\n\n"
+                "| From | To | Type | One-way |\n| :--- | :--- | :--- | :--- |\n"
+                "| R03-L03 | R03-L07 | sunk span | no |\n"
+                "| R03-L07 | R03-L03 | fallen wall | yes |\n",
+            )
             doc = common.read_doc(sandbox.path("setting/regions/R03-ashen-fen/connections.md"),
                                   "connections")
             edges = common.edges_from(doc)
-            self.assertEqual(len(edges), 1)
+            self.assertEqual(len(edges), 2)
             self.assertEqual((edges[0].source, edges[0].target, edges[0].one_way),
                              ("R03-L03", "R03-L07", False))
+            self.assertEqual((edges[1].source, edges[1].target, edges[1].one_way),
+                             ("R03-L07", "R03-L03", True))
 
 
 # --------------------------------------------------------------------------

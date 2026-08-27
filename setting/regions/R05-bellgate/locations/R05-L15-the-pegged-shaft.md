@@ -6,7 +6,7 @@ region: R05
 container: the-bell-shafts
 cell: DANGEROUS_LOW
 pattern: GATE
-sources: []
+sources: [T-ARC-05, T-LOR-05, T-PUZ-02, T-TR4-06]
 schema_version: 1
 ---
 
@@ -29,3 +29,5 @@ schema_version: 1
 
 | To | Type | Cue |
 | :--- | :--- | :--- |
+| R05-L13 | doorway | The pegged opening gives onto a cell with soot in every niche. |
+| R05-L19 | shaft | The pegged shaft gives onto a rim with somebody standing at it. |

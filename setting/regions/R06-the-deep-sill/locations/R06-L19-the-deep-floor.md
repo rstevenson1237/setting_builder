@@ -6,7 +6,7 @@ region: R06
 container: the-deep-water
 cell: DANGEROUS_MEDIUM
 pattern: CHAMBER
-sources: []
+sources: [T-BES-05, T-HAZ-09, T-LNG-22, T-TR4-07]
 schema_version: 1
 ---
 
@@ -29,3 +29,7 @@ schema_version: 1
 
 | To | Type | Cue |
 | :--- | :--- | :--- |
+| R06-L10 | unsquared floor | The floor comes up, and there is a shaft foot in it. |
+| R06-L14 | unsquared floor | The floor rises, and the air on it goes warm. |
+| R06-L15 | unsquared floor | The floor rises, and the count comes back level again. |
+| R06-L20 | unsquared floor | The floor rises out of the water and goes dry, and the dry part has never been lit. |

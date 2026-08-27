@@ -6,7 +6,7 @@ region: R01
 container: the-reed-ground
 cell: SAFE_MEDIUM
 pattern: THRESHOLD
-sources: []
+sources: [T-ARC-08, T-BES-04, T-PRC-08, T-RUM-07, T-TR2-04]
 schema_version: 1
 ---
 
@@ -30,3 +30,6 @@ schema_version: 1
 
 | To | Type | Cue |
 | :--- | :--- | :--- |
+| R01-L01 | boarded walk | The boards end at a step down onto kept ground, and rendered fat comes off the roofs beyond it. |
+| R01-L06 | barrow run | A rutted run leading inland off the landing, worn down to the peat by loaded barrows. |
+| R01-L11 | salt walk | Salt on the air out of a doorway up the slope. |

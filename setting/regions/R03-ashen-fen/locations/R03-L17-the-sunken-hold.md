@@ -6,7 +6,7 @@ region: R03
 container: drowned-tier
 cell: WILD_HIGH
 pattern: LANDMARK
-sources: []
+sources: [T-ARC-06, T-ARC-10, T-HRD-01, T-KEY-05, T-LOR-06, T-PUZ-02]
 schema_version: 1
 ---
 
@@ -29,3 +29,5 @@ schema_version: 1
 
 | To | Type | Cue |
 | :--- | :--- | :--- |
+| R03-L14 | flooded doorway | The doorway is the only opening in the wall, and the light through it is green. |
+| R03-L20 | pegged passage | A passage running inward from the hold with a squared opening at the end of it, pegged over. |

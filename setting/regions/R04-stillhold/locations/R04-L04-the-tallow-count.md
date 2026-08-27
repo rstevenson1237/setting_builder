@@ -6,7 +6,7 @@ region: R04
 container: the-still-ground
 cell: SAFE_LOW
 pattern: PREMISES
-sources: []
+sources: [T-ARC-12, T-LNG-25, T-RUM-07, T-TR2-03]
 schema_version: 1
 ---
 
@@ -30,3 +30,5 @@ schema_version: 1
 
 | To | Type | Cue |
 | :--- | :--- | :--- |
+| R04-L01 | kept ground | The door gives onto open ground, and nobody on it is burning a wick. |
+| R04-L02 | kept ground | The wall opening stands sixty yards off, and there are two people in it. |

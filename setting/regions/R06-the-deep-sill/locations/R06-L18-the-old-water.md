@@ -6,7 +6,7 @@ region: R06
 container: the-deep-water
 cell: DANGEROUS_LOW
 pattern: STRETCH
-sources: []
+sources: [T-BES-05, T-HAZ-06, T-LNG-74, T-TR3-08]
 schema_version: 1
 ---
 
@@ -29,3 +29,5 @@ schema_version: 1
 
 | To | Type | Cue |
 | :--- | :--- | :--- |
+| R06-L16 | low water | The stone gives back onto silt fine enough to hold a print. |
+| R06-L17 | still water | The water goes still enough to hold a reflection whole. |

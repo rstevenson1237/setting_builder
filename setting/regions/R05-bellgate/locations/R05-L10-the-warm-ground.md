@@ -6,7 +6,7 @@ region: R05
 container: the-gate-ground
 cell: DANGEROUS_LOW
 pattern: TERRITORY
-sources: []
+sources: [T-ARC-01, T-HAZ-06, T-RUM-03, T-TR4-05]
 schema_version: 1
 ---
 
@@ -29,3 +29,5 @@ schema_version: 1
 
 | To | Type | Cue |
 | :--- | :--- | :--- |
+| R05-L01 | standing water | The dry slab ends, and the standing water begins at a straight line. |
+| R05-L04 | standing water | The dry stone ends, and the water past it stands ankle-deep. |

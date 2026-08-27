@@ -6,7 +6,7 @@ region: R03
 container: the-causeway
 cell: WILD_MEDIUM
 pattern: CROSSING
-sources: []
+sources: [T-ARC-01, T-HAZ-03, T-HAZ-11, T-LNG-64, T-PRC-01]
 schema_version: 1
 ---
 
@@ -29,3 +29,5 @@ schema_version: 1
 
 | To | Type | Cue |
 | :--- | :--- | :--- |
+| R02-L06 | raised span | The road comes up dry and runs seaward, and the frames on it can be counted to the horizon. |
+| R03-L02 | raised span | The road comes up out of the water onto grey firm ground, and the ash on it does not hold a print. |

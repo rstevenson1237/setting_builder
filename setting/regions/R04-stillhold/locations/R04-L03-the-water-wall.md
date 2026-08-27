@@ -6,7 +6,7 @@ region: R04
 container: the-still-ground
 cell: SAFE_LOW
 pattern: STRETCH
-sources: []
+sources: [T-ARC-10, T-LNG-49, T-LOR-08, T-TR3-03]
 schema_version: 1
 ---
 
@@ -30,3 +30,5 @@ schema_version: 1
 
 | To | Type | Cue |
 | :--- | :--- | :--- |
+| R04-L01 | wall walk | The wall foot gives onto open kept ground, and a struck plate is ringing somewhere on it. |
+| R04-L07 | wall foot | The wall foot runs down to a landing, and the water beside it is a shade warmer than the air. |

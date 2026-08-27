@@ -6,7 +6,7 @@ region: R06
 container: the-deep-water
 cell: DANGEROUS_HIGH
 pattern: LANDMARK
-sources: []
+sources: [T-BES-08, T-CRE-07, T-RUM-06, T-TOM-04, T-TR4-04, T-UNQ-08]
 schema_version: 1
 ---
 
@@ -29,3 +29,6 @@ schema_version: 1
 
 | To | Type | Cue |
 | :--- | :--- | :--- |
+| R06-L11 | unsquared floor | The counting stops, and the floor past it is the last of the cut stone. |
+| R06-L14 | unsquared floor | The counting stops, and the floor beyond it is bare and warm. |
+| R06-L19 | unsquared floor | The floor drops, and the counting falls further behind rather than stopping. |

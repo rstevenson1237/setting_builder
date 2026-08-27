@@ -6,7 +6,7 @@ region: R02
 container: the-long-span
 cell: WILD_MEDIUM
 pattern: THRESHOLD
-sources: []
+sources: [T-ARC-02, T-ARC-08, T-LOR-01, T-NAM-01, T-PRC-02]
 schema_version: 1
 ---
 
@@ -29,3 +29,6 @@ schema_version: 1
 
 | To | Type | Cue |
 | :--- | :--- | :--- |
+| R01-L01 | raised span | The span comes down onto kept ground, and there are wicks burning along it at forty paces. |
+| R02-L02 | raised span | Nine miles of fitted slab running straight inward, and the next frame is countable from here. |
+| R02-L07 | cut edge | The cleared chain begins at the first frame and runs inward beside the road. |

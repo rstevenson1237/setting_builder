@@ -6,7 +6,7 @@ region: R05
 container: the-deep-tier
 cell: DANGEROUS_LOW
 pattern: CHAMBER
-sources: []
+sources: [T-ARC-10, T-LNG-49, T-LOR-08, T-TR1-03]
 schema_version: 1
 ---
 
@@ -29,3 +29,6 @@ schema_version: 1
 
 | To | Type | Cue |
 | :--- | :--- | :--- |
+| R05-L26 | doorway | The thinning wall gives onto a hall with a seat in the middle of it. |
+| R05-L32 | doorway | The thin wall ends at a door pegged from the far side. |
+| R05-L37 | doorway | The wall stops at a straight vertical line, and the stone past it is unfinished. |

@@ -6,7 +6,7 @@ region: R03
 container: the-causeway
 cell: WILD_LOW
 pattern: STRETCH
-sources: []
+sources: [T-ARC-07, T-HAZ-01, T-LNG-40, T-NAM-11]
 schema_version: 1
 ---
 
@@ -29,3 +29,5 @@ schema_version: 1
 
 | To | Type | Cue |
 | :--- | :--- | :--- |
+| R03-L03 | cut edge | The dry ground ends at a raised road with a frame standing on it. |
+| R03-L08 | reed face | The cutting stops along a line, and the reed past it goes on for a mile with no lane in it. |

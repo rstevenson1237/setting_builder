@@ -6,7 +6,7 @@ region: R06
 container: the-covenant-shafts
 cell: DANGEROUS_LOW
 pattern: DESCENT
-sources: []
+sources: [T-ARC-05, T-BES-05, T-LNG-69, T-TR4-01]
 schema_version: 1
 ---
 
@@ -29,3 +29,5 @@ schema_version: 1
 
 | To | Type | Cue |
 | :--- | :--- | :--- |
+| R06-L03 | rim walk | The unlit rim gives onto a shaft pegged for loads. |
+| R06-L07 | rim walk | A rim with its pegs drawn and stacked beside it, and the stacking is recent. |

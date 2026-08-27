@@ -6,7 +6,7 @@ region: R03
 container: drowned-tier
 cell: WILD_LOW
 pattern: STRETCH
-sources: []
+sources: [T-ARC-04, T-BES-09, T-HAZ-02, T-LNG-13]
 schema_version: 1
 ---
 
@@ -29,3 +29,5 @@ schema_version: 1
 
 | To | Type | Cue |
 | :--- | :--- | :--- |
+| R03-L15 | floor edge | The floor comes back underfoot at a square edge, level and swept. |
+| R03-L18 | cold floor | The cold comes up through the soles rather than down through the water. |

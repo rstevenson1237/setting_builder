@@ -91,4 +91,7 @@ stand's edge has been passed before it is noticed
 
 | To | Type | Cue |
 | :--- | :--- | :--- |
+| R03-L02 | raised span | The road runs seaward onto open grey ground with nothing standing on it. |
+| R03-L04 | cut edge | Cleared ground west of the bend, dry underfoot, running inland away from the water. |
 | R03-L07 | sunk span | The water shallows over dressed slabs laid true, running away from the road at a square corner. |
+| R03-L11 | raised span | The road runs inward, and there is somebody a long way up it walking at a steady pace and not gaining. |

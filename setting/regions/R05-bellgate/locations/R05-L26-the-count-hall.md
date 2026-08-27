@@ -6,7 +6,7 @@ region: R05
 container: the-deep-tier
 cell: DANGEROUS_HIGH
 pattern: LANDMARK
-sources: []
+sources: [T-BES-08, T-CRE-06, T-TOM-04, T-TR4-04, T-TR5-04, T-TR5-07]
 schema_version: 1
 ---
 
@@ -29,3 +29,7 @@ schema_version: 1
 
 | To | Type | Cue |
 | :--- | :--- | :--- |
+| R05-L24 | doorway | The hall gives onto open floor running seaward. |
+| R05-L30 | doorway | A long cell fitted out in ranks, every fitting taken and every socket left. |
+| R05-L32 | doorway | A door pegged from this side, with a board still hung on the hook beside it. |
+| R05-L34 | doorway | A wall that thins from two courses to one at shoulder height, where the builders stopped expecting to be seen. |

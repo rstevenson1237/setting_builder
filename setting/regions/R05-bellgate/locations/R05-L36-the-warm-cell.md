@@ -6,7 +6,7 @@ region: R05
 container: the-deep-tier
 cell: DANGEROUS_LOW
 pattern: TERRITORY
-sources: []
+sources: [T-HAZ-06, T-RUM-10, T-TOM-06, T-TR4-05]
 schema_version: 1
 ---
 
@@ -29,3 +29,5 @@ schema_version: 1
 
 | To | Type | Cue |
 | :--- | :--- | :--- |
+| R05-L35 | doorway | The warmth stops at a joint in the floor, and the slab past it is cold. |
+| R05-L38 | doorway | The warmth eases, and a draught comes down from openings above. |

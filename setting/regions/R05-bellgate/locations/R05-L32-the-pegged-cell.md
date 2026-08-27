@@ -6,7 +6,7 @@ region: R05
 container: the-deep-tier
 cell: DANGEROUS_LOW
 pattern: GATE
-sources: []
+sources: [T-ARC-06, T-BES-07, T-LOR-06, T-PUZ-02]
 schema_version: 1
 ---
 
@@ -29,3 +29,5 @@ schema_version: 1
 
 | To | Type | Cue |
 | :--- | :--- | :--- |
+| R05-L26 | doorway | The pegged door gives onto a hall, and there is counting in it. |
+| R05-L34 | doorway | A wall running away with the courses thinning in it above the waterline. |

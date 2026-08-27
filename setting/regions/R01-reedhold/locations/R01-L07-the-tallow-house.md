@@ -6,7 +6,7 @@ region: R01
 container: the-tallow-houses
 cell: SAFE_HIGH
 pattern: LANDMARK
-sources: []
+sources: [T-CRE-04, T-HRD-02, T-KEY-07, T-PRC-08, T-RUM-07, T-TR2-03]
 schema_version: 1
 ---
 
@@ -30,3 +30,6 @@ schema_version: 1
 
 | To | Type | Cue |
 | :--- | :--- | :--- |
+| R01-L03 | doorway | The door gives onto open cleared ground with a driven post at the middle of it. |
+| R01-L09 | yard door | Tar and hemp through a door at the back of the weighing floor. |
+| R01-L11 | weighing floor | Salt on the air and grit underfoot, thirty feet along the same frontage. |

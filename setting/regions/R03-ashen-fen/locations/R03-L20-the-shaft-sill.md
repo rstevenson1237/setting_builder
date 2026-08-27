@@ -6,7 +6,7 @@ region: R03
 container: drowned-tier
 cell: WILD_MEDIUM
 pattern: GATE
-sources: []
+sources: [T-ARC-05, T-BES-10, T-LOR-05, T-PRC-07, T-TOM-03]
 schema_version: 1
 ---
 
@@ -29,3 +29,6 @@ schema_version: 1
 
 | To | Type | Cue |
 | :--- | :--- | :--- |
+| R03-L17 | pegged passage | The passage runs back to a wall two courses thick with pegged doors along it. |
+| R03-L19 | turning stair | The rim gives onto a stair turning up toward green light. |
+| R06-L01 | shaft | Pegs driven round a squared rim, all of them seated, and an order cut into the stone in letters a hand deep. |

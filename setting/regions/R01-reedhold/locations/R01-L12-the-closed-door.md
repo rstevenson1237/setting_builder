@@ -6,7 +6,7 @@ region: R01
 container: the-tallow-houses
 cell: SAFE_LOW
 pattern: GATE
-sources: []
+sources: [T-ARC-06, T-KEY-07, T-LOR-06, T-PRC-05, T-PUZ-02]
 schema_version: 1
 ---
 
@@ -30,3 +30,4 @@ schema_version: 1
 
 | To | Type | Cue |
 | :--- | :--- | :--- |
+| R01-L10 | back passage | The passage runs back toward the light and toward two voices reconciling a count. |

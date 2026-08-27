@@ -6,7 +6,7 @@ region: R06
 container: the-deep-water
 cell: DANGEROUS_MEDIUM
 pattern: TERRITORY
-sources: []
+sources: [T-HAZ-06, T-RUM-03, T-TOM-06, T-TR4-05]
 schema_version: 1
 ---
 
@@ -29,3 +29,6 @@ schema_version: 1
 
 | To | Type | Cue |
 | :--- | :--- | :--- |
+| R06-L10 | unsquared floor | The warmth eases, and the floor drops toward standing water. |
+| R06-L15 | unsquared floor | The warmth holds, and the party's own count starts coming back to them a number behind. |
+| R06-L19 | unsquared floor | The floor slopes away, and the light on it stops reaching a wall. |

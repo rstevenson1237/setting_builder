@@ -6,7 +6,7 @@ region: R01
 container: the-reed-ground
 cell: SAFE_LOW
 pattern: THRESHOLD
-sources: []
+sources: [T-ARC-12, T-BES-06, T-HAZ-04, T-LNG-25]
 schema_version: 1
 ---
 
@@ -30,3 +30,5 @@ schema_version: 1
 
 | To | Type | Cue |
 | :--- | :--- | :--- |
+| R01-L01 | lit path | Every forty paces there is another wick, and they run in a line back toward the talking. |
+| R01-L04 | cut edge | The cut edge runs off the lit ground into the reed, and the cutting along it is fresh. |

@@ -6,7 +6,7 @@ region: R05
 container: the-deep-tier
 cell: DANGEROUS_HIGH
 pattern: LANDMARK
-sources: []
+sources: [T-BES-12, T-CRE-06, T-HRD-04, T-LNG-63, T-TOM-05, T-TRE-02]
 schema_version: 1
 ---
 
@@ -29,3 +29,6 @@ schema_version: 1
 
 | To | Type | Cue |
 | :--- | :--- | :--- |
+| R05-L31 | flooded doorway | The water deepens, and there are shapes standing in it that do not move when the light does. |
+| R05-L33 | doorway | A cell with a pin socket in the ceiling, and green age on everything under it. |
+| R05-L40 | doorway | The floor stops being dressed and starts being only cut, and it is warm through a boot. |

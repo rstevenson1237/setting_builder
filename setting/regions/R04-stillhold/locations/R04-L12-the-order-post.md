@@ -6,7 +6,7 @@ region: R04
 container: the-chapter-house
 cell: SAFE_LOW
 pattern: TALLY
-sources: []
+sources: [T-ARC-08, T-LNG-28, T-LOR-01, T-PUZ-01, T-TOM-01]
 schema_version: 1
 ---
 
@@ -30,3 +30,5 @@ schema_version: 1
 
 | To | Type | Cue |
 | :--- | :--- | :--- |
+| R04-L01 | kept ground | The post stands alone, and the ground round it is walked flat in a circle. |
+| R04-L11 | side door | One door in the chapter house wall stands unbarred, with a bare cell behind it. |

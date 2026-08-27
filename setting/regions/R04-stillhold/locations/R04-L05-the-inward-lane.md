@@ -6,7 +6,7 @@ region: R04
 container: the-still-ground
 cell: SAFE_MEDIUM
 pattern: CROSSING
-sources: []
+sources: [T-ARC-01, T-HAZ-09, T-LOR-10, T-RUM-11]
 schema_version: 1
 ---
 
@@ -30,3 +30,5 @@ schema_version: 1
 
 | To | Type | Cue |
 | :--- | :--- | :--- |
+| R04-L02 | gate | The lane ends at a walled opening, and the wall is two courses thick. |
+| R05-L07 | kept lane | The lane runs out onto standing water over level slab, and there is a face of dressed stone at the far end of it. |

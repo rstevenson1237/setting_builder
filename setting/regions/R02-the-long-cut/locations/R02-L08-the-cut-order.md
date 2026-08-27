@@ -6,7 +6,7 @@ region: R02
 container: the-reed-cut
 cell: WILD_HIGH
 pattern: LANDMARK
-sources: []
+sources: [T-ARC-08, T-LOR-11, T-PUZ-06, T-RUM-06, T-TRE-06]
 schema_version: 1
 ---
 
@@ -29,3 +29,5 @@ schema_version: 1
 
 | To | Type | Cue |
 | :--- | :--- | :--- |
+| R02-L07 | cut lane | The lane opens into the cleared chain, and the road stands a chain further out. |
+| R02-L10 | old lane | A second lane leaving the post, narrower, with the reed closing over it from both sides. |

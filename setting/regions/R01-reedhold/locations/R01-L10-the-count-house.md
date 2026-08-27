@@ -6,7 +6,7 @@ region: R01
 container: the-tallow-houses
 cell: SAFE_MEDIUM
 pattern: PREMISES
-sources: []
+sources: [T-CRE-04, T-LOR-06, T-RUM-06, T-TOM-04, T-TR3-06]
 schema_version: 1
 ---
 
@@ -30,3 +30,7 @@ schema_version: 1
 
 | To | Type | Cue |
 | :--- | :--- | :--- |
+| R01-L03 | doorway | The counting stops being indoors, and the post stands fifteen yards out. |
+| R01-L08 | street | One frontage in the row is shuttered and unlit, and it is unlit at every hour. |
+| R01-L09 | street | The tar smell picks up across the gap. |
+| R01-L12 | back passage | A passage four feet wide behind the frontage, and a door at the end of it that nobody has opened. |

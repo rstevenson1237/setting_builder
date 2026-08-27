@@ -6,7 +6,7 @@ region: R05
 container: the-deep-tier
 cell: DANGEROUS_LOW
 pattern: CHAMBER
-sources: []
+sources: [T-ARC-05, T-LNG-47, T-LOR-05, T-TR3-07]
 schema_version: 1
 ---
 
@@ -29,3 +29,6 @@ schema_version: 1
 
 | To | Type | Cue |
 | :--- | :--- | :--- |
+| R05-L30 | doorway | The unfinished floor ends at fitted slab, and the ranks past it are stripped. |
+| R05-L34 | doorway | The unfinished stone ends at a coursed wall. |
+| R05-L38 | doorway | The unfinished stone ends at silt banked to the height of a man. |

@@ -6,7 +6,7 @@ region: R05
 container: the-deep-tier
 cell: DANGEROUS_MEDIUM
 pattern: GATE
-sources: []
+sources: [T-ARC-05, T-LNG-23, T-LOR-05, T-RUM-12, T-TOM-03]
 schema_version: 1
 ---
 
@@ -29,3 +29,6 @@ schema_version: 1
 
 | To | Type | Cue |
 | :--- | :--- | :--- |
+| R05-L27 | doorway | The undressed floor ends at dressed slab, and there is standing water past it. |
+| R05-L39 | doorway | The undressed stone ends at dressed floor, and the cut runs back seaward. |
+| R06-L07 | shaft | A rim below the floor with its pegs drawn and set aside, and the drawing is recent. |

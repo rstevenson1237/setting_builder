@@ -6,7 +6,7 @@ region: R05
 container: the-deep-tier
 cell: DANGEROUS_LOW
 pattern: CHAMBER
-sources: []
+sources: [T-ARC-04, T-HAZ-02, T-HAZ-08, T-TR4-07]
 schema_version: 1
 ---
 
@@ -29,3 +29,6 @@ schema_version: 1
 
 | To | Type | Cue |
 | :--- | :--- | :--- |
+| R05-L21 | flooded cut | The water runs out of the cell into a cut going back and up. |
+| R05-L27 | flooded doorway | The flooded cells give back onto a cell with standing water skinned over. |
+| R05-L28 | doorway | The water shallows, and there is frost standing on the walls beyond it. |

@@ -6,7 +6,7 @@ region: R05
 container: the-bell-shafts
 cell: DANGEROUS_LOW
 pattern: DESCENT
-sources: []
+sources: [T-ARC-05, T-HAZ-07, T-PRC-07, T-TR2-05]
 schema_version: 1
 ---
 
@@ -29,3 +29,5 @@ schema_version: 1
 
 | To | Type | Cue |
 | :--- | :--- | :--- |
+| R05-L16 | shaft | The angled shaft opens onto a wide rim worn on all four sides. |
+| R05-L23 | rim | A rim cut in haste, the strokes uneven, the last word finished by a different hand. |

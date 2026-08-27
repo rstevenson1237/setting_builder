@@ -6,7 +6,7 @@ region: R01
 container: the-reed-ground
 cell: SAFE_MEDIUM
 pattern: TALLY
-sources: []
+sources: [T-ARC-08, T-CRE-01, T-NAM-10, T-PRC-03, T-PUZ-06, T-TRE-08]
 schema_version: 1
 ---
 
@@ -30,3 +30,6 @@ schema_version: 1
 
 | To | Type | Cue |
 | :--- | :--- | :--- |
+| R01-L01 | cut ground | The cleared chain opens on every side from the post, and the reed stands off it at a chain. |
+| R01-L07 | doorway | The nearest roof past the post, with a scale standing out in front of the door under its own lamp. |
+| R01-L10 | doorway | A door standing open, and two voices inside it agreeing a number. |

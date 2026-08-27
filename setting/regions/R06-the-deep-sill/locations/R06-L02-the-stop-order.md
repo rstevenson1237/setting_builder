@@ -6,7 +6,7 @@ region: R06
 container: the-covenant-shafts
 cell: DANGEROUS_HIGH
 pattern: LANDMARK
-sources: []
+sources: [T-ARC-05, T-LOR-05, T-NAM-09, T-TOM-03, T-TR5-03, T-UNQ-04]
 schema_version: 1
 ---
 
@@ -29,3 +29,6 @@ schema_version: 1
 
 | To | Type | Cue |
 | :--- | :--- | :--- |
+| R06-L01 | rim walk | The lettered rim gives onto one pegged all the way round, every peg seated. |
+| R06-L03 | rim walk | The rims run on, and the widest of them has pegs set for people carrying loads. |
+| R06-L08 | rim walk | A shaft dressed the whole way down, the pegs spaced exactly, and the dressing worsening with depth. |

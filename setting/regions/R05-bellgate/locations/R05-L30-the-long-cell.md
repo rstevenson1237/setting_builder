@@ -6,7 +6,7 @@ region: R05
 container: the-deep-tier
 cell: DANGEROUS_LOW
 pattern: CHAMBER
-sources: []
+sources: [T-ARC-10, T-HRD-01, T-LNG-24, T-TR1-03]
 schema_version: 1
 ---
 
@@ -29,3 +29,6 @@ schema_version: 1
 
 | To | Type | Cue |
 | :--- | :--- | :--- |
+| R05-L26 | doorway | The ranked cell gives onto a hall large enough to lose the light in. |
+| R05-L28 | doorway | The stripped cell gives onto one with frost standing on its walls. |
+| R05-L37 | doorway | The jointing in the floor stops mid-course, and the stone past it is only cut. |

@@ -6,7 +6,7 @@ region: R05
 container: the-deep-tier
 cell: DANGEROUS_MEDIUM
 pattern: CHAMBER
-sources: []
+sources: [T-ARC-02, T-KEY-03, T-KEY-05, T-LOR-10, T-TR3-04, T-TR5-05]
 schema_version: 1
 ---
 
@@ -29,3 +29,6 @@ schema_version: 1
 
 | To | Type | Cue |
 | :--- | :--- | :--- |
+| R05-L24 | doorway | The cell gives onto open floor running inward. |
+| R05-L27 | doorway | The cell gives onto water with people standing in it in their order. |
+| R05-L35 | doorway | Score marks running out of the cell across the floor slab, and they run one way only. |

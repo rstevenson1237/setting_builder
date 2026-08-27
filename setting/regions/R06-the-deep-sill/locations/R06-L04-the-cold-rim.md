@@ -6,7 +6,7 @@ region: R06
 container: the-covenant-shafts
 cell: DANGEROUS_LOW
 pattern: DESCENT
-sources: []
+sources: [T-ARC-05, T-HAZ-07, T-HAZ-09, T-LNG-46]
 schema_version: 1
 ---
 
@@ -29,3 +29,5 @@ schema_version: 1
 
 | To | Type | Cue |
 | :--- | :--- | :--- |
+| R06-L01 | rim walk | The cold eases, and the rim past it is only pegged. |
+| R06-L06 | rim walk | A shaft that stops being dressed at one course and is only cut below it. |

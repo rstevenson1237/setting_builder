@@ -6,7 +6,7 @@ region: R03
 container: the-causeway
 cell: WILD_LOW
 pattern: STRETCH
-sources: []
+sources: [T-BES-02, T-HAZ-01, T-HAZ-08, T-LNG-31]
 schema_version: 1
 ---
 
@@ -29,3 +29,5 @@ schema_version: 1
 
 | To | Type | Cue |
 | :--- | :--- | :--- |
+| R03-L02 | peat water | The water shallows onto grey ground that takes a foot without giving. |
+| R03-L05 | peat water | The peat thins and stops, and the water past it goes clear and cold and open. |

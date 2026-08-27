@@ -6,7 +6,7 @@ region: R05
 container: the-gate-ground
 cell: DANGEROUS_LOW
 pattern: STRETCH
-sources: []
+sources: [T-ARC-02, T-LOR-01, T-PRC-02, T-TR1-04]
 schema_version: 1
 ---
 
@@ -29,3 +29,6 @@ schema_version: 1
 
 | To | Type | Cue |
 | :--- | :--- | :--- |
+| R05-L01 | standing water | The frames stand in open water, and the gate face is eight hundred feet inward of them. |
+| R05-L08 | open ground | The slab gives out seaward, and reed comes up along the edges. |
+| R05-L09 | standing water | A post standing between two of the frames, with rope on it that is not weathered. |

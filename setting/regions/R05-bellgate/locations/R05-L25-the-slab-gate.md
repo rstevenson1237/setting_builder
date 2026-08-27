@@ -6,7 +6,7 @@ region: R05
 container: the-deep-tier
 cell: DANGEROUS_MEDIUM
 pattern: GATE
-sources: []
+sources: [T-ARC-09, T-KEY-03, T-LNG-47, T-PUZ-03, T-TR4-03]
 schema_version: 1
 ---
 
@@ -29,3 +29,6 @@ schema_version: 1
 
 | To | Type | Cue |
 | :--- | :--- | :--- |
+| R05-L12 | channel slab | The channel slab gives back onto silted floor at the foot of a stair. |
+| R05-L24 | doorway | Past the slab the floor opens out and runs inward further than the light reaches. |
+| R05-L29 | doorway | The channel runs on, and the floor beside it is walked through soot. |

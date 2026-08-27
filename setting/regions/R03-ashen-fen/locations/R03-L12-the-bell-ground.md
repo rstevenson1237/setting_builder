@@ -6,7 +6,7 @@ region: R03
 container: the-causeway
 cell: WILD_HIGH
 pattern: LANDMARK
-sources: []
+sources: [T-ARC-02, T-HRD-05, T-KEY-02, T-PUZ-01, T-TOM-01, T-TR5-01]
 schema_version: 1
 ---
 
@@ -29,3 +29,6 @@ schema_version: 1
 
 | To | Type | Cue |
 | :--- | :--- | :--- |
+| R03-L09 | cut lane | A cleared lane leaving the road inland, cut recently and cut wide, with the spoil still on the edges. |
+| R03-L10 | raised span | The road runs seaward, and the slab under it holds warmth for a mile. |
+| R03-L13 | wading | Past the last frame the water stands at a hand over laid slab, and the slab runs on into it. |

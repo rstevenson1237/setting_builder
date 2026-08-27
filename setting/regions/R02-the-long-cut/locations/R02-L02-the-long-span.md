@@ -6,7 +6,7 @@ region: R02
 container: the-long-span
 cell: WILD_MEDIUM
 pattern: BODY
-sources: []
+sources: [T-ARC-01, T-HAZ-12, T-LNG-32, T-PRC-01, T-RUM-03]
 schema_version: 1
 ---
 
@@ -29,3 +29,6 @@ schema_version: 1
 
 | To | Type | Cue |
 | :--- | :--- | :--- |
+| R02-L01 | raised span | The span runs back seaward to a frame with a tally post at its foot, and there is light past it. |
+| R02-L03 | raised span | The span bends for the first time in three miles, and a frame stands at the bend. |
+| R02-L07 | step off the stone | A chain of cleared ground either side of the road, cut to the root, and the peat gives twice at the first step. |

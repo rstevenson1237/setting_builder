@@ -6,7 +6,7 @@ region: R03
 container: the-causeway
 cell: WILD_LOW
 pattern: STRETCH
-sources: []
+sources: [T-ARC-01, T-BES-03, T-HAZ-12, T-RUM-08]
 schema_version: 1
 ---
 
@@ -29,3 +29,5 @@ schema_version: 1
 
 | To | Type | Cue |
 | :--- | :--- | :--- |
+| R03-L03 | raised span | The road runs back seaward to a bend with a frame on it. |
+| R03-L10 | raised span | The slab underfoot gets warmer with every course, and everybody starts wanting to sit down. |

@@ -6,7 +6,7 @@ region: R01
 container: the-tallow-houses
 cell: SAFE_HIGH
 pattern: LANDMARK
-sources: []
+sources: [T-CRE-05, T-KEY-06, T-RUM-12, T-TR4-01, T-TRE-05, T-UNQ-04]
 schema_version: 1
 ---
 
@@ -30,3 +30,5 @@ schema_version: 1
 
 | To | Type | Cue |
 | :--- | :--- | :--- |
+| R01-L04 | side door | The door gives onto a lane running landward between cut reed. |
+| R01-L10 | street | The frontage picks up again forty feet along, and there is counting at the end of it. |

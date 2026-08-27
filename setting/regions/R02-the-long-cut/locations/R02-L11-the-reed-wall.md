@@ -6,7 +6,7 @@ region: R02
 container: the-reed-cut
 cell: WILD_LOW
 pattern: STRETCH
-sources: []
+sources: [T-ARC-07, T-BES-11, T-HAZ-10, T-LNG-14]
 schema_version: 1
 ---
 
@@ -29,3 +29,5 @@ schema_version: 1
 
 | To | Type | Cue |
 | :--- | :--- | :--- |
+| R02-L07 | reed face | The reed opens onto cleared ground and the light comes back all at once. |
+| R02-L10 | closing lane | A line of older cutting runs away through the reed, closing over and still walkable. |

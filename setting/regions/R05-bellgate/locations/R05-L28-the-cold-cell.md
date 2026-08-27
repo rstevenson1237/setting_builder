@@ -6,7 +6,7 @@ region: R05
 container: the-deep-tier
 cell: DANGEROUS_LOW
 pattern: CHAMBER
-sources: []
+sources: [T-ARC-10, T-HAZ-09, T-LNG-72, T-TR1-03]
 schema_version: 1
 ---
 
@@ -29,3 +29,5 @@ schema_version: 1
 
 | To | Type | Cue |
 | :--- | :--- | :--- |
+| R05-L30 | doorway | The frost on the walls stops, and the fittings past it are stripped to the sockets. |
+| R05-L31 | doorway | The frost ends, and the floor past it is under standing water. |

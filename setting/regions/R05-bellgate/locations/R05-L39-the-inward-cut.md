@@ -6,7 +6,7 @@ region: R05
 container: the-deep-tier
 cell: DANGEROUS_MEDIUM
 pattern: CROSSING
-sources: []
+sources: [T-ARC-01, T-HAZ-09, T-LNG-67, T-RUM-03]
 schema_version: 1
 ---
 
@@ -29,3 +29,6 @@ schema_version: 1
 
 | To | Type | Cue |
 | :--- | :--- | :--- |
+| R05-L24 | doorway | The cut widens out into open floor. |
+| R05-L38 | doorway | The cut widens onto silted floor with a draught coming down into it. |
+| R05-L40 | doorway | The dressing stops and the stone past it is only cut, and then it stops being cut. |

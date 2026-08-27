@@ -6,7 +6,7 @@ region: R04
 container: the-chapter-house
 cell: SAFE_HIGH
 pattern: LANDMARK
-sources: []
+sources: [T-ARC-06, T-HRD-01, T-KEY-04, T-PUZ-02, T-TR5-02, T-TRE-04]
 schema_version: 1
 ---
 
@@ -30,3 +30,4 @@ schema_version: 1
 
 | To | Type | Cue |
 | :--- | :--- | :--- |
+| R04-L10 | inner passage | The passage runs back past every other board in the hold. |

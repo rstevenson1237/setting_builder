@@ -6,7 +6,7 @@ region: R05
 container: the-gate-ground
 cell: DANGEROUS_LOW
 pattern: STRETCH
-sources: []
+sources: [T-ARC-01, T-HAZ-03, T-HAZ-08, T-TR4-03]
 schema_version: 1
 ---
 
@@ -29,3 +29,6 @@ schema_version: 1
 
 | To | Type | Cue |
 | :--- | :--- | :--- |
+| R05-L01 | standing water | The water thins, and the slab comes clear underfoot. |
+| R05-L06 | flooded cut | The standing water runs into a cut, and the cut goes down. |
+| R05-L10 | standing water | The water thins to nothing over a stretch of slab, and that stone is dry in the rain. |

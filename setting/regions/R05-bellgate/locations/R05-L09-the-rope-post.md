@@ -6,7 +6,7 @@ region: R05
 container: the-gate-ground
 cell: DANGEROUS_LOW
 pattern: STRETCH
-sources: []
+sources: [T-ARC-08, T-PRC-04, T-TR1-01, T-UNQ-01]
 schema_version: 1
 ---
 
@@ -29,3 +29,5 @@ schema_version: 1
 
 | To | Type | Cue |
 | :--- | :--- | :--- |
+| R05-L01 | standing water | The post stands out of the water, and the gate face is inward of it. |
+| R05-L03 | standing water | The frames stand seaward of the post in a line, all of them bare. |

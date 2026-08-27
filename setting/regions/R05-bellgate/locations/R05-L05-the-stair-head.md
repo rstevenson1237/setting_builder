@@ -6,7 +6,7 @@ region: R05
 container: the-gate-ground
 cell: DANGEROUS_MEDIUM
 pattern: DESCENT
-sources: []
+sources: [T-ARC-11, T-HAZ-03, T-LOR-09, T-PRC-01]
 schema_version: 1
 ---
 
@@ -29,3 +29,5 @@ schema_version: 1
 
 | To | Type | Cue |
 | :--- | :--- | :--- |
+| R05-L02 | gate | The stair head opens onto the inside of the gate face, and daylight through the opening is the only light on it. |
+| R05-L11 | turning stair | Steps turning down into standing water, worn deepest along the outside edge. |

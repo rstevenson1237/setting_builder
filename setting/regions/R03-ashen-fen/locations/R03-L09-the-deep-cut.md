@@ -6,7 +6,7 @@ region: R03
 container: the-causeway
 cell: WILD_MEDIUM
 pattern: CROSSING
-sources: []
+sources: [T-ARC-07, T-BES-02, T-HAZ-10, T-LOR-11, T-PUZ-06]
 schema_version: 1
 ---
 
@@ -29,3 +29,5 @@ schema_version: 1
 
 | To | Type | Cue |
 | :--- | :--- | :--- |
+| R03-L05 | open mere | The cut ends at open water with no reed on it and no bottom where the peat should be. |
+| R03-L12 | cut lane | The lane comes out at a row of frames, and there is bronze hanging in them. |

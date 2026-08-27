@@ -6,7 +6,7 @@ region: R03
 container: drowned-tier
 cell: WILD_MEDIUM
 pattern: GATE
-sources: []
+sources: [T-ARC-04, T-HAZ-05, T-LNG-50, T-PRC-01, T-TR4-08]
 schema_version: 1
 ---
 
@@ -29,3 +29,5 @@ schema_version: 1
 
 | To | Type | Cue |
 | :--- | :--- | :--- |
+| R03-L13 | dressed floor | The doorway gives back onto open floor under shallow water, lit all the way to the reed line. |
+| R03-L17 | flooded doorway | Beyond the lintel the floor holds level, and the doors along it are shut and pegged from the outside. |

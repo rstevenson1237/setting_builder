@@ -6,7 +6,7 @@ region: R05
 container: the-gate-ground
 cell: DANGEROUS_MEDIUM
 pattern: CROSSING
-sources: []
+sources: [T-ARC-09, T-HAZ-02, T-LNG-62, T-PRC-01, T-TR4-08]
 schema_version: 1
 ---
 
@@ -29,3 +29,6 @@ schema_version: 1
 
 | To | Type | Cue |
 | :--- | :--- | :--- |
+| R05-L01 | flooded cut | The cut comes up onto open ground, and the light on it is daylight. |
+| R05-L04 | flooded cut | The cut opens onto ankle-deep water that goes nowhere. |
+| R05-L21 | flooded cut | The cut runs down and inward, chest deep, and the sound of the party's own wading stops coming back. |

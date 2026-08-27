@@ -6,7 +6,7 @@ region: R03
 container: drowned-tier
 cell: WILD_LOW
 pattern: STRETCH
-sources: []
+sources: [T-ARC-04, T-HAZ-09, T-LOR-08, T-TR3-03]
 schema_version: 1
 ---
 
@@ -29,3 +29,5 @@ schema_version: 1
 
 | To | Type | Cue |
 | :--- | :--- | :--- |
+| R03-L16 | cold floor | The cold eases, and the floor beyond it is only wet. |
+| R03-L19 | dressed floor | Steps turning down, worn deepest along the outside edge. |

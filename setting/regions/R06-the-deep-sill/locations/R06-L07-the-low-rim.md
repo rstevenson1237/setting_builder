@@ -6,7 +6,7 @@ region: R06
 container: the-covenant-shafts
 cell: DANGEROUS_LOW
 pattern: DESCENT
-sources: []
+sources: [T-ARC-05, T-PUZ-02, T-RUM-12, T-TR1-01]
 schema_version: 1
 ---
 
@@ -29,3 +29,6 @@ schema_version: 1
 
 | To | Type | Cue |
 | :--- | :--- | :--- |
+| R05-L40 | shaft | The shaft comes up into a doorway with dressed floor past it. |
+| R06-L05 | rim walk | The unpegged rim gives onto one squared and pegged and never lit. |
+| R06-L09 | rim walk | A rim with nothing coming up out of it, and a count said aloud at it does not come back. |

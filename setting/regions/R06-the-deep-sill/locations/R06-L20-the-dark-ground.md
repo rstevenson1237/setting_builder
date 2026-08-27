@@ -6,7 +6,7 @@ region: R06
 container: the-deep-water
 cell: DANGEROUS_LOW
 pattern: STRETCH
-sources: []
+sources: [T-BES-05, T-HAZ-12, T-LNG-69, T-TR1-08]
 schema_version: 1
 ---
 
@@ -29,3 +29,6 @@ schema_version: 1
 
 | To | Type | Cue |
 | :--- | :--- | :--- |
+| R06-L13 | dry ground | The dry ground drops into standing water, and the water is facing the wick. |
+| R06-L17 | dry ground | The dry ground drops into water that does not move at all. |
+| R06-L19 | unsquared floor | The dry ground falls away into a floor where nothing runs parallel. |

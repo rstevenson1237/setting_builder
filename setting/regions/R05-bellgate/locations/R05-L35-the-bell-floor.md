@@ -6,7 +6,7 @@ region: R05
 container: the-deep-tier
 cell: DANGEROUS_LOW
 pattern: CHAMBER
-sources: []
+sources: [T-ARC-11, T-HAZ-11, T-LOR-04, T-TR5-01]
 schema_version: 1
 ---
 
@@ -29,3 +29,6 @@ schema_version: 1
 
 | To | Type | Cue |
 | :--- | :--- | :--- |
+| R05-L29 | doorway | The scored floor gives onto ground walked through soot. |
+| R05-L33 | doorway | The score marks end at a cell with a pin socket in the ceiling. |
+| R05-L36 | doorway | The floor slab goes warm through a boot and stays warm. |

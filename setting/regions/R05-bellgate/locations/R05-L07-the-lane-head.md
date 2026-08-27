@@ -6,7 +6,7 @@ region: R05
 container: the-gate-ground
 cell: DANGEROUS_LOW
 pattern: THRESHOLD
-sources: []
+sources: [T-ARC-01, T-ARC-12, T-HAZ-04, T-RUM-09]
 schema_version: 1
 ---
 
@@ -29,3 +29,6 @@ schema_version: 1
 
 | To | Type | Cue |
 | :--- | :--- | :--- |
+| R04-L05 | kept lane | The lane leaves the standing water and runs dry, one day, to a wall. |
+| R05-L01 | kept lane | The lane ends at standing water over level slab with frames standing in it. |
+| R05-L08 | open ground | The kept ground ends and the reed begins, and the fen opens seaward past it. |

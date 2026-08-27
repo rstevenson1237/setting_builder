@@ -6,7 +6,7 @@ region: R03
 container: the-causeway
 cell: WILD_LOW
 pattern: STRETCH
-sources: []
+sources: [T-ARC-07, T-BES-11, T-HAZ-12, T-LNG-14]
 schema_version: 1
 ---
 
@@ -29,3 +29,5 @@ schema_version: 1
 
 | To | Type | Cue |
 | :--- | :--- | :--- |
+| R03-L04 | reed face | The reed opens onto ground the sea was said to reach and does not. |
+| R03-L05 | reed face | The reed thins toward open water, and the sound stops coming back at all. |

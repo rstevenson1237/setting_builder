@@ -6,7 +6,7 @@ region: R02
 container: the-reed-cut
 cell: WILD_LOW
 pattern: STRETCH
-sources: []
+sources: [T-ARC-08, T-HAZ-10, T-PUZ-06, T-UNQ-08]
 schema_version: 1
 ---
 
@@ -29,3 +29,5 @@ schema_version: 1
 
 | To | Type | Cue |
 | :--- | :--- | :--- |
+| R02-L08 | old lane | The lane widens and comes out at a post cut with letters a hand deep. |
+| R02-L11 | closing lane | The lane narrows to nothing, and the reed past the end of it stands unbroken. |

@@ -6,7 +6,7 @@ region: R05
 container: the-bell-shafts
 cell: DANGEROUS_LOW
 pattern: DESCENT
-sources: []
+sources: [T-ARC-05, T-HAZ-09, T-LNG-72, T-TR4-01]
 schema_version: 1
 ---
 
@@ -29,3 +29,5 @@ schema_version: 1
 
 | To | Type | Cue |
 | :--- | :--- | :--- |
+| R05-L12 | shaft | The shaft opens onto silted floor, and the air on it is only wet. |
+| R05-L20 | shaft | The cold stops, and the sound stops with it, and nothing said past this point comes back. |

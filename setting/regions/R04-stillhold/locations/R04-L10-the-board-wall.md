@@ -6,7 +6,7 @@ region: R04
 container: the-chapter-house
 cell: SAFE_MEDIUM
 pattern: PREMISES
-sources: []
+sources: [T-ARC-06, T-KEY-04, T-LOR-06, T-PRC-05, T-TR1-06]
 schema_version: 1
 ---
 
@@ -30,3 +30,6 @@ schema_version: 1
 
 | To | Type | Cue |
 | :--- | :--- | :--- |
+| R04-L08 | inner passage | The passage opens into the chapter house proper, and a ration is being stated aloud in it. |
+| R04-L09 | inner passage | The boards stop at one door, and the board on that door is the only one nobody takes down. |
+| R04-L11 | inner passage | A bare cell with a bed in it and no wick, offered to anyone who asks. |

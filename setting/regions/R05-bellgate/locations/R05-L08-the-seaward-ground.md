@@ -6,7 +6,7 @@ region: R05
 container: the-gate-ground
 cell: DANGEROUS_LOW
 pattern: STRETCH
-sources: []
+sources: [T-ARC-07, T-BES-02, T-HAZ-10, T-LNG-18]
 schema_version: 1
 ---
 
@@ -29,3 +29,7 @@ schema_version: 1
 
 | To | Type | Cue |
 | :--- | :--- | :--- |
+| R03-L13 | wading | The ground falls away seaward onto dressed floor under a hand of still water. |
+| R05-L01 | open ground | The ground rises onto level slab under standing water, and there is a stone face at the inward end of it. |
+| R05-L03 | open ground | The reed stops, and there are frames standing in open water past it. |
+| R05-L07 | open ground | The reed thins onto dry marked ground, and there is a lane running off it. |

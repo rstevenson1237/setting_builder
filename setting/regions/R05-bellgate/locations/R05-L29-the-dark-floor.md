@@ -6,7 +6,7 @@ region: R05
 container: the-deep-tier
 cell: DANGEROUS_LOW
 pattern: CHAMBER
-sources: []
+sources: [T-ARC-12, T-BES-05, T-PUZ-07, T-TR1-08]
 schema_version: 1
 ---
 
@@ -29,3 +29,6 @@ schema_version: 1
 
 | To | Type | Cue |
 | :--- | :--- | :--- |
+| R05-L24 | doorway | The sooted floor gives onto open tier. |
+| R05-L25 | doorway | The soot ends at a cut channel running down the middle of the floor. |
+| R05-L35 | doorway | Score marks in the floor slab, parallel, running toward a doorway. |

@@ -3,7 +3,7 @@
 Generated from `state/ledger.json` by `tools/ledger.py`. Do not edit by hand.
 
 - **Seed:** 4417
-- **Current step:** 9
+- **Current step:** 10
 - **Built targets:** 31
 - **Decorated targets:** 14
 
@@ -20,6 +20,6 @@ Generated from `state/ledger.json` by `tools/ledger.py`. Do not edit by hand.
 | 7 | Region fields | Builder | complete | 6 | 0 | 2026-08-27T15:30:47Z |
 | 8 | Region prose | Decorator | complete | 6 | 0 | 2026-08-27T15:32:37Z |
 | 9 | Location headers | Architect | complete | 116 | 0 | 2026-08-27T16:58:14Z |
-| 10 | Location connections | Engineer | pending | 0 | 0 |  |
+| 10 | Location connections | Engineer | complete | 116 | 0 | 2026-08-27T17:11:59Z |
 | 11 | Location fields | Builder | pending | 0 | 0 |  |
 | 12 | Location prose | Decorator | pending | 0 | 0 |  |

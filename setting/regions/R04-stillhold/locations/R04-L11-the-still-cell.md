@@ -6,7 +6,7 @@ region: R04
 container: the-chapter-house
 cell: SAFE_LOW
 pattern: PREMISES
-sources: []
+sources: [T-ARC-10, T-HAZ-09, T-LNG-51, T-TR2-08]
 schema_version: 1
 ---
 
@@ -30,3 +30,5 @@ schema_version: 1
 
 | To | Type | Cue |
 | :--- | :--- | :--- |
+| R04-L10 | inner passage | The cell gives onto the passage where the boards hang. |
+| R04-L12 | side door | A door out of the cell onto open ground, and there is a post standing on it. |

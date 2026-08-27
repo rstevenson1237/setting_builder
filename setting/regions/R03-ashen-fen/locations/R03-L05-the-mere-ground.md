@@ -6,7 +6,7 @@ region: R03
 container: the-causeway
 cell: WILD_LOW
 pattern: STRETCH
-sources: []
+sources: [T-ARC-04, T-BES-09, T-HAZ-02, T-LNG-13]
 schema_version: 1
 ---
 
@@ -29,3 +29,6 @@ schema_version: 1
 
 | To | Type | Cue |
 | :--- | :--- | :--- |
+| R03-L06 | peat water | The water darkens, the reed comes back, and the bottom is peat again under the boot. |
+| R03-L08 | reed face | The mere edge gives onto standing reed higher than a shoulder. |
+| R03-L09 | open mere | The mere edge gives onto cleared ground, and the cutting along it is recent. |

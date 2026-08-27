@@ -6,7 +6,7 @@ region: R04
 container: the-still-ground
 cell: SAFE_LOW
 pattern: STRETCH
-sources: []
+sources: [T-ARC-07, T-HAZ-04, T-PRC-06, T-TR2-04]
 schema_version: 1
 ---
 
@@ -30,3 +30,5 @@ schema_version: 1
 
 | To | Type | Cue |
 | :--- | :--- | :--- |
+| R02-L03 | kept lane | The lane ends at a raised road with a frame standing on it and a tally post at its foot. |
+| R04-L02 | gate | The lane ends at a wall with an opening in it, and there are people standing in the opening. |

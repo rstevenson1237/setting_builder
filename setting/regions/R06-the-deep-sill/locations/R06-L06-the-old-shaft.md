@@ -6,7 +6,7 @@ region: R06
 container: the-covenant-shafts
 cell: DANGEROUS_LOW
 pattern: DESCENT
-sources: []
+sources: [T-ARC-05, T-HAZ-07, T-LNG-74, T-PRC-07]
 schema_version: 1
 ---
 
@@ -29,3 +29,6 @@ schema_version: 1
 
 | To | Type | Cue |
 | :--- | :--- | :--- |
+| R06-L04 | rim walk | The cut shaft gives onto a rim with cold coming up out of it. |
+| R06-L08 | rim walk | The cutting gives way to dressing again, and the pegs below are spaced for a load. |
+| R06-L18 | shaft | The shaft narrows going down, and there is nothing in the wall of it to take a hand. |

@@ -6,7 +6,7 @@ region: R02
 container: the-reed-cut
 cell: WILD_LOW
 pattern: STRETCH
-sources: []
+sources: [T-ARC-07, T-HAZ-01, T-LNG-31, T-TR1-05]
 schema_version: 1
 ---
 
@@ -29,3 +29,5 @@ schema_version: 1
 
 | To | Type | Cue |
 | :--- | :--- | :--- |
+| R02-L07 | cut lane | The stacks end and the cut reed begins again, kept to the root. |
+| R02-L12 | cut lane | A worked lane running to trodden ground where a gang has been lying up. |

@@ -6,7 +6,7 @@ region: R05
 container: the-bell-shafts
 cell: DANGEROUS_MEDIUM
 pattern: GATE
-sources: []
+sources: [T-ARC-05, T-BES-10, T-CRE-08, T-LOR-05, T-TOM-03]
 schema_version: 1
 ---
 
@@ -29,3 +29,6 @@ schema_version: 1
 
 | To | Type | Cue |
 | :--- | :--- | :--- |
+| R05-L15 | shaft | A shaft pegged over and sound, and the pegs have not been drawn. |
+| R05-L16 | rim | The rim gives onto a shaft wide enough to lower a bell down. |
+| R05-L23 | rim | The rim runs on to a second one, and the cutting on the second is worse. |

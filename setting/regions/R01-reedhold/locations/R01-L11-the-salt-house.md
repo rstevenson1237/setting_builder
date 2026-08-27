@@ -6,7 +6,7 @@ region: R01
 container: the-tallow-houses
 cell: SAFE_LOW
 pattern: PREMISES
-sources: []
+sources: [T-LNG-40, T-NAM-11, T-RUM-05, T-TR2-04]
 schema_version: 1
 ---
 
@@ -30,3 +30,5 @@ schema_version: 1
 
 | To | Type | Cue |
 | :--- | :--- | :--- |
+| R01-L02 | salt walk | A short walk down to the water, and there are boats working below it. |
+| R01-L07 | weighing floor | The floor past the salt is swept, and there is a scale standing on it. |

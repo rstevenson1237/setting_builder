@@ -6,7 +6,7 @@ region: R05
 container: the-gate-ground
 cell: DANGEROUS_HIGH
 pattern: LANDMARK
-sources: []
+sources: [T-ARC-09, T-KEY-02, T-LOR-10, T-NAM-08, T-PUZ-03, T-RUM-11]
 schema_version: 1
 ---
 
@@ -29,3 +29,5 @@ schema_version: 1
 
 | To | Type | Cue |
 | :--- | :--- | :--- |
+| R05-L01 | standing water | The gate face gives onto eight hundred feet of standing water over level slab. |
+| R05-L05 | gate | Past the opening the floor drops, and the first turn of a stair is visible from the lip. |

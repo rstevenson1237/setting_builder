@@ -9,6 +9,7 @@ missing anchor rather than quietly passing against nothing.
 from __future__ import annotations
 
 import json
+import re
 import shutil
 import subprocess
 import sys
@@ -109,6 +110,42 @@ class Sandbox:
             entry = data["steps"].setdefault(str(step), {})
             entry["status"] = "pending"
         path.write_text(json.dumps(data, indent=2) + "\n", encoding="utf-8")
+
+    def clear_step(self, *steps: int) -> None:
+        """Forget a step entirely, so a test can drive it from nothing.
+
+        Same reason as `reopen_steps`: a ledger test asserts the mechanism, not
+        the build's current position. A step this repository has already run
+        carries a `done` list, and `start` skips what is already done, so a test
+        that wants a pending target says so.
+        """
+        path = self.path(LEDGER)
+        data = json.loads(path.read_text(encoding="utf-8"))
+        for step in steps:
+            data["steps"].pop(str(step), None)
+        path.write_text(json.dumps(data, indent=2) + "\n", encoding="utf-8")
+
+    def strip_citations(self, code: str) -> None:
+        """Remove every citation of one T table from every location's sources.
+
+        A check about the whole corpus takes a whole-corpus edit. Naming one
+        location's row would break again the moment a second location cited the
+        same table, which is the drift `sub`'s anchor exists to catch.
+        """
+        pattern = re.compile(rf"\b{re.escape(code)}-\d\d\b,?\s*")
+        touched = 0
+        for path in self.root.glob("setting/regions/*/locations/*.md"):
+            text = path.read_text(encoding="utf-8")
+            fixed = re.sub(
+                r"^sources: \[.*\]$",
+                lambda m: pattern.sub("", m.group(0)).replace(", ]", "]"),
+                text, count=1, flags=re.M,
+            )
+            if fixed != text:
+                path.write_text(fixed, encoding="utf-8")
+                touched += 1
+        if not touched:
+            raise AssertionError(f"no location cited {code}, so nothing was stripped")
 
     def mark(self, key: str, *codes: str) -> None:
         """Add codes to the ledger's `built` or `decorated` list."""

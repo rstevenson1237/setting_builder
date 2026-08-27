@@ -6,7 +6,7 @@ region: R06
 container: the-covenant-shafts
 cell: DANGEROUS_MEDIUM
 pattern: DESCENT
-sources: []
+sources: [T-ARC-05, T-LNG-19, T-PRC-07, T-TR2-05, T-TR3-05]
 schema_version: 1
 ---
 
@@ -29,3 +29,7 @@ schema_version: 1
 
 | To | Type | Cue |
 | :--- | :--- | :--- |
+| R06-L02 | rim walk | The dressed shaft gives onto a rim with an order cut round it. |
+| R06-L03 | rim walk | The shafts run together, and the widest of them is pegged for loads. |
+| R06-L06 | rim walk | The dressed shaft gives onto one that stops being dressed. |
+| R06-L10 | shaft | The pegs run out thirty feet above standing water, and the water has nothing to do with the depth above it. |
