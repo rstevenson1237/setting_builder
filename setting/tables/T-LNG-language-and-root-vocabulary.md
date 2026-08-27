@@ -71,3 +71,36 @@ layers the two rarely agree.
 | T-LNG-40 | salt | Sea in the water where the sea has no business being. |
 | T-LNG-41 | warden | One set to keep a place, and still keeping it. |
 | T-LNG-42 | walker | One who goes on foot where nobody goes. Compounding root. |
+| T-LNG-43 | frame | Two uprights and a crossbeam. The Covenant's mounting for a bell, and the commonest built thing on any road. |
+| T-LNG-44 | post | A driven upright that carries a count or an order. |
+| T-LNG-45 | board | A flat cut plank, and the tally kept on one. |
+| T-LNG-46 | rim | The cut lip of a shaft, and the course an order is cut into. |
+| T-LNG-47 | slab | A cut stone laid flat. The Covenant's unit of road, and of floor. |
+| T-LNG-48 | floor | A laid surface a foot was meant to meet. Stone before water: a Covenant root. |
+| T-LNG-49 | wall | A built face that closes rather than opens. |
+| T-LNG-50 | door | A closure that was meant to be opened. Not the same as a gate, which has an answer. |
+| T-LNG-51 | cell | One roofed chamber of Covenant making, sized for one purpose. |
+| T-LNG-52 | hall | A roofed room of the Covenant's, larger than a cell and made to be stood in by many. |
+| T-LNG-53 | stair | A cut descent that turns. |
+| T-LNG-54 | head | The end of a thing a party comes to first. |
+| T-LNG-55 | foot | The end of a thing a party comes to last, and the lowest course of a wall. |
+| T-LNG-56 | lane | A kept way through reed, narrower than a road and cut by the same order. |
+| T-LNG-57 | yard | Enclosed working ground inside a wall. |
+| T-LNG-58 | landing | A built edge where a boat is met and a crew is counted. |
+| T-LNG-59 | rope | Laid cord. Living layer, and the only thing on a bare frame that is ever new. |
+| T-LNG-60 | peg | A driven wooden pin that closes a door from the outside. |
+| T-LNG-61 | pegged | Closed from without and not opened since. A state, and recorded as its own root. |
+| T-LNG-62 | flood | Water standing where a floor was laid dry. |
+| T-LNG-63 | flooded | Under standing water and still whole. A state, and recorded as its own root. |
+| T-LNG-64 | sunk | Put under by the water rather than by a builder. Of road, never of hold. |
+| T-LNG-65 | sea | The open salt water the Reach counts its roads from. |
+| T-LNG-66 | ward | Toward. Compounding root; never stands alone. |
+| T-LNG-67 | inward | Away from the sea. The direction the roads are counted in, and the direction the Covenant dug. |
+| T-LNG-68 | light | Tallow burning, and the ground it reaches. |
+| T-LNG-69 | dark | Beyond the reach of a wick. |
+| T-LNG-70 | smoke | What burning peat lays flat along the reed tops. |
+| T-LNG-71 | warm | Warmer than the air over the water, on stone that has no business being so. |
+| T-LNG-72 | cold | Colder than the air over the water, and coming up rather than down. |
+| T-LNG-73 | low | Nearer the water than the thing it is named against. |
+| T-LNG-74 | old | Older than the Covenant. |
+| T-LNG-75 | stop | To cease. The Covenant's last instruction, and the only word it cut twice. |
