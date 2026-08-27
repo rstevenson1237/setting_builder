@@ -12,7 +12,13 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+Three miles of fitted slab running straight inward, level to within a hand, wide enough for two abreast and no wider. That is **the straights**, and there is nothing on them nearer than the next frame.
+
+**The courses** are visible from the cut on both sides: five of them at the seaward end and eight here, each a hand thicker than the one above it.
+
+**The crossing places** are four dips where the slab takes a hand of water for twenty yards. The stone at each is polished smooth along the middle and rough at the edges.
+
+A shout dropped here does not come back. Two people at opposite ends of the same straight cannot call each other.
 
 ## Referee Overview
 
@@ -26,7 +32,7 @@ schema_version: 1
 
 *Table effects.* Everything on the Encounter table can reach a party in the cut and nothing can reach one on the middle of a straight inside a watch. Weather that lays the smoke flat halves the rate on the span and does not change it in the cut, because the cut is already the slow rate.
 
-[[ Prose at step 12, Decorator. ]]
+The third straight rings hollow underfoot for two hundred yards. It will carry a party at any pace and it will not carry a bell.
 
 ## Features
 

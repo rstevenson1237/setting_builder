@@ -12,7 +12,13 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+Sixty feet of open floor under a low roof, with hemp laid out along it and a wheel at each end. The floor is board over dressed slab. That is **the walk**, and it is worked from first light while there is light.
+
+**The gauge** is pegged to the doorframe at the height a rope runs, bronze, cut with two sets of units, one on each edge. Somebody has marked the two against each other by hand in ink that has not lifted off the metal.
+
+On a peg at the back wall hangs **the Covenant rope**, eleven fathoms in three plies, laid rather than twisted. There is a knot in it and it has been in it a long time and it is still soft.
+
+By the door, **the offcuts** stand in a barrel, free to anybody, and the ropemaker will not let a party leave without taking some.
 
 ## Referee Overview
 
@@ -30,7 +36,7 @@ schema_version: 1
 
 *What the refusal is about.* The eleven fathoms came off a bell frame. He will say that much. He will not say which frame and he will not say who brought it in.
 
-[[ Prose at step 12, Decorator. ]]
+The knot in the eleven fathoms is a knot for hanging a bell. He will say the rope came off a frame. He will not say which frame, and he will not say who brought it in.
 
 ## Features
 

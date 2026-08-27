@@ -12,7 +12,11 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+The cold arrives through the soles from below and the water over it is unchanged, which is the reverse of everywhere else in the fen.
+
+**The cold floor** is dressed slab under a hand of water, level, and the cold on it is strongest across one band that can be walked out with a bare hand on the stone.
+
+Scratched into a wall standing above the water at the inward corner, with three marks beneath it, is a line about the water not having come up. The lowest mark is above the water now.
 
 ## Referee Overview
 
@@ -26,7 +30,7 @@ schema_version: 1
 
 *Nil:* no fire possible. The floor is under water, there is nothing on it to burn, and the condition the cold sets does not lift until a party is somewhere they can light one, which is not in this region.
 
-[[ Prose at step 12, Decorator. ]]
+The band where the cold is strongest is directly over the shaft the stair reaches. A party who maps it has the shaft's position before they have found the stair.
 
 ## Features
 

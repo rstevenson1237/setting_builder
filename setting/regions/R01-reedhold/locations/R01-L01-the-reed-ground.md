@@ -12,7 +12,15 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+Piles, then boards, then ground. Everything underfoot has been driven, laid or cut by somebody, and where the boards stop the peat starts and gives twice.
+
+**The cut line** runs the whole way round on the landward side, a chain of cleared ground with the reed taken to the root beyond it, and past that the reed stands as high as a shoulder.
+
+**The niches** are cut at shoulder height every forty paces, soot in every one, a wick in every one at dusk. The light is the colour of the light off the water.
+
+At the middle of the cleared ground stands **the post**, and there is somebody at it counting aloud. Boards run down from it to the water on one side and to the roofs on the other.
+
+**The road out** lifts off the cut ground on fitted slab and runs inward, straight, until it is out of the light.
 
 ## Referee Overview
 
@@ -30,7 +38,7 @@ schema_version: 1
 
 *Extent.* Four hundred yards of cut ground from the water's edge to the last roofed building, and a chain of kept lane beyond it on every landward side. Nine miles of causeway inward to the Ashen Fen, walked in a day by somebody who leaves at first light.
 
-[[ Prose at step 12, Decorator. ]]
+What the Overview withholds: three of the landward niches are cut into dressed slab that runs on under the boards, and the hold is built on top of a road. Nobody here has remarked on it.
 
 ## Features
 

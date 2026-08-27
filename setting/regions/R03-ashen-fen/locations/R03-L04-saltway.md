@@ -12,7 +12,11 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+Standing on the causeway a party smells fen. Twenty yards inland along this ground they smell salt, and there is no sea within four days' walk in any direction.
+
+**The dry ground** runs inland from the bend for about a mile, cleared, cut to the root, kept by nobody and still clear.
+
+The soil on it is salt to the taste. Nothing has grown here for four generations, which is why there has been nothing to cut.
 
 ## Referee Overview
 
@@ -25,8 +29,6 @@ schema_version: 1
 *Table effects:* the reedcutter-working-alone row is likelier here, because this is cleared ground that nobody is keeping and somebody is checking it. Nothing that needs water can reach a party on it.
 
 *Nil:* no reason for the name. Saltway is a living-layer compound naming a route the sea was said to reach along, and the sea has not come this far in living memory (NAMES, T-NAM-11), (LANGUAGE AND ROOT VOCABULARY, T-LNG-40).
-
-[[ Prose at step 12, Decorator. ]]
 
 ## Features
 

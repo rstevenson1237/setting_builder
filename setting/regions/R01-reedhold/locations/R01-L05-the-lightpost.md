@@ -12,7 +12,11 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+**The last niche**, cut at shoulder height into a course of dressed slab, sooted, with a wick in it at dusk and nothing beyond it.
+
+The next one back is forty paces away and the one after that is forty paces past it, all the way to the noise. Counting the other way, into the dark, there are three more, unlit, before the stone goes under.
+
+Standing inside its light is being in Reedhold. Standing outside it is not, and everybody here treats it that way.
 
 ## Referee Overview
 
@@ -27,8 +31,6 @@ schema_version: 1
 *Extent:* one niche, cut at shoulder height in dressed stone, throwing light about fifteen feet. The next one is forty paces back toward the ground. Days.
 
 *Nil:* nothing is sold, kept or refused here by any person. The location is a line, and its content is which side of it a party is standing on.
-
-[[ Prose at step 12, Decorator. ]]
 
 ## Features
 

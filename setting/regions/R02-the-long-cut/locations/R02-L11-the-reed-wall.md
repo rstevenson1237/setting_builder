@@ -12,7 +12,11 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+Reed as high as a shoulder, standing unbroken, going on for a mile in every direction with no lane through it and nothing built under it.
+
+Inside it the light goes the colour of weak tea and stays that colour, because the reed closes over at head height. A boot's noise is absorbed and the water takes what is left.
+
+A shout drops flat at a chain. A party strung out inside it cannot call each other back.
 
 ## Referee Overview
 
@@ -25,8 +29,6 @@ schema_version: 1
 *Table effects:* every Encounter row that works the reed is available here and none that needs open ground is. A shout drops flat at a chain and a party strung out inside the reed cannot call each other back (HAZARDS, T-HAZ-12) {TEST: Sanity}.
 
 *Nil:* no landmark of any kind. There is nothing in this location to navigate by and nothing in it to find, and a party inside it knows where they are by counting paces or does not know at all.
-
-[[ Prose at step 12, Decorator. ]]
 
 ## Features
 

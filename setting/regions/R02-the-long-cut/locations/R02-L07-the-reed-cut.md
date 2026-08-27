@@ -12,7 +12,13 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+A boot goes from ringing slab to giving peat in one step, and the peat gives twice: once for itself and once for whatever is under it.
+
+**The cut edge** runs a chain out from the road on both sides, reed taken to the root along a line as clean as a blade, and the stubble is even where it is being kept.
+
+**The reed** past it stands as high as a shoulder and closes behind at three paces. From inside it the road cannot be seen and the frames cannot be counted.
+
+**The lanes off it** leave inland at three points: one to a post with letters cut a hand deep, one to peat stacked in courses, and one that runs into standing reed and stops.
 
 ## Referee Overview
 
@@ -26,7 +32,7 @@ schema_version: 1
 
 *Table effects.* Reed-hounds work the shallows in threes here and give ground the moment metal is struck and come back the moment the sound stops, which makes noise a resource rather than a mistake (BESTIARY, T-BES-02). Nothing that needs open ground can reach a party in the reed.
 
-[[ Prose at step 12, Decorator. ]]
+A kept chain is cut to the root and the stubble is even; an abandoned one is cut to the water and the stems are closing at the base. The difference is visible from the road in the colour of the cut edge.
 
 ## Features
 

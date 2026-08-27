@@ -12,7 +12,15 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+Within thirty yards the surface stops carrying the ripple of a party's own wading. It is not muffled. It is still.
+
+**The lintel** stands square and whole a hand under the water, cut from one stone, undressed on its upper face where nobody was going to see it. Beyond it the floor runs on out of sight.
+
+**The silt bank** lies against the near side of the threshold, a hand deep, fine, and undisturbed except in one place where something wide was dragged over it.
+
+**The breath-bell** lies on its side on the floor slab six feet short of the threshold: a bronze hood taking two heads, straps out.
+
+**Either side** of the lintel the water holds at a hand, which is true of nowhere else in the tier.
 
 ## Referee Overview
 
@@ -26,7 +34,7 @@ schema_version: 1
 
 *Table effects.* Nothing on the Encounter table can follow a party through the doorway, because everything on it works reed, peat or open water. Inside the wall the region's table stops applying and the hold's own contents are the content.
 
-[[ Prose at step 12, Decorator. ]]
+A doorway with a floor behind it has silt banked against its threshold, because the water moved through and stopped. A doorway with nothing behind it has none. The drag in the silt goes inward and nothing has come out.
 
 ## Features
 

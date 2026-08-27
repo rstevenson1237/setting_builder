@@ -12,7 +12,15 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+**The scale** stands outside the door on a stone plinth under its own lamp, bronze, the beam worn bright at the pivot and nowhere else. The factor works it before anybody has offered him anything.
+
+Inside, against the wall, **the back weight** is stacked four courses high, by weight rather than by kind. Salvage, goods, one instrument, and a bronze plate off a hold door.
+
+**The chalk** on every piece carries a date and a name and it is renewed when it fades, which is a job somebody does.
+
+On the counter, not locked and not on a shelf, **the list** lies open at the current page. Two columns: a weight, and then a name.
+
+**The yard door** at the back of the weighing floor is open in working hours, and tar and hemp come through it.
 
 ## Referee Overview
 
@@ -30,7 +38,7 @@ schema_version: 1
 
 *The second reading.* A party who has been to a hold and come back with a door plate's dimensions, or a hold's name in the older layer, can match a piece in the back weight to the door it came off (UNIQUE TREASURES, T-TRE-04).
 
-[[ Prose at step 12, Decorator. ]]
+Three of the names in the chalk are of people the hold buried, their pieces are still in the stack, and the dates on them are after the burials. Nobody has read the courses across.
 
 ## Features
 

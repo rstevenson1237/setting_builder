@@ -12,7 +12,11 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+Peat smoke, from half a mile, and it is the smell of a fire rather than of lying smoke. Nobody is burning anything: the stacks smoulder where they have been left too long.
+
+**The workings** are peat cut in blocks and stacked to dry in courses, four seasons of them, the oldest gone to crumb. The ground between the stacks is a shade darker than the ground round them.
+
+Under the oldest stack, which nobody has moved because it is not worth moving, is the head of a dressed slab.
 
 ## Referee Overview
 
@@ -25,8 +29,6 @@ schema_version: 1
 *Table effects:* the ground here has been cut over and it gives under the outermost stacks, taking a leg to the knee and then holding, and the tell is colour (HAZARDS, T-HAZ-01) {TEST: Constitution}. Reed-hounds do not come into the workings.
 
 *Nil:* nobody works it in this season. The cutting is a spring job and the stacks are last spring's, and a party who arrives expecting a gang finds none.
-
-[[ Prose at step 12, Decorator. ]]
 
 ## Features
 

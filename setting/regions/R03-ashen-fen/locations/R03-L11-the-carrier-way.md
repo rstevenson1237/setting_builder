@@ -12,7 +12,13 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+Two miles of fitted slab, dry, level, and the easiest walking in the region. There is no frame on it, no post and no niche.
+
+**The road** runs straight inward, eight courses deep, and a shout on it goes out and does not come back.
+
+A note carries up it from a long way ahead, struck, much clearer than it should be. There is nothing to strike a note on for two miles in either direction.
+
+A long way up the road somebody is walking inward at a steady pace and is not gaining.
 
 ## Referee Overview
 
@@ -25,8 +31,6 @@ schema_version: 1
 *Table effects:* the bell-carrier row is not a chance on this stretch: it is here, walking inward, at a steady pace, and the only question is where the party meets it. Nothing else on the table approaches while it is on the road.
 
 *Nil:* no frames. Two miles of road with no frame, no post and no niche, which is the only such stretch in the region, and it is why the note from ahead carries so clearly.
-
-[[ Prose at step 12, Decorator. ]]
 
 ## Features
 

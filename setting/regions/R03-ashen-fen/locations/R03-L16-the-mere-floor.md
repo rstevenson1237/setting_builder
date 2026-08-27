@@ -12,7 +12,11 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+Over the floor a wick shows the stone. A pace past **the straight edge** the light does not come back at all.
+
+The edge runs about half a mile and the courses at it are finished rather than broken. The last course is dressed on its outer face, where nobody would ever see it.
+
+The tier was laid to this line, over water that already had no bottom.
 
 ## Referee Overview
 
@@ -25,8 +29,6 @@ schema_version: 1
 *Table effects:* the mere-eel row is not a chance on the edge: it works this line, and a party wading with rope out loses the rope and whatever the rope was attached to. Nothing that needs ground can reach a party here.
 
 *Nil:* no bottom, sounded or otherwise. The Covenant's own soundings for this edge are recorded as unmeasured, in the same hand that recorded the mere, and it is the only measurement they gave up on (HAZARDS, T-HAZ-02).
-
-[[ Prose at step 12, Decorator. ]]
 
 ## Features
 

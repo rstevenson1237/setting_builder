@@ -12,7 +12,17 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+The water goes still inside the wall, and the temperature reverses over about twenty yards: warmer than the air outside, not warmer inside.
+
+**The hold wall** stands two courses thick above the waterline and one below it, and the step where the thickness changes runs the whole way round at the surface. Scratched above it, with three marks beneath, is a line about the water.
+
+**The pegged doors** run along the inner face, eleven of them, every one shut and pegged from outside, no forcing anywhere. Every fitting on all eleven is green. Every hook is bright.
+
+**The third door's board** is the one whose count runs past the bottom of its face and continues on the reverse. The plate that named the hold is gone off the door and the peg holes it left are torn rather than cut.
+
+**The fixed things** stand where they were left, in order: bronze fittings still pegged, a bench, a counting frame, a barrel of tallow gone hard, and a case cut for two gauges holding one.
+
+**The pegged passage** runs inward from the landward corner, dry to the knee, with a squared opening at the end of it.
 
 ## Referee Overview
 
@@ -30,7 +40,7 @@ schema_version: 1
 
 *Departure.* The pegged passage inward is the only way on from here and it is not the way a party came. Anything taken out of the hold goes up a shaft rather than back through the fen, or it does not go out.
 
-[[ Prose at step 12, Decorator. ]]
+The hook beside each door is the head of its peg. Taking the count down opens the door and the board cannot be rehung, and a hold with its count on the floor is a hold the Closed Order will hear about.
 
 ## Features
 

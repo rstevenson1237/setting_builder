@@ -12,7 +12,15 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+The slab gets warmer course by course, and over about half a mile everybody in the party independently wants to sit down and several of them say so.
+
+**The warm stretch** runs a mile and a half. A hand laid flat under any course finds the stone warm and the top of the same stone cold.
+
+**The patches** are three places about twenty yards apart where the road is worn smooth in the middle and rough at the edges, each about the length of a person lying down.
+
+Set into the road's edge at the second patch, flush with the slab and laid flat, are **the slate leaves**: nine of them in a bronze frame, face up.
+
+**The road either way** cools going seaward and carries a smell of bronze going inward.
 
 ## Referee Overview
 
@@ -26,7 +34,7 @@ schema_version: 1
 
 *Table effects.* Nothing on the Encounter table interferes with a party lying on the warm slab. That is the point. Everything on it is available to a party who has just woken a watch late with the light gone.
 
-[[ Prose at step 12, Decorator. ]]
+Roads do not wear in body-length patches. The reedcutters call the settling by another name, lie down on it anyway, and do not say so to strangers.
 
 ## Features
 

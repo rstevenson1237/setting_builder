@@ -12,7 +12,15 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+A hundred and twenty yards of driven piles and laid board, ten feet above the water at the outer end and level with the ground at the inner. Wet rope on the air, and tar, and the rendered fat off the roofs behind.
+
+**The boards** are nailed with bronze that does not rot in the fen. The outer forty yards are new board on old piles, and the piles are dressed stone.
+
+**The tally at the rail** is a slate chalked with the boats out and the watch they went, wiped every morning.
+
+**The cutter's dog** is on the landing most mornings, wet to the shoulder, working ahead of nobody.
+
+Up the slope at the inner end, **the salt walk** goes to a doorway with salt on the air.
 
 ## Referee Overview
 
@@ -30,7 +38,7 @@ schema_version: 1
 
 *Extent.* A hundred and twenty yards of driven piles and laid board, ten feet above the water at the outer end and level with the ground at the inner. Time in days.
 
-[[ Prose at step 12, Decorator. ]]
+Reading the slate at first light and again at dusk tells a party exactly who did not come back, which is not information the landing volunteers.
 
 ## Features
 

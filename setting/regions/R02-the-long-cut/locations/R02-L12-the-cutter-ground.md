@@ -12,7 +12,15 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+Smoke going up rather than along, which is the only vertical smoke on this road, and it can be seen from the span for two miles. Downwind it smells of burning green reed.
+
+**The pit** is dug into the peat and lined with slab that came off the road, cracked and replaced twice.
+
+**The lying-up ground** beside it is flattened reed under a cover of cut stems, big enough for a gang, and it is dry. A coat in oiled reed-cloth hangs on a stake beside it.
+
+**The gang** is here or has just gone. When they are here there are eleven of them, working the chain on a schedule nobody has written down.
+
+**The ways out** are the road a hundred yards off across cut stubble, and a worked lane running to the stacks.
 
 ## Referee Overview
 
@@ -26,7 +34,7 @@ schema_version: 1
 
 *Table effects.* This is the one place in the region where the cutting gang Encounter row is not a chance: they are here or they have just gone. Nothing that closes while nobody is facing it comes within a chain of the pit while it is burning.
 
-[[ Prose at step 12, Decorator. ]]
+The pit is warm for a day after they leave and cold after two. A hand in the ash tells a party whether they are about to meet eleven people or nobody.
 
 ## Features
 

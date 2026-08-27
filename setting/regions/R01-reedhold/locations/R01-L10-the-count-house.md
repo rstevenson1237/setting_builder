@@ -12,7 +12,13 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+Two people at a long table, and everything they do is said aloud before it is written and read back after. **The day count** is chalked on the wall in two columns, yesterday's on the left and today's on the right, and anybody may correct either in front of a witness.
+
+**The counting frame** stands on the table, bronze, strung with beads worn flat on one side only.
+
+**The wax board in the case** is kept underneath and taken out only for a question written as a count. It has not been taken out for some time.
+
+**The doors** are: one open onto the post fifteen yards out, one across boards to the tar smell, one to a shuttered frontage, and one into a passage four feet wide that runs behind the row.
 
 ## Referee Overview
 
@@ -30,7 +36,7 @@ schema_version: 1
 
 *What is behind the passage.* A door nobody has opened, at the end of the back passage, with a peg driven from the outside and a name chalked on a piece four courses down in the factor's back weight (KEYS, T-KEY-07).
 
-[[ Prose at step 12, Decorator. ]]
+The passage ends at a door nobody has opened. What is behind it is not in this room's day count and never has been.
 
 ## Features
 

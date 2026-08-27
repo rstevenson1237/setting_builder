@@ -12,7 +12,11 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+Eighty feet by sixty of ground gone black and dry, with **the stacks** standing in courses higher than a man and a corner of each chalked with a name and a count.
+
+The two at the back have not been turned this season. Their chalk has been renewed.
+
+When the air is still the smoke off the yard lies flat at knee height across the whole of it, and the road out has to be read by foot.
 
 ## Referee Overview
 
@@ -27,8 +31,6 @@ schema_version: 1
 *Extent:* eighty feet by sixty, stacks four courses high, ground black and dry underfoot. Days.
 
 *Nil:* no light of any kind is allowed in the yard, and there is no niche in it. Everybody works to the light off the landing.
-
-[[ Prose at step 12, Decorator. ]]
 
 ## Features
 

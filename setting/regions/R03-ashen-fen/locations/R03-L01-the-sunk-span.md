@@ -12,7 +12,13 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+The ring goes out of the road and comes back and goes again. **The sunk span** runs forty yards under a hand of still water, then dry, then under again, four times in the first mile.
+
+**The colour** of the slab shows through the water as a paler line running straight, and it is the only straight thing in the fen. Where it stops it stops square, and it does not resume for a hundred yards.
+
+**The camber** falls a finger toward the open fen across the whole width of the road, over the whole nine miles.
+
+The slabs under the water are polished smooth along the middle and rough at the edges. On the third stretch one of them is out of true under a hand of silt, and the seam runs crooked for a pace and then straightens.
 
 ## Referee Overview
 
@@ -26,7 +32,7 @@ schema_version: 1
 
 *Table effects.* Nothing on the Encounter table reaches a party in the middle of a sunk span inside a watch, and everything on it can wait at either end. The slab-out-of-true row is not a chance here: it is on the third stretch and it is always on the third stretch.
 
-[[ Prose at step 12, Decorator. ]]
+The colour is legible in flat light and not under wind, which is what makes the weather a decision here rather than atmosphere.
 
 ## Features
 

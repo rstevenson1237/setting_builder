@@ -12,7 +12,11 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+One room, twenty feet by twelve, grit underfoot, salt on the air from thirty feet outside the door. The rate is chalked on the door and it changes with what the boats bring.
+
+**The weighing bench** is a plank on stone with a set of hide-wrapped weights, and everything is sold in front of the buyer.
+
+Cut into the lintel above the door, in the older layer, is a name for this room. The woman working it knows what it says and thinks it is wrong.
 
 ## Referee Overview
 
@@ -27,8 +31,6 @@ schema_version: 1
 *Extent:* one room, twenty feet by twelve, grit underfoot, salt on the air from thirty feet outside. Days.
 
 *Nil:* no keeper's want worth acting on. She is content, she is not owed anything, and she does not want anything a party can bring her.
-
-[[ Prose at step 12, Decorator. ]]
 
 ## Features
 

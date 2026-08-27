@@ -12,7 +12,11 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+**The smoke** lies at knee height along a mile and a half of road, level along the top, not moving. It has a face: it does not thin at the edges.
+
+It is visible as a flat line along the reed tops from a mile off, and it smells of peat rather than of reed. The peat workings are four miles seaward and downwind.
+
+Inside it the road has to be read by foot and nothing is visible past arm's length.
 
 ## Referee Overview
 
@@ -25,8 +29,6 @@ schema_version: 1
 *Table effects:* nothing that hunts by sight can work the road while the smoke is on it. Everything that works by sound can, and a party reading the road by foot is making a great deal of it. Wind off the sea clears the whole stretch inside a watch and the weather table says whether it is blowing.
 
 *Carrying a light through it* is a stated procedure and it is the one thing here that can go badly rather than slowly (PROCEDURES, T-PRC-06).
-
-[[ Prose at step 12, Decorator. ]]
 
 ## Features
 

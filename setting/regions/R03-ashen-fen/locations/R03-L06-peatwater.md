@@ -12,7 +12,11 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+**The warm shallows** stand at the shin, the colour of strong tea, over cut peat that has been taken and has grown back. The water is a shade warmer than the air over it, which is true of nowhere else in the fen.
+
+The peat gives twice under every step: once for itself, and once for whatever is under it.
+
+Wherever a foot finds firm ground, the firm ground is dressed slab, and the pieces are broken and set down flat in the way somebody fills a hole with what is nearest.
 
 ## Referee Overview
 
@@ -26,7 +30,7 @@ schema_version: 1
 
 *Nil:* nothing built. No slab, no frame, no post and no cut, over the whole stretch. It is the one part of the Ashen Fen the Covenant did not touch, and there is no record of why.
 
-[[ Prose at step 12, Decorator. ]]
+Somebody took a road apart here and used it to make a crossing. The crossing is where the peat holds, the cutters know the route, and they do not say how they know it.
 
 ## Features
 

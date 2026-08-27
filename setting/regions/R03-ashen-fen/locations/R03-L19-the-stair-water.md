@@ -12,7 +12,15 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+The cold comes up through the soles standing in the same water the party has been walking in for a mile.
+
+**The stair** turns four times, dressed, wide enough for two abreast, the steps worn deepest along the outside edge. The wear runs all the way to the bottom and does not slow before it. The water deepens by about a hand a turn.
+
+Set into the floor at the head, where a person coming up meets it at eye height, is **the boss**: a figure kneeling with both hands flat on the slab and one ear laid to it, cut at the size of a child. The stone round it is polished in two oval patches at the span of a pair of hands.
+
+**The tide plate** is pegged to the wall at the second turn, bronze, graduated in hands. Every mark below the current line has been scratched through and every mark above it has not.
+
+**Above and below**, the stair joins level floor at one end and dry ground at the other.
 
 ## Referee Overview
 
@@ -26,7 +34,7 @@ schema_version: 1
 
 *Table effects.* Nothing on the Encounter table follows a party below the second turn. What is below the second turn is not on the Encounter table.
 
-[[ Prose at step 12, Decorator. ]]
+The plate reads what it read when it was pegged. Kneeling at the boss and laying an ear to the slab is the named action, and what is heard through it is counting.
 
 ## Features
 

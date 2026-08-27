@@ -12,7 +12,17 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+A dull flat knocking carries up the road from a mile and a half out, rope-end against bare bronze, not rhythmic and not stopping.
+
+**The frame** stands at the only bend in three miles, the pin seated, the socket clean, nothing hanging from it. Cut into the underside of the crossbeam, upside down to anybody walking past, is a line of letters.
+
+**The tally post** is driven at its foot, notched by watch down one face and up the other. Above the notches, in a different lettering, is a number.
+
+**The branch lane** leaves the stone inward, dry, a chain wide, cut to the root on both sides, running out of sight toward a wall four days away.
+
+Standing between the road and the lane is **the carrier**: a drowned man with a bell too large for him. It stops when it is watched, sets the bell down, straightens, and asks something.
+
+**The span either way** runs seaward toward the light and inward toward a frame with something new tied at the pin.
 
 ## Referee Overview
 
@@ -30,7 +40,7 @@ schema_version: 1
 
 *Funding for the reversal.* The frames at (ARCHITECTURE AND TERRAIN, T-ARC-02) and the tally posts at (ARCHITECTURE AND TERRAIN, T-ARC-08) are exactly what they appear to be everywhere else in this region and do exactly what they were built to do. This is the one frame on the Long Cut where a party is asked a question by the thing standing at it.
 
-[[ Prose at step 12, Decorator. ]]
+The road's number, counted from the sea inward, is cut into the head of the post above the notches. Nobody reads the head, because the cutters have read the notches for so long that they no longer see the line above them.
 
 ## Features
 

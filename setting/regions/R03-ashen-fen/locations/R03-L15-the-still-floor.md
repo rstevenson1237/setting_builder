@@ -12,7 +12,13 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+**The swept floor** runs two hundred yards, dressed slab under a hand of water, level to within a finger over the whole of it.
+
+Coming off the tier the sound of a party's own wading stops changing, because the depth does not vary.
+
+There is no silt anywhere on it. Every other floor in the drowned tier has some in its corners.
+
+Panes of window glass lie stacked against the north wall, packed wet in reed, unbroken.
 
 ## Referee Overview
 
@@ -25,8 +31,6 @@ schema_version: 1
 *Table effects:* fen-wights stand in shallows the way a post stands, and this is two hundred yards of unbroken shallows with nothing else standing in it (BESTIARY, T-BES-01) {AD: 2, +1} {TYPE: Undead} {WOUND: Frost}. Anything standing here has been passed before it is noticed.
 
 *Nil:* no silt, anywhere on it. Every other floor in the drowned tier has silt in its corners and this one has none, over two hundred yards, and nothing in the corpus says why.
-
-[[ Prose at step 12, Decorator. ]]
 
 ## Features
 

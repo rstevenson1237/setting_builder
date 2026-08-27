@@ -12,7 +12,13 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+**The shuttered front** is the one house in the row with no wick in its niche at any hour. The boards across the window are seated in a rebate cut for them, and the rebate is older than the boards. The street door is unbarred and has been the whole time.
+
+Inside is one room. **The lamp on the shelf** stands at eye height in the only part of it a person in the doorway can see, in a bronze sleeve, unlit.
+
+By the door, still loaded, is **the kit by the door**: rope, a sounding line, cut peat, and a second lamp of ordinary make. The rope is short by a body's length at the top end and the cut is clean.
+
+The man leaves the room when the door opens. He comes back when whoever came in has stopped standing, and then he asks **the question**.
 
 ## Referee Overview
 
@@ -30,7 +36,7 @@ schema_version: 1
 
 *The second reading.* A party who has been to the last pegged rim and read the order cut into it can name it back to him in the older layer (LORE, T-LOR-05). That is the one thing that makes him sit down.
 
-[[ Prose at step 12, Decorator. ]]
+He asks it once, standing, of a party who has stayed long enough to be worth asking. An answer in distance gets nothing. He is establishing whether they are coming back.
 
 ## Features
 

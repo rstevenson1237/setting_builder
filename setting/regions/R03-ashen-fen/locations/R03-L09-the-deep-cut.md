@@ -12,7 +12,13 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+Cut reed on the air, green and sharp and entirely unlike peat smoke, from half a mile downwind. There is no cutting gang within nine miles.
+
+**The lane** runs inland from the road toward open water, a chain wide, cut to the root and cut to the standing order's own depth. The first half mile of stubble stands white, the second grey, and the third is closing over.
+
+**The spoil** lies in windrows along both edges rather than piled or burned, which is how it is done when somebody means to come back for it. None of it has been taken.
+
+**The head of the lane** is where the cutting stops, and the last four paces are cut and the fifth is half cut on both sides.
 
 ## Referee Overview
 
@@ -26,7 +32,7 @@ schema_version: 1
 
 *Table effects.* The reedcutter-working-alone row is not a chance on this lane: it is who is cutting it, and they are a chain further inward every week. Reed-hounds work the stubble here in threes because the cutting brings out what lives in the reed (BESTIARY, T-BES-02).
 
-[[ Prose at step 12, Decorator. ]]
+The blade is still in the reed at the half-cut pace. It is a cutter's hook and the haft has been in the fen a season.
 
 ## Features
 

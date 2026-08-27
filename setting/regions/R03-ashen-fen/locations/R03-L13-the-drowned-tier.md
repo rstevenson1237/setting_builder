@@ -12,7 +12,15 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+Wading off the road's end, the bottom stops being peat and starts being flat, in one step, and it is level.
+
+**The floor** is dressed slab under a hand of still water, laid true, squared to the compass, running about a mile inward. Nothing on it has rotted and nothing on it is silted.
+
+Doorways stand whole with their lintels a hand below the surface, and beyond them the floors run on into water that gives nothing back.
+
+Where a wall stands above the water at the north side are **the marks on the wall**: a scratched line and three marks beneath it, the lowest standing clear of the surface.
+
+**The ways off** are six, and every one of them is a straight edge in water that has none anywhere else.
 
 ## Referee Overview
 
@@ -26,7 +34,7 @@ schema_version: 1
 
 *Table effects.* Nothing that needs reed or peat can reach a party on the floor. The fen-wight row is likelier here than anywhere: they stand in the shallows the way a post stands and the floor is all shallows (BESTIARY, T-BES-01).
 
-[[ Prose at step 12, Decorator. ]]
+Over the floor the light goes to the stone. A pace past its edge the light does not come back at all, and the change is at a straight line visible from twenty feet in flat light and invisible under wind.
 
 ## Features
 

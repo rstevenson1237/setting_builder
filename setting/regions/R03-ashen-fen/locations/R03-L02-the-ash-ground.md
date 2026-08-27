@@ -12,7 +12,13 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+**The ash ground** is grey, firm and bare, and nothing grows on it. It takes a print and holds it through a season, and it is the first dry footing in four miles.
+
+The road crosses it on five courses rather than eight, because it did not need the depth.
+
+There is no water on it: not standing, not running, not gettable, over the whole of it. The cold on it comes up through the soles rather than out of the air.
+
+There are prints on it going inward that are barefoot, in a straight line that does not use the road.
 
 ## Referee Overview
 
@@ -25,8 +31,6 @@ schema_version: 1
 *Table effects:* nothing that works reed or peat can reach a party on the ash ground, because there is neither. The fen-wight row cannot happen here: they stand in shallows and there are none.
 
 *Nil:* no water. Not standing, not running, not gettable, over the whole of it, and a party who did not fill at the last sunk span is dry until the bend.
-
-[[ Prose at step 12, Decorator. ]]
 
 ## Features
 

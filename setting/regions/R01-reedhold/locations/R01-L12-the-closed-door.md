@@ -12,7 +12,11 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+A passage four feet wide and thirty long running behind the frontage, walked past at all hours by people who do not look down it.
+
+At the end of it, **the door**: oak on a bronze frame, shut, with one peg driven through from the outside. No forcing, no mark of a tool, nothing off a hinge, and no board on the hook beside it.
+
+Every fitting on it is green with age. The hook is bright.
 
 ## Referee Overview
 
@@ -27,8 +31,6 @@ schema_version: 1
 *Extent:* a passage four feet wide and thirty long behind the frontage, ending at one door. Feet indoors, days.
 
 *Nil:* no keeper. The peg is driven from the outside and the person who drove it is dead, and the factor's list says which day.
-
-[[ Prose at step 12, Decorator. ]]
 
 ## Features
 

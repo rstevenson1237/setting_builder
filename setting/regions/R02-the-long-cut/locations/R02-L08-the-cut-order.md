@@ -12,7 +12,15 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+The cutting changes underfoot a hundred yards out: reed taken to the root rather than to the water, so a boot goes through stubble rather than stems.
+
+**The post** stands at the head of the lane, oak, squared, sunk four feet, with letters cut into it deeper and straighter than on any other post out here. The last line runs slightly downhill.
+
+**The copies** lie stacked in the stubble beside it: three spare faces, cut and never driven, weathered grey. The third is finished to the last word.
+
+**The spoil heap** is cut reed piled and left, not stacked and not burned, going down to peat at the bottom.
+
+**The old lane head** is a second lane leaving the post, narrower, with the reed closing over it from both sides. The cutters walk past its mouth without looking down it.
 
 ## Referee Overview
 
@@ -30,7 +38,7 @@ schema_version: 1
 
 *Departure.* A party carrying the post cannot walk the cut and has to use the lane, and the lane comes out at the road, and the road is where the cutters are. A party carrying the wax walks out through the reed and nobody counts them.
 
-[[ Prose at step 12, Decorator. ]]
+Every copy in the Reach reproduces the downhill last line, fault and all. This is the one it was copied from, and a party who has read two posts can tell which.
 
 ## Features
 

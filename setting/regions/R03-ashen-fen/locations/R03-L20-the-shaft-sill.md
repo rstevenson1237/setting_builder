@@ -12,7 +12,15 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+Air comes up out of the opening rather than down into it, and it carries wet rope and cold bronze with no rope and no bronze anywhere in the fen.
+
+**The rim** is cut square, twelve feet across, pegged over, with an order cut into it in letters a hand deep. The strokes are uneven and they get worse across the line.
+
+Standing at it is **the warden**, upright, and it says one thing to each person and then does not speak to that person again.
+
+**The slate** lies in the lee of the rim where a watch-keeper would have kept it, carrying the same words.
+
+**The ways from here** are three: a stair turning up toward green light, a dry passage running back to a wall with pegged doors, and the shaft.
 
 ## Referee Overview
 
@@ -26,7 +34,7 @@ schema_version: 1
 
 *Table effects.* This is the boundary. Nothing on the Ashen Fen's Encounter table exists below this rim, and the Deep Sill's table starts at the pegs. A shaft-warden stands here and gives its one warning to each person once (BESTIARY, T-BES-10).
 
-[[ Prose at step 12, Decorator. ]]
+Every stroke of the order here is by one hand, including the last word. On every other rim in the Reach the last word is somebody else's, and a party who has read two rims knows which one is the copy.
 
 ## Features
 

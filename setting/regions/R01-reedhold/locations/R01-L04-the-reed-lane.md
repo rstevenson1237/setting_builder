@@ -12,7 +12,11 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+A chain of cleared ground running landward, four hundred yards of it, dry to the ankle at the near end and shin-deep at the far one. There is no wick along any of it.
+
+**The cut edge** runs down both sides as clean as a blade, with the reed taken to the root beyond it and standing as high as a shoulder past that. At the lane's head is a post with letters cut into it.
+
+The last line of the letters runs downhill, where the cutter ran out of face.
 
 ## Referee Overview
 
@@ -27,8 +31,6 @@ schema_version: 1
 *Extent:* a chain wide, four hundred yards landward from the cut line, dry to the ankle at the near end and shin-deep at the far one. Days.
 
 *Nil:* no light. The last niche is at the lane's head and there are none along it (ARCHITECTURE AND TERRAIN, T-ARC-12).
-
-[[ Prose at step 12, Decorator. ]]
 
 ## Features
 

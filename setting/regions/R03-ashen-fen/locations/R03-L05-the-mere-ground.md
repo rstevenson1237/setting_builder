@@ -12,7 +12,13 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+The reed thins over about thirty yards and then stops along a line, and past the line nothing is standing in the water at all.
+
+**The edge** runs roughly straight for a mile. Reed stops where peat stops, and peat does not stop straight.
+
+The water past it is cold enough to close a chest on the first breath, and a line dropped into it gives nothing at forty fathoms.
+
+Something square lies under the water at the edge, at the depth a hand reaches, running along the line in both directions as far as anybody has felt.
 
 ## Referee Overview
 
@@ -25,8 +31,6 @@ schema_version: 1
 *Table effects:* nothing that needs ground can reach a party at the mere edge. The water is cold enough to close a chest on the first breath and the tell is exactly this: the reeds stop short of it (HAZARDS, T-HAZ-02) {TEST: Constitution} {WOUND: Frost}.
 
 *Nil:* no bottom. Sounded from the edge with a line, it gives nothing at forty fathoms, and the Covenant's own soundings say the same in a hand nobody has matched.
-
-[[ Prose at step 12, Decorator. ]]
 
 ## Features
 

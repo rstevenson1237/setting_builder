@@ -12,7 +12,13 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+Open cleared ground with the reed standing off it at a chain on every side. In the middle of it, driven, is **the post**, notched by watch down one face and up the other, and the notches at the top are fresh.
+
+**Reedcount** is at it. She does not stop working while she talks, and she opens with a question and then waits.
+
+At dusk the hold's day count and the cutters' watch count are put together here, out loud, and everybody within earshot stops. That is **the reconciliation**, and it takes a quarter of an hour.
+
+**The doors off the ground** stand fifteen yards away in two directions: one with a scale outside it under its own lamp, one standing open with two voices inside agreeing a number.
 
 ## Referee Overview
 
@@ -30,7 +36,7 @@ schema_version: 1
 
 *What she wants.* The count kept accurate after she stops keeping it. She has nobody to hand it to, she has not asked anybody, and she will not ask.
 
-[[ Prose at step 12, Decorator. ]]
+The two faces of the post have not agreed for some years and the difference is a constant rather than drift. She knows, she has not corrected it, and she will not say which face is wrong.
 
 ## Features
 

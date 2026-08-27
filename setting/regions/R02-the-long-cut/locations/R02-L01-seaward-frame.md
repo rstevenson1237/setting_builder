@@ -12,7 +12,13 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+The board and the cut ground end and fitted slab begins, and the sound of a boot goes from a knock to a ring inside three paces and stays a ring.
+
+**The frame** stands against the sky where the road takes its first rise: two uprights, a crossbeam, the pin seated in a clean socket, nothing hanging. The rope on the pin is weathered.
+
+**The post** is driven at its foot, notched by watch down one face and up the other, the top notches fresh. Above the notches is a line of letters that nobody walking past reads.
+
+Either side, **the doubled cut** runs a chain and a half wide rather than a chain, and the reed at its edge stands at two heights.
 
 ## Referee Overview
 
@@ -26,7 +32,7 @@ schema_version: 1
 
 *Table effects.* Nothing on the Encounter table that works the open cut can reach a party standing at this frame inside a watch, because the cleared chain here is doubled: Reedhold keeps its own cut line and the road keeps its own, and they overlap for the first mile.
 
-[[ Prose at step 12, Decorator. ]]
+The overlap ends at a mile out and the cut narrows to a chain and stays there. That line is where the cutters stop being Reedhold's and start being nobody's.
 
 ## Features
 

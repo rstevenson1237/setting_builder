@@ -12,7 +12,11 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+The ring goes out of the road. For the last two hundred yards the slab is under a hand of water and a boot gives a knock rather than a ring.
+
+**The last frame** stands with its feet in the water: two uprights, a crossbeam, the pin seated, the socket clean. Nothing hangs from it and there is no post at its foot, only a socket, cut and empty.
+
+Past it the road is there in stretches and is not there in stretches, and the reeds stop dead along a cut edge a chain out on both sides.
 
 ## Referee Overview
 
@@ -26,7 +30,7 @@ schema_version: 1
 
 *Nil:* no tally post. The frames are counted from the sea inward and this is the last one, and the post that should stand at its foot was never driven — the socket is cut and empty (ARCHITECTURE AND TERRAIN, T-ARC-08).
 
-[[ Prose at step 12, Decorator. ]]
+Waxed and folded into the pin socket is a tally of bells by road, ruled in two columns. The last row names the Bell Causeway and the column beside it is empty, and the rule for the row below was drawn and never filled.
 
 ## Features
 

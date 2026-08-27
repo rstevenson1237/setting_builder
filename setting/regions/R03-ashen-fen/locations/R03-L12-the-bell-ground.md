@@ -12,7 +12,17 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+Bronze on the air, cold and wet, from a mile out with nothing in sight that could be making it. The smell does not vary with the wind.
+
+**The nine frames** stand in a line along the road at two hundred yard intervals, every pin seated. Eight of them carry a bell, and each bell reads as two colours with a waterline across it: green where it has been out of the water and clean where it has not.
+
+**The ninth frame** is at the inward end past the last of the cleared ground. The bell on it has no waterline, no green, and the cord is uncut.
+
+**The hauling gear** is stacked beside the fourth frame under a reed cover: three sets of blocks, laid rope, and a sledge on runners.
+
+**The remnant's camp** stands four hundred yards off the road on the driest ground here. No wall, no ditch, a fire they let go out at dusk, and eleven of them.
+
+Nailed to the inside of the fourth frame's upright, at the height a person kneels to, is **the order written out**: nine names, seaward to inward. Beside each, in a second hand and much smaller, is a number.
 
 ## Referee Overview
 
@@ -32,7 +42,7 @@ schema_version: 1
 
 *Departure.* A party who told them the order walks out with a clapper and an obligation. A party who took one walks out with a clapper and is known by name on every frame between here and the sea, because the Remnant tells the cutters and the cutters count.
 
-[[ Prose at step 12, Decorator. ]]
+The numbers beside the names are the road counts off the tally posts. Read as the order, they are correct, and the order the Remnant is keeping is not.
 
 ## Features
 

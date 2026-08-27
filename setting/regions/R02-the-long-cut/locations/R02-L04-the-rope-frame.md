@@ -12,7 +12,15 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+Wet rope, from half a mile, on a road with no rope in sight and no rope anywhere for nine miles.
+
+**The frame** stands where the road runs straight, the pin seated, the socket clean, nothing hanging.
+
+**The rope** is knotted at the pin. It is laid, tarred, and new, and the tail is cut clean rather than parted. The slab under the pin is spotted where it has shed tar.
+
+**The pin** itself is bronze and seated so long that it carries the shape of its socket down one side. There is something waxed and folded into the socket behind it.
+
+**The road either way** runs back seaward to a bend and inward into smoke lying flat at knee height.
 
 ## Referee Overview
 
@@ -26,7 +34,7 @@ schema_version: 1
 
 *Table effects.* While a party is lying still beside the frame, everything on the Encounter table that closes distance while nobody is facing it closes it. Nothing that gives ground to struck metal comes near, because a party lying up is not striking anything.
 
-[[ Prose at step 12, Decorator. ]]
+A new rope sheds tar for one day. The spotting under this pin is a day old, which is what says the knot was tied today rather than yesterday, every day.
 
 ## Features
 

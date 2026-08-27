@@ -12,7 +12,11 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+Standing reed higher than a shoulder, going on for about a mile, with no lane through it and nothing built under it.
+
+Inside it a party can hear nothing of themselves and nothing of anything else. It is complete rather than muffled: the reed absorbs a boot's noise and the water takes what is left.
+
+The reed closes behind at three paces and does not part the same way twice.
 
 ## Referee Overview
 
@@ -25,8 +29,6 @@ schema_version: 1
 *Table effects:* the reed-walker row is likelier here than anywhere in the setting: it moves only while nobody is facing it, and inside standing reed there is no facing (BESTIARY, T-BES-11) {AD: 3, +1} {TYPE: Fantasy} {WOUND: Piercing}. A shout drops flat at a chain (HAZARDS, T-HAZ-12) {TEST: Sanity}.
 
 *Nil:* no cutting, ever. This is the largest stand of uncut reed on the Reach, the standing order has never applied to it, and there is no post at any edge of it saying so.
-
-[[ Prose at step 12, Decorator. ]]
 
 ## Features
 

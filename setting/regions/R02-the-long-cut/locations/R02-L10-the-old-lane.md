@@ -12,7 +12,11 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+**The closing lane** was cut to the order's width and has not been kept. It closes over at the base rather than at the top, so it reads as a lane at head height and as reed at the ankle.
+
+The sound of a boot goes into it and does not come back.
+
+There is no post at either end. Every lane in the Reach has one at its head with the standing order cut into it. This one has a socket, cut, and nothing in it.
 
 ## Referee Overview
 
@@ -26,7 +30,7 @@ schema_version: 1
 
 *Nil:* no post at either end. Every lane in the Reach has a post at its head with the standing order cut into it, and this one has a socket, cut, and nothing in it.
 
-[[ Prose at step 12, Decorator. ]]
+Counting the seasons of regrowth gives the watch the cutting stopped, and it is the same watch the gap opens on every tally post in the Reach. This is the only place a party can measure it in a growing thing rather than in a notch.
 
 ## Features
 
