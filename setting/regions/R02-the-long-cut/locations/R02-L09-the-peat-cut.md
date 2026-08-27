@@ -16,14 +16,25 @@ schema_version: 1
 
 ## Referee Overview
 
-**Approach:** 
-**Terrain:** 
+**Approach:** Peat smoke, and it is the smell of a fire rather than of lying smoke, from half a mile. There is nobody burning it: the stacks smoulder where they have been left too long and it goes on for a season.
 
-[[ Fields written at step 11, Builder. Prose at step 12, Decorator. ]]
+**Terrain:** In the lane, one mile a watch on worked ground, and it is the only ground off the span in this region that a loaded party can move on. *Rate off it:* half a mile a watch, unchanged.
+
+*Decision:* take peat, which is fuel a party will want and weighs what it weighs; or take nothing and keep the load. Six cakes burn for four days and weigh what four days of tallow does not (TREASURE TABLE I, T-TR1-05) {VALUE: 10 cn} {WT: 2} {QUALITY: Poor}.
+
+*Table effects:* the ground here has been cut over and it gives under the outermost stacks, taking a leg to the knee and then holding, and the tell is colour (HAZARDS, T-HAZ-01) {TEST: Constitution}. Reed-hounds do not come into the workings.
+
+*Nil:* nobody works it in this season. The cutting is a spring job and the stacks are last spring's, and a party who arrives expecting a gang finds none.
+
+[[ Prose at step 12, Decorator. ]]
 
 ## Features
 
-[[ Written at step 11, Builder. One `### Name` per feature. A connection pointer inside a feature is the only place `->` may appear. ]]
+### The Workings
+
+Peat cut in blocks and stacked to dry in courses, four seasons of them, the oldest gone to crumb (LANGUAGE AND ROOT VOCABULARY, T-LNG-31). The ground between the stacks is a shade darker than the ground round them, and that is where it gives.
+
+Under the oldest stack, which nobody has moved because it is not worth moving, is the head of a dressed slab: the road runs under the workings and comes up again on the far side, and it is not on any count (ARCHITECTURE AND TERRAIN, T-ARC-07).
 
 ## Exits
 

@@ -16,14 +16,25 @@ schema_version: 1
 
 ## Referee Overview
 
-**Approach:** 
-**Terrain:** 
+**Approach:** The reed stops. Coming out of the deep cut or off the ash ground, the reed thins over about thirty yards and then ends along a line, and past the line there is nothing standing in the water at all. It is visible at a hundred yards and the tell is that the reed does not thin gradually anywhere else in the fen.
 
-[[ Fields written at step 11, Builder. Prose at step 12, Decorator. ]]
+**Terrain:** Not walkable. This is open mere, with no peat under it and no bottom found, and a party crosses it by boat or does not cross it. There is no boat in the Ashen Fen.
+
+*Decision:* skirt it north through reed at half a mile a watch, which is two watches; or skirt it south along the mere floor's edge, which is a watch and is on dressed stone under a hand of water and is where the mere-eels work (BESTIARY, T-BES-09).
+
+*Table effects:* nothing that needs ground can reach a party at the mere edge. The water is cold enough to close a chest on the first breath and the tell is exactly this: the reeds stop short of it (HAZARDS, T-HAZ-02) {TEST: Constitution} {WOUND: Frost}.
+
+*Nil:* no bottom. Sounded from the edge with a line, it gives nothing at forty fathoms, and the Covenant's own soundings say the same in a hand nobody has matched.
+
+[[ Prose at step 12, Decorator. ]]
 
 ## Features
 
-[[ Written at step 11, Builder. One `### Name` per feature. A connection pointer inside a feature is the only place `->` may appear. ]]
+### The Edge
+
+A line the reed stops at, running roughly straight for about a mile, and the straightness is the content: reed stops where the peat stops and peat does not stop straight (LANGUAGE AND ROOT VOCABULARY, T-LNG-13).
+
+Something square is under the water at the edge, at the depth a hand reaches, and it runs along the line in both directions as far as anybody has felt (ARCHITECTURE AND TERRAIN, T-ARC-04).
 
 ## Exits
 

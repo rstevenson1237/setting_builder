@@ -4,8 +4,8 @@ Generated from `state/ledger.json` by `tools/ledger.py`. Do not edit by hand.
 
 - **Seed:** 4417
 - **Current step:** 11
-- **Current pass:** HIGH
-- **Built targets:** 85
+- **Current pass:** LOW
+- **Built targets:** 104
 - **Decorated targets:** 14
 
 ## Steps
@@ -22,30 +22,11 @@ Generated from `state/ledger.json` by `tools/ledger.py`. Do not edit by hand.
 | 8 | Region prose | Decorator | complete | 6 | 0 | 2026-08-27T15:32:37Z |
 | 9 | Location headers | Architect | complete | 116 | 0 | 2026-08-27T16:58:14Z |
 | 10 | Location connections | Engineer | complete | 116 | 0 | 2026-08-27T17:11:59Z |
-| 11 | Location fields | Builder | in_progress | 54 | 60 |  |
+| 11 | Location fields | Builder | in_progress | 73 | 41 |  |
 | 12 | Location prose | Decorator | pending | 0 | 0 |  |
 
 ## Pending in the current step
 
-- `R01-L04`
-- `R01-L05`
-- `R01-L06`
-- `R01-L11`
-- `R01-L12`
-- `R02-L05`
-- `R02-L06`
-- `R02-L09`
-- `R02-L10`
-- `R02-L11`
-- `R03-L02`
-- `R03-L04`
-- `R03-L05`
-- `R03-L06`
-- `R03-L08`
-- `R03-L11`
-- `R03-L15`
-- `R03-L16`
-- `R03-L18`
 - `R04-L03`
 - `R04-L04`
 - `R04-L06`

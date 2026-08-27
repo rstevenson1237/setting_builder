@@ -16,14 +16,21 @@ schema_version: 1
 
 ## Referee Overview
 
-**Approach:** 
-**Terrain:** 
+**Approach:** The sound goes. The reed absorbs a boot's noise and the water takes what is left, so a party inside it can hear nothing of themselves and nothing of anything else, and it is complete rather than muffled. It begins at the cut edge and one pace back out ends it.
 
-[[ Fields written at step 11, Builder. Prose at step 12, Decorator. ]]
+**Terrain:** Half a mile a watch through standing reed higher than a shoulder, and the pace does not come back by pushing.
+
+*Decision:* cross it, which is two watches from the Saltway ground to the mere edge and cannot be seen from anywhere; or go by the road and the deep cut, which is a watch and is overlooked from the frames for its whole length.
+
+*Table effects:* the reed-walker row is likelier here than anywhere in the setting: it moves only while nobody is facing it, and inside standing reed there is no facing (BESTIARY, T-BES-11) {AD: 3, +1} {TYPE: Fantasy} {WOUND: Piercing}. A shout drops flat at a chain (HAZARDS, T-HAZ-12) {TEST: Sanity}.
+
+*Nil:* no cutting, ever. This is the largest stand of uncut reed on the Reach, the standing order has never applied to it, and there is no post at any edge of it saying so.
+
+[[ Prose at step 12, Decorator. ]]
 
 ## Features
 
-[[ Written at step 11, Builder. One `### Name` per feature. A connection pointer inside a feature is the only place `->` may appear. ]]
+*None.* A mile of standing reed with nothing in it, no lane through it and nothing built under it. It is what the cut lanes are cut out of, and the region's kept ground is legible because this is here to be read against (ARCHITECTURE AND TERRAIN, T-ARC-07), (LANGUAGE AND ROOT VOCABULARY, T-LNG-14).
 
 ## Exits
 

@@ -16,15 +16,29 @@ schema_version: 1
 
 ## Referee Overview
 
-**Service:** 
-**Cost:** 
-**Refusal:** 
+**Service:** Cut reed, standing, taken by anyone who wants it, and the lane is walked by the gangs going out at first light and coming back before dark.
 
-[[ Fields written at step 11, Builder. Prose at step 12, Decorator. ]]
+**Cost:** The standing order. Anything taken from the lane is taken on the understanding that the cutting is kept, and a party who takes reed and does not cut is spoken to by whoever finds the gap, once, and then not again.
+
+**Refusal:** Nobody will cut past the fourth frame on the Long Cut, and this lane is the last kept ground before that. Asked to go further, the gangs say no and go back to work.
+
+*Hours:* worked at first light and at the end of the day, empty in between. A party crossing it at midday meets nobody and is seen by nobody, which is the only time in Reedhold that is true.
+
+*Extent:* a chain wide, four hundred yards landward from the cut line, dry to the ankle at the near end and shin-deep at the far one. Days.
+
+*Nil:* no light. The last niche is at the lane's head and there are none along it (ARCHITECTURE AND TERRAIN, T-ARC-12).
+
+[[ Prose at step 12, Decorator. ]]
 
 ## Features
 
-[[ Written at step 11, Builder. One `### Name` per feature. A connection pointer inside a feature is the only place `->` may appear. ]]
+### The Cut Edge
+
+Reed taken to the root along a line as clean as a blade, kept by a standing order older than the hold (ARCHITECTURE AND TERRAIN, T-ARC-07), (LORE, T-LOR-11).
+
+The lane's own head carries a post with the order cut into it in letters copied from somewhere else, fault and all: the last line runs downhill where the original cutter ran out of face.
+
+Reed cuts taken through cloth here are fine and slow to close, and the gangs wear oiled reed-cloth and a party usually does not (HAZARDS, T-HAZ-10) {WOUND: Piercing}.
 
 ## Exits
 

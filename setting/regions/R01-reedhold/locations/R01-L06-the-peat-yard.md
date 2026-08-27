@@ -16,15 +16,31 @@ schema_version: 1
 
 ## Referee Overview
 
-**Service:** 
-**Cost:** 
-**Refusal:** 
+**Service:** Cut peat, dry, by the barrow or the cake, and the stack it comes off is chalked with whose it is.
 
-[[ Fields written at step 11, Builder. Prose at step 12, Decorator. ]]
+**Cost:** Coin, at a price the yard does not vary, or a barrow-load carried up from the landing for every three taken away.
+
+**Refusal:** The two stacks at the back are not sold. They are chalked with names, the names are of people who are not coming for them, and the yard keeps them anyway and will not say for how much longer.
+
+*Hours:* worked whenever a boat has come in, which is most days. Nobody is here at night and nothing is locked, because taking peat out of a chalked stack is a thing the hold would know about by morning.
+
+*Extent:* eighty feet by sixty, stacks four courses high, ground black and dry underfoot. Days.
+
+*Nil:* no light of any kind is allowed in the yard, and there is no niche in it. Everybody works to the light off the landing.
+
+[[ Prose at step 12, Decorator. ]]
 
 ## Features
 
-[[ Written at step 11, Builder. One `### Name` per feature. A connection pointer inside a feature is the only place `->` may appear. ]]
+### The Stacks
+
+Cut peat in courses higher than a man, chalked at the corner with a name and a count, dried in the open and turned twice a season (TREASURE TABLE I, T-TR1-05).
+
+{VALUE: 10 cn} {WT: 2} {QUALITY: Poor}
+
+The two at the back have not been turned. The chalk on them has been renewed, which is a job somebody is doing for people who are not coming.
+
+Smoke off the yard lies flat at knee height across the whole of it when the air is still, and the road out has to be read by foot (HAZARDS, T-HAZ-04).
 
 ## Exits
 

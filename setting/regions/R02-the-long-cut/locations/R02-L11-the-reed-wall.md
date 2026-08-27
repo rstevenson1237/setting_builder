@@ -16,14 +16,21 @@ schema_version: 1
 
 ## Referee Overview
 
-**Approach:** 
-**Terrain:** 
+**Approach:** The light. The cut edge is a line and past it the reed stands as high as a shoulder, and a party inside it is under a roof of it: the light goes the colour of weak tea and stays that colour. It is met at the edge, and stepping back out costs one pace.
 
-[[ Fields written at step 11, Builder. Prose at step 12, Decorator. ]]
+**Terrain:** Half a mile a watch through standing reed, and the pace does not come back by pushing. There is no lane, no cut and no ground here that has been worked.
+
+*Decision:* cross it, which is half a mile a watch and cannot be seen from the span, and which is the only way to reach the closing lane without using the order post; or go round on the road, which is four times the distance and twice the speed and is watched from every frame.
+
+*Table effects:* every Encounter row that works the reed is available here and none that needs open ground is. A shout drops flat at a chain and a party strung out inside the reed cannot call each other back (HAZARDS, T-HAZ-12) {TEST: Sanity}.
+
+*Nil:* no landmark of any kind. There is nothing in this location to navigate by and nothing in it to find, and a party inside it knows where they are by counting paces or does not know at all.
+
+[[ Prose at step 12, Decorator. ]]
 
 ## Features
 
-[[ Written at step 11, Builder. One `### Name` per feature. A connection pointer inside a feature is the only place `->` may appear. ]]
+*None.* The reed wall is its rate, its light and its silence, and there is nothing standing in it. That is not an omission: the region's cut lanes are legible because this is what they are cut out of (LANGUAGE AND ROOT VOCABULARY, T-LNG-14), (ARCHITECTURE AND TERRAIN, T-ARC-07).
 
 ## Exits
 
