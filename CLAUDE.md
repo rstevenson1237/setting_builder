@@ -90,6 +90,11 @@ pass the checks with no errors. That test is what makes "`scaffold.py` fixes the
 shape and `validate.py` checks it, so the two agree by construction" a fact
 rather than an intention. Run the suite before closing any milestone.
 
+`.github/workflows/checks.yml` runs `router.py --check`, `resolve_deps.py
+--check`, `validate.py` and the suite on every push and pull request. It runs
+the commands in the table above and adds no checks of its own, so CI and this
+page cannot drift.
+
 ## Body shape
 
 `scaffold.py` fixes the shape and `validate.py` checks it, so the two agree by

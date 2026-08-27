@@ -316,6 +316,9 @@ A container is a named grouping that gives the diagram layer a tier to draw. It 
 ├── EXTERNAL.md                  # the only backlog, capped at one page
 ├── config/
 │   └── weights.yaml             # every number with two consumers
+├── .github/
+│   └── workflows/
+│       └── checks.yml           # the same commands, on every push and pull request
 ├── .claude/
 │   └── commands/
 │       ├── generate.md
