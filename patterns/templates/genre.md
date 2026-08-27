@@ -1,7 +1,8 @@
-# <Setting name>
+# Genre
 
-<Premise in two or three sentences. What the place is, and the one situation
-that is true everywhere in it. No history, no factions, no named places.>
+<Premise in a paragraph. What the world is, and the one situation true
+everywhere in it. No history, no factions, no named places: the setting is not
+named here, and it takes its name at step 1.>
 
 ## Register
 
