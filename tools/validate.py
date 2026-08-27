@@ -477,12 +477,15 @@ class Validator:
                              f"exit to {target} has no row in the region connections table",
                              "The connections table is the source of truth. Add the edge there.")
 
+        # The setting's edges are written at step 2 and the regions they name are
+        # stubbed at step 5, so this branch cannot be true in between.
+        region_gate = Gate("step", 5, "regions are stubbed at step 5")
         setting_edges = common.edges_from(self.corpus.setting_connections)
         for edge in setting_edges:
             for end in (edge.source, edge.target):
                 if end not in self.corpus.regions:
                     self.add("M7", "setting", f"setting connections name {end!r}, which is not a region",
-                             "Correct the code, or scaffold the region.")
+                             "Correct the code, or scaffold the region.", region_gate)
 
         for code, doc in sorted(self.corpus.locations.items()):
             body = RE_HTML_COMMENT.sub("", doc.body)
