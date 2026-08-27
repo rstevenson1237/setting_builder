@@ -16,14 +16,25 @@ schema_version: 1
 
 ## Referee Overview
 
-**Reactions:** 
-**Gate:** 
+**Reactions:** *Standing at it:* cold comes up out of the shaft rather than down into it. *Striking the rim:* it gives the note of a thing with nothing behind it, all the way round. *Drawing a peg:* the lip splits and the split runs, and the rim cannot be pegged again. *Putting the light out:* nothing changes.
 
-[[ Fields written at step 11, Builder. Prose at step 12, Decorator. ]]
+**Gate:** The pegs, seated as the Covenant seated them, and a party can split them in a turn (PUZZLES, T-PUZ-02). The answer that is not this rim is any of the other eight, all at the same depth and all a turn's walk apart.
+
+*Cost:* one turn to cross the rim floor, one to split the pegs, three down on rope.
+
+*What is true:* the rim is eaten out from underneath and it is one course thick, sound to look at, and the note is the tell (HAZARDS, T-HAZ-07) {TEST: Fate} {WOUND: Crushing}. A party who splits the pegs and puts weight on the lip is standing on the thing they have just weakened.
+
+*Nil:* no order cut into it. Every other rim in the Reach carries the words and this one carries a scribed guide line and no letters, and the reason is that the cutter would have had to stand on it.
+
+[[ Prose at step 12, Decorator. ]]
 
 ## Features
 
-[[ Written at step 11, Builder. One `### Name` per feature. A connection pointer inside a feature is the only place `->` may appear. ]]
+### The Rim
+
+Cut square, pegged, with the cold coming up out of it and the lip one course thick where it should be three (ARCHITECTURE AND TERRAIN, T-ARC-05), (LANGUAGE AND ROOT VOCABULARY, T-LNG-46).
+
+The shaft below is dressed for thirty feet and then only cut, and the cold is coming out of the cut part.
 
 ## Exits
 

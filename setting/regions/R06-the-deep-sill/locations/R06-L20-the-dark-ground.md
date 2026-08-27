@@ -16,14 +16,21 @@ schema_version: 1
 
 ## Referee Overview
 
-**Reactions:** 
-**Gate:** 
+**Reactions:** *Arriving:* the water gives out and the ground rises dry, and it is the only dry ground in the deep water that is not warm. *Lighting a wick:* what turns toward it is behind the party, in the water they have just left. *Putting it out:* everything in the water stops and everything on the dry ground does not, because there is nothing on the dry ground. *Counting aloud:* the answer comes from the water rather than from the ground.
 
-[[ Fields written at step 11, Builder. Prose at step 12, Decorator. ]]
+**Gate:** None. It is a shore, it rises, and it goes on rising into stone that a party can walk on until the region's Fields say the extent is unmeasured and mean it.
+
+*Cost:* two turns to cross what has been walked. Unknown past that.
+
+*What is true:* no light has ever been on this ground. There is no soot anywhere on it, at any height, and the Covenant never reached it, and neither has anybody else: the prints in the silt four hundred feet back are all of parties who turned round in the water.
+
+*Nil:* nothing on it. No stone worked, nothing dropped, nothing standing, nothing growing, and no mark of any kind over as much of it as anybody has walked.
+
+[[ Prose at step 12, Decorator. ]]
 
 ## Features
 
-[[ Written at step 11, Builder. One `### Name` per feature. A connection pointer inside a feature is the only place `->` may appear. ]]
+*None.* Dry unmade stone rising out of black water and going on, unlit, unmarked and unmeasured. It is the far edge of the map and the Deep Sill's whole argument: the Covenant's work has a bottom and this does not (LANGUAGE AND ROOT VOCABULARY, T-LNG-69), (UNANSWERED QUESTIONS, T-UNQ-04).
 
 ## Exits
 

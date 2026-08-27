@@ -16,14 +16,31 @@ schema_version: 1
 
 ## Referee Overview
 
-**Reactions:** 
-**Gate:** 
+**Reactions:** *Looking at the pegs:* they are drawn and stacked beside the rim and the stacking is recent. *Counting the stack:* there are two more pegs than the rim has holes. *Putting the light out:* nothing here reacts. *Pegging it again:* the holes take them, and doing it takes a turn, and the two spare pegs do not fit any hole on this rim.
 
-[[ Fields written at step 11, Builder. Prose at step 12, Decorator. ]]
+**Gate:** None, and that is the finding. This is the one rim in the Deep Sill that is standing open, and it did not open itself.
+
+*Cost:* one turn at the rim, one to peg or unpeg, three up the shaft into the tier above.
+
+*What is true:* the two extra pegs are from a different rim. They are cut to a different diameter and they are the diameter of the rim four hundred feet seaward. Somebody unpegged two rims, carried the pegs from one to the other, and stopped (RUMOURS, T-RUM-12).
+
+*Nil:* no soot and no gear. Whoever did this brought a light and took it away again, and left nothing but the pegs.
+
+[[ Prose at step 12, Decorator. ]]
 
 ## Features
 
-[[ Written at step 11, Builder. One `### Name` per feature. A connection pointer inside a feature is the only place `->` may appear. ]]
+### The Open Rim
+
+Squared, unpegged, the holes clean and the pegs stacked beside it in a pile that has not settled (ARCHITECTURE AND TERRAIN, T-ARC-05), (PUZZLES, T-PUZ-02).
+
+The stack has no soot on it and the stone under the stack has soot on it, which gives the order of events: the soot settled, then the pegs were put down.
+
+A coil of Covenant cord lies with them, tarred, stiff as wire, still holding the knot somebody left in it (TREASURE TABLE I, T-TR1-01).
+
+{VALUE: 20 cn} {WT: 1} {QUALITY: Poor}
+
+The shaft goes up into Bellgate's deep tier, through a doorway with dressed floor past it -> R05-L40.
 
 ## Exits
 

@@ -16,14 +16,21 @@ schema_version: 1
 
 ## Referee Overview
 
-**Reactions:** 
-**Gate:** 
+**Reactions:** *Entering:* the water closes over the chest on the first step and takes the breath with it. *Lighting a wick above it:* what is in it turns toward the light together and does not surface. *Putting it out:* everything stops. *Trailing a rope:* what is in the water takes what is trailed rather than what is standing (BESTIARY, T-BES-09).
 
-[[ Fields written at step 11, Builder. Prose at step 12, Decorator. ]]
+**Gate:** None. It is water at chest depth over a floor that has no shape, and the only thing gating it is the cold and how long a party can be in it.
+
+*Cost:* three turns to cross, at ten feet a turn, and the rate is set by the light rather than by the footing.
+
+*What is true:* the cold does not come from the water. It comes up through the soles out of the level below, and it is worse in the middle of this stretch than at either edge, which means there is something under it (HAZARDS, T-HAZ-02), (HAZARDS, T-HAZ-09) {TEST: Constitution} {WOUND: Frost}.
+
+*Nil:* no bottom that is worth calling a bottom. A foot finds stone at chest depth everywhere and the stone is at a different height every pace, and nothing about it is level.
+
+[[ Prose at step 12, Decorator. ]]
 
 ## Features
 
-[[ Written at step 11, Builder. One `### Name` per feature. A connection pointer inside a feature is the only place `->` may appear. ]]
+*None.* Chest-deep black water over unmade stone, three hundred feet across, with nothing in it and nothing under it that a hand can find. The Deep Sill's landmarks are legible because most of it is this (LANGUAGE AND ROOT VOCABULARY, T-LNG-72).
 
 ## Exits
 

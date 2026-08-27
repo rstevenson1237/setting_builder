@@ -16,15 +16,33 @@ schema_version: 1
 
 ## Referee Overview
 
-**Service:** 
-**Cost:** 
-**Refusal:** 
+**Service:** The hour. The Covenant's day is rung here three times, on a struck plate, and it is audible everywhere inside the wall and for a mile up the inward lane.
 
-[[ Fields written at step 11, Builder. Prose at step 12, Decorator. ]]
+**Cost:** Nothing. It is rung whether anybody wants it or not.
+
+**Refusal:** Nobody will strike it out of turn, for any reason, including to signal. Asked to, the Order says no and does not discuss it, and a party who strikes it themselves is not stopped and is written down.
+
+*Hours:* first light, the middle, and dusk. Everybody in the hold stops where they are until it has finished, including strangers, including mid-sentence.
+
+*Extent:* one post and one plate on open ground, with the ground walked flat round it in a circle at about ten feet. Yards outdoors, days.
+
+*Nil:* no bell. The Covenant's day was rung on bells everywhere it was rung, and Stillhold has none, and the plate is what stands in place of one.
+
+[[ Prose at step 12, Decorator. ]]
 
 ## Features
 
-[[ Written at step 11, Builder. One `### Name` per feature. A connection pointer inside a feature is the only place `->` may appear. ]]
+### The Post and the Plate
+
+A driven post with a bronze plate hung beside it at head height, struck with a wooden beater kept on a hook (ARCHITECTURE AND TERRAIN, T-ARC-08), (LANGUAGE AND ROOT VOCABULARY, T-LNG-28).
+
+Cut into the post, in the Covenant's layer, is the ringing order: seaward first, then inward, never two in one watch (LORE, T-LOR-01). The hold rings three times a day and none of the three is any of those.
+
+The plate is not a plate. It is a bell gauge, one of a pair, hung by the hole its pin went through, and the hold has been striking a measuring instrument for four generations (TREASURE TABLE III, T-TR3-04).
+
+{VALUE: 600 cn} {WT: 1} {QUALITY: Masterwork}
+
+Sounding a bare frame with an improvised striker is a stated procedure, and the Order has never done it and knows the words for it (PROCEDURES, T-PRC-02), (PUZZLES, T-PUZ-01).
 
 ## Exits
 

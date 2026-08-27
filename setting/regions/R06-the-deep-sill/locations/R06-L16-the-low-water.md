@@ -16,14 +16,31 @@ schema_version: 1
 
 ## Referee Overview
 
-**Reactions:** 
-**Gate:** 
+**Reactions:** *Wading:* the water is at the knee and the silt under it is fine enough to hold a print. *Looking back:* the party's own prints are there and so are others. *Lighting a wick:* what turns toward it here is further off than anywhere in the deep water. *Sounding the silt:* it is four feet deep and there is stone under it.
 
-[[ Fields written at step 11, Builder. Prose at step 12, Decorator. ]]
+**Gate:** None. This is the shallowest water below the sill and the easiest crossing in the region, and it is the route a party will take twice.
+
+*Cost:* two turns to cross. Four to sound the silt properly.
+
+*What is true:* the prints in the silt are not all a party's own and not all recent. Silt this fine holds a print until something disturbs it and nothing here disturbs anything, so the prints are every set that has ever crossed, on top of each other, and they can be counted (TREASURE TABLE III, T-TR3-01).
+
+*Nil:* nothing standing in it. Two hundred feet of knee-deep water with nothing in it at all, which is not true of any other stretch of the deep water.
+
+[[ Prose at step 12, Decorator. ]]
 
 ## Features
 
-[[ Written at step 11, Builder. One `### Name` per feature. A connection pointer inside a feature is the only place `->` may appear. ]]
+### The Silt
+
+Fine, four feet deep, holding a print indefinitely, with unmade stone under it (LANGUAGE AND ROOT VOCABULARY, T-LNG-73).
+
+Read carefully, the prints give four separate crossings by four separate parties, in both directions, and one set that goes in and does not come out.
+
+A sounding line with the lead cut hollow lies where somebody dropped it, and there is a sample still in the lead, and the sample is silt from somewhere else (TREASURE TABLE III, T-TR3-01).
+
+{VALUE: 500 cn} {WT: 1} {QUALITY: Fine}
+
+Something arm-thick works the deeper edge of it, taking what is trailed (BESTIARY, T-BES-09) {AD: 2, +1} {TYPE: Beast} {WOUND: Piercing}.
 
 ## Exits
 

@@ -5,7 +5,7 @@ Generated from `state/ledger.json` by `tools/ledger.py`. Do not edit by hand.
 - **Seed:** 4417
 - **Current step:** 11
 - **Current pass:** LOW
-- **Built targets:** 104
+- **Built targets:** 121
 - **Decorated targets:** 14
 
 ## Steps
@@ -22,17 +22,11 @@ Generated from `state/ledger.json` by `tools/ledger.py`. Do not edit by hand.
 | 8 | Region prose | Decorator | complete | 6 | 0 | 2026-08-27T15:32:37Z |
 | 9 | Location headers | Architect | complete | 116 | 0 | 2026-08-27T16:58:14Z |
 | 10 | Location connections | Engineer | complete | 116 | 0 | 2026-08-27T17:11:59Z |
-| 11 | Location fields | Builder | in_progress | 73 | 41 |  |
+| 11 | Location fields | Builder | in_progress | 90 | 24 |  |
 | 12 | Location prose | Decorator | pending | 0 | 0 |  |
 
 ## Pending in the current step
 
-- `R04-L03`
-- `R04-L04`
-- `R04-L06`
-- `R04-L07`
-- `R04-L11`
-- `R04-L12`
 - `R05-L03`
 - `R05-L04`
 - `R05-L07`
@@ -57,14 +51,3 @@ Generated from `state/ledger.json` by `tools/ledger.py`. Do not edit by hand.
 - `R05-L35`
 - `R05-L36`
 - `R05-L37`
-- `R06-L04`
-- `R06-L05`
-- `R06-L06`
-- `R06-L07`
-- `R06-L09`
-- `R06-L12`
-- `R06-L13`
-- `R06-L16`
-- `R06-L17`
-- `R06-L18`
-- `R06-L20`

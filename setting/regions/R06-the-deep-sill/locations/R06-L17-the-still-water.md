@@ -16,14 +16,27 @@ schema_version: 1
 
 ## Referee Overview
 
-**Reactions:** 
-**Gate:** 
+**Reactions:** *Standing at the edge:* the surface is unbroken and holds a reflection whole, which nothing else below the sill does. *Entering:* the reflection breaks and takes a long time to reform. *Lighting a wick:* the reflection doubles the light and the doubled light shows the far side, which no single light does. *Counting aloud:* nothing answers, and this is one of two places below the sill where that is true.
 
-[[ Fields written at step 11, Builder. Prose at step 12, Decorator. ]]
+**Gate:** None. The water is waist deep, still, and crossed at the region's rate with nothing in it to stop a party.
+
+*Cost:* three turns to cross. One to work along the edge.
+
+*What is true:* the stillness is not the water. It is the floor: this stretch is level, which nothing else in the deep water is, and level water does not move. It is the second level floor in the region and the other one is warm and dry (HAZARDS, T-HAZ-12) {TEST: Sanity}.
+
+*Nil:* no sound and nothing to make one. A shout goes out and does not come back and a party strung across it cannot call each other.
+
+[[ Prose at step 12, Decorator. ]]
 
 ## Features
 
-[[ Written at step 11, Builder. One `### Name` per feature. A connection pointer inside a feature is the only place `->` may appear. ]]
+### The Unbroken Surface
+
+Still enough to hold a reflection whole, over a level floor, waist deep, and it is the only mirror below the sill (LANGUAGE AND ROOT VOCABULARY, T-LNG-20).
+
+Cut backwards into the underside of an overhang at the water's edge, and readable only in the reflection, is a line about what answers when a bell is rung (LORE, T-LOR-10).
+
+It is Covenant lettering, four hundred feet below the last Covenant work, on stone the Covenant did not cut.
 
 ## Exits
 

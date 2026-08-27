@@ -16,14 +16,29 @@ schema_version: 1
 
 ## Referee Overview
 
-**Reactions:** 
-**Gate:** 
+**Reactions:** *Standing in it:* the water is warm at the ankle and cold at the chest, which is the reverse of the rest of the region. *Lighting a wick:* nothing turns toward it here, and nothing has ever come into this water. *Counting aloud:* nothing answers. *Looking up:* the shaft that arrives here has no handhold in it at any height a party can reach.
 
-[[ Fields written at step 11, Builder. Prose at step 12, Decorator. ]]
+**Gate:** The shaft above. A party who came down the narrowing shaft cannot go back up it, and this stretch has two other ways out, both through water.
+
+*Cost:* two turns to cross. None to leave, in two directions, both wet.
+
+*What is true:* the stone under this water was never cut and is older than every other floor in the region, and the difference is that it has a grain and the grain runs the other way. A hand can feel it. Everywhere else in the deep water the grain runs one direction across the whole of it, and here it runs across that (HAZARDS, T-HAZ-06).
+
+*Nil:* nothing has ever been here. No print, no mark, no gear, no soot and nothing dropped, and the narrowing shaft has been open the whole time.
+
+[[ Prose at step 12, Decorator. ]]
 
 ## Features
 
-[[ Written at step 11, Builder. One `### Name` per feature. A connection pointer inside a feature is the only place `->` may appear. ]]
+### The Old Water
+
+Warm at the ankle, cold at the chest, standing over stone with a grain that runs across the region's grain (LANGUAGE AND ROOT VOCABULARY, T-LNG-74).
+
+A sealed tube of dark liquid in a slate housing lies on the bottom where it fell out of the shaft, laid flat, standing higher the further down a road it is laid (TREASURE TABLE III, T-TR3-08).
+
+{VALUE: 1500 cn} {WT: 1} {QUALITY: Masterwork}
+
+It is standing higher here than anywhere it has ever been read.
 
 ## Exits
 

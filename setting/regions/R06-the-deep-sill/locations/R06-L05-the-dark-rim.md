@@ -16,14 +16,27 @@ schema_version: 1
 
 ## Referee Overview
 
-**Reactions:** 
-**Gate:** 
+**Reactions:** *Lighting a wick at the rim:* something a long way down stops moving. *Putting it out:* it starts again, and it is closer when the light comes back (BESTIARY, T-BES-05). *Counting aloud:* nothing answers at this depth. *Drawing a peg:* the pegs are seated and sound and come out clean, which is true of no other rim in the region.
 
-[[ Fields written at step 11, Builder. Prose at step 12, Decorator. ]]
+**Gate:** None. The rim is squared, pegged and sound, and the pegs draw without splitting anything, and a party can open it and close it again.
+
+*Cost:* one turn at the rim, one to draw the pegs and one to reseat them, three down on rope.
+
+*What is true:* no light has ever been in this shaft. Every other shaft in the Deep Sill has soot somewhere in its first thirty feet, from the Covenant's own lamps, and this one has none at any depth a light reaches. It was cut and pegged and never worked (ARCHITECTURE AND TERRAIN, T-ARC-05).
+
+*Nil:* nothing in it. Sounded, lit and looked at, the shaft holds no gear, no rope, no rubbish and no mark, which is not true of any other shaft here.
+
+[[ Prose at step 12, Decorator. ]]
 
 ## Features
 
-[[ Written at step 11, Builder. One `### Name` per feature. A connection pointer inside a feature is the only place `->` may appear. ]]
+### The Unworked Shaft
+
+Squared to the compass, dressed the whole way as far as a light reaches, pegs seated and clean, and the guide lines for the order scribed on the rim and never cut (LANGUAGE AND ROOT VOCABULARY, T-LNG-69).
+
+A pin-lamp lowered down it dims with depth and goes out entirely at about a hundred feet, and its plate says it burns brighter with depth (TREASURE TABLE IV, T-TR4-01).
+
+{VALUE: 3000 cn} {WT: 1} {QUALITY: Masterwork}
 
 ## Exits
 
