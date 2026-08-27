@@ -49,10 +49,34 @@ passes it.
 | `python tools/roll.py dice 2d6 --target R03-L07` | Seeded dice. All randomness passes through here. |
 | `python tools/roll.py table T-RUM --target R03 [--count n]` | Seeded table draws. |
 | `python tools/ledger.py start\|done\|complete\|built\|decorated ...` | Move the progress record and regenerate `STATE.md`. |
+| `python tools/router.py [--check]` | Regenerate `DESIGN_PATTERNS.md` from pattern frontmatter. |
+| `python tools/resolve_deps.py --pattern <id> --target <code> [--var N=V]` | Resolve one bundle into `build/bundles/`. |
 | `python -m unittest discover -s tests` | Run the tests. |
 
 `tools/common.py` is the shared library: repository layout, the table catalogue
 of SPEC.md section 4.7, frontmatter and markdown parsing. It is not a CLI.
+
+## Patterns and bundles
+
+A pattern carries `id`, `target`, `phase`, `writes`, `dependencies` and
+`schema_version`, and a body of `## Patterns`, `## Excluded patterns` and
+`## Design questions`. `router.py` refuses to index one that does not, and
+`DESIGN_PATTERNS.md` is generated from that frontmatter and never hand-edited.
+Files under `patterns/cells/` and `patterns/templates/`, and `GENRE.md` itself,
+are not routed patterns.
+
+`GENRE.md` and `MECHANICS.md` are injected into every bundle and no pattern
+declares them. The cell file and the config arrive as ordinary selectors, so a
+pattern that needs them says so and a pattern that does not carries neither.
+
+Two rules are mechanical rather than trusted to a writer. `resolve_deps.py`
+refuses a `table:S-...` selector on a pattern whose target is a location,
+because S content reaches a player through a T table and never directly. It
+also fails above `genre.max_words`, because `GENRE.md` enters every bundle and
+its size is a tax on every call.
+
+**`GENRE.md` is frozen at the close of Milestone 2.** Editing it afterwards is a
+step re-run of everything downstream.
 
 ## Tests
 
@@ -65,6 +89,11 @@ case is indistinguishable from a check that no longer runs.
 pass the checks with no errors. That test is what makes "`scaffold.py` fixes the
 shape and `validate.py` checks it, so the two agree by construction" a fact
 rather than an intention. Run the suite before closing any milestone.
+
+`.github/workflows/checks.yml` runs `router.py --check`, `resolve_deps.py
+--check`, `validate.py` and the suite on every push and pull request. It runs
+the commands in the table above and adds no checks of its own, so CI and this
+page cannot drift.
 
 ## Body shape
 

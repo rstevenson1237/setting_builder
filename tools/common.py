@@ -29,10 +29,15 @@ TABLES_DIR = "setting/tables"
 REGIONS_DIR = "setting/regions"
 DIAGRAMS_DIR = "build/diagrams"
 BUNDLES_DIR = "build/bundles"
+PATTERNS_DIR = "patterns"
+CELLS_DIR = "patterns/cells"
 LEDGER_PATH = "state/ledger.json"
 STATE_PATH = "STATE.md"
 WEIGHTS_PATH = "config/weights.yaml"
 MECHANICS_PATH = "MECHANICS.md"
+GENRE_PATH = "patterns/GENRE.md"
+GENRE_EXAMPLE_PATH = "patterns/GENRE.example.md"
+ROUTER_PATH = "DESIGN_PATTERNS.md"
 
 SCHEMA_VERSION = 1
 
@@ -371,6 +376,250 @@ def load_weights(root: Path | None = None) -> dict[str, Any]:
     if not path.exists():
         raise DocError(f"{WEIGHTS_PATH} is missing")
     return yaml.safe_load(path.read_text(encoding="utf-8")) or {}
+
+
+# --------------------------------------------------------------------------
+# Patterns
+# --------------------------------------------------------------------------
+
+# A pattern's frontmatter is the router's whole input and the dependency
+# resolver's whole input, so its vocabulary is fixed here rather than in either
+# script (SPEC.md section 7.1).
+PATTERN_TARGETS = ["setting", "region", "location", "table"]
+PATTERN_PHASES = ["architect", "engineer", "builder", "decorator"]
+PATTERN_HEADINGS = ["Patterns", "Excluded patterns", "Design questions"]
+PATTERN_KEYS = ["id", "target", "phase", "writes", "dependencies", "schema_version"]
+
+# Three things live under `patterns/` and are not routed patterns. A cell file
+# is guidance selected by a `cell:` selector and carries no target or phase. A
+# template is an output shape. `GENRE.md` is the genre brief itself, injected
+# into every bundle. Everything else under `patterns/` must be a pattern, so a
+# malformed one is an error rather than a file quietly skipped.
+UNROUTED_DIRS = ("cells", "templates")
+UNROUTED_FILES = ("GENRE.md",)
+
+RE_PATTERN_ID = re.compile(r"^[a-z][a-z0-9]*(?:\.[a-z][a-z0-9]*)*$")
+RE_CELL = re.compile(r"^(SAFE|WILD|DANGEROUS)_(LOW|MEDIUM|HIGH)$")
+RE_VARIABLE = re.compile(r"\$\{([A-Z_]+)\}")
+
+# Filled from command arguments before resolution (SPEC.md section 7.4).
+VARIABLES = ["REGION_CODE", "LOCATION_CODE", "CONTAINER_ID", "CELL"]
+
+SELECTOR_FORMS = [
+    "table:S-XXX",
+    "table:T-XXX",
+    "region:R##",
+    "container:<id>",
+    "siblings:location:R##",
+    "cell:<TYPE>_<WEIGHT>",
+    "config",
+]
+
+
+class SelectorError(DocError):
+    """A dependency selector is not one of the seven forms."""
+
+
+@dataclass(frozen=True)
+class Selector:
+    """One parsed dependency selector."""
+
+    kind: str  # table | region | container | siblings | cell | config
+    value: str
+    raw: str
+
+    @property
+    def has_variable(self) -> bool:
+        return bool(RE_VARIABLE.search(self.raw))
+
+
+def parse_selector(raw: str) -> Selector:
+    """Parse one selector. A `${VAR}` value is left unchecked until it is filled."""
+    text = raw.strip()
+    if not text:
+        raise SelectorError("empty selector")
+    if text == "config":
+        return Selector("config", "", text)
+
+    head, _, value = text.partition(":")
+    if not value:
+        raise SelectorError(
+            f"{raw!r} is not a selector. The seven forms are: {', '.join(SELECTOR_FORMS)}."
+        )
+
+    if head == "siblings":
+        scale, _, code = value.partition(":")
+        if scale != "location":
+            raise SelectorError(f"{raw!r} is not a selector. Only siblings:location:R## exists.")
+        value = code
+
+    kind = {"table": "table", "region": "region", "container": "container",
+            "siblings": "siblings", "cell": "cell"}.get(head)
+    if kind is None:
+        raise SelectorError(
+            f"{raw!r} is not a selector. The seven forms are: {', '.join(SELECTOR_FORMS)}."
+        )
+
+    selector = Selector(kind, value, text)
+    if not selector.has_variable:
+        check_selector_value(selector)
+    return selector
+
+
+def check_selector_value(selector: Selector) -> None:
+    """Check a selector's value once every variable in it has been filled."""
+    value = selector.value
+    if selector.kind == "table" and value not in S_TABLES and value not in T_TABLES:
+        raise SelectorError(f"{value} is not in the table catalogue")
+    if selector.kind in {"region", "siblings"} and not RE_REGION_CODE.match(value):
+        raise SelectorError(f"{value} is not a region code such as R03")
+    if selector.kind == "container" and not RE_SLUG.match(value):
+        raise SelectorError(f"container id {value!r} is not a lowercase slug")
+    if selector.kind == "cell" and not RE_CELL.match(value):
+        raise SelectorError(f"{value} is not a cell such as WILD_HIGH")
+
+
+def substitute(text: str, variables: dict[str, str]) -> str:
+    """Fill `${VAR}` from ``variables``. An unknown name is left in place."""
+    return RE_VARIABLE.sub(
+        lambda match: variables.get(match.group(1), match.group(0)), text
+    )
+
+
+@dataclass
+class Pattern:
+    """One pattern file: the frontmatter the router reads, and the body a model reads."""
+
+    doc: Doc
+
+    @property
+    def path(self) -> Path:
+        return self.doc.path
+
+    @property
+    def relpath(self) -> str:
+        return self.doc.relpath
+
+    @property
+    def id(self) -> str:
+        return str(self.doc.fm.get("id", ""))
+
+    @property
+    def target(self) -> str:
+        return str(self.doc.fm.get("target", ""))
+
+    @property
+    def phase(self) -> str:
+        return str(self.doc.fm.get("phase", ""))
+
+    @property
+    def writes(self) -> list[str]:
+        value = self.doc.fm.get("writes") or []
+        return [str(item) for item in value] if isinstance(value, list) else []
+
+    @property
+    def dependencies(self) -> list[str]:
+        value = self.doc.fm.get("dependencies") or []
+        return [str(item) for item in value] if isinstance(value, list) else []
+
+    @property
+    def output_template(self) -> str:
+        return str(self.doc.fm.get("output_template", "") or "")
+
+    def selectors(self, variables: dict[str, str] | None = None) -> list[Selector]:
+        """Parsed dependencies, with variables filled when they are supplied."""
+        parsed: list[Selector] = []
+        for raw in self.dependencies:
+            filled = substitute(raw, variables) if variables else raw
+            selector = parse_selector(filled)
+            if variables and selector.has_variable:
+                name = RE_VARIABLE.search(selector.raw).group(1)
+                raise SelectorError(
+                    f"{selector.raw!r} still carries ${{{name}}}. "
+                    f"Supply it with --var {name}=<value>."
+                )
+            parsed.append(selector)
+        return parsed
+
+
+def pattern_errors(pattern: Pattern, root: Path | None = None) -> list[str]:
+    """Everything wrong with a pattern's frontmatter and body shape.
+
+    The router refuses to write an index from a broken pattern, and
+    `resolve_deps.py` refuses to bundle one, so both ask here.
+    """
+    root = root or REPO_ROOT
+    problems: list[str] = []
+    fm = pattern.doc.fm
+
+    for key in PATTERN_KEYS:
+        if key not in fm:
+            problems.append(f"carries no {key!r} key")
+    if not RE_PATTERN_ID.match(pattern.id):
+        problems.append(f"id {pattern.id!r} is not a dotted lowercase name such as "
+                        f"location.builder.fields")
+    if pattern.target not in PATTERN_TARGETS:
+        problems.append(f"target {pattern.target!r} is not one of {', '.join(PATTERN_TARGETS)}")
+    if pattern.phase not in PATTERN_PHASES:
+        problems.append(f"phase {pattern.phase!r} is not one of {', '.join(PATTERN_PHASES)}")
+    for key in ("writes", "dependencies"):
+        if key in fm and not isinstance(fm[key], list):
+            problems.append(f"{key!r} is not a list")
+    if fm.get("schema_version") != SCHEMA_VERSION:
+        problems.append(f"schema_version is not {SCHEMA_VERSION}")
+
+    for raw in pattern.dependencies:
+        try:
+            parse_selector(raw)
+        except SelectorError as exc:
+            problems.append(str(exc))
+
+    if pattern.output_template:
+        if not (root / PATTERNS_DIR / pattern.output_template).exists():
+            problems.append(f"output_template {pattern.output_template!r} does not exist")
+
+    for heading in PATTERN_HEADINGS:
+        if pattern.doc.section(heading) is None:
+            problems.append(f"carries no {heading!r} heading")
+
+    return problems
+
+
+def is_pattern_file(path: Path, root: Path) -> bool:
+    relative = path.relative_to(root / PATTERNS_DIR)
+    if relative.parts[0] in UNROUTED_DIRS:
+        return False
+    return relative.name not in UNROUTED_FILES
+
+
+def load_patterns(root: Path | None = None) -> tuple[list[Pattern], list[tuple[Path, str]]]:
+    """Every pattern under ``patterns/``, and the files that could not be read."""
+    root = root or REPO_ROOT
+    directory = root / PATTERNS_DIR
+    patterns: list[Pattern] = []
+    errors: list[tuple[Path, str]] = []
+    if not directory.is_dir():
+        return patterns, errors
+    for path in sorted(directory.rglob("*.md")):
+        if not is_pattern_file(path, root):
+            continue
+        try:
+            patterns.append(Pattern(read_doc(path, "pattern")))
+        except (DocError, OSError) as exc:
+            errors.append((path, str(exc)))
+    return patterns, errors
+
+
+def find_pattern(pattern_id: str, root: Path | None = None) -> Pattern:
+    patterns, errors = load_patterns(root)
+    for pattern in patterns:
+        if pattern.id == pattern_id:
+            return pattern
+    for path, message in errors:
+        if path.stem == pattern_id.split(".")[-1]:
+            raise DocError(f"{path} could not be read: {message}")
+    known = ", ".join(sorted(p.id for p in patterns)) or "none"
+    raise DocError(f"no pattern with id {pattern_id!r}. Known: {known}.")
 
 
 # --------------------------------------------------------------------------

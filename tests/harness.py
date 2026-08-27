@@ -31,6 +31,8 @@ L03 = "setting/regions/R03-ashen-fen/locations/R03-L03-bell-causeway.md"
 L07 = "setting/regions/R03-ashen-fen/locations/R03-L07-drowned-shrine.md"
 T_KEY = "setting/tables/T-KEY-keys.md"
 LEDGER = "state/ledger.json"
+GENRE = "patterns/GENRE.md"
+ROUTER = "DESIGN_PATTERNS.md"
 
 
 class Sandbox:
@@ -62,6 +64,13 @@ class Sandbox:
 
     def read(self, relative: str) -> str:
         return self.path(relative).read_text(encoding="utf-8")
+
+    def write(self, relative: str, text: str) -> Path:
+        """Write a file into the copy, creating its parents."""
+        path = self.path(relative)
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(text, encoding="utf-8")
+        return path
 
     def sub(self, relative: str, old: str, new: str, count: int = 1) -> None:
         """Replace exact text, asserting the anchor is present."""
