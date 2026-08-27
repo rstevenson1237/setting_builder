@@ -134,6 +134,22 @@ class TestSeverity(unittest.TestCase):
             self.assertEqual(after[0]["severity"], "ERROR")
             self.assertFalse(after[0]["deferred"])
 
+    def test_setting_edges_defer_until_the_regions_are_stubbed(self) -> None:
+        """M7's setting branch cannot be true between step 2 and step 5."""
+        with Sandbox() as sandbox:
+            sandbox.sub(SETTING_CONN, "| From | To |\n| :--- | :--- |",
+                        "| From | To |\n| :--- | :--- |\n| R03 | R99 |")
+
+            before = [f for f in sandbox.findings("M7") if "R99" in f["message"]]
+            self.assertEqual(len(before), 1)
+            self.assertEqual(before[0]["severity"], "REPORT")
+            self.assertTrue(before[0]["deferred"], "a deferred finding states why")
+
+            sandbox.complete_steps(5)
+            after = [f for f in sandbox.findings("M7") if "R99" in f["message"]]
+            self.assertEqual(after[0]["severity"], "ERROR")
+            self.assertFalse(after[0]["deferred"])
+
     def test_final_ignores_gates_and_promotes_reports(self) -> None:
         with Sandbox() as sandbox:
             self.assertEqual(sandbox.validate()["errors"], 0)

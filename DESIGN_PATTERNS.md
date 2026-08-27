@@ -11,7 +11,35 @@ A pattern is addressed by its `id`. `/generate` and `/update` take that id, and
 
 | Target | Phase | Pattern | Writes | Dependencies | File |
 | :--- | :--- | :--- | :--- | :--- | :--- |
+| setting | architect | `setting.architect.headers` | Overview, Style, Tables, Regions | `config` | `patterns/setting/architect.md` |
 | setting | architect | `setting.genre` | Premise, Register, Play, Constants, Absences, Naming, Influences | none | `patterns/GENRE.example.md` |
+| setting | engineer | `setting.engineer.connections` | Regions | `config` | `patterns/setting/engineer.md` |
+| setting | builder | `setting.builder.tables` | Tables | `config` | `patterns/setting/builder.md` |
+| setting | decorator | `setting.decorator.prose` | Overview, Style | `table:S-HIS`, `table:S-TRU`, `table:S-AMB`, `table:T-LNG`, `config` | `patterns/setting/decorator.md` |
+| table | builder | `table.ambiance` | Entries | `table:S-HIS` | `patterns/tables/S-AMB.md` |
+| table | builder | `table.architecture` | Entries | `table:S-HIS`, `table:T-LNG`, `config` | `patterns/tables/T-ARC.md` |
+| table | builder | `table.factions` | Entries | `table:S-HIS`, `table:S-TRU` | `patterns/tables/S-FAC.md` |
+| table | builder | `table.hazards` | Entries | `table:S-AMB`, `table:T-ARC` | `patterns/tables/T-HAZ.md` |
+| table | builder | `table.history` | Entries | none | `patterns/tables/S-HIS.md` |
+| table | builder | `table.keys` | Entries | `table:T-ARC`, `table:T-PUZ` | `patterns/tables/T-KEY.md` |
+| table | builder | `table.language` | Entries | `table:S-HIS`, `table:S-TRU`, `config` | `patterns/tables/T-LNG.md` |
+| table | builder | `table.names` | Entries | `table:T-LNG`, `table:S-FAC`, `table:S-HIS`, `config` | `patterns/tables/T-NAM.md` |
+| table | builder | `table.procedures` | Entries | `table:S-AMB`, `table:T-HAZ` | `patterns/tables/T-PRC.md` |
+| table | builder | `table.puzzles` | Entries | `table:S-HIS`, `table:T-LNG`, `table:T-ARC` | `patterns/tables/T-PUZ.md` |
+| table | builder | `table.questions` | Entries | `table:S-TRU`, `table:S-HIS` | `patterns/tables/T-UNQ.md` |
+| table | builder | `table.treasure1` | Entries | `table:S-HIS` | `patterns/tables/T-TR1.md` |
+| table | builder | `table.treasure2` | Entries | `table:S-HIS`, `table:T-TR1` | `patterns/tables/T-TR2.md` |
+| table | builder | `table.treasure3` | Entries | `table:S-HIS`, `table:T-TR2` | `patterns/tables/T-TR3.md` |
+| table | builder | `table.treasure4` | Entries | `table:S-HIS`, `table:T-TR3`, `table:T-ARC` | `patterns/tables/T-TR4.md` |
+| table | builder | `table.treasure5` | Entries | `table:S-HIS`, `table:T-TR4`, `table:T-NAM` | `patterns/tables/T-TR5.md` |
+| table | builder | `table.truths` | Entries | `table:S-HIS` | `patterns/tables/S-TRU.md` |
+| table | decorator | `table.bestiary` | Entries | `table:S-TRU`, `table:S-AMB` | `patterns/tables/T-BES.md` |
+| table | decorator | `table.creatures` | Entries | `table:S-FAC`, `table:S-HIS`, `table:T-BES`, `table:T-NAM` | `patterns/tables/T-CRE.md` |
+| table | decorator | `table.hoards` | Entries | `table:S-FAC`, `table:T-TR4`, `table:T-TR5`, `table:T-TRE` | `patterns/tables/T-HRD.md` |
+| table | decorator | `table.lore` | Entries | `table:S-HIS`, `table:S-TRU`, `table:T-LNG` | `patterns/tables/T-LOR.md` |
+| table | decorator | `table.rumours` | Entries | `table:S-HIS`, `table:S-FAC`, `table:S-TRU` | `patterns/tables/T-RUM.md` |
+| table | decorator | `table.tomes` | Entries | `table:S-TRU`, `table:T-LNG`, `table:T-LOR` | `patterns/tables/T-TOM.md` |
+| table | decorator | `table.treasures` | Entries | `table:S-HIS`, `table:S-TRU`, `table:T-NAM`, `table:T-TR5` | `patterns/tables/T-TRE.md` |
 
 ## Cells
 

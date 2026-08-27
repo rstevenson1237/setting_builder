@@ -244,6 +244,9 @@ class TestLedger(unittest.TestCase):
 
     def test_guard_lists_deduplicate(self) -> None:
         with Sandbox() as sandbox:
+            # From a fresh ledger, so the assertion states the whole list rather
+            # than whatever the committed tree has built so far.
+            sandbox.run("ledger.py", "init", "--seed", "4417", "--force")
             sandbox.run("ledger.py", "built", "R03-L07", "R03-L03")
             sandbox.run("ledger.py", "built", "R03-L07")
             self.assertEqual(json.loads(sandbox.read(LEDGER))["built"],
@@ -251,6 +254,7 @@ class TestLedger(unittest.TestCase):
 
     def test_state_is_regenerated_on_every_write(self) -> None:
         with Sandbox() as sandbox:
+            sandbox.run("ledger.py", "init", "--seed", "4417", "--force")
             sandbox.path("STATE.md").write_text("stale", encoding="utf-8")
             sandbox.run("ledger.py", "built", "R03-L07")
             state = sandbox.read("STATE.md")

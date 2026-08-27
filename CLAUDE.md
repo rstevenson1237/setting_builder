@@ -114,11 +114,12 @@ construction. Do not invent a different one.
 
 ## Completeness gates
 
-Some checks cannot be true before the step that writes their input has run. M6
-needs step 9, M8, M9, M15 and M20 need step 10, M22's field values need step 11,
-M18 needs step 3, and M11 and M13 need the diagram layer of Milestone 5. While
-the ledger shows the prerequisite incomplete, those findings print as
-`REPORT (deferred: ...)` instead of failing the run.
+Some checks cannot be true before the step that writes their input has run. M18
+needs step 3. M7's setting edges and M10's setting-level containers need step 5.
+M6 and M10's region-level containers need step 9. M8, M9, M15 and M20 need step
+10. M22's field values need step 11. M11 and M13 need the diagram layer of
+Milestone 5. While the ledger shows the prerequisite incomplete, those findings
+print as `REPORT (deferred: ...)` instead of failing the run.
 
 `validate.py --final` ignores every gate and promotes every `REPORT` to `ERROR`.
 It is step 12's acceptance test, and it is expected to fail until the setting is
