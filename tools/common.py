@@ -262,13 +262,38 @@ def read_doc(path: Path, scale: str) -> Doc:
     return Doc(path=path, fm=fm, body=body, scale=scale)
 
 
+class _FrontmatterDumper(yaml.SafeDumper):
+    """Block style for the frontmatter itself, flow style for a flat list in it.
+
+    `default_flow_style=None` collapses any collection holding no collection of
+    its own, which is what puts `tags: [a, b, c]` on one line. Applied to the
+    frontmatter mapping it also collapses a flat one such as a table's onto a
+    single line, so the top level is forced back to block here and every other
+    node keeps the rule.
+    """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, **kwargs)
+        self._mapping_depth = 0
+
+    def represent_mapping(self, tag: str, mapping: Any, flow_style: Any = None) -> Any:
+        self._mapping_depth += 1
+        try:
+            if self._mapping_depth == 1:
+                flow_style = False
+            return super().represent_mapping(tag, mapping, flow_style)
+        finally:
+            self._mapping_depth -= 1
+
+
 def write_doc(path: Path, fm: dict[str, Any], body: str) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
-    # `default_flow_style=None` keeps flat lists inline, so `tags: [a, b, c]`
-    # reads on one line while the container list stays a block.
-    front = yaml.safe_dump(fm, sort_keys=False, allow_unicode=True,
-                           default_flow_style=None).rstrip("\n")
-    body = body.rstrip("\n")
+    front = yaml.dump(fm, Dumper=_FrontmatterDumper, sort_keys=False,
+                      allow_unicode=True, default_flow_style=None).rstrip("\n")
+    # `split_frontmatter` hands back a body that opens with the newline after the
+    # closing `---`. Trimming both ends here means a read-and-rewrite round trip
+    # is a fixed point rather than adding a blank line each time.
+    body = body.strip("\n")
     path.write_text(f"---\n{front}\n---\n\n{body}\n", encoding="utf-8")
 
 

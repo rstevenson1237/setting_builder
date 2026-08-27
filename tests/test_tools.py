@@ -311,6 +311,36 @@ class TestCommon(unittest.TestCase):
             with self.subTest(bad=bad[:12]), self.assertRaises(common.DocError):
                 common.split_frontmatter(bad)
 
+    def test_a_read_and_rewrite_changes_nothing(self) -> None:
+        """Every tool reads a file and writes it back. That has to be a fixed point.
+
+        A writer that reformats what it did not change turns every step into a
+        diff nobody can read, and hides the one line the step meant to move.
+        """
+        with Sandbox() as sandbox:
+            for path in sorted(sandbox.path("setting").rglob("*.md")):
+                before = path.read_text(encoding="utf-8")
+                doc = common.read_doc(path, "any")
+                common.write_doc(path, doc.fm, doc.body)
+                self.assertEqual(
+                    path.read_text(encoding="utf-8"), before,
+                    f"{path.name} came back different from how it went in",
+                )
+
+    def test_frontmatter_keeps_a_flat_list_inline_and_the_mapping_in_block(self) -> None:
+        with Sandbox() as sandbox:
+            path = sandbox.path("x.md")
+            common.write_doc(
+                path,
+                {"code": "R01", "tags": ["a", "b", "c"],
+                 "containers": [{"id": "one", "name": "One"}], "schema_version": 1},
+                "## Overview",
+            )
+            text = path.read_text(encoding="utf-8")
+            self.assertIn("\ncode: R01\n", text, "the frontmatter itself is block style")
+            self.assertIn("tags: [a, b, c]", text, "a flat list stays on one line")
+            self.assertIn("- {id: one, name: One}", text)
+
     def test_slug_and_diagram_names(self) -> None:
         self.assertEqual(common.slugify("The Drowned Tier"), "the-drowned-tier")
         self.assertEqual(common.diagram_name(4, "R03", "drowned-tier"),

@@ -26,6 +26,7 @@ if str(TOOLS) not in sys.path:
 SETTING = "setting/setting.md"
 SETTING_CONN = "setting/connections.md"
 REGION = "setting/regions/R03-ashen-fen/region.md"
+DANGEROUS_REGION = "setting/regions/R05-bellgate/region.md"
 REGION_CONN = "setting/regions/R03-ashen-fen/connections.md"
 L03 = "setting/regions/R03-ashen-fen/locations/R03-L03-bell-causeway.md"
 L07 = "setting/regions/R03-ashen-fen/locations/R03-L07-drowned-shrine.md"
@@ -93,6 +94,20 @@ class Sandbox:
         data = json.loads(path.read_text(encoding="utf-8"))
         for step in steps:
             data["steps"][str(step)] = {"status": "complete", "targets": 0}
+        path.write_text(json.dumps(data, indent=2) + "\n", encoding="utf-8")
+
+    def reopen_steps(self, *steps: int) -> None:
+        """Mark steps incomplete, so a gated check is deferred again.
+
+        A gate test asserts the mechanism, not the build's current position. As
+        the setting is generated, steps close and the gates a test needs open
+        would open with them, so a test states the ledger it wants.
+        """
+        path = self.path(LEDGER)
+        data = json.loads(path.read_text(encoding="utf-8"))
+        for step in steps:
+            entry = data["steps"].setdefault(str(step), {})
+            entry["status"] = "pending"
         path.write_text(json.dumps(data, indent=2) + "\n", encoding="utf-8")
 
     def mark(self, key: str, *codes: str) -> None:
