@@ -12,7 +12,13 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+**The channel** is cut down the middle of the floor, a foot wide and a foot deep, level, and dry.
+
+It runs to **the slab**, which is seated flush in a groove cut to take it, with a slot across its face for a bar. It lifts rather than swings.
+
+**The socket** is beside it at hand height, empty, cut to a shape. Behind the socket is a bronze plate that lifts off.
+
+**Either side** of the slab the floor opens out, and past it the tier runs inward further than the light reaches.
 
 ## Referee Overview
 
@@ -26,7 +32,7 @@ schema_version: 1
 
 *What is true that the Overview withholds.* This one has its counterweight. A stone the weight of a clapper is seated in the socket's back, behind a plate, and it is what makes the quarter-turn stop happen rather than the slab simply falling. The plate can be lifted and the counterweight seen. That is the distributed clue for Bellgate's socket, which has no plate and no counterweight, and which is why the face is down.
 
-[[ Prose at step 12, Decorator. ]]
+Behind the plate is the counterweight: a stone cut to the same weight as the thing the socket expects, and it is what makes the slab stop a quarter of the way up rather than simply falling. Bellgate's socket has the same plate sockets, and no plate, and nothing behind it.
 
 ## Features
 

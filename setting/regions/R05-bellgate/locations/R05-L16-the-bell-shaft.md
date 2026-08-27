@@ -12,7 +12,15 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+**The rim** is cut square, twelve feet across, and worn on all four sides to the same depth, which no other rim here is. Cut into its inward face, in letters a hand deep and cut without haste, is a road name and a count.
+
+**The pack** stands upright on it where it was set down, canvas over a frame, dry, the straps still buckled. Soot lies on it as evenly as it lies on the stone.
+
+**The lowering gear** is pegged to the rim on the east side: two ring bolts, a bronze sheave still turning, and the stub of a rope cut clean rather than parted.
+
+Inside the pack, laid flat between two boards, is **the slate leaf**.
+
+**The shaft itself** goes down two hundred feet, plumb, dressed the whole way, with no pegs in the wall. A lowered light reaches the bottom, which nothing else here does.
 
 ## Referee Overview
 
@@ -30,7 +38,7 @@ schema_version: 1
 
 *Departure.* Anything brought up this shaft comes up on the rope the party brought, and the rope is what they will want at the tier. A party that leaves the rope hanging here can find this shaft from below, which is the only thing in the Bell Shafts that can be found from below.
 
-[[ Prose at step 12, Decorator. ]]
+The count cut into the rim is eleven. Nine bells are hanging in the fen and one is behind a gate, and the eleventh is not accounted for anywhere. The cut end of the rope is on the near side of the sheave, which means the cut was made from up here while something was on the other end.
 
 ## Features
 

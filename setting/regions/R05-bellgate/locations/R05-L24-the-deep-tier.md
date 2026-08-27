@@ -12,7 +12,13 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+**The floor** runs a quarter of a mile inward under the covenant ground, dressed slab, laid true, eleven courses deep and dry. Everything above it stands in water and none of it reaches here.
+
+**The draught** comes down out of the openings at the seaward end and runs inward along the floor at ankle height, all day, reversing at dusk.
+
+**The counting** is audible from the north at all times, from a room the light does not reach the far wall of. It does not stop and it does not approach.
+
+**The doorways** leave in six directions, and the air gets warmer with every hundred feet a party goes inward.
 
 ## Referee Overview
 
@@ -26,7 +32,7 @@ schema_version: 1
 
 *What is true that the Overview withholds.* The tier is dry and the level above it is not, which is the wrong way round and is the single most useful fact in Bellgate. Water stands in the shafts, on the stair and on the gate ground, and none of it reaches here. Something below is taking it, and the warmth that increases inward is coming from the same place.
 
-[[ Prose at step 12, Decorator. ]]
+A hand laid flat on the floor finds it warm and warmer inward. The water that is standing in the shafts, on the stair and on the gate ground is not getting down here, and the warmth that increases inward comes from the same place it is going.
 
 ## Features
 

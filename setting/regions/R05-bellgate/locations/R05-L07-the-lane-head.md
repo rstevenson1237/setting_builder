@@ -12,7 +12,13 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+**The marked ground** is dry Covenant slab where the kept lane ends and the standing water begins.
+
+Running back along the lane at shoulder height every forty paces are tallow niches, cut, sooted, and unlit. They stop at this point and there are none inward of it.
+
+The socket where a post should stand at the lane's head is cut, empty, and clean inside.
+
+The slab underfoot is warm through a boot.
 
 ## Referee Overview
 
@@ -25,8 +31,6 @@ schema_version: 1
 *What is true:* the lane's last hundred yards are cut to the standing order's width and kept, and the order does not apply to lanes that are not beside a road, and this one is beside a road (LORE, T-LOR-11). Somebody is keeping the only route between two regions and neither region will say who.
 
 *Nil:* no post. Every lane head in the Reach has one with the order cut into it, and this one has a socket, cut and empty, and the socket is clean inside.
-
-[[ Prose at step 12, Decorator. ]]
 
 ## Features
 

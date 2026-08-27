@@ -12,7 +12,13 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+**The mouth** is cut square into the slab at the ground's east side, six feet across, with no rim, no lip and no warning cut anywhere on it. The water in it goes from ankle to chest inside twenty feet.
+
+**The dressed wall** runs both sides the whole way, joint to joint, with a course line running level at chest height that a hand can follow in the dark. At three points it is interrupted by an empty socket at hand height.
+
+**The flat water** is dead still and gives nothing back. A shout drops at a chain and the cut is longer than a chain.
+
+**Either end** is daylight or the shafts, and neither is visible from the middle.
 
 ## Referee Overview
 
@@ -26,7 +32,7 @@ schema_version: 1
 
 *What is true that the Overview withholds.* It is not a flooded passage. It is a channel, cut, with a fall, and it was cut to take water away from the gate ground and out under the slab. It still works. The reason the gate ground stands in ankle-deep water rather than knee-deep is that this cut is draining it, and a party wading up it is wading up a drain that is doing its job.
 
-[[ Prose at step 12, Decorator. ]]
+It is not a flooded passage. It is a channel with a fall, cut to take water off the gate ground and out under the slab, and it still works. The reason the ground above stands in ankle-deep water rather than knee-deep is that a party wading up this cut is wading up a drain that is doing its job.
 
 ## Features
 

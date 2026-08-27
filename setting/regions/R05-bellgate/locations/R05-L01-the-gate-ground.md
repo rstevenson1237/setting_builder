@@ -12,7 +12,11 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+Eight hundred feet of **the levelled slab**, one course thick over made ground, running from the reed at the seaward edge to a face of dressed stone at the inward end. It is level to within a hand across the whole of it and there is nothing on it to trip over.
+
+**The standing water** lies ankle deep after rain and does not drain. In still air it skins over with a tallow-coloured film, and there is a smell off it a chain upwind.
+
+**The ways off it** are eight, and every one of them is visible from every other point on the ground.
 
 ## Referee Overview
 
@@ -26,7 +30,7 @@ schema_version: 1
 
 *What is true that the Overview withholds.* The ground is level because it was levelled, and it was levelled after the face was built: the slab runs up to the lip of the gate and stops, and the courses under it are cut to fit rather than laid. Somebody cleared this ground so that nothing could stand on it unseen, which is the same reasoning as the cut lanes, applied to stone.
 
-[[ Prose at step 12, Decorator. ]]
+The slab runs up to the lip of the gate and stops, and the courses under it are cut to fit rather than laid. This ground was levelled after the face was built, so that nothing could stand on it unseen.
 
 ## Features
 

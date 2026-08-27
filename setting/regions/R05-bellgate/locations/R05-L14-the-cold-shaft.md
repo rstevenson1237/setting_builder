@@ -12,7 +12,11 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+**The cold mouth** is squared, four feet across, and the cold comes up out of it rather than down into it.
+
+It is dressed for the first thirty feet and only cut below that, and it narrows to a body's width at about that depth.
+
+There is no order cut anywhere on it.
 
 ## Referee Overview
 
@@ -25,8 +29,6 @@ schema_version: 1
 *What is true:* the cold is coming out of the level below rather than out of the shaft, and it is worse the deeper the shaft runs, which is the reverse of the warmth every other Covenant work on the Reach carries (HAZARDS, T-HAZ-09) {TEST: Constitution} {WOUND: Frost} {CONDITION: Numb-footed / footing cues are not felt until they are stood on / until a fire}.
 
 *Nil:* no order at the mouth. It is not a sill shaft and it is not pegged, and the Covenant cut nothing into it because it was not going anywhere they had decided to stop.
-
-[[ Prose at step 12, Decorator. ]]
 
 ## Features
 

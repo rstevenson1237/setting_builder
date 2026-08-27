@@ -12,7 +12,11 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+**The frost** stands on the wall faces to a finger's thickness, even, and it is not on the floor or on the ceiling. It does not melt under a hand.
+
+There is no soot anywhere in the room, at any height.
+
+Lead flashing folded into a slab lies against the far wall, and the frost has grown over it.
 
 ## Referee Overview
 
@@ -25,8 +29,6 @@ schema_version: 1
 *What is true:* the cold is coming up through the floor rather than in through the walls, and the frost is on the walls because the walls are the coldest surface, which means the floor is colder still and is not freezing (HAZARDS, T-HAZ-09) {TEST: Constitution} {WOUND: Frost}.
 
 *Nil:* no soot anywhere in it, at any height, in a level where every other room has some. No light has ever been carried in here.
-
-[[ Prose at step 12, Decorator. ]]
 
 ## Features
 

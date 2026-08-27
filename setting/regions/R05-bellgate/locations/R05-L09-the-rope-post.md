@@ -12,7 +12,11 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+**The post** is driven into a socket cut in the slab, standing out of ankle-deep water, notched by watch down one face and up the other with the fresh notches at the top.
+
+Laid rope is knotted round it. There is nothing within eighty feet of it to hang anything from.
+
+The knot is the one used for hanging a bell.
 
 ## Referee Overview
 
@@ -26,7 +30,7 @@ schema_version: 1
 
 *Nil:* no frame. This is the only rope on the gate ground and there is nothing to hang from within eighty feet of it.
 
-[[ Prose at step 12, Decorator. ]]
+The notches are a watch count and they are current, and they agree with the fen's posts to within one. Somebody is counting watches on the gate ground of Bellgate, which nobody in either neighbouring region admits to visiting.
 
 ## Features
 

@@ -12,7 +12,13 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+Past the opening the floor drops away. **The steps** turn four times into standing water, dressed, wide enough for two abreast, worn deepest along the outside edge. The inside edge is unworn.
+
+Set into the floor where a person coming up meets it at eye height is **the boss at the head**: a figure kneeling with both hands flat on the slab and one ear laid to it, cut at the size of a child, with the stone round it polished in two oval patches.
+
+**The draw** takes the air downward past the party all day and upward at dusk, and it carries wet rope and cold bronze.
+
+**The water at the foot** rises a hand a turn from the third turn down, and the slabs under it are polished slick and cambered a finger outward.
 
 ## Referee Overview
 
@@ -26,7 +32,7 @@ schema_version: 1
 
 *What is true that the Overview withholds.* The wear on the steps is on the outside edge, which is where a person walks when they are carrying something wide between two of them and cannot see their feet. It runs the whole way down and it does not slow at the water: whatever was carried was carried into standing water, repeatedly, by people who knew the water was there.
 
-[[ Prose at step 12, Decorator. ]]
+The wear on the outside edge is where a person walks carrying something wide between two of them and cannot see their feet. It runs the whole way down and does not slow at the water.
 
 ## Features
 

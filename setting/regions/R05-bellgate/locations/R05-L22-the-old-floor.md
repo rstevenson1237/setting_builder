@@ -12,7 +12,13 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+The dressed floor stops at a straight line and the floor past it is uneven and undressed.
+
+**The unfaced wall** carries facing on three walls, stopping in a straight vertical line between one course and the next, with bare stone beyond it.
+
+A hand held flat on the bare stone finds it warmer than the faced walls. Nothing else here is warm.
+
+A sealed tube in a slate housing lies against it, laid flat.
 
 ## Referee Overview
 
@@ -25,8 +31,6 @@ schema_version: 1
 *What is true:* the Covenant faced three walls and stopped, and the fourth is the rock the level is cut into rather than the rock the rest is cut from. It is warmer than the faced walls by enough to feel with a hand held flat, and nothing else here is warm (HAZARDS, T-HAZ-09), (ARCHITECTURE AND TERRAIN, T-ARC-10).
 
 *Nil:* nothing was ever in it. No sockets, no fittings, no soot and no marks, and the room was abandoned before it was finished.
-
-[[ Prose at step 12, Decorator. ]]
 
 ## Features
 

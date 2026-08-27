@@ -12,7 +12,13 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+**The joint** runs a straight line across thirty feet of floor and up both walls, with fitted slab on one side and cut stone on the other.
+
+The jointing stops mid-course rather than at a wall. The unfinished half is cut to the same plan and was never dressed.
+
+There is no order cut anywhere in the room.
+
+A rod in jointed sections lies on the unfinished side, marked in units nobody now uses, and it is set to a length.
 
 ## Referee Overview
 
@@ -25,8 +31,6 @@ schema_version: 1
 *What is true:* it stops mid-course rather than at a wall, which is what a season's end looks like rather than a decision. The unfinished half is cut to the same plan and was never dressed, and the tools were taken away (ARCHITECTURE AND TERRAIN, T-ARC-05).
 
 *Nil:* no order cut anywhere in it. They stopped work here and did not mark it, which is the only place below the rim in Bellgate where the Covenant stopped without cutting a line.
-
-[[ Prose at step 12, Decorator. ]]
 
 ## Features
 

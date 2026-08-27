@@ -12,7 +12,15 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+Eighty feet of passage, six feet wide, lit only while somebody is working in it.
+
+**The boards** hang along one side, one to a hook, waxed, the notches still crisp, in the order the doors were closed rather than in the order they stand. Every hook here is a plain hook screwed into the wall.
+
+**The register** is on a table at the inward end, bound, cross-ruled, and open.
+
+**The nineteen rows** are at the back of it in a hand that changes four times: a door, a board figure, and a register figure that does not match it. Not one has been resolved.
+
+**The doors off it** are three: one into the chapter house where a ration is being stated aloud, one to a bare cell, and one that carries the only board nobody takes down.
 
 ## Referee Overview
 
@@ -30,7 +38,7 @@ schema_version: 1
 
 *Extent.* Eighty feet of passage, six feet wide, boards along one side, dressed slab underfoot. Feet indoors, and the passage is crossed in a few minutes and read in most of a day.
 
-[[ Prose at step 12, Decorator. ]]
+Every discrepancy in the nineteen rows is a shortfall, every shortfall is in bronze, and the total is the weight of a bell. The Order regards leaving them unresolved as the correct thing to have done.
 
 ## Features
 

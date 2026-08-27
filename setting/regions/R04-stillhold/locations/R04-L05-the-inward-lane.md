@@ -12,7 +12,13 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+**The lane** leaves the yard inward on Covenant slab, a chain wide, laid true, level, with the covenant ground open on both sides and the water standing off it at about a mile. It is the driest ground on the Reach.
+
+**The cold underfoot** draws heat out of a boot rather than giving it, and it is worst in the middle third.
+
+At about the halfway point are **the marks at the middle**: lettering cut backwards into the underside of a coping stone, readable only in the water that lies against it after rain.
+
+**What is said about it** at Stillhold is accurate as far as the gate ground and stops there. Nobody in the hold has walked it, and they say so.
 
 ## Referee Overview
 
@@ -30,7 +36,7 @@ schema_version: 1
 
 *Extent.* One day on dry kept slab, a chain wide, level, with the covenant ground open on both sides and the water standing off it at about a mile.
 
-[[ Prose at step 12, Decorator. ]]
+This is the shortest route between two regions anywhere in the setting and the only one nobody uses. In four years the yard's book records eleven people going inward and four coming back, and the four are all the same person.
 
 ## Features
 

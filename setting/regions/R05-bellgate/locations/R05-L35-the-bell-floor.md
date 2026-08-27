@@ -12,7 +12,11 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+**The score marks** are parallel pairs in the floor slab, at a fixed width, running toward the stair and stopping forty feet short of it.
+
+They run outward only. Nothing has been dragged the other way.
+
+Half of a relief panel stands against the wall where the marks stop, waist-deep in nothing, holding something above a waterline that is not there. The face has been cut away carefully and the surrounding stone is untouched.
 
 ## Referee Overview
 
@@ -26,7 +30,7 @@ schema_version: 1
 
 *Nil:* no lifting gear. Whatever picked them up at that point was brought in and taken away again, and there is nothing left of it but the marks.
 
-[[ Prose at step 12, Decorator. ]]
+Counting the pairs gives eleven, and there is no lifting gear anywhere in the room. Whatever picked them up at that point was brought in and taken away again.
 
 ## Features
 

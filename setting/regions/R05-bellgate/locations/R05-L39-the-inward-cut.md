@@ -12,7 +12,15 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+**The narrowing** takes the floor from thirty feet to twelve in four reductions at four joints, each reduction exactly one course.
+
+The dressing worsens with each: laid true, then true and rough, then cut and not dressed, then cut in haste.
+
+**The warmth** rises at every reduction, and by the fourth the floor is warm through a boot standing still.
+
+**The last dressed joint** carries no mark, no order, no peg and no warning of any kind.
+
+**Either end** is the tier's open floor and stone that stops being cut.
 
 ## Referee Overview
 
@@ -26,7 +34,7 @@ schema_version: 1
 
 *What is true that the Overview withholds.* The narrowing is not a taper. It is four separate reductions, each at a joint, each of a course, and each one is where the Covenant stopped for a season and started again narrower. They were running out of confidence rather than out of stone.
 
-[[ Prose at step 12, Decorator. ]]
+Each joint is where the Covenant stopped for a season and started again narrower. They cut an order into every rim on the Reach and cut nothing here, because this is not a shaft and they did not think of it as going down.
 
 ## Features
 

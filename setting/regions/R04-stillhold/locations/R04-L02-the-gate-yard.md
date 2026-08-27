@@ -12,7 +12,17 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+Forty yards square inside the landward wall, slab underfoot, with two people standing in the one gap in the stonework.
+
+**The opening** is eight feet wide and there is no gate in it and no gate was ever fitted: the sockets one would hang in were never cut. The passage through the wall is long enough to be dark at midday.
+
+**The book** lies open on a stand under the wall's lee, weighted with a stone: a name, a direction, and the day.
+
+**The written word** is issued on waxed board carrying the hold's mark, and it is written in a lettering a party may not be able to read.
+
+**The warden of the third door** is here most afternoons, and she states the count of what is behind her door at a party before they have asked her anything at all.
+
+**The chapter door** is the one door in the inward wall, opened from inside or not at all, with nothing hung beside it.
 
 ## Referee Overview
 
@@ -30,7 +40,7 @@ schema_version: 1
 
 *Extent.* Forty yards square inside the landward wall, slab underfoot, one opening out and one door in. Time in days.
 
-[[ Prose at step 12, Decorator. ]]
+The book goes back four years and no further. The page before the first is torn out rather than cut, and the tear is old.
 
 ## Features
 

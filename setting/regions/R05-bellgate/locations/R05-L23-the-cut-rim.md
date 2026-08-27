@@ -12,7 +12,11 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+**The cut rim** is cut into the stair wall at the second turn, squared, with an order round it in letters a hand deep. The strokes are uneven and the last word is finished by a different hand.
+
+The opening behind it is six feet deep and stops at solid stone.
+
+The sockets for a standing slab's feet are cut in its sill, square and exact, and empty.
 
 ## Referee Overview
 
@@ -26,7 +30,7 @@ schema_version: 1
 
 *Nil:* no shaft under it. The opening is six feet deep and stops at solid stone, and it was cut to hold the standing slab that carries the order and the slab is not in it.
 
-[[ Prose at step 12, Decorator. ]]
+This is the only place in the Reach where the order appears anywhere but on a shaft rim. Somebody copied it onto a stair so that people coming down would read it before they reached anything.
 
 ## Features
 

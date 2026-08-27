@@ -12,7 +12,15 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+**The turns** are four, each dropping about fifty feet, dressed the whole way and worn deepest along the outside edge. At the second the wall rings hollow for six feet.
+
+**The niches** are cut at shoulder height every forty paces below the last turn, soot in every one, nothing burning in any of them. The spacing is exact.
+
+**The water** rises a hand a turn from the third turn down, ankle then knee at the foot, and it goes no deeper.
+
+The soot in the niches stops at a level, all the way round, and the level is a foot above where the water stands now.
+
+**Above and below** are a square of daylight and a silted floor.
 
 ## Referee Overview
 
@@ -26,7 +34,7 @@ schema_version: 1
 
 *What is true that the Overview withholds.* The niches below the last turn are cut, sooted and empty, and the spacing is exact to within a hand over two hundred feet. That is not decoration and it is not lighting: it is a measure. Pacing the niches gives the depth, and the Covenant cut them so that somebody in the dark would know how far down they were.
 
-[[ Prose at step 12, Decorator. ]]
+The niches are a measure rather than lighting. Pacing them in the dark gives the depth, and the arithmetic comes out right, and nobody has ever done it because everybody has carried a light.
 
 ## Features
 

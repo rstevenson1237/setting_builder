@@ -12,7 +12,11 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+**The pegged rim** is squared and pegged all the way round, the pegs seated from within, with no forcing anywhere on it.
+
+Struck, the sound goes into the shaft and does not come back.
+
+A door peg of unfamiliar make lies beside it, and it is not one of the ones in the rim.
 
 ## Referee Overview
 
@@ -25,8 +29,6 @@ schema_version: 1
 *What is true:* the pegs are sound and the shaft below them is dry and empty and goes down two hundred feet to the tier. It is the shortest route between the shafts and the tier and it does not need a clapper.
 
 *Nil:* nothing to find. Lit and sounded, the shaft holds no gear, no rope and no mark, and the Covenant pegged it before it was used.
-
-[[ Prose at step 12, Decorator. ]]
 
 ## Features
 

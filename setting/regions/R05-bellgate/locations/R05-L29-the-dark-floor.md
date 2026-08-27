@@ -12,7 +12,11 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+**The sooted floor** carries soot a finger deep across sixty feet, thickest under the openings in the ceiling.
+
+There is no niche in the room and no fitting for one.
+
+There are tracks through it going inward, and they are recent, and they were not made by a boot.
 
 ## Referee Overview
 
@@ -25,8 +29,6 @@ schema_version: 1
 *What is true:* the soot fell from above. There is no niche in this room and no fitting for one: the soot came down through the openings in the ceiling from the shafts, over four generations, and it is thickest under them (ARCHITECTURE AND TERRAIN, T-ARC-12).
 
 *Nil:* nothing standing in it and nothing on the walls, and the tracks are the whole content.
-
-[[ Prose at step 12, Decorator. ]]
 
 ## Features
 

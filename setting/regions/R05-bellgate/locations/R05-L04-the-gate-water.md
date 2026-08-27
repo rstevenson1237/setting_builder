@@ -12,7 +12,13 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+The water on the slab deepens to the ankle and stops draining.
+
+**The skinned water** carries a tallow-coloured film, thickest at the eastern side, drifting so slowly that the movement is only visible against a fixed point.
+
+There is a smell off it a full chain upwind.
+
+A bronze plate lies face down in it, and it is not part of the floor.
 
 ## Referee Overview
 
@@ -25,8 +31,6 @@ schema_version: 1
 *What is true:* it is draining, slowly, into the flooded cut on its east side, and the film on the surface is drawn that way. The film is what a lamp sets alight and it burns toward the cut mouth (HAZARDS, T-HAZ-08) {TEST: Constitution} {WOUND: Fire}. The tell is the smell, a full chain upwind.
 
 *Nil:* nothing under it. Sounded and felt, the slab is unbroken across the whole of it, with no opening, no channel and no grating.
-
-[[ Prose at step 12, Decorator. ]]
 
 ## Features
 

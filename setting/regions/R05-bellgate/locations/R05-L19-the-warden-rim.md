@@ -12,7 +12,13 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+**The rim** is cut square, pegged, with an order cut round it in letters a hand deep, the strokes uneven and the last word in a different hand.
+
+Standing at it is **the warden**, upright, of a make a party may have seen before. It says one thing to each person and then does not speak to that person again. Its feet are not on the rim: they are thirty feet south of it, in two shallow depressions it has worn.
+
+**The slate** lies in the lee of the rim, face up, carrying the same words.
+
+**The other warden** is not here. Thirty feet north there is a shaft pegged over and sound, and the pegs have not been drawn.
 
 ## Referee Overview
 
@@ -26,7 +32,7 @@ schema_version: 1
 
 *What is true that the Overview withholds.* It is not guarding the shaft. It is standing at the rim of a shaft it was set at four generations ago, and the shaft it was set to keep people out of is the pegged one, which is thirty feet north and which nobody has opened. It has been giving its warning at the wrong hole for longer than anyone has been alive.
 
-[[ Prose at step 12, Decorator. ]]
+It is standing at the wrong hole. The shaft it was set to keep people out of is the pegged one thirty feet north, and it has been giving its warning at an open rim for longer than anyone has been alive.
 
 ## Features
 

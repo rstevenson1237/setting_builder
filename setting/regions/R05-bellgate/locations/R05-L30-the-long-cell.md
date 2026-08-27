@@ -12,7 +12,11 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+**The ranks** are sockets in the floor and the wall at even spacing down eighty feet of cell, every one empty, with the same chisel marks in all of them.
+
+There are forty-one sets.
+
+Lead flashing stripped and folded lies at the inward end where somebody stacked it and did not carry it out.
 
 ## Referee Overview
 
@@ -25,8 +29,6 @@ schema_version: 1
 *What is true:* forty-one is the number of ranks standing in the flooded cells three rooms inward, and it is one fewer than the names on the folded page. This room is where they were quartered (HOARDS, T-HRD-01).
 
 *Nil:* nothing left in it. Every fitting was taken out in order and the sockets show one tool, which is the same discipline the holds above the waterline were emptied with.
-
-[[ Prose at step 12, Decorator. ]]
 
 ## Features
 

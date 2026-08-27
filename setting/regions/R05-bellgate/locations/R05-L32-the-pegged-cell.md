@@ -12,7 +12,13 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+**The door and the board**: oak on a bronze frame, pegged from this side, with a waxed board hung on a hook beside it and the count on it still legible.
+
+Every fitting on the door is green. The hook is bright.
+
+The count on the board is a hold's count, and there is no hold within four miles or four hundred feet.
+
+Something is standing in the doorway on the far side, holding a peg.
 
 ## Referee Overview
 
@@ -25,8 +31,6 @@ schema_version: 1
 *What is true:* something is standing in the doorway on the far side, holding the peg it was driving, and it will not let the door be opened and it was somebody's neighbour (BESTIARY, T-BES-07).
 
 *Nil:* nothing behind it but a wall. The door opens onto four feet of cut stone and the room it was cut for was never finished.
-
-[[ Prose at step 12, Decorator. ]]
 
 ## Features
 

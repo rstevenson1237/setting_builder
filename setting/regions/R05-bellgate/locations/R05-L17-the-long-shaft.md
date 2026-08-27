@@ -12,7 +12,11 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+**The angled shaft** is dressed the whole way and cut at about a third off plumb, so it can be walked rather than climbed. Pegs are set for hands at arm's spacing and Covenant rope is still rove through them.
+
+It is twice the length of the plumb shaft beside it and it arrives at the same depth.
+
+The rim at its foot is sound to look at, and struck it gives the note of a thing with nothing behind it.
 
 ## Referee Overview
 
@@ -25,8 +29,6 @@ schema_version: 1
 *What is true:* it is twice the length of the plumb shaft beside it and arrives at the same depth, and it was cut at an angle because something wide had to come up it. The rope on its pegs is still sound and the pegs are set for hands rather than for loads (ARCHITECTURE AND TERRAIN, T-ARC-05).
 
 *Nil:* no order and no pegging. It is a working shaft rather than a sill shaft, and there is no line cut anywhere on it.
-
-[[ Prose at step 12, Decorator. ]]
 
 ## Features
 

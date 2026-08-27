@@ -12,7 +12,11 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+**The thinning wall** runs eighty feet without a break, two courses thick to shoulder height and one course above it, and the change is visible as a step in the face.
+
+There is nothing on it and nothing has ever hung from it.
+
+Scratched rather than cut into the thin part above the step, with three marks beneath it, is a line about the water not having come up.
 
 ## Referee Overview
 
@@ -26,7 +30,7 @@ schema_version: 1
 
 *Nil:* no fittings and no soot. An eighty-foot wall with nothing on it and nothing ever hung from it.
 
-[[ Prose at step 12, Decorator. ]]
+There is no water at this depth and never has been, and the marks are set at the same heights as the ones in the holds four hundred feet above.
 
 ## Features
 

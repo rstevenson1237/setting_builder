@@ -12,7 +12,17 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+A room large enough that the light does not reach its far wall, and something in it is counting.
+
+**The seat** stands on the floor in the middle with nothing round it, bronze, its arms worn through the plating to the core on both sides. It faces the far wall rather than the door. The wear is on the outer faces of both arms.
+
+**The master board** stands against the far wall out of the light, waxed bronze, four feet by three, ruled in two columns.
+
+**The counting engine** is on its own plinth, bronze, and it is unwound and has been for a long time.
+
+**The wax tally** lies on the plinth beside it, with a question already written on it and answered.
+
+**The voice** is in the unlit half of the room and it is never seen. It will not stop mid-count.
 
 ## Referee Overview
 
@@ -28,7 +38,7 @@ schema_version: 1
 
 *Departure.* The seat weighs what a bench weighs and cannot go up the stair. The board can. The engine can be carried by two and takes a watch to wind for every count it gives, which is a watch spent in a room where something else is counting.
 
-[[ Prose at step 12, Decorator. ]]
+Every column on the master board closes and the totals are correct, and the reason it closes is that it stops four rows before the roads do. The question on the wax tally asks how many went down, and the answer is one higher than the number of ranks standing two rooms inward.
 
 ## Features
 

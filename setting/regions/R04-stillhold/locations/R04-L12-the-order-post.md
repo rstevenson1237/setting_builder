@@ -12,7 +12,11 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+**The post and the plate** stand alone on open ground, with the ground round them walked flat in a circle at about ten feet.
+
+The plate hangs beside the post at head height and is struck with a wooden beater kept on a hook. It rings the Covenant's day three times, and everybody in the hold stops until it has finished.
+
+Cut into the post, in the older lettering, is the ringing order. None of the hold's three ringings is any of the three it names.
 
 ## Referee Overview
 
@@ -28,7 +32,7 @@ schema_version: 1
 
 *Nil:* no bell. The Covenant's day was rung on bells everywhere it was rung, and Stillhold has none, and the plate is what stands in place of one.
 
-[[ Prose at step 12, Decorator. ]]
+The plate is not a plate. It is a bell gauge, one of a pair, hung by the hole its pin went through, and the hold has been striking a measuring instrument for four generations.
 
 ## Features
 

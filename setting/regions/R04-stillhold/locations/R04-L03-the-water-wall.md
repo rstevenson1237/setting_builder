@@ -12,7 +12,13 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+Three hundred yards of **the wall foot**, with still water at it on three sides that does not rise, fall or move.
+
+The wall is two courses thick above the waterline and one course thick below it, and the step in the face runs the whole way round at the surface.
+
+Scratched rather than cut above the step, with three marks beneath it, is a line about setting a mark on the third course and looking again in the spring. The lowest of the three stands above the present water.
+
+A bronze plate is pegged beside it, graduated in hands, and it is read at the same hour every day.
 
 ## Referee Overview
 
@@ -28,7 +34,7 @@ schema_version: 1
 
 *Nil:* no way through. The wall has one opening and it is at the landward side, and this stretch has none at all.
 
-[[ Prose at step 12, Decorator. ]]
+The scratched marks and the plate disagree. Both are accurate, and the hold has never put them side by side.
 
 ## Features
 

@@ -12,7 +12,13 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+**The ration table** stands inside the door, a plank on trestles, with the day's issue on it and a written column beside each portion showing what remains. The remaining figure is said aloud to whoever takes a portion.
+
+**The written count** is a bound register of every door in the hold with its contents listed, cross-ruled against the boards hanging outside. Where a board has faded the register is the copy of record.
+
+**The safe conduct** is written at a desk beside it, on waxed board, carrying the hold's mark and the day, and a bronze counting frame stands beside the desk with its beads worn flat on one side only.
+
+**The warden** is at the far end of the passage, and she states the count of what is behind her door before a party has asked her anything, and she says that she is armed before she is asked that either.
 
 ## Referee Overview
 
@@ -30,7 +36,7 @@ schema_version: 1
 
 *The second reading.* The counts are all still hung. Nobody has ever added them up. A party who has read boards in two other holds can put this hold's totals against them and see that the numbers do not close (UNANSWERED QUESTIONS, T-UNQ-03).
 
-[[ Prose at step 12, Decorator. ]]
+A wax board in the register's case answers a question written as a count, in notches, by morning. It is never wrong, and it has begun including whoever wrote the question in totals they did not mean to be in. They have stopped writing questions about people.
 
 ## Features
 

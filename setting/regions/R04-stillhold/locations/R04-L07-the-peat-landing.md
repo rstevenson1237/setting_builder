@@ -12,7 +12,11 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+**The slipway** is cut into the Covenant slab at the water side, worn in two grooves at the width of a boat's keel. The grooves are worn deeper than any boat now on the Reach would cut.
+
+At its head, cut peat is stacked in courses to dry. The ground beside the stacks is a shade darker than the ground round them.
+
+The water at the foot of it is ankle deep and does not move at all.
 
 ## Referee Overview
 
@@ -27,8 +31,6 @@ schema_version: 1
 *Extent:* forty yards of slipway and a stone landing, ankle-deep water at the foot of it and not moving. Yards outdoors, days.
 
 *Nil:* no tide. The water at the foot of the wall does not rise, fall or move at all, and the hold has never seen it do any of the three.
-
-[[ Prose at step 12, Decorator. ]]
 
 ## Features
 

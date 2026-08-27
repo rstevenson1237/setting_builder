@@ -12,7 +12,15 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+The stair ends in standing water and the floor past it is silted flat.
+
+**The silt** is fine, ankle deep at the eastern end and a finger deep at the stair, and it holds a print for a turn. There are prints in it going inward that are not a party's own.
+
+**The six openings** leave this floor in six directions: a cell with sooted niches, a squared shaft with cold coming out of it, a shaft wide enough to lower a bell, a doorway four feet high, a cut with water running down it, and a doorway onto uneven floor.
+
+**The clean niche** is at shoulder height in a corridor where every surface has soot on it, and it has none.
+
+**The sounding line** is coiled on a peg beside the wide shaft, knotted by fathom, the lead cut hollow.
 
 ## Referee Overview
 
@@ -26,7 +34,7 @@ schema_version: 1
 
 *What is true that the Overview withholds.* The silt did not settle. It was carried in, on boots, over years, out of the flooded cut, and it is thickest at the cut's mouth and thinnest at the stair. Everybody who has used this floor came up the cut and went out by the stair, and nobody has ever done it the other way.
 
-[[ Prose at step 12, Decorator. ]]
+The silt was carried in on boots, out of the flooded cut, over years. It is thickest at the cut's mouth and thinnest at the stair, which says that everybody who has used this floor came up the cut and went out by the stair, and nobody has ever done it the other way.
 
 ## Features
 

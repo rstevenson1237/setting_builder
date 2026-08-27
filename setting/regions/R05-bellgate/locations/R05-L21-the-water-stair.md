@@ -12,7 +12,11 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+**The stepped channel** is six feet wide, running down and inward, the steps a hand high and slick along the middle where the water goes and rough at the edges.
+
+There are no niches anywhere along it. Every worked passage in Bellgate has them at forty paces.
+
+A bronze plate lies wedged in it against the flow.
 
 ## Referee Overview
 
@@ -26,7 +30,7 @@ schema_version: 1
 
 *Nil:* no niches. Every worked passage in Bellgate has them at forty paces and this has none at any point, because it was cut for water.
 
-[[ Prose at step 12, Decorator. ]]
+It is not a stair. It is a stepped channel cut to take water, the steps are the fall, and nobody was ever meant to walk it. The wear on it is recent and it is not the Covenant's.
 
 ## Features
 

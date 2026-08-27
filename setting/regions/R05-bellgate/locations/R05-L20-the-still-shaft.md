@@ -12,7 +12,11 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+**The curved shaft** is squared at the mouth and dressed, and it is out of plumb by about a hand in thirty feet, consistently, in one direction.
+
+Nothing said in it comes back, in either direction, and something dropped down it is not heard landing.
+
+There are no pegs in it and no peg holes were ever cut.
 
 ## Referee Overview
 
@@ -26,7 +30,7 @@ schema_version: 1
 
 *Nil:* no pegs, and there never were any: the holes were never cut. It is the only unpegged Covenant shaft above the sill.
 
-[[ Prose at step 12, Decorator. ]]
+Thirty feet down, a tally is audible, told aloud, and it cannot be heard from the mouth at all.
 
 ## Features
 

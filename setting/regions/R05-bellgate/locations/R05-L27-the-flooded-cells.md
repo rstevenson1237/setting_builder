@@ -12,7 +12,17 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+The water deepens, and there are shapes standing in it that do not move when the light does.
+
+**The ranks** stand in their order, facing the way they were facing, the water at their chests. Forty-one of them. Nothing has rotted and every face is a face.
+
+**Ashenpin** is in the front rank, apart, in the deepest of the cells, holding the loop something hung from. It names everyone present, correctly, before anybody has spoken.
+
+**The clapper** is in its hands, longer than a forearm, cut along its length with a road name, and it is warm to the hand at this depth.
+
+**The folded page** lies flat on the floor slab under a hand of water, waxed and unspoiled, listing names in order.
+
+**The beat** is the interval between the two words a rank is turned on, and whatever the room does it does together and on it.
 
 ## Referee Overview
 
@@ -34,7 +44,7 @@ They are not guarding it. They have been waiting a long time and what they are w
 
 *Funding for the reversal.* There is none, because there is no reversal. This room is exactly what it appears to be, and it is the one place in Bellgate where that is the hardest thing about it.
 
-[[ Prose at step 12, Decorator. ]]
+The page names forty-two. Read as a roll, each name and then a pause the length of a breath, the one it belongs to turns and faces the reader on their own name.
 
 ## Features
 

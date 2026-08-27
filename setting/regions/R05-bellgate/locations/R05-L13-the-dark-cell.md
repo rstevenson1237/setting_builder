@@ -12,7 +12,11 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+Twenty niches cut at shoulder height round the walls, sooted, with nothing burning in any of them and not a stub of tallow anywhere in the room. The spacing between them is exactly forty paces.
+
+**The clean niche** has no soot in it, in a room where soot lies on the floor.
+
+Something has been putting a hand in that one place.
 
 ## Referee Overview
 
@@ -25,8 +29,6 @@ schema_version: 1
 *What is true:* soot lies on every surface in this cell and one niche has none, and something has been putting a hand in that one place (PUZZLES, T-PUZ-07). It is not a niche: it is the handhold of a shaft plug.
 
 *Nil:* no light and no fuel. Twenty niches cut for wicks, sooted from four generations of them, and not a stub of tallow anywhere in the room.
-
-[[ Prose at step 12, Decorator. ]]
 
 ## Features
 

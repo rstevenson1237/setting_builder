@@ -12,7 +12,11 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+**The warm cell** is dry slab, warm through a boot, warmest in the middle, with no edge a hand can find.
+
+There is no socket in it, no fitting, no soot and no mark of any kind.
+
+Nine slate leaves in a bronze frame lie flat on the floor at the middle of it, face up.
 
 ## Referee Overview
 
@@ -25,8 +29,6 @@ schema_version: 1
 *What is true:* the warmth is the same warmth as the fen's roads and the gate ground's dry stone, and here it is strong enough to hold sleep well past the watch it was meant to last (HAZARDS, T-HAZ-06) {TEST: Fate} {CONDITION: Slab-slept / the party wakes a watch late and a hand lower than they lay down / until they are back on standing ground}.
 
 *Nil:* nothing in it. No socket, no fitting, no soot and no mark, and it is the most comfortable room in Bellgate and the emptiest.
-
-[[ Prose at step 12, Decorator. ]]
 
 ## Features
 

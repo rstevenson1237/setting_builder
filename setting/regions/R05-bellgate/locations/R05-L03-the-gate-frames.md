@@ -12,7 +12,11 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+**The four frames** stand in a line out of the water: two uprights and a bare crossbeam each, the pins seated, the sockets clean of verdigris.
+
+Nothing hangs from any of them and there is no rope on any pin. Every bare frame in the fen carries fresh rope on one pin, and these four do not.
+
+Cut into the underside of the third crossbeam, upside down to anybody walking past, is a line of letters. A bell pin lies in the water at the foot of the fourth.
 
 ## Referee Overview
 
@@ -25,8 +29,6 @@ schema_version: 1
 *What is true:* the pins are seated and the sockets are clean, and clean bronze on the Reach means recent use. Nobody has rung these and something has been keeping the sockets clear.
 
 *Nil:* no rope on any of them. Every bare frame in the fen has fresh rope on one pin and these four have none, and this is the only stretch of Covenant road where that is so.
-
-[[ Prose at step 12, Decorator. ]]
 
 ## Features
 

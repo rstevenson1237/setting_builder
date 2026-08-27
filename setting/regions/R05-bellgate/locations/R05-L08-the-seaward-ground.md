@@ -12,7 +12,11 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+**The edge** is where reed comes up through the joints of the slab, thickening seaward, until at about two hundred feet the joints are all reed and the ground is fen.
+
+Beyond it the ground falls away and the reeds stand to a shoulder.
+
+Something works the shallows here in threes. It gives ground the moment metal is struck and comes back the moment the sound stops.
 
 ## Referee Overview
 
@@ -26,7 +30,7 @@ schema_version: 1
 
 *Nil:* no cut and no order. This is the only stretch of ground beside Covenant work anywhere in the Reach where the reed has never been cut back, and there is no post saying it should be.
 
-[[ Prose at step 12, Decorator. ]]
+The slab does not end. It goes under the peat and runs on seaward, and the line where it disappears is where the fen has got to.
 
 ## Features
 

@@ -12,7 +12,11 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+**The dry stone** is sixty feet by forty of slab standing dry in ankle-deep rain, in the middle of eight hundred feet that is under water.
+
+It is warm through a boot and warmest in the middle, and everybody says so.
+
+A slab the size of a book lies at the edge of it, and it is warm too.
 
 ## Referee Overview
 
@@ -25,8 +29,6 @@ schema_version: 1
 *What is true:* it is dry because it is warm, and the warmth is coming up from below, and this is the only place on the gate ground where the level under the slab reaches the surface (HAZARDS, T-HAZ-06) {TEST: Fate} {CONDITION: Slab-slept / the party wakes a watch late and a hand lower than they lay down / until they are back on standing ground}.
 
 *Nil:* nothing on it. No frame, no post, no mark and no cut, in the one place on the whole approach that anybody would want to stop.
-
-[[ Prose at step 12, Decorator. ]]
 
 ## Features
 

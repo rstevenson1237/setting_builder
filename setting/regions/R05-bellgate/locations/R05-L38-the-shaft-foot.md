@@ -12,7 +12,13 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+**The silt bank** is banked against the seaward wall to the height of a man, fine, dry at the top and wet a foot down. Things stand up out of it at angles: bronze, timber, and a sheave still on its pin.
+
+**The four openings** are squared, in the ceiling, at the corners of a rectangle, each about six feet across. Three are plumb and dressed. Struck, the fourth gives the note of a thing with nothing behind it.
+
+**The pale thing** comes down the fourth at the pace of a walking man, and it stops the moment a light goes out.
+
+**The ways off** leave in four directions and the draught comes down all day and up at dusk.
 
 ## Referee Overview
 
@@ -26,7 +32,7 @@ schema_version: 1
 
 *What is true that the Overview withholds.* The silt came down the shafts. It is fen silt, not tier silt, and it has been coming down for four generations at the rate the fen settles, and what is standing up out of it at angles is the lowering gear that went down with the bells and was never brought back up.
 
-[[ Prose at step 12, Decorator. ]]
+The silt came down the shafts. It is fen silt rather than tier silt, and what is standing up out of it is the lowering gear that went down with the bells and was never brought back up.
 
 ## Features
 

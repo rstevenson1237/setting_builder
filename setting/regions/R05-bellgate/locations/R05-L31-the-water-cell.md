@@ -12,7 +12,11 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+**The skinned water** stands at the chest, still, with a film on it that reforms about a turn after it is broken.
+
+There is nothing on the walls: no socket, no fitting, no soot and no mark.
+
+A glass in a bronze mount lies on the bottom.
 
 ## Referee Overview
 
@@ -26,7 +30,7 @@ schema_version: 1
 
 *Nil:* nothing on the walls. No sockets, no fittings, no soot and no marks, and this cell was flooded before it was fitted out.
 
-[[ Prose at step 12, Decorator. ]]
+The water in this cell is the same depth as the water on the gate ground four hundred feet above it, and it does not drain. Held over the floor, the glass shows the cell fitted out, and people in it.
 
 ## Features
 

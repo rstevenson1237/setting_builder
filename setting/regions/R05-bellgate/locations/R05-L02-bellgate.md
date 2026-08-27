@@ -12,7 +12,15 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+**The face** is dressed stone, forty feet across and twenty high, standing at the inward end of the ground with the water at its foot. The opening in it is eight feet by four and there is nothing in the opening: no ring, no bar, no hinge, no lock, and no jamb.
+
+**The lip** runs the whole way round it, cut back a hand deep, top and both sides and across the threshold. It is level all the way round to within the width of a knife, and it is worn along the threshold only, in two patches at the span of a pair of feet.
+
+**The socket** is cut into the lip on the inward side at the height a hand falls. Everything on this face is green with age. The inside of the socket is not, and it is dry in standing rain.
+
+**The reading in the socket** is a shape rather than a mark, and it is found by reaching in.
+
+**Behind the face** the floor drops away, and the first turn of a stair is visible from the lip.
 
 ## Referee Overview
 
@@ -28,7 +36,7 @@ schema_version: 1
 
 *Funding for the reversal.* The frames at (ARCHITECTURE AND TERRAIN, T-ARC-02) and the channel slabs at (ARCHITECTURE AND TERRAIN, T-ARC-09) are exactly what they appear to be everywhere else in this region. The gate is the one piece of Covenant work on the Reach that is doing what it was built to do and doing it against the people who built it.
 
-[[ Prose at step 12, Decorator. ]]
+The socket is cut to a clapper: a hand and a half long, tapered, with a shoulder two thirds down. Nothing else on the Reach is that shape. Whoever stood in the opening long enough to polish the threshold stood facing out.
 
 ## Features
 

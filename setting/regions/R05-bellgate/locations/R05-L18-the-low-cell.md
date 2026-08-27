@@ -12,7 +12,13 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+A doorway four feet high, and the room beyond it is nine feet to the ceiling.
+
+**The stripped wall** carries sockets at shoulder height every four feet, all of them empty, with the same chisel marks in every one.
+
+The floor is dry. Standing water is in every other room at this depth and this one is a foot higher.
+
+Lead flashing folded into a slab the width of a pack lies against the north wall.
 
 ## Referee Overview
 
@@ -25,8 +31,6 @@ schema_version: 1
 *What is true:* the fittings were taken out by somebody with the right tools, working without hurry, and the marks are all the same tool. Everything portable in the Bell Shafts was removed before the water came up, in order, which is the same discipline as the holds and nobody has connected the two (LORE, T-LOR-06).
 
 *Nil:* it is dry. Standing water is in every other room at this depth and this floor is dry and the room is a foot higher than its neighbours, which is why.
-
-[[ Prose at step 12, Decorator. ]]
 
 ## Features
 

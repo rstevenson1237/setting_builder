@@ -12,7 +12,13 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+**The pin socket** is cut into the ceiling at the room's centre, bronze-lined, and it is not in a party's eyeline. The floor beneath it is worn in a circle at the span of a person's feet.
+
+**The pin** is seated in it, out of true by about the width of a knife.
+
+**The clapper** is seated beside the pin, longer than a forearm, cut along its length with a road name. Everything else in this cell is green with age. It is not.
+
+**The score marks** run out of the room across the floor slab, parallel, and they run one way only.
 
 ## Referee Overview
 
@@ -26,7 +32,7 @@ schema_version: 1
 
 *What is true that the Overview withholds.* Green age covers every bronze surface in this cell, including the pin. The clapper in the socket is clean. It was put in after the cell was closed, by somebody who came back, and the score marks running out of this room and across the floor slab run one way only.
 
-[[ Prose at step 12, Decorator. ]]
+The clapper came down here after the water and after the closing, by somebody who came back. The socket will not release it while the pin is out of true, and setting a pin true takes a gauge.
 
 ## Features
 

@@ -12,7 +12,15 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+**The undressed floor** runs about forty feet from the last dressed joint to the rim, cut and not dressed, warm through a boot. The tool marks are square and regular and the surface was never finished.
+
+**The rim** is squared, and its pegs are drawn and stacked beside it in a pile that has not settled. There is no soot on the pegs and there is soot on the stone under them.
+
+There is a rectangle in the soot beside them where something flat lay and is not there now.
+
+**The way down** is thirty feet on pegs set into the shaft wall, spaced for a load rather than for a body.
+
+**Either way** is the flooded cells or the narrowing cut.
 
 ## Referee Overview
 
@@ -26,7 +34,7 @@ schema_version: 1
 
 *What is true that the Overview withholds.* The pegs were drawn from above, which is the easy direction, and they were stacked rather than dropped, which is what a person does when they intend to put them back. Whoever did it meant to come up again. Somebody sold the Tallow House what they brought up from below the sill, which is a fact in circulation seaward, and this is the hole they came up (RUMOURS, T-RUM-12).
 
-[[ Prose at step 12, Decorator. ]]
+The pegs were drawn from above, which is the easy direction, and they were stacked rather than dropped, which is what a person does who intends to put them back.
 
 ## Features
 

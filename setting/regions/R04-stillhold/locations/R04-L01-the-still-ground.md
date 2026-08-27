@@ -12,7 +12,13 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+**The slab** is under the whole hold, laid true, and a stake driven into it at dusk is where it was left in the morning. Everybody who has been anywhere else notices within the first hour.
+
+**The wall from inside** stands two courses thick above the waterline and one below it, and the step where the thickness changes runs the whole way round.
+
+**The cisterns** are cut into the slab at four points, roofed, with the run-off from every roof led into them and the count chalked beside each mouth.
+
+**The ground itself** is open, quiet, and rationed. Nobody burns a wick for company. When a struck plate rings, everybody stops where they are until it has finished, including in the middle of a sentence, and then goes on.
 
 ## Referee Overview
 
@@ -30,7 +36,7 @@ schema_version: 1
 
 *Extent.* Two hundred yards across, inside a wall, on Covenant slab. The hold is crossed on foot in a fraction of a day. Four days seaward to the Long Cut, one day inward to Bellgate.
 
-[[ Prose at step 12, Decorator. ]]
+The cisterns are cut deeper than the hold uses. The lowest three feet of every one of them has never been drawn on.
 
 ## Features
 

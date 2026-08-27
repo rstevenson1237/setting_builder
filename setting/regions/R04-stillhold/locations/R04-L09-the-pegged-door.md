@@ -12,7 +12,15 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+**The door** is oak on a bronze frame, shut, with two pegs driven through the frame from outside. No forcing anywhere on it, no mark of a tool, nothing off a hinge.
+
+**The plate sockets** stand empty at head height, cut square, with the stone round them torn where something was levered rather than unpegged.
+
+**The board** hangs on a hook beside it at the height a hand falls, waxed, the notches still crisp, the count running to the bottom of the face and continuing on the reverse.
+
+Every fitting on the door is green with age. The hook is bright.
+
+**The recitation** is given aloud, from memory, in the same order every time, by anyone in the Order who is asked, and it takes most of a turn and they do not hurry it.
 
 ## Referee Overview
 
@@ -30,7 +38,7 @@ schema_version: 1
 
 *Departure.* Whatever comes out of here is recognised. Everything behind this door is on a list two hundred and six people agreed at both sides of it, and the Order will recite the list to anybody, including to whoever a party tries to sell to.
 
-[[ Prose at step 12, Decorator. ]]
+The Order reads the board, not the door, and the board is intact. They have not noticed the plate is gone, and they will know within the hour of its being shown to anybody.
 
 ## Features
 

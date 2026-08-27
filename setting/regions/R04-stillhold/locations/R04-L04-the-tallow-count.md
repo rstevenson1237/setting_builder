@@ -12,7 +12,11 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+One room, twelve feet by ten, one door, and the door is shut except after the middle ringing.
+
+**The shelf** is stone, outside it at waist height, chalked with the day's issue and the count remaining. It is rewritten each morning and not wiped, so the chalk builds up in layers.
+
+The remaining count is said aloud with every issue, to whoever is taking one, whether or not they asked.
 
 ## Referee Overview
 
@@ -28,7 +32,7 @@ schema_version: 1
 
 *Nil:* no keeper's want. Whoever is on the door that day is on it because it is their turn, and they want nothing from a party and will say so.
 
-[[ Prose at step 12, Decorator. ]]
+Read back through the layers, the remaining count falls every season at the same rate and has never once risen. Nobody in the hold has read it that way.
 
 ## Features
 

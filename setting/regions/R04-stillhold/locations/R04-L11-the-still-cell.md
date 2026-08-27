@@ -12,7 +12,11 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+**The cell** is ten feet by eight, dressed slab on all four walls and the ceiling, with a bed, a stool, and nothing else. The door is not barred from either side.
+
+There is no niche in it and no wick, and the cold in it comes up through the floor rather than in from the walls.
+
+Under the bed stands a pegged chest, closed from the outside, and it is in the register as a fixed thing.
 
 ## Referee Overview
 
@@ -28,7 +32,7 @@ schema_version: 1
 
 *Nil:* nothing in it. No fitting, no hook, no shelf and no mark on any wall, and the cell has been swept.
 
-[[ Prose at step 12, Decorator. ]]
+Nobody in the hold knows whose the chest is. Everything inside it is dry and in the order it was packed.
 
 ## Features
 

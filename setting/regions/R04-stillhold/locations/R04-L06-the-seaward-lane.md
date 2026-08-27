@@ -12,7 +12,13 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+**The kept lane** runs four days seaward on Covenant slab, a chain wide, with the reed cut back a chain on both sides for its whole length.
+
+The cutting is fresh. Nobody in Stillhold does it and nobody in Stillhold will name who does.
+
+At the head of it stands a post with the standing order on it, copied letter for letter from somewhere else, the fault in its last line copied with it.
+
+There is no water on the lane between its two ends.
 
 ## Referee Overview
 
@@ -27,8 +33,6 @@ schema_version: 1
 *Extent:* four days on kept dry slab, a chain wide, from the gate yard to the fourth frame of the Long Cut. Miles on safe roads, days.
 
 *Nil:* no water on it. Four days of dry lane with the fen a mile off on both sides and nothing drinkable between the two ends, which is why the run carries and a party must.
-
-[[ Prose at step 12, Decorator. ]]
 
 ## Features
 
