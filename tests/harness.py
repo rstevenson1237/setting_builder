@@ -147,6 +147,22 @@ class Sandbox:
         if not touched:
             raise AssertionError(f"no location cited {code}, so nothing was stripped")
 
+    def unclaim(self, code: str) -> None:
+        """Free a location code: delete its file and drop it from the ledger.
+
+        Same reason as `clear_step`. `scaffold.py` refuses a code the ledger
+        marks built, and refuses an existing file without `--force`, so a test
+        that scaffolds a location states that the code is free rather than
+        relying on the build not having reached it.
+        """
+        for path in self.root.glob(f"setting/regions/*/locations/{code}-*.md"):
+            path.unlink()
+        path = self.path(LEDGER)
+        data = json.loads(path.read_text(encoding="utf-8"))
+        for key in ("built", "decorated"):
+            data[key] = [entry for entry in data.get(key, []) if entry != code]
+        path.write_text(json.dumps(data, indent=2) + "\n", encoding="utf-8")
+
     def mark(self, key: str, *codes: str) -> None:
         """Add codes to the ledger's `built` or `decorated` list."""
         path = self.path(LEDGER)

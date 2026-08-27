@@ -153,9 +153,11 @@ class TestScaffoldGuards(unittest.TestCase):
     def test_the_cell_is_derived_from_the_region(self) -> None:
         """A location never states its own type. It inherits it, so M5 cannot fail."""
         with Sandbox() as sandbox:
-            sandbox.run("scaffold.py", "location", "--code", "R03-L11", "--name", "Mere Tier",
-                        "--tags", "open,cold,deep", "--container", "drowned-tier",
-                        "--weight", "LOW")
+            sandbox.unclaim("R03-L11")
+            result = sandbox.run("scaffold.py", "location", "--code", "R03-L11",
+                                 "--name", "Mere Tier", "--tags", "open,cold,deep",
+                                 "--container", "drowned-tier", "--weight", "LOW")
+            self.assertEqual(result.returncode, 0, result.stderr)
             doc = common.read_doc(sandbox.path("setting/regions/R03-ashen-fen/locations/"
                                                "R03-L11-mere-tier.md"), "location")
             self.assertEqual(doc.fm["cell"], "WILD_LOW")
