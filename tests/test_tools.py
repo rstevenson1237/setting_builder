@@ -14,7 +14,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from harness import GENRE, L03, LEDGER, REGION, ROUTER, Sandbox  # noqa: E402
+from harness import GENRE, L03, LEDGER, REGION, REPO, ROUTER, Sandbox  # noqa: E402
 
 import common  # noqa: E402
 import ledger as ledger_mod  # noqa: E402
@@ -421,12 +421,50 @@ class TestRouter(unittest.TestCase):
         with Sandbox() as sandbox:
             a_cell(sandbox, "WILD_HIGH", "The arrival, and the thing worth leaving the road for.")
             sandbox.write("patterns/templates/location.md", "## Features\n")
+            sandbox.path("patterns/cells/SAFE_LOW.md").unlink()
             self.assertEqual(sandbox.run("router.py").returncode, 0)
 
             index = sandbox.read(ROUTER)
             self.assertNotIn("templates/location.md", index)
             self.assertIn("| `WILD_HIGH` | `patterns/cells/WILD_HIGH.md` | yes |", index)
             self.assertIn("| `SAFE_LOW` | `patterns/cells/SAFE_LOW.md` | no |", index)
+
+
+class TestCells(unittest.TestCase):
+    """The nine cell files are the tuning surface, and a missing one stops a build."""
+
+    SECTIONS = ["What belongs here", "Where the boundary falls", "Form",
+                "Worked example", "Excluded patterns"]
+
+    def cells(self) -> list[str]:
+        weights = common.load_weights(REPO)
+        return [f"{region_type}_{weight}"
+                for region_type in weights["region_types"]
+                for weight in weights["location_weights"]]
+
+    def test_all_nine_are_written(self) -> None:
+        missing = [cell for cell in self.cells()
+                   if not (REPO / common.CELLS_DIR / f"{cell}.md").exists()]
+        self.assertEqual(missing, [], "a cell:<TYPE>_<WEIGHT> selector cannot resolve")
+
+    def test_each_states_its_own_discipline(self) -> None:
+        """SPEC.md 9.4: what belongs in it, where the boundary falls, the form, examples."""
+        for cell in self.cells():
+            with self.subTest(cell=cell):
+                text = (REPO / common.CELLS_DIR / f"{cell}.md").read_text(encoding="utf-8")
+                self.assertTrue(text.startswith(f"# {cell}\n"), "a cell names itself first")
+                missing = [s for s in self.SECTIONS if f"## {s}" not in text]
+                self.assertEqual(missing, [], f"{cell} states no {missing}")
+
+    def test_a_checked_count_is_cited_by_key(self) -> None:
+        """SPEC.md 9.6: never write a checked count into a cell file. Cite the key."""
+        for cell in self.cells():
+            if not cell.endswith("_HIGH"):
+                continue
+            with self.subTest(cell=cell):
+                text = (REPO / common.CELLS_DIR / f"{cell}.md").read_text(encoding="utf-8")
+                self.assertTrue("region_weights" in text and common.WEIGHTS_PATH in text,
+                                f"{cell} does not cite the config key holding its floor")
 
 
 class TestResolveDeps(unittest.TestCase):

@@ -21,12 +21,12 @@ other eight.
 
 | Cell | File | Written |
 | :--- | :--- | :--- |
-| `SAFE_LOW` | `patterns/cells/SAFE_LOW.md` | no |
-| `SAFE_MEDIUM` | `patterns/cells/SAFE_MEDIUM.md` | no |
-| `SAFE_HIGH` | `patterns/cells/SAFE_HIGH.md` | no |
-| `WILD_LOW` | `patterns/cells/WILD_LOW.md` | no |
-| `WILD_MEDIUM` | `patterns/cells/WILD_MEDIUM.md` | no |
-| `WILD_HIGH` | `patterns/cells/WILD_HIGH.md` | no |
-| `DANGEROUS_LOW` | `patterns/cells/DANGEROUS_LOW.md` | no |
-| `DANGEROUS_MEDIUM` | `patterns/cells/DANGEROUS_MEDIUM.md` | no |
-| `DANGEROUS_HIGH` | `patterns/cells/DANGEROUS_HIGH.md` | no |
+| `SAFE_LOW` | `patterns/cells/SAFE_LOW.md` | yes |
+| `SAFE_MEDIUM` | `patterns/cells/SAFE_MEDIUM.md` | yes |
+| `SAFE_HIGH` | `patterns/cells/SAFE_HIGH.md` | yes |
+| `WILD_LOW` | `patterns/cells/WILD_LOW.md` | yes |
+| `WILD_MEDIUM` | `patterns/cells/WILD_MEDIUM.md` | yes |
+| `WILD_HIGH` | `patterns/cells/WILD_HIGH.md` | yes |
+| `DANGEROUS_LOW` | `patterns/cells/DANGEROUS_LOW.md` | yes |
+| `DANGEROUS_MEDIUM` | `patterns/cells/DANGEROUS_MEDIUM.md` | yes |
+| `DANGEROUS_HIGH` | `patterns/cells/DANGEROUS_HIGH.md` | yes |
