@@ -24,6 +24,7 @@ from typing import Any, Iterable
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
+import build as build_mod  # noqa: E402
 import common  # noqa: E402
 import ledger as ledger_mod  # noqa: E402
 
@@ -62,11 +63,13 @@ REPORT_CHECKS = {"M24", "M25"}
 # and may illustrate freely.
 MERMAID_SCAN_DIRS = ("setting", "build")
 
-# Two directories inside that scan hold derived mermaid rather than authored
-# mermaid. `build/diagrams/` is where every diagram is written, and a bundle in
-# `build/bundles/` carries a copy of one it resolved. Neither is hand-edited and
-# neither is spliced.
+# Three paths inside that scan hold derived mermaid rather than authored
+# mermaid. `build/diagrams/` is where every diagram is written, a bundle in
+# `build/bundles/` carries a copy of one it resolved, and `build/playbook.md` is
+# what `build.py` produces by splicing the markers. None is hand-edited, and the
+# thing M13 exists to catch is a diagram somebody drew by hand in a host file.
 MERMAID_SKIP_DIRS = (common.DIAGRAMS_DIR, common.BUNDLES_DIR)
+MERMAID_SKIP_FILES = (build_mod.PLAYBOOK_PATH,)
 
 RE_HTML_COMMENT = re.compile(r"<!--.*?-->", re.DOTALL)
 RE_EDGE_LABEL = re.compile(r"(-->\s*\|[^|]+\||--\s*[^->\n]+\s*-->)")
@@ -689,7 +692,7 @@ class Validator:
         gate = Gate("diagrams", None, "the diagram layer is built at Milestone 5")
         directory = self.root / common.DIAGRAMS_DIR
 
-        skip = [self.root / name for name in MERMAID_SKIP_DIRS]
+        skip = [self.root / name for name in MERMAID_SKIP_DIRS + MERMAID_SKIP_FILES]
         for base in MERMAID_SCAN_DIRS:
             root_dir = self.root / base
             if not root_dir.is_dir():
@@ -733,10 +736,7 @@ class Validator:
     # M16 ---------------------------------------------------------------
     def check_m16(self) -> None:
         entry_ids = self.corpus.entry_ids()
-        by_section: dict[str, str] = {}
-        for code, doc in self.corpus.tables.items():
-            by_section[common.normalise_key(str(doc.fm.get("name", "")))] = code
-            by_section[common.normalise_key(code)] = code
+        by_section = self.corpus.table_by_section()
 
         for scope, docs in (("region", self.corpus.regions), ("location", self.corpus.locations)):
             for code, doc in sorted(docs.items()):
@@ -769,19 +769,8 @@ class Validator:
                              "Correct the key, or write the row.")
 
     def _key_resolves(self, table_code: str, key: str) -> bool:
-        want = common.normalise_key(key)
-        if not want:
-            return False
-        for row in self.corpus.table_rows(table_code):
-            if common.normalise_key(row.get("ID", "")) == want:
-                return True
-            for header, value in row.items():
-                if header == "ID":
-                    continue
-                lead = re.split(r"[.,:;—–(]", value, maxsplit=1)[0]
-                if common.normalise_key(lead) == want:
-                    return True
-        return False
+        """Whether a mark names a row. `build.py` asks which row, from the same rule."""
+        return common.resolve_entry(self.corpus.table_rows(table_code), key) is not None
 
     # M17 ---------------------------------------------------------------
     def check_m17(self) -> None:

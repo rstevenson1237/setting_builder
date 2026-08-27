@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "seed": 4417,
-  "current_step": 4,
+  "current_step": 8,
   "current_pass": null,
   "steps": {
     "1": {
@@ -93,9 +93,71 @@
       "started_at": "2026-08-27T05:16:35Z",
       "targets": 8,
       "completed_at": "2026-08-27T05:17:37Z"
+    },
+    "5": {
+      "status": "complete",
+      "done": [
+        "R01",
+        "R02",
+        "R03",
+        "R04",
+        "R05",
+        "R06"
+      ],
+      "started_at": "2026-08-27T15:21:30Z",
+      "targets": 6,
+      "completed_at": "2026-08-27T15:22:04Z"
+    },
+    "6": {
+      "status": "complete",
+      "done": [
+        "R01",
+        "R02",
+        "R03",
+        "R04",
+        "R05",
+        "R06"
+      ],
+      "started_at": "2026-08-27T15:22:50Z",
+      "targets": 6,
+      "completed_at": "2026-08-27T15:26:12Z"
+    },
+    "7": {
+      "status": "complete",
+      "done": [
+        "R01",
+        "R02",
+        "R03",
+        "R04",
+        "R05",
+        "R06"
+      ],
+      "started_at": "2026-08-27T15:28:31Z",
+      "targets": 6,
+      "completed_at": "2026-08-27T15:30:47Z"
+    },
+    "8": {
+      "status": "complete",
+      "done": [
+        "R01",
+        "R02",
+        "R03",
+        "R04",
+        "R05",
+        "R06"
+      ],
+      "started_at": "2026-08-27T15:31:33Z",
+      "targets": 6,
+      "completed_at": "2026-08-27T15:32:37Z"
     }
   },
   "built": [
+    "R01",
+    "R02",
+    "R03",
+    "R04",
+    "R05",
+    "R06",
     "S-AMB",
     "S-FAC",
     "S-HIS",
@@ -123,6 +185,12 @@
     "setting"
   ],
   "decorated": [
+    "R01",
+    "R02",
+    "R03",
+    "R04",
+    "R05",
+    "R06",
     "T-BES",
     "T-CRE",
     "T-HRD",

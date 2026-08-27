@@ -46,6 +46,8 @@ passes it.
 | :--- | :--- |
 | `python tools/scaffold.py setting\|tables\|region\|location ...` | Write stubs, frontmatter and empty headings. |
 | `python tools/validate.py [--scope X] [--final] [--only M6,M17] [--list]` | Run the mechanical checks. |
+| `python tools/mermaid_gen.py [--check]` | Derive every diagram tier from the connections tables into `build/diagrams/`. |
+| `python tools/build.py [--check]` | Splice the diagram markers and assemble `build/playbook.md`. |
 | `python tools/roll.py dice 2d6 --target R03-L07` | Seeded dice. All randomness passes through here. |
 | `python tools/roll.py table T-RUM --target R03 [--count n]` | Seeded table draws. |
 | `python tools/ledger.py start\|done\|complete\|built\|decorated ...` | Move the progress record and regenerate `STATE.md`. |
@@ -117,9 +119,11 @@ construction. Do not invent a different one.
 Some checks cannot be true before the step that writes their input has run. M18
 needs step 3. M7's setting edges and M10's setting-level containers need step 5.
 M6 and M10's region-level containers need step 9. M8, M9, M15 and M20 need step
-10. M22's field values need step 11. M11 and M13 need the diagram layer of
-Milestone 5. While the ledger shows the prerequisite incomplete, those findings
-print as `REPORT (deferred: ...)` instead of failing the run.
+10. M22's field values need step 11. M11 and M13 need the diagram layer, which
+means `mermaid_gen.py` has been run: derive the diagrams after any change to a
+`connections.md` or to a container list, or both checks fail against a stale
+`build/diagrams/`. While the ledger shows a prerequisite incomplete, those
+findings print as `REPORT (deferred: ...)` instead of failing the run.
 
 `validate.py --final` ignores every gate and promotes every `REPORT` to `ERROR`.
 It is step 12's acceptance test, and it is expected to fail until the setting is

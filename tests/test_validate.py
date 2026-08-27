@@ -5,9 +5,9 @@ by an unrelated refactor without anyone noticing. Each case here breaks exactly
 one thing in a copy of the repository and asserts that the matching check
 reports it, at the severity SPEC.md section 14.1 assigns.
 
-M11 has no case: it compares derived diagrams against what `mermaid_gen.py`
-re-derives, and that script arrives at Milestone 5. Add its case with the
-script.
+M11's case breaks a derived diagram rather than a content file, because that is
+what the check guards: the diagram layer is derived in full, and a file edited
+by hand is the one way it can disagree with the tables it draws.
 """
 
 from __future__ import annotations
@@ -19,7 +19,8 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from harness import (  # noqa: E402
-    L03, L07, LEDGER, REGION, REGION_CONN, SETTING_CONN, T_KEY, Sandbox,
+    DANGEROUS_REGION, DIAGRAM, L03, L07, LEDGER, REGION, REGION_CONN, SETTING_CONN,
+    T_KEY, Sandbox,
 )
 
 # check -> (how to break it, steps that must be complete first, expected severity)
@@ -28,7 +29,7 @@ BREAKS: dict[str, tuple[object, tuple[int, ...], str]] = {
     "M2": (lambda s: s.rename(L03, "R03-L03-bell-road.md"), (), "ERROR"),
     "M3": (lambda s: s.sub(L03, "tags: [raised, exposed, tolling]",
                            "tags: [raised, exposed]"), (), "ERROR"),
-    "M4": (lambda s: s.sub(REGION, "difficulty: d8", "difficulty: d7"), (), "ERROR"),
+    "M4": (lambda s: s.sub(REGION, "difficulty: d6", "difficulty: d7"), (), "ERROR"),
     "M5": (lambda s: s.sub(L07, "cell: WILD_HIGH", "cell: SAFE_HIGH"), (), "ERROR"),
     "M6": (lambda s: s.sub(L07, "cell: WILD_HIGH", "cell: WILD_LOW"), (9,), "ERROR"),
     "M7": (lambda s: s.sub(L03, "| R03-L07 | sunk span |", "| R03-L99 | sunk span |"),
@@ -38,6 +39,8 @@ BREAKS: dict[str, tuple[object, tuple[int, ...], str]] = {
            (10,), "ERROR"),
     "M10": (lambda s: s.sub(L07, "container: drowned-tier", "container: no-such-tier"),
             (), "ERROR"),
+    "M11": (lambda s: s.sub(DIAGRAM, 'C_DROWNED_TIER["The Drowned Tier"]',
+                            'C_DROWNED_TIER["The Sunken Tier"]'), (), "ERROR"),
     "M12": (lambda s: s.sub(SETTING_CONN, "| From | To |\n| :--- | :--- |",
                             "| From | To | Type |\n| :--- | :--- | :--- |\n"
                             "| R03 | R03 | road |"), (), "ERROR"),
@@ -53,6 +56,11 @@ BREAKS: dict[str, tuple[object, tuple[int, ...], str]] = {
     "M18": (lambda s: s.sub(REGION, "name: Ashen Fen", "name: Zorbulax Fen"), (3,), "ERROR"),
     "M19": (lambda s: s.sub(REGION, "| 1 | Peat smoke from the west",
                             "| 4 | Peat smoke from the west"), (), "ERROR"),
+    # M19 is checked twice: once for a roll column out of order, and once for a
+    # Danger table that counts up. The second is the case the direction rule
+    # exists for, and no ascending table can catch it.
+    "M19d": (lambda s: s.sub(DANGEROUS_REGION, "| 6 | Wet rope", "| 1 | Wet rope"),
+             (), "ERROR"),
     "M20": (lambda s: s.sub(T_KEY, "| R03-L03 | R03-L07 |", "|  |  |"), (10,), "ERROR"),
     "M21": (lambda s: s.sub(L07, "{WOUND: Frost}", "{WOUND: Sonic}"), (), "ERROR"),
     "M22": (lambda s: s.sub(L07, "**Terrain:** Dressed slab", "Dressed slab"), (), "ERROR"),
@@ -92,10 +100,11 @@ class TestChecksFire(unittest.TestCase):
     """Break one thing; the matching check reports it."""
 
     def test_each_check(self) -> None:
-        for check, (mutate, gates, severity) in sorted(
-            BREAKS.items(), key=lambda item: int(item[0][1:])
+        for case, (mutate, gates, severity) in sorted(
+            BREAKS.items(), key=lambda item: (int(item[0][1:].rstrip("abcd") or 0), item[0])
         ):
-            with self.subTest(check=check), Sandbox() as sandbox:
+            check = "M" + case[1:].rstrip("abcd")
+            with self.subTest(case=case), Sandbox() as sandbox:
                 sandbox.complete_steps(*gates)
                 mutate(sandbox)
                 hits = [
@@ -104,7 +113,7 @@ class TestChecksFire(unittest.TestCase):
                 ]
                 raised = sorted({f["check"] for f in sandbox.validate()["findings"]})
                 self.assertTrue(
-                    hits, f"{check} did not fire at {severity}. Raised: {raised or 'nothing'}"
+                    hits, f"{case} did not fire at {severity}. Raised: {raised or 'nothing'}"
                 )
 
     def test_every_check_has_a_case(self) -> None:
@@ -112,7 +121,8 @@ class TestChecksFire(unittest.TestCase):
         sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "tools"))
         import validate  # noqa: PLC0415
 
-        missing = set(validate.CHECKS) - set(BREAKS) - {"M11"}
+        covered = {"M" + case[1:].rstrip("abcd") for case in BREAKS}
+        missing = set(validate.CHECKS) - covered
         self.assertEqual(missing, set(), f"checks with no negative case: {sorted(missing)}")
 
 
@@ -122,6 +132,7 @@ class TestSeverity(unittest.TestCase):
     def test_gate_defers_until_its_step_closes(self) -> None:
         """M15 cannot be true before step 10 writes the citations."""
         with Sandbox() as sandbox:
+            sandbox.reopen_steps(10)
             sandbox.sub(L03, "T-NAM-01, ", "")
 
             before = [f for f in sandbox.findings("M15") if f["code"] == "T-NAM"]
@@ -137,6 +148,7 @@ class TestSeverity(unittest.TestCase):
     def test_setting_edges_defer_until_the_regions_are_stubbed(self) -> None:
         """M7's setting branch cannot be true between step 2 and step 5."""
         with Sandbox() as sandbox:
+            sandbox.reopen_steps(5)
             sandbox.sub(SETTING_CONN, "| From | To |\n| :--- | :--- |",
                         "| From | To |\n| :--- | :--- |\n| R03 | R99 |")
 

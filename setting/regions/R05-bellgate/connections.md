@@ -1,5 +1,5 @@
 ---
-code: R03
+code: R05
 scale: region
 schema_version: 1
 ---
@@ -10,4 +10,3 @@ Location to location, and typed. Tier 4 is the one tier that draws connection ty
 
 | From | To | Type | One-way |
 | :--- | :--- | :--- | :--- |
-| R03-L03 | R03-L07 | sunk span | no |

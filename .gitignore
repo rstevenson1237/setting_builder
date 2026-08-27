@@ -3,3 +3,7 @@ __pycache__/
 
 # Resolved dependency bundles are rebuilt from patterns on every call.
 build/bundles/
+
+# The spliced playbook is assembled from the tree by `tools/build.py` on demand.
+# Nothing checks it, so a committed copy could only go stale.
+build/playbook.md
