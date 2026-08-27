@@ -12,7 +12,15 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+**The slope** falls about a hand every ten feet across three hundred feet, in steps of about a hand each, regular, running the whole way across without a break. Nothing else here is regular.
+
+**The cold from below** comes up through the soles on dry stone, and it is worse the further down the slope a party goes.
+
+**What turns** is here in numbers, and it turns toward a lit wick together and stops when the wick goes out.
+
+**The count from above** is the party's own count, one number behind, and on this floor it comes from overhead. There is nothing overhead: the roof is forty feet up and it is the same unmade stone as the floor.
+
+**The ways off** rise toward the shaft foot, the warm floor, the counting ground, and dry ground inward.
 
 ## Referee Overview
 
@@ -26,7 +34,7 @@ schema_version: 1
 
 *What is true that the Overview withholds.* The slope is not a slope. It is a series of shallow steps, each one about the height of a hand, running the whole way across, and they are regular. They are the only regular thing in the deep water and they are not cut: the stone was formed that way, or something wore it that way, and both readings are available and neither is settled anywhere in the corpus.
 
-[[ Prose at step 12, Decorator. ]]
+The steps are not cut. Either the stone was formed that way or something wore it that way, and both readings are available and neither is settled anywhere in the corpus.
 
 ## Features
 

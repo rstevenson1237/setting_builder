@@ -12,7 +12,15 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+**The rim** is cut square and pegged, with the order cut into it in letters a hand deep: stop at the sill, what lies under it was not made, and it is not ours to open.
+
+**The second hand** cut the last word. The strokes are even, the depth is right and the spacing is correct, and all three are wrong for the hand that cut the rest.
+
+**The standing slab** is upright at the shaft head, chest high, cut on both faces with the same words so that it reads to somebody arriving and to somebody coming up. It is out of its sockets by the width of a hand, on the down side.
+
+**The sockets** are cut into the rim to take its feet, square and exact. The stone in the near one is polished at the bottom and the far one is not.
+
+**The slate copy** lies in the lee of the slab where the pegs are stacked, face down. It is the only thing at this rim that has not been rained on.
 
 ## Referee Overview
 
@@ -32,7 +40,7 @@ It is the Covenant's own last instruction, in the hand that wrote it, and it is 
 
 *Departure.* A party carrying the slab cannot go down. It is a lift for three on level ground and there is no level ground below this rim, and the shafts are pegged for a load rather than for a body.
 
-[[ Prose at step 12, Decorator. ]]
+A slab that has stood in a socket for four generations does not polish it. A slab that has been lifted out and set back repeatedly does. Something moved this one from below, put it back, and did not put it back straight.
 
 ## Features
 

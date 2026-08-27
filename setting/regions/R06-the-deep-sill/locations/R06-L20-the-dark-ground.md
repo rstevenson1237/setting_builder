@@ -12,7 +12,11 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+Dry unmade stone rising out of black water and going on.
+
+There is no soot anywhere on it, at any height. No stone worked, nothing dropped, nothing standing, nothing growing, and no mark of any kind over as much of it as anybody has walked.
+
+No light has ever been on it.
 
 ## Referee Overview
 
@@ -25,8 +29,6 @@ schema_version: 1
 *What is true:* no light has ever been on this ground. There is no soot anywhere on it, at any height, and the Covenant never reached it, and neither has anybody else: the prints in the silt four hundred feet back are all of parties who turned round in the water.
 
 *Nil:* nothing on it. No stone worked, nothing dropped, nothing standing, nothing growing, and no mark of any kind over as much of it as anybody has walked.
-
-[[ Prose at step 12, Decorator. ]]
 
 ## Features
 

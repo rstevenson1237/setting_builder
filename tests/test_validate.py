@@ -163,12 +163,30 @@ class TestSeverity(unittest.TestCase):
             self.assertFalse(after[0]["deferred"])
 
     def test_final_ignores_gates_and_promotes_reports(self) -> None:
+        """Both halves of --final, against a fixture the test breaks itself.
+
+        Asserting that the repository's own tree fails --final would assert that
+        the setting is unfinished, which stops being true at step 12 and is the
+        opposite of what --final is for. What is checked here is the promotion.
+        """
         with Sandbox() as sandbox:
-            self.assertEqual(sandbox.validate()["errors"], 0)
+            sandbox.sub(L07, "a hand of still water", "a hand of still water, 2d6 of it")
+            sandbox.reopen_steps(10)
+            sandbox.strip_citations("T-NAM")
+
+            plain = sandbox.validate()
+            self.assertEqual(plain["errors"], 0, "a REPORT and a gated finding fail nothing")
+            self.assertGreater(plain["reports"], 0)
+            self.assertEqual(sandbox.run("validate.py").returncode, 0)
+
             final = sandbox.validate("--final")
-            self.assertGreater(final["errors"], 0, "--final holds an unfinished setting to account")
             self.assertEqual(final["reports"], 0, "--final leaves nothing at REPORT")
+            self.assertGreater(final["errors"], 0)
             self.assertEqual(sandbox.run("validate.py", "--final").returncode, 1)
+
+            promoted = {f["check"] for f in final["findings"] if f["severity"] == "ERROR"}
+            self.assertIn("M24", promoted, "--final promotes a REPORT")
+            self.assertIn("M15", promoted, "--final ignores the gate")
 
     def test_report_alone_does_not_fail_the_run(self) -> None:
         with Sandbox() as sandbox:

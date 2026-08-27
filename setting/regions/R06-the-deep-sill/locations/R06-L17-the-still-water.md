@@ -12,7 +12,11 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+**The unbroken surface** is still enough to hold a reflection whole, waist deep, over a floor that is level.
+
+It is the only mirror below the sill. A wick held over it doubles and the doubled light shows the far side.
+
+Cut backwards into the underside of an overhang at the water's edge, and readable only in the reflection, is a line of lettering.
 
 ## Referee Overview
 
@@ -26,7 +30,7 @@ schema_version: 1
 
 *Nil:* no sound and nothing to make one. A shout goes out and does not come back and a party strung across it cannot call each other.
 
-[[ Prose at step 12, Decorator. ]]
+The lettering is the Covenant's, four hundred feet below the last Covenant work, on stone the Covenant did not cut.
 
 ## Features
 

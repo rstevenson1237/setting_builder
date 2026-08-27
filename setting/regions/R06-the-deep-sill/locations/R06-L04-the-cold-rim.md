@@ -12,7 +12,11 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+**The rim** is cut square and pegged, and cold comes up out of it rather than down into it.
+
+Struck, it gives the note of a thing with nothing behind it, all the way round.
+
+There is a scribed guide line on its face for lettering, and no letters.
 
 ## Referee Overview
 
@@ -26,7 +30,7 @@ schema_version: 1
 
 *Nil:* no order cut into it. Every other rim in the Reach carries the words and this one carries a scribed guide line and no letters, and the reason is that the cutter would have had to stand on it.
 
-[[ Prose at step 12, Decorator. ]]
+The lip is one course thick where it should be three, eaten out from underneath, and sound to look at. The cutter would have had to stand on it to cut the words.
 
 ## Features
 

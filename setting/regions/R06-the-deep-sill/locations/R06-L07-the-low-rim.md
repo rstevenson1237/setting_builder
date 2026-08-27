@@ -12,7 +12,11 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+**The open rim** is squared and unpegged, its peg holes clean, with the pegs stacked beside it in a pile that has not settled.
+
+There is no soot on the pegs and there is soot on the stone under them.
+
+There are two more pegs in the stack than the rim has holes, and they are cut to a different diameter.
 
 ## Referee Overview
 
@@ -26,7 +30,7 @@ schema_version: 1
 
 *Nil:* no soot and no gear. Whoever did this brought a light and took it away again, and left nothing but the pegs.
 
-[[ Prose at step 12, Decorator. ]]
+The two spare pegs are the diameter of the rim four hundred feet seaward. Somebody unpegged two rims, carried the pegs from one to the other, and stopped.
 
 ## Features
 

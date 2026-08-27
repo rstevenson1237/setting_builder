@@ -12,7 +12,11 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+Chest-deep black water over stone that has no shape, three hundred feet across, with nothing in it and nothing under it that a hand can find.
+
+The water closes over the chest on the first step and takes the breath with it.
+
+The cold does not come out of the water. It comes up through the soles, and it is worse in the middle of the stretch than at either edge.
 
 ## Referee Overview
 
@@ -25,8 +29,6 @@ schema_version: 1
 *What is true:* the cold does not come from the water. It comes up through the soles out of the level below, and it is worse in the middle of this stretch than at either edge, which means there is something under it (HAZARDS, T-HAZ-02), (HAZARDS, T-HAZ-09) {TEST: Constitution} {WOUND: Frost}.
 
 *Nil:* no bottom that is worth calling a bottom. A foot finds stone at chest depth everywhere and the stone is at a different height every pace, and nothing about it is level.
-
-[[ Prose at step 12, Decorator. ]]
 
 ## Features
 

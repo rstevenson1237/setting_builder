@@ -12,7 +12,15 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+**The rim** is cut square, pegged all the way round, with an order cut into the stone in letters a hand deep. The strokes are uneven and they get worse across the line, and the last word is in a different hand.
+
+**The pegs** are oak, driven from outside the frame and seated from within. There is a door peg lying among them that is not one of theirs.
+
+**The shaft** goes down thirty feet, then thirty more, on pegs set into the wall spaced for a load rather than for a body. The stone is dressed the whole way and it is dressed less carefully the further down it goes.
+
+The air at the bottom is a shade warmer than at the lip.
+
+**The ways from here** are four rims and a shaft, and the shaft comes up into green light and standing water.
 
 ## Referee Overview
 
@@ -26,7 +34,7 @@ schema_version: 1
 
 *What is true that the Overview withholds.* This is the ninth of the recorded shafts and the Covenant's own tally says eleven. Nine have been found. The two that have not are not lost: the tally gives their road counts, and the road counts are on the tally posts in the fen, and nobody has ever put the two lists side by side.
 
-[[ Prose at step 12, Decorator. ]]
+This is the ninth of the recorded shafts and the Covenant's own tally says eleven. The two that have not been found are not lost: the tally gives their road counts, and the road counts are on the tally posts in the fen, and nobody has put the two lists side by side.
 
 ## Features
 

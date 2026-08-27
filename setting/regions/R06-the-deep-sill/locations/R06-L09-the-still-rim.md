@@ -12,7 +12,11 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+**The silent rim** is squared, pegged and sealed, with the order cut round it in letters a hand deep and the last word in the same hand as the rest.
+
+A word spoken at it goes down and nothing comes back. Something dropped into it is not heard landing.
+
+A wick lit at it draws nothing toward it, which is true nowhere else at this depth.
 
 ## Referee Overview
 
@@ -26,7 +30,7 @@ schema_version: 1
 
 *Nil:* no warden, no order and no watch-keeper's slate, on a rim cut and pegged exactly like the ones that have all three.
 
-[[ Prose at step 12, Decorator. ]]
+The shaft is cut on a slight curve rather than plumb and sound turns the corner. Thirty feet down a tally is audible, told aloud, and it cannot be heard from the rim at all.
 
 ## Features
 

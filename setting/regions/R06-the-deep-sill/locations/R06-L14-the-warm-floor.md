@@ -12,7 +12,15 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+**The bare floor** rises out of the water, dry, level within a hand across two hundred feet. Nothing made it level.
+
+**The warmth** comes through a boot standing still, and it is warmer in the middle than at the edges, and there is no edge a hand can find.
+
+**The slate leaves** lie flat on it in a row in a bronze frame, nine of them, face up.
+
+**The warming slab** lies at the edge of the warmth, book-sized, and it is warm too.
+
+**The ways off** drop toward the shaft foot, run inward toward the counting, and slope away where the light stops reaching a wall.
 
 ## Referee Overview
 
@@ -26,7 +34,7 @@ schema_version: 1
 
 *What is true that the Overview withholds.* The warmth is the same warmth that is under every cut stone on the Reach, and this is where it is coming from. It is not a hot spring and there is no source: the floor is warm across about two hundred feet and it is warmest in the middle and it has no edge that a hand can find, and it is the thing every warm slab in the Reach is a symptom of. A party who has put a hand under a road course anywhere seaward is standing on the reason.
 
-[[ Prose at step 12, Decorator. ]]
+This is the same warmth that is under every cut stone on the Reach, and this is where it is coming from. There are two other sets of slate leaves in the setting and all three are laid out the same way, face up, where somebody lying down would find them.
 
 ## Features
 

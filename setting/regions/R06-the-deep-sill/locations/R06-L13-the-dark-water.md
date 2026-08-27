@@ -12,7 +12,13 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+Standing water at the chest, and **what turns** is in it: flat, pale, shaped to a gap rather than to a body, in numbers nobody has counted.
+
+When a wick is lit they turn toward it together, the way a face turns, and none of them approaches. When it goes out they stop.
+
+They are all facing the same way when a light is first lit, and it is not the way the party came in.
+
+There is no sound of any kind here: not from the water, not from them, not from a party's own wading.
 
 ## Referee Overview
 
@@ -25,8 +31,6 @@ schema_version: 1
 *What is true:* there is no ambush and no trigger. The things here respond to light and to nothing else, and what they do is close distance while it is out. A party that crosses at a walk with a wick lit is not attacked (BESTIARY, T-BES-05) {AD: 3, +1} {TYPE: Horror} {WOUND: Poison}.
 
 *Nil:* no sound of any kind. Not from the water, not from what is in it, not from the party's own wading, which the still water takes and does not give back (HAZARDS, T-HAZ-02).
-
-[[ Prose at step 12, Decorator. ]]
 
 ## Features
 

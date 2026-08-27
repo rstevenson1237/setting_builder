@@ -12,7 +12,13 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+**The old water** is warm at the ankle and cold at the chest, which is the reverse of the rest of the region.
+
+Nothing has ever been here: no print, no mark, no gear, no soot and nothing dropped.
+
+Under a hand the stone has a grain, and the grain runs across the grain of everywhere else in the deep water.
+
+A sealed tube in a slate housing lies on the bottom where it fell out of the shaft, laid flat, and it is standing higher than it has ever been read.
 
 ## Referee Overview
 
@@ -25,8 +31,6 @@ schema_version: 1
 *What is true:* the stone under this water was never cut and is older than every other floor in the region, and the difference is that it has a grain and the grain runs the other way. A hand can feel it. Everywhere else in the deep water the grain runs one direction across the whole of it, and here it runs across that (HAZARDS, T-HAZ-06).
 
 *Nil:* nothing has ever been here. No print, no mark, no gear, no soot and nothing dropped, and the narrowing shaft has been open the whole time.
-
-[[ Prose at step 12, Decorator. ]]
 
 ## Features
 

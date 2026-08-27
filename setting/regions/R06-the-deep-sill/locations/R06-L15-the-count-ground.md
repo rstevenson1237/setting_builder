@@ -12,7 +12,15 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+**The count** comes back one number behind, in the party's own voices, from ahead of them and below. It does not decay, it does not change pitch, and it does not stop when the party stops. It has every voice, including the voices of people who have not spoken since the shaft.
+
+**The weight of the air** changes, and everybody notices at the same moment.
+
+**The terms** are stated once and are not repeated and are not explained.
+
+**The set-down load** is whatever anybody puts down here, and it is where they left it when they come back, in the position it was put in.
+
+A bronze engine stands on nothing, wound, telling nothing.
 
 ## Referee Overview
 
@@ -28,7 +36,7 @@ schema_version: 1
 
 *Departure.* The floor rises seaward and the count falls level again over about a hundred feet. A party who took the terms goes on. A party who declined goes back, and the way back is the way they came, and it is not interfered with.
 
-[[ Prose at step 12, Decorator. ]]
+There is no stone here, no work, no object and no body. Somebody carried the engine down, wound it, set it down, and took the terms. Its count and the answering count are not the same count.
 
 ## Features
 

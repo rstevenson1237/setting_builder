@@ -12,7 +12,13 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+**The unworked shaft** is squared to the compass, dressed as far as a light reaches, with the pegs seated and clean and drawing without splitting anything.
+
+There is no soot in it at any depth a light reaches. Every other shaft here has some in its first thirty feet.
+
+There is nothing in it: no gear, no rope, no rubbish and no mark.
+
+The guide lines for the order are scribed on the rim and were never cut.
 
 ## Referee Overview
 
@@ -25,8 +31,6 @@ schema_version: 1
 *What is true:* no light has ever been in this shaft. Every other shaft in the Deep Sill has soot somewhere in its first thirty feet, from the Covenant's own lamps, and this one has none at any depth a light reaches. It was cut and pegged and never worked (ARCHITECTURE AND TERRAIN, T-ARC-05).
 
 *Nil:* nothing in it. Sounded, lit and looked at, the shaft holds no gear, no rope, no rubbish and no mark, which is not true of any other shaft here.
-
-[[ Prose at step 12, Decorator. ]]
 
 ## Features
 

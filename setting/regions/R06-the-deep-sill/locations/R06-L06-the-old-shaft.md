@@ -12,7 +12,13 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+**The narrowing shaft** is dressed for the first sixty feet and only cut below that, and from there it narrows at about a hand every thirty feet.
+
+The pegs stop where the dressing does.
+
+Below that there is nothing in the wall to take a hand, and the sides are too far apart to brace and too close to turn in.
+
+The air at the bottom is warmer than at the rim, and it is the only shaft here where that can be felt with a hand from the top.
 
 ## Referee Overview
 
@@ -25,8 +31,6 @@ schema_version: 1
 *What is true:* it is warm. The air at the bottom of this shaft is a shade warmer than at its rim, on a descent where every other thing gets colder, and it is the only shaft in the region where that is measurable from the top with a hand (HAZARDS, T-HAZ-07) {TEST: Fate} {WOUND: Crushing}.
 
 *Nil:* no way back. This is the one edge in the setting that is typed one-way in the connections table, and the fiction is the shaft's own shape.
-
-[[ Prose at step 12, Decorator. ]]
 
 ## Features
 

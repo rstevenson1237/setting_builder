@@ -12,7 +12,15 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+**The last course** is dressed stone, laid true, running level and stopping. Not at a wall and not at a doorway: it stops mid-course, and the stone it is laid against is not stone anybody cut. The dressing worsens over the last thirty feet before it ends, then it is only cut, then it is not cut.
+
+**The angle** is where the floor and the sides stop meeting each other at an angle anybody chose. Nothing is square, nothing is level, and water stands in it at a depth that has nothing to do with the shaft above.
+
+**The warm line** runs along the last dressed course and it is on the far side of it. It is sharp enough to find by holding a hand out and walking.
+
+**The lamp reading** is what a light that brightens with depth gives here. Nothing else gives anything: an ordinary wick dims to nothing.
+
+**The way back up** is the shaft the party came down, and nothing in the water inward is findable from below.
 
 ## Referee Overview
 
@@ -28,7 +36,7 @@ schema_version: 1
 
 *Departure.* The shaft up is findable from here because the party came down it. Nothing else in the Deep Water is findable from below. A party that goes on from here and turns back is relying on the pegging behind them, and a party that unpegged as they came has spent the region's only redundancy on speed.
 
-[[ Prose at step 12, Decorator. ]]
+Under a lamp that works, the surface past the last course is not blank. It carries the same tooling all the way out, at the same interval, further than the light goes.
 
 ## Features
 

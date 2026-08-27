@@ -12,7 +12,15 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+**The rim** is wider than the others, sixteen feet, with the order cut round it and the last word in a second hand.
+
+Standing on it is **the warden**, and it does not give a warning. It recites, from the beginning, and it starts again if it is interrupted.
+
+**The pack on the rim** sits where somebody set it down and did not pick it up again: instruments, a lamp, and a slate leaf. Soot has settled on it evenly and nothing has touched it.
+
+**The shaft** goes down four hundred feet in stages on pegs spaced for a load, and the dressing worsens with depth until at one particular course it stops being dressed and is only cut, and then it stops being cut.
+
+**The other rims** stand at intervals along the covenant ground in four directions.
 
 ## Referee Overview
 
@@ -26,7 +34,7 @@ schema_version: 1
 
 *What is true that the Overview withholds.* It wants nothing, which is what makes it different from everything else in this table. It cannot be traded with and it can be satisfied: it lets anybody past who is going up. A party who goes down another shaft and comes back to this one is not stopped, and a party who works that out has the region's only reliable way home.
 
-[[ Prose at step 12, Decorator. ]]
+It lets past anybody who is going up, every time, without exception, and that is the whole difference between it and every other warden. A party who works that out has the region's only reliable way home.
 
 ## Features
 

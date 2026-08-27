@@ -12,7 +12,13 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+The water drops to the knee and **the silt** under it is fine enough to hold a print.
+
+It is four feet deep and there is stone under it.
+
+There are prints in it, and they are not all a party's own and not all recent.
+
+A line with a hollow lead lies where somebody dropped it, and there is a sample still in the lead.
 
 ## Referee Overview
 
@@ -26,7 +32,7 @@ schema_version: 1
 
 *Nil:* nothing standing in it. Two hundred feet of knee-deep water with nothing in it at all, which is not true of any other stretch of the deep water.
 
-[[ Prose at step 12, Decorator. ]]
+Silt this fine holds a print until something disturbs it and nothing here disturbs anything. The prints are every set that has ever crossed, on top of each other, and they can be counted: four crossings in both directions, and one set that goes in and does not come out.
 
 ## Features
 

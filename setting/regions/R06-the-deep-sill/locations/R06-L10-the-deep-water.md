@@ -12,7 +12,13 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+**The shaft foot** is thirty feet above the water and there is nothing between the last peg and the surface.
+
+**The water** stands unbroken and does not move, and it is a shade warmer at the ankle than the air over it, which is the reverse of everything above.
+
+**The floor under it** is not square, not level, and nothing on it runs parallel to anything else. It is not rough and it is not broken: under a hand it is smooth and continuous, and it has a grain.
+
+**The ways from here** leave in five directions, and everything within reach of a lit wick turns toward it together.
 
 ## Referee Overview
 
@@ -26,7 +32,7 @@ schema_version: 1
 
 *What is true that the Overview withholds.* The water stands at a depth that has nothing to do with the depth of the shaft above it. It is the same depth here as it is at the sill floor four hundred feet higher, and as it is at the far end of the deep water, and it does not vary. The water is not filling anything. It is at a level, and the level is not a water level.
 
-[[ Prose at step 12, Decorator. ]]
+The water stands at the same depth here as it does at the sill floor four hundred feet higher and at the far end of the deep water, and it does not vary. It is at a level, and the level is not a water level.
 
 ## Features
 

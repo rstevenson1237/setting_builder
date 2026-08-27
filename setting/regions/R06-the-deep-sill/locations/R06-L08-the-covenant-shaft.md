@@ -12,7 +12,15 @@ schema_version: 1
 
 ## Player Overview
 
-[[ Written at step 12, Decorator, in Player register. Every bolded noun here needs a feature below it. ]]
+**The dressed shaft** goes down four hundred feet, dressed the whole way, with the pegs set exactly and spaced for a load. The dressing worsens with depth in four stages.
+
+**The unlettered rim** is squared and pegged and bare: no order, no count, no name and no mark of any kind. The face is dressed flat and the guide lines are scribed, and nobody cut the words.
+
+**The rope still on it** hangs from the top peg, laid rather than twisted, holding its knot and not shrunk. It reaches to the last peg and no further.
+
+**The watch glass** is wedged in the seventh peg socket in a padded case, and it is running.
+
+**The ways from here** are three rims along the covenant ground, and the shaft, which ends thirty feet above standing water.
 
 ## Referee Overview
 
@@ -26,7 +34,7 @@ schema_version: 1
 
 *What is true that the Overview withholds.* This is the best-made shaft in the Deep Sill and the dressing on it worsens with depth exactly like the others, which means the Covenant cut it in the same season and to the same standard and got frightened at the same rate. The difference is that this one has no order cut round its rim. It is the only unlettered rim on the Reach, and it is the deepest.
 
-[[ Prose at step 12, Decorator. ]]
+Whoever hung the rope measured the shaft and not the drop. A party who carries the glass down and back finds it has lost time against their own count of turns, and the loss is proportional to the depth.
 
 ## Features
 
