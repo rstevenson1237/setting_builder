@@ -16,14 +16,27 @@ schema_version: 1
 
 ## Referee Overview
 
-**Reactions:** 
-**Gate:** 
+**Reactions:** *Speaking in it:* nothing said in this shaft comes back, in either direction. *Dropping something:* it is not heard landing. *Putting the light out:* nothing changes.
 
-[[ Fields written at step 11, Builder. Prose at step 12, Decorator. ]]
+**Gate:** None. An open shaft, unpegged, plumb, going down.
+
+*Cost:* one turn at the mouth. Three down, three up, and a party split across it cannot work together.
+
+*What is true:* the silence is the shaft's shape. It is cut on a slight curve rather than plumb and sound turns the corner and does not come back, which is true of exactly one other shaft on the Reach and that one is four hundred feet below this (HAZARDS, T-HAZ-12) {TEST: Sanity}.
+
+*Nil:* no pegs, and there never were any: the holes were never cut. It is the only unpegged Covenant shaft above the sill.
+
+[[ Prose at step 12, Decorator. ]]
 
 ## Features
 
-[[ Written at step 11, Builder. One `### Name` per feature. A connection pointer inside a feature is the only place `->` may appear. ]]
+### The Curved Shaft
+
+Squared at the mouth, dressed, and out of plumb by about a hand in thirty feet, consistently, in one direction (ARCHITECTURE AND TERRAIN, T-ARC-05), (LANGUAGE AND ROOT VOCABULARY, T-LNG-20).
+
+Something below is telling a tally aloud and it cannot be heard from here at all. Thirty feet down it is clear, and it will not stop mid-count, and interrupting it starts the count again with whoever interrupted (BESTIARY, T-BES-08).
+
+{AD: 4, +2} {TYPE: Horror} {TEST: Sanity}
 
 ## Exits
 

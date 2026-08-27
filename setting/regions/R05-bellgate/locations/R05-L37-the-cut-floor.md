@@ -16,14 +16,29 @@ schema_version: 1
 
 ## Referee Overview
 
-**Reactions:** 
-**Gate:** 
+**Reactions:** *Crossing it:* the jointing stops mid-course and the stone past it is only cut. *Following the joint line:* it runs the whole width of the room and does not deviate.
 
-[[ Fields written at step 11, Builder. Prose at step 12, Decorator. ]]
+**Gate:** None. A room where the Covenant's work stops.
+
+*Cost:* one turn to cross. Two to read the joint.
+
+*What is true:* it stops mid-course rather than at a wall, which is what a season's end looks like rather than a decision. The unfinished half is cut to the same plan and was never dressed, and the tools were taken away (ARCHITECTURE AND TERRAIN, T-ARC-05).
+
+*Nil:* no order cut anywhere in it. They stopped work here and did not mark it, which is the only place below the rim in Bellgate where the Covenant stopped without cutting a line.
+
+[[ Prose at step 12, Decorator. ]]
 
 ## Features
 
-[[ Written at step 11, Builder. One `### Name` per feature. A connection pointer inside a feature is the only place `->` may appear. ]]
+### The Joint
+
+A straight line across thirty feet of floor and up both walls, with fitted slab on one side and cut stone on the other (LANGUAGE AND ROOT VOCABULARY, T-LNG-47), (ARCHITECTURE AND TERRAIN, T-ARC-01).
+
+A surveyor's rod in jointed sections lies on the unfinished side, marked in the Covenant's units, which are not the units anybody now uses (TREASURE TABLE III, T-TR3-07).
+
+{VALUE: 1000 cn} {WT: 2} {QUALITY: Fine}
+
+It is set to a length. The length is the distance from this joint to the last dressed course of the sill floor, four hundred feet down and one region inward.
 
 ## Exits
 

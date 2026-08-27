@@ -16,14 +16,27 @@ schema_version: 1
 
 ## Referee Overview
 
-**Reactions:** 
-**Gate:** 
+**Reactions:** *Entering:* the cell is fitted out in ranks and every fitting is gone and every socket is left. *Counting the sockets:* there are forty-one ranks.
 
-[[ Fields written at step 11, Builder. Prose at step 12, Decorator. ]]
+**Gate:** None. A long cell with two doorways.
+
+*Cost:* one turn to cross. Two to count the sockets, which is the thing to do here.
+
+*What is true:* forty-one is the number of ranks standing in the flooded cells three rooms inward, and it is one fewer than the names on the folded page. This room is where they were quartered (HOARDS, T-HRD-01).
+
+*Nil:* nothing left in it. Every fitting was taken out in order and the sockets show one tool, which is the same discipline the holds above the waterline were emptied with.
+
+[[ Prose at step 12, Decorator. ]]
 
 ## Features
 
-[[ Written at step 11, Builder. One `### Name` per feature. A connection pointer inside a feature is the only place `->` may appear. ]]
+### The Ranks
+
+Sockets in the floor and the wall at even spacing down eighty feet of cell, forty-one sets, every one empty (ARCHITECTURE AND TERRAIN, T-ARC-10), (LANGUAGE AND ROOT VOCABULARY, T-LNG-24).
+
+Lead flashing stripped and folded lies at the inward end where somebody stacked it and did not carry it out (TREASURE TABLE I, T-TR1-03).
+
+{VALUE: 60 cn} {WT: 3} {QUALITY: Poor}
 
 ## Exits
 

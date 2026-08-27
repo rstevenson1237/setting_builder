@@ -16,14 +16,29 @@ schema_version: 1
 
 ## Referee Overview
 
-**Reactions:** 
-**Gate:** 
+**Reactions:** *Standing on the floor:* it is warm through a boot and stays warm. *Sitting down:* the party wants a watch and intends a turn, and everybody says so at once.
 
-[[ Fields written at step 11, Builder. Prose at step 12, Decorator. ]]
+**Gate:** None. A warm dry cell between a scored floor and a silted one.
+
+*Cost:* one turn to cross. A watch if anybody sits down.
+
+*What is true:* the warmth is the same warmth as the fen's roads and the gate ground's dry stone, and here it is strong enough to hold sleep well past the watch it was meant to last (HAZARDS, T-HAZ-06) {TEST: Fate} {CONDITION: Slab-slept / the party wakes a watch late and a hand lower than they lay down / until they are back on standing ground}.
+
+*Nil:* nothing in it. No socket, no fitting, no soot and no mark, and it is the most comfortable room in Bellgate and the emptiest.
+
+[[ Prose at step 12, Decorator. ]]
 
 ## Features
 
-[[ Written at step 11, Builder. One `### Name` per feature. A connection pointer inside a feature is the only place `->` may appear. ]]
+### The Warm Cell
+
+Dry slab, warm through a boot, warmest in the middle, with no edge a hand can find (RUMOURS, T-RUM-10), (LANGUAGE AND ROOT VOCABULARY, T-LNG-71).
+
+Nine slate leaves in a bronze frame lie flat on the floor at the middle of it, face up, meant to be read through the palm rather than the eye (MAGICAL TOMES, T-TOM-06).
+
+{VALUE: 4500 cn} {WT: 4} {QUALITY: Cursed}
+
+The reading takes a watch and the reader is a hand lower at the end of it. There are two other sets on the Reach and both are laid out the same way, face up, where somebody lying down would find them.
 
 ## Exits
 

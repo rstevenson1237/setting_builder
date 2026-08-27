@@ -16,14 +16,27 @@ schema_version: 1
 
 ## Referee Overview
 
-**Reactions:** 
-**Gate:** 
+**Reactions:** *Standing on it:* it is the only dry ground on the approach and the slab under it is warm through a boot. *Walking seaward:* the lane is kept and the cutting is fresh, and nobody in Stillhold cuts it.
 
-[[ Fields written at step 11, Builder. Prose at step 12, Decorator. ]]
+**Gate:** None. It is where the kept lane meets the standing water, and the crossing is a step.
+
+*Cost:* one turn to cross. A day seaward to Stillhold's wall.
+
+*What is true:* the lane's last hundred yards are cut to the standing order's width and kept, and the order does not apply to lanes that are not beside a road, and this one is beside a road (LORE, T-LOR-11). Somebody is keeping the only route between two regions and neither region will say who.
+
+*Nil:* no post. Every lane head in the Reach has one with the order cut into it, and this one has a socket, cut and empty, and the socket is clean inside.
+
+[[ Prose at step 12, Decorator. ]]
 
 ## Features
 
-[[ Written at step 11, Builder. One `### Name` per feature. A connection pointer inside a feature is the only place `->` may appear. ]]
+### The Marked Ground
+
+Dry Covenant slab where the lane ends and the standing water begins, with a line of tallow niches running back along the lane at shoulder height every forty paces, sooted, unlit (ARCHITECTURE AND TERRAIN, T-ARC-12), (ARCHITECTURE AND TERRAIN, T-ARC-01).
+
+The niches stop at this point. Everything inward of here is unlit and has been for four generations, and the Order at Stillhold states the fact and does not draw the conclusion (RUMOURS, T-RUM-09).
+
+Peat smoke lies across the ground at knee height when the air is still, and the face of the gate has to be found by hand (HAZARDS, T-HAZ-04).
 
 ## Exits
 

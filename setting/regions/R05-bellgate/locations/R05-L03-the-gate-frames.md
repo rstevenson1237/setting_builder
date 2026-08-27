@@ -16,14 +16,29 @@ schema_version: 1
 
 ## Referee Overview
 
-**Reactions:** 
-**Gate:** 
+**Reactions:** *Striking a frame:* the note carries inward and down the stair and does not carry out across the water, which is the reverse of every frame in the fen. *Climbing an upright:* the socket is clean and empty and dry inside, in standing rain.
 
-[[ Fields written at step 11, Builder. Prose at step 12, Decorator. ]]
+**Gate:** None. Four frames standing in ankle-deep water on open slab, with nothing between them and nothing to open.
+
+*Cost:* one turn to work along all four. Two to climb them.
+
+*What is true:* the pins are seated and the sockets are clean, and clean bronze on the Reach means recent use. Nobody has rung these and something has been keeping the sockets clear.
+
+*Nil:* no rope on any of them. Every bare frame in the fen has fresh rope on one pin and these four have none, and this is the only stretch of Covenant road where that is so.
+
+[[ Prose at step 12, Decorator. ]]
 
 ## Features
 
-[[ Written at step 11, Builder. One `### Name` per feature. A connection pointer inside a feature is the only place `->` may appear. ]]
+### The Four Frames
+
+Two uprights and a bare crossbeam each, standing in a line across the gate ground, the pins seated and the sockets clean of verdigris (ARCHITECTURE AND TERRAIN, T-ARC-02).
+
+Cut into the underside of the third crossbeam, upside down to a walker, is the ringing order (LORE, T-LOR-01). Sounding one is a stated procedure and the note goes the wrong way (PROCEDURES, T-PRC-02).
+
+A bell pin lies in the water at the foot of the fourth, seated so long that it carries the shape of its socket down one side (TREASURE TABLE I, T-TR1-04).
+
+{VALUE: 40 cn} {WT: 1} {QUALITY: Fine}
 
 ## Exits
 

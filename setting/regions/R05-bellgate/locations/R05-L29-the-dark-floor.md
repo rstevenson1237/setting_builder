@@ -16,14 +16,29 @@ schema_version: 1
 
 ## Referee Overview
 
-**Reactions:** 
-**Gate:** 
+**Reactions:** *Crossing it:* soot lies on the floor rather than on the walls and it has been walked through. *Reading the tracks:* they go inward and they are recent, and they are not a party's own.
 
-[[ Fields written at step 11, Builder. Prose at step 12, Decorator. ]]
+**Gate:** None. An open floor between the channel and the score marks.
+
+*Cost:* one turn to cross. Two to read the floor.
+
+*What is true:* the soot fell from above. There is no niche in this room and no fitting for one: the soot came down through the openings in the ceiling from the shafts, over four generations, and it is thickest under them (ARCHITECTURE AND TERRAIN, T-ARC-12).
+
+*Nil:* nothing standing in it and nothing on the walls, and the tracks are the whole content.
+
+[[ Prose at step 12, Decorator. ]]
 
 ## Features
 
-[[ Written at step 11, Builder. One `### Name` per feature. A connection pointer inside a feature is the only place `->` may appear. ]]
+### The Sooted Floor
+
+Soot a finger deep across sixty feet, with tracks through it going inward, made by something flat that fits a gap rather than by a boot (BESTIARY, T-BES-05), (PUZZLES, T-PUZ-07).
+
+{AD: 3, +1} {TYPE: Horror} {WOUND: Poison}
+
+A hank of tallow candles lies in the soot, sweating, burning with a smell that carries a long way in still air (TREASURE TABLE I, T-TR1-08).
+
+{VALUE: 25 cn} {WT: 1} {QUALITY: Cursed}
 
 ## Exits
 

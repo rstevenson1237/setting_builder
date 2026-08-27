@@ -16,14 +16,29 @@ schema_version: 1
 
 ## Referee Overview
 
-**Reactions:** 
-**Gate:** 
+**Reactions:** *Wading it:* the water is ankle deep and does not drain and the slab under it is level to within a hand. *Bringing a light near the surface:* the film on it takes fire and runs with the current, and the current goes toward the cut.
 
-[[ Fields written at step 11, Builder. Prose at step 12, Decorator. ]]
+**Gate:** None. It is standing water on level slab and a party walks through it.
+
+*Cost:* one turn to cross. None to go round, because there is nothing to go round: it is a hundred and fifty feet of the gate ground that happens to be lower by a hand.
+
+*What is true:* it is draining, slowly, into the flooded cut on its east side, and the film on the surface is drawn that way. The film is what a lamp sets alight and it burns toward the cut mouth (HAZARDS, T-HAZ-08) {TEST: Constitution} {WOUND: Fire}. The tell is the smell, a full chain upwind.
+
+*Nil:* nothing under it. Sounded and felt, the slab is unbroken across the whole of it, with no opening, no channel and no grating.
+
+[[ Prose at step 12, Decorator. ]]
 
 ## Features
 
-[[ Written at step 11, Builder. One `### Name` per feature. A connection pointer inside a feature is the only place `->` may appear. ]]
+### The Skinned Water
+
+A tallow-coloured film lying on ankle-deep standing water, moving imperceptibly east, thickest at the cut mouth (HAZARDS, T-HAZ-08), (ARCHITECTURE AND TERRAIN, T-ARC-01).
+
+A drawing plate lies face down in it, of the kind that pulls standing water off a floor a hand at a time and must be emptied into running water (TREASURE TABLE IV, T-TR4-03).
+
+{VALUE: 2500 cn} {WT: 3} {QUALITY: Masterwork}
+
+Emptied anywhere else it gives all of it back at once, and there is nothing running on the gate ground.
 
 ## Exits
 

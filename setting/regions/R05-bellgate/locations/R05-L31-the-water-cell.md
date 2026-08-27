@@ -16,14 +16,29 @@ schema_version: 1
 
 ## Referee Overview
 
-**Reactions:** 
-**Gate:** 
+**Reactions:** *Entering:* standing water at the chest, skinned over, not moving. *Breaking the skin:* it reforms in about a turn. *Trailing a rope:* what is in the water takes what is trailed.
 
-[[ Fields written at step 11, Builder. Prose at step 12, Decorator. ]]
+**Gate:** None. The flooded cut comes into the tier here and this is where it arrives.
+
+*Cost:* two turns to cross. Four to go back up the cut against the flow.
+
+*What is true:* this cell is the low point of the tier and everything that comes down the cut ends up in it, and it does not drain, and the water in it is the same depth as the water on the gate ground four hundred feet above (HAZARDS, T-HAZ-02) {TEST: Constitution} {WOUND: Frost}.
+
+*Nil:* nothing on the walls. No sockets, no fittings, no soot and no marks, and this cell was flooded before it was fitted out.
+
+[[ Prose at step 12, Decorator. ]]
 
 ## Features
 
-[[ Written at step 11, Builder. One `### Name` per feature. A connection pointer inside a feature is the only place `->` may appear. ]]
+### The Skinned Water
+
+Chest deep, still, with a film on it that reforms after it is broken, over a floor with nothing on it (HAZARDS, T-HAZ-08), (ARCHITECTURE AND TERRAIN, T-ARC-04).
+
+A sounding glass lies on the bottom, showing what lies under standing water to a hand's depth and no further, and showing it as it was rather than as it is (TREASURE TABLE IV, T-TR4-07).
+
+{VALUE: 4500 cn} {WT: 2} {QUALITY: Masterwork}
+
+Held over this floor it shows the cell fitted out, and people in it.
 
 ## Exits
 

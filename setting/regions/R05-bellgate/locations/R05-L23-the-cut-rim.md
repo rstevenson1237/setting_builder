@@ -16,14 +16,29 @@ schema_version: 1
 
 ## Referee Overview
 
-**Reactions:** 
-**Gate:** 
+**Reactions:** *Reading the rim:* the strokes are uneven and the last word is in a different hand. *Comparing it to any other:* it is a copy and the fault is copied with it.
 
-[[ Fields written at step 11, Builder. Prose at step 12, Decorator. ]]
+**Gate:** None. A rim with an order round it, at the second turn of the stair, opening onto a shaft nobody uses.
+
+*Cost:* one turn at the rim. Two to read it against another.
+
+*What is true:* the order here is cut into the wall of the stair rather than into a shaft rim, which is the only place in the Reach it appears anywhere but on a rim. Somebody copied it onto a stair so that people coming down would read it before they reached anything (LORE, T-LOR-05), (ARCHITECTURE AND TERRAIN, T-ARC-05).
+
+*Nil:* no shaft under it. The opening is six feet deep and stops at solid stone, and it was cut to hold the standing slab that carries the order and the slab is not in it.
+
+[[ Prose at step 12, Decorator. ]]
 
 ## Features
 
-[[ Written at step 11, Builder. One `### Name` per feature. A connection pointer inside a feature is the only place `->` may appear. ]]
+### The Cut Rim
+
+Cut into the stair wall at the second turn, squared, with the order round it in letters a hand deep, the strokes uneven and the last word finished by a different hand (LORE, T-LOR-05).
+
+The sockets for a standing slab's feet are cut in the sill of it, square and exact, and empty (TREASURE TABLE V, T-TR5-03).
+
+{VALUE: 9000 cn} {WT: 20} {QUALITY: Masterwork}
+
+The slab that stood here is four hundred feet lower and one region inward, out of its sockets by the width of a hand.
 
 ## Exits
 

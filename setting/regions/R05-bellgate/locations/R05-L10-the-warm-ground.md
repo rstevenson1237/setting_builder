@@ -16,14 +16,29 @@ schema_version: 1
 
 ## Referee Overview
 
-**Reactions:** 
-**Gate:** 
+**Reactions:** *Standing on it:* the stone is warm through a boot and everybody says so. *Sitting down:* the party wants a watch and intends a turn.
 
-[[ Fields written at step 11, Builder. Prose at step 12, Decorator. ]]
+**Gate:** None. Sixty feet of slab with no water standing on it, in the middle of eight hundred feet that is under water.
+
+*Cost:* one turn to cross. A watch if anybody sits down.
+
+*What is true:* it is dry because it is warm, and the warmth is coming up from below, and this is the only place on the gate ground where the level under the slab reaches the surface (HAZARDS, T-HAZ-06) {TEST: Fate} {CONDITION: Slab-slept / the party wakes a watch late and a hand lower than they lay down / until they are back on standing ground}.
+
+*Nil:* nothing on it. No frame, no post, no mark and no cut, in the one place on the whole approach that anybody would want to stop.
+
+[[ Prose at step 12, Decorator. ]]
 
 ## Features
 
-[[ Written at step 11, Builder. One `### Name` per feature. A connection pointer inside a feature is the only place `->` may appear. ]]
+### The Dry Stone
+
+Sixty feet by forty of slab standing dry in ankle-deep rain, warm through a boot, warmest in the middle (RUMOURS, T-RUM-03), (ARCHITECTURE AND TERRAIN, T-ARC-01).
+
+A warming slab the size of a book lies at the edge of it, holding a body's heat through a night and taking a watch of that body's sleep to charge (TREASURE TABLE IV, T-TR4-05).
+
+{VALUE: 2000 cn} {WT: 2} {QUALITY: Masterwork}
+
+It is charged, and there is nobody here.
 
 ## Exits
 

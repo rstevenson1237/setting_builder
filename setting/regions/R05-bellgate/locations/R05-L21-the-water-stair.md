@@ -16,14 +16,29 @@ schema_version: 1
 
 ## Referee Overview
 
-**Reactions:** 
-**Gate:** 
+**Reactions:** *Going down:* the steps are running with water and slick along the middle and rough at the edges. *Following the water:* it runs inward and down and does not come back, and it is going somewhere.
 
-[[ Fields written at step 11, Builder. Prose at step 12, Decorator. ]]
+**Gate:** None here. This stair is the flooded cut's continuation and it is the region's second route below the slab, and what gates it is the cold and the light rather than anything built.
+
+*Cost:* two turns down. Four up against the flow.
+
+*What is true:* it is not a stair. It is a stepped channel, cut to take water, and the steps are the fall. Nobody was ever meant to walk it and the wear on it is recent and is not the Covenant's (ARCHITECTURE AND TERRAIN, T-ARC-11), (HAZARDS, T-HAZ-03) {TEST: Constitution} {CONDITION: Footsore / halves the stated rate / until a full rest}.
+
+*Nil:* no niches. Every worked passage in Bellgate has them at forty paces and this has none at any point, because it was cut for water.
+
+[[ Prose at step 12, Decorator. ]]
 
 ## Features
 
-[[ Written at step 11, Builder. One `### Name` per feature. A connection pointer inside a feature is the only place `->` may appear. ]]
+### The Stepped Channel
+
+Six feet wide, running down and inward, the steps a hand high and slick along the middle where the water goes (ARCHITECTURE AND TERRAIN, T-ARC-11).
+
+Crossing it is a stated procedure, heaviest load first (PROCEDURES, T-PRC-01).
+
+A drawing plate lies wedged in it against the flow, pulling standing water off a floor a hand at a time and needing to be emptied into running water, and it is in running water (TREASURE TABLE IV, T-TR4-03).
+
+{VALUE: 2500 cn} {WT: 3} {QUALITY: Masterwork}
 
 ## Exits
 

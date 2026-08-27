@@ -16,14 +16,29 @@ schema_version: 1
 
 ## Referee Overview
 
-**Reactions:** 
-**Gate:** 
+**Reactions:** *Crossing it:* the floor is uneven and undressed and it is warmer than the dressed slab either side. *Putting a hand flat on it:* it is warm, and warmer toward the middle.
 
-[[ Fields written at step 11, Builder. Prose at step 12, Decorator. ]]
+**Gate:** None. A room between two dressed floors with an undressed one in it.
+
+*Cost:* one turn to cross. Two to work out where the warmth is coming from, which is downward and cannot be followed.
+
+*What is true:* the Covenant faced three walls and stopped, and the fourth is the rock the level is cut into rather than the rock the rest is cut from. It is warmer than the faced walls by enough to feel with a hand held flat, and nothing else here is warm (HAZARDS, T-HAZ-09), (ARCHITECTURE AND TERRAIN, T-ARC-10).
+
+*Nil:* nothing was ever in it. No sockets, no fittings, no soot and no marks, and the room was abandoned before it was finished.
+
+[[ Prose at step 12, Decorator. ]]
 
 ## Features
 
-[[ Written at step 11, Builder. One `### Name` per feature. A connection pointer inside a feature is the only place `->` may appear. ]]
+### The Unfaced Wall
+
+Facing on three walls, stopping in a straight vertical line between one course and the next, and bare stone beyond it (LANGUAGE AND ROOT VOCABULARY, T-LNG-74).
+
+A sealed tube of dark liquid in a slate housing lies against the bare wall, laid flat, standing higher the further down a road it is laid (TREASURE TABLE III, T-TR3-08).
+
+{VALUE: 1500 cn} {WT: 1} {QUALITY: Masterwork}
+
+Somebody set it down here to take a reading and did not take it away.
 
 ## Exits
 

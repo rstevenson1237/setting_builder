@@ -16,14 +16,29 @@ schema_version: 1
 
 ## Referee Overview
 
-**Reactions:** 
-**Gate:** 
+**Reactions:** *Reading the floor:* score marks, parallel, running one way. *Following them:* they come out of the bell cell and go toward the stair, and they stop forty feet short of it.
 
-[[ Fields written at step 11, Builder. Prose at step 12, Decorator. ]]
+**Gate:** None. A floor with marks on it.
+
+*Cost:* one turn to cross. Two to read the marks properly.
+
+*What is true:* the marks are the width of a bell's rim and they run outward only, which means bells were dragged out of the tier and none was dragged in. They stop forty feet short of the stair because that is where they were lifted (ARCHITECTURE AND TERRAIN, T-ARC-11).
+
+*Nil:* no lifting gear. Whatever picked them up at that point was brought in and taken away again, and there is nothing left of it but the marks.
+
+[[ Prose at step 12, Decorator. ]]
 
 ## Features
 
-[[ Written at step 11, Builder. One `### Name` per feature. A connection pointer inside a feature is the only place `->` may appear. ]]
+### The Score Marks
+
+Parallel pairs in the floor slab, at the width of a bell's rim, running from the bell cell toward the stair and stopping (TREASURE TABLE V, T-TR5-01), (HAZARDS, T-HAZ-11).
+
+{VALUE: 12000 cn} {WT: 30} {QUALITY: Artifact}
+
+Counting the pairs gives eleven. Nine are hanging in the fen, one is behind a gate, and the eleventh is not accounted for anywhere.
+
+Half of a relief panel stands against the wall where the marks stop, waist-deep in nothing, holding a clapper above a waterline that is not there, with the face cut away carefully and the surrounding stone untouched (LORE, T-LOR-04).
 
 ## Exits
 
