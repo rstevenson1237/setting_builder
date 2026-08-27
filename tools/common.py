@@ -658,6 +658,19 @@ class Corpus:
         tables = doc.tables()
         return tables[0].rows if tables else []
 
+    def table_by_section(self) -> dict[str, str]:
+        """Every name a `(SECTION, key)` mark may use, folded to its table code.
+
+        A mark names its table either by the catalogue name or by the code, so
+        both forms are indexed here rather than in each caller.
+        """
+        index: dict[str, str] = {}
+        for code, doc in self.tables.items():
+            index[normalise_key(str(doc.fm.get("name", "")))] = code
+            index[normalise_key(code)] = code
+        index.pop("", None)
+        return index
+
     def entry_ids(self) -> set[str]:
         ids: set[str] = set()
         for code in self.tables:
@@ -718,6 +731,29 @@ def load_corpus(root: Path | None = None) -> Corpus:
                         corpus.locations[doc.code or path.stem] = doc
 
     return corpus
+
+
+def resolve_entry(rows: list[dict[str, str]], key: str) -> dict[str, str] | None:
+    """The row a `(SECTION, key)` mark names, or ``None``.
+
+    A mark keys a row either by its entry ID or by the leading text of one of
+    its cells, which is how `(BESTIARY, Fen-wight)` reaches the row whose entry
+    opens with that name. Validation asks whether this returns a row and the
+    build asks which row it is, so the rule lives here rather than in either.
+    """
+    want = normalise_key(key)
+    if not want:
+        return None
+    for row in rows:
+        if normalise_key(row.get("ID", "")) == want:
+            return row
+        for header, value in row.items():
+            if header == "ID":
+                continue
+            lead = re.split(r"[.,:;\u2014\u2013(]", value, maxsplit=1)[0]
+            if normalise_key(lead) == want:
+                return row
+    return None
 
 
 # --------------------------------------------------------------------------

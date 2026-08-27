@@ -5,9 +5,9 @@ by an unrelated refactor without anyone noticing. Each case here breaks exactly
 one thing in a copy of the repository and asserts that the matching check
 reports it, at the severity SPEC.md section 14.1 assigns.
 
-M11 has no case: it compares derived diagrams against what `mermaid_gen.py`
-re-derives, and that script arrives at Milestone 5. Add its case with the
-script.
+M11's case breaks a derived diagram rather than a content file, because that is
+what the check guards: the diagram layer is derived in full, and a file edited
+by hand is the one way it can disagree with the tables it draws.
 """
 
 from __future__ import annotations
@@ -19,7 +19,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from harness import (  # noqa: E402
-    L03, L07, LEDGER, REGION, REGION_CONN, SETTING_CONN, T_KEY, Sandbox,
+    DIAGRAM, L03, L07, LEDGER, REGION, REGION_CONN, SETTING_CONN, T_KEY, Sandbox,
 )
 
 # check -> (how to break it, steps that must be complete first, expected severity)
@@ -38,6 +38,8 @@ BREAKS: dict[str, tuple[object, tuple[int, ...], str]] = {
            (10,), "ERROR"),
     "M10": (lambda s: s.sub(L07, "container: drowned-tier", "container: no-such-tier"),
             (), "ERROR"),
+    "M11": (lambda s: s.sub(DIAGRAM, 'C_DROWNED_TIER["The Drowned Tier"]',
+                            'C_DROWNED_TIER["The Sunken Tier"]'), (), "ERROR"),
     "M12": (lambda s: s.sub(SETTING_CONN, "| From | To |\n| :--- | :--- |",
                             "| From | To | Type |\n| :--- | :--- | :--- |\n"
                             "| R03 | R03 | road |"), (), "ERROR"),
@@ -112,7 +114,7 @@ class TestChecksFire(unittest.TestCase):
         sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "tools"))
         import validate  # noqa: PLC0415
 
-        missing = set(validate.CHECKS) - set(BREAKS) - {"M11"}
+        missing = set(validate.CHECKS) - set(BREAKS)
         self.assertEqual(missing, set(), f"checks with no negative case: {sorted(missing)}")
 
 

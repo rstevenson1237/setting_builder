@@ -16,6 +16,10 @@ A pattern is addressed by its `id`. `/generate` and `/update` take that id, and
 | setting | engineer | `setting.engineer.connections` | Regions | `config` | `patterns/setting/engineer.md` |
 | setting | builder | `setting.builder.tables` | Tables | `config` | `patterns/setting/builder.md` |
 | setting | decorator | `setting.decorator.prose` | Overview, Style | `table:S-HIS`, `table:S-TRU`, `table:S-AMB`, `table:T-LNG`, `config` | `patterns/setting/decorator.md` |
+| region | architect | `region.architect.headers` | Overview, Fields, Tables, Connections, Diagram | `config` | `patterns/region/architect.md` |
+| region | engineer | `region.engineer.connections` | Connections | `container:${CONTAINER_ID}`, `table:T-ARC`, `table:T-RUM`, `table:T-LOR`, `config` | `patterns/region/engineer.md` |
+| region | builder | `region.builder.fields` | Fields, Tables | `container:${CONTAINER_ID}`, `table:S-AMB`, `table:S-FAC`, `table:T-ARC`, `table:T-BES`, `table:T-CRE`, `table:T-HAZ`, `config` | `patterns/region/builder.md` |
+| region | decorator | `region.decorator.prose` | Overview | `container:${CONTAINER_ID}`, `table:S-AMB`, `table:T-ARC`, `table:T-LNG`, `table:T-NAM`, `config` | `patterns/region/decorator.md` |
 | table | builder | `table.ambiance` | Entries | `table:S-HIS` | `patterns/tables/S-AMB.md` |
 | table | builder | `table.architecture` | Entries | `table:S-HIS`, `table:T-LNG`, `config` | `patterns/tables/T-ARC.md` |
 | table | builder | `table.factions` | Entries | `table:S-HIS`, `table:S-TRU` | `patterns/tables/S-FAC.md` |

@@ -14,17 +14,28 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from harness import GENRE, L03, LEDGER, REGION, REPO, ROUTER, Sandbox  # noqa: E402
+from harness import (  # noqa: E402
+    GENRE, L03, LEDGER, PLAYBOOK, REGION, REGION_CONN, REPO, ROUTER, Sandbox,
+)
 
 import common  # noqa: E402
 import ledger as ledger_mod  # noqa: E402
 import roll  # noqa: E402
+import validate  # noqa: E402
 
-EMPTY = ("setting", "state", "STATE.md")
+# A tree scaffolded from nothing starts without the content tree, the ledger and
+# the derived build output. `build` is in the list because a diagram derived from
+# the committed tree draws regions the new tree does not have.
+EMPTY = ("setting", "state", "STATE.md", "build")
 
 
 def scaffold_a_setting(sandbox: Sandbox) -> None:
-    """One setting, all 24 tables, one region of each type, one location each."""
+    """One setting, all 24 tables, one region of each type, one location each.
+
+    The diagram layer is derived at the end, because `scaffold.py` writes the
+    markers and `mermaid_gen.py` writes the files they name. A tree with markers
+    and no diagrams is half a step, not a finished one.
+    """
     assert sandbox.run("ledger.py", "init", "--seed", "99").returncode == 0
     assert sandbox.run(
         "scaffold.py", "setting", "--name", "The Ashen Reach",
@@ -49,6 +60,8 @@ def scaffold_a_setting(sandbox: Sandbox) -> None:
             "--tags", "bare,seated,clean", "--container", sub.split("=")[0],
             "--weight", "HIGH",
         ).returncode == 0
+
+    assert sandbox.run("mermaid_gen.py").returncode == 0
 
 
 class TestScaffoldValidateRoundTrip(unittest.TestCase):
@@ -651,6 +664,171 @@ class TestResolveDeps(unittest.TestCase):
         with Sandbox() as sandbox:
             result = sandbox.run("resolve_deps.py", "--check")
             self.assertEqual(result.returncode, 0, result.stderr)
+
+
+# --------------------------------------------------------------------------
+# The diagram layer
+# --------------------------------------------------------------------------
+
+
+class TestMermaidGen(unittest.TestCase):
+    """Every tier is a projection of a connections table, and only of that."""
+
+    def derived(self, sandbox: Sandbox) -> dict[str, str]:
+        directory = sandbox.path(common.DIAGRAMS_DIR)
+        return {p.name: p.read_text(encoding="utf-8") for p in directory.glob("*.md")}
+
+    def test_every_tier_the_tree_implies_is_derived(self) -> None:
+        with Sandbox() as sandbox:
+            self.assertEqual(sandbox.run("mermaid_gen.py").returncode, 0)
+            names = set(self.derived(sandbox))
+            self.assertIn("T1_SETTING.md", names)
+            # One tier 2 per setting-level container, one tier 3 per region, one
+            # tier 4 per region-level container.
+            self.assertLessEqual(
+                {"T2_CUT_WATER.md", "T2_COVENANT_GROUND.md", "T2_SUNKEN_HOLDS.md"}, names
+            )
+            self.assertIn("T3_R03.md", names)
+            self.assertLessEqual(
+                {"T4_R03_THE_CAUSEWAY.md", "T4_R03_DROWNED_TIER.md"}, names
+            )
+            self.assertEqual(
+                [n for n in names if n.startswith("T5")], [],
+                "a location is the leaf and has no diagram",
+            )
+
+    def test_type_is_drawn_at_tier_four_and_nowhere_else(self) -> None:
+        with Sandbox() as sandbox:
+            sandbox.run("mermaid_gen.py")
+            derived = self.derived(sandbox)
+            self.assertIn("|sunk span|", derived["T4_R03_THE_CAUSEWAY.md"])
+            for name, text in derived.items():
+                if name.startswith("T4"):
+                    continue
+                self.assertIsNone(
+                    validate.RE_EDGE_LABEL.search(text),
+                    f"{name} carries a labelled edge, and only tier 4 may",
+                )
+
+    def test_an_edge_leaving_the_container_draws_its_destination_outside(self) -> None:
+        """Tier 4 is the tier a referee navigates from, so an exit shows where it goes."""
+        with Sandbox() as sandbox:
+            sandbox.run("mermaid_gen.py")
+            text = self.derived(sandbox)["T4_R03_THE_CAUSEWAY.md"]
+            frame = text.split("subgraph", 1)[1].split("\n    end", 1)
+            self.assertIn("R03_L03", frame[0], "its own location is inside the frame")
+            self.assertNotIn("R03_L07", frame[0], "the destination is not inside it")
+            self.assertIn("R03_L07", frame[1], "and it is drawn outside it")
+
+    def test_a_diagram_follows_the_table_it_draws(self) -> None:
+        with Sandbox() as sandbox:
+            sandbox.run("mermaid_gen.py")
+            before = self.derived(sandbox)["T4_R03_DROWNED_TIER.md"]
+            self.assertIn("|sunk span|", before)
+
+            sandbox.sub(REGION_CONN, "| R03-L03 | R03-L07 | sunk span | no |",
+                        "| R03-L03 | R03-L07 | flooded stair | yes |")
+            sandbox.run("mermaid_gen.py")
+            after = self.derived(sandbox)["T4_R03_DROWNED_TIER.md"]
+            self.assertIn("|flooded stair|", after)
+            self.assertIn("-->", after, "a one-way edge is drawn as an arrow")
+
+    def test_derivation_is_stable(self) -> None:
+        """A second run changes nothing, which is what makes M11 a usable check."""
+        with Sandbox() as sandbox:
+            sandbox.run("mermaid_gen.py")
+            first = self.derived(sandbox)
+            result = sandbox.run("mermaid_gen.py")
+            self.assertEqual(self.derived(sandbox), first)
+            self.assertIn("0 written", result.stdout)
+
+    def test_a_diagram_of_nothing_is_removed(self) -> None:
+        with Sandbox() as sandbox:
+            sandbox.write(f"{common.DIAGRAMS_DIR}/T4_R03_OLD_NAME.md",
+                          "```mermaid\nflowchart TD\n```\n")
+            sandbox.run("mermaid_gen.py")
+            self.assertNotIn("T4_R03_OLD_NAME.md", self.derived(sandbox))
+
+    def test_check_reports_a_hand_edited_diagram(self) -> None:
+        with Sandbox() as sandbox:
+            self.assertEqual(sandbox.run("mermaid_gen.py", "--check").returncode, 0)
+            sandbox.sub("build/diagrams/T3_R03.md", "The Causeway", "The Old Road")
+            stale = sandbox.run("mermaid_gen.py", "--check")
+            self.assertEqual(stale.returncode, 1)
+            self.assertIn("T3_R03.md", stale.stderr)
+
+
+# --------------------------------------------------------------------------
+# The build
+# --------------------------------------------------------------------------
+
+
+class TestBuild(unittest.TestCase):
+    """The playbook is a projection of the tree and holds nothing of its own."""
+
+    def built(self, sandbox: Sandbox) -> str:
+        sandbox.run("mermaid_gen.py")
+        result = sandbox.run("build.py")
+        self.assertEqual(result.returncode, 0, result.stderr)
+        return sandbox.read(PLAYBOOK)
+
+    def test_every_marker_is_spliced(self) -> None:
+        with Sandbox() as sandbox:
+            markers = sum(
+                len(common.RE_DIAGRAM_MARKER.findall(path.read_text(encoding="utf-8")))
+                for path in sandbox.path("setting").rglob("*.md")
+            )
+            self.assertGreater(markers, 0, "the fixture carries markers to splice")
+
+            playbook = self.built(sandbox)
+            self.assertEqual(common.RE_DIAGRAM_MARKER.findall(playbook), [],
+                             "no marker survives into the artifact")
+            self.assertEqual(len(common.RE_MERMAID_BLOCK.findall(playbook)), markers)
+
+    def test_a_section_mark_becomes_a_link_to_its_row(self) -> None:
+        with Sandbox() as sandbox:
+            playbook = self.built(sandbox)
+            self.assertIn("[BESTIARY, Fen-wight](#t-bes-01)", playbook)
+            self.assertIn('<a id="t-bes-01"></a>', playbook)
+
+    def test_no_architect_note_survives(self) -> None:
+        with Sandbox() as sandbox:
+            sandbox.sub(L03, "## Exits", "## Exits\n\n[[ still open ]]")
+            playbook = self.built(sandbox)
+            self.assertEqual(common.RE_ARCHITECT_NOTE.findall(playbook), [],
+                             "architect visibility does not survive into the artifact")
+
+    def test_the_playbook_is_not_read_as_a_hand_drawn_diagram(self) -> None:
+        """M13 catches mermaid somebody drew. The playbook's is spliced."""
+        with Sandbox() as sandbox:
+            self.built(sandbox)
+            named = [f["code"] for f in sandbox.findings("M13")]
+            self.assertNotIn(PLAYBOOK, named)
+            self.assertEqual(sandbox.validate()["errors"], 0)
+
+    def test_a_missing_diagram_stops_the_build(self) -> None:
+        with Sandbox() as sandbox:
+            sandbox.run("mermaid_gen.py")
+            sandbox.path("build/diagrams/T3_R03.md").unlink()
+            result = sandbox.run("build.py")
+            self.assertEqual(result.returncode, 1)
+            self.assertIn("T3_R03.md", result.stderr)
+
+    def test_a_reference_that_resolves_to_nothing_stops_the_build(self) -> None:
+        with Sandbox() as sandbox:
+            sandbox.run("mermaid_gen.py")
+            sandbox.sub(L03, "(BESTIARY,", "(BESTIARIES,")
+            result = sandbox.run("build.py")
+            self.assertEqual(result.returncode, 1)
+            self.assertIn("names no table", result.stderr)
+
+    def test_check_writes_nothing(self) -> None:
+        with Sandbox() as sandbox:
+            sandbox.run("mermaid_gen.py")
+            sandbox.path(PLAYBOOK).unlink(missing_ok=True)
+            result = sandbox.run("build.py", "--check")
+            self.assertEqual(result.returncode, 0, result.stderr)
+            self.assertFalse(sandbox.path(PLAYBOOK).exists())
 
 
 if __name__ == "__main__":
