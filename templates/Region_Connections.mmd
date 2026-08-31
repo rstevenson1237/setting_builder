@@ -1,0 +1,25 @@
+# Region_Connections.mmd
+
+## Purpose
+A graph of the connections between the locations within a single region, and any locations in neighboring regions they physically connect to.
+
+## Context
+Consult when drafting:
+- `GENRE.md` - mythic underworld means layout should read as decayed and found, not architected as a puzzle box aimed at the party.
+- this region's `Locations.md` - the locations being connected.
+
+## Instructions
+Unlike `setting/Connections.mmd` (region-level, existence only), this diagram may be directional and should indicate different connection types where they matter to how a party moves through the region.
+
+Connection type reference:
+- `A --- B` normal - an open, two-way passage or path
+- `A -.- B` hidden - a concealed, sealed, or secret connection
+- `A --> B` one-way - only traversable in the direction shown
+
+## Template
+```mermaid
+graph LR
+    A1["[Code] [Location Name]"] --- A2["[Code] [Location Name]"]
+    A2 -.- A3["[Code] [Location Name]"]
+    A3 --> A4["[Code] [Location Name]"]
+```
