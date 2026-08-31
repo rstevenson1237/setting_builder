@@ -1,0 +1,21 @@
+name: Validate setting content
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+jobs:
+  validate:
+    name: Validate templates, connections, and registries
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Run structural validator
+        run: python3 tools/validate_setting.py
