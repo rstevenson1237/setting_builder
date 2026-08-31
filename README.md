@@ -27,3 +27,8 @@ A framework for creating OSR (Old-School Renaissance) themed adventure settings.
   - `Dangerous_Low.md`, `Dangerous_Medium.md`, `Dangerous_High.md` — Patterns for DANGEROUS region locations, by weight.
 - `setting/` — A record of our created content.
 - `templates/` — Formatting templates to follow when creating content.
+- `tools/validate_setting.py` — A structural linter that checks `setting/` content against the templates, the region/location connection graphs, and the Lore/Keys/NamedCreatures/UniqueTreasures registries. Run it locally with `python3 tools/validate_setting.py`; it also runs automatically in CI on every pull request (`.github/workflows/validate.yml`).
+
+## Validation
+
+Every pull request runs `tools/validate_setting.py` in CI. It catches structural drift a human proofread easily misses: an `Exits:` entry pointing at a location code or name that doesn't match, a location missing from its region's `Connections.mmd`, a `(Lore: ...)`/`(Keys: ...)`/`(Named Creature: ...)`/`(Unique Treasure: ...)` citation with no matching stub row (or vice versa), a DANGEROUS-region location missing its weight tag, non-sequential location numbering, and similar. It does not check genre or tone against `GENRE.md` — that still takes a human or model read.

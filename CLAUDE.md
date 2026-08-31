@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this repository is
 
-This is not a software project. There is no build, lint, or test tooling, and none should be added — it is a plain-text framework for authoring OSR (Old-School Renaissance) adventure settings as markdown (and a few `.mmd` mermaid diagrams). All "development" here is content generation following the templates and workflow below.
+This is not a software project in the usual sense — it is a plain-text framework for authoring OSR (Old-School Renaissance) adventure settings as markdown (and a few `.mmd` mermaid diagrams). All "development" here is content generation following the templates and workflow below. The one exception is `tools/validate_setting.py` (see "Validation" below), a structural linter run in CI on every pull request — it exists to check generated content against the templates, not to build or ship software, and nothing beyond it should be added (no build step, no package manager, no test framework for the linter itself beyond running it against the content).
 
 ## Directory structure
 
@@ -45,3 +45,13 @@ Regions are rated SAFE, WILD, or DANGEROUS with a die size (d4–d12) indicating
 Dimensions and distances split on indoor vs. outdoor, not on region rating: enclosed spaces (a room, a dungeon chamber) are measured in feet; outdoor locations (a landmark, a clearing, a stretch of hillside) are measured in yards. A vertical drop or climb stays in feet either way — it's a mechanical measurement, not an areal footprint. Distance between two points follows the same split at a larger scale: yards for a short hop between neighboring landmarks, miles for a long trek between regions.
 
 Time defaults by region rating, stated in each Region Overview's Layout field: WILD regions run on 4 hours per action (travel, tracking, foraging, and similar all cost a slot at that scale); SAFE regions aren't time-bound at all; DANGEROUS regions run on the Danger table's countdown instead of real time.
+
+## Validation
+
+`tools/validate_setting.py` is a structural linter (stdlib-only Python, no dependencies) that checks generated content against the templates and this file's rules — not against GENRE.md's genre/tone, which still needs human or model judgment. It runs automatically in CI (`.github/workflows/validate.yml`) on every pull request and push to `main`, and can be run locally with `python3 tools/validate_setting.py`. It checks:
+
+- **Template format**: region codes are a plain A-Z progression; a region's Locations.md entries are numbered 1..N with no gaps; DANGEROUS locations carry a low/medium/high weight and SAFE/WILD ones don't; each location file's header matches its filename, region, and gazetteer stub; Player Summary/Referee Notes/Feature/Exits lines are present and correctly formatted (Referee Notes in single-asterisk italics, Feature labels without a leading article); Treasure Table and Rumours files have 20 numbered rows.
+- **Connections**: every location in a region's `Locations.md` appears as a node in that region's `Connections.mmd` and vice versa; every mundane `Exits:` entry has a matching edge in some `Connections.mmd`; an Exit that matches only a hidden (`-.-`) edge is flagged as a warning to confirm it's the far side of an already-triggered secret rather than a template violation (the exit-vs-Feature rule in `templates/Location.md` is otherwise enforced as an error when there's no edge at all).
+- **Cross-references**: `Lore:`/`Keys:`/`Named Creature:`/`Unique Treasure:`/`Treasure [I-V]` citations inside a location's Features are cross-checked against stub rows in `setting/Lore.md`/`Keys.md`/`NamedCreatures.md`/`UniqueTreasures.md`, and vice versa.
+
+It errors (fails CI) on unambiguous breakage — unknown codes, name mismatches, missing files, orphaned nodes, malformed lines — and warns (doesn't fail CI) on things that need a human glance but might be intentional. When adding a new artifact type or template rule, extend this script alongside it.
