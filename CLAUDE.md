@@ -21,7 +21,7 @@ The build order is strict and each stage's Context section depends on the previo
 1. `GENRE.md` (fixed, edited directly — not generated from a template)
 2. Setting-level documents in order: `Setting.md` → `History.md` → `Truths.md` → `Rumours.md` → `Bestiary.md` → `Factions.md` → `Treasure1.md`-`Treasure5.md` → `Lore.md`/`Keys.md`/`NamedCreatures.md`/`UniqueTreasures.md` (stubbed empty here, filled during step 4)
 3. Region level: `region/Regions.md` (gazetteer) → `region/Connections.mmd` (region-to-region graph, existence only) → `region/[Code].md` (full Region Overview per region, including its d6 Events/Encounter/Danger table now, not deferred)
-4. Location level, per region: `region/[Code]/Locations.md` (gazetteer stub — name, weight, tags only, no content, no pattern) → `region/[Code]/Connections.mmd` (directional, typed: normal `---`, hidden `-.-`, one-way `-->`) → `region/[Code]/[N].md` (full location entry, stubbing any Lore/Keys/NamedCreatures/UniqueTreasures entries it introduces) → once all regions finish this, a final pass writes the full content for every stubbed entry in `Lore.md`/`Keys.md`/`NamedCreatures.md`/`UniqueTreasures.md`
+4. Location level, per region: `region/[Code]/Locations.md` (gazetteer stub — name, weight, tags only, no content, no pattern) → `region/[Code]/Connections.mmd` (directional, typed: normal `---`, hidden `-.-`, one-way `-->`) → `region/[Code]/[N].md` (full location entry, stubbing any Lore/Keys/NamedCreatures/UniqueTreasures entries it introduces — within a DANGEROUS region, generate one weight tier at a time, high-to-low by default, rather than interleaving tiers) → once all regions finish this, a final pass writes the full content for every stubbed entry in `Lore.md`/`Keys.md`/`NamedCreatures.md`/`UniqueTreasures.md`
 
 See `STEPS.md` for the exact, current step numbering and per-artifact context lists — it is more current than any summary here.
 
@@ -39,3 +39,9 @@ This is the most detail-sensitive template, worth calling out directly:
 ## Regions and weights
 
 Regions are rated SAFE, WILD, or DANGEROUS with a die size (d4–d12) indicating encounter danger, coded A, B, C... (AA, AB... past 26). SAFE/WILD locations are landmarks, roughly as many as the die type; DANGEROUS locations are one per room, roughly 3× the die type, each weighted low/medium/high (connective, one reactive element, or a central set-piece respectively) — this weight selects which `patterns/Dangerous_*.md` file a location draws from.
+
+## Units and time (`patterns/Dressing.md`, `templates/Region.md`)
+
+Dimensions and distances split on indoor vs. outdoor, not on region rating: enclosed spaces (a room, a dungeon chamber) are measured in feet; outdoor locations (a landmark, a clearing, a stretch of hillside) are measured in yards. A vertical drop or climb stays in feet either way — it's a mechanical measurement, not an areal footprint. Distance between two points follows the same split at a larger scale: yards for a short hop between neighboring landmarks, miles for a long trek between regions.
+
+Time defaults by region rating, stated in each Region Overview's Layout field: WILD regions run on 4 hours per action (travel, tracking, foraging, and similar all cost a slot at that scale); SAFE regions aren't time-bound at all; DANGEROUS regions run on the Danger table's countdown instead of real time.

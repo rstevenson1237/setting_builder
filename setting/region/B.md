@@ -4,7 +4,7 @@ Overview: The Hills are the connective wilderness between Saltmere (A) and the H
 
 Ambiance: Salt-bleached grass and thorny scrub bent permanently by onshore wind, chalky exposed rock underfoot, the smell of dry earth undercut by brine carried inland, and distant wolf calls at dusk.
 
-Layout: Rolling hill country roughly a day's travel across, cut by dry streambeds and the recently exposed stretch of Vael's old inland road. There are no fixed paths beyond the road, which runs generally from Saltmere (A) toward the barrow (C).
+Layout: Rolling hill country roughly a day's travel across, cut by dry streambeds and the recently exposed stretch of Vael's old inland road. There are no fixed paths beyond the road, which runs generally from Saltmere (A) toward the barrow (C). Neighboring landmarks sit anywhere from a few dozen to a few hundred yards apart; the crossing to Saltmere or the Cairn is measured in miles. As a WILD region, run travel, tracking, and foraging here at 4 hours per action.
 
 Features: The swept-clear stretch of buried road itself, unnaturally clean for something exposed overnight; a ruined shepherd's cairn used as a local landmark; and sinkholes where the old road has collapsed into hollow ground below.
 

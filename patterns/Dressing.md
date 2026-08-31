@@ -3,9 +3,10 @@
 Baseline physical description for every location, consulted every time regardless of which `Safe/Wild/Dangerous_*` pattern is chosen - unlike `Treasure.md`, `Creatures.md`, and `Traps.md`, this isn't conditional on the pattern calling for it. This file guides *what* to establish about a room's physical reality; where it's written (Referee Notes vs. a Feature) is `templates/Location.md`'s call.
 
 ## Size and Shape
-- Every room gets a stated size in feet, X by Y, even as a rough estimate - "roughly 20 by 30 feet."
+- Every location gets a stated footprint, X by Y, even as a rough estimate. Enclosed spaces (a room, a chamber, a vault) are measured in feet - "roughly 20 by 30 feet." Outdoor locations (a landmark, a clearing, a stretch of open ground) are measured in yards instead - "roughly 15 by 20 yards" - since feet reads as false precision once there are no walls to measure to.
 - Shape can be geometric (rectangular, circular, octagonal) or an approximation of an irregular space ("a rough oval," "an L-shaped bend") - don't force an irregular space into a geometric label it doesn't fit.
-- Ceiling height is worth stating when it's notable (unusually low, vaulted, collapsed); skip it when unremarkable.
+- Ceiling height is worth stating when it's notable (unusually low, vaulted, collapsed); skip it when unremarkable. A vertical drop or climb (a shaft, a sinkhole, a cliff) stays in feet regardless of indoor or outdoor, since it's a precise mechanical measurement, not an areal footprint.
+- Distance between two points (along an Exit, or within a Referee Note) follows the same split: yards for a short, local distance, miles for a long one - a WILD region's connective landmarks are usually yards apart from their neighbors, while the stretch between a WILD region and the next SAFE or DANGEROUS one is usually miles.
 
 ## Purpose
 - State what the room was built or used for, and whether that use still holds - a burial chamber still serving its original purpose reads differently than a storeroom repurposed as a guard's den.

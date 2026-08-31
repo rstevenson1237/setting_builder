@@ -4,7 +4,7 @@ Overview: Saltmere is the party's home base, market, and information hub - a low
 
 Ambiance: Salt air and the wet-rope smell of drying nets, gray weathered plank buildings raised on stilts above the tidal flats, gull cries and the distant clank of bell buoys. Roofs are patched, walls built in part from salvaged ship timber, and everything carries a faint permanent dampness from the sea air.
 
-Layout: A cluster of stilt-houses and a single stone hall (the Bell Hall, once home to the diving-bell) arranged around a natural harbor, connected by plank walkways above the mudflats. The hold can be crossed on foot in under an hour; a single road leads out into the Salt-Scrub Hills (B).
+Layout: A cluster of stilt-houses and a single stone hall (the Bell Hall, once home to the diving-bell) arranged around a natural harbor, connected by plank walkways above the mudflats. The hold can be crossed on foot in under an hour; a single road leads out into the Salt-Scrub Hills (B). As a SAFE region, Saltmere isn't time-bound at all - don't track hours here unless something specific demands it.
 
 Features: The Bell Hall, its dais now empty since the bell's disappearance; the salvage market where wreck-goods and rumors trade hands equally; the smokehouse; and the tally-keeper's shed, which holds the hold's debt ledgers.
 

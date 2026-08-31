@@ -14,7 +14,7 @@ Fill every field below - the Tables field is authored now, not deferred.
 
 - **Overview**: A referee-facing paragraph. What this region is, how it is run, and what it is for within the module. Together with the tags, this is the Referee's "how do I find this" and "how do I run this" at a glance.
 - **Ambiance**: What the players see, smell and hear. Architectural style and materials. Condition, and how layers of history have marked it.
-- **Layout**: The region's overall shape, the kinds of places it holds and how they connect. How a party moves through it, and how large it is.
+- **Layout**: The region's overall shape, the kinds of places it holds and how they connect. How a party moves through it, and how large it is - state distances between its landmarks in yards (short) or miles (long), per `patterns/Dressing.md`. State the region's time assumption per its rating: WILD regions default to 4 hours per action (travel, tracking, foraging, and the like all cost a slot at that scale); SAFE regions aren't time-bound at all - don't track hours there unless something specific demands it; DANGEROUS regions run on the Danger table's countdown instead of real time.
 - **Features**: The main elements a party will interact with. Challenges and rewards - environmental hazards, tricks, traps and puzzles that reward both character and player skill.
 - **Dangers**: How the region answers intrusion. Not every region is antagonistic; some sleep and some are alive to the presence of intruders.
 - **Creatures**: Who lives here, what they are doing, how they move, and how they meet the party. Reference the Bestiary by name rather than restating stats, then add what is specific to this group - what they guard, carry or know.
