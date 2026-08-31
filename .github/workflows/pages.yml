@@ -1,0 +1,68 @@
+name: Build and deploy web view
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "setting/**"
+      - "tools/build_site.py"
+      - "tools/build_pdf.py"
+      - "tools/site_common.py"
+      - "tools/site_assets/**"
+      - "tools/requirements-pdf.txt"
+      - ".github/workflows/pages.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Build site + PDF
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Validate setting content
+        run: python3 tools/validate_setting.py
+
+      - name: Install WeasyPrint system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            libpango-1.0-0 libpangocairo-1.0-0 libpangoft2-1.0-0 \
+            libharfbuzz0b libgdk-pixbuf-2.0-0 libcairo2 fonts-dejavu-core
+
+      - name: Install PDF build dependencies
+        run: pip install -r tools/requirements-pdf.txt
+
+      - name: Build web view
+        run: python3 tools/build_site.py --out _site
+
+      - name: Build downloadable PDF
+        run: python3 tools/build_pdf.py
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    name: Deploy to GitHub Pages
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
