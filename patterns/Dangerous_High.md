@@ -8,3 +8,4 @@ Thematic patterns for high-weight locations within DANGEROUS regions - rooms cen
 - Dungeon room that resolves or reveals the region's central secret.
 - Dungeon room combining multiple major features (creature, trap, and treasure together).
 - Dungeon room that ties directly back to the setting's History or Truths.
+- Dungeon room built around a puzzle set-piece (statue, altar, fountain, or standing effect) demanding investigation to engage safely.
