@@ -161,7 +161,26 @@ def check_top_connections(diag: Diagnostics, regions: dict):
 # Per-region Locations.md + Connections.mmd
 # ---------------------------------------------------------------------------
 
-LOC_GAZ_RE = re.compile(r'^([A-Z]+)\.(\d+) (.+?)(?: \((low|medium|high)\))? - \*(.+)\*\s*$')
+LOC_GAZ_RE = re.compile(r'^([A-Z]+)\.(\d+) (.+?)(?: \((low|medium|high|landmark|hidden|secret)\))? - \*(.+)\*\s*$')
+
+DANGEROUS_WEIGHTS = {"low", "medium", "high"}
+WILD_CLASSIFICATIONS = {"landmark", "hidden", "secret"}
+
+
+def check_weight_tag(diag: Diagnostics, path, lineno_or_none, rating: str, code: str, weight):
+    label = f"line {lineno_or_none}: " if lineno_or_none is not None else ""
+    if rating == "DANGEROUS":
+        if not weight:
+            diag.error(path, f"{label}DANGEROUS region location {code} is missing a (low/medium/high) weight")
+        elif weight not in DANGEROUS_WEIGHTS:
+            diag.error(path, f"{label}DANGEROUS region location {code} has {weight!r}, but DANGEROUS regions use low/medium/high")
+    elif rating == "WILD":
+        if not weight:
+            diag.error(path, f"{label}WILD region location {code} is missing a (landmark/hidden/secret) classification")
+        elif weight not in WILD_CLASSIFICATIONS:
+            diag.error(path, f"{label}WILD region location {code} has {weight!r}, but WILD regions use landmark/hidden/secret")
+    elif weight:
+        diag.error(path, f"{label}{rating} region location {code} should not carry a weight/classification tag")
 
 
 def parse_locations_gazetteer(diag: Diagnostics, region_code: str, rating: str, path: Path):
@@ -183,10 +202,7 @@ def parse_locations_gazetteer(diag: Diagnostics, region_code: str, rating: str, 
         num = int(num_s)
         if rcode != region_code:
             diag.error(path, f"line {lineno}: entry code {rcode} does not match region folder {region_code}")
-        if rating == "DANGEROUS" and not weight:
-            diag.error(path, f"line {lineno}: DANGEROUS region location {rcode}.{num} is missing a (low/medium/high) weight")
-        if rating in ("SAFE", "WILD") and weight:
-            diag.error(path, f"line {lineno}: {rating} region location {rcode}.{num} should not carry a weight tag")
+        check_weight_tag(diag, path, lineno, rating, f"{rcode}.{num}", weight)
         if num in locs:
             diag.error(path, f"line {lineno}: duplicate location number {num}")
         locs[num] = {"name": name.strip(), "weight": weight, "tags": tags.strip()}
@@ -220,9 +236,10 @@ def check_region_connections(diag: Diagnostics, region_code: str, region_locs: d
 # Location files
 # ---------------------------------------------------------------------------
 
-LOC_HEADER_RE = re.compile(r'^([A-Z]+)\.(\d+) \*\*(.+?)\*\*(?: \((low|medium|high)\))? - \*(.+)\*\s*$')
+LOC_HEADER_RE = re.compile(r'^([A-Z]+)\.(\d+) \*\*(.+?)\*\*(?: \((low|medium|high|landmark|hidden|secret)\))? - \*(.+)\*\s*$')
 FEATURE_RE = re.compile(r'^\*\*([^*]+):\*\*\s*(.*)$')
 EXIT_PAIR_RE = re.compile(r'->\s*([A-Z]+\.\d+)\s+([^,]+)')
+EXIT_DEST_RE = re.compile(r'->\s*[A-Z]+\.\d+\s+[^,]+')
 
 LORE_CITE_RE = re.compile(r'\(Lore:\s*([^)]+)\)')
 KEYS_CITE_RE = re.compile(r'\(Keys:\s*([^)]+)\)')
@@ -249,11 +266,11 @@ def check_location_file(diag, path, region_code, num, stub, rating, all_location
         diag.error(path, f"header code {hcode}.{hnum_s} does not match this file's location {region_code}.{num}")
     if not names_match(hname, stub["name"]):
         diag.error(path, f"header name {hname!r} does not match its Locations.md stub name {stub['name']!r}")
-    if rating == "DANGEROUS":
+    if rating in ("DANGEROUS", "WILD"):
         if hweight != stub["weight"]:
-            diag.error(path, f"header weight {hweight!r} does not match Locations.md stub weight {stub['weight']!r}")
+            diag.error(path, f"header weight/classification {hweight!r} does not match Locations.md stub {stub['weight']!r}")
     elif hweight:
-        diag.error(path, f"{rating} region location should not carry a weight tag in its header")
+        diag.error(path, f"{rating} region location should not carry a weight/classification tag in its header")
 
     body = [l for l in lines[1:]]
     idx = 0
@@ -300,8 +317,13 @@ def check_location_file(diag, path, region_code, num, stub, rating, all_location
         diag.error(path, "missing **Exits:** line")
     else:
         src = f"{region_code}.{num}"
-        for code, name in EXIT_PAIR_RE.findall(exits_line):
+        body = exits_line[len("**Exits:**"):].strip()
+        descs = [d.strip(" ,") for d in EXIT_DEST_RE.split(body)]
+        targets = EXIT_PAIR_RE.findall(body)
+        seen_desc: dict[str, str] = {}
+        for i, (code, name) in enumerate(targets):
             name = name.strip()
+            desc = descs[i] if i < len(descs) else ""
             if code not in all_locations:
                 diag.error(path, f"Exits cites unknown location code {code}")
                 continue
@@ -318,6 +340,12 @@ def check_location_file(diag, path, region_code, num, stub, rating, all_location
                 diag.warn(path, f"Exits lists {src} -> {code} as mundane, but the region Connections.mmd marks it hidden (-.-) - confirm this is the far side of an already-triggered secret, not a template violation")
             elif not in_mundane:
                 diag.error(path, f"Exits lists {src} -> {code}, but no matching edge exists in any region's Connections.mmd")
+            key = desc.lower()
+            if key:
+                if key in seen_desc and seen_desc[key] != code:
+                    diag.warn(path, f"Exits describes both -> {seen_desc[key]} and -> {code} identically ({desc!r}) - state where each is positioned (a wall, corner, or direction) so they read as distinct")
+                else:
+                    seen_desc.setdefault(key, code)
 
     for title in LORE_CITE_RE.findall(text):
         citations["Lore"].setdefault(title.strip(), set()).add(f"{region_code}.{num}")
@@ -427,7 +455,18 @@ def check_top_level_files(diag: Diagnostics):
 # Main
 # ---------------------------------------------------------------------------
 
+def is_fresh_start() -> bool:
+    """True when setting/ holds no generated content yet (only .gitkeep, or nothing)."""
+    if not SETTING.exists():
+        return True
+    return not any(p.is_file() and p.name != ".gitkeep" for p in SETTING.rglob("*"))
+
+
 def main() -> int:
+    if is_fresh_start():
+        print("setting/ has no generated content yet - nothing to validate (fresh start, ready for STEPS.md step 1).")
+        return 0
+
     diag = Diagnostics()
 
     regions = parse_regions(diag)
