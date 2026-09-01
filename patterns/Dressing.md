@@ -1,6 +1,6 @@
 # Dressing Patterns
 
-Baseline physical description for every location, consulted every time regardless of which `Safe/Wild/Dangerous_*` pattern is chosen - unlike `Treasure.md`, `Creatures.md`, and `Traps.md`, this isn't conditional on the pattern calling for it. This file guides *what* to establish about a room's physical reality; where it's written (Referee Notes vs. a Feature) is `templates/Location.md`'s call.
+Baseline physical description for every location, consulted every time regardless of which `Safe/Wild_Landmark/Wild_Hidden/Wild_Secret/Dangerous_*` pattern is chosen - unlike `Treasure.md`, `Creatures.md`, and `Traps.md`, this isn't conditional on the pattern calling for it. This file guides *what* to establish about a room's physical reality; where it's written (Referee Notes vs. a Feature) is `templates/Location.md`'s call.
 
 ## Size and Shape
 - Every location gets a stated footprint, X by Y, even as a rough estimate. Enclosed spaces (a room, a chamber, a vault) are measured in feet - "roughly 20 by 30 feet." Outdoor locations (a landmark, a clearing, a stretch of open ground) are measured in yards instead - "roughly 15 by 20 yards" - since feet reads as false precision once there are no walls to measure to.
@@ -19,6 +19,7 @@ Baseline physical description for every location, consulted every time regardles
 ## Position
 - Every Feature with a physical presence states where within the room it sits - along a wall or side (north/south/east/west), in a corner, or at the center - so its position doesn't have to be improvised at the table. Outdoors, use a compass direction or a relative position (near the treeline, along the ridge) instead of a wall.
 - A Feature whose footprint is spatially significant also states its own dimension, separate from the room's overall size - a fountain 10' across, a dais raised 2' at the room's center, an altar spanning one wall. Don't let a fixture worth calling out stay sized only by implication.
+- A WILD Landmark also states, per `patterns/Wild_Landmark.md`, roughly where within the region it sits - a cardinal direction, or a bearing/distance from another named Landmark or the region's entry point - so a party roaming the region can be placed relative to it. This is the location's own position within its region, distinct from a Feature's position within its room. Hidden and Secret locations don't need this - their position is already defined by the parent Landmark or Hidden location they connect from.
 
 ## Exits and Doors
 - Every exit gets a stated type, never just "a door" - its material, construction, and condition (a thick oaken door banded in rust-streaked iron; a sagging curtain of rotten hide; a bare archway with no door at all).
@@ -27,7 +28,7 @@ Baseline physical description for every location, consulted every time regardles
 - A door or exit's type is fair game for carrying its own detail (barred from the far side, a worn threshold, a symbol on the lintel) without necessarily becoming a Feature.
 
 ## Detail by Weight
-The four sections above are always covered, but how much each one earns scales with the location's weight (DANGEROUS locations only - SAFE/WILD landmarks default to the medium/high treatment below, since every landmark is meant to stand out on its own):
+The four sections above are always covered, but how much each one earns scales with the location's weight (DANGEROUS locations only - SAFE locations and all three WILD tiers - Landmark, Hidden, and Secret alike - default to the medium/high treatment below, since none of them are meant to read as filler):
 
 - **Low weight** - baseline only. State size, shape, purpose, one sound/smell, and exit type and position plainly, in the Referee Notes and Exits line. Nothing here should read as unusual or invite a second look - low-weight rooms are connective, not destinations.
 - **Medium weight** - one detail beyond baseline: something slightly out of spec in the room's dressing (an irregular size/shape, an incongruous former purpose, a second sensory detail, or a notable exit). Still just dressing, in Referee Notes or the Exits line - promote it to its own Feature only if the chosen pattern already calls for one there.

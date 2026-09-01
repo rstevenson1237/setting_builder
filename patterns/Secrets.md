@@ -2,6 +2,8 @@
 
 Formalizes something this framework already does informally - a hidden Feature nested inside an obvious one - so hidden content stays reliably discoverable instead of ad hoc. Unlike `Treasure.md`, `Creatures.md`, `Traps.md`, and `Puzzles.md`, a Secret isn't tied to one chosen pattern bullet; it's a layer that can sit on top of any Feature a location already has, decided independently at generation time.
 
+This is distinct from a WILD region's Secret-tier locations (`patterns/Wild_Secret.md`): that's the same Clue/Trigger/Payload shape scaled up to a whole separate location rather than a detail nested in one Feature, and it's mandatory for every Secret-tier location rather than gated by the inclusion rate below.
+
 ## Inclusion
 A Secret's presence is a rate, not a mandate - decide against these odds at generation time, based on the region's rating and (for DANGEROUS) the location's weight:
 - SAFE: >10% of locations.
