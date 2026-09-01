@@ -223,6 +223,7 @@ def check_region_connections(diag: Diagnostics, region_code: str, region_locs: d
 LOC_HEADER_RE = re.compile(r'^([A-Z]+)\.(\d+) \*\*(.+?)\*\*(?: \((low|medium|high)\))? - \*(.+)\*\s*$')
 FEATURE_RE = re.compile(r'^\*\*([^*]+):\*\*\s*(.*)$')
 EXIT_PAIR_RE = re.compile(r'->\s*([A-Z]+\.\d+)\s+([^,]+)')
+EXIT_DEST_RE = re.compile(r'->\s*[A-Z]+\.\d+\s+[^,]+')
 
 LORE_CITE_RE = re.compile(r'\(Lore:\s*([^)]+)\)')
 KEYS_CITE_RE = re.compile(r'\(Keys:\s*([^)]+)\)')
@@ -300,8 +301,13 @@ def check_location_file(diag, path, region_code, num, stub, rating, all_location
         diag.error(path, "missing **Exits:** line")
     else:
         src = f"{region_code}.{num}"
-        for code, name in EXIT_PAIR_RE.findall(exits_line):
+        body = exits_line[len("**Exits:**"):].strip()
+        descs = [d.strip(" ,") for d in EXIT_DEST_RE.split(body)]
+        targets = EXIT_PAIR_RE.findall(body)
+        seen_desc: dict[str, str] = {}
+        for i, (code, name) in enumerate(targets):
             name = name.strip()
+            desc = descs[i] if i < len(descs) else ""
             if code not in all_locations:
                 diag.error(path, f"Exits cites unknown location code {code}")
                 continue
@@ -318,6 +324,12 @@ def check_location_file(diag, path, region_code, num, stub, rating, all_location
                 diag.warn(path, f"Exits lists {src} -> {code} as mundane, but the region Connections.mmd marks it hidden (-.-) - confirm this is the far side of an already-triggered secret, not a template violation")
             elif not in_mundane:
                 diag.error(path, f"Exits lists {src} -> {code}, but no matching edge exists in any region's Connections.mmd")
+            key = desc.lower()
+            if key:
+                if key in seen_desc and seen_desc[key] != code:
+                    diag.warn(path, f"Exits describes both -> {seen_desc[key]} and -> {code} identically ({desc!r}) - state where each is positioned (a wall, corner, or direction) so they read as distinct")
+                else:
+                    seen_desc.setdefault(key, code)
 
     for title in LORE_CITE_RE.findall(text):
         citations["Lore"].setdefault(title.strip(), set()).add(f"{region_code}.{num}")

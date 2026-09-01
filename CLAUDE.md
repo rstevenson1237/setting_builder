@@ -35,8 +35,8 @@ This is the most detail-sensitive template, worth calling out directly:
 - Header line: `[Region].[N] **Name** - *three, thematic, tags*`
 - Player Summary (plain text, 2 sentences, **bold** any feature named in it)
 - Referee Notes (*italicized*: shape, size, sounds/smells)
-- One bolded line per **Feature**, labeled with the feature's own name — no leading article (`**Thorn Tangle:**`, not `**The Thorn Tangle:**`)
-- **Exits:** comma-separated, mundane only, each as `[what indicates the exit] -> [Code] [Location Name]` (e.g. `door -> A.2 Salvage Market`)
+- One bolded line per **Feature**, labeled with the feature's own name — no leading article (`**Thorn Tangle:**`, not `**The Thorn Tangle:**`) — stating where within the room it sits (a wall, a corner, the center) and its own dimension when spatially significant, not just what it is
+- **Exits:** comma-separated, mundane only, each as `[what indicates the exit, and where it sits in the room] -> [Code] [Location Name]` (e.g. `door, set into the east wall -> A.2 Salvage Market`) — position is what keeps two exits of the same type distinguishable, so never leave two reading identically
 - Any exit that needs a trigger to reveal or access (a secret door, a puzzle) is described inside a Feature line instead of listed under Exits — Exits is reserved for straightforward access.
 
 ## Regions and weights
