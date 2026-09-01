@@ -286,6 +286,9 @@ code {
 .badge-weight-low { background: var(--low); }
 .badge-weight-medium { background: var(--medium); }
 .badge-weight-high { background: var(--high); }
+.badge-weight-landmark { background: var(--safe); }
+.badge-weight-hidden { background: var(--wild); }
+.badge-weight-secret { background: var(--dangerous); }
 
 .region-list, .location-list, .registry-list { display: flex; flex-direction: column; gap: 0.6rem; }
 
