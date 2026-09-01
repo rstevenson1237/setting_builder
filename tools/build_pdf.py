@@ -266,6 +266,9 @@ code { background: #f1e9da; padding: 0 3px; }
 .badge-weight-low { background: #6b7a8f; }
 .badge-weight-medium { background: #8a6d1e; }
 .badge-weight-high { background: #8a2e2e; }
+.badge-weight-landmark { background: #2f6f4f; }
+.badge-weight-hidden { background: #8a6d1e; }
+.badge-weight-secret { background: #8a2e2e; }
 
 .data-table { width: 100%; border-collapse: collapse; margin: 0.4em 0 0.8em; font-size: 9.5pt; }
 .data-table th, .data-table td { text-align: left; padding: 0.25em 0.5em; border-bottom: 0.5pt solid #cbbb98; vertical-align: top; }
