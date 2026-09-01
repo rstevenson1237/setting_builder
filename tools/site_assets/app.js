@@ -93,4 +93,20 @@
       }
     });
   }
+
+  var checklistBoxes = document.querySelectorAll("[data-checklist-id]");
+  if (checklistBoxes.length) {
+    var CHECKLIST_PREFIX = "setting-checklist:";
+    checklistBoxes.forEach(function (box) {
+      var key = CHECKLIST_PREFIX + box.getAttribute("data-checklist-id");
+      try {
+        box.checked = localStorage.getItem(key) === "1";
+      } catch (e) { /* storage unavailable - leave unchecked */ }
+      box.addEventListener("change", function () {
+        try {
+          localStorage.setItem(key, box.checked ? "1" : "0");
+        } catch (e) { /* storage unavailable - state just won't persist */ }
+      });
+    });
+  }
 })();
