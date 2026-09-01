@@ -17,6 +17,7 @@
   --high: #8a2e2e;
   --max-width: 880px;
   --radius: 8px;
+  --header-offset: 150px;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -37,6 +38,11 @@
 * { box-sizing: border-box; }
 
 html { scroll-behavior: smooth; }
+
+/* Keeps an anchor target clear of the sticky header instead of scrolling it
+   underneath. --header-offset is kept in sync with the header's real height
+   by app.js (it changes with viewport width and the mobile menu). */
+[id] { scroll-margin-top: var(--header-offset); }
 
 body {
   margin: 0;
@@ -179,6 +185,9 @@ code {
   min-width: 220px;
   box-shadow: 0 6px 18px rgba(0,0,0,0.12);
   display: none;
+  /* Otherwise it paints below the search box, which sits later in the
+     header markup at the same (auto) stacking level and can cover it. */
+  z-index: 25;
 }
 .nav-dropdown.open .dropdown-menu { display: block; }
 .dropdown-menu li a {

@@ -1,12 +1,22 @@
 (function () {
   "use strict";
 
+  var header = document.querySelector(".site-header");
+  function syncHeaderOffset() {
+    if (header) {
+      document.documentElement.style.setProperty("--header-offset", (header.offsetHeight + 12) + "px");
+    }
+  }
+  syncHeaderOffset();
+  window.addEventListener("resize", syncHeaderOffset);
+
   var toggle = document.querySelector(".nav-toggle");
   var nav = document.querySelector(".site-nav");
   if (toggle && nav) {
     toggle.addEventListener("click", function () {
       var open = nav.classList.toggle("open");
       toggle.setAttribute("aria-expanded", open ? "true" : "false");
+      syncHeaderOffset();
     });
   }
 
