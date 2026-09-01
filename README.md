@@ -27,6 +27,8 @@ A framework for creating OSR (Old-School Renaissance) themed adventure settings.
   - `Dangerous_Low.md`, `Dangerous_Medium.md`, `Dangerous_High.md` — Patterns for DANGEROUS region locations, by weight.
 - `setting/` — A record of our created content.
 - `templates/` — Formatting templates to follow when creating content.
+  - `Template_Judgement_Check.md`, `Pattern_Judgement_Check.md`, `Setting_Judgement_Check.md` — checklists for the judgement checks below.
+- `checks/` — Non-mechanical judgement checks (step 5), the human/model-judgment counterpart to `tools/validate_setting.py`: `TemplateJudgementCheck.md` (do templates pull the right patterns in the right order, and preserve known edge cases), `PatternJudgementCheck.md` (do patterns overlap/contradict, stay specific/discoverable/interactive, and cover everything needed), `SettingJudgementCheck.md` (do locations reinforce their region and regions reinforce the setting, with discrete/discoverable detail rather than vague motif).
 - `tools/validate_setting.py` — A structural linter that checks `setting/` content against the templates, the region/location connection graphs, and the Lore/Keys/NamedCreatures/UniqueTreasures registries. Run it locally with `python3 tools/validate_setting.py`; it also runs automatically in CI on every pull request (`.github/workflows/validate.yml`).
 - `tools/site_common.py`, `tools/build_site.py`, `tools/build_pdf.py`, `tools/site_assets/` — the web view / PDF generator, see below.
 

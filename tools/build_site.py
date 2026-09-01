@@ -48,6 +48,16 @@ NAV_LINKS = [
     ("keys.html", "Keys"),
     ("named-creatures.html", "Named Creatures"),
     ("unique-treasures.html", "Unique Treasures"),
+    ("checklists.html", "Review Checklists"),
+]
+
+# The judgement-check checklists rendered on checklists.html are parsed straight out of
+# these templates' own Instructions sections, so the site never carries a second copy of
+# wording that could drift from templates/*_Judgement_Check.md.
+CHECKLIST_SOURCES = [
+    ("templates/Template_Judgement_Check.md", "Template Judgement Check", "template"),
+    ("templates/Pattern_Judgement_Check.md", "Pattern Judgement Check", "pattern"),
+    ("templates/Setting_Judgement_Check.md", "Setting Judgement Check", "setting"),
 ]
 
 
@@ -376,6 +386,66 @@ def build_registry(setting: sc.Setting, out: Path, kind: str) -> None:
     write_page(out, page, page_shell(setting, page, title, body))
 
 
+def render_static_inline(text: str) -> str:
+    """Escape plain reference text and turn `backticked` spans into <code>, without
+    touching setting cross-reference syntax - these checklists aren't setting content."""
+    escaped = html.escape(text)
+    return re.sub(r"`([^`]+)`", r"<code>\1</code>", escaped)
+
+
+def parse_checklist_source(rel_path: str) -> dict:
+    """Pull the Purpose blurb and the Instructions checklist bullets out of a
+    templates/*_Judgement_Check.md file - the bullets are the checklist itself,
+    each written as "- **Title** - description"."""
+    text = (ROOT / rel_path).read_text(encoding="utf-8")
+    purpose = re.search(r"## Purpose\n(.*?)\n##", text, re.S).group(1).strip()
+    instructions = re.search(r"## Instructions\n(.*?)\n## Template", text, re.S).group(1).strip()
+
+    intro_lines = []
+    items = []
+    for line in instructions.splitlines():
+        line = line.strip()
+        if not line:
+            continue
+        bullet = re.match(r"-\s+\*\*(.+?)\*\*\s*-\s*(.*)", line)
+        if bullet:
+            items.append((bullet.group(1), bullet.group(2)))
+        elif not items:
+            intro_lines.append(line)
+
+    return {"purpose": purpose, "intro": " ".join(intro_lines), "items": items}
+
+
+def build_checklists(setting: sc.Setting, out: Path) -> None:
+    page = "checklists.html"
+    body = [
+        "<h1>Review Checklists</h1>",
+        '<p class="hint">Non-mechanical judgement checks for reviewing this setting by eye - '
+        "<code>tools/validate_setting.py</code> catches structural breakage, these catch everything "
+        "that still needs a human or model glance. Checked boxes are saved in this browser only, "
+        "so they're a personal reading aid, not a shared record of results.</p>",
+    ]
+    for rel_path, title, slug in CHECKLIST_SOURCES:
+        data = parse_checklist_source(rel_path)
+        items_html = []
+        for i, (item_title, desc) in enumerate(data["items"]):
+            cb_id = f"{slug}-{i}"
+            items_html.append(
+                f'<li class="checklist-item"><label for="{cb_id}">'
+                f'<input type="checkbox" id="{cb_id}" data-checklist-id="{cb_id}">'
+                f'<span><strong>{render_static_inline(item_title)}</strong> — '
+                f'{render_static_inline(desc)}</span></label></li>'
+            )
+        section_body = (
+            f'<p>{render_static_inline(data["purpose"])}</p>'
+            + (f'<p class="hint">{render_static_inline(data["intro"])}</p>' if data["intro"] else "")
+            + f'<ul class="checklist">{"".join(items_html)}</ul>'
+        )
+        body.append(section(title, section_body, anchor=slug))
+
+    write_page(out, page, page_shell(setting, page, "Review Checklists", "\n".join(body)))
+
+
 def build_region(setting: sc.Setting, out: Path, code: str) -> None:
     region = setting.regions[code]
     page = f"region/{code}/index.html"
@@ -517,6 +587,7 @@ def build(out_dir: Path) -> sc.Setting:
     build_treasure(setting, out_dir)
     for kind in ("lore", "keys", "named_creatures", "unique_treasures"):
         build_registry(setting, out_dir, kind)
+    build_checklists(setting, out_dir)
     for code in setting.region_order:
         build_region(setting, out_dir, code)
         for num in setting.regions[code].locations:
