@@ -23,9 +23,33 @@ Thematic patterns for locations within SAFE regions - major landmarks within set
   - Where it's physically attached - a government office, a prominent figure's household or business, or the market square itself.
   - What's currently posted, and by whom.
   - Whether a town crier is present (larger, busier settlements only) to draw attention to notices for a fee.
-- Landmark tied to local politics or authority (a council seat, a court, a claimed office).
-- Landmark carrying a minor social conflict or tension between locals.
-- Landmark that reveals local history or custom through its design or use.
-- Landmark that can offer a task, favor, or quest hook to visitors.
-- Landmark with a notable NPC going about their routine.
-- Landmark showing evidence of a recent local event.
+- **Authority** - a landmark where local politics or claimed authority is exercised: a council seat, a court, a claimed office.
+  - Who holds the authority here, and by what claim (elected, inherited, seized, granted)?
+  - What decisions or disputes actually get settled here?
+  - What does a visitor need to do to get an audience or a hearing?
+  - What tension or rivalry surrounds who holds this position?
+- **Tension** - a landmark where a minor conflict or standing tension between locals plays out.
+  - Who's on each side, and what's actually at stake?
+  - How does the tension show itself to a visiting outsider?
+  - Is it escalating, stable, or already curdling into something worse?
+  - What might a visitor be asked to do, or accidentally provoke, by getting involved?
+- **Custom** - a landmark whose design or use reveals a piece of local history or custom.
+  - What history or custom is embedded in it, and how would a visitor actually notice?
+  - Is the custom still actively practiced, or just a visible remnant?
+  - What would violating the custom, knowingly or not, provoke?
+  - Does it tie back to a specific event in `setting/History.md` or a `setting/Truths.md` entry?
+- **Task** - a landmark where an NPC offers visitors a task, favor, or quest hook directly, in person - distinct from Notices & News's public posting.
+  - Who's offering it, and why can't or won't they do it themselves?
+  - What's the task, concretely - a specific, statable job, not a vague "help us"?
+  - What's offered in return: coin, goods, information, standing?
+  - What happens if it's ignored or refused?
+- **Routine** - a landmark defined by a notable NPC going about their routine, encounterable with no task attached.
+  - Who are they, and what are they visibly doing when the party arrives?
+  - What's distinctive enough about them to be worth remembering?
+  - What would it take to get their attention or start a conversation?
+  - What do they know, want, or offer, even if not currently asking for anything?
+- **Aftermath** - a landmark bearing visible evidence of something that happened recently.
+  - What happened, concretely, and how long ago?
+  - What's physically visible as evidence?
+  - Who's affected, and how are they reacting?
+  - Does this connect to an entry already in `setting/Rumours.md`, or is it a fresh, unconnected event?
