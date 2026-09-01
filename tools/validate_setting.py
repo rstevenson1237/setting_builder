@@ -68,7 +68,7 @@ def index_to_code(i: int) -> str:
 
 
 # ---------------------------------------------------------------------------
-# Regions.md / setting/Connections.mmd
+# Regions.md / setting/region/Connections.mmd
 # ---------------------------------------------------------------------------
 
 REGION_RE = re.compile(r'^([A-Z]+) (.+?) - (SAFE|WILD|DANGEROUS), (d\d+), \*(.+)\*\s*$')
@@ -140,7 +140,7 @@ def parse_mmd_edges(text: str, node_re: re.Pattern):
 
 
 def check_top_connections(diag: Diagnostics, regions: dict):
-    path = SETTING / "Connections.mmd"
+    path = SETTING / "region" / "Connections.mmd"
     if not path.exists():
         diag.error(path, "missing")
         return
