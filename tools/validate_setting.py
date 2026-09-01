@@ -455,7 +455,18 @@ def check_top_level_files(diag: Diagnostics):
 # Main
 # ---------------------------------------------------------------------------
 
+def is_fresh_start() -> bool:
+    """True when setting/ holds no generated content yet (only .gitkeep, or nothing)."""
+    if not SETTING.exists():
+        return True
+    return not any(p.is_file() and p.name != ".gitkeep" for p in SETTING.rglob("*"))
+
+
 def main() -> int:
+    if is_fresh_start():
+        print("setting/ has no generated content yet - nothing to validate (fresh start, ready for STEPS.md step 1).")
+        return 0
+
     diag = Diagnostics()
 
     regions = parse_regions(diag)
