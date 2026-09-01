@@ -16,7 +16,7 @@ A framework for creating OSR (Old-School Renaissance) themed adventure settings.
 - `setting/Bestiary.md` — Reusable creature templates in a system neutral rule set (HD=AD).
 - `setting/Factions.md` — The powers a party may treat with, oppose, or ignore, with Action Dice pools for Faction Turns.
 - `setting/region/Regions.md` — Regional Gazetteer: an overview listing of all regions within the setting.
-- `setting/Connections.mmd` — Mermaid graph of high level region connections (existence only, no type or quantity).
+- `setting/region/Connections.mmd` — Mermaid graph of high level region connections (existence only, no type or quantity).
 - `setting/region/A.md`, `B.md`, `C.md` — Region Overviews: Overview, Ambiance, Layout, Features, Dangers, Creatures, Secrets, Treasure, and Tables for each region.
 - `setting/region/A/`, `B/`, `C/` — Per-region location gazetteers (`Locations.md`, with each stub pinning a Pattern), a `Connections.mmd` mermaid graph of that region's location connections (directional, typed), and one `[Location Code].md` full entry per location.
 
