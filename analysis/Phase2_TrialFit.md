@@ -1,182 +1,223 @@
 # Phase 2 - Corpus Trial Fit
 
-Routing corpus outputs backwards through **Shape → Features → Detail** to prove the tier
-structure before any pattern is written into it.
+Routing corpus outputs backwards through **Weight/Classification/Kind/Scope → Features →
+Dressing** to prove the structure before any pattern is written into it.
 
-**Protocol.** Every element of a corpus output should land in exactly one tier. Landing in
-none means a missing pattern. Landing in two means the tier boundary is wrong and moves.
+**Protocol.** Every element should land in exactly one file. None means a missing pattern.
+Two means the boundary is wrong and moves.
 
-**Status:** case 5 of 7 complete — run first because it is the D5 falsifier.
+**Complete:** cases 5, 1, 6. **Pending:** 2, 3, 4, 7.
 
 ---
 
 ## Case 5 — The lair, at three scales
 
-**Source:** `witch cottage` and its dependent tables (`witch`, `witch goal`, `witch
-cottage door`, `witch cottage other entry`, `witch cottage main room`, `witch cottage
-decoration`, `witch cottage cauldron`, `witch annex`, `witch attic`, `witch cellar`,
-`witch prisoner`, `witch thrall`, `terror treasure`).
+**Source:** `witch cottage` and dependents. **Stresses:** D5, D10.
 
-**Stresses:** D5 (scale is a Shape decision, no lair tier) and D10 (feature budget scales
-with Shape).
+### Decomposition
 
-### The corpus's raw material, decomposed
-
-| Element | Corpus table | Proposed tier |
+| Element | Corpus table | File |
 |---|---|---|
-| Cottage exterior — gingerbread, chicken feet, hollowed mushroom, stone hut | `witch cottage` | **Detail** |
-| Door — "Children welcome!", a door of smiling baby faces | `witch cottage door` | **Detail** |
-| Second way in — chimney, window, thatched roof, or none | `witch cottage other entry` | **contested — see F1** |
-| The witch, named, with a standing goal | `witch`, `witch goal` | **Features** (→ Named Creature) |
-| Cauldron with body parts surfacing | `witch cottage cauldron` | **Features** |
-| Room decoration — ceiling / shelf / table | `witch cottage decoration` | **Detail** |
-| Attic item — curse chest, caged lover, skull mobile, demon altar, guard broom | `witch attic` | **Features** (→ Unique Treasure or Named Creature) |
-| Cellar item — cursed apples, mirror of entrapment, spinning wheel, terrible oven | `witch cellar` | **Features** (→ Unique Treasure) |
-| Prisoner in a hanging cage | `witch prisoner` | **Features** |
-| Thrall cleaning the shelves, leashed to an iron ring | `witch thrall` | **Features** |
-| Vertical annex — ladder up, stairs down | `witch annex` | **Shape** (it is a space count, not a description) |
-| Treasure | `terror treasure` | **Features** |
+| Cottage exterior — gingerbread, chicken feet, hollowed mushroom | `witch cottage` | Dressing |
+| Door — "Children welcome!", a door of smiling baby faces | `witch cottage door` | Dressing |
+| Second way in — chimney, window, thatch | `witch cottage other entry` | **both, legitimately — F1** |
+| The witch, named, with a standing goal | `witch`, `witch goal` | Features → Named Creature |
+| Cauldron with body parts surfacing | `witch cottage cauldron` | Features |
+| Room decoration — ceiling / shelf / table | `witch cottage decoration` | Dressing |
+| Attic item — curse chest, caged lover, demon altar, guard broom | `witch attic` | Features → Unique Treasure |
+| Cellar item — cursed apples, mirror of entrapment, terrible oven | `witch cellar` | Features → Unique Treasure |
+| Prisoner in a hanging cage; thrall leashed to a ring | `witch prisoner`, `witch thrall` | Features |
+| Vertical annex — ladder up, stairs down | `witch annex` | Kind/Weight (a space count, not a description) |
+| Treasure | `terror treasure` | Features |
 
-Twelve elements. Ten land cleanly in one tier. One lands in two (F1). One reveals a
-missing Shape decision (F2).
+### The three scales
 
-### Scale A — one keyed location
+**A — one key.** `B.4 Hessa's Rookery (high)`. Attic and cellar become Feature lines
+stating their own access. Seven features in one key. **Works** — the existing template
+carries it unmodified, and its rule that trigger-gated access lives in a Feature rather
+than Exits does the right thing unprompted.
 
-`B.4 **Hessa's Rookery** (high) - *thatch, lye, appetite*`
+**B — a cluster.** `B.4 Hessa's Rookery (high)` + `B.5 The Low Attic (medium)` + `B.6 The
+Sweet Cellar (medium)`. **Works, and fits best** — the corpus's own structure is one main
+room plus *optional* annexes each holding exactly one significant thing, which is already
+shaped like a weighted cluster. That optionality is Shape choosing a location count.
 
-**Shape:** kind = inhabited lair; scale = compound site, one key; budget = compound (see
-F2). **Features:** the witch (Named Creature), the cauldron, one attic item, one cellar
-item, the prisoner, the thrall, treasure. Attic and cellar become Feature lines that state
-their own access — "a rickety ladder in the north corner climbs to a low attic where…".
-**Detail:** exterior, door, decoration; integration binds all of it to the witch's goal.
+**C — a region.** `D Hessa's Holding - DANGEROUS, d4`. **Works, but broke a different
+rule** — see F3.
 
-**Result: works.** The existing Location template carries it without modification —
-Features already permit nested access, and `templates/Location.md`'s rule that
-trigger-gated access lives in a Feature rather than Exits does the right thing here
-unprompted.
+### Verdict
 
-### Scale B — a cluster of keyed locations
+**D5 survives.** All three scales produce legible, materially different outputs from one
+source, and only scale moves between them. No lair tier needed.
 
-```
-B.4 Hessa's Rookery (high)      - the main room, cauldron, thrall
-B.5 The Low Attic (medium)      - one attic item, reached from B.4
-B.6 The Sweet Cellar (medium)   - one cellar item, reached from B.4
-```
+**D10 survives.** Scale A needs seven features in one key — illegal under the old one-pick
+lock, and still illegal under a fixed high-weight cap of 2-3.
 
-**Shape:** three locations, one owner; B.5 and B.6 are dependents of B.4. **Features:**
-budget of 2-3 at B.4, 1 each at B.5/B.6 — the corpus's own single-item attic and cellar
-tables fall straight into a medium-weight budget. **Detail:** each gets its own dressing;
-integration now works *across* the three, which is the harder version of the job.
+---
 
-**Result: works, and it is the best fit of the three.** The corpus's own structure — one
-main room plus optional annexes, each holding exactly one significant thing — is already
-shaped like a weighted cluster. Worth noting the annexes are `witch annex`, an *optional*
-table: the cottage may have an attic, a cellar, or neither. That is Shape choosing a
-location count, which is exactly what D5 claims Shape does.
+## Case 1 — Village and town
 
-### Scale C — a whole region
+**Source:** `village`, `town`, `human houses`, `human companions`, `human defense`,
+`village building`, `human leader`, `human friends`, `And a secret society`, `law and
+order jobs`, `town feature`, `local smith`. **Stresses:** SAFE all three files; the roster
+question; D10's prominence-over-scale claim.
 
-`D Hessa's Holding - DANGEROUS, d4, *thatch, lye, appetite*`
+### Decomposition
 
-**Result: works, but breaks a different rule — see F3.** Decomposing further (approach
-path, garden, main room, hearth, attic, cellar, the thing under the floor) yields five to
-seven locations. `templates/Location_Gazetteer.md` requires a DANGEROUS region to hold
-"about 3 times" its die — twelve for a d4. The cottage does not contain twelve rooms and
-padding it to twelve would produce exactly the filler the weight system exists to avoid.
+| Element | File |
+|---|---|
+| Population, settlement type | Kind |
+| Whether the manor/tower/temple is its own key or a Feature of the village key | Kind (scale) |
+| `human houses` — thatched huts, longhouses, mud huts | Dressing |
+| `human defense` — ditch, palisade, river | **either, legitimately — F1.** A palisade that gates entry is a Feature; one that is just what the place looks like is Dressing |
+| `human companions` — war dogs, sharpened stakes | Features |
+| `human leader` + level + spellbook + treasure | Features → Named Creature, Treasure |
+| `human friends`, `human retainer` — aides | Features |
+| `And a secret society` — a named faction's local contact | Features |
+| `law and order jobs` — "500gp to whoever brings back [nearby wanted]" | Features → **Quest** (textbook two-ended: giver here, target elsewhere) |
+| `patron plot hook` — the patron's missing book, taken by `[nearby book thief]` | Features → **Quest** |
+| `local smith` + inventory | Features |
+| `town feature` — a gallows with eight hanged; a chained troll; an alchemist | Features |
+| `settlement event` | see Case 6 |
 
-### Verdict on D5
+**Result: decomposes cleanly.** Two contested elements, both resolved by F1's rule rather
+than being boundary failures.
 
-**D5 survives.** All three scales produce legible, materially different outputs from the
-same source, and the difference between them is entirely a Shape decision — kind and
-budget stay constant, only scale moves. No lair tier is needed.
+### D10 confirmed, and a place we beat the corpus
 
-**D10 survives and is confirmed by evidence.** Scale A needs seven features in one key.
-Under the old one-pick lock it would have been illegal; under a fixed high-weight budget
-of 2-3 it would still have been illegal. The budget has to scale with Shape, exactly as
-D10 claims.
+The corpus has **no way to make a town brief.** Every `town` pull emits the full 15-slot
+tradesperson roster, the inner-bailey officer list, and the d10/d6 allegiance procedure —
+whether the town is the campaign's hub or somewhere the party walks through on the way
+elsewhere. Scale drives budget, and there is no lever to say "this one doesn't matter."
+
+Prominence-driven budget is the lever. A d6 SAFE region can hold two prominent landmarks
+and four liner notes, and a large town in a region that isn't about the town can be one
+paragraph doing exactly what everyone expects a town to do. **This is a case where the
+plan's approach is better than the source's, and it is worth stating in `safe/Kind.md`
+directly** — the instruction is not "describe the settlement" but "decide first how much
+this one matters."
+
+### F5 — the roster belongs at region level
+
+The corpus's town roster is fifteen optional slots, and the interesting information is
+which slots are *empty*. That cannot be fifteen locations: a d6 SAFE region holds about
+six, and inflating it would bury the two that matter.
+
+`templates/Region.md`'s SAFE-only **People** field is the natural home and does not
+currently do this job — it asks for customs, government, temperament and reaction to
+outsiders, but never *who is here*. A settlement's roster is region-level fact; individual
+landmarks draw from it and give a few of those people a scene.
+
+**Proposed:** `region/Features.md` includes roster guidance for the People field — trades
+present, trades conspicuously absent, and who holds standing — and `safe/Features.md`
+draws from it rather than reinventing a cast per landmark.
+
+---
+
+## Case 6 — The ongoing situation
+
+**Source:** `settlement event` → `war event` → `the presence of mercenaries is a problem`
+(six escalation rungs), plus `disaster event`, `harvest event`, `holiday event`.
+**Stresses:** whether these fit `safe/Features.md` or need their own Kind.
+
+### Decomposition
+
+| Element | File |
+|---|---|
+| That a situation is currently running at all | **region — F6** |
+| Which situation (mercenaries / refugees / plague / festival) | region |
+| Which rung of the escalation ladder it is on | Features |
+| The named captain; the named dead or conscripted | Features → Named Creature |
+| Tents outside the walls; drunk soldiers; parents weeping at the captain's tent | Dressing |
+| What the party can be pulled into | Features |
+
+### F6 — situations are region-scoped, not location-scoped
+
+Mercenaries camped outside the settlement affect *every* landmark in the region: the inn
+is full of them, the smith is working for them, the market has been stripped. Attaching
+the situation to one location would make the other five read as though nothing were
+happening.
+
+So the answer to the plan's open question is **neither** — a situation is not a SAFE Kind
+and not purely a Feature. It is a **region-level standing state, expressed locally at
+Features.**
+
+`templates/Region.md`'s SAFE d6 **Events** table is the nearest existing thing and is not
+it: a random table rolled on entry is a *possible* event, not a current one. The Region
+Overview needs a field for what is happening right now — and per GENRE.md that is a
+standing situation with a visible trajectory, not an authored plot: it is true whether or
+not the party engages, and it moves on its own.
+
+**Proposed:** a **Situation** field in the Region Overview (SAFE and WILD; DANGEROUS runs
+on its Danger countdown instead), with `region/Features.md` supplying the escalation-rung
+discipline — name who is responsible, name who is affected, state which rung it is on now,
+and state what the next rung looks like. That last clause is the corpus's real trick and
+the thing `patterns/Safe.md`'s Tension bullet asks for without any mechanism.
 
 ---
 
 ## Findings
 
-### F1 — Access is contested between Features and Detail
+### F1 — Access: resolved, and the rule generalizes
 
-`witch cottage other entry` (a chimney, a window big enough to smash, a cuttable thatched
-roof, or nothing) is simultaneously dressing on the building and a tactical alternative
-that changes how the location plays. Under the current tier contract it has a claim on
-both, which by protocol means the boundary is wrong.
+*Superseded by the design pass.* The earlier reading — "existence is Features, description
+is Dressing" — was too narrow. Both directions are legitimate:
 
-**Proposed rule:** *the existence of a route is a Features decision; its description is
-Detail.* Whether there is a second way in changes what players can do, so Features owns
-it; whether that way in is a chimney or a rotten shutter is dressing, so Detail owns it.
+- Features declares an egress → Dressing calls it a ladder.
+- Features declares an empty room → Dressing puts a ladder there as dressing.
 
-This generalizes past this case — it is the same cut for a secret door, a collapsed wall,
-or a window — and should go into the tier contract in §2 of the plan rather than into any
-one rating folder.
+**The rule is: Features owns anything that changes what players can do; Dressing owns
+everything else and may originate it freely.** The test is not which file mentions the
+ladder — it is whether the ladder does anything. Folded into the plan's §2.
 
-### F2 — The budget table needs a compound-site band
+### F2 — Budget: resolved, correlation dropped
 
-The plan's §3 budget table jumps from "SAFE single-site / WILD landmark: 1-2" and
-"DANGEROUS high: 2-3" straight to "settlement or dungeon scale: many." Scale A sits in the
-gap: one key, seven features, and plainly not a settlement.
-
-**Proposed band:** **compound site — 4-8.** A single key holding a whole small lair: a
-cottage, a tower, a barrow, a camp. Below settlement scale, above a room.
-
-This band is also what makes Scale A and Scale B genuinely different choices rather than
-one being a workaround for the other's cap.
+*Superseded.* The proposed "compound site: 4-8" band assumed size drives budget. It does
+not. A single site may carry five features because it is doing real work; a settlement may
+carry one because it is only there to be a settlement. **Budget is prominence, scale is an
+outer bound of plausibility only.** Folded into the plan's §3, along with the open
+question of whether SAFE and WILD need an explicit prominence axis the way DANGEROUS
+already has one in its weights.
 
 ### F3 — The 3× die rule fights region-scale lairs
 
-`Location_Gazetteer.md`'s "about 3 times the die type" is a good default for a dungeon and
-a bad one for a lair-as-region. A d4 lair region wants five to seven locations, not twelve.
+A d4 lair region wants five to seven locations; `Location_Gazetteer.md` demands twelve, and
+padding to twelve produces exactly the filler weights exist to prevent. **Accepted:** the
+count becomes a Shape-set range, with 3× surviving as the default for collection-kind
+regions only.
 
-**Options, for decision:**
+### F4 — Container and data
 
-1. Make the count a **range tied to Shape** rather than a multiplier — Shape already sets
-   scale, so it can set count, and the multiplier becomes the default for the "collection
-   of rooms" kind only.
-2. Keep 3× and let a lair region carry a smaller die. Rejected on inspection: the die also
-   drives encounter danger, and a witch's holding is not less dangerous for being small.
-3. Exempt lair-kind regions explicitly. Rejected as a special case where option 1 is a
-   general rule.
+The corpus writes the witch's goal inline; we cite `(Named Creature: Hessa)` at 4c and
+write the motivation at 4d. **Intentional**, and now D14: the location file is a container
+that cites, the registries hold the data, and consistency comes from keeping them apart.
+Needs stating in `templates/Location.md` so the gap reads as designed rather than missing.
 
-**Recommendation: option 1.** It follows from D5 — if Shape owns scale, Shape owns count,
-and a fixed multiplier in the gazetteer template is a scale decision living in the wrong
-file. Per D13 this is a ratio, so it is judgement-check material rather than a validator
-rule either way.
+### F5 — The settlement roster belongs in the Region Overview's People field
 
-### F4 — Deferred motivation is a real difference from the corpus
+New, from Case 1. See above.
 
-The corpus writes the witch's goal inline ("stealing children and raising them as her
-own"). We cite `(Named Creature: Hessa)` at 4c and write the motivation at 4d. Not a
-defect — 4d resolves it with every referencing location in view, which the corpus cannot
-do — but it means a location file is *not readable as a complete scene* until 4d
-completes. Worth stating in `templates/Location.md` so the gap reads as intentional.
+### F6 — Ongoing situations are region-scoped
+
+New, from Case 6. Proposes a **Situation** field in the Region Overview. See above.
 
 ---
 
 ## Plan amendments arising
 
-| Finding | Amendment | Target |
-|---|---|---|
-| F1 | Add the route-existence vs. route-description cut to the tier contract | Plan §2 |
-| F2 | Add the **compound site: 4-8** band | Plan §3 |
-| F3 | Location count becomes a Shape-set range; 3× survives as the default for collection-kind regions only | Plan §4, `Location_Gazetteer.md` |
-| F4 | State that a location file completes at 4d, by design | `templates/Location.md` |
+| Finding | Amendment | Target | Status |
+|---|---|---|---|
+| F1 | Features owns what does something; Dressing owns the rest and may originate it | Plan §2 | folded in |
+| F2 | Budget from prominence, not scale; prominence-axis question left open | Plan §3 | folded in |
+| F3 | Count becomes a Shape-set range | Plan §8, `Location_Gazetteer.md` | folded in |
+| F4 | Container/data split stated | D14, `templates/Location.md` | folded in |
+| F5 | Roster guidance into the People field | `region/Features.md`, `templates/Region.md` | **new** |
+| F6 | **Situation** field in the Region Overview | `templates/Region.md`, `region/Features.md` | **new** |
 
-No amendment touches D1-D13. The structure held; three of its numbers moved.
+Still no amendment touches D1-D14. Three cases have moved numbers and added two Region
+Overview fields; the structure itself has held.
 
----
-
-## Remaining cases
-
-| Case | Status |
-|---|---|
-| 1 Village | pending |
-| 2 Empty dungeon room | pending |
-| 3 Trapped room | pending |
-| 4 Wilderness landmark | pending |
-| **5 Lair** | **complete — D5 and D10 confirmed** |
-| 6 Ongoing situation | pending |
-| 7 Quest chain | pending |
+**Note on F5 and F6 together:** both say the same thing from different directions — the
+SAFE Region Overview is underspecified. It describes a place but not who is in it or what
+is currently happening to it. That is the largest single gap the trial fit has surfaced so
+far, and it is a `region/` problem, not a `safe/` one.
