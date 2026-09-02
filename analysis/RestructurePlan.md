@@ -1,36 +1,38 @@
 # Pattern Restructure Plan
 
-Phase 1 deliverable: the top-down plan. Written before any file moves.
+Phase 1 deliverable. Revised after the second design pass — tier renamed, `setting/`
+detiered, shared mechanics relocated, feature budget opened up.
 
-Supersedes the recommendation table in `analysis/HexDescribe_TableAnalysis.md` §6, which
-was written before the point-crawl and direction-vs-expansion corrections.
+Supersedes the recommendation table in `analysis/HexDescribe_TableAnalysis.md` §6.
 
 ---
 
 ## 1. Decisions locked
 
-Settled in discussion; recorded here so later phases don't relitigate them.
-
 | # | Decision | Consequence |
 |---|---|---|
-| D1 | `patterns/` splits into **five** folders: `setting/`, `region/`, `safe/`, `wild/`, `dangerous/` | Pattern guidance now exists for every generation level, not just locations |
-| D2 | Every folder carries **three tiers**: Shape → Patterns → Detail | A generation step reads exactly three files from one folder, in order |
+| D1 | `patterns/` splits into **five** folders: `setting/`, `region/`, `safe/`, `wild/`, `dangerous/` | Pattern guidance exists for every generation level, not just locations |
+| D2 | Location and region folders carry **three tiers**: **Shape → Features → Detail** | A generation step reads three files from one folder, in order |
 | D3 | **No `shared/` folder.** Restatement is deliberate | A trap in SAFE is a swindle; in WILD a snare; in DANGEROUS a deadfall. Writing them separately forces the differentiation |
-| D4 | Voice/verbiage lives in **two** places: an expanded `GENRE.md`, and the Detail tier of every folder | Setting-wide voice stated once; per-level application restated where it's applied |
-| D5 | **No lair tier.** Scale is a Shape-tier decision | A whole village or dungeon may be one keyed location, or one region — both legal, the Shape tier is where it's chosen |
-| D6 | Errands are called **Quests**; they become a two-phase registry | New `setting/Quests.md` + `templates/Quests.md`, stubbed at 4c, written at 4d |
-| D7 | Name coherence gets a **living** setting artifact | New `setting/Language.md`, seeded early, appended to whenever a proper noun is coined |
-| D8 | Templates relax to what the content needs, and no further | Format stays consistent enough to parse at a glance; strictness beyond that is a defect to remove |
+| D4 | Voice lives in **two** places: an expanded `GENRE.md`, and the Detail tier of every folder | Setting-wide voice stated once; per-level application restated where applied |
+| D5 | **No lair tier.** Scale is a Shape decision | A village or dungeon may be one keyed location, a cluster, or a region — all legal |
+| D6 | Errands are **Quests**; a two-phase, two-ended registry | New `setting/Quests.md` + `templates/Quests.md` |
+| D7 | Name coherence gets a living artifact, **seeded at 2h** | New `setting/Language.md`, seeded *from* the proper nouns already coined, then governing everything after |
+| D8 | Templates relax to what the content needs, and no further | Consistent enough to parse at a glance; strictness beyond that is a defect |
+| **D9** | **The classifications are a paradigm, not a rule.** low/medium/high and landmark/hidden/secret are convenient, not sacred | If content demands a fourth class or a binary, we change it. Phase 2 may return a different count and that is a success, not a breach |
+| **D10** | **Feature budget scales with Shape.** No global one-pick lock | See §3 — the anti-mush guardrail moves from *count* to *coherence* |
+| **D11** | Shared mechanics live in **`setting/Procedures.md`** | Trap resolution, search odds, time scale. Largely the same content even on a clean generation, so it seeds from defaults rather than generating cold |
+| **D12** | `patterns/setting/` is **flat — no tiers** | Setting-level guidance is per-artifact, and the four existing registry pattern files move across intact |
+| **D13** | Validator: **strict on format, relaxed on content and ratios** | Ratios and content judgements become warnings or judgement-check items, never CI errors |
 
 ### Corrections carried in from the analysis
 
-- The framework is a **point crawl**. Connecting terrain is procedural, narrated by the
-  referee from the Region's Terrain/Foraging/Layout fields. Withdrawn: the "worked
-  wilderness has no home" finding (it belongs in Terrain/Foraging) and the
-  micro-features-as-coordinates recommendation (region tier, not location tier).
-- The corpus's value is **directing** output, not expanding it. The model already holds
-  the vocabulary. What it lacks is constraint: forced fresh draws, non-repetition within a
-  region, and causal attribution. Vocabulary lists are not a deliverable; constraints are.
+- The framework is a **point crawl**. Connecting terrain is procedural, narrated from the
+  Region's Terrain/Foraging/Layout fields. Withdrawn: "worked wilderness has no home" (it
+  belongs in Terrain/Foraging) and micro-features-as-coordinates (region tier, not location).
+- The corpus's value is **directing** output, not expanding it. Vocabulary lists are not a
+  deliverable; constraints are — forced fresh draws, non-repetition within a region,
+  causal attribution.
 
 ---
 
@@ -38,263 +40,262 @@ Settled in discussion; recorded here so later phases don't relitigate them.
 
 ```
 patterns/
-  setting/    1_Shape.md   2_Patterns.md   3_Detail.md
-  region/     1_Shape.md   2_Patterns.md   3_Detail.md
-  safe/       1_Shape.md   2_Patterns.md   3_Detail.md
-  wild/       1_Shape.md   2_Patterns.md   3_Detail.md
-  dangerous/  1_Shape.md   2_Patterns.md   3_Detail.md
+  setting/    Lore.md  Keys.md  NamedCreatures.md  UniqueTreasures.md  Quests.md
+              Language.md  Procedures.md  Artifacts.md          (flat, per D12)
+  region/     1_Shape.md   2_Features.md   3_Detail.md
+  safe/       1_Shape.md   2_Features.md   3_Detail.md
+  wild/       1_Shape.md   2_Features.md   3_Detail.md
+  dangerous/  1_Shape.md   2_Features.md   3_Detail.md
 ```
 
-Fifteen files, numbered so read-order is visible in a directory listing. Tier names are
-taken verbatim from the design discussion — *shape*, *patterns to match against*,
-*detail* — to keep the vocabulary in one dialect. None of the three collides with the
-existing low/medium/high **weight** vocabulary in DANGEROUS.
+Tier 2 is **Features**, not Patterns — no patterns inside patterns. The collision with
+`templates/Location.md`'s `**Feature:**` output lines is deliberate and reads correctly:
+`2_Features.md` is the file you read to write the Feature lines.
+
+`patterns/setting/Artifacts.md` is the one new setting file — guidance for History,
+Truths, Rumours, Bestiary, Factions and the Treasure tables, which today have no pattern
+support at all. Split it later only if it gets unwieldy.
 
 ### The tier contract
 
-Every tier file, in every folder, answers the same question at its own level.
+**Tier 1 — Shape.** *What is this, how big, and how much goes in it?*
+Three decisions, no content: which **kind** (a list, chosen from now — and per D9 that
+list is revisable), at what **scale**, and with what **feature budget** (D10). Shape
+classifies and sizes; it never describes.
 
-**Tier 1 — Shape.** *What is this, and how big?*
-Two decisions and no content: which **kind** of thing this is (a closed list, chosen from
-now), and at what **scale** it is being realized. Scale is the tier's real work and the
-reason D5 needs no lair unit: the same lair is a legal answer as one keyed location, as a
-cluster of locations, or as a whole region, and the Shape tier is where a user's chosen
-style of game picks one. Shape never describes; it classifies and sizes.
-
-**Tier 2 — Patterns.** *What's in it?*
-The wide list of specific, concrete patterns to match against — the horizontal variety.
-This is the largest tier by volume in every folder and the one Phase 2 exists to fill.
-Also carries the selection rules for the things a chosen pattern calls for: creature,
-treasure, trap, puzzle, secret, and the registries. Stated flat, for this rating only,
-with no cross-rating branching in view.
+**Tier 2 — Features.** *What's in it?*
+The wide match list — the horizontal variety. Largest tier by volume, and what Phase 2
+exists to fill. Also carries selection rules for creature, treasure, trap, puzzle, secret
+and the registries, stated flat for this rating only, with no cross-rating branching in
+view. Where a mechanic is genuinely shared, it cites `setting/Procedures.md` rather than
+restating it (D11).
 
 **Tier 3 — Detail.** *What is it like, and does it hold together?*
-Three jobs, in order: **round out** (dressing, ambiance, sensory and physical detail),
-**integrate** (make the Tier 2 picks read as one place rather than a list of features —
-the job nothing currently owns), and **refine the verbiage** (this level's application of
-GENRE.md's voice). Clues live here too, since a clue is a detail that has been made
-legible on purpose.
+Three jobs in order: **round out** (dressing, ambiance, sensory and physical detail),
+**integrate** (make the Tier 2 picks read as one place rather than a list — the job
+nothing currently owns, and the real anti-mush guardrail under D10), and **refine the
+verbiage** (this level's application of GENRE.md's voice). Clues live here, since a clue
+is a detail made legible on purpose.
 
 ### What does *not* go in a pattern folder
 
-The line that makes D3's duplication affordable: **format lives in `templates/`;
-patterns hold only what varies.**
+**Format lives in `templates/`. Shared mechanics live in `setting/Procedures.md`.
+Patterns hold only what varies by rating.**
 
-Anything genuinely invariant was never pattern content. Units (feet indoors, yards
-outdoors, miles between regions), the Location header format, the Exits line syntax, the
-citation formats — these are format, they belong in `templates/` and `CLAUDE.md`, and
-they must not be restated in fifteen places. Today the units rule is stated three times
-(`patterns/Dressing.md`, `templates/Location.md`, `CLAUDE.md`); the restructure collapses
-it to two, both of them format files.
+Placement test: *does this change between SAFE and DANGEROUS?* If yes → pattern, written
+three times, differently. If no → it is either format (`templates/`) or a mechanic
+(`setting/Procedures.md`), written once.
 
-So the test when placing a line is: *does this change between SAFE and DANGEROUS?* If yes,
-it is a pattern and it gets written three times, differently. If no, it is format and gets
-written once, in `templates/`.
+This is what makes D3's duplication affordable. It also collapses an existing mess: the
+units rule is stated three times today (`patterns/Dressing.md`, `templates/Location.md`,
+`CLAUDE.md`) and drops to one.
 
 ### Managing the duplication risk
 
-D3 accepts drift risk in exchange for differentiation. The mechanism that manages it
-already exists: `checks/PatternJudgementCheck.md` reviews `patterns/` for "overlap or
-contradiction." Its job inverts — **two restatements that read the same are now a
-finding**, not a convenience. `templates/Pattern_Judgement_Check.md` needs one new
-checklist item saying so.
+`checks/PatternJudgementCheck.md` already reviews `patterns/` for overlap. Its job
+**inverts** — two restatements that read the same become a finding, not a convenience.
+One new item in `templates/Pattern_Judgement_Check.md`.
 
 ---
 
-## 3. Per-folder grid
+## 3. The feature budget (D10)
 
-| | **1_Shape** | **2_Patterns** | **3_Detail** |
+One pick per generation is the current rule and it should not survive, for three reasons:
+
+1. **It already contradicts our own weights.** `Dangerous_High.md` carries the bullet
+   "combining multiple major features (creature, trap, and treasure together)" and
+   `Location_Gazetteer.md` defines high weight as "one **or more** major features." The
+   one-pick lock and the high-weight definition cannot both be true.
+2. **D5 breaks it outright.** If a whole village is legally one keyed location, one
+   feature pick is absurd.
+3. **It is guarding the wrong thing.** What prevents a kitchen-sink location is not a low
+   count — it is every element being attributable to the same Shape. A room with four
+   features that all serve one purpose reads better than a room with one feature that
+   serves none.
+
+**So the budget moves into Shape**, alongside kind and scale, as a stated range rather
+than a fixed number:
+
+| Shape | Budget |
+|---|---|
+| DANGEROUS low | 0-1 |
+| DANGEROUS medium | 1 |
+| DANGEROUS high | 2-3 |
+| WILD landmark / hidden / secret | 1-2 |
+| SAFE, single-site | 1-2 |
+| Any location realized at settlement or dungeon scale | many; governed by Shape's stated scale, not a cap |
+
+The guardrail that replaces the count is Tier 3's **integrate** job: every feature must be
+attributable to the same Shape, and Detail is where that gets enforced. Numbers above are
+a starting position for Phase 2 to move.
+
+---
+
+## 4. Per-folder grid
+
+| | **1_Shape** | **2_Features** | **3_Detail** |
 |---|---|---|---|
-| **setting/** | What kind of setting, and at what scale — how many regions, what span of world, what the party's altitude is | Content patterns for History events, Truths, Rumours, Bestiary entries, Factions, the five Treasure tables; and the criteria for the five registries (Lore, Keys, Named Creatures, Unique Treasures, Quests) | Voice and naming at setting level; `Language.md`'s seeding and growth rules; how tone is kept across artifacts written weeks apart |
-| **region/** | Rating and die; whether this region is one site or a collection; how many locations and at what scale | Region Overview field patterns — what makes a good Features / Dangers / Creatures / Secrets / Treasure entry, and the d6 table per rating | Ambiance; the Terrain/Foraging/Layout texture the referee narrates *between* points (the point-crawl connective layer); region-level voice |
-| **safe/** | Which kind of landmark, and its scale (a stall, a building, a whole village as one key) | The 11 categories from today's `Safe.md`, expanded into a wide match list; SAFE-flavoured selection for creature/treasure/trap/secret; **ongoing situations** (present tense, named cast, stated next rung) | SAFE dressing; the clue rules; how a settlement's features integrate into one place; SAFE voice |
-| **wild/** | Landmark / Hidden / Secret, and Site / Connection / Natural Feature; scale of each | Today's three `Wild_*.md` bullet sets, widened; WILD-flavoured creature/treasure/trap/secret; the search cost and odds that make the three tiers procedural rather than nominal | WILD dressing; position-within-region; integration of a landmark with its hidden/secret children; WILD voice |
-| **dangerous/** | Weight (low/medium/high) **and the ratio between them, currently stated nowhere**; scale of the region as a whole | Today's three `Dangerous_*.md` bullet sets, widened; room purposes as a match list with a non-repetition rule; traps **with a required visible tell**; puzzles; DANGEROUS creature/treasure/secret | DANGEROUS dressing and the detail-by-weight budget; how rooms read as one built work; DANGEROUS voice |
-
-**Note on the registries.** `patterns/setting/2_Patterns.md` holds the *criteria* — what
-makes a Key a Key rather than treasure, what earns a Named Creature a slot. Each rating's
-`2_Patterns.md` holds *when to reach for one here*, in its own words. This is not a
-`shared/` folder by the back door: the registries are setting-level artifacts, and
-`setting/` is one of the five folders by D1.
+| **region/** | Rating and die; one site or a collection; how many locations, at what scale; **connection density and when an edge is hidden** — in a point crawl the graph is the map, so that is a design call, not format | A paragraph per Region Overview field (13 fields) — what makes a good Features / Dangers / Creatures / Secrets / Treasure entry, and the d6 table per rating. **This is the big lift** | Ambiance; the Terrain / Foraging / Layout texture the referee narrates *between* points; region voice |
+| **safe/** | Which kind of landmark; **what type of settlement this even is**; scale and budget | The 11 categories from today's `Safe.md`, widened; SAFE-flavoured creature/treasure/trap/secret; **ongoing situations** (present tense, named cast, stated next rung) | SAFE dressing; clue rules; integration of a settlement's features; SAFE voice |
+| **wild/** | Landmark / Hidden / Secret × Site / Connection / Natural Feature; scale and budget | Today's three `Wild_*.md` sets, widened; WILD creature/treasure/trap/secret; search cost and odds cited from `Procedures.md` | WILD dressing; position-within-region; integration of a landmark with its hidden/secret children; WILD voice |
+| **dangerous/** | Weight, and the ratio between weights (a **judgement-check** item, not a validator rule, per D13); scale and budget | Today's three `Dangerous_*.md` sets, widened; room purposes as a match list with a non-repetition rule; traps **with a required visible tell**; puzzles | DANGEROUS dressing and detail-by-weight; how rooms read as one built work; DANGEROUS voice |
 
 ---
 
-## 4. Migration map
-
-Every current file accounted for. Nothing is deleted without a destination.
+## 5. Migration map
 
 | Current | Destination |
 |---|---|
-| `Safe.md` | Categories → `safe/1_Shape.md`; sub-questions → `safe/2_Patterns.md` |
-| `Wild_Landmark.md` | Kinds (Site/Connection/Natural Feature) → `wild/1_Shape.md`; bullets → `wild/2_Patterns.md` |
-| `Wild_Hidden.md`, `Wild_Secret.md` | Classification → `wild/1_Shape.md`; bullets + Clue/Trigger/Payload → `wild/2_Patterns.md` |
-| `Dangerous_Low/Medium/High.md` | Weight definitions + new ratio → `dangerous/1_Shape.md`; bullets → `dangerous/2_Patterns.md` |
-| `Dressing.md` | Splits three ways into `safe/`, `wild/`, `dangerous/` `3_Detail.md`. Detail-by-Weight → `dangerous/` only. Position-within-region → `wild/` only. **Units rule leaves patterns entirely** → `templates/Location.md` + `CLAUDE.md` |
-| `Secrets.md` | Inclusion rate → each rating's `2_Patterns.md`; clue legibility → each rating's `3_Detail.md` |
-| `Traps.md` | Restated three times, differentiated. Resolution tiers (Nuisance/Damaging/Lethal, TEST OF CONSTITUTION / TEST OF FATE, WOUND / CONDITION) are **format** → `templates/Location.md` |
-| `Puzzles.md` | `dangerous/2_Patterns.md`. Phase 2 to determine whether a WILD variant is warranted |
-| `Treasure.md`, `Creatures.md` | Selection guidance restated per rating in `2_Patterns.md` |
-| `Lore.md`, `Keys.md`, `NamedCreatures.md`, `UniqueTreasures.md` | Criteria → `patterns/setting/2_Patterns.md`; reach-for-it guidance → each rating's `2_Patterns.md` |
-| — | **New:** `patterns/setting/` and `patterns/region/` tiers have no current source and are written fresh |
+| `Safe.md` | Categories → `safe/1_Shape.md`; sub-questions → `safe/2_Features.md` |
+| `Wild_Landmark.md` | Site/Connection/Natural Feature → `wild/1_Shape.md`; bullets → `wild/2_Features.md` |
+| `Wild_Hidden.md`, `Wild_Secret.md` | Classification → `wild/1_Shape.md`; bullets + Clue/Trigger/Payload → `wild/2_Features.md` |
+| `Dangerous_Low/Medium/High.md` | Weights + ratio + budget → `dangerous/1_Shape.md`; bullets → `dangerous/2_Features.md` |
+| `Dressing.md` | Splits three ways into `3_Detail.md`. Detail-by-Weight → `dangerous/` only. Position-within-region → `wild/` only. **Units rule → `templates/Location.md`** |
+| `Secrets.md` | Inclusion rate → each rating's `2_Features.md`; clue legibility → each rating's `3_Detail.md` |
+| `Traps.md` | Patterns restated three times, differentiated. **Resolution tiers → `setting/Procedures.md`** (D11) |
+| `Puzzles.md` | `dangerous/2_Features.md`. Phase 2 decides whether a WILD variant is warranted |
+| `Treasure.md`, `Creatures.md` | Selection restated per rating in `2_Features.md` |
+| `Lore.md`, `Keys.md`, `NamedCreatures.md`, `UniqueTreasures.md` | **Move to `patterns/setting/` intact** (D12); per-rating reach-for-it guidance added to each `2_Features.md` |
 
 **Path references to update:** 55 across 13 files — `CLAUDE.md` (16),
-`templates/Location.md` (15), `STEPS.md` (4), `templates/Location_Gazetteer.md` (3), and
-singles/pairs in the Region, Lore, Keys, NamedCreatures, UniqueTreasures and both
-Judgement Check templates. `tools/validate_setting.py` does **not** reference `patterns/`
-at all, so the validator and CI are untouched by the move itself.
+`templates/Location.md` (15), `STEPS.md` (4), `templates/Location_Gazetteer.md` (3), plus
+singles and pairs elsewhere. `tools/validate_setting.py` does not reference `patterns/`,
+so the move itself leaves CI untouched.
 
 ---
 
-## 5. New artifacts
+## 6. New setting artifacts
+
+### `setting/Procedures.md` (D11)
+
+The shared-mechanics home, and the corpus's `;procedures` block done properly. Holds:
+
+- **Trap resolution** — Nuisance / Damaging / Lethal, TEST OF CONSTITUTION vs. TEST OF
+  FATE, WOUND vs. CONDITION. Moved out of `patterns/Traps.md`.
+- **Search odds and cost** — what it takes to find a Hidden or Secret location. This is
+  the Finding 18 gap: our entire WILD tier system is about findability and nothing states
+  the odds or the price of looking, so the tiers are nominal rather than procedural.
+- **Time scale per rating** — currently buried in `templates/Region.md`'s Layout field.
+
+Seeded from defaults rather than generated cold: the content is largely the same on a
+clean generation, and a setting customizes rather than invents it. Must exist before
+step 3, since Region Overviews cite it.
 
 ### `setting/Quests.md` + `templates/Quests.md` (D6)
 
-A fifth registry, following the existing four exactly: stub row at 4c, full entry at 4d.
+A fifth registry: stub at 4c, full entry at 4d. What makes it different is that it is
+**two-ended** — a giver location and a target location, both of which must exist. `Keys.md`
+is the precedent ("every Key names exactly what it unlocks and where").
 
-What makes it different from the four: a Quest is **two-ended**. It has a giver location
-and a target location, and both must exist. `Keys.md` is the precedent — "Every Key names
-exactly what it unlocks and where" — and a Quest inherits that discipline: *every Quest
-names who wants it, what specifically, and which location holds it.*
-
-This is the mechanism that fixes the errand gap. Today `patterns/Safe.md`'s Task bullet
-asks for "a specific, statable job" while `templates/Location.md`'s Context forbids the
-model the setting files it would need to name a real target — so tasks point at invented,
-unreachable nouns. A registry breaks that bind without widening the Context section: the
-location cites `(Quest: [Name])`, and 4d resolves both ends with every referenced location
-in view.
-
-Validator extension: cross-check `(Quest: [Name])` citations against stub rows, same as
-the four existing registries, plus a check that each Quest row names at least two
-locations.
+This breaks the bind that currently defeats errands: `Safe.md` asks for "a specific,
+statable job" while `Location.md`'s Context denies the model the files it would need to
+name a real target. A registry fixes it without widening Context — the location cites
+`(Quest: [Name])`, and 4d resolves both ends with every referenced location in view.
 
 ### `setting/Language.md` + `templates/Language.md` (D7)
 
-Seeded with a small set of tongues and root words; **grown** as proper nouns are coined.
-This is the framework's first living artifact — every other file is written once and
-revisited only at 4d — and that property needs stating explicitly in `CLAUDE.md`, or it
-will be treated as write-once and quietly stop matching the content.
+**Seeded at 2h, retroactively.** This is the important mechanic and it follows the same
+shape as the other procedurally built tables: by 2h, steps 2a-2g have already coined
+proper nouns across Setting, History, Truths, Rumours, Bestiary and Factions. 2h reads
+what is already there and **systematizes the phonology already present** — extracting
+tongues and root words from real coinages — rather than inventing a language cold and
+forcing earlier artifacts to comply.
 
-Placement in the build order: it must precede `Setting.md`, since that artifact coins the
-setting's own name. Proposed as a new **step 2a**, pushing today's 2a-2h down one.
+The setting's own name is therefore either plain common tongue, or itself a seed for what
+follows. Either is fine.
 
-Validator: no check initially. A "proper noun not found in Language.md" rule is
-attractive but would fire constantly on legitimate coinages during early generation.
-Revisit in Phase 3 once there is real content to measure against.
-
----
-
-## 6. Template and validator relaxation (D8)
-
-D5 means a single keyed location may legitimately be an entire village or dungeon.
-Today's `templates/Location.md` shape — two-sentence Player Summary, one italic Referee
-Notes line, flat Feature list, one Exits line — was written for a room, and the validator
-enforces it. Phase 2 must establish whether that shape survives contact with a
-village-scale location or needs to flex.
-
-Audit list, to be answered with evidence in Phase 2 rather than guessed at now:
-
-1. Does a village-scale location need sub-entries, or do Features carry it?
-2. Is the two-sentence Player Summary cap right at every scale?
-3. Does a whole-dungeon location's Exits line mean the dungeon's external exits only?
-4. Which validator rules are load-bearing (they catch real breakage) versus merely tidy?
-
-The standard from D8 is the deciding one: **consistent enough for the user to parse at a
-glance, and no more.** A rule that only enforces neatness is a rule to drop.
+It is the framework's first **living** artifact — appended to whenever a proper noun is
+coined, where every other file is written once and revisited only at 4d. That property
+needs stating in `CLAUDE.md` or it will be treated as write-once and quietly drift.
 
 ---
 
-## 7. `STEPS.md` and `CLAUDE.md` changes
+## 7. Validator posture (D13)
 
-- New step **2a**: create `setting/Language.md`, seeded. Renumber today's 2a-2h to 2b-2i.
-- New step for `setting/Quests.md` alongside the four registry stubs (today's 2h).
-- Every step's context list re-pointed at the three-tier files of its folder — a step now
-  names one folder and reads its three files in order, instead of naming a scattered set.
-- Steps 3a-3c gain `patterns/region/` in context (they currently have no pattern folder
-  at all).
-- Steps 2a-2i gain `patterns/setting/` for the same reason.
-- 4c's context becomes: GENRE.md, parent Region Overview, own stub, and the three tier
-  files of the matching rating folder.
-- `CLAUDE.md`'s `patterns/` section is rewritten around the five folders and three tiers.
-- `templates/Pattern_Judgement_Check.md` gains the inverted-duplication check from §2.
+**Strict on format. Relaxed on content and ratios.**
+
+| Keep as errors | Demote to warning | Move to judgement checks |
+|---|---|---|
+| Unknown region/location codes | Exit/edge mismatches already warned | Weight ratio across a region |
+| Header ≠ filename ≠ gazetteer stub | — | Whether a Shape's budget was respected |
+| Missing required lines and malformed syntax | — | Whether restatements across folders are differentiated |
+| Orphaned graph nodes; broken citations | — | Prose quality, density, voice |
+| Registry cross-references (incl. new Quests) | Quest rows naming fewer than two locations | — |
+
+Sentence-count caps and prose-shape rules are neatness, not breakage — they go, per D8.
+The §8 audit questions are answered with worked examples in Phase 2, not decided here.
 
 ---
 
-## 8. Phase 2 — trial fit against the corpus
+## 8. `STEPS.md` and `CLAUDE.md` changes
 
-The corpus is the test set. Phase 2 proves the tier structure before any pattern gets
+- **No new steps.** 2h absorbs `Language.md`, `Procedures.md` and `Quests.md` alongside
+  the four existing registry stubs. Numbering is untouched.
+- Steps 2a-2i gain `patterns/setting/`; steps 3a-3c gain `patterns/region/` — neither
+  level has any pattern support today.
+- 4c's context becomes: `GENRE.md`, parent Region Overview, own stub, and the three tier
+  files of the matching rating folder, read in order.
+- `CLAUDE.md`'s `patterns/` section rewritten around five folders and three tiers.
+- `templates/Pattern_Judgement_Check.md` gains the inverted-duplication check.
+- `templates/Region.md` cites `Procedures.md` for time scale instead of stating it.
+
+---
+
+## 9. Phase 2 — trial fit against the corpus
+
+The corpus is the test set. Phase 2 proves the tier structure before any pattern is
 written into it, and mines the corpus for Tier 2's horizontal variety.
 
-**Test protocol.** Take a generated output from the corpus and route it backwards through
-Shape → Patterns → Detail. If every sentence lands in exactly one tier, the structure
-holds. If a sentence lands in none, there is a missing pattern. If one lands in two, the
-tier boundary is wrong and moves.
+**Protocol.** Take a corpus output and route it backwards through Shape → Features →
+Detail. Every sentence should land in exactly one tier. Landing in none means a missing
+pattern; landing in two means the tier boundary is wrong and moves.
 
-**Test cases, chosen to stress different parts of the grid:**
-
-| Case | Corpus source | What it stresses |
+| Case | Corpus source | Stresses |
 |---|---|---|
-| A village | `village` | safe/ all three tiers; the roster question; ongoing situations |
-| A dungeon room, empty | `interior room` + `empty dressing` | dangerous/3_Detail; whether low-weight rooms survive without a Tier 2 pick |
-| A dungeon room, trapped | `trap` | dangerous/2_Patterns; the required-tell rule |
-| A wilderness landmark | `grass landmark`, `hills landmark` | wild/ all three; position-within-region |
-| **A lair** | `giant ant lair`, `witch cottage` | **D5 — the same lair routed at all three scales: one location, a cluster, a region** |
-| A settlement event | `settlement event`, `the presence of mercenaries is a problem` | Whether ongoing situations fit safe/2_Patterns or need their own Shape |
-| A quest chain | `alchemist job` + `giant ant queen chamber` | D6 two-endedness end to end |
+| Village | `village`, `town` | safe/ all tiers; the roster question; settlement-type Shape |
+| Empty dungeon room | `interior room` + `empty dressing` | dangerous/3_Detail; whether a 0-budget room survives |
+| Trapped room | `trap` | dangerous/2_Features; the required-tell rule |
+| Wilderness landmark | `grass landmark`, `hills landmark` | wild/ all tiers; position-within-region |
+| **Lair** | `witch cottage`, `giant ant lair` | **D5 and D10 — same lair at three scales** |
+| Ongoing situation | `settlement event`, `the presence of mercenaries is a problem` | Whether these fit safe/2_Features or need their own Shape |
+| Quest chain | `alchemist job` → `giant ant queen chamber` | D6 two-endedness end to end |
 
-**Acceptance criteria for Phase 2:**
+**Acceptance criteria:**
 
 1. All seven cases decompose cleanly into three tiers.
-2. The lair case produces three legible, materially different outputs at three scales —
-   this is the direct test of D5, and if it fails, D5 fails and a lair unit is back on
-   the table.
+2. The lair case produces three legible, materially different outputs at three scales.
+   This is the direct falsifier for D5 — if it fails, a lair unit is back on the table.
 3. Every Tier 2 file has enough breadth that two locations generated from it in the same
    region do not collide.
-4. The four §6 relaxation questions are answered with a worked example, not an opinion.
-5. Any trap, treasure or creature guidance that reads identically across two rating
-   folders is either differentiated or shown to be format and moved to `templates/`.
+4. The §7 relaxation calls are backed by a worked example, not an opinion.
+5. Any trap, treasure or creature guidance reading identically across two folders is
+   either differentiated, or shown to be a mechanic and moved to `Procedures.md`.
+6. **The classification counts are re-derived, not assumed** (D9). If the content wants
+   four DANGEROUS weights or two WILD classes, Phase 2 says so.
 
 ---
 
-## 9. Phase 3 — write and prove
+## 10. Phase 3 — write and prove
 
-Write the fifteen tier files, the two new templates, the two new setting artifacts, and
-the updated `GENRE.md`, `STEPS.md`, `CLAUDE.md` and validator. Then generate from scratch,
-repeatedly, and tweak.
+Write the twelve tier files, the flat `setting/` files, the three new templates, the three
+new setting artifacts, and the updated `GENRE.md`, `STEPS.md`, `CLAUDE.md` and validator.
+Then generate from scratch, repeatedly, and tweak.
 
 **Proof criteria:**
 
 - Multiple full from-scratch generations, not one.
-- Two regions of the same rating generated independently must not converge — the
-  non-repetition and forced-draw constraints are what Phase 2 sized, and this is where
-  they get tested.
-- `tools/validate_setting.py` at zero errors.
-- All three judgement checks re-run, with `PatternJudgementCheck` specifically confirming
-  that restatements across folders are genuinely differentiated (§2).
+- Two regions of the same rating generated independently must not converge.
+- `tools/validate_setting.py` at zero errors under the D13 posture.
+- All three judgement checks re-run, with `PatternJudgementCheck` confirming
+  cross-folder restatements are genuinely differentiated.
 - Proper nouns across independently generated regions share a phonology traceable to
   `setting/Language.md`.
 
 ---
 
-## 10. Open questions
+## 11. Scope posture
 
-Three forks I'd rather have answered than assume.
-
-1. **Does `patterns/setting/` really need three tiers?** Region and the three ratings map
-   onto Shape/Patterns/Detail naturally. Setting is the one where Tier 1 might be thin —
-   "what kind of setting, at what scale" could reasonably be one paragraph rather than a
-   file. I have planned for three for symmetry, on the argument that a predictable
-   read-three-files-in-order rule is worth a short file. Worth confirming before I write
-   fifteen rather than fourteen.
-
-2. **How far does the validator relax?** §6 lists the audit but not the appetite. My
-   default reading of D8 is aggressive: keep rules that catch real breakage (unknown
-   codes, name mismatches, orphaned graph nodes, broken citations), drop rules that only
-   enforce neatness (prose shape, sentence counts). Say if that is further than you want
-   to go.
-
-3. **Does `patterns/region/` cover the region gazetteer and the connection graphs, or
-   only the Region Overview?** The gazetteer and `Connections.mmd` are arguably pure
-   format and belong wholly to `templates/`. I have assumed region/ covers all three
-   artifacts, with the graph's *shape* decisions (how densely to connect, when to use
-   hidden edges) landing in `region/1_Shape.md` — since in a point crawl the connection
-   graph is the map, and that is a design decision rather than a format one.
+Remaining scope questions are Phase 2's to answer, empirically: **if we need it the answer
+is yes, if we don't the answer is no.** Pragmatic over ideological. Nothing in this plan
+is load-bearing enough to defend against evidence — D9 says so explicitly about the
+classifications, and it applies to the rest.
