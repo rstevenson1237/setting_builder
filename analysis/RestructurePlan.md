@@ -177,11 +177,30 @@ region root, and depth below a Landmark is where complexity lives.
 
 **DANGEROUS — a dense graph with few entrances.** Movement is one room at a time, so
 connections carry far more weight than in either other rating. Discrete entry points,
-heavy interconnection between rooms, and loops that matter.
+heavy interconnection, and loops that matter.
+
+Because of that, DANGEROUS connections carry a **decision-shape taxonomy**, assigned at
+4b when `Connections.mmd` is written and read as an input at 4c:
+
+| Role | The decision | Reversible? |
+|---|---|---|
+| **Empty room** | Is it actually empty, or is something hiding? | n/a |
+| **Dead end** | Is there a secret door here? | n/a |
+| **Branch** | Which way first — everything returns here | yes |
+| **Loop leg** | Where am I relative to where I have been? | yes |
+| **Divide** | Which way, with no coming back | **no** |
+
+This is what makes the LOW class carry weight: a low-weight room holds no reactive
+element, but it is where the region's decisions actually get made. Branch, loop and divide
+are properties of the graph rather than of any one room, which is why they are set at 4b —
+a room is only a divide because the paths beyond it do not reconverge.
 
 One consequence worth noting: a region's `Connections.mmd` should look structurally
 different per rating, and `tools/validate_setting.py` currently neither knows nor cares.
-Per D13 that stays a judgement-check observation rather than a new validator rule.
+Per D13 this does not become a rule — but the graph is already parsed, and reporting its
+shape (dead-end count, loop count, whether the region is a tree) costs almost nothing and
+would give the judgement checks something factual to work from. **Proposed as a
+diagnostic output, not a check.**
 
 ## 4. Per-folder grid
 

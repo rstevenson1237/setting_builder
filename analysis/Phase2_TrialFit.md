@@ -6,7 +6,7 @@ Dressing** to prove the structure before any pattern is written into it.
 **Protocol.** Every element should land in exactly one file. None means a missing pattern.
 Two means the boundary is wrong and moves.
 
-**Complete:** cases 5, 1, 6, 8. **Pending:** 2, 3, 4, 7.
+**Complete:** cases 5, 1, 6, 8, 2. **Pending:** 3, 4, 7.
 
 ---
 
@@ -225,9 +225,10 @@ DANGEROUS - MEDIUM
   1     Ambiance or architecture detail
   25%   A detail that foreshadows a HIGH room elsewhere in the region
 
-DANGEROUS - LOW
+DANGEROUS - LOW              (parameterized by node role - see F9)
   1     Purpose - what this space was for, and whether that use still holds
   1     Ambiance detail                                      - never leave a room empty
+  1     Node role honoured   {empty | dead end | branch | loop leg | divide}
   14%   Treasure                                             - Moldvay's unguarded rate
   20%   A detail that rewards looking without demanding action
 ```
@@ -249,6 +250,83 @@ the only way the mechanism can produce a blank.
 **D15 works, and the percentages are derivable rather than arbitrary.** Two of the three
 proposed numbers moved on evidence, and the reason they moved — that we key what the
 corpus draws — is a structural difference between the two systems worth recording.
+
+## Case 2 — The empty room, and the decision structure of LOW
+
+**Source:** `empty dressing` (33 entries), `special` (12), `interior room`, plus the
+node-role taxonomy. **Stresses:** the LOW spec, F7, F8.
+
+### F9 — LOW is where the dungeon's decisions live, not where its filler goes
+
+The Case 8 framing of LOW as "connective tissue we are forced to key" was too grudging.
+Connective space carries its own content, and it is the content players actually act on:
+
+| Node role | What the player is deciding | What the room must supply |
+|---|---|---|
+| **Empty room** | Is it actually empty, or is something hiding? | Enough dressing that searching is tempting and not obviously futile |
+| **Dead end** | Is there a secret door here? | A reason to suspect one — and a rate at which there genuinely is |
+| **Branch** | Which way first? Everything returns here | Distinguishable exits, so it is a decision and not a coin flip |
+| **Loop leg** | Where am I relative to where I have been? | A detail that makes the loop recognizable when it closes |
+| **Divide** | Which way? We do not come back | The highest-stakes choice in the region — and legible stakes |
+
+A LOW room is "low" because it holds no reactive element, not because it holds nothing
+worth doing. That is a materially different instruction to write patterns against.
+
+**On dead ends specifically:** if a dead end never hides a secret, players stop checking
+and the class dies; if it always does, it is not a secret. It needs a real rate.
+`patterns/Secrets.md` already sets DANGEROUS low weight at >30%, which is about right and
+should be applied *at the node role* rather than flat across the class.
+
+### F10 — three of the five roles are graph properties, not room properties
+
+Branch, loop and divide are only what they are because of what lies downstream. A room is
+not a divide on its own; it is a divide because the paths beyond it do not reconverge.
+These cannot be picked at location-generation time.
+
+**The build order already supports this.** Step 4b writes the region's `Connections.mmd`
+*before* 4c writes any location, so the graph exists when a location is drafted and the
+node role can be read off it rather than invented. Nothing in `STEPS.md` needs to move.
+
+What is missing is that `templates/Region_Connections.mmd` has no guidance on decision
+shape at all — it specifies edge types (normal, hidden, one-way) and says nothing about
+branching, looping or dividing. So the taxonomy belongs in `region/Scope.md` under
+topology (D16), applied at 4b, and read as an input at 4c.
+
+### F11 — an existing rule turns out to be doing decision-support work
+
+`templates/Location.md` already requires that two exits never read identically — "position
+is what keeps two exits of the same type distinguishable." That rule was written as an
+anti-ambiguity measure for the referee.
+
+It is actually what makes a **branch** a decision rather than a coin flip. A player
+choosing between "a door" and "a door" is guessing; one choosing between "a low door,
+scorched around the frame" and "a wide arch, the floor beyond worn smooth" is deciding.
+The rule should be restated in that light in `dangerous/Dressing.md`, because its
+justification is much stronger than the one currently given for it.
+
+### Decomposition
+
+| Element | File |
+|---|---|
+| Node role (empty / dead end / branch / loop / divide) | **read from the graph**, set at 4b |
+| Whether something is concealed here, and at what rate | Features (via `Secrets.md`'s rate) |
+| `empty dressing` — cobwebs, rat tunnels, a doll in a dingy crib, a slaughtered pig | Dressing |
+| `special` — coloured pools, smashed statues, a magic mouth, waist-high mist | Dressing, unless it does something |
+| Former purpose and whether it still holds | Dressing |
+| Exit differentiation | Dressing — and it is load-bearing, per F11 |
+
+**Result: decomposes cleanly, and F8 holds** — the three mandatory lines mean a LOW room
+can never roll blank.
+
+### Note on `special`
+
+`special` is the corpus's borderline category and it splits across our boundary rather
+than sitting in one file. "Frescoes of a power" is Dressing. "A stairwell down into a maze
+of unmappable corridors filled with the skeletons of past visitors" *does something* —
+it is an exit, a warning, and a threat — so by F1's rule it is Features, in a class that
+supposedly has no reactive element. Either such entries are promoted to MEDIUM, or LOW's
+definition widens to admit consequence without reaction. **Flagged for Phase 3**; it does
+not block the spec.
 
 ## Findings
 
@@ -317,7 +395,10 @@ New, from Case 6. Proposes a **Situation** field in the Region Overview. See abo
 | F5 | Roster guidance into the People field | `region/Features.md`, `templates/Region.md` | **new** |
 | F6 | **Situation** field in the Region Overview | `templates/Region.md`, `region/Features.md` | folded in |
 | F7 | LOW is the largest DANGEROUS class, and distribution scales with region size | `dangerous/Weight.md` | **new** |
-| F8 | Every inclusion spec states at least one mandatory line | all three first-files | **new** |
+| F8 | Every inclusion spec states at least one mandatory line | all three first-files | folded in |
+| F9 | LOW is parameterized by node role; it carries decisions, not filler | `dangerous/Weight.md` | **new** |
+| F10 | Branch/loop/divide are graph properties, set at 4b and read at 4c | `region/Scope.md`, `Region_Connections.mmd` | **new** |
+| F11 | The distinguishable-exits rule is decision support, and should be justified as such | `dangerous/Dressing.md` | **new** |
 
 Still no amendment touches D1-D14. Three cases have moved numbers and added two Region
 Overview fields; the structure itself has held.
