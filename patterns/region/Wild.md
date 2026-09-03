@@ -13,8 +13,11 @@ which take their counts and graph shape from here.
 ```
 LOCATION COUNT
   About as many as the die type. A d10 region holds about ten.
-  The die is a difficulty die - d8 baseline, d6 tougher, d10 easier. A tougher region is
-  therefore smaller and more concentrated, which is a coupling worth using.
+  This is the pressure mechanism, not a rule of thumb: N locations at a 1/N failure rate
+  means a full traverse expects exactly ONE encounter, at every die, with about a 65%
+  chance of at least one. See setting/Procedures.md.
+  The die therefore sets texture, not difficulty. A d4 region is four locations that bite
+  a quarter of the time - short and spiky. A d12 is twelve at 8.3% - long and smooth.
 
 CLASSIFICATION MIX
   50-60%   Landmark   - freely discoverable anywhere in the region

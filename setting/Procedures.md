@@ -104,9 +104,59 @@ die fails more often. So the scale runs opposite to intuition:
 | d12 | Outlier. Mild. Rare, and deliberate |
 
 **The die is not a creature benchmark.** A d8 DANGEROUS region does not want an 8 AD
-creature; it wants creatures pitched against the party, at whatever AD the fiction calls
-for. Difficulty and power are separate axes.
+creature; it wants creatures pitched against the party. Difficulty and power are separate
+axes.
 
-The die also sets location count - about the die for SAFE and WILD, about three times it
-for DANGEROUS. That coupling is deliberate and worth using: a punishing region is small and
-concentrated, a mild one is large and sprawling.
+### The Difficulty roll
+
+Roll the region's die:
+
+- **1** - failure. The region's Encounter or Danger table fires.
+- **2-3** - complication. The attempt works, but not cleanly.
+- **4 or higher** - success.
+
+| Die | Failure | Complication | Success |
+|---|---|---|---|
+| d4 | 25% | **50%** | 25% |
+| d6 | 16.7% | 33.3% | 50% |
+| **d8** | **12.5%** | **25%** | **62.5%** |
+| d10 | 10% | 20% | 70% |
+| d12 | 8.3% | 16.7% | 75% |
+
+**Complication is the most common non-success at every die**, and at d4 it is the most
+common result of all. A punishing region is not one where you fail often - it is one where
+you rarely get away clean. Region tables fire on failure, so complications are narrated
+from the region's own material: its Terrain and Foraging in WILD, its Architecture and
+Features in DANGEROUS.
+
+### Why the location counts are what they are
+
+Location count is not a heuristic. It is the mechanism, and it produces the same pressure
+curve at every die.
+
+**WILD - about as many locations as the die.** Traversing the whole region rolls the die
+about N times at a 1/N failure rate:
+
+> Expected encounters per full traverse = **exactly 1**, at every die.
+> Chance of at least one = **about 65%**, at every die (it converges on 1 - 1/e).
+
+**DANGEROUS - about three times the die.** Clearing the whole region rolls about 3N times
+at 1/N, against a Danger track that counts down from 6:
+
+> Expected countdown steps per full clear = **exactly 3** - half the track, at every die.
+> Chance of burning the whole track = **8.4%**, at every die.
+
+So a full clear leaves the party at 3 of 6 on average. The place is clearable, and anything
+inefficient - backtracking, searching, retreating and returning - eats into a half-track
+that was never generous. That is the pressure to get in and get out, and it is built into
+the sizing rather than imposed by the referee.
+
+**The die changes pacing and variance, never expected friction.** A d4 WILD region is four
+locations with a 25% bite each - short and spiky. A d12 is twelve locations at 8.3% - long
+and smooth. Both average one encounter. Choose the die for the *texture* of the region, not
+for how hard it is.
+
+**Deviating from the count is a deliberate trade, and now a measurable one.** Half the
+locations is half the pressure. A five-room lair written as its own DANGEROUS region at d8
+expects 0.6 countdown steps across a full clear - effectively none - so its tension has to
+come from what is in it, not from the track.

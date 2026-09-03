@@ -24,6 +24,16 @@ REGION KIND
                     the failure this option exists to prevent.
 ```
 
+**The 3x rule is the pressure mechanism, not a rule of thumb.** Per
+`setting/Procedures.md`, 3x the die across a full clear burns **exactly 3 of the Danger
+track's 6 steps**, at every die size - so a clean sweep leaves the party half-spent and
+anything inefficient costs real ground.
+
+A **single holding** deviates from that deliberately and pays for it: five rooms at d8
+expects 0.6 steps across a full clear, which is effectively no countdown at all. Its
+tension has to come from what is in it - one thing that cannot be fought, a way in that is
+not a way out, something that wakes - because the track will not supply any.
+
 Class distribution, scaled by count:
 
 The die is a **difficulty die**, not a power level - d8 baseline, d6 tougher, d10 easier,
