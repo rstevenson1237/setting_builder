@@ -6,7 +6,7 @@ Dressing** to prove the structure before any pattern is written into it.
 **Protocol.** Every element should land in exactly one file. None means a missing pattern.
 Two means the boundary is wrong and moves.
 
-**Complete:** cases 5, 1, 6, 8, 2, 3. **Pending:** 4, 7.
+**Complete: all seven cases, plus case 8.** Phase 2 closed — see Conclusion.
 
 ---
 
@@ -403,6 +403,163 @@ authored rather than assumed, and the arrow makes it obvious when a trap has bee
 with no way to detect it. The corpus records the format in a comment; we should record it
 as a requirement.
 
+## Case 4 — The wilderness landmark
+
+**Source:** `grass landmark` (21), `hills landmark` (20), `small landmark`, `calm clearing
+feature`, `magic plant location`, `magic plant guardian`, `cave entrance`. **Stresses:**
+wild/ all three files, position-within-region, D17.
+
+### F14 — most corpus "landmarks" are our region terrain, not our WILD Landmarks
+
+This is the sharpest sorting problem in the trial fit. `hills landmark` reads:
+
+> The sandy slopes are heavily eroded by recent flooding.
+> A small brook meanders between the hills here.
+> Brilliant blossoming flowers coat the slopes like thick, wet paint.
+
+None of that is a location. It is what the ground looks like, and in a point crawl it is
+**connective terrain the referee narrates** — `region/Dressing.md`, feeding the Region
+Overview's Terrain field. Our WILD Landmark is a different animal: a named destination
+that can be revisited and connected to.
+
+But the same table also holds:
+
+> Atop a squat tor is a ring of crudely worked megaliths.
+> A burned farmstead lies ahead, eerily silent in the whispering winds.
+> Crumbling with age, the stony legs of an ancient aqueduct straddle the valleys.
+> A foul-smelling den, barely concealed behind some stones.
+
+Those are destinations.
+
+**Sorting rule, for mining the corpus into `wild/Features.md`:** an entry is a Landmark if
+it can be **named, revisited, and connected to**. If it cannot — if it is a quality of the
+ground rather than a thing standing on it — it is region terrain texture. Roughly a
+quarter of the corpus's landmark entries pass; the rest are `region/Dressing.md` material,
+and they are *good* material, since F5 and F6 already established that our region fields
+are the underspecified layer.
+
+`magic plant location` (growing around a skeleton, along a creek, deep within a thorny
+bush) sorts the same way: Foraging-field texture, not locations. Confirms the same
+direction a third time.
+
+### F15 — WILD depth is something the corpus cannot express
+
+`calm clearing feature` is four entries, three pure dressing and one — "a spring of
+frigid water that removes *fear*" — a standing effect, so Features by F1.
+
+More interesting is what is absent. Every corpus landmark is **flat**: a hex holds a thing,
+and the thing has no interior. There is no equivalent of a Landmark with a Hidden child,
+or a Hidden location with a Secret below it. Its lairs (Case 5) are the nearest thing and
+they are self-contained set-pieces, not landmarks with depth.
+
+So D17 — that WILD prominence is expressed by *attaching children* rather than weighting a
+location — describes a capability the corpus does not have. **We are not porting this from
+the corpus; we are keeping something it lacks.** Worth stating plainly so Phase 3 does not
+flatten WILD while mining corpus breadth into it.
+
+### Decomposition
+
+| Element | File |
+|---|---|
+| Landmark / Hidden / Secret; Site / Connection / Natural Feature | Classification |
+| Whether this Landmark carries children, and how many | Classification (D17 — this *is* prominence) |
+| `magic plant guardian` — treants, a hermit druid, trapdoor spiders | Features |
+| The standing effect in the clearing | Features |
+| Position within the region | Dressing |
+| Terrain quality, erosion, flowers, brook | **`region/Dressing.md`** — not a location at all |
+| `cave entrance` — dug into the ground; timber-shored former mine | Dressing, with the former purpose carrying it |
+
+**Result: decomposes cleanly once F14's sorting rule is applied.** Without it, roughly
+three quarters of the source material would have been miscategorised into `wild/`.
+
+---
+
+## Case 7 — The quest chain
+
+**Source:** `alchemist job`, `alchemist quest` (11 stored objects), `treasure map`,
+`patron plot hook`, `library mission`, `law and order jobs`, `magic plant guardian`,
+`sharing agreement`. **Stresses:** D6 two-endedness, end to end.
+
+### How the corpus actually does it
+
+The quest economy runs on eleven objects — basilisk bile, chimera blood, griffon egg, hell
+hound embers, hydra blood, medusa head, naga tongue, royal jelly, swamp crane feathers,
+unicorn horn, winter wolf icicles — and the mechanism is inverted from what one would
+expect:
+
+**The target end is authored first, as a side effect of generating the target.** The giant
+ant queen chamber ends with `[here store royal jelly as alchemist quest]`. The naga temple
+stores naga tongue. Each location that *could* supply something registers that it can.
+Only later does a settlement's alchemist pull `[nearby alchemist quest]` and the errand
+come into being.
+
+So it is not giver-then-target. It is **supply registered by targets, demand drawn from
+the pool.**
+
+### F16 — our build order already permits two-ended quests, and I had assumed it did not
+
+The Quest design assumed a giver written at 4c could not name a real target, because the
+target's file does not exist yet. That is wrong.
+
+`STEPS.md` 4a creates the `Locations.md` gazetteer for **every** region before 4b creates
+any connection graph, and 4b completes for every region before 4c writes any location
+file. So when a quest giver is drafted at 4c, **every location in the setting already
+exists as a stub** — name, weight or classification, and tags.
+
+A giver in SAFE A.3 can therefore cite a real target in DANGEROUS C.14 by name at 4c. What
+it cannot yet know is what C.14 *contains*, since that file is not written. Which is
+exactly D14's container/data split doing its job: the Quest stub records giver, target and
+a coined name; 4d writes what the object actually is, with both location files in view.
+
+No new machinery, and no change to `STEPS.md`. The capability was already there.
+
+### F17 — a quest needs a middle, not just two ends
+
+`magic plant guardian` is eight entries and every one is an **obstacle standing between the
+party and the object**: treants who hate anything living by thumb and fist; a hermit druid
+with thirty wolves; a tomb of wights; a plant that only grows where owlbears have
+fertilized it; a screaming mandrake that non-herbalists will always mistake for the real
+thing.
+
+That last one is the best of them, because the obstacle is *the giver's omission* — "*[same
+human name]* is not about to tell you that." The complication is baked into the errand.
+
+Neither `patterns/Keys.md` nor the Quest design as planned has a middle. A Key names what
+it opens; a Quest was to name who wants what and where it is. Both describe endpoints. The
+obstacle is what makes it an adventure instead of a delivery, and it is cheap to require:
+
+**A Quest states three things — who wants it and why they will not go themselves, what
+specifically and where, and what stands in the way.** The third is new and it is the one
+that matters.
+
+### F18 — the reward should be stated in the giver's voice
+
+`sharing agreement` gives three named terms, each in first person: "I am generous: two
+shares of the treasure found for me, the rest shared equally amongst the other survivors."
+"I will provide all the expertise: five shares for me." "I'll be fair: half for me, half
+amongst the other survivors."
+
+The terms characterize the giver while stating the payment — the "generous" one is taking
+a double share and the "fair" one is taking half. `patterns/Safe.md`'s Task bullet asks
+"What's offered in return: coin, goods, information, standing?" and gets an abstract
+answer. Asking for the offer **in the giver's own words** gets a concrete one and a piece
+of characterization for free.
+
+### Decomposition
+
+| Element | File / artifact |
+|---|---|
+| That this location offers a quest at all | `safe/Kind.md` inclusion spec |
+| Who wants it, and why they will not go | Features → Named Creature |
+| What is wanted, and which location holds it | **`setting/Quests.md`** stub at 4c |
+| What the object actually is | `setting/Quests.md` full entry at 4d |
+| What stands in the way | Features at the *target* location; summarized in the Quest row |
+| The terms, in the giver's voice | Features |
+| The target location registering that it can supply something | Features at the target, at 4c |
+
+**Result: decomposes cleanly, and D6 is confirmed** — with two additions (F17's obstacle,
+F18's voiced terms) and one assumption corrected (F16).
+
 ## Findings
 
 ### F1 — Access: resolved, and the rule generalizes
@@ -475,7 +632,12 @@ New, from Case 6. Proposes a **Situation** field in the Region Overview. See abo
 | F10 | Branch/loop/divide are graph properties, set at 4b and read at 4c | `region/Scope.md`, `Region_Connections.mmd` | **new** |
 | F11 | The distinguishable-exits rule is decision support, and should be justified as such | `dangerous/Dressing.md` | folded in |
 | F12 | A class is defined by what it guarantees, not what it permits; weight is a presentation distinction | Plan §3, all three first-files | **new** |
-| F13 | Tell requirement follows from class: a challenge trap states a tell, a variance or guard trap need not | `dangerous/Features.md` | **new** |
+| F13 | Tell requirement follows from class: a challenge trap states a tell, a variance or guard trap need not | `dangerous/Features.md` | folded in |
+| F14 | Sorting rule — a Landmark can be named, revisited and connected to; everything else is region terrain | `wild/Features.md`, `region/Dressing.md` | **new** |
+| F15 | WILD depth is a capability the corpus lacks; do not flatten it while mining breadth | `wild/Classification.md` | **new** |
+| F16 | The build order already permits two-ended quests — every location stub exists before any location file | none needed | **new** |
+| F17 | A Quest states three things: who wants it, what and where, **and what stands in the way** | `patterns/setting/Quests.md` | **new** |
+| F18 | Reward terms are stated in the giver's own voice | `safe/Features.md` | **new** |
 
 Still no amendment touches D1-D14. Three cases have moved numbers and added two Region
 Overview fields; the structure itself has held.
@@ -484,3 +646,44 @@ Overview fields; the structure itself has held.
 SAFE Region Overview is underspecified. It describes a place but not who is in it or what
 is currently happening to it. That is the largest single gap the trial fit has surfaced so
 far, and it is a `region/` problem, not a `safe/` one.
+
+---
+
+## Conclusion — Phase 2 closed
+
+All seven planned cases decomposed, plus an eighth added to set the inclusion-spec
+percentages from evidence.
+
+**Against the acceptance criteria:**
+
+1. **All cases decompose cleanly.** Two elements were genuinely contested (F1 access, F13
+   trap tells) and both resolved into rules better than the flat versions they replaced.
+   One category, `special`, looked like a contradiction and was dissolved by F12 rather
+   than patched.
+2. **The lair produced three legible outputs at three scales.** D5 confirmed; no lair tier.
+3. **Breadth** is a Phase 3 authoring task, but F14 supplies the sorting rule that decides
+   what corpus material feeds which file — without it about three quarters of the
+   wilderness material would have landed in the wrong folder.
+4. **The relaxation calls are backed.** F12 independently confirms D13: weight is a
+   presentation distinction, so it cannot be validated by counting, and any mechanical
+   budget check would be wrong in principle rather than merely strict.
+5. **No guidance read identically across folders**, because the trap resolution mechanics
+   moved to `Procedures.md` before the comparison could arise (D11).
+6. **Counts re-derived, not assumed** (D9): the three DANGEROUS weights survived, the WILD
+   classification survived and gained a justification it did not have (F15 — depth is
+   prominence), and the class *distribution* moved substantially on evidence (F7).
+
+**Nothing amended D1-D17.** Eighteen findings moved numbers, added two Region Overview
+fields, added a decision-shape taxonomy, and corrected one assumption about the build
+order. The structure itself held throughout.
+
+**What Phase 2 changed about Phase 3's shape:**
+
+- `templates/Region.md` is the largest single piece of work, not `patterns/`. F5, F6, D16
+  and F14 all land on it, and it needs rebuilding per rating rather than patching.
+- `patterns/setting/Quests.md` gains an obstacle clause (F17) that makes it materially
+  different from `Keys.md` rather than a variant of it.
+- The corpus is a source for `region/Dressing.md` at least as much as for the rating
+  folders — the opposite of the expectation going in.
+
+**Ready for Phase 3.**

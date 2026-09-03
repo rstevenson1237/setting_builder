@@ -335,15 +335,9 @@ exactly one. None means a missing pattern; two means the boundary is wrong and m
 
 Progress and findings: `analysis/Phase2_TrialFit.md`.
 
-| Case | Status |
-|---|---|
-| 1 Village / town | complete |
-| 2 Empty dungeon room | pending |
-| 3 Trapped room | pending |
-| 4 Wilderness landmark | pending |
-| 5 Lair at three scales | complete — D5 and D10 confirmed |
-| 6 Ongoing situation | complete |
-| 7 Quest chain | pending |
+**Phase 2 is closed.** All seven cases complete, plus an eighth added to set the
+inclusion-spec percentages from corpus stocking data. Eighteen findings; none amended
+D1-D17.
 
 **Acceptance criteria:**
 
