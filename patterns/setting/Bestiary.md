@@ -5,7 +5,7 @@ What creatures the setting holds, how they are distributed across type and power
 each entry must state so the location patterns can use it without reinventing it.
 
 ## Read at
-Step 2e, after `setting/Outline.md` has fixed the region dice. The Bestiary is written in
+Step 2f, after `setting/Outline.md` has fixed party altitude. The Bestiary is written in
 one pass rather than grown, so it has to anticipate demands made three steps later.
 
 ## Spec
