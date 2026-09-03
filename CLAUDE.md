@@ -10,23 +10,56 @@ This is not a software project in the usual sense — it is a plain-text framewo
 
 - `GENRE.md` — the top-level thematic spine (1981 B/X D&D, Conan-esque, Low Magic, Points of Light, Mythic Underworld, situations not authored plots). Every template's Context section names this file explicitly and states what to check against it — re-read it at every generation step, don't just skim it once. Genre drift (an authored plot creeping in, magic becoming common, an implied central authority) is the main failure mode in this project; watch for it.
 - `templates/` — one template per artifact type. Each is structured as **Purpose / Context / Instructions / Template**. Context always lists exactly which files to read before drafting (GENRE.md first) — do not pull in more than a template's Context section names. `templates/Location.md` is deliberately the narrowest: only GENRE.md, the parent region overview, and the location's own gazetteer stub — other setting files are consulted only to look up a name already referenced, never wholesale.
-- `patterns/` — `Safe.md`, `Wild_Landmark.md`, `Wild_Hidden.md`, `Wild_Secret.md`, `Dangerous_Low.md`, `Dangerous_Medium.md`, `Dangerous_High.md`. Each is a reusable list of thematic location patterns, picked by a region's SAFE/WILD/DANGEROUS rating and (for WILD, by classification; for DANGEROUS, by weight) a location's tier. The pattern for a given location is chosen at generation time (in `templates/Location.md`), not pinned earlier in the gazetteer. When a chosen pattern calls for treasure, a creature, or a trap, `patterns/Treasure.md`, `patterns/Creatures.md`, and `patterns/Traps.md` guide *which* content fits — patterns guide content, templates guide formatting, so how that content gets written into a Feature (treasure table citation, creature naming, trap resolution language) lives in `templates/Location.md`, not here. `patterns/Puzzles.md` is high-weight only (statues, altars, fountains, standing effects — a stated trigger, neutral if left alone, a negative effect on a genuinely wrong attempt, a reward for the correct one, and more physical detail than a Trap needs so it's solvable by investigation) — pulled in only by `Dangerous_High.md`'s puzzle bullet, never for low or medium weight. `patterns/Dressing.md` and `patterns/Secrets.md` are consulted for every location unconditionally, not just when a chosen pattern calls for them: `Dressing.md` covers the baseline physical description (size, shape, purpose, sound/smell, exit types) every room needs; `Secrets.md` formalizes the Clue/Trigger/Payload structure a hidden Feature already needed informally, gated by an inclusion rate that scales with the region's rating and (for DANGEROUS) the location's weight, and can sit on top of a Feature from any other pattern rather than requiring its own dedicated pattern bullet. `patterns/Lore.md`, `patterns/Keys.md`, `patterns/NamedCreatures.md`, and `patterns/UniqueTreasures.md` guide the four two-phase registries below — what's discoverable now (step 4c: name and location only) versus written later (step 4d: full content).
+- `patterns/` — pattern guidance, in **five folders** matching the five levels of generation: `setting/`, `region/`, `safe/`, `wild/`, `dangerous/`. A generation step reads only the folder matching what it is building.
+  - `patterns/setting/` is flat: one file per setting artifact (`Outline.md`, `Setting.md`, `History.md`, `Truths.md`, `Rumours.md`, `Bestiary.md`, `Factions.md`, `Treasure.md`), one per registry (`Lore.md`, `Keys.md`, `Quests.md`, `NamedCreatures.md`, `UniqueTreasures.md`), and one each for the two living artifacts (`Language.md`, `Procedures.md`).
+  - `patterns/region/` is one file per rating — `Safe.md`, `Wild.md`, `Dangerous.md` — each directing that rating's Region Overview fields, location count, class mix, and connection topology. The three ratings need materially different overviews, which is why this splits by rating rather than by tier.
+  - `patterns/safe/`, `wild/` and `dangerous/` each hold **three kinds of file, read in order**: a class file naming what this location *is* (`Settlement.md`; `Landmark.md`/`Hidden.md`/`Secret.md`; `High.md`/`Medium.md`/`Low.md`) and carrying its inclusion spec; element files supplying what the spec's lines draw from (`Trap.md`, `Creature.md`, `Treasure.md`, `Mystery.md`, `Faction.md`, `Quest.md`, `Key.md`, `Lore.md`, plus SAFE's `Commerce.md`/`Authority.md`/`Social.md`/`Situation.md`/`People.md` and WILD's `Ruin.md`/`Lair.md`/`NaturalFeature.md`); and three files read unconditionally at the end — `Dressing.md`, `Secrets.md`, `Naming.md`.
+  - **Restatement across the three rating folders is deliberate.** A trap in SAFE is a swindle, in WILD a snare, in DANGEROUS a deadfall, and writing each separately is what forces the differentiation. The cost is drift, which `checks/PatternJudgementCheck.md` manages by treating two restatements that read the same as a *finding*.
+  - Note the two middle tiers use different axes: `wild/` organizes its element files by **kind of place**, `dangerous/` by **kind of element**. That follows what actually varies — in WILD the question is what sort of place this is, in DANGEROUS the place is a room and the question is what is in it.
+  - Every pattern file uses one skeleton: **Decides / Read at / Spec / Patterns / Constraints**. The Constraints section starts empty and fills only from observed generation failures, never from anticipation.
 - `setting/` — the actual generated content for the current setting, mirroring the template set: `Setting.md`, `History.md`, `Truths.md`, `Rumours.md`, `Bestiary.md`, `Factions.md`, `Treasure1.md` through `Treasure5.md` (Treasure Tables I-V), `Lore.md`, `Keys.md`, `NamedCreatures.md`, `UniqueTreasures.md` (stubbed empty at step 2h, filled in two phases across steps 4c and 4d — see `STEPS.md`), then `region/Regions.md` + `region/Connections.mmd`, then one `region/[Code].md` Region Overview per region, then one `region/[Code]/` folder per region holding that region's `Locations.md` gazetteer, `Connections.mmd`, and one `[LocationCode].md` per location.
 - `STEPS.md` — the authoritative, sequential build log. Every artifact created follows a numbered step here (e.g. `4c`) naming its template and its context files. When adding a new step to the workflow, append/renumber here and keep the wording consistent with existing entries (what's created, what context it uses, which template it follows).
 - `checks/` — output of the judgement checks (step 5): `TemplateJudgementCheck.md`, `PatternJudgementCheck.md`, `SettingJudgementCheck.md`. These are non-mechanical review passes `tools/validate_setting.py` can't do — they call for human or model judgment the same way GENRE.md's tone does — following the checklist format in `templates/Template_Judgement_Check.md`, `templates/Pattern_Judgement_Check.md`, and `templates/Setting_Judgement_Check.md` respectively.
 
 ## Generation workflow
 
-The build order is strict and each stage's Context section depends on the previous stages already existing:
+The build order is strict and each stage depends on the previous ones existing. See
+`STEPS.md` for exact, current numbering — it is more current than this summary.
 
-1. `GENRE.md` (fixed, edited directly — not generated from a template)
-2. Setting-level documents in order: `Setting.md` → `History.md` → `Truths.md` → `Rumours.md` → `Bestiary.md` → `Factions.md` → `Treasure1.md`-`Treasure5.md` → `Lore.md`/`Keys.md`/`NamedCreatures.md`/`UniqueTreasures.md` (stubbed empty here, filled during step 4)
-3. Region level: `region/Regions.md` (gazetteer) → `region/Connections.mmd` (region-to-region graph, existence only) → `region/[Code].md` (full Region Overview per region, including its d6 Events/Encounter/Danger table now, not deferred)
-4. Location level, per region: `region/[Code]/Locations.md` (gazetteer stub — name, weight/classification, tags only, no content, no pattern) → `region/[Code]/Connections.mmd` (directional, typed: normal `---`, hidden `-.-`, one-way `-->`) → `region/[Code]/[N].md` (full location entry, stubbing any Lore/Keys/NamedCreatures/UniqueTreasures entries it introduces — within a DANGEROUS region, generate one weight tier at a time, high-to-low by default, rather than interleaving tiers; within a WILD region, Landmark tier first, then Hidden, then Secret, since each tier's connection back to its parent is written at generation time and can't be decided before the parent exists) → once all regions finish this, a final pass writes the full content for every stubbed entry in `Lore.md`/`Keys.md`/`NamedCreatures.md`/`UniqueTreasures.md`
+1. **Framework** — `GENRE.md`, then seed `setting/Procedures.md` and `setting/Language.md`.
+2. **Setting** — `setting/Outline.md` first, since it fixes region count, rating mix, dice and party altitude, and everything downstream scales against it. Then Setting → History → Truths → Rumours → Bestiary → Factions → Treasure I-V, then tailor Procedures and Language and stub the five registries.
+3. **Region** — `region/Regions.md` → `region/Connections.mmd` → one Region Overview per region.
+4. **Location** — per region: `Locations.md` gazetteer → `Connections.mmd` → one file per location → then, once every region is done, a final pass writing the full content of every stubbed registry entry.
+5. **Judgement checks** — the three non-mechanical review passes.
 
-5. Judgement checks: `checks/TemplateJudgementCheck.md` and `checks/PatternJudgementCheck.md` review `templates/` and `patterns/` themselves for correct pattern order and known edge cases, overlap/gaps, and specificity; `checks/SettingJudgementCheck.md` reviews the generated `setting/` content once a region's locations are complete, for cross-level coherence (locations reinforcing their region, regions reinforcing the setting) and concreteness over vague motif.
+### Two things this order buys
 
-See `STEPS.md` for the exact, current step numbering and per-artifact context lists — it is more current than any summary here.
+**Every location exists as a stub before any location file is written.** Step 4a creates
+every region's gazetteer before 4b creates any graph and 4c writes any entry. That is what
+lets a Quest giver or a Key at one location name a real target in a region whose files do
+not exist yet.
+
+**Container and data are separate.** A location file *cites*; the registries *hold*. A
+location records only a stub row for a piece of Lore, a Key, a Quest, a Named Creature or a
+Unique Treasure at 4c, and the content is written at 4d with every referencing location in
+view. A location entry is therefore not a complete scene until 4d, by design.
+
+## Scaling and dice
+
+Four numbers in this framework look alike and are not. `setting/Procedures.md` is the
+authority; the short version:
+
+- **Players** carry 1-6 dice of d4-d12, d6 average.
+- **Creatures** carry d6 only, count 1-18, bonus -2 to +6, reading roughly as classic Hit Dice.
+- **Factions** carry d6 only and **no bonus**, and their count is meaningful *only* relative to the other factions.
+- **A region's die** is none of these. It is a **difficulty die** rolled 1 = failure, 2-3 = complication, 4+ = success — so a *smaller* die is *harder*. **d8 is baseline**; d6 slightly tougher, d10 slightly easier, d4 and d12 deliberate outliers.
+
+Creature AD is pitched against **party altitude**, never against the region die.
+
+The location counts follow from the difficulty math rather than being conventions: a WILD
+region at N locations expects **exactly one** encounter per full traverse at every die, and
+a DANGEROUS region at 3N expects **exactly three** of the Danger track's six steps per full
+clear. Deviating is a deliberate trade with a measurable cost.
 
 ## Location entry format (`templates/Location.md`)
 
@@ -41,15 +74,53 @@ This is the most detail-sensitive template, worth calling out directly:
 
 ## Regions and weights
 
-Regions are rated SAFE, WILD, or DANGEROUS with a die size (d4–d12) indicating encounter danger, coded A, B, C... (AA, AB... past 26). SAFE/WILD locations are landmarks, roughly as many as the die type; DANGEROUS locations are one per room, roughly 3× the die type, each weighted low/medium/high (connective, one reactive element, or a central set-piece respectively) — this weight selects which `patterns/Dangerous_*.md` file a location draws from.
+Regions are rated SAFE, WILD, or DANGEROUS with a die size (d4–d12) and coded A, B, C…
+(AA, AB… past 26). The die is a **difficulty die**, not a power level — see "Scaling and
+dice" above. It also sets location count: SAFE and WILD hold roughly as many locations as
+the die type, DANGEROUS roughly 3× it, one per room.
 
-WILD locations instead carry a classification — landmark, hidden, or secret — selecting `patterns/Wild_Landmark.md`, `patterns/Wild_Hidden.md`, or `patterns/Wild_Secret.md`. Roughly half or more of a region's locations are landmark (freely discoverable through open exploration, positioned within the region per `patterns/Dressing.md`'s Position guidance — a site, a connection, or a natural feature), at least a third hidden (reached only from a specific parent landmark's visible-but-easy-to-miss detail — a mundane Exit on the parent, no trigger needed), and the remainder, usually under a fifth, secret (reached only through a Clue/Trigger/Payload at the parent, same shape as `patterns/Secrets.md`'s feature-level Secret but scaled up to a whole location, connected via a hidden `-.-` edge). Because hidden and secret locations are defined relative to a parent, WILD locations generate landmark tier first, then hidden, then secret.
+**DANGEROUS locations carry a weight** — low, medium, or high — selecting
+`patterns/dangerous/Low.md`, `Medium.md`, or `High.md`. Weight is a **presentation**
+distinction, not a content budget: a class is defined by what it *guarantees*, never by a
+ceiling on what may appear. A low-weight room may hide a secret door; what makes it low is
+that it *looks* empty, and that is precisely what makes searching a real decision. Low is
+the largest class and grows fastest with region size, because unlike the corpus this
+framework draws from, we key the connective space rather than drawing it as corridors on a
+map — and connective space is where a region's decisions get made, not where its filler
+goes. Each DANGEROUS location also carries a **node role** from its region's graph — empty,
+dead end, branch, loop leg, or divide — assigned at 4b and read at 4c.
 
-## Units and time (`patterns/Dressing.md`, `templates/Region.md`)
+**WILD locations carry a classification instead** — landmark, hidden, or secret — selecting
+`patterns/wild/Landmark.md`, `Hidden.md`, or `Secret.md`. Roughly half or more are landmark
+(freely discoverable by roaming the region), at least a third hidden (reached only through
+a specific parent landmark's visible-but-easy-to-miss detail — a mundane Exit, no trigger),
+and the remainder, usually under a fifth, secret (reached only through a Clue/Trigger/
+Payload at the parent, connected via a hidden `-.-` edge). Because hidden and secret
+locations are defined relative to a parent, WILD generates landmark tier first, then hidden,
+then secret.
 
-Dimensions and distances split on indoor vs. outdoor, not on region rating: enclosed spaces (a room, a dungeon chamber) are measured in feet; outdoor locations (a landmark, a clearing, a stretch of hillside) are measured in yards. A vertical drop or climb stays in feet either way — it's a mechanical measurement, not an areal footprint. Distance between two points follows the same split at a larger scale: yards for a short hop between neighboring landmarks, miles for a long trek between regions.
+Every WILD landmark sits at the same baseline. **Depth is how a WILD region carries
+weight** — a landmark that matters more gets *children*, not a heavier entry. The same is
+true of SAFE, where emphasis arrives as additional locations rather than longer ones, and
+where each location's prominence (liner note, working, or central) is decided before
+anything is written and is deliberately *not* derived from size.
 
-Time defaults by region rating, stated in each Region Overview's Layout field: WILD regions run on 4 hours per action (travel, tracking, foraging, and similar all cost a slot at that scale); SAFE regions aren't time-bound at all; DANGEROUS regions run on the Danger table's countdown instead of real time.
+A landmark must be nameable, revisitable, and connectable. Anything failing that test is
+terrain, and belongs in the Region Overview's Terrain field as the connective texture the
+referee narrates between points — this is a **point crawl**, and what lies between the
+points is procedural.
+
+## Units and time
+
+Dimensions split on indoor vs. outdoor, not on region rating: enclosed spaces are measured
+in feet, outdoor locations in yards. A vertical drop or climb stays in feet either way —
+it's a mechanical measurement, not an areal footprint. Distance between two points follows
+the same split at larger scale: yards for a short hop, miles for a long trek. These rules
+live in `templates/Location.md`; they are format, not pattern, and are stated once.
+
+Time defaults by region rating, stated in each Region Overview's Layout field and defined
+in `setting/Procedures.md`: WILD runs on 4 hours per action; SAFE isn't time-bound;
+DANGEROUS runs on the Danger table's countdown instead of real time.
 
 ## Validation
 

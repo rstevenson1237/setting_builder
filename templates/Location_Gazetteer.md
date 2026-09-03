@@ -9,7 +9,7 @@ Consult when drafting:
 - `setting/region/[Region Code].md` - this region's Overview, the source for how many locations it should hold and what they broadly cover.
 
 ## Instructions
-List the locations within a single region - each location is an explorable area within that region. In SAFE and WILD regions, locations are major landmarks; in DANGEROUS regions, one location per room is a good standard. A SAFE or WILD region should contain about as many locations as its die type (e.g. a d6 SAFE region has about 6 locations); a DANGEROUS region should contain about 3 times as many (e.g. a d8 DANGEROUS region has about 24 locations).
+List the locations within a single region - each location is an explorable area within that region. In SAFE and WILD regions, locations are major landmarks; in DANGEROUS regions, one location per room is a good standard. Counts and the class mix come from the region's pattern file (`patterns/region/Safe.md`, `Wild.md`, or `Dangerous.md`), which sets them as a range rather than a fixed multiplier. The defaults - about the die for SAFE and WILD, about three times it for DANGEROUS - are not rules of thumb: per `setting/Procedures.md` they make a full WILD traverse expect exactly one encounter and a full DANGEROUS clear expect exactly three of the Danger track's six steps, at every die size. Deviating is a deliberate trade with a measurable cost.
 
 Each location in a DANGEROUS region is assigned a weight; each location in a WILD region is assigned a classification instead. Both are skipped for SAFE regions.
 
@@ -19,9 +19,9 @@ DANGEROUS weight:
 - **high** - an area that is central to the theme of the region and contains one or more major features.
 
 WILD classification - roughly half or more of a region's locations are Landmark, at least a third Hidden, and the remainder (usually under a fifth) Secret:
-- **landmark** - discoverable through open exploration anywhere in the region; a site, a connection, or a natural feature. See `patterns/Wild_Landmark.md`.
-- **hidden** - directly discoverable from a specific Landmark, through a visible feature that connects to it - not found by roaming the region generally. See `patterns/Wild_Hidden.md`.
-- **secret** - discoverable only through a trigger at a Landmark or Hidden location that reveals the connection. See `patterns/Wild_Secret.md`.
+- **landmark** - discoverable through open exploration anywhere in the region; a site, a connection, or a natural feature. See `patterns/wild/Landmark.md`.
+- **hidden** - directly discoverable from a specific Landmark, through a visible feature that connects to it - not found by roaming the region generally. See `patterns/wild/Hidden.md`.
+- **secret** - discoverable only through a trigger at a Landmark or Hidden location that reveals the connection. See `patterns/wild/Secret.md`.
 
 Keep entries to a name, weight/classification, and tags only - no Pattern and no descriptive sentence. This file is a map skeleton, feeding the region's Connections diagram; pattern selection and content happen later, per location, in `templates/Location.md`.
 
