@@ -20,7 +20,13 @@ CREATURE
           high weight    AD above the die, MA where the entry has it
   25%   A Named Creature, at high weight
   30%   Something it wants that is not a fight
+  25%   Absent when the party arrives - signs of it, and it is elsewhere in the region
 ```
+
+**Presence is rolled apart from description.** A location's occupant is not always at
+home. A room written as a den, found empty, with the thing that lives in it somewhere
+behind the party, is worth more than the same room with the thing standing in it - and it
+is what makes a wandering-monster result mean something.
 
 A creature named directly in its Feature line needs no citation syntax. If no Bestiary
 entry fits, describe the creature inline - the Bestiary holds only what recurs.

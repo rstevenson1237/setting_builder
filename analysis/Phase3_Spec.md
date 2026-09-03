@@ -34,16 +34,33 @@ patterns/
 
   safe/        Settlement.md                                    (what kind, and how much)
                Commerce.md  Authority.md  Social.md  Situation.md
-               Dressing.md  Secrets.md
+               Quest.md  Key.md  Lore.md  People.md  Faction.md
+               Dressing.md  Secrets.md  Naming.md
 
   wild/        Landmark.md  Hidden.md  Secret.md                (classification)
                Ruin.md  Lair.md  NaturalFeature.md              (kind of place)
-               Dressing.md  Secrets.md
+               Quest.md  Key.md  Lore.md  Creature.md  Treasure.md  Trap.md  Mystery.md
+               Dressing.md  Secrets.md  Naming.md
 
   dangerous/   High.md  Medium.md  Low.md                       (weight)
-               Trap.md  Mystery.md  Lore.md  Quest.md  Creature.md  Treasure.md
-               Dressing.md  Secrets.md
+               Trap.md  Mystery.md  Creature.md  Faction.md  Treasure.md
+               Lore.md  Key.md  Quest.md
+               Dressing.md  Secrets.md  Naming.md
 ```
+
+### The hook layer (Quest, Key, Lore) belongs in all three folders
+
+In a point crawl the connective tissue between points **is** the hook layer. If only
+DANGEROUS locations carried hooks, only dungeons would point anywhere, which inverts how
+play actually runs. The three ratings take different ends of the same hooks:
+
+| | Quest | Key | Lore |
+|---|---|---|---|
+| **SAFE** | **gives** - the giver end, the terms, the omission | held, sold, inherited, pawned, or held by an office | obtainable - a ledger shown, a record bought, a manifest |
+| **WILD** | **carries** - waypoints, obstacles, and the occasional hermit giver | found in passing; a landmark is a good place to find a dungeon's key | cut into things that outlast people - boundary stones, markers, grave goods |
+| **DANGEROUS** | **holds** - the target end, and supply registration | found at depth, and opens something further in or far away | survives because nobody has been down here to burn it |
+
+Give, carry, hold. Same registries, three different jobs.
 
 **~43 files, each small and each loaded at exactly one point.** That is the point: a
 generation step reads three or four short files rather than scanning one long one, which
@@ -73,6 +90,10 @@ accident later.
 | 5 | **`safe/` Tier 2** | The eleven `Safe.md` categories grouped four ways rather than eleven files: **Commerce** (hospitality, services, market), **Authority** (authority, notices, custom), **Social** (revelry, routine, task), **Situation** (tension, aftermath, and F6's ongoing situations) |
 | 6 | **`setting/Outline.md`** | Keep it, keep it thin. It decides how many regions, what rating mix, and what altitude the party plays at — currently decided ad hoc at step 3a with nothing guiding it |
 | 7 | **`dangerous/Lore.md` + `Quest.md` vs `setting/` versions** | Intended duplication per D3 — setting holds the *criteria*, dangerous holds *when to reach for one here*. This is the pair most likely to drift, so it is the first thing `PatternJudgementCheck` should look at |
+| 8 | **`Key.md` was missing from every folder** | Added. A Key and a Quest are the same shape from opposite ends — a Quest is asked first and fulfilled later, a Key is found first and used later. Both are two-ended and both are why a point crawl is a network rather than a list. Leaving Keys folded into a spec line under-served the only cross-region mechanism the framework already had |
+| 9 | **`Faction.md` was missing** | Added to `safe/` and `dangerous/`. A faction presence differs from a creature presence by **off-site consequence**: a beast killed in its den is a beast killed; a picket killed at its post is noticed, missed, replaced, or avenged. Also the home for faction visual identity, so a party can recognise the same power two regions apart before anyone names it |
+| 10 | **`Naming.md` was missing — a hole in D7** | Added to all three folders. D7 says `setting/Language.md` grows every time a proper noun is coined, and **no pattern file said to do that**. Naming also varies by rating: a SAFE place is named by people who live there, a DANGEROUS one may carry a dead-tongue name nobody living uses. Rating-varying, so it is pattern content and earns a file |
+| 11 | **NamedCreatures and UniqueTreasures get no file** | Correct as-is. Each is one decision on top of a selection already made — `Creature.md` picks the creature and a spec line decides whether it is named; `Treasure.md` picks the table and a spec line decides whether it is unique. A file would restate its neighbour |
 
 ---
 
