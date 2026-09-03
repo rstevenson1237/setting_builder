@@ -1,3 +1,0 @@
-# Khirengaard *frontier, primordial, boundary-haunted*
-
-*Khirengaard is a raw timber-and-stone settlement cut into the edge of the Yrsk Wold, a forest old enough to predate humankind, whose standing stones were raised by no known hand to mark where the wold's older order of things ends. Loggers, trappers, and prospectors work the fringe for lumber, pelts, and the strange ore veins the wold occasionally surrenders, while the deep wood keeps its own accounting of who crosses its lines and forgets to leave. The referee should treat every stone circle and blazed boundary-tree as a real, binding threshold - what waits past it is older than any faction in play and answers to none of them.*

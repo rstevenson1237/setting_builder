@@ -128,6 +128,17 @@ DANGEROUS runs on the Danger table's countdown instead of real time.
 
 - **Template format**: region codes are a plain A-Z progression; a region's Locations.md entries are numbered 1..N with no gaps; DANGEROUS locations carry a low/medium/high weight, WILD locations carry a landmark/hidden/secret classification, and SAFE ones carry neither; each location file's header matches its filename, region, and gazetteer stub; Player Summary/Referee Notes/Feature/Exits lines are present and correctly formatted (Referee Notes in single-asterisk italics, Feature labels without a leading article); Treasure Table and Rumours files have 20 numbered rows.
 - **Connections**: every location in a region's `Locations.md` appears as a node in that region's `Connections.mmd` and vice versa; every mundane `Exits:` entry has a matching edge in some `Connections.mmd`; an Exit that matches only a hidden (`-.-`) edge is flagged as a warning to confirm it's the far side of an already-triggered secret (or a WILD Secret-tier location's connection) rather than a template violation (the exit-vs-Feature rule in `templates/Location.md` is otherwise enforced as an error when there's no edge at all); two exits in the same location sharing an identical description but leading to different destinations are flagged as a warning to add distinguishing position.
-- **Cross-references**: `Lore:`/`Keys:`/`Named Creature:`/`Unique Treasure:`/`Treasure [I-V]` citations inside a location's Features are cross-checked against stub rows in `setting/Lore.md`/`Keys.md`/`NamedCreatures.md`/`UniqueTreasures.md`, and vice versa.
+- **Cross-references**: `Lore:`/`Keys:`/`Quest:`/`Named Creature:`/`Unique Treasure:`/`Treasure [I-V]` citations inside a location's Features are cross-checked against stub rows in the matching `setting/` registry, and vice versa. A Quest row naming fewer than two locations is warned, since a Quest is two-ended by definition.
+- **Topology report**: not a check. Per the posture below, graph shape is a design decision rather than a rule, so the validator *reports* each region's shape — locations, edges, whether it is a tree or how many independent loops it carries, dead-end count, and any isolated node — and leaves the judgement to `checks/SettingJudgementCheck.md`. SAFE wants a shallow hub, WILD a forest of trees, DANGEROUS a dense graph with loops and at least one divide.
 
-It errors (fails CI) on unambiguous breakage — unknown codes, name mismatches, missing files, orphaned nodes, malformed lines — and warns (doesn't fail CI) on things that need a human glance but might be intentional. When adding a new artifact type or template rule, extend this script alongside it.
+**Posture: strict on format, relaxed on content and ratios.** It errors (fails CI) on
+unambiguous breakage — unknown codes, name mismatches, missing files, orphaned nodes,
+malformed lines, broken citations — and warns on things that need a human glance but might
+be intentional. It deliberately does *not* check ratios, budgets, class mixes, or anything
+about prose: weight is a presentation distinction rather than a content budget, so a
+low-weight location may legitimately hold four things and counting features would be wrong
+in principle, not merely strict. Those judgements belong in `checks/`. When adding a new
+artifact type or template rule, extend this script alongside it.
+
+`setting/Procedures.md` and `setting/Language.md` are seeded at steps 1b/1c before any
+setting exists, so the validator treats a `setting/` holding only those as a fresh start.

@@ -367,9 +367,14 @@ def check_location_file(diag, path, region_code, num, stub, rating, all_location
 REGISTRY_KINDS = [
     ("Lore", SETTING / "Lore.md", "found at"),
     ("Keys", SETTING / "Keys.md", "found at"),
+    ("Quest", SETTING / "Quests.md", "given at"),
     ("NamedCreature", SETTING / "NamedCreatures.md", "appears at"),
     ("UniqueTreasure", SETTING / "UniqueTreasures.md", "found at"),
 ]
+
+# A Quest is two-ended by definition: a giver location and a target location.
+# Anything less is a delivery with one end missing.
+TWO_ENDED_KINDS = {"Quest"}
 
 
 def parse_registry(diag: Diagnostics, kind: str, path: Path, marker: str, all_locations: dict):
@@ -393,6 +398,9 @@ def parse_registry(diag: Diagnostics, kind: str, path: Path, marker: str, all_lo
         for c in codes:
             if c not in all_locations:
                 diag.error(path, f"line {lineno}: references unknown location code {c}")
+        if kind in TWO_ENDED_KINDS and len(codes) < 2:
+            diag.warn(path, f"line {lineno}: {title!r} names only one location - a Quest is two-ended "
+                            f"(a giver and a target), so confirm this is deliberate")
         if title in entries:
             diag.error(path, f"line {lineno}: duplicate title {title!r}")
         entries[title] = codes
@@ -443,7 +451,8 @@ def check_rumours(diag: Diagnostics):
 
 
 def check_top_level_files(diag: Diagnostics):
-    for name in ("Setting.md", "History.md", "Truths.md", "Bestiary.md", "Factions.md"):
+    for name in ("Outline.md", "Setting.md", "History.md", "Truths.md", "Bestiary.md",
+                 "Factions.md", "Procedures.md", "Language.md"):
         path = SETTING / name
         if not path.exists():
             diag.error(path, "missing")
@@ -452,19 +461,87 @@ def check_top_level_files(diag: Diagnostics):
 
 
 # ---------------------------------------------------------------------------
+# Topology report
+#
+# Not a check. Per CLAUDE.md's validation posture the validator stays strict on
+# format and relaxed on content and ratios, and graph shape is a design decision
+# rather than a rule - SAFE wants a shallow hub, WILD a forest of trees,
+# DANGEROUS a dense graph with loops and at least one divide. Reporting the shape
+# gives checks/SettingJudgementCheck.md something factual to judge against.
+# ---------------------------------------------------------------------------
+
+def report_topology(regions: dict, region_locs: dict, region_edges: dict) -> list[str]:
+    out = []
+    for code, info in regions.items():
+        locs = region_locs.get(code, {})
+        nodes = {f"{code}.{n}" for n in locs}
+        if not nodes:
+            continue
+        adj = {n: set() for n in nodes}
+        undirected = set()
+        for a, typ, b in region_edges.get(code, []):
+            if a in nodes and b in nodes:
+                adj[a].add(b)
+                adj[b].add(a)
+                undirected.add(frozenset((a, b)))
+        E, V = len(undirected), len(nodes)
+
+        seen, comps = set(), 0
+        for n in nodes:
+            if n in seen:
+                continue
+            comps += 1
+            stack = [n]
+            while stack:
+                cur = stack.pop()
+                if cur in seen:
+                    continue
+                seen.add(cur)
+                stack.extend(adj[cur] - seen)
+
+        cycles = E - V + comps
+        dead_ends = sorted(n for n in nodes if len(adj[n]) == 1)
+        isolated = sorted(n for n in nodes if not adj[n])
+
+        shape = "tree" if cycles == 0 else f"{cycles} independent loop(s)"
+        if comps > 1:
+            shape += f", {comps} disconnected components"
+        out.append(
+            f"{code} ({info['rating']}, {info.get('die', '?')}): {V} locations, {E} edges, "
+            f"{shape}; {len(dead_ends)} dead end(s)"
+            + (f"; ISOLATED: {', '.join(isolated)}" if isolated else "")
+        )
+    return out
+
+
+# ---------------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------------
 
+# Seeded at STEPS.md 1b/1c, before any setting content exists. Their presence does
+# not mean a setting has been generated.
+SEED_FILES = {"Procedures.md", "Language.md"}
+
+
 def is_fresh_start() -> bool:
-    """True when setting/ holds no generated content yet (only .gitkeep, or nothing)."""
+    """True when setting/ holds no generated content yet - seeds and .gitkeep don't count."""
     if not SETTING.exists():
         return True
-    return not any(p.is_file() and p.name != ".gitkeep" for p in SETTING.rglob("*"))
+    return not any(
+        p.is_file() and p.name != ".gitkeep" and p.name not in SEED_FILES
+        for p in SETTING.rglob("*")
+    )
 
 
 def main() -> int:
     if is_fresh_start():
-        print("setting/ has no generated content yet - nothing to validate (fresh start, ready for STEPS.md step 1).")
+        seeded = sorted(n for n in SEED_FILES if (SETTING / n).exists())
+        if seeded:
+            print(f"setting/ holds only its seeds ({', '.join(seeded)}) - nothing to validate. "
+                  f"Ready for STEPS.md step 2a.")
+        else:
+            print("setting/ has no generated content yet - nothing to validate. "
+                  "Ready for STEPS.md step 1.")
         return 0
 
     diag = Diagnostics()
@@ -484,9 +561,11 @@ def main() -> int:
 
     mundane_edges: set[tuple[str, str]] = set()
     hidden_edges: set[tuple[str, str]] = set()
+    region_edges: dict[str, list] = {}
     for region_code, info in regions.items():
         cpath = SETTING / "region" / region_code / "Connections.mmd"
         edges = check_region_connections(diag, region_code, region_locs[region_code], all_locations, cpath)
+        region_edges[region_code] = edges
         for a, typ, b in edges:
             if typ == "---":
                 mundane_edges.add((a, b))
@@ -525,6 +604,11 @@ def main() -> int:
     check_treasure_tables(diag)
     check_rumours(diag)
     check_top_level_files(diag)
+
+    for line in report_topology(regions, region_locs, region_edges):
+        print(f"TOPOLOGY: {line}")
+    if regions:
+        print()
 
     for w in diag.warnings:
         print(f"WARNING: {w}")
