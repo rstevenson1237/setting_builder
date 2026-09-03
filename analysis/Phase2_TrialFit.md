@@ -6,7 +6,7 @@ Dressing** to prove the structure before any pattern is written into it.
 **Protocol.** Every element should land in exactly one file. None means a missing pattern.
 Two means the boundary is wrong and moves.
 
-**Complete:** cases 5, 1, 6, 8, 2. **Pending:** 3, 4, 7.
+**Complete:** cases 5, 1, 6, 8, 2, 3. **Pending:** 4, 7.
 
 ---
 
@@ -220,7 +220,7 @@ DANGEROUS - HIGH
   80%   Treasure             {hidden | trapped | discarded}   - boss rooms are stocked
 
 DANGEROUS - MEDIUM
-  1     Reactive element     {creature | trap}               - exactly one, per the class
+  1     Reactive element     {creature | trap}               - guaranteed, and obvious
   50%   Treasure if the reactive element is a creature; 33% if it is a trap
   1     Ambiance or architecture detail
   25%   A detail that foreshadows a HIGH room elsewhere in the region
@@ -235,6 +235,30 @@ DANGEROUS - LOW              (parameterized by node role - see F9)
 
 The MEDIUM treasure line is conditional on an earlier pick — the corpus's own rule, and
 worth keeping because it means the reward follows the fiction rather than a flat roll.
+
+### F12 — a class is defined by what it guarantees, not by what it permits
+
+The classification describes **what is obvious and mandatory**, never a ceiling on what may
+appear. An empty room may hide a secret door; what makes it LOW is that *it looks empty*.
+A MEDIUM room is automatically assigned a detail and a challenge, and everything past that
+is left to chance. A LOW room that rolls three percentage lines is still LOW.
+
+This is a presentation distinction, not a content one, and it is the right one for this
+genre. The class describes the **player-facing surface** — how much the room announces
+itself — while the referee-facing contents vary underneath. Three consequences:
+
+1. **It is what makes searching meaningful.** If LOW rooms could never hide anything,
+   players would learn to skip them and the class would be dead weight. Because LOW is
+   defined as *looking* empty rather than *being* empty, attention becomes a resource
+   spent under uncertainty — which is the whole game.
+2. **The spec's mandatory lines are constitutive, not just anti-blank.** F8 argued for at
+   least one mandatory line so a room could not roll empty. That was right for a weaker
+   reason: the mandatory lines *are* the class definition, and the percentage lines are
+   variance that never reclassifies.
+3. **Weight cannot be validated by counting.** A LOW room may legitimately end up holding
+   four things. "Did this room respect its class" is a judgement about how it presents,
+   not an arithmetic check — which independently confirms D13's decision to keep ratios
+   and budgets out of the validator.
 
 ### F8 — every class needs at least one mandatory line
 
@@ -318,15 +342,66 @@ justification is much stronger than the one currently given for it.
 **Result: decomposes cleanly, and F8 holds** — the three mandatory lines mean a LOW room
 can never roll blank.
 
-### Note on `special`
+### Note on `special` — resolved by F12
 
-`special` is the corpus's borderline category and it splits across our boundary rather
-than sitting in one file. "Frescoes of a power" is Dressing. "A stairwell down into a maze
-of unmappable corridors filled with the skeletons of past visitors" *does something* —
-it is an exit, a warning, and a threat — so by F1's rule it is Features, in a class that
-supposedly has no reactive element. Either such entries are promoted to MEDIUM, or LOW's
-definition widens to admit consequence without reaction. **Flagged for Phase 3**; it does
-not block the spec.
+Raised as a contradiction: "a stairwell down into a maze of unmappable corridors filled
+with the skeletons of past visitors" *does something*, so by F1 it is Features — yet it
+sits in a class supposedly holding no reactive element. Resolved by F12 below: a class is
+defined by what it guarantees, not by what it permits. That entry can appear in a LOW room
+without reclassifying it, because the room still *presents* as unremarkable.
+
+## Case 3 — The trapped room, and what "obvious" means
+
+**Source:** the `trap` table (29 entries in `hint; hint → effect` format) and `concealed
+trap`, maintained as a **separate** table. **Stresses:** MEDIUM's mandatory challenge, the
+required-tell rule, F12.
+
+### F13 — the tell requirement follows from the class definition, and is not universal
+
+The analysis found that `patterns/Traps.md` never requires a visible tell, while all 29
+corpus traps state one. But the corpus also keeps `concealed trap` as its own table and
+uses it specifically to guard treasure — so the corpus does not require tells universally
+either. It requires them *by role*.
+
+F12 explains why, and turns a rule I would otherwise have written flat into one that falls
+out of the structure:
+
+- **A trap that is a MEDIUM room's challenge must have a tell.** MEDIUM guarantees an
+  obvious reactive element. A trap with no tell is not obvious, so a room built on one
+  does not present as MEDIUM — it presents as LOW, and it should be classified LOW.
+- **A concealed trap belongs in a LOW room, or guarding treasure.** It is part of why a
+  room that looks empty is not always empty, which is exactly the work F12 gives LOW.
+- **A treasure guard's tell is contextual, not physical.** The player does not need
+  scratches on the flagstones to suspect a chest; the chest is the tell. The corpus's
+  `fog chest` and `skunk chest` both state a *smell noticed on close examination* — a tell
+  available only to someone already suspicious enough to look.
+
+So the rule is not "every trap states a visible tell." It is: **a trap presented as the
+room's challenge states a tell; a trap that is variance or a guard need not.** That is
+one sentence in `dangerous/Features.md` and it is strictly better than the flat version.
+
+### Decomposition
+
+| Element | File |
+|---|---|
+| Whether this room's guaranteed challenge is a trap or a creature | Weight (the MEDIUM spec) |
+| The mechanism — deadfall, darts, pendulum, walls closing in | Features |
+| The tell — walls nicked and holes opposite; a raised floor segment | **Features** if it is the challenge; Dressing if it is variance |
+| Resolution — save vs. breath, 2d6, TEST OF CONSTITUTION | **`setting/Procedures.md`** (D11) |
+| Trap treasure at 33% | Features |
+| What the room was for, and its ambiance | Dressing |
+
+**Result: decomposes cleanly.** The one element that moves between files does so by role,
+per F13, which is the same shape as F1's resolution — placement follows what a thing does,
+not what it is.
+
+### Note on the corpus's trap format
+
+`**name**: hint; hint; hint → effect; effect` is worth adopting more or less verbatim as
+the writing format in `dangerous/Features.md`. It is compact, it forces the tell to be
+authored rather than assumed, and the arrow makes it obvious when a trap has been written
+with no way to detect it. The corpus records the format in a comment; we should record it
+as a requirement.
 
 ## Findings
 
@@ -398,7 +473,9 @@ New, from Case 6. Proposes a **Situation** field in the Region Overview. See abo
 | F8 | Every inclusion spec states at least one mandatory line | all three first-files | folded in |
 | F9 | LOW is parameterized by node role; it carries decisions, not filler | `dangerous/Weight.md` | **new** |
 | F10 | Branch/loop/divide are graph properties, set at 4b and read at 4c | `region/Scope.md`, `Region_Connections.mmd` | **new** |
-| F11 | The distinguishable-exits rule is decision support, and should be justified as such | `dangerous/Dressing.md` | **new** |
+| F11 | The distinguishable-exits rule is decision support, and should be justified as such | `dangerous/Dressing.md` | folded in |
+| F12 | A class is defined by what it guarantees, not what it permits; weight is a presentation distinction | Plan §3, all three first-files | **new** |
+| F13 | Tell requirement follows from class: a challenge trap states a tell, a variance or guard trap need not | `dangerous/Features.md` | **new** |
 
 Still no amendment touches D1-D14. Three cases have moved numbers and added two Region
 Overview fields; the structure itself has held.

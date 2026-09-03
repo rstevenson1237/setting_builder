@@ -126,6 +126,13 @@ DANGEROUS - HIGH
 Read as: `1` is mandatory and exactly one; `N%` includes at that rate; `{a | b | c}` is a
 pick-set; a trailing clause is a constraint on the pick.
 
+**The mandatory lines are the class definition.** A class describes what is obvious and
+guaranteed, never a ceiling on what may appear: an empty room may hide a secret door, and
+what makes it LOW is that *it looks empty*. A LOW room that rolls three percentage lines
+is still LOW. Weight is therefore a **presentation** distinction — how much the location
+announces itself — not a content budget, which is what makes searching a real decision and
+why weight can never be validated by counting features.
+
 **Why this is the whole mechanism.** It is the corpus's directing power expressed without
 the corpus's mass, and it does four jobs at once that we were otherwise solving separately:
 
