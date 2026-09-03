@@ -23,7 +23,10 @@ Supersedes the recommendation table in `analysis/HexDescribe_TableAnalysis.md` �
 | D11 | Shared mechanics live in **`setting/Procedures.md`** | Trap resolution, search odds, time scale |
 | D12 | `patterns/setting/` is **flat** | Per-artifact; the four existing registry pattern files move across intact |
 | D13 | Validator: **strict on format, relaxed on content and ratios** | Ratios and content become warnings or judgement-check items, never CI errors |
-| **D14** | **Container and data are separate.** A location file is a container that cites; the registries hold the data | Explains 4c/4d, and why a Treasure citation never names the item. Consistency comes from the split |
+| **D14** | **Container and data are separate.** A location file is a container that cites; the registries hold the data | Explains 4c/4d, and why a Treasure citation never names the item |
+| **D15** | Each class carries a **weighted inclusion spec** — mandatory lines, percentage lines, pick-sets, and non-repetition constraints | See §3. This *replaces* the budget table: budget becomes an emergent property of the percentages |
+| **D16** | **Each rating has its own connection topology**, and it is a design decision, not a format one | See §3b. SAFE is a shallow hub, WILD a forest of trees, DANGEROUS a dense graph |
+| **D17** | **Prominence is expressed structurally in SAFE and WILD** — by attaching locations, not by weighting one | Closes §3's open question: no new axis. Only DANGEROUS carries a per-location weight |
 
 ### Corrections carried in from the analysis
 
@@ -62,9 +65,10 @@ Rumours, Bestiary, Factions and the Treasure tables, which have no pattern suppo
 ### What each file does
 
 **Weight / Classification / Kind / Scope.** Decides, and never describes: which class
-this is, at what **scale** it is realized, and with what **prominence** (which sets the
-feature budget, per D10). Scale is what makes D5 work — the same lair is legal as one key,
-a cluster, or a region.
+this is, at what **scale** it is realized, and — via the inclusion spec (D15) — what that
+class emits. Scale is what makes D5 work: the same lair is legal as one key, a cluster, or
+a region. This file also carries the class distribution and the region's connection
+topology (D16).
 
 **Features.** The wide match list — the horizontal variety, and the largest file by
 volume. Also carries selection rules for creature, treasure, trap, puzzle, secret and the
@@ -101,30 +105,83 @@ become a finding, not a convenience.
 
 ---
 
-## 3. The feature budget (D10)
+## 3. The inclusion spec (D15)
 
-One pick per generation does not survive. It contradicts our own definitions
-(`Dangerous_High.md` already has a "combining multiple major features" bullet;
-`Location_Gazetteer.md` already says high weight is "one **or more**"), D5 breaks it
-outright, and it guards the wrong thing — what prevents a kitchen-sink location is every
-element being attributable to the same Shape, not a low count.
+One pick per generation does not survive — it contradicts our own definitions, D5 breaks
+it, and it guards the wrong thing. But the replacement is not a stated budget range. It is
+a **weighted inclusion spec** per class:
 
-**Budget is driven by prominence, and is independent of scale.** A single site may carry
-five features because it is doing real work in the campaign; a whole settlement may carry
-one because it is only there to do what everyone expects a settlement to do. Both are
-correct, and the variance between them is the point.
+```
+DANGEROUS - HIGH
+  1     Challenge            {creature | trap | puzzle}
+  50%   Secondary Challenge  {creature | trap | puzzle}   - not the first one
+  30%   Mystery              {secret door | standing effect | lore that carries a clue}
+  1     Architecture detail, unique to this room
+  50%   Ambiance detail, unique to this room
+  40%   Hidden treasure
+  30%   Trapped treasure
+  10%   Discarded treasure
+```
 
-So the first file in each folder states a budget per location, guided by prominence.
-Scale sets only an outer bound of plausibility, never the number.
+Read as: `1` is mandatory and exactly one; `N%` includes at that rate; `{a | b | c}` is a
+pick-set; a trailing clause is a constraint on the pick.
 
-**Open structural question for Phase 2.** DANGEROUS already has an explicit prominence
-axis — that is exactly what low/medium/high is. SAFE and WILD do not: WILD's
-landmark/hidden/secret is a *discoverability* axis, not a prominence one, and SAFE has
-neither. Either SAFE and WILD gain an explicit prominence axis, or prominence stays a
-per-location judgement stated at Shape time. Phase 2 decides on evidence; do not add
-machinery before it earns its place.
+**Why this is the whole mechanism.** It is the corpus's directing power expressed without
+the corpus's mass, and it does four jobs at once that we were otherwise solving separately:
 
----
+- **Budget becomes emergent.** The spec above yields 2 to 8 features with an expected ~4.1.
+  That is the variance D10 wanted, without a stated range and without a size correlation.
+- **Variety becomes forced.** Percentages make two rooms from the same class differ by
+  construction rather than by the model's discretion.
+- **Non-repetition becomes inline.** "not the first one" is a constraint written where it
+  applies, not a general principle stated once and forgotten.
+- **Boundaries become clear.** Each file states exactly what it emits, which is the
+  observation that most of the corpus's apparent interconnectedness is actually clean
+  separation plus composition — the appearance of randomness, cheaply.
+
+**Where the spec lives.** In the first file of each folder — `dangerous/Weight.md`,
+`wild/Classification.md`, `safe/Kind.md` — because the spec *is* the shape of the thing.
+`Features.md` and `Dressing.md` then supply the content each spec line draws from. This
+also settles an earlier worry that those first files would be too thin: they are the
+densest files in the folder.
+
+Class distribution sits in the same file, since it is the same kind of decision:
+
+```
+DANGEROUS location classes:  10% HIGH   50% MEDIUM   30% LOW   (+ entrance, special-cased)
+```
+
+Per D13 this is a ratio, so the validator does not enforce it; it is judgement-check
+material. Percentages throughout are placeholders until Phase 2 sets them — see
+`analysis/Phase2_TrialFit.md` Case 8 for the corpus evidence.
+
+## 3b. Connection topology (D16)
+
+The three ratings are not the same graph with different labels. Each has its own shape,
+driven by how a party actually moves through it, and this belongs in `region/Scope.md`
+as a design decision rather than in the Connections template as format.
+
+**SAFE — a shallow hub.** Detail loads into the *region fields*, not the locations. The
+locations are not describing every house and person; they are the **interesting entry
+points for player interactivity**. A player arrives expecting to be able to do certain
+things — buy, sell, rest, hire, ask — and the locations give personality and direction to
+how those requests get fulfilled, with side quests and complications layered on. So
+locations hang off the settlement rather than interconnecting with each other, and the
+region overview carries the weight.
+
+**WILD — a forest of trees.** A collection of individual webs, all equally visible from
+the root. Some landmarks are a single leaf; some branch into their own mini-web of Hidden
+and Secret children. This is exactly what the landmark/hidden/secret classification
+already encodes, now stated as a graph property: every Landmark is reachable from the
+region root, and depth below a Landmark is where complexity lives.
+
+**DANGEROUS — a dense graph with few entrances.** Movement is one room at a time, so
+connections carry far more weight than in either other rating. Discrete entry points,
+heavy interconnection between rooms, and loops that matter.
+
+One consequence worth noting: a region's `Connections.mmd` should look structurally
+different per rating, and `tools/validate_setting.py` currently neither knows nor cares.
+Per D13 that stays a judgement-check observation rather than a new validator rule.
 
 ## 4. Per-folder grid
 
@@ -234,7 +291,12 @@ Sentence-count caps and prose-shape rules are neatness, not breakage — they go
 - `CLAUDE.md`'s `patterns/` section rewritten around the five folders; D14's
   container/data split stated explicitly.
 - `templates/Pattern_Judgement_Check.md` gains the inverted-duplication check.
-- `templates/Region.md` cites `Procedures.md` for time scale instead of stating it.
+- **`templates/Region.md`'s fields are rebuilt per rating, not patched.** SAFE, WILD and
+  DANGEROUS need materially different overviews — SAFE carries the roster and the current
+  Situation (F5, F6) and most of the region's detail; WILD carries the terrain and
+  foraging texture narrated between points; DANGEROUS carries architecture and the danger
+  countdown. It also cites `Procedures.md` for time scale instead of stating it. This is
+  now the largest single piece of Phase 3 work.
 - `templates/Location_Gazetteer.md`'s 3× rule becomes a Shape-set range, with 3×
   surviving as the default for collection-kind regions only.
 
