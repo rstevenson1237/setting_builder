@@ -94,6 +94,8 @@ accident later.
 | 9 | **`Faction.md` was missing** | Added to `safe/` and `dangerous/`. A faction presence differs from a creature presence by **off-site consequence**: a beast killed in its den is a beast killed; a picket killed at its post is noticed, missed, replaced, or avenged. Also the home for faction visual identity, so a party can recognise the same power two regions apart before anyone names it |
 | 10 | **`Naming.md` was missing — a hole in D7** | Added to all three folders. D7 says `setting/Language.md` grows every time a proper noun is coined, and **no pattern file said to do that**. Naming also varies by rating: a SAFE place is named by people who live there, a DANGEROUS one may carry a dead-tongue name nobody living uses. Rating-varying, so it is pattern content and earns a file |
 | 11 | **NamedCreatures and UniqueTreasures get no file** | Correct as-is. Each is one decision on top of a selection already made — `Creature.md` picks the creature and a spec line decides whether it is named; `Treasure.md` picks the table and a spec line decides whether it is unique. A file would restate its neighbour |
+| 12 | **The Bestiary could not satisfy its own regions** | Fixed. `setting/Bestiary.md` is written in one pass at 2e, before `Regions.md` exists at 3a, so it never knew the region dice. Demonstrated on the existing setting: region C is DANGEROUS **d8**, `dangerous/Creature.md` requires a high-weight creature at **AD above the die**, and the bestiary tops out at **6d6** — no entry qualifies. Fixed by moving `setting/Outline.md` to step **2a** so the dice are fixed first, and by giving `patterns/setting/Bestiary.md` an AD-spread spec anchored to them |
+| 13 | **Bestiary entries lacked fields the location patterns cite** | Fixed. Entries gain **Range** (where it lives, how many, what it eats), **Sign** (what a party finds before they find it) and **Disposition** (what it does on being met). Each is demanded by a pattern file that would otherwise reinvent it per location — `wild/Creature.md`'s populations and reactions, `wild/Lair.md`'s food supply, both Creature files' signs-before-the-creature |
 
 ---
 
@@ -199,7 +201,9 @@ are a **table-shape** constraint rather than an inclusion spec, and stay as pros
 ## 7. Build order for Phase 3
 
 1. `setting/Procedures.md` and `setting/Language.md` — seeded first, since steps 1b/1c
-   now depend on them and everything downstream cites them.
+   now depend on them and everything downstream cites them. `setting/Outline.md` moves to
+   step **2a**, ahead of `Setting.md`, because the region dice it fixes are what the
+   Bestiary scales against.
 2. The organization format applied to one file end to end — `dangerous/Low.md`, since
    Phase 2 specified it most completely — as the reference other files copy.
 3. `region/Safe.md` / `Wild.md` / `Dangerous.md` — the largest lift, and everything at
