@@ -13,6 +13,8 @@ which take their counts and graph shape from here.
 ```
 LOCATION COUNT
   About as many as the die type. A d10 region holds about ten.
+  The die is a difficulty die - d8 baseline, d6 tougher, d10 easier. A tougher region is
+  therefore smaller and more concentrated, which is a coupling worth using.
 
 CLASSIFICATION MIX
   50-60%   Landmark   - freely discoverable anywhere in the region

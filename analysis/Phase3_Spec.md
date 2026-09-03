@@ -94,7 +94,7 @@ accident later.
 | 9 | **`Faction.md` was missing** | Added to `safe/` and `dangerous/`. A faction presence differs from a creature presence by **off-site consequence**: a beast killed in its den is a beast killed; a picket killed at its post is noticed, missed, replaced, or avenged. Also the home for faction visual identity, so a party can recognise the same power two regions apart before anyone names it |
 | 10 | **`Naming.md` was missing — a hole in D7** | Added to all three folders. D7 says `setting/Language.md` grows every time a proper noun is coined, and **no pattern file said to do that**. Naming also varies by rating: a SAFE place is named by people who live there, a DANGEROUS one may carry a dead-tongue name nobody living uses. Rating-varying, so it is pattern content and earns a file |
 | 11 | **NamedCreatures and UniqueTreasures get no file** | Correct as-is. Each is one decision on top of a selection already made — `Creature.md` picks the creature and a spec line decides whether it is named; `Treasure.md` picks the table and a spec line decides whether it is unique. A file would restate its neighbour |
-| 12 | **The Bestiary could not satisfy its own regions** | Fixed. `setting/Bestiary.md` is written in one pass at 2e, before `Regions.md` exists at 3a, so it never knew the region dice. Demonstrated on the existing setting: region C is DANGEROUS **d8**, `dangerous/Creature.md` requires a high-weight creature at **AD above the die**, and the bestiary tops out at **6d6** — no entry qualifies. Fixed by moving `setting/Outline.md` to step **2a** so the dice are fixed first, and by giving `patterns/setting/Bestiary.md` an AD-spread spec anchored to them |
+| 12 | **The Bestiary had no scaling guidance** | Fixed, though **not** in the way first diagnosed — see §8. `setting/Bestiary.md` is written in one pass at 2e with nothing telling it what spread of power the setting needs. Fixed by moving `setting/Outline.md` to step **2a** so party altitude is fixed first, and by giving `patterns/setting/Bestiary.md` an AD-spread spec anchored to **party altitude**, not to the region dice |
 | 13 | **Bestiary entries lacked fields the location patterns cite** | Fixed. Entries gain **Range** (where it lives, how many, what it eats), **Sign** (what a party finds before they find it) and **Disposition** (what it does on being met). Each is demanded by a pattern file that would otherwise reinvent it per location — `wild/Creature.md`'s populations and reactions, `wild/Lair.md`'s food supply, both Creature files' signs-before-the-creature |
 
 ---
@@ -218,3 +218,64 @@ are a **table-shape** constraint rather than an inclusion spec, and stay as pros
 **Proof criteria unchanged** from the plan's §10: multiple from-scratch generations, two
 same-rating regions that do not converge, zero validator errors, all three judgement
 checks re-run, and proper nouns traceable to `Language.md`.
+
+
+---
+
+## 8. Correction: three scales, not one
+
+An error worth recording, because it was propagated into six files before it was caught.
+
+I read a region's die (d4-d12) as a benchmark for creature Action Dice, and wrote
+`dangerous/Creature.md` to scale a high-weight creature "above the die." On that reading
+the existing setting looked broken — region C is DANGEROUS d8 and the bestiary tops out at
+6d6, so no entry qualified. **That diagnosis was wrong.** The bestiary is fine; the rule
+was nonsense.
+
+The setting carries **three unrelated scales**:
+
+| | Die | Count | Bonus | Meaning |
+|---|---|---|---|---|
+| **Players** | d4-d12, d6 average | 1-6 | — | Character capability |
+| **Creatures** | d6 only | 1-18 | -2 to +6 | Power, reading roughly as classic Hit Dice |
+| **Factions** | d6 only | relative | **none** | Strength *relative to other factions only* |
+
+And a region's die is a **fourth thing entirely** — a difficulty die, where a smaller die
+fails more often, so the scale runs opposite to intuition:
+
+**d8 is baseline** and means typical for a region of this rating. d6 is slightly tougher,
+d10 slightly easier and still common, d4 and d12 are true outliers used deliberately and
+rarely. The rating carries most of the danger; the die is a modifier on top of it, not a
+second rating.
+
+So creature AD is pitched against **party altitude**, which is why `setting/Outline.md`
+moving to 2a still matters — just for a different reason than first argued.
+
+### What this changed
+
+- `setting/Procedures.md` gains a rewritten **Scaling** section and a new **Region Dice**
+  section, and is now the single authority both cite.
+- `templates/Factions.md` loses its `+/-N` — factions have no bonus, and a faction's dice
+  are meaningless against a creature's. A small faction may be a terrible creature.
+- `patterns/setting/Bestiary.md`'s AD spread is rebuilt against party altitude, with bands
+  at 1-2, 3-4, 5-8 and 9+ AD.
+- Both `Creature.md` files scale against the party, and both now state **number** as an
+  explicit spec line, since three at 2 AD and one at 6 AD are different problems that the
+  dice alone do not distinguish.
+- Both region files note that the die sets location count and is not a creature benchmark.
+
+### The rule this produced
+
+The most useful thing to come out of the correction, now in
+`patterns/setting/Bestiary.md`:
+
+> **At least one entry the party is NOT meant to beat.**
+
+OSR play rewards recognising that three orcs are worth fighting and the spectre is not —
+and that judgement is only available if the setting actually contains a spectre. A
+Bestiary where everything is beatable has removed the decision.
+
+This also gives the **Sign** and **Disposition** fields their real justification. They are
+not colour: they are how a party learns what it is facing *before* committing, which is
+what turns an unwinnable fight into a judgement rather than an ambush. Both Creature files
+now require that warning to reach the party a room early.

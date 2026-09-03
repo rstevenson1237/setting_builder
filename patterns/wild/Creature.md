@@ -11,7 +11,9 @@ Step 4c, when a spec line draws a creature. Scaling is in `setting/Procedures.md
 ```
 CREATURE
   1     Bestiary entry, or an inline description where none fits
-  1     Scale - AD at or below the region's die. Not a boss; the region has none
+  1     Number - how many the country supports, from the entry's Range
+  1     Scale - pitched against party altitude, not the region die. Usually something a
+        party can handle or avoid; occasionally something they cannot, and must read
   1     What it is doing, and whether it has noticed the party first
   1     Whether it can be avoided, and what avoiding it costs
   40%   Range - it is not only here, and the party may meet it elsewhere in the region

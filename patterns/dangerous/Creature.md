@@ -14,10 +14,11 @@ Step 4c, when a weight file's spec draws a creature. Scaling is in
 CREATURE
   1     Bestiary entry, or an inline description where none fits
   1     What it is doing when the party arrives - not waiting
-  1     Scale, against the region's die:
-          low weight     AD well under the die; optional, and usually absent
-          medium weight  AD near the die
-          high weight    AD above the die, MA where the entry has it
+  1     Number - how many, which is half the pitch
+  1     Scale, against party altitude in setting/Outline.md - never against the region die:
+          low weight     something the party can walk past or through; often absent
+          medium weight  a real fight the party is expected to win at some cost
+          high weight    a fight the party should weigh, and may lose. MA where it has it
   25%   A Named Creature, at high weight
   30%   Something it wants that is not a fight
   25%   Absent when the party arrives - signs of it, and it is elsewhere in the region
@@ -30,6 +31,11 @@ is what makes a wandering-monster result mean something.
 
 A creature named directly in its Feature line needs no citation syntax. If no Bestiary
 entry fits, describe the creature inline - the Bestiary holds only what recurs.
+
+**High weight does not mean beatable.** Some of what a region holds is not meant to be
+fought, and the region is not sized to the party. Where a location's creature is one of
+those, its Bestiary **Sign** and **Disposition** carry the warning - and they must reach
+the party a room early, so the choice to withdraw is a judgement they got to make.
 
 ## Patterns
 

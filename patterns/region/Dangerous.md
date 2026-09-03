@@ -26,6 +26,10 @@ REGION KIND
 
 Class distribution, scaled by count:
 
+The die is a **difficulty die**, not a power level - d8 baseline, d6 tougher, d10 easier,
+per `setting/Procedures.md`. It sets the class mix below through the location count only;
+it is not a benchmark for creature AD.
+
 ```
 CLASS MIX
   ~12 locations    1-2 entrances    15% HIGH    40% MEDIUM    45% LOW

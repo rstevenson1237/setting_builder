@@ -56,15 +56,57 @@ Time is tracked at the scale the region's rating sets, stated in each Region Ove
 
 ## Scaling
 
-Action Dice measure capability, and the same scale is used for creatures and factions.
+Three different things carry Action Dice, and they are **three different scales**. They are
+not interchangeable, and comparing one to another directly is a category error.
 
-- **Xd6** - total Action Dice, scaled to overall power.
-- **+/-N** - flavor modifier from -2 to +6. Roughly X divided by 3 as a starting
-  reference, hand-tuned from there.
-- **MA: Y** (creatures only) - Multiple Attack. Up to X divided by 4, rounded up, of the
-  total dice may be drawn out and rolled as separate Encounter Initiative attacks, each
-  with its own chance to strike. Omitted for creatures without the feature.
+**Players** - 1 to 6 dice, of any size from d4 to d12. A d6 is average. Six d12 is the
+theoretical ceiling and not something an ordinary character reaches.
 
-A creature that is also a power in its own right carries both a Bestiary entry and a
-Faction entry. The Faction pool measures what it can accomplish in the world; the Bestiary
-pool measures what it is to fight.
+**Creatures** - d6 only, never any other size. The die *count* runs 1 to 18, and a flavour
+bonus of -2 to +6 tunes an entry within its band. Creature AD reads roughly as classic
+Hit Dice, which is the useful reference for pitching a new entry:
+
+| AD | Reads as |
+|---|---|
+| 1-2 | A person. A common animal. Most of what a settlement contains |
+| 3-4 | A big animal, a tough humanoid, an ogre |
+| 5-8 | A serious monster. A party fights this carefully, or not at all |
+| 9-12 | An adult dragon and its equals. A party should be frightened |
+| 13-18 | Legendary. Not meant to be fought by an ordinary party, ever |
+
+**Factions** - d6 only, and **no bonus**. A faction's die count has no absolute meaning: it
+is set purely relative to the other factions in the setting, to resolve Faction Turns
+against each other. Do not compare a faction's dice to a creature's or a party's.
+
+**Number and scarcity are part of the pitch.** Three creatures at 2 AD is a different
+proposition from one at 6, and neither is captured by the dice alone. State how many, and
+how often the party is likely to meet them.
+
+**There is no balance to hit.** A location is not sized to what the party can beat. Some
+things in the setting will kill them, and the skill the game rewards is recognising which
+- that three orcs are worth fighting and the spectre is not. This is what
+`setting/Bestiary.md`'s **Sign** and **Disposition** fields are for: they are how a party
+learns what it is facing *before* committing, and they are what make the choice a judgement
+rather than a gamble.
+
+## Region Dice
+
+A region's die (d4 to d12) is a **difficulty die**, not a power level. It is rolled to
+determine whether the region's Events, Encounter, or Danger table comes up, and a smaller
+die fails more often. So the scale runs opposite to intuition:
+
+| Die | Means |
+|---|---|
+| d4 | Outlier. Punishing. Rare, and deliberate |
+| d6 | Slightly tougher than typical |
+| **d8** | **Baseline. Typical for a region of this rating** |
+| d10 | Slightly easier than typical, and still common |
+| d12 | Outlier. Mild. Rare, and deliberate |
+
+**The die is not a creature benchmark.** A d8 DANGEROUS region does not want an 8 AD
+creature; it wants creatures pitched against the party, at whatever AD the fiction calls
+for. Difficulty and power are separate axes.
+
+The die also sets location count - about the die for SAFE and WILD, about three times it
+for DANGEROUS. That coupling is deliberate and worth using: a punishing region is small and
+concentrated, a mild one is large and sprawling.

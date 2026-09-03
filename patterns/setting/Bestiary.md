@@ -21,18 +21,30 @@ TYPE MIX - about 20 entries
 ```
 
 ```
-AD SPREAD - anchored to the region dice in setting/Outline.md
-  1     At least two entries ABOVE the largest DANGEROUS die
-  1     At least three entries within 1 of each region's die
-  1     At least four entries at 2d6 or below
+AD SPREAD - anchored to party altitude in setting/Outline.md, NOT to the region dice
+  1     At least six entries at 1-2 AD      - people, common animals, numbers
+  1     At least six entries at 3-4 AD      - the working middle of the setting
+  1     At least four entries at 5-8 AD     - fought carefully, or not at all
+  1     At least two entries at 9+ AD       - the party should be frightened
+  1     At least one entry the party is NOT meant to beat
   1     No more than a third of entries sharing a single AD value
 ```
 
-**The AD spread is the part that fails silently.** `dangerous/Creature.md` requires a
-high-weight location's creature to sit *above* its region's die; `wild/Creature.md`
-requires one at or below. A Bestiary written without the dice in view will cluster in the
-middle and leave the high-weight spec unsatisfiable - and that does not surface until
-step 4c, when every region is already laid out.
+**Creature AD is pitched against the party, never against the region die.** A d8 DANGEROUS
+region does not want an 8 AD creature - the die is a difficulty die and the AD is a power
+count, and they are separate axes. See `setting/Procedures.md`.
+
+**The last line is the important one.** OSR play rewards recognising that three orcs are
+worth fighting and the spectre is not, and that judgement is only available if the setting
+actually contains a spectre. A Bestiary where everything is beatable has removed the
+decision. Write at least one entry that will kill the party if they engage it, and give it
+the clearest **Sign** and **Disposition** in the file - those two fields are how a party
+learns what it is facing before committing, and they are what turn an unwinnable fight
+into a judgement rather than an ambush.
+
+**Numbers are part of the pitch.** State in Range how many the country supports. Six at
+2 AD and one at 6 AD are different problems, and the dice alone do not say which one a
+location is offering.
 
 ## Patterns
 
