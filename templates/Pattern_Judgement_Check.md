@@ -22,6 +22,19 @@ For each pattern file, and for the set of pattern files as a whole, confirm the 
 - **Missing relevant features** - within an existing pattern, is there a feature type clearly relevant to that pattern's scope that isn't currently included (e.g. a common DANGEROUS-location situation the low/medium/high files don't address)?
 - **Unhoused content** - has the user asked for specific content (a mechanic, a theme, a recurring element) that doesn't fit into any current pattern file? Flag it explicitly rather than force-fitting it into an unrelated pattern, so it can become a new pattern file or an addition to an existing one.
 
+## Deliberate restatement
+`patterns/` deliberately restates the same concept in each rating folder - a trap in SAFE is
+a swindle, in WILD a snare, in DANGEROUS a deadfall - so that each is written for its own
+context with no cross-rating branching in view. That trade buys sharpness and costs drift.
+
+**So the duplication check is inverted here: two restatements that read the same are a
+finding, not a convenience.** Where `safe/Trap.md`, `wild/Trap.md` and `dangerous/Trap.md`
+converge on the same guidance, either differentiate them or establish that the shared part
+is a *mechanic* and move it to `setting/Procedures.md`, or *format* and move it to
+`templates/`. The pairs most at risk are the hook files, which exist in all three folders:
+`Quest.md`, `Key.md` and `Lore.md`, plus each folder's version against its
+`patterns/setting/` counterpart, which holds criteria rather than selection.
+
 ## Template
 ```
 # Pattern Judgement Check - [Date or revision note]
@@ -31,7 +44,7 @@ For each pattern file, and for the set of pattern files as a whole, confirm the 
 - Gaps in coverage: [Confirmed / Needs Attention - note]
 - Unhoused user-requested content: [Confirmed / Needs Attention - note]
 
-## [patterns/File.md]
+## [patterns/<folder>/File.md]
 - Specific: [Confirmed / Needs Attention - note]
 - Discoverable: [Confirmed / Needs Attention - note]
 - Interactive: [Confirmed / Needs Attention - note]

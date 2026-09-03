@@ -12,16 +12,15 @@ Consult when drafting:
 ## Instructions
 List 3 factions present in the setting. Each carries an Action Dice pool used to resolve Faction Turns. If a faction has knowledge of another you can state feelings between them in the description. Factions need not know one another exist - ignorance is its own relation, and discovery should be worth something.
 
-A creature that is also a power in its own right carries both a Faction entry and a Bestiary entry. The Faction pool measures what it can accomplish in the world; the Bestiary pool measures what it is to fight.
+A creature that is also a power in its own right carries both a Faction entry and a Bestiary entry, and the two numbers are unrelated. The Faction pool measures what it can accomplish in the world, relative to other factions; the Bestiary pool measures what it is to fight. A small faction may be a terrible creature.
 
-- Xd6 - total Action Dice, scaled to the faction's overall strength and capability, same scaling logic as Creatures.
-- +/-N - flavor modifier, same scaling logic as Creatures.
+- Xd6 - total Action Dice, d6 only and **no bonus**. A faction's die count has no absolute meaning: it is set purely relative to the other factions in the setting, so that Faction Turns resolve against each other. Do not pitch it against creature or party dice - see `setting/Procedures.md`.
 
 ## Template
 ```
 Factions of [Setting Name]
 
-[Faction Name] - AD: Xd6 [+/-N]
+[Faction Name] - AD: Xd6
 - Resources: [material assets, territory, coin, or manpower they can spend or leverage]
 - Knowledge: [what they know that others don't - secrets, locations, or rivals' intentions]
 - Tactics: [their characteristic move when contested - how they typically act on a Faction Turn]
