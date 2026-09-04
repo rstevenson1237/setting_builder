@@ -3,14 +3,14 @@
 ## Purpose
 The setting's tongues - phoneme inventories, syllable shapes, affixes, and a growing root
 list - so that proper nouns coined weeks apart still sound like they come from the same
-world. The framework's one living artifact: seeded at 1c, tailored at 2h, and appended to
+world. The framework's one living artifact: seeded at 1c, tailored at 2i, and appended to
 every time a proper noun is coined.
 
 ## Context
 Consult when drafting:
 - `GENRE.md` - constructed language over real-world borrowing; invented words and coinages.
 - `patterns/setting/Language.md` - how a tongue is built and how the file grows.
-- At 2h: every setting artifact written so far, for names already coined.
+- At 2i: every setting artifact written so far, for names already coined.
 - At 4d: every location, region and registry file, for names coined during generation.
 
 ## Instructions

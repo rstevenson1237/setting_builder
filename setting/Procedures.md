@@ -1,4 +1,4 @@
-Procedures of [Setting Name]
+Procedures of Brackvaen
 
 ## Tests and Consequences
 
@@ -43,6 +43,9 @@ Finding is a matter of doing the right thing in the right place, not of rolling 
   advances the Danger countdown.
 - **Searching is declared against a thing, not a room.** "We search the room" gets the
   1-in-6. "We look behind the tapestry" gets what is behind the tapestry.
+- **Below the waterline, a general search costs a Gorm step as well as an action** - see
+  Brackvaen's Local Conditions. This is the whole reason Siwapelu is worked at dawn and
+  abandoned by noon, and it is why a party that searches everything does not come back up.
 
 ## Time
 
@@ -53,6 +56,8 @@ Time is tracked at the scale the region's rating sets, stated in each Region Ove
   landmark, and setting a camp each cost one slot. Four slots to a day.
 - **DANGEROUS** - the Danger table's countdown replaces real time. It counts down from 6
   on each failed Difficulty roll, and on each action taken that the region would notice.
+  In Siwapelu the Gorm track runs alongside it and is not the same track: the Danger
+  countdown is what the place notices, the Gorm is what the air does regardless.
 
 ## Scaling
 
@@ -160,3 +165,64 @@ for how hard it is.
 locations is half the pressure. A five-room lair written as its own DANGEROUS region at d8
 expects 0.6 countdown steps across a full clear - effectively none - so its tension has to
 come from what is in it, not from the track.
+
+---
+
+## Local Conditions of Brackvaen
+
+Four resolutions the setting's Truths require. Nothing here varies by rating, which is why
+it is in this file and not in a pattern folder.
+
+### The Gorm
+
+The sour heavy air that collects in any worked space below the waterline. It thickens
+through the day and clears in wind.
+
+Track it in **steps of 6**, per party, starting at 0 on entering a below-waterline space
+and resetting to 0 on reaching open air. It advances one step per action taken below, and
+one extra step for any general search.
+
+| Step | What it does |
+|---|---|
+| 1-2 | Nothing a party notices. A caged bird stops singing at 2 |
+| 3 | Open flame gutters and will not relight. Lanterns are the only light from here |
+| 4 | TEST OF FATE. Failure is the **Souring** CONDITION: headache, doubled vision, and every subsequent Gorm step comes one action sooner. It ends after a full night in open air |
+| 5 | TEST OF CONSTITUTION for anyone Soured, at the same stakes |
+| 6 | TEST OF FATE for everyone, and failure here is a WOUND rather than a CONDITION |
+
+**The Brined do not track the Gorm**, which is the whole of the Faelhond's economic
+position and the reason every party going deep wants one.
+
+### Salt-debt
+
+The setting's currency is standard silver coin (cn), and its **obligation** is weighed
+salt, recorded on a cut board. A pan-hand's week is **12 cn**; an Assize serjeant's month
+is **90 cn**. Every value on `setting/Treasure1.md` through `Treasure5.md` is against that
+line.
+
+Debt attaches to goods, not to persons. **A party that takes up a dead stranger's kit in
+Brackvaen takes up the weight recorded against it**, and the Assize's ledger is what
+decides how much - which means the referee does not need to rule on this at the moment of
+looting, only to note that the boots came off somebody. It resolves when the party next
+deals with the weigh-house, and it is a complication rather than a test.
+
+### Cured things
+
+Anything the salt has kept does not rot and does not entirely finish. A cured body is not
+undead as a category and is not inert; what it does is **continue whatever it was doing**.
+
+Resolve this as a fact of the scene rather than a roll. State what it was doing; a party
+that stays out of the way of that is not attacked, and a party that finds out what it was
+doing has been handed the way past it. See the **Cured Man** in `setting/Bestiary.md`,
+which is 4 AD and is very rarely a fight.
+
+### Old Rede letters
+
+A thing cut in Old Rede on stone is obeyed - by people who cannot read it, and by some
+things that are not people. There is no test and no stated penalty for defacing one,
+because nothing in Brackvaen has done it in living memory.
+
+When a party does: **the ruling is that whatever the letters were holding is no longer
+held**, immediately and locally, and the referee says what that was from the location's own
+material. This is the Truth a party discovers by acting, and it should be catastrophic once
+and never a subsystem.
