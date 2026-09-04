@@ -11,11 +11,25 @@ Step 2d, after `setting/History.md`.
 ```
 TRUTHS
   3-6   Truths
+  1     Each stated in ONE sentence - the rule, not the feeling of the rule
+  1     Each carries a Handle: what a party does about it, and the Location Code(s)
   1     Each is a rule, class, or idea - never a single object
   1     At least one a party discovers by acting, not by being told
   1     At least one that costs somebody something
   1     None restating what History or Setting already established
 ```
+
+**The Handle is the whole test, and it is why this file is not a mood board.** Per
+`GENRE.md`, a truth that cannot name what a party does about it and where is a tag, and
+tags belong in `setting/Setting.md`. Write the Handle as an action a referee could
+adjudicate: *deface an old-tongue stone and whatever it was holding is no longer held* is a
+handle; *the old letters carry a weight nobody can explain* is the same idea with nothing
+to grip.
+
+Handles are completed at 4d, when locations exist, and **every truth is re-tested then.** A
+truth no location cashed out is cut from the file - it was atmosphere that survived because
+nothing had yet been built to contradict it. This is the one place the framework deletes
+rather than revises, and it should be used.
 
 **A Truth is a class, not an instance.** "The Ninefold Ledger is a cursed book" is an
 object and belongs in `setting/UniqueTreasures.md`. "Written oaths bind here, and breaking

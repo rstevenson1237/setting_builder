@@ -13,7 +13,7 @@ Consult when running this check:
 ## Instructions
 For each pattern file, and for the set of pattern files as a whole, confirm the following. Record each as Confirmed / Needs Attention, with a note.
 
-- **No overlap or contradiction** - does one pattern's instructions duplicate or conflict with another's (e.g. two patterns both claiming the same trigger-and-effect shape, or giving incompatible guidance for the same situation)? Where two patterns legitimately share a boundary (e.g. `Traps.md` vs. `Puzzles.md`, `Secrets.md` layered on top of any other pattern, `Wild_Secret.md`'s location-level Clue/Trigger/Payload vs. `Secrets.md`'s feature-level one), is the distinction stated clearly enough that a generator won't blur them?
+- **No overlap or contradiction** - does one pattern's instructions duplicate or conflict with another's (e.g. two patterns both claiming the same trigger-and-effect shape, or giving incompatible guidance for the same situation)? Where two patterns legitimately share a boundary (e.g. `Trap.md` vs. `Mystery.md`, `Secrets.md` layered on top of any other pattern, `wild/Secret.md`'s location-level Clue/Trigger/Payload vs. `wild/Secrets.md`'s feature-level one), is the distinction stated clearly enough that a generator won't blur them?
 - **Specific** - does the pattern push toward named, particular content (a specific mechanism, a specific creature, a specific object) rather than a reskinnable placeholder?
 - **Discoverable** - does using the pattern require the players to notice, investigate, or search for something, rather than handing content to them automatically?
 - **Interactive** - does the pattern give players something to act on (examine, trigger, disarm, solve, take) rather than pure read-aloud flavor?

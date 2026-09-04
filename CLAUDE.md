@@ -8,7 +8,7 @@ This is not a software project in the usual sense — it is a plain-text framewo
 
 ## Directory structure
 
-- `GENRE.md` — the top-level thematic spine (1981 B/X D&D, Conan-esque, Low Magic, Points of Light, Mythic Underworld, situations not authored plots). Every template's Context section names this file explicitly and states what to check against it — re-read it at every generation step, don't just skim it once. Genre drift (an authored plot creeping in, magic becoming common, an implied central authority) is the main failure mode in this project; watch for it.
+- `GENRE.md` — the top-level thematic spine (1981 B/X D&D, Conan-esque, Low Magic, Points of Light, Mythic Underworld, situations not authored plots), plus **What a line has to earn**: the three tests — every word is translated, setting that is not actionable cannot be played, never make the player's decision for them — that every line at every level must pass. **Those three outrank the templates**: a line that fails them is cut even where a template asks for it, and a template that keeps producing such lines is the wrong template. Every template's Context section names this file explicitly and states what to check against it — re-read it at every generation step, don't just skim it once. Two failure modes to watch: genre drift (an authored plot creeping in, magic becoming common, an implied central authority), and inert prose (mood in place of a handle, a fact restated downward from the level where it was already true).
 - `templates/` — one template per artifact type. Each is structured as **Purpose / Context / Instructions / Template**. Context always lists exactly which files to read before drafting (GENRE.md first) — do not pull in more than a template's Context section names. `templates/Location.md` is deliberately the narrowest: only GENRE.md, the parent region overview, and the location's own gazetteer stub — other setting files are consulted only to look up a name already referenced, never wholesale.
 - `patterns/` — pattern guidance, in **five folders** matching the five levels of generation: `setting/`, `region/`, `safe/`, `wild/`, `dangerous/`. A generation step reads only the folder matching what it is building.
   - `patterns/setting/` is flat: one file per setting artifact (`Outline.md`, `Setting.md`, `History.md`, `Truths.md`, `Rumours.md`, `Bestiary.md`, `Factions.md`, `Treasure.md`), one per registry (`Lore.md`, `Keys.md`, `Quests.md`, `NamedCreatures.md`, `UniqueTreasures.md`), and one each for the two living artifacts (`Language.md`, `Procedures.md`).
@@ -29,10 +29,10 @@ The build order is strict and each stage depends on the previous ones existing. 
 1. **Framework** — `GENRE.md`, then seed `setting/Procedures.md` and `setting/Language.md`.
 2. **Setting** — `setting/Outline.md` first, since it fixes region count, rating mix, dice and party altitude, and everything downstream scales against it. Then Setting → History → Truths → Rumours → Bestiary → Factions → Treasure I-V, then tailor Procedures and Language and stub the five registries.
 3. **Region** — `region/Regions.md` → `region/Connections.mmd` → one Region Overview per region.
-4. **Location** — per region: `Locations.md` gazetteer → `Connections.mmd` → one file per location → then, once every region is done, a final pass writing the full content of every stubbed registry entry.
+4. **Location** — per region: `Locations.md` gazetteer → `Connections.mmd` → one file per location → then, once every region is done, a final pass writing the full content of every stubbed registry entry, and a cash-out pass settling every setting- and region-level claim against the rooms that deliver it.
 5. **Judgement checks** — the three non-mechanical review passes.
 
-### Two things this order buys
+### Three things this order buys
 
 **Every location exists as a stub before any location file is written.** Step 4a creates
 every region's gazetteer before 4b creates any graph and 4c writes any entry. That is what
@@ -43,6 +43,16 @@ not exist yet.
 location records only a stub row for a piece of Lore, a Key, a Quest, a Named Creature or a
 Unique Treasure at 4c, and the content is written at 4d with every referencing location in
 view. A location entry is therefore not a complete scene until 4d, by design.
+
+**The chain has a return path.** Steps 1 through 4d push information downward — GENRE to
+pattern to template to artifact — and a one-way chain cannot tell that a claim made at the
+top was never built at the bottom. Step 4e runs upward and settles every claim against the
+rooms that were supposed to deliver it: Truths fill their Handles or are cut, History events
+fill their Left lines or are cut, and anything a Region Overview asserted is either present
+in its locations or removed from the overview. **The default at 4e is deletion, not
+defence.** Without it the upper levels drift into mood, because nothing above the location
+was ever obliged to be actionable — which is the failure mode this framework is least able
+to see in itself.
 
 ## Scaling and dice
 

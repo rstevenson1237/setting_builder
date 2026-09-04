@@ -1,5 +1,18 @@
 # Setting Judgement Check - 2026-09-04, Brackvaen, first full pass at end of build
 
+> **Update, same day — the pass that produced these findings has been partly acted on.**
+> `GENRE.md` now carries the three tests every line must pass, `STEPS.md` has a cash-out step
+> (4e) that settles setting- and region-level claims against the rooms, and
+> `setting/Setting.md`, `setting/Truths.md`, `setting/History.md` and region C's Overview have
+> been rewritten against them - Truths carry Handles and History events carry Left lines, both
+> naming real Location Codes. Open Item 6 (record C.10 Wosaora) is folded into 4e.
+> **Still open and unchanged: 1** (the cap-stone motif reaches 11 of 38 arches), **2** (Treasure
+> III, IV and V are never cited), **3** (the Drowned Chorus is keyed to no room), **4** (region
+> A's People roster names no people; no settlement type stated), **5** (C.9's node role),
+> **7** (nine unused coinages), **8** (medium/high challenge question), **9** (B.3's approach).
+> Items 1-4 are region-level promises the locations never kept, which is exactly what 4e now
+> exists to catch - they were found by hand this time.
+
 Run across `setting/` at every level, following `templates/Setting_Judgement_Check.md`,
 after step 4d completed all three regions and all five registries.
 `tools/validate_setting.py` reports 0 errors and 1 warning, and the warning is correct

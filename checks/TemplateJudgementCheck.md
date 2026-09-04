@@ -1,5 +1,16 @@
 # Template Judgement Check - 2026-09-04, first full pass after the Brackvaen build
 
+> **Update, same day — items closed by the "what a line has to earn" pass.** Open Items 1, 3
+> and 4 are fixed: `templates/Bestiary.md` now anchors the AD spread to party altitude;
+> `templates/Location.md` lists its element files split by rating folder; both judgement-check
+> templates name live filenames. Item 2 is closed for `Rumours`, `Factions`, `Treasure`,
+> `Setting`, `History` and `Truths` (all now cite their `patterns/setting/` counterpart, and
+> `Factions` gained its Identity field). Item 7 is half closed - SAFE prominence is now
+> stated as recorded nowhere, deliberately, in `patterns/safe/Settlement.md`.
+> **Still open: 5** (Procedures section list), **6** (NamedCreatures Remembers/Wants),
+> **7** (node roles in `Region_Connections.mmd`), **8** (Exits form for leaving the map),
+> **9** (README is stale).
+
 Run against `templates/` with `GENRE.md`, `CLAUDE.md`, `STEPS.md` and every file in
 `patterns/` in view, following `templates/Template_Judgement_Check.md`. Twenty-four
 template files. Seven are Needs Fix; the rest are Confirmed.

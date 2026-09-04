@@ -1,5 +1,13 @@
 # Pattern Judgement Check - 2026-09-04, first full pass after the Brackvaen build
 
+> **Update, same day — items closed by the "what a line has to earn" pass.** Open Item 1 is
+> fixed: `patterns/safe/Settlement.md` now carries a SAFE inclusion spec parameterized by
+> prominence, so step 1 of `templates/Location.md`'s reading order produces something to read
+> for every rating.
+> **Still open: 2** (five missing element files), **3** (Brackvaen's tongues named inside all
+> three `Naming.md` files), **4** (the key-that-opens-nothing criterion stated four times),
+> **5** (the Puzzle relationship is unnamed), **6** (every Constraints section still empty).
+
 Run against all forty-eight files in `patterns/` with `GENRE.md` and `templates/Location.md`
 in view, following `templates/Pattern_Judgement_Check.md` - including its inversion, that
 **two restatements which read the same are a finding rather than a convenience.**
