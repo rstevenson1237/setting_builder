@@ -116,6 +116,7 @@ Coined here:
 *(Appended as proper nouns are coined in this tongue. Format: `Name = root + root - where it appears`.)*
 
 - Odarath = odar + -ath - the great holder; the drowned realm and its people
+- Odaranu = odar + -anu - of the king; the Cured Man still walking its errand at C.10, named by the Faelhond rather than by anyone who knew it
 - Siwapelu = siwa + pelu - the under-work; region C, the gallery beneath the pans
 - Nessekire = nesse + kire - the breaking-water; the flood of four hundred years ago
 - Nuthora = nuth + -ora - the place where oaths are made; a boundary stone, and by extension all eleven
@@ -186,6 +187,7 @@ Coined here:
 - Ghutrrun = ghut + rrun - the wet den; a Vingash deep-water fastness
 - Kangzhin = kang + zhin - worn iron; a bitter-iron ear-ring passed down rather than earned
 - Zhakur = zhak + -ur - the one who cuts; a Vingash watcher's office, held for a season
+- Zhakur-of-Nine = zhakur + the count of her rings - the Channel-Elder at B.3; the Marchspeech half of the name is a translation the Vingash tolerate
 - Tuggik = tugg + -ik - the carrying thing; the Odarath salt-hauler still walking its route
 - Rrikgash = rrik + -gash - the mass of worked stone; Ghaunt for Siwapelu
 - Kkithik = kk- + kith + -ik - the unmade-cold thing; what the Vingash call the western pans since the Gell Year
