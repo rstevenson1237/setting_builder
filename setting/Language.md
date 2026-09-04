@@ -122,7 +122,7 @@ Coined here:
 - Nuthora = nuth + -ora - the place where oaths are made; a boundary stone, and by extension all eleven
 - Zorethanu = zoreth + -anu - of the feared thing; what the lowest course is called on its own walls
 - Meselaani = meze + laani - the long remembering; Old Rede cut to be read, rather than to bind
-- Selora = sela + -ora - the place of kept light; an Odarath lamp-niche, found throughout Siwapelu
+- Selora = sela + -ora - the place of kept light; C.2, the lamp gallery, and the lamp still burning in it
 - Teruimmo = teru + immo - three-gate; C.13, a course that divides three ways
 - Immora = immo + -ora - the place of the gate; B.2, the stair-head at the fen's edge
 - Immorael = immo + -ora + -el - the small gate-place; C.1, the stair-head chamber below
