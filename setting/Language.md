@@ -1,6 +1,6 @@
 Tongues of [Setting Name]
 
-Seeded at step 1c with three working tongues. Tailored at 2h. Appended to every time a
+Seeded at step 1c with three working tongues. Tailored at 2i. Appended to every time a
 proper noun is coined, at every step thereafter. Never rewritten.
 
 ---
@@ -36,6 +36,9 @@ Roots:
 - naug - none, empty, spent
 - veth - white, bone
 
+Coined here:
+*(Appended as proper nouns are coined in this tongue. Format: `Name = root + root - where it appears`.)*
+
 ## Old Rede
 Spoken by: nobody living. Found cut into stone, on grave goods, and in the mouths of
 things that have not stopped speaking it. Names in Old Rede mark a place as older than the
@@ -67,6 +70,9 @@ Roots:
 - odar - king, the one who holds
 - siwa - below, the under-part
 - ranu - grain, what is grown
+
+Coined here:
+*(Appended as proper nouns are coined in this tongue. Format: `Name = root + root - where it appears`.)*
 
 ## Ghaunt
 Spoken by: the non-human peoples of the wold and what they have taught to speak. Clipped,
@@ -100,8 +106,5 @@ Roots:
 - ghut - wet
 - narr - hunt, follow
 
----
-
-## Coined here
-
-*(Appended as proper nouns are coined. Format: `Name = root + root - where it appears`.)*
+Coined here:
+*(Appended as proper nouns are coined in this tongue. Format: `Name = root + root - where it appears`.)*
