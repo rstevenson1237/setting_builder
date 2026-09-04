@@ -58,6 +58,28 @@ Coined here:
 - Urweld = ur- + weld - old timber; bog oak cut out of the pans, the holding's best material
 - Skeirling = skeir + -ling - a lesser blade; the long knife a pan crew carries
 
+**Marchfolk personal names**: a root plus `-a` or `-en`; family names a root plus `-ling`.
+So Vetha Naugling is bone-and-empty, Gellen Torsling is souring-of-the-rise. The naming is
+current and the namers are alive, which is why Torsgaard's names argue with each other.
+
+- Thrapstad = thrap + -stad - the hammering place; A.1, the weigh-house and market ground
+- Rendfast = rend + -fast - the division held; A.2, the Salt Assize's hall
+- Gormhalm = gorm + halm - the close shelter; A.3, the salt stores
+- Faelvaen = fael + vaen - the pale open ground; A.4, the drying floors
+- Druvmarn = druv + -marn - the deep water; A.5, the landing
+- Weldfast = weld + -fast - the timber held; A.6, the ropewalk and boatyard
+- Halmgaard = halm + -gaard - the shelter-holding; A.7, the lodging house
+- Gellhalm = gell + halm - the souring shelter; A.8, the tannery
+- Vethgaard = veth + -gaard - the bone-holding; A.9, and the name was a joke before it was accurate
+- Ondtstad = ondt + -stad - the want-place; A.10, the crew shanty below the rise
+- Vetha Naugling = veth + -a, naug + -ling - the debt-holder at A.9
+- Gellen Torsling = gell + -en, tors + -ling - an Assize head at A.2
+- Druva Halmling = druv + -a, halm + -ling - keeps the lodging house at A.7
+- Ondtla Faelling = ondt + -la, fael + -ling - a Faelhond digger at A.10
+- Halmen Weldling = halm + -en, weld + -ling - the weighmaster at A.1
+- Bracka Druvling = brack + -a, druv + -ling - the downriver factor at A.5
+- Naugen Gelling = naug + -en, gell + -ling - the tanner and bone-setter at A.8
+
 ## Old Rede
 Spoken by: nobody living. Found cut into stone, on grave goods, and in the mouths of
 things that have not stopped speaking it. Names in Old Rede mark a place as older than the
@@ -100,7 +122,29 @@ Coined here:
 - Zorethanu = zoreth + -anu - of the feared thing; what the lowest course is called on its own walls
 - Meselaani = meze + laani - the long remembering; Old Rede cut to be read, rather than to bind
 - Selora = sela + -ora - the place of kept light; an Odarath lamp-niche, found throughout Siwapelu
-- Teruimmo = teru + immo - three-gate; a course that divides three ways
+- Teruimmo = teru + immo - three-gate; C.13, a course that divides three ways
+- Immora = immo + -ora - the place of the gate; B.2, the stair-head at the fen's edge
+- Immorael = immo + -ora + -el - the small gate-place; C.1, the stair-head chamber below
+- Doraiath = dorai + -ath - the great road; B.1, the causeway, on an Odarath pan wall
+- Doraiel = dorai + -el - the small road; C.3, a connective passage
+- Doraianu = dorai + -anu - of the road; C.9, the second course's long gallery
+- Laanidorai = laani + dorai - the long road; C.14
+- Nuthorath = nuth + -ora + -ath - the great place of oaths; C.7, where the stones were cut
+- Mezeora = meze + -ora - the place of remembering; C.6
+- Ranuora = ranu + -ora - the place of grain; C.4, a store
+- Peluora = pelu + -ora - the place of the work of hands; C.5, a workshop
+- Peluath = pelu + -ath - the great work; C.15, the exhausted working
+- Kirel = kire + -el - the small water; C.8, a cistern
+- Kireath = kire + -ath - the great water; C.17
+- Siwakire = siwa + kire - the under-water; C.11, the drainage hall
+- Sipelu = si- + pelu - beneath the work; C.18
+- Galuora = galu + -ora - the place of kept fire; C.12
+- Nesseora = nesse + -ora - the place of the breaking; C.16
+- Nessekirel = nesse + kire + -el - the small breaking-water; C.20, the drowned breach
+- Taluora = talu + -ora - the place of years; C.21
+- Nekire = ne- + kire - against the water; C.22, the drainage engines
+- Zorethora = zoreth + -ora - the place of the feared thing; C.23
+- Sizoreth = si- + zoreth - beneath the fear; C.24, the threshold nobody has crossed
 - Azzakire = azza + kire - mother-water; the sea, in the Odarath reckoning
 
 ## Ghaunt

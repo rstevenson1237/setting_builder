@@ -243,6 +243,7 @@ EXIT_DEST_RE = re.compile(r'->\s*[A-Z]+\.\d+\s+[^,]+')
 
 LORE_CITE_RE = re.compile(r'\(Lore:\s*([^)]+)\)')
 KEYS_CITE_RE = re.compile(r'\(Keys:\s*([^)]+)\)')
+QUEST_CITE_RE = re.compile(r'\(Quest:\s*([^)]+)\)')
 NAMED_CITE_RE = re.compile(r'\(Named Creature:\s*([^)]+)\)')
 UNIQUE_CITE_RE = re.compile(r'\(Unique Treasure:\s*([^)]+)\)')
 TREASURE_CITE_RE = re.compile(r'\(Treasure\s+([IVX]+),\s*d20\)')
@@ -351,6 +352,8 @@ def check_location_file(diag, path, region_code, num, stub, rating, all_location
         citations["Lore"].setdefault(title.strip(), set()).add(f"{region_code}.{num}")
     for title in KEYS_CITE_RE.findall(text):
         citations["Keys"].setdefault(title.strip(), set()).add(f"{region_code}.{num}")
+    for title in QUEST_CITE_RE.findall(text):
+        citations["Quest"].setdefault(title.strip(), set()).add(f"{region_code}.{num}")
     for title in NAMED_CITE_RE.findall(text):
         citations["NamedCreature"].setdefault(title.strip(), set()).add(f"{region_code}.{num}")
     for title in UNIQUE_CITE_RE.findall(text):
