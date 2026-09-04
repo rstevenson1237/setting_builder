@@ -1,0 +1,19 @@
+Unique Treasures of Brackvaen
+
+Selora Lamp - found at C.2 Selora
+Description: A shallow dish of dressed stone about six inches across, holding a clear liquid that has not gone down in nine hundred years and a flame the size of a thumbnail standing over it. It gives no smoke and leaves no soot - the niche above it is clean where all forty-one of its neighbours are shadowed - and it is faintly warm to a hand held near it.
+
+What it does: it burns where nothing else will. Open flame gutters and dies at Gorm 3 per `setting/Procedures.md`, which is what makes lanterns the only workable light below the second course and what makes the deep courses of Siwapelu a lantern-oil problem before they are anything else. The Selora Lamp is unaffected: it burns in the gorm, it burns underwater, and it cannot be blown out or shaken out. Carried in an open hand it lights about as much ground as a candle - which is not much, and is the point.
+
+What it costs: it does not consume oil and it does not consume air, and the second of those is the trap. A party carrying it has removed the one signal that tells them the air has gone bad - the guttering flame is the Gorm track made visible, and the caged finch the Faelhond lend out is a poor second because a bird stops singing for many reasons. Crews who have used lights like this have walked their whole party into the fifth and sixth steps of the track in good light and excellent spirits. The dish also cannot be extinguished, covered, or shuttered: it is a fixed small light in a complex where the Faelhond shutter their lanterns to a coin's breadth because light carries as badly as sound does, and anything in Siwapelu that notices light will notice this.
+
+Tie: an Odarath maintenance fitting rather than a treasure - the maintenance record at C.6 Mezeora refers to the lamp niches being kept, and this is the one that was. The Faelhond regard it as luck, cache their spare lanterns in the niches around it, and will ask a party not to lift it.
+
+Immo Cap of the Third Threshold - found at C.24 Sizoreth
+Description: The cap stone of the one finished arch in the half-built chamber at the head of the fourth course - a dressed limestone block whose underside is smooth and blank where every other threshold cap in Siwapelu carries the Old Rede character for gate. It is not portable in any ordinary sense; it is a lintel, and taking it means bringing it down.
+
+What it does: it is the third of the three blank caps - the dome at C.7 Nuthorath, the salt threshold at C.23 Zorethora, and this one - and its value is that it completes a reading rather than that it acts. *The gate is not to be marked*, repeated four thousand times down ninety feet of passage at Zorethora, means the absence is deliberate: the character marks a threshold meant to be passed, and these three were marked out as thresholds that were not. A party that has found all three holds the shape of the whole complex, and holds it as physical evidence rather than as inference - which is what makes it tradeable. Gellen Torsling will pay for it. Zhakur-of-Nine will do considerably more than pay for it.
+
+What it costs: it is a lintel over the only finished arch in a half-built chamber, and the arch is the way back out. Bringing the cap down brings the arch down, and the party is then on the wrong side of it with the shaft at their backs - the shaft whose air is clean and very cold, where the Gorm track does not advance, and down which a dropped stone is not heard landing. There is no version of taking this object that does not involve closing the way home in the deepest room anyone has come back from.
+
+Tie: cut by whoever cut the ninety feet at Zorethora - the same careful hand at its beginning, working alone, to an instruction addressed to successors who never came. It is the last thing the Odarath's arrangement had to say, and it says it by leaving a stone blank.
