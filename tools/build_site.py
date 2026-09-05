@@ -199,8 +199,12 @@ def section(title: str, body: str, anchor: str | None = None) -> str:
     return f'<section class="doc-section"{id_attr}><h2>{html.escape(title)}</h2>{body}</section>'
 
 
+MERMAID_FENCE_RE = re.compile(r"```mermaid\s*\n(.*?)```", re.DOTALL)
+
+
 def mermaid_block(mmd_text: str, extra_lines: list[str] | None = None) -> str:
-    text = mmd_text
+    m = MERMAID_FENCE_RE.search(mmd_text)
+    text = m.group(1) if m else mmd_text
     if extra_lines:
         text = text.rstrip() + "\n" + "\n".join(extra_lines) + "\n"
     return f'<div class="diagram"><pre class="mermaid">{html.escape(text)}</pre></div>'

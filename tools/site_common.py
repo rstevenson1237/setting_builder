@@ -524,7 +524,7 @@ def load_setting() -> Setting:
     s.keys = parse_registry("keys")
     s.named_creatures = parse_registry("named_creatures")
     s.unique_treasures = parse_registry("unique_treasures")
-    s.top_connections = load_mmd(SETTING / "Connections.mmd")
+    s.top_connections = load_mmd(SETTING / "region" / "Connections.mmd")
 
     gaz = parse_regions_gazetteer()
     s.region_order = list(gaz.keys())
