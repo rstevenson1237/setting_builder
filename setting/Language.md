@@ -41,6 +41,8 @@ Roots:
 
 Coined here:
 - Fellward = fel + -ward - the keep and its holding; setting name (`setting/Setting.md`)
+- Pelren = pel + ren - "the marked road"; the WILD region between Fellward and the treeline
+  proper (`setting/region/Regions.md`)
 
 ## Old Tongue (for ruins and the dead)
 Spoken by: whoever raised the older foundations under the keep, long gone; a handful of
@@ -75,7 +77,8 @@ Roots:
 - vokrum - silence
 
 Coined here:
-- (None yet - coinages are recorded here as they're generated.)
+- Ingaraz = ingar + -az - "grave-ground"; the DANGEROUS region of old foundations and
+  burial mounds beneath Pelren (`setting/region/Regions.md`)
 
 ## Wilds Tongue (non-human, beyond the border)
 Spoken by: whatever moves in the treeline and answers back to it - not a people with
