@@ -41,6 +41,11 @@ attempt next.
 What holds a find, what conceals it, and what it takes to reach it are the location's job -
 see each rating's `Treasure.md`.
 
+**Value-to-weight.** 100 standard cn weighs 1 wt - the table's average relationship, not a
+fixed conversion. Mundane bulk goods may run as low as 5 cn per wt (a bag of copper
+pennies); there is no upper bound on value-dense items (a single pure diamond may be worth
+5000 cn at 0 wt).
+
 ## Patterns
 
 **Table I - Scavenged Loot.** Everyday debris, minor coin, tools, scraps. Average under
@@ -62,7 +67,8 @@ whole problem. Bolts, casks, ingots, hides, spices, salt. A party that finds thi
 decide what to leave, which is the most interesting decision treasure can produce.
 
 **Table V - Treasure Cache.** The payoff, and the only table where a single result should
-be able to change a party's plans. Coin in quantity, plate, a hoard's worth of one thing.
+be able to change a party's plans. A mix of coinage - not only standard silver, include
+other denominations or foreign/exotic coin - plate, a hoard's worth of one thing.
 
 **Materials and coinage** should come from `setting/History.md` and `setting/Truths.md` -
 what was minted here, by whom, and whether it is still accepted. Coin from a fallen realm

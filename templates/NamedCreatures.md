@@ -12,7 +12,7 @@ Read first:
 ## Instructions
 - **2i**: create the file with only its title line.
 - **4c**: append a stub row - Name and Location only - when a location's Feature calls for a Named Creature (or when this creature is stubbed again at a second location, add that location to its existing row rather than duplicating it), and cite it in that Feature.
-- **4d**: replace each stub row with its full entry per `patterns/setting/NamedCreatures.md` - stats, motivation, something it remembers, something it wants, and every location it appears in.
+- **4d**: replace each stub row with its full entry per `patterns/setting/NamedCreatures.md`.
 
 ## Template
 ```

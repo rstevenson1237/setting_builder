@@ -19,10 +19,6 @@ questions; Q3 produces three trope proposals (each carrying three seed tags) con
 with Q1 and Q2, one of which is chosen. Build the genre-identity paragraph and the 3-5 axis
 bullets from the chosen proposal.
 
-**The "What a line has to earn" section is fixed.** It does not vary by genre and is
-reproduced verbatim from the Template below, never reauthored - it is framework contract,
-not genre content.
-
 ## Template
 ```
 # Genre
@@ -31,22 +27,15 @@ Top level thematic hints to be included in all content generation.
 
 [1-2 sentences: the genre identity - Q1's broad family plus its narrowed trope]
 
-- **[Axis name]** - [one-line elaboration, drawn from the chosen Q3 proposal's seed tags
-  and the Q2 axes that actually distinguished this genre]
+- **[Axis name]** - [one-line elaboration]
 - **[Axis name]** - [one-line elaboration]
 - **[Axis name]** - [one-line elaboration]
 
-[1 short paragraph: what player characters are here, stated the way GENRE.md's B/X-Conan
-default states it - not heroes, not the resolution of anything]
+[1 short paragraph: what player characters are here]
 
 ## Tags
 
-[25 short thematic tags, comma-separated - not sentences, not single generic adjectives -
-built from all three Q3 proposals' seed tags plus more in the same vein. This is the wide
-bank `setting/Setting.md` and every later step's own three tags are drawn from, so it needs
-real range: places, objects, customs, obligations, and pressures, not twenty-five
-variations on the same image. Every tag must trace back to this run's actual Q1/Q2/Q3
-answers - a tag that would fit any generic instance of Q1's family is filler, not seed.]
+[25 short thematic tags, comma-separated]
 
 ## What a line has to earn
 
@@ -98,10 +87,7 @@ solution is never written into the problem.** These four aren't a fourth test - 
 three tests above, restated as one memorable line any pattern file can point back to
 instead of re-deriving them.
 
-[Naming-convention line, settled by Q2/Q3 rather than assumed: favor constructed language
-for names at the setting and region level, or the chosen alternative - a named, disclosed
-real-world inspiration, or sparse/utilitarian naming. Whichever is chosen, state the
-location-name exception the same way: a location's own name is plain and descriptive, not
-freshly coined, though it may carry a name coined elsewhere and glossed for the referee.]
+[Naming-convention line, settled by Q2/Q3, plus the fixed location-name exception, per
+`patterns/setting/Genre.md`]
 ```
 </content>

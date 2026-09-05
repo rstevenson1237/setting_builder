@@ -10,7 +10,8 @@ Read first:
 - `setting/Setting.md`, `setting/History.md`, `setting/Truths.md`
 
 ## Instructions
-Create a table numbered 1-20 of rumours that may be true, partially true, or false. Each rumour should be something the players can expect to encounter within the setting (though may not actually be true), and should serve as the impetus for adventures exploring the setting. Do not assume who is providing the rumour or their intent behind sharing it. Do not state what the players should do with the rumour. Mark each rumour T (true), P (partially true), or F (false) for the referee's reference - this should not be shared with players.
+Create a table numbered 1-20 of rumours, each marked T (true), P (partially true), or F
+(false).
 
 ## Template
 ```

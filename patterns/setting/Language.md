@@ -25,6 +25,9 @@ FILE GROWTH
   1     Roots are added, never replaced
 ```
 
+**A root is a morpheme with a gloss** - the raw material names are built from, not a name
+itself.
+
 **Three tongues is the default**: a common tongue for the living, an older tongue for ruins
 and the dead, and one non-human tongue. More only when the setting demands it, because a
 fourth inventory nobody uses is dead weight.

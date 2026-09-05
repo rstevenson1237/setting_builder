@@ -18,6 +18,8 @@ GENRE
         seed tags - one is picked, or a fourth is requested along a stated axis
   3-5   Axis bullets in the finished GENRE.md, each a named constraint with a one-line
         elaboration, drawn from the chosen Q3 proposal
+  1     A short paragraph stating what player characters are here, stated the way GENRE.md's
+        B/X-Conan default states it - not heroes, not the resolution of anything
   25    A Tags section in the finished GENRE.md: short thematic tags built from all three
         Q3 proposals' seed tags plus more in the same vein, giving every later step a wide
         bank to pull three constraining tags from instead of converging on one example
@@ -150,6 +152,12 @@ constraint the way the current Low Magic / Points of Light / Mythic Underworld b
 constrain, never as mood. Its naming-convention answer becomes the naming-convention line.
 **What a line has to earn** is copied from `templates/Genre.md` verbatim, regardless of
 which proposal was chosen.
+
+**The location-name exception is fixed regardless of naming convention.** Whichever of Q2's
+three naming options is chosen - constructed-language-heavy, a disclosed real-world
+inspiration, or sparse/utilitarian - a location's own name is still plain and descriptive,
+drawn from the common tongue, not freshly coined, though it may carry a name coined
+elsewhere and glossed for the referee. State this the same way regardless of genre.
 
 **Building the Tags section.** Pool all nine seed tags from the three Q3 proposals - not
 just the chosen one - and add enough more in the same vein, drawn from the same Q1 trope and

@@ -12,13 +12,6 @@ Read first:
 - At 2i only: `setting/Setting.md`, `setting/Truths.md`
 
 ## Instructions
-This file holds mechanics that are the same everywhere in the setting. A rule belongs here
-if it does not change between SAFE, WILD and DANGEROUS; if it does change, it is pattern
-content and belongs in that rating's folder instead.
-
-The seed is deliberately generic. Tailoring at 2i means adjusting numbers and adding
-setting-specific resolutions - not rewriting the structure.
-
 Sections, in order: Tests and Consequences, Traps, Searching, Time, Scaling, Region Dice.
 
 ## Template

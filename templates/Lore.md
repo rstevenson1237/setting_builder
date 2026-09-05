@@ -12,7 +12,7 @@ Read first:
 ## Instructions
 - **2i**: create the file with only its title line.
 - **4c**: append a stub row - Title and Location only - when a location's Feature calls for a piece of Lore, and cite it in that Feature.
-- **4d**: replace each stub row with its full entry per `patterns/setting/Lore.md` - what the work is, what it reveals, and how it connects to History or Truths.
+- **4d**: replace each stub row with its full entry per `patterns/setting/Lore.md`.
 
 ## Template
 ```

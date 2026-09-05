@@ -14,10 +14,6 @@ List reusable creature templates in a system-neutral rule set. Type mix, AD spre
 AD/bonus/MA scaling, and what each entry must cover are all in
 `patterns/setting/Bestiary.md`.
 
-Every entry carries four lines: Description, then Range, Sign, and Disposition as one
-clause each - they exist because the location patterns cite them rather than reinventing
-them per location.
-
 ## Template
 ```
 Bestiary of [Setting Name]

@@ -12,7 +12,7 @@ Read first:
 ## Instructions
 - **2i**: create the file with only its title line.
 - **4c**: append a stub row - Object Name and Location only - when a location's Feature calls for a Key, and cite it in that Feature.
-- **4d**: replace each stub row with its full entry per `patterns/setting/Keys.md` - what the object is, and exactly what it unlocks or triggers, and where.
+- **4d**: replace each stub row with its full entry per `patterns/setting/Keys.md`.
 
 ## Template
 ```

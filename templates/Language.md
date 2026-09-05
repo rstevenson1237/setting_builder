@@ -15,15 +15,9 @@ Read first:
 
 ## Instructions
 Each tongue states who speaks it, its consonants and vowels, its syllable shape, its
-affixes, and its roots. A root is a morpheme with a gloss - the raw material names are
-built from, not a name itself.
-
-**This file is appended to, never rewritten.** When a proper noun is coined anywhere in
-the setting, its roots are recorded here. A name that cannot be decomposed into roots
-already present is either wrong, or a loan word that should be marked as one.
-
-Three tongues is the default: a common tongue for the living, an older tongue for ruins
-and the dead, and one non-human tongue. Add more only when the setting demands it.
+affixes, and its roots. Three tongues is the default: a common tongue for the living, an
+older tongue for ruins and the dead, and one non-human tongue - add more only when the
+setting demands it.
 
 ## Template
 ```

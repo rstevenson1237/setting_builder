@@ -12,7 +12,7 @@ Read first:
 ## Instructions
 - **2i**: create the file with only its title line.
 - **4c**: append a stub row - Name and Location only - when a location's Feature calls for a Unique Treasure, and cite it in that Feature.
-- **4d**: replace each stub row with its full entry per `patterns/setting/UniqueTreasures.md` - what it is, what it does, and what it costs.
+- **4d**: replace each stub row with its full entry per `patterns/setting/UniqueTreasures.md`.
 
 ## Template
 ```
