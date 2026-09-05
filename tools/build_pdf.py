@@ -28,12 +28,14 @@ REGISTRY_TITLES = {
     "keys": "Keys",
     "named_creatures": "Named Creatures",
     "unique_treasures": "Unique Treasures",
+    "quests": "Quests",
 }
 REGISTRY_MARKER = {
     "lore": "Found at",
     "keys": "Found at",
     "named_creatures": "Appears at",
     "unique_treasures": "Found at",
+    "quests": "Given at",
 }
 
 
@@ -140,7 +142,7 @@ def build_document(setting: sc.Setting) -> str:
         toc.append(toc_entry(sc.TREASURE_TITLES[roman], sc.anchor_id("treasure", roman), level=1))
     parts.append(f'<section class="doc" id="treasure"><h1>Treasure Tables</h1>{"".join(tsections)}</section>')
 
-    for kind in ("lore", "keys", "named_creatures", "unique_treasures"):
+    for kind in ("lore", "keys", "named_creatures", "unique_treasures", "quests"):
         entries = getattr(setting, kind)
         cards = []
         for e in entries:
@@ -151,10 +153,18 @@ def build_document(setting: sc.Setting) -> str:
                 for c in e.locations if c in setting.all_locations
             )
             typetag = f' <span class="typetag">({ri(e.typetag, setting)})</span>' if e.typetag else ""
+            if kind == "quests":
+                rows = "".join(
+                    f'<tr><th>{html.escape(label)}</th><td>{ri(text, setting)}</td></tr>'
+                    for label, text in sc.parse_field_lines(e.body)
+                )
+                body_html = f'<table class="kv-table">{rows}</table>'
+            else:
+                body_html = f'<div>{ri(e.body, setting)}</div>'
             cards.append(
                 f'<div class="registry-card" id="{anchor}"><h3>{html.escape(e.title)}{typetag}</h3>'
                 f'<p class="registry-location">{REGISTRY_MARKER[kind]} {loc_links}</p>'
-                f'<div>{ri(e.body, setting)}</div></div>'
+                f'{body_html}</div>'
             )
         title = REGISTRY_TITLES[kind]
         parts.append(f'<section class="doc" id="{kind}"><h1>{title}</h1>{"".join(cards)}</section>')
