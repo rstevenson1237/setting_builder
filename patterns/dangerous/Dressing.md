@@ -34,9 +34,9 @@ DETAIL BUDGET
 
 ```
 WORD BUDGET - the whole entry, excluding the header line and the Exits line
-  low weight     ~120 words
-  medium weight  ~180 words
-  high weight    ~260 words
+  low weight     ~140 words
+  medium weight  ~220 words
+  high weight    ~320 words
 ```
 
 **The budget is diagnostic, not a target.** The detail budget above governs how many things a
@@ -114,3 +114,14 @@ named as materials. Where a plainer word would also do, the precise one is the o
   budget above was being honoured and the entry was still four times too long, because
   nothing budgeted the words each detail got. Hence the word budget, and hence
   `templates/Location.md`'s rule that every sentence be a thing, an action, or an effect.
+
+- **Budget calibration, clean-room test.** The first figures set were 120/180/260 and all
+  three were about 20% too tight. Writing one room per class from scratch against `GENRE.md`
+  and this folder alone - drawing the spec rates honestly, and at or just under each class's
+  *expected* number of content items - landed at 132/212/311 after a full pass cutting
+  commentary. Further cuts would have removed facts, which rule 3 forbids. Raised to
+  140/220/320, which holds the ~2.3x low-to-high ratio that is the point of the budget and
+  is still roughly a 55% cut from the first build's measured 341/422/609. The lesson for
+  anyone re-tuning these: a class's budget has to be set against what its spec actually
+  mandates at an average draw, and HIGH mandates the most, so it needs the most headroom
+  rather than a proportional share.

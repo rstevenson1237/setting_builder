@@ -32,10 +32,14 @@ DETAIL BUDGET
 
 ```
 WORD BUDGET - the whole entry, excluding the header line and the Exits line
-  liner note   ~120 words
-  working      ~180 words
-  central      ~260 words
+  liner note   ~140 words
+  working      ~220 words
+  central      ~320 words
 ```
+
+These are the DANGEROUS figures, calibrated there against a live generation and carried
+across by analogy rather than measured here. Treat them as provisional until a SAFE region
+has been written against them.
 
 **The budget is diagnostic, not a target.** A SAFE entry over budget is usually explaining
 its own significance - saying that a fixture is the region's Situation made visible rather

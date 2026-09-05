@@ -26,8 +26,11 @@ parents lighter than others.
 
 ```
 WORD BUDGET - the whole entry, excluding the header line and the Exits line
-  every WILD location    ~220 words, flat - there are no classes here to vary it by
+  every WILD location    ~260 words, flat - there are no classes here to vary it by
 ```
+
+Carried across from the DANGEROUS calibration by analogy rather than measured here. Treat it
+as provisional until a WILD region has been written against it.
 
 **No detail budget is not the same as no word budget**, and WILD is the rating most likely to
 confuse them. Every location getting the full treatment means every location gets its
