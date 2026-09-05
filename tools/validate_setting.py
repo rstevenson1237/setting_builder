@@ -454,7 +454,7 @@ def check_rumours(diag: Diagnostics):
 
 
 def check_top_level_files(diag: Diagnostics):
-    for name in ("Outline.md", "Setting.md", "History.md", "Truths.md", "Bestiary.md",
+    for name in ("Setting.md", "History.md", "Truths.md", "Bestiary.md",
                  "Factions.md", "Procedures.md", "Language.md"):
         path = SETTING / name
         if not path.exists():

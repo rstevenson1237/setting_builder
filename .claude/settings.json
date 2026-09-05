@@ -1,0 +1,15 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "jq -n --rawfile content README.md '{hookSpecificOutput: {hookEventName: \"SessionStart\", additionalContext: $content}}'",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}

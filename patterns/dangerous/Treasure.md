@@ -53,4 +53,10 @@ occupant who knows exactly what it is; a trap set by someone long dead; a myster
 must be answered first; something that will follow whoever takes it.
 
 ## Constraints
-*(Empty. Entries arrive from generation testing, never from anticipation.)*
+
+- **A region's stated table-lean, never cited.** A prior full build had a Region Overview
+  state which of the five Treasure tables the region leans on, and three of the five tables
+  were never cited by any of its locations - the lean was a claim about the region that no
+  room ever cashed out. When a Region Overview names a table lean, treat it as a per-location
+  draw the same way a class file's own spec lines are drawn, and settle any that never got
+  cited at 4e.

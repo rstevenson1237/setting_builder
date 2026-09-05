@@ -1,0 +1,82 @@
+# Genre.md
+
+## Purpose
+The top-level thematic spine, customized at step 1a: era/tone/magic-level/structure hints
+that constrain every artifact generated afterward, plus the fixed three-test contract every
+artifact at every level must pass. Read before every other file, and re-read at every
+generation step - not skimmed once and relied on from memory.
+
+## Context
+Consult when drafting:
+- `patterns/setting/Genre.md` - the three-question flow (broad genre + trope, binary/dial
+  axes, three seed-tagged trope proposals) that produces everything below the fixed
+  section, and what each axis must constrain rather than decorate.
+- Nothing else - GENRE.md is the first artifact, alongside the generic seeds
+  `setting/Procedures.md` and `setting/Language.md`.
+
+## Instructions
+Run the three-question flow in `patterns/setting/Genre.md`: Q1 picks a broad genre family
+and narrows it to a specific, well-known trope; Q2 answers a set of binary/dial axis
+questions; Q3 produces three trope proposals (each carrying three seed tags) consistent
+with Q1 and Q2, one of which is chosen. Build the genre-identity paragraph and the 3-5 axis
+bullets from the chosen proposal.
+
+**The "What a line has to earn" section is fixed.** It does not vary by genre and is
+reproduced verbatim from the Template below, never reauthored - it is framework contract,
+not genre content.
+
+## Template
+```
+# Genre
+
+Top level thematic hints to be included in all content generation.
+
+[1-2 sentences: the genre identity - Q1's broad family plus its narrowed trope]
+
+- **[Axis name]** - [one-line elaboration, drawn from the chosen Q3 proposal's seed tags
+  and the Q2 axes that actually distinguished this genre]
+- **[Axis name]** - [one-line elaboration]
+- **[Axis name]** - [one-line elaboration]
+
+[1 short paragraph: what player characters are here, stated the way GENRE.md's B/X-Conan
+default states it - not heroes, not the resolution of anything - and an explicit
+instruction to give situations to interact with rather than authored plots to follow]
+
+## What a line has to earn
+
+Three tests, applied to every line of every artifact at every level. **They outrank the
+templates.** A line that fails them is cut even where a template asks for it, and a template
+that keeps producing lines that fail them is the wrong template and should be changed. Good
+content is the point; the templates exist to serve it, and content that is good with the
+template discarded has still succeeded.
+
+- **Every word is translated.** A fact travels page → referee → players, and only the part
+  that survives both hops was worth writing. A *setting fact* must reach the players as
+  something they can see, hear, be told, pick up, or decide about. A *referee instruction*
+  must change how the referee runs something. A line that is neither is mood, and mood
+  spends the referee's attention, which is the scarcest thing at a table.
+
+- **Setting that is not actionable cannot be played.** Every fact names its handle: what a
+  party can *do* about it, and where. A truth with no handle is a tag. An event with no
+  handle is backstory. A region field with no handle is scenery. Name the object, the place,
+  or the person — or cut the line.
+
+- **Never make the player's decision for them.** State what is true and what is visible.
+  Do not state what the party will realise, what the encounter is really about, what the
+  correct play is, or what skill the place rewards. Writing the conclusion down is how a
+  situation quietly turns into a plot, and it robs the players of the only thing the game
+  was going to give them.
+
+**Say a thing once, at the highest level where it is true, and deliver it at the lowest
+level where it is touched.** Restating a fact downward — or upward — fails all three tests
+at once: the restatement is not actionable, it did not survive translation, and it usually
+arrives with the conclusion the reader was supposed to draw for themselves. When a region
+overview and a location say the same thing, the region overview is the one that is wrong.
+
+[Naming-convention line, settled by Q2/Q3 rather than assumed: favor constructed language
+for names at the setting and region level, or the chosen alternative - a named, disclosed
+real-world inspiration, or sparse/utilitarian naming. Whichever is chosen, state the
+location-name exception the same way: a location's own name is plain and descriptive, not
+freshly coined, though it may carry a name coined elsewhere and glossed for the referee.]
+```
+</content>

@@ -17,11 +17,15 @@ is run, and what the party is doing here. Anything that is going to be said agai
 `History.md`, `Truths.md` or a Region Overview is said *there* and not here - per GENRE.md,
 a fact belongs at the highest level where it is true and nowhere else.
 
-**The outline states the situation, never its meaning.** "Salt does not let go of what is
-put in it" is a mood; "bodies are weighted before they are sunk, and everyone knows why"
-is the same fact with a handle on it. Where a sentence is doing atmosphere rather than
-telling a referee something they will act on, cut it - the tags carry the atmosphere, which
-is what the tags are for.
+**The outline states the situation, never its meaning.** "The wind through the high pass
+never really stops" is a mood; "the pass-gates shut the instant the wind turns, and anyone
+still outside them waits until morning, no exceptions" is the same fact with a handle on
+it. Where a sentence is doing atmosphere rather than telling a referee something they will
+act on, cut it - the tags carry the atmosphere, which is what the tags are for.
+
+*(This example is illustrative only - don't reuse its imagery, domain, or vocabulary as
+your own setting's hook. See `patterns/setting/Setting.md`'s Constraints for why that
+warning is here.)*
 
 ## Template
 ```

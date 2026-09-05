@@ -12,7 +12,7 @@ Consult when drafting:
 ## Instructions
 - **2i**: create the file with only its title line.
 - **4c**: append a stub row - Name and Location only - when a location's Feature calls for a Named Creature (or when this creature is stubbed again at a second location, add that location to its existing row rather than duplicating it), and cite it in that Feature.
-- **4d**: replace each stub row with its full entry per `patterns/setting/NamedCreatures.md` - stats, motivation, and every location it appears in.
+- **4d**: replace each stub row with its full entry per `patterns/setting/NamedCreatures.md` - stats, motivation, something it remembers, something it wants, and every location it appears in.
 
 ## Template
 ```
@@ -20,5 +20,7 @@ Named Creatures of [Setting Name]
 
 [Creature Name] (Type) - AD: Xd6 [+/-N] [MA: Y] - appears at [Location Code(s)]
 Motivation: [the standing goal driving this creature, written in step 4d]
+Remembers: [something specific it remembers, written in step 4d]
+Wants: [something specific it wants, written in step 4d]
 Description: [1-3 sentences, written in step 4d, same style as a Bestiary entry]
 ```

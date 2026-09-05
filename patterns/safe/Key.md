@@ -23,8 +23,6 @@ finding it; at depth, of surviving to it. Here it is a matter of dealing with a 
 which is the tier's whole contribution to the hook layer, and the reason a settlement is
 worth returning to after a party learns what a door needs.
 
-A key that opens nothing is treasure. Cite a table and move on.
-
 ## Patterns
 
 **How it got here** - taken off a body brought back; pawned by somebody who needed money
