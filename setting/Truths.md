@@ -14,7 +14,7 @@ Truths of Fellward
 - **No scent carries more than a few hundred yards past the treeline's boundary markers -
   every trail, human or otherwise, runs cold there without exception.**
   Handle: track something across the marker line and lose it exactly where the stones stand,
-  every time - [pending 4d]
+  every time - B.2 The Boundary Stones (Dead Line)
 
 - **Any real working of magic near Fellward draws every open flame within sight down to
   nothing in the same instant, in proportion to the effect worked.**
@@ -24,4 +24,4 @@ Truths of Fellward
 - **The dead here are buried facing the treeline, not the keep, by a custom nobody can
   explain anymore, and burying someone facing the keep instead is treated as an invitation.**
   Handle: bury someone facing the wrong way and see who - or what - takes the custom
-  seriously - [pending 4d]
+  seriously - A.6 The Old Graveyard (Turned Row), C.7 The Wrong-Facing Grave

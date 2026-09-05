@@ -132,23 +132,38 @@ def parse_setting() -> tuple[str, str, str]:
 
 
 def parse_history() -> list[tuple[str, str]]:
+    """Each entry is a blank-line-separated block: a wrapped "[when] - [event]"
+    paragraph, then a wrapped "Left: ..." line. Join each block's wrapped
+    lines before splitting when/event, and keep the Left line in the block's
+    text rather than dropping it as its own fake entry."""
     text = (SETTING / "History.md").read_text()
+    blocks = re.split(r"\n\s*\n", text.strip())
     entries = []
-    for line in text.splitlines()[1:]:
-        line = line.strip()
-        if not line:
+    for block in blocks[1:]:
+        lines = [l.strip() for l in block.splitlines() if l.strip()]
+        if not lines:
             continue
-        m = re.match(r"^(.+? ago)\s*[-–]\s*(.+)$", line)
-        if m:
-            entries.append((m.group(1).strip(), m.group(2).strip()))
-        else:
-            entries.append(("", line))
+        left_idx = next((i for i, l in enumerate(lines) if l.startswith("Left:")), len(lines))
+        header = " ".join(lines[:left_idx])
+        left = " ".join(lines[left_idx:])
+        m = re.match(r"^(.+?)\s*-\s*(.+)$", header)
+        when, event = (m.group(1).strip(), m.group(2).strip()) if m else ("", header)
+        entries.append((when, f"{event} {left}".strip() if left else event))
     return entries
 
 
 def parse_truths() -> list[str]:
+    """Each entry is a blank-line-separated block: a wrapped, bolded truth
+    statement, then a wrapped "Handle: ..." line - join the wrapped lines
+    before returning, rather than only the statement's first physical line."""
     text = (SETTING / "Truths.md").read_text()
-    return [l.strip()[2:].strip() for l in text.splitlines() if l.strip().startswith("- ")]
+    blocks = re.split(r"\n\s*\n", text.strip())
+    out = []
+    for block in blocks[1:]:
+        joined = " ".join(l.strip() for l in block.splitlines() if l.strip())
+        if joined:
+            out.append(joined.lstrip("- ").strip())
+    return out
 
 
 def parse_table_rows(path: Path) -> list[list[str]]:
