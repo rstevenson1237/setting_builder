@@ -16,10 +16,24 @@ Connection type reference:
 - `A -.- B` hidden - a concealed, sealed, or secret connection
 - `A --> B` one-way - only traversable in the direction shown
 
+**For a DANGEROUS region, assign each location's node role here** - empty, dead end,
+branch, loop leg, or divide, per `patterns/dangerous/Low.md` - as a table beneath the graph.
+This is the only place in the build the graph's shape and each node's role are both in view
+at once; `templates/Location.md` step 4c reads the role from here rather than inventing it.
+
 ## Template
 ```mermaid
 graph LR
     A1["[Code] [Location Name]"] --- A2["[Code] [Location Name]"]
     A2 -.- A3["[Code] [Location Name]"]
     A3 --> A4["[Code] [Location Name]"]
+```
+
+For a DANGEROUS region, follow the graph with a node role table:
+
+```
+| Code | Node Role |
+|------|-----------|
+| A1   | [empty / dead end / branch / loop leg / divide] |
+| A2   | [...] |
 ```

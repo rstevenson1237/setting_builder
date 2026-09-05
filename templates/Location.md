@@ -35,7 +35,7 @@ Consult `setting/Bestiary.md`, `setting/Factions.md`, `setting/History.md`, `set
 *[Referee Notes - important details the Referee will need to know to adjudicate player efforts to explore the location: size (feet indoors, yards outdoors), shape, former/current purpose, and at least one sound or smell]*
 **[Feature Name]:** [interactive or explorable detail for this one feature, including where within the room it sits (a wall, a corner, the center) and, when spatially significant, its own dimension; if a specific action triggers something specify both the action and the effect; hidden features, including any exit that needs a trigger to reveal or access, are nested within the detail of an obvious feature's line, along with how to access them]
 **[Feature Name]:** [...]
-**Exits:** [comma separated list of this space's mundane exits, each as "[exit type - material, construction, condition], [position - wall, corner, or direction] -> [Code] [Location Name]"]
+**Exits:** [comma separated list of this space's mundane exits, each as "[exit type - material, construction, condition], [position - wall, corner, or direction] -> [Code] [Location Name]"; an exit that leaves the map entirely rather than connecting to another location - open water, an unstaked wilderness edge, a route with no fixed destination - is written the same way but with "-> [where it leads, in plain terms, with no Code]" in place of the Code and Location Name, and is always listed **last**, after every coded exit, since `tools/validate_setting.py` reads exits by splitting on each "-> [Code] [Name]" match in order and an uncoded exit placed earlier would shift every description after it]
 ```
 
 ## A note on completeness

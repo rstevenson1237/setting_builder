@@ -39,4 +39,9 @@ already existed.
 an inscription naming the lock but not the key; a record in `setting/Lore.md`.
 
 ## Constraints
-*(Empty. Entries arrive from generation testing, never from anticipation.)*
+
+- **"A key that opens nothing is treasure" was stated four times.** This file, and all
+  three of `safe/Key.md`, `wild/Key.md`, `dangerous/Key.md` restated it - `safe/` and
+  `wild/` word for word. It's a criterion (what earns a row), so per this library's own
+  restatement rule it belongs here alone; deleted from the three rating files, which kept
+  their own genuinely tier-differentiated material.

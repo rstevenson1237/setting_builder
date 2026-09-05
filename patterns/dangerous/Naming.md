@@ -16,13 +16,14 @@ NAMING
   1     Whose name it is - who calls it this, and are they still alive
   30%   A second name, in another tongue, for the same place
   1     If a name reuses a constructed-language proper noun already coined elsewhere
-        (the builders' own Old Rede name, an occupant's name from setting/Bestiary.md or
-        setting/Factions.md, the region's own name) - gloss it inline: state what it means
-        or who it was, so the referee is never sent to setting/Language.md mid-session
+        (the builders' own name in their dead tongue, an occupant's name from
+        setting/Bestiary.md or setting/Factions.md, the region's own name) - gloss it
+        inline: state what it means or who it was, so the referee is never sent to
+        setting/Language.md mid-session
 ```
 
 **Do not coin here.** A DANGEROUS location's own name is drawn from the common tongue's
-plain vocabulary - Marchspeech, described below - not built fresh from
+plain vocabulary - the border register, described below - not built fresh from
 `setting/Language.md`'s roots. A location may still carry a name in another tongue it did
 not invent here: the builders' own dead-tongue name, or what something living here already
 goes by. When it does, the gloss is mandatory - a name the referee can't translate at the
@@ -34,17 +35,17 @@ table is worse than no name at all.
 its rooms often by people who are no longer anywhere. Three registers, and a region should
 carry more than one:
 
-- **Old Rede, or the region's dead tongue** - what the builders called it, already coined
-  at the setting or region level. Cut into the place itself, so it survives whoever left.
-  Nobody living uses it, and a party that reads it - and a referee who reads the gloss -
-  knows more than the current occupants do.
+- **The builders' own dead tongue** - what the builders called it, already coined at the
+  setting or region level. Cut into the place itself, so it survives whoever left. Nobody
+  living uses it, and a party that reads it - and a referee who reads the gloss - knows more
+  than the current occupants do.
 - **The occupants' tongue** - what the things living here call it now, using a name already
   established for them in `setting/Bestiary.md` or `setting/Factions.md`, which is usually
-  blunt and functional. Ghaunt names describe use, not history: the wet place, the deep
-  den, the cold - glossed the same way.
-- **Marchspeech** - plain common-tongue words for what the living outside call it, which is
-  usually wrong, usually about what happened to somebody, and usually the name the party
-  arrives with. This is the default register for the location's own name.
+  blunt and functional: names that describe use, not history - the wet place, the deep den,
+  the cold - glossed the same way.
+- **The border register** - plain common-tongue words for what the living outside call it,
+  which is usually wrong, usually about what happened to somebody, and usually the name the
+  party arrives with. This is the default register for the location's own name.
 
 The gap between the three registers is free storytelling. A room the builders called
 *the place where light is kept* and the occupants call *the wet* has told its history
@@ -62,4 +63,11 @@ pieces, and anywhere a Quest, Key, or piece of Lore points. Elsewhere a descript
 is better than a name at all.
 
 ## Constraints
-*(Empty. Entries arrive from generation testing, never from anticipation.)*
+
+- **Write-back.** Every coinage used by any of the three registers above - the builders'
+  dead-tongue name, an occupant's established name, the region's own name - must already
+  exist in `setting/Language.md` before it is reused here; this file names the *kind* of
+  register, never a real tongue's name, so the next setting built with this library does
+  not inherit a prior one's proper nouns by accident. If a coinage is needed and doesn't
+  exist yet, coin it at the setting or region level and record it back before using it here.
+</content>

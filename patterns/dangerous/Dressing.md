@@ -125,3 +125,11 @@ named as materials. Where a plainer word would also do, the precise one is the o
   anyone re-tuning these: a class's budget has to be set against what its spec actually
   mandates at an average draw, and HIGH mandates the most, so it needs the most headroom
   rather than a proportional share.
+
+- **A region-wide motif that stops at the Region Overview.** A prior full build had a
+  Region Overview state a recurring architectural or material motif running through a
+  region, and fewer than a third of that region's locations actually carried it - the motif
+  existed at the overview level and nowhere a party could touch it. Per `GENRE.md`, a
+  region-level claim is only real if it's cited by the rooms underneath it; when drafting
+  a location, check whether its Region Overview asserts a running motif and, if so, either
+  carry it into a Feature or the sensory line, or flag it at 4e for the overview to cut.

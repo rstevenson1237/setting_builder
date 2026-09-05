@@ -23,8 +23,6 @@ distance, or it was buried with the person who held it. The distance between key
 is the reason a point crawl is a network - and a key found in open country points a party
 at a dungeon they may not have heard of yet.
 
-A key that opens nothing is treasure. Cite a table and move on.
-
 ## Patterns
 
 **How it got out here** - carried by somebody who died on the way; hidden at a distance on

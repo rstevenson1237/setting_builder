@@ -27,9 +27,6 @@ Every location stub in the setting exists before any location file is written, s
 found here can name its lock by code and name at 4c, in another region, in a location not
 yet drafted.
 
-**A key that opens nothing is treasure.** If no lock exists, cite a table instead and move
-on - the registry is for objects that connect places.
-
 ## Patterns
 
 **Forms** - an actual key, and the lock it fits is nothing like a door; a rod, pin, or bar

@@ -21,7 +21,7 @@ content and belongs in that rating's folder instead.
 The seed is deliberately generic. Tailoring at 2i means adjusting numbers and adding
 setting-specific resolutions - not rewriting the structure.
 
-Sections, in order: Tests and Consequences, Traps, Searching, Time, Scaling.
+Sections, in order: Tests and Consequences, Traps, Searching, Time, Scaling, Region Dice.
 
 ## Template
 ```
@@ -40,5 +40,8 @@ Procedures of [Setting Name]
 [...]
 
 ## Scaling
+[...]
+
+## Region Dice
 [...]
 ```

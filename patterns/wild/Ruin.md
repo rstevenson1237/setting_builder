@@ -51,9 +51,9 @@ ground; a road with its surface still under the turf; a stair cut into rock; a m
 or boundary marker in a tongue nobody reads; an aqueduct's stony legs.
 
 **What holds it now** - nothing, and that is worth noting; an animal; a small band using
-it as shelter; a faction using it as a position, per `wild/Faction` guidance in
-`patterns/dangerous/Faction.md`; the original occupants, in a form that no longer counts
-as living; somebody keeping it up for reasons of their own.
+it as shelter; a faction using it as a position, per `patterns/wild/Faction.md`; the
+original occupants, in a form that no longer counts as living; somebody keeping it up for
+reasons of their own.
 
 ## Constraints
 *(Empty. Entries arrive from generation testing, never from anticipation.)*
