@@ -4,9 +4,9 @@
 Defines the setting's name, thematic tags, and a short referee-facing outline - the foundation every other document builds on.
 
 ## Context
-Consult when drafting:
-- `GENRE.md` - the top-level thematic hints (era, tone, magic level, structure) this setting must fit, and the three tests in **What a line has to earn**.
-- `patterns/setting/Setting.md` - what the tags must do, and the difference between a pressure and a plot.
+Read first:
+- `GENRE.md`
+- `patterns/setting/Setting.md`
 
 ## Instructions
 Give the setting a name and three thematic tags, then a two or three sentence outline for the referee.
