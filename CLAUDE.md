@@ -29,10 +29,10 @@ a fact restated downward from the level where it was already true).
 ## Party altitude vs. the region die
 
 The single most common category error this framework produces: creature AD is pitched
-against **party altitude** (fixed once in `setting/Bestiary.md`), never against a region's
-die. The die is a difficulty die (1 = failure, 2-3 = complication, 4+ = success, so a
-*smaller* die is *harder*); AD is a power count on a completely separate axis. A d8
-DANGEROUS region does not want an 8 AD creature.
+against **party altitude** - what the characters can survive, per `GENRE.md`'s lethality
+framing - never against a region's die. The die is a difficulty die (1 = failure, 2-3 =
+complication, 4+ = success, so a *smaller* die is *harder*); AD is a power count on a
+completely separate axis. A d8 DANGEROUS region does not want an 8 AD creature.
 
 ## Patterns' Constraints sections are earned, not anticipated
 

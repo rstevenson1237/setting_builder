@@ -18,19 +18,24 @@ GENRE
         seed tags - one is picked, or a fourth is requested along a stated axis
   3-5   Axis bullets in the finished GENRE.md, each a named constraint with a one-line
         elaboration, drawn from the chosen Q3 proposal
+  1     A short paragraph stating what player characters are here, stated the way GENRE.md's
+        B/X-Conan default states it - not heroes, not the resolution of anything
+  25    A Tags section in the finished GENRE.md: short thematic tags built from all three
+        Q3 proposals' seed tags plus more in the same vein, giving every later step a wide
+        bank to pull three constraining tags from instead of converging on one example
   1     The fixed "What a line has to earn" three tests, reproduced verbatim from
         `templates/Genre.md` - never reauthored per genre
   1     A naming-convention line, settled by Q2/Q3 rather than assumed
 ```
 
 **This is the one place seeding is intentional.** Every other artifact's worked examples in
-this library are illustrations to be varied from; Q3's seed tags are the opposite - they
-exist specifically to be carried forward into `setting/Setting.md` and beyond, the same way
-a Region Overview's claims are meant to be cashed out by its locations. The difference
-between this and the accidental convergence a prior pass fixed (see
-`patterns/setting/Setting.md`'s Constraints) is that these tags come from *this run's*
-answers to Q1 and Q2, not from a fixed example sitting in a file everyone reads the same way
-every time.
+this library are illustrations to be varied from; Q3's seed tags, and the wider 25-tag bank
+built from them, are the opposite - they exist specifically to be carried forward into
+`setting/Setting.md` and beyond, the same way a Region Overview's claims are meant to be
+cashed out by its locations. Building a wide bank here, from *this run's* actual answers to
+Q1 and Q2, is what keeps every later step's three tags a real pick rather than a reach for
+whatever fixed example a pattern file happened to show - the failure mode a single vivid
+worked example invites, however many times that example gets varied.
 
 ## Q1 - Broad genre, then trope
 
@@ -147,6 +152,20 @@ constraint the way the current Low Magic / Points of Light / Mythic Underworld b
 constrain, never as mood. Its naming-convention answer becomes the naming-convention line.
 **What a line has to earn** is copied from `templates/Genre.md` verbatim, regardless of
 which proposal was chosen.
+
+**The location-name exception is fixed regardless of naming convention.** Whichever of Q2's
+three naming options is chosen - constructed-language-heavy, a disclosed real-world
+inspiration, or sparse/utilitarian - a location's own name is still plain and descriptive,
+drawn from the common tongue, not freshly coined, though it may carry a name coined
+elsewhere and glossed for the referee. State this the same way regardless of genre.
+
+**Building the Tags section.** Pool all nine seed tags from the three Q3 proposals - not
+just the chosen one - and add enough more in the same vein, drawn from the same Q1 trope and
+Q2 axis answers, to reach twenty-five. Every tag must pass the same intentionality test as a
+seed tag (below): traceable to this run's actual answers, not filler that would fit any
+generic instance of Q1's family. This bank is what `setting/Setting.md` and every later
+step's own three tags are drawn from, so it needs real range - a mix of places, objects,
+customs, and pressures, not twenty-five variations on the same image.
 
 ## Patterns
 

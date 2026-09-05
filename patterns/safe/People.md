@@ -47,7 +47,7 @@ than they have.
 
 **When to make them a Named Creature** - they will appear at more than one location, or the
 party will hear of them before meeting them, or they will be a problem later. Stat them per
-`setting/Procedures.md`, most often at 1-2 AD, and give them a motivation they act on
+`patterns/setting/Bestiary.md`, most often at 1-2 AD, and give them a motivation they act on
 whether or not the party ever returns.
 
 ## Constraints

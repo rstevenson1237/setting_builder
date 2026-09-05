@@ -4,7 +4,7 @@
 What lives in or ranges through a WILD location, and how it meets a party.
 
 ## Read at
-Step 4c, when a spec line draws a creature. Scaling is in `setting/Procedures.md`.
+Step 4c, when a spec line draws a creature. Scaling is in `patterns/setting/Bestiary.md`.
 
 ## Spec
 

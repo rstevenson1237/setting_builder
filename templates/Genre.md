@@ -7,10 +7,8 @@ artifact at every level must pass. Read before every other file, and re-read at 
 generation step - not skimmed once and relied on from memory.
 
 ## Context
-Consult when drafting:
-- `patterns/setting/Genre.md` - the three-question flow (broad genre + trope, binary/dial
-  axes, three seed-tagged trope proposals) that produces everything below the fixed
-  section, and what each axis must constrain rather than decorate.
+Read first:
+- `patterns/setting/Genre.md`
 - Nothing else - GENRE.md is the first artifact, alongside the generic seeds
   `setting/Procedures.md` and `setting/Language.md`.
 
@@ -21,10 +19,6 @@ questions; Q3 produces three trope proposals (each carrying three seed tags) con
 with Q1 and Q2, one of which is chosen. Build the genre-identity paragraph and the 3-5 axis
 bullets from the chosen proposal.
 
-**The "What a line has to earn" section is fixed.** It does not vary by genre and is
-reproduced verbatim from the Template below, never reauthored - it is framework contract,
-not genre content.
-
 ## Template
 ```
 # Genre
@@ -33,14 +27,15 @@ Top level thematic hints to be included in all content generation.
 
 [1-2 sentences: the genre identity - Q1's broad family plus its narrowed trope]
 
-- **[Axis name]** - [one-line elaboration, drawn from the chosen Q3 proposal's seed tags
-  and the Q2 axes that actually distinguished this genre]
+- **[Axis name]** - [one-line elaboration]
 - **[Axis name]** - [one-line elaboration]
 - **[Axis name]** - [one-line elaboration]
 
-[1 short paragraph: what player characters are here, stated the way GENRE.md's B/X-Conan
-default states it - not heroes, not the resolution of anything - and an explicit
-instruction to give situations to interact with rather than authored plots to follow]
+[1 short paragraph: what player characters are here]
+
+## Tags
+
+[25 short thematic tags, comma-separated]
 
 ## What a line has to earn
 
@@ -73,10 +68,26 @@ at once: the restatement is not actionable, it did not survive translation, and 
 arrives with the conclusion the reader was supposed to draw for themselves. When a region
 overview and a location say the same thing, the region overview is the one that is wrong.
 
-[Naming-convention line, settled by Q2/Q3 rather than assumed: favor constructed language
-for names at the setting and region level, or the chosen alternative - a named, disclosed
-real-world inspiration, or sparse/utilitarian naming. Whichever is chosen, state the
-location-name exception the same way: a location's own name is plain and descriptive, not
-freshly coined, though it may carry a name coined elsewhere and glossed for the referee.]
+**Give situations, not stories.** Every generation step produces something to react to, not
+a scene someone has already decided how to play: a pressure, a danger, a want, a rule -
+never a plot with a beginning the party is expected to find and an end the referee has
+already written. This is the same failure as writing the party's conclusion for them, one
+level up - a story is a decision about how events resolve, made in advance, on the party's
+behalf.
+
+**Be specific, not generic.** A tag, a name, a threat, or a rule earns its place by ruling
+things out - by making some later choices easy and others wrong. *Dark, mysterious,
+dangerous* could describe half the settings in the genre and directs nothing; anything this
+generic, at any level, was not worth writing. Specificity isn't flavor layered on top of the
+tests above - it's what makes "translated," "actionable," and "situation, not story"
+checkable at all, since a generic line can't be tested against anything.
+
+**In short: situations, not stories; specific, not generic; actionable, not ideas; the
+solution is never written into the problem.** These four aren't a fourth test - they're the
+three tests above, restated as one memorable line any pattern file can point back to
+instead of re-deriving them.
+
+[Naming-convention line, settled by Q2/Q3, plus the fixed location-name exception, per
+`patterns/setting/Genre.md`]
 ```
 </content>

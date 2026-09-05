@@ -1,21 +1,14 @@
 # Setting - Bestiary
 
 ## Decides
-Party altitude, and what creatures the setting holds - how they are distributed across type
-and power, and what each entry must state so the location patterns can use it without
-reinventing it.
+What creatures the setting holds - how they are distributed across type and power, and
+what each entry must state so the location patterns can use it without reinventing it.
 
 ## Read at
-Step 2e, right after `setting/Setting.md`. Party altitude is fixed here, first, since
-nothing before this step needed it. The Bestiary is written in one pass rather than grown,
-so it has to anticipate demands made several steps later.
+Step 2e, right after `setting/Setting.md`. The Bestiary is written in one pass rather than
+grown, so it has to anticipate demands made several steps later.
 
 ## Spec
-
-```
-PARTY ALTITUDE
-  1     What the characters are, and what they can expect to survive, stated in dice
-```
 
 ```
 TYPE MIX - about 20 entries
@@ -28,7 +21,8 @@ TYPE MIX - about 20 entries
 ```
 
 ```
-AD SPREAD - anchored to party altitude, fixed above, NOT to the region dice
+AD SPREAD - anchored to what GENRE.md's lethality establishes the party can survive, NOT
+to the region dice
   1     At least six entries at 1-2 AD      - people, common animals, numbers
   1     At least six entries at 3-4 AD      - the working middle of the setting
   1     At least four entries at 5-8 AD     - fought carefully, or not at all
@@ -37,21 +31,13 @@ AD SPREAD - anchored to party altitude, fixed above, NOT to the region dice
   1     No more than a third of entries sharing a single AD value
 ```
 
-**Creature AD is pitched against the party, never against the region die.** A d8 DANGEROUS
-region does not want an 8 AD creature - the die is a difficulty die and the AD is a power
-count, and they are separate axes. See `setting/Procedures.md`.
-
-**The last line is the important one.** OSR play rewards recognising that three orcs are
-worth fighting and the spectre is not, and that judgement is only available if the setting
-actually contains a spectre. A Bestiary where everything is beatable has removed the
-decision. Write at least one entry that will kill the party if they engage it, and give it
-the clearest **Sign** and **Disposition** in the file - those two fields are how a party
-learns what it is facing before committing, and they are what turn an unwinnable fight
-into a judgement rather than an ambush.
-
-**Numbers are part of the pitch.** State in Range how many the country supports. Six at
-2 AD and one at 6 AD are different problems, and the dice alone do not say which one a
-location is offering.
+**AD, bonus, and MA.** A creature's Action Dice are d6 only, counted 1 to 18 - the count
+reads roughly like classic Hit Dice, and it is never sized up or down the way a player's
+dice are: a tougher creature gets more d6s or a bigger bonus, never a d8. The bonus runs
+-2 to +6 and is written after the dice count (`4d6+2`); most entries carry none at all. MA
+(Movement Allowance) is optional and stated only when a creature's speed materially
+matters - something that outpaces the party, or can't be outrun - as a single number, 1-6,
+read against a person's own walking pace of 3; most entries omit it.
 
 ## Patterns
 
@@ -61,10 +47,11 @@ location is offering.
 - **Range** - where it lives, how many the country supports, and what it eats.
   Demanded by `wild/Creature.md` (populations, not individuals), `wild/Lair.md` (what it
   eats and where that comes from), and `dangerous/Creature.md` (household logistics).
-- **Sign** - what a party finds before they find the creature. Demanded by both Creature
-  files: a creature's signs should reach the party before the creature does, at least once
-  per region, and that only works if the signs are decided once here rather than
-  improvised per location.
+- **Sign** - what a party finds before they find the creature: marks or tracks left, a
+  sound, or a smell that can be detected before the creature itself is seen. Demanded by
+  both Creature files: a creature's signs should reach the party before the creature does,
+  at least once per region, and that only works if the signs are decided once here rather
+  than improvised per location.
 - **Disposition** - what it does on being met, before anyone decides to fight. Demanded by
   `wild/Creature.md`: most things met in open country would rather not fight, and a party
   should be able to be wrong about that.
@@ -80,10 +67,9 @@ location is offering.
 - Something death-tainted that is a fact of the underworld rather than a villain.
 - Something that was made rather than born.
 
+## Constraints
+
 **What does not go here.** Unique individuals belong in `setting/NamedCreatures.md`; a
 creature that is also a power in the world carries a `setting/Factions.md` entry as well.
 A one-off variant is described inline at its location. The Bestiary holds only what
 recurs - if an entry will be used once, it is not a template.
-
-## Constraints
-*(Empty. Entries arrive from generation testing, never from anticipation.)*
