@@ -1,0 +1,49 @@
+```mermaid
+graph LR
+    C10["C.10 The Outer Mound Path"] --- C17["C.17 The Empty Antechamber"]
+    C17 --- C18["C.18 The Rubble Choke"]
+    C17 --- C2["C.2 The Warded Gatehouse"]
+    C2 -.- C1["C.1 The Sealed Chamber"]
+    C2 --- C8["C.8 The Barrow-Kin Threshold"]
+    C8 --- C14["C.14 The Barrow-Kin Grave-Row"]
+    C14 --- C7["C.7 The Wrong-Facing Grave"]
+    C7 --- C1
+    C11["C.11 The Second Mound Mouth"] --- C15["C.15 The Root-Broken Gallery"]
+    C15 --- C3["C.3 The Digger's Cut"]
+    C15 --- C4["C.4 The Grave-Robbers' Shoring"]
+    C3 --- C13["C.13 The Old Foundation Course"]
+    C13 --- C5["C.5 The Bear's Den Mound"]
+    C5 --- C6["C.6 The Drowned Cistern"]
+    C6 --- C9["C.9 The Collapsed Vault"]
+    C9 --> C16["C.16 The Cold Draft Passage"]
+    C16 --- C12["C.12 The Silent Passage"]
+    C12 --- C1
+```
+
+Two entrances, C.10 and C.11, reach every location between them - C.10's side cannot climb
+back up through C.9's collapse, so the two wings are only both reachable in full once a
+party has found both mouths. The loop runs C.2 - C.1 - C.7 - C.14 - C.8 - C.2, closed by
+the sealed (hidden) approach between the Gatehouse and the Chamber. C.15's divide sends a
+party to the Diggers' active cut or the Grave-Robbers' isolated one, and neither route
+leads back to the other. C.17 forks the same way toward the Rubble Choke's dead end.
+
+| Code | Node Role |
+|------|-----------|
+| C.1  | branch |
+| C.2  | branch |
+| C.3  | empty |
+| C.4  | dead end |
+| C.5  | empty |
+| C.6  | empty |
+| C.7  | loop leg |
+| C.8  | loop leg |
+| C.9  | empty |
+| C.10 | empty |
+| C.11 | empty |
+| C.12 | empty |
+| C.13 | empty |
+| C.14 | loop leg |
+| C.15 | divide |
+| C.16 | empty |
+| C.17 | divide |
+| C.18 | dead end |
