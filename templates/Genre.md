@@ -37,8 +37,16 @@ Top level thematic hints to be included in all content generation.
 - **[Axis name]** - [one-line elaboration]
 
 [1 short paragraph: what player characters are here, stated the way GENRE.md's B/X-Conan
-default states it - not heroes, not the resolution of anything - and an explicit
-instruction to give situations to interact with rather than authored plots to follow]
+default states it - not heroes, not the resolution of anything]
+
+## Tags
+
+[25 short thematic tags, comma-separated - not sentences, not single generic adjectives -
+built from all three Q3 proposals' seed tags plus more in the same vein. This is the wide
+bank `setting/Setting.md` and every later step's own three tags are drawn from, so it needs
+real range: places, objects, customs, obligations, and pressures, not twenty-five
+variations on the same image. Every tag must trace back to this run's actual Q1/Q2/Q3
+answers - a tag that would fit any generic instance of Q1's family is filler, not seed.]
 
 ## What a line has to earn
 
@@ -70,6 +78,25 @@ level where it is touched.** Restating a fact downward — or upward — fails a
 at once: the restatement is not actionable, it did not survive translation, and it usually
 arrives with the conclusion the reader was supposed to draw for themselves. When a region
 overview and a location say the same thing, the region overview is the one that is wrong.
+
+**Give situations, not stories.** Every generation step produces something to react to, not
+a scene someone has already decided how to play: a pressure, a danger, a want, a rule -
+never a plot with a beginning the party is expected to find and an end the referee has
+already written. This is the same failure as writing the party's conclusion for them, one
+level up - a story is a decision about how events resolve, made in advance, on the party's
+behalf.
+
+**Be specific, not generic.** A tag, a name, a threat, or a rule earns its place by ruling
+things out - by making some later choices easy and others wrong. *Dark, mysterious,
+dangerous* could describe half the settings in the genre and directs nothing; anything this
+generic, at any level, was not worth writing. Specificity isn't flavor layered on top of the
+tests above - it's what makes "translated," "actionable," and "situation, not story"
+checkable at all, since a generic line can't be tested against anything.
+
+**In short: situations, not stories; specific, not generic; actionable, not ideas; the
+solution is never written into the problem.** These four aren't a fourth test - they're the
+three tests above, restated as one memorable line any pattern file can point back to
+instead of re-deriving them.
 
 [Naming-convention line, settled by Q2/Q3 rather than assumed: favor constructed language
 for names at the setting and region level, or the chosen alternative - a named, disclosed

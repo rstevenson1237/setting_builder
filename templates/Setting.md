@@ -24,8 +24,8 @@ it. Where a sentence is doing atmosphere rather than telling a referee something
 act on, cut it - the tags carry the atmosphere, which is what the tags are for.
 
 *(This example is illustrative only - don't reuse its imagery, domain, or vocabulary as
-your own setting's hook. See `patterns/setting/Setting.md`'s Constraints for why that
-warning is here.)*
+your own setting's hook. Draw tags from `GENRE.md`'s Tags section instead - see **Be
+specific, not generic** under its **What a line has to earn**.)*
 
 ## Template
 ```
