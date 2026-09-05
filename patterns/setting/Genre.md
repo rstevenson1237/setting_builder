@@ -57,6 +57,14 @@ fine when the user wants it:
 A user's own family, named freehand, is always valid - the list is a starting menu, not a
 constraint on Q1 itself.
 
+**Present Part A in two stages, not one crowded list.** Split the eight families across two
+short rounds of four rather than forcing all eight into a single prompt - a shorter list is
+easier to weigh honestly, and the two-stage shape (a strong first four, then "or one of
+these instead") reads better than a single wall of options. **The two rounds are
+alternatives, not a compound question** - if a response somehow answers both at once, that
+is ambiguous by construction; confirm which one was actually meant before moving to Part B
+rather than guessing, or treating it as a blend unless the user says so themselves.
+
 **Part B - narrow to a trope.** Within the chosen family, name a specific, well-known trope
 - specific enough that two different answers would produce visibly different settings.
 Illustrative, not exhaustive: *Classic Fantasy* → a border keep on the marches, a lost
@@ -91,9 +99,26 @@ calls for one not listed here:
 - **Economy** - subsistence/barter vs a real coin economy.
 - **Naming convention** - constructed-language-heavy vs a named, disclosed real-world
   inspiration vs sparse/utilitarian.
+- **Player origin** - locals defending home turf vs outsiders/arrivals with no prior stake.
+- **Death's permanence** - final and irreversible vs resurrection or undeath is a known, if
+  costly, option.
+- **Religion/cosmology** - gods are active, provable forces vs distant, unprovable, a
+  matter of faith.
+- **Non-human relations** - humans effectively alone/dominant vs coexisting uneasily with
+  rival non-human peoples as equals.
+- **Historical legibility** - history is well-documented and known vs mostly lost,
+  mythologized, contested.
+- **Law and justice** - formal law and appeal exist somewhere reachable vs pure
+  might-makes-right, no appeal.
+- **Climate/season stability** - stable, predictable seasons vs an ongoing crisis (endless
+  winter, drought, an encroaching ice or sea).
+- **Scale of civilization** - one known civilization vs multiple rival civilizations or
+  empires in living contact.
 
 Answer the axes that actually distinguish this genre from a generic instance of Q1's
-family - an axis that doesn't change anything downstream was a wasted question.
+family - an axis that doesn't change anything downstream was a wasted question. This list
+keeps growing rather than being exhaustive; a genre that needs an axis not named here
+should get one invented for it on the spot.
 
 ## Q3 - Three trope proposals
 
