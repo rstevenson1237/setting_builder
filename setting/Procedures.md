@@ -1,4 +1,4 @@
-Procedures of [Setting Name]
+Procedures of Duen
 
 ## Tests and Consequences
 Call for a test only when the outcome is uncertain and both success and failure would be
@@ -19,6 +19,15 @@ printed on the die means something different each time.
 Never test the same attempt twice. A failed test changes the situation before a retry is
 possible - the second attempt is a different test, against a different situation, or it
 doesn't happen.
+
+**Setting resolutions.** Swearing falsely, or breaking a kept oath, with a hand on quarried
+Dutor stone never needs a test - it happens, and the stone marks the breaker on the spot.
+Carrying something taken without consent across one of the old boundary markers *does* call
+for a test: on a 1 the theft costs the carrier something physical immediately; on a 2-3 it
+costs them once they're clear of the line; on a 4+ they're through before it catches up with
+them. A standard silver coin (cn) is this setting's currency, minted originally by the
+throne that chartered Duen; a laborer's ordinary week runs to roughly 15-20 cn (see
+`setting/Treasure1.md`), and every value in the Treasure tables is priced against that.
 
 ## Traps
 A trap is defined by its impact tier, not its mechanism - a swindle, a snare, and a

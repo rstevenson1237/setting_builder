@@ -1,4 +1,4 @@
-Tongues of [Setting Name]
+Tongues of Duen
 
 ## Isvren
 Spoken by: the keep's garrison and the hangers-on camped against its walls, and by every
@@ -43,10 +43,15 @@ Roots:
 - `sen` - north, toward the cold *(closed)*
 - `dol` - a holding, a garrison seat - distinct from `-en`, used where the settlement
   itself is the subject rather than just marked as a place *(closed)*
+- `sal` - rope, cordage
 
 Coined here:
-- None yet. `Isvren` supplies most place- and person-names from `setting/Setting.md`
-  onward; every coinage is recorded here as it happens.
+- `Duen` = `du` + `-en` - "the seat of stone." The keep and the setting itself; every
+  document in this framework uses it as the setting's name.
+- `Dutor` = `du` + `tor` - "stonebreak." The quarry workings beneath Duen, opened at the
+  keep's founding and still being worked.
+- `Salir` = `sal` + `-ir` - "the corded ones." The rope-crossing band operating downriver
+  of the fallen ford; see `setting/Factions.md`.
 
 ## Accalur
 Spoken by: the throne that issued the charter this keep still holds by - dead now, or
@@ -95,9 +100,9 @@ Roots:
 - `dum` - below, underground - the root the setting's ruins and dungeons are named from
 
 Coined here:
-- None yet. `Accalur` supplies names for anything inherited from the vanished throne - ruin
-  names, boundary-stone inscriptions, anything the charter itself might quote - recorded
-  here as each is coined.
+- `Durad` = `dur` + `-ad` - "the seat of the river." The gorge and the river running
+  through it, named before Duen existed; glossed wherever it appears since nobody living
+  speaks Accalur to translate it unprompted.
 
 ## Kreth
 Spoken by: nothing that answers to being asked - the things that come up through the old
@@ -135,6 +140,7 @@ Roots:
 - `ask` - many, specifically a swarm-many rather than a counted-many
 
 Coined here:
-- None yet. `Kreth` is reserved for names tied to whatever the setting's Bestiary and deep
-  ruins turn out to need - recorded here the first time one is coined.
+- `Xarask` = `xar` + `-ask` - "elder-eye." The faction of things holding the flooded lower
+  workings below the Old Cut; see `setting/Factions.md` and the Xarask Broodling entry in
+  `setting/Bestiary.md`.
 </content>
