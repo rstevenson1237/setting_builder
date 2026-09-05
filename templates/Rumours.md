@@ -6,6 +6,7 @@ A referee-facing table of 20 rumours of varying truth that serve as adventure ho
 ## Context
 Consult when drafting:
 - `GENRE.md` - each rumour is a lead the party can choose to chase, not a chapter in a story already written.
+- `patterns/setting/Rumours.md` - the T/P/F proportions, and what makes the partially-true band the productive one.
 - `setting/Setting.md`, `setting/History.md`, `setting/Truths.md` - the material a rumour may point toward, exaggerate, or misreport.
 
 ## Instructions

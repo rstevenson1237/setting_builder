@@ -7,7 +7,7 @@ Reusable, system-neutral creature templates for the setting.
 Consult when drafting:
 - `GENRE.md` - low magic means most threats should be mundane, natural, or death-tainted rather than arcane.
 - `patterns/setting/Bestiary.md` - the type mix, the AD spread, and the coverage the location patterns will ask for.
-- `setting/Outline.md` - the region dice. The AD spread is anchored to them, and a Bestiary written without them will not cover its own regions.
+- `setting/Outline.md` - **party altitude**. The AD spread is anchored to it and never to the region dice: a die is a difficulty die and AD is a power count, and they are separate axes. A d8 region does not want an 8 AD creature.
 - `setting/Setting.md`, `setting/History.md`, `setting/Truths.md` - the material creatures should be drawn from or tied to.
 
 ## Instructions

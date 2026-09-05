@@ -24,6 +24,22 @@ them is filler - a region holds only about as many as its die, and a landmark wr
 has wasted one of ten slots. Depth comes from attaching children, not from writing some
 parents lighter than others.
 
+```
+WORD BUDGET - the whole entry, excluding the header line and the Exits line
+  every WILD location    ~260 words, flat - there are no classes here to vary it by
+```
+
+Carried across from the DANGEROUS calibration by analogy rather than measured here. Treat it
+as provisional until a WILD region has been written against it.
+
+**No detail budget is not the same as no word budget**, and WILD is the rating most likely to
+confuse them. Every location getting the full treatment means every location gets its
+position, its weather, its sensory fact and its full complement of Features - it does not
+mean any of those may be explained at length. The budget is diagnostic: per
+`templates/Location.md`, an over-budget WILD entry is usually one where the connective
+texture that belongs in the Region Overview's Terrain field has been written out again here,
+or where a detail has been given its causal history instead of just being present.
+
 Hidden and Secret locations skip the position line: their position is defined by the
 parent they hang off.
 

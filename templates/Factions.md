@@ -6,6 +6,7 @@ The 3 factions present in the setting - the powers a party may treat with, oppos
 ## Context
 Consult when drafting:
 - `GENRE.md` - a Goal should be a standing condition the faction acts on turn to turn, not a countdown toward a scripted climax; points of light means no faction defaults to overarching authority.
+- `patterns/setting/Factions.md` - the relative-only dice, the ignorance requirement, and the visual identity every faction must carry.
 - `setting/Setting.md`, `setting/History.md`, `setting/Truths.md` - the material a faction's Resources, Knowledge, and Goals should be drawn from.
 - `setting/Rumours.md`, `setting/Bestiary.md` - rumours a faction's Tactics might explain, and creatures a faction might command or be stated as (see below).
 
@@ -24,6 +25,7 @@ Factions of [Setting Name]
 - Resources: [material assets, territory, coin, or manpower they can spend or leverage]
 - Knowledge: [what they know that others don't - secrets, locations, or rivals' intentions]
 - Tactics: [their characteristic move when contested - how they typically act on a Faction Turn]
-- Reactions: [how they respond when players or rival factions interfere with them]
+- Reactions: [how they respond when players or rival factions interfere with them, at three intensities - noticed, crossed, injured]
+- Identity: [what a party sees before anyone names the faction - a colour worn, a device on seals and crates, a way of tying a knot or marking a door, a phrase. Repeated identically everywhere this faction appears, so it can be recognised two regions apart]
 - Goals: [one or more concrete objectives currently driving their turns]
 ```

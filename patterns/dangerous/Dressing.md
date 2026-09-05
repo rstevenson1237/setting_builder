@@ -32,6 +32,24 @@ DETAIL BUDGET
                  Feature line
 ```
 
+```
+WORD BUDGET - the whole entry, excluding the header line and the Exits line
+  low weight     ~140 words
+  medium weight  ~220 words
+  high weight    ~320 words
+```
+
+**The budget is diagnostic, not a target.** The detail budget above governs how many things a
+room holds; nothing governed how many words each thing got, and that is the gap this closes.
+A room over budget is almost never a room holding too much - it is a room whose contents have
+been explained. Per `templates/Location.md`, find the sentence that says why a detail is
+there, what it means, or what the party will conclude from it, and delete that before
+touching a fact.
+
+The ratio is the point as much as the numbers: a low-weight room should read as a fraction of
+a high-weight one, and if low and high are within a third of each other on the page then the
+weight classes are not doing any work no matter what the spec says they contain.
+
 ## Patterns
 
 **Purpose.** Every room was for something, even if it has stopped being for it. A former
@@ -87,4 +105,23 @@ corbel, lintel, revetment, spandrel, newel. Real trades and their leavings. Real
 named as materials. Where a plainer word would also do, the precise one is the one to use.
 
 ## Constraints
-*(Empty. Entries arrive from generation testing, never from anticipation.)*
+
+- **Brackvaen, C.15 Peluath.** First full build ran low-weight rooms at 341 words, medium at
+  422 and high at 609 - a spread of under 2x across classes whose whole distinction is how
+  much they present. C.15's five Features held roughly 130 words of fact and 320 of
+  explanation, and the room stated the answer to its own problem (stand off the groove)
+  three separate times, twice in the entry and once in the Region Overview. The detail
+  budget above was being honoured and the entry was still four times too long, because
+  nothing budgeted the words each detail got. Hence the word budget, and hence
+  `templates/Location.md`'s rule that every sentence be a thing, an action, or an effect.
+
+- **Budget calibration, clean-room test.** The first figures set were 120/180/260 and all
+  three were about 20% too tight. Writing one room per class from scratch against `GENRE.md`
+  and this folder alone - drawing the spec rates honestly, and at or just under each class's
+  *expected* number of content items - landed at 132/212/311 after a full pass cutting
+  commentary. Further cuts would have removed facts, which rule 3 forbids. Raised to
+  140/220/320, which holds the ~2.3x low-to-high ratio that is the point of the budget and
+  is still roughly a 55% cut from the first build's measured 341/422/609. The lesson for
+  anyone re-tuning these: a class's budget has to be set against what its spec actually
+  mandates at an average draw, and HIGH mandates the most, so it needs the most headroom
+  rather than a proportional share.

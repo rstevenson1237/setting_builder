@@ -25,7 +25,11 @@ treasure is the tell, and a party that does not suspect a chest has made a choic
 
 Write every trap in one format:
 
-`**Name**: tell; tell → effect; effect`
+`**Name:** tell; tell → effect; effect`
+
+The colon goes **inside** the bold, per `templates/Location.md`'s Feature label format - a trap
+is a Feature line like any other, and `tools/validate_setting.py` will not recognise one
+written `**Name**:`.
 
 The arrow makes it visible at a glance when a trap has been written with no way to detect
 it. Two tells is better than one - one that anyone entering would notice, one available

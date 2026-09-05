@@ -15,7 +15,8 @@ HISTORY
   1     At least one event outside living memory, whose evidence is physical only
   1     At least one within living memory, with people who disagree about it
   1     At least one that is still resolving
-  1     Each event leaves something findable - a ruin, a boundary, a name, a grievance
+  1     Each stated in one or two sentences - state the event, do not narrate it
+  1     Each carries a Left line: the mark findable now, and the Location Code(s)
 ```
 
 **An event is a fact of the past, not a ticking clock aimed at the party.** History
@@ -26,6 +27,17 @@ should read as act one of something the party is expected to finish.
 is unusable: a party never reads it. State what each event left behind - the wall that was
 built, the family that ended, the name that stuck, the ground that will not grow anything -
 because that mark is what a location can actually contain.
+
+That is what the Left line is for, and it is not decoration on the entry - it is the only
+part of an event that survives translation to the table. Per `GENRE.md`, the players never
+meet the event; they meet the wall. Left lines are completed at 4d and **every event is
+re-tested then**: an event no location cashed out is given a mark at a real location or
+removed from the file.
+
+**Length is the failure mode here.** History swells because narrating an event is more
+enjoyable than stating one, and every extra sentence is context the referee spends and the
+players never see. Two sentences and a Left line. If the event needs more, what it actually
+needs is a location.
 
 ## Patterns
 
