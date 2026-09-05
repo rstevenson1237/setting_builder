@@ -28,12 +28,21 @@ REGISTRY_FILE_NAMES = {
     "keys": "keys.html",
     "named_creatures": "named-creatures.html",
     "unique_treasures": "unique-treasures.html",
+    "quests": "quests.html",
 }
 REGISTRY_PAGE_TITLES = {
     "lore": "Lore",
     "keys": "Keys",
     "named_creatures": "Named Creatures",
     "unique_treasures": "Unique Treasures",
+    "quests": "Quests",
+}
+REGISTRY_MARKER_LABELS = {
+    "lore": "Found at",
+    "keys": "Found at",
+    "named_creatures": "Appears at",
+    "unique_treasures": "Found at",
+    "quests": "Given at",
 }
 
 NAV_LINKS = [
@@ -48,6 +57,7 @@ NAV_LINKS = [
     ("keys.html", "Keys"),
     ("named-creatures.html", "Named Creatures"),
     ("unique-treasures.html", "Unique Treasures"),
+    ("quests.html", "Quests"),
     ("checklists.html", "Review Checklists"),
 ]
 
@@ -199,8 +209,12 @@ def section(title: str, body: str, anchor: str | None = None) -> str:
     return f'<section class="doc-section"{id_attr}><h2>{html.escape(title)}</h2>{body}</section>'
 
 
+MERMAID_FENCE_RE = re.compile(r"```mermaid\s*\n(.*?)```", re.DOTALL)
+
+
 def mermaid_block(mmd_text: str, extra_lines: list[str] | None = None) -> str:
-    text = mmd_text
+    m = MERMAID_FENCE_RE.search(mmd_text)
+    text = m.group(1) if m else mmd_text
     if extra_lines:
         text = text.rstrip() + "\n" + "\n".join(extra_lines) + "\n"
     return f'<div class="diagram"><pre class="mermaid">{html.escape(text)}</pre></div>'
@@ -370,14 +384,22 @@ def build_registry(setting: sc.Setting, out: Path, kind: str) -> None:
             f'{c} {html.escape(setting.all_locations[c].name)}</a>'
             for c in e.locations if c in setting.all_locations
         )
-        marker = "Appears at" if kind == "named_creatures" else "Found at"
+        marker = REGISTRY_MARKER_LABELS[kind]
         typetag = render_inline(e.typetag, setting, page) if e.typetag else ""
         typetag_html = f'<span class="typetag">({typetag})</span>' if typetag else ""
+        if kind == "quests":
+            rows = "".join(
+                f'<tr><th>{html.escape(label)}</th><td>{render_inline(text, setting, page)}</td></tr>'
+                for label, text in sc.parse_field_lines(e.body)
+            )
+            body_html = f'<table class="kv-table">{rows}</table>'
+        else:
+            body_html = f'<div class="registry-body">{render_inline(e.body, setting, page)}</div>'
         cards.append(
             f'<article class="registry-card" id="{anchor}">'
             f'<h3>{html.escape(e.title)} {typetag_html}</h3>'
             f'<p class="registry-location">{marker} {loc_links}</p>'
-            f'<div class="registry-body">{render_inline(e.body, setting, page)}</div>'
+            f'{body_html}'
             f'</article>'
         )
     title = REGISTRY_PAGE_TITLES[kind]
@@ -549,7 +571,7 @@ def build_search_index(setting: sc.Setting, out: Path) -> None:
         for num, loc in sorted(region.locations.items()):
             entries.append({"title": f"{loc.code} {loc.name}", "url": RESOLVER.href("location", code, num, "index.html"),
                              "type": "Location"})
-    for kind in ("lore", "keys", "named_creatures", "unique_treasures"):
+    for kind in ("lore", "keys", "named_creatures", "unique_treasures", "quests"):
         label = REGISTRY_PAGE_TITLES[kind]
         for e in getattr(setting, kind):
             entries.append({"title": e.title, "url": RESOLVER.href(kind, e.title, "index.html"), "type": label})
@@ -585,7 +607,7 @@ def build(out_dir: Path) -> sc.Setting:
     build_bestiary(setting, out_dir)
     build_factions(setting, out_dir)
     build_treasure(setting, out_dir)
-    for kind in ("lore", "keys", "named_creatures", "unique_treasures"):
+    for kind in ("lore", "keys", "named_creatures", "unique_treasures", "quests"):
         build_registry(setting, out_dir, kind)
     build_checklists(setting, out_dir)
     for code in setting.region_order:

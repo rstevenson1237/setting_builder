@@ -97,6 +97,7 @@ class Setting:
     keys: list[RegistryEntry] = field(default_factory=list)
     named_creatures: list[RegistryEntry] = field(default_factory=list)
     unique_treasures: list[RegistryEntry] = field(default_factory=list)
+    quests: list[RegistryEntry] = field(default_factory=list)
     regions: dict[str, Region] = field(default_factory=dict)
     region_order: list[str] = field(default_factory=list)
     top_connections: str = ""
@@ -131,23 +132,38 @@ def parse_setting() -> tuple[str, str, str]:
 
 
 def parse_history() -> list[tuple[str, str]]:
+    """Each entry is a blank-line-separated block: a wrapped "[when] - [event]"
+    paragraph, then a wrapped "Left: ..." line. Join each block's wrapped
+    lines before splitting when/event, and keep the Left line in the block's
+    text rather than dropping it as its own fake entry."""
     text = (SETTING / "History.md").read_text()
+    blocks = re.split(r"\n\s*\n", text.strip())
     entries = []
-    for line in text.splitlines()[1:]:
-        line = line.strip()
-        if not line:
+    for block in blocks[1:]:
+        lines = [l.strip() for l in block.splitlines() if l.strip()]
+        if not lines:
             continue
-        m = re.match(r"^(.+? ago)\s*[-–]\s*(.+)$", line)
-        if m:
-            entries.append((m.group(1).strip(), m.group(2).strip()))
-        else:
-            entries.append(("", line))
+        left_idx = next((i for i, l in enumerate(lines) if l.startswith("Left:")), len(lines))
+        header = " ".join(lines[:left_idx])
+        left = " ".join(lines[left_idx:])
+        m = re.match(r"^(.+?)\s*-\s*(.+)$", header)
+        when, event = (m.group(1).strip(), m.group(2).strip()) if m else ("", header)
+        entries.append((when, f"{event} {left}".strip() if left else event))
     return entries
 
 
 def parse_truths() -> list[str]:
+    """Each entry is a blank-line-separated block: a wrapped, bolded truth
+    statement, then a wrapped "Handle: ..." line - join the wrapped lines
+    before returning, rather than only the statement's first physical line."""
     text = (SETTING / "Truths.md").read_text()
-    return [l.strip()[2:].strip() for l in text.splitlines() if l.strip().startswith("- ")]
+    blocks = re.split(r"\n\s*\n", text.strip())
+    out = []
+    for block in blocks[1:]:
+        joined = " ".join(l.strip() for l in block.splitlines() if l.strip())
+        if joined:
+            out.append(joined.lstrip("- ").strip())
+    return out
 
 
 def parse_table_rows(path: Path) -> list[list[str]]:
@@ -240,13 +256,27 @@ REGISTRY_MARKERS = {
     "keys": "found at",
     "named_creatures": "appears at",
     "unique_treasures": "found at",
+    "quests": "given at",
 }
 REGISTRY_FILES = {
     "lore": "Lore.md",
     "keys": "Keys.md",
     "named_creatures": "NamedCreatures.md",
     "unique_treasures": "UniqueTreasures.md",
+    "quests": "Quests.md",
 }
+
+
+def parse_field_lines(text: str) -> list[tuple[str, str]]:
+    """Parse "- Label: value" lines - a Quest's Wants/Object/Obstacle/Terms,
+    same shape as a Bestiary or Faction entry's own fields - into ordered
+    (label, value) pairs."""
+    fields = []
+    for l in text.splitlines():
+        m = re.match(r"^-\s*([^:]+):\s*(.+)$", l.strip())
+        if m:
+            fields.append((m.group(1).strip(), m.group(2).strip()))
+    return fields
 
 
 def parse_registry(kind: str) -> list[RegistryEntry]:
@@ -455,7 +485,7 @@ def anchor_id(kind: str, *args) -> str:
     if kind == "region":
         (code,) = args
         return f"region-{code}"
-    if kind in ("lore", "keys", "named_creatures", "unique_treasures"):
+    if kind in ("lore", "keys", "named_creatures", "unique_treasures", "quests"):
         (title,) = args
         return f"{kind}-{slugify(title)}"
     if kind == "treasure":
@@ -524,7 +554,8 @@ def load_setting() -> Setting:
     s.keys = parse_registry("keys")
     s.named_creatures = parse_registry("named_creatures")
     s.unique_treasures = parse_registry("unique_treasures")
-    s.top_connections = load_mmd(SETTING / "Connections.mmd")
+    s.quests = parse_registry("quests")
+    s.top_connections = load_mmd(SETTING / "region" / "Connections.mmd")
 
     gaz = parse_regions_gazetteer()
     s.region_order = list(gaz.keys())
@@ -550,6 +581,7 @@ CITE_PATTERNS = [
     ("keys", re.compile(r'\(Keys:\s*([^)]+)\)')),
     ("named_creatures", re.compile(r'\(Named Creature:\s*([^)]+)\)')),
     ("unique_treasures", re.compile(r'\(Unique Treasure:\s*([^)]+)\)')),
+    ("quests", re.compile(r'\(Quest:\s*([^)]+)\)')),
 ]
 TREASURE_CITE_RE = re.compile(r'\(Treasure\s+([IVX]+),\s*d20\)')
 LOC_CODE_RE = re.compile(r'\b([A-Z]{1,2})\.(\d+)\b')
@@ -595,7 +627,7 @@ def render_inline(text: str, setting: Setting, resolver: LinkResolver, current_p
     if not no_links:
         for kind, pattern in CITE_PATTERNS:
             label = {"lore": "Lore", "keys": "Keys", "named_creatures": "Named Creature",
-                      "unique_treasures": "Unique Treasure"}[kind]
+                      "unique_treasures": "Unique Treasure", "quests": "Quest"}[kind]
             titles = {e.title for e in getattr(setting, kind)}
 
             def cite_sub(m, kind=kind, label=label, titles=titles):
