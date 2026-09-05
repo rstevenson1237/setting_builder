@@ -6,7 +6,7 @@ about the rest of the region.
 
 ## Read at
 Step 4c, when a weight file's spec draws a creature. Scaling is in
-`setting/Procedures.md`; entries are in `setting/Bestiary.md`.
+`patterns/setting/Bestiary.md`; entries are in `setting/Bestiary.md`.
 
 ## Spec
 
@@ -15,7 +15,7 @@ CREATURE
   1     Bestiary entry, or an inline description where none fits
   1     What it is doing when the party arrives - not waiting
   1     Number - how many, which is half the pitch
-  1     Scale, against party altitude in setting/Bestiary.md - never against the region die:
+  1     Scale, against party altitude, per GENRE.md - never against the region die:
           low weight     something the party can walk past or through; often absent
           medium weight  a real fight the party is expected to win at some cost
           high weight    a fight the party should weigh, and may lose. MA where it has it

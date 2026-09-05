@@ -77,18 +77,11 @@ another.
 - **Players** carry 1-6 Action Dice, sized d4 through d12, d6 average. The pool is the
   character: more dice and bigger dice both mean more capable, and losing a die (see
   **Traps**, Harm) is losing capability, not losing a resource that regenerates on its own.
-- **Creatures** carry d6 dice only, counted 1 to 18, with a bonus from -2 to +6. The count
-  reads roughly like classic Hit Dice. Creature dice are never sized up or down the way a
-  player's are - a tougher creature gets more d6s or a bigger bonus, never a d8.
+- **Creatures** carry d6 dice only, with a bonus and an optional MA (Movement Allowance) -
+  see `patterns/setting/Bestiary.md` for the scale and notation.
 - **Factions** carry d6 dice only, with no bonus at all, and their count means something
   only next to another faction's count - a faction with 4 dice isn't "faction-strength 4"
   in the abstract, it's stronger than one with 3 and weaker than one with 5, full stop.
-
-Creature dice are never pitched against a region's Difficulty die - they're pitched against
-**party altitude**, fixed once when the Bestiary is written. A region's die measures how
-hard the region is to move through; a creature's dice measure how hard the creature is to
-fight. A d8 region wanting a d8-equivalent creature is the mistake this framework is built
-to prevent.
 
 ## Region Dice
 A region carries one die, d4 through d12, and it is a **difficulty die**, not a power

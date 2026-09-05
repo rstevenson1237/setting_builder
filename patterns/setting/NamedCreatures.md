@@ -8,7 +8,7 @@ What earns a row in `setting/NamedCreatures.md` rather than staying a Bestiary t
 ```
 NAMED CREATURE ENTRY
   1     A name, coined from setting/Language.md
-  1     AD, per setting/Procedures.md - the same scale as any creature
+  1     AD, per patterns/setting/Bestiary.md - the same scale as any creature
   1     A motivation it acts on regardless of the party
   1     Every location it appears at
   1     Something it remembers, and something it wants

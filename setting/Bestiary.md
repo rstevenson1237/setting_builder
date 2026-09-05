@@ -1,9 +1,5 @@
 Bestiary of Duen
 
-Party altitude: 2-4 Action Dice, sized d4-d8 (d10 rare, d12 essentially unheard of), d6
-average - Duen's garrison and the hangers-on camped against its walls, barely above the
-commoners they're holding this crossing for.
-
 Cliff Goat (Beast) - AD: 1d6-2
 Description: A rangy, sure-footed goat that works the gorge's upper ledges in small herds,
 more grey than white by midsummer.

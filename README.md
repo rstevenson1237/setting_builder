@@ -98,8 +98,8 @@ The build order is strict and each stage depends on the previous ones existing. 
 
 1. **Framework** - `GENRE.md`, then seed `setting/Procedures.md` and `setting/Language.md`.
 2. **Setting** - `setting/Setting.md` first, then History -> Truths -> Rumours -> Bestiary
-   (which fixes party altitude before its creatures) -> Factions -> Treasure I-V, then
-   tailor Procedures and Language and stub the five registries.
+   -> Factions -> Treasure I-V, then tailor Procedures and Language and stub the five
+   registries.
 3. **Region** - `region/Regions.md` (fixes region count, rating mix, and a die per region)
    -> `region/Connections.mmd` -> one Region Overview per region.
 4. **Location** - per region: `Locations.md` gazetteer -> `Connections.mmd` -> one file per
@@ -142,8 +142,9 @@ authority; the short version:
   complication, 4+ = success - so a *smaller* die is *harder*. **d8 is baseline**; d6
   slightly tougher, d10 slightly easier, d4 and d12 deliberate outliers.
 
-Creature AD is pitched against **party altitude**, never against the region die - see
-"The three tests" in `CLAUDE.md` for why this is called out there too.
+Creature AD is pitched against **party altitude** - what the characters can survive, per
+`GENRE.md`'s lethality framing - never against the region die. See "The three tests" in
+`CLAUDE.md` for why this is called out there too.
 
 The location counts follow from the difficulty math rather than being conventions: a WILD
 region at N locations expects **exactly one** encounter per full traverse at every die, and
