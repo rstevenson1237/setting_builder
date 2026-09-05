@@ -1,14 +1,21 @@
 # Setting - Bestiary
 
 ## Decides
-What creatures the setting holds, how they are distributed across type and power, and what
-each entry must state so the location patterns can use it without reinventing it.
+Party altitude, and what creatures the setting holds - how they are distributed across type
+and power, and what each entry must state so the location patterns can use it without
+reinventing it.
 
 ## Read at
-Step 2f, after `setting/Outline.md` has fixed party altitude. The Bestiary is written in
-one pass rather than grown, so it has to anticipate demands made three steps later.
+Step 2e, right after `setting/Setting.md`. Party altitude is fixed here, first, since
+nothing before this step needed it. The Bestiary is written in one pass rather than grown,
+so it has to anticipate demands made several steps later.
 
 ## Spec
+
+```
+PARTY ALTITUDE
+  1     What the characters are, and what they can expect to survive, stated in dice
+```
 
 ```
 TYPE MIX - about 20 entries
@@ -21,7 +28,7 @@ TYPE MIX - about 20 entries
 ```
 
 ```
-AD SPREAD - anchored to party altitude in setting/Outline.md, NOT to the region dice
+AD SPREAD - anchored to party altitude, fixed above, NOT to the region dice
   1     At least six entries at 1-2 AD      - people, common animals, numbers
   1     At least six entries at 3-4 AD      - the working middle of the setting
   1     At least four entries at 5-8 AD     - fought carefully, or not at all

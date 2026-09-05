@@ -7,7 +7,7 @@ Five reusable random treasure tables (Treasure Tables I-V), each a d20 table of 
 Consult when drafting:
 - `GENRE.md` - Low Magic means the exceptional item should be rare and feel earned; Points of Light means goods should read as scavenged, salvaged, or traded rather than mass-produced.
 - `patterns/setting/Treasure.md` - what each of the five tables holds, and the requirement to anchor value to party altitude.
-- `setting/Outline.md` - party altitude. A find is interesting because of what it buys *these* characters, so state a week's ordinary wage somewhere in the tables and price everything against it.
+- `setting/Bestiary.md` - party altitude. A find is interesting because of what it buys *these* characters, so state a week's ordinary wage somewhere in the tables and price everything against it.
 - `setting/Setting.md`, `setting/History.md`, `setting/Truths.md` - the material, coinage, cultures, and craft traditions treasure items may be drawn from or flavored with.
 
 Do not consult location, region, or faction files - these tables are setting-level and reusable everywhere, not tied to any specific place, hoard, or owner. Do not decide what container holds the treasure, where it is found, or how it is moved or used - that is the location entry's job, not this table's.

@@ -27,19 +27,3 @@ DANGEROUS - HIGH
 High weight means the location **announces itself**. The architecture line is mandatory
 because that is what does the announcing: before a party knows what is in the room, the
 room has to look like somewhere that matters.
-
-## Patterns
-
-- The region's central set-piece, tied directly to what the place is for.
-- The seat of whatever holds the region now - a throne, a nest, a forge, a bed.
-- The objective: the thing the rest of the region is arranged around protecting.
-- The room that answers the region's central question, and raises the price of the answer.
-- A convergence - where several routes meet, and where being followed becomes a problem.
-- The room that ties directly to an event in `setting/History.md` or an entry in
-  `setting/Truths.md`, made physical.
-- A puzzle set-piece: a fixture built with purpose, demanding investigation to engage
-  safely. See `dangerous/Mystery.md`.
-- The room the builders sealed, and the reason they sealed it.
-
-## Constraints
-*(Empty. Entries arrive from generation testing, never from anticipation.)*

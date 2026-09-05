@@ -15,7 +15,7 @@ CREATURE
   1     Bestiary entry, or an inline description where none fits
   1     What it is doing when the party arrives - not waiting
   1     Number - how many, which is half the pitch
-  1     Scale, against party altitude in setting/Outline.md - never against the region die:
+  1     Scale, against party altitude in setting/Bestiary.md - never against the region die:
           low weight     something the party can walk past or through; often absent
           medium weight  a real fight the party is expected to win at some cost
           high weight    a fight the party should weigh, and may lose. MA where it has it

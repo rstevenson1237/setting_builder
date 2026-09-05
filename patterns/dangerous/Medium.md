@@ -26,17 +26,3 @@ variance.
 
 The treasure rates are conditional on the challenge because reward should follow the
 fiction: a thing that lives here has accumulated something, a mechanism has not.
-
-## Patterns
-
-- A creature performing a task it would rather not be interrupted at.
-- A creature guarding a way through, which can be paid, tricked, or fought.
-- A trap that has already caught something, and still works.
-- A trap protecting the room's one worthwhile object.
-- A hazard arising from the region's own condition - water, gas, rot, cold, the thing
-  in the walls.
-- A minor faction presence: a picket, a scout, a work party, a shrine kept up by hands.
-- Something the region's occupants built to solve a problem, which is now the problem.
-
-## Constraints
-*(Empty. Entries arrive from generation testing, never from anticipation.)*
