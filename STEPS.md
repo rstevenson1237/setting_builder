@@ -6,7 +6,7 @@ five folders - `setting/`, `region/`, `safe/`, `wild/`, `dangerous/` - and a ste
 the folder that matches what it is building.
 
 1. Establish framework
-   - 1a. Customize `GENRE.md` with top level thematic hints (1981 B/X D&D, Conan-esque, Low Magic, Points of Light, Mythic Underworld).
+   - 1a. Customize `GENRE.md`, following `templates/Genre.md` and its three-question flow in `patterns/setting/Genre.md`: Q1 picks a broad genre family and narrows it to a specific, well-known trope; Q2 answers a set of binary/dial axis questions (lethality, population density, magic level, and others as the genre calls for); Q3 produces three trope proposals, each carrying three seed tags, and one is chosen. The three tests under **What a line has to earn** are fixed across every genre and reproduced verbatim, never reauthored.
    - 1b. Seed `setting/Procedures.md` with working default mechanics - tests and consequences, trap impact tiers, searching, time by rating, the three Action Dice scales, and the Difficulty roll - following `templates/Procedures.md` and `patterns/setting/Procedures.md`. Generic by design; tailored at 2i.
    - 1c. Seed `setting/Language.md` with three tongues - a common tongue, an older tongue for ruins and the dead, and one non-human tongue - each with phoneme inventories, a syllable shape, affixes, and a starter root list, following `templates/Language.md` and `patterns/setting/Language.md`. Seeding here rather than later is what makes names generative from 2b onward rather than systematized after the fact.
 2. Build the setting
