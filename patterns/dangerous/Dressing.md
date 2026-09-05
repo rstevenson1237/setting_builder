@@ -32,6 +32,24 @@ DETAIL BUDGET
                  Feature line
 ```
 
+```
+WORD BUDGET - the whole entry, excluding the header line and the Exits line
+  low weight     ~120 words
+  medium weight  ~180 words
+  high weight    ~260 words
+```
+
+**The budget is diagnostic, not a target.** The detail budget above governs how many things a
+room holds; nothing governed how many words each thing got, and that is the gap this closes.
+A room over budget is almost never a room holding too much - it is a room whose contents have
+been explained. Per `templates/Location.md`, find the sentence that says why a detail is
+there, what it means, or what the party will conclude from it, and delete that before
+touching a fact.
+
+The ratio is the point as much as the numbers: a low-weight room should read as a fraction of
+a high-weight one, and if low and high are within a third of each other on the page then the
+weight classes are not doing any work no matter what the spec says they contain.
+
 ## Patterns
 
 **Purpose.** Every room was for something, even if it has stopped being for it. A former
@@ -87,4 +105,12 @@ corbel, lintel, revetment, spandrel, newel. Real trades and their leavings. Real
 named as materials. Where a plainer word would also do, the precise one is the one to use.
 
 ## Constraints
-*(Empty. Entries arrive from generation testing, never from anticipation.)*
+
+- **Brackvaen, C.15 Peluath.** First full build ran low-weight rooms at 341 words, medium at
+  422 and high at 609 - a spread of under 2x across classes whose whole distinction is how
+  much they present. C.15's five Features held roughly 130 words of fact and 320 of
+  explanation, and the room stated the answer to its own problem (stand off the groove)
+  three separate times, twice in the entry and once in the Region Overview. The detail
+  budget above was being honoured and the entry was still four times too long, because
+  nothing budgeted the words each detail got. Hence the word budget, and hence
+  `templates/Location.md`'s rule that every sentence be a thing, an action, or an effect.
