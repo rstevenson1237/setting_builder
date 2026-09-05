@@ -2,13 +2,25 @@
 
 Top level thematic hints to be included in all content generation.
 
-Classic 1981 basic/expert dungeons and dragons. Anything at place in a Robert Howard Conan story will be acceptable.
+Classic tabletop fantasy: a border keep on the marches, holding a frontier its founding
+charter says is its to hold - except the kingdom that wrote that charter has since
+fractured, and nothing upstream has answered a letter in longer than anyone here will
+admit.
 
 - **Low Magic** - not commonplace but mysterious and dangerous and often carries a price.
-- **Points of Light** - Humanity and Civilization is not the default assumption. Settlements are spread apart, there is no overarching rule of law and much of the world is unoccupied and dangerous wilderness.
-- **Mythic Underworld** - dungeons exist as the ruins of previous civilization and as physical manifestations of the forces of chaos.
+- **Points of Light, Ownerless** - settlements are spread apart and unified by nothing:
+  this keep's own charter is the only writ anyone here can point to, and it was issued by a
+  throne that may not exist anymore.
+- **Mythic Underworld** - dungeons exist as the ruins of previous civilization and as
+  physical manifestations of the forces of chaos.
+- **The Charter** - the keep's right to exist, tax, conscript, and hold this ground rests
+  on a single document nobody living has seen honored from the other end. Whether that
+  makes it worthless or exactly binding is a live question, never a settled one.
 
-Don't write stories for the players to follow, just give them situations to interact with. They are treasure hunters and barely above commoners, trying to make their way in a strange and dangerous world.
+Don't write stories for the players to follow, just give them situations to interact with.
+Player characters are this keep's garrison and the hangers-on who have settled around it -
+not heroes, not reinforcements arriving from anywhere, and barely better-equipped than the
+commoners they are nominally holding the border for.
 
 ## What a line has to earn
 
@@ -41,4 +53,14 @@ at once: the restatement is not actionable, it did not survive translation, and 
 arrives with the conclusion the reader was supposed to draw for themselves. When a region
 overview and a location say the same thing, the region overview is the one that is wrong.
 
-Favor constructed language for names at the setting and region level - invented words and coinages over generic real-world borrowings, and proper nouns over descriptive labels. **A location's own name is the exception**: it is plain and descriptive, drawn from the common tongue, not freshly coined - a location may still carry a name coined elsewhere (an Old Rede inheritance, an occupant's established name), and when it does, gloss what it means so the referee is never sent digging through `setting/Language.md` mid-session. The same gloss rule holds wherever a region's own constructed name appears. Reach for specific, precise vocabulary before accessible, general vocabulary - real architectural terms, medieval weaponry, period customs and trades - even where a plainer word would also do.
+Favor constructed language for names at the setting and region level - invented words and
+coinages over generic real-world borrowings, and proper nouns over descriptive labels. **A
+location's own name is the exception**: it is plain and descriptive, drawn from the common
+tongue, not freshly coined - a location may still carry a name coined elsewhere (an
+inheritance from an older tongue, an occupant's established name), and when it does, gloss
+what it means so the referee is never sent digging through `setting/Language.md`
+mid-session. The same gloss rule holds wherever a region's own constructed name appears.
+Reach for specific, precise vocabulary before accessible, general vocabulary - real
+architectural terms, medieval weaponry, period customs and trades - even where a plainer
+word would also do.
+</content>
