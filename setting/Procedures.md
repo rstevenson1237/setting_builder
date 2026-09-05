@@ -1,4 +1,4 @@
-Procedures of [Setting Name]
+Procedures of Fellward
 
 ## Tests and Consequences
 A test is one roll against a stated die, read the same three-band way as a Region Die
@@ -59,3 +59,10 @@ region built as a collection holds about 3x its die in locations, so a full clea
 exactly 3 of the Danger track's 6 steps at every die size. Location count is the pressure
 mechanism; die size sets texture - short and spiky at d4, long and smooth at d12 - not
 overall difficulty.
+
+## Currency
+Standard coin is the crown penny (cn), 100 to a standard pound of silver. An ordinary
+hand's pay at Fellward, when it's actually paid, runs about 8 cn a week - the scale every
+find on `setting/Treasure1.md` through `Treasure5.md` is measured against. Old-tongue coin
+still turns up; it is real silver, but no merchant this side of the border takes it at face
+value.

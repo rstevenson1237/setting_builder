@@ -1,4 +1,4 @@
-Tongues of [Setting Name]
+Tongues of Fellward
 
 This setting's naming convention is sparse/utilitarian (`GENRE.md`): most people and place
 names in Common are plain descriptive words, not coinages from the roots below. The Old
