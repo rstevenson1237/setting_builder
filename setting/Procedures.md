@@ -15,6 +15,19 @@ names what failure costs - time, a resource, position, noise that draws somethin
 an opportunity that closes. If nothing believable can go wrong, don't call for a test at all;
 if nothing is actually uncertain, don't call for one either.
 
+**Salt-packing.** Packing a wound, a corpse, or a find fully in worked salt takes one Turn
+per Man-sized subject (less for something smaller) and costs one sack of salt per subject
+packed. No roll is required - while packed, whatever the subject was in the middle of
+(bleeding, rotting, rising) is held off entirely, per `setting/Truths.md`. Breaking or
+drawing the packing resumes it at once, also without a roll; the only test is whatever it
+takes to reach the packing in the first place.
+
+**Bond buyout.** A panner's bond is a flat cn value set when the paper is first written,
+typically 200-2,000 cn against the ordinary week's wage below. Only the current paper-holder
+sets the buyout price, and may raise it at any time before it is paid - there is no roll
+against this, only negotiation and the Reactions each faction states in
+`setting/Factions.md`.
+
 ## Traps
 Three impact tiers, chosen for what the trap is meant to do to the party, not rolled for:
 
@@ -59,6 +72,8 @@ the math honest.
   to the region die below.
 - **Factions** carry d6 only and **no bonus**. A faction's count means something only
   relative to the other factions' counts - it is not a power level read in isolation.
+- **Wage.** An ordinary week's bonded labor in the delta pays 20 standard cn - the scale
+  every find in `setting/Treasure1.md` through `Treasure5.md` should be read against.
 - **A region's die is a difficulty die, not a power level.** Rolled when a region-scale
   action is at stake - a WILD traverse, a DANGEROUS countdown step - never for an individual
   character's action (that's Tests and Consequences, above). Read: 1 = failure, 2-3 =

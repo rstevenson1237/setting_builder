@@ -33,13 +33,13 @@ Roots:
 - sund - a sundering, a divide
 
 Coined here:
-- (none yet - names coined from `setting/History.md` onward are recorded here, decomposed
-  into their roots)
+- Sundfall = sund (a sundering, a divide) + fal (fall, falling water) - the setting's name,
+  `setting/Setting.md`
 
 ## Old Rede
-Spoken by: a vanished civilization - the builders of the ruins the party will dig through.
-No one alive speaks it as a mother tongue; it survives in inscriptions, wards, and the
-liturgy of those few orders that still read it.
+Spoken by: the Old Rede who diked Sundfall and raised Durgath, then withdrew a hundred-some
+years later. No one alive speaks it as a mother tongue; it survives in inscriptions, wards,
+and the liturgy of the Fensal, the few who still read it for the salting rites.
 Consonants: t d k g s z th f v r n m (closed clusters permitted: -rd, -st, -nk, -th)
 Vowels: a i u (three only - narrower than Kelder, deliberately)
 Syllable: CVC, strict and closed - no vowel stands alone, no syllable runs open
@@ -70,12 +70,15 @@ Roots:
 - fen - seal, ward, binding
 
 Coined here:
-- (none yet)
+- Durgath = dur (stone, wall) + gath (gate, threshold) - the sea-wall diking Sundfall,
+  `setting/History.md`
+- Fensal = fen (seal, ward, binding) + -sal (guardian, keeper) - the order that maintains
+  the old salting rites, `setting/Factions.md`
 
 ## Grosk-Ur
 Spoken by: nothing that still calls itself a person - the beastkin and old chaos-touched
-things of the deep wild and the Mythic Underworld's lower reaches. Guttural, and meant to
-sound like it costs the speaker something.
+things of the drowned grainland past the breach and the delta's deeper flooded ruins.
+Guttural, and meant to sound like it costs the speaker something.
 Consonants: k g q r rr kh gh (heavy clusters permitted: -grk, -thk, -sk-, -zg-)
 Vowels: u a (two only - the narrowest of the three, and the harshest)
 Syllable: CVCC or CCVC - clusters are the point, not an accident
