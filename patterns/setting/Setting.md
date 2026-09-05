@@ -5,7 +5,7 @@ The setting's name, its three tags, and the referee-facing outline every other a
 builds on.
 
 ## Read at
-Step 2b, after `setting/Outline.md` has fixed the shape and before anything else.
+Step 2a, right after `GENRE.md`, before anything else.
 
 ## Spec
 

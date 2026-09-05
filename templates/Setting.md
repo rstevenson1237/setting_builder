@@ -6,7 +6,6 @@ Defines the setting's name, thematic tags, and a short referee-facing outline - 
 ## Context
 Consult when drafting:
 - `GENRE.md` - the top-level thematic hints (era, tone, magic level, structure) this setting must fit, and the three tests in **What a line has to earn**.
-- `setting/Outline.md` - the region count, rating mix, dice and party altitude this setting has to fit inside. Fixed at 2a, before this file.
 - `patterns/setting/Setting.md` - what the tags must do, and the difference between a pressure and a plot.
 
 ## Instructions
