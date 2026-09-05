@@ -7,6 +7,7 @@ An overview listing of all regions within the setting - the Regional Gazetteer.
 Consult when drafting:
 - `GENRE.md` - points of light means regions should read as isolated and unevenly known, not as tiles in a fully-mapped, fully-governed world.
 - `setting/Setting.md` - the outline a region should express geographically.
+- `setting/Language.md` - roots to coin each region's name from. Record every coinage back into it.
 
 ## Instructions
 Fix the region count and rating mix first - the shape of the setting, decided here rather
@@ -20,10 +21,17 @@ List an overview of all regions within the setting. This file is a Regional Gaze
 
 Codes follow a plain A-Z progression with no differentiation between types (A, B, C, ...). For a complex setting with more than 26 regions, continue with double letters (AA, AB, AC, ...).
 
+A region's name is coined from `setting/Language.md`'s roots, per GENRE.md's constructed
+language over real-world borrowing - unlike a location's own name, this is a place fresh
+coinage is fine. Record it back into `setting/Language.md`'s "Coined here" list. But a
+referee reads this gazetteer without cracking open Language.md mid-session, so **gloss
+every region name inline**, in parentheses right after it: state what it means, in a
+clause, the same as any other loan word.
+
 ## Template
 ```
 Regional Gazetteer of [Setting Name]
 
-[Code] [Region Name] - [SAFE/WILD/DANGEROUS], [d4-d12], [Three, Thematic, Tags]
+[Code] [Region Name] ([gloss - what the name means]) - [SAFE/WILD/DANGEROUS], [d4-d12], [Three, Thematic, Tags]
 [1 sentence overview of the region]
 ```

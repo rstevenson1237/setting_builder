@@ -1,25 +1,33 @@
 # Safe - Naming
 
 ## Decides
-What a SAFE location is called, in whose mouth, and what gets written back to
-`setting/Language.md`.
+What a SAFE location is called, in whose mouth, and - when the name reuses a
+constructed-language proper noun coined elsewhere - what it means for the referee.
 
 ## Read at
-Step 4c, for every SAFE location, after Dressing. Roots and affixes are in
-`setting/Language.md`.
+Step 4c, for every SAFE location, after Dressing.
 
 ## Spec
 
 ```
 NAMING
-  1     A name, built from roots in setting/Language.md
+  1     A name - plain and descriptive, in the common tongue. Not a fresh coinage:
+        constructed-language names are coined only at the setting and region level.
   1     Whose name it is - and here, the namer is usually still alive
-  1     The roots recorded back into setting/Language.md under "Coined here"
   20%   A second, unofficial name that the locals actually use
+  1     If the name reuses a constructed-language proper noun already coined elsewhere
+        (an Old Rede name, a founder or saint already named in setting/Setting.md,
+        setting/History.md, or a region's own name) - gloss it in the Referee Notes:
+        state what it means or who it was, so the referee is never sent to
+        setting/Language.md mid-session
 ```
 
-**The write-back is not optional.** `setting/Language.md` only stays useful if every
-coinage goes back into it.
+**Do not coin here.** A SAFE location's own name is drawn from the common tongue's plain
+vocabulary, not built from `setting/Language.md`'s roots - that stays a setting- and
+region-level act. A location may still *carry* a constructed name it did not invent: an
+Old Rede inheritance, or a place named after someone already named elsewhere. When it does,
+the gloss is mandatory, not optional - a name the referee can't translate at the table is
+worse than no name at all.
 
 ## Patterns
 
@@ -36,7 +44,7 @@ living in it, which means its names are **current, contested, and often two-laye
 The occasional **Old Rede** name marks something the settlement inherited and did not
 build - a well, a stone in a wall, a boundary, a road. When a settlement's oldest thing
 carries a name in a tongue nobody there speaks, that is a fact about the region's history
-delivered without exposition.
+delivered without exposition - and it is exactly the case the Spec's gloss line exists for.
 
 **Name shapes** - the trade; the proprietor, current or long dead; a sign that can be
 recognised by people who cannot read; an event; a founder or grantor; a saint or power; a
