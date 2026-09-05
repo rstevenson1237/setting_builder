@@ -4,10 +4,10 @@
 Records 1 or more major events that have shaped the setting, oldest to newest.
 
 ## Context
-Consult when drafting:
-- `GENRE.md` - check each event against genre before writing it: an event is a fact of the past, not a ticking clock aimed at the party. Apply the three tests in **What a line has to earn**: a party never reads this file, so an event reaches them only through what it left behind.
-- `patterns/setting/History.md` - the count, the required spread across living memory, and the kinds of event.
-- `setting/Setting.md` - the name, tags, and outline these events should support and explain.
+Read first:
+- `GENRE.md`
+- `patterns/setting/History.md`
+- `setting/Setting.md`
 
 ## Instructions
 List 3-7 major events that have influenced the setting, in order from oldest to newest.

@@ -7,11 +7,11 @@ world. The framework's one living artifact: seeded at 1c, tailored at 2i, and ap
 every time a proper noun is coined.
 
 ## Context
-Consult when drafting:
-- `GENRE.md` - constructed language over real-world borrowing; invented words and coinages.
-- `patterns/setting/Language.md` - how a tongue is built and how the file grows.
-- At 2i: every setting artifact written so far, for names already coined.
-- At 4d: every location, region and registry file, for names coined during generation.
+Read first:
+- `GENRE.md`
+- `patterns/setting/Language.md`
+- At 2i: every setting artifact written so far.
+- At 4d: every location, region and registry file.
 
 ## Instructions
 Each tongue states who speaks it, its consonants and vowels, its syllable shape, its

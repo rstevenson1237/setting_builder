@@ -7,10 +7,8 @@ artifact at every level must pass. Read before every other file, and re-read at 
 generation step - not skimmed once and relied on from memory.
 
 ## Context
-Consult when drafting:
-- `patterns/setting/Genre.md` - the three-question flow (broad genre + trope, binary/dial
-  axes, three seed-tagged trope proposals) that produces everything below the fixed
-  section, and what each axis must constrain rather than decorate.
+Read first:
+- `patterns/setting/Genre.md`
 - Nothing else - GENRE.md is the first artifact, alongside the generic seeds
   `setting/Procedures.md` and `setting/Language.md`.
 

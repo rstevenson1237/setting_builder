@@ -5,9 +5,9 @@ The registry of errands running between locations - who wants what, where it is,
 stands in the way. Stubbed at 4c as each end is written, filled at 4d.
 
 ## Context
-Consult when drafting:
-- `GENRE.md` - a quest is work offered, not a plot the party is expected to complete.
-- `patterns/setting/Quests.md` - what earns a row and what a finished entry states.
+Read first:
+- `GENRE.md`
+- `patterns/setting/Quests.md`
 - At 4d: every location file the stub points to, both giver and target.
 
 ## Instructions

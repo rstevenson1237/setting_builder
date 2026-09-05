@@ -4,9 +4,9 @@
 A registry of powerful, one-of-a-kind artifacts and other magical or unique treasures, each with its own purpose and description, distinct from the random rolls on `setting/Treasure[I-V].md`. Generated in two phases: stubbed empty at step 2i, a stub row added per entry during location generation (step 4c), and the full entry written afterward (step 4d).
 
 ## Context
-Consult when drafting:
-- Step 2i (stubbing the file): no context needed - the file starts with just its title line, no entries.
-- Step 4c (recording a stub): `GENRE.md` and the location Feature that calls for a Unique Treasure - see `templates/Location.md`.
+Read first:
+- Step 2i (stubbing the file): no context needed.
+- Step 4c (recording a stub): `GENRE.md`, `templates/Location.md`.
 - Step 4d (writing the full entry): `GENRE.md`, `setting/Setting.md`, `setting/History.md`, `setting/Truths.md`, `setting/Factions.md`, `setting/NamedCreatures.md`, `patterns/setting/UniqueTreasures.md`, and the location file the stub points to.
 
 ## Instructions

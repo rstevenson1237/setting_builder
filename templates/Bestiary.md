@@ -4,10 +4,10 @@
 Reusable, system-neutral creature templates for the setting.
 
 ## Context
-Consult when drafting:
-- `GENRE.md` - low magic means most threats should be mundane, natural, or death-tainted rather than arcane.
-- `patterns/setting/Bestiary.md` - the type mix, the AD spread, and the coverage the location patterns will ask for.
-- `setting/Setting.md`, `setting/History.md`, `setting/Truths.md` - the material creatures should be drawn from or tied to.
+Read first:
+- `GENRE.md`
+- `patterns/setting/Bestiary.md`
+- `setting/Setting.md`, `setting/History.md`, `setting/Truths.md`
 
 ## Instructions
 Fix **party altitude** first - what the characters are and what they can expect to survive,

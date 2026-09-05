@@ -4,12 +4,12 @@
 A full Region Overview for a single region - the referee's "how do I find this" and "how do I run this" at a glance.
 
 ## Context
-Consult when drafting:
-- `GENRE.md` - Dangers and Secrets should be standing conditions of the place, not a scripted arc pointed at the party; magic within the region stays rare, mysterious, and priced.
-- `setting/Setting.md`, `setting/History.md`, `setting/Truths.md`, `setting/Rumours.md`, `setting/Bestiary.md`, `setting/Factions.md` - the material this region's fields should be drawn from and tie back to.
-- `setting/region/Regions.md` - this region's Code, Name, rating, die, and tags.
-- `patterns/region/Safe.md`, `Wild.md`, or `Dangerous.md` - what this rating's fields must cover, its location count and class mix, and its connection topology. Fields differ materially by rating; read only the one that matches.
-- `setting/Procedures.md` - the Difficulty roll, what the region die means, and the time scale this rating runs on.
+Read first:
+- `GENRE.md`
+- `setting/Setting.md`, `setting/History.md`, `setting/Truths.md`, `setting/Rumours.md`, `setting/Bestiary.md`, `setting/Factions.md`
+- `setting/region/Regions.md`
+- `patterns/region/Safe.md`, `Wild.md`, or `Dangerous.md` - read only the one that matches this region's rating.
+- `setting/Procedures.md`
 
 ## Instructions
 Fill every field below - the Tables field is authored now, not deferred. Five fields are rating-specific and apply to one rating only: **People** and **Situation** (SAFE), **Terrain** and **Foraging** (WILD), **Architecture** (DANGEROUS) - skip whichever don't match this region's rating.

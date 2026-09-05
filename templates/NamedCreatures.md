@@ -4,9 +4,9 @@
 A registry of specific, named creatures that may appear in multiple locations and act on their own motivation, distinct from the reusable templates in `setting/Bestiary.md`. Generated in two phases: stubbed empty at step 2i, a stub row added per entry during location generation (step 4c), and the full entry written afterward (step 4d).
 
 ## Context
-Consult when drafting:
-- Step 2i (stubbing the file): no context needed - the file starts with just its title line, no entries.
-- Step 4c (recording a stub): `GENRE.md` and the location Feature that calls for a Named Creature - see `templates/Location.md`.
+Read first:
+- Step 2i (stubbing the file): no context needed.
+- Step 4c (recording a stub): `GENRE.md`, `templates/Location.md`.
 - Step 4d (writing the full entry): `GENRE.md`, `setting/Setting.md`, `setting/History.md`, `setting/Truths.md`, `setting/Bestiary.md`, `setting/Factions.md`, `patterns/setting/NamedCreatures.md`, and every location file that stubs this creature.
 
 ## Instructions

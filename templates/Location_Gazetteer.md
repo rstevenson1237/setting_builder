@@ -4,9 +4,9 @@
 Lists the explorable locations within a single region - a lightweight target list for building the region's Connections diagram, not a place for content.
 
 ## Context
-Consult when drafting:
-- `GENRE.md` - mythic underworld means DANGEROUS-region locations should read as ruin and chaos, not a designed conspiracy; points of light means SAFE/WILD landmarks should feel sparse, not densely urban.
-- `setting/region/[Region Code].md` - this region's Overview, the source for how many locations it should hold and what they broadly cover.
+Read first:
+- `GENRE.md`
+- `setting/region/[Region Code].md`
 
 ## Instructions
 List the locations within a single region - each location is an explorable area within that region. In SAFE and WILD regions, locations are major landmarks; in DANGEROUS regions, one location per room is a good standard. Counts and the class mix come from the region's pattern file (`patterns/region/Safe.md`, `Wild.md`, or `Dangerous.md`), which sets them as a range rather than a fixed multiplier. The defaults - about the die for SAFE and WILD, about three times it for DANGEROUS - are not rules of thumb: per `setting/Procedures.md` they make a full WILD traverse expect exactly one encounter and a full DANGEROUS clear expect exactly three of the Danger track's six steps, at every die size. Deviating is a deliberate trade with a measurable cost.

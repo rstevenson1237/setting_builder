@@ -4,11 +4,11 @@
 The 3 factions present in the setting - the powers a party may treat with, oppose, or ignore.
 
 ## Context
-Consult when drafting:
-- `GENRE.md` - a Goal should be a standing condition the faction acts on turn to turn, not a countdown toward a scripted climax; points of light means no faction defaults to overarching authority.
-- `patterns/setting/Factions.md` - the relative-only dice, the ignorance requirement, and the visual identity every faction must carry.
-- `setting/Setting.md`, `setting/History.md`, `setting/Truths.md` - the material a faction's Resources, Knowledge, and Goals should be drawn from.
-- `setting/Rumours.md`, `setting/Bestiary.md` - rumours a faction's Tactics might explain, and creatures a faction might command or be stated as (see below).
+Read first:
+- `GENRE.md`
+- `patterns/setting/Factions.md`
+- `setting/Setting.md`, `setting/History.md`, `setting/Truths.md`
+- `setting/Rumours.md`, `setting/Bestiary.md`
 
 ## Instructions
 List 3 factions present in the setting. Each carries an Action Dice pool used to resolve Faction Turns. If a faction has knowledge of another you can state feelings between them in the description. Factions need not know one another exist - ignorance is its own relation, and discovery should be worth something.

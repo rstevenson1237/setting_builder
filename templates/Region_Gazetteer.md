@@ -4,10 +4,10 @@
 An overview listing of all regions within the setting - the Regional Gazetteer.
 
 ## Context
-Consult when drafting:
-- `GENRE.md` - points of light means regions should read as isolated and unevenly known, not as tiles in a fully-mapped, fully-governed world.
-- `setting/Setting.md` - the outline a region should express geographically.
-- `setting/Language.md` - roots to coin each region's name from. Record every coinage back into it.
+Read first:
+- `GENRE.md`
+- `setting/Setting.md`
+- `setting/Language.md`
 
 ## Instructions
 Fix the region count and rating mix first - the shape of the setting, decided here rather
