@@ -79,6 +79,10 @@ Roots:
 Coined here:
 - Ingaraz = ingar + -az - "grave-ground"; the DANGEROUS region of old foundations and
   burial mounds beneath Pelren (`setting/region/Regions.md`)
+- Nazirur = nazir + -ur - "former king" / "one who was king no longer"; the Barrow Wight
+  bound at C.1 The Sealed Chamber (`setting/NamedCreatures.md`)
+- Nazirith = nazir + -ith - "of the king"; the iron circlet found at C.1 The Sealed
+  Chamber (`setting/UniqueTreasures.md`)
 
 ## Wilds Tongue (non-human, beyond the border)
 Spoken by: whatever moves in the treeline and answers back to it - not a people with
