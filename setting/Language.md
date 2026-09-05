@@ -40,7 +40,7 @@ Roots:
 - ren - road, a way traveled
 
 Coined here:
-- (None yet - coinages are recorded here as they're generated.)
+- Fellward = fel + -ward - the keep and its holding; setting name (`setting/Setting.md`)
 
 ## Old Tongue (for ruins and the dead)
 Spoken by: whoever raised the older foundations under the keep, long gone; a handful of
