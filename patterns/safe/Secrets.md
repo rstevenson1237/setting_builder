@@ -26,6 +26,10 @@ INCLUSION
 The lowest rate of the three ratings, and deliberately so. A settlement where every
 building has a hidden compartment is not a settlement, it is a dungeon with a market.
 
+A Wealth location (`safe/Wealth.md`) whose Protection is `hidden` already carries this
+structure, guaranteed by that spec line rather than by this rate - do not roll this 10%
+against it as well.
+
 **In SAFE, a secret is usually somebody's rather than something's.** A concealed cellar has
 an owner who knows about it; a false ledger page was written by a person who is still in
 the room. This makes the Trigger social as often as physical - and it means a discovered

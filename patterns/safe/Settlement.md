@@ -26,12 +26,15 @@ PROMINENCE - decided per location, before anything is written
 
 ```
 SAFE - INCLUSION                       (parameterized by prominence)
-  1     Kind - what a party comes here to do, drawing the matching element file:
+  1     Kind - what a party comes here to do or get into, drawing the matching element file:
           hospitality, trade, works   -> Commerce.md
           office, posting place       -> Authority.md
           gathering place             -> Social.md
           household                   -> People.md
+          strongroom, hoard, vault    -> Wealth.md
   1     A person, drawn from the region's People roster - never invented here. See People.md
+        (Wealth locations may instead draw an owner who is absent, dead, or does not know
+        the location is here - see Wealth.md)
   1     One thing obtainable here and not at the last location - a good, a service, a name,
         a permission, a place to stand
   1     What this place cannot do, and where it sends them instead
@@ -64,6 +67,11 @@ building.
 
 Prominence is decided here and recorded nowhere else - `Locations.md` carries name and tags
 only for SAFE. Note it in the entry's own drafting and let the feature count carry it.
+
+**Wealth is rarely a liner note.** A location whose whole premise is that something worth
+protecting sits behind it has already earned working prominence at minimum - a liner-note
+Wealth location is a contradiction unless the protection itself is the joke (a locked box
+everyone knows is empty).
 
 Per D17, extra weight in SAFE arrives as **more locations**, not heavier ones. A settlement
 that matters gets a fuller list, not a longer entry per item.

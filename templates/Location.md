@@ -11,7 +11,7 @@ Consult when drafting - and only this, deliberately narrow so the entry stays sh
 - **the three files of this location's rating folder, in order.** `patterns/safe/`, `patterns/wild/`, or `patterns/dangerous/`:
   1. The class file - `Settlement.md` for SAFE; `Landmark.md`, `Hidden.md`, or `Secret.md` for WILD by classification; `High.md`, `Medium.md`, or `Low.md` for DANGEROUS by weight. It carries the **inclusion spec**: which lines are mandatory, which are a stated percentage, and what each draws from. A class is defined by what it guarantees, never by a ceiling on what may appear.
   2. The element files the spec's lines draw from. **Read only the ones the spec actually drew, and only from this location's own rating folder** - the folders do not hold the same set, and a file borrowed from another folder is guidance written for a different kind of place.
-     - `patterns/safe/` - `Commerce.md`, `Authority.md`, `Social.md`, `Situation.md`, `People.md`, `Faction.md`, `Quest.md`, `Key.md`, `Lore.md`.
+     - `patterns/safe/` - `Commerce.md`, `Authority.md`, `Social.md`, `Situation.md`, `People.md`, `Wealth.md`, `Faction.md`, `Quest.md`, `Key.md`, `Lore.md`.
      - `patterns/wild/` - `Ruin.md`, `Lair.md`, `NaturalFeature.md`, `Creature.md`, `Trap.md`, `Treasure.md`, `Mystery.md`, `Quest.md`, `Key.md`, `Lore.md`.
      - `patterns/dangerous/` - `Creature.md`, `Trap.md`, `Treasure.md`, `Mystery.md`, `Faction.md`, `Quest.md`, `Key.md`, `Lore.md`.
   3. `Dressing.md`, then `Secrets.md`, then `Naming.md` - all three consulted unconditionally, not just when a spec line calls for them. Dressing may originate content of its own: **Features owns anything that changes what players can do; Dressing owns everything else.**
