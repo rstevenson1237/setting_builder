@@ -16,6 +16,12 @@ with dice. Every consequence sorts into one of three tiers:
 A failed test never produces a worse *story* than a passed one - it produces a costlier
 one.
 
+**Old stone exposure.** Working, sleeping, healing, or breeding something inside a room
+walled in Nemhet stone never fails outright, per the Truths of Carrdun - it succeeds, but
+nothing kept there breeds, hatches, or heals true. Treat the deviation as a Nuisance the
+first time anyone notices it, and Damaging if the exposure continues after it's been
+noticed.
+
 ## Traps
 
 Every trap resolves to one of the same three impact tiers, fixed when the trap is written
@@ -28,6 +34,11 @@ and never rolled for afterward:
 
 A trap's mechanism and tell are written into the trap itself (`patterns/dangerous/Trap.md`,
 `patterns/wild/Trap.md`); this file only fixes what each tier is allowed to cost.
+
+**Warded stone.** A trap built into Nemhet stone often carries its tell as an old-tongue
+ward-mark rather than a mechanical cue. Per the Truths of Carrdun, defacing that mark
+disarms whatever it was warding before it is triggered - the mark is the tell and the
+disarm method both.
 
 ## Searching
 
