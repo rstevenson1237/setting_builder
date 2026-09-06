@@ -19,6 +19,10 @@ questions; Q3 produces three trope proposals (each carrying three seed tags) con
 with Q1 and Q2, one of which is chosen. Build the genre-identity paragraph and the 3-5 axis
 bullets from the chosen proposal.
 
+Every tag, everywhere in this file, is **one or two words** - never a phrase. A tag
+represents a theme, acts as an index later steps can scan, and constrains the material by
+ruling things out; see `patterns/setting/Genre.md` for the full rule.
+
 ## Template
 ```
 # Genre
@@ -35,7 +39,11 @@ Top level thematic hints to be included in all content generation.
 
 ## Tags
 
-[25 short thematic tags, comma-separated]
+**Safe:** [10 one-or-two-word tags, comma-separated]
+**Wild:** [10 one-or-two-word tags, comma-separated]
+**Dangerous:** [10 one-or-two-word tags, comma-separated]
+**People (personalities):** [10 one-or-two-word tags, comma-separated]
+**Creatures (demeanors):** [10 one-or-two-word tags, comma-separated]
 
 ## What a line has to earn
 

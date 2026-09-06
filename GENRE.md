@@ -28,14 +28,30 @@ will use them exactly as hard as it uses everyone else standing a watch.
 
 ## Tags
 
-unpaid garrison, forged requisition, absentee crown, buried foundation stones,
-contradicting charter, older watch-points, press-ganged watch, empty guard towers,
-endless treeline, requisition ledger three seasons overdue, crown seal nobody's seen
-honored twice, relief column overdue, signal fire with no one to answer it, half-collapsed
-outer wall, last standing granary, deserter's oath, watch rotation nobody fills, borrowed
-coin from a dead man's pay, supply road washed out, unburied dead past the wire,
-conscripted farmhand, veteran who won't explain the scar, night watch short two names,
-bounty posted by the keep itself, well running low
+Every tag below is one or two words. Each represents a theme, acts as an index a later step
+can scan for something that fits, and constrains rather than decorates - see "Be specific,
+not generic" below.
+
+**Safe** - what holds Fellward together, what is failing, what it lives on: Unpaid
+Garrison, Forged Requisition, Absentee Crown, Contradicting Charter, Overdue Relief, Last
+Granary, Empty Towers, Washed-out Road, Dry Well, Unfilled Rotation.
+
+**Wild** - the open ground between Fellward and anywhere else, what crosses it, what it
+hides: Endless Treeline, Older Watch-points, Buried Foundations, Unanswered Signal,
+Unburied Dead, Washed-out Crossing, Game Trail, High Ground, Cut Supply-road, Foraged
+Ground.
+
+**Dangerous** - what the Mythic Underworld looks like here, what broke it, what still moves
+in it: Sunken Foundations, Older Ruin, Death-taint, Waking Ground, Sealed Barrow, Collapsed
+Vault, Forgotten Garrison, Bone Floor, Chained Door, Indifferent Ruin.
+
+**People (personalities)** - what Undermanned Frontier and Nominal Authority do to whoever
+is standing a watch: Press-ganged, Oath-bound, Deserting, Debt-bound, Scar-shy,
+Overpromoted, Embittered, Watchful, Opportunist, Duty-worn.
+
+**Creatures (demeanors)** - how something met past the wire carries itself before anyone
+decides to fight: Territorial, Starving, Wary, Nesting, Hunting, Roused, Patient, Feral,
+Cornered, Indifferent.
 
 ## What a line has to earn
 

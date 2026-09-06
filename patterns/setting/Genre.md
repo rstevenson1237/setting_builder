@@ -20,9 +20,10 @@ GENRE
         elaboration, drawn from the chosen Q3 proposal
   1     A short paragraph stating what player characters are here, stated the way GENRE.md's
         B/X-Conan default states it - not heroes, not the resolution of anything
-  25    A Tags section in the finished GENRE.md: short thematic tags built from all three
-        Q3 proposals' seed tags plus more in the same vein, giving every later step a wide
-        bank to pull three constraining tags from instead of converging on one example
+  50    A Tags section in the finished GENRE.md: five categories of ten - Safe, Wild,
+        Dangerous, People (personalities), Creatures (demeanors) - built from all three
+        Q3 proposals' seed tags plus more in the same vein, giving every later step a wide,
+        indexed bank to pull constraining tags from instead of converging on one example
   1     The fixed "What a line has to earn" three tests, reproduced verbatim from
         `templates/Genre.md` - never reauthored per genre
   1     A naming-convention line, settled by Q2/Q3 rather than assumed
@@ -132,11 +133,11 @@ trope, not a setting - no proper nouns, no specific history, no named places or 
 is `setting/Setting.md`'s job, at step 2a, once one proposal is chosen). Each carries:
 
 - A one-sentence pitch: the situation the trope puts a party into.
-- **Three seed tags** - short, thematic, and *constraining* the same way `setting/Setting.md`'s
-  own tags must constrain (see `patterns/setting/Setting.md`). Unlike a worked example in a
-  template, these are meant to be reused as a running start rather than merely illustrated -
-  seeding here is intentional, which is the whole point of doing it at this step instead of
-  leaving it to accident later.
+- **Three seed tags** - each **one or two words**, thematic, and *constraining* the same way
+  `setting/Setting.md`'s own tags must constrain (see `patterns/setting/Setting.md`). Unlike
+  a worked example in a template, these are meant to be reused as a running start rather than
+  merely illustrated - seeding here is intentional, which is the whole point of doing it at
+  this step instead of leaving it to accident later.
 - What the trope has that a generic instance of Q1's broad family does not.
 
 **The three proposals must differ from each other along at least one Q2 axis each.** If all
@@ -159,13 +160,46 @@ inspiration, or sparse/utilitarian - a location's own name is still plain and de
 drawn from the common tongue, not freshly coined, though it may carry a name coined
 elsewhere and glossed for the referee. State this the same way regardless of genre.
 
-**Building the Tags section.** Pool all nine seed tags from the three Q3 proposals - not
-just the chosen one - and add enough more in the same vein, drawn from the same Q1 trope and
-Q2 axis answers, to reach twenty-five. Every tag must pass the same intentionality test as a
-seed tag (below): traceable to this run's actual answers, not filler that would fit any
-generic instance of Q1's family. This bank is what `setting/Setting.md` and every later
-step's own three tags are drawn from, so it needs real range - a mix of places, objects,
-customs, and pressures, not twenty-five variations on the same image.
+**What a tag is.** Every tag, in every category, is **one or two words - never a phrase.**
+A tag does three jobs, and a candidate that fails any of them is cut regardless of how vivid
+it reads:
+
+- **It represents a theme.** It compresses something already true of this genre - an axis
+  answer, a Q3 proposal, a fact GENRE.md states elsewhere - down to a word or two, rather
+  than introducing a new idea of its own. A tag is a pointer to a theme, not the theme's
+  full statement.
+- **It acts as an index.** Later steps scan the relevant category for something that fits
+  what they're building, the way a card catalogue is scanned rather than read start to
+  finish. A tag that only makes sense once, in the one sentence it was coined for, cannot be
+  found again by a step that doesn't already know it's there - it fails as an index even if
+  it succeeds as a phrase.
+- **It constrains the material.** Per "Be specific, not generic" above: a tag earns its
+  place by ruling things out. *Rusted*, not *old*; *Absentee*, not *distant*. A tag generic
+  enough to fit any setting in Q1's family was not worth indexing.
+
+**Building the Tags section.** The bank is five categories of **ten tags each**, not one
+flat list:
+
+- **Safe** - what indexes a SAFE region or settlement: what holds it together, what is
+  failing, what it lives on.
+- **Wild** - what indexes a WILD region: the open ground between settlements, what crosses
+  it, what it hides.
+- **Dangerous** - what indexes a DANGEROUS region: what broke it, what still moves in it,
+  what the Mythic Underworld looks like here specifically.
+- **People (personalities)** - one- or two-word dispositions for the setting's NPCs, drawn
+  from what Undermanned Frontier / Nominal Authority (or this genre's equivalent axes) does
+  to the people living under it.
+- **Creatures (demeanors)** - one- or two-word behaviors for how something met in this
+  genre carries itself before a fight starts or doesn't.
+
+Pool all nine seed tags from the three Q3 proposals - not just the chosen one - sorting each
+into whichever category it indexes, and add enough more in the same vein, drawn from the
+same Q1 trope and Q2 axis answers, to bring every category to ten. Every tag must pass the
+same intentionality test as a seed tag: traceable to this run's actual answers, not filler
+that would fit any generic instance of Q1's family. This bank is what `setting/Setting.md`,
+each region's own tags, and every later step's people and creatures are drawn from, so each
+category needs real range - ten variations on the same image fail the index test even where
+each one individually reads fine.
 
 ## Patterns
 
