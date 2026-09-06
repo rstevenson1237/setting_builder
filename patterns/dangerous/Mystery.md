@@ -4,30 +4,10 @@
 What the strange thing is, how it is engaged, and what engaging it wrongly costs.
 
 ## Read at
-Step 4c, when a weight file's spec draws a mystery. Distinct from
-`dangerous/Secrets.md`: a Mystery is content and may be in plain sight; a Secret is a
-discovery structure and by definition is not.
-
-## Spec
-
-```
-MYSTERY
-  1     Fixture - something built or placed with purpose, not found debris
-  2     Physical details it can be reasoned from
-  1     Trigger, stated explicitly
-  1     What the correct trigger accomplishes
-  1     What a genuinely wrong attempt costs
-  40%   A third detail, where the trigger is more than one step
-```
-
-Left uninvestigated, a mystery is neutral. Inspection, theorising, and a wrong guess that
-stops short of a real attempt all cost nothing. This is what separates a Mystery from a
-Trap: a trap fires on contact or presence, a mystery fires only on a failed attempt to use
-it.
-
-**Two details is the floor, not the target.** A mystery with one detail is guessed at; a
-mystery with three is reasoned out. The detail is what makes it solvable by investigation
-rather than by luck, and it is the whole difference between a puzzle and a lock.
+Step 4c, when `dangerous/High.md`'s spec draws a mystery - the only weight file that does.
+That file's own Spec states what a Mystery must contain when drawn; this file supplies what
+it can be made of. Distinct from `dangerous/Secrets.md`: a Mystery is content and may be in
+plain sight; a Secret is a discovery structure and by definition is not.
 
 ## Patterns
 

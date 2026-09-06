@@ -4,26 +4,10 @@
 What an unbuilt, unoccupied Landmark is, and why it is worth four hours to visit.
 
 ## Read at
-Step 4c, when a classification file draws a kind and the kind is a natural feature. The
-hardest kind to write well: it has no builder and no occupant, so it has to earn its slot
-on what it *does*.
-
-## Spec
-
-```
-NATURAL FEATURE
-  1     What it physically is, and its scale in yards
-  1     Why a party would stop - shelter, water, vantage, materials, or a crossing
-  1     One way it is not like the country around it
-  30%   Something mysterious about it, priced or dangerous to use, per GENRE.md
-  30%   A resource findable here, tied to the region's Foraging field
-  20%   A hazard that is simply part of the place
-```
-
-**Terrain is not a Landmark.** Eroded slopes, a meandering brook, a carpet of flowers -
-these are what the region looks like, and they belong in the Region Overview's Terrain
-field. A Natural Feature is a *thing*, with edges, that can be named and returned to.
-The test is the same as for any Landmark: name it, revisit it, connect to it.
+Step 4c, when `wild/Landmark.md`'s spec draws Kind: Natural Feature - the only
+classification file that does. That file's own Spec states what a Natural Feature must
+contain when drawn; this file supplies what it can be made of. The hardest kind to write
+well: it has no builder and no occupant, so it has to earn its slot on what it *does*.
 
 ## Patterns
 

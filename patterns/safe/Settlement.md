@@ -10,6 +10,10 @@ takes its location list from here.
 
 ## Spec
 
+**Every line below is read the same way:** `1` is mandatory; a percentage is the rate at
+which a Feature carrying that content appears. Where a line names a file in parentheses,
+that is the only other file this line requires.
+
 ```
 SETTLEMENT TYPE
   {steading | thorp | village | town | seat}
@@ -26,23 +30,27 @@ PROMINENCE - decided per location, before anything is written
 
 ```
 SAFE - INCLUSION                       (parameterized by prominence)
-  1     Kind - what a party comes here to do, drawing the matching element file:
+  1     Dressing and Secrets, unconditional          (safe/Dressing.md, safe/Secrets.md)
+  1     Kind, exactly one   {Commerce | Authority | Social | People | Wealth}
           hospitality, trade, works   -> Commerce.md
           office, posting place       -> Authority.md
           gathering place             -> Social.md
           household                   -> People.md
-  1     A person, drawn from the region's People roster - never invented here. See People.md
+          strongroom, hoard, vault    -> Wealth.md
+  1     A person, drawn from the region's People roster - never invented here (safe/People.md)
+        (Wealth locations may instead draw an owner who is absent, dead, or does not know
+        the location is here - see safe/Wealth.md)
   1     One thing obtainable here and not at the last location - a good, a service, a name,
         a permission, a place to stand
   1     What this place cannot do, and where it sends them instead
-  1     Dressing, Secrets, Naming - unconditional, per those files
 
   liner note    nothing beyond the above. It does what a place like this does, and no more
-  working       ONE hook   {Quest | Lore | Key | Faction}
+  working       ONE hook   {Quest | Lore | Key | Faction}   (safe/Quest.md, safe/Lore.md,
+                                                              safe/Key.md, safe/Faction.md)
   central       TWO hooks  {Quest | Lore | Key | Faction}, and this is the location where
-                the region's Situation is most visible - see Situation.md
+                the region's Situation is most visible (safe/Situation.md)
 
-  40%   The region's Situation visible in passing, at any prominence
+  40%   The region's Situation visible in passing, at any prominence   (safe/Situation.md)
   30%   A Named Creature, where the person will recur or be heard of first
   10%   A Secret, per safe/Secrets.md - a settlement-wide rate, not a per-location one
 ```
@@ -64,6 +72,11 @@ building.
 
 Prominence is decided here and recorded nowhere else - `Locations.md` carries name and tags
 only for SAFE. Note it in the entry's own drafting and let the feature count carry it.
+
+**Wealth is rarely a liner note.** A location whose whole premise is that something worth
+protecting sits behind it has already earned working prominence at minimum - a liner-note
+Wealth location is a contradiction unless the protection itself is the joke (a locked box
+everyone knows is empty).
 
 Per D17, extra weight in SAFE arrives as **more locations**, not heavier ones. A settlement
 that matters gets a fuller list, not a longer entry per item.

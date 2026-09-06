@@ -210,6 +210,7 @@ def parse_treasure(roman: str) -> list[tuple[int, str, str, str]]:
 
 
 BESTIARY_HEADER_RE = re.compile(r"^(.+?)\s+\((.+?)\)\s*-\s*AD:\s*(.+)$")
+BESTIARY_SUBFIELD_LABELS = ["Description", "Range", "Sign", "Disposition"]
 
 
 def parse_bestiary() -> list[dict]:
@@ -224,11 +225,18 @@ def parse_bestiary() -> list[dict]:
         if not m:
             continue
         name, kind, ad = m.groups()
-        desc = ""
+        desc_parts: list[str] = []
+        capturing = False
         for l in lines[1:]:
-            if l.lower().startswith("description:"):
-                desc = l.split(":", 1)[1].strip()
-        out.append({"name": name.strip(), "kind": kind.strip(), "ad": ad.strip(), "description": desc})
+            lm = re.match(r"^([A-Za-z]+):\s*(.*)$", l)
+            if lm and lm.group(1) in BESTIARY_SUBFIELD_LABELS:
+                capturing = lm.group(1) == "Description"
+                if capturing:
+                    desc_parts = [lm.group(2).strip()]
+                continue
+            if capturing:
+                desc_parts.append(l)
+        out.append({"name": name.strip(), "kind": kind.strip(), "ad": ad.strip(), "description": " ".join(desc_parts).strip()})
     return out
 
 
@@ -242,11 +250,19 @@ def parse_factions() -> list[dict]:
             continue
         m = re.match(r"^(.+?)\s*-\s*AD:\s*(.+)$", lines[0])
         name, ad = (m.group(1).strip(), m.group(2).strip()) if m else (lines[0], "")
-        fields = []
+        fields: list[tuple[str, str]] = []
+        cur_label = None
+        cur_parts: list[str] = []
         for l in lines[1:]:
             fm = re.match(r"^-\s*([^:]+):\s*(.+)$", l)
             if fm:
-                fields.append((fm.group(1).strip(), fm.group(2).strip()))
+                if cur_label is not None:
+                    fields.append((cur_label, " ".join(cur_parts).strip()))
+                cur_label, cur_parts = fm.group(1).strip(), [fm.group(2).strip()]
+            elif cur_label is not None:
+                cur_parts.append(l)
+        if cur_label is not None:
+            fields.append((cur_label, " ".join(cur_parts).strip()))
         out.append({"name": name, "ad": ad, "fields": fields})
     return out
 
@@ -366,7 +382,11 @@ def parse_region_overview(code: str, gaz: dict) -> Region:
                     table_rows.append((int(rm.group(1)), rm.group(2).strip()))
                 i += 1
         elif label in REGION_FIELD_LABELS:
-            fields.append((label, val.strip()))
+            parts = [val.strip()]
+            while i < n and lines[i].strip():
+                parts.append(lines[i].strip())
+                i += 1
+            fields.append((label, " ".join(parts).strip()))
     info = gaz[code]
     return Region(
         code=code, name=info["name"], rating=info["rating"], die=info["die"], tags=info["tags"],
@@ -586,7 +606,7 @@ CITE_PATTERNS = [
 TREASURE_CITE_RE = re.compile(r'\(Treasure\s+([IVX]+),\s*d20\)')
 LOC_CODE_RE = re.compile(r'\b([A-Z]{1,2})\.(\d+)\b')
 REGION_PAREN_RE = re.compile(r'\(([A-Z]{1,2})\)')
-BESTIARY_MENTION_RE = re.compile(r"([A-Z][A-Za-z'\-]*(?:\s+[A-Z][A-Za-z'\-]*){0,3})\s*\(Bestiary\)")
+BESTIARY_CITE_RE = re.compile(r'\(([^()]*?),\s*Bestiary\s*:\s*([^()]+)\)')
 CODE_SPAN_RE = re.compile(r'`([^`]+)`')
 
 _TOK_OPEN, _TOK_CLOSE = "", ""
@@ -647,22 +667,13 @@ def render_inline(text: str, setting: Setting, resolver: LinkResolver, current_p
         s = TREASURE_CITE_RE.sub(treasure_sub, s)
 
         def bestiary_sub(m):
-            words = m.group(1).split()
-            # A leading determiner/number ("A Coastal Bandit", "Two Drowned Skeletons")
-            # isn't part of the creature's own name - try shrinking from the left
-            # until the remaining phrase (or its singular) matches a Bestiary entry.
-            for start in range(len(words)):
-                phrase = " ".join(words[start:])
-                candidates = [phrase, phrase[:-1] if phrase.endswith("s") else None]
-                found = next((c for c in candidates if c and c in setting.bestiary_names), None)
-                if found:
-                    prefix = html.escape(" ".join(words[:start]), quote=False)
-                    prefix = f"{prefix} " if prefix else ""
-                    href = resolver.href("bestiary", found, current_page)
-                    linked = f"<a href=\"{href}\">{html.escape(phrase, quote=False)}</a>"
-                    return protect(f"{prefix}{linked} (Bestiary)")
+            prefix, title = m.group(1).strip(), m.group(2).strip()
+            href = resolver.href("bestiary", title, current_page) if title in setting.bestiary_names else None
+            if href:
+                linked = f"<a href=\"{href}\">{html.escape(title, quote=False)}</a>"
+                return protect(f"({html.escape(prefix, quote=False)}, Bestiary: {linked})")
             return m.group(0)
-        s = BESTIARY_MENTION_RE.sub(bestiary_sub, s)
+        s = BESTIARY_CITE_RE.sub(bestiary_sub, s)
 
         def loc_sub(m):
             region, num = m.group(1), m.group(2)

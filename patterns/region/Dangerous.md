@@ -56,11 +56,47 @@ Connection graph:
 ```
 TOPOLOGY - dense, few entrances
   1     Every location reachable from an entrance
-  1     At least one loop - a path that returns without backtracking
+  1     At least one loop (3+ consecutive loop legs) - a path that returns without
+        backtracking
   1     At least one divide - a choice that does not reconverge
+  1     At least one branch (many), per 12 locations - a choice of three or more exits
   60%   A dead end, per 12 locations
+  40%   Of those dead ends: appears as dead end instead - a hidden (-.-) edge is the real
+        exit, cashing out the dead-end Secret rate in `dangerous/Secrets.md` as a route
+        rather than a cache
   30%   A one-way connection
 ```
+
+**Node role - every location carries exactly one, named here, assigned at 4b:**
+
+```
+NODE ROLE
+  entryway | simple connection | dead end | appears as dead end | branch |
+  branch (many) | divide | loop leg
+```
+
+**No location is left unassigned, and "simple connection" is a role, not a null value.**
+It is the honest name for a location that is neither an entrance, a dead end, a branch
+point, nor part of a loop - a straightforward link between two other nodes - and
+`dangerous/Low.md` still requires it to be honoured like any other role. What used to be
+recorded as `empty` is `simple connection`; the old label described the absence of a role
+rather than naming one, which is how it became the silent default no size rule actually
+called for.
+
+**LOW distribution - this is where the graph's shape has to actually show up,** since LOW
+is the largest class:
+
+```
+LOW NODE ROLE MIX - of a region's LOW-weight locations
+  60%+  Carry a role other than simple connection
+  1     No single role - simple connection included - accounts for more than a third of a
+        region's LOW locations
+```
+
+A region where every non-baseline role landed on a HIGH or MEDIUM location and every LOW
+location defaulted to simple connection has technically satisfied the graph-wide counts
+above while failing this rule - the counts are necessary, not sufficient, and this is the
+check that catches it.
 
 ## Patterns
 

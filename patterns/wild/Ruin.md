@@ -4,25 +4,11 @@
 What a built-or-once-built Landmark is, and what its condition says about who left it.
 
 ## Read at
-Step 4c, when a classification file draws a kind and the kind is a ruin. A Ruin is
-anything made by hands and no longer used as made - including things still standing and
-still occupied by somebody other than their builders.
-
-## Spec
-
-```
-RUIN
-  1     What it was, and roughly when
-  1     What state it is in now, and what did that to it
-  1     Whether anything holds it now
-  40%   A second occupancy between the builders and now
-  30%   Something the builders did that nobody does any more
-  20%   A name in an older tongue, per wild/Naming.md
-```
-
-**Condition is the storytelling.** A tower thrown down is a different story from a tower
-abandoned, which is different from a tower still roofed and empty. State what happened to
-it, not just that it is ruined.
+Step 4c, when `wild/Landmark.md`'s spec draws Kind: Ruin - the only classification file
+that does. That file's own Spec states what a Ruin must contain when drawn; this file
+supplies what it can be made of. A Ruin is anything made by hands and no longer used as
+made - including things still standing and still occupied by somebody other than their
+builders.
 
 ## Patterns
 
