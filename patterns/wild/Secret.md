@@ -8,15 +8,22 @@ Step 4c, last of the three tiers, after its parent Landmark or Hidden location e
 
 ## Spec
 
+**Every line below is read the same way:** `1` is mandatory; a percentage is the rate at
+which a Feature carrying that content appears. Where a line names a file in parentheses,
+that is the only other file this line requires.
+
 ```
 WILD - SECRET
+  1     Dressing and Secrets, unconditional              (wild/Dressing.md, wild/Secrets.md)
   1     Parent location, named
   1     Clue    - already visible in the parent's own Features
   1     Trigger - the specific action at the parent that reveals the way
   1     Payload - the connection to this whole location
   1     A reason it was worth concealing
-  70%   Creature, treasure, trap, or mystery - one, from the element files
-  40%   Lore, Key, or Quest involvement
+  70%   Creature, treasure, trap, or mystery - one      (wild/Creature.md, wild/Trap.md,
+                                                        wild/Treasure.md, wild/Mystery.md)
+  40%   Lore, Key, or Quest involvement                 (wild/Lore.md, wild/Key.md,
+                                                        wild/Quest.md)
 ```
 
 The Clue/Trigger/Payload here is the same shape as a feature-level Secret, scaled up: the

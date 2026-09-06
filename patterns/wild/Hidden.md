@@ -9,14 +9,21 @@ before its parent, because its connection is written into the parent's Exits.
 
 ## Spec
 
+**Every line below is read the same way:** `1` is mandatory; a percentage is the rate at
+which a Feature carrying that content appears. Where a line names a file in parentheses,
+that is the only other file this line requires.
+
 ```
 WILD - HIDDEN
+  1     Dressing and Secrets, unconditional              (wild/Dressing.md, wild/Secrets.md)
   1     Parent Landmark, named
   1     The visible detail at the parent that leads here - a mundane Exit, no trigger
   1     Something the parent only implied, now made concrete
-  60%   Creature, treasure, trap, or mystery - one, from the element files
-  30%   Lore, Key, or Quest involvement
-  20%   A further child of its own - a Secret below this one
+  60%   Creature, treasure, trap, or mystery - one      (wild/Creature.md, wild/Trap.md,
+                                                        wild/Treasure.md, wild/Mystery.md)
+  30%   Lore, Key, or Quest involvement                 (wild/Lore.md, wild/Key.md,
+                                                        wild/Quest.md)
+  20%   A further child of its own - a Secret below this one   (wild/Secret.md)
 ```
 
 A Hidden location is not found by roaming. It is found by **stopping at a Landmark and

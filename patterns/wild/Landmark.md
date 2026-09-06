@@ -9,15 +9,22 @@ Hidden or Secret location, since each child's connection is written into its par
 
 ## Spec
 
+**Every line below is read the same way:** `1` is mandatory; a percentage is the rate at
+which a Feature carrying that content appears. Where a line names a file in parentheses,
+that is the only other file this line requires.
+
 ```
 WILD - LANDMARK
-  1     Kind                        {Ruin | Lair | Natural Feature} - see below
+  1     Dressing and Secrets, unconditional              (wild/Dressing.md, wild/Secrets.md)
+  1     Kind                        {Ruin | Lair | Natural Feature} - see the KIND blocks
+                                                        below
   1     Position within the region - a bearing from the entry or another named Landmark
   1     A reason to stop, visible from outside
   40%   A visible detail leading onward to a Hidden child
-  20%   A Clue that a Secret is here, per wild/Secrets.md
-  50%   Creature, treasure, trap, or mystery - one, from the element files
-  20%   Lore, Key, or Quest involvement
+  50%   Creature, treasure, trap, or mystery - one      (wild/Creature.md, wild/Trap.md,
+                                                        wild/Treasure.md, wild/Mystery.md)
+  20%   Lore, Key, or Quest involvement                 (wild/Lore.md, wild/Key.md,
+                                                        wild/Quest.md)
 ```
 
 ```
