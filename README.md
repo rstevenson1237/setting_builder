@@ -181,8 +181,11 @@ roughly 3x it, one per room.
 distinction, not a content budget: a class is defined by what it *guarantees*, never by a
 ceiling on what may appear. Low is the largest class and grows fastest with region size,
 because connective space is where a region's decisions get made, not where its filler goes.
-Each DANGEROUS location also carries a **node role** from its region's graph - empty, dead
-end, branch, loop leg, or divide - assigned at 4b and read at 4c.
+Each DANGEROUS location also carries a **node role** from its region's graph - entryway,
+simple connection, dead end, appears as dead end, branch, branch (many), divide, or loop
+leg - assigned at 4b and read at 4c. Every location gets one; simple connection is a named
+role for an unremarkable link, not an empty default, and at least 60% of a region's LOW
+locations must carry a role other than it, per `patterns/region/Dangerous.md`.
 
 **WILD locations carry a classification instead** - landmark, hidden, or secret - selecting
 `patterns/wild/Landmark.md`, `Hidden.md`, or `Secret.md`. Roughly half or more are landmark

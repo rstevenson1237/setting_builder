@@ -22,15 +22,23 @@ Rate, by weight and node role:
 
 ```
 INCLUSION
-  low weight, dead end     50%   - this is the role's entire question
-  low weight, other        30%
-  medium weight            40%
-  high weight              by fit only - high weight already carries its own density
+  low weight, appears as dead end   100%  - the hidden route IS the role; see
+                                           dangerous/Low.md
+  low weight, dead end (honest)     50%   - this is the role's entire question
+  low weight, other                 30%
+  medium weight                     40%
+  high weight                       by fit only - high weight already carries its own
+                                           density
 ```
 
-The dead-end rate is the one that matters. If a dead end never hides anything, players
-stop checking and the role dies. If it always does, it is not a secret - it is a step.
-Half is the number that keeps the question live.
+**Dead end and appears as dead end are different roles precisely because of this rate.** A
+plain dead end hides something only half the time - if it never did, players would stop
+checking and the role dies; if it always did, it would not be a secret, it would be a step.
+Appears as dead end exists for the other half of that question: a location assigned that
+role at 4b is committing, at the graph level, to the hidden route always being there. Don't
+let a plain dead end's Secret payload be a route off the map (per the Payloads list below)
+without also relabeling its node role - that quietly turns a 50%-rate room into a
+100%-rate one without the graph saying so.
 
 **A Secret without a stated Clue is not discoverable.** It is a fact the referee knows and
 the players can never find, and it is the most common way this structure fails. The clue
