@@ -75,30 +75,9 @@ named as materials. Where a plainer word would also do, the precise one is the o
 
 ## Constraints
 
-- **Brackvaen, C.15 Peluath.** First full build ran low-weight rooms at 341 words, medium at
-  422 and high at 609 - a spread of under 2x across classes whose whole distinction is how
-  much they present. C.15's five Features held roughly 130 words of fact and 320 of
-  explanation, and the room stated the answer to its own problem (stand off the groove)
-  three separate times, twice in the entry and once in the Region Overview. The detail
-  budget above was being honoured and the entry was still four times too long, because
-  nothing budgeted the words each detail got. Hence the word budget, and hence
-  `templates/Location.md`'s rule that every sentence be a thing, an action, or an effect.
-
-- **Budget calibration, clean-room test.** The first figures set were 120/180/260 and all
-  three were about 20% too tight. Writing one room per class from scratch against `GENRE.md`
-  and this folder alone - drawing the spec rates honestly, and at or just under each class's
-  *expected* number of content items - landed at 132/212/311 after a full pass cutting
-  commentary. Further cuts would have removed facts, which rule 3 forbids. Raised to
-  140/220/320, which holds the ~2.3x low-to-high ratio that is the point of the budget and
-  is still roughly a 55% cut from the first build's measured 341/422/609. The lesson for
-  anyone re-tuning these: a class's budget has to be set against what its spec actually
-  mandates at an average draw, and HIGH mandates the most, so it needs the most headroom
-  rather than a proportional share.
-
-- **A region-wide motif that stops at the Region Overview.** A prior full build had a
-  Region Overview state a recurring architectural or material motif running through a
-  region, and fewer than a third of that region's locations actually carried it - the motif
-  existed at the overview level and nowhere a party could touch it. Per `GENRE.md`, a
-  region-level claim is only real if it's cited by the rooms underneath it; when drafting
-  a location, check whether its Region Overview asserts a running motif and, if so, either
-  carry it into a Feature or the sensory line, or flag it at 4e for the overview to cut.
+- **Details already included in the region description are not included here.** A prior
+  full build had a Region Overview claim a recurring motif that fewer than a third of the
+  region's locations actually carried - the claim existed at the overview level and nowhere
+  a party could touch it. Per `GENRE.md`, say a thing once, at the highest level where it is
+  true: a location's Dressing states what is specific to it, not what the Region Overview
+  already covers for the whole region.
