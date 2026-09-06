@@ -102,6 +102,10 @@ Coined here:
   Nemhet warding-name cut into the Ward-Threshold's doors (D.7).
 - Werkamu = wer- (great, elder) + kamu (shadow, a departed spirit) - "the great departed
   one": Nemhet's last priest-king, named on the epitaph in his own rest (D.18).
+- Weriru = wer- (great, elder) + iru (to give, to grant) - "the great giving": the Undrowned
+  Idol found at Glaswy's Second District (C.10).
+- Wernekhu = wer- (great, elder) + nekhu (flame, light) - "the great flame": the Priest-
+  King's Diadem, found at his rest (D.18).
 
 ## Xoss
 
