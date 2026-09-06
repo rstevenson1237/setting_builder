@@ -98,6 +98,10 @@ Roots:
 Coined here:
 - Senametu = senu (water) + ametu (toward, facing) - "the way over the water": the old
   Nemhet name for Oerath's Causeway (B.1), cut into one of its kerbstones.
+- Perwenu = per- (place, holding) + wenu (to bind, to seal) - "the sealed place": the
+  Nemhet warding-name cut into the Ward-Threshold's doors (D.7).
+- Werkamu = wer- (great, elder) + kamu (shadow, a departed spirit) - "the great departed
+  one": Nemhet's last priest-king, named on the epitaph in his own rest (D.18).
 
 ## Xoss
 
@@ -139,5 +143,5 @@ Roots:
 - zhi - toward, downward, into the deep
 
 Coined here:
-*(None yet - recorded here, decomposed into roots, as proper nouns are coined from step
-2a onward.)*
+- Kissva = kiss (black) + va (coil, spine, body) - "the black coil": the Coil's own name
+  for the Sealed Gallery (D.17), where their glyph-ring is scratched into the floor.
