@@ -98,6 +98,15 @@ solution is never written into the problem.** These four aren't a fourth test - 
 three tests above, restated as one memorable line any pattern file can point back to
 instead of re-deriving them.
 
+**Voice.** Specific vocabulary before general, at every level and in every rating folder.
+Real trade terms, real architectural terms, real terrain and weather terms - named as what
+they are, not described around. A plainer word is fine only where no more precise one
+exists; where one does, it is the one to use. Each rating's own `Dressing.md` supplies the
+vocabulary that fits its ground - what a garrison's own trades and building terms are for
+SAFE, what its terrain and weather terms are for WILD, what its architectural terms are for
+DANGEROUS - but the rule not to reach for the generic word is the same rule everywhere, and
+lives here rather than being restated three times.
+
 Names are plain and functional - what a garrison actually calls things (a watch tower, a
 supply road, a person by trade or nickname), not exotic coinages. This holds regardless of
 what a location's name has to carry: a location's own name is still plain and descriptive,

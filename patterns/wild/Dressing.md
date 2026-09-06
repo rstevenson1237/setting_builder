@@ -14,8 +14,9 @@ citation formats are in `templates/Location.md`.
 DRESSING - every WILD location
   1     Size and shape, in yards
   1     Position within the region - a bearing from the entry or a named Landmark
-  1     One sensory fact beyond the visual
-  1     What the weather and the season are doing to it
+  1     Condition - what weather, season, and time have done to it since
+  1     Purpose - per its kind file (Ruin, Lair, or Natural Feature); not restated here
+  1     Ambiance - smell and sound, attributable to Condition or Purpose
   1     Every exit typed and positioned
 ```
 
@@ -34,7 +35,7 @@ as provisional until a WILD region has been written against it.
 
 **No detail budget is not the same as no word budget**, and WILD is the rating most likely to
 confuse them. Every location getting the full treatment means every location gets its
-position, its weather, its sensory fact and its full complement of Features - it does not
+position, its Condition, its Ambiance and its full complement of Features - it does not
 mean any of those may be explained at length. The budget is diagnostic: per
 `templates/Location.md`, an over-budget WILD entry is usually one where the connective
 texture that belongs in the Region Overview's Terrain field has been written out again here,
@@ -54,16 +55,25 @@ locations follows the same split: yards for a short hop, miles for a long trek.
 another named Landmark. In a point crawl this is the only spatial information a party
 gets, and it is what lets a referee say where they are when they are between things.
 
-**Sensory, and attributable.** One fact beyond the visual, caused by something already
-stated - the ground, the water, what grows here, what lives here, what the wind is coming
-off. Outdoors the reliable registers are wind, temperature, footing, what the air smells
-of, and what sound does across open ground or under canopy. A detail equally true of the
-whole region belongs in the Region Overview, not here.
+**Condition.** A WILD location is exposed, and what weather, season, and time have done to
+it is stated before anything else physical: what it is like in rain, what it is like at
+night, what the season is doing to the footing and the cover, what has changed it since it
+was last what its kind file says it is - worked, disturbed, reclaimed, damaged by a past
+event. This is also where a location earns a second visit - the same place in different
+weather is genuinely different.
 
-**Weather and season.** A WILD location is exposed, and stating what that means costs a
-clause: what it is like in rain, what it is like at night, what the season is doing to the
-footing and the cover. This is also where a location earns a second visit - the same place
-in different weather is genuinely different.
+**Purpose is supplied by the kind file, not restated here.** `wild/Ruin.md` states what a
+Ruin was, `wild/Lair.md` states why its occupant stays, `wild/NaturalFeature.md` states why
+a party would stop - whichever applies has already answered "what is this for." Dressing
+does not reopen that question; it dresses the answer.
+
+**Ambiance.** Smell and sound, minimum one, and both **attributable** - caused by Condition
+(what the weather, season, or an event have done here) or by Purpose (what grows, lives, or
+happens here). Outdoors the reliable registers are what the air smells of and what sound
+does across open ground or under canopy; temperature and footing are real but follow from
+Condition, and belong there or in a Feature when they matter enough to act on. A fact
+equally true of the whole region belongs in the Region Overview's own Ambiance field, not
+here.
 
 **Exits.** Every exit gets a type and a position: what indicates the way, and which
 direction it leads. Outdoors, position is a compass direction or a relation to something
@@ -75,10 +85,9 @@ into a guess.
 same tenancy. Before the entry is done, check that its parts could plausibly share a place
 - and where one cannot, change it rather than explaining it.
 
-**Voice.** Per `GENRE.md`: specific before general. Real terms for landform, watercourse,
-vegetation and weather - scree, corrie, holt, spinney, sike, hag, tor, brake. Name the
-species rather than "trees." Where a plainer word would also do, the precise one is the
-one to use.
+**Vocabulary, per `GENRE.md`'s Voice.** Real terms for landform, watercourse, vegetation and
+weather - scree, corrie, holt, spinney, sike, hag, tor, brake. Name the species rather than
+"trees."
 
 ## Constraints
 *(Empty. Entries arrive from generation testing, never from anticipation.)*
