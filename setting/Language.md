@@ -96,8 +96,8 @@ Roots:
 - ametu - toward, facing
 
 Coined here:
-*(None yet - recorded here, decomposed into roots, as proper nouns are coined from step
-2a onward.)*
+- Senametu = senu (water) + ametu (toward, facing) - "the way over the water": the old
+  Nemhet name for Oerath's Causeway (B.1), cut into one of its kerbstones.
 
 ## Xoss
 
