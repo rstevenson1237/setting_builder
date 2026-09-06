@@ -45,8 +45,8 @@ Roots:
 - de - toward, facing
 
 Coined here:
-*(None yet - recorded here, decomposed into roots, as proper nouns are coined from step
-2a onward.)*
+- Carrdun = carr (stone) + -dun (place, holding) - the setting itself: a border garrison
+  raised from salvaged tomb-stone.
 
 ## Nemhet
 
