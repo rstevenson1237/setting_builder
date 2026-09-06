@@ -20,15 +20,17 @@ Consult `setting/Bestiary.md`, `setting/Factions.md`, `setting/History.md`, `set
 
 1. Read the assigned class file for this location in patterns/
 2. This pattern determines the minimum percentage that a feature or detail occurs in this location, consider '1' a mandatory entry
-3. Output the pattern generated exactly according to the template below
+3. Sort the Features the pattern produced by prominence, most important first, and write them in that order - this is a per-Feature ordering within one entry, distinct from a SAFE location's own liner note/working/central Prominence
+4. Budget each Feature's own line by its position in that order: 15 words for the first (most prominent) Feature, 8-12 words for every Feature after it - a ceiling, not a target. State every Feature in the minimum number of words that convey it completely; never pad a line to reach its budget
+5. Output the pattern generated exactly according to the template below
 
 ## Template
 ```
 [Region Code].[Location Code] **[Location Name]** [(high/medium/low) for DANGEROUS, (landmark/hidden/secret) for WILD] - *[three, thematic, tags]*
 [Player Summary - two sentences maximum, that can be spoken aloud to the players or paraphrased. Include any details that would be obvious glancing at the location. **Bold** any features mentioned in the summary]
 *[Referee Notes - important details the Referee will need to know to adjudicate player efforts to explore the location: size (feet indoors, yards outdoors), shape, former/current purpose. Include a sound or smell only when it points at a specific feature within the location - never as ambience alone]*
-**[Feature Name]:** [ten words maximum. Interactive or explorable detail for this one feature, including where within the room it sits (a wall, a corner, the center) and, when spatially significant, its own dimension; if a specific action triggers something specify both the action and the effect; hidden features, including any exit that needs a trigger to reveal or access, are nested within the detail of an obvious feature's line, along with how to access them]
-**[Feature Name]:** [...]
+**[Feature Name, most prominent first]:** [15 words maximum for this line, the entry's first Feature. Interactive or explorable detail for this one feature, including where within the room it sits (a wall, a corner, the center) and, when spatially significant, its own dimension; if a specific action triggers something specify both the action and the effect; hidden features, including any exit that needs a trigger to reveal or access, are nested within the detail of an obvious feature's line, along with how to access them. State it in the fewest words that convey it fully - the budget is a ceiling, not a target]
+**[Feature Name]:** [8-12 words maximum for this and every following Feature, same content rules as above, stated in the fewest words that convey it fully]
 **Exits:** [comma separated list of this space's mundane exits, each as "[exit type - material, construction, condition], [position - wall, corner, or direction] -> [Code] [Location Name]"; an exit that leaves the map entirely rather than connecting to another location - open water, an unstaked wilderness edge, a route with no fixed destination - is written the same way but with "-> [where it leads, in plain terms, with no Code]" in place of the Code and Location Name, and is always listed **last**, after every coded exit, since `tools/validate_setting.py` reads exits by splitting on each "-> [Code] [Name]" match in order and an uncoded exit placed earlier would shift every description after it]
 ```
 
