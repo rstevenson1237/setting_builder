@@ -47,6 +47,12 @@ Roots:
 Coined here:
 - Carrdun = carr (stone) + -dun (place, holding) - the setting itself: a border garrison
   raised from salvaged tomb-stone.
+- Oerath = oer (cold) + -ath (plural, collective) - Region B, the cold reaches: the open
+  steppe between the ford and the horse-tribe camps.
+- Glaswy = glas (green) + -wy (water) - Region C, the green water: the reed-choked
+  backwater downstream of the ruins.
+- Baldun = bal (death, the dead) + -dun (place, holding) - Region D, hold of the dead: the
+  flood-exposed remnant of Nemhet's drowned capital.
 
 ## Nemhet
 
