@@ -5,25 +5,9 @@ Where a claim to authority is exercised, on what basis, and what a stranger has 
 get anything out of it.
 
 ## Read at
-Step 4c, for a SAFE location whose kind is an office, a posting place, or a custom.
-
-## Spec
-
-```
-AUTHORITY
-  1     Who holds it here, and by what claim - elected, inherited, seized, granted, assumed
-  1     What actually gets settled here, as opposed to what is claimed
-  1     What a stranger must do to get a hearing
-  1     The limit of the claim - where it stops being obeyed
-  40%   A rival claim, and who backs it
-  30%   Something posted, current, and specific
-  20%   A custom a stranger will break without knowing
-```
-
-**Points of Light means no authority defaults to legitimacy.** Somebody is in charge here
-because of a specific arrangement, and that arrangement has an edge past which nobody is
-listening. State the edge - it is the most useful fact in the entry, and it is where a
-party's leverage lives.
+Step 4c, when `safe/Settlement.md`'s spec draws Kind: Authority - the only class file that
+does. That file's own Spec states what an Authority location must contain when drawn; this
+file supplies what it can be made of.
 
 ## Patterns
 

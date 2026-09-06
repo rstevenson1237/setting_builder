@@ -5,30 +5,10 @@ Which individuals from the region's roster appear at this location, and what mak
 worth remembering.
 
 ## Read at
-Step 4c, for any SAFE location with a person in it - which is nearly all of them. The
-roster itself is the Region Overview's People field; this file turns a roster line into
+Step 4c, when `safe/Settlement.md`'s spec draws Kind: People - the only class file that
+does, and also for any other SAFE location that names a person from the roster in passing.
+The roster itself is the Region Overview's People field; this file turns a roster line into
 somebody at a location.
-
-## Spec
-
-```
-PERSON
-  1     Name, from the region roster - not invented here
-  1     What they are doing when the party arrives
-  1     One thing distinctive enough to be recalled a session later
-  1     What they want, whether or not they are asking for it
-  30%   A Named Creature row, where they will recur or be heard of first
-  20%   An opinion about the region's Situation that is not the common one
-```
-
-**Draw from the roster; do not invent a cast.** The region's People field lists who is
-here. A location that invents its own people produces a settlement of strangers who never
-meet each other, which is the failure the roster exists to prevent. If somebody is needed
-who is not on the roster, add them to the roster.
-
-**Recall beats description.** A party remembers one concrete thing - a scar, a habit, a
-grudge, a way of speaking, a thing they carry - and forgets three sentences of appearance.
-Write the one thing.
 
 ## Patterns
 

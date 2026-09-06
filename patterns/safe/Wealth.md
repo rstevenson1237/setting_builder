@@ -5,54 +5,9 @@ What a settlement's own cache of treasure, lore, or both actually holds, who it 
 and what stands between a party and it.
 
 ## Read at
-Step 4c, for a SAFE location whose kind is a strongroom, hoard, shrine cache, or vault.
-
-## Spec
-
-```
-WEALTH
-  1     Contents                   {Treasure | Lore | Both}
-  1     Who it belongs to, or belonged to - and whether they know it is still here
-  1     Protection, exactly one    {hidden | gated | guarded | trapped} - see Patterns
-  30%   A second protection, of a different kind than the first
-  20%   Somebody else wants it, and is closer to getting it than the party
-```
-
-**Treasure** is cited from a table, per `setting/Treasure1.md` through `Treasure5.md`, or
-stated as a Unique Treasure stub per `patterns/setting/Keys.md`'s sibling registries. **Lore**
-follows `safe/Lore.md`'s fields - physical form, whose voice, what it does - with one
-deliberate exception: `safe/Lore.md` frames SAFE lore as *obtainable rather than
-discovered*, because its obstacle is normally a living holder. A Wealth location's lore is
-the opposite case on purpose - nobody currently holds it, or the holder does not know it is
-here - which is what makes it worth a Protection line instead of an access clause.
-
-**Protection is exactly one, chosen for the Kind, not rolled.** The four are not
-interchangeable flavor text - each implies a different discovery structure:
-
-- **hidden** reuses `safe/Secrets.md`'s Clue/Trigger/Payload structure directly, guaranteed
-  by this spec line rather than by that file's own 10% settlement-wide roll. A Wealth
-  location whose Protection is hidden has already spent its Secret; do not also roll
-  `safe/Secrets.md`'s independent rate against it.
-- **gated** means the cache's existence is known and unconcealed - access needs a stated,
-  non-secret condition instead.
-- **guarded** cites a creature already present in this region's Overview under Creatures,
-  by name - per `patterns/region/Safe.md`, anything non-Man in a SAFE region is already
-  working, penned, or a problem, and a guardian is the "working" case. Do not invent a new
-  Bestiary entry here; if none fits, that is a signal to use a different Protection.
-- **trapped** follows the format below, using `setting/Procedures.md`'s impact tiers.
-
-**A SAFE trap is usually somebody's work, not a dungeon mechanism.** Per `safe/Secrets.md`'s
-own principle, prefer an alarm, a marking dye, a lock that jams or maims, or a mechanism
-that ruins the goods rather than the person - a Lethal tier here should be rare and
-deliberate, reserved for a Wealth location the region's Situation already justifies treating
-that seriously. Write it in the same line format every Feature uses:
-
-`**Name:** tell; tell → effect; effect`
-
-**Nominal Authority does not stop at the wall.** Per `GENRE.md`, a settlement being SAFE
-means it is safe from the wilderness, not that everything inside it is accounted for or
-under anyone's real control - a Wealth location is where that gap becomes something a party
-can act on.
+Step 4c, when `safe/Settlement.md`'s spec draws Kind: Wealth - the only class file that
+does. That file's own Spec states what a Wealth location must contain when drawn,
+including what its four Protection types mean; this file supplies what it can be made of.
 
 ## Patterns
 

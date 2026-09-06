@@ -4,30 +4,10 @@
 What an occupied Landmark is, and what its occupancy implies about the country around it.
 
 ## Read at
-Step 4c, when a classification file draws a kind and the kind is a lair. A Lair is a place
-something currently lives, whether it built the place or moved in.
-
-## Spec
-
-```
-LAIR
-  1     What lives here, from setting/Bestiary.md
-  1     The territory it claims, and how far that reaches
-  1     A sign of it readable before the lair itself is reached
-  1     What it eats, and where that comes from
-  40%   Young, stores, or dependants - a reason it cannot simply leave
-  30%   Absent when the party arrives, and elsewhere in the region
-  30%   A child location: the den proper, the midden, the larder, the killing ground
-```
-
-A lair is the WILD tier's natural place to carry depth. Per `wild/Landmark.md`, complexity
-comes from attaching children rather than from writing the parent heavier - and a lair
-decomposes into children more readily than any other kind, because a thing that lives
-somewhere lives across several spaces.
-
-**Territory is what makes a lair matter to the region.** A den nobody can find is a room;
-a den whose owner ranges three landmarks in every direction is a fact about the whole
-region.
+Step 4c, when `wild/Landmark.md`'s spec draws Kind: Lair - the only classification file
+that does. That file's own Spec states what a Lair must contain when drawn; this file
+supplies what it can be made of. A Lair is a place something currently lives, whether it
+built the place or moved in.
 
 ## Patterns
 
