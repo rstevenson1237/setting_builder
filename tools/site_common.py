@@ -606,7 +606,7 @@ CITE_PATTERNS = [
 TREASURE_CITE_RE = re.compile(r'\(Treasure\s+([IVX]+),\s*d20\)')
 LOC_CODE_RE = re.compile(r'\b([A-Z]{1,2})\.(\d+)\b')
 REGION_PAREN_RE = re.compile(r'\(([A-Z]{1,2})\)')
-BESTIARY_MENTION_RE = re.compile(r"([A-Z][A-Za-z'\-]*(?:\s+[A-Z][A-Za-z'\-]*){0,3})\s*\(Bestiary\)")
+BESTIARY_CITE_RE = re.compile(r'\(([^()]*?),\s*Bestiary\s*:\s*([^()]+)\)')
 CODE_SPAN_RE = re.compile(r'`([^`]+)`')
 
 _TOK_OPEN, _TOK_CLOSE = "", ""
@@ -667,22 +667,13 @@ def render_inline(text: str, setting: Setting, resolver: LinkResolver, current_p
         s = TREASURE_CITE_RE.sub(treasure_sub, s)
 
         def bestiary_sub(m):
-            words = m.group(1).split()
-            # A leading determiner/number ("A Coastal Bandit", "Two Drowned Skeletons")
-            # isn't part of the creature's own name - try shrinking from the left
-            # until the remaining phrase (or its singular) matches a Bestiary entry.
-            for start in range(len(words)):
-                phrase = " ".join(words[start:])
-                candidates = [phrase, phrase[:-1] if phrase.endswith("s") else None]
-                found = next((c for c in candidates if c and c in setting.bestiary_names), None)
-                if found:
-                    prefix = html.escape(" ".join(words[:start]), quote=False)
-                    prefix = f"{prefix} " if prefix else ""
-                    href = resolver.href("bestiary", found, current_page)
-                    linked = f"<a href=\"{href}\">{html.escape(phrase, quote=False)}</a>"
-                    return protect(f"{prefix}{linked} (Bestiary)")
+            prefix, title = m.group(1).strip(), m.group(2).strip()
+            href = resolver.href("bestiary", title, current_page) if title in setting.bestiary_names else None
+            if href:
+                linked = f"<a href=\"{href}\">{html.escape(title, quote=False)}</a>"
+                return protect(f"({html.escape(prefix, quote=False)}, Bestiary: {linked})")
             return m.group(0)
-        s = BESTIARY_MENTION_RE.sub(bestiary_sub, s)
+        s = BESTIARY_CITE_RE.sub(bestiary_sub, s)
 
         def loc_sub(m):
             region, num = m.group(1), m.group(2)

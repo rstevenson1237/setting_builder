@@ -33,6 +33,19 @@ Consult `setting/Bestiary.md`, `setting/Factions.md`, `setting/History.md`, `set
 **Exits:** [comma separated list of this space's mundane exits, each as "[exit type - material, construction, condition], [position - wall, corner, or direction] -> [Code] [Location Name]"; an exit that leaves the map entirely rather than connecting to another location - open water, an unstaked wilderness edge, a route with no fixed destination - is written the same way but with "-> [where it leads, in plain terms, with no Code]" in place of the Code and Location Name, and is always listed **last**, after every coded exit, since `tools/validate_setting.py` reads exits by splitting on each "-> [Code] [Name]" match in order and an uncoded exit placed earlier would shift every description after it]
 ```
 
+## Citations
+Every citation below sits inside its own parentheses, exactly as written, so `tools/build_site.py` can find and link it. A citation that doesn't match one of these forms renders as plain, unlinked text.
+
+- **Bestiary** - `(Demeanor, Number appearing, Bestiary : Entry Name)`. Demeanor is one tag from `GENRE.md`'s Creatures (demeanors) bank; Number appearing is a count fitting the Bestiary entry's own Range; Entry Name must match a `setting/Bestiary.md` heading exactly. Example: `(Patient, 5, Bestiary : Road Toll Gang)`.
+- **Lore** - `(Lore: Title)`
+- **Keys** - `(Keys: Title)`
+- **Quest** - `(Quest: Title)`
+- **Named Creature** - `(Named Creature: Name)`
+- **Unique Treasure** - `(Unique Treasure: Name)`
+- **Treasure table** - `(Treasure [I-V], d20)`
+
+A location code mentioned in running text (`A.3`, `C.15`) is linked automatically wherever it already names a real location; nothing special is needed to write one.
+
 ## A note on completeness
 A location file is a **container**, and it is finished at 4c only in that sense. What its
 citations point at - what a piece of Lore says, what a Key opens, what a Named Creature
