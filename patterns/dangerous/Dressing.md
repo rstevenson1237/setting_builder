@@ -19,37 +19,6 @@ DRESSING - every location
   1     Every exit typed and positioned
 ```
 
-Detail beyond that baseline is what the weight class buys:
-
-```
-DETAIL BUDGET
-  low weight     baseline only. Nothing should read as unusual or invite a second look
-  medium weight  one detail out of spec - an irregular shape, an incongruous former use,
-                 a second sensory fact, or a notable exit. Still dressing, still in the
-                 Referee Notes or the Exits line
-  high weight    dressing becomes exploration material. Several details out of spec, and
-                 where one gives players something to act on, it is promoted to its own
-                 Feature line
-```
-
-```
-WORD BUDGET - the whole entry, excluding the header line and the Exits line
-  low weight     ~140 words
-  medium weight  ~220 words
-  high weight    ~320 words
-```
-
-**The budget is diagnostic, not a target.** The detail budget above governs how many things a
-room holds; nothing governed how many words each thing got, and that is the gap this closes.
-A room over budget is almost never a room holding too much - it is a room whose contents have
-been explained. Per `templates/Location.md`, find the sentence that says why a detail is
-there, what it means, or what the party will conclude from it, and delete that before
-touching a fact.
-
-The ratio is the point as much as the numbers: a low-weight room should read as a fraction of
-a high-weight one, and if low and high are within a third of each other on the page then the
-weight classes are not doing any work no matter what the spec says they contain.
-
 ## Patterns
 
 **Purpose.** Every room was for something, even if it has stopped being for it. A former
