@@ -1,8 +1,9 @@
 # Setting - Genre
 
 ## Decides
-The three-question flow that produces GENRE.md's customizable spine, and what each axis
-must constrain rather than decorate.
+The seed-and-narrow flow that produces GENRE.md's customizable spine: a pool of specific
+genre references, three rounds of narrowing questions that pick one, and what axes still
+get dialed once it's picked.
 
 ## Read at
 Step 1a, before anything else - GENRE.md is the first artifact in the build.
@@ -11,82 +12,163 @@ Step 1a, before anything else - GENRE.md is the first artifact in the build.
 
 ```
 GENRE
-  1     Q1 - a broad genre family, then a second pass narrowing it to a specific,
-        well-known trope within that family
-  1     Q2 - a set of binary/dial axis questions, answered together
-  1     Q3 - three written trope proposals consistent with Q1 and Q2, each carrying three
-        seed tags - one is picked, or a fourth is requested along a stated axis
+  20-30 Seed - discrete, specific genre references: authors, single books or series, and
+        TTRPG lines - never a genre label alone. Each is stated as both the specific thing
+        and the general tropes it fulfills
+  3     Rounds of narrowing questions, from the user's general request down to one chosen
+        reference
+  1     The chosen reference, restated in GENRE.md's own identity paragraph as both the
+        specific thing and the general tropes it fulfills
+  1     Q2 - a set of binary/dial axis questions, answered together, defaulted to what the
+        chosen reference implies and dialed elsewhere only where the user wants to diverge
   3-5   Axis bullets in the finished GENRE.md, each a named constraint with a one-line
-        elaboration, drawn from the chosen Q3 proposal
+        elaboration, drawn from the chosen reference and Q2
   1     A short paragraph stating what player characters are here, stated the way GENRE.md's
         B/X-Conan default states it - not heroes, not the resolution of anything
   50    A Tags section in the finished GENRE.md: five categories of ten - Safe, Wild,
-        Dangerous, People (personalities), Creatures (demeanors) - built from all three
-        Q3 proposals' seed tags plus more in the same vein, giving every later step a wide,
-        indexed bank to pull constraining tags from instead of converging on one example
+        Dangerous, People (personalities), Creatures (demeanors) - drawn from the chosen
+        reference's own concrete iconography and from Q2's axis answers
   1     The fixed "What a line has to earn" three tests, reproduced verbatim from
         `templates/Genre.md` - never reauthored per genre
-  1     A naming-convention line, settled by Q2/Q3 rather than assumed
+  1     A naming-convention line, settled by Q2 rather than assumed
 ```
 
 **This is the one place seeding is intentional.** Every other artifact's worked examples in
-this library are illustrations to be varied from; Q3's seed tags, and the wider 25-tag bank
-built from them, are the opposite - they exist specifically to be carried forward into
-`setting/Setting.md` and beyond, the same way a Region Overview's claims are meant to be
-cashed out by its locations. Building a wide bank here, from *this run's* actual answers to
-Q1 and Q2, is what keeps every later step's three tags a real pick rather than a reach for
-whatever fixed example a pattern file happened to show - the failure mode a single vivid
-worked example invites, however many times that example gets varied.
+this library are illustrations to be varied from; the Seed pool below, and the tag bank
+built from the chosen reference, are the opposite - they exist specifically to be carried
+forward into `setting/Setting.md` and beyond, the same way a Region Overview's claims are
+meant to be cashed out by its locations. A named, specific reference gives every later step
+real material - an actual body of work with its own creatures, factions, objects, and
+texture - instead of an abstract family label that has to be invented from nothing at every
+step that touches it.
 
-## Q1 - Broad genre, then trope
+## Seed - 20-30 specific references
 
-**Part A - broad genre family.** Offer a short list of broad fantasy-RPG genre families,
-weighted toward OSR's own territory but not limited to it - pushing past classic fantasy is
-fine when the user wants it:
+Not a family, not a mood - a **named, real thing**: a specific author's body of work, a
+single book or series, or a specific tabletop RPG's own genre. The pool below is a starting
+menu, kept in this file and refreshed as taste and availability change, spanning enough
+different corners of fantasy that Round 1 has real distance to work with. A user's own
+reference, named freehand and passing the eligibility test below, is always valid - the
+pool is a menu, not a ceiling.
 
-- **Classic Fantasy** - the default: 1970s-80s tabletop fantasy, a points-of-light frontier,
-  Tolkien-adjacent-but-grimier, Conan-esque sword and sorcery.
-- **Weird / Gothic Fantasy** - folk horror, cursed bloodlines, a land that is wrong rather
-  than merely dangerous.
-- **Post-Apocalyptic / Science-Fantasy** - a fallen high-technology age read as myth, ruins
-  that are machines, magic that is misunderstood science.
-- **Nautical / Archipelago Fantasy** - islands, drowned coasts, ships as the only safe
-  ground.
-- **Desert / Silk-Road Fantasy** - caravans, oases, a hostile interior between rich cities.
-- **Frozen / Frontier-North Fantasy** - ice, isolation, a hard season that is itself the
-  antagonist.
-- **Urban Intrigue Fantasy** - one city, factions instead of wilderness, the dungeon is
-  underneath it.
-- **Mythic / Fairy-Tale Fantasy** - the old stories taken literally and made dangerous
-  again.
+**Authors** (the reference is their body of work, not one title):
 
-A user's own family, named freehand, is always valid - the list is a starting menu, not a
-constraint on Q1 itself.
+- **Robert E. Howard** - pulp sword-and-sorcery: a barbarian's raw vitality against
+  decadent, doomed civilization.
+- **Fritz Leiber** - Lankhmar-style low fantasy: wit, squalor, and thieves' guilds sharing a
+  city with gods who take contracts.
+- **Jack Vance** - baroque far-future decadence: magic as a dwindling, jealously hoarded
+  resource in a world too old and tired to care.
+- **Michael Moorcock** - the doomed sorcerer-champion: cosmic law-vs-chaos balance carried
+  on the back of one ruinous protagonist.
+- **Clark Ashton Smith** - ornate decadent doom: magic as poison, empires already rotting
+  when the story starts.
+- **Gene Wolfe** - unreliable far-future-as-myth: a narrator who cannot be fully trusted,
+  in a world where technology has become religion.
+- **Mervyn Peake** - crumbling ritual-bound grotesquerie: a castle whose ceremony has
+  outlived its reason, and a nobility rotting inside it.
+- **China Miéville** - weird biology-industrial fantasy: monstrous cities, remade bodies,
+  politics that bite.
 
-**Present Part A in two stages, not one crowded list.** Split the eight families across two
-short rounds of four rather than forcing all eight into a single prompt - a shorter list is
-easier to weigh honestly, and the two-stage shape (a strong first four, then "or one of
-these instead") reads better than a single wall of options. **The two rounds are
-alternatives, not a compound question** - if a response somehow answers both at once, that
-is ambiguous by construction; confirm which one was actually meant before moving to Part B
-rather than guessing, or treating it as a blend unless the user says so themselves.
+**Single book or series**:
 
-**Part B - narrow to a trope.** Within the chosen family, name a specific, well-known trope
-- specific enough that two different answers would produce visibly different settings.
-Illustrative, not exhaustive: *Classic Fantasy* → a border keep on the marches, a lost
-colony, a dying kingdom's last province. *Nautical* → a pirate-haunted archipelago, a
-drowned empire's remaining islands, a whaling frontier. *Urban Intrigue* → a city built in a
-dead god's ribcage, a free port with no crown, a city one season from famine.
+- **Glen Cook's The Black Company** - grunt's-eye grimdark: mercenaries chronicling their
+  own compromises while serving a power they didn't choose and can't defeat.
+- **Steven Erikson's Malazan Book of the Fallen** - continent-spanning empire fantasy:
+  buried gods, common soldiers, and a history too vast for any one character to see whole.
+- **Joe Abercrombie's The First Law** - morally bankrupt heroic fantasy: war as machinery,
+  and nobody in it is who the story first suggested.
+- **George R.R. Martin's A Song of Ice and Fire** - dynastic low-magic war: succession,
+  betrayal, and a supernatural threat everyone in power is too busy to notice.
+- **N.K. Jemisin's The Broken Earth** - apocalyptic-geology fantasy: an oppressed
+  power-caste and a world that periodically tries to kill everyone on it.
+- **Andrzej Sapkowski's The Witcher** - monster-hunter-for-hire fantasy: folk-horror
+  creatures, political rot, and a job that pays badly for a reason.
+- **Susanna Clarke's Jonathan Strange & Mr Norrell** - genteel returning-magic fantasy: a
+  world that forgot how to be magic, remembering badly and at a cost.
+- **Katherine Addison's The Goblin Emperor** - court-intrigue fantasy: an outsider thrust
+  into a throne and a bureaucracy built to grind him down.
+- **Ursula K. Le Guin's Earthsea** - true-name wizardry: balance, consequence, and power
+  that is always a debt against something.
 
-A trope is well-specified when it constrains Q3 below. If any of three unrelated settings
-could still fit the trope as stated, narrow it further before moving on.
+**TTRPG lines**:
+
+- **Mörk Borg** - apocalyptic doom-metal fantasy: a dying world on a lit fuse, played out
+  in the time it has left.
+- **Dolmenwood** - fairy-tale-gone-feral folk horror: an English wood with its own laws,
+  older and stranger than the villages at its edge.
+- **Troika!** - baroque absurdist science-fantasy: a dying, bureaucratic multiverse played
+  for wit as much as danger.
+- **Into the Odd / Electric Bastionland** - industrial-magic collision: expeditions run as
+  business ventures into a world where the strange is a resource.
+- **Wolves Upon the Coast** - Bronze-Age-myth-adjacent raiding fantasy: blood-price, oath,
+  and gods who still answer.
+- **Ultraviolet Grasslands** - psychedelic silk-road fantasy: a caravan crossing a dying
+  magical world for profit and curiosity in equal measure.
+- **Symbaroum** - corrupting-wilderness fantasy: an ancient forest reclaiming a fallen
+  empire, and the price of taking anything out of it.
+- **Forbidden Lands** - Viking-adjacent survival fantasy: a cursed, depopulated land and
+  the logistics of simply staying alive in it.
+- **Warhammer Fantasy Roleplay** - grim-and-perilous low fantasy: corruption seeping into
+  ordinary life, and career over vocation.
+- **Yoon-Suin** - hallucinatory river-delta fantasy: a slug-oil economy, decadent
+  city-states, and a mythic geography that doesn't behave.
+- **Trophy Gold** - cursed-wilderness delving fantasy: greed as the actual monster, and a
+  wilderness that corrupts whoever takes from it.
+- **Best Left Buried** - body-horror dungeon fantasy: wounds that don't heal clean, and a
+  depth that changes what goes down into it.
+
+## What makes a reference eligible
+
+**It must point to a body of work more broad than the sentence that names it here.** An
+author's whole career, a multi-book series, or an actively developed TTRPG line all clear
+this bar - each has more texture in it than any one summary can hold, which is exactly what
+gives later steps real material instead of an exhausted one-liner. A single short story, a
+lone one-shot module, or an isolated image with no world behind it does not clear it,
+however evocative - there's nothing left to draw on past the sentence describing it.
+
+**It is stated as both things, never one alone.** The specific reference (a name a person
+could look up) and the general trope cluster it fulfills (what it would still be if that
+specific name meant nothing to whoever's reading GENRE.md). Naming only the specific thing
+assumes everyone at the table has read it; naming only the general trope throws away the
+texture the specific thing was chosen for. Both halves of the pool entries above model this
+- keep the same shape when the user names their own reference freehand.
+
+## Three rounds of narrowing
+
+Start from whatever the user actually said, however general - "dark fantasy," "something
+about a frontier keep," "surprise me." Each round narrows the field; none of them re-asks a
+question the last one already answered.
+
+**Round 1 - which corner.** From the user's opening request, offer a short spread across
+the Seed pool's different corners - four to six references pulled from visibly different
+places in the list above (a pulp author, a grimdark series, a TTRPG line, a decadent-baroque
+pick), not four variations on the same one. The user picks a corner, names their own
+reference instead, or asks for a different spread if none of these are close.
+
+**Round 2 - which reference.** Within the chosen corner, offer two to four specific
+references (if Round 1's pick wasn't already a single reference) alongside one or two
+distinguishing dial questions - tone, scale, era, protagonist relationship to power. Narrow
+to one or two finalists.
+
+**Round 3 - confirm the one.** State the finalist as both the specific thing and the
+general tropes it fulfills, per the eligibility test above, and confirm before moving to
+Q2. A user who wants a different finalist gets one more pass through Round 2's remaining
+candidate, not a restart from Round 1.
+
+**A user's own reference short-circuits all three rounds.** If they already know what they
+want, confirm it clears the eligibility test above and skip straight to Q2 - the rounds
+exist to help someone find a reference, not to gatekeep one already in hand.
 
 ## Q2 - Binary/dial axes
 
 Answer each as a dial, not necessarily a hard binary - "mostly X, leaning Y" is a valid
 answer, and "same as always" is a valid answer too, though an axis answered that way for
-every question was probably not worth asking. Suggested axes - add more where Q1's genre
-calls for one not listed here:
+every question was probably not worth asking. **Default each axis to what the chosen
+reference actually does**, and only dial it elsewhere when the user wants this setting to
+diverge from its touchstone - Q2 is where that deliberate divergence happens, not a
+from-scratch questionnaire. Suggested axes - add more where the chosen reference calls for
+one not listed here:
 
 - **Lethality** - high (death is common and cheap) vs low (survivable, forgiving).
 - **Population density** - well-populated (settlements close together) vs scarce (true
@@ -121,38 +203,26 @@ calls for one not listed here:
 - **Scale of civilization** - one known civilization vs multiple rival civilizations or
   empires in living contact.
 
-Answer the axes that actually distinguish this genre from a generic instance of Q1's
-family - an axis that doesn't change anything downstream was a wasted question. This list
-keeps growing rather than being exhaustive; a genre that needs an axis not named here
-should get one invented for it on the spot.
+Answer the axes that actually distinguish this setting from a straight instance of the
+chosen reference - an axis answered exactly as the reference would answer it was probably
+not worth asking aloud. This list keeps growing rather than being exhaustive.
 
-## Q3 - Three trope proposals
+## Building GENRE.md from the chosen reference
 
-Using Q1's trope and Q2's dial answers, write **three** candidate proposals. Each is a
-trope, not a setting - no proper nouns, no specific history, no named places or people (that
-is `setting/Setting.md`'s job, at step 2a, once one proposal is chosen). Each carries:
+**The identity paragraph states both halves, in that order.** The specific reference first
+(named plainly - "Modeled on Glen Cook's The Black Company"), then the general trope
+cluster it fulfills, then the one-sentence situation this puts a party into. All three in
+two or three sentences total; this is the same dual statement the Seed pool entries model,
+now anchored to one chosen reference instead of illustrating the whole pool.
 
-- A one-sentence pitch: the situation the trope puts a party into.
-- **Three seed tags** - each **one or two words**, thematic, and *constraining* the same way
-  `setting/Setting.md`'s own tags must constrain (see `patterns/setting/Setting.md`). Unlike
-  a worked example in a template, these are meant to be reused as a running start rather than
-  merely illustrated - seeding here is intentional, which is the whole point of doing it at
-  this step instead of leaving it to accident later.
-- What the trope has that a generic instance of Q1's broad family does not.
+**Axis bullets come from the reference and Q2 together.** Pull three to five constraints
+that the reference actually enforces (what Points of Light means for it, what its version
+of a Mythic Underworld looks like, what its magic costs) and fold in whichever Q2 axes the
+user dialed away from the reference's own defaults. State each as a constraint the way the
+current Low Magic / Points of Light / Mythic Underworld bullets constrain, never as mood.
 
-**The three proposals must differ from each other along at least one Q2 axis each.** If all
-three read as the same trope in different window-dressing, Q2's answers were not actually
-used to generate them. Present all three; the user picks one, or asks for a fourth along a
-named axis.
-
-## Building GENRE.md from the chosen proposal
-
-The chosen proposal's pitch becomes the genre-identity paragraph. Its three seed tags,
-plus whichever Q2 axes actually mattered, become the 3-5 axis bullets - each stated as a
-constraint the way the current Low Magic / Points of Light / Mythic Underworld bullets
-constrain, never as mood. Its naming-convention answer becomes the naming-convention line.
 **What a line has to earn** is copied from `templates/Genre.md` verbatim, regardless of
-which proposal was chosen.
+which reference was chosen.
 
 **The location-name exception is fixed regardless of naming convention.** Whichever of Q2's
 three naming options is chosen - constructed-language-heavy, a disclosed real-world
@@ -164,10 +234,10 @@ elsewhere and glossed for the referee. State this the same way regardless of gen
 A tag does three jobs, and a candidate that fails any of them is cut regardless of how vivid
 it reads:
 
-- **It represents a theme.** It compresses something already true of this genre - an axis
-  answer, a Q3 proposal, a fact GENRE.md states elsewhere - down to a word or two, rather
-  than introducing a new idea of its own. A tag is a pointer to a theme, not the theme's
-  full statement.
+- **It represents a theme.** It compresses something already true of the chosen reference -
+  a concrete detail, an axis answer, a fact GENRE.md states elsewhere - down to a word or
+  two, rather than introducing a new idea of its own. A tag is a pointer to a theme, not the
+  theme's full statement.
 - **It acts as an index.** Later steps scan the relevant category for something that fits
   what they're building, the way a card catalogue is scanned rather than read start to
   finish. A tag that only makes sense once, in the one sentence it was coined for, cannot be
@@ -175,7 +245,7 @@ it reads:
   it succeeds as a phrase.
 - **It constrains the material.** Per "Be specific, not generic" above: a tag earns its
   place by ruling things out. *Rusted*, not *old*; *Absentee*, not *distant*. A tag generic
-  enough to fit any setting in Q1's family was not worth indexing.
+  enough to fit any setting in the reference's general trope cluster was not worth indexing.
 
 **Building the Tags section.** The bank is five categories of **ten tags each**, not one
 flat list:
@@ -187,47 +257,46 @@ flat list:
 - **Dangerous** - what indexes a DANGEROUS region: what broke it, what still moves in it,
   what the Mythic Underworld looks like here specifically.
 - **People (personalities)** - one- or two-word dispositions for the setting's NPCs, drawn
-  from what Undermanned Frontier / Nominal Authority (or this genre's equivalent axes) does
-  to the people living under it.
+  from what the chosen reference's own social pressures do to the people living under them.
 - **Creatures (demeanors)** - one- or two-word behaviors for how something met in this
   genre carries itself before a fight starts or doesn't.
 
-Pool all nine seed tags from the three Q3 proposals - not just the chosen one - sorting each
-into whichever category it indexes, and add enough more in the same vein, drawn from the
-same Q1 trope and Q2 axis answers, to bring every category to ten. Every tag must pass the
-same intentionality test as a seed tag: traceable to this run's actual answers, not filler
-that would fit any generic instance of Q1's family. This bank is what `setting/Setting.md`,
-each region's own tags, and every later step's people and creatures are drawn from, so each
-category needs real range - ten variations on the same image fail the index test even where
-each one individually reads fine.
+Draw every tag from the chosen reference's own concrete iconography first - its creatures,
+factions, objects, customs, pressures - and only reach for Q2's axis answers to fill a
+category the reference itself doesn't supply enough of. Every tag must pass the same
+intentionality test: traceable to the reference or to a Q2 answer that mattered, not filler
+that would fit any generic instance of the reference's general trope cluster. This bank is
+what `setting/Setting.md`, each region's own tags, and every later step's people and
+creatures are drawn from, so each category needs real range - ten variations on the same
+image fail the index test even where each one individually reads fine.
 
 ## Patterns
 
-**What makes a trope well-specified (Q1B)** - it names a concrete situation (a border, a
-season, a founding, a collapse) rather than a mood; two referees given only the trope name
-would build recognizably similar settings from it; it survives being stated in one sentence
-without needing a proper noun to anchor it.
+**What makes a reference well-chosen** - it names a concrete body of work (an author, a
+series, a TTRPG line), not a mood; two referees given only the reference name would build
+recognizably similar settings from it; it survives being stated in one sentence per half
+(specific, then general) without needing to explain either half to be understood.
 
-**What makes a seed tag intentional rather than accidental (Q3)** - it traces back to this
-run's actual Q1/Q2 answers. If a proposal's three tags could have been generated without
-reading this run's Q1 and Q2 at all - if they'd fit any Classic Fantasy border-keep setting
-equally well - they are decorative, not seeded, and Q3 has failed at the one job this step
-exists for.
+**What makes a seed tag intentional rather than accidental** - it traces back to something
+the chosen reference actually does or a Q2 answer that mattered. If a tag could have been
+generated without knowing which reference was chosen at all - if it would fit any grimdark
+military fantasy, say, equally well - it is decorative, not seeded, and has failed at the
+one job tag-building exists for.
 
-**Guardrails, regardless of genre chosen** - low magic does not mean *no* magic unless Q2
-explicitly chose that; points of light does not mean *no* settlements, only that they don't
-add up to a governed world; a Mythic Underworld does not require literal dungeons if Q1
-chose a family where that trope wears different dressing (a nautical genre's underworld may
-be a drowned city, a post-apocalyptic genre's a buried machine, an urban genre's the sewers
-under the one city that exists) - the *function*, a physical place that is ruin and chaos
-made manifest, is the constant across genres; its dressing is not.
+**Guardrails, regardless of reference chosen** - low magic does not mean *no* magic unless
+Q2 explicitly chose that; points of light does not mean *no* settlements, only that they
+don't add up to a governed world; a Mythic Underworld does not require literal dungeons if
+the reference wears that trope differently (a nautical reference's underworld may be a
+drowned city, a post-apocalyptic reference's a buried machine, an urban reference's the
+sewers under the one city that exists) - the *function*, a physical place that is ruin and
+chaos made manifest, is the constant across references; its dressing is not.
 
-**Pushing past OSR.** Nothing above requires 1981 B/X specifically - Q1's family list is a
-menu, not a ceiling, and a user naming their own genre outside it is answered on its own
-terms. What doesn't move regardless of genre chosen is the fixed three-test section and the
-container/data, stub-before-file, and cash-out mechanics the rest of this framework is built
-from - those are the load-bearing parts, not the genre dressing.
+**Pushing past the Seed pool.** Nothing above requires picking from the list in this file -
+it is a menu, not a ceiling, and a user naming their own reference outside it is answered on
+its own terms once it clears the eligibility test above. What doesn't move regardless of
+reference chosen is the fixed three-test section and the container/data, stub-before-file,
+and cash-out mechanics the rest of this framework is built from - those are the load-bearing
+parts, not the genre dressing.
 
 ## Constraints
 *(Empty. Entries arrive from generation testing, never from anticipation.)*
-</content>

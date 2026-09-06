@@ -13,11 +13,13 @@ Read first:
   `setting/Procedures.md` and `setting/Language.md`.
 
 ## Instructions
-Run the three-question flow in `patterns/setting/Genre.md`: Q1 picks a broad genre family
-and narrows it to a specific, well-known trope; Q2 answers a set of binary/dial axis
-questions; Q3 produces three trope proposals (each carrying three seed tags) consistent
-with Q1 and Q2, one of which is chosen. Build the genre-identity paragraph and the 3-5 axis
-bullets from the chosen proposal.
+Run the flow in `patterns/setting/Genre.md`: starting from a pool of 20-30 discrete, specific
+genre references (authors, single books or series, and TTRPG lines), three rounds of
+narrowing questions take the user from a general request down to one chosen reference; Q2
+then answers a set of binary/dial axis questions, defaulted to what the reference implies
+and dialed elsewhere only where the user wants to diverge. Build the genre-identity
+paragraph, the 3-5 axis bullets, and the Tags section from the chosen reference and Q2
+together.
 
 Every tag, everywhere in this file, is **one or two words** - never a phrase. A tag
 represents a theme, acts as an index later steps can scan, and constrains the material by
@@ -29,7 +31,9 @@ ruling things out; see `patterns/setting/Genre.md` for the full rule.
 
 Top level thematic hints to be included in all content generation.
 
-[1-2 sentences: the genre identity - Q1's broad family plus its narrowed trope]
+[2-3 sentences: the genre identity - the chosen reference, named specifically ("Modeled on
+[Author/Book-Series/TTRPG]"), then the general trope cluster it fulfills, then the
+situation this puts a party into]
 
 - **[Axis name]** - [one-line elaboration]
 - **[Axis name]** - [one-line elaboration]
@@ -95,7 +99,7 @@ solution is never written into the problem.** These four aren't a fourth test - 
 three tests above, restated as one memorable line any pattern file can point back to
 instead of re-deriving them.
 
-[Naming-convention line, settled by Q2/Q3, plus the fixed location-name exception, per
+[Naming-convention line, settled by Q2, plus the fixed location-name exception, per
 `patterns/setting/Genre.md`]
 ```
 </content>
