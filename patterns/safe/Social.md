@@ -4,9 +4,27 @@
 Where people gather, what circulates there, and who a party can get something out of.
 
 ## Read at
-Step 4c, when `safe/Settlement.md`'s spec draws Kind: Social - the only class file that
-does. That file's own Spec states what a Social location must contain when drawn; this
-file supplies what it can be made of.
+Step 4c, for a SAFE location whose kind is a gathering place or a notable person going
+about their business.
+
+## Spec
+
+```
+SOCIAL
+  1     Who is here, and what they are doing - not waiting to be talked to
+  1     What is circulating: a rumour, drawn from setting/Rumours.md where one fits
+  1     What it takes to be talked to rather than tolerated
+  40%   A tension a stranger can be pulled into by doing nothing wrong
+  30%   Somebody with a job to offer - see safe/Quest.md
+  20%   Somebody who knows something and will not say it here
+```
+
+**A rumour is repeated, not delivered.** Whoever says it has their own reason for saying
+it, is probably wrong about part of it, and will not mark it true or false. Take the
+substance from `setting/Rumours.md`; the framing belongs to whoever is talking.
+
+**Nobody is waiting for the party.** Everyone here has been having their evening since
+before the party walked in, and the entry should say what that evening is.
 
 ## Patterns
 
