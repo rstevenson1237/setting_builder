@@ -16,8 +16,9 @@ only useful if it stays current.
 Supersedes Plan 1's and Plan 3's original design (Tags.md as a rich structural vocabulary
 - Institution/Condition, Agent/Threat, Site-Type - joined against generic pattern files at
 generation time). That design was built and tested (`tags_fantasy.md`, `tags_scifi.md`,
-`tags_apoc.md`, `vertical_slice_locations.md` - kept in place as evidence, not deleted) and
-worked, but on review the better direction is the opposite one:
+`tags_apoc.md`, `vertical_slice_locations.md` - since removed once the decision below was
+made; git history holds them if this record needs to be checked against the actual files
+again) and worked, but on review the better direction is the opposite one:
 
 **Tags stay pure theme-director/seed material - a flat, genre-derived pool with no
 structural role at all.** The actual genre-specific content (what a trap looks like here,
@@ -160,9 +161,10 @@ weight for which file governs the room's budget.
 Kept in full below as the historical record of the design that was built, tested, and
 then deliberately rejected in favor of compiling genre content into the pattern files
 instead of joining a lookup table at generation time. `tags_fantasy.md`,
-`tags_scifi.md`, `tags_apoc.md`, and `vertical_slice_locations.md` remain in the repo as
-evidence for that decision, not as live design targets. **Plan 1B, after Plan 4 below,
-is the current plan for the tag mechanism.**
+`tags_scifi.md`, `tags_apoc.md`, and `vertical_slice_locations.md` served as the evidence
+for that decision and have since been removed from the repo as no longer needed - this
+section, and the Decision section above, are the durable record of what they showed.
+**Plan 1B, after Plan 4 below, is the current plan for the tag mechanism.**
 
 **Problem.** Location stub tags (the "*three, thematic, tags*" on every gazetteer entry)
 are currently invented fresh per location with no fixed pool, no description, and no
@@ -281,12 +283,14 @@ mushiness. This is the result the plan needed to see before building the real me
 the structure holds a genre's own vocabulary rather than producing generic fill-in-the-blank
 output, at three facets as well as two.
 
-Not yet done: wiring these into an actual generation step (they're standalone target files
-at repo root, not `setting/Tags.md` outputs produced by a template/pattern), the seed-pool
-broadening noted above (Mothership and Fallout were hand-picked for this test, not run
-through the actual Round 1-3 narrowing flow), and the open questions below.
+Not done before the System B pivot superseded this plan: wiring these into an actual
+generation step (they were standalone target files at repo root, not `setting/Tags.md`
+outputs produced by a template/pattern), the seed-pool broadening noted above (Mothership
+and Fallout were hand-picked for this test, not run through the actual Round 1-3 narrowing
+flow), and the open questions below.
 
-**Vertical slice added:** `vertical_slice_locations.md` - one SAFE, one WILD, one
+**Vertical slice built:** `vertical_slice_locations.md` (since removed, see the note at
+the end of this Status section) - one SAFE, one WILD, one
 DANGEROUS location per genre (nine total), hand-drawing one tag per facet per location and
 writing the full entry against the real `templates/Location.md` + class pattern files
 (`safe/Settlement.md`+`Commerce.md`, `wild/Landmark.md`+`Ruin.md`,
@@ -312,6 +316,11 @@ it sends them instead" clause was only half-satisfied in two of the three SAFE e
 Both are the kind of miss `tools/validate_setting.py` or `checks/SettingJudgementCheck.md`
 should be positioned to catch in real generation, not something to quietly patch after the
 fact in a prototype.
+
+`tags_fantasy.md`, `tags_scifi.md`, `tags_apoc.md`, and `vertical_slice_locations.md` have
+since been removed from the repo now that System B (Plan 1B) is the live plan - this
+Status section and the findings above are what they were kept around long enough to
+produce, not a description of files still present.
 
 ---
 
