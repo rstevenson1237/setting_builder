@@ -11,6 +11,79 @@ where they share a mechanism. When executing a plan surfaces a change to another
 assumptions, **update that plan's section immediately, in the same pass** - this file is
 only useful if it stays current.
 
+## Decision: System B - compile genre into the pattern files, not a runtime lookup
+
+Supersedes Plan 1's and Plan 3's original design (Tags.md as a rich structural vocabulary
+- Institution/Condition, Agent/Threat, Site-Type - joined against generic pattern files at
+generation time). That design was built and tested (`tags_fantasy.md`, `tags_scifi.md`,
+`tags_apoc.md`, `vertical_slice_locations.md` - kept in place as evidence, not deleted) and
+worked, but on review the better direction is the opposite one:
+
+**Tags stay pure theme-director/seed material - a flat, genre-derived pool with no
+structural role at all.** The actual genre-specific content (what a trap looks like here,
+what kind of place a Ruin is, what a creature's demeanor sounds like) gets written
+*directly into the tier-2 pattern files themselves*, once, right after `GENRE.md` exists -
+a compile step, not a per-generation join.
+
+**Why, explicitly:** the cons identified for this approach during design (bigger up-front
+cost, patterns/ forking away from generic shared infrastructure per build) are being taken
+as the argument *for* it, not against it. The site-type/hazard-type tag content built for
+the rejected design is the proof: that was the point where the tag pool stopped reading as
+decorative and started reading as real setting material, and pushing that same effort into
+the pattern files themselves - rather than a lookup table the model has to successfully
+join at generation time - is what makes generation read as **situations, not stories**:
+procedural output built from a stocked, genre-true parts bin, rather than a lookup table
+that has to be re-translated correctly every single time it's consulted. The lookup-join
+design is judged to carry more risk of reading like a story-game's recurring, hand-authored
+tropes (the same abstract gloss re-interpreted differently each time) than like this
+framework's own procedural, non-narrative generation model.
+
+**Scope narrowed:** cross-genre portability (fantasy/sci-fi/post-apoc swapping) is out of
+scope for now. `GENRE.md` generation narrows to OSR/fantasy references only - the
+contract/example split still earns its keep entirely within that scope, since it's what
+lets the pattern files' *examples* vary by chosen reference (Howard/Conan vs. Mörk Borg vs.
+Dolmenwood, all "OSR fantasy," very different concrete iconography), not just across
+genres.
+
+**The six-point execution plan**, as given, with the file-level specifics decided where the
+original phrasing left them open (flagged inline so they're easy to correct):
+
+1. **New step, right after 1a**: generate `setting/Tags.md` - ~25 genre-level thematic
+   tags, each with a one-line gloss, drawn from `GENRE.md`'s chosen reference. Flat, not
+   split by rating - rating-specific structural content is now the compiled pattern files'
+   job, not the tag pool's.
+2. **Remove the 3 embedded tags from `Setting.md` and each Region Overview.** Each becomes
+   a single tag-line pointing at the relevant `Tags.md` pool rather than inline-authored
+   adjectives.
+3. **Each region gets its own `Tags.md`** - 25 more tags, same shape as the setting-level
+   pool, generated alongside its Region Overview. *File-path decision, flagged*: placed at
+   `setting/region/[Code]/Tags.md`, which means a region's folder now gets created at
+   step 3 (when its Overview and Tags.md are written) rather than first appearing at 4a -
+   4a then just adds `Locations.md` into an already-existing folder.
+4. **Each location gazetteer pulls one tag from setting, one from region** - two tags
+   total, not three. *Interpretation decision, flagged*: this replaces the location
+   header's three freely-invented tags outright (`templates/Location.md`'s
+   `*[three, thematic, tags]*` becomes two, deterministically pulled, not
+   locally-invented) - the location's own flavor now comes from the compiled pattern
+   file's examples, not a third freely-invented tag.
+5. **Separate contract from examples in every tier-2 pattern file** - the element files a
+   class file's Spec cites in parentheses, not the class files themselves and not the
+   unconditional Dressing/Secrets/Naming companions (scoped this narrowly on purpose; see
+   Plan 1B below for the exact file list). Each gets an explicit CONTRACT (what it decides,
+   genre-neutral, permanent) separated from EXAMPLES (illustrative, meant to be
+   genre-compiled per build).
+6. **Demeanor becomes `dangerous/Creature.md` and `wild/Creature.md`'s examples;
+   personality becomes `safe/People.md` and `wild/Creature.md`'s own People pattern's
+   examples.** Replaces `GENRE.md`'s old People/Creatures tag categories outright, which
+   get removed as redundant once this exists.
+
+See **Plan 1B** below for the concrete file-by-file breakdown. Plan 2 (region-level field
+review) is unaffected by this pivot. Plan 4 (pre-assignment pass) loses its dependency on
+an Agent/Threat tag facet, since that facet no longer exists - it reverts closer to its
+original, Tags-independent conception (pre-assign a specific Bestiary/Faction entry
+straight from the region's own established roster) and is noted as such in its own
+section.
+
 ## Cross-cutting decisions
 
 Ground rules every plan below has to honor. These came out of specific concerns raised
@@ -82,7 +155,14 @@ weight for which file governs the room's budget.
 
 ---
 
-## Plan 1 - `setting/Tags.md`: a closed, described, genre-derived tag pool
+## Plan 1 - SUPERSEDED by System B, see the Decision section above
+
+Kept in full below as the historical record of the design that was built, tested, and
+then deliberately rejected in favor of compiling genre content into the pattern files
+instead of joining a lookup table at generation time. `tags_fantasy.md`,
+`tags_scifi.md`, `tags_apoc.md`, and `vertical_slice_locations.md` remain in the repo as
+evidence for that decision, not as live design targets. **Plan 1B, after Plan 4 below,
+is the current plan for the tag mechanism.**
 
 **Problem.** Location stub tags (the "*three, thematic, tags*" on every gazetteer entry)
 are currently invented fresh per location with no fixed pool, no description, and no
@@ -274,6 +354,13 @@ location in the region) versus the gazetteer stub level (committed once, per loc
 
 ## Plan 3 - Kind axes: give DANGEROUS one, widen WILD's, name all of them by function
 
+**Note (post System-B decision):** still live, not superseded - Kind selection is
+orthogonal to how tag content gets sourced. Its dependency below on Plan 1's Tags.md
+Site-Type facet is stale; a new DANGEROUS Kind's genre-flavored naming now comes from
+Plan 1B's compile mechanism instead (once a new Kind file exists, it gets its own
+EXAMPLES block filled by the same per-build compile pass as every other tier-2 file).
+Not re-executed in this pass - Plan 1B's scope is the existing tier-2 files, not new ones.
+
 **Problem.** "Class" currently conflates two different axes. Kind (what a location
 fundamentally *is*) and Weight/Prominence (how much attention/budget it gets) are cleanly
 split for SAFE (5 Kinds x 3 Prominence levels) and WILD (3 Kinds nested under Landmark x 3
@@ -323,9 +410,10 @@ candidates and got called on it).
   means re-deriving that math, not just writing a new file.
 
 **Integration.**
-- **Depends on Plan 1** for genre-portability - this plan cannot produce a genre-true
-  Kind name without `Tags.md`'s Site-Type facet to draw from. Building Plan 3 before
-  Plan 1 means hard-coding fantasy nouns again, the exact mistake this revision fixes.
+- **Depends on Plan 1B** for genre-portability (revised from depending on the now-
+  superseded Plan 1's Tags.md Site-Type facet) - a new Kind's genre-true naming comes from
+  its own compiled EXAMPLES block. Building Plan 3 before this exists means hard-coding
+  fantasy nouns again, the exact mistake this revision fixes.
 - A DANGEROUS Kind, once it exists, is exactly the kind of already-resolved fact Plan 4's
   pre-assignment pass should read before suggesting a creature/faction - a Cache-kind room
   suggests a different creature than a Habitation-kind room.
@@ -348,6 +436,12 @@ candidates and got called on it).
 ---
 
 ## Plan 4 - Region-wide pre-assignment pass (which, not whether)
+
+**Note (post System-B decision):** unaffected in mechanic, but its dependency below on
+"Plan 1's tag-gloss copy-into-stub step" is stale now that Plan 1 is superseded and tags
+carry no structural content - this plan now draws straight from the region's own
+established Bestiary/Faction/Named-Creature roster (per Plan 2), not from any tag. Simpler
+than before, not blocked by anything in Plan 1B.
 
 **Problem.** DANGEROUS node roles are already decided once at 4b, region-wide, with the
 whole graph visible, and 4c "reads the assignment rather than inventing it" (`STEPS.md`
@@ -379,8 +473,10 @@ layer, only pre-stocks it):
 - Depends on Plan 2 (a Region Overview that already commits specific names gives this pass
   real material to distribute) and benefits from Plan 3 (a location's Kind, once it exists
   for DANGEROUS, narrows which roster entries actually make sense there).
-- Shares mechanism with Plan 1's tag-gloss copy-into-stub step - both are "resolve once,
-  region-wide, cheaply; consume for free at 4c."
+- Shares its "resolve once, region-wide, cheaply; consume for free at 4c" shape with
+  Plan 1B's per-build compile step, but the two are independent mechanisms now - one
+  pre-assigns specific registry entries per location, the other compiles genre-general
+  examples into the pattern files themselves.
 
 **Open questions.**
 - Exact file/field the suggestion lives in - a new column on `Locations.md`, or a sidecar
@@ -390,3 +486,64 @@ layer, only pre-stocks it):
   3 factions is small enough that simple round-robin suffices.
 
 **Status.** Not started.
+
+---
+
+## Plan 1B - Compile genre content into the tier-2 pattern files (current tag-mechanism plan)
+
+**Problem.** Superseding Plan 1's design (see the Decision section at the top of this
+file for the full rationale). Summary: a lookup-table join at generation time is a live
+risk (the model may not translate a generic example into the setting's own genre under
+word-budget pressure) and produces no durable, setting-wide consistency (every location
+independently re-translates the same generic category). Compiling genre-specific content
+directly into the pattern files, once, removes both problems at the cost of `patterns/`
+no longer staying generic shared infrastructure across builds - accepted deliberately,
+not as an oversight.
+
+**Mechanic.**
+- `setting/Tags.md`: ~25 flat, genre-derived thematic tags with one-line glosses,
+  generated in a new step right after 1a. Pure seed/color, no structural role, not split
+  by rating.
+- `setting/region/[Code]/Tags.md`: 25 more, same shape, generated alongside each Region
+  Overview (moves that region's folder creation up from 4a to step 3).
+- `setting/Setting.md` and each Region Overview drop their 3 embedded, freely-invented
+  tags in favor of a single tag-line pointing at the relevant `Tags.md`.
+- A location's gazetteer stub carries exactly two tags - one pulled from `setting/Tags.md`,
+  one from its region's `Tags.md` - replacing the old three freely-invented ones outright.
+- Every tier-2 element file (the ones a class file's Spec cites in parentheses - not the
+  class files themselves, not the unconditional Dressing/Secrets/Naming companions) gets
+  restructured with an explicit CONTRACT section (what it decides, genre-neutral,
+  permanent) separated from an EXAMPLES section (illustrative, swapped per build):
+  - SAFE: `Commerce.md`, `Authority.md`, `Social.md`, `People.md`, `Wealth.md`,
+    `Situation.md`
+  - WILD: `Ruin.md`, `Lair.md`, `NaturalFeature.md`, `Creature.md`, `Trap.md`,
+    `Treasure.md`, `Mystery.md`
+  - DANGEROUS: `Creature.md`, `Trap.md`, `Treasure.md`, `Mystery.md`
+- Demeanor examples compiled into `dangerous/Creature.md` and `wild/Creature.md`;
+  personality examples compiled into `safe/People.md` and `wild/Creature.md`'s own People
+  pattern - replacing `GENRE.md`'s old People/Creatures tag categories, which are removed
+  as redundant.
+- `GENRE.md`'s Safe/Wild/Dangerous/People/Creatures tag bank is removed outright - fully
+  absorbed by the new `Tags.md` pools and the compiled pattern-file examples.
+- Scope narrowed to OSR/fantasy: the seed-pool-broadening task from the superseded Plan 1
+  is dropped, not carried forward.
+
+**Integration.**
+- Plan 2 (region field review) still applies and is now slightly sharper: a Region
+  Overview that commits specific names is exactly the material the region's own `Tags.md`
+  and Plan 4's pre-assignment pass should stay consistent with.
+- Plan 3 depends on this plan for any new Kind's genre-true naming (see Plan 3's note).
+- Plan 4 no longer depends on this plan at all (see Plan 4's note) - it draws straight
+  from the registries.
+
+**Open questions.**
+- Whether the compile step is a single step (1b) that touches every tier-2 file for every
+  rating at once, or split per-rating and deferred until a rating is first used at 3c/4c.
+  Leaning toward all-at-once for simplicity, revisit if it proves too large a single step.
+- Whether `dangerous/Trap.md`'s existing interleaved design guidance (e.g. "a trap needing
+  a machinist has a machinist somewhere") survives the CONTRACT/EXAMPLES split intact, or
+  needs rewording once separated from its examples.
+- File-path and folder-timing decisions for region-level `Tags.md` (see the Decision
+  section above) - flagged as an interpretation, not confirmed with a fresh pair of eyes.
+
+**Status.** Executing now.
