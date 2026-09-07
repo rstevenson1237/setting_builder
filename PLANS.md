@@ -55,7 +55,7 @@ own stated convention for "an illustration to be varied from," not binding spec.
 
 So: **a Kind's Spec math (what it guarantees, mandatory/percentage lines) is written once,
 genre-neutral, and never changes per setting. A Kind's display name and descriptive flavor
-are genre-derived, sourced from `setting/Tags.md`'s Hazard/Room-Type facet (Plan 1), and
+are genre-derived, sourced from `setting/Tags.md`'s Site-Type facet (Plan 1), and
 get filled in at generation time - never hard-coded into the pattern file as a fantasy
 noun.** This is the same principle `patterns/setting/Genre.md` already states for the
 Mythic Underworld itself ("a post-apocalyptic reference's underworld may be a buried
@@ -110,19 +110,29 @@ where that gets fixed, since it's the plan already building a genre-facing descr
   Genre.md` already uses for its own tag bank. Tailored, not seeded-generic: unlike
   `Procedures.md`/`Language.md`, there's no genre-neutral default worth seeding, since the
   whole point is that its content is derived from GENRE.md's specific chosen reference.
-- **At least two facets per rating**, not decided beyond that count:
-  - **Thematic** - the existing color/flavor axis, larger and described (per the prior
-    discussion, "keeping at least one axis of tags that way still makes sense" -
-    preserved, not replaced).
-  - **Hazard/Room-Type** - new. What kinds of dangers and room-functions exist *in this
-    specific genre* - for a modern-horror reference: Quarantine Ward, Contaminated,
-    Surveillance, Ritual Site, Feral; for post-apocalyptic: Radiation Pocket, Scavenged,
-    Collapsed, Cache, Territorial Marker; for gritty sci-fi: Vacuum Breach, Malfunctioning,
-    Airlock, Cargo Hold, Server Core. This facet is what reinforces genre at the structural
-    level, not just the descriptive one, and is what Plan 3's Kind naming draws from (see
+- **Three facets per rating**, revised up from two after auditing the proof-of-concept
+  content itself and finding the original "Thematic" facet was secretly doing two
+  different jobs (evidence: fantasy DANGEROUS's own Thematic list mixed *Elder Sorcery* -
+  an institutional/historical fact - with *Serpent Cult* - an active present threat -
+  under one label):
+  - **Institution/Condition** - what social, political, or organizational fact is
+    standing here (governance, custom, debt, history). Larger and described, the
+    surviving half of the original "Thematic" axis.
+  - **Agent/Threat** - new. Who or what actively opposes or endangers here - a flavor of
+    danger, never a specific Bestiary/Faction assignment (that stays Plan 4's job). The
+    other half of the original "Thematic" axis, split out because an institution and an
+    active threat are different kinds of fact even when both read as "flavor."
+  - **Site-Type** - what physical place or space this is. Renamed from "Hazard/Room-Type"
+    on the same audit: WILD's own entries (a Ford, a Denning Ground) were never literally
+    rooms, so the label shouldn't imply one. What reinforces genre at the structural
+    level, not just the descriptive one, and what Plan 3's Kind naming draws from (see
     the cross-cutting decision on function vs. flavor above).
   - Cross-categorized within each facet, not flat, so combination space (not list length)
     buys variety per the token-cost analysis - a location's tags draw one per facet.
+  - Considered and rejected: a fourth Naming/Vocabulary facet (`Language.md` already owns
+    this - would duplicate an existing living artifact) and a fourth Sensory/Ambiance
+    facet (unclear it's distinct from Site-Type rather than the same content restated;
+    holding off until the 3-facet version has been run for real).
 - Each tag carries a one-line gloss, short and specific, never decorative.
 - **Read once per region, at 4a** (low cardinality) when gazetteer stubs are minted. The
   drawn tags' glosses get copied straight into the stub. **4c never opens `Tags.md`** -
@@ -133,7 +143,7 @@ where that gets fixed, since it's the plan already building a genre-facing descr
 - This *is* the mechanism for what was called "seed a hook at stub time" in the prior
   discussion - no separate system needed, minting a stub's tags from this pool is the hook.
 - Feeds Plan 3 directly: a Kind's Spec math stays genre-neutral and fixed; its display name
-  and flavor text are pulled from this plan's Hazard/Room-Type facet at generation time.
+  and flavor text are pulled from this plan's Site-Type facet at generation time.
   Plan 3 cannot be genre-portable without this plan existing first.
 - Feeds Plan 4's pre-assignment pass: a location's tag glosses are cheap, already-resolved
   material a region-wide pass can lean on when distributing creature/faction preferences
@@ -155,34 +165,41 @@ setting to generate and check this against. Cheap (it's additive entries in one 
 tracked separately since it's a `patterns/setting/Genre.md` change, not a Tags.md one.
 
 **Open questions.**
-- Exact facet list and count per rating (Thematic + Hazard/Room-Type is the floor, not
-  necessarily the ceiling).
+- Exact facet list and count per rating (Institution/Condition + Agent/Threat + Site-Type
+  is the current floor, not necessarily the ceiling - Sensory/Ambiance stays a candidate).
 - Whether GENRE.md's existing Safe/Wild/Dangerous bank gets absorbed into `Tags.md` and
   removed from GENRE.md, or GENRE.md keeps a small fixed subset and `Tags.md` is additive.
   Leaning toward absorption - GENRE.md paying for an unused bank at every step is exactly
   the token-cost problem this plan is fixing; leaving a duplicate copy behind reopens it.
 - How reuse/exhaustion is tracked across a large region (60+ locations pulling from one
   region's Tags.md) - simple round-robin, or explicit "spent" tracking on `Regions.md`.
-- Whether Hazard/Room-Type tags, once assigned to a stub, are binding on 4c (this location
-  *will* reflect Contaminated) or advisory like Plan 4's pre-assignments (a preference the
-  class file's own roll may or may not land on). Leaning advisory, for the same reason
-  Plan 4 stays advisory - the probability layer is cross-cutting and shouldn't be overridden
-  twice by two different plans.
+- Whether Site-Type (and now Agent/Threat) tags, once assigned to a stub, are binding on
+  4c (this location *will* reflect this Agent/Threat tag) or advisory like Plan 4's
+  pre-assignments (a preference the class file's own roll may or may not land on).
+  Leaning advisory, for the same reason Plan 4 stays advisory - the probability layer is
+  cross-cutting and shouldn't be overridden twice by two different plans. This question
+  sharpens now that Agent/Threat exists as its own facet: an Agent/Threat tag reads a lot
+  like a preview of a Plan 4 pre-assignment, and the boundary between "a tag suggesting a
+  flavor of danger" and "a pre-assignment naming a specific Bestiary/Faction entry" needs
+  to stay clean when both plans are built.
 
-**Status.** Proof-of-concept built: `tags_fantasy.md` (Robert E. Howard/Conan, reusing this
-repo's own `GENRE.md` reference as a control), `tags_scifi.md` (Mothership 1e), and
-`tags_apoc.md` (Fallout) - three full tag pools in the shape this plan proposes (Thematic +
-Hazard/Room-Type per rating, plus People/Creatures), ~95-98 tags each, built before touching
-any generation mechanism, specifically to test whether the facet structure produces
-genre-distinct vocabulary or just reskinned fantasy.
+**Status.** Proof-of-concept built and then revised once, in the same pass, after an
+honest audit of the first draft's own content: `tags_fantasy.md` (Robert E. Howard/Conan,
+reusing this repo's own `GENRE.md` reference as a control), `tags_scifi.md` (Mothership
+1e), and `tags_apoc.md` (Fallout) - three full tag pools, now in the three-facet shape
+above, ~121-125 tags each.
 
-Checked by diffing tag names across all three files: **1-4 overlapping tags per pair out of
-~95-98 each, and every overlap is a universal behavioral primitive** (Territorial, Frenzied,
-Calculating, Silent, Superstitious - legitimately cross-genre creature/personality traits).
-Zero overlap in either Thematic or Hazard/Room-Type facets specifically - no fantasy
-institution or room-type leaked into the sci-fi or post-apoc pools. This is the result the
-plan needed to see before building the real mechanism: the structure holds a genre's own
-vocabulary rather than producing generic fill-in-the-blank output.
+The first draft (two facets - Thematic + Hazard/Room-Type) passed the cross-genre overlap
+check, but auditing its own content before moving on found "Thematic" was quietly doing
+two jobs (see the Mechanic section above) and "Room-Type" was mislabeled for WILD. Revised
+in place rather than treated as done. Re-checked after the revision: diffing tag names
+across all three files, **1-4 overlapping tags per pair out of ~121-125 each, every
+overlap a universal behavioral primitive** (Territorial, Frenzied, Calculating, Silent,
+Superstitious), same result as the first draft - **zero overlap in Institution/Condition,
+Agent/Threat, or Site-Type specifically**, so splitting the facet didn't reintroduce
+mushiness. This is the result the plan needed to see before building the real mechanism:
+the structure holds a genre's own vocabulary rather than producing generic fill-in-the-blank
+output, at three facets as well as two.
 
 Not yet done: wiring these into an actual generation step (they're standalone target files
 at repo root, not `setting/Tags.md` outputs produced by a template/pattern), the seed-pool
@@ -257,7 +274,7 @@ candidates and got called on it).
   block's Spec math (what it guarantees) is written once, genre-neutral, using the
   abstract function name (Sanctum, Cache, ...) as the file/section identifier. **The
   genre-flavored display name and descriptive vocabulary shown in the generated location
-  come from Plan 1's `Tags.md` Hazard/Room-Type facet at generation time, never from the
+  come from Plan 1's `Tags.md` Site-Type facet at generation time, never from the
   pattern file itself.** Per the cross-cutting decision on weight, this composes under
   weight - it supplies extra lines for "what kind of room," weight still governs the room's
   overall budget and inclusion rate.
@@ -280,7 +297,7 @@ candidates and got called on it).
 
 **Integration.**
 - **Depends on Plan 1** for genre-portability - this plan cannot produce a genre-true
-  Kind name without `Tags.md`'s Hazard/Room-Type facet to draw from. Building Plan 3 before
+  Kind name without `Tags.md`'s Site-Type facet to draw from. Building Plan 3 before
   Plan 1 means hard-coding fantasy nouns again, the exact mistake this revision fixes.
 - A DANGEROUS Kind, once it exists, is exactly the kind of already-resolved fact Plan 4's
   pre-assignment pass should read before suggesting a creature/faction - a Cache-kind room

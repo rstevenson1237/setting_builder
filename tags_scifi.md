@@ -4,13 +4,25 @@ Proof-of-concept target for `PLANS.md` Plan 1 - not wired into generation yet. B
 sci-fi horror: salvage crews and station workers, expendable to the company that hired
 them, facing cosmic dread in cramped, failing hardware with no cavalry coming.
 
-Same shape as `tags_fantasy.md` and `tags_apoc.md` - Thematic and Hazard/Room-Type facets
-per rating, plus People and Creatures - deliberately kept structurally identical so the
-comparison is about vocabulary, not format.
+Three facets per rating, not two - splitting what the first draft called "Thematic" into
+the two different jobs it was actually doing, plus the site-facing facet kept from the
+first draft:
+
+- **Institution/Condition** - what social, corporate, or organizational fact is standing
+  here. Contracts, debt, chain of command, history - who runs this or what state it's
+  left in.
+- **Agent/Threat** - who or what actively opposes or endangers here. A flavor of danger,
+  not a specific Bestiary/Faction assignment - that's a separate mechanism.
+- **Site-Type** - what physical place or space this is. Renamed from "Hazard/Room-Type"
+  so the label doesn't imply a room where the content is really a place.
+
+Plus the two cross-rating categories, People and Creatures. Same shape as
+`tags_fantasy.md` and `tags_apoc.md`, deliberately, so the comparison is about
+vocabulary, not format.
 
 ## SAFE
 
-### Thematic
+### Institution/Condition
 - **Company Contract** - work bought and owned by a corporation that doesn't care if you finish it
 - **Skeleton Crew** - a station running on far fewer hands than it needs
 - **Black Market** - goods and parts moving without a manifest
@@ -24,7 +36,19 @@ comparison is about vocabulary, not format.
 - **Long-Haul Fatigue** - a crew running on stims and grudges after too many months out
 - **Jump-Route Monopoly** - one company controlling the only safe lane through
 
-### Hazard/Room-Type
+### Agent/Threat
+- **Company Auditor** - shows up to check the books, and decide who's expendable
+- **Debt Enforcer** - collects on a bond contract, in person, without much patience
+- **Corporate Spy** - reporting on the crew to someone who isn't here
+- **Blacklisted Crew** - workers who burned a contract and are still owed, or owe
+- **Saboteur** - someone on-station working against the operation, for reasons unstated
+- **Rival Salvage Crew** - competing for the same wreck rights, and not above cheating
+- **Company Enforcer Squad** - security answering to the corporation, not the station
+- **Infected Stowaway** - already aboard, already spreading, not yet found
+- **Repossession Team** - here to take back equipment on a contract gone bad
+- **Whistleblower Hunter** - sent to silence whoever talked
+
+### Site-Type
 - **Airlock** - the one door that can kill everyone on either side of it
 - **Berth** - cramped crew quarters, thin walls, thinner privacy
 - **Cargo Hold** - what's manifested, what isn't, and what's hiding among it
@@ -40,21 +64,31 @@ comparison is about vocabulary, not format.
 
 ## WILD
 
-### Thematic
-- **Drift Field** - debris from something that didn't survive, still spreading
-- **Distress Beacon** - a signal that's been running long enough nobody trusts it anymore
-- **Rogue Signal** - a transmission with no confirmed source
-- **Salvor Crews** - independent scavengers working the same wrecks the company wants
-- **Pirate Lane** - a route where anyone flying unescorted gets boarded
-- **Radiation Belt** - a stretch of space that costs you in exposure just to cross
+### Institution/Condition
 - **Corporate Blackout Zone** - space a company doesn't want mapped, and enforces that
-- **Ghost Convoy** - ships still on course with no one answering hails
-- **Micrometeor Storm** - a hazard measured in hull punctures, not drama
 - **Unlicensed Colony** - a settlement that shouldn't exist on the charts, and does
-- **Jump Static** - a stretch of space where instruments can't be trusted
-- **Bounty Lane** - space patrolled by whoever's chasing the current price on someone's head
+- **Salvage Claim Dispute** - two parties both filing rights on the same wreck
+- **Independent Convoy** - ships running together for safety, answering to no company
+- **Free Trade Corridor** - one stretch of space no single company controls
+- **Distress Beacon** - a signal that's been running long enough nobody trusts it anymore
+- **Refugee Drift** - displaced people living aboard whatever still flies
+- **Black Registry** - ships flying under identities that won't check out
+- **Old Treaty Line** - a boundary someone agreed to once, and nobody enforces now
+- **Debt Fleet** - ships still technically owned by the company that financed them
 
-### Hazard/Room-Type
+### Agent/Threat
+- **Pirate Crew** - boards anyone flying unescorted
+- **Salvor Rival** - another crew working the same wreck, willing to fight for it
+- **Bounty Hunter** - working a specific name, and you might be near it
+- **Rogue AI Ship** - still flying, still armed, answering to nobody
+- **Signal Ghost** - a transmission that leads exactly where something wants you
+- **Company Enforcer** - sent to reclaim, silence, or make an example
+- **Smuggler Convoy** - running something that draws attention nobody wants
+- **Derelict Scavenger Gang** - strips wrecks systematically, and doesn't like competition
+- **Infected Drifter** - a ship or person carrying something out here alone
+- **Mercenary Flotilla** - hired guns with their own agenda once the contract's done
+
+### Site-Type
 - **Derelict Hull** - a wreck big enough to salvage, old enough that something might have moved in
 - **Breach** - a hole in a hull that used to be a wall
 - **Drift Pod** - an escape capsule, and whatever's left inside it
@@ -70,21 +104,31 @@ comparison is about vocabulary, not format.
 
 ## DANGEROUS
 
-### Thematic
-- **Xenoform Infestation** - something biological that wasn't on the manifest
+### Institution/Condition
 - **Corporate Cover-Up** - evidence of a decision the company will kill to keep buried
 - **Failed Experiment** - research that got loose, or got out
-- **AI Malfunction** - a mind that stopped following its original directives
 - **Cryo Failure** - sleepers who didn't survive the sleep, or didn't stay asleep
 - **Quarantine Breach** - a containment protocol that already failed once
-- **Mutiny Aftermath** - a crew that turned on itself before anyone else arrived
-- **Signal Parasite** - something that spreads through communication itself
-- **Vacuum-Adapted** - something that shouldn't survive in the hull's dead sections, and does
 - **Black-Site Research** - work that was never meant to have witnesses
 - **Colony Collapse** - a settlement that failed badly enough to leave no clean answers
-- **Rogue Synthetic** - a machine that decided its orders were wrong
+- **Research Directive** - the official orders that authorized whatever happened here
+- **Chain of Command (Broken)** - a hierarchy that stopped functioning partway through the crisis
+- **Corporate Black Budget** - funding nobody was supposed to trace back
+- **Decommission Order** - this installation was already scheduled to be shut down
 
-### Hazard/Room-Type
+### Agent/Threat
+- **Xenoform Infestation** - something biological that wasn't on the manifest
+- **AI Malfunction** - a mind that stopped following its original directives
+- **Signal Parasite** - something that spreads through communication itself
+- **Vacuum-Adapted** - something that shouldn't survive in the hull's dead sections, and does
+- **Rogue Synthetic** - a machine that decided its orders were wrong
+- **Mutiny Aftermath** - a crew that turned on itself before anyone else arrived
+- **Bioweapon Escape** - something engineered, and it wasn't supposed to get out
+- **Feral Crew** - survivors who stopped being people you can negotiate with
+- **Security Drone Swarm** - automated defense still running its last protocol
+- **Cryo-Revived Hostile** - something woke up early, and wrong
+
+### Site-Type
 - **Containment Ward** - built to hold something in, and showing why it failed
 - **Server Vault** - the installation's memory, guarded like its life
 - **Autopsy Bay** - where the crew tried to understand what was killing them
