@@ -92,6 +92,7 @@ class Setting:
     rumours: list[tuple[int, str, str]] = field(default_factory=list)
     bestiary: list[dict] = field(default_factory=list)
     factions: list[dict] = field(default_factory=list)
+    faction_notes: list[str] = field(default_factory=list)
     treasure: dict[str, list[tuple[int, str, str, str]]] = field(default_factory=dict)
     lore: list[RegistryEntry] = field(default_factory=list)
     keys: list[RegistryEntry] = field(default_factory=list)
@@ -240,16 +241,30 @@ def parse_bestiary() -> list[dict]:
     return out
 
 
-def parse_factions() -> list[dict]:
+FACTION_HEADER_RE = re.compile(r"^(.+?)\s*-\s*AD:\s*(\d+d\d+)\s*$")
+
+
+def parse_factions() -> tuple[list[dict], list[str]]:
+    """Parse Factions.md into (factions, notes).
+
+    Only blocks whose first line matches "Name - AD: Xd6" are faction
+    entries; any other block (e.g. a closing note on how two factions
+    relate) is not a faction and is returned separately as a note rather
+    than being mistaken for a malformed entry.
+    """
     text = (SETTING / "Factions.md").read_text()
     blocks = re.split(r"\n\s*\n", text.strip())
     out = []
+    notes = []
     for block in blocks[1:]:
         lines = [l.strip() for l in block.splitlines() if l.strip()]
         if not lines:
             continue
-        m = re.match(r"^(.+?)\s*-\s*AD:\s*(.+)$", lines[0])
-        name, ad = (m.group(1).strip(), m.group(2).strip()) if m else (lines[0], "")
+        m = FACTION_HEADER_RE.match(lines[0])
+        if not m:
+            notes.append(" ".join(lines))
+            continue
+        name, ad = m.group(1).strip(), m.group(2).strip()
         fields: list[tuple[str, str]] = []
         cur_label = None
         cur_parts: list[str] = []
@@ -264,7 +279,7 @@ def parse_factions() -> list[dict]:
         if cur_label is not None:
             fields.append((cur_label, " ".join(cur_parts).strip()))
         out.append({"name": name, "ad": ad, "fields": fields})
-    return out
+    return out, notes
 
 
 REGISTRY_MARKERS = {
@@ -567,7 +582,7 @@ def load_setting() -> Setting:
     s.truths = parse_truths()
     s.rumours = parse_rumours()
     s.bestiary = parse_bestiary()
-    s.factions = parse_factions()
+    s.factions, s.faction_notes = parse_factions()
     for roman in ("I", "II", "III", "IV", "V"):
         s.treasure[roman] = parse_treasure(roman)
     s.lore = parse_registry("lore")

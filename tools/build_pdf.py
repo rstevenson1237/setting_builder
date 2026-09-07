@@ -124,7 +124,8 @@ def build_document(setting: sc.Setting) -> str:
             f'<span class="ad">AD: {html.escape(fac["ad"])}</span></h3>'
             f'<table class="kv-table">{rows}</table></div>'
         )
-    parts.append(f'<section class="doc" id="factions"><h1>Factions</h1>{"".join(fcards)}</section>')
+    fnotes = "".join(f'<p class="faction-note">{ri(n, setting)}</p>' for n in setting.faction_notes)
+    parts.append(f'<section class="doc" id="factions"><h1>Factions</h1>{"".join(fcards)}{fnotes}</section>')
     toc.append(toc_entry("Factions", "factions"))
 
     toc.append(toc_entry("Treasure Tables", "treasure"))
@@ -288,6 +289,7 @@ code { background: #f1e9da; padding: 0 3px; }
 .stat-card, .faction-card, .registry-card { border: 0.5pt solid #cbbb98; border-radius: 4px; padding: 0.5em 0.7em; margin-bottom: 0.6em; break-inside: avoid; }
 .stat-card .kind, .faction-card .ad, .registry-card .typetag { color: #5a4f42; font-weight: 400; font-size: 9pt; }
 .stat-card .ad { color: #7a2e1d; font-weight: 700; }
+.faction-note { color: #5a4f42; font-style: italic; margin-top: 0.6em; }
 
 .kv-table { width: 100%; }
 .kv-table th { text-align: left; vertical-align: top; width: 8em; color: #7a2e1d; font-size: 9pt; padding: 0.15em 0.4em 0.15em 0; }

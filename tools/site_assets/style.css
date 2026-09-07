@@ -356,6 +356,7 @@ code {
 .stat-card .ad { color: var(--accent); font-weight: 700; font-size: 0.85rem; margin: 0 0 0.4em; }
 
 .faction-list { display: flex; flex-direction: column; gap: 0.8rem; }
+.faction-note { color: var(--ink-soft); font-style: italic; margin-top: 0.8rem; }
 .kv-table { width: 100%; border-collapse: collapse; }
 .kv-table th {
   text-align: left;

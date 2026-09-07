@@ -351,7 +351,11 @@ def build_factions(setting: sc.Setting, out: Path) -> None:
             f'<table class="kv-table">{rows}</table>'
             f'</article>'
         )
-    body = f'<h1>Factions</h1><div class="faction-list">{"".join(cards)}</div>'
+    notes = "".join(
+        f'<p class="faction-note">{render_inline(n, setting, page)}</p>'
+        for n in setting.faction_notes
+    )
+    body = f'<h1>Factions</h1><div class="faction-list">{"".join(cards)}</div>{notes}'
     write_page(out, page, page_shell(setting, page, "Factions", body))
 
 
