@@ -340,38 +340,86 @@ location in the region) versus the gazetteer stub level (committed once, per loc
 4a) - Plan 1 already answers this for tags specifically; this plan is the general pass.
 
 **Mechanic.**
-- Read `templates/Region.md`, all three `patterns/region/*.md` files, and several real
-  Region Overviews + their `Locations.md` gazetteers side by side.
-- For each field (Ambiance, Creatures, Dangers, Secrets, Treasure, Features, the
-  rating-specific ones), decide: does this field currently commit *named, specific*
-  material, or does it stay abstract and leave specificity to 4c? Where it's abstract,
-  either tighten the pattern file's instruction to require 2-3 committed names/signs per
-  field, or explicitly declare that field's specificity belongs downstream instead.
-- Cross-check against `checks/SettingJudgementCheck.md`'s existing claim-auditing rule
-  ("a claim made here is a promise the locations have to keep") - a field tightened to
-  require named commitments raises the bar that check already enforces; make sure the two
-  stay aligned rather than the check silently doing double duty.
+- Read `templates/Region.md`, all three `patterns/region/*.md` files, and (no live
+  `setting/` output surviving in this repo - see Plan 1's Status note on the same point)
+  `checks/SettingJudgementCheck.md`'s record of a prior build's real field-by-field
+  delivery as the closest available evidence.
+- For each field, decide: does it currently commit *named, specific* material, or does it
+  stay abstract and leave specificity to 4c? Where it's abstract, either tighten the
+  instruction or explicitly declare that field's specificity belongs downstream instead.
+
+**Findings and resolution.** Reviewed field by field. People, Situation (SAFE), Creatures,
+Secrets, Architecture (DANGEROUS), Layout, Tables, and Foraging's rare/priced clause were
+already tight - no change. Dangers, Features, and Treasure were flagged as candidates for
+tightening (Dangers/Features read categorical rather than named; Treasure's table-citation
+requirement was duplicated three times in `patterns/region/*.md` but missing from the
+shared template) - **reviewed and dropped**, not executed; those three fields stay as they
+are. What was executed instead:
+- **Layout expanded** (`templates/Region.md` and all three `patterns/region/*.md`) to state
+  the region's **type** first - SAFE's settlement scale (steading/thorp/village/town/seat)
+  and DANGEROUS's region kind (collection/single holding) were both already being decided
+  during generation but never actually written into the Overview text a referee reads; WILD
+  explicitly has none (Terrain already carries that role). Layout also now names roughly
+  **where** in the region's shape its most notable Features or Dangers sit - not new
+  content, just the spatial anchor for what those fields already name.
+  - Consequence: `safe/Settlement.md`'s SETTLEMENT TYPE line no longer re-decides this per
+    location - it now reads the Region Overview's Layout field, stated once. Per-location
+    Kind (Commerce/Authority/Social/People/Wealth) is untouched.
+- **Foraging tightened** (`templates/Region.md`, `patterns/region/Wild.md`) to explicitly
+  require huntable/trackable wildlife (game, fish, fowl), not just plants and minerals, and
+  to cross-reference the Creatures field's Bestiary citations rather than let Foraging
+  invent a second, uncited animal population.
+- **Ambiance's region-vs-location split made explicit** (`templates/Region.md`) - previously
+  only stated as a `dangerous/Dressing.md` Constraint, now stated where the field itself is
+  defined: Region Ambiance is the shared baseline; a location's own Dressing supplies only
+  what's specific to it.
+- **New field: Factions**, added to `templates/Region.md` and all three
+  `patterns/region/*.md`, applying uniformly (not rating-gated). States whether any of the
+  setting's three Factions hold ground in this region - all, part, or none, named plainly
+  either way - and where present, which specific areas or locations they control. This is
+  the region-wide fact a location's own Faction Presence Feature (`safe/Faction.md`,
+  `wild/Faction.md`, `dangerous/Faction.md`) draws on rather than inventing independently,
+  and for DANGEROUS ties directly to the Overview's existing "three occupancies" convention
+  (a Faction is often exactly the "current squatter").
+
+**Finding, not yet fixed:** `wild/Ruin.md`'s Examples cite `patterns/wild/Faction.md` by
+path ("a faction using it as a position, per `patterns/wild/Faction.md`") - **that file does
+not exist.** SAFE and DANGEROUS both have their own `Faction.md`; WILD does not. This was
+surfaced by adding the region-level Factions field (which now points a WILD region's faction
+presence at a location-level file that isn't there) but predates this pass. Needs its own
+small fix - a `wild/Faction.md` matching `safe/Faction.md`/`dangerous/Faction.md`'s shape,
+scoped to what "held" means for a Landmark rather than a settlement or a room - tracked here
+since Plan 2 is what found it, not executed as part of this review.
+
+**Cross-check against `checks/SettingJudgementCheck.md`.** No changes needed there - its
+claim-auditing rule already reads generically across whatever fields the Region Overview
+states, so the new Factions field and expanded Layout are automatically in its scope without
+any rewrite; a Faction claimed for a region and never seen at a location will be caught the
+same way an unspent Treasure-table claim already is.
 
 **Integration.**
-- Directly upstream of Plan 4: a Region Overview that already commits specific named
-  creatures/factions is exactly the roster a region-wide pre-assignment pass draws from.
-  Doing this review first makes Plan 4 easier to execute correctly.
+- Directly upstream of Plan 4: a Region Overview that now names which Faction holds which
+  ground is exactly the roster a region-wide pre-assignment pass draws from - sharper than
+  before this pass, since Factions previously had no region-level home at all.
 - Shares the stub-vs-overview line with Plan 1 (tags are the one field already resolved by
   this review, in advance).
 
 **Open questions.**
-- **SAFE's tier-1 wrapper, raised reviewing Plan 3.** `safe/Settlement.md` is SAFE's only
-  class file - unlike WILD's 3 and DANGEROUS's 3 - and inside it, SETTLEMENT TYPE
-  (steading/thorp/village/town/seat) and PROMINENCE (liner note/working/central) both sit
-  above Kind (Commerce/Authority/Social/People/Wealth), which is nested a level deeper
-  still. Decide whether that wrapper stays as-is (Prominence leads, Kind composes under
-  it - already the pattern, and already consistent with the cross-cutting decision that
-  DANGEROUS's weight leads the same way) or whether Kind should be promoted out from under
-  it - and if promoted, whether SETTLEMENT TYPE folds into Kind or stays a separate axis
-  Kind sits beside. Settled here, not as a side effect of Plan 3, since Plan 3's scope is
-  DANGEROUS and WILD only (see its Status).
+- **SAFE's tier-1 wrapper, raised reviewing Plan 3 - still open, deliberately not touched
+  by this pass.** `safe/Settlement.md` is SAFE's only class file - unlike WILD's 4 (post
+  Plan 3) and DANGEROUS's 3 - and inside it, PROMINENCE (liner note/working/central) sits
+  above Kind (Commerce/Authority/Social/People/Wealth), nested a level deeper still.
+  SETTLEMENT TYPE no longer lives in this question at all (resolved above - it's a
+  region-level fact now, decoupled from wherever Kind ends up). What's left to decide:
+  whether Prominence-leads-Kind-composes-under-it stays as-is, or Kind gets promoted out
+  from under it.
+- The missing `wild/Faction.md` (above) - small, separate fix, not yet scheduled.
 
-**Status.** Not started.
+**Status.** Executed: `templates/Region.md`, `patterns/region/Safe.md`,
+`patterns/region/Wild.md`, `patterns/region/Dangerous.md`, and `patterns/safe/Settlement.md`
+all updated (Layout/type, Foraging/wildlife, Ambiance split, new Factions field). Dangers,
+Features, and Treasure reviewed and deliberately left unchanged. Not yet run against a real
+region.
 
 ---
 

@@ -28,12 +28,44 @@ Fill every field below - the Tables field is authored now, not deferred. Five fi
 - **People** (SAFE only): The region's inhabitants. Any customs unique to them; a formalized system of government or religion, if one exists; goods or foodstuffs they're known for. Their general temperament and appearance, and how they react to outsiders - openly, warily, or somewhere between.
 - **Situation** (SAFE only): What is happening in the settlement right now - a standing state affecting every location in the region, not a random event. Soldiers camped outside, a sickness, a festival, a disputed inheritance, a shortage, somebody missing. State who is responsible, who is affected, which rung of the ladder it is on now, and what the next rung looks like. It is true whether or not the party engages and it moves on its own; it is a condition, not a plot, per GENRE.md. Distinct from the Events table, which is what happens *to* the settlement on top of it.
 - **Terrain** (WILD only): The region's general ground - a single descriptor (hills, mountains, plains, forest, swamp, desert, jungle) or a specific combination of several. How difficult it actually is to move through, beyond what Layout's stated distances already imply.
-- **Foraging** (WILD only): Natural plants, animals, or geological goods that can be found here. Any purported healing or magical value they carry, per GENRE.md's Low Magic - rare and priced, never commonplace. Whether they're rare or abundant, and what name they're known by locally.
-- **Layout**: The region's overall shape, the kinds of places it holds and how they connect. How a party moves through it, and how large it is - state distances between its landmarks in yards (short) or miles (long), per `setting/Procedures.md`. State the region's time assumption per its rating: WILD regions default to 4 hours per action (travel, tracking, foraging, and the like all cost a slot at that scale); SAFE regions aren't time-bound at all - don't track hours there unless something specific demands it; DANGEROUS regions run on the Danger table's countdown instead of real time.
-- **Features**: The main elements a party will interact with. Challenges and rewards - environmental hazards, tricks, traps and puzzles that reward both character and player skill.
-- **Dangers**: How the region answers intrusion. Not every region is antagonistic; some sleep and some are alive to the presence of intruders.
-- **Creatures**: Who lives here, what they are doing, how they move, and how they meet the party. Reference the Bestiary by name rather than restating stats, then add what is specific to this group - what they guard, carry or know.
-- **Secrets**: What may be revealed about the setting's past or the party's immediate problems. What hidden ways exist, where, and how they are concealed.
+- **Foraging** (WILD only): Natural plants, huntable or trackable wildlife, and geological goods that can be found here. Name real game - fish, fowl, or game animals a party can hunt, trap, or forage - not just plants and minerals; where a named animal is also a Bestiary entry cited in Creatures below, use the same name rather than inventing a second, uncited population. Any purported healing or magical value they carry, per GENRE.md's Low Magic - rare and priced, never commonplace. Whether they're rare or abundant, and what name they're known by locally.
+- **Layout**: State the region's **type** first. SAFE: the settlement's scale (steading /
+  thorp / village / town / seat, per `patterns/safe/Settlement.md`) - decided once, here,
+  not re-decided per location. DANGEROUS: its kind (collection or single holding, per
+  `patterns/region/Dangerous.md`) - the same decision that already sets its location count,
+  now written where the referee can actually read it. WILD has no separate type field;
+  Terrain below already carries this role.
+
+  Then the region's overall shape, the kinds of places it holds and how they connect. How a
+  party moves through it, and how large it is - state distances between its landmarks in
+  yards (short) or miles (long), per `setting/Procedures.md`. Name roughly **where** in that
+  shape this region's most notable Features or Dangers (below) actually sit - not new
+  content, the spatial anchor for what those fields already name, so a referee can place
+  them on the map rather than just know they exist.
+
+  State the region's time assumption per its rating: WILD regions default to 4 hours per
+  action (travel, tracking, foraging, and the like all cost a slot at that scale); SAFE
+  regions aren't time-bound at all - don't track hours there unless something specific
+  demands it; DANGEROUS regions run on the Danger table's countdown instead of real time.
+- **Features**: The main elements a party will interact with. Challenges and rewards -
+  environmental hazards, tricks, traps and puzzles that reward both character and player
+  skill.
+- **Dangers**: How the region answers intrusion. Not every region is antagonistic; some
+  sleep and some are alive to the presence of intruders.
+- **Creatures**: Who lives here, what they are doing, how they move, and how they meet the
+  party. Reference the Bestiary by name rather than restating stats, then add what is
+  specific to this group - what they guard, carry or know.
+- **Factions**: Whether any of the setting's three Factions (`setting/Factions.md`) hold
+  ground in this region - all of it, part of it, or none. State it plainly either way; a
+  region with no faction presence says so rather than leaving the question unanswered.
+  Where a faction is present, name **which specific areas or locations it controls**, not
+  just that it is "active here." Reference the faction by its established name and visual
+  identity, and state what it wants from holding this ground, per `safe/Faction.md`,
+  `wild/Faction.md`, or `dangerous/Faction.md` - whichever matches this region's rating.
+  This is the region-wide fact a location's own Faction Presence Feature draws on; it does
+  not invent a faction's involvement independently of what is stated here.
+- **Secrets**: What may be revealed about the setting's past or the party's immediate
+  problems. What hidden ways exist, where, and how they are concealed.
 - **Treasure**: What rewards exploration here. Gems, jewelry, precious goods, magical items, artifacts, trade goods, armament and coin.
 - **Tables**: A d6 table appropriate to the region's rating:
   - SAFE regions carry a d6 Events table, rolled on entry and each week thereafter.
@@ -65,6 +97,8 @@ Features: [...]
 Dangers: [...]
 
 Creatures: [...]
+
+Factions: [...]
 
 Secrets: [...]
 

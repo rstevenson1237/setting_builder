@@ -16,7 +16,8 @@ that is the only other file this line requires.
 
 ```
 SETTLEMENT TYPE
-  {steading | thorp | village | town | seat}
+  {steading | thorp | village | town | seat} - read from the Region Overview's Layout
+  field, stated once for the whole region. Do not re-decide it per location.
 ```
 
 ```
