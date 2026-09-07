@@ -111,8 +111,12 @@ The Region Overview's fields, for a DANGEROUS region.
   and ties the rooms together as one work - an arch shape, a carved mark, a masonry
   pattern, a way of cutting stairs. Typical ceiling height and passage width, so rooms
   default to them unless their own notes say otherwise.
-- **Layout** - the shape of the complex, its entrances, and how deep it runs. State that
-  time runs on the Danger countdown rather than in hours.
+- **Layout** - state the region's **kind** first (collection or single holding, per the
+  REGION KIND spec above) - the same decision that already sets its location count, now
+  written where the referee can read it. Then the shape of the complex, its entrances, and
+  how deep it runs. Name roughly where its most notable Features or Dangers (below)
+  actually sit, so a referee can place them, not just know they exist. State that time runs
+  on the Danger countdown rather than in hours.
 - **Features** - the environmental facts that apply throughout: water, air, light, footing,
   what carries sound, what a fire does here.
 - **Dangers** - how the place answers intrusion. Some places sleep and some are awake to
@@ -120,6 +124,11 @@ The Region Overview's fields, for a DANGEROUS region.
 - **Creatures** - who lives here, what they eat, where their water comes from, where their
   waste goes, and where their young are. Reference the Bestiary by name; add what is
   specific to this group - what they guard, carry, or know.
+- **Factions** - whether any of the three hold part of this place as a position, distinct
+  from merely living here (per `dangerous/Faction.md`'s off-site-consequence test). Name
+  which rooms or sections, if any - a faction is often exactly the "current squatter" the
+  Overview's three-occupancy structure above already gestures at. State none if nothing
+  here answers to an outside power.
 - **Secrets** - what may be revealed about the setting's past, and what hidden ways exist.
 - **Treasure** - what rewards exploration, and which of the five tables the region leans on.
 - **Tables** - a d6 Danger table, counting down from 6 with each failed Difficulty roll.

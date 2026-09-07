@@ -59,6 +59,7 @@ NAV_LINKS = [
     ("unique-treasures.html", "Unique Treasures"),
     ("quests.html", "Quests"),
     ("checklists.html", "Review Checklists"),
+    ("patterns.html", "Pattern Reference"),
 ]
 
 # The judgement-check checklists rendered on checklists.html are parsed straight out of
@@ -69,6 +70,105 @@ CHECKLIST_SOURCES = [
     ("templates/Pattern_Judgement_Check.md", "Pattern Judgement Check", "pattern"),
     ("templates/Setting_Judgement_Check.md", "Setting Judgement Check", "setting"),
 ]
+
+
+# ---------------------------------------------------------------------------
+# Pattern reference: parses patterns/*/*.md itself, not setting/ content.
+#
+# Independent of everything above - this section reads the framework's own
+# authoring instructions, not the generated setting, so patterns.html builds
+# the same way whether setting/ is empty, partial, or complete. The citation
+# rules duplicated here (bare "folder/File.md" for region/safe/wild/dangerous,
+# "patterns/setting/File.md" kept prefixed since bare "setting/File.md" means
+# generated content) match tools/validate_setting.py's check_pattern_files -
+# duplicated rather than imported, same as this module already duplicates
+# site_common's parsing rules rather than sharing state with the validator.
+# ---------------------------------------------------------------------------
+
+PATTERNS_ROOT = ROOT / "patterns"
+PATTERN_FOLDERS = ("setting", "region", "safe", "wild", "dangerous")
+PATTERN_CITE_RE = re.compile(
+    r'(?<!/)\b(patterns/)?(' + '|'.join(PATTERN_FOLDERS) + r')/([A-Za-z]+\.md)\b'
+)
+BARE_KIND_ARROW_RE = re.compile(r'->\s*([A-Z][A-Za-z]*\.md)\b')
+SECTION_RE_CACHE: dict[str, re.Pattern] = {}
+
+
+def pattern_section(text: str, name: str) -> str:
+    pat = SECTION_RE_CACHE.get(name)
+    if pat is None:
+        pat = re.compile(rf'^##\s+{re.escape(name)}\s*\n(.*?)(?=\n##\s+|\Z)', re.S | re.M)
+        SECTION_RE_CACHE[name] = pat
+    m = pat.search(text)
+    return m.group(1).strip() if m else ""
+
+
+def parse_pattern_files() -> tuple[dict[str, dict], list[str]]:
+    """Returns (nodes keyed by "folder/File.md", global format issues).
+
+    A node's own "issues" list holds only what check_pattern_files in
+    tools/validate_setting.py would also error on - this page's live audit
+    is scoped to exactly what CI enforces, not a superset of soft opinion.
+    """
+    files = sorted(p for p in PATTERNS_ROOT.glob("*/*.md") if p.name != ".gitkeep")
+    known = {p.relative_to(PATTERNS_ROOT).as_posix() for p in files}
+    nodes: dict[str, dict] = {}
+    all_issues: list[str] = []
+
+    for path in files:
+        rel = path.relative_to(PATTERNS_ROOT).as_posix()
+        text = path.read_text(encoding="utf-8")
+        m = re.search(r'^#\s+(.+)$', text, re.M)
+        title = m.group(1).strip() if m else rel
+        issues: list[str] = []
+        out: list[str] = []
+
+        if "## Constraints" not in text:
+            issues.append("missing a '## Constraints' section")
+
+        for cm in PATTERN_CITE_RE.finditer(text):
+            prefixed, folder, fname = cm.groups()
+            target = f"{folder}/{fname}"
+            if target == rel:
+                continue
+            if folder == "setting":
+                if not prefixed:
+                    continue
+                if target in known:
+                    out.append(target)
+                else:
+                    issues.append(f"cites patterns/{target}, which does not exist")
+            else:
+                if prefixed:
+                    issues.append(f"cites patterns/{target} - should be bare {target}")
+                    continue
+                if target in known:
+                    out.append(target)
+                else:
+                    issues.append(f"cites {target}, which does not exist")
+
+        for am in BARE_KIND_ARROW_RE.finditer(text):
+            issues.append(f"'-> {am.group(1)}' names a file with no folder qualifier")
+
+        nodes[rel] = dict(
+            rel=rel, folder=rel.split("/")[0], filename=path.name, title=title,
+            decides=pattern_section(text, "Decides"),
+            read_at=pattern_section(text, "Read at"),
+            spec=pattern_section(text, "Spec"),
+            patterns_text=pattern_section(text, "Patterns"),
+            examples=pattern_section(text, "Examples"),
+            constraints=pattern_section(text, "Constraints"),
+            out=sorted(set(out)), incoming=[], issues=issues,
+        )
+        all_issues.extend(f"{rel}: {i}" for i in issues)
+
+    for rel, node in nodes.items():
+        for target in node["out"]:
+            nodes[target]["incoming"].append(rel)
+    for node in nodes.values():
+        node["incoming"] = sorted(set(node["incoming"]))
+
+    return nodes, all_issues
 
 
 def pdf_filename(setting: sc.Setting) -> str:
@@ -169,11 +269,14 @@ def nav_html(setting: sc.Setting, current_page: str) -> str:
 """
 
 
-def page_shell(setting: sc.Setting, current_page: str, title: str, body: str, description: str = "") -> str:
+def page_shell(setting: sc.Setting, current_page: str, title: str, body: str, description: str = "",
+               extra_scripts: list[str] | None = None, footer_note: str = "", main_class: str = "page") -> str:
     css_rel = rel_asset(current_page, "assets/style.css")
     js_rel = rel_asset(current_page, "assets/app.js")
     full_title = f"{title} — {setting.name}" if title != setting.name else title
     desc = html.escape(description or setting.outline[:200])
+    extra_tags = "".join(f'<script src="{rel_asset(current_page, s)}"></script>' for s in (extra_scripts or []))
+    footer = footer_note or f"{html.escape(setting.name)} — generated from <code>setting/</code> by <code>tools/build_site.py</code>."
     return f"""<!doctype html>
 <html lang="en">
 <head>
@@ -186,13 +289,14 @@ def page_shell(setting: sc.Setting, current_page: str, title: str, body: str, de
 </head>
 <body>
 {nav_html(setting, current_page)}
-<main class="page">
+<main class="{main_class}">
 {body}
 </main>
 <footer class="site-footer">
-  <p>{html.escape(setting.name)} — generated from <code>setting/</code> by <code>tools/build_site.py</code>.</p>
+  <p>{footer}</p>
 </footer>
 <script src="{js_rel}"></script>
+{extra_tags}
 </body>
 </html>
 """
@@ -484,6 +588,78 @@ def build_checklists(setting: sc.Setting, out: Path) -> None:
     write_page(out, page, page_shell(setting, page, "Review Checklists", "\n".join(body)))
 
 
+def build_patterns(setting: sc.Setting, out: Path) -> None:
+    """The framework's own citation graph - patterns/*/*.md, not the setting.
+
+    Rebuilt fresh on every push, so this is a live audit rather than a
+    point-in-time report: if a future edit reintroduces a bare citation or
+    drops a Constraints heading, the next build shows it here (and
+    tools/validate_setting.py already fails CI on it independently).
+    """
+    page = "patterns.html"
+    nodes, all_issues = parse_pattern_files()
+    import json as _json
+
+    folder_order = ["setting", "region", "safe", "wild", "dangerous"]
+    folder_nodes: dict[str, list[str]] = {f: [] for f in folder_order}
+    for rel, n in nodes.items():
+        folder_nodes[n["folder"]].append(rel)
+    for f in folder_order:
+        folder_nodes[f].sort(key=lambda rel: (-len(nodes[rel]["out"]), nodes[rel]["filename"]))
+
+    total_edges = sum(len(n["out"]) for n in nodes.values())
+    payload = {
+        "folder_order": folder_order,
+        "folder_nodes": folder_nodes,
+        "nodes": nodes,
+    }
+    data_json = _json.dumps(payload, ensure_ascii=False).replace("</", "<\\/")
+
+    if all_issues:
+        issues_html = (
+            '<div class="pattern-audit pattern-audit-bad">'
+            f'<h3>{len(all_issues)} format issue(s) found</h3>'
+            '<ul>' + "".join(f"<li><code>{html.escape(i)}</code></li>" for i in all_issues) + '</ul>'
+            '<p class="hint">Each of these also fails <code>tools/validate_setting.py</code> in CI - '
+            'this page and the validator read the same rule.</p>'
+            '</div>'
+        )
+    else:
+        issues_html = (
+            '<div class="pattern-audit pattern-audit-ok">'
+            f'Every citation among the {len(nodes)} files below resolves, and every file carries its '
+            'Constraints heading. Checked fresh on every build against the same rule '
+            '<code>tools/validate_setting.py</code> enforces in CI.'
+            '</div>'
+        )
+
+    body = [
+        '<h1>Pattern Reference</h1>',
+        '<p class="hint">Every file in <code>patterns/*/*.md</code> this build reads, and every citation '
+        'between them - parsed at build time, not summarized by hand. This is the framework\'s own '
+        'authoring instructions, not the setting itself: useful while evaluating the setting, and a '
+        'standing check that the instructions stay legible to a mechanical reader, not just a careful '
+        'one. Click any file below to see what it decides and trace its citations.</p>',
+        issues_html,
+        '<div class="pattern-workspace">'
+        '<div class="pattern-diagram-scroll"><div class="pattern-diagram-inner" id="pattern-diagram-inner">'
+        '<svg id="pattern-edge-layer" aria-hidden="true"></svg>'
+        '<div class="pattern-columns" id="pattern-columns"></div>'
+        '</div></div>'
+        '<aside class="pattern-inspector" id="pattern-inspector"></aside>'
+        '</div>',
+        f'<script type="application/json" id="pattern-data">{data_json}</script>',
+    ]
+
+    write_page(out, page, page_shell(
+        setting, page, "Pattern Reference", "\n".join(body),
+        description=f"A live, generated citation graph of all {len(nodes)} patterns/*/*.md files "
+                    f"and {total_edges} citations between them.",
+        extra_scripts=["assets/patterns.js"],
+        main_class="page page-wide",
+    ))
+
+
 def build_region(setting: sc.Setting, out: Path, code: str) -> None:
     region = setting.regions[code]
     page = f"region/{code}/index.html"
@@ -625,6 +801,7 @@ def build(out_dir: Path) -> sc.Setting:
     for kind in ("lore", "keys", "named_creatures", "unique_treasures", "quests"):
         build_registry(setting, out_dir, kind)
     build_checklists(setting, out_dir)
+    build_patterns(setting, out_dir)
     for code in setting.region_order:
         build_region(setting, out_dir, code)
         for num in setting.regions[code].locations:

@@ -33,3 +33,6 @@ hidden (`-.-`) in the region's `Connections.mmd`.
 Unlike a feature-level Secret, this is **mandatory, not rated** - a Secret-tier location
 without a stated Clue at its parent is unreachable, and unreachable content is content
 that does not exist.
+
+## Constraints
+*(Empty. Entries arrive from generation testing, never from anticipation.)*

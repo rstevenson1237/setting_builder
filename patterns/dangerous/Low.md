@@ -15,12 +15,14 @@ that is the only other file this line requires.
 
 ```
 DANGEROUS - LOW                        (parameterized by node role)
-  1     Dressing and Secrets, unconditional          (dangerous/Dressing.md,
-                                                       dangerous/Secrets.md)
+  1     Dressing, Secrets, and Naming, unconditional  (dangerous/Dressing.md,
+                                                       dangerous/Secrets.md,
+                                                       dangerous/Naming.md)
   1     Node role honoured, per the Patterns below    (this file)
   14%   Treasure - unguarded, cited from a table      (dangerous/Treasure.md)
   20%   A detail that rewards looking without demanding action
   10%   A detail that foreshadows a HIGH location elsewhere in the region
+  10%   Key or Quest involvement                      (dangerous/Key.md, dangerous/Quest.md)
 ```
 
 Low weight means the location presents as unremarkable. It does not mean the location is

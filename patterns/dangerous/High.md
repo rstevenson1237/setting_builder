@@ -15,8 +15,9 @@ that is the only other file this line requires.
 
 ```
 DANGEROUS - HIGH
-  1     Dressing and Secrets, unconditional          (dangerous/Dressing.md,
-                                                       dangerous/Secrets.md)
+  1     Dressing, Secrets, and Naming, unconditional  (dangerous/Dressing.md,
+                                                       dangerous/Secrets.md,
+                                                       dangerous/Naming.md)
   1     Challenge            {creature | trap | mystery}
                                                       (dangerous/Creature.md,
                                                        dangerous/Trap.md, see MYSTERY below)
@@ -28,6 +29,7 @@ DANGEROUS - HIGH
   40%   A Unique Treasure, in place of a table citation   (patterns/setting/Keys.md)
   30%   Lore, alongside the payload rather than instead of it   (dangerous/Lore.md)
   25%   A Named Creature, where the challenge is a creature   (dangerous/Creature.md)
+  20%   Key or Quest involvement                         (dangerous/Key.md, dangerous/Quest.md)
 ```
 
 ```
@@ -49,3 +51,6 @@ room has to look like somewhere that matters.
 that stops short of a real attempt all cost nothing - this is what separates a Mystery from
 a Trap: a trap fires on contact or presence, a mystery fires only on a failed attempt to
 use it.
+
+## Constraints
+*(Empty. Entries arrive from generation testing, never from anticipation.)*

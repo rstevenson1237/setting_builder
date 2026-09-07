@@ -10,11 +10,15 @@ everything else.
 ## What this repository is
 
 Not a software project in the usual sense - all "development" here is content generation
-following the templates and workflow below. The one exception is `tools/validate_setting.py`,
-a structural linter run in CI on every pull request; it exists to check generated content
-against the templates, not to build or ship software, and nothing beyond it should be added
-(no build step, no package manager, no test framework for the linter itself beyond running
-it against the content).
+following the templates and workflow below. `tools/` holds exactly what that content
+generation needs and nothing else: `validate_setting.py`, a structural linter (run in CI on
+every pull request) that checks `patterns/*/*.md` itself plus generated content against the
+templates; `build_site.py` and `build_pdf.py`, which render the same `setting/` markdown into
+a hyperlinked website and a downloadable PDF with no separate copy to keep in sync (see "Web
+view and PDF" below); and `site_common.py`, parsing helpers shared by the two builders. No
+package manager and no test framework beyond running these scripts against the content -
+stdlib-only Python throughout - but the two builders are a real, deliberate build step, not
+an exception to there being none.
 
 ## Root files
 
@@ -251,39 +255,52 @@ runs on the Danger table's countdown instead of real time.
 ## Validation
 
 `tools/validate_setting.py` is a structural linter (stdlib-only Python, no dependencies)
-that checks generated content against the templates and this file's rules - not against
-GENRE.md's genre/tone, which still needs human or model judgment. Runs automatically in CI
-(`.github/workflows/validate.yml`) on every pull request and push to `main`; run locally
-with `python3 tools/validate_setting.py`. It checks:
+that checks two independent things - not against GENRE.md's genre/tone, which still needs
+human or model judgment. Runs automatically in CI (`.github/workflows/validate.yml`) on
+every pull request and push to `main`; run locally with `python3 tools/validate_setting.py`.
 
-- **Template format**: region codes a plain A-Z progression; a region's Locations.md
-  entries numbered 1..N with no gaps; DANGEROUS locations carry a low/medium/high weight,
-  WILD locations a landmark/hidden/secret classification, SAFE ones neither; each location
-  file's header matches its filename, region, and gazetteer stub; Player Summary/Referee
-  Notes/Feature/Exits lines present and correctly formatted; Treasure Table and Rumours
-  files have 20 numbered rows.
-- **Connections**: every location in a region's `Locations.md` appears as a node in that
-  region's `Connections.mmd` and vice versa; every mundane `Exits:` entry has a matching
-  edge in some `Connections.mmd`; an Exit matching only a hidden (`-.-`) edge is a warning
-  (confirm it's the far side of an already-triggered secret rather than a violation); two
-  exits sharing an identical description but leading to different destinations are a
-  warning to add distinguishing position.
-- **Cross-references**: `Lore:`/`Keys:`/`Quest:`/`Named Creature:`/`Unique Treasure:`/
-  `Treasure [I-V]` citations inside a location's Features are cross-checked against stub
-  rows in the matching `setting/` registry, and vice versa. A Quest row naming fewer than
-  two locations is warned, since a Quest is two-ended by definition.
-- **Topology report**: not a check. Graph shape is a design decision, so the validator
-  *reports* each region's shape - locations, edges, tree-or-loop-count, dead-end count, any
-  isolated node - and leaves the judgement to `checks/SettingJudgementCheck.md`. SAFE wants
-  a shallow hub, WILD a forest of trees, DANGEROUS a dense graph with loops and at least one
-  divide.
+- **`patterns/*/*.md` itself, unconditionally** - runs regardless of what `setting/` holds,
+  fresh checkout included. A citation to another pattern file is always written
+  `folder/File.md`, bare, relative to `patterns/` - **except** a reference to a
+  `patterns/setting/*.md` file, which always keeps the `patterns/` prefix, since a bare
+  `setting/File.md` means the *generated* file of that name, not the pattern that produces
+  it. The checker flags: a `patterns/` prefix on anything outside `setting/`; a citation
+  (prefixed or bare) that doesn't resolve to a real file; a bare `-> File.md` naming no
+  folder at all; and any file missing its `## Constraints` heading (every `patterns/*/*.md`
+  file ends with one, even if the body is still the empty placeholder).
+- **Generated content against the templates** and this file's rules:
+  - **Template format**: region codes a plain A-Z progression; a region's Locations.md
+    entries numbered 1..N with no gaps; DANGEROUS locations carry a low/medium/high weight,
+    WILD locations a landmark/hidden/secret classification, SAFE ones neither; each location
+    file's header matches its filename, region, and gazetteer stub; Player Summary/Referee
+    Notes/Feature/Exits lines present and correctly formatted; Treasure Table and Rumours
+    files have 20 numbered rows.
+  - **Connections**: every location in a region's `Locations.md` appears as a node in that
+    region's `Connections.mmd` and vice versa; every mundane `Exits:` entry has a matching
+    edge in some `Connections.mmd`; an Exit matching only a hidden (`-.-`) edge is a warning
+    (confirm it's the far side of an already-triggered secret rather than a violation); two
+    exits sharing an identical description but leading to different destinations are a
+    warning to add distinguishing position.
+  - **Cross-references**: `Lore:`/`Keys:`/`Quest:`/`Named Creature:`/`Unique Treasure:`/
+    `Treasure [I-V]` citations inside a location's Features are cross-checked against stub
+    rows in the matching `setting/` registry, and vice versa. A Quest row naming fewer than
+    two locations is warned, since a Quest is two-ended by definition.
+  - **Topology report**: not a check. Graph shape is a design decision, so the validator
+    *reports* each region's shape - locations, edges, tree-or-loop-count, dead-end count,
+    any isolated node - and leaves the judgement to `checks/SettingJudgementCheck.md`. SAFE
+    wants a shallow hub, WILD a forest of trees, DANGEROUS a dense graph with loops and at
+    least one divide.
 
-**Posture: strict on format, relaxed on content and ratios.** It errors (fails CI) on
-unambiguous breakage - unknown codes, name mismatches, missing files, orphaned nodes,
-malformed lines, broken citations - and warns on things that need a human glance but might
-be intentional. It deliberately does *not* check ratios, budgets, class mixes, or anything
-about prose - those judgements belong in `checks/`. When adding a new artifact type or
-template rule, extend this script alongside it.
+**Posture: strict on format, relaxed on content and ratios - and a missing file is a
+warning, not an error.** A `setting/` file, region, or location that simply doesn't exist
+yet is incomplete work, not broken work, so the validator warns rather than fails CI on it -
+this is what lets a partial build be pushed and reviewed mid-build rather than only once
+every file exists. It errors (fails CI) on content that *exists* but is wrong - unknown
+codes, name mismatches, orphaned nodes, malformed lines, a citation that doesn't resolve -
+and warns on everything else that needs a human glance but might be intentional. It
+deliberately does *not* check ratios, budgets, class mixes, or anything about prose - those
+judgements belong in `checks/`. When adding a new artifact type or template rule, extend
+this script alongside it.
 
 `setting/Tags.md`, `setting/Procedures.md`, and `setting/Language.md` are seeded/generated
 at steps 1b/1c/1d before any setting exists, so the validator treats a `setting/` holding
@@ -301,8 +318,15 @@ sync.
   every `A.1`-style location code, `(Lore: ...)`/`(Keys: ...)`/`(Named Creature: ...)`/
   `(Unique Treasure: ...)`/`(Treasure I-V, d20)` citation, and `Creature Name (Bestiary)`
   mention to the page it points to. Region and location `Connections.mmd` graphs render
-  live as clickable Mermaid diagrams. Pure standard library - no npm, no build step beyond
-  running the script. Preview locally with `python3 -m http.server -d _site`.
+  live as clickable Mermaid diagrams. Also renders **`patterns.html`, a Pattern Reference
+  page** built straight from `patterns/*/*.md` rather than from `setting/` - a five-column
+  citation graph (one column per pattern folder), click-through to any file's Decides/Read
+  at/Spec-or-Patterns-or-Examples content and its citations in both directions, and a live
+  audit banner reading the same rule `validate_setting.py`'s pattern-file check enforces in
+  CI, so a regression shows here the same build it would fail CI. Builds regardless of
+  whether `setting/` holds anything, since it doesn't read `setting/` at all. Pure standard
+  library - no npm, no build step beyond running the script. Preview locally with
+  `python3 -m http.server -d _site`.
 - **PDF**: `python3 tools/build_pdf.py` combines the same content into one print-formatted,
   internally hyperlinked PDF (automatic bookmarks/outline, a table of contents with page
   numbers, the same cross-reference links as the website) using

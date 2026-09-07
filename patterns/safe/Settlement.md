@@ -16,7 +16,8 @@ that is the only other file this line requires.
 
 ```
 SETTLEMENT TYPE
-  {steading | thorp | village | town | seat}
+  {steading | thorp | village | town | seat} - read from the Region Overview's Layout
+  field, stated once for the whole region. Do not re-decide it per location.
 ```
 
 ```
@@ -32,11 +33,11 @@ PROMINENCE - decided per location, before anything is written
 SAFE - INCLUSION                       (parameterized by prominence)
   1     Dressing and Secrets, unconditional          (safe/Dressing.md, safe/Secrets.md)
   1     Kind, exactly one   {Commerce | Authority | Social | People | Wealth}
-          hospitality, trade, works   -> Commerce.md
-          office, posting place       -> Authority.md
-          gathering place             -> Social.md
-          household                   -> People.md
-          strongroom, hoard, vault    -> Wealth.md
+          hospitality, trade, works   -> safe/Commerce.md
+          office, posting place       -> safe/Authority.md
+          gathering place             -> safe/Social.md
+          household                   -> safe/People.md
+          strongroom, hoard, vault    -> safe/Wealth.md
   1     A person, drawn from the region's People roster - never invented here (safe/People.md)
         (Wealth locations may instead draw an owner who is absent, dead, or does not know
         the location is here - see safe/Wealth.md)
@@ -80,3 +81,6 @@ everyone knows is empty).
 
 Per D17, extra weight in SAFE arrives as **more locations**, not heavier ones. A settlement
 that matters gets a fuller list, not a longer entry per item.
+
+## Constraints
+*(Empty. Entries arrive from generation testing, never from anticipation.)*

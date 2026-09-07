@@ -36,7 +36,7 @@ interchangeable flavor text - each implies a different discovery structure:
 - **gated** means the cache's existence is known and unconcealed - access needs a stated,
   non-secret condition instead.
 - **guarded** cites a creature already present in this region's Overview under Creatures,
-  by name - per `patterns/region/Safe.md`, anything non-Man in a SAFE region is already
+  by name - per `region/Safe.md`, anything non-Man in a SAFE region is already
   working, penned, or a problem, and a guardian is the "working" case. Do not invent a new
   Bestiary entry here; if none fits, that is a signal to use a different Protection.
 - **trapped** follows the format below, using `setting/Procedures.md`'s impact tiers.

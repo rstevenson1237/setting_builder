@@ -58,13 +58,17 @@ The Region Overview's fields, for a WILD region.
   carries the connective texture the referee narrates between points** - it is doing more
   work than its length suggests, because in a point crawl everything between two landmarks
   comes from here.
-- **Foraging** - plants, animals, and geological goods findable here; whether they are rare
-  or abundant; what they are called locally. Any purported healing or magical value stays
-  rare and priced, per GENRE.md.
-- **Layout** - the region's overall shape and extent, distances between Landmarks in yards
-  or miles. State that an action costs four hours, and what one action buys: a move
-  between neighbouring Landmarks, a search of one Landmark, a forage, a tracking attempt,
-  or making camp.
+- **Foraging** - plants, huntable wildlife, and geological goods findable here; whether they
+  are rare or abundant; what they are called locally. Game and fish are Foraging's fauna;
+  anything dangerous enough to be an encounter belongs in Creatures instead, cited from the
+  Bestiary by name where the two overlap. Any purported healing or magical value stays rare
+  and priced, per GENRE.md.
+- **Layout** - this region has no separate type field; Terrain above already carries that
+  role. State the region's overall shape and extent, distances between Landmarks in yards
+  or miles, and roughly where its most notable Features or Dangers (below) actually sit, so
+  a referee can place them, not just know they exist. State that an action costs four
+  hours, and what one action buys: a move between neighbouring Landmarks, a search of one
+  Landmark, a forage, a tracking attempt, or making camp.
 - **Features** - what a party interacts with across the region rather than at one point:
   crossings, weather, footing, what can be seen from high ground, what the region does at
   night.
@@ -73,6 +77,10 @@ The Region Overview's fields, for a WILD region.
 - **Creatures** - what lives here, its range, and how it meets a party - hunting, watching,
   avoiding, following. Reference the Bestiary by name and add what is specific to this
   population.
+- **Factions** - whether any of the three claim ground here, and how much of the region: a
+  held Landmark used as a position, a route kept open or shut, a stretch worked for what it
+  yields. Name which Landmarks or stretches, if any; state none if the region is genuinely
+  unclaimed.
 - **Secrets** - what the region hides, and roughly where. Enough that the Secret-tier
   locations have somewhere to come from.
 - **Treasure** - what rewards exploration here, and which tables the region leans on.

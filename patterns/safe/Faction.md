@@ -6,7 +6,7 @@ simply take what it wants.
 
 ## Read at
 Step 4c, where a location carries a faction's interest. Distinct from
-`patterns/dangerous/Faction.md`: a held position at depth is a garrison; in a settlement it
+`dangerous/Faction.md`: a held position at depth is a garrison; in a settlement it
 is influence, and influence is visible in different things.
 
 ## Spec

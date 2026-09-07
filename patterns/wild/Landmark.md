@@ -16,8 +16,8 @@ that is the only other file this line requires.
 ```
 WILD - LANDMARK
   1     Dressing and Secrets, unconditional              (wild/Dressing.md, wild/Secrets.md)
-  1     Kind                        {Ruin | Lair | Natural Feature} - see the KIND blocks
-                                                        below
+  1     Kind                        {Ruin | Lair | Natural Feature | Crossing} - see the
+                                                        KIND blocks below
   1     Position within the region - a bearing from the entry or another named Landmark
   1     A reason to stop, visible from outside
   40%   A visible detail leading onward to a Hidden child
@@ -58,6 +58,16 @@ KIND: NATURAL FEATURE                             (content in wild/NaturalFeatur
   20%   A hazard that is simply part of the place
 ```
 
+```
+KIND: CROSSING                                    (content in wild/Crossing.md)
+  1     What must be crossed, and why the country will not simply be gone around
+  1     What controls or complicates the crossing today - season, toll, hazard, guardian
+  1     What waits on the far side, visible before the party commits to it
+  40%   Something else caught here, mid-crossing, when the party arrives
+  30%   A toll, custom, or right-of-way someone here enforces
+  20%   A name in an older tongue, per wild/Naming.md
+```
+
 **A Landmark can be named, revisited, and connected to.** That is the test, and it is what
 separates a Landmark from terrain. A stretch of eroded slope, a brook, a field of flowers
 - these are what the region looks like, they belong in the Region Overview's Terrain
@@ -79,3 +89,13 @@ region.
 
 **A Natural Feature is the hardest kind to write well** - it has no builder and no
 occupant, so unlike a Ruin or a Lair it has to earn its slot on what it *does* alone.
+
+**A Crossing is chosen for what it costs to go around, not for who built or lives there.**
+Its physical form can be a Ruin's (a bridge, a causeway), a Natural Feature's (a ford, a
+pass), or held like a Lair - Kind is exactly one, so pick Crossing when the location's
+point is that the region's own shape forces the party through it; pick Ruin or Natural
+Feature instead when the same object's point is its history or its strangeness and the
+route through it is incidental.
+
+## Constraints
+*(Empty. Entries arrive from generation testing, never from anticipation.)*

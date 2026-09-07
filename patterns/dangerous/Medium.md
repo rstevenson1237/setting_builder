@@ -14,8 +14,9 @@ that is the only other file this line requires.
 
 ```
 DANGEROUS - MEDIUM
-  1     Dressing and Secrets, unconditional           (dangerous/Dressing.md,
-                                                        dangerous/Secrets.md)
+  1     Dressing, Secrets, and Naming, unconditional   (dangerous/Dressing.md,
+                                                        dangerous/Secrets.md,
+                                                        dangerous/Naming.md)
   1     Challenge - guaranteed, and obvious   {creature | trap}
                                                        (dangerous/Creature.md,
                                                         dangerous/Trap.md)
@@ -23,6 +24,7 @@ DANGEROUS - MEDIUM
   33%   Treasure, if the challenge is a trap           (dangerous/Treasure.md)
   25%   A detail that foreshadows a HIGH location elsewhere in the region
   20%   Lore, in place of treasure rather than alongside it   (dangerous/Lore.md)
+  15%   Key or Quest involvement                         (dangerous/Key.md, dangerous/Quest.md)
 ```
 
 Medium weight means the location presents **one thing to deal with**, and presents it
@@ -32,3 +34,6 @@ variance.
 
 The treasure rates are conditional on the challenge because reward should follow the
 fiction: a thing that lives here has accumulated something, a mechanism has not.
+
+## Constraints
+*(Empty. Entries arrive from generation testing, never from anticipation.)*

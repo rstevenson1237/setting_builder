@@ -149,10 +149,14 @@ carry the same constraint - SAFE's low end is the referee narrating procedurally
 written room; SAFE and WILD's high end is closer to the Region Overview itself - which is
 why they don't need (and shouldn't get) the same weight-first structure.
 
-Any Kind axis added to DANGEROUS (Plan 3) attaches the same way WILD's Kind already works
-*inside* `wild/Landmark.md` - a KIND block nested under the class file's own top-level
-spec, supplying additional guaranteed/percentage lines, never a second axis competing with
-weight for which file governs the room's budget.
+Any Kind axis added to DANGEROUS attaches the same way WILD's Kind already works *inside*
+`wild/Landmark.md` - a KIND block nested under the class file's own top-level spec,
+supplying additional guaranteed/percentage lines, never a second axis competing with
+weight for which file governs the room's budget. Currently inert: Plan 3 reviewed adding
+one and resolved without it (`dangerous/Dressing.md`'s existing Purpose field covers the
+room-kind-variety problem this would have solved) - this rule stays as the constraint to
+honour if a DANGEROUS Kind axis is ever proposed again, not a description of one that
+exists.
 
 ---
 
@@ -336,111 +340,161 @@ location in the region) versus the gazetteer stub level (committed once, per loc
 4a) - Plan 1 already answers this for tags specifically; this plan is the general pass.
 
 **Mechanic.**
-- Read `templates/Region.md`, all three `patterns/region/*.md` files, and several real
-  Region Overviews + their `Locations.md` gazetteers side by side.
-- For each field (Ambiance, Creatures, Dangers, Secrets, Treasure, Features, the
-  rating-specific ones), decide: does this field currently commit *named, specific*
-  material, or does it stay abstract and leave specificity to 4c? Where it's abstract,
-  either tighten the pattern file's instruction to require 2-3 committed names/signs per
-  field, or explicitly declare that field's specificity belongs downstream instead.
-- Cross-check against `checks/SettingJudgementCheck.md`'s existing claim-auditing rule
-  ("a claim made here is a promise the locations have to keep") - a field tightened to
-  require named commitments raises the bar that check already enforces; make sure the two
-  stay aligned rather than the check silently doing double duty.
+- Read `templates/Region.md`, all three `patterns/region/*.md` files, and (no live
+  `setting/` output surviving in this repo - see Plan 1's Status note on the same point)
+  `checks/SettingJudgementCheck.md`'s record of a prior build's real field-by-field
+  delivery as the closest available evidence.
+- For each field, decide: does it currently commit *named, specific* material, or does it
+  stay abstract and leave specificity to 4c? Where it's abstract, either tighten the
+  instruction or explicitly declare that field's specificity belongs downstream instead.
+
+**Findings and resolution.** Reviewed field by field. People, Situation (SAFE), Creatures,
+Secrets, Architecture (DANGEROUS), Layout, Tables, and Foraging's rare/priced clause were
+already tight - no change. Dangers, Features, and Treasure were flagged as candidates for
+tightening (Dangers/Features read categorical rather than named; Treasure's table-citation
+requirement was duplicated three times in `patterns/region/*.md` but missing from the
+shared template) - **reviewed and dropped**, not executed; those three fields stay as they
+are. What was executed instead:
+- **Layout expanded** (`templates/Region.md` and all three `patterns/region/*.md`) to state
+  the region's **type** first - SAFE's settlement scale (steading/thorp/village/town/seat)
+  and DANGEROUS's region kind (collection/single holding) were both already being decided
+  during generation but never actually written into the Overview text a referee reads; WILD
+  explicitly has none (Terrain already carries that role). Layout also now names roughly
+  **where** in the region's shape its most notable Features or Dangers sit - not new
+  content, just the spatial anchor for what those fields already name.
+  - Consequence: `safe/Settlement.md`'s SETTLEMENT TYPE line no longer re-decides this per
+    location - it now reads the Region Overview's Layout field, stated once. Per-location
+    Kind (Commerce/Authority/Social/People/Wealth) is untouched.
+- **Foraging tightened** (`templates/Region.md`, `patterns/region/Wild.md`) to explicitly
+  require huntable/trackable wildlife (game, fish, fowl), not just plants and minerals, and
+  to cross-reference the Creatures field's Bestiary citations rather than let Foraging
+  invent a second, uncited animal population.
+- **Ambiance's region-vs-location split made explicit** (`templates/Region.md`) - previously
+  only stated as a `dangerous/Dressing.md` Constraint, now stated where the field itself is
+  defined: Region Ambiance is the shared baseline; a location's own Dressing supplies only
+  what's specific to it.
+- **New field: Factions**, added to `templates/Region.md` and all three
+  `patterns/region/*.md`, applying uniformly (not rating-gated). States whether any of the
+  setting's three Factions hold ground in this region - all, part, or none, named plainly
+  either way - and where present, which specific areas or locations they control. This is
+  the region-wide fact a location's own Faction Presence Feature (`safe/Faction.md`,
+  `wild/Faction.md`, `dangerous/Faction.md`) draws on rather than inventing independently,
+  and for DANGEROUS ties directly to the Overview's existing "three occupancies" convention
+  (a Faction is often exactly the "current squatter").
+
+**Finding, fixed.** `wild/Ruin.md`'s Examples cite `patterns/wild/Faction.md` by path ("a
+faction using it as a position, per `patterns/wild/Faction.md`") - that file didn't exist;
+SAFE and DANGEROUS both had their own `Faction.md`, WILD didn't. Surfaced by adding the
+region-level Factions field (which now points a WILD region's faction presence at a
+location-level file), predates this pass. Fixed: `patterns/wild/Faction.md` created,
+matching `safe/Faction.md`/`dangerous/Faction.md`'s shape (Spec block + Patterns, not the
+compiled-Examples shape `Ruin.md`/`Lair.md`/`NaturalFeature.md`/`Crossing.md` use - Faction
+files are deliberately excluded from Plan 1B's compile list across all three ratings, same
+as this one). Its distinguishing content: what holds a WILD Landmark is enforced range
+(patrolled, tolled, watched) rather than a Lair's survival-driven territory or a settlement's
+traded tolerance or a dungeon room's off-site consequence.
+
+**Cross-check against `checks/SettingJudgementCheck.md`.** No changes needed there - its
+claim-auditing rule already reads generically across whatever fields the Region Overview
+states, so the new Factions field and expanded Layout are automatically in its scope without
+any rewrite; a Faction claimed for a region and never seen at a location will be caught the
+same way an unspent Treasure-table claim already is.
 
 **Integration.**
-- Directly upstream of Plan 4: a Region Overview that already commits specific named
-  creatures/factions is exactly the roster a region-wide pre-assignment pass draws from.
-  Doing this review first makes Plan 4 easier to execute correctly.
+- Directly upstream of Plan 4: a Region Overview that now names which Faction holds which
+  ground is exactly the roster a region-wide pre-assignment pass draws from - sharper than
+  before this pass, since Factions previously had no region-level home at all.
 - Shares the stub-vs-overview line with Plan 1 (tags are the one field already resolved by
   this review, in advance).
 
-**Open questions.** None yet - this is a review pass, findings will populate this section.
-
-**Status.** Not started.
+**Open questions.**
+- **SAFE's tier-1 wrapper, raised reviewing Plan 3 - still open, deliberately not touched
+  by this pass.** `safe/Settlement.md` is SAFE's only class file - unlike WILD's 4 (post
+  Plan 3) and DANGEROUS's 3 - and inside it, PROMINENCE (liner note/working/central) sits
+  above Kind (Commerce/Authority/Social/People/Wealth), nested a level deeper still.
+  SETTLEMENT TYPE no longer lives in this question at all (resolved above - it's a
+  region-level fact now, decoupled from wherever Kind ends up). What's left to decide:
+  whether Prominence-leads-Kind-composes-under-it stays as-is, or Kind gets promoted out
+  from under it.
+**Status.** Executed: `templates/Region.md`, `patterns/region/Safe.md`,
+`patterns/region/Wild.md`, `patterns/region/Dangerous.md`, and `patterns/safe/Settlement.md`
+all updated (Layout/type, Foraging/wildlife, Ambiance split, new Factions field). Dangers,
+Features, and Treasure reviewed and deliberately left unchanged. `patterns/wild/Faction.md`
+created, closing the finding above. Not yet run against a real region.
 
 ---
 
-## Plan 3 - Kind axes: give DANGEROUS one, widen WILD's, name all of them by function
+## Plan 3 - Kind axes: DANGEROUS resolved without a new axis; WILD widened - EXECUTED
 
-**Note (post System-B decision):** still live, not superseded - Kind selection is
-orthogonal to how tag content gets sourced. Its dependency below on Plan 1's Tags.md
-Site-Type facet is stale; a new DANGEROUS Kind's genre-flavored naming now comes from
-Plan 1B's compile mechanism instead (once a new Kind file exists, it gets its own
-EXAMPLES block filled by the same per-build compile pass as every other tier-2 file).
-Not re-executed in this pass - Plan 1B's scope is the existing tier-2 files, not new ones.
+**Resolution (review before execution).** Reviewed against the actual DANGEROUS and WILD
+pattern files before building anything, three decisions came out of that review:
 
-**Problem.** "Class" currently conflates two different axes. Kind (what a location
+1. **DANGEROUS gets no new Kind axis.** The room-type variety this plan was chasing
+   already exists, unstructured, in `dangerous/Dressing.md`'s Purpose field (Keeping /
+   Working / Living / Holding / Meeting / Believing / Dying / Moving, with its own "do not
+   reuse a purpose already used in this region" rule). A second mechanical axis alongside
+   Weight - Spec math per Kind, gated per weight tier - was judged more structure than the
+   problem needs; Purpose already answers "what kind of room" without competing with
+   Weight for which file governs the room's budget. **What DANGEROUS actually lacks isn't
+   room-kind variety, it's locations that function as a group** - the way a WILD Landmark
+   and its Hidden/Secret children read as one place. DANGEROUS's dense, node-role graph
+   (`patterns/region/Dangerous.md`) doesn't have an obvious equivalent to
+   parent-and-children, so multi-location functional blocks are a real, separate design
+   problem - tracked below as an open item, not attempted in this pass.
+2. **WILD widening executed.** Added one new Kind, **Crossing**, to `wild/Landmark.md`'s
+   Kind line and KIND blocks, with its own `wild/Crossing.md` content file (Decides / Read
+   at / Examples / Constraints, matching `Ruin.md`/`Lair.md`/`NaturalFeature.md`'s shape
+   exactly) and wired into the step-1b compile list in `STEPS.md`. Function: a Landmark
+   defined by what it costs to go around, not by who built or lives there - built, natural,
+   or held, chosen when the region's own shape forces the party through a specific point
+   rather than around it.
+   - The plan's other candidate, a mobile/inhabited-but-not-a-lair Kind, was considered and
+     **rejected on review**: `wild/Lair.md`'s own Examples already cover this ground
+     directly ("a camp of somebody who moves seasonally" under Kinds of holding; "a hunting
+     camp... a work party too far out to return nightly" under Occupied by people), and a
+     separate Kind built on the same ground risked being a flavor fork of Lair rather than
+     a genuinely distinct function-with-its-own-Spec-math - the exact failure mode the
+     Kind-vs-Tag cross-cutting decision warns against. Not added; revisit only if real
+     generation shows Lair's "why it stays / territory" contract genuinely doesn't fit a
+     transient occupant.
+   - Not a 4th WILD *classification* (Landmark/Hidden/Secret stays 3) - this is a 4th Kind
+     nested under Landmark, same tier as Ruin/Lair/NaturalFeature, no change to
+     `patterns/region/Wild.md`'s counts or topology.
+3. **The WILD/SAFE retrofit note (pulling existing Kind display names from a Tags.md
+   facet) is now moot**, not just deprioritized - per the System B decision, genre flavor
+   for every tier-2 file comes from its own compiled EXAMPLES block (step 1b), not a
+   generation-time Tags.md lookup. `wild/Ruin.md`/`Lair.md`/`NaturalFeature.md` already work
+   this way; `Crossing.md` was built the same way from the start, so there is no retrofit
+   left to do.
+
+**Problem (historical).** "Class" conflated two different axes. Kind (what a location
 fundamentally *is*) and Weight/Prominence (how much attention/budget it gets) are cleanly
-split for SAFE (5 Kinds x 3 Prominence levels) and WILD (3 Kinds nested under Landmark x 3
-classifications), but DANGEROUS only has the Weight axis (High/Medium/Low) - a room's
-"kind" currently lives as free prose inside `dangerous/Dressing.md`'s Purpose field rather
-than a structured, filed menu. Separately: every existing Kind name (Ruin, Lair,
-Commerce, Wealth) is a genre-neutral function wearing a fantasy-flavored English label,
-which is fine as long as every setting is fantasy and breaks the moment one isn't (see the
-cross-cutting decision on function vs. flavor above, added after this plan's first draft
-named fantasy-dungeon nouns - Crypt, Vault, Shrine, Barracks - as DANGEROUS Kind
-candidates and got called on it).
-
-**Mechanic.**
-- **DANGEROUS Kind axis, named by function, not noun.** Candidates, restated abstractly:
-  - **Sanctum** - built around a purpose, ritual, or authority (fantasy: shrine/throne
-    room; sci-fi: command deck/bridge; horror: ritual chamber; post-apoc: command bunker).
-  - **Cache** - built to store or protect something (vault/treasury; cargo hold/armory;
-    evidence locker; supply cache).
-  - **Habitation** - built for something to live, work, or rest (barracks/quarters; crew
-    quarters; living quarters; den/shelter).
-  - **Passage** - connective space that still counts as a room, not mere corridor
-    (gallery/antechamber; airlock/junction; hallway/stairwell; choke point).
-  Each gets a KIND block nested under each weight file (`High.md`/`Medium.md`/`Low.md`),
-  exactly the way `wild/Landmark.md` nests its Kinds under its own top-level spec. The
-  block's Spec math (what it guarantees) is written once, genre-neutral, using the
-  abstract function name (Sanctum, Cache, ...) as the file/section identifier. **The
-  genre-flavored display name and descriptive vocabulary shown in the generated location
-  come from Plan 1's `Tags.md` Site-Type facet at generation time, never from the
-  pattern file itself.** Per the cross-cutting decision on weight, this composes under
-  weight - it supplies extra lines for "what kind of room," weight still governs the room's
-  overall budget and inclusion rate.
-- **WILD Kind widening**: WILD currently has only 3 Kinds under Landmark
-  (Ruin/Lair/NaturalFeature - already functions: built-and-abandoned, inhabited-by-
-  something, environmental). Cheap to add a 4th/5th function (candidates: a mobile/
-  inhabited-but-not-a-lair Kind; a pure-Passage/crossing Kind) the same way
-  `safe/Wealth.md` was added as a 5th SAFE Kind - and, per the same principle, any new
-  WILD Kind's file-level name should be function-first too.
-- **Retrofit note, not urgent**: WILD's and SAFE's *existing* Kind file names (Ruin, Lair,
-  Commerce, Wealth...) stay as the internal/file identifiers - renaming files is unwarranted
-  churn - but the generation step should treat those names as function labels internally
-  and pull the genre-flavored display name from `Tags.md` the same way a new DANGEROUS Kind
-  would, once Plan 1 exists. Lower priority than getting DANGEROUS's axis built correctly
-  from the start, but tracked here so it isn't forgotten.
-- Explicitly **not** proposing to add a 4th DANGEROUS weight tier or a 4th WILD
-  classification - those are calibrated against location-count math, the Danger countdown,
-  and node-role distribution rules (per the cross-cutting decision above); widening them
-  means re-deriving that math, not just writing a new file.
+split for SAFE (5 Kinds x 3 Prominence levels) and WILD (now 4 Kinds nested under Landmark
+x 3 classifications), but DANGEROUS only has the Weight axis - resolved above as
+intentional, not a gap, given Purpose already does this job.
 
 **Integration.**
-- **Depends on Plan 1B** for genre-portability (revised from depending on the now-
-  superseded Plan 1's Tags.md Site-Type facet) - a new Kind's genre-true naming comes from
-  its own compiled EXAMPLES block. Building Plan 3 before this exists means hard-coding
-  fantasy nouns again, the exact mistake this revision fixes.
-- A DANGEROUS Kind, once it exists, is exactly the kind of already-resolved fact Plan 4's
-  pre-assignment pass should read before suggesting a creature/faction - a Cache-kind room
-  suggests a different creature than a Habitation-kind room.
-- Function names (Sanctum/Cache/Habitation/Passage) are deliberately abstract enough that
-  none of them should ever collapse into a Tag (per the Kind-vs-Tag delineation) - if a
-  candidate Kind starts reading like a flavor descriptor rather than a content-selector
-  with its own Spec math, it belongs in `Tags.md` instead, not as a new Kind file.
+- DANGEROUS's Purpose field (`dangerous/Dressing.md`) remains what Plan 4's pre-assignment
+  pass and Plan 2's region-field review should read for "what kind of room" signal - see
+  Plan 4's Integration section, corrected to match.
+- `wild/Crossing.md` follows Plan 1B's compile mechanism exactly like its three siblings -
+  no dependency on Plan 1's superseded Tags.md Site-Type facet.
 
 **Open questions.**
-- Final DANGEROUS Kind list and their Spec math - the four functions above are a starting
-  shape, not a decided spec; needs the same "what does each guarantee" work every existing
-  class file went through.
-- Whether every weight tier needs every Kind, or some Kinds are weight-restricted (a Cache
-  might only make sense at Medium/High, never Low).
-- Whether the WILD/SAFE retrofit (function-first naming pulled from Tags.md) happens as
-  part of this plan or is spun into its own smaller follow-on once Plan 1 ships.
+- **DANGEROUS multi-location blocks** (item 1 above) - a real, separate problem: whether
+  and how a set of DANGEROUS rooms can read as one functional unit the way a WILD Landmark
+  and its children do, given the region's graph is a dense node-role web rather than a
+  forest of trees. Needs its own design pass before any DANGEROUS structural change is
+  attempted again - not scoped further here.
+- Whether `wild/Crossing.md`'s Examples produce content genuinely distinct from
+  `wild/Ruin.md`'s own "Passage" subheading (bridges, fords, causeways already appear
+  there too) once run against a real region - the two are meant to answer different
+  questions (history vs. present-tense cost of the route) but that needs checking against
+  generated output, not just the pattern text.
 
-**Status.** Not started.
+**Status.** DANGEROUS portion resolved without new files (see Resolution above). WILD
+portion executed: `patterns/wild/Landmark.md` updated, `patterns/wild/Crossing.md` created,
+`STEPS.md` step 1b's compile list updated. Not yet run against a real region.
 
 ---
 
@@ -480,8 +534,11 @@ layer, only pre-stocks it):
 
 **Integration.**
 - Depends on Plan 2 (a Region Overview that already commits specific names gives this pass
-  real material to distribute) and benefits from Plan 3 (a location's Kind, once it exists
-  for DANGEROUS, narrows which roster entries actually make sense there).
+  real material to distribute) and benefits from `dangerous/Dressing.md`'s existing Purpose
+  field (storeroom vs. audience chamber narrows which roster entries make sense there) -
+  corrected from an earlier draft that expected this from a DANGEROUS Kind axis; Plan 3
+  resolved without adding one (see its Status), so Purpose is the only "what kind of room"
+  signal this pass has to read, not a substitute waiting to arrive.
 - Shares its "resolve once, region-wide, cheaply; consume for free at 4c" shape with
   Plan 1B's per-build compile step, but the two are independent mechanisms now - one
   pre-assigns specific registry entries per location, the other compiles genre-general
@@ -556,3 +613,89 @@ not as an oversight.
   section above) - flagged as an interpretation, not confirmed with a fresh pair of eyes.
 
 **Status.** Executing now.
+
+---
+
+## Plan 5 - Pattern citation format decided; validator extended; live Pattern Reference published - EXECUTED
+
+**Problem.** A prior review pass (an interactive Pattern Ledger artifact, parsing all of
+`patterns/*/*.md` and its real citations rather than summarizing from memory) found the
+framework's own citation grammar was never actually decided: three different styles for the
+same kind of reference coexisted, sometimes inside one file; two DANGEROUS hook files
+(`Key.md`, `Quest.md`) and one mandatory-by-its-own-claim file (`Naming.md`) were never
+cited by `High.md`/`Medium.md`/`Low.md`'s own Spec; one file (`safe/Authority.md`) was
+reachable only through a citation style nothing else used; six files skipped the
+`## Constraints` heading CLAUDE.md says every pattern file carries. Separately, the
+validator failed CI on any missing `setting/` file regardless of whether the build was
+finished or simply in progress, which stood in the way of pushing partial work for review.
+
+**Decision - the citation rule.** A citation from one `patterns/*/*.md` file to another is
+always written `folder/File.md`, bare, relative to `patterns/` - never with a `patterns/`
+prefix, never bare of its folder. **One exception**: a reference to a `patterns/setting/*.md`
+file always keeps the `patterns/` prefix, because a bare `setting/File.md` is reserved for
+the *generated* content file of the same name (`setting/Bestiary.md`, `setting/Keys.md`,
+etc.) - the two would otherwise be indistinguishable, since every `patterns/setting/*.md`
+pattern produces a same-named generated file by design. Checked against real usage before
+being written down: every existing `patterns/setting/*.md` cross-reference already followed
+this exception correctly (e.g. `dangerous/Key.md` citing both `setting/Keys.md`, the
+content, and `patterns/setting/Keys.md`, the pattern, correctly distinguished, in the same
+file) - the rule formalizes the framework's own dominant practice rather than inventing one.
+Only 5 files actually violated it (citing `patterns/safe/...`, `patterns/wild/...`, or
+`patterns/dangerous/...` with the prefix, where none was needed) and one file
+(`safe/Settlement.md`'s Kind menu) used bare filenames with no folder at all - both swept.
+
+One finding from the original artifact pass turned out to be a false positive on review:
+its citation parser's regex matched the *tail* of a correct three-segment content path
+(`setting/region/Regions.md`) as if it were a broken two-segment pattern citation
+(`region/Regions.md`). Caught before acting on it - `region/Dangerous.md` needed no fix.
+The real validator (below) uses a lookbehind specifically to avoid this class of bug.
+
+**Executed.**
+- Swept all `patterns/*/*.md` citations to the rule above (5 files); fixed
+  `safe/Settlement.md`'s bare Kind menu and `safe/Dressing.md`'s one mixed-style list; added
+  the missing `## Constraints` heading (empty placeholder, per the rule below that section
+  is earned not anticipated) to `dangerous/High.md`, `Medium.md`, `safe/Settlement.md`,
+  `wild/Landmark.md`, `Hidden.md`, `Secret.md`.
+- Wired `dangerous/Naming.md` into `High.md`/`Medium.md`/`Low.md`'s Spec as unconditional,
+  alongside Dressing and Secrets (matching its own "read for every location" claim), and
+  added a `Key.md`/`Quest.md` percentage hook line to each, matching how `safe/Settlement.md`
+  and `wild/Landmark.md` already wire their own Quest/Key files into their Spec.
+- `tools/validate_setting.py`: added `check_pattern_files()`, run unconditionally (even on a
+  fresh checkout with no `setting/` content) - flags a `patterns/` prefix outside
+  `patterns/setting/`, an unresolved citation, a bare `-> File.md` with no folder, and a
+  missing `## Constraints` heading. Tested against a deliberately broken file and confirmed
+  it catches all three citation issues and restores clean.
+- `tools/validate_setting.py`: every "file is missing" check (region files, per-region
+  Locations.md/Connections.mmd/Tags.md, per-location files, the five registries, the five
+  Treasure tables, Rumours.md, the top-level setting docs) now warns instead of erroring -
+  content that *exists* but is wrong (name mismatches, broken citations, orphaned nodes,
+  malformed lines) still errors and still fails CI. Tested with a real partial build (one
+  region added to `Regions.md`, nothing else) - 24 warnings, 0 errors, exit 0.
+- `tools/build_site.py`: new `patterns.html` page, independent of `setting/` (builds
+  whether `setting/` is empty, partial, or complete, since it only reads `patterns/`) - a
+  five-column citation graph matching the framework's own folder structure, click-through to
+  any file's Decides/Read-at/Spec-or-Patterns-or-Examples content and its citations in both
+  directions, and a live audit banner reading the exact rule `check_pattern_files()`
+  enforces in CI - a regression shows on the next site build, not just in a point-in-time
+  report. Reuses the site's existing palette/typography (`tools/site_assets/style.css`'s
+  tokens, including its existing `--safe`/`--wild`/`--dangerous` colors for those three
+  columns) rather than introducing a competing visual system; `patterns.js` follows
+  `app.js`'s existing plain-IIFE convention. Added to `NAV_LINKS`. Verified in isolation
+  (real `setting/` content wasn't available to test the full site build) - 65 nodes, tags
+  balanced, embedded as inline JSON rather than fetched, so it also works from a local
+  `file://` open per the site's existing guarantee.
+- Docs brought back into agreement with actual repo state: `README.md`'s "What this
+  repository is" section claimed `tools/validate_setting.py` was the sole exception to "no
+  build step" while the same file's own "Web view and PDF" section already documented a
+  full build-and-deploy pipeline (`build_site.py`, `build_pdf.py`, `pages.yml`) - corrected
+  rather than left contradicting itself. `README.md`'s Validation section and `CLAUDE.md`'s
+  Validator posture section both updated for the new pattern-file checks and the
+  missing-file warn/error split; `CLAUDE.md` gained a short "Pattern citation format"
+  section stating the rule directly, since it's exactly the kind of thing that needs active
+  re-checking on every request per this file's own stated purpose.
+
+**Open follow-up.** The original Pattern Ledger artifact (published before this plan) still
+states the now-corrected `region/Dangerous.md` finding as real - worth a follow-up
+republish so the artifact doesn't contradict this record.
+
+**Status.** Executed.

@@ -56,9 +56,12 @@ The Region Overview's fields, for a SAFE region.
   affected, which rung of the ladder it is on now, and what the next rung looks like.** It
   is true whether or not the party engages, and it moves on its own. This is not a plot; it
   is a condition, per GENRE.md.
-- **Layout** - the settlement's shape, its approaches, its defences if any, and where the
-  locations sit relative to each other. State that SAFE is not time-bound: do not track
-  hours here unless something specific demands it.
+- **Layout** - state the settlement's **type** first (steading/thorp/village/town/seat, per
+  `safe/Settlement.md`) - decided once, here, not re-decided per location. Then its
+  shape, its approaches, its defences if any, and where the locations sit relative to each
+  other. Name roughly where its most notable Features or Dangers (below) actually sit, so a
+  referee can place them, not just know they exist. State that SAFE is not time-bound: do
+  not track hours here unless something specific demands it.
 - **Features** - what the settlement offers that is not a location: its law such as it is,
   its prices relative to elsewhere, what it will and will not trade for, its gate hours,
   where outsiders are allowed.
@@ -66,6 +69,11 @@ The Region Overview's fields, for a SAFE region.
   law, feud, faction interest, being noticed, being remembered.
 - **Creatures** - Man, overwhelmingly, and going about business. Anything else here is
   either working, penned, or a problem.
+- **Factions** - whether any of the three hold ground here, and how much. A settlement is
+  traded with, not usually occupied outright (per `safe/Faction.md`), so "control" more
+  often means influence over a specific trade, gate, or office than territory. Name which
+  areas or offices, if any; state none if the settlement is genuinely unclaimed by all
+  three.
 - **Secrets** - what the settlement is not saying, and who knows it.
 - **Treasure** - what is *for sale or in stock* rather than found. Which tables the local
   trade draws on, and what money looks like here.

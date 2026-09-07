@@ -74,9 +74,9 @@ finishing a doorway - stated in the Region Overview's own Ambiance field and hon
 Where a building departs from it, that departure means something: it is older, it is
 foreign, it is richer, or it was built in a hurry.
 
-**Purpose is supplied by the Kind, not restated here.** `safe/Commerce.md`, `Authority.md`,
-`Social.md`, `People.md`, and `Wealth.md` each state what a location of that Kind is for;
-Dressing does not reopen that question, it dresses the answer.
+**Purpose is supplied by the Kind, not restated here.** `safe/Commerce.md`, `safe/Authority.md`,
+`safe/Social.md`, `safe/People.md`, and `safe/Wealth.md` each state what a location of that
+Kind is for; Dressing does not reopen that question, it dresses the answer.
 
 **Ambiance.** Smell and sound, minimum one, and both **attributable** - caused by Condition
 (what is worn, reused, or kept up) or by Purpose (the trade carried on here, what is stored,
