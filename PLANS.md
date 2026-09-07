@@ -206,6 +206,33 @@ at repo root, not `setting/Tags.md` outputs produced by a template/pattern), the
 broadening noted above (Mothership and Fallout were hand-picked for this test, not run
 through the actual Round 1-3 narrowing flow), and the open questions below.
 
+**Vertical slice added:** `vertical_slice_locations.md` - one SAFE, one WILD, one
+DANGEROUS location per genre (nine total), hand-drawing one tag per facet per location and
+writing the full entry against the real `templates/Location.md` + class pattern files
+(`safe/Settlement.md`+`Commerce.md`, `wild/Landmark.md`+`Ruin.md`,
+`dangerous/High.md`), in clean-room isolation from the real Carrdun setting (no Region
+Overview, Bestiary, or People roster - see that file's own Method section for exactly what
+was skipped and why). Result: all three facets did real structural work in every one of
+the nine (Institution/Condition shaped organizational history, Agent/Threat became the
+actual mechanical challenge, Site-Type was the room), genre register held with no bleed
+between the three sets, and re-reading the finished prose confirms the tag-name overlap
+check's result at the prose level, not just the vocabulary-list level.
+
+One finding that changes Plan 4: **Agent/Threat doesn't map 1:1 onto the Creature slot.**
+Apoc DANGEROUS's *Automated Defense Grid* tag resolved as a **trap** (using
+`dangerous/Trap.md`'s tell format), not a creature. Plan 4's pre-assignment pass can't
+assume an Agent/Threat tag always feeds a Bestiary/creature pre-assignment - it has to stay
+agnostic across creature/trap/mystery the same way the class file's own Challenge line is,
+and resolve only once 4c's roll lands on a category.
+
+Two real spec misses were left uncorrected on purpose, as data rather than embarrassment:
+`wild/Dressing.md`'s Position line (a bearing from the entry or another Landmark) got
+conflated with the Size line in two of the three WILD entries; `safe/Commerce.md`'s "where
+it sends them instead" clause was only half-satisfied in two of the three SAFE entries.
+Both are the kind of miss `tools/validate_setting.py` or `checks/SettingJudgementCheck.md`
+should be positioned to catch in real generation, not something to quietly patch after the
+fact in a prototype.
+
 ---
 
 ## Plan 2 - Region-level field review (Overview vs. gazetteer stub)
