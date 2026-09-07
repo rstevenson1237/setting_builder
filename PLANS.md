@@ -382,14 +382,17 @@ are. What was executed instead:
   and for DANGEROUS ties directly to the Overview's existing "three occupancies" convention
   (a Faction is often exactly the "current squatter").
 
-**Finding, not yet fixed:** `wild/Ruin.md`'s Examples cite `patterns/wild/Faction.md` by
-path ("a faction using it as a position, per `patterns/wild/Faction.md`") - **that file does
-not exist.** SAFE and DANGEROUS both have their own `Faction.md`; WILD does not. This was
-surfaced by adding the region-level Factions field (which now points a WILD region's faction
-presence at a location-level file that isn't there) but predates this pass. Needs its own
-small fix - a `wild/Faction.md` matching `safe/Faction.md`/`dangerous/Faction.md`'s shape,
-scoped to what "held" means for a Landmark rather than a settlement or a room - tracked here
-since Plan 2 is what found it, not executed as part of this review.
+**Finding, fixed.** `wild/Ruin.md`'s Examples cite `patterns/wild/Faction.md` by path ("a
+faction using it as a position, per `patterns/wild/Faction.md`") - that file didn't exist;
+SAFE and DANGEROUS both had their own `Faction.md`, WILD didn't. Surfaced by adding the
+region-level Factions field (which now points a WILD region's faction presence at a
+location-level file), predates this pass. Fixed: `patterns/wild/Faction.md` created,
+matching `safe/Faction.md`/`dangerous/Faction.md`'s shape (Spec block + Patterns, not the
+compiled-Examples shape `Ruin.md`/`Lair.md`/`NaturalFeature.md`/`Crossing.md` use - Faction
+files are deliberately excluded from Plan 1B's compile list across all three ratings, same
+as this one). Its distinguishing content: what holds a WILD Landmark is enforced range
+(patrolled, tolled, watched) rather than a Lair's survival-driven territory or a settlement's
+traded tolerance or a dungeon room's off-site consequence.
 
 **Cross-check against `checks/SettingJudgementCheck.md`.** No changes needed there - its
 claim-auditing rule already reads generically across whatever fields the Region Overview
@@ -413,13 +416,11 @@ same way an unspent Treasure-table claim already is.
   region-level fact now, decoupled from wherever Kind ends up). What's left to decide:
   whether Prominence-leads-Kind-composes-under-it stays as-is, or Kind gets promoted out
   from under it.
-- The missing `wild/Faction.md` (above) - small, separate fix, not yet scheduled.
-
 **Status.** Executed: `templates/Region.md`, `patterns/region/Safe.md`,
 `patterns/region/Wild.md`, `patterns/region/Dangerous.md`, and `patterns/safe/Settlement.md`
 all updated (Layout/type, Foraging/wildlife, Ambiance split, new Factions field). Dangers,
-Features, and Treasure reviewed and deliberately left unchanged. Not yet run against a real
-region.
+Features, and Treasure reviewed and deliberately left unchanged. `patterns/wild/Faction.md`
+created, closing the finding above. Not yet run against a real region.
 
 ---
 
