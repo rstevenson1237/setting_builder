@@ -82,6 +82,24 @@ code {
 .outline { font-size: 1.05rem; }
 .hint { color: var(--ink-soft); font-size: 0.92rem; }
 
+.tag-box {
+  background: var(--card-bg);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 0.8rem 1rem;
+  margin: 0.8rem 0 1.2rem;
+}
+.tag-box h3 { margin: 0 0 0.5rem; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--ink-soft); }
+.tag-box dl {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  column-gap: 0.6rem;
+  row-gap: 0.3rem;
+  margin: 0;
+}
+.tag-box dt { font-weight: 700; white-space: nowrap; }
+.tag-box dd { margin: 0; color: var(--ink-soft); }
+
 .breadcrumb { font-size: 0.85rem; color: var(--ink-soft); margin-bottom: 0.5rem; }
 .breadcrumb a { text-decoration: none; }
 .breadcrumb a:hover { text-decoration: underline; }
@@ -356,6 +374,7 @@ code {
 .stat-card .ad { color: var(--accent); font-weight: 700; font-size: 0.85rem; margin: 0 0 0.4em; }
 
 .faction-list { display: flex; flex-direction: column; gap: 0.8rem; }
+.faction-note { color: var(--ink-soft); font-style: italic; margin-top: 0.8rem; }
 .kv-table { width: 100%; border-collapse: collapse; }
 .kv-table th {
   text-align: left;

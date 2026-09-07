@@ -25,22 +25,19 @@ GENRE
         elaboration, drawn from the chosen reference and Q2
   1     A short paragraph stating what player characters are here, stated the way GENRE.md's
         B/X-Conan default states it - not heroes, not the resolution of anything
-  50    A Tags section in the finished GENRE.md: five categories of ten - Safe, Wild,
-        Dangerous, People (personalities), Creatures (demeanors) - drawn from the chosen
-        reference's own concrete iconography and from Q2's axis answers
   1     The fixed "What a line has to earn" three tests, reproduced verbatim from
         `templates/Genre.md` - never reauthored per genre
   1     A naming-convention line, settled by Q2 rather than assumed
 ```
 
 **This is the one place seeding is intentional.** Every other artifact's worked examples in
-this library are illustrations to be varied from; the Seed pool below, and the tag bank
-built from the chosen reference, are the opposite - they exist specifically to be carried
-forward into `setting/Setting.md` and beyond, the same way a Region Overview's claims are
-meant to be cashed out by its locations. A named, specific reference gives every later step
-real material - an actual body of work with its own creatures, factions, objects, and
-texture - instead of an abstract family label that has to be invented from nothing at every
-step that touches it.
+this library are illustrations to be varied from; the Seed pool below is the opposite - it
+exists specifically to be carried forward into `setting/Setting.md`, `setting/Tags.md`
+(step 1b), and the compiled tier-2 pattern files beyond, the same way a Region Overview's
+claims are meant to be cashed out by its locations. A named, specific reference gives every
+later step real material - an actual body of work with its own creatures, factions,
+objects, and texture - instead of an abstract family label that has to be invented from
+nothing at every step that touches it.
 
 ## Seed - 20-30 specific references
 
@@ -230,45 +227,10 @@ inspiration, or sparse/utilitarian - a location's own name is still plain and de
 drawn from the common tongue, not freshly coined, though it may carry a name coined
 elsewhere and glossed for the referee. State this the same way regardless of genre.
 
-**What a tag is.** Every tag, in every category, is **one or two words - never a phrase.**
-A tag does three jobs, and a candidate that fails any of them is cut regardless of how vivid
-it reads:
-
-- **It represents a theme.** It compresses something already true of the chosen reference -
-  a concrete detail, an axis answer, a fact GENRE.md states elsewhere - down to a word or
-  two, rather than introducing a new idea of its own. A tag is a pointer to a theme, not the
-  theme's full statement.
-- **It acts as an index.** Later steps scan the relevant category for something that fits
-  what they're building, the way a card catalogue is scanned rather than read start to
-  finish. A tag that only makes sense once, in the one sentence it was coined for, cannot be
-  found again by a step that doesn't already know it's there - it fails as an index even if
-  it succeeds as a phrase.
-- **It constrains the material.** Per "Be specific, not generic" above: a tag earns its
-  place by ruling things out. *Rusted*, not *old*; *Absentee*, not *distant*. A tag generic
-  enough to fit any setting in the reference's general trope cluster was not worth indexing.
-
-**Building the Tags section.** The bank is five categories of **ten tags each**, not one
-flat list:
-
-- **Safe** - what indexes a SAFE region or settlement: what holds it together, what is
-  failing, what it lives on.
-- **Wild** - what indexes a WILD region: the open ground between settlements, what crosses
-  it, what it hides.
-- **Dangerous** - what indexes a DANGEROUS region: what broke it, what still moves in it,
-  what the Mythic Underworld looks like here specifically.
-- **People (personalities)** - one- or two-word dispositions for the setting's NPCs, drawn
-  from what the chosen reference's own social pressures do to the people living under them.
-- **Creatures (demeanors)** - one- or two-word behaviors for how something met in this
-  genre carries itself before a fight starts or doesn't.
-
-Draw every tag from the chosen reference's own concrete iconography first - its creatures,
-factions, objects, customs, pressures - and only reach for Q2's axis answers to fill a
-category the reference itself doesn't supply enough of. Every tag must pass the same
-intentionality test: traceable to the reference or to a Q2 answer that mattered, not filler
-that would fit any generic instance of the reference's general trope cluster. This bank is
-what `setting/Setting.md`, each region's own tags, and every later step's people and
-creatures are drawn from, so each category needs real range - ten variations on the same
-image fail the index test even where each one individually reads fine.
+Tags no longer live in this file - `patterns/setting/Tags.md` owns tag-building now
+(what a tag is, the intentionality test, the pool shape), read at the new step 1b right
+after this one. What stays here is everything about *choosing and stating the reference
+itself* - the tag bank was always downstream of that choice, not part of making it.
 
 ## Patterns
 
@@ -276,12 +238,6 @@ image fail the index test even where each one individually reads fine.
 series, a TTRPG line), not a mood; two referees given only the reference name would build
 recognizably similar settings from it; it survives being stated in one sentence per half
 (specific, then general) without needing to explain either half to be understood.
-
-**What makes a seed tag intentional rather than accidental** - it traces back to something
-the chosen reference actually does or a Q2 answer that mattered. If a tag could have been
-generated without knowing which reference was chosen at all - if it would fit any grimdark
-military fantasy, say, equally well - it is decorative, not seeded, and has failed at the
-one job tag-building exists for.
 
 **Guardrails, regardless of reference chosen** - low magic does not mean *no* magic unless
 Q2 explicitly chose that; points of light does not mean *no* settlements, only that they

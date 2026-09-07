@@ -35,7 +35,15 @@ The arrow makes it visible at a glance when a trap has been written with no way 
 it. Two tells is better than one - one that anyone entering would notice, one available
 only to someone already looking.
 
-## Patterns
+**Contract.** A DANGEROUS trap owes: a mechanism, an impact tier, a tell (mandatory at
+medium weight), and treasure where it guards something - written as
+`**Name:** tell; tell → effect; effect`. Mechanisms are drawn from what the region is
+built from and what its occupants can maintain - a trap needing a machinist has a
+machinist somewhere, or it does not work. Genre-neutral and permanent. Which mechanism
+fills that contract is not - the Examples below are this build's compile of it, from
+this setting's chosen genre reference.
+
+## Examples
 
 **Falling and footing** - deadfall or collapsing floor; covered pit, shallow or deep;
 spiked pit with a beam across it; turning trapdoor mounted on an axis; a floor that gives
@@ -56,9 +64,6 @@ wrong; a lid weighted to hold something shut from the inside.
 something elsewhere; a marking trap - dye, scent, residue - that draws attention later; a
 snare or net; a trap that ruins a resource rather than a person; a mechanism so rusted it
 half-works and is worse for it.
-
-Mechanisms are drawn from what the region is built from and what its occupants can
-maintain. A trap needing a machinist has a machinist somewhere, or it does not work.
 
 ## Constraints
 *(Empty. Entries arrive from generation testing, never from anticipation.)*

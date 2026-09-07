@@ -72,6 +72,7 @@ class Region:
     table_label: str
     table_rows: list[tuple[int, str]]
     locations: dict[int, Location] = field(default_factory=dict)
+    tags_pool: list[tuple[str, str]] = field(default_factory=list)  # (tag, gloss), this region's own Tags.md
 
 
 @dataclass
@@ -92,6 +93,7 @@ class Setting:
     rumours: list[tuple[int, str, str]] = field(default_factory=list)
     bestiary: list[dict] = field(default_factory=list)
     factions: list[dict] = field(default_factory=list)
+    faction_notes: list[str] = field(default_factory=list)
     treasure: dict[str, list[tuple[int, str, str, str]]] = field(default_factory=dict)
     lore: list[RegistryEntry] = field(default_factory=list)
     keys: list[RegistryEntry] = field(default_factory=list)
@@ -101,6 +103,7 @@ class Setting:
     regions: dict[str, Region] = field(default_factory=dict)
     region_order: list[str] = field(default_factory=list)
     top_connections: str = ""
+    tags_pool: list[tuple[str, str]] = field(default_factory=list)  # (tag, gloss), setting/Tags.md
 
     # lookup helpers, filled in after parsing
     all_locations: dict[str, Location] = field(default_factory=dict)
@@ -121,14 +124,31 @@ TREASURE_FILES = {"I": 1, "II": 2, "III": 3, "IV": 4, "V": 5}
 # Parsers
 # ---------------------------------------------------------------------------
 
+TAGS_ENTRY_RE = re.compile(r"^-\s*\*\*(.+?)\*\*\s*-\s*(.+)$")
+
+
+def parse_tags_file(path: Path) -> list[tuple[str, str]]:
+    """Parse a Tags.md file (setting- or region-level) into (tag, gloss) pairs."""
+    if not path.exists():
+        return []
+    out = []
+    for line in path.read_text().splitlines():
+        m = TAGS_ENTRY_RE.match(line.strip())
+        if m:
+            out.append((m.group(1).strip(), m.group(2).strip()))
+    return out
+
+
 def parse_setting() -> tuple[str, str, str]:
     text = (SETTING / "Setting.md").read_text()
     lines = [l for l in text.splitlines() if l.strip()]
-    m = re.match(r"^(.+?)\s+\*(.+)\*\s*$", lines[0].strip())
-    name, tags = (m.group(1).strip(), m.group(2).strip()) if m else (lines[0].strip(), "")
-    outline = " ".join(l.strip() for l in lines[1:]).strip()
+    name = lines[0].strip()
+    rest = lines[1:]
+    if rest and rest[0].strip().lower().startswith("tags:"):
+        rest = rest[1:]
+    outline = " ".join(l.strip() for l in rest).strip()
     outline = outline.strip("*").strip()
-    return name, tags, outline
+    return name, "", outline
 
 
 def parse_history() -> list[tuple[str, str]]:
@@ -225,31 +245,52 @@ def parse_bestiary() -> list[dict]:
         if not m:
             continue
         name, kind, ad = m.groups()
-        desc_parts: list[str] = []
-        capturing = False
+        fields: list[tuple[str, str]] = []
+        cur_label = None
+        cur_parts: list[str] = []
         for l in lines[1:]:
             lm = re.match(r"^([A-Za-z]+):\s*(.*)$", l)
             if lm and lm.group(1) in BESTIARY_SUBFIELD_LABELS:
-                capturing = lm.group(1) == "Description"
-                if capturing:
-                    desc_parts = [lm.group(2).strip()]
+                if cur_label is not None:
+                    fields.append((cur_label, " ".join(cur_parts).strip()))
+                cur_label, cur_parts = lm.group(1), [lm.group(2).strip()]
                 continue
-            if capturing:
-                desc_parts.append(l)
-        out.append({"name": name.strip(), "kind": kind.strip(), "ad": ad.strip(), "description": " ".join(desc_parts).strip()})
+            if cur_label is not None:
+                cur_parts.append(l)
+        if cur_label is not None:
+            fields.append((cur_label, " ".join(cur_parts).strip()))
+        description = next((v for k, v in fields if k == "Description"), "")
+        out.append({
+            "name": name.strip(), "kind": kind.strip(), "ad": ad.strip(),
+            "description": description, "fields": fields,
+        })
     return out
 
 
-def parse_factions() -> list[dict]:
+FACTION_HEADER_RE = re.compile(r"^(.+?)\s*-\s*AD:\s*(\d+d\d+)\s*$")
+
+
+def parse_factions() -> tuple[list[dict], list[str]]:
+    """Parse Factions.md into (factions, notes).
+
+    Only blocks whose first line matches "Name - AD: Xd6" are faction
+    entries; any other block (e.g. a closing note on how two factions
+    relate) is not a faction and is returned separately as a note rather
+    than being mistaken for a malformed entry.
+    """
     text = (SETTING / "Factions.md").read_text()
     blocks = re.split(r"\n\s*\n", text.strip())
     out = []
+    notes = []
     for block in blocks[1:]:
         lines = [l.strip() for l in block.splitlines() if l.strip()]
         if not lines:
             continue
-        m = re.match(r"^(.+?)\s*-\s*AD:\s*(.+)$", lines[0])
-        name, ad = (m.group(1).strip(), m.group(2).strip()) if m else (lines[0], "")
+        m = FACTION_HEADER_RE.match(lines[0])
+        if not m:
+            notes.append(" ".join(lines))
+            continue
+        name, ad = m.group(1).strip(), m.group(2).strip()
         fields: list[tuple[str, str]] = []
         cur_label = None
         cur_parts: list[str] = []
@@ -264,7 +305,7 @@ def parse_factions() -> list[dict]:
         if cur_label is not None:
             fields.append((cur_label, " ".join(cur_parts).strip()))
         out.append({"name": name, "ad": ad, "fields": fields})
-    return out
+    return out, notes
 
 
 REGISTRY_MARKERS = {
@@ -322,7 +363,7 @@ def parse_registry(kind: str) -> list[RegistryEntry]:
     return out
 
 
-REGION_RE = re.compile(r'^([A-Z]+) (.+?) - (SAFE|WILD|DANGEROUS), (d\d+), \*(.+)\*\s*$')
+REGION_RE = re.compile(r'^([A-Z]+) (.+?) - (SAFE|WILD|DANGEROUS), (d\d+)\s*$')
 
 
 def parse_regions_gazetteer() -> dict[str, dict]:
@@ -342,12 +383,14 @@ def parse_regions_gazetteer() -> dict[str, dict]:
             continue
         m = REGION_RE.match(line)
         if m:
-            code, name, rating, die, tags = m.groups()
-            blurb = ""
-            if i + 1 < n and lines[i + 1].strip():
-                blurb = lines[i + 1].strip()
+            code, name, rating, die = m.groups()
+            i += 1
+            if i < n and lines[i].strip().lower().startswith("tags:"):
                 i += 1
-            out[code] = {"name": name.strip(), "rating": rating, "die": die, "tags": tags.strip(), "blurb": blurb}
+            blurb = ""
+            if i < n and lines[i].strip():
+                blurb = lines[i].strip()
+            out[code] = {"name": name.strip(), "rating": rating, "die": die, "tags": "", "blurb": blurb}
             order.append(code)
         i += 1
     return out
@@ -388,9 +431,11 @@ def parse_region_overview(code: str, gaz: dict) -> Region:
                 i += 1
             fields.append((label, " ".join(parts).strip()))
     info = gaz[code]
+    tags_pool = parse_tags_file(SETTING / "region" / code / "Tags.md")
     return Region(
         code=code, name=info["name"], rating=info["rating"], die=info["die"], tags=info["tags"],
         gazetteer_blurb=info["blurb"], fields=fields, table_label=table_label, table_rows=table_rows,
+        tags_pool=tags_pool,
     )
 
 
@@ -563,11 +608,12 @@ def mmd_edges_by_code(text: str) -> list[tuple[str, str, str]]:
 def load_setting() -> Setting:
     s = Setting()
     s.name, s.tags, s.outline = parse_setting()
+    s.tags_pool = parse_tags_file(SETTING / "Tags.md")
     s.history = parse_history()
     s.truths = parse_truths()
     s.rumours = parse_rumours()
     s.bestiary = parse_bestiary()
-    s.factions = parse_factions()
+    s.factions, s.faction_notes = parse_factions()
     for roman in ("I", "II", "III", "IV", "V"):
         s.treasure[roman] = parse_treasure(roman)
     s.lore = parse_registry("lore")

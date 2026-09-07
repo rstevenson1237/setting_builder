@@ -209,6 +209,17 @@ def section(title: str, body: str, anchor: str | None = None) -> str:
     return f'<section class="doc-section"{id_attr}><h2>{html.escape(title)}</h2>{body}</section>'
 
 
+def tags_box(tags_pool: list[tuple[str, str]]) -> str:
+    """A boxed panel listing a Tags.md pool (tag, gloss) - pure seed/color, no links."""
+    if not tags_pool:
+        return ""
+    rows = "".join(
+        f'<dt>{html.escape(tag)}</dt><dd>{html.escape(gloss)}</dd>'
+        for tag, gloss in tags_pool
+    )
+    return f'<div class="tag-box"><h3>Tags</h3><dl>{rows}</dl></div>'
+
+
 MERMAID_FENCE_RE = re.compile(r"```mermaid\s*\n(.*?)```", re.DOTALL)
 
 
@@ -251,10 +262,9 @@ def top_graph_clicks(mmd_text: str, current_page: str) -> list[str]:
 
 def build_index(setting: sc.Setting, out: Path) -> None:
     page = "index.html"
-    tags = " · ".join(t.strip() for t in setting.tags.split(","))
     body = [f'<h1>{html.escape(setting.name)}</h1>']
-    body.append(f'<p class="tags">{html.escape(tags)}</p>')
     body.append(f'<p class="outline">{render_inline(setting.outline, setting, page)}</p>')
+    body.append(tags_box(setting.tags_pool))
 
     cards = []
     for href, label in NAV_LINKS[1:]:
@@ -264,14 +274,12 @@ def build_index(setting: sc.Setting, out: Path) -> None:
     region_rows = []
     for code in setting.region_order:
         r = setting.regions[code]
-        rtags = " · ".join(t.strip() for t in r.tags.split(","))
         href = RESOLVER.href("region", code, page)
         region_rows.append(
             f'<a class="region-row" href="{href}">'
             f'<div class="region-code">{code}</div>'
             f'<div><div class="region-name">{html.escape(r.name)} '
             f'<span class="badge badge-{r.rating.lower()}">{r.rating} {r.die}</span></div>'
-            f'<div class="region-tags">{html.escape(rtags)}</div>'
             f'<div class="region-blurb">{render_inline(r.gazetteer_blurb, setting, page, no_links=True)}</div></div>'
             f'</a>'
         )
@@ -326,11 +334,15 @@ def build_bestiary(setting: sc.Setting, out: Path) -> None:
     cards = []
     for creature in setting.bestiary:
         anchor = f"bestiary-{sc.slugify(creature['name'])}"
+        field_paras = "".join(
+            f'<p><strong>{html.escape(label)}:</strong> {render_inline(value, setting, page)}</p>'
+            for label, value in creature["fields"]
+        )
         cards.append(
             f'<article class="stat-card" id="{anchor}">'
             f'<h3>{html.escape(creature["name"])} <span class="kind">({html.escape(creature["kind"])})</span></h3>'
             f'<p class="ad">AD: {html.escape(creature["ad"])}</p>'
-            f'<p>{render_inline(creature["description"], setting, page)}</p>'
+            f'{field_paras}'
             f'</article>'
         )
     body = f'<h1>Bestiary</h1><div class="stat-grid">{"".join(cards)}</div>'
@@ -351,7 +363,11 @@ def build_factions(setting: sc.Setting, out: Path) -> None:
             f'<table class="kv-table">{rows}</table>'
             f'</article>'
         )
-    body = f'<h1>Factions</h1><div class="faction-list">{"".join(cards)}</div>'
+    notes = "".join(
+        f'<p class="faction-note">{render_inline(n, setting, page)}</p>'
+        for n in setting.faction_notes
+    )
+    body = f'<h1>Factions</h1><div class="faction-list">{"".join(cards)}</div>{notes}'
     write_page(out, page, page_shell(setting, page, "Factions", body))
 
 
@@ -471,13 +487,12 @@ def build_checklists(setting: sc.Setting, out: Path) -> None:
 def build_region(setting: sc.Setting, out: Path, code: str) -> None:
     region = setting.regions[code]
     page = f"region/{code}/index.html"
-    tags = " · ".join(t.strip() for t in region.tags.split(","))
 
     body = [
         f'<p class="breadcrumb"><a href="{rel_asset(page, "index.html")}">Home</a> / Regions / {code}</p>',
         f'<h1>{code} {html.escape(region.name)} '
         f'<span class="badge badge-{region.rating.lower()}">{region.rating} {region.die}</span></h1>',
-        f'<p class="tags">{html.escape(tags)}</p>',
+        tags_box(region.tags_pool),
     ]
 
     for label, text in region.fields:

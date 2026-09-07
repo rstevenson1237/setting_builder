@@ -5,11 +5,15 @@ What an unbuilt, unoccupied Landmark is, and why it is worth four hours to visit
 
 ## Read at
 Step 4c, when `wild/Landmark.md`'s spec draws Kind: Natural Feature - the only
-classification file that does. That file's own Spec states what a Natural Feature must
-contain when drawn; this file supplies what it can be made of. The hardest kind to write
-well: it has no builder and no occupant, so it has to earn its slot on what it *does*.
+classification file that does. That file's own KIND: NATURAL FEATURE block states the
+contract (what it is, why a party stops, one way it differs, the percentage lines) -
+genre-neutral and permanent. This file supplies what fills that contract, which is not:
+the hardest kind to write well, since it has no builder and no occupant, so it has to
+earn its slot on what it *does*.
 
-## Patterns
+## Examples
+
+Compiled for this build, from this setting's chosen genre reference.
 
 **Stone** - a crag, tor, or stack; a cliff face with a way up or none; a gorge or ravine; a
 sinkhole; a scree slope; a cave mouth; an erratic boulder sitting where nothing put it; a

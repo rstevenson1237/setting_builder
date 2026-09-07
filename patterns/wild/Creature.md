@@ -28,7 +28,22 @@ decision rather than a free option.
 Reaction matters more here than at depth. Most things met in the open would rather not
 fight, and a party that assumes otherwise should be able to be wrong about that.
 
-## Patterns
+**Contract.** A WILD creature encounter owes: a Bestiary entry or inline description,
+number from the population's Range, scale against party altitude, what it's doing, and
+what avoiding it costs. Genre-neutral and permanent. The demeanor a creature carries, and
+the personality a human encounter carries, are not - the Examples below are this build's
+compile of both, standing in for what `GENRE.md` used to carry as its own Creatures
+(demeanors) and People (personalities) tag banks.
+
+## Examples
+
+**Demeanor flavor** - a one-word behavior for how something met here carries itself
+before a fight starts or doesn't, compiled for this build: Predatory, Territorial,
+Cunning, Ravenous, Skulking, Frenzied, Wary, Ancient, Venomous, Relentless.
+
+**Personality flavor, for the People pattern below** - a one-word disposition for a
+traveler or patrol met here, compiled for this build: Treacherous, Fatalistic, Grasping,
+Superstitious, Proud, Servile, Ruthless, World-Weary, Zealous, Craven.
 
 **How it meets the party** - it is seen first, at distance; it sees them first and they do
 not know; both at once, badly; it is heard and not seen; it is following, and has been for

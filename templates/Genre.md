@@ -18,12 +18,13 @@ genre references (authors, single books or series, and TTRPG lines), three round
 narrowing questions take the user from a general request down to one chosen reference; Q2
 then answers a set of binary/dial axis questions, defaulted to what the reference implies
 and dialed elsewhere only where the user wants to diverge. Build the genre-identity
-paragraph, the 3-5 axis bullets, and the Tags section from the chosen reference and Q2
-together.
+paragraph and the 3-5 axis bullets from the chosen reference and Q2 together.
 
-Every tag, everywhere in this file, is **one or two words** - never a phrase. A tag
-represents a theme, acts as an index later steps can scan, and constrains the material by
-ruling things out; see `patterns/setting/Genre.md` for the full rule.
+This file no longer carries a Tags section - step 1b, right after this one, generates
+`setting/Tags.md` from the chosen reference instead, following `templates/Tags.md` and
+`patterns/setting/Tags.md`. Genre-specific demeanor and personality examples are compiled
+directly into `dangerous/Creature.md`, `wild/Creature.md`, and `safe/People.md` at the
+same step, rather than living in this file as a tag bank.
 
 ## Template
 ```
@@ -40,14 +41,6 @@ situation this puts a party into]
 - **[Axis name]** - [one-line elaboration]
 
 [1 short paragraph: what player characters are here]
-
-## Tags
-
-**Safe:** [10 one-or-two-word tags, comma-separated]
-**Wild:** [10 one-or-two-word tags, comma-separated]
-**Dangerous:** [10 one-or-two-word tags, comma-separated]
-**People (personalities):** [10 one-or-two-word tags, comma-separated]
-**Creatures (demeanors):** [10 one-or-two-word tags, comma-separated]
 
 ## What a line has to earn
 

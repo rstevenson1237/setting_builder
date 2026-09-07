@@ -71,7 +71,8 @@ def index_to_code(i: int) -> str:
 # Regions.md / setting/region/Connections.mmd
 # ---------------------------------------------------------------------------
 
-REGION_RE = re.compile(r'^([A-Z]+) (.+?) - (SAFE|WILD|DANGEROUS), (d\d+), \*(.+)\*\s*$')
+REGION_RE = re.compile(r'^([A-Z]+) (.+?) - (SAFE|WILD|DANGEROUS), (d\d+)\s*$')
+REGION_TAGS_LINE_RE = re.compile(r'^Tags: see (setting/region/[A-Z]+/Tags\.md)\s*$')
 
 
 def parse_regions(diag: Diagnostics):
@@ -94,15 +95,22 @@ def parse_regions(diag: Diagnostics):
             continue
         m = REGION_RE.match(line)
         if not m:
-            diag.error(path, f"line {i + 1}: expected a region header line (Code Name - RATING, dN, *tags*), got {line!r}")
+            diag.error(path, f"line {i + 1}: expected a region header line (Code Name - RATING, dN), got {line!r}")
             i += 1
             continue
-        code, name, rating, die, tags = m.groups()
+        code, name, rating, die = m.groups()
         if code in regions:
             diag.error(path, f"line {i + 1}: duplicate region code {code}")
-        regions[code] = {"name": name.strip(), "rating": rating, "die": die, "tags": tags.strip()}
+        regions[code] = {"name": name.strip(), "rating": rating, "die": die}
         order.append(code)
         i += 1
+        if REGION_TAGS_LINE_RE.match(lines[i].strip() if i < n else ""):
+            tags_path = SETTING / "region" / code / "Tags.md"
+            if not tags_path.exists():
+                diag.error(path, f"region {code}: setting/region/{code}/Tags.md referenced but missing")
+            i += 1
+        else:
+            diag.error(path, f"region {code}: missing 'Tags: see setting/region/{code}/Tags.md' line")
         if i < n and lines[i].strip():
             i += 1  # the one-sentence overview line; presence is enough
         else:
@@ -262,7 +270,7 @@ def check_location_file(diag, path, region_code, num, stub, rating, all_location
     if not m:
         diag.error(path, f"header line does not match Location.md format: {lines[0]!r}")
         return
-    hcode, hnum_s, hname, hweight, _htags = m.groups()
+    hcode, hnum_s, hname, hweight, htags = m.groups()
     if hcode != region_code or int(hnum_s) != num:
         diag.error(path, f"header code {hcode}.{hnum_s} does not match this file's location {region_code}.{num}")
     if not names_match(hname, stub["name"]):
@@ -272,6 +280,8 @@ def check_location_file(diag, path, region_code, num, stub, rating, all_location
             diag.error(path, f"header weight/classification {hweight!r} does not match Locations.md stub {stub['weight']!r}")
     elif hweight:
         diag.error(path, f"{rating} region location should not carry a weight/classification tag in its header")
+    if len([t for t in htags.split(",") if t.strip()]) != 2:
+        diag.warn(path, f"header carries {htags.strip()!r} - expected exactly two tags, one from setting/Tags.md and one from the region's own Tags.md")
 
     body = [l for l in lines[1:]]
     idx = 0
@@ -453,6 +463,16 @@ def check_rumours(diag: Diagnostics):
         diag.warn(path, "not every rumour row carries a trailing T/P/F mark")
 
 
+def check_tags_file(diag: Diagnostics, path: Path):
+    if not path.exists():
+        diag.error(path, "missing")
+        return
+    text = path.read_text()
+    count = len(re.findall(r"^- \*\*.+\*\* - ", text, re.M))
+    if count < 15:
+        diag.warn(path, f"only {count} tags found - the pool is meant to hold ~25")
+
+
 def check_top_level_files(diag: Diagnostics):
     for name in ("Setting.md", "History.md", "Truths.md", "Bestiary.md",
                  "Factions.md", "Procedures.md", "Language.md"):
@@ -523,7 +543,7 @@ def report_topology(regions: dict, region_locs: dict, region_edges: dict) -> lis
 
 # Seeded at STEPS.md 1b/1c, before any setting content exists. Their presence does
 # not mean a setting has been generated.
-SEED_FILES = {"Procedures.md", "Language.md"}
+SEED_FILES = {"Procedures.md", "Language.md", "Tags.md"}
 
 
 def is_fresh_start() -> bool:
@@ -554,6 +574,7 @@ def main() -> int:
 
     region_locs: dict[str, dict] = {}
     for region_code, info in regions.items():
+        check_tags_file(diag, SETTING / "region" / region_code / "Tags.md")
         gaz_path = SETTING / "region" / region_code / "Locations.md"
         region_locs[region_code] = parse_locations_gazetteer(diag, region_code, info["rating"], gaz_path)
 
@@ -607,6 +628,7 @@ def main() -> int:
     check_treasure_tables(diag)
     check_rumours(diag)
     check_top_level_files(diag)
+    check_tags_file(diag, SETTING / "Tags.md")
 
     for line in report_topology(regions, region_locs, region_edges):
         print(f"TOPOLOGY: {line}")

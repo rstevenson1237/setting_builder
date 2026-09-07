@@ -2,7 +2,7 @@
 
 ## Purpose
 The setting's shared mechanics - the rules cited from every level rather than restated at
-each one. Seeded with working defaults at step 1b, tailored at 2i, and extended at 4d only
+each one. Seeded with working defaults at step 1c, tailored at 2i, and extended at 4d only
 if generated content turned out to need something the seed did not cover.
 
 ## Context

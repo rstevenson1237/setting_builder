@@ -5,11 +5,14 @@ What an occupied Landmark is, and what its occupancy implies about the country a
 
 ## Read at
 Step 4c, when `wild/Landmark.md`'s spec draws Kind: Lair - the only classification file
-that does. That file's own Spec states what a Lair must contain when drawn; this file
-supplies what it can be made of. A Lair is a place something currently lives, whether it
-built the place or moved in.
+that does. That file's own KIND: LAIR block states the contract (what lives there, its
+territory, a sign of it, what it eats, the percentage lines) - genre-neutral and
+permanent. This file supplies what fills that contract, which is not: a Lair is a place
+something currently lives, whether it built the place or moved in.
 
-## Patterns
+## Examples
+
+Compiled for this build, from this setting's chosen genre reference.
 
 **Kinds of holding** - a cave or rock shelter; a burrow or dug warren; a hollow tree or
 fallen trunk; a nest on a height, on a stack, or in a crown; a thicket beaten down from

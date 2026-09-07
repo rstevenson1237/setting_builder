@@ -54,7 +54,12 @@ means it is safe from the wilderness, not that everything inside it is accounted
 under anyone's real control - a Wealth location is where that gap becomes something a party
 can act on.
 
-## Patterns
+**Contract.** A Wealth location owes: contents (Treasure, Lore, or both), whose it is or
+was, and exactly one Protection with its own discovery structure. Genre-neutral and
+permanent. What the cache actually holds and what conceals it is not - the Examples below
+are this build's compile of it, from this setting's chosen genre reference.
+
+## Examples
 
 **What it holds** - coin and plate too heavy to move casually; a founder's or a family's
 kept wealth; tithes or tolls banked rather than spent; something taken and never returned;
