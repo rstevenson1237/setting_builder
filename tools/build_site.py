@@ -326,11 +326,15 @@ def build_bestiary(setting: sc.Setting, out: Path) -> None:
     cards = []
     for creature in setting.bestiary:
         anchor = f"bestiary-{sc.slugify(creature['name'])}"
+        field_paras = "".join(
+            f'<p><strong>{html.escape(label)}:</strong> {render_inline(value, setting, page)}</p>'
+            for label, value in creature["fields"]
+        )
         cards.append(
             f'<article class="stat-card" id="{anchor}">'
             f'<h3>{html.escape(creature["name"])} <span class="kind">({html.escape(creature["kind"])})</span></h3>'
             f'<p class="ad">AD: {html.escape(creature["ad"])}</p>'
-            f'<p>{render_inline(creature["description"], setting, page)}</p>'
+            f'{field_paras}'
             f'</article>'
         )
     body = f'<h1>Bestiary</h1><div class="stat-grid">{"".join(cards)}</div>'

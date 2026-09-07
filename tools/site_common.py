@@ -226,18 +226,25 @@ def parse_bestiary() -> list[dict]:
         if not m:
             continue
         name, kind, ad = m.groups()
-        desc_parts: list[str] = []
-        capturing = False
+        fields: list[tuple[str, str]] = []
+        cur_label = None
+        cur_parts: list[str] = []
         for l in lines[1:]:
             lm = re.match(r"^([A-Za-z]+):\s*(.*)$", l)
             if lm and lm.group(1) in BESTIARY_SUBFIELD_LABELS:
-                capturing = lm.group(1) == "Description"
-                if capturing:
-                    desc_parts = [lm.group(2).strip()]
+                if cur_label is not None:
+                    fields.append((cur_label, " ".join(cur_parts).strip()))
+                cur_label, cur_parts = lm.group(1), [lm.group(2).strip()]
                 continue
-            if capturing:
-                desc_parts.append(l)
-        out.append({"name": name.strip(), "kind": kind.strip(), "ad": ad.strip(), "description": " ".join(desc_parts).strip()})
+            if cur_label is not None:
+                cur_parts.append(l)
+        if cur_label is not None:
+            fields.append((cur_label, " ".join(cur_parts).strip()))
+        description = next((v for k, v in fields if k == "Description"), "")
+        out.append({
+            "name": name.strip(), "kind": kind.strip(), "ad": ad.strip(),
+            "description": description, "fields": fields,
+        })
     return out
 
 

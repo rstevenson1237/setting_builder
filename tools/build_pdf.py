@@ -110,7 +110,12 @@ def build_document(setting: sc.Setting) -> str:
     bcards = "".join(
         f'<div class="stat-card" id="{sc.anchor_id("bestiary", c["name"])}">'
         f'<h3>{html.escape(c["name"])} <span class="kind">({html.escape(c["kind"])})</span></h3>'
-        f'<p class="ad">AD: {html.escape(c["ad"])}</p><p>{ri(c["description"], setting)}</p></div>'
+        f'<p class="ad">AD: {html.escape(c["ad"])}</p>'
+        + "".join(
+            f'<p><strong>{html.escape(label)}:</strong> {ri(value, setting)}</p>'
+            for label, value in c["fields"]
+        )
+        + '</div>'
         for c in setting.bestiary
     )
     parts.append(f'<section class="doc" id="bestiary"><h1>Bestiary</h1><div class="stat-grid">{bcards}</div></section>')
