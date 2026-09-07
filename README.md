@@ -34,10 +34,12 @@ it against the content).
 
 Mirrors the template set, created in the order `STEPS.md` lays out:
 
+- `Tags.md` - ~25 flat, genre-derived thematic tags with a one-line gloss each, generated
+  right after `GENRE.md` (step 1b). Pure seed/color, no structural role - see "Tags" below.
 - `Setting.md`, `History.md`, `Truths.md`, `Rumours.md`, `Bestiary.md`, `Factions.md` -
   setting-level artifacts (steps 2a-2f).
 - `Treasure1.md` through `Treasure5.md` - Treasure Tables I-V (step 2g).
-- `Procedures.md`, `Language.md` - the two living artifacts: seeded generic at steps 1b/1c,
+- `Procedures.md`, `Language.md` - the two living artifacts: seeded generic at steps 1c/1d,
   tailored to the setting at step 2h, and (Language.md only) appended to continuously
   afterward as proper nouns are coined.
 - `Lore.md`, `Keys.md`, `Quests.md`, `NamedCreatures.md`, `UniqueTreasures.md` - the five
@@ -45,9 +47,10 @@ Mirrors the template set, created in the order `STEPS.md` lays out:
   location generation (step 4c), and written in full at step 4d.
 - `region/Regions.md` + `region/Connections.mmd` - the Regional Gazetteer and the
   region-to-region connection graph (step 3a-3b).
-- `region/[Code].md` - one Region Overview per region (step 3c).
-- `region/[Code]/` - one folder per region, each holding that region's `Locations.md`
-  gazetteer, `Connections.mmd`, and one `[LocationCode].md` per location (step 4a-4c).
+- `region/[Code]/` - one folder per region, created at step 3c (moved up from 4a), holding
+  that region's own `Tags.md` (~25 tags, same shape as the setting-level pool), its
+  `[Code].md` Region Overview, and - from step 4a onward - its `Locations.md` gazetteer,
+  `Connections.mmd`, and one `[LocationCode].md` per location.
 
 ## `templates/`
 
@@ -86,6 +89,15 @@ what it is building.
 - Every pattern file uses one skeleton: **Decides / Read at / Spec / Patterns /
   Constraints**. The Constraints section starts empty and fills only from observed
   generation failures, never from anticipation.
+- Every tier-2 element file (the ones a class file's Spec cites in parentheses) splits its
+  Spec/Patterns content into a **Contract** (what it decides, genre-neutral, stated in a
+  bolded paragraph right after the Spec block - permanent, never changes per build) and an
+  **Examples** section (the illustrative content under each Contract, genre-specific -
+  compiled fresh per build at step 1b from this setting's chosen genre reference, replacing
+  what a lookup-table join at generation time would otherwise have to translate correctly
+  every single read). Demeanor and personality examples specifically live compiled into
+  `dangerous/Creature.md`, `wild/Creature.md`, and `safe/People.md`, standing in for what
+  `GENRE.md` used to carry as its own People/Creatures tag bank.
 
 ## `checks/`
 
@@ -100,7 +112,9 @@ and `Setting_Judgement_Check.md` respectively.
 The build order is strict and each stage depends on the previous ones existing. See
 `STEPS.md` for exact, current numbering.
 
-1. **Framework** - `GENRE.md`, then seed `setting/Procedures.md` and `setting/Language.md`.
+1. **Framework** - `GENRE.md`, then generate `setting/Tags.md` (also compiling this
+   build's genre-specific examples into the tier-2 pattern files), then seed
+   `setting/Procedures.md` and `setting/Language.md`.
 2. **Setting** - `setting/Setting.md` first, then History -> Truths -> Rumours -> Bestiary
    -> Factions -> Treasure I-V, then tailor Procedures and Language and stub the five
    registries.
@@ -155,11 +169,25 @@ region at N locations expects **exactly one** encounter per full traverse at eve
 a DANGEROUS region at 3N expects **exactly three** of the Danger track's six steps per full
 clear. Deviating is a deliberate trade with a measurable cost.
 
+## Tags
+
+`setting/Tags.md` and each region's own `setting/region/[Code]/Tags.md` are flat,
+genre-derived pools of ~25 one-or-two-word tags with a one-line gloss each - pure
+seed/color, never structural. `Setting.md` and each Region Overview point to their pool
+with a single tag-line rather than embedding tags inline, and a location's gazetteer stub
+draws exactly two - one from the setting pool, one from its own region's - rather than
+inventing three fresh. A tag never selects which pattern file governs a location (that's
+Kind) and never carries inclusion math (that's a class file's Spec); its only job is a
+quick, scannable handle. See `PLANS.md`'s Plan 1B for the design history, including the
+rejected alternative (a richer, structural tag pool joined against generic pattern files
+at generation time) and why compiling genre content into the pattern files themselves
+(below) won out instead.
+
 ## Location entry format (`templates/Location.md`)
 
 The most detail-sensitive template, worth calling out directly:
 
-- Header line: `[Region].[N] **Name** - *three, thematic, tags*`
+- Header line: `[Region].[N] **Name** - *tag from setting/Tags.md, tag from region Tags.md*`
 - Player Summary (plain text, 2 sentences, **bold** any feature named in it)
 - Referee Notes (*italicized*: shape, size, sounds/smells)
 - One bolded line per **Feature**, labeled with the feature's own name - no leading article
@@ -257,8 +285,9 @@ be intentional. It deliberately does *not* check ratios, budgets, class mixes, o
 about prose - those judgements belong in `checks/`. When adding a new artifact type or
 template rule, extend this script alongside it.
 
-`setting/Procedures.md` and `setting/Language.md` are seeded at steps 1b/1c before any
-setting exists, so the validator treats a `setting/` holding only those as a fresh start.
+`setting/Tags.md`, `setting/Procedures.md`, and `setting/Language.md` are seeded/generated
+at steps 1b/1c/1d before any setting exists, so the validator treats a `setting/` holding
+only those as a fresh start.
 
 ## Web view and PDF
 

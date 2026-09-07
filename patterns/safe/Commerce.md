@@ -28,7 +28,13 @@ that is the line that turns a shop into a decision.
 **Prices are stated, not implied.** Two or three real numbers in cn. A location that makes
 the referee invent prices at the table has left its job unfinished.
 
-## Patterns
+**Contract.** A Commerce location owes: what it deals in, who runs it, what's in stock,
+what it can't supply and where that sends them, and prices in cn. This much is
+genre-neutral and permanent. Which trades, goods, and vocabulary fill that contract is not
+- the Examples below are this build's compile of it, from this setting's chosen genre
+reference, and are what change if the reference ever did.
+
+## Examples
 
 **Hospitality** - a taproom with a floor to sleep on; an inn with rooms of two classes; a
 bunkhouse for crews; a widow who takes lodgers; a hall where guests are the headman's

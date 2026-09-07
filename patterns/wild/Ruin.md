@@ -5,12 +5,15 @@ What a built-or-once-built Landmark is, and what its condition says about who le
 
 ## Read at
 Step 4c, when `wild/Landmark.md`'s spec draws Kind: Ruin - the only classification file
-that does. That file's own Spec states what a Ruin must contain when drawn; this file
-supplies what it can be made of. A Ruin is anything made by hands and no longer used as
-made - including things still standing and still occupied by somebody other than their
-builders.
+that does. That file's own KIND: RUIN block states the contract (what it was, its state
+now, whether anything holds it, and the percentage lines) - genre-neutral and permanent.
+This file supplies what fills that contract, which is not: a Ruin is anything made by
+hands and no longer used as made - including things still standing and still occupied by
+somebody other than their builders.
 
-## Patterns
+## Examples
+
+Compiled for this build, from this setting's chosen genre reference.
 
 **Defensive** - a watchtower on a height; a signal or beacon station; a wall running to
 nowhere, and the gap in it; a gatehouse without its gate; a hillfort's ditch and bank; a

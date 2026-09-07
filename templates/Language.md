@@ -3,7 +3,7 @@
 ## Purpose
 The setting's tongues - phoneme inventories, syllable shapes, affixes, and a growing root
 list - so that proper nouns coined weeks apart still sound like they come from the same
-world. The framework's one living artifact: seeded at 1c, tailored at 2i, and appended to
+world. The framework's one living artifact: seeded at 1d, tailored at 2i, and appended to
 every time a proper noun is coined.
 
 ## Context

@@ -25,7 +25,13 @@ because of a specific arrangement, and that arrangement has an edge past which n
 listening. State the edge - it is the most useful fact in the entry, and it is where a
 party's leverage lives.
 
-## Patterns
+**Contract.** An Authority location owes: who holds the claim and its basis, what
+actually gets settled, what a stranger must do for a hearing, and where the claim's edge
+is. Genre-neutral and permanent. Which offices, procedures, and vocabulary fill that
+contract is not - the Examples below are this build's compile of it, from this setting's
+chosen genre reference.
+
+## Examples
 
 **Basis of the claim** - a lord's grant, honoured or not; an inherited office nobody
 contests; election by householders; the person who owns the land everyone works; the person

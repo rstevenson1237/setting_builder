@@ -28,10 +28,16 @@ referee reads this gazetteer without cracking open Language.md mid-session, so *
 every region name inline**, in parentheses right after it: state what it means, in a
 clause, the same as any other loan word.
 
+Tags are not embedded here. Each region gets its own 25-tag pool,
+`setting/region/[Code]/Tags.md`, generated alongside its Region Overview at step 3 - name
+it here as a forward reference (the file itself doesn't exist yet at 3a) rather than
+inventing tags on the spot.
+
 ## Template
 ```
 Regional Gazetteer of [Setting Name]
 
-[Code] [Region Name] ([gloss - what the name means]) - [SAFE/WILD/DANGEROUS], [d4-d12], [Three, Thematic, Tags]
+[Code] [Region Name] ([gloss - what the name means]) - [SAFE/WILD/DANGEROUS], [d4-d12]
+Tags: see setting/region/[Code]/Tags.md
 [1 sentence overview of the region]
 ```

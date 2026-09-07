@@ -7,7 +7,7 @@ The full write-up for a single location, saved as `[Location Code].md` inside it
 Consult when drafting - and only this, deliberately narrow so the entry stays shaped by its stub and region rather than washed out by the full setting:
 - `GENRE.md` - a Feature is something to react to on the spot, not a beat in a larger scripted arc.
 - this location's parent Region Overview (`setting/region/[Region Code].md`).
-- this location's own gazetteer stub (name, weight/classification, tags) from `setting/region/[Region Code]/Locations.md`.
+- this location's own gazetteer stub (name, weight/classification, its two tags) from `setting/region/[Region Code]/Locations.md`. The two tags were drawn, not invented - one from `setting/Tags.md`, one from this region's own `setting/region/[Region Code]/Tags.md` - and are read here only for color; they name no Kind and carry no inclusion math.
 - `setting/Procedures.md` - the shared mechanics the pattern files cite rather than restate: trap resolution, searching, time, and scaling.
 - `setting/Language.md` - roots for any proper noun coined here, and where every coinage is recorded back; it is the one artifact that grows as generation proceeds.
 - For a WILD Hidden or Secret location, its parent must already be generated, since its connection is written into the parent's own Exits or Features - generate WILD locations Landmark tier first, then Hidden, then Secret.
@@ -25,7 +25,7 @@ Consult `setting/Bestiary.md`, `setting/Factions.md`, `setting/History.md`, `set
 
 ## Template
 ```
-[Region Code].[Location Code] **[Location Name]** [(high/medium/low) for DANGEROUS, (landmark/hidden/secret) for WILD] - *[three, thematic, tags]*
+[Region Code].[Location Code] **[Location Name]** [(high/medium/low) for DANGEROUS, (landmark/hidden/secret) for WILD] - *[tag from setting/Tags.md], [tag from region Tags.md]*
 [Player Summary - two sentences maximum, that can be spoken aloud to the players or paraphrased. Include any details that would be obvious glancing at the location. **Bold** any features mentioned in the summary]
 *[Referee Notes - important details the Referee will need to know to adjudicate player efforts to explore the location: size (feet indoors, yards outdoors), shape, former/current purpose. Include a sound or smell only when it points at a specific feature within the location - never as ambience alone]*
 **[Feature Name, most prominent first]:** [15 words maximum for this line, the entry's first Feature. Interactive or explorable detail for this one feature, including where within the room it sits (a wall, a corner, the center) and, when spatially significant, its own dimension; if a specific action triggers something specify both the action and the effect; hidden features, including any exit that needs a trigger to reveal or access, are nested within the detail of an obvious feature's line, along with how to access them. State it in the fewest words that convey it fully - the budget is a ceiling, not a target]
@@ -36,7 +36,7 @@ Consult `setting/Bestiary.md`, `setting/Factions.md`, `setting/History.md`, `set
 ## Citations
 Every citation below sits inside its own parentheses, exactly as written, so `tools/build_site.py` can find and link it. A citation that doesn't match one of these forms renders as plain, unlinked text.
 
-- **Bestiary** - `(Demeanor, Number appearing, Bestiary : Entry Name)`. Demeanor is one tag from `GENRE.md`'s Creatures (demeanors) bank; Number appearing is a count fitting the Bestiary entry's own Range; Entry Name must match a `setting/Bestiary.md` heading exactly. Example: `(Patient, 5, Bestiary : Road Toll Gang)`.
+- **Bestiary** - `(Demeanor, Number appearing, Bestiary : Entry Name)`. Demeanor is one word from the demeanor examples compiled into `dangerous/Creature.md` or `wild/Creature.md` (whichever matches this location's rating); Number appearing is a count fitting the Bestiary entry's own Range; Entry Name must match a `setting/Bestiary.md` heading exactly. Example: `(Patient, 5, Bestiary : Road Toll Gang)`.
 - **Lore** - `(Lore: Title)`
 - **Keys** - `(Keys: Title)`
 - **Quest** - `(Quest: Title)`

@@ -30,7 +30,18 @@ who is not on the roster, add them to the roster.
 grudge, a way of speaking, a thing they carry - and forgets three sentences of appearance.
 Write the one thing.
 
-## Patterns
+**Contract.** A People entry owes: a roster name (never invented here), what they're
+doing, one distinctive, recallable thing, and what they want. Genre-neutral and
+permanent. The personality flavor a "distinctive" thing draws on is not - the Personality
+Examples below are this build's compile of it, from this setting's chosen genre
+reference, standing in for what `GENRE.md` used to carry as its own People (personalities)
+tag bank.
+
+## Examples
+
+**Personality flavor** - a one-word disposition a "distinctive" line can hang on, compiled
+for this build: Treacherous, Fatalistic, Grasping, Superstitious, Proud, Servile,
+Ruthless, World-Weary, Zealous, Craven, Calculating, Unbroken.
 
 **What they are doing** - working, badly or well; eating; arguing with somebody who is not
 present; counting; waiting for something specific; avoiding somebody; drinking earlier than

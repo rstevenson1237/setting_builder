@@ -26,7 +26,13 @@ takes to reach it - the same way a hidden exit is handled.
 One pull per citation. A location wanting more takes a second citation elsewhere in its
 Features rather than multiplying one.
 
-## Patterns
+**Contract.** A DANGEROUS treasure find owes: a table citation, a container or
+concealment, and the search or trigger that reaches it - never the item itself, since the
+cited roll decides contents. Genre-neutral and permanent. What the container and
+concealment actually are is not - the Examples below are this build's compile of it, from
+this setting's chosen genre reference.
+
+## Examples
 
 **Which table**
 - **I - Scavenged Loot** - debris that rewards looking without demanding action. Low

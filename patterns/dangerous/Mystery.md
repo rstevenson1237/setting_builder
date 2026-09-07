@@ -5,11 +5,15 @@ What the strange thing is, how it is engaged, and what engaging it wrongly costs
 
 ## Read at
 Step 4c, when `dangerous/High.md`'s spec draws a mystery - the only weight file that does.
-That file's own Spec states what a Mystery must contain when drawn; this file supplies what
-it can be made of. Distinct from `dangerous/Secrets.md`: a Mystery is content and may be in
-plain sight; a Secret is a discovery structure and by definition is not.
+That file's own MYSTERY block states the contract (fixture, physical details, trigger,
+what it accomplishes, what a wrong attempt costs, the percentage line) - genre-neutral and
+permanent. This file supplies what fills that contract, which is not. Distinct from
+`dangerous/Secrets.md`: a Mystery is content and may be in plain sight; a Secret is a
+discovery structure and by definition is not.
 
-## Patterns
+## Examples
+
+Compiled for this build, from this setting's chosen genre reference.
 
 **Fixtures** - a statue whose pose or gaze means something; an altar with a fitting, a
 channel, or a stain; a fountain, basin or cistern that still runs or conspicuously does

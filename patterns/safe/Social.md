@@ -26,7 +26,13 @@ substance from `setting/Rumours.md`; the framing belongs to whoever is talking.
 **Nobody is waiting for the party.** Everyone here has been having their evening since
 before the party walked in, and the entry should say what that evening is.
 
-## Patterns
+**Contract.** A Social location owes: who's here and what they're doing, what's
+circulating, and what it takes to be talked to rather than tolerated. Genre-neutral and
+permanent. Which gathering places, circulating content, and vocabulary fill that contract
+is not - the Examples below are this build's compile of it, from this setting's chosen
+genre reference.
+
+## Examples
 
 **Gathering places** - a taproom; the market on its day; a green, a well, or a bridge where
 people stop; a bathhouse; a mill, where everyone must eventually come; a chapel after a

@@ -125,11 +125,13 @@ TREASURE_FILES = {"I": 1, "II": 2, "III": 3, "IV": 4, "V": 5}
 def parse_setting() -> tuple[str, str, str]:
     text = (SETTING / "Setting.md").read_text()
     lines = [l for l in text.splitlines() if l.strip()]
-    m = re.match(r"^(.+?)\s+\*(.+)\*\s*$", lines[0].strip())
-    name, tags = (m.group(1).strip(), m.group(2).strip()) if m else (lines[0].strip(), "")
-    outline = " ".join(l.strip() for l in lines[1:]).strip()
+    name = lines[0].strip()
+    rest = lines[1:]
+    if rest and rest[0].strip().lower().startswith("tags:"):
+        rest = rest[1:]
+    outline = " ".join(l.strip() for l in rest).strip()
     outline = outline.strip("*").strip()
-    return name, tags, outline
+    return name, "", outline
 
 
 def parse_history() -> list[tuple[str, str]]:
@@ -344,7 +346,7 @@ def parse_registry(kind: str) -> list[RegistryEntry]:
     return out
 
 
-REGION_RE = re.compile(r'^([A-Z]+) (.+?) - (SAFE|WILD|DANGEROUS), (d\d+), \*(.+)\*\s*$')
+REGION_RE = re.compile(r'^([A-Z]+) (.+?) - (SAFE|WILD|DANGEROUS), (d\d+)\s*$')
 
 
 def parse_regions_gazetteer() -> dict[str, dict]:
@@ -364,12 +366,14 @@ def parse_regions_gazetteer() -> dict[str, dict]:
             continue
         m = REGION_RE.match(line)
         if m:
-            code, name, rating, die, tags = m.groups()
-            blurb = ""
-            if i + 1 < n and lines[i + 1].strip():
-                blurb = lines[i + 1].strip()
+            code, name, rating, die = m.groups()
+            i += 1
+            if i < n and lines[i].strip().lower().startswith("tags:"):
                 i += 1
-            out[code] = {"name": name.strip(), "rating": rating, "die": die, "tags": tags.strip(), "blurb": blurb}
+            blurb = ""
+            if i < n and lines[i].strip():
+                blurb = lines[i].strip()
+            out[code] = {"name": name.strip(), "rating": rating, "die": die, "tags": "", "blurb": blurb}
             order.append(code)
         i += 1
     return out

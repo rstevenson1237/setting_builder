@@ -1,18 +1,19 @@
 # Setting - Setting
 
 ## Decides
-The setting's name, its three tags, and the referee-facing outline every other artifact
-builds on.
+The setting's name and the referee-facing outline every other artifact builds on. Tags
+are decided separately, by `patterns/setting/Tags.md` at step 1b - this file only points
+to them.
 
 ## Read at
-Step 2a, right after `GENRE.md`, before anything else.
+Step 2a, right after `GENRE.md` and `setting/Tags.md` both exist.
 
 ## Spec
 
 ```
 SETTING
   1     A name, coined from setting/Language.md, and the roots recorded back
-  3     Tags - and they must constrain, not decorate
+  1     A single tag-line pointing to setting/Tags.md - do not embed tags here
   1     What the party is doing here, in a clause
   1     A pressure - something already going wrong, which is not aimed at the party
   1     Something the setting has that a generic instance of the genre does not
