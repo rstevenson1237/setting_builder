@@ -149,10 +149,14 @@ carry the same constraint - SAFE's low end is the referee narrating procedurally
 written room; SAFE and WILD's high end is closer to the Region Overview itself - which is
 why they don't need (and shouldn't get) the same weight-first structure.
 
-Any Kind axis added to DANGEROUS (Plan 3) attaches the same way WILD's Kind already works
-*inside* `wild/Landmark.md` - a KIND block nested under the class file's own top-level
-spec, supplying additional guaranteed/percentage lines, never a second axis competing with
-weight for which file governs the room's budget.
+Any Kind axis added to DANGEROUS attaches the same way WILD's Kind already works *inside*
+`wild/Landmark.md` - a KIND block nested under the class file's own top-level spec,
+supplying additional guaranteed/percentage lines, never a second axis competing with
+weight for which file governs the room's budget. Currently inert: Plan 3 reviewed adding
+one and resolved without it (`dangerous/Dressing.md`'s existing Purpose field covers the
+room-kind-variety problem this would have solved) - this rule stays as the constraint to
+honour if a DANGEROUS Kind axis is ever proposed again, not a description of one that
+exists.
 
 ---
 
@@ -355,92 +359,93 @@ location in the region) versus the gazetteer stub level (committed once, per loc
 - Shares the stub-vs-overview line with Plan 1 (tags are the one field already resolved by
   this review, in advance).
 
-**Open questions.** None yet - this is a review pass, findings will populate this section.
+**Open questions.**
+- **SAFE's tier-1 wrapper, raised reviewing Plan 3.** `safe/Settlement.md` is SAFE's only
+  class file - unlike WILD's 3 and DANGEROUS's 3 - and inside it, SETTLEMENT TYPE
+  (steading/thorp/village/town/seat) and PROMINENCE (liner note/working/central) both sit
+  above Kind (Commerce/Authority/Social/People/Wealth), which is nested a level deeper
+  still. Decide whether that wrapper stays as-is (Prominence leads, Kind composes under
+  it - already the pattern, and already consistent with the cross-cutting decision that
+  DANGEROUS's weight leads the same way) or whether Kind should be promoted out from under
+  it - and if promoted, whether SETTLEMENT TYPE folds into Kind or stays a separate axis
+  Kind sits beside. Settled here, not as a side effect of Plan 3, since Plan 3's scope is
+  DANGEROUS and WILD only (see its Status).
 
 **Status.** Not started.
 
 ---
 
-## Plan 3 - Kind axes: give DANGEROUS one, widen WILD's, name all of them by function
+## Plan 3 - Kind axes: DANGEROUS resolved without a new axis; WILD widened - EXECUTED
 
-**Note (post System-B decision):** still live, not superseded - Kind selection is
-orthogonal to how tag content gets sourced. Its dependency below on Plan 1's Tags.md
-Site-Type facet is stale; a new DANGEROUS Kind's genre-flavored naming now comes from
-Plan 1B's compile mechanism instead (once a new Kind file exists, it gets its own
-EXAMPLES block filled by the same per-build compile pass as every other tier-2 file).
-Not re-executed in this pass - Plan 1B's scope is the existing tier-2 files, not new ones.
+**Resolution (review before execution).** Reviewed against the actual DANGEROUS and WILD
+pattern files before building anything, three decisions came out of that review:
 
-**Problem.** "Class" currently conflates two different axes. Kind (what a location
+1. **DANGEROUS gets no new Kind axis.** The room-type variety this plan was chasing
+   already exists, unstructured, in `dangerous/Dressing.md`'s Purpose field (Keeping /
+   Working / Living / Holding / Meeting / Believing / Dying / Moving, with its own "do not
+   reuse a purpose already used in this region" rule). A second mechanical axis alongside
+   Weight - Spec math per Kind, gated per weight tier - was judged more structure than the
+   problem needs; Purpose already answers "what kind of room" without competing with
+   Weight for which file governs the room's budget. **What DANGEROUS actually lacks isn't
+   room-kind variety, it's locations that function as a group** - the way a WILD Landmark
+   and its Hidden/Secret children read as one place. DANGEROUS's dense, node-role graph
+   (`patterns/region/Dangerous.md`) doesn't have an obvious equivalent to
+   parent-and-children, so multi-location functional blocks are a real, separate design
+   problem - tracked below as an open item, not attempted in this pass.
+2. **WILD widening executed.** Added one new Kind, **Crossing**, to `wild/Landmark.md`'s
+   Kind line and KIND blocks, with its own `wild/Crossing.md` content file (Decides / Read
+   at / Examples / Constraints, matching `Ruin.md`/`Lair.md`/`NaturalFeature.md`'s shape
+   exactly) and wired into the step-1b compile list in `STEPS.md`. Function: a Landmark
+   defined by what it costs to go around, not by who built or lives there - built, natural,
+   or held, chosen when the region's own shape forces the party through a specific point
+   rather than around it.
+   - The plan's other candidate, a mobile/inhabited-but-not-a-lair Kind, was considered and
+     **rejected on review**: `wild/Lair.md`'s own Examples already cover this ground
+     directly ("a camp of somebody who moves seasonally" under Kinds of holding; "a hunting
+     camp... a work party too far out to return nightly" under Occupied by people), and a
+     separate Kind built on the same ground risked being a flavor fork of Lair rather than
+     a genuinely distinct function-with-its-own-Spec-math - the exact failure mode the
+     Kind-vs-Tag cross-cutting decision warns against. Not added; revisit only if real
+     generation shows Lair's "why it stays / territory" contract genuinely doesn't fit a
+     transient occupant.
+   - Not a 4th WILD *classification* (Landmark/Hidden/Secret stays 3) - this is a 4th Kind
+     nested under Landmark, same tier as Ruin/Lair/NaturalFeature, no change to
+     `patterns/region/Wild.md`'s counts or topology.
+3. **The WILD/SAFE retrofit note (pulling existing Kind display names from a Tags.md
+   facet) is now moot**, not just deprioritized - per the System B decision, genre flavor
+   for every tier-2 file comes from its own compiled EXAMPLES block (step 1b), not a
+   generation-time Tags.md lookup. `wild/Ruin.md`/`Lair.md`/`NaturalFeature.md` already work
+   this way; `Crossing.md` was built the same way from the start, so there is no retrofit
+   left to do.
+
+**Problem (historical).** "Class" conflated two different axes. Kind (what a location
 fundamentally *is*) and Weight/Prominence (how much attention/budget it gets) are cleanly
-split for SAFE (5 Kinds x 3 Prominence levels) and WILD (3 Kinds nested under Landmark x 3
-classifications), but DANGEROUS only has the Weight axis (High/Medium/Low) - a room's
-"kind" currently lives as free prose inside `dangerous/Dressing.md`'s Purpose field rather
-than a structured, filed menu. Separately: every existing Kind name (Ruin, Lair,
-Commerce, Wealth) is a genre-neutral function wearing a fantasy-flavored English label,
-which is fine as long as every setting is fantasy and breaks the moment one isn't (see the
-cross-cutting decision on function vs. flavor above, added after this plan's first draft
-named fantasy-dungeon nouns - Crypt, Vault, Shrine, Barracks - as DANGEROUS Kind
-candidates and got called on it).
-
-**Mechanic.**
-- **DANGEROUS Kind axis, named by function, not noun.** Candidates, restated abstractly:
-  - **Sanctum** - built around a purpose, ritual, or authority (fantasy: shrine/throne
-    room; sci-fi: command deck/bridge; horror: ritual chamber; post-apoc: command bunker).
-  - **Cache** - built to store or protect something (vault/treasury; cargo hold/armory;
-    evidence locker; supply cache).
-  - **Habitation** - built for something to live, work, or rest (barracks/quarters; crew
-    quarters; living quarters; den/shelter).
-  - **Passage** - connective space that still counts as a room, not mere corridor
-    (gallery/antechamber; airlock/junction; hallway/stairwell; choke point).
-  Each gets a KIND block nested under each weight file (`High.md`/`Medium.md`/`Low.md`),
-  exactly the way `wild/Landmark.md` nests its Kinds under its own top-level spec. The
-  block's Spec math (what it guarantees) is written once, genre-neutral, using the
-  abstract function name (Sanctum, Cache, ...) as the file/section identifier. **The
-  genre-flavored display name and descriptive vocabulary shown in the generated location
-  come from Plan 1's `Tags.md` Site-Type facet at generation time, never from the
-  pattern file itself.** Per the cross-cutting decision on weight, this composes under
-  weight - it supplies extra lines for "what kind of room," weight still governs the room's
-  overall budget and inclusion rate.
-- **WILD Kind widening**: WILD currently has only 3 Kinds under Landmark
-  (Ruin/Lair/NaturalFeature - already functions: built-and-abandoned, inhabited-by-
-  something, environmental). Cheap to add a 4th/5th function (candidates: a mobile/
-  inhabited-but-not-a-lair Kind; a pure-Passage/crossing Kind) the same way
-  `safe/Wealth.md` was added as a 5th SAFE Kind - and, per the same principle, any new
-  WILD Kind's file-level name should be function-first too.
-- **Retrofit note, not urgent**: WILD's and SAFE's *existing* Kind file names (Ruin, Lair,
-  Commerce, Wealth...) stay as the internal/file identifiers - renaming files is unwarranted
-  churn - but the generation step should treat those names as function labels internally
-  and pull the genre-flavored display name from `Tags.md` the same way a new DANGEROUS Kind
-  would, once Plan 1 exists. Lower priority than getting DANGEROUS's axis built correctly
-  from the start, but tracked here so it isn't forgotten.
-- Explicitly **not** proposing to add a 4th DANGEROUS weight tier or a 4th WILD
-  classification - those are calibrated against location-count math, the Danger countdown,
-  and node-role distribution rules (per the cross-cutting decision above); widening them
-  means re-deriving that math, not just writing a new file.
+split for SAFE (5 Kinds x 3 Prominence levels) and WILD (now 4 Kinds nested under Landmark
+x 3 classifications), but DANGEROUS only has the Weight axis - resolved above as
+intentional, not a gap, given Purpose already does this job.
 
 **Integration.**
-- **Depends on Plan 1B** for genre-portability (revised from depending on the now-
-  superseded Plan 1's Tags.md Site-Type facet) - a new Kind's genre-true naming comes from
-  its own compiled EXAMPLES block. Building Plan 3 before this exists means hard-coding
-  fantasy nouns again, the exact mistake this revision fixes.
-- A DANGEROUS Kind, once it exists, is exactly the kind of already-resolved fact Plan 4's
-  pre-assignment pass should read before suggesting a creature/faction - a Cache-kind room
-  suggests a different creature than a Habitation-kind room.
-- Function names (Sanctum/Cache/Habitation/Passage) are deliberately abstract enough that
-  none of them should ever collapse into a Tag (per the Kind-vs-Tag delineation) - if a
-  candidate Kind starts reading like a flavor descriptor rather than a content-selector
-  with its own Spec math, it belongs in `Tags.md` instead, not as a new Kind file.
+- DANGEROUS's Purpose field (`dangerous/Dressing.md`) remains what Plan 4's pre-assignment
+  pass and Plan 2's region-field review should read for "what kind of room" signal - see
+  Plan 4's Integration section, corrected to match.
+- `wild/Crossing.md` follows Plan 1B's compile mechanism exactly like its three siblings -
+  no dependency on Plan 1's superseded Tags.md Site-Type facet.
 
 **Open questions.**
-- Final DANGEROUS Kind list and their Spec math - the four functions above are a starting
-  shape, not a decided spec; needs the same "what does each guarantee" work every existing
-  class file went through.
-- Whether every weight tier needs every Kind, or some Kinds are weight-restricted (a Cache
-  might only make sense at Medium/High, never Low).
-- Whether the WILD/SAFE retrofit (function-first naming pulled from Tags.md) happens as
-  part of this plan or is spun into its own smaller follow-on once Plan 1 ships.
+- **DANGEROUS multi-location blocks** (item 1 above) - a real, separate problem: whether
+  and how a set of DANGEROUS rooms can read as one functional unit the way a WILD Landmark
+  and its children do, given the region's graph is a dense node-role web rather than a
+  forest of trees. Needs its own design pass before any DANGEROUS structural change is
+  attempted again - not scoped further here.
+- Whether `wild/Crossing.md`'s Examples produce content genuinely distinct from
+  `wild/Ruin.md`'s own "Passage" subheading (bridges, fords, causeways already appear
+  there too) once run against a real region - the two are meant to answer different
+  questions (history vs. present-tense cost of the route) but that needs checking against
+  generated output, not just the pattern text.
 
-**Status.** Not started.
+**Status.** DANGEROUS portion resolved without new files (see Resolution above). WILD
+portion executed: `patterns/wild/Landmark.md` updated, `patterns/wild/Crossing.md` created,
+`STEPS.md` step 1b's compile list updated. Not yet run against a real region.
 
 ---
 
@@ -480,8 +485,11 @@ layer, only pre-stocks it):
 
 **Integration.**
 - Depends on Plan 2 (a Region Overview that already commits specific names gives this pass
-  real material to distribute) and benefits from Plan 3 (a location's Kind, once it exists
-  for DANGEROUS, narrows which roster entries actually make sense there).
+  real material to distribute) and benefits from `dangerous/Dressing.md`'s existing Purpose
+  field (storeroom vs. audience chamber narrows which roster entries make sense there) -
+  corrected from an earlier draft that expected this from a DANGEROUS Kind axis; Plan 3
+  resolved without adding one (see its Status), so Purpose is the only "what kind of room"
+  signal this pass has to read, not a substitute waiting to arrive.
 - Shares its "resolve once, region-wide, cheaply; consume for free at 4c" shape with
   Plan 1B's per-build compile step, but the two are independent mechanisms now - one
   pre-assigns specific registry entries per location, the other compiles genre-general
