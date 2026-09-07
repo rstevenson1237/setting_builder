@@ -57,7 +57,7 @@ The Region Overview's fields, for a SAFE region.
   is true whether or not the party engages, and it moves on its own. This is not a plot; it
   is a condition, per GENRE.md.
 - **Layout** - state the settlement's **type** first (steading/thorp/village/town/seat, per
-  `patterns/safe/Settlement.md`) - decided once, here, not re-decided per location. Then its
+  `safe/Settlement.md`) - decided once, here, not re-decided per location. Then its
   shape, its approaches, its defences if any, and where the locations sit relative to each
   other. Name roughly where its most notable Features or Dangers (below) actually sit, so a
   referee can place them, not just know they exist. State that SAFE is not time-bound: do

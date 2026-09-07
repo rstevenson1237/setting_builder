@@ -1,14 +1,22 @@
 #!/usr/bin/env python3
-"""Structural validator for setting/ content.
+"""Structural validator for patterns/*/*.md and setting/ content.
 
-Checks generated content against the formats in templates/, the location
-graphs in Connections.mmd files, and the cross-file registry constraints
-described in STEPS.md (Lore/Keys/NamedCreatures/UniqueTreasures).
+Two independent checks: patterns/*/*.md's own citation format and Constraints
+heading (runs unconditionally, regardless of what setting/ holds), and
+generated content against the formats in templates/, the location graphs in
+Connections.mmd files, and the cross-file registry constraints described in
+STEPS.md (Lore/Keys/NamedCreatures/UniqueTreasures).
 
 This is a structural linter, not a genre/content reviewer - it cannot judge
 whether a Feature reads as "situations not authored plots" or whether magic
 stays rare per GENRE.md. That judgment still belongs to whoever (or
 whichever model) drafts and reviews the content by hand.
+
+A file that is simply missing - a region, a location, a setting-level
+document not built yet - is a warning, not an error: this validator is meant
+to run against a build in progress, not just a finished one. Errors are
+reserved for content that exists but is wrong (malformed, inconsistent with
+something else that exists, or an unresolved/malformed citation).
 
 Usage: python3 tools/validate_setting.py
 Exits 1 if any error is found, 0 otherwise (warnings never fail the run).
@@ -21,6 +29,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 SETTING = ROOT / "setting"
+PATTERNS = ROOT / "patterns"
 
 ARTICLES = ("the ", "a ", "an ")
 
@@ -68,6 +77,64 @@ def index_to_code(i: int) -> str:
 
 
 # ---------------------------------------------------------------------------
+# patterns/*/*.md - citation format and Constraints heading
+#
+# Independent of setting/ content: this runs unconditionally, even on a fresh
+# checkout with nothing generated yet. Citation grammar, decided when this
+# check was added: a reference to another patterns/ file inside region/,
+# safe/, wild/, or dangerous/ is always written bare as "folder/File.md" -
+# never with a "patterns/" prefix, never bare of its folder - since none of
+# those four folders share a filename with anything under setting/. A
+# reference to a patterns/setting/*.md file is the one exception and always
+# keeps the "patterns/" prefix, because a bare "setting/File.md" is reserved
+# for the generated content file of the same name and is not checked here.
+# ---------------------------------------------------------------------------
+
+PATTERN_FOLDERS = ("setting", "region", "safe", "wild", "dangerous")
+# The lookbehind keeps this from misreading the tail of a longer, correct
+# content path like "setting/region/Regions.md" as a bare two-segment
+# "region/Regions.md" pattern citation - a real bug caught in this check's
+# own first draft.
+PATTERN_CITE_RE = re.compile(
+    r'(?<!/)\b(patterns/)?(' + '|'.join(PATTERN_FOLDERS) + r')/([A-Za-z]+\.md)\b'
+)
+BARE_KIND_ARROW_RE = re.compile(r'->\s*([A-Z][A-Za-z]*\.md)\b')
+
+
+def check_pattern_files(diag: Diagnostics):
+    if not PATTERNS.exists():
+        return
+    pattern_files = sorted(p for p in PATTERNS.glob("*/*.md") if p.name != ".gitkeep")
+    known = {p.relative_to(PATTERNS).as_posix() for p in pattern_files}
+    for path in pattern_files:
+        text = path.read_text()
+        rel_key = path.relative_to(PATTERNS).as_posix()
+        if "## Constraints" not in text:
+            diag.error(path, "missing a '## Constraints' section - every patterns/*/*.md "
+                              "file ends with one, even if its body is still empty")
+        for m in PATTERN_CITE_RE.finditer(text):
+            prefixed, folder, fname = m.groups()
+            target = f"{folder}/{fname}"
+            if target == rel_key:
+                continue
+            if folder == "setting":
+                if not prefixed:
+                    continue  # bare setting/X.md is a content reference, not a pattern citation
+                if target not in known:
+                    diag.error(path, f"cites patterns/{target}, which does not exist")
+            else:
+                if prefixed:
+                    diag.error(path, f"cites patterns/{target} - citations to {folder}/ pattern "
+                                      f"files are written bare, without the 'patterns/' prefix")
+                    continue
+                if target not in known:
+                    diag.error(path, f"cites {target}, which does not exist")
+        for m in BARE_KIND_ARROW_RE.finditer(text):
+            diag.error(path, f"'-> {m.group(1)}' names a file with no folder - "
+                              f"every citation states which patterns/ folder it points to")
+
+
+# ---------------------------------------------------------------------------
 # Regions.md / setting/region/Connections.mmd
 # ---------------------------------------------------------------------------
 
@@ -78,7 +145,7 @@ REGION_TAGS_LINE_RE = re.compile(r'^Tags: see (setting/region/[A-Z]+/Tags\.md)\s
 def parse_regions(diag: Diagnostics):
     path = SETTING / "region" / "Regions.md"
     if not path.exists():
-        diag.error(path, "missing")
+        diag.warn(path, "missing - not built yet")
         return {}
     lines = path.read_text().splitlines()
     regions: dict[str, dict] = {}
@@ -107,7 +174,7 @@ def parse_regions(diag: Diagnostics):
         if REGION_TAGS_LINE_RE.match(lines[i].strip() if i < n else ""):
             tags_path = SETTING / "region" / code / "Tags.md"
             if not tags_path.exists():
-                diag.error(path, f"region {code}: setting/region/{code}/Tags.md referenced but missing")
+                diag.warn(path, f"region {code}: setting/region/{code}/Tags.md referenced but missing - not built yet")
             i += 1
         else:
             diag.error(path, f"region {code}: missing 'Tags: see setting/region/{code}/Tags.md' line")
@@ -150,7 +217,7 @@ def parse_mmd_edges(text: str, node_re: re.Pattern):
 def check_top_connections(diag: Diagnostics, regions: dict):
     path = SETTING / "region" / "Connections.mmd"
     if not path.exists():
-        diag.error(path, "missing")
+        diag.warn(path, "missing - not built yet")
         return
     text = path.read_text()
     id_to_code, _edges, unresolved = parse_mmd_edges(text, TOP_NODE_RE)
@@ -159,7 +226,7 @@ def check_top_connections(diag: Diagnostics, regions: dict):
     codes_in_graph = set(id_to_code.values())
     for code in regions:
         if code not in codes_in_graph:
-            diag.error(path, f"region {code} has no node in the region-level Connections graph")
+            diag.warn(path, f"region {code} has no node in the region-level Connections graph yet")
     for code in codes_in_graph:
         if code not in regions:
             diag.error(path, f"node references unknown region code {code}")
@@ -193,7 +260,7 @@ def check_weight_tag(diag: Diagnostics, path, lineno_or_none, rating: str, code:
 
 def parse_locations_gazetteer(diag: Diagnostics, region_code: str, rating: str, path: Path):
     if not path.exists():
-        diag.error(path, "missing Locations.md")
+        diag.warn(path, "missing Locations.md - not built yet")
         return {}
     lines = path.read_text().splitlines()
     locs: dict[int, dict] = {}
@@ -223,7 +290,7 @@ def parse_locations_gazetteer(diag: Diagnostics, region_code: str, rating: str, 
 
 def check_region_connections(diag: Diagnostics, region_code: str, region_locs: dict, all_locations: dict, path: Path):
     if not path.exists():
-        diag.error(path, "missing Connections.mmd")
+        diag.warn(path, "missing Connections.mmd - not built yet")
         return []
     text = path.read_text()
     id_to_code, edges, unresolved = parse_mmd_edges(text, LOC_NODE_RE)
@@ -233,7 +300,7 @@ def check_region_connections(diag: Diagnostics, region_code: str, region_locs: d
     for num in region_locs:
         code = f"{region_code}.{num}"
         if code not in codes_in_graph:
-            diag.error(path, f"location {code} has no node in this region's Connections graph")
+            diag.warn(path, f"location {code} has no node in this region's Connections graph yet")
     for code in codes_in_graph:
         if code not in all_locations:
             diag.error(path, f"node references unknown location code {code}")
@@ -392,7 +459,7 @@ TWO_ENDED_KINDS = {"Quest"}
 
 def parse_registry(diag: Diagnostics, kind: str, path: Path, marker: str, all_locations: dict):
     if not path.exists():
-        diag.error(path, "missing")
+        diag.warn(path, "missing - not built yet")
         return {}
     entries: dict[str, set] = {}
     full_marker = f" - {marker} "
@@ -441,7 +508,7 @@ def check_treasure_tables(diag: Diagnostics):
     for i in range(1, 6):
         path = SETTING / f"Treasure{i}.md"
         if not path.exists():
-            diag.error(path, "missing")
+            diag.warn(path, "missing - not built yet")
             continue
         text = path.read_text()
         rownums = [int(x) for x in re.findall(r"^\|\s*(\d+)\s*\|", text, re.M)]
@@ -452,7 +519,7 @@ def check_treasure_tables(diag: Diagnostics):
 def check_rumours(diag: Diagnostics):
     path = SETTING / "Rumours.md"
     if not path.exists():
-        diag.error(path, "missing")
+        diag.warn(path, "missing - not built yet")
         return
     text = path.read_text()
     rownums = [int(x) for x in re.findall(r"^\|\s*(\d+)\s*\|", text, re.M)]
@@ -465,7 +532,7 @@ def check_rumours(diag: Diagnostics):
 
 def check_tags_file(diag: Diagnostics, path: Path):
     if not path.exists():
-        diag.error(path, "missing")
+        diag.warn(path, "missing - not built yet")
         return
     text = path.read_text()
     count = len(re.findall(r"^- \*\*.+\*\* - ", text, re.M))
@@ -478,9 +545,9 @@ def check_top_level_files(diag: Diagnostics):
                  "Factions.md", "Procedures.md", "Language.md"):
         path = SETTING / name
         if not path.exists():
-            diag.error(path, "missing")
+            diag.warn(path, "missing - not built yet")
         elif not path.read_text().strip():
-            diag.error(path, "file is empty")
+            diag.warn(path, "file is empty - not filled in yet")
 
 
 # ---------------------------------------------------------------------------
@@ -557,17 +624,25 @@ def is_fresh_start() -> bool:
 
 
 def main() -> int:
+    diag = Diagnostics()
+    check_pattern_files(diag)
+
     if is_fresh_start():
         seeded = sorted(n for n in SEED_FILES if (SETTING / n).exists())
         if seeded:
-            print(f"setting/ holds only its seeds ({', '.join(seeded)}) - nothing to validate. "
+            print(f"setting/ holds only its seeds ({', '.join(seeded)}) - nothing to validate yet. "
                   f"Ready for STEPS.md step 2a.")
         else:
-            print("setting/ has no generated content yet - nothing to validate. "
+            print("setting/ has no generated content yet - nothing to validate yet. "
                   "Ready for STEPS.md step 1.")
-        return 0
-
-    diag = Diagnostics()
+        for w in diag.warnings:
+            print(f"WARNING: {w}")
+        for e in diag.errors:
+            print(f"ERROR: {e}")
+        if diag.errors or diag.warnings:
+            print(f"\n{len(diag.errors)} error(s), {len(diag.warnings)} warning(s) (patterns/ only - "
+                  f"setting/ itself is a fresh start)")
+        return 1 if diag.errors else 0
 
     regions = parse_regions(diag)
     check_top_connections(diag, regions)
@@ -613,7 +688,7 @@ def main() -> int:
         existing_files = {p.stem for p in rdir.glob("*.md") if p.name != "Locations.md"}
         expected_files = {str(num) for num in locs}
         for missing in sorted(expected_files - existing_files, key=lambda x: int(x)):
-            diag.error(rdir, f"missing location file {missing}.md for gazetteer entry {region_code}.{missing}")
+            diag.warn(rdir, f"missing location file {missing}.md for gazetteer entry {region_code}.{missing} - not written yet")
         for extra in sorted(existing_files - expected_files):
             diag.error(rdir, f"location file {extra}.md has no matching Locations.md entry")
         for num, stub in locs.items():

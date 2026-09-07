@@ -7,7 +7,7 @@ next rung looks like from here.
 ## Read at
 Step 4c, for a SAFE location where the region's Situation is visible - which is most of
 them, at least in passing. The Situation itself is authored at region level in
-`patterns/region/Safe.md`; this file states how it lands here.
+`region/Safe.md`; this file states how it lands here.
 
 ## Spec
 

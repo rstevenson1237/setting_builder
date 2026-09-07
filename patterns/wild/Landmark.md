@@ -96,3 +96,6 @@ pass), or held like a Lair - Kind is exactly one, so pick Crossing when the loca
 point is that the region's own shape forces the party through it; pick Ruin or Natural
 Feature instead when the same object's point is its history or its strangeness and the
 route through it is incidental.
+
+## Constraints
+*(Empty. Entries arrive from generation testing, never from anticipation.)*

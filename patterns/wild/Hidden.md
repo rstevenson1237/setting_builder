@@ -33,3 +33,6 @@ investigated is a detail found.
 
 The distinction from a Secret is the whole tier: a Hidden way in is *visible and easy to
 miss*; a Secret way in is *concealed until acted on*.
+
+## Constraints
+*(Empty. Entries arrive from generation testing, never from anticipation.)*

@@ -43,9 +43,19 @@ the same pass, generalized rather than tied to whichever setting produced it.
 
 ## Validator posture
 
-`tools/validate_setting.py` (`python3 tools/validate_setting.py`) is strict on format,
-relaxed on content, ratios, and prose - it fails CI on unambiguous breakage (unknown codes,
-name mismatches, missing files, orphaned nodes, broken citations) and warns on what needs a
-human glance but might be intentional. Extend it alongside any new artifact type or
-template rule.
+`tools/validate_setting.py` (`python3 tools/validate_setting.py`) checks `patterns/*/*.md`
+itself (citation format, `## Constraints` present) unconditionally, plus generated `setting/`
+content against the templates. Strict on format, relaxed on content, ratios, and prose - it
+fails CI on unambiguous breakage in content that *exists* (unknown codes, name mismatches,
+orphaned nodes, broken citations) and warns on what needs a human glance but might be
+intentional. **A file that is simply missing is a warning, not an error** - partial,
+in-progress work is expected to push and be reviewed before every file exists. Extend it
+alongside any new artifact type or template rule.
+
+## Pattern citation format
+
+A citation from one `patterns/*/*.md` file to another is always `folder/File.md`, bare, no
+`patterns/` prefix - except a reference to a `patterns/setting/*.md` file, which always
+keeps the `patterns/` prefix, since a bare `setting/File.md` means the *generated* file of
+that name, not the pattern that produces it. `tools/validate_setting.py` enforces this.
 </content>

@@ -613,3 +613,89 @@ not as an oversight.
   section above) - flagged as an interpretation, not confirmed with a fresh pair of eyes.
 
 **Status.** Executing now.
+
+---
+
+## Plan 5 - Pattern citation format decided; validator extended; live Pattern Reference published - EXECUTED
+
+**Problem.** A prior review pass (an interactive Pattern Ledger artifact, parsing all of
+`patterns/*/*.md` and its real citations rather than summarizing from memory) found the
+framework's own citation grammar was never actually decided: three different styles for the
+same kind of reference coexisted, sometimes inside one file; two DANGEROUS hook files
+(`Key.md`, `Quest.md`) and one mandatory-by-its-own-claim file (`Naming.md`) were never
+cited by `High.md`/`Medium.md`/`Low.md`'s own Spec; one file (`safe/Authority.md`) was
+reachable only through a citation style nothing else used; six files skipped the
+`## Constraints` heading CLAUDE.md says every pattern file carries. Separately, the
+validator failed CI on any missing `setting/` file regardless of whether the build was
+finished or simply in progress, which stood in the way of pushing partial work for review.
+
+**Decision - the citation rule.** A citation from one `patterns/*/*.md` file to another is
+always written `folder/File.md`, bare, relative to `patterns/` - never with a `patterns/`
+prefix, never bare of its folder. **One exception**: a reference to a `patterns/setting/*.md`
+file always keeps the `patterns/` prefix, because a bare `setting/File.md` is reserved for
+the *generated* content file of the same name (`setting/Bestiary.md`, `setting/Keys.md`,
+etc.) - the two would otherwise be indistinguishable, since every `patterns/setting/*.md`
+pattern produces a same-named generated file by design. Checked against real usage before
+being written down: every existing `patterns/setting/*.md` cross-reference already followed
+this exception correctly (e.g. `dangerous/Key.md` citing both `setting/Keys.md`, the
+content, and `patterns/setting/Keys.md`, the pattern, correctly distinguished, in the same
+file) - the rule formalizes the framework's own dominant practice rather than inventing one.
+Only 5 files actually violated it (citing `patterns/safe/...`, `patterns/wild/...`, or
+`patterns/dangerous/...` with the prefix, where none was needed) and one file
+(`safe/Settlement.md`'s Kind menu) used bare filenames with no folder at all - both swept.
+
+One finding from the original artifact pass turned out to be a false positive on review:
+its citation parser's regex matched the *tail* of a correct three-segment content path
+(`setting/region/Regions.md`) as if it were a broken two-segment pattern citation
+(`region/Regions.md`). Caught before acting on it - `region/Dangerous.md` needed no fix.
+The real validator (below) uses a lookbehind specifically to avoid this class of bug.
+
+**Executed.**
+- Swept all `patterns/*/*.md` citations to the rule above (5 files); fixed
+  `safe/Settlement.md`'s bare Kind menu and `safe/Dressing.md`'s one mixed-style list; added
+  the missing `## Constraints` heading (empty placeholder, per the rule below that section
+  is earned not anticipated) to `dangerous/High.md`, `Medium.md`, `safe/Settlement.md`,
+  `wild/Landmark.md`, `Hidden.md`, `Secret.md`.
+- Wired `dangerous/Naming.md` into `High.md`/`Medium.md`/`Low.md`'s Spec as unconditional,
+  alongside Dressing and Secrets (matching its own "read for every location" claim), and
+  added a `Key.md`/`Quest.md` percentage hook line to each, matching how `safe/Settlement.md`
+  and `wild/Landmark.md` already wire their own Quest/Key files into their Spec.
+- `tools/validate_setting.py`: added `check_pattern_files()`, run unconditionally (even on a
+  fresh checkout with no `setting/` content) - flags a `patterns/` prefix outside
+  `patterns/setting/`, an unresolved citation, a bare `-> File.md` with no folder, and a
+  missing `## Constraints` heading. Tested against a deliberately broken file and confirmed
+  it catches all three citation issues and restores clean.
+- `tools/validate_setting.py`: every "file is missing" check (region files, per-region
+  Locations.md/Connections.mmd/Tags.md, per-location files, the five registries, the five
+  Treasure tables, Rumours.md, the top-level setting docs) now warns instead of erroring -
+  content that *exists* but is wrong (name mismatches, broken citations, orphaned nodes,
+  malformed lines) still errors and still fails CI. Tested with a real partial build (one
+  region added to `Regions.md`, nothing else) - 24 warnings, 0 errors, exit 0.
+- `tools/build_site.py`: new `patterns.html` page, independent of `setting/` (builds
+  whether `setting/` is empty, partial, or complete, since it only reads `patterns/`) - a
+  five-column citation graph matching the framework's own folder structure, click-through to
+  any file's Decides/Read-at/Spec-or-Patterns-or-Examples content and its citations in both
+  directions, and a live audit banner reading the exact rule `check_pattern_files()`
+  enforces in CI - a regression shows on the next site build, not just in a point-in-time
+  report. Reuses the site's existing palette/typography (`tools/site_assets/style.css`'s
+  tokens, including its existing `--safe`/`--wild`/`--dangerous` colors for those three
+  columns) rather than introducing a competing visual system; `patterns.js` follows
+  `app.js`'s existing plain-IIFE convention. Added to `NAV_LINKS`. Verified in isolation
+  (real `setting/` content wasn't available to test the full site build) - 65 nodes, tags
+  balanced, embedded as inline JSON rather than fetched, so it also works from a local
+  `file://` open per the site's existing guarantee.
+- Docs brought back into agreement with actual repo state: `README.md`'s "What this
+  repository is" section claimed `tools/validate_setting.py` was the sole exception to "no
+  build step" while the same file's own "Web view and PDF" section already documented a
+  full build-and-deploy pipeline (`build_site.py`, `build_pdf.py`, `pages.yml`) - corrected
+  rather than left contradicting itself. `README.md`'s Validation section and `CLAUDE.md`'s
+  Validator posture section both updated for the new pattern-file checks and the
+  missing-file warn/error split; `CLAUDE.md` gained a short "Pattern citation format"
+  section stating the rule directly, since it's exactly the kind of thing that needs active
+  re-checking on every request per this file's own stated purpose.
+
+**Open follow-up.** The original Pattern Ledger artifact (published before this plan) still
+states the now-corrected `region/Dangerous.md` finding as real - worth a follow-up
+republish so the artifact doesn't contradict this record.
+
+**Status.** Executed.
