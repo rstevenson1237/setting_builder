@@ -23,8 +23,10 @@ it against the content).
   every line at every level must pass. See "The three tests" in `CLAUDE.md` for the short
   version; those tests outrank every template.
 - `STEPS.md` - the authoritative, sequential build log. Every artifact created follows a
-  numbered step here (e.g. `4c`) naming its template and its context files. This is more
-  current than any summary of it, including this one.
+  numbered step here (e.g. `4c`) naming its template; the template's own Context section
+  owns the file list, so a step restates it only for what the template can't know - build
+  order, phase gating, stub/registry bookkeeping. This is more current than any summary of
+  it, including this one.
 - `CLAUDE.md` - always loaded as system context; the short list of rules that need active
   re-checking on every request.
 
