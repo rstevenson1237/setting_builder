@@ -25,18 +25,18 @@ comparison is about vocabulary, not format.
 - **Jump-Route Monopoly** - one company controlling the only safe lane through
 
 ### Hazard/Room-Type
-- **The Airlock** - the one door that can kill everyone on either side of it
-- **The Berth** - cramped crew quarters, thin walls, thinner privacy
-- **The Cargo Hold** - what's manifested, what isn't, and what's hiding among it
-- **The Med Bay** - understocked, overused, and the only place anyone gets patched up
-- **The Reactor Room** - the thing keeping everyone alive, one failure from not
-- **The Comms Array** - the only link to anyone who could help, when it's working
-- **The Server Core** - where the ship's or station's mind actually lives
-- **The Scrapyard Dock** - where wrecks get stripped, sometimes before they're confirmed empty
-- **The Mess** - the one room people are still required to share
-- **The Cryo Bay** - long-haul crew sleeping through the trip, vulnerable the whole time
-- **The Maintenance Crawl** - narrow service tunnels nobody wants to be sent into alone
-- **The Bridge** - command and control, and the first place cut off in any real crisis
+- **Airlock** - the one door that can kill everyone on either side of it
+- **Berth** - cramped crew quarters, thin walls, thinner privacy
+- **Cargo Hold** - what's manifested, what isn't, and what's hiding among it
+- **Med Bay** - understocked, overused, and the only place anyone gets patched up
+- **Reactor Room** - the thing keeping everyone alive, one failure from not
+- **Comms Array** - the only link to anyone who could help, when it's working
+- **Server Core** - where the ship's or station's mind actually lives
+- **Scrapyard Dock** - where wrecks get stripped, sometimes before they're confirmed empty
+- **Mess** - the one room people are still required to share
+- **Cryo Bay** - long-haul crew sleeping through the trip, vulnerable the whole time
+- **Maintenance Crawl** - narrow service tunnels nobody wants to be sent into alone
+- **Bridge** - command and control, and the first place cut off in any real crisis
 
 ## WILD
 
@@ -55,18 +55,18 @@ comparison is about vocabulary, not format.
 - **Bounty Lane** - space patrolled by whoever's chasing the current price on someone's head
 
 ### Hazard/Room-Type
-- **The Derelict Hull** - a wreck big enough to salvage, old enough that something might have moved in
-- **The Breach** - a hole in a hull that used to be a wall
-- **The Drift Pod** - an escape capsule, and whatever's left inside it
-- **The Debris Field** - wreckage dense enough to hide in, or get killed navigating
-- **The Dead Reactor** - a power core that stopped, and didn't stop safely
-- **The Frozen Bay** - a cargo or crew area that lost heat before it lost pressure
-- **The Umbilical** - a docking tube connecting two hulls that shouldn't trust each other
-- **The Listening Post** - an automated outpost nobody's crewed in years
-- **The Boarding Scar** - where something got in, and the hull remembers
-- **The Drift Marker** - a beacon left to warn people off, or lure them in
-- **The Vented Deck** - a section that lost atmosphere, and everything that was breathing it
-- **The Graveyard Orbit** - a stable orbit used to park the dead, ships and otherwise
+- **Derelict Hull** - a wreck big enough to salvage, old enough that something might have moved in
+- **Breach** - a hole in a hull that used to be a wall
+- **Drift Pod** - an escape capsule, and whatever's left inside it
+- **Debris Field** - wreckage dense enough to hide in, or get killed navigating
+- **Dead Reactor** - a power core that stopped, and didn't stop safely
+- **Frozen Bay** - a cargo or crew area that lost heat before it lost pressure
+- **Umbilical** - a docking tube connecting two hulls that shouldn't trust each other
+- **Listening Post** - an automated outpost nobody's crewed in years
+- **Boarding Scar** - where something got in, and the hull remembers
+- **Drift Marker** - a beacon left to warn people off, or lure them in
+- **Vented Deck** - a section that lost atmosphere, and everything that was breathing it
+- **Graveyard Orbit** - a stable orbit used to park the dead, ships and otherwise
 
 ## DANGEROUS
 
@@ -85,18 +85,18 @@ comparison is about vocabulary, not format.
 - **Rogue Synthetic** - a machine that decided its orders were wrong
 
 ### Hazard/Room-Type
-- **The Containment Ward** - built to hold something in, and showing why it failed
-- **The Server Vault** - the installation's memory, guarded like its life
-- **The Autopsy Bay** - where the crew tried to understand what was killing them
-- **The Cargo Vault** - the installation's actual reason for existing, locked accordingly
-- **The Sealed Quarters** - living space nobody's opened since whatever happened
-- **The Airlock Chain** - a series of doors meant to slow down containment breaches
-- **The Dark Bridge** - control systems still running, nobody left to run them
-- **The Cryo Vault** - sleepers, and the question of whether they're still just sleeping
-- **The Critical Core** - the room actively deciding how much time is left
-- **The Research Wing** - where whatever's wrong with this place started
-- **The Waste Reclamation** - the ugliest room on any station, and often the most honest
-- **The Umbilical Junction** - where multiple sealed sections meet, and none of them agree on what's safe
+- **Containment Ward** - built to hold something in, and showing why it failed
+- **Server Vault** - the installation's memory, guarded like its life
+- **Autopsy Bay** - where the crew tried to understand what was killing them
+- **Cargo Vault** - the installation's actual reason for existing, locked accordingly
+- **Sealed Quarters** - living space nobody's opened since whatever happened
+- **Airlock Chain** - a series of doors meant to slow down containment breaches
+- **Dark Bridge** - control systems still running, nobody left to run them
+- **Cryo Vault** - sleepers, and the question of whether they're still just sleeping
+- **Critical Core** - the room actively deciding how much time is left
+- **Research Wing** - where whatever's wrong with this place started
+- **Waste Reclamation** - the ugliest room on any station, and often the most honest
+- **Umbilical Junction** - where multiple sealed sections meet, and none of them agree on what's safe
 
 ## People (personalities)
 - **Company-Loyal** - believes the corporation actually has their back

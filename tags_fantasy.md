@@ -27,18 +27,18 @@ one-line gloss; glosses constrain, they don't decorate.
 - **Freeport** - a settlement that answers to no crown, and charges for the privilege
 
 ### Hazard/Room-Type
-- **The Pit** - a debtor's or slaver's holding cell beneath a respectable building
-- **The Counting House** - where tribute and tax are weighed, guarded accordingly
-- **The Cistern** - a settlement's water source, and a way in nobody guards well
-- **The Bathhouse** - where deals get made undressed and unarmed
-- **The Barracks** - garrison housing, orderly by day and looser by night
-- **The Shrine-Front** - a temple's public face, richer and stricter than its back rooms
-- **The Grain Tower** - the settlement's famine insurance, and its most watched building
-- **The Fighting Pit** - blood sport, licensed or not, always drawing a crowd
-- **The Harbor Row** - where cargo, rumor, and desperation change hands together
-- **The Ash Quarter** - the burned or condemned district nobody's rebuilt
-- **The Counting Yard** - where caravan goods are inventoried before the toll is set
-- **The Widow's Row** - housing for those the garrison or the crown left behind
+- **Pit** - a debtor's or slaver's holding cell beneath a respectable building
+- **Counting House** - where tribute and tax are weighed, guarded accordingly
+- **Cistern** - a settlement's water source, and a way in nobody guards well
+- **Bathhouse** - where deals get made undressed and unarmed
+- **Barracks** - garrison housing, orderly by day and looser by night
+- **Shrine-Front** - a temple's public face, richer and stricter than its back rooms
+- **Grain Tower** - the settlement's famine insurance, and its most watched building
+- **Fighting Pit** - blood sport, licensed or not, always drawing a crowd
+- **Harbor Row** - where cargo, rumor, and desperation change hands together
+- **Ash Quarter** - the burned or condemned district nobody's rebuilt
+- **Counting Yard** - where caravan goods are inventoried before the toll is set
+- **Widow's Row** - housing for those the garrison or the crown left behind
 
 ## WILD
 
@@ -57,18 +57,18 @@ one-line gloss; glosses constrain, they don't decorate.
 - **Sacred Grove** - ground a local people won't cross, whether or not anyone alive can say why
 
 ### Hazard/Room-Type
-- **The Ford** - a river crossing, and everyone who's ever needed to control one
-- **The Cairn Trail** - a path marked by the dead who didn't finish it
-- **The Denning Ground** - where a pack, pride, or clan actually lives
-- **The Salt Pan** - flat, exposed, and unforgiving of anyone caught on it
-- **The Waystone** - a marker claiming ground nobody's actually holding
-- **The Sunken Road** - an old route worn or built below the current grade
-- **The Grazing Range** - contested pasture, claimed by more than one party
-- **The Watch Cairn** - a lookout point built and used long before the current claimants
-- **The Drift** - a seasonal camp, present only part of the year
-- **The Bone Yard** - where a predator or a battle has left its dead in numbers
-- **The Crossing Camp** - a stopover built around a ford, pass, or gap
-- **The Old Muster** - a field where warbands have gathered for longer than anyone's history says
+- **Ford** - a river crossing, and everyone who's ever needed to control one
+- **Cairn Trail** - a path marked by the dead who didn't finish it
+- **Denning Ground** - where a pack, pride, or clan actually lives
+- **Salt Pan** - flat, exposed, and unforgiving of anyone caught on it
+- **Waystone** - a marker claiming ground nobody's actually holding
+- **Sunken Road** - an old route worn or built below the current grade
+- **Grazing Range** - contested pasture, claimed by more than one party
+- **Watch Cairn** - a lookout point built and used long before the current claimants
+- **Drift** - a seasonal camp, present only part of the year
+- **Bone Yard** - where a predator or a battle has left its dead in numbers
+- **Crossing Camp** - a stopover built around a ford, pass, or gap
+- **Old Muster** - a field where warbands have gathered for longer than anyone's history says
 
 ## DANGEROUS
 
@@ -92,13 +92,13 @@ one-line gloss; glosses constrain, they don't decorate.
 - **Sunken City** - a whole settlement, not just a building, lost to what took it
 - **Bloodstone Altar** - an altar built to take, not to bless
 - **Pit of the Old Ones** - a shaft or chamber older than the structure built around it
-- **The Ossuary** - the dead stored deliberately, in numbers, on purpose
-- **The Sealed Vault** - built to keep something in as much as to keep others out
-- **The Chained Hall** - a room whose original purpose required restraining something
-- **The Weeping Gallery** - a passage that still bears evidence of what happened in it
-- **The Coiled Stair** - a descent built to disorient anyone without the plan
-- **The Sacrificial Court** - open enough for a crowd, built for a single grim purpose
-- **The Idol's Rest** - wherever the thing everyone's really here for is kept
+- **Ossuary** - the dead stored deliberately, in numbers, on purpose
+- **Sealed Vault** - built to keep something in as much as to keep others out
+- **Chained Hall** - a room whose original purpose required restraining something
+- **Weeping Gallery** - a passage that still bears evidence of what happened in it
+- **Coiled Stair** - a descent built to disorient anyone without the plan
+- **Sacrificial Court** - open enough for a crowd, built for a single grim purpose
+- **Idol's Rest** - wherever the thing everyone's really here for is kept
 
 ## People (personalities)
 - **Treacherous** - loyalty for sale to the next offer

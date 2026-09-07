@@ -26,18 +26,18 @@ so the comparison is about vocabulary, not format.
 - **Generator Dependency** - a settlement's whole existence riding on one aging machine
 
 ### Hazard/Room-Type
-- **The Purifier** - the settlement's water source, guarded like the treasury it is
-- **The Scrap Yard** - salvage sorted, hoarded, and fought over
-- **The Vault Door** - a blast door that still, mostly, works
-- **The Trading Post** - where caps, scrip, and rumor change hands
-- **The Clinic** - understocked, overworked, and never turning away a paying patient
-- **The Broadcast Tower** - the settlement's one link to anyone else still out there
-- **The Armory** - what's left of the settlement's teeth
-- **The Farm Dome** - growing food under glass, jealously protected
-- **The Holding Cell** - wherever a settlement keeps people it hasn't decided about yet
-- **The Old Terminal Room** - pre-war systems still half-running, half-understood
-- **The Checkpoint** - the settlement's actual border, manned or not
-- **The Bunkhouse** - shared shelter, thin walls, and everyone's business known
+- **Purifier** - the settlement's water source, guarded like the treasury it is
+- **Scrap Yard** - salvage sorted, hoarded, and fought over
+- **Vault Door** - a blast door that still, mostly, works
+- **Trading Post** - where caps, scrip, and rumor change hands
+- **Clinic** - understocked, overworked, and never turning away a paying patient
+- **Broadcast Tower** - the settlement's one link to anyone else still out there
+- **Armory** - what's left of the settlement's teeth
+- **Farm Dome** - growing food under glass, jealously protected
+- **Holding Cell** - wherever a settlement keeps people it hasn't decided about yet
+- **Old Terminal Room** - pre-war systems still half-running, half-understood
+- **Checkpoint** - the settlement's actual border, manned or not
+- **Bunkhouse** - shared shelter, thin walls, and everyone's business known
 
 ## WILD
 
@@ -56,18 +56,18 @@ so the comparison is about vocabulary, not format.
 - **Wandering Cult** - a group that's made a religion out of surviving the wasteland
 
 ### Hazard/Room-Type
-- **The Crater** - ground zero, still wrong in ways that show
-- **The Overpass Camp** - a raider or refugee camp built into old infrastructure
-- **The Rusted Convoy** - a caravan that never made it, picked over or not
-- **The Sink Hole** - collapsed ground hiding whatever's underneath
-- **The Broadcast Ruin** - a dead transmitter, and whoever's still guarding it
-- **The Rad Pool** - standing water or ground hot enough to matter
-- **The Scrap Heap** - a landmark-sized pile of pre-war debris
-- **The Overgrown Lot** - nature reclaiming a pre-war structure, roots and all
-- **The Watchtower** - built from scrap, manned by whoever controls this stretch
-- **The Dead Convoy Line** - a road marked by wrecks nobody's cleared
-- **The Signal Relay** - a working pre-war tower, valuable to whoever holds it
-- **The Bone Field** - a battle or massacre site, still marked by what's left
+- **Crater** - ground zero, still wrong in ways that show
+- **Overpass Camp** - a raider or refugee camp built into old infrastructure
+- **Rusted Convoy** - a caravan that never made it, picked over or not
+- **Sink Hole** - collapsed ground hiding whatever's underneath
+- **Broadcast Ruin** - a dead transmitter, and whoever's still guarding it
+- **Rad Pool** - standing water or ground hot enough to matter
+- **Scrap Heap** - a landmark-sized pile of pre-war debris
+- **Overgrown Lot** - nature reclaiming a pre-war structure, roots and all
+- **Watchtower** - built from scrap, manned by whoever controls this stretch
+- **Dead Convoy Line** - a road marked by wrecks nobody's cleared
+- **Signal Relay** - a working pre-war tower, valuable to whoever holds it
+- **Bone Field** - a battle or massacre site, still marked by what's left
 
 ## DANGEROUS
 
@@ -86,18 +86,18 @@ so the comparison is about vocabulary, not format.
 - **Buried Ordnance** - weapons the old world left behind, some of them still armed
 
 ### Hazard/Room-Type
-- **The Overseer's Office** - command center for whatever this shelter actually was
-- **The Reactor Chamber** - the power source, and the reason this place still has lights
-- **The Sealed Armory** - pre-war weapons, still racked, still dangerous to disturb
-- **The Med Wing** - where the vault tried, and maybe failed, to treat something
-- **The Server Room** - pre-war data, worth more to some factions than the guns
-- **The Abandoned Barracks** - military housing, empty in ways that raise questions
-- **The Containment Cell** - built to hold something the old world didn't want loose
-- **The Frozen Mess Hall** - a room that stopped mid-routine and never restarted
-- **The Command Bunker** - deep, hardened, and built for people who never made it there
-- **The Radiation Lab** - research into the thing that ended everything
-- **The Cryo Storage** - people or specimens on ice, decades past their intended wake time
-- **The Access Shaft** - the only way down, and the only way anything gets back up
+- **Overseer's Office** - command center for whatever this shelter actually was
+- **Reactor Chamber** - the power source, and the reason this place still has lights
+- **Sealed Armory** - pre-war weapons, still racked, still dangerous to disturb
+- **Med Wing** - where the vault tried, and maybe failed, to treat something
+- **Server Room** - pre-war data, worth more to some factions than the guns
+- **Abandoned Barracks** - military housing, empty in ways that raise questions
+- **Containment Cell** - built to hold something the old world didn't want loose
+- **Frozen Mess Hall** - a room that stopped mid-routine and never restarted
+- **Command Bunker** - deep, hardened, and built for people who never made it there
+- **Radiation Lab** - research into the thing that ended everything
+- **Cryo Storage** - people or specimens on ice, decades past their intended wake time
+- **Access Shaft** - the only way down, and the only way anything gets back up
 
 ## People (personalities)
 - **Old-World Nostalgic** - romanticizes a world they never actually lived in
