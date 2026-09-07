@@ -169,7 +169,25 @@ tracked separately since it's a `patterns/setting/Genre.md` change, not a Tags.m
   Plan 4 stays advisory - the probability layer is cross-cutting and shouldn't be overridden
   twice by two different plans.
 
-**Status.** Not started.
+**Status.** Proof-of-concept built: `tags_fantasy.md` (Robert E. Howard/Conan, reusing this
+repo's own `GENRE.md` reference as a control), `tags_scifi.md` (Mothership 1e), and
+`tags_apoc.md` (Fallout) - three full tag pools in the shape this plan proposes (Thematic +
+Hazard/Room-Type per rating, plus People/Creatures), ~95-98 tags each, built before touching
+any generation mechanism, specifically to test whether the facet structure produces
+genre-distinct vocabulary or just reskinned fantasy.
+
+Checked by diffing tag names across all three files: **1-4 overlapping tags per pair out of
+~95-98 each, and every overlap is a universal behavioral primitive** (Territorial, Frenzied,
+Calculating, Silent, Superstitious - legitimately cross-genre creature/personality traits).
+Zero overlap in either Thematic or Hazard/Room-Type facets specifically - no fantasy
+institution or room-type leaked into the sci-fi or post-apoc pools. This is the result the
+plan needed to see before building the real mechanism: the structure holds a genre's own
+vocabulary rather than producing generic fill-in-the-blank output.
+
+Not yet done: wiring these into an actual generation step (they're standalone target files
+at repo root, not `setting/Tags.md` outputs produced by a template/pattern), the seed-pool
+broadening noted above (Mothership and Fallout were hand-picked for this test, not run
+through the actual Round 1-3 narrowing flow), and the open questions below.
 
 ---
 
