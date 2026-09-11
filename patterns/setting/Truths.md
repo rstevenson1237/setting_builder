@@ -1,10 +1,10 @@
 # Setting - Truths
 
-## Decides
+## Provides
 The rules this setting keeps that a generic instance of the genre does not.
 
 ## Read at
-Step 2d, after `setting/History.md`.
+Step 2c, after `setting/History.md`.
 
 ## Spec
 
@@ -31,20 +31,10 @@ truth no location cashed out is cut from the file - it was atmosphere that survi
 nothing had yet been built to contradict it. This is the one place the framework deletes
 rather than revises, and it should be used.
 
-**A Truth is a class, not an instance.** "The Ninefold Ledger is a cursed book" is an
-object and belongs in `setting/UniqueTreasures.md`. "Written oaths bind here, and breaking
-one marks the breaker visibly" is a truth - it defines a class of object, a rule the world
-keeps, and a hundred later details follow from it. Political and religious ideas qualify on
-the same terms: the idea, not one believer.
-
-**A Truth must sharpen the genre, never override it.** Low Magic, Points of Light and the
-Mythic Underworld are constraints, and a Truth that makes magic common or authority central
-has broken the setting rather than distinguished it.
-
 **Discoverable by acting.** At least one Truth should be learnable only by doing something
 and seeing what happens. A truth nobody can find out is a note to the referee.
 
-## Patterns
+## Design patterns
 
 **Kinds of truth** - a rule the land keeps that people work around; a class of object that
 behaves consistently and strangely; something everyone does whose reason is forgotten; a
@@ -63,4 +53,13 @@ wearing a costume.
 because this is how the world works here, and what do they do about it?
 
 ## Constraints
-*(Empty. Entries arrive from generation testing, never from anticipation.)*
+
+- **A Truth is a class, not an instance.** "The Ninefold Ledger is a cursed book" is an
+  object and belongs in `setting/UniqueTreasures.md`. "Written oaths bind here, and
+  breaking one marks the breaker visibly" is a truth - it defines a class of object, a
+  rule the world keeps, and a hundred later details follow from it. Political and
+  religious ideas qualify on the same terms: the idea, not one believer.
+
+- **A Truth must sharpen the genre, never override it.** Low Magic, Points of Light and
+  the Mythic Underworld are constraints, and a Truth that makes magic common or
+  authority central has broken the setting rather than distinguished it.

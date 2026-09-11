@@ -1,13 +1,13 @@
 # Safe - Wealth
 
-## Decides
+## Provides
 What a settlement's own cache of treasure, lore, or both actually holds, who it belongs to,
 and what stands between a party and it.
 
 ## Read at
 Step 4c, for a SAFE location whose kind is a strongroom, hoard, shrine cache, or vault.
 
-## Spec
+## Design questions
 
 ```
 WEALTH
@@ -30,7 +30,7 @@ here - which is what makes it worth a Protection line instead of an access claus
 interchangeable flavor text - each implies a different discovery structure:
 
 - **hidden** reuses `safe/Secrets.md`'s Clue/Trigger/Payload structure directly, guaranteed
-  by this spec line rather than by that file's own 10% settlement-wide roll. A Wealth
+  by this design question rather than by that file's own 10% settlement-wide roll. A Wealth
   location whose Protection is hidden has already spent its Secret; do not also roll
   `safe/Secrets.md`'s independent rate against it.
 - **gated** means the cache's existence is known and unconcealed - access needs a stated,
@@ -59,7 +59,7 @@ was, and exactly one Protection with its own discovery structure. Genre-neutral 
 permanent. What the cache actually holds and what conceals it is not - the Examples below
 are this build's compile of it, from this setting's chosen genre reference.
 
-## Examples
+## Design patterns
 
 **What it holds** - coin and plate too heavy to move casually; a founder's or a family's
 kept wealth; tithes or tolls banked rather than spent; something taken and never returned;

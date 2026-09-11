@@ -1,12 +1,12 @@
 # Wild - Creature
 
-## Decides
+## Provides
 What lives in or ranges through a WILD location, and how it meets a party.
 
 ## Read at
 Step 4c, when a spec line draws a creature. Scaling is in `patterns/setting/Bestiary.md`.
 
-## Spec
+## Design questions
 
 ```
 CREATURE
@@ -35,7 +35,7 @@ the personality a human encounter carries, are not - the Examples below are this
 compile of both, standing in for what `GENRE.md` used to carry as its own Creatures
 (demeanors) and People (personalities) tag banks.
 
-## Examples
+## Design patterns
 
 **Demeanor flavor** - a one-word behavior for how something met here carries itself
 before a fight starts or doesn't, compiled for this build: Predatory, Territorial,

@@ -1,6 +1,6 @@
 # Setting - Tags
 
-## Decides
+## Provides
 The flat, genre-derived thematic pool every `Setting.md` and Region Overview points to
 with a single tag-line instead of embedding tags inline, and the two-tag draw (one
 setting-level, one region-level) every location gazetteer stub uses instead of inventing
@@ -8,7 +8,7 @@ three tags fresh.
 
 ## Read at
 Step 1b, right after `GENRE.md` exists, to seed `setting/Tags.md`. Read again per region,
-alongside its Region Overview at step 3, to seed that region's own `Tags.md`.
+alongside its Region Overview at step 3c, to seed that region's own `Tags.md`.
 
 ## Spec
 
@@ -23,15 +23,6 @@ TAGS
         tag pool's
 ```
 
-**A tag is pure seed, never structural.** It never selects which pattern file governs a
-location - that is Kind's job - and it never carries its own inclusion math - that is a
-class file's Spec. Its only job is color: a one-line gloss the referee can read off a stub
-in passing, and an index a later step can scan for something that fits.
-
-**Region-level pools add, they don't restate.** A region's own 25 tags should feel like a
-corner of the setting-level 25 - narrower, textured to this specific place - not a second
-draw from the same well. Read the setting-level pool first specifically to avoid this.
-
 **This replaces `GENRE.md`'s old Safe/Wild/Dangerous/People/Creatures tag bank outright.**
 That bank tried to do two jobs at once - flavor color and rating-specific structural
 content - and lived at the wrong altitude for a value read at nearly every generation step
@@ -39,7 +30,7 @@ regardless of whether it was used. This file's pools stay pure color; the struct
 of that old job now belongs to the compiled tier-2 pattern files (demeanor and personality
 examples in `dangerous/Creature.md`, `wild/Creature.md`, `safe/People.md`).
 
-## Patterns
+## Design patterns
 
 **What makes a good tag** - the same test `patterns/setting/Genre.md` already uses for its
 own tag-building: it represents a theme (compresses something already true of the chosen
@@ -56,4 +47,13 @@ isn't true of the setting generally: a local custom, a specific hazard, a textur
 speech or trade unique to this stretch of the map.
 
 ## Constraints
-*(Empty. Entries arrive from generation testing, never from anticipation.)*
+
+- **A tag is pure seed, never structural.** It never selects which pattern file governs
+  a location - that is Kind's job - and it never carries its own inclusion math - that
+  is a class file's Spec. Its only job is color: a one-line gloss the referee can read
+  off a stub in passing, and an index a later step can scan for something that fits.
+
+- **Region-level pools add, they don't restate.** A region's own 25 tags should feel
+  like a corner of the setting-level 25 - narrower, textured to this specific place -
+  not a second draw from the same well. Read the setting-level pool first specifically
+  to avoid this.

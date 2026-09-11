@@ -1,6 +1,6 @@
 # Setting - Treasure
 
-## Decides
+## Provides
 What the five d20 tables hold, how value is distributed within each, and what money means
 to a party at this setting's altitude.
 
@@ -37,16 +37,12 @@ below has a scale - treasure hunters barely above commoners, per `GENRE.md`, mea
 finds should be *useful*, and a table-topping result should change what the party can
 attempt next.
 
-**Never decide the container.** These tables are reusable everywhere and tied to no place.
-What holds a find, what conceals it, and what it takes to reach it are the location's job -
-see each rating's `Treasure.md`.
-
 **Value-to-weight.** 100 standard cn weighs 1 wt - the table's average relationship, not a
 fixed conversion. Mundane bulk goods may run as low as 5 cn per wt (a bag of copper
 pennies); there is no upper bound on value-dense items (a single pure diamond may be worth
 5000 cn at 0 wt).
 
-## Patterns
+## Design patterns
 
 **Table I - Scavenged Loot.** Everyday debris, minor coin, tools, scraps. Average under
 500 cn. This is what most finds are, and it should mostly be *useful* rather than valuable -
@@ -75,4 +71,7 @@ what was minted here, by whom, and whether it is still accepted. Coin from a fal
 is a find and a problem at once.
 
 ## Constraints
-*(Empty. Entries arrive from generation testing, never from anticipation.)*
+
+- **Never decide the container.** These tables are reusable everywhere and tied to no
+  place. What holds a find, what conceals it, and what it takes to reach it are the
+  location's job - see each rating's `Treasure.md`.

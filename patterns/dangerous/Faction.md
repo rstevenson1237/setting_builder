@@ -1,6 +1,6 @@
 # Dangerous - Faction
 
-## Decides
+## Provides
 What it means for a DANGEROUS location to be *held* rather than merely inhabited.
 
 ## Read at
@@ -8,7 +8,7 @@ Step 4c, where a location's occupants belong to a power in `setting/Factions.md`
 from `dangerous/Creature.md`, which covers what lives in a room; a faction presence
 implies things outside the room.
 
-## Spec
+## Design questions
 
 ```
 FACTION PRESENCE
@@ -25,7 +25,7 @@ killed in its den is a beast killed. A picket killed at its post is noticed, mis
 replaced, or avenged. State what happens elsewhere - that is the whole reason this file
 exists separately from `Creature.md`.
 
-## Patterns
+## Design patterns
 
 **What a position is for** - watching an approach; holding a way open; holding a way shut;
 working something out of the ground; storing what has been taken; keeping something alive;

@@ -1,6 +1,6 @@
 # Wild - Secrets
 
-## Decides
+## Provides
 Whether a WILD location hides something within itself, and the three parts that make it
 findable.
 
@@ -9,7 +9,7 @@ Step 4c, for every WILD location - consulted unconditionally to decide whether t
 secret at all. Distinct from `wild/Secret.md`, which is a whole Secret-tier *location*
 hanging off a parent; this is a detail concealed inside one location's features.
 
-## Spec
+## Design questions
 
 ```
 SECRET
@@ -29,12 +29,7 @@ Lower than DANGEROUS, because WILD's concealment budget is mostly spent on the S
 itself. A region already hiding whole locations behind triggers does not need every
 landmark hiding something too.
 
-**A Secret without a stated Clue is not discoverable.** The clue has to be legible to a
-player paying attention before they know there is anything to find. This is the most
-common way the structure fails, and outdoors it fails more easily, because a party can
-walk past a whole hillside.
-
-## Patterns
+## Design patterns
 
 **Clues that weather leaves.** Concealment outdoors is undone by time, and that is what
 gives a party something to see: a hollow that has slumped; a covering that has rotted
@@ -55,4 +50,8 @@ that shortens a journey the party already knows is long; a sight of somewhere th
 not reached; a hazard understood before it is walked into.
 
 ## Constraints
-*(Empty. Entries arrive from generation testing, never from anticipation.)*
+
+- **A Secret without a stated Clue is not discoverable.** The clue has to be legible to
+  a player paying attention before they know there is anything to find. This is the most
+  common way the structure fails, and outdoors it fails more easily, because a party can
+  walk past a whole hillside.

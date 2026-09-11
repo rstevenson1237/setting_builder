@@ -1,6 +1,6 @@
 # Wild - Natural Feature
 
-## Decides
+## Provides
 What an unbuilt, unoccupied Landmark is, and why it is worth four hours to visit.
 
 ## Read at
@@ -11,7 +11,7 @@ genre-neutral and permanent. This file supplies what fills that contract, which 
 the hardest kind to write well, since it has no builder and no occupant, so it has to
 earn its slot on what it *does*.
 
-## Examples
+## Design patterns
 
 Compiled for this build, from this setting's chosen genre reference.
 

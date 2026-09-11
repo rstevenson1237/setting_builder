@@ -1,6 +1,6 @@
 # Dangerous - Medium
 
-## Decides
+## Provides
 What a medium-weight location guarantees.
 
 ## Read at

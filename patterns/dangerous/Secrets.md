@@ -1,6 +1,6 @@
 # Dangerous - Secrets
 
-## Decides
+## Provides
 Whether a DANGEROUS location hides something, and the three parts that make it findable.
 
 ## Read at
@@ -9,7 +9,7 @@ is a secret at all. A Secret is a discovery structure and may sit on top of any 
 location already has; it is not drawn by a spec line. Distinct from
 `dangerous/Mystery.md`, which is content and may be in plain sight.
 
-## Spec
+## Design questions
 
 ```
 SECRET
@@ -40,12 +40,7 @@ let a plain dead end's Secret payload be a route off the map (per the Payloads l
 without also relabeling its node role - that quietly turns a 50%-rate room into a
 100%-rate one without the graph saying so.
 
-**A Secret without a stated Clue is not discoverable.** It is a fact the referee knows and
-the players can never find, and it is the most common way this structure fails. The clue
-has to already be legible to a player paying attention, before they know there is anything
-to find.
-
-## Patterns
+## Design patterns
 
 **Clues** - a draft where there should be none; a wall that does not match its neighbours
 in course, colour, or wear; a floor worn toward a blank face; a fixture that has been
@@ -64,4 +59,8 @@ in one step instead of several; a piece of lore; a shortcut back to somewhere al
 cleared; a sight of somewhere the party has not reached yet.
 
 ## Constraints
-*(Empty. Entries arrive from generation testing, never from anticipation.)*
+
+- **A Secret without a stated Clue is not discoverable.** It is a fact the referee knows
+  and the players can never find, and it is the most common way this structure fails.
+  The clue has to already be legible to a player paying attention, before they know
+  there is anything to find.

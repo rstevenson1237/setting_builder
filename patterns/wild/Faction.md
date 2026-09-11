@@ -1,6 +1,6 @@
 # Wild - Faction
 
-## Decides
+## Provides
 What it means for a WILD Landmark to be held, worked, or controlled by a faction, rather
 than simply occupied by whatever the Kind block's own occupant already describes.
 
@@ -11,7 +11,7 @@ works it - `wild/Ruin.md`'s "what holds it now," `wild/Lair.md`'s "occupied by p
 Distinct from `wild/Creature.md`, which covers what lives here on its own account; a
 faction's presence implies purpose and consequence reaching beyond this one Landmark.
 
-## Spec
+## Design questions
 
 ```
 FACTION PRESENCE
@@ -35,7 +35,7 @@ enforcement is what a party actually meets before they meet the faction itself.
 should recognise the same power two regions apart from its marks alone, before anyone
 names it.
 
-## Patterns
+## Design patterns
 
 **What a position is for** - watching a crossing or approach; holding a route open or shut;
 working a resource out of the ground, the water, or the herd that passes through; a forward

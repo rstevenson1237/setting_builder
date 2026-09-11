@@ -1,6 +1,6 @@
 # Dangerous - High
 
-## Decides
+## Provides
 What a high-weight location guarantees.
 
 ## Read at

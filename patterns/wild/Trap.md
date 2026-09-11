@@ -1,13 +1,13 @@
 # Wild - Trap
 
-## Decides
+## Provides
 What hazard a WILD location carries, whether anybody set it, and what warns of it.
 
 ## Read at
 Step 4c, when a spec line draws a trap. Impact tiers and resolution are in
 `setting/Procedures.md`.
 
-## Spec
+## Design questions
 
 ```
 TRAP
@@ -34,7 +34,7 @@ a warning available to careful movement, and (if set) what it was for. Genre-neu
 permanent. Which mechanisms fill that contract is not - the Examples below are this
 build's compile of it, from this setting's chosen genre reference.
 
-## Examples
+## Design patterns
 
 **Set by people** - a snare or spring-noose on a game trail; a pit with a covered mouth; a
 deadfall log or stone; a spiked pit at a gap in a wall; a line strung at ankle or throat

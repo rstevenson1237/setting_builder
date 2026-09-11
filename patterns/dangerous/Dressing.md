@@ -1,6 +1,6 @@
 # Dangerous - Dressing
 
-## Decides
+## Provides
 The physical reality of a DANGEROUS location, how much of it the weight class earns, how
 its parts read as one place, and how it sounds on the page.
 
@@ -9,7 +9,7 @@ Step 4c, for every DANGEROUS location without exception - unlike the element fil
 is not conditional on a spec line drawing it. Units, the Exits line syntax, and the
 citation formats are in `templates/Location.md`.
 
-## Spec
+## Design questions
 
 ```
 DRESSING - every location
@@ -20,7 +20,7 @@ DRESSING - every location
   1     Every exit typed and positioned
 ```
 
-## Patterns
+## Design patterns
 
 **Condition.** Every room sits somewhere on a line from still in use to gone entirely, and
 where it sits is stated before what it was for:
@@ -32,10 +32,6 @@ where it sits is stated before what it was for:
 reads as an event, not just neglect.
 *Destroyed* - the room's original form is no longer legible; what is left is debris,
 footprint, or absence.
-
-**Do not let every room in a region land at the same point on this line.** Variance here is
-what makes "how the place answers intrusion," per the Region Overview's Dangers field,
-something a party reads room to room rather than a claim stated once and never felt.
 
 **Purpose.** Every room was for something, even where Condition means it no longer is. A
 former purpose is a source of detail on its own - tool marks, worn grooves, fixtures left in
@@ -55,12 +51,6 @@ court.
 *Believing* - chapel, shrine, vestry, chantry, reliquary, oratory.
 *Dying* - crypt, ossuary, charnel pit, mortuary, catacomb, barrow chamber.
 *Moving* - stair hall, landing, ramp, shaft head, bridge span, dock, culvert.
-
-**Do not reuse a purpose already used in this region.** Repetition is the failure this
-list exists to prevent, and a region with three storerooms has told the party that rooms
-do not matter. A room whose Condition is destroyed enough that Purpose reads as illegible
-is still drawn from this list - state what it was, then let Condition explain why it no
-longer shows.
 
 **Ambiance.** Smell and sound, minimum one, and both **attributable** - caused by Condition
 (rot, standing water, settling stone, vermin) or by Purpose (what was made, stored, or done
@@ -97,3 +87,14 @@ materials.
   a party could touch it. Per `GENRE.md`, say a thing once, at the highest level where it is
   true: a location's Dressing states what is specific to it, not what the Region Overview
   already covers for the whole region.
+
+- **Do not reuse a purpose already used in this region.** Repetition is the failure this
+  list exists to prevent, and a region with three storerooms has told the party that
+  rooms do not matter. A room whose Condition is destroyed enough that Purpose reads as
+  illegible is still drawn from this list - state what it was, then let Condition
+  explain why it no longer shows.
+
+- **Do not let every room in a region land at the same point on this line.** Variance
+  here is what makes "how the place answers intrusion," per the Region Overview's
+  Dangers field, something a party reads room to room rather than a claim stated once
+  and never felt.

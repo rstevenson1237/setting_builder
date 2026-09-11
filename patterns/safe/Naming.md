@@ -1,13 +1,13 @@
 # Safe - Naming
 
-## Decides
+## Provides
 What a SAFE location is called, in whose mouth, and - when the name reuses a
 constructed-language proper noun coined elsewhere - what it means for the referee.
 
 ## Read at
 Step 4c, for every SAFE location, after Dressing.
 
-## Spec
+## Design questions
 
 ```
 NAMING
@@ -22,14 +22,7 @@ NAMING
         never sent to setting/Language.md mid-session
 ```
 
-**Do not coin here.** A SAFE location's own name is drawn from the common tongue's plain
-vocabulary, not built from `setting/Language.md`'s roots - that stays a setting- and
-region-level act. A location may still *carry* a constructed name it did not invent: an
-inheritance from an older or dead tongue this setting has established, or a place named
-after someone already named elsewhere. When it does, the gloss is mandatory, not optional -
-a name the referee can't translate at the table is worse than no name at all.
-
-## Patterns
+## Design patterns
 
 **SAFE is the only rating whose namers are present.** A dungeon is named by the dead and
 the absent; wild country by people passing through. A settlement is named by the people
@@ -45,7 +38,7 @@ The occasional name in an **older or dead tongue this setting has established** 
 something the settlement inherited and did not build - a well, a stone in a wall, a
 boundary, a road. When a settlement's oldest thing carries a name in a tongue nobody there
 speaks, that is a fact about the region's history delivered without exposition - and it is
-exactly the case the Spec's gloss line exists for.
+exactly the case the Design questions' gloss line exists for.
 
 **Name shapes** - the trade; the proprietor, current or long dead; a sign that can be
 recognised by people who cannot read; an event; a founder or grantor; a saint or power; a
@@ -63,3 +56,11 @@ nobody will ever say it twice.
   back before a location reuses it. A prior draft of this file named a specific tongue by
   its actual coined name, which meant every future setting built with this library would
   have inherited that name by default rather than generating its own.
+
+- **Do not coin here.** A SAFE location's own name is drawn from the common tongue's
+  plain vocabulary, not built from `setting/Language.md`'s roots - that stays a setting-
+  and region-level act. A location may still *carry* a constructed name it did not
+  invent: an inheritance from an older or dead tongue this setting has established, or a
+  place named after someone already named elsewhere. When it does, the gloss is
+  mandatory, not optional - a name the referee can't translate at the table is worse
+  than no name at all.

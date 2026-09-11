@@ -1,6 +1,6 @@
 # Dangerous - Creature
 
-## Decides
+## Provides
 Which creature fits a DANGEROUS location, at what scale, and what its presence implies
 about the rest of the region.
 
@@ -8,7 +8,7 @@ about the rest of the region.
 Step 4c, when a weight file's spec draws a creature. Scaling is in
 `patterns/setting/Bestiary.md`; entries are in `setting/Bestiary.md`.
 
-## Spec
+## Design questions
 
 ```
 CREATURE
@@ -43,7 +43,7 @@ and permanent. The demeanor it carries is not - the demeanor examples below are 
 build's compile of it, standing in for what `GENRE.md` used to carry as its own
 Creatures (demeanors) tag bank.
 
-## Examples
+## Design patterns
 
 **Demeanor flavor** - a one-word behavior for how something met here carries itself
 before a fight starts or doesn't, compiled for this build: Predatory, Territorial,

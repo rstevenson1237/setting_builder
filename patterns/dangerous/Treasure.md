@@ -1,6 +1,6 @@
 # Dangerous - Treasure
 
-## Decides
+## Provides
 Which table a DANGEROUS location cites, what conceals the find, and what relationship the
 treasure has to whatever is near it.
 
@@ -8,7 +8,7 @@ treasure has to whatever is near it.
 Step 4c, when a weight file's spec draws treasure. The tables themselves are
 `setting/Treasure1.md` through `Treasure5.md`; citation format is in `templates/Location.md`.
 
-## Spec
+## Design questions
 
 ```
 TREASURE
@@ -32,7 +32,7 @@ cited roll decides contents. Genre-neutral and permanent. What the container and
 concealment actually are is not - the Examples below are this build's compile of it, from
 this setting's chosen genre reference.
 
-## Examples
+## Design patterns
 
 **Which table**
 - **I - Scavenged Loot** - debris that rewards looking without demanding action. Low

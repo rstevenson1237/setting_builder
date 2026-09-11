@@ -1,6 +1,6 @@
 # Dangerous - Mystery
 
-## Decides
+## Provides
 What the strange thing is, how it is engaged, and what engaging it wrongly costs.
 
 ## Read at
@@ -11,7 +11,7 @@ permanent. This file supplies what fills that contract, which is not. Distinct f
 `dangerous/Secrets.md`: a Mystery is content and may be in plain sight; a Secret is a
 discovery structure and by definition is not.
 
-## Examples
+## Design patterns
 
 Compiled for this build, from this setting's chosen genre reference.
 

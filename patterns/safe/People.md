@@ -1,6 +1,6 @@
 # Safe - People
 
-## Decides
+## Provides
 Which individuals from the region's roster appear at this location, and what makes each
 worth remembering.
 
@@ -9,7 +9,7 @@ Step 4c, for any SAFE location with a person in it - which is nearly all of them
 roster itself is the Region Overview's People field; this file turns a roster line into
 somebody at a location.
 
-## Spec
+## Design questions
 
 ```
 PERSON
@@ -20,11 +20,6 @@ PERSON
   30%   A Named Creature row, where they will recur or be heard of first
   20%   An opinion about the region's Situation that is not the common one
 ```
-
-**Draw from the roster; do not invent a cast.** The region's People field lists who is
-here. A location that invents its own people produces a settlement of strangers who never
-meet each other, which is the failure the roster exists to prevent. If somebody is needed
-who is not on the roster, add them to the roster.
 
 **Recall beats description.** A party remembers one concrete thing - a scar, a habit, a
 grudge, a way of speaking, a thing they carry - and forgets three sentences of appearance.
@@ -37,7 +32,7 @@ Examples below are this build's compile of it, from this setting's chosen genre
 reference, standing in for what `GENRE.md` used to carry as its own People (personalities)
 tag bank.
 
-## Examples
+## Design patterns
 
 **Personality flavor** - a one-word disposition a "distinctive" line can hang on, compiled
 for this build: Treacherous, Fatalistic, Grasping, Superstitious, Proud, Servile,
@@ -62,4 +57,8 @@ party will hear of them before meeting them, or they will be a problem later. St
 whether or not the party ever returns.
 
 ## Constraints
-*(Empty. Entries arrive from generation testing, never from anticipation.)*
+
+- **Draw from the roster; do not invent a cast.** The region's People field lists who is
+  here. A location that invents its own people produces a settlement of strangers who
+  never meet each other, which is the failure the roster exists to prevent. If somebody
+  is needed who is not on the roster, add them to the roster.

@@ -1,6 +1,6 @@
 # Safe - Dressing
 
-## Decides
+## Provides
 The physical reality of a SAFE location, how much of it its prominence earns, how its parts
 read as one place, and how it sounds on the page.
 
@@ -8,7 +8,7 @@ read as one place, and how it sounds on the page.
 Step 4c, for every SAFE location without exception. Units, the Exits syntax and the
 citation formats are in `templates/Location.md`.
 
-## Spec
+## Design questions
 
 ```
 DRESSING - every SAFE location
@@ -60,7 +60,7 @@ read as lived in rather than staged. Whether it was built for what it does now o
 from something else, and the signs of use that prove it: worn thresholds, a chair that is
 somebody's, a floor swept in one place and not another, the shelf that gets reached for.
 
-## Patterns
+## Design patterns
 
 **Condition, and being reused.** Settlements reuse. A hall that was a barn; a shop in the
 front room of a house; a chapel with a beam from a ship; a gate rebuilt narrower than the
@@ -73,10 +73,6 @@ way of building - a roofing material, a wall construction, a window shape, a way
 finishing a doorway - stated in the Region Overview's own Ambiance field and honoured here.
 Where a building departs from it, that departure means something: it is older, it is
 foreign, it is richer, or it was built in a hurry.
-
-**Purpose is supplied by the Kind, not restated here.** `safe/Commerce.md`, `safe/Authority.md`,
-`safe/Social.md`, `safe/People.md`, and `safe/Wealth.md` each state what a location of that
-Kind is for; Dressing does not reopen that question, it dresses the answer.
 
 **Ambiance.** Smell and sound, minimum one, and both **attributable** - caused by Condition
 (what is worn, reused, or kept up) or by Purpose (the trade carried on here, what is stored,
@@ -97,4 +93,8 @@ one cannot, change it rather than explaining it.
 building terms - jetty, purlin, wattle, mullion, sill, byre; real goods named as goods.
 
 ## Constraints
-*(Empty. Entries arrive from generation testing, never from anticipation.)*
+
+- **Purpose is supplied by the Kind, not restated here.** `safe/Commerce.md`,
+  `safe/Authority.md`, `safe/Social.md`, `safe/People.md`, and `safe/Wealth.md` each
+  state what a location of that Kind is for; Dressing does not reopen that question, it
+  dresses the answer.

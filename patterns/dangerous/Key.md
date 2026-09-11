@@ -1,6 +1,6 @@
 # Dangerous - Key
 
-## Decides
+## Provides
 When a DANGEROUS location holds an object whose real function is opening something
 somewhere else.
 
@@ -8,7 +8,7 @@ somewhere else.
 Step 4c, when a weight file's spec draws a key. Criteria for what earns a
 `setting/Keys.md` row are in `patterns/setting/Keys.md`.
 
-## Spec
+## Design questions
 
 ```
 KEY
@@ -27,7 +27,7 @@ Every location stub in the setting exists before any location file is written, s
 found here can name its lock by code and name at 4c, in another region, in a location not
 yet drafted.
 
-## Patterns
+## Design patterns
 
 **Forms** - an actual key, and the lock it fits is nothing like a door; a rod, pin, or bar
 cut to a profile; a stone, gem, or disc fitted to a socket; a seal, signet, or stamp; a

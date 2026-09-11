@@ -1,6 +1,6 @@
 # Dangerous - Low
 
-## Decides
+## Provides
 What a low-weight location guarantees, and what its node role requires of it.
 
 ## Read at
@@ -33,7 +33,7 @@ That is the whole value of the class. If a low-weight room could never repay att
 players would learn to walk through them, and the region would lose the only thing that
 makes attention a real cost.
 
-## Patterns
+## Design patterns
 
 **What honouring a node role means** - the role is read off `Connections.mmd` at 4b, not
 chosen here, and it changes the Exits line and, for some roles, the Secret. Per

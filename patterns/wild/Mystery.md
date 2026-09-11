@@ -1,13 +1,13 @@
 # Wild - Mystery
 
-## Decides
+## Provides
 What is strange about a WILD location, how it is engaged, and what it costs to get wrong.
 
 ## Read at
 Step 4c, when a spec line draws a mystery. Distinct from `wild/Secrets.md`: a Mystery is
 content and stands in plain sight; a Secret is a discovery structure and does not.
 
-## Spec
+## Design questions
 
 ```
 MYSTERY
@@ -33,7 +33,7 @@ costs, and a price. Genre-neutral and permanent. What the thing actually is is n
 Examples below are this build's compile of it, from this setting's chosen genre
 reference.
 
-## Examples
+## Design patterns
 
 **Placed** - standing stones, singly or in a ring; a monolith with a worked face; a cairn
 that is not a grave; an altar or offering stone in the open; a carved boundary marker

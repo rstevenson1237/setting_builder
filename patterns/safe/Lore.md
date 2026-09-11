@@ -1,13 +1,13 @@
 # Safe - Lore
 
-## Decides
+## Provides
 What written record a settlement holds, who controls access to it, and what it costs to
 read.
 
 ## Read at
 Step 4c, when a spec line draws lore. Criteria are in `patterns/setting/Lore.md`.
 
-## Spec
+## Design questions
 
 ```
 LORE
@@ -24,10 +24,7 @@ is copied for a fee, a temple's book is read under supervision. That is a differ
 proposition from a dungeon's abandoned journal, and the entry is about the *access*, not
 the finding.
 
-**Spoken word is not Lore.** What a person tells the party is a rumour, and belongs in
-`safe/Social.md` and `setting/Rumours.md`. Lore is an object.
-
-## Patterns
+## Design patterns
 
 **Forms kept in a settlement** - a ledger of debts, tolls, or tithes; a register of births
 and deaths; a court roll; a rent book; a map drawn for a purpose and kept because it was
@@ -50,4 +47,6 @@ people who went somewhere and how many came back; contradicts what the settlemen
 about itself.
 
 ## Constraints
-*(Empty. Entries arrive from generation testing, never from anticipation.)*
+
+- **Spoken word is not Lore.** What a person tells the party is a rumour, and belongs in
+  `safe/Social.md` and `setting/Rumours.md`. Lore is an object.

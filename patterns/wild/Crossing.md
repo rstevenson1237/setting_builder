@@ -1,6 +1,6 @@
 # Wild - Crossing
 
-## Decides
+## Provides
 What a Landmark defined by the cost of going around it guarantees, and what currently
 controls passing through it.
 
@@ -12,7 +12,7 @@ permanent. This file supplies what fills that contract, which is not: a Crossing
 Landmark whose function is that the region's own shape makes going through it cheaper than
 going around it - built, natural, or held, and regardless of who if anyone lives there.
 
-## Examples
+## Design patterns
 
 Compiled for this build, from this setting's chosen genre reference.
 

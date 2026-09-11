@@ -1,6 +1,6 @@
 # Wild - Landmark
 
-## Decides
+## Provides
 What a Landmark-tier location guarantees, and whether it carries children.
 
 ## Read at

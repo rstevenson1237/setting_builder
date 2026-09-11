@@ -1,11 +1,11 @@
 # Setting - Bestiary
 
-## Decides
+## Provides
 What creatures the setting holds - how they are distributed across type and power, and
 what each entry must state so the location patterns can use it without reinventing it.
 
 ## Read at
-Step 2e, right after `setting/Setting.md`. The Bestiary is written in one pass rather than
+Step 2e, after `setting/Rumours.md`. The Bestiary is written in one pass rather than
 grown, so it has to anticipate demands made several steps later.
 
 ## Spec
@@ -39,7 +39,7 @@ dice are: a tougher creature gets more d6s or a bigger bonus, never a d8. The bo
 matters - something that outpaces the party, or can't be outrun - as a single number, 1-6,
 read against a person's own walking pace of 3; most entries omit it.
 
-## Patterns
+## Design patterns
 
 **Entry fields, and which pattern demands each**
 

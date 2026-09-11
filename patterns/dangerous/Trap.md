@@ -1,13 +1,13 @@
 # Dangerous - Trap
 
-## Decides
+## Provides
 Which trap fits, and whether it states a tell.
 
 ## Read at
 Step 4c, when a weight file's spec draws a trap. Resolution is not here - it is in
 `setting/Procedures.md`.
 
-## Spec
+## Design questions
 
 ```
 TRAP
@@ -43,7 +43,7 @@ machinist somewhere, or it does not work. Genre-neutral and permanent. Which mec
 fills that contract is not - the Examples below are this build's compile of it, from
 this setting's chosen genre reference.
 
-## Examples
+## Design patterns
 
 **Falling and footing** - deadfall or collapsing floor; covered pit, shallow or deep;
 spiked pit with a beam across it; turning trapdoor mounted on an axis; a floor that gives

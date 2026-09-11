@@ -1,6 +1,6 @@
 # Wild - Lair
 
-## Decides
+## Provides
 What an occupied Landmark is, and what its occupancy implies about the country around it.
 
 ## Read at
@@ -10,7 +10,7 @@ territory, a sign of it, what it eats, the percentage lines) - genre-neutral and
 permanent. This file supplies what fills that contract, which is not: a Lair is a place
 something currently lives, whether it built the place or moved in.
 
-## Examples
+## Design patterns
 
 Compiled for this build, from this setting's chosen genre reference.
 

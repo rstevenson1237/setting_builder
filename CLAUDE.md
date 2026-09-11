@@ -34,23 +34,41 @@ framing - never against a region's die. The die is a difficulty die (1 = failure
 complication, 4+ = success, so a *smaller* die is *harder*); AD is a power count on a
 completely separate axis. A d8 DANGEROUS region does not want an 8 AD creature.
 
-## Patterns' Constraints sections are earned, not anticipated
+## The two pattern tiers, and where a prohibition goes
 
-Every file in `patterns/*/*.md` ends with a Constraints section that starts empty and fills
-only from observed generation failures during an actual build - never from guessing what
-might go wrong. If you observe one while generating or reviewing content, add it there in
-the same pass, generalized rather than tied to whichever setting produced it.
+Every file in `patterns/*/*.md` is one of two tiers, and its section names say which.
+A **classifier** states a contract - which features a thing gets and at what rate - in a
+`## Spec` block: `region/*`, `setting/*`, plus `dangerous/High|Medium|Low`,
+`wild/Landmark|Hidden|Secret`, and `safe/Settlement`. An **element** fills a contract some
+classifier already stated, so it has no Spec of its own: it carries `## Design questions`
+instead. Both may carry `## Design patterns`, the constrained examples. Full skeleton:
+**Provides / Read at / Spec-or-Design questions / Design patterns / Constraints**.
+`patterns/setting/Genre.md` is in neither tier - it is an elicitation procedure, and its
+extra sections are that procedure.
+
+**Constraints is where every prohibition lives** - anything that closes a pathway: what
+belongs in another file, what this file must never do, a named failure mode. It is blank
+when a file is first created; it fills as the patterns are refined and negative patterns
+get identified, and from failures observed during an actual build. Write entries
+generalized rather than tied to whichever setting produced them. A positive rule phrased
+contrastively ("the pressure mechanism, not a rule of thumb") is not a prohibition and
+stays where it is.
+
+`## Read at` names the `STEPS.md` step(s) that read the file, and the validator checks
+those step ids against STEPS.md - a phase-2 renumber once left eight `setting/` patterns
+pointing one step too far down, three at a step that no longer existed.
 
 ## Validator posture
 
 `tools/validate_setting.py` (`python3 tools/validate_setting.py`) checks `patterns/*/*.md`
-itself (citation format, `## Constraints` present) unconditionally, plus generated `setting/`
-content against the templates. Strict on format, relaxed on content, ratios, and prose - it
-fails CI on unambiguous breakage in content that *exists* (unknown codes, name mismatches,
-orphaned nodes, broken citations) and warns on what needs a human glance but might be
-intentional. **A file that is simply missing is a warning, not an error** - partial,
-in-progress work is expected to push and be reviewed before every file exists. Extend it
-alongside any new artifact type or template rule.
+itself (citation format, section structure per tier, `## Read at` step ids)
+unconditionally, plus generated `setting/` content against the templates. Strict on
+format, relaxed on content, ratios, and prose - it fails CI on unambiguous breakage in
+content that *exists* (unknown codes, name mismatches, orphaned nodes, broken citations)
+and warns on what needs a human glance but might be intentional. **A file that is simply
+missing is a warning, not an error** - partial, in-progress work is expected to push and
+be reviewed before every file exists. Extend it alongside any new artifact type or
+template rule.
 
 ## Pattern citation format
 

@@ -1,11 +1,11 @@
 # Setting - History
 
-## Decides
+## Provides
 What events shaped the setting, how far back they run, and what physical marks they left
 for a party to find.
 
 ## Read at
-Step 2c, after `setting/Setting.md`.
+Step 2b, after `setting/Setting.md`.
 
 ## Spec
 
@@ -18,10 +18,6 @@ HISTORY
   1     Each stated in one or two sentences - state the event, do not narrate it
   1     Each carries a Left line: the mark findable now, and the Location Code(s)
 ```
-
-**An event is a fact of the past, not a ticking clock aimed at the party.** History
-explains why the setting is shaped as it is. It does not schedule anything, and no entry
-should read as act one of something the party is expected to finish.
 
 **Every event leaves a mark or it did not happen.** History that exists only in this file
 is unusable: a party never reads it. State what each event left behind - the wall that was
@@ -39,7 +35,7 @@ enjoyable than stating one, and every extra sentence is context the referee spen
 players never see. Two sentences and a Left line. If the event needs more, what it actually
 needs is a location.
 
-## Patterns
+## Design patterns
 
 **Kinds of event** - a founding, or a refounding after something ended the first; a
 withdrawal - whoever held this left, and why; an arrival; a discovery, and what it cost; a
@@ -63,4 +59,7 @@ now, which is what connects `History.md` to a region's Situation field without e
 becoming a plot.
 
 ## Constraints
-*(Empty. Entries arrive from generation testing, never from anticipation.)*
+
+- **An event is a fact of the past, not a ticking clock aimed at the party.** History
+  explains why the setting is shaped as it is. It does not schedule anything, and no
+  entry should read as act one of something the party is expected to finish.

@@ -1,6 +1,6 @@
 # Safe - Situation
 
-## Decides
+## Provides
 How the region's standing Situation shows up at this particular location, and what its
 next rung looks like from here.
 
@@ -9,7 +9,7 @@ Step 4c, for a SAFE location where the region's Situation is visible - which is 
 them, at least in passing. The Situation itself is authored at region level in
 `region/Safe.md`; this file states how it lands here.
 
-## Spec
+## Design questions
 
 ```
 SITUATION - as seen from this location
@@ -21,11 +21,6 @@ SITUATION - as seen from this location
   20%   A way the party makes it worse by helping
 ```
 
-**A situation is a condition, not a plot.** It is true whether or not the party engages,
-and it moves on its own. Per GENRE.md the party are treasure hunters, not a resolution
-mechanism, and the entry should read as something they walked into rather than something
-waiting for them.
-
 **State the next rung.** The most useful line in a Situation entry is what happens if
 nobody does anything, because that is what makes a party's inaction a choice. A situation
 with no trajectory is scenery.
@@ -35,7 +30,7 @@ worse off by name, and which rung it's on. Genre-neutral and permanent. What kin
 situation this region has, and its escalation ladder's own content, is not - the Examples
 below are this build's compile of it, from this setting's chosen genre reference.
 
-## Examples
+## Design patterns
 
 **Kinds of situation** - armed men camped nearby who have not left; refugees arriving from
 somewhere the party may be going; a sickness, and whether it is understood; a shortage of
@@ -64,4 +59,8 @@ removes the reason a faction was tolerating this place; the party leaves and the
 consequences do not.
 
 ## Constraints
-*(Empty. Entries arrive from generation testing, never from anticipation.)*
+
+- **A situation is a condition, not a plot.** It is true whether or not the party
+  engages, and it moves on its own. Per GENRE.md the party are treasure hunters, not a
+  resolution mechanism, and the entry should read as something they walked into rather
+  than something waiting for them.

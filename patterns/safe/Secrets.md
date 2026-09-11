@@ -1,13 +1,13 @@
 # Safe - Secrets
 
-## Decides
+## Provides
 Whether a SAFE location hides something, and the three parts that make it findable.
 
 ## Read at
 Step 4c, for every SAFE location - consulted unconditionally to decide whether there is a
 secret at all.
 
-## Spec
+## Design questions
 
 ```
 SECRET
@@ -27,18 +27,15 @@ The lowest rate of the three ratings, and deliberately so. A settlement where ev
 building has a hidden compartment is not a settlement, it is a dungeon with a market.
 
 A Wealth location (`safe/Wealth.md`) whose Protection is `hidden` already carries this
-structure, guaranteed by that spec line rather than by this rate - do not roll this 10%
-against it as well.
+structure, guaranteed by that file's own design question rather than by this rate - do not
+roll this 10% against it as well.
 
 **In SAFE, a secret is usually somebody's rather than something's.** A concealed cellar has
 an owner who knows about it; a false ledger page was written by a person who is still in
 the room. This makes the Trigger social as often as physical - and it means a discovered
 secret in a settlement has a *consequence*, because somebody finds out the party knows.
 
-**A Secret without a stated Clue is not discoverable.** The clue must be legible to a
-player paying attention before they know there is anything to find.
-
-## Patterns
+## Design patterns
 
 **Clues** - a room that is smaller inside than out; a lock better than the door deserves;
 a stock that does not match the trade; a floor worn toward a wall; a repair that hid
@@ -61,4 +58,6 @@ who finds out, how soon, and what they do - that is the payload's second half an
 reason a SAFE secret is worth more than its contents.
 
 ## Constraints
-*(Empty. Entries arrive from generation testing, never from anticipation.)*
+
+- **A Secret without a stated Clue is not discoverable.** The clue must be legible to a
+  player paying attention before they know there is anything to find.

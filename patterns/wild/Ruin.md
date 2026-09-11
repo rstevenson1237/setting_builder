@@ -1,6 +1,6 @@
 # Wild - Ruin
 
-## Decides
+## Provides
 What a built-or-once-built Landmark is, and what its condition says about who left it.
 
 ## Read at
@@ -11,7 +11,7 @@ This file supplies what fills that contract, which is not: a Ruin is anything ma
 hands and no longer used as made - including things still standing and still occupied by
 somebody other than their builders.
 
-## Examples
+## Design patterns
 
 Compiled for this build, from this setting's chosen genre reference.
 

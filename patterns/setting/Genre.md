@@ -1,6 +1,6 @@
 # Setting - Genre
 
-## Decides
+## Provides
 The seed-and-narrow flow that produces GENRE.md's customizable spine: a pool of specific
 genre references, three rounds of narrowing questions that pick one, and what axes still
 get dialed once it's picked.
@@ -232,7 +232,7 @@ Tags no longer live in this file - `patterns/setting/Tags.md` owns tag-building 
 after this one. What stays here is everything about *choosing and stating the reference
 itself* - the tag bank was always downstream of that choice, not part of making it.
 
-## Patterns
+## Design patterns
 
 **What makes a reference well-chosen** - it names a concrete body of work (an author, a
 series, a TTRPG line), not a mood; two referees given only the reference name would build
