@@ -46,13 +46,27 @@ hidden in a pillar and guarded by a beast is three Features, not one complex one
 are terse because one Feature states one thing, not because a cap says so. All word budgets
 were removed.
 
-**DANGEROUS locations are four blocks:** substrate (what this room is), challenge (what
-opposes the party), reward (what is here to take), registry (what ties this room to
-somewhere else, in either direction). All three weight classes now share it.
+**Every classifier's Spec is grouped into blocks:** substrate (what this place is),
+challenge (what stands between the party and what they want), reward (what is here to
+take), registry (what ties this place to somewhere else, in either direction). All three
+ratings are on it. WILD adds a fifth, **access**, because out in the country how a place is
+reached is content rather than the connection graph. SAFE has no challenge - a settlement
+opposes nobody - and a **gate** in the slot instead, the person and their terms, with
+**transaction** as its reward. `patterns/SPEC.md` carries the table.
 
-**DANGEROUS has a middle tier.** `Encounter` draws `{creature | named creature | faction}`;
-`Hazard` draws `{trap | environmental | residual}`. Both are classifiers in their own right,
-and `Treasure` draws a guard from either rather than describing one inline.
+**DANGEROUS has a middle tier; WILD does not, and did not need one.** `dangerous/Encounter`
+draws `{creature | named creature | faction}` and `dangerous/Hazard` draws
+`{trap | environmental | residual}`, both classifiers in their own right, because each
+mechanism carries a contract of its own. `wild/Hazard`'s three mechanisms answer the same
+two questions whichever is drawn, so the choice is one line. WILD's kind files - `Ruin`,
+`Lair`, `NaturalFeature`, `Crossing` - sit where the middle tier sits in DANGEROUS, and are
+drawn at all three tiers rather than at Landmark alone.
+
+**The reach gradient is priced against access, not weight.** WILD's rated lines come to
+about 0.6 of a Feature at Landmark, 0.8 at Hidden, 1.0 at Secret: a place that costs
+nothing to reach is allowed to be a place and nothing more, and one a party spent an action
+looking for owes them something. Which parents carry children is read off the region's
+`Connections.mmd` at 4b, so the lead lines are mandatory per child and not a rate.
 
 ## Completed
 
@@ -78,8 +92,20 @@ and `Treasure` draws a guard from either rather than describing one inline.
   decomposition.
 - `dangerous/High.md`, `Medium.md` and `Low.md` restructured onto the four blocks;
   `Encounter.md`, `Hazard.md`, `Environmental.md` and `Residual.md` created; `Treasure.md`
-  absorbed the reward end of Lore and Keys; `Trap.md` slimmed to what is true of a trap
-  alone once Hazard owns clue, trigger and impact.
+  absorbed the reward end of Lore and Keys; `dangerous/Trap.md` slimmed to what is true of
+  a trap alone once Hazard owns clue, trigger and impact.
+- `wild/Landmark.md`, `Hidden.md` and `Secret.md` restructured onto the blocks plus access;
+  `wild/Trap.md` renamed `wild/Hazard.md`, since its own first line already read "set by
+  somebody, or a condition of the ground" and Trap named one of three mechanisms in it;
+  `wild/Treasure.md` absorbed Lore and Keys as things a find can be; all three tiers draw a
+  Kind, where only Landmark did; child leads became graph-determined; Landmark stopped
+  restating `wild/Dressing.md`'s position line; the four kind files took `wild/Faction.md`
+  out of Design patterns, where step 1b could have recompiled the edge away, and into their
+  Specs.
+- `safe/Settlement.md` restructured onto substrate / gate / transaction / registry. The
+  gate line was being asked three times, once each in `safe/Authority.md`, `Social.md` and
+  `Commerce.md`; it is one line on the classifier now, and the Kind files keep the menu of
+  answers. The duplicated 10% Secrets rate went the same way `dangerous/Medium.md`'s did.
 - Two resolvable-but-wrong citations fixed: `dangerous/High.md` and `safe/Wealth.md` both
   routed a Unique Treasure stub through `patterns/setting/Keys.md`.
 - `tools/validate_setting.py` extended: the five sections present, no leftover
@@ -90,49 +116,42 @@ and `Treasure` draws a guard from either rather than describing one inline.
 
 ## Open
 
-**1. SAFE and WILD have not been restructured.** Only `dangerous/` is on the four blocks.
-WILD is the obvious next candidate - its three classifiers already draw
-`{creature | treasure | trap | mystery}`, the same quartet - but it is not a copy of the
-DANGEROUS pass: WILD has no middle tier, and its Kind files (`Ruin`, `Lair`,
-`NaturalFeature`, `Crossing`) sit structurally where `Encounter` and `Hazard` sit in
-DANGEROUS. SAFE is a different axis again (`Kind` is the function of a building) and should
-not be forced onto the quartet.
-
-**2. Three element files are reached only from other elements.** `safe/Naming.md` (cited
-only by `safe/Dressing.md`), `wild/Naming.md` (by `wild/Ruin.md` and `wild/Crossing.md`),
-and `wild/Faction.md` (by `wild/Ruin.md`). All three Naming files state "for every location,
-after Dressing" but only the `dangerous/` classifiers cite their Naming file. A live gap in
-the spec graph, independent of everything else here. `dangerous/Faction.md` was in this list
-until `Encounter.md` picked it up.
-
-**3. Twenty classifiers carry `Design patterns` that are neutral option menus** - sixteen of
+**1. Twenty classifiers carry `Design patterns` that are neutral option menus** - sixteen of
 them `setting/*`, e.g. `setting/Keys.md`'s "Forms", `setting/Truths.md`'s "Kinds of truth".
 By the neutrality test these are Spec questions, not compiled content. Held together with
-item 4, because both change what step 1b rewrites.
+item 2, because both change what step 1b rewrites.
 
-**4. `STEPS.md` step 1b's compile list is wrong in two directions.** It names 18 files while
+**2. `STEPS.md` step 1b's compile list is wrong in two directions.** It names 18 files while
 saying "every other tier-2 element file", so 21 element files carrying patterns are not on
 it; and `Encounter`, `Hazard`, `Environmental` and `Residual` are new and not on it either.
 `Environmental.md` and `Residual.md` have no `Design patterns` at all and will generate
-thinner than `Trap.md` until they do. Splitting the list by reach mode is what decides which
+thinner than `dangerous/Trap.md` until they do. Splitting the list by reach mode is what decides which
 files belong on it - not all of them do.
 
-**5. Reach modes are modelled but not implemented.** `patterns/SPEC.md` records four ways an
+**3. Reach modes are modelled but not implemented.** `patterns/SPEC.md` records four ways an
 element is reached - second pass, kind, ingredient, conditional - read off the classifiers'
-spec lines. Making the mode explicit and validated would turn item 2 into a CI error rather
-than silence. The table in SPEC.md is a reading of the spec lines, not something the files
-declare, and is worth a review pass before it gets encoded.
+spec lines. Making the mode explicit and validated is what would keep the orphans the last
+two passes closed - `safe/Naming.md`, `wild/Naming.md`, `wild/Faction.md` and
+`dangerous/Faction.md` - from silently reopening. The table in SPEC.md is a reading of the
+spec lines, not something the files declare, and is worth a review pass before it gets
+encoded.
 
-**6. `dangerous/Secrets.md` is half dissolved.** HIGH no longer draws it - concealment there
+**4. `dangerous/Secrets.md` is half dissolved.** HIGH no longer draws it - concealment there
 is a hidden Treasure disposition or a Hazard's or Mystery's own clue. LOW and MEDIUM still
 do, and at LOW it is load-bearing (its rate is set by node role, the only place node role
 feeds content). Finishing the dissolution means rehoming that inclusion table into the class
 Specs.
 
-**7. Small items.** `setting/Setting.md`'s "Don't default to the last one" is a
+**5. Small items.** `setting/Setting.md`'s "Don't default to the last one" is a
 forbidden-pathway warning embedded mid-paragraph and needs hand-splitting into a Constraint.
 `setting/Genre.md` sits outside the skeleton as an elicitation procedure and should say so
 in its own header rather than reading as unconverted.
+
+**6. `wild/Hazard.md` and `wild/Creature.md` share a boundary that is stated in only one
+direction.** Hazard's Constraint says a living hazard with a want, a reaction, or somewhere
+else to be is a creature; `wild/Creature.md` does not say the converse. Per `STEPS.md` step
+5b the duplication check is inverted for `patterns/`, so this is the kind of thing a
+Pattern Judgement Check should settle against a real build rather than by anticipation.
 
 **Closed, deliberately.** Steps `3a`, `3b` and `5a`-`5c` have no pattern file. These are
 user-led steps and their defaults have held up; no pattern is planned.

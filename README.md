@@ -82,10 +82,13 @@ what it is building.
   `High.md`/`Medium.md`/`Low.md`) naming what a location of that class *is* and carrying its
   inclusion spec, with Dressing and Secrets folded in as that spec's own unconditional first
   line rather than a separate blanket read; and element files, cited by name in parentheses
-  on whichever spec line draws them, supplying what that line is made of. The two middle
-  tiers use different axes: `wild/` organizes its element files by **kind of place**,
-  `dangerous/` by **kind of element** - in WILD the question is what sort of place this is,
-  in DANGEROUS the place is a room and the question is what is in it.
+  on whichever spec line draws them, supplying what that line is made of. A class file's
+  spec is grouped into named blocks - substrate, challenge, reward, registry, plus WILD's
+  access - and `patterns/SPEC.md` carries the table of how each rating fills them. The three
+  ratings still differ in what their element files are organized by: `wild/` classifies the
+  **kind of place** first and then draws elements into it, `dangerous/` treats the place as
+  a room and asks only what is in it, and `safe/` classifies by **the function of a
+  building** and has no challenge block at all.
 - **Restatement across the three rating folders is deliberate.** A trap in SAFE is a
   swindle, in WILD a snare, in DANGEROUS a deadfall, and writing each separately is what
   forces the differentiation. The cost is drift, which `checks/PatternJudgementCheck.md`
