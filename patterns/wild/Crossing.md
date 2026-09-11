@@ -5,8 +5,9 @@ What a Landmark defined by the cost of going around it guarantees, and what curr
 controls passing through it.
 
 ## Read at
-Step 4c, when `wild/Landmark.md`'s spec draws Kind: Crossing - the only classification
-file that does. A Crossing is a Landmark whose function is that the region's own shape
+Step 4c, when `wild/Landmark.md`'s Kind line draws Crossing. Alone among the four kinds
+it is drawn at the Landmark tier only, per that file's own Constraint - `wild/Hidden.md`
+and `wild/Secret.md` draw three. A Crossing is a Landmark whose function is that the region's own shape
 makes going through it cheaper than going around it - built, natural, or held, and
 regardless of who if anyone lives there.
 
@@ -23,7 +24,8 @@ KIND: CROSSING
   1     What waits on the far side, visible before the party commits to it
   40%   Something else caught here, mid-crossing, when the party arrives
   30%   A toll, custom, or right-of-way someone here enforces
-  20%   A name in an older tongue, per wild/Naming.md
+  30%   What controls it is one of the three factions           (wild/Faction.md)
+  20%   A name in an older tongue                               (wild/Naming.md)
 ```
 
 ## Design patterns

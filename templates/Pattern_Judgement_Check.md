@@ -28,7 +28,7 @@ a swindle, in WILD a snare, in DANGEROUS a deadfall - so that each is written fo
 context with no cross-rating branching in view. That trade buys sharpness and costs drift.
 
 **So the duplication check is inverted here: two restatements that read the same are a
-finding, not a convenience.** Where `safe/Trap.md`, `wild/Trap.md` and `dangerous/Trap.md`
+finding, not a convenience.** Where `wild/Hazard.md` and `dangerous/Hazard.md`
 converge on the same guidance, either differentiate them or establish that the shared part
 is a *mechanic* and move it to `setting/Procedures.md`, or *format* and move it to
 `templates/`. The pairs most at risk are the hook files, which exist in all three folders:

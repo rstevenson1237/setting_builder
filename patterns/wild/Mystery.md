@@ -4,8 +4,10 @@
 What is strange about a WILD location, how it is engaged, and what it costs to get wrong.
 
 ## Read at
-Step 4c, when a spec line draws a mystery. Distinct from `wild/Secrets.md`: a Mystery is
-content and stands in plain sight; a Secret is a discovery structure and does not.
+Step 4c, when a classifier's spec line draws a challenge and the challenge is a mystery -
+`wild/Landmark.md`, `wild/Hidden.md`, or `wild/Secret.md`. Distinct from
+`wild/Secrets.md`: a Mystery is content and stands in plain sight; a Secret is a discovery
+structure and does not.
 
 ## Spec
 
@@ -21,7 +23,7 @@ MYSTERY
 
 Left alone, a mystery is neutral. Looking, theorising, and a wrong guess that stops short
 of a real attempt cost nothing. It fires only on a failed attempt to use it - which is
-what separates it from the hazards in `wild/Trap.md`.
+what separates it from `wild/Hazard.md`.
 
 **Outdoors, a mystery has been exposed to weather and to other people.** Both leave marks,
 and both are detail the party can reason from. Somebody has been here before. What did
