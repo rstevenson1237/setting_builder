@@ -1,11 +1,10 @@
 # Dangerous - Trap
 
 ## Provides
-Which trap fits, and whether it states a tell.
+Which mechanism a built hazard uses, and who set it.
 
 ## Read at
-Step 4c, when `dangerous/Hazard.md` draws Mechanism: trap, or when a weight file's spec
-draws a trap directly - MEDIUM and LOW still do. Resolution is not here - it is in
+Step 4c, when `dangerous/Hazard.md` draws Mechanism: trap. Resolution is not here - it is in
 `setting/Procedures.md`. Distinct from `dangerous/Environmental.md` and
 `dangerous/Residual.md`: a trap was built for this, by somebody, and still does that job.
 
@@ -13,37 +12,32 @@ draws a trap directly - MEDIUM and LOW still do. Resolution is not here - it is 
 
 ```
 TRAP
-  1     Mechanism, from the Patterns below
-  1     Impact tier, from setting/Procedures.md   {nuisance | damaging | lethal}
-  1     Tell, IF this trap is a medium-weight location's challenge
-  33%   Treasure, where the trap guards something
+  1     Mechanism - what physically does it, from the Design patterns below
+  1     Who set it, and whether anyone is still here to maintain it
 ```
 
-**The tell requirement follows from the class.** A trap presented as a MEDIUM location's
-challenge must state a visible tell, because MEDIUM guarantees an obvious reactive
-element. A trap without a tell is not obvious - a room built on one presents as empty, and
-belongs at LOW weight as variance. A trap guarding treasure needs no physical tell: the
-treasure is the tell, and a party that does not suspect a chest has made a choice.
+**Everything else a trap owes is Hazard's.** The clue, the trigger, and the impact tier are
+mandatory lines on `dangerous/Hazard.md` and are answered there for every mechanism; this
+file states only what is true of a trap specifically. A trap is the mechanism whose defining
+fact is that **somebody built it for this**, which is why the maker line is here and not up
+a level - `dangerous/Environmental.md` has no maker and `dangerous/Residual.md`'s maker is
+gone.
+
+**A mechanism has to be maintainable by whoever is here.** Mechanisms are drawn from what
+the region is built from and what its occupants can keep working - a trap needing a
+machinist has a machinist somewhere in the region, or it does not work. This is the line
+that keeps trap selection tied to the region instead of to a list.
 
 Write every trap in one format:
 
-`**Name:** tell; tell → effect; effect`
+`**Name:** tell; tell -> effect; effect`
 
-The colon goes **inside** the bold, per `templates/Location.md`'s Feature label format - a trap
-is a Feature line like any other, and `tools/validate_setting.py` will not recognise one
-written `**Name**:`.
+The colon goes **inside** the bold, per `templates/Location.md`'s Feature label format - a
+trap is a Feature line like any other, and `tools/validate_setting.py` will not recognise
+one written `**Name**:`.
 
 The arrow makes it visible at a glance when a trap has been written with no way to detect
-it. Two tells is better than one - one that anyone entering would notice, one available
-only to someone already looking.
-
-**Contract.** A DANGEROUS trap owes: a mechanism, an impact tier, a tell (mandatory at
-medium weight), and treasure where it guards something - written as
-`**Name:** tell; tell → effect; effect`. Mechanisms are drawn from what the region is
-built from and what its occupants can maintain - a trap needing a machinist has a
-machinist somewhere, or it does not work. Genre-neutral and permanent. Which mechanism
-fills that contract is not - the Examples below are this build's compile of it, from
-this setting's chosen genre reference.
+it.
 
 ## Design patterns
 
