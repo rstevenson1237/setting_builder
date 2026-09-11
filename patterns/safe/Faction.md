@@ -5,7 +5,8 @@ How a power in `setting/Factions.md` shows itself inside a settlement, where it 
 simply take what it wants.
 
 ## Read at
-Step 4c, where a location carries a faction's interest. Distinct from
+Step 4c, when `safe/Settlement.md`'s registry block draws a hook and the hook is a
+faction - one hook at working prominence, two at central. Distinct from
 `dangerous/Faction.md`: a held position at depth is a garrison; in a settlement it
 is influence, and influence is visible in different things.
 

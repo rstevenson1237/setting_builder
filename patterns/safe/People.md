@@ -5,9 +5,11 @@ Which individuals from the region's roster appear at this location, and what mak
 worth remembering.
 
 ## Read at
-Step 4c, for any SAFE location with a person in it - which is nearly all of them. The
-roster itself is the Region Overview's People field; this file turns a roster line into
-somebody at a location.
+Step 4c, drawn twice by `safe/Settlement.md` and meaning two different things: as a Kind,
+where the location *is* a household, and as the gate block's mandatory person, which every
+SAFE location has whatever its Kind. Both draws want the same fields, which is why there
+is one file. The roster itself is the Region Overview's People field; this file turns a
+roster line into somebody at a location.
 
 ## Spec
 

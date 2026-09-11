@@ -100,6 +100,39 @@ when the kind beneath it is a real choice of two or more.
 `patterns/setting/Genre.md` carries extra sections beyond the skeleton. It is an
 interactive elicitation procedure and those sections are that procedure.
 
+## The blocks a classifier's Spec is grouped into
+
+A classifier states its lines under named blocks, and the blocks answer the same four
+questions in every rating:
+
+| block | asks |
+|---|---|
+| **substrate** | what this place is |
+| **challenge** | what stands between the party and what they want |
+| **reward** | what is here to take |
+| **registry** | what ties this place to somewhere else, in either direction |
+
+The point of the blocks is that a line failing to belong to any of them is almost always a
+line belonging to a different class - which is a test that runs while the Spec is being
+written, not afterwards.
+
+Each rating fills the four its own way, and one adds a fifth:
+
+- **DANGEROUS** is the plain case: challenge is what opposes the party, reward what is in
+  the room.
+- **WILD** adds **access**, between substrate and challenge. At depth, how a room is
+  reached is the connection graph, written at 4b and needing no words in the entry; out in
+  the country it is content, written into the parent's Features, and it is the whole
+  distinction between Landmark, Hidden and Secret.
+- **SAFE** has no challenge - a settlement opposes nobody - and a **gate** in the same
+  slot: the person standing between the party and what this place has, and their terms.
+  Its reward block is a **transaction**: what is obtainable here and what is not.
+
+A rating renaming or adding a block is a claim that the rating genuinely works differently,
+and the classifier says why in the prose under its Spec. A rating *dropping* one is a
+different matter: `dangerous/Low.md` carries a challenge block that says "none", and the
+reason, rather than omitting the heading, because the absence is the class's defining fact.
+
 ## Reach modes
 
 Every element file is reached in exactly one of four modes, and the mode is what a
@@ -108,8 +141,8 @@ classifier's spec line already encodes. Mode predicts what a file needs.
 | mode | reached | example |
 |---|---|---|
 | **second pass** | every output, unconditionally, after the fact | `Dressing`, `Secrets`, `Naming` |
-| **kind** | exactly one of N, mutually exclusive | `safe/Commerce.md`, `wild/Ruin.md` |
-| **ingredient** | drawn at a stated rate | `Creature`, `Trap`, `Treasure`, `Mystery`, `Lore`, `Key`, `Quest` |
+| **kind** | exactly one of N, mutually exclusive | `safe/Commerce.md`, `wild/Ruin.md`, `dangerous/Trap.md`, and WILD's and DANGEROUS's `Lore` and `Key` under `Treasure`'s "what it is" |
+| **ingredient** | drawn at a stated rate | `Creature`, `Hazard`, `Treasure`, `Mystery`, `Quest`, and SAFE's `Lore` and `Key` hooks |
 | **conditional** | triggered by content already generated | `Faction` |
 
 **Every element file is reached by a classifier, in the mode it claims.** A file reachable
@@ -187,17 +220,16 @@ silence.
 
 Real, current, and deliberately not yet fixed:
 
-1. **Four orphaned element files.** `safe/Naming.md` and `wild/Naming.md` say "for every
-   location, after Dressing" but no `safe/` or `wild/` classifier cites them - only the
-   three `dangerous/` classifiers cite their Naming file. `dangerous/Faction.md` and
-   `wild/Faction.md` are cited by no classifier at all; `wild/Faction.md` is reached only
-   from inside `wild/Ruin.md`, another element.
-2. **Twenty classifiers carry `## Design patterns`**, sixteen of them `setting/*`. Their
+1. **Twenty classifiers carry `## Design patterns`**, sixteen of them `setting/*`. Their
    content is neutral option menus - `setting/Keys.md`'s "Forms", `setting/Truths.md`'s
    "Kinds of truth" - which by the neutrality test are Spec questions, not patterns.
-3. **STEPS.md step 1b's compile list names 18 files** but says "every other tier-2 element
+2. **STEPS.md step 1b's compile list names 18 files** but says "every other tier-2 element
    file". Twenty-one element files carrying patterns are not on the list. Splitting them
    by reach mode is what decides which belong there - not all of them do.
 
-Resolving 2 and 3 changes what step 1b rewrites, so they are held together rather than
-fixed piecemeal.
+Both change what step 1b rewrites, so they are held together rather than fixed piecemeal.
+
+The orphaned element files this section used to list are closed. `safe/Naming.md` and
+`wild/Naming.md` are drawn as the last line of their classifiers, `wild/Faction.md` by a
+Spec line in each of the four WILD kind files, and `dangerous/Faction.md` by
+`dangerous/Encounter.md`.

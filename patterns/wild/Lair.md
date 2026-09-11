@@ -4,8 +4,9 @@
 What an occupied Landmark is, and what its occupancy implies about the country around it.
 
 ## Read at
-Step 4c, when `wild/Landmark.md`'s spec draws Kind: Lair - the only classification file
-that does. A Lair is a place something currently lives, whether it built the place or
+Step 4c, when a WILD classifier's Kind line draws Lair - `wild/Landmark.md`,
+`wild/Hidden.md`, or `wild/Secret.md`, all three of which draw one kind per location.
+A Lair is a place something currently lives, whether it built the place or
 moved in.
 
 ## Spec
@@ -23,6 +24,8 @@ KIND: LAIR
   40%   Young, stores, or dependants - a reason it cannot simply leave
   30%   Absent when the party arrives, and elsewhere in the region
   30%   A child location: the den proper, the midden, the larder, the killing ground
+  20%   What holds it is people, and they answer to one of the three factions
+                                                              (wild/Faction.md)
 ```
 
 **A Lair is the tier's natural place to carry depth.** Complexity comes from attaching

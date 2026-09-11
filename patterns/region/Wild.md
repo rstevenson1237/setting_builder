@@ -37,11 +37,18 @@ TOPOLOGY - a forest of trees
   1     At least two Landmarks carrying children
   1     Hidden children connect to their parent with a normal edge
   1     Secret children connect to their parent with a hidden (-.-) edge
+  1     Depth stops at three - a Secret carries no children of its own
   20%   A Landmark that connects onward to a neighbouring region
 ```
 
 Landmarks do not interconnect. A party roams the region and finds them; depth happens
 below a Landmark, not between them.
+
+**This graph is what the parents' lead lines answer to.** Per `wild/Landmark.md` and
+`wild/Hidden.md`, a parent states a visible detail for each Hidden child and a Clue for
+each Secret child that the graph hangs off it - mandatory per child, not a rate. Deciding
+here which parents carry children is therefore deciding how much of the region's content
+sits behind something, and a child whose parent states nothing is unreachable.
 
 ## Design patterns
 

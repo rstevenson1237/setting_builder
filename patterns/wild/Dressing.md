@@ -5,8 +5,9 @@ The physical reality of a WILD location, where it sits in its region, how its pa
 as one place, and how it sounds on the page.
 
 ## Read at
-Step 4c, for every WILD location without exception. Units, the Exits syntax and the
-citation formats are in `templates/Location.md`.
+Step 4c, drawn unconditionally by `wild/Landmark.md`, `wild/Hidden.md` and
+`wild/Secret.md`'s substrate blocks - every WILD location without exception. Units, the
+Exits syntax and the citation formats are in `templates/Location.md`.
 
 ## Spec
 
@@ -15,7 +16,8 @@ DRESSING - every WILD location
   1     Size and shape, in yards
   1     Position within the region - a bearing from the entry or a named Landmark
   1     Condition - what weather, season, and time have done to it since
-  1     Purpose - per its kind file (Ruin, Lair, or Natural Feature); not restated here
+  1     Purpose - per its kind file (Ruin, Lair, Natural Feature, or Crossing); not
+        restated here
   1     Ambiance - smell and sound, attributable to Condition or Purpose
   1     Every exit typed and positioned
 ```
@@ -72,9 +74,11 @@ weather - scree, corrie, holt, spinney, sike, hag, tor, brake. Name the species 
 
 - **Purpose is supplied by the kind file, not restated here.** `wild/Ruin.md` states
   what a Ruin was, `wild/Lair.md` states why its occupant stays,
-  `wild/NaturalFeature.md` states why a party would stop - whichever applies has already
-  answered "what is this for." Dressing does not reopen that question; it dresses the
-  answer.
+  `wild/NaturalFeature.md` states why a party would stop, `wild/Crossing.md` states what
+  must be crossed - whichever applies has already answered "what is this for." Dressing
+  does not reopen that question; it dresses the answer. Every WILD location draws exactly
+  one kind, at all three tiers, so there is never a location with no answer to fall back
+  on.
 
 - **No detail budget is not a licence to explain at length**, and WILD is the rating
   most likely to confuse the two. Every location getting the full treatment means every

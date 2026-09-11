@@ -4,8 +4,9 @@
 What an unbuilt, unoccupied Landmark is, and why it is worth four hours to visit.
 
 ## Read at
-Step 4c, when `wild/Landmark.md`'s spec draws Kind: Natural Feature - the only
-classification file that does. Alone among the kinds it has no builder and no occupant,
+Step 4c, when a WILD classifier's Kind line draws Natural Feature - `wild/Landmark.md`,
+`wild/Hidden.md`, or `wild/Secret.md`, all three of which draw one kind per location.
+Alone among the kinds it has no builder and no occupant,
 so it has to earn its slot on what it *does*.
 
 ## Spec
@@ -22,6 +23,8 @@ KIND: NATURAL FEATURE
   30%   Something mysterious about it, priced or dangerous to use, per GENRE.md
   30%   A resource findable here, tied to the region's Foraging field
   20%   A hazard that is simply part of the place
+  15%   The resource is worked by one of the three factions, whose claim reaches
+        past this place                                        (wild/Faction.md)
 ```
 
 **A Natural Feature is the hardest kind to write well** - it has no builder and no

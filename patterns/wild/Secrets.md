@@ -5,8 +5,9 @@ Whether a WILD location hides something within itself, and the three parts that 
 findable.
 
 ## Read at
-Step 4c, for every WILD location - consulted unconditionally to decide whether there is a
-secret at all. Distinct from `wild/Secret.md`, which is a whole Secret-tier *location*
+Step 4c, drawn unconditionally by `wild/Landmark.md`, `wild/Hidden.md` and
+`wild/Secret.md` - every WILD location consults this file to decide whether there is a
+secret at all, and the rate below is where that is decided rather than in the classifiers. Distinct from `wild/Secret.md`, which is a whole Secret-tier *location*
 hanging off a parent; this is a detail concealed inside one location's features.
 
 ## Spec

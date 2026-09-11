@@ -5,10 +5,12 @@ What it means for a WILD Landmark to be held, worked, or controlled by a faction
 than simply occupied by whatever the Kind block's own occupant already describes.
 
 ## Read at
-Step 4c, where a WILD location's Kind block cites a faction as what holds, controls, or
-works it - `wild/Ruin.md`'s "what holds it now," `wild/Lair.md`'s "occupied by people,"
-`wild/NaturalFeature.md`'s worked resource, or `wild/Crossing.md`'s "what controls it now."
-Distinct from `wild/Creature.md`, which covers what lives here on its own account; a
+Step 4c, when a Kind file's own spec line draws a faction as what holds, controls, or
+works this place - `wild/Ruin.md`, `wild/Lair.md`, `wild/NaturalFeature.md` and
+`wild/Crossing.md` each carry one, at a rate that suits the kind. Conditional, not rated
+at the classifier: whether a faction is even possible here depends on the Kind already
+drawn, which is why the four rates live in the four kind files rather than one line up a
+level. Distinct from `wild/Creature.md`, which covers what lives here on its own account; a
 faction's presence implies purpose and consequence reaching beyond this one Landmark.
 
 ## Spec
