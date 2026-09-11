@@ -1,7 +1,12 @@
 # Setting - Keys
 
-## Decides
+## Provides
 What earns a row in `setting/Keys.md`.
+
+## Read at
+Step 2h to stub the file, step 4c to add a row whenever a location's Feature calls for
+a key, and step 4d to write every entry. The per-rating decision of when to reach for a
+key is in each folder's own `Key.md`.
 
 ## Spec
 
@@ -13,18 +18,10 @@ KEY ENTRY
   1     Why the two are apart
 ```
 
-**A key that opens nothing is treasure.** If there is no lock, it belongs on a
-`setting/Treasure[I-V].md` roll or in `setting/UniqueTreasures.md`.
-
-**A key gates something elsewhere, never a single room's own contents.** Gating a room from
-inside itself is a Trap's or a Mystery's job. Keys exist to connect locations, most usefully
-across regions - they are the mechanism that turns a set of regions into a network and gives
-a party a concrete reason to go back somewhere or press toward somewhere new.
-
 **A key need not look like its lock**, and the connection between them can itself be a
 discoverable Secret when it is not obvious.
 
-## Patterns
+## Design patterns
 
 **Forms** - an actual key; a rod, pin, or bar cut to a profile; a stone or disc fitted to a
 socket; a seal or signet; a token; a specific creature's bone; a phrase or name recorded on
@@ -45,3 +42,12 @@ an inscription naming the lock but not the key; a record in `setting/Lore.md`.
   `wild/` word for word. It's a criterion (what earns a row), so per this library's own
   restatement rule it belongs here alone; deleted from the three rating files, which kept
   their own genuinely tier-differentiated material.
+
+- **A key that opens nothing is treasure.** If there is no lock, it belongs on a
+  `setting/Treasure[I-V].md` roll or in `setting/UniqueTreasures.md`.
+
+- **A key gates something elsewhere, never a single room's own contents.** Gating a room
+  from inside itself is a Trap's or a Mystery's job. Keys exist to connect locations,
+  most usefully across regions - they are the mechanism that turns a set of regions into
+  a network and gives a party a concrete reason to go back somewhere or press toward
+  somewhere new.

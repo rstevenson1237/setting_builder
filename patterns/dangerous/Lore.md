@@ -1,11 +1,12 @@
 # Dangerous - Lore
 
-## Decides
+## Provides
 When a DANGEROUS location's find is written rather than valuable, and what form it takes.
 
 ## Read at
-Step 4c, when a weight file's spec draws lore. Criteria for what earns a `setting/Lore.md`
-row are in `patterns/setting/Lore.md`; this file decides when to reach for one here.
+Step 4c, when `dangerous/Treasure.md` draws lore as what the treasure is - a document
+lying here is a find. Criteria for what earns a `setting/Lore.md` row are in
+`patterns/setting/Lore.md`; this file decides when to reach for one here.
 
 ## Spec
 
@@ -25,7 +26,7 @@ document that explains or complicates it.
 Record a stub row in `setting/Lore.md` now: name and this location only. The content is
 written at 4d, with every location that cites it in view.
 
-## Patterns
+## Design patterns
 
 **Forms** - a ledger or tally; a work roster; a letter never sent, or never delivered; a
 journal that stops; an inventory that does not match what is here; a map that is wrong, or

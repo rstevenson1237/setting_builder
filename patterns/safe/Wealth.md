@@ -1,6 +1,6 @@
 # Safe - Wealth
 
-## Decides
+## Provides
 What a settlement's own cache of treasure, lore, or both actually holds, who it belongs to,
 and what stands between a party and it.
 
@@ -19,7 +19,7 @@ WEALTH
 ```
 
 **Treasure** is cited from a table, per `setting/Treasure1.md` through `Treasure5.md`, or
-stated as a Unique Treasure stub per `patterns/setting/Keys.md`'s sibling registries. **Lore**
+stated as a Unique Treasure stub per `patterns/setting/UniqueTreasures.md`. **Lore**
 follows `safe/Lore.md`'s fields - physical form, whose voice, what it does - with one
 deliberate exception: `safe/Lore.md` frames SAFE lore as *obtainable rather than
 discovered*, because its obstacle is normally a living holder. A Wealth location's lore is
@@ -59,7 +59,7 @@ was, and exactly one Protection with its own discovery structure. Genre-neutral 
 permanent. What the cache actually holds and what conceals it is not - the Examples below
 are this build's compile of it, from this setting's chosen genre reference.
 
-## Examples
+## Design patterns
 
 **What it holds** - coin and plate too heavy to move casually; a founder's or a family's
 kept wealth; tithes or tolls banked rather than spent; something taken and never returned;

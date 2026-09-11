@@ -1,6 +1,6 @@
 # Region - Dangerous
 
-## Decides
+## Provides
 What a DANGEROUS Region Overview says, how many locations the region holds and in what
 mix, and what shape its connection graph takes.
 
@@ -98,7 +98,7 @@ location defaulted to simple connection has technically satisfied the graph-wide
 above while failing this rule - the counts are necessary, not sufficient, and this is the
 check that catches it.
 
-## Patterns
+## Design patterns
 
 The Region Overview's fields, for a DANGEROUS region.
 

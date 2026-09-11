@@ -1,6 +1,6 @@
 # Wild - Naming
 
-## Decides
+## Provides
 What a WILD location is called, in whose mouth, and - when the name reuses a
 constructed-language proper noun coined elsewhere - what it means for the referee.
 
@@ -22,14 +22,7 @@ NAMING
         setting/Language.md mid-session
 ```
 
-**Do not coin here.** A WILD location's own name is drawn from the common tongue's plain,
-practical vocabulary - the border register, described below - not built fresh from
-`setting/Language.md`'s roots. A location may still carry a name in another tongue it did
-not invent here: a marker in an older or dead tongue, or the name something living in the
-region already goes by. When it does, the gloss is mandatory - a name in a tongue the table
-can't read is worse than no name at all.
-
-## Patterns
+## Design patterns
 
 **Who names wild country.** Not the people who live in it - nobody lives here. WILD names
 are given by people who **pass through and need to talk about it afterwards**, which makes
@@ -64,3 +57,10 @@ fall*, and naming it separately from the fall weakens both.
   back before a location reuses it. A prior draft of this file named two specific tongues by
   their actual coined names, which meant every future setting built with this library would
   have inherited those names by default rather than generating its own.
+
+- **Do not coin here.** A WILD location's own name is drawn from the common tongue's
+  plain, practical vocabulary - the border register, described below - not built fresh
+  from `setting/Language.md`'s roots. A location may still carry a name in another
+  tongue it did not invent here: a marker in an older or dead tongue, or the name
+  something living in the region already goes by. When it does, the gloss is mandatory -
+  a name in a tongue the table can't read is worse than no name at all.

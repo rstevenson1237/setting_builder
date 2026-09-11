@@ -1,10 +1,10 @@
 # Setting - Language
 
-## Decides
+## Provides
 How a tongue is built, what a root is, and how the file grows without being rewritten.
 
 ## Read at
-Step 1d to seed it, step 2i to tailor it, and every step thereafter that coins a proper
+Step 1d to seed it, step 2h to tailor it, and every step thereafter that coins a proper
 noun. The per-rating naming guidance is in each folder's `Naming.md`.
 
 ## Spec
@@ -41,7 +41,7 @@ a name came from before anyone tells them.
 revisited at 4d. This one is appended to continuously, and it stops being useful the moment
 a step coins a name without recording it.
 
-## Patterns
+## Design patterns
 
 **Who a tongue belongs to** - the people currently here; a people who were here and are not;
 a people who were never here and whose language arrived by trade or conquest; something that

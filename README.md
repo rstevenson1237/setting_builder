@@ -90,16 +90,32 @@ what it is building.
   swindle, in WILD a snare, in DANGEROUS a deadfall, and writing each separately is what
   forces the differentiation. The cost is drift, which `checks/PatternJudgementCheck.md`
   manages by treating two restatements that read the same as a *finding*.
-- Every pattern file uses one skeleton: **Decides / Read at / Spec / Patterns /
-  Constraints**. The Constraints section starts empty and fills only from observed
-  generation failures, never from anticipation.
-- Every tier-2 element file (the ones a class file's Spec cites in parentheses) splits its
-  Spec/Patterns content into a **Contract** (what it decides, genre-neutral, stated in a
-  bolded paragraph right after the Spec block - permanent, never changes per build) and an
-  **Examples** section (the illustrative content under each Contract, genre-specific -
-  compiled fresh per build at step 1b from this setting's chosen genre reference, replacing
-  what a lookup-table join at generation time would otherwise have to translate correctly
-  every single read). Demeanor and personality examples specifically live compiled into
+- **Every pattern file has one skeleton**: **Provides / Read at / Spec / Design patterns /
+  Constraints**. `patterns/SPEC.md` is the full field spec.
+- **Every Spec line is one of exactly two things**: an **edge**, pointing to another
+  pattern file named in parentheses, which is the only other file that line requires; or a
+  **question**, stating something the generator must answer, citing nothing. That one rule
+  makes the library a single tree - a file whose Spec has outgoing edges is a
+  **classifier**, a file whose Spec is all questions is a **leaf**, and neither is
+  declared anywhere, so the structure cannot fall out of step with itself. A classifier may
+  cite another classifier, which is how a category earns a middle level.
+- **Where a line lives follows from whether it varies.** A line that differs between the
+  classes that draw it belongs in the drawing class's Spec; a line that is the same for all
+  of them belongs in the file it cites - the same test `setting/Procedures.md` applies one
+  level up.
+- `patterns/setting/Genre.md` carries extra sections beyond the skeleton: it is an
+  interactive elicitation procedure, and those sections (`Seed`, `Three rounds of
+  narrowing`, `Q2`, and the rest) are that procedure.
+- **`## Constraints` holds every prohibition** - what belongs in another file, what this
+  file must never do, a named failure mode. Blank when a file is created; filled as the
+  patterns are refined and negative patterns get identified, and from failures observed
+  during an actual build.
+- **`## Read at` names the STEPS.md step(s) that read the file**, which is what makes step
+  coverage auditable; the validator checks those ids against STEPS.md.
+- A file's `## Design patterns` content is genre-specific and compiled fresh per
+  build at step 1b from this setting's chosen genre reference, replacing what a
+  lookup-table join at generation time would otherwise have to translate correctly every
+  single read. Demeanor and personality examples specifically live compiled into
   `dangerous/Creature.md`, `wild/Creature.md`, and `safe/People.md`, standing in for what
   `GENRE.md` used to carry as its own People/Creatures tag bank.
 
@@ -182,9 +198,9 @@ with a single tag-line rather than embedding tags inline, and a location's gazet
 draws exactly two - one from the setting pool, one from its own region's - rather than
 inventing three fresh. A tag never selects which pattern file governs a location (that's
 Kind) and never carries inclusion math (that's a class file's Spec); its only job is a
-quick, scannable handle. See `PLANS.md`'s Plan 1B for the design history, including the
-rejected alternative (a richer, structural tag pool joined against generic pattern files
-at generation time) and why compiling genre content into the pattern files themselves
+quick, scannable handle. `PLANS.md` and its git history carry the design history, including
+the rejected alternative (a richer, structural tag pool joined against generic pattern
+files at generation time) and why compiling genre content into the pattern files themselves
 (below) won out instead.
 
 ## Location entry format (`templates/Location.md`)
@@ -266,8 +282,9 @@ every pull request and push to `main`; run locally with `python3 tools/validate_
   `setting/File.md` means the *generated* file of that name, not the pattern that produces
   it. The checker flags: a `patterns/` prefix on anything outside `setting/`; a citation
   (prefixed or bare) that doesn't resolve to a real file; a bare `-> File.md` naming no
-  folder at all; and any file missing its `## Constraints` heading (every `patterns/*/*.md`
-  file ends with one, even if the body is still the empty placeholder).
+  folder at all; any file missing `## Provides`, `## Read at`, or `## Constraints`; a
+  any leftover `## Design questions` heading, folded into `## Spec`; and a `## Read at`
+  citing a step id STEPS.md does not define.
 - **Generated content against the templates** and this file's rules:
   - **Template format**: region codes a plain A-Z progression; a region's Locations.md
     entries numbered 1..N with no gaps; DANGEROUS locations carry a low/medium/high weight,
@@ -320,8 +337,8 @@ sync.
   mention to the page it points to. Region and location `Connections.mmd` graphs render
   live as clickable Mermaid diagrams. Also renders **`patterns.html`, a Pattern Reference
   page** built straight from `patterns/*/*.md` rather than from `setting/` - a five-column
-  citation graph (one column per pattern folder), click-through to any file's Decides/Read
-  at/Spec-or-Patterns-or-Examples content and its citations in both directions, and a live
+  citation graph (one column per pattern folder), click-through to any file's Provides/Read
+  at/Spec/Design-patterns content and its citations in both directions, and a live
   audit banner reading the same rule `validate_setting.py`'s pattern-file check enforces in
   CI, so a regression shows here the same build it would fail CI. Builds regardless of
   whether `setting/` holds anything, since it doesn't read `setting/` at all. Pure standard

@@ -1,10 +1,10 @@
 # Setting - Procedures
 
-## Decides
+## Provides
 What belongs in `setting/Procedures.md` and what does not.
 
 ## Read at
-Step 1c to seed it, step 2i to tailor it, and step 4d only if generation turned out to need
+Step 1c to seed it, step 2h to tailor it, and step 4d only if generation turned out to need
 something the seed did not cover.
 
 ## Spec
@@ -27,26 +27,25 @@ this file from becoming a second rulebook.
 the wrong procedure for this genre. Everything here should be resolvable in one roll or no
 roll at all.
 
-**Tailoring is adjustment, not replacement.** The seed is generic and working. Step 2i
-changes numbers and adds resolutions the setting's Truths demand; it does not restructure
-the file, and a setting that rewrites Procedures wholesale has probably put pattern content
-in it.
-
-## Patterns
+## Design patterns
 
 **What the seed must already answer** - what happens when a character is exposed to
 something lethal; what a trap does at each of its three tiers; what searching costs and what
 it finds without a roll; how long an action takes in each rating; how the three Action Dice
 scales relate, and that they do not; what a region die means and what it does not.
 
-**What a setting adds at 2i** - a resolution its Truths require; a currency or a wage, if
+**What a setting adds at 2h** - a resolution its Truths require; a currency or a wage, if
 `setting/Treasure.md` needs an anchor; a travel or supply rule its geography demands; a
 condition that recurs here specifically - cold, bad air, a sickness, a debt.
 
-**What never goes here** - anything that varies by rating; anything about one place;
-character creation; a combat system. This file exists so that fifteen pattern files can cite
-one rule instead of restating it, and it stops being able to do that the moment it starts
-holding content.
-
 ## Constraints
-*(Empty. Entries arrive from generation testing, never from anticipation.)*
+
+- **What never goes here** - anything that varies by rating; anything about one place;
+  character creation; a combat system. This file exists so that fifteen pattern files
+  can cite one rule instead of restating it, and it stops being able to do that the
+  moment it starts holding content.
+
+- **Tailoring is adjustment, not replacement.** The seed is generic and working. Step 2h
+  changes numbers and adds resolutions the setting's Truths demand; it does not
+  restructure the file, and a setting that rewrites Procedures wholesale has probably
+  put pattern content in it.

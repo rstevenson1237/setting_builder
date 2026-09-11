@@ -1,6 +1,6 @@
 # Safe - Social
 
-## Decides
+## Provides
 Where people gather, what circulates there, and who a party can get something out of.
 
 ## Read at
@@ -19,10 +19,6 @@ SOCIAL
   20%   Somebody who knows something and will not say it here
 ```
 
-**A rumour is repeated, not delivered.** Whoever says it has their own reason for saying
-it, is probably wrong about part of it, and will not mark it true or false. Take the
-substance from `setting/Rumours.md`; the framing belongs to whoever is talking.
-
 **Nobody is waiting for the party.** Everyone here has been having their evening since
 before the party walked in, and the entry should say what that evening is.
 
@@ -32,7 +28,7 @@ permanent. Which gathering places, circulating content, and vocabulary fill that
 is not - the Examples below are this build's compile of it, from this setting's chosen
 genre reference.
 
-## Examples
+## Design patterns
 
 **Gathering places** - a taproom; the market on its day; a green, a well, or a bridge where
 people stop; a bathhouse; a mill, where everyone must eventually come; a chapel after a
@@ -59,4 +55,8 @@ wants and nobody will start; somebody being frozen out; an outsider group tolera
 more.
 
 ## Constraints
-*(Empty. Entries arrive from generation testing, never from anticipation.)*
+
+- **A rumour is repeated, not delivered.** Whoever says it has their own reason for
+  saying it, is probably wrong about part of it, and will not mark it true or false.
+  Take the substance from `setting/Rumours.md`; the framing belongs to whoever is
+  talking.

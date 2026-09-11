@@ -1,6 +1,6 @@
 # Safe - Authority
 
-## Decides
+## Provides
 Where a claim to authority is exercised, on what basis, and what a stranger has to do to
 get anything out of it.
 
@@ -31,7 +31,7 @@ is. Genre-neutral and permanent. Which offices, procedures, and vocabulary fill 
 contract is not - the Examples below are this build's compile of it, from this setting's
 chosen genre reference.
 
-## Examples
+## Design patterns
 
 **Basis of the claim** - a lord's grant, honoured or not; an inherited office nobody
 contests; election by householders; the person who owns the land everyone works; the person

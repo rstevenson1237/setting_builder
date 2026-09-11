@@ -1,7 +1,12 @@
 # Setting - Unique Treasures
 
-## Decides
+## Provides
 What earns a row in `setting/UniqueTreasures.md` rather than a roll on a table.
+
+## Read at
+Step 2h to stub the file, step 4c to add a row whenever a location holds a one-of-a-kind
+artifact, and step 4d to write every entry. The per-rating decision of when a find is a
+table roll instead is in each folder's own `Treasure.md`.
 
 ## Spec
 
@@ -26,7 +31,7 @@ from the setting by construction. If nothing in `History.md`, `Truths.md`, `Fact
 **The location names and cites it only.** What it does and what it costs are written here at
 4d, not in the location entry.
 
-## Patterns
+## Design patterns
 
 **What one does** - it works once; it works on one class of thing; it does something adjacent
 to what a party wants; it makes a specific problem soluble that otherwise is not; it grants

@@ -1,6 +1,6 @@
 # Wild - Hidden
 
-## Decides
+## Provides
 What a Hidden-tier location guarantees, and how it hangs off its parent.
 
 ## Read at

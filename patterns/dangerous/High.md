@@ -1,6 +1,6 @@
 # Dangerous - High
 
-## Decides
+## Provides
 What a high-weight location guarantees.
 
 ## Read at
@@ -10,47 +10,54 @@ locations first, so medium and low can foreshadow what has already been decided.
 ## Spec
 
 **Every line below is read the same way:** `1` is mandatory; a percentage is the rate at
-which a Feature carrying that content appears. Where a line names a file in parentheses,
-that is the only other file this line requires.
+which a Feature carrying that content appears. Every line is either an edge - it names a
+file in parentheses, the only other file that line requires - or a question the generator
+answers here.
 
 ```
 DANGEROUS - HIGH
-  1     Dressing, Secrets, and Naming, unconditional  (dangerous/Dressing.md,
-                                                       dangerous/Secrets.md,
-                                                       dangerous/Naming.md)
-  1     Challenge            {creature | trap | mystery}
-                                                      (dangerous/Creature.md,
-                                                       dangerous/Trap.md, see MYSTERY below)
-  50%   Secondary challenge  {creature | trap | mystery}   - not the same kind as the first
-  30%   Mystery              - if not already taken as a challenge   (see MYSTERY below)
-  1     Architecture detail unique to this location  (dangerous/Dressing.md)
-  50%   Ambiance detail unique to this location       (dangerous/Dressing.md)
-  80%   Treasure             {hidden | trapped | discarded}   (dangerous/Treasure.md)
-  40%   A Unique Treasure, in place of a table citation   (patterns/setting/Keys.md)
-  30%   Lore, alongside the payload rather than instead of it   (dangerous/Lore.md)
-  25%   A Named Creature, where the challenge is a creature   (dangerous/Creature.md)
-  20%   Key or Quest involvement                         (dangerous/Key.md, dangerous/Quest.md)
+
+  -- substrate: what this room is
+  1     Dressing - what it is now, and what it was      (dangerous/Dressing.md)
+  1     An architecture detail unique to this location
+  50%   An ambiance detail unique to this location
+
+  -- challenge: what opposes the party
+  1     Challenge          {encounter | hazard | mystery}
+                                                     (dangerous/Encounter.md,
+                                                      dangerous/Hazard.md,
+                                                      dangerous/Mystery.md)
+  50%   Second challenge   {encounter | hazard | mystery} - not the kind already drawn
+  30%   Mystery, where it was not already drawn as a challenge  (dangerous/Mystery.md)
+
+  -- reward: what is here to take
+  1     Treasure           {guarded | hidden | discarded}   (dangerous/Treasure.md)
+  40%   Second treasure, of a different disposition         (dangerous/Treasure.md)
+
+  -- registry: what elsewhere points at this room
+  25%   A lock, and the key that opens it is elsewhere       (dangerous/Key.md)
+  20%   The target of a quest given elsewhere                (dangerous/Quest.md)
+
+  1     Naming, after everything above                       (dangerous/Naming.md)
 ```
 
-```
-MYSTERY, wherever one appears above              (content in dangerous/Mystery.md)
-  1     Fixture - something built or placed with purpose, not found debris
-  2     Physical details it can be reasoned from - the floor, not the target: one detail is
-        guessed at, three is reasoned out
-  1     Trigger, stated explicitly
-  1     What the correct trigger accomplishes
-  1     What a genuinely wrong attempt costs
-  40%   A third detail, where the trigger is more than one step
-```
+**The four blocks are what the entry is.** Substrate says what the room is, challenge what
+opposes the party in it, reward what is here to take, registry what elsewhere points at
+this room. A line that fits none of the four is usually a line that belongs to another
+class.
 
 High weight means the location **announces itself**. The architecture line is mandatory
 because that is what does the announcing: before a party knows what is in the room, the
-room has to look like somewhere that matters.
+room has to look like somewhere that matters. It is a question rather than an edge because
+it is HIGH's own requirement - `dangerous/Dressing.md` supplies the baseline every location
+gets, and MEDIUM and LOW do not demand this on top of it.
 
-**A Mystery left uninvestigated is neutral.** Inspection, theorising, and a wrong guess
-that stops short of a real attempt all cost nothing - this is what separates a Mystery from
-a Trap: a trap fires on contact or presence, a mystery fires only on a failed attempt to
-use it.
+**Naming comes last because a room is named for what turned out to be in it.** It is the
+one pass that gets cheaper by running after everything else is decided.
+
+**Treasure is mandatory at HIGH.** A high-weight location the party clears and leaves
+empty-handed has spent the region's scarcest slot on nothing.
+
 
 ## Constraints
 *(Empty. Entries arrive from generation testing, never from anticipation.)*

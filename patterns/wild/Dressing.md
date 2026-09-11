@@ -1,6 +1,6 @@
 # Wild - Dressing
 
-## Decides
+## Provides
 The physical reality of a WILD location, where it sits in its region, how its parts read
 as one place, and how it sounds on the page.
 
@@ -25,26 +25,10 @@ them is filler - a region holds only about as many as its die, and a landmark wr
 has wasted one of ten slots. Depth comes from attaching children, not from writing some
 parents lighter than others.
 
-```
-WORD BUDGET - the whole entry, excluding the header line and the Exits line
-  every WILD location    ~260 words, flat - there are no classes here to vary it by
-```
-
-Carried across from the DANGEROUS calibration by analogy rather than measured here. Treat it
-as provisional until a WILD region has been written against it.
-
-**No detail budget is not the same as no word budget**, and WILD is the rating most likely to
-confuse them. Every location getting the full treatment means every location gets its
-position, its Condition, its Ambiance and its full complement of Features - it does not
-mean any of those may be explained at length. The budget is diagnostic: per
-`templates/Location.md`, an over-budget WILD entry is usually one where the connective
-texture that belongs in the Region Overview's Terrain field has been written out again here,
-or where a detail has been given its causal history instead of just being present.
-
 Hidden and Secret locations skip the position line: their position is defined by the
 parent they hang off.
 
-## Patterns
+## Design patterns
 
 **Scale in yards.** Outdoor footprints are measured in yards, because feet read as false
 precision once there are no walls to measure to. A vertical drop or climb stays in feet
@@ -61,11 +45,6 @@ night, what the season is doing to the footing and the cover, what has changed i
 was last what its kind file says it is - worked, disturbed, reclaimed, damaged by a past
 event. This is also where a location earns a second visit - the same place in different
 weather is genuinely different.
-
-**Purpose is supplied by the kind file, not restated here.** `wild/Ruin.md` states what a
-Ruin was, `wild/Lair.md` states why its occupant stays, `wild/NaturalFeature.md` states why
-a party would stop - whichever applies has already answered "what is this for." Dressing
-does not reopen that question; it dresses the answer.
 
 **Ambiance.** Smell and sound, minimum one, and both **attributable** - caused by Condition
 (what the weather, season, or an event have done here) or by Purpose (what grows, lives, or
@@ -90,4 +69,17 @@ weather - scree, corrie, holt, spinney, sike, hag, tor, brake. Name the species 
 "trees."
 
 ## Constraints
-*(Empty. Entries arrive from generation testing, never from anticipation.)*
+
+- **Purpose is supplied by the kind file, not restated here.** `wild/Ruin.md` states
+  what a Ruin was, `wild/Lair.md` states why its occupant stays,
+  `wild/NaturalFeature.md` states why a party would stop - whichever applies has already
+  answered "what is this for." Dressing does not reopen that question; it dresses the
+  answer.
+
+- **No detail budget is not a licence to explain at length**, and WILD is the rating
+  most likely to confuse the two. Every location getting the full treatment means every
+  location gets its position, its Condition, its Ambiance and its full complement of
+  Features - it does not mean any of those may be written out at length. A WILD entry
+  runs long in two specific ways: the connective texture that belongs in the Region
+  Overview's Terrain field gets written out again here, or a detail is given its causal
+  history instead of just being present.

@@ -1,6 +1,6 @@
 # Region - Safe
 
-## Decides
+## Provides
 What a SAFE Region Overview says, how many locations it holds, and what shape its
 connection graph takes.
 
@@ -35,7 +35,7 @@ after, not per location, so the die measures how often the settlement generates 
 its own rather than traverse pressure. d8 is baseline; d6 is a place with something wrong
 with it, d10 a place where little happens.
 
-## Patterns
+## Design patterns
 
 The Region Overview's fields, for a SAFE region.
 

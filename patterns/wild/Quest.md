@@ -1,6 +1,6 @@
 # Wild - Quest
 
-## Decides
+## Provides
 How a WILD location participates in a Quest. WILD **carries**: it is where quests are
 travelled through, obstructed, and occasionally offered by somebody living rough.
 
@@ -26,7 +26,7 @@ that holds the only path.
 survey party, an outlaw, somebody hiding, somebody who cannot go home. Their ask is
 smaller than a settlement's and more personal, and they rarely have coin.
 
-## Patterns
+## Design patterns
 
 **Waypoint** - the last shelter before the target; the place a guide will take a party to
 and no further; where the trail is picked up or lost; where the giver said to turn; the

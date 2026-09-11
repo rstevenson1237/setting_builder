@@ -1,6 +1,6 @@
 # Setting - Setting
 
-## Decides
+## Provides
 The setting's name and the referee-facing outline every other artifact builds on. Tags
 are decided separately, by `patterns/setting/Tags.md` at step 1b - this file only points
 to them.
@@ -19,7 +19,7 @@ SETTING
   1     Something the setting has that a generic instance of the genre does not
 ```
 
-## Patterns
+## Design patterns
 
 **What a setting is built on** - a resource somebody is extracting; a boundary between two
 kinds of country or two claims; a road, river, or crossing and who controls it; a ruin being

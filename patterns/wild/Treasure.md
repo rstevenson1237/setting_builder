@@ -1,6 +1,6 @@
 # Wild - Treasure
 
-## Decides
+## Provides
 Which table a WILD location cites, and why the find is still out here.
 
 ## Read at
@@ -28,7 +28,7 @@ and what reaching it costs. Genre-neutral and permanent. What it actually is and
 might claim it is not - the Examples below are this build's compile of it, from this
 setting's chosen genre reference.
 
-## Examples
+## Design patterns
 
 **Which table**
 - **I - Scavenged Loot** - the default. What washes up, what is dropped, what is left at a

@@ -152,11 +152,10 @@ def parse_pattern_files() -> tuple[dict[str, dict], list[str]]:
 
         nodes[rel] = dict(
             rel=rel, folder=rel.split("/")[0], filename=path.name, title=title,
-            decides=pattern_section(text, "Decides"),
+            provides=pattern_section(text, "Provides"),
             read_at=pattern_section(text, "Read at"),
             spec=pattern_section(text, "Spec"),
-            patterns_text=pattern_section(text, "Patterns"),
-            examples=pattern_section(text, "Examples"),
+            design_patterns=pattern_section(text, "Design patterns"),
             constraints=pattern_section(text, "Constraints"),
             out=sorted(set(out)), incoming=[], issues=issues,
         )
@@ -639,7 +638,7 @@ def build_patterns(setting: sc.Setting, out: Path) -> None:
         'between them - parsed at build time, not summarized by hand. This is the framework\'s own '
         'authoring instructions, not the setting itself: useful while evaluating the setting, and a '
         'standing check that the instructions stay legible to a mechanical reader, not just a careful '
-        'one. Click any file below to see what it decides and trace its citations.</p>',
+        'one. Click any file below to see what it provides and trace its citations.</p>',
         issues_html,
         '<div class="pattern-workspace">'
         '<div class="pattern-diagram-scroll"><div class="pattern-diagram-inner" id="pattern-diagram-inner">'

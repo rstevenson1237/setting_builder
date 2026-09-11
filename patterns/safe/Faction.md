@@ -1,6 +1,6 @@
 # Safe - Faction
 
-## Decides
+## Provides
 How a power in `setting/Factions.md` shows itself inside a settlement, where it cannot
 simply take what it wants.
 
@@ -31,7 +31,7 @@ exchange is an occupation, and that is a Situation, not a presence.
 apart from its marks alone, before anyone names it. Use the same signs here as anywhere
 else it appears - that consistency is the whole point of a faction having a look.
 
-## Patterns
+## Design patterns
 
 **What a faction wants from a settlement** - a route kept open; a supply bought up before
 anyone else sees it; recruits; a person watched; a place to leave things; local knowledge;

@@ -1,10 +1,12 @@
 # Dangerous - Quest
 
-## Decides
+## Provides
 How a DANGEROUS location participates in a Quest - almost always as the target end.
 
 ## Read at
-Step 4c. Criteria are in `patterns/setting/Quests.md`; the registry is `setting/Quests.md`.
+Step 4c, when a weight file's registry line draws a quest target - in DANGEROUS a quest
+is demand-side, meaning something asked for elsewhere was placed here. Criteria are in
+`patterns/setting/Quests.md`; the registry is `setting/Quests.md`.
 
 ## Spec
 
@@ -30,7 +32,7 @@ written at 4d.
 **A quest needs a middle.** Two ends make a delivery. What stands in the way is what makes
 it an adventure, and it is stated here, at the target, because this is where it lives.
 
-## Patterns
+## Design patterns
 
 **What a dangerous place can supply** - a substance only found in a living thing here; a
 body, or proof of one; an object taken from somewhere else and brought here; a name, a

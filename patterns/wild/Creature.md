@@ -1,6 +1,6 @@
 # Wild - Creature
 
-## Decides
+## Provides
 What lives in or ranges through a WILD location, and how it meets a party.
 
 ## Read at
@@ -35,7 +35,7 @@ the personality a human encounter carries, are not - the Examples below are this
 compile of both, standing in for what `GENRE.md` used to carry as its own Creatures
 (demeanors) and People (personalities) tag banks.
 
-## Examples
+## Design patterns
 
 **Demeanor flavor** - a one-word behavior for how something met here carries itself
 before a fight starts or doesn't, compiled for this build: Predatory, Territorial,

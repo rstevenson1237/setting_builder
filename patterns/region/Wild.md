@@ -1,6 +1,6 @@
 # Region - Wild
 
-## Decides
+## Provides
 What a WILD Region Overview says, how many locations it holds and in what mix of
 classifications, and what shape its connection graph takes.
 
@@ -43,7 +43,7 @@ TOPOLOGY - a forest of trees
 Landmarks do not interconnect. A party roams the region and finds them; depth happens
 below a Landmark, not between them.
 
-## Patterns
+## Design patterns
 
 The Region Overview's fields, for a WILD region.
 

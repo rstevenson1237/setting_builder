@@ -1,6 +1,6 @@
 # Dangerous - Secrets
 
-## Decides
+## Provides
 Whether a DANGEROUS location hides something, and the three parts that make it findable.
 
 ## Read at
@@ -27,8 +27,10 @@ INCLUSION
   low weight, dead end (honest)     50%   - this is the role's entire question
   low weight, other                 30%
   medium weight                     40%
-  high weight                       by fit only - high weight already carries its own
-                                           density
+  high weight                       never - dangerous/High.md does not draw this file.
+                                           A HIGH location's concealment is carried by a
+                                           hidden Treasure disposition, or by a Hazard's
+                                           or Mystery's own clue
 ```
 
 **Dead end and appears as dead end are different roles precisely because of this rate.** A
@@ -40,12 +42,7 @@ let a plain dead end's Secret payload be a route off the map (per the Payloads l
 without also relabeling its node role - that quietly turns a 50%-rate room into a
 100%-rate one without the graph saying so.
 
-**A Secret without a stated Clue is not discoverable.** It is a fact the referee knows and
-the players can never find, and it is the most common way this structure fails. The clue
-has to already be legible to a player paying attention, before they know there is anything
-to find.
-
-## Patterns
+## Design patterns
 
 **Clues** - a draft where there should be none; a wall that does not match its neighbours
 in course, colour, or wear; a floor worn toward a blank face; a fixture that has been
@@ -64,4 +61,8 @@ in one step instead of several; a piece of lore; a shortcut back to somewhere al
 cleared; a sight of somewhere the party has not reached yet.
 
 ## Constraints
-*(Empty. Entries arrive from generation testing, never from anticipation.)*
+
+- **A Secret without a stated Clue is not discoverable.** It is a fact the referee knows
+  and the players can never find, and it is the most common way this structure fails.
+  The clue has to already be legible to a player paying attention, before they know
+  there is anything to find.

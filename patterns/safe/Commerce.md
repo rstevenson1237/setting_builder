@@ -1,6 +1,6 @@
 # Safe - Commerce
 
-## Decides
+## Provides
 What a location where goods and services change hands offers, at what price, and what it
 cannot supply.
 
@@ -34,7 +34,7 @@ genre-neutral and permanent. Which trades, goods, and vocabulary fill that contr
 - the Examples below are this build's compile of it, from this setting's chosen genre
 reference, and are what change if the reference ever did.
 
-## Examples
+## Design patterns
 
 **Hospitality** - a taproom with a floor to sleep on; an inn with rooms of two classes; a
 bunkhouse for crews; a widow who takes lodgers; a hall where guests are the headman's

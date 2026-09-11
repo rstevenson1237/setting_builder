@@ -1,6 +1,6 @@
 # Wild - Lore
 
-## Decides
+## Provides
 What written or recorded thing a WILD location holds, and how it survived being outdoors.
 
 ## Read at
@@ -16,14 +16,9 @@ LORE
   30%   Partial - the rest is missing, and where it went is knowable
 ```
 
-**Outdoors, lore is cut, not written.** Paper, ink and hide do not last in the open, so
-WILD lore is in stone, metal, bone, or arrangement - things made to outlast the people who
-made them, which is why they were made that way. That is a different register from a
-dungeon's ledgers and letters: monumental, public, and meant to be read by strangers.
-
 Record a stub row in `setting/Lore.md` now. Content is written at 4d.
 
-## Patterns
+## Design patterns
 
 **Forms that survive** - a boundary stone with terms cut into it; a milestone naming
 distances to places that no longer exist; a grave marker; a memorial to an event; a
@@ -47,4 +42,9 @@ warning somebody. All three are partial by nature, and all three had reasons to 
 A boundary stone is an argument, not a fact.
 
 ## Constraints
-*(Empty. Entries arrive from generation testing, never from anticipation.)*
+
+- **Outdoors, lore is cut, not written.** Paper, ink and hide do not last in the open,
+  so WILD lore is in stone, metal, bone, or arrangement - things made to outlast the
+  people who made them, which is why they were made that way. That is a different
+  register from a dungeon's ledgers and letters: monumental, public, and meant to be
+  read by strangers.

@@ -1,11 +1,11 @@
 # Setting - Factions
 
-## Decides
+## Provides
 The three powers a party may treat with, oppose, or ignore, and how each is recognised
 before it is named.
 
 ## Read at
-Step 2g, after `setting/Bestiary.md`.
+Step 2f, after `setting/Bestiary.md`.
 
 ## Spec
 
@@ -20,11 +20,6 @@ FACTIONS - three
   1     None of the three is the region's government, unless the setting is about that
 ```
 
-**Faction dice are relative and nothing else.** Per `setting/Procedures.md` they resolve
-Faction Turns against each other and have no absolute meaning. Do not pitch them against
-creature or party dice. A small faction may be a terrible creature - the two numbers are
-unrelated, and a power that is weak in the world may still kill everyone in a room.
-
 **Ignorance is its own relation, and discovery should be worth something.** Factions need
 not know one another exist. A party that learns two powers are working the same ground, and
 that neither knows, is holding the most valuable thing in the setting.
@@ -33,7 +28,7 @@ that neither knows, is holding the most valuable thing in the setting.
 what a faction does; the mark is how a party knows it is looking at one. Without it, faction
 presence can only be communicated by narration, and every appearance starts from nothing.
 
-## Patterns
+## Design patterns
 
 **What a faction wants** - a route; a resource, and exclusive access to it; a person; a
 place cleared; a place kept sealed; legitimacy; a debt honoured; a rival gone; to know
@@ -60,4 +55,9 @@ Faction pool measures what they accomplish in the world; the Bestiary pool measu
 they are to fight.
 
 ## Constraints
-*(Empty. Entries arrive from generation testing, never from anticipation.)*
+
+- **Faction dice are relative and nothing else.** Per `setting/Procedures.md` they
+  resolve Faction Turns against each other and have no absolute meaning. Do not pitch
+  them against creature or party dice. A small faction may be a terrible creature - the
+  two numbers are unrelated, and a power that is weak in the world may still kill
+  everyone in a room.

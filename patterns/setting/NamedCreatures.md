@@ -1,7 +1,12 @@
 # Setting - Named Creatures
 
-## Decides
+## Provides
 What earns a row in `setting/NamedCreatures.md` rather than staying a Bestiary template.
+
+## Read at
+Step 2h to stub the file, step 4c to add a row whenever a location calls for a recurring
+individual, and step 4d to write every entry. The reusable templates it is distinct from
+are in `patterns/setting/Bestiary.md`.
 
 ## Spec
 
@@ -19,15 +24,11 @@ creature with a name in its Feature line. This file is for something the setting
 from keeping consistent across appearances - what it wants, how it reacts, what it
 remembers of the party.
 
-**A motivation is a standing goal, not a scripted arc.** Per `GENRE.md` it is something the
-creature is pursuing whether or not the party ever shows up, and it should be possible to
-state without mentioning them.
-
 **Heard of before met.** The best use of this file is a name that reaches a party through a
 rumour, a piece of lore, or a survivor before they ever see the thing. That is only possible
 if the entry is consistent, which is the entire reason it is not written inline.
 
-## Patterns
+## Design patterns
 
 **Who earns a row** - a region's set-piece threat; something that ranges across more than one
 region; a person a settlement's Situation revolves around; a creature that will survive an
@@ -45,4 +46,7 @@ creature that reacts identically on a second meeting has wasted its row.
 row for exactly the same reason a monster does - the party will meet them again.
 
 ## Constraints
-*(Empty. Entries arrive from generation testing, never from anticipation.)*
+
+- **A motivation is a standing goal, not a scripted arc.** Per `GENRE.md` it is
+  something the creature is pursuing whether or not the party ever shows up, and it
+  should be possible to state without mentioning them.

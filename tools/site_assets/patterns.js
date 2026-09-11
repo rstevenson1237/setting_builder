@@ -71,11 +71,10 @@
       '<div class="pattern-insp-eyebrow">' + n.folder + "/</div>" +
       "<h3>" + esc(n.filename) + "</h3></div>" +
       issuesHtml +
-      fieldBlock("Decides", n.decides) +
+      fieldBlock("Provides", n.provides) +
       fieldBlock("Read at", n.read_at) +
       fieldBlock("Spec", n.spec, true) +
-      fieldBlock("Patterns", n.patterns_text) +
-      fieldBlock("Examples", n.examples) +
+      fieldBlock("Design patterns", n.design_patterns) +
       fieldBlock("Constraints", n.constraints) +
       chipRow("Cites", n.out) +
       chipRow("Cited by", n.incoming);
@@ -89,7 +88,7 @@
     var edgeCount = 0;
     Object.keys(DATA.nodes).forEach(function (k) { edgeCount += DATA.nodes[k].out.length; });
     inspectorEl.innerHTML =
-      '<p class="hint">Click any file in the columns to the left to see what it decides, ' +
+      '<p class="hint">Click any file in the columns to the left to see what it provides, ' +
       "what cites it, and what it cites in turn - traced live as you go.</p>" +
       '<p class="hint"><strong>' + fileCount + "</strong> files, <strong>" + edgeCount + "</strong> citations.</p>";
   }

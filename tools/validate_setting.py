@@ -132,6 +132,85 @@ def check_pattern_files(diag: Diagnostics):
         for m in BARE_KIND_ARROW_RE.finditer(text):
             diag.error(path, f"'-> {m.group(1)}' names a file with no folder - "
                               f"every citation states which patterns/ folder it points to")
+        check_pattern_sections(diag, path, text)
+        check_read_at_steps(diag, path, text)
+
+
+# ---------------------------------------------------------------------------
+# patterns/*/*.md - section structure
+#
+# One skeleton, no declared tiers: Provides / Read at / Spec / Design
+# patterns / Constraints. A Spec line either points to another pattern file
+# or states a question the generator answers, which makes the library one
+# tree - a file with outgoing citations is a classifier and a file without
+# them is a leaf, and that is read off the citations rather than asserted
+# anywhere. "Design questions" used to be a separate heading for a leaf
+# file's own contract; it was the same grammar as a Spec and on the same
+# side of the neutral/compiled split, so it was folded back in.
+#
+# "## Design patterns" stays optional: it is the per-build compiled content
+# (STEPS.md step 1b), and most files legitimately have none.
+#
+# patterns/setting/Genre.md carries extra sections - it is an interactive
+# elicitation procedure and those sections are the procedure.
+# ---------------------------------------------------------------------------
+
+
+def check_pattern_sections(diag: Diagnostics, path, text: str):
+    has = lambda h: f"\n## {h}\n" in text or text.startswith(f"## {h}\n")
+    for required in ("Provides", "Read at", "Spec"):
+        if not has(required):
+            diag.error(path, f"missing a '## {required}' section - every patterns/*/*.md "
+                              f"file carries one")
+    if has("Design questions"):
+        diag.error(path, "carries a '## Design questions' section, which was folded into "
+                          "'## Spec' - a Spec line either cites a file or states a question")
+
+
+
+# ---------------------------------------------------------------------------
+# patterns/*/*.md - "## Read at" names real STEPS.md steps
+#
+# STEPS.md is the authority on build order, so a Read at citing a step that
+# does not exist there is stale. This check exists because a phase-2 renumber
+# once left eight setting/ patterns pointing a step too far down, three of
+# them at a "2i" that had stopped existing entirely.
+# ---------------------------------------------------------------------------
+
+STEP_ID_RE = re.compile(r'\b([1-9][0-9]*[a-z])\b')
+STEPS_MD = ROOT / "STEPS.md"
+
+
+def known_step_ids():
+    if not STEPS_MD.exists():
+        return None
+    ids = set()
+    for line in STEPS_MD.read_text().splitlines():
+        m = re.match(r'\s*-\s+([1-9][0-9]*[a-z])\.\s', line)
+        if m:
+            ids.add(m.group(1))
+    return ids or None
+
+
+_STEP_IDS = None
+
+
+def check_read_at_steps(diag: Diagnostics, path, text: str):
+    global _STEP_IDS
+    if _STEP_IDS is None:
+        _STEP_IDS = known_step_ids()
+    if not _STEP_IDS:
+        return
+    m = re.search(r'\n## Read at\n(.*?)(?=\n## )', text, re.S)
+    if not m:
+        return
+    cited = set(STEP_ID_RE.findall(m.group(1)))
+    if not cited:
+        diag.warn(path, "'## Read at' names no STEPS.md step - state which step reads "
+                         "this file, so step coverage can be audited")
+        return
+    for step in sorted(cited - _STEP_IDS):
+        diag.error(path, f"'## Read at' cites step {step}, which STEPS.md does not define")
 
 
 # ---------------------------------------------------------------------------

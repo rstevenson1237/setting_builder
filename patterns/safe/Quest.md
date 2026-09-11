@@ -1,6 +1,6 @@
 # Safe - Quest
 
-## Decides
+## Provides
 How a SAFE location gives a quest: who asks, what they want, what they offer, and what
 they leave out.
 
@@ -35,7 +35,7 @@ share, the *fair* one is taking half - and it costs nothing to write it that way
 adventure. The giver who does not mention that the last two people did not come back is
 more useful than any amount of description.
 
-## Patterns
+## Design patterns
 
 **Why they will not go** - too old, too fat, too known there; last time nearly killed them;
 they are watched and cannot leave; it would be admitting something; they are needed here;

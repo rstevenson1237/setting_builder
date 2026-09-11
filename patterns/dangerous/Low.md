@@ -1,6 +1,6 @@
 # Dangerous - Low
 
-## Decides
+## Provides
 What a low-weight location guarantees, and what its node role requires of it.
 
 ## Read at
@@ -10,19 +10,31 @@ Step 4c, for a location its gazetteer stub marks low. Node role is taken from th
 ## Spec
 
 **Every line below is read the same way:** `1` is mandatory; a percentage is the rate at
-which a Feature carrying that content appears. Where a line names a file in parentheses,
-that is the only other file this line requires.
+which a Feature carrying that content appears. Every line is either an edge - it names a
+file in parentheses, the only other file that line requires - or a question the generator
+answers here.
 
 ```
 DANGEROUS - LOW                        (parameterized by node role)
-  1     Dressing, Secrets, and Naming, unconditional  (dangerous/Dressing.md,
-                                                       dangerous/Secrets.md,
-                                                       dangerous/Naming.md)
-  1     Node role honoured, per the Patterns below    (this file)
-  14%   Treasure - unguarded, cited from a table      (dangerous/Treasure.md)
-  20%   A detail that rewards looking without demanding action
+
+  -- substrate: what this room is
+  1     Dressing - what it is now, and what it was    (dangerous/Dressing.md)
+  1     Node role honoured, per the Design patterns below
+  1     Secrets - whether it conceals anything, at the rate its node role sets
+                                                      (dangerous/Secrets.md)
+
+  -- challenge: none. LOW presents as unremarkable, and a challenge here would
+     make it a MEDIUM location. What LOW carries instead is its Secret.
+
+  -- reward: what is here to take
+  30%   Treasure - never guarded, and most often Table I   (dangerous/Treasure.md)
+
+  -- registry: what ties this room to somewhere else
   10%   A detail that foreshadows a HIGH location elsewhere in the region
-  10%   Key or Quest involvement                      (dangerous/Key.md, dangerous/Quest.md)
+  5%    A lock, and the key that opens it is elsewhere      (dangerous/Key.md)
+  5%    The target of a quest given elsewhere               (dangerous/Quest.md)
+
+  1     Naming, after everything above                      (dangerous/Naming.md)
 ```
 
 Low weight means the location presents as unremarkable. It does not mean the location is
@@ -33,7 +45,18 @@ That is the whole value of the class. If a low-weight room could never repay att
 players would learn to walk through them, and the region would lose the only thing that
 makes attention a real cost.
 
-## Patterns
+**The treasure line is the old pair merged.** LOW used to draw unguarded treasure at 14%
+and "a detail that rewards looking without demanding action" at 20% - which is
+word-for-word what `dangerous/Treasure.md` already calls Table I, Scavenged Loot. They were
+one thing written twice, and the merged rate is what the two came to independently. Never
+guarded, because a guard is a challenge and LOW has none.
+
+**The Secret is LOW's whole load.** It is the only class whose concealment rate is set by
+node role rather than by weight, which is why `dangerous/Secrets.md` survives here after
+HIGH stopped drawing it - see that file's own inclusion table.
+
+
+## Design patterns
 
 **What honouring a node role means** - the role is read off `Connections.mmd` at 4b, not
 chosen here, and it changes the Exits line and, for some roles, the Secret. Per

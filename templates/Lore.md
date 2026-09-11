@@ -1,16 +1,16 @@
 # Lore.md
 
 ## Purpose
-A registry of written works discoverable within the setting - books, scrolls, tapestries, notes, correspondence, maps, and the like - that reveal purpose behind a region, connect its History and Truths, and offer adventure hooks. Generated in two phases: stubbed empty at step 2i, a stub row added per entry during location generation (step 4c), and the full entry written afterward (step 4d).
+A registry of written works discoverable within the setting - books, scrolls, tapestries, notes, correspondence, maps, and the like - that reveal purpose behind a region, connect its History and Truths, and offer adventure hooks. Generated in two phases: stubbed empty at step 2h, a stub row added per entry during location generation (step 4c), and the full entry written afterward (step 4d).
 
 ## Context
 Read first:
-- Step 2i (stubbing the file): no context needed.
+- Step 2h (stubbing the file): no context needed.
 - Step 4c (recording a stub): `GENRE.md`, `templates/Location.md`.
 - Step 4d (writing the full entry): `GENRE.md`, `setting/Setting.md`, `setting/History.md`, `setting/Truths.md`, `patterns/setting/Lore.md`, and the location file the stub points to.
 
 ## Instructions
-- **2i**: create the file with only its title line.
+- **2h**: create the file with only its title line.
 - **4c**: append a stub row - Title and Location only - when a location's Feature calls for a piece of Lore, and cite it in that Feature.
 - **4d**: replace each stub row with its full entry per `patterns/setting/Lore.md`.
 

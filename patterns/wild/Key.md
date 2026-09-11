@@ -1,6 +1,6 @@
 # Wild - Key
 
-## Decides
+## Provides
 When a WILD location holds an object whose real function is opening something elsewhere.
 
 ## Read at
@@ -23,7 +23,7 @@ distance, or it was buried with the person who held it. The distance between key
 is the reason a point crawl is a network - and a key found in open country points a party
 at a dungeon they may not have heard of yet.
 
-## Patterns
+## Design patterns
 
 **How it got out here** - carried by somebody who died on the way; hidden at a distance on
 purpose, because keeping it with the lock defeated the point; buried as a grave good;

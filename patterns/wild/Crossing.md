@@ -1,18 +1,32 @@
 # Wild - Crossing
 
-## Decides
+## Provides
 What a Landmark defined by the cost of going around it guarantees, and what currently
 controls passing through it.
 
 ## Read at
-Step 4c, when `wild/Landmark.md`'s spec draws Kind: Crossing - the only classification file
-that does. That file's own KIND: CROSSING block states the contract (what must be crossed,
-what controls it now, what waits on the far side, the percentage lines) - genre-neutral and
-permanent. This file supplies what fills that contract, which is not: a Crossing is a
-Landmark whose function is that the region's own shape makes going through it cheaper than
-going around it - built, natural, or held, and regardless of who if anyone lives there.
+Step 4c, when `wild/Landmark.md`'s spec draws Kind: Crossing - the only classification
+file that does. A Crossing is a Landmark whose function is that the region's own shape
+makes going through it cheaper than going around it - built, natural, or held, and
+regardless of who if anyone lives there.
 
-## Examples
+## Spec
+
+**Every line below is read the same way:** `1` is mandatory; a percentage is the rate
+at which a Feature carrying that content appears. This block is setting-neutral and
+permanent - step 1b recompiles the Design patterns below it, never this.
+
+```
+KIND: CROSSING
+  1     What must be crossed, and why the country will not simply be gone around
+  1     What controls or complicates the crossing today - season, toll, hazard, guardian
+  1     What waits on the far side, visible before the party commits to it
+  40%   Something else caught here, mid-crossing, when the party arrives
+  30%   A toll, custom, or right-of-way someone here enforces
+  20%   A name in an older tongue, per wild/Naming.md
+```
+
+## Design patterns
 
 Compiled for this build, from this setting's chosen genre reference.
 

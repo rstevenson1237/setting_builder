@@ -1,6 +1,6 @@
 # Safe - Settlement
 
-## Decides
+## Provides
 What kind of settled place this is, which locations it can plausibly hold, and - for each
 one - how much it matters.
 
@@ -56,12 +56,6 @@ SAFE - INCLUSION                       (parameterized by prominence)
   10%   A Secret, per safe/Secrets.md - a settlement-wide rate, not a per-location one
 ```
 
-**Decide prominence first, and do not derive it from size.** A crossroads shrine may be
-central because the setting is about what is buried under it; a large market may be a liner
-note because the party is passing through and the market is only a market. **The variance
-is the point** - a settlement where every location is equally detailed reads as a
-gazetteer, not a place.
-
 **The two mandatory lines that are easiest to skip are the two that make a settlement
 navigable.** *One thing obtainable here and not at the last location* is what stops ten
 locations being ten shops - it is the reason a party goes to this door rather than that
@@ -83,4 +77,9 @@ Per D17, extra weight in SAFE arrives as **more locations**, not heavier ones. A
 that matters gets a fuller list, not a longer entry per item.
 
 ## Constraints
-*(Empty. Entries arrive from generation testing, never from anticipation.)*
+
+- **Decide prominence first, and do not derive it from size.** A crossroads shrine may
+  be central because the setting is about what is buried under it; a large market may be
+  a liner note because the party is passing through and the market is only a market.
+  **The variance is the point** - a settlement where every location is equally detailed
+  reads as a gazetteer, not a place.

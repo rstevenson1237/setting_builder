@@ -1,6 +1,6 @@
 # Wild - Secret
 
-## Decides
+## Provides
 What a Secret-tier location guarantees, and the trigger that reveals it.
 
 ## Read at
