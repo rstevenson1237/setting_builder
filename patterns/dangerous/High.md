@@ -20,9 +20,11 @@ DANGEROUS - HIGH
                                                        dangerous/Naming.md)
   1     Challenge            {creature | trap | mystery}
                                                       (dangerous/Creature.md,
-                                                       dangerous/Trap.md, see MYSTERY below)
+                                                       dangerous/Trap.md,
+                                                       dangerous/Mystery.md)
   50%   Secondary challenge  {creature | trap | mystery}   - not the same kind as the first
-  30%   Mystery              - if not already taken as a challenge   (see MYSTERY below)
+  30%   Mystery              - if not already taken as a challenge
+                                                      (dangerous/Mystery.md)
   1     Architecture detail unique to this location  (dangerous/Dressing.md)
   50%   Ambiance detail unique to this location       (dangerous/Dressing.md)
   80%   Treasure             {hidden | trapped | discarded}   (dangerous/Treasure.md)
@@ -32,25 +34,11 @@ DANGEROUS - HIGH
   20%   Key or Quest involvement                         (dangerous/Key.md, dangerous/Quest.md)
 ```
 
-```
-MYSTERY, wherever one appears above              (content in dangerous/Mystery.md)
-  1     Fixture - something built or placed with purpose, not found debris
-  2     Physical details it can be reasoned from - the floor, not the target: one detail is
-        guessed at, three is reasoned out
-  1     Trigger, stated explicitly
-  1     What the correct trigger accomplishes
-  1     What a genuinely wrong attempt costs
-  40%   A third detail, where the trigger is more than one step
-```
 
 High weight means the location **announces itself**. The architecture line is mandatory
 because that is what does the announcing: before a party knows what is in the room, the
 room has to look like somewhere that matters.
 
-**A Mystery left uninvestigated is neutral.** Inspection, theorising, and a wrong guess
-that stops short of a real attempt all cost nothing - this is what separates a Mystery from
-a Trap: a trap fires on contact or presence, a mystery fires only on a failed attempt to
-use it.
 
 ## Constraints
 *(Empty. Entries arrive from generation testing, never from anticipation.)*

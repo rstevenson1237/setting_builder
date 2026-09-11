@@ -5,11 +5,28 @@ What a built-or-once-built Landmark is, and what its condition says about who le
 
 ## Read at
 Step 4c, when `wild/Landmark.md`'s spec draws Kind: Ruin - the only classification file
-that does. That file's own KIND: RUIN block states the contract (what it was, its state
-now, whether anything holds it, and the percentage lines) - genre-neutral and permanent.
-This file supplies what fills that contract, which is not: a Ruin is anything made by
-hands and no longer used as made - including things still standing and still occupied by
-somebody other than their builders.
+that does. A Ruin is anything made by hands and no longer used as made, including things
+still standing and still occupied by somebody other than their builders.
+
+## Design questions
+
+**Every line below is read the same way:** `1` is mandatory; a percentage is the rate
+at which a Feature carrying that content appears. This block is setting-neutral and
+permanent - step 1b recompiles the Design patterns below it, never this.
+
+```
+KIND: RUIN
+  1     What it was, and roughly when
+  1     What state it is in now, and what did that to it
+  1     Whether anything holds it now
+  40%   A second occupancy between the builders and now
+  30%   Something the builders did that nobody does any more
+  20%   A name in an older tongue, per wild/Naming.md
+```
+
+**Ruin condition is the storytelling.** A tower thrown down is a different story from a
+tower abandoned, which is different from a tower still roofed and empty. State what
+happened to it, not just that it is ruined.
 
 ## Design patterns
 

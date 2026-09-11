@@ -5,11 +5,27 @@ What an unbuilt, unoccupied Landmark is, and why it is worth four hours to visit
 
 ## Read at
 Step 4c, when `wild/Landmark.md`'s spec draws Kind: Natural Feature - the only
-classification file that does. That file's own KIND: NATURAL FEATURE block states the
-contract (what it is, why a party stops, one way it differs, the percentage lines) -
-genre-neutral and permanent. This file supplies what fills that contract, which is not:
-the hardest kind to write well, since it has no builder and no occupant, so it has to
-earn its slot on what it *does*.
+classification file that does. Alone among the kinds it has no builder and no occupant,
+so it has to earn its slot on what it *does*.
+
+## Design questions
+
+**Every line below is read the same way:** `1` is mandatory; a percentage is the rate
+at which a Feature carrying that content appears. This block is setting-neutral and
+permanent - step 1b recompiles the Design patterns below it, never this.
+
+```
+KIND: NATURAL FEATURE
+  1     What it physically is, and its scale in yards
+  1     Why a party would stop - shelter, water, vantage, materials, or a crossing
+  1     One way it is not like the country around it
+  30%   Something mysterious about it, priced or dangerous to use, per GENRE.md
+  30%   A resource findable here, tied to the region's Foraging field
+  20%   A hazard that is simply part of the place
+```
+
+**A Natural Feature is the hardest kind to write well** - it has no builder and no
+occupant, so unlike a Ruin or a Lair it has to earn its slot on what it *does* alone.
 
 ## Design patterns
 

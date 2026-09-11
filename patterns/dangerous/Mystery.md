@@ -4,12 +4,31 @@
 What the strange thing is, how it is engaged, and what engaging it wrongly costs.
 
 ## Read at
-Step 4c, when `dangerous/High.md`'s spec draws a mystery - the only weight file that does.
-That file's own MYSTERY block states the contract (fixture, physical details, trigger,
-what it accomplishes, what a wrong attempt costs, the percentage line) - genre-neutral and
-permanent. This file supplies what fills that contract, which is not. Distinct from
-`dangerous/Secrets.md`: a Mystery is content and may be in plain sight; a Secret is a
-discovery structure and by definition is not.
+Step 4c, when `dangerous/High.md`'s spec draws a mystery - the only weight file that
+does. Distinct from `dangerous/Secrets.md`: a Mystery is content and may be in plain
+sight; a Secret is a discovery structure and by definition is not.
+
+## Design questions
+
+**Every line below is read the same way:** `1` is mandatory; a percentage is the rate
+at which a Feature carrying that content appears. This block is setting-neutral and
+permanent - step 1b recompiles the Design patterns below it, never this.
+
+```
+MYSTERY
+  1     Fixture - something built or placed with purpose, not found debris
+  2     Physical details it can be reasoned from - the floor, not the target: one detail is
+        guessed at, three is reasoned out
+  1     Trigger, stated explicitly
+  1     What the correct trigger accomplishes
+  1     What a genuinely wrong attempt costs
+  40%   A third detail, where the trigger is more than one step
+```
+
+**A Mystery left uninvestigated is neutral.** Inspection, theorising, and a wrong guess
+that stops short of a real attempt all cost nothing - this is what separates a Mystery from
+a Trap: a trap fires on contact or presence, a mystery fires only on a failed attempt to
+use it.
 
 ## Design patterns
 
