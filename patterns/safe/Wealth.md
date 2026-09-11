@@ -19,7 +19,7 @@ WEALTH
 ```
 
 **Treasure** is cited from a table, per `setting/Treasure1.md` through `Treasure5.md`, or
-stated as a Unique Treasure stub per `patterns/setting/Keys.md`'s sibling registries. **Lore**
+stated as a Unique Treasure stub per `patterns/setting/UniqueTreasures.md`. **Lore**
 follows `safe/Lore.md`'s fields - physical form, whose voice, what it does - with one
 deliberate exception: `safe/Lore.md` frames SAFE lore as *obtainable rather than
 discovered*, because its obstacle is normally a living holder. A Wealth location's lore is

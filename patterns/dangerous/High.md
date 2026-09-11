@@ -28,7 +28,8 @@ DANGEROUS - HIGH
   1     Architecture detail unique to this location  (dangerous/Dressing.md)
   50%   Ambiance detail unique to this location       (dangerous/Dressing.md)
   80%   Treasure             {hidden | trapped | discarded}   (dangerous/Treasure.md)
-  40%   A Unique Treasure, in place of a table citation   (patterns/setting/Keys.md)
+  40%   A Unique Treasure, in place of a table citation
+                                                      (patterns/setting/UniqueTreasures.md)
   30%   Lore, alongside the payload rather than instead of it   (dangerous/Lore.md)
   25%   A Named Creature, where the challenge is a creature   (dangerous/Creature.md)
   20%   Key or Quest involvement                         (dangerous/Key.md, dangerous/Quest.md)
