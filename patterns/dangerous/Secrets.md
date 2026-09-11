@@ -27,8 +27,10 @@ INCLUSION
   low weight, dead end (honest)     50%   - this is the role's entire question
   low weight, other                 30%
   medium weight                     40%
-  high weight                       by fit only - high weight already carries its own
-                                           density
+  high weight                       never - dangerous/High.md does not draw this file.
+                                           A HIGH location's concealment is carried by a
+                                           hidden Treasure disposition, or by a Hazard's
+                                           or Mystery's own clue
 ```
 
 **Dead end and appears as dead end are different roles precisely because of this rate.** A

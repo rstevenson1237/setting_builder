@@ -5,8 +5,10 @@ When a DANGEROUS location holds an object whose real function is opening somethi
 somewhere else.
 
 ## Read at
-Step 4c, when a weight file's spec draws a key. Criteria for what earns a
-`setting/Keys.md` row are in `patterns/setting/Keys.md`.
+Step 4c, from either end. The **supply** end - a key lying here to be found - is drawn by
+`dangerous/Treasure.md` as what the treasure is. The **demand** end - a lock here that a
+key elsewhere opens - is drawn by the weight file's own registry line. Criteria for what
+earns a `setting/Keys.md` row are in `patterns/setting/Keys.md`.
 
 ## Spec
 
@@ -44,4 +46,10 @@ a discovery, and it can carry a Clue/Trigger/Payload of its own per
 `dangerous/Secrets.md`.
 
 ## Constraints
-*(Empty. Entries arrive from generation testing, never from anticipation.)*
+
+- **A key is drawn from two places at two rates, and that is not a duplication.** The
+  object found here is treasure, drawn by `dangerous/Treasure.md`; the lock here that
+  something elsewhere opens is registry, drawn by the weight file. Per
+  `patterns/setting/Keys.md` a key gates something elsewhere and the two ends are
+  deliberately apart, so one location very rarely holds both - and where it does, they
+  are two different keys.

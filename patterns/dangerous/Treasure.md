@@ -1,36 +1,49 @@
 # Dangerous - Treasure
 
 ## Provides
-Which table a DANGEROUS location cites, what conceals the find, and what relationship the
-treasure has to whatever is near it.
+What a DANGEROUS location holds to be taken - which registry or table it comes from, what
+conceals it, and what stands between the party and it.
 
 ## Read at
 Step 4c, when a weight file's spec draws treasure. The tables themselves are
 `setting/Treasure1.md` through `Treasure5.md`; citation format is in `templates/Location.md`.
+This is the supply end of a Key or a piece of Lore - the object found here. The demand end,
+a lock or a quest target this room holds for something elsewhere, is drawn by the weight
+file's own registry lines instead.
 
 ## Spec
 
 ```
 TREASURE
-  1     Table, from the Patterns below
-  1     Container, or what conceals it
-  1     The search or trigger that reaches it
-  40%   A guard relationship - something near it that treats it as its own
+  1     Disposition   {guarded | hidden | discarded}
+  1     What it is    {table roll | unique treasure | lore | key}
+                        (patterns/setting/Treasure.md,
+                         patterns/setting/UniqueTreasures.md,
+                         dangerous/Lore.md, dangerous/Key.md)
+  1     What it is in, under, or behind, and the search or trigger that reaches it
+  1     Guarded: what guards it, drawn as an Encounter or a Hazard
+                        (dangerous/Encounter.md, dangerous/Hazard.md)
+  30%   Something already tried for it and failed
   20%   A reason it was left rather than taken
 ```
 
-Never name or describe the item. The cited roll decides contents, and stating an item here
-would contradict whatever comes up. Describe the container, what hides it, and what it
-takes to reach it - the same way a hidden exit is handled.
+**This is the reward end of the location - what is here to be taken.** A key found here is
+treasure; the *lock* a key elsewhere opens is not, and belongs to the drawing class's
+registry block. Lore is the same: a document lying here is a find, and it is drawn here.
 
-One pull per citation. A location wanting more takes a second citation elsewhere in its
+**Never name or describe the contents of a table roll.** The cited roll decides them, and
+stating an item would contradict whatever comes up. Describe the container, what hides it,
+and what it takes to reach it - the same way a hidden exit is handled. This does **not**
+apply to a unique treasure, a piece of lore, or a key: those are named, because each is a
+stub row in its own registry and the row needs a name to be written against.
+
+**One pull per citation.** A location wanting more takes a second citation elsewhere in its
 Features rather than multiplying one.
 
-**Contract.** A DANGEROUS treasure find owes: a table citation, a container or
-concealment, and the search or trigger that reaches it - never the item itself, since the
-cited roll decides contents. Genre-neutral and permanent. What the container and
-concealment actually are is not - the Examples below are this build's compile of it, from
-this setting's chosen genre reference.
+**A guard is drawn, not invented.** Where the disposition is `guarded`, the thing guarding
+it comes from `dangerous/Encounter.md` or `dangerous/Hazard.md` like any other - which is
+what keeps a guardian a real encounter with a sign and a want, rather than a sentence
+attached to a chest.
 
 ## Design patterns
 

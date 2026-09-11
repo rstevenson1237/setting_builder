@@ -4,8 +4,10 @@
 Which trap fits, and whether it states a tell.
 
 ## Read at
-Step 4c, when a weight file's spec draws a trap. Resolution is not here - it is in
-`setting/Procedures.md`.
+Step 4c, when `dangerous/Hazard.md` draws Mechanism: trap, or when a weight file's spec
+draws a trap directly - MEDIUM and LOW still do. Resolution is not here - it is in
+`setting/Procedures.md`. Distinct from `dangerous/Environmental.md` and
+`dangerous/Residual.md`: a trap was built for this, by somebody, and still does that job.
 
 ## Spec
 

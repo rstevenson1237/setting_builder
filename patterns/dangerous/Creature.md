@@ -5,7 +5,8 @@ Which creature fits a DANGEROUS location, at what scale, and what its presence i
 about the rest of the region.
 
 ## Read at
-Step 4c, when a weight file's spec draws a creature. Scaling is in
+Step 4c, when `dangerous/Encounter.md` draws Kind: creature, or when a weight file's spec
+draws a creature directly - MEDIUM and LOW still do. Scaling is in
 `patterns/setting/Bestiary.md`; entries are in `setting/Bestiary.md`.
 
 ## Spec
