@@ -32,27 +32,15 @@ DETAIL BUDGET
                party something to act on it is promoted to its own Feature line
 ```
 
-```
-WORD BUDGET - the whole entry, excluding the header line and the Exits line
-  liner note   ~140 words
-  working      ~220 words
-  central      ~320 words
-```
-
-These are the DANGEROUS figures, calibrated there against a live generation and carried
-across by analogy rather than measured here. Treat them as provisional until a SAFE region
-has been written against them.
-
-**The budget is diagnostic, not a target.** A SAFE entry over budget is usually explaining
-its own significance - saying that a fixture is the region's Situation made visible rather
-than letting the fixture be it. Per `templates/Location.md`, cut the commentary before
-touching a fact.
+**A SAFE entry runs long by explaining its own significance** - saying that a fixture is
+the region's Situation made visible rather than letting the fixture be it. Per
+`templates/Location.md`, cut the commentary before touching a fact.
 
 SAFE has a second way to run long that the other ratings do not: **a settlement location is
 a place a party goes to get something, and the entry keeps describing the place instead of
 the transaction.** Prices, what is in stock, what a name gets you, who will talk - those are
 the words worth spending. A hundred words on a fixture nobody can do anything with is the
-commonest SAFE failure, and it is why an entry can be under budget and still be inert.
+commonest SAFE failure, and it is why a short entry can still be inert.
 
 **Condition is the SAFE-specific reading of this.** A dungeon room records what happened to
 it once; a settlement building records what happens in it, daily, and that is what makes it

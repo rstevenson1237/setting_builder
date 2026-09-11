@@ -25,14 +25,6 @@ them is filler - a region holds only about as many as its die, and a landmark wr
 has wasted one of ten slots. Depth comes from attaching children, not from writing some
 parents lighter than others.
 
-```
-WORD BUDGET - the whole entry, excluding the header line and the Exits line
-  every WILD location    ~260 words, flat - there are no classes here to vary it by
-```
-
-Carried across from the DANGEROUS calibration by analogy rather than measured here. Treat it
-as provisional until a WILD region has been written against it.
-
 Hidden and Secret locations skip the position line: their position is defined by the
 parent they hang off.
 
@@ -84,11 +76,10 @@ weather - scree, corrie, holt, spinney, sike, hag, tor, brake. Name the species 
   answered "what is this for." Dressing does not reopen that question; it dresses the
   answer.
 
-- **No detail budget is not the same as no word budget**, and WILD is the rating most
-  likely to confuse them. Every location getting the full treatment means every location
-  gets its position, its Condition, its Ambiance and its full complement of Features -
-  it does not mean any of those may be explained at length. The budget is diagnostic:
-  per `templates/Location.md`, an over-budget WILD entry is usually one where the
-  connective texture that belongs in the Region Overview's Terrain field has been
-  written out again here, or where a detail has been given its causal history instead of
-  just being present.
+- **No detail budget is not a licence to explain at length**, and WILD is the rating
+  most likely to confuse the two. Every location getting the full treatment means every
+  location gets its position, its Condition, its Ambiance and its full complement of
+  Features - it does not mean any of those may be written out at length. A WILD entry
+  runs long in two specific ways: the connective texture that belongs in the Region
+  Overview's Terrain field gets written out again here, or a detail is given its causal
+  history instead of just being present.

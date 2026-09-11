@@ -119,6 +119,44 @@ A classifier's own content is neutral by definition, so a classifier carrying
 `## Design patterns` is worth a second look - its option menus are usually answering a
 question rather than injecting specificity.
 
+## What a spec line owes
+
+A spec line says which feature appears and at what rate. What it does **not** say, and
+must not, is how many words the generated feature gets.
+
+**The unit of generated content is the Feature, not the word.** A drawn element's contract
+is satisfied across as many Features as it takes: where a contract line names something the
+players can address as its own object - looked at, acted on, taken, fought, opened - that
+line becomes its own Feature. Treasure hidden in a pillar and guarded by a beast is three
+Features, not one complex one. A contract line that only *qualifies* another thing - its
+condition, its position, how it is reached - stays on that thing's line.
+
+This is what keeps entries terse without a cap. One Feature states one thing, so it is
+naturally short; the generator never has to compress a complex feature into a word count
+that cannot hold it, and never has connective prose to write, because Features are listed
+rather than joined. An entry's length is therefore the number of Features the classifier
+drew - a decision already made, in the Spec - and not a budget anyone sets afterwards.
+
+Corollaries:
+
+- **Never fill a gap with prose.** Every clause traces to a drawn contract line. A clause
+  with no line behind it is cut, which is a structural test rather than a stylistic one.
+- **Complexity decomposes, it does not expand.** A feature that will not fit a short line
+  is usually several features.
+- **Word counts are diagnostic at most.** An over-long Feature means something is being
+  explained rather than stated; an over-long entry means too many Features were drawn,
+  which is the classifier's problem and not the line's.
+
+Hard word ceilings were tried and removed. `templates/Location.md` carried a per-Feature
+cap keyed to position - 15 words for the first Feature, 8-12 for the rest - which measured
+prominence while the thing that actually varies is complexity: contracts run from two
+mandatory lines (`wild/Quest.md`) to six (`wild/Mystery.md`), and both got the same
+allowance. `safe/Dressing.md` and `wild/Dressing.md` carried whole-entry word budgets that
+were, by their own admission, provisional figures carried across by analogy from a
+DANGEROUS calibration that is not recorded anywhere - and `dangerous/Dressing.md`, the
+rating they were taken from, carries no budget at all. Decomposition does the work all
+three were standing in for.
+
 ## Citation format
 
 A citation from one `patterns/*/*.md` file to another is always `folder/File.md`, bare,
