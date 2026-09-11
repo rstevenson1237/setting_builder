@@ -198,9 +198,9 @@ with a single tag-line rather than embedding tags inline, and a location's gazet
 draws exactly two - one from the setting pool, one from its own region's - rather than
 inventing three fresh. A tag never selects which pattern file governs a location (that's
 Kind) and never carries inclusion math (that's a class file's Spec); its only job is a
-quick, scannable handle. See `PLANS.md`'s Plan 1B for the design history, including the
-rejected alternative (a richer, structural tag pool joined against generic pattern files
-at generation time) and why compiling genre content into the pattern files themselves
+quick, scannable handle. `PLANS.md` and its git history carry the design history, including
+the rejected alternative (a richer, structural tag pool joined against generic pattern
+files at generation time) and why compiling genre content into the pattern files themselves
 (below) won out instead.
 
 ## Location entry format (`templates/Location.md`)
