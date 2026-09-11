@@ -5,7 +5,8 @@ What a SAFE location is called, in whose mouth, and - when the name reuses a
 constructed-language proper noun coined elsewhere - what it means for the referee.
 
 ## Read at
-Step 4c, for every SAFE location, after Dressing.
+Step 4c, drawn as the last line of `safe/Settlement.md` - every SAFE location, after
+everything else in its entry is decided.
 
 ## Spec
 

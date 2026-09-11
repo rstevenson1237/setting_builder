@@ -5,7 +5,8 @@ Where a claim to authority is exercised, on what basis, and what a stranger has 
 get anything out of it.
 
 ## Read at
-Step 4c, for a SAFE location whose kind is an office, a posting place, or a custom.
+Step 4c, when `safe/Settlement.md`'s Kind line draws Authority - an office, a posting
+place, or a custom.
 
 ## Spec
 
@@ -13,7 +14,6 @@ Step 4c, for a SAFE location whose kind is an office, a posting place, or a cust
 AUTHORITY
   1     Who holds it here, and by what claim - elected, inherited, seized, granted, assumed
   1     What actually gets settled here, as opposed to what is claimed
-  1     What a stranger must do to get a hearing
   1     The limit of the claim - where it stops being obeyed
   40%   A rival claim, and who backs it
   30%   Something posted, current, and specific
@@ -25,9 +25,14 @@ because of a specific arrangement, and that arrangement has an edge past which n
 listening. State the edge - it is the most useful fact in the entry, and it is where a
 party's leverage lives.
 
+**What a stranger must do to get a hearing is `safe/Settlement.md`'s gate line**, answered
+once per location whatever its Kind. This file supplies the menu an Authority location
+draws that answer from - the "Getting a hearing" patterns below - and states only what is
+true of authority specifically: the claim, its basis, what it actually settles, and where
+it stops.
+
 **Contract.** An Authority location owes: who holds the claim and its basis, what
-actually gets settled, what a stranger must do for a hearing, and where the claim's edge
-is. Genre-neutral and permanent. Which offices, procedures, and vocabulary fill that
+actually gets settled, and where the claim's edge is. Genre-neutral and permanent. Which offices, procedures, and vocabulary fill that
 contract is not - the Examples below are this build's compile of it, from this setting's
 chosen genre reference.
 

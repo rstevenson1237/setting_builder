@@ -5,7 +5,10 @@ What a settlement's own cache of treasure, lore, or both actually holds, who it 
 and what stands between a party and it.
 
 ## Read at
-Step 4c, for a SAFE location whose kind is a strongroom, hoard, shrine cache, or vault.
+Step 4c, when `safe/Settlement.md`'s Kind line draws Wealth - a strongroom, hoard, shrine
+cache, or vault. Alone among the five Kinds it may answer that file's gate line with its
+Protection rather than with a person's terms, which is what the parenthetical on that line
+allows for.
 
 ## Spec
 

@@ -5,7 +5,8 @@ What a location where goods and services change hands offers, at what price, and
 cannot supply.
 
 ## Read at
-Step 4c, for a SAFE location whose kind is hospitality, a trade, or a market.
+Step 4c, when `safe/Settlement.md`'s Kind line draws Commerce - hospitality, a trade, or
+a market.
 
 ## Spec
 
@@ -16,7 +17,7 @@ COMMERCE
   1     What it cannot supply, and what it says to do instead
   1     Prices, in cn, for the two or three things a party will actually ask for
   40%   Something unusual in stock, and why it is here
-  30%   A condition on trade - credit, membership, a grudge, a shortage
+  30%   A condition on trade beyond price - credit, membership, a grudge, a shortage
   20%   Something the proprietor wants that money will not buy
 ```
 
@@ -27,6 +28,11 @@ that is the line that turns a shop into a decision.
 
 **Prices are stated, not implied.** Two or three real numbers in cn. A location that makes
 the referee invent prices at the table has left its job unfinished.
+
+**Price is this Kind's answer to `safe/Settlement.md`'s gate line** - what it takes to get
+anything out of the person behind the counter is, most of the time, money, and the prices
+line is where that is stated in terms. The rated condition above is a *second* gate on top
+of it: the cases where coin alone does not do it.
 
 **Contract.** A Commerce location owes: what it deals in, who runs it, what's in stock,
 what it can't supply and where that sends them, and prices in cn. This much is

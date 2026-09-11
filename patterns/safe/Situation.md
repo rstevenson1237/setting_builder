@@ -5,9 +5,10 @@ How the region's standing Situation shows up at this particular location, and wh
 next rung looks like from here.
 
 ## Read at
-Step 4c, for a SAFE location where the region's Situation is visible - which is most of
-them, at least in passing. The Situation itself is authored at region level in
-`region/Safe.md`; this file states how it lands here.
+Step 4c, when `safe/Settlement.md`'s registry block draws the Situation - at 40% in
+passing at any prominence, and mandatorily at the one central location the settlement is
+partly about. The Situation itself is authored at region level in `region/Safe.md`; this
+file states how it lands here.
 
 ## Spec
 

@@ -4,8 +4,8 @@
 Where people gather, what circulates there, and who a party can get something out of.
 
 ## Read at
-Step 4c, for a SAFE location whose kind is a gathering place or a notable person going
-about their business.
+Step 4c, when `safe/Settlement.md`'s Kind line draws Social - a gathering place, or a
+notable person going about their business.
 
 ## Spec
 
@@ -13,7 +13,6 @@ about their business.
 SOCIAL
   1     Who is here, and what they are doing - not waiting to be talked to
   1     What is circulating: a rumour, drawn from setting/Rumours.md where one fits
-  1     What it takes to be talked to rather than tolerated
   40%   A tension a stranger can be pulled into by doing nothing wrong
   30%   Somebody with a job to offer - see safe/Quest.md
   20%   Somebody who knows something and will not say it here
@@ -22,9 +21,13 @@ SOCIAL
 **Nobody is waiting for the party.** Everyone here has been having their evening since
 before the party walked in, and the entry should say what that evening is.
 
-**Contract.** A Social location owes: who's here and what they're doing, what's
-circulating, and what it takes to be talked to rather than tolerated. Genre-neutral and
-permanent. Which gathering places, circulating content, and vocabulary fill that contract
+**What it takes to be talked to rather than tolerated is `safe/Settlement.md`'s gate
+line**, answered once per location whatever its Kind. This file supplies the menu a Social
+location draws that answer from - the "Being talked to" patterns below - and states only
+what is true of a gathering place: who is here, and what is going round it.
+
+**Contract.** A Social location owes: who's here and what they're doing, and what's
+circulating. Genre-neutral and permanent. Which gathering places, circulating content, and vocabulary fill that contract
 is not - the Examples below are this build's compile of it, from this setting's chosen
 genre reference.
 
