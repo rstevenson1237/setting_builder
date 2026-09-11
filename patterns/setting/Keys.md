@@ -47,7 +47,7 @@ an inscription naming the lock but not the key; a record in `setting/Lore.md`.
   `setting/Treasure[I-V].md` roll or in `setting/UniqueTreasures.md`.
 
 - **A key gates something elsewhere, never a single room's own contents.** Gating a room
-  from inside itself is a Trap's or a Mystery's job. Keys exist to connect locations,
+  from inside itself is a Hazard's or a Mystery's job. Keys exist to connect locations,
   most usefully across regions - they are the mechanism that turns a set of regions into
   a network and gives a party a concrete reason to go back somewhere or press toward
   somewhere new.

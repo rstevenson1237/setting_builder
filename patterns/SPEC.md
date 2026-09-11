@@ -141,8 +141,8 @@ classifier's spec line already encodes. Mode predicts what a file needs.
 | mode | reached | example |
 |---|---|---|
 | **second pass** | every output, unconditionally, after the fact | `Dressing`, `Secrets`, `Naming` |
-| **kind** | exactly one of N, mutually exclusive | `safe/Commerce.md`, `wild/Ruin.md` |
-| **ingredient** | drawn at a stated rate | `Creature`, `Trap`, `Treasure`, `Mystery`, `Lore`, `Key`, `Quest` |
+| **kind** | exactly one of N, mutually exclusive | `safe/Commerce.md`, `wild/Ruin.md`, `dangerous/Trap.md`, and WILD's and DANGEROUS's `Lore` and `Key` under `Treasure`'s "what it is" |
+| **ingredient** | drawn at a stated rate | `Creature`, `Hazard`, `Treasure`, `Mystery`, `Quest`, and SAFE's `Lore` and `Key` hooks |
 | **conditional** | triggered by content already generated | `Faction` |
 
 **Every element file is reached by a classifier, in the mode it claims.** A file reachable

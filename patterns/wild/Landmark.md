@@ -38,8 +38,9 @@ WILD - LANDMARK
   -- registry: what ties this place to somewhere else
   1     A visible detail leading onward to each Hidden child the region's Connections.mmd
         hangs off this Landmark - one per child, and none where it has none
-  1     A Clue for each Secret child the graph hangs off this Landmark (wild/Secret.md)
-  10%   This location's carrying role in a quest given elsewhere      (wild/Quest.md)
+  1     A Clue for each Secret child the graph hangs off this Landmark
+                                                                     (wild/Secret.md)
+  10%   This location's carrying role in a quest given elsewhere     (wild/Quest.md)
 
   1     Naming, after everything above                               (wild/Naming.md)
 ```
