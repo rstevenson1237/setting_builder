@@ -9,7 +9,7 @@ Step 4c, for every DANGEROUS location without exception - unlike the element fil
 is not conditional on a spec line drawing it. Units, the Exits line syntax, and the
 citation formats are in `templates/Location.md`.
 
-## Design questions
+## Spec
 
 ```
 DRESSING - every location

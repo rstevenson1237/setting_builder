@@ -7,7 +7,7 @@ Whether a SAFE location hides something, and the three parts that make it findab
 Step 4c, for every SAFE location - consulted unconditionally to decide whether there is a
 secret at all.
 
-## Design questions
+## Spec
 
 ```
 SECRET
@@ -27,7 +27,7 @@ The lowest rate of the three ratings, and deliberately so. A settlement where ev
 building has a hidden compartment is not a settlement, it is a dungeon with a market.
 
 A Wealth location (`safe/Wealth.md`) whose Protection is `hidden` already carries this
-structure, guaranteed by that file's own design question rather than by this rate - do not
+structure, guaranteed by that file's own spec line rather than by this rate - do not
 roll this 10% against it as well.
 
 **In SAFE, a secret is usually somebody's rather than something's.** A concealed cellar has

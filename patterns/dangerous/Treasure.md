@@ -8,7 +8,7 @@ treasure has to whatever is near it.
 Step 4c, when a weight file's spec draws treasure. The tables themselves are
 `setting/Treasure1.md` through `Treasure5.md`; citation format is in `templates/Location.md`.
 
-## Design questions
+## Spec
 
 ```
 TREASURE

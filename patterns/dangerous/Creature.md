@@ -8,7 +8,7 @@ about the rest of the region.
 Step 4c, when a weight file's spec draws a creature. Scaling is in
 `patterns/setting/Bestiary.md`; entries are in `setting/Bestiary.md`.
 
-## Design questions
+## Spec
 
 ```
 CREATURE

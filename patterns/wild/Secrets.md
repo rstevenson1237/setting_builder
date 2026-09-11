@@ -9,7 +9,7 @@ Step 4c, for every WILD location - consulted unconditionally to decide whether t
 secret at all. Distinct from `wild/Secret.md`, which is a whole Secret-tier *location*
 hanging off a parent; this is a detail concealed inside one location's features.
 
-## Design questions
+## Spec
 
 ```
 SECRET

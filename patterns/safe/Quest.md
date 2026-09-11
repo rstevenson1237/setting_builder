@@ -8,7 +8,7 @@ they leave out.
 Step 4c, when a spec line draws a quest. SAFE **gives** - this is the giver end. Criteria
 are in `patterns/setting/Quests.md`; the registry is `setting/Quests.md`.
 
-## Design questions
+## Spec
 
 ```
 QUEST - giver end

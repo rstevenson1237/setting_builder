@@ -8,7 +8,7 @@ somewhere else.
 Step 4c, when a weight file's spec draws a key. Criteria for what earns a
 `setting/Keys.md` row are in `patterns/setting/Keys.md`.
 
-## Design questions
+## Spec
 
 ```
 KEY

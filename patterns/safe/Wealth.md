@@ -7,7 +7,7 @@ and what stands between a party and it.
 ## Read at
 Step 4c, for a SAFE location whose kind is a strongroom, hoard, shrine cache, or vault.
 
-## Design questions
+## Spec
 
 ```
 WEALTH
@@ -30,7 +30,7 @@ here - which is what makes it worth a Protection line instead of an access claus
 interchangeable flavor text - each implies a different discovery structure:
 
 - **hidden** reuses `safe/Secrets.md`'s Clue/Trigger/Payload structure directly, guaranteed
-  by this design question rather than by that file's own 10% settlement-wide roll. A Wealth
+  by this spec line rather than by that file's own 10% settlement-wide roll. A Wealth
   location whose Protection is hidden has already spent its Secret; do not also roll
   `safe/Secrets.md`'s independent rate against it.
 - **gated** means the cache's existence is known and unconcealed - access needs a stated,

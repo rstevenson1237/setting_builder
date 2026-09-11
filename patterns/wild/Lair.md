@@ -8,7 +8,7 @@ Step 4c, when `wild/Landmark.md`'s spec draws Kind: Lair - the only classificati
 that does. A Lair is a place something currently lives, whether it built the place or
 moved in.
 
-## Design questions
+## Spec
 
 **Every line below is read the same way:** `1` is mandatory; a percentage is the rate
 at which a Feature carrying that content appears. This block is setting-neutral and

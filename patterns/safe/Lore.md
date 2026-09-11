@@ -7,7 +7,7 @@ read.
 ## Read at
 Step 4c, when a spec line draws lore. Criteria are in `patterns/setting/Lore.md`.
 
-## Design questions
+## Spec
 
 ```
 LORE

@@ -6,7 +6,7 @@ How a DANGEROUS location participates in a Quest - almost always as the target e
 ## Read at
 Step 4c. Criteria are in `patterns/setting/Quests.md`; the registry is `setting/Quests.md`.
 
-## Design questions
+## Spec
 
 ```
 QUEST - target end

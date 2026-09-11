@@ -155,7 +155,6 @@ def parse_pattern_files() -> tuple[dict[str, dict], list[str]]:
             provides=pattern_section(text, "Provides"),
             read_at=pattern_section(text, "Read at"),
             spec=pattern_section(text, "Spec"),
-            design_questions=pattern_section(text, "Design questions"),
             design_patterns=pattern_section(text, "Design patterns"),
             constraints=pattern_section(text, "Constraints"),
             out=sorted(set(out)), incoming=[], issues=issues,

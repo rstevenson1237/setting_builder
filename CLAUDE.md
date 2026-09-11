@@ -34,17 +34,21 @@ framing - never against a region's die. The die is a difficulty die (1 = failure
 complication, 4+ = success, so a *smaller* die is *harder*); AD is a power count on a
 completely separate axis. A d8 DANGEROUS region does not want an 8 AD creature.
 
-## The two pattern tiers, and where a prohibition goes
+## One Spec per file, and where a prohibition goes
 
-Every file in `patterns/*/*.md` is one of two tiers, and its section names say which.
-A **classifier** states a contract - which features a thing gets and at what rate - in a
-`## Spec` block: `region/*`, `setting/*`, plus `dangerous/High|Medium|Low`,
-`wild/Landmark|Hidden|Secret`, and `safe/Settlement`. An **element** fills a contract some
-classifier already stated, so it has no Spec of its own: it carries `## Design questions`
-instead. Both may carry `## Design patterns`, the constrained examples. Full skeleton:
-**Provides / Read at / Spec-or-Design questions / Design patterns / Constraints**.
-`patterns/setting/Genre.md` is in neither tier - it is an elicitation procedure, and its
-extra sections are that procedure.
+Every file in `patterns/*/*.md` has the same skeleton: **Provides / Read at / Spec /
+Design patterns / Constraints**. There is no separate `## Design questions` heading - it
+was folded into Spec.
+
+**Every Spec line is one of exactly two things:** an **edge**, pointing to another pattern
+file named in parentheses, or a **question**, stating something the generator must answer
+and citing nothing. That makes the library one tree: a file whose Spec has outgoing edges
+is a classifier, a file whose Spec is all questions is a leaf, and neither is declared -
+it is read off the citations. `patterns/SPEC.md` is the full field spec.
+
+**A line that varies between the classes drawing it belongs in the drawing class's Spec; a
+line that is the same for all of them belongs in the file it cites.** Same test
+`setting/Procedures.md` applies one level up.
 
 **Constraints is where every prohibition lives** - anything that closes a pathway: what
 belongs in another file, what this file must never do, a named failure mode. It is blank
@@ -61,7 +65,7 @@ pointing one step too far down, three at a step that no longer existed.
 ## Validator posture
 
 `tools/validate_setting.py` (`python3 tools/validate_setting.py`) checks `patterns/*/*.md`
-itself (citation format, section structure per tier, `## Read at` step ids)
+itself (citation format, the five sections, `## Read at` step ids)
 unconditionally, plus generated `setting/` content against the templates. Strict on
 format, relaxed on content, ratios, and prose - it fails CI on unambiguous breakage in
 content that *exists* (unknown codes, name mismatches, orphaned nodes, broken citations)

@@ -24,8 +24,8 @@ is the failure this separation prevents.
 
 **Prefer a question to a pattern wherever the verbiage can carry it.** Patterns are an
 intentional, budgeted insertion of highly specific content, not the default home for
-anything that happens to be a list. A question that can be stated neutrally belongs in
-Design questions even when it reads like a menu.
+anything that happens to be a list. A question that can be stated neutrally belongs in the
+Spec even when it reads like a menu.
 
 ## The five fields
 
@@ -45,19 +45,28 @@ file that could be confused for this one. Neutral and permanent.
 The step ids here are validated against STEPS.md. `## Read at` is the only record of how a
 file is reached, which is why it is prose that has to stay honest rather than decoration.
 
-### `## Spec` *(classifiers only)*
-The contract: which features the thing gets, and at what rate, as a fenced block. `1` is
-mandatory; a percentage is the rate at which a feature carrying that content appears; a
-file named in parentheses is the only other file that line requires. Neutral and
-permanent.
+### `## Spec`
+What this file decides, as a fenced block. Every line is one of exactly two things:
 
-### `## Design questions` *(elements only)*
-The open-ended slots the generator must answer to fill the contract its classifier already
-stated. Same fenced-block grammar as a Spec, and percentages are allowed - the difference
-is not format but ownership: a Spec states a contract, Design questions fill one.
-**Neutral and permanent** - step 1b never rewrites this section.
+- **an edge** - it points to another pattern file, named in parentheses, which is the only
+  other file that line requires; or
+- **a question** - it states something the generator must answer, and cites nothing.
 
-### `## Design patterns` *(either tier, but budgeted)*
+`1` is mandatory; a percentage is the rate at which a feature carrying that content
+appears. Neutral and permanent - step 1b never rewrites a Spec.
+
+That two-way rule is what makes the library a single tree. A file whose Spec has outgoing
+edges is a classifier; a file whose Spec is all questions is a leaf. Neither is declared
+anywhere - it is read off the citations, so it cannot fall out of step with itself.
+
+**Where a line lives** follows from whether it varies: a line that differs between the
+classes that draw it belongs in the drawing class's Spec, and a line that is the same for
+all of them belongs in the file it cites. (`dangerous/High.md` requires an architecture
+detail because HIGH announces itself, so that line is HIGH's; `dangerous/Dressing.md`'s
+five baseline lines are constant, so they are Dressing's.) This is the same test
+`setting/Procedures.md` applies one level up.
+
+### `## Design patterns` *(optional, and budgeted)*
 The deliberate injection of highly specific content that keeps generated output from
 reading flat. **Specific and compiled** - rewritten at step 1b from the chosen genre
 reference. A section here is a claim that this file's output would be too generic without
@@ -72,24 +81,24 @@ written generalized, never tied to the setting that produced them.
 A positive rule phrased contrastively ("the pressure mechanism, not a rule of thumb") is
 not a prohibition and stays where it is.
 
-## The two tiers
+## Classifiers and leaves
 
-A file's section names say which tier it is.
+A file's Spec says which it is, without asserting anything: outgoing edges make it a
+**classifier**, an all-questions Spec makes it a **leaf**. Depth is a fact about the tree,
+not a property a file declares.
 
-**Classifier** - states a contract, in a `## Spec`. One per thing generated:
-`region/*`, `setting/*`, plus the location classes `dangerous/High|Medium|Low`,
-`wild/Landmark|Hidden|Secret`, and `safe/Settlement`.
-
-**Element** - fills a contract some classifier already stated, so it has no Spec of its
-own and carries `## Design questions` instead. Everything else.
-
-A contract lives in the file it describes. A classifier names a Kind or draws a feature
-and cites the element file; it does not carry that element's contract inline. (It used to:
+A contract lives in the file it describes. A classifier names a Kind or draws a feature and
+cites the file; it does not carry that file's contract inline. (It used to:
 `wild/Landmark.md` held four KIND blocks and `dangerous/High.md` held the MYSTERY block,
-which left five element files with no questions of their own.)
+which left five files with no Spec of their own.)
 
-`patterns/setting/Genre.md` is in neither tier. It is an interactive elicitation procedure
-and its extra sections are that procedure.
+A classifier may cite a file that is itself a classifier - `Encounter` drawing
+`{creature | named creature | faction}`, `Hazard` drawing a mechanism - which is how a
+category earns a middle level instead of being a rename. A middle file is worth adding only
+when the kind beneath it is a real choice of two or more.
+
+`patterns/setting/Genre.md` carries extra sections beyond the skeleton. It is an
+interactive elicitation procedure and those sections are that procedure.
 
 ## Reach modes
 
@@ -166,9 +175,9 @@ name rather than the pattern that produces it.
 
 ## What the validator enforces
 
-Today: citation format; the five fields present per tier; a classifier carrying no
-`## Design questions` and an element carrying no `## Spec`; `## Read at` step ids resolving
-against STEPS.md.
+Today: citation format; `## Provides`, `## Read at`, `## Spec` and `## Constraints`
+present on every file; no leftover `## Design questions` heading; `## Read at` step ids
+resolving against STEPS.md.
 
 Proposed, once reach modes are implemented: that every element file is reached by some
 classifier in the mode it claims, which turns the orphans below into errors rather than
@@ -185,7 +194,7 @@ Real, current, and deliberately not yet fixed:
    from inside `wild/Ruin.md`, another element.
 2. **Twenty classifiers carry `## Design patterns`**, sixteen of them `setting/*`. Their
    content is neutral option menus - `setting/Keys.md`'s "Forms", `setting/Truths.md`'s
-   "Kinds of truth" - which by the neutrality test are Design questions, not patterns.
+   "Kinds of truth" - which by the neutrality test are Spec questions, not patterns.
 3. **STEPS.md step 1b's compile list names 18 files** but says "every other tier-2 element
    file". Twenty-one element files carrying patterns are not on the list. Splitting them
    by reach mode is what decides which belong there - not all of them do.

@@ -7,7 +7,7 @@ constructed-language proper noun coined elsewhere - what it means for the refere
 ## Read at
 Step 4c, for every WILD location, after Dressing.
 
-## Design questions
+## Spec
 
 ```
 NAMING

@@ -8,7 +8,7 @@ read as one place, and how it sounds on the page.
 Step 4c, for every SAFE location without exception. Units, the Exits syntax and the
 citation formats are in `templates/Location.md`.
 
-## Design questions
+## Spec
 
 ```
 DRESSING - every SAFE location

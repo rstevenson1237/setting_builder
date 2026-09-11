@@ -9,7 +9,7 @@ is a secret at all. A Secret is a discovery structure and may sit on top of any 
 location already has; it is not drawn by a spec line. Distinct from
 `dangerous/Mystery.md`, which is content and may be in plain sight.
 
-## Design questions
+## Spec
 
 ```
 SECRET

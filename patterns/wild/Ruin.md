@@ -8,7 +8,7 @@ Step 4c, when `wild/Landmark.md`'s spec draws Kind: Ruin - the only classificati
 that does. A Ruin is anything made by hands and no longer used as made, including things
 still standing and still occupied by somebody other than their builders.
 
-## Design questions
+## Spec
 
 **Every line below is read the same way:** `1` is mandatory; a percentage is the rate
 at which a Feature carrying that content appears. This block is setting-neutral and

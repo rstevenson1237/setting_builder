@@ -7,7 +7,7 @@ What hazard a WILD location carries, whether anybody set it, and what warns of i
 Step 4c, when a spec line draws a trap. Impact tiers and resolution are in
 `setting/Procedures.md`.
 
-## Design questions
+## Spec
 
 ```
 TRAP

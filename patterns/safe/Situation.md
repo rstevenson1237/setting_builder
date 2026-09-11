@@ -9,7 +9,7 @@ Step 4c, for a SAFE location where the region's Situation is visible - which is 
 them, at least in passing. The Situation itself is authored at region level in
 `region/Safe.md`; this file states how it lands here.
 
-## Design questions
+## Spec
 
 ```
 SITUATION - as seen from this location

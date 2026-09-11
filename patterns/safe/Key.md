@@ -6,7 +6,7 @@ How a settlement comes to be holding an object that opens something somewhere el
 ## Read at
 Step 4c, when a spec line draws a key. Criteria are in `patterns/setting/Keys.md`.
 
-## Design questions
+## Spec
 
 ```
 KEY

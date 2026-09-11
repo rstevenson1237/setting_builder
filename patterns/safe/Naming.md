@@ -7,7 +7,7 @@ constructed-language proper noun coined elsewhere - what it means for the refere
 ## Read at
 Step 4c, for every SAFE location, after Dressing.
 
-## Design questions
+## Spec
 
 ```
 NAMING
@@ -38,7 +38,7 @@ The occasional name in an **older or dead tongue this setting has established** 
 something the settlement inherited and did not build - a well, a stone in a wall, a
 boundary, a road. When a settlement's oldest thing carries a name in a tongue nobody there
 speaks, that is a fact about the region's history delivered without exposition - and it is
-exactly the case the Design questions' gloss line exists for.
+exactly the case the Spec's gloss line exists for.
 
 **Name shapes** - the trade; the proprietor, current or long dead; a sign that can be
 recognised by people who cannot read; an event; a founder or grantor; a saint or power; a

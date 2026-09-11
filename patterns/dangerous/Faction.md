@@ -8,7 +8,7 @@ Step 4c, where a location's occupants belong to a power in `setting/Factions.md`
 from `dangerous/Creature.md`, which covers what lives in a room; a faction presence
 implies things outside the room.
 
-## Design questions
+## Spec
 
 ```
 FACTION PRESENCE

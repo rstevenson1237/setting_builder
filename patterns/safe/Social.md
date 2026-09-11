@@ -7,7 +7,7 @@ Where people gather, what circulates there, and who a party can get something ou
 Step 4c, for a SAFE location whose kind is a gathering place or a notable person going
 about their business.
 
-## Design questions
+## Spec
 
 ```
 SOCIAL

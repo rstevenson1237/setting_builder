@@ -9,7 +9,7 @@ Step 4c, for any SAFE location with a person in it - which is nearly all of them
 roster itself is the Region Overview's People field; this file turns a roster line into
 somebody at a location.
 
-## Design questions
+## Spec
 
 ```
 PERSON

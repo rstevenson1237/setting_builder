@@ -6,7 +6,7 @@ Which table a WILD location cites, and why the find is still out here.
 ## Read at
 Step 4c, when a spec line draws treasure. Tables are `setting/Treasure1.md`-`5.md`.
 
-## Design questions
+## Spec
 
 ```
 TREASURE

@@ -6,7 +6,7 @@ When a WILD location holds an object whose real function is opening something el
 ## Read at
 Step 4c, when a spec line draws a key. Criteria are in `patterns/setting/Keys.md`.
 
-## Design questions
+## Spec
 
 ```
 KEY

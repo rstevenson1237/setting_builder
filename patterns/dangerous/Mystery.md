@@ -8,7 +8,7 @@ Step 4c, when `dangerous/High.md`'s spec draws a mystery - the only weight file 
 does. Distinct from `dangerous/Secrets.md`: a Mystery is content and may be in plain
 sight; a Secret is a discovery structure and by definition is not.
 
-## Design questions
+## Spec
 
 **Every line below is read the same way:** `1` is mandatory; a percentage is the rate
 at which a Feature carrying that content appears. This block is setting-neutral and

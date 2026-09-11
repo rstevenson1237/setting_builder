@@ -7,7 +7,7 @@ Which trap fits, and whether it states a tell.
 Step 4c, when a weight file's spec draws a trap. Resolution is not here - it is in
 `setting/Procedures.md`.
 
-## Design questions
+## Spec
 
 ```
 TRAP

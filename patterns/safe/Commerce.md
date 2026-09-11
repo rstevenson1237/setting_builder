@@ -7,7 +7,7 @@ cannot supply.
 ## Read at
 Step 4c, for a SAFE location whose kind is hospitality, a trade, or a market.
 
-## Design questions
+## Spec
 
 ```
 COMMERCE

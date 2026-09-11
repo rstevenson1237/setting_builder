@@ -11,7 +11,7 @@ works it - `wild/Ruin.md`'s "what holds it now," `wild/Lair.md`'s "occupied by p
 Distinct from `wild/Creature.md`, which covers what lives here on its own account; a
 faction's presence implies purpose and consequence reaching beyond this one Landmark.
 
-## Design questions
+## Spec
 
 ```
 FACTION PRESENCE

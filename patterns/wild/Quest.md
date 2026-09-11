@@ -7,7 +7,7 @@ travelled through, obstructed, and occasionally offered by somebody living rough
 ## Read at
 Step 4c. Criteria are in `patterns/setting/Quests.md`; the registry is `setting/Quests.md`.
 
-## Design questions
+## Spec
 
 ```
 QUEST - carrying end

@@ -9,7 +9,7 @@ Step 4c, where a location carries a faction's interest. Distinct from
 `dangerous/Faction.md`: a held position at depth is a garrison; in a settlement it
 is influence, and influence is visible in different things.
 
-## Design questions
+## Spec
 
 ```
 FACTION PRESENCE - in a settlement

@@ -10,7 +10,7 @@ file that does. A Crossing is a Landmark whose function is that the region's own
 makes going through it cheaper than going around it - built, natural, or held, and
 regardless of who if anyone lives there.
 
-## Design questions
+## Spec
 
 **Every line below is read the same way:** `1` is mandatory; a percentage is the rate
 at which a Feature carrying that content appears. This block is setting-neutral and

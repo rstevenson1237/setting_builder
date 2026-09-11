@@ -7,7 +7,7 @@ When a DANGEROUS location's find is written rather than valuable, and what form 
 Step 4c, when a weight file's spec draws lore. Criteria for what earns a `setting/Lore.md`
 row are in `patterns/setting/Lore.md`; this file decides when to reach for one here.
 
-## Design questions
+## Spec
 
 ```
 LORE

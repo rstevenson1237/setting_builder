@@ -8,7 +8,7 @@ Step 4c, when `wild/Landmark.md`'s spec draws Kind: Natural Feature - the only
 classification file that does. Alone among the kinds it has no builder and no occupant,
 so it has to earn its slot on what it *does*.
 
-## Design questions
+## Spec
 
 **Every line below is read the same way:** `1` is mandatory; a percentage is the rate
 at which a Feature carrying that content appears. This block is setting-neutral and

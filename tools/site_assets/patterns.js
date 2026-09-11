@@ -74,7 +74,6 @@
       fieldBlock("Provides", n.provides) +
       fieldBlock("Read at", n.read_at) +
       fieldBlock("Spec", n.spec, true) +
-      fieldBlock("Design questions", n.design_questions, true) +
       fieldBlock("Design patterns", n.design_patterns) +
       fieldBlock("Constraints", n.constraints) +
       chipRow("Cites", n.out) +

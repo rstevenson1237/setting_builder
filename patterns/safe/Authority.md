@@ -7,7 +7,7 @@ get anything out of it.
 ## Read at
 Step 4c, for a SAFE location whose kind is an office, a posting place, or a custom.
 
-## Design questions
+## Spec
 
 ```
 AUTHORITY
