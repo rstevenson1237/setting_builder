@@ -7,6 +7,7 @@ one - how much it matters.
 ## Read at
 **Mode: entry.** Step 4c, before any other `safe/` file, for every SAFE location. Also
 read at 4a, which takes its location list from here.
+
 ## Spec
 
 **Every line below is read the same way:** `1` is mandatory; a percentage is the rate at

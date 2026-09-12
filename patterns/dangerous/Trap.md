@@ -8,6 +8,7 @@ Which mechanism a built hazard uses, and who set it.
 not here - it is in `setting/Procedures.md`. Distinct from `dangerous/Environmental.md`
 and `dangerous/Residual.md`: a trap was built for this, by somebody, and still does that
 job.
+
 ## Spec
 
 ```

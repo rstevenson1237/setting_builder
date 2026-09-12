@@ -7,6 +7,7 @@ When a DANGEROUS location's find is written rather than valuable, and what form 
 **Mode: kind.** Step 4c, when `dangerous/Treasure.md` draws lore as what the treasure is
 - a document lying here is a find. Criteria for what earns a `setting/Lore.md` row are
 in `patterns/setting/Lore.md`; this file decides when to reach for one here.
+
 ## Spec
 
 ```

@@ -7,6 +7,7 @@ What earns a row in `setting/Quests.md`, and what a finished entry must state.
 **Mode: entry.** Step 2h to stub the file, step 4c to add a row whenever a location
 registers something somebody would want, and step 4d to write every entry. The
 per-rating decision of when to reach for a quest is in each folder's own `Quest.md`.
+
 ## Spec
 
 ```

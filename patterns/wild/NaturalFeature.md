@@ -8,6 +8,7 @@ What an unbuilt, unoccupied Landmark is, and why it is worth four hours to visit
 `wild/Landmark.md`, `wild/Hidden.md`, or `wild/Secret.md`, all three of which draw one
 kind per location. Alone among the kinds it has no builder and no occupant, so it has to
 earn its slot on what it *does*.
+
 ## Spec
 
 **Every line below is read the same way:** `1` is mandatory; a percentage is the rate

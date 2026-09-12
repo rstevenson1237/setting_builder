@@ -7,6 +7,7 @@ What written or recorded thing a WILD location holds, and how it survived being 
 **Mode: kind.** Step 4c, when `wild/Treasure.md` draws What it is: lore. Lore is one of
 the things a WILD find can be, so it is reached through the reward block rather than as
 a hook of its own. Criteria are in `patterns/setting/Lore.md`.
+
 ## Spec
 
 ```

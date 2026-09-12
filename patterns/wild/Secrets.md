@@ -11,6 +11,7 @@ whether there is a secret at all, and the rate below is where that is decided ra
 than in the classifiers. Distinct from `wild/Secret.md`, which is a whole Secret-tier
 *location* hanging off a parent; this is a detail concealed inside one location's
 features.
+
 ## Spec
 
 ```

@@ -6,6 +6,7 @@ before it is named.
 
 ## Read at
 **Mode: entry.** Step 2f, after `setting/Bestiary.md`.
+
 ## Spec
 
 ```

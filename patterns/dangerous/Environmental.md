@@ -8,6 +8,7 @@ A hazard that is a condition of the place itself, set by nobody and maintained b
 Distinct from `dangerous/Trap.md`, which somebody built and therefore has an owner and
 an intent, and from `dangerous/Residual.md`, which something left behind and which is
 still acting.
+
 ## Spec
 
 ```

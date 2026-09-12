@@ -10,6 +10,7 @@ three tags fresh.
 **Mode: entry.** Step 1b, right after `GENRE.md` exists, to seed `setting/Tags.md`. Read
 again per region, alongside its Region Overview at step 3c, to seed that region's own
 `Tags.md`.
+
 ## Spec
 
 ```

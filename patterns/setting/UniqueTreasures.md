@@ -7,6 +7,7 @@ What earns a row in `setting/UniqueTreasures.md` rather than a roll on a table.
 **Mode: entry.** Step 2h to stub the file, step 4c to add a row whenever a location
 holds a one-of-a-kind artifact, and step 4d to write every entry. The per-rating
 decision of when a find is a table roll instead is in each folder's own `Treasure.md`.
+
 ## Spec
 
 ```

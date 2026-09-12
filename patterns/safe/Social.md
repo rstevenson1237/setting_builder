@@ -6,6 +6,7 @@ Where people gather, what circulates there, and who a party can get something ou
 ## Read at
 **Mode: kind.** Step 4c, when `safe/Settlement.md`'s Kind line draws Social - a
 gathering place, or a notable person going about their business.
+
 ## Spec
 
 ```

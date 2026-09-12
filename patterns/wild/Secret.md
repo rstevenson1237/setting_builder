@@ -6,6 +6,7 @@ What a Secret-tier location guarantees, and the trigger that reveals it.
 ## Read at
 **Mode: entry.** Step 4c, last of the three tiers, after its parent Landmark or Hidden
 location exists.
+
 ## Spec
 
 **Every line below is read the same way:** `1` is mandatory; a percentage is the rate at

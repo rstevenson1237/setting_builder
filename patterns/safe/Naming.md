@@ -7,6 +7,7 @@ constructed-language proper noun coined elsewhere - what it means for the refere
 ## Read at
 **Mode: second pass.** Step 4c, drawn as the last line of `safe/Settlement.md` - every
 SAFE location, after everything else in its entry is decided.
+
 ## Spec
 
 ```

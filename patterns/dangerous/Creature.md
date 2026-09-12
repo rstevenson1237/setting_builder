@@ -9,6 +9,7 @@ about the rest of the region.
 in `patterns/setting/Bestiary.md`; entries are in `setting/Bestiary.md`. Distinct from
 `patterns/setting/NamedCreatures.md`, the kind drawn for an individual the setting keeps
 consistent across appearances.
+
 ## Spec
 
 ```

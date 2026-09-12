@@ -10,6 +10,7 @@ here to be found - is drawn by `dangerous/Treasure.md` as what the treasure is. 
 **demand** end - a lock here that a key elsewhere opens - is drawn by the weight file's
 own registry line. Criteria for what earns a `setting/Keys.md` row are in
 `patterns/setting/Keys.md`.
+
 ## Spec
 
 ```

@@ -5,6 +5,7 @@ The rules this setting keeps that a generic instance of the genre does not.
 
 ## Read at
 **Mode: entry.** Step 2c, after `setting/History.md`.
+
 ## Spec
 
 ```

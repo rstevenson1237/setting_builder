@@ -10,6 +10,7 @@ carrying role in a quest - `wild/Landmark.md`, `wild/Hidden.md`, or `wild/Secret
 quest is the one hook that stays in registry rather than moving into the reward block
 with lore and keys, because it is not an object and cannot be picked up. Criteria are in
 `patterns/setting/Quests.md`; the registry is `setting/Quests.md`.
+
 ## Spec
 
 ```

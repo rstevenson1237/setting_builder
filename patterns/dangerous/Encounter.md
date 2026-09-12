@@ -10,6 +10,7 @@ challenge is an encounter, or when `dangerous/Treasure.md` draws a guard. Which 
 of encounter is decided here; the kind file supplies what fills it. Distinct from
 `dangerous/Hazard.md`: an encounter has something that can act on its own account, a
 hazard only reacts.
+
 ## Spec
 
 ```

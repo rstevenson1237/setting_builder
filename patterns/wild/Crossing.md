@@ -10,6 +10,7 @@ the four kinds it is drawn at the Landmark tier only, per that file's own Constr
 `wild/Hidden.md` and `wild/Secret.md` draw three. A Crossing is a Landmark whose
 function is that the region's own shape makes going through it cheaper than going around
 it - built, natural, or held, and regardless of who if anyone lives there.
+
 ## Spec
 
 **Every line below is read the same way:** `1` is mandatory; a percentage is the rate

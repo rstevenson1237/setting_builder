@@ -9,6 +9,7 @@ as one place, and how it sounds on the page.
 `wild/Hidden.md` and `wild/Secret.md`'s substrate blocks - every WILD location without
 exception. Units, the Exits syntax and the citation formats are in
 `templates/Location.md`.
+
 ## Spec
 
 ```

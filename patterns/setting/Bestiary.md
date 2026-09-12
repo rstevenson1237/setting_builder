@@ -7,6 +7,7 @@ what each entry must state so the location patterns can use it without reinventi
 ## Read at
 **Mode: entry.** Step 2e, after `setting/Rumours.md`. The Bestiary is written in one
 pass rather than grown, so it has to anticipate demands made several steps later.
+
 ## Spec
 
 ```

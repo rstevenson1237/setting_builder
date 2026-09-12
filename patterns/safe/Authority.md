@@ -7,6 +7,7 @@ get anything out of it.
 ## Read at
 **Mode: kind.** Step 4c, when `safe/Settlement.md`'s Kind line draws Authority - an
 office, a posting place, or a custom.
+
 ## Spec
 
 ```

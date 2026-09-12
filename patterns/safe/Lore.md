@@ -9,6 +9,7 @@ read.
 and the hook is lore - one hook at working prominence, two at central. Also drawn by
 `safe/Wealth.md`, where the contents of a cache are lore rather than treasure. Criteria
 are in `patterns/setting/Lore.md`.
+
 ## Spec
 
 ```

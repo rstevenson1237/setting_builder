@@ -5,6 +5,7 @@ The twenty leads a party can pick up, how reliable each is, and what each points
 
 ## Read at
 **Mode: entry.** Step 2d, after `setting/Truths.md`.
+
 ## Spec
 
 ```

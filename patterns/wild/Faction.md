@@ -13,6 +13,7 @@ depends on the Kind already drawn, which is why the four rates live in the four 
 files rather than one line up a level. Distinct from `wild/Creature.md`, which covers
 what lives here on its own account; a faction's presence implies purpose and consequence
 reaching beyond this one Landmark.
+
 ## Spec
 
 ```

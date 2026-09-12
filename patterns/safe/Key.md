@@ -7,6 +7,7 @@ How a settlement comes to be holding an object that opens something somewhere el
 **Mode: ingredient.** Step 4c, when `safe/Settlement.md`'s registry block draws a hook
 and the hook is a key - one hook at working prominence, two at central. Criteria are in
 `patterns/setting/Keys.md`.
+
 ## Spec
 
 ```

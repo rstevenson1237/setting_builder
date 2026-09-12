@@ -15,6 +15,7 @@ get dialed once it's picked.
 ## Read at
 **Mode: entry.** Step 1a, before anything else - GENRE.md is the first artifact in the
 build.
+
 ## Spec
 
 ```

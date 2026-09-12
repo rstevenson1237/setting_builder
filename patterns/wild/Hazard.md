@@ -10,6 +10,7 @@ challenge is a hazard - `wild/Landmark.md`, `wild/Hidden.md`, or `wild/Secret.md
 Impact tiers and resolution are in `setting/Procedures.md`. Distinct from
 `wild/Mystery.md`, which is the neutral case: a mystery costs nothing until a genuinely
 wrong attempt is made, a hazard acts on contact or condition.
+
 ## Spec
 
 ```

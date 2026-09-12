@@ -7,6 +7,7 @@ What a Hidden-tier location guarantees, and how it hangs off its parent.
 **Mode: entry.** Step 4c, after every Landmark in the region exists. A Hidden location
 cannot be written before its parent, because its connection is written into the parent's
 Exits.
+
 ## Spec
 
 **Every line below is read the same way:** `1` is mandatory; a percentage is the rate at

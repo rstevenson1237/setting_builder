@@ -9,6 +9,7 @@ simply take what it wants.
 and the hook is a faction - one hook at working prominence, two at central. Distinct
 from `dangerous/Faction.md`: a held position at depth is a garrison; in a settlement it
 is influence, and influence is visible in different things.
+
 ## Spec
 
 ```

@@ -7,6 +7,7 @@ to them.
 
 ## Read at
 **Mode: entry.** Step 2a, right after `GENRE.md` and `setting/Tags.md` both exist.
+
 ## Spec
 
 ```

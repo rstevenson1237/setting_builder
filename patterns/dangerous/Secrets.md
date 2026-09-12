@@ -8,6 +8,7 @@ Whether a DANGEROUS location hides something, and the three parts that make it f
 to decide whether there is a secret at all. A Secret is a discovery structure and may
 sit on top of any feature the location already has; it is not drawn by a spec line.
 Distinct from `dangerous/Mystery.md`, which is content and may be in plain sight.
+
 ## Spec
 
 ```

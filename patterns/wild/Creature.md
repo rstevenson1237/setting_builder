@@ -10,6 +10,7 @@ Scaling is in `patterns/setting/Bestiary.md`. Distinct from `wild/Faction.md`, w
 what a place is held or worked by rather than what the party meets in it, and from
 `wild/Hazard.md`'s living mechanisms, which have nowhere else to be and nothing they
 want.
+
 ## Spec
 
 ```

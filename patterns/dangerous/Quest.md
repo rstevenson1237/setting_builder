@@ -7,6 +7,7 @@ How a DANGEROUS location participates in a Quest - almost always as the target e
 **Mode: ingredient.** Step 4c, when a weight file's registry line draws a quest target -
 in DANGEROUS a quest is demand-side, meaning something asked for elsewhere was placed
 here. Criteria are in `patterns/setting/Quests.md`; the registry is `setting/Quests.md`.
+
 ## Spec
 
 ```

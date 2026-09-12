@@ -8,6 +8,7 @@ read as one place, and how it sounds on the page.
 **Mode: second pass.** Step 4c, drawn unconditionally by `safe/Settlement.md`'s
 substrate block - every SAFE location without exception. Units, the Exits syntax and the
 citation formats are in `templates/Location.md`.
+
 ## Spec
 
 ```

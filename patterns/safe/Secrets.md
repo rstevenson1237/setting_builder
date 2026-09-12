@@ -8,6 +8,7 @@ Whether a SAFE location hides something, and the three parts that make it findab
 substrate block - every SAFE location consults this file to decide whether there is a
 secret at all, and the rate below is where that is decided rather than in the
 classifier.
+
 ## Spec
 
 ```

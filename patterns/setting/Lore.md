@@ -6,6 +6,7 @@ What earns a row in `setting/Lore.md`, and what a finished entry must do.
 ## Read at
 **Mode: entry.** Step 2h to stub the file, and step 4d to write every entry. The
 per-rating decision of when to reach for lore is in each folder's own `Lore.md`.
+
 ## Spec
 
 ```

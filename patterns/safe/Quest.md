@@ -9,6 +9,7 @@ they leave out.
 and the hook is a quest - one hook at working prominence, two at central. SAFE **gives**
 - this is the giver end. Criteria are in `patterns/setting/Quests.md`; the registry is
 `setting/Quests.md`.
+
 ## Spec
 
 ```

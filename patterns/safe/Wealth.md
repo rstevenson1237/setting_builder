@@ -9,6 +9,7 @@ and what stands between a party and it.
 strongroom, hoard, shrine cache, or vault. Alone among the five Kinds it may answer that
 file's gate line with its Protection rather than with a person's terms, which is what
 the parenthetical on that line allows for.
+
 ## Spec
 
 ```

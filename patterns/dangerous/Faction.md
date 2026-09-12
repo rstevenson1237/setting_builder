@@ -8,6 +8,7 @@ What it means for a DANGEROUS location to be *held* rather than merely inhabited
 where a location's occupants belong to a power in `setting/Factions.md`. Distinct from
 `dangerous/Creature.md`, which covers what lives in a room on its own account; a faction
 presence implies things outside the room.
+
 ## Spec
 
 ```

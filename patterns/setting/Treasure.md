@@ -8,6 +8,7 @@ to a party at this setting's altitude.
 **Mode: entry.** Step 2g, after `setting/Factions.md`. Reads `GENRE.md` for party
 altitude - what the characters can survive - since value is only meaningful relative to
 what they have.
+
 ## Spec
 
 ```

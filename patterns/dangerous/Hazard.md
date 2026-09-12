@@ -11,6 +11,7 @@ is decided here; the mechanism file supplies what fills it. Impact tiers and res
 are in `setting/Procedures.md`. Distinct from `dangerous/Mystery.md`, which is the
 neutral case: a mystery costs nothing until a genuinely wrong attempt is made, a hazard
 acts on contact or condition.
+
 ## Spec
 
 ```

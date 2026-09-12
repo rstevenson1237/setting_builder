@@ -6,6 +6,7 @@ What a low-weight location guarantees, and what its node role requires of it.
 ## Read at
 **Mode: entry.** Step 4c, for a location its gazetteer stub marks low. Node role is
 taken from the region's `Connections.mmd`, written at 4b.
+
 ## Spec
 
 **Every line below is read the same way:** `1` is mandatory; a percentage is the rate at

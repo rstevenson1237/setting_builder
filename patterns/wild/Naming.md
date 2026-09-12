@@ -9,6 +9,7 @@ constructed-language proper noun coined elsewhere - what it means for the refere
 `wild/Hidden.md` and `wild/Secret.md` - every WILD location, after everything else in
 its entry is decided. Also cited by `wild/Ruin.md` and `wild/Crossing.md`, which draw a
 second name in an older tongue on top of the name this pass gives.
+
 ## Spec
 
 ```

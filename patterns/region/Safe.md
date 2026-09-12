@@ -7,6 +7,7 @@ connection graph takes.
 ## Read at
 **Mode: entry.** Step 3c, drafting `setting/region/[Code].md` for a SAFE region. Read
 again at 4a and 4b.
+
 ## Spec
 
 ```

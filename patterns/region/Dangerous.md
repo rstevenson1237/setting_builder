@@ -9,6 +9,7 @@ mix, and what shape its connection graph takes.
 alongside `GENRE.md`, `setting/region/Regions.md`, and the setting-level artifacts the
 region draws on. Read again at 4a and 4b, which take their counts and graph shape from
 here.
+
 ## Spec
 
 Location count is set here, not by a fixed multiplier. Pick the region's kind first:

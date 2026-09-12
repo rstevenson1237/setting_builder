@@ -7,6 +7,7 @@ classifications, and what shape its connection graph takes.
 ## Read at
 **Mode: entry.** Step 3c, drafting `setting/region/[Code].md` for a WILD region. Read
 again at 4a and 4b, which take their counts and graph shape from here.
+
 ## Spec
 
 ```
