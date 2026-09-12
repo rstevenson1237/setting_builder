@@ -146,8 +146,16 @@ classifier's spec line already encodes. Mode predicts what a file needs.
 |---|---|---|
 | **second pass** | every output, unconditionally, after the fact | `Dressing`, `Secrets`, `Naming` |
 | **kind** | exactly one of N, mutually exclusive | `safe/Commerce.md`, `wild/Ruin.md`, `dangerous/Trap.md`, and WILD's and DANGEROUS's `Lore` and `Key` under `Treasure`'s "what it is" |
-| **ingredient** | drawn at a stated rate | `Creature`, `Hazard`, `Treasure`, `Mystery`, `Quest`, and SAFE's `Lore` and `Key` hooks |
-| **conditional** | triggered by content already generated | `Faction` |
+| **ingredient** | drawn at a stated rate | `Creature`, `Hazard`, `Treasure`, `Mystery`, `Quest`, and SAFE's `Lore`, `Key`, `Quest` and `Faction` hooks |
+| **conditional** | triggered by content already generated | `wild/Faction.md` |
+
+`Faction` is the one name that means a different mode in each rating, and reading it as one
+thing is a mistake this table used to make: `safe/Faction.md` is one of four hooks in
+`safe/Settlement.md`'s registry line, so it is an ingredient exactly like its three
+siblings; `dangerous/Faction.md` is a Kind of `dangerous/Encounter.md`; only
+`wild/Faction.md` is conditional, drawn from inside each of the four WILD kind files at a
+rate the Kind sets, because whether a faction is possible here depends on what the place
+already turned out to be.
 
 **Every element file is reached by a classifier, in the mode it claims.** A file reachable
 only through its own `## Read at`, or only from inside another element file, is orphaned
@@ -155,12 +163,23 @@ from the spec graph: nothing draws it, so nothing guarantees it is ever read.
 
 ### Which files earn patterns
 
-Mode answers this. **Kind** and **ingredient** files fill a location's body and are where
-flatness shows, so they are where specific content is spent - they carry
-`## Design patterns`, and they are step 1b's compile list. **Second pass** and
-**conditional** files are structural - a Clue/Trigger/Payload shape, a naming procedure -
-and carry none; `Dressing` is the standing exception, second pass and genuinely needing
-both.
+**What the file's output is** answers this, and mode does not. A file that fills a
+location's body - its Dressing, its Kind, an ingredient drawn into it, a hook hanging off
+it - is where flat output would show, so that is where specific content is spent: those
+files carry `## Design patterns`, and they are step 1b's compile list. A file that supplies
+a *shape applied to* a location carries none, because a shape reads the same whatever
+reference was chosen. Only two things are shapes: `Naming`, a procedure, and `Secrets`, a
+Clue/Trigger/Payload discovery structure that can sit on top of any feature a location
+already has.
+
+Mode was tried as the test here and does not survive contact with the files. It predicted
+that second-pass and conditional files carry no patterns, which forced `Dressing` to be
+named a standing exception - and an exception that exists only to save a rule is a sign the
+rule is cutting in the wrong place. It also split the four files drawn by
+`safe/Settlement.md`'s single hook line three-to-one, stripping `safe/Faction.md` while its
+identically-drawn siblings kept theirs. Body-versus-shape gets `Dressing` right with no
+exception and all four hooks right together. Mode stays, because how a file is reached is
+real coupling information worth declaring - it just does not decide this.
 
 A classifier's own content is neutral by definition, so **no classifier carries
 `## Design patterns`** - not a rating classifier, not a middle-tier one, and not a
@@ -239,9 +258,7 @@ Real, current, and deliberately not yet fixed:
    the classifiers' spec lines; no file states its own mode, so nothing stops a new file
    from claiming one mode in its `## Read at` and being drawn in another. Encoding it is
    what would let the validator check that every element file is reached in the mode it
-   claims. One known wrinkle to settle first: `Faction` is conditional in SAFE and WILD
-   but a Kind of Encounter in DANGEROUS, which is why `dangerous/Faction.md` carries
-   patterns and the other two do not.
+   claims.
 
 The two divergences about `## Design patterns` that this section used to carry are closed:
 twenty-eight files' neutral option menus moved into their Specs, and step 1b's compile list

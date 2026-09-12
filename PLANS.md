@@ -113,6 +113,16 @@ looking for owes them something. Which parents carry children is read off the re
   `build_site.py` and `patterns.js` track the field changes. Clean run is 0 errors,
   0 warnings.
 - `patterns/SPEC.md` written.
+- The earns-patterns test corrected, one commit after the pass that introduced it. The
+  demotion pass used reach mode as the test and it does not survive contact with the files:
+  it forced `Dressing` to be named a standing exception, and it split the four files drawn
+  by `safe/Settlement.md`'s single hook line three-to-one, stripping `safe/Faction.md`
+  while `safe/Quest.md`, `Lore.md` and `Key.md` kept theirs off the identical line. The
+  test is what a file's output *is* - body content versus a shape applied to a location -
+  which gets `Dressing` right with no exception and all four hooks right together, and
+  leaves only `Naming` and `Secrets` as shapes. `safe/Faction.md` and `wild/Faction.md`
+  have their patterns back and the compile list is thirty-five. Mode stays as coupling
+  information; it just does not decide this.
 - Items 1 and 2 closed together, since both decided what step 1b rewrites. The neutral
   option menus came out of `## Design patterns` in twenty-eight files - all sixteen
   `setting/*`, all three `region/*`, `dangerous/Low.md`, and the `Naming`, `Secrets` and

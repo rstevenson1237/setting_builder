@@ -122,14 +122,16 @@ what it is building.
   single read. Demeanor and personality examples specifically live compiled into
   `dangerous/Creature.md`, `wild/Creature.md`, and `safe/People.md`, standing in for what
   `GENRE.md` used to carry as its own People/Creatures tag bank.
-- **Thirty-three files carry `## Design patterns`, and no others** - the Kind and
-  ingredient element files, where a location's body gets filled and flatness would show,
-  plus the three `Dressing` files. Everything else holds neutral, permanent content in its
-  Spec instead: every `setting/` and `region/` file, every classifier, and the `Naming`,
-  `Secrets` and `Faction` files. The test is whether a build would rewrite the content -
-  an option menu that reads the same whatever reference was chosen is a Spec question, not
+- **Thirty-five files carry `## Design patterns`, and no others.** The test is what a
+  file's output *is*: a file that fills a location's body - its Dressing, its Kind, an
+  ingredient drawn into it, a hook hanging off it - is where flat output would show, so
+  that is where specific content is spent. A file supplying a *shape applied to* a
+  location carries none, and only two are shapes: `Naming`, a procedure, and `Secrets`, a
+  Clue/Trigger/Payload discovery structure. Everything else holds neutral, permanent
+  content in its Spec instead - every `setting/` and `region/` file, and every classifier.
+  An option menu that reads the same whatever reference was chosen is a Spec question, not
   a pattern, and filing it as a pattern licenses step 1b to rewrite it (in one case, to
-  rewrite an *edge* away). Those thirty-three are exactly step 1b's compile list, and
+  rewrite an *edge* away). Those thirty-five are exactly step 1b's compile list, and
   `tools/validate_setting.py` checks the two against each other in both directions.
 
 ## `checks/`

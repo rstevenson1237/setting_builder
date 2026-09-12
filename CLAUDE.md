@@ -50,13 +50,17 @@ it is read off the citations. `patterns/SPEC.md` is the full field spec.
 line that is the same for all of them belongs in the file it cites.** Same test
 `setting/Procedures.md` applies one level up.
 
-**`## Design patterns` is compiled content, and only 33 files carry it** - the Kind and
-ingredient element files plus the three `Dressing` files, which are exactly `STEPS.md` step
-1b's compile list. Everything else - all of `setting/` and `region/`, every classifier, and
-the `Naming`, `Secrets` and `Faction` files - keeps its option menus in Spec, because
-content that reads the same whatever genre was chosen is a question, not a pattern, and
-filing it as a pattern licenses step 1b to rewrite it. Before adding a `## Design patterns`
-section to any file, check it against that list.
+**`## Design patterns` is compiled content, and only 35 files carry it** - exactly
+`STEPS.md` step 1b's compile list, which `tools/validate_setting.py` checks against the
+tree in both directions. The test is what a file's output *is*: a file that fills a
+location's body - its Dressing, its Kind, an ingredient drawn into it, a hook hanging off
+it - carries patterns; a file supplying a *shape applied to* a location carries none, and
+only `Naming` (a procedure) and `Secrets` (a Clue/Trigger/Payload structure) are shapes.
+All of `setting/` and `region/` and every classifier keep their option menus in Spec too,
+because content that reads the same whatever genre was chosen is a question, not a pattern,
+and filing it as a pattern licenses step 1b to rewrite it. Before adding or removing a
+`## Design patterns` section, check the list - and don't reason from reach mode, which was
+tried as the test here and gets `Dressing` and the SAFE hooks wrong.
 
 **Constraints is where every prohibition lives** - anything that closes a pathway: what
 belongs in another file, what this file must never do, a named failure mode. It is blank
