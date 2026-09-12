@@ -5,7 +5,7 @@ What events shaped the setting, how far back they run, and what physical marks t
 for a party to find.
 
 ## Read at
-Step 2b, after `setting/Setting.md`.
+**Mode: entry.** Step 2b, after `setting/Setting.md`.
 
 ## Spec
 
@@ -34,8 +34,6 @@ removed from the file.
 enjoyable than stating one, and every extra sentence is context the referee spends and the
 players never see. Two sentences and a Left line. If the event needs more, what it actually
 needs is a location.
-
-## Design patterns
 
 **Kinds of event** - a founding, or a refounding after something ended the first; a
 withdrawal - whoever held this left, and why; an arrival; a discovery, and what it cost; a

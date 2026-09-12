@@ -5,10 +5,11 @@ When a DANGEROUS location holds an object whose real function is opening somethi
 somewhere else.
 
 ## Read at
-Step 4c, from either end. The **supply** end - a key lying here to be found - is drawn by
-`dangerous/Treasure.md` as what the treasure is. The **demand** end - a lock here that a
-key elsewhere opens - is drawn by the weight file's own registry line. Criteria for what
-earns a `setting/Keys.md` row are in `patterns/setting/Keys.md`.
+**Mode: kind, ingredient.** Step 4c, from either end. The **supply** end - a key lying
+here to be found - is drawn by `dangerous/Treasure.md` as what the treasure is. The
+**demand** end - a lock here that a key elsewhere opens - is drawn by the weight file's
+own registry line. Criteria for what earns a `setting/Keys.md` row are in
+`patterns/setting/Keys.md`.
 
 ## Spec
 

@@ -4,8 +4,8 @@
 What belongs in `setting/Procedures.md` and what does not.
 
 ## Read at
-Step 1c to seed it, step 2h to tailor it, and step 4d only if generation turned out to need
-something the seed did not cover.
+**Mode: entry.** Step 1c to seed it, step 2h to tailor it, and step 4d only if
+generation turned out to need something the seed did not cover.
 
 ## Spec
 
@@ -26,8 +26,6 @@ this file from becoming a second rulebook.
 **Rulings over subsystems.** Per `GENRE.md`, a procedure that needs its own bookkeeping is
 the wrong procedure for this genre. Everything here should be resolvable in one roll or no
 roll at all.
-
-## Design patterns
 
 **What the seed must already answer** - what happens when a character is exposed to
 something lethal; what a trap does at each of its three tiers; what searching costs and what

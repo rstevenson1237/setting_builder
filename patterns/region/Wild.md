@@ -5,8 +5,8 @@ What a WILD Region Overview says, how many locations it holds and in what mix of
 classifications, and what shape its connection graph takes.
 
 ## Read at
-Step 3c, drafting `setting/region/[Code].md` for a WILD region. Read again at 4a and 4b,
-which take their counts and graph shape from here.
+**Mode: entry.** Step 3c, drafting `setting/region/[Code].md` for a WILD region. Read
+again at 4a and 4b, which take their counts and graph shape from here.
 
 ## Spec
 
@@ -49,8 +49,6 @@ below a Landmark, not between them.
 each Secret child that the graph hangs off it - mandatory per child, not a rate. Deciding
 here which parents carry children is therefore deciding how much of the region's content
 sits behind something, and a child whose parent states nothing is unreachable.
-
-## Design patterns
 
 The Region Overview's fields, for a WILD region.
 

@@ -5,11 +5,11 @@ What a DANGEROUS location holds to be taken - which registry or table it comes f
 conceals it, and what stands between the party and it.
 
 ## Read at
-Step 4c, when a weight file's spec draws treasure. The tables themselves are
-`setting/Treasure1.md` through `Treasure5.md`; citation format is in `templates/Location.md`.
-This is the supply end of a Key or a piece of Lore - the object found here. The demand end,
-a lock or a quest target this room holds for something elsewhere, is drawn by the weight
-file's own registry lines instead.
+**Mode: ingredient.** Step 4c, when a weight file's spec draws treasure. The tables
+themselves are `setting/Treasure1.md` through `Treasure5.md`; citation format is in
+`templates/Location.md`. This is the supply end of a Key or a piece of Lore - the object
+found here. The demand end, a lock or a quest target this room holds for something
+elsewhere, is drawn by the weight file's own registry lines instead.
 
 ## Spec
 

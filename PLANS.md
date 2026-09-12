@@ -113,41 +113,61 @@ looking for owes them something. Which parents carry children is read off the re
   `build_site.py` and `patterns.js` track the field changes. Clean run is 0 errors,
   0 warnings.
 - `patterns/SPEC.md` written.
+- `dangerous/Secrets.md` finished dissolving. Its INCLUSION table set the concealment rate
+  by weight and, at LOW, by node role - a rate that varies between the classes drawing it,
+  which by this library's own rule is the drawing class's line. `dangerous/Medium.md` now
+  draws at 40%, `dangerous/Low.md` at the three node-role rates (100% appears-as-dead-end,
+  50% honest dead end, 30% everything else), and `dangerous/High.md` states in prose that
+  it draws none and why. The dead-end/appears-as-dead-end reasoning moved to LOW, where
+  node role lives, and its prohibition became LOW's first Constraint. The file's mode went
+  from `second pass` to `ingredient`, which was the honest description all along once HIGH
+  stopped drawing it, and the anomaly the mode pass surfaced is closed. `safe/Secrets.md`
+  and `wild/Secrets.md` keep their rates, because a flat 10% and a flat 20% are the same
+  for every class that draws them - which is what makes DANGEROUS the odd one rather than
+  the three being inconsistent.
+- Reach mode declared and validated (the old item 3, then item 1). Every file's `## Read at`
+  now opens `**Mode: ...**`, from `second pass`, `kind`, `ingredient`, `conditional`, or
+  `entry` for a file a STEPS.md step reads directly and nothing draws. The validator checks
+  the declaration is present and valid, and that any file claiming one of the four drawn
+  modes is actually cited by some other file's Spec - which is the orphan check SPEC.md had
+  been proposing, and what keeps `safe/Naming.md`, `wild/Naming.md`, `wild/Faction.md` and
+  `dangerous/Faction.md` from silently reopening. Edges are read from the fenced blocks
+  alone. Two corrections the review pass forced: "exactly one of four modes" was not true -
+  `safe/People.md` is a Kind and every SAFE location's gate person, and `dangerous/Key.md`
+  is drawn from both ends, so both declare `kind, ingredient` - and `Faction` means a
+  different mode in each rating rather than one row in the table.
+- The earns-patterns test corrected, one commit after the pass that introduced it. The
+  demotion pass used reach mode as the test and it does not survive contact with the files:
+  it forced `Dressing` to be named a standing exception, and it split the four files drawn
+  by `safe/Settlement.md`'s single hook line three-to-one, stripping `safe/Faction.md`
+  while `safe/Quest.md`, `Lore.md` and `Key.md` kept theirs off the identical line. The
+  test is what a file's output *is* - body content versus a shape applied to a location -
+  which gets `Dressing` right with no exception and all four hooks right together, and
+  leaves only `Naming` and `Secrets` as shapes. `safe/Faction.md` and `wild/Faction.md`
+  have their patterns back and the compile list is thirty-five. Mode stays as coupling
+  information; it just does not decide this.
+- Items 1 and 2 closed together, since both decided what step 1b rewrites. The neutral
+  option menus came out of `## Design patterns` in twenty-eight files - all sixteen
+  `setting/*`, all three `region/*`, `dangerous/Low.md`, and the `Naming`, `Secrets` and
+  `Faction` files in all three ratings - and into those files' Specs, with five
+  forbidden-pathway paragraphs split off into Constraints on the way. `dangerous/Environmental.md`
+  and `dangerous/Residual.md` gained the `## Design patterns` they never had, which is what
+  had them generating thinner than `dangerous/Trap.md`. Step 1b's compile list was rewritten
+  from the reach-mode split - Kind and ingredient files plus the three `Dressing` files,
+  thirty-three in all - and `tools/validate_setting.py` now checks that list against the set
+  of files carrying the section, in both directions, so the two cannot drift apart again.
+  `patterns/SPEC.md`, `README.md` and `CLAUDE.md` track the rule.
+- The two small items closed: `setting/Setting.md`'s "Don't default to the last one" was a
+  forbidden-pathway warning embedded mid-paragraph in Design patterns, and is now a
+  Constraint stated generally - a standing obligation is one option among many and an
+  economic instrument is a flavor of that one option, never the setting's engine.
+  `setting/Genre.md` now says in its own header that it is an elicitation procedure
+  carrying sections the skeleton does not, so its Seed pool, eligibility test, narrowing
+  rounds and Q2 axes read as the procedure rather than as a file left unconverted.
 
 ## Open
 
-**1. Twenty classifiers carry `Design patterns` that are neutral option menus** - sixteen of
-them `setting/*`, e.g. `setting/Keys.md`'s "Forms", `setting/Truths.md`'s "Kinds of truth".
-By the neutrality test these are Spec questions, not compiled content. Held together with
-item 2, because both change what step 1b rewrites.
-
-**2. `STEPS.md` step 1b's compile list is wrong in two directions.** It names 18 files while
-saying "every other tier-2 element file", so 21 element files carrying patterns are not on
-it; and `Encounter`, `Hazard`, `Environmental` and `Residual` are new and not on it either.
-`Environmental.md` and `Residual.md` have no `Design patterns` at all and will generate
-thinner than `dangerous/Trap.md` until they do. Splitting the list by reach mode is what decides which
-files belong on it - not all of them do.
-
-**3. Reach modes are modelled but not implemented.** `patterns/SPEC.md` records four ways an
-element is reached - second pass, kind, ingredient, conditional - read off the classifiers'
-spec lines. Making the mode explicit and validated is what would keep the orphans the last
-two passes closed - `safe/Naming.md`, `wild/Naming.md`, `wild/Faction.md` and
-`dangerous/Faction.md` - from silently reopening. The table in SPEC.md is a reading of the
-spec lines, not something the files declare, and is worth a review pass before it gets
-encoded.
-
-**4. `dangerous/Secrets.md` is half dissolved.** HIGH no longer draws it - concealment there
-is a hidden Treasure disposition or a Hazard's or Mystery's own clue. LOW and MEDIUM still
-do, and at LOW it is load-bearing (its rate is set by node role, the only place node role
-feeds content). Finishing the dissolution means rehoming that inclusion table into the class
-Specs.
-
-**5. Small items.** `setting/Setting.md`'s "Don't default to the last one" is a
-forbidden-pathway warning embedded mid-paragraph and needs hand-splitting into a Constraint.
-`setting/Genre.md` sits outside the skeleton as an elicitation procedure and should say so
-in its own header rather than reading as unconverted.
-
-**6. `wild/Hazard.md` and `wild/Creature.md` share a boundary that is stated in only one
+**1. `wild/Hazard.md` and `wild/Creature.md` share a boundary that is stated in only one
 direction.** Hazard's Constraint says a living hazard with a want, a reaction, or somewhere
 else to be is a creature; `wild/Creature.md` does not say the converse. Per `STEPS.md` step
 5b the duplication check is inverted for `patterns/`, so this is the kind of thing a

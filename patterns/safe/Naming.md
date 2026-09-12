@@ -5,8 +5,8 @@ What a SAFE location is called, in whose mouth, and - when the name reuses a
 constructed-language proper noun coined elsewhere - what it means for the referee.
 
 ## Read at
-Step 4c, drawn as the last line of `safe/Settlement.md` - every SAFE location, after
-everything else in its entry is decided.
+**Mode: second pass.** Step 4c, drawn as the last line of `safe/Settlement.md` - every
+SAFE location, after everything else in its entry is decided.
 
 ## Spec
 
@@ -22,8 +22,6 @@ NAMING
         gloss it in the Referee Notes: state what it means or who it was, so the referee is
         never sent to setting/Language.md mid-session
 ```
-
-## Design patterns
 
 **SAFE is the only rating whose namers are present.** A dungeon is named by the dead and
 the absent; wild country by people passing through. A settlement is named by the people
@@ -45,10 +43,6 @@ exactly the case the Spec's gloss line exists for.
 recognised by people who cannot read; an event; a founder or grantor; a saint or power; a
 position - the upper, the far, the one by the water; a joke that stuck.
 
-**Restraint.** Name what the party will ask for by name. A settlement's locations are
-mostly places to *do something*, and a working stable does not need a proper noun if
-nobody will ever say it twice.
-
 ## Constraints
 
 - **Write-back.** A carried name's older or dead tongue is described here only as a *kind*
@@ -65,3 +59,7 @@ nobody will ever say it twice.
   place named after someone already named elsewhere. When it does, the gloss is
   mandatory, not optional - a name the referee can't translate at the table is worse
   than no name at all.
+
+- **Restraint.** Name what the party will ask for by name. A settlement's locations
+  are mostly places to *do something*, and a working stable does not need a proper
+  noun if nobody will ever say it twice.

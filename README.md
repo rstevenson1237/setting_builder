@@ -94,7 +94,8 @@ what it is building.
   forces the differentiation. The cost is drift, which `checks/PatternJudgementCheck.md`
   manages by treating two restatements that read the same as a *finding*.
 - **Every pattern file has one skeleton**: **Provides / Read at / Spec / Design patterns /
-  Constraints**. `patterns/SPEC.md` is the full field spec.
+  Constraints**. `patterns/SPEC.md` is the full field spec. `## Design patterns` is the one
+  optional field, and which files carry it is not a matter of taste - see below.
 - **Every Spec line is one of exactly two things**: an **edge**, pointing to another
   pattern file named in parentheses, which is the only other file that line requires; or a
   **question**, stating something the generator must answer, citing nothing. That one rule
@@ -115,12 +116,30 @@ what it is building.
   during an actual build.
 - **`## Read at` names the STEPS.md step(s) that read the file**, which is what makes step
   coverage auditable; the validator checks those ids against STEPS.md.
+- **`## Read at` also opens with the file's reach mode** - how it is arrived at, declared
+  as `**Mode: ingredient.**` and validated. Four modes are drawn by another file's Spec
+  (`second pass`, `kind`, `ingredient`, `conditional`) and `entry` is the fifth, a file a
+  step reads directly. A file claiming a drawn mode that nobody's Spec draws is an orphan,
+  and an error - four files were orphaned that way before, and the fix held only because
+  someone remembered to look. Edges are read from the Spec's fenced blocks alone; the
+  prose under them cites pattern files freely.
 - A file's `## Design patterns` content is genre-specific and compiled fresh per
   build at step 1b from this setting's chosen genre reference, replacing what a
   lookup-table join at generation time would otherwise have to translate correctly every
   single read. Demeanor and personality examples specifically live compiled into
   `dangerous/Creature.md`, `wild/Creature.md`, and `safe/People.md`, standing in for what
   `GENRE.md` used to carry as its own People/Creatures tag bank.
+- **Thirty-five files carry `## Design patterns`, and no others.** The test is what a
+  file's output *is*: a file that fills a location's body - its Dressing, its Kind, an
+  ingredient drawn into it, a hook hanging off it - is where flat output would show, so
+  that is where specific content is spent. A file supplying a *shape applied to* a
+  location carries none, and only two are shapes: `Naming`, a procedure, and `Secrets`, a
+  Clue/Trigger/Payload discovery structure. Everything else holds neutral, permanent
+  content in its Spec instead - every `setting/` and `region/` file, and every classifier.
+  An option menu that reads the same whatever reference was chosen is a Spec question, not
+  a pattern, and filing it as a pattern licenses step 1b to rewrite it (in one case, to
+  rewrite an *edge* away). Those thirty-five are exactly step 1b's compile list, and
+  `tools/validate_setting.py` checks the two against each other in both directions.
 
 ## `checks/`
 
@@ -358,4 +377,3 @@ sync.
   manual dispatch). The PDF is published alongside the site and linked from its nav as
   "Download PDF". This requires a one-time repository setting: **Settings -> Pages ->
   Source: GitHub Actions**.
-</content>

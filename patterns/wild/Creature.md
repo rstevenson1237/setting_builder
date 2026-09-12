@@ -4,11 +4,12 @@
 What lives in or ranges through a WILD location, and how it meets a party.
 
 ## Read at
-Step 4c, when a classifier's spec line draws a challenge and the challenge is a creature -
-`wild/Landmark.md`, `wild/Hidden.md`, or `wild/Secret.md`. Scaling is in
-`patterns/setting/Bestiary.md`. Distinct from `wild/Faction.md`, which is what a place is
-held or worked by rather than what the party meets in it, and from `wild/Hazard.md`'s
-living mechanisms, which have nowhere else to be and nothing they want.
+**Mode: ingredient.** Step 4c, when a classifier's spec line draws a challenge and the
+challenge is a creature - `wild/Landmark.md`, `wild/Hidden.md`, or `wild/Secret.md`.
+Scaling is in `patterns/setting/Bestiary.md`. Distinct from `wild/Faction.md`, which is
+what a place is held or worked by rather than what the party meets in it, and from
+`wild/Hazard.md`'s living mechanisms, which have nowhere else to be and nothing they
+want.
 
 ## Spec
 

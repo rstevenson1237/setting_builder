@@ -4,9 +4,9 @@
 What earns a row in `setting/Keys.md`.
 
 ## Read at
-Step 2h to stub the file, step 4c to add a row whenever a location's Feature calls for
-a key, and step 4d to write every entry. The per-rating decision of when to reach for a
-key is in each folder's own `Key.md`.
+**Mode: entry.** Step 2h to stub the file, step 4c to add a row whenever a location's
+Feature calls for a key, and step 4d to write every entry. The per-rating decision of
+when to reach for a key is in each folder's own `Key.md`.
 
 ## Spec
 
@@ -20,8 +20,6 @@ KEY ENTRY
 
 **A key need not look like its lock**, and the connection between them can itself be a
 discoverable Secret when it is not obvious.
-
-## Design patterns
 
 **Forms** - an actual key; a rod, pin, or bar cut to a profile; a stone or disc fitted to a
 socket; a seal or signet; a token; a specific creature's bone; a phrase or name recorded on

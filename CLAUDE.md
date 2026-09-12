@@ -50,6 +50,18 @@ it is read off the citations. `patterns/SPEC.md` is the full field spec.
 line that is the same for all of them belongs in the file it cites.** Same test
 `setting/Procedures.md` applies one level up.
 
+**`## Design patterns` is compiled content, and only 35 files carry it** - exactly
+`STEPS.md` step 1b's compile list, which `tools/validate_setting.py` checks against the
+tree in both directions. The test is what a file's output *is*: a file that fills a
+location's body - its Dressing, its Kind, an ingredient drawn into it, a hook hanging off
+it - carries patterns; a file supplying a *shape applied to* a location carries none, and
+only `Naming` (a procedure) and `Secrets` (a Clue/Trigger/Payload structure) are shapes.
+All of `setting/` and `region/` and every classifier keep their option menus in Spec too,
+because content that reads the same whatever genre was chosen is a question, not a pattern,
+and filing it as a pattern licenses step 1b to rewrite it. Before adding or removing a
+`## Design patterns` section, check the list - and don't reason from reach mode, which was
+tried as the test here and gets `Dressing` and the SAFE hooks wrong.
+
 **Constraints is where every prohibition lives** - anything that closes a pathway: what
 belongs in another file, what this file must never do, a named failure mode. It is blank
 when a file is first created; it fills as the patterns are refined and negative patterns
@@ -61,6 +73,13 @@ stays where it is.
 `## Read at` names the `STEPS.md` step(s) that read the file, and the validator checks
 those step ids against STEPS.md - a phase-2 renumber once left eight `setting/` patterns
 pointing one step too far down, three at a step that no longer existed.
+
+**`## Read at` opens with the file's reach mode** - `**Mode: ingredient.**` - one of
+`second pass`, `kind`, `ingredient`, `conditional`, or `entry` for a file a step reads
+directly. The four drawn modes are validated: a file claiming one that no other file's Spec
+draws is an orphan and an error. Two files declare two modes (`safe/People.md`,
+`dangerous/Key.md`); that is allowed where both draws are primary. Reach mode is coupling
+information only - it does not decide which files carry `## Design patterns`.
 
 ## Validator posture
 
@@ -80,4 +99,3 @@ A citation from one `patterns/*/*.md` file to another is always `folder/File.md`
 `patterns/` prefix - except a reference to a `patterns/setting/*.md` file, which always
 keeps the `patterns/` prefix, since a bare `setting/File.md` means the *generated* file of
 that name, not the pattern that produces it. `tools/validate_setting.py` enforces this.
-</content>

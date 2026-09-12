@@ -5,10 +5,12 @@ Whether a WILD location hides something within itself, and the three parts that 
 findable.
 
 ## Read at
-Step 4c, drawn unconditionally by `wild/Landmark.md`, `wild/Hidden.md` and
-`wild/Secret.md` - every WILD location consults this file to decide whether there is a
-secret at all, and the rate below is where that is decided rather than in the classifiers. Distinct from `wild/Secret.md`, which is a whole Secret-tier *location*
-hanging off a parent; this is a detail concealed inside one location's features.
+**Mode: second pass.** Step 4c, drawn unconditionally by `wild/Landmark.md`,
+`wild/Hidden.md` and `wild/Secret.md` - every WILD location consults this file to decide
+whether there is a secret at all, and the rate below is where that is decided rather
+than in the classifiers. Distinct from `wild/Secret.md`, which is a whole Secret-tier
+*location* hanging off a parent; this is a detail concealed inside one location's
+features.
 
 ## Spec
 
@@ -29,8 +31,6 @@ INCLUSION
 Lower than DANGEROUS, because WILD's concealment budget is mostly spent on the Secret tier
 itself. A region already hiding whole locations behind triggers does not need every
 landmark hiding something too.
-
-## Design patterns
 
 **Clues that weather leaves.** Concealment outdoors is undone by time, and that is what
 gives a party something to see: a hollow that has slumped; a covering that has rotted

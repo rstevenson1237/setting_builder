@@ -4,8 +4,9 @@
 What a high-weight location guarantees.
 
 ## Read at
-Step 4c, for a location its gazetteer stub marks high. Generate the region's high-weight
-locations first, so medium and low can foreshadow what has already been decided.
+**Mode: entry.** Step 4c, for a location its gazetteer stub marks high. Generate the
+region's high-weight locations first, so medium and low can foreshadow what has already
+been decided.
 
 ## Spec
 
@@ -40,6 +41,13 @@ DANGEROUS - HIGH
 
   1     Naming, after everything above                       (dangerous/Naming.md)
 ```
+
+**HIGH draws no Secret, and it is the only weight that draws none.** There is no line for
+`dangerous/Secrets.md` above because what a HIGH room conceals is already carried by
+structures it has: a Treasure whose disposition is `hidden`, or a Hazard's or a Mystery's
+own clue. Adding a separate discovery structure on top would be a third thing to search a
+room that is already the region's most searched. `dangerous/Medium.md` draws one at 40% and
+`dangerous/Low.md` at three rates its node role sets.
 
 **The four blocks are what the entry is.** Substrate says what the room is, challenge what
 opposes the party in it, reward what is here to take, registry what elsewhere points at

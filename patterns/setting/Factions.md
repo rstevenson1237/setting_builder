@@ -5,7 +5,7 @@ The three powers a party may treat with, oppose, or ignore, and how each is reco
 before it is named.
 
 ## Read at
-Step 2f, after `setting/Bestiary.md`.
+**Mode: entry.** Step 2f, after `setting/Bestiary.md`.
 
 ## Spec
 
@@ -27,8 +27,6 @@ that neither knows, is holding the most valuable thing in the setting.
 **Visual identity is the field this framework kept missing.** Resources and Goals describe
 what a faction does; the mark is how a party knows it is looking at one. Without it, faction
 presence can only be communicated by narration, and every appearance starts from nothing.
-
-## Design patterns
 
 **What a faction wants** - a route; a resource, and exclusive access to it; a person; a
 place cleared; a place kept sealed; legitimacy; a debt honoured; a rival gone; to know

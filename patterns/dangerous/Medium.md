@@ -4,7 +4,7 @@
 What a medium-weight location guarantees.
 
 ## Read at
-Step 4c, for a location its gazetteer stub marks medium.
+**Mode: entry.** Step 4c, for a location its gazetteer stub marks medium.
 
 ## Spec
 
@@ -18,7 +18,7 @@ DANGEROUS - MEDIUM
 
   -- substrate: what this room is
   1     Dressing - what it is now, and what it was     (dangerous/Dressing.md)
-  1     Secrets - whether it conceals anything          (dangerous/Secrets.md)
+  40%   Secrets - whether it conceals anything          (dangerous/Secrets.md)
 
   -- challenge: what opposes the party
   1     Challenge   {encounter | hazard} - guaranteed, and obvious

@@ -4,10 +4,10 @@
 What an unbuilt, unoccupied Landmark is, and why it is worth four hours to visit.
 
 ## Read at
-Step 4c, when a WILD classifier's Kind line draws Natural Feature - `wild/Landmark.md`,
-`wild/Hidden.md`, or `wild/Secret.md`, all three of which draw one kind per location.
-Alone among the kinds it has no builder and no occupant,
-so it has to earn its slot on what it *does*.
+**Mode: kind.** Step 4c, when a WILD classifier's Kind line draws Natural Feature -
+`wild/Landmark.md`, `wild/Hidden.md`, or `wild/Secret.md`, all three of which draw one
+kind per location. Alone among the kinds it has no builder and no occupant, so it has to
+earn its slot on what it *does*.
 
 ## Spec
 

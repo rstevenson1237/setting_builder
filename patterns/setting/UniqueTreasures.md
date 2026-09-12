@@ -4,9 +4,9 @@
 What earns a row in `setting/UniqueTreasures.md` rather than a roll on a table.
 
 ## Read at
-Step 2h to stub the file, step 4c to add a row whenever a location holds a one-of-a-kind
-artifact, and step 4d to write every entry. The per-rating decision of when a find is a
-table roll instead is in each folder's own `Treasure.md`.
+**Mode: entry.** Step 2h to stub the file, step 4c to add a row whenever a location
+holds a one-of-a-kind artifact, and step 4d to write every entry. The per-rating
+decision of when a find is a table roll instead is in each folder's own `Treasure.md`.
 
 ## Spec
 
@@ -31,8 +31,6 @@ from the setting by construction. If nothing in `History.md`, `Truths.md`, `Fact
 **The location names and cites it only.** What it does and what it costs are written here at
 4d, not in the location entry.
 
-## Design patterns
-
 **What one does** - it works once; it works on one class of thing; it does something adjacent
 to what a party wants; it makes a specific problem soluble that otherwise is not; it grants
 knowledge rather than force; it opens or closes; it protects against one named thing.
@@ -46,9 +44,8 @@ using it is a thing the setting's Truths punish.
 faction's property, lost; a Named Creature's, and they want it back; grave goods; made by
 somebody who should not have been able to; not made at all.
 
-**Restraint.** A setting supports very few of these. Most high-weight locations are better
-served by a Table V citation - a Unique Treasure should be the reason a party remembers a
-whole region.
-
 ## Constraints
-*(Empty. Entries arrive from generation testing, never from anticipation.)*
+
+- **Restraint.** A setting supports very few of these. Most high-weight locations are
+  better served by a Table V citation - a Unique Treasure should be the reason a party
+  remembers a whole region.

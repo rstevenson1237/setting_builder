@@ -4,10 +4,10 @@
 What an occupied Landmark is, and what its occupancy implies about the country around it.
 
 ## Read at
-Step 4c, when a WILD classifier's Kind line draws Lair - `wild/Landmark.md`,
-`wild/Hidden.md`, or `wild/Secret.md`, all three of which draw one kind per location.
-A Lair is a place something currently lives, whether it built the place or
-moved in.
+**Mode: kind.** Step 4c, when a WILD classifier's Kind line draws Lair -
+`wild/Landmark.md`, `wild/Hidden.md`, or `wild/Secret.md`, all three of which draw one
+kind per location. A Lair is a place something currently lives, whether it built the
+place or moved in.
 
 ## Spec
 

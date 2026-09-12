@@ -5,7 +5,8 @@ What a SAFE Region Overview says, how many locations it holds, and what shape it
 connection graph takes.
 
 ## Read at
-Step 3c, drafting `setting/region/[Code].md` for a SAFE region. Read again at 4a and 4b.
+**Mode: entry.** Step 3c, drafting `setting/region/[Code].md` for a SAFE region. Read
+again at 4a and 4b.
 
 ## Spec
 
@@ -34,8 +35,6 @@ is described here.
 after, not per location, so the die measures how often the settlement generates trouble on
 its own rather than traverse pressure. d8 is baseline; d6 is a place with something wrong
 with it, d10 a place where little happens.
-
-## Design patterns
 
 The Region Overview's fields, for a SAFE region.
 

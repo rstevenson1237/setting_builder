@@ -5,9 +5,9 @@ The physical reality of a SAFE location, how much of it its prominence earns, ho
 read as one place, and how it sounds on the page.
 
 ## Read at
-Step 4c, drawn unconditionally by `safe/Settlement.md`'s substrate block - every SAFE
-location without exception. Units, the Exits syntax and the citation formats are in
-`templates/Location.md`.
+**Mode: second pass.** Step 4c, drawn unconditionally by `safe/Settlement.md`'s
+substrate block - every SAFE location without exception. Units, the Exits syntax and the
+citation formats are in `templates/Location.md`.
 
 ## Spec
 

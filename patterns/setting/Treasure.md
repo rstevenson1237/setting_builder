@@ -5,8 +5,9 @@ What the five d20 tables hold, how value is distributed within each, and what mo
 to a party at this setting's altitude.
 
 ## Read at
-Step 2g, after `setting/Factions.md`. Reads `GENRE.md` for party altitude - what the
-characters can survive - since value is only meaningful relative to what they have.
+**Mode: entry.** Step 2g, after `setting/Factions.md`. Reads `GENRE.md` for party
+altitude - what the characters can survive - since value is only meaningful relative to
+what they have.
 
 ## Spec
 
@@ -41,8 +42,6 @@ attempt next.
 fixed conversion. Mundane bulk goods may run as low as 5 cn per wt (a bag of copper
 pennies); there is no upper bound on value-dense items (a single pure diamond may be worth
 5000 cn at 0 wt).
-
-## Design patterns
 
 **Table I - Scavenged Loot.** Everyday debris, minor coin, tools, scraps. Average under
 500 cn. This is what most finds are, and it should mostly be *useful* rather than valuable -

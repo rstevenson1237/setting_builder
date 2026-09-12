@@ -10,4 +10,3 @@ exit form, and README.md's staleness.
 
 Per `STEPS.md` step 5a, this file is (re)created against the current `templates/` and
 `patterns/`, following `templates/Template_Judgement_Check.md`.
-</content>

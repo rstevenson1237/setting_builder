@@ -5,9 +5,10 @@ What a DANGEROUS Region Overview says, how many locations the region holds and i
 mix, and what shape its connection graph takes.
 
 ## Read at
-Step 3c, drafting `setting/region/[Code].md` for a DANGEROUS region, alongside `GENRE.md`,
-`setting/region/Regions.md`, and the setting-level artifacts the region draws on. Read
-again at 4a and 4b, which take their counts and graph shape from here.
+**Mode: entry.** Step 3c, drafting `setting/region/[Code].md` for a DANGEROUS region,
+alongside `GENRE.md`, `setting/region/Regions.md`, and the setting-level artifacts the
+region draws on. Read again at 4a and 4b, which take their counts and graph shape from
+here.
 
 ## Spec
 
@@ -62,7 +63,7 @@ TOPOLOGY - dense, few entrances
   1     At least one branch (many), per 12 locations - a choice of three or more exits
   60%   A dead end, per 12 locations
   40%   Of those dead ends: appears as dead end instead - a hidden (-.-) edge is the real
-        exit, cashing out the dead-end Secret rate in `dangerous/Secrets.md` as a route
+        exit, cashing out the dead-end Secret rate in `dangerous/Low.md` as a route
         rather than a cache
   30%   A one-way connection
 ```
@@ -97,8 +98,6 @@ A region where every non-baseline role landed on a HIGH or MEDIUM location and e
 location defaulted to simple connection has technically satisfied the graph-wide counts
 above while failing this rule - the counts are necessary, not sufficient, and this is the
 check that catches it.
-
-## Design patterns
 
 The Region Overview's fields, for a DANGEROUS region.
 

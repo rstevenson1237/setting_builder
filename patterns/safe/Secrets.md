@@ -4,9 +4,10 @@
 Whether a SAFE location hides something, and the three parts that make it findable.
 
 ## Read at
-Step 4c, drawn unconditionally by `safe/Settlement.md`'s substrate block - every SAFE
-location consults this file to decide whether there is a secret at all, and the rate below
-is where that is decided rather than in the classifier.
+**Mode: second pass.** Step 4c, drawn unconditionally by `safe/Settlement.md`'s
+substrate block - every SAFE location consults this file to decide whether there is a
+secret at all, and the rate below is where that is decided rather than in the
+classifier.
 
 ## Spec
 
@@ -35,8 +36,6 @@ roll this 10% against it as well.
 an owner who knows about it; a false ledger page was written by a person who is still in
 the room. This makes the Trigger social as often as physical - and it means a discovered
 secret in a settlement has a *consequence*, because somebody finds out the party knows.
-
-## Design patterns
 
 **Clues** - a room that is smaller inside than out; a lock better than the door deserves;
 a stock that does not match the trade; a floor worn toward a wall; a repair that hid

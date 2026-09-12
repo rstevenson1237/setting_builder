@@ -214,6 +214,122 @@ def check_read_at_steps(diag: Diagnostics, path, text: str):
 
 
 # ---------------------------------------------------------------------------
+# patterns/*/*.md - "## Read at" declares a reach mode, and drawn modes are
+# actually drawn
+#
+# Reach mode is how a file is arrived at, declared as the first thing in
+# "## Read at". Four modes are drawn by another file's Spec - second pass,
+# kind, ingredient, conditional - and "entry" is the fifth: a file a STEPS.md
+# step reads directly, which nothing draws. A file claiming a drawn mode and
+# cited by no other file's Spec is orphaned from the graph: nothing reaches
+# it, so nothing guarantees it is ever read. That is the failure this check
+# exists for - four files were orphaned that way before, and the fix held
+# only because someone remembered to look.
+#
+# Edges are read from the Spec's FENCED BLOCKS ONLY. Prose under the block
+# cites pattern files freely - setting/Truths.md names three - and counting
+# those would make half the leaves in the library look like classifiers.
+# ---------------------------------------------------------------------------
+
+DRAWN_MODES = ("second pass", "kind", "ingredient", "conditional")
+VALID_MODES = DRAWN_MODES + ("entry",)
+MODE_RE = re.compile(r'\*\*Mode:\s*([^.*]+?)\s*\.\*\*')
+
+
+def declared_modes(text: str):
+    m = re.search(r'\n## Read at\n(.*?)(?=\n## )', text, re.S)
+    if not m:
+        return None
+    d = MODE_RE.search(m.group(1).strip())
+    if not d or not m.group(1).strip().startswith("**Mode:"):
+        return None
+    return [s.strip() for s in d.group(1).split(",") if s.strip()]
+
+
+def spec_edges(text: str, rel: str):
+    """Pattern files cited from inside this file's Spec fenced blocks."""
+    m = re.search(r'\n## Spec\n(.*?)(?=\n## (?:Design patterns|Constraints)\n)', text, re.S)
+    if not m:
+        return set()
+    out = set()
+    for fenced in re.findall(r'```(.*?)```', m.group(1), re.S):
+        for prefixed, folder, fname in PATTERN_CITE_RE.findall(fenced):
+            target = f"{folder}/{fname}"
+            if target == rel or (folder == "setting" and not prefixed):
+                continue
+            out.add(target)
+    return out
+
+
+def check_reach_modes(diag: Diagnostics):
+    if not PATTERNS.exists():
+        return
+    texts = {p.relative_to(PATTERNS).as_posix(): p.read_text()
+             for p in sorted(PATTERNS.glob("*/*.md"))}
+    drawn_by: dict[str, set] = {}
+    for rel, text in texts.items():
+        for target in spec_edges(text, rel):
+            drawn_by.setdefault(target, set()).add(rel)
+
+    for rel, text in texts.items():
+        path = PATTERNS / rel
+        modes = declared_modes(text)
+        if modes is None:
+            diag.error(path, "'## Read at' does not open with a '**Mode: ...**' "
+                              f"declaration - one of {', '.join(VALID_MODES)}")
+            continue
+        for mode in modes:
+            if mode not in VALID_MODES:
+                diag.error(path, f"declares reach mode '{mode}', which is not one of "
+                                  f"{', '.join(VALID_MODES)}")
+        if any(m in DRAWN_MODES for m in modes) and rel not in drawn_by:
+            diag.error(path, f"declares mode '{', '.join(modes)}' but no other file's "
+                              f"Spec draws it - nothing reaches this file, so nothing "
+                              f"guarantees it is ever read")
+
+
+# ---------------------------------------------------------------------------
+# STEPS.md step 1b's compile list vs. the tree
+#
+# Step 1b rewrites the "## Design patterns" section of every pattern file
+# that carries one - that section is the per-build compiled content, and a
+# Spec is never rewritten. So the compile list and the set of files carrying
+# the section are the same set, stated twice, and they drift apart silently:
+# the list once named 18 files while saying "every other tier-2 element
+# file", leaving fifteen carrying patterns nobody compiled and two
+# (Environmental, Residual) carrying none at all. This checks both
+# directions. Which files earn patterns is a reach-mode judgement and stays
+# a human decision - this only holds STEPS.md and the tree to the same
+# answer once that decision is made.
+# ---------------------------------------------------------------------------
+
+COMPILE_LIST_RE = re.compile(r'^\s*-\s+1b\..*?\*\*Compile list\*\*(.*)$', re.M)
+
+
+def check_compile_list(diag: Diagnostics):
+    if not STEPS_MD.exists() or not PATTERNS.exists():
+        return
+    m = COMPILE_LIST_RE.search(STEPS_MD.read_text())
+    if not m:
+        diag.warn(STEPS_MD, "step 1b names no '**Compile list**' - step 1b's compiled "
+                             "files cannot be checked against the tree without one")
+        return
+    listed = {f"{folder}/{fname}"
+              for _, folder, fname in PATTERN_CITE_RE.findall(m.group(1))}
+    carrying = {p.relative_to(PATTERNS).as_posix()
+                for p in sorted(PATTERNS.glob("*/*.md"))
+                if "\n## Design patterns\n" in p.read_text()}
+    for rel in sorted(listed - carrying):
+        diag.error(STEPS_MD, f"step 1b's compile list names {rel}, which carries no "
+                              f"'## Design patterns' section - step 1b would have "
+                              f"nothing to compile into it")
+    for rel in sorted(carrying - listed):
+        diag.error(STEPS_MD, f"patterns/{rel} carries '## Design patterns' but is not on "
+                              f"step 1b's compile list - its examples would never be "
+                              f"recompiled for a new setting")
+
+
+# ---------------------------------------------------------------------------
 # Regions.md / setting/region/Connections.mmd
 # ---------------------------------------------------------------------------
 
@@ -705,6 +821,8 @@ def is_fresh_start() -> bool:
 def main() -> int:
     diag = Diagnostics()
     check_pattern_files(diag)
+    check_compile_list(diag)
+    check_reach_modes(diag)
 
     if is_fresh_start():
         seeded = sorted(n for n in SEED_FILES if (SETTING / n).exists())

@@ -7,8 +7,9 @@ setting-level, one region-level) every location gazetteer stub uses instead of i
 three tags fresh.
 
 ## Read at
-Step 1b, right after `GENRE.md` exists, to seed `setting/Tags.md`. Read again per region,
-alongside its Region Overview at step 3c, to seed that region's own `Tags.md`.
+**Mode: entry.** Step 1b, right after `GENRE.md` exists, to seed `setting/Tags.md`. Read
+again per region, alongside its Region Overview at step 3c, to seed that region's own
+`Tags.md`.
 
 ## Spec
 
@@ -29,8 +30,6 @@ content - and lived at the wrong altitude for a value read at nearly every gener
 regardless of whether it was used. This file's pools stay pure color; the structural half
 of that old job now belongs to the compiled tier-2 pattern files (demeanor and personality
 examples in `dangerous/Creature.md`, `wild/Creature.md`, `safe/People.md`).
-
-## Design patterns
 
 **What makes a good tag** - the same test `patterns/setting/Genre.md` already uses for its
 own tag-building: it represents a theme (compresses something already true of the chosen

@@ -5,11 +5,11 @@ What in a WILD location acts against the party, whether anybody set it, what war
 and what it costs.
 
 ## Read at
-Step 4c, when a classifier's spec line draws a challenge and the challenge is a hazard -
-`wild/Landmark.md`, `wild/Hidden.md`, or `wild/Secret.md`. Impact tiers and resolution are
-in `setting/Procedures.md`. Distinct from `wild/Mystery.md`, which is the neutral case: a
-mystery costs nothing until a genuinely wrong attempt is made, a hazard acts on contact or
-condition.
+**Mode: ingredient.** Step 4c, when a classifier's spec line draws a challenge and the
+challenge is a hazard - `wild/Landmark.md`, `wild/Hidden.md`, or `wild/Secret.md`.
+Impact tiers and resolution are in `setting/Procedures.md`. Distinct from
+`wild/Mystery.md`, which is the neutral case: a mystery costs nothing until a genuinely
+wrong attempt is made, a hazard acts on contact or condition.
 
 ## Spec
 

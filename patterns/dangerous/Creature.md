@@ -5,8 +5,8 @@ Which creature fits a DANGEROUS location, at what scale, and what its presence i
 about the rest of the region.
 
 ## Read at
-Step 4c, when `dangerous/Encounter.md` draws Kind: creature. Scaling is in
-`patterns/setting/Bestiary.md`; entries are in `setting/Bestiary.md`. Distinct from
+**Mode: kind.** Step 4c, when `dangerous/Encounter.md` draws Kind: creature. Scaling is
+in `patterns/setting/Bestiary.md`; entries are in `setting/Bestiary.md`. Distinct from
 `patterns/setting/NamedCreatures.md`, the kind drawn for an individual the setting keeps
 consistent across appearances.
 

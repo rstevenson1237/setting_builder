@@ -4,7 +4,7 @@
 The rules this setting keeps that a generic instance of the genre does not.
 
 ## Read at
-Step 2c, after `setting/History.md`.
+**Mode: entry.** Step 2c, after `setting/History.md`.
 
 ## Spec
 
@@ -34,8 +34,6 @@ rather than revises, and it should be used.
 **Discoverable by acting.** At least one Truth should be learnable only by doing something
 and seeing what happens. A truth nobody can find out is a note to the referee.
 
-## Design patterns
-
 **Kinds of truth** - a rule the land keeps that people work around; a class of object that
 behaves consistently and strangely; something everyone does whose reason is forgotten; a
 category of person treated differently, and why; a limit - something that cannot be done
@@ -46,8 +44,7 @@ elsewhere.
 **Where truths pay off** - a Truth should be visible at more than one scale. If it is real,
 it shows up in what a settlement builds (`safe/Dressing.md`), what wild country does
 (`wild/Mystery.md`), and what a ruin's builders were guarding against
-(`dangerous/Mystery.md`). A truth that only ever appears once was a location feature
-wearing a costume.
+(`dangerous/Mystery.md`).
 
 **Costing somebody something.** A truth with no cost is set dressing. Who is worse off
 because this is how the world works here, and what do they do about it?
@@ -59,6 +56,11 @@ because this is how the world works here, and what do they do about it?
   breaking one marks the breaker visibly" is a truth - it defines a class of object, a
   rule the world keeps, and a hundred later details follow from it. Political and
   religious ideas qualify on the same terms: the idea, not one believer.
+
+- **A truth that only ever appears once was a location feature wearing a costume.** A
+  Truth is visible at more than one scale or it is not a Truth - what a settlement builds,
+  what wild country does, and what a ruin's builders guarded against should all be able to
+  show the same one.
 
 - **A Truth must sharpen the genre, never override it.** Low Magic, Points of Light and
   the Mythic Underworld are constraints, and a Truth that makes magic common or

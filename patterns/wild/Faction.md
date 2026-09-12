@@ -5,13 +5,14 @@ What it means for a WILD Landmark to be held, worked, or controlled by a faction
 than simply occupied by whatever the Kind block's own occupant already describes.
 
 ## Read at
-Step 4c, when a Kind file's own spec line draws a faction as what holds, controls, or
-works this place - `wild/Ruin.md`, `wild/Lair.md`, `wild/NaturalFeature.md` and
-`wild/Crossing.md` each carry one, at a rate that suits the kind. Conditional, not rated
-at the classifier: whether a faction is even possible here depends on the Kind already
-drawn, which is why the four rates live in the four kind files rather than one line up a
-level. Distinct from `wild/Creature.md`, which covers what lives here on its own account; a
-faction's presence implies purpose and consequence reaching beyond this one Landmark.
+**Mode: conditional.** Step 4c, when a Kind file's own spec line draws a faction as what
+holds, controls, or works this place - `wild/Ruin.md`, `wild/Lair.md`,
+`wild/NaturalFeature.md` and `wild/Crossing.md` each carry one, at a rate that suits the
+kind. Conditional, not rated at the classifier: whether a faction is even possible here
+depends on the Kind already drawn, which is why the four rates live in the four kind
+files rather than one line up a level. Distinct from `wild/Creature.md`, which covers
+what lives here on its own account; a faction's presence implies purpose and consequence
+reaching beyond this one Landmark.
 
 ## Spec
 
@@ -36,6 +37,25 @@ enforcement is what a party actually meets before they meet the faction itself.
 **Identity is visual and repeated**, the same as anywhere else a faction appears. A party
 should recognise the same power two regions apart from its marks alone, before anyone
 names it.
+
+**What a position is for** - watching a crossing or approach; holding a route open or shut;
+working a resource out of the ground, the water, or the herd that passes through; a forward
+camp for something the faction holds more securely elsewhere; a foothold in country they do
+not yet hold outright.
+
+**Identification without naming** - a colour worn or flown; a device, blazon, or mark
+repeated on gear, carts, or markers; a way of cutting, tying, or piling; a shared weapon or
+armour tradition; a cairn or post at the edge of their claim; a tongue they speak among
+themselves, from `setting/Language.md`.
+
+**How the claim is enforced** - a patrol on a set path, and how regularly it passes; a toll
+taken at the one crossing or ford; livestock, workers, or goods moved under guard; a beacon
+or signal line back to a position held more securely elsewhere; a marker warning off
+whoever finds it.
+
+**Friction** - orders that don't fit country this far out; a rival testing the edge of the
+claim; the country itself pushing back - weather, distance, a creature that doesn't
+recognise the claim; somebody here who would rather be posted anywhere else.
 
 ## Design patterns
 

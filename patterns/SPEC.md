@@ -4,9 +4,10 @@ What every file in `patterns/*/*.md` is made of, and why. `README.md` says what 
 patterns are *for* within the build; this file says what one looks like and how to tell a
 correct one from a broken one. `CLAUDE.md` carries the short version.
 
-Status: the field model and the tier split below are settled and implemented. The **reach
-mode** section is settled as a model but **not yet implemented** - the "Known divergences"
-section at the end names exactly where the current files differ from it.
+Status: the field model and the tier split below are settled and implemented, and so is
+the one consequence of reach mode that had teeth - which files carry `## Design patterns`.
+The modes themselves are still a reading of the spec lines rather than something the files
+declare; the "Known divergences" section at the end says what that leaves open.
 
 ## The governing distinction
 
@@ -70,7 +71,10 @@ five baseline lines are constant, so they are Dressing's.) This is the same test
 The deliberate injection of highly specific content that keeps generated output from
 reading flat. **Specific and compiled** - rewritten at step 1b from the chosen genre
 reference. A section here is a claim that this file's output would be too generic without
-it; see "Which files earn patterns" below.
+it; which files can make that claim is settled by reach mode, in "Which files earn
+patterns" below. Thirty-three files carry one, and they are exactly STEPS.md step 1b's
+compile list - the two sets are checked against each other by
+`tools/validate_setting.py`.
 
 ### `## Constraints`
 Every prohibition: what belongs in another file, what this file must never do, a named
@@ -135,31 +139,75 @@ reason, rather than omitting the heading, because the absence is the class's def
 
 ## Reach modes
 
-Every element file is reached in exactly one of four modes, and the mode is what a
-classifier's spec line already encodes. Mode predicts what a file needs.
+How a file is arrived at. Every file **declares its mode**, as the first thing in its
+`## Read at`: `**Mode: ingredient.**`. Four modes are drawn by another file's Spec, and
+`entry` is the fifth - a file a STEPS.md step reads directly, which nothing draws. The
+declaration is validated, so what a file claims and what the graph does cannot drift apart
+silently.
 
 | mode | reached | example |
 |---|---|---|
+| **entry** | read directly by a STEPS.md step; nothing draws it | every `setting/` and `region/` file, and the rating classifiers |
 | **second pass** | every output, unconditionally, after the fact | `Dressing`, `Secrets`, `Naming` |
 | **kind** | exactly one of N, mutually exclusive | `safe/Commerce.md`, `wild/Ruin.md`, `dangerous/Trap.md`, and WILD's and DANGEROUS's `Lore` and `Key` under `Treasure`'s "what it is" |
-| **ingredient** | drawn at a stated rate | `Creature`, `Hazard`, `Treasure`, `Mystery`, `Quest`, and SAFE's `Lore` and `Key` hooks |
-| **conditional** | triggered by content already generated | `Faction` |
+| **ingredient** | drawn at a stated rate | `Creature`, `Hazard`, `Treasure`, `Mystery`, `Quest`, and SAFE's `Lore`, `Key`, `Quest` and `Faction` hooks |
+| **conditional** | triggered by content already generated | `wild/Faction.md` |
+
+`Faction` is the one name that means a different mode in each rating, and reading it as one
+thing is a mistake this table used to make: `safe/Faction.md` is one of four hooks in
+`safe/Settlement.md`'s registry line, so it is an ingredient exactly like its three
+siblings; `dangerous/Faction.md` is a Kind of `dangerous/Encounter.md`; only
+`wild/Faction.md` is conditional, drawn from inside each of the four WILD kind files at a
+rate the Kind sets, because whether a faction is possible here depends on what the place
+already turned out to be.
 
 **Every element file is reached by a classifier, in the mode it claims.** A file reachable
 only through its own `## Read at`, or only from inside another element file, is orphaned
-from the spec graph: nothing draws it, so nothing guarantees it is ever read.
+from the spec graph: nothing draws it, so nothing guarantees it is ever read. A file
+declaring any of the four drawn modes and cited by nobody's Spec is now an error, which is
+what keeps the four orphans two passes closed - `safe/Naming.md`, `wild/Naming.md`,
+`wild/Faction.md` and `dangerous/Faction.md` - from silently reopening.
+
+**A file may declare two modes, and two do.** "Exactly one of four" was the original claim
+and it is not true of the library: `safe/People.md` is both a Kind, where the location *is*
+a household, and the mandatory person in every SAFE location's gate block; `dangerous/Key.md`
+is drawn from both ends, as a Kind under `dangerous/Treasure.md` for the key lying here and
+as a rated line on each weight file for the lock that a key elsewhere opens. Both declare
+`kind, ingredient`. Declare two only where the draws are genuinely different in kind and
+both primary - an extra rated draw on top of a primary one (`wild/Naming.md`'s second name
+in an older tongue) is prose in `## Read at`, not a second mode.
+
+**Edges are read from the Spec's fenced blocks only.** The prose under the block cites
+pattern files freely - `setting/Truths.md` names three - and counting those would make half
+the leaves in the library read as classifiers.
 
 ### Which files earn patterns
 
-Mode answers this. **Kind** and **ingredient** files fill a location's body and are where
-flatness shows, so they are where specific content is spent. **Second pass** and
-**conditional** files are mostly structural - a Clue/Trigger/Payload shape, a naming
-procedure - and a `## Design patterns` section in one is a claim that needs justifying.
-`Dressing` is the standing exception: it is second pass and genuinely needs both.
+**What the file's output is** answers this, and mode does not. A file that fills a
+location's body - its Dressing, its Kind, an ingredient drawn into it, a hook hanging off
+it - is where flat output would show, so that is where specific content is spent: those
+files carry `## Design patterns`, and they are step 1b's compile list. A file that supplies
+a *shape applied to* a location carries none, because a shape reads the same whatever
+reference was chosen. Only two things are shapes: `Naming`, a procedure, and `Secrets`, a
+Clue/Trigger/Payload discovery structure that can sit on top of any feature a location
+already has.
 
-A classifier's own content is neutral by definition, so a classifier carrying
-`## Design patterns` is worth a second look - its option menus are usually answering a
-question rather than injecting specificity.
+Mode was tried as the test here and does not survive contact with the files. It predicted
+that second-pass and conditional files carry no patterns, which forced `Dressing` to be
+named a standing exception - and an exception that exists only to save a rule is a sign the
+rule is cutting in the wrong place. It also split the four files drawn by
+`safe/Settlement.md`'s single hook line three-to-one, stripping `safe/Faction.md` while its
+identically-drawn siblings kept theirs. Body-versus-shape gets `Dressing` right with no
+exception and all four hooks right together. Mode stays, because how a file is reached is
+real coupling information worth declaring - it just does not decide this.
+
+A classifier's own content is neutral by definition, so **no classifier carries
+`## Design patterns`** - not a rating classifier, not a middle-tier one, and not a
+`setting/` or `region/` file. Their option menus answer a question rather than inject
+specificity, so they are Spec lines. This was the library's most persistent drift: an
+option menu reads like content, and filing it as compiled content means step 1b is
+licensed to rewrite it for the next setting - including, in one case caught during the
+WILD restructure, rewriting an *edge* away.
 
 ## What a spec line owes
 
@@ -210,24 +258,34 @@ name rather than the pattern that produces it.
 
 Today: citation format; `## Provides`, `## Read at`, `## Spec` and `## Constraints`
 present on every file; no leftover `## Design questions` heading; `## Read at` step ids
-resolving against STEPS.md.
+resolving against STEPS.md; a valid `**Mode:**` declaration opening every `## Read at`, and
+every file claiming a drawn mode actually drawn by some other file's Spec; and step 1b's
+compile list against the set of files carrying
+`## Design patterns`, in both directions - a listed file with no section to compile into,
+and a file carrying one that no step recompiles, are both errors.
 
-Proposed, once reach modes are implemented: that every element file is reached by some
-classifier in the mode it claims, which turns the orphans below into errors rather than
-silence.
+That last check holds STEPS.md and the tree to the same answer; it does not decide the
+answer. Whether a given file *earns* patterns is the body-versus-shape judgement above and
+stays a human call.
+
+Still proposed: checking that a file is drawn *in the mode it claims*, not merely drawn at
+all. That needs the drawing line's own shape read - a `{a | b | c}` choice for a kind, a
+rate for an ingredient. The one false positive standing in the way is gone:
+`dangerous/Secrets.md` used to carry a rate table naming the classifier that explicitly
+does *not* draw it, and those rates now live in the drawing classes.
 
 ## Known divergences
 
 Real, current, and deliberately not yet fixed:
 
-1. **Twenty classifiers carry `## Design patterns`**, sixteen of them `setting/*`. Their
-   content is neutral option menus - `setting/Keys.md`'s "Forms", `setting/Truths.md`'s
-   "Kinds of truth" - which by the neutrality test are Spec questions, not patterns.
-2. **STEPS.md step 1b's compile list names 18 files** but says "every other tier-2 element
-   file". Twenty-one element files carrying patterns are not on the list. Splitting them
-   by reach mode is what decides which belong there - not all of them do.
+1. **A declared mode is checked for being drawn, not for being drawn that way.** Every
+   file states its mode and the orphan check is live, but nothing yet verifies that a file
+   claiming `kind` is drawn by a choice line rather than a rate. See "What the validator
+   enforces" above for why that wants its own pass.
 
-Both change what step 1b rewrites, so they are held together rather than fixed piecemeal.
+The two divergences about `## Design patterns` that this section used to carry are closed:
+twenty-eight files' neutral option menus moved into their Specs, and step 1b's compile list
+was rewritten from the reach-mode split and is now validated.
 
 The orphaned element files this section used to list are closed. `safe/Naming.md` and
 `wild/Naming.md` are drawn as the last line of their classifiers, `wild/Faction.md` by a

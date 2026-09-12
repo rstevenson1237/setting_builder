@@ -4,9 +4,9 @@
 What earns a row in `setting/NamedCreatures.md` rather than staying a Bestiary template.
 
 ## Read at
-Step 2h to stub the file, step 4c to add a row whenever a location calls for a recurring
-individual, and step 4d to write every entry. The reusable templates it is distinct from
-are in `patterns/setting/Bestiary.md`.
+**Mode: entry.** Step 2h to stub the file, step 4c to add a row whenever a location
+calls for a recurring individual, and step 4d to write every entry. The reusable
+templates it is distinct from are in `patterns/setting/Bestiary.md`.
 
 ## Spec
 
@@ -27,8 +27,6 @@ remembers of the party.
 **Heard of before met.** The best use of this file is a name that reaches a party through a
 rumour, a piece of lore, or a survivor before they ever see the thing. That is only possible
 if the entry is consistent, which is the entire reason it is not written inline.
-
-## Design patterns
 
 **Who earns a row** - a region's set-piece threat; something that ranges across more than one
 region; a person a settlement's Situation revolves around; a creature that will survive an

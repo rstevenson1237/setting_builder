@@ -95,4 +95,3 @@ instead of re-deriving them.
 [Naming-convention line, settled by Q2, plus the fixed location-name exception, per
 `patterns/setting/Genre.md`]
 ```
-</content>

@@ -5,8 +5,8 @@ What creatures the setting holds - how they are distributed across type and powe
 what each entry must state so the location patterns can use it without reinventing it.
 
 ## Read at
-Step 2e, after `setting/Rumours.md`. The Bestiary is written in one pass rather than
-grown, so it has to anticipate demands made several steps later.
+**Mode: entry.** Step 2e, after `setting/Rumours.md`. The Bestiary is written in one
+pass rather than grown, so it has to anticipate demands made several steps later.
 
 ## Spec
 
@@ -38,8 +38,6 @@ dice are: a tougher creature gets more d6s or a bigger bonus, never a d8. The bo
 (Movement Allowance) is optional and stated only when a creature's speed materially
 matters - something that outpaces the party, or can't be outrun - as a single number, 1-6,
 read against a person's own walking pace of 3; most entries omit it.
-
-## Design patterns
 
 **Entry fields, and which pattern demands each**
 
