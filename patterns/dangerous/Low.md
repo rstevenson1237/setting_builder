@@ -20,8 +20,11 @@ DANGEROUS - LOW                        (parameterized by node role)
   -- substrate: what this room is
   1     Dressing - what it is now, and what it was    (dangerous/Dressing.md)
   1     Node role honoured, per the node-role spec below
-  1     Secrets - whether it conceals anything, at the rate its node role sets
+  100%  Secrets, where the node role is "appears as dead end" - the hidden route
+        IS the role                                   (dangerous/Secrets.md)
+  50%   Secrets, where the node role is an honest dead end
                                                       (dangerous/Secrets.md)
+  30%   Secrets, at every other node role              (dangerous/Secrets.md)
 
   -- challenge: none. LOW presents as unremarkable, and a challenge here would
      make it a MEDIUM location. What LOW carries instead is its Secret.
@@ -51,9 +54,16 @@ word-for-word what `dangerous/Treasure.md` already calls Table I, Scavenged Loot
 one thing written twice, and the merged rate is what the two came to independently. Never
 guarded, because a guard is a challenge and LOW has none.
 
-**The Secret is LOW's whole load.** It is the only class whose concealment rate is set by
-node role rather than by weight, which is why `dangerous/Secrets.md` survives here after
-HIGH stopped drawing it - see that file's own inclusion table.
+**The Secret is LOW's whole load**, and the three rates above are the only place node role
+feeds content rather than just the Exits line. LOW is also the reason the DANGEROUS
+concealment rate lives in the weight classes at all: a single rate in
+`dangerous/Secrets.md` could not say what these three lines say.
+
+**Dead end and appears as dead end are different roles precisely because of this rate.** A
+plain dead end hides something only half the time - if it never did, players would stop
+checking and the role dies; if it always did, it would not be a secret, it would be a step.
+Appears as dead end exists for the other half of that question: a location assigned that
+role at 4b is committing, at the graph level, to the hidden route always being there.
 
 **What honouring a node role means** - the role is read off `Connections.mmd` at 4b, not
 chosen here, and it changes the Exits line and, for some roles, the Secret. Per
@@ -64,7 +74,7 @@ chosen here, and it changes the Exits line and, for some roles, the Secret. Per
   entrance").
 - **Simple connection** - one exit in, one out, no decision. Dressing still earns its
   baseline; a corridor is not exempt from having a purpose and a sensory fact.
-- **Dead end** - exits stop at one. Per `dangerous/Secrets.md`'s 50% dead-end rate, roughly
+- **Dead end** - exits stop at one. Per the 50% dead-end rate above, roughly
   half of these hide a Secret whose Payload is a cache or a piece of lore, not a route -
   that is what keeps this role distinct from Appears as dead end below.
 - **Appears as dead end** - presents with exactly one exit, same as Dead end, but carries a
@@ -87,4 +97,9 @@ chosen here, and it changes the Exits line and, for some roles, the Secret. Per
   by walking it, not a line of text repeated at every leg.
 
 ## Constraints
-*(Empty. Entries arrive from generation testing, never from anticipation.)*
+
+- **Never let an honest dead end's Secret pay out a route off the map.** A Payload that
+  is a hidden way through is what the "appears as dead end" role commits to at the graph
+  level, at 100%. Handing one to a plain dead end quietly turns a 50%-rate room into a
+  100%-rate one without the graph saying so - if the room should have the route, relabel
+  its node role at 4b and let the rate follow.

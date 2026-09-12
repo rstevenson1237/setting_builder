@@ -265,14 +265,14 @@ compile list against the set of files carrying
 and a file carrying one that no step recompiles, are both errors.
 
 That last check holds STEPS.md and the tree to the same answer; it does not decide the
-answer. Whether a given file *earns* patterns is the reach-mode judgement above and stays
-a human call.
+answer. Whether a given file *earns* patterns is the body-versus-shape judgement above and
+stays a human call.
 
 Still proposed: checking that a file is drawn *in the mode it claims*, not merely drawn at
 all. That needs the drawing line's own shape read - a `{a | b | c}` choice for a kind, a
-rate for an ingredient - and the fenced blocks carry enough false positives (a rate table
-naming a classifier it explicitly does *not* draw, in `dangerous/Secrets.md`) that it would
-want a pass of its own.
+rate for an ingredient. The one false positive standing in the way is gone:
+`dangerous/Secrets.md` used to carry a rate table naming the classifier that explicitly
+does *not* draw it, and those rates now live in the drawing classes.
 
 ## Known divergences
 

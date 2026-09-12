@@ -113,6 +113,18 @@ looking for owes them something. Which parents carry children is read off the re
   `build_site.py` and `patterns.js` track the field changes. Clean run is 0 errors,
   0 warnings.
 - `patterns/SPEC.md` written.
+- `dangerous/Secrets.md` finished dissolving. Its INCLUSION table set the concealment rate
+  by weight and, at LOW, by node role - a rate that varies between the classes drawing it,
+  which by this library's own rule is the drawing class's line. `dangerous/Medium.md` now
+  draws at 40%, `dangerous/Low.md` at the three node-role rates (100% appears-as-dead-end,
+  50% honest dead end, 30% everything else), and `dangerous/High.md` states in prose that
+  it draws none and why. The dead-end/appears-as-dead-end reasoning moved to LOW, where
+  node role lives, and its prohibition became LOW's first Constraint. The file's mode went
+  from `second pass` to `ingredient`, which was the honest description all along once HIGH
+  stopped drawing it, and the anomaly the mode pass surfaced is closed. `safe/Secrets.md`
+  and `wild/Secrets.md` keep their rates, because a flat 10% and a flat 20% are the same
+  for every class that draws them - which is what makes DANGEROUS the odd one rather than
+  the three being inconsistent.
 - Reach mode declared and validated (the old item 3, then item 1). Every file's `## Read at`
   now opens `**Mode: ...**`, from `second pass`, `kind`, `ingredient`, `conditional`, or
   `entry` for a file a STEPS.md step reads directly and nothing draws. The validator checks
@@ -155,17 +167,7 @@ looking for owes them something. Which parents carry children is read off the re
 
 ## Open
 
-**1. `dangerous/Secrets.md` is half dissolved.** HIGH no longer draws it - concealment there
-is a hidden Treasure disposition or a Hazard's or Mystery's own clue. LOW and MEDIUM still
-do, and at LOW it is load-bearing (its rate is set by node role, the only place node role
-feeds content). Finishing the dissolution means rehoming that inclusion table into the class
-Specs. The mode pass sharpened the anomaly rather than settling it: the file declares
-`second pass`, meaning every location of its rating consults it, but only `dangerous/Low.md`
-and `Medium.md` draw it - `dangerous/High.md` does not, and Secrets' own rate table says so
-in a line that cites `dangerous/High.md` to record that it is *not* drawn. That is also the
-false positive standing in the way of checking a file is drawn in the mode it claims.
-
-**2. `wild/Hazard.md` and `wild/Creature.md` share a boundary that is stated in only one
+**1. `wild/Hazard.md` and `wild/Creature.md` share a boundary that is stated in only one
 direction.** Hazard's Constraint says a living hazard with a want, a reaction, or somewhere
 else to be is a creature; `wild/Creature.md` does not say the converse. Per `STEPS.md` step
 5b the duplication check is inverted for `patterns/`, so this is the kind of thing a

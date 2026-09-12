@@ -4,10 +4,11 @@
 Whether a DANGEROUS location hides something, and the three parts that make it findable.
 
 ## Read at
-**Mode: second pass.** Step 4c, for every DANGEROUS location - consulted unconditionally
-to decide whether there is a secret at all. A Secret is a discovery structure and may
-sit on top of any feature the location already has; it is not drawn by a spec line.
-Distinct from `dangerous/Mystery.md`, which is content and may be in plain sight.
+**Mode: ingredient.** Step 4c, when `dangerous/Medium.md` or `dangerous/Low.md` draws a
+Secret - `dangerous/High.md` draws none. A Secret is a discovery structure and sits on top
+of a feature the location already has rather than being a feature of its own, which is why
+it can be drawn last and still change what an earlier line means. Distinct from
+`dangerous/Mystery.md`, which is content and may be in plain sight.
 
 ## Spec
 
@@ -18,29 +19,12 @@ SECRET
   1     Payload - what the trigger produces
 ```
 
-Rate, by weight and node role:
-
-```
-INCLUSION
-  low weight, appears as dead end   100%  - the hidden route IS the role; see
-                                           dangerous/Low.md
-  low weight, dead end (honest)     50%   - this is the role's entire question
-  low weight, other                 30%
-  medium weight                     40%
-  high weight                       never - dangerous/High.md does not draw this file.
-                                           A HIGH location's concealment is carried by a
-                                           hidden Treasure disposition, or by a Hazard's
-                                           or Mystery's own clue
-```
-
-**Dead end and appears as dead end are different roles precisely because of this rate.** A
-plain dead end hides something only half the time - if it never did, players would stop
-checking and the role dies; if it always did, it would not be a secret, it would be a step.
-Appears as dead end exists for the other half of that question: a location assigned that
-role at 4b is committing, at the graph level, to the hidden route always being there. Don't
-let a plain dead end's Secret payload be a route off the map (per the Payloads list below)
-without also relabeling its node role - that quietly turns a 50%-rate room into a
-100%-rate one without the graph saying so.
+**The rate is not here, and alone among the three ratings it could not be.** A DANGEROUS
+location's chance of concealing something varies by weight, and at LOW by node role, so it
+is the drawing class's line rather than this file's - `dangerous/Medium.md` draws at 40%,
+`dangerous/Low.md` at three rates its node role sets, and `dangerous/High.md` draws none at
+all. `safe/Secrets.md` and `wild/Secrets.md` keep their rates because theirs are flat
+across every class that draws them.
 
 **Clues** - a draft where there should be none; a wall that does not match its neighbours
 in course, colour, or wear; a floor worn toward a blank face; a fixture that has been

@@ -63,7 +63,7 @@ TOPOLOGY - dense, few entrances
   1     At least one branch (many), per 12 locations - a choice of three or more exits
   60%   A dead end, per 12 locations
   40%   Of those dead ends: appears as dead end instead - a hidden (-.-) edge is the real
-        exit, cashing out the dead-end Secret rate in `dangerous/Secrets.md` as a route
+        exit, cashing out the dead-end Secret rate in `dangerous/Low.md` as a route
         rather than a cache
   30%   A one-way connection
 ```
