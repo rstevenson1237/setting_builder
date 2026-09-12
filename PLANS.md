@@ -113,6 +113,13 @@ looking for owes them something. Which parents carry children is read off the re
   `build_site.py` and `patterns.js` track the field changes. Clean run is 0 errors,
   0 warnings.
 - `patterns/SPEC.md` written.
+- The two small items closed: `setting/Setting.md`'s "Don't default to the last one" was a
+  forbidden-pathway warning embedded mid-paragraph in Design patterns, and is now a
+  Constraint stated generally - a standing obligation is one option among many and an
+  economic instrument is a flavor of that one option, never the setting's engine.
+  `setting/Genre.md` now says in its own header that it is an elicitation procedure
+  carrying sections the skeleton does not, so its Seed pool, eligibility test, narrowing
+  rounds and Q2 axes read as the procedure rather than as a file left unconverted.
 
 ## Open
 
@@ -142,12 +149,7 @@ do, and at LOW it is load-bearing (its rate is set by node role, the only place 
 feeds content). Finishing the dissolution means rehoming that inclusion table into the class
 Specs.
 
-**5. Small items.** `setting/Setting.md`'s "Don't default to the last one" is a
-forbidden-pathway warning embedded mid-paragraph and needs hand-splitting into a Constraint.
-`setting/Genre.md` sits outside the skeleton as an elicitation procedure and should say so
-in its own header rather than reading as unconverted.
-
-**6. `wild/Hazard.md` and `wild/Creature.md` share a boundary that is stated in only one
+**5. `wild/Hazard.md` and `wild/Creature.md` share a boundary that is stated in only one
 direction.** Hazard's Constraint says a living hazard with a want, a reaction, or somewhere
 else to be is a creature; `wild/Creature.md` does not say the converse. Per `STEPS.md` step
 5b the duplication check is inverted for `patterns/`, so this is the kind of thing a

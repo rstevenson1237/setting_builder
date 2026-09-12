@@ -27,11 +27,7 @@ worked, or newly broken open; a keep, garrison, or stockade holding a border alo
 a monster or a raiding band has cut, recently enough that nobody has found another way
 around it; an arrival, recent enough that nobody has settled into it; a withdrawal -
 whoever kept order has gone; an obligation standing over the whole place - a debt, a tithe,
-a blood-price, a service owed. **Don't default to the last one.** An economic instrument
-(a bond, a ledger, a tally) is one flavor among the many above, not the setting's engine -
-the genre's classic answer to "how does this run with no overarching authority" is more
-often a fortified point of civilization, a dungeon's reputation, or a route something has
-cut, not a financial system layered under everything.
+a blood-price, a service owed.
 
 **Why the party is here** - work, of the kind nobody respectable takes; something owed;
 somewhere else was worse; a rumour, from `setting/Rumours.md`; hired, and the hirer is in
@@ -48,4 +44,10 @@ place is, how it is run, and what it is for within the module. If a sentence doe
 a referee decide something at the table, it is description and belongs elsewhere.
 
 ## Constraints
-*(Empty. Entries arrive from generation testing, never from anticipation.)*
+
+- **A standing obligation is one option, never the default.** A debt, a tithe, a
+  blood-price or a service owed is one entry in what a setting is built on, and an
+  economic instrument (a bond, a ledger, a tally) is a flavor of that one entry - never
+  the setting's engine. The genre's answer to "how does this run with no overarching
+  authority" is more often a fortified point of civilization, a dungeon's reputation, or
+  a route something has cut than a financial system layered under everything.

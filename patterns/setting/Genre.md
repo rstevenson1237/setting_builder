@@ -1,5 +1,13 @@
 # Setting - Genre
 
+**This file is an elicitation procedure, and carries sections the skeleton does not.** It
+runs a conversation with the user before any artifact exists, so alongside the standard
+`Provides / Read at / Spec / Design patterns / Constraints` it holds the Seed pool, the
+eligibility test, the three narrowing rounds, the Q2 axes, and how GENRE.md is built from
+the answers. Those extra sections are the procedure itself, not a file left unconverted -
+every other `patterns/*/*.md` file generates content from a choice already made, and only
+this one makes the choice.
+
 ## Provides
 The seed-and-narrow flow that produces GENRE.md's customizable spine: a pool of specific
 genre references, three rounds of narrowing questions that pick one, and what axes still
