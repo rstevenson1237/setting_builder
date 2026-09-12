@@ -25,8 +25,6 @@ NAMING
         setting/Language.md mid-session
 ```
 
-## Design patterns
-
 **Who names wild country.** Not the people who live in it - nobody lives here. WILD names
 are given by people who **pass through and need to talk about it afterwards**, which makes
 them practical, descriptive, and often unflattering:
@@ -47,11 +45,6 @@ them practical, descriptive, and often unflattering:
 there; what was found there; a distance or direction relative to somewhere that matters; a
 warning; a name that is plainly somebody's joke.
 
-**Restraint.** A region holds about as many locations as its die, and most of them earn a
-proper name because most of them will be referred to again. But a Hidden or Secret child
-often does better with a descriptive label than a name at all - it is *the hollow behind the
-fall*, and naming it separately from the fall weakens both.
-
 ## Constraints
 
 - **Write-back.** A carried name's older or dead tongue is described here only as a *kind*
@@ -62,8 +55,13 @@ fall*, and naming it separately from the fall weakens both.
   have inherited those names by default rather than generating its own.
 
 - **Do not coin here.** A WILD location's own name is drawn from the common tongue's
-  plain, practical vocabulary - the border register, described below - not built fresh
+  plain, practical vocabulary - the border register, in the Spec above - not built fresh
   from `setting/Language.md`'s roots. A location may still carry a name in another
   tongue it did not invent here: a marker in an older or dead tongue, or the name
   something living in the region already goes by. When it does, the gloss is mandatory -
   a name in a tongue the table can't read is worse than no name at all.
+
+- **Restraint.** A region holds about as many locations as its die, and most of them
+  earn a proper name because most of them will be referred to again. But a Hidden or
+  Secret child often does better with a descriptive label than a name at all - it is
+  *the hollow behind the fall*, and naming it separately from the fall weakens both.

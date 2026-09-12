@@ -113,6 +113,17 @@ looking for owes them something. Which parents carry children is read off the re
   `build_site.py` and `patterns.js` track the field changes. Clean run is 0 errors,
   0 warnings.
 - `patterns/SPEC.md` written.
+- Items 1 and 2 closed together, since both decided what step 1b rewrites. The neutral
+  option menus came out of `## Design patterns` in twenty-eight files - all sixteen
+  `setting/*`, all three `region/*`, `dangerous/Low.md`, and the `Naming`, `Secrets` and
+  `Faction` files in all three ratings - and into those files' Specs, with five
+  forbidden-pathway paragraphs split off into Constraints on the way. `dangerous/Environmental.md`
+  and `dangerous/Residual.md` gained the `## Design patterns` they never had, which is what
+  had them generating thinner than `dangerous/Trap.md`. Step 1b's compile list was rewritten
+  from the reach-mode split - Kind and ingredient files plus the three `Dressing` files,
+  thirty-three in all - and `tools/validate_setting.py` now checks that list against the set
+  of files carrying the section, in both directions, so the two cannot drift apart again.
+  `patterns/SPEC.md`, `README.md` and `CLAUDE.md` track the rule.
 - The two small items closed: `setting/Setting.md`'s "Don't default to the last one" was a
   forbidden-pathway warning embedded mid-paragraph in Design patterns, and is now a
   Constraint stated generally - a standing obligation is one option among many and an
@@ -123,33 +134,31 @@ looking for owes them something. Which parents carry children is read off the re
 
 ## Open
 
-**1. Twenty classifiers carry `Design patterns` that are neutral option menus** - sixteen of
-them `setting/*`, e.g. `setting/Keys.md`'s "Forms", `setting/Truths.md`'s "Kinds of truth".
-By the neutrality test these are Spec questions, not compiled content. Held together with
-item 2, because both change what step 1b rewrites.
-
-**2. `STEPS.md` step 1b's compile list is wrong in two directions.** It names 18 files while
-saying "every other tier-2 element file", so 21 element files carrying patterns are not on
-it; and `Encounter`, `Hazard`, `Environmental` and `Residual` are new and not on it either.
-`Environmental.md` and `Residual.md` have no `Design patterns` at all and will generate
-thinner than `dangerous/Trap.md` until they do. Splitting the list by reach mode is what decides which
-files belong on it - not all of them do.
-
-**3. Reach modes are modelled but not implemented.** `patterns/SPEC.md` records four ways an
+**1. Reach modes are modelled but not declared.** `patterns/SPEC.md` records four ways an
 element is reached - second pass, kind, ingredient, conditional - read off the classifiers'
-spec lines. Making the mode explicit and validated is what would keep the orphans the last
-two passes closed - `safe/Naming.md`, `wild/Naming.md`, `wild/Faction.md` and
-`dangerous/Faction.md` - from silently reopening. The table in SPEC.md is a reading of the
-spec lines, not something the files declare, and is worth a review pass before it gets
-encoded.
+spec lines. The one consequence that had teeth is now implemented: mode decides which files
+carry `## Design patterns`, and that split is validated. What is left is making the mode
+itself explicit, which is what would keep the orphans the last two passes closed -
+`safe/Naming.md`, `wild/Naming.md`, `wild/Faction.md` and `dangerous/Faction.md` - from
+silently reopening. One wrinkle the compile-list pass surfaced and did not settle: `Faction`
+is conditional in SAFE and WILD but a Kind of Encounter in DANGEROUS, which is why
+`dangerous/Faction.md` carries patterns and the other two do not. The table in SPEC.md is
+still a reading rather than a declaration.
 
-**4. `dangerous/Secrets.md` is half dissolved.** HIGH no longer draws it - concealment there
+One thing that pass must get right, now that the option menus have moved: **an edge is a
+line in the Spec's fenced block, never a citation in the prose under it.** The demotion
+pass put a lot more pattern citations into that prose - `setting/Truths.md` now names
+`safe/Dressing.md`, `wild/Mystery.md` and `dangerous/Mystery.md` there - and anything that
+reads the tree mechanically has to scan the fenced block alone, or half the leaves in the
+library will read as classifiers.
+
+**2. `dangerous/Secrets.md` is half dissolved.** HIGH no longer draws it - concealment there
 is a hidden Treasure disposition or a Hazard's or Mystery's own clue. LOW and MEDIUM still
 do, and at LOW it is load-bearing (its rate is set by node role, the only place node role
 feeds content). Finishing the dissolution means rehoming that inclusion table into the class
 Specs.
 
-**5. `wild/Hazard.md` and `wild/Creature.md` share a boundary that is stated in only one
+**3. `wild/Hazard.md` and `wild/Creature.md` share a boundary that is stated in only one
 direction.** Hazard's Constraint says a living hazard with a want, a reaction, or somewhere
 else to be is a creature; `wild/Creature.md` does not say the converse. Per `STEPS.md` step
 5b the duplication check is inverted for `patterns/`, so this is the kind of thing a

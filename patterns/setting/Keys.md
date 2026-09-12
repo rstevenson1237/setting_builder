@@ -21,8 +21,6 @@ KEY ENTRY
 **A key need not look like its lock**, and the connection between them can itself be a
 discoverable Secret when it is not obvious.
 
-## Design patterns
-
 **Forms** - an actual key; a rod, pin, or bar cut to a profile; a stone or disc fitted to a
 socket; a seal or signet; a token; a specific creature's bone; a phrase or name recorded on
 something portable; a measured length; a piece broken off the lock itself.

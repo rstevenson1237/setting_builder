@@ -35,8 +35,6 @@ enjoyable than stating one, and every extra sentence is context the referee spen
 players never see. Two sentences and a Left line. If the event needs more, what it actually
 needs is a location.
 
-## Design patterns
-
 **Kinds of event** - a founding, or a refounding after something ended the first; a
 withdrawal - whoever held this left, and why; an arrival; a discovery, and what it cost; a
 collapse, natural or made; a war and its settlement; a plague, famine, or flood; a betrayal

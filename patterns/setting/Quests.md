@@ -31,8 +31,6 @@ somebody would want records it as a Quest stub when it is written, whether or no
 exists yet. Givers are drafted from what has been registered - which is how a quest comes to
 point at a real place rather than an invented one.
 
-## Design patterns
-
 **Kinds of ask** - retrieve; find, or confirm dead; deliver where the giver cannot go;
 destroy; verify - is it standing, is she alive, is the way open; take from a person; collect
 a debt; bring a body back; carry a message to someone who will not receive the giver.

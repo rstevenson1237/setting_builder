@@ -27,8 +27,6 @@ this file from becoming a second rulebook.
 the wrong procedure for this genre. Everything here should be resolvable in one roll or no
 roll at all.
 
-## Design patterns
-
 **What the seed must already answer** - what happens when a character is exposed to
 something lethal; what a trap does at each of its three tiers; what searching costs and what
 it finds without a roll; how long an action takes in each rating; how the three Action Dice

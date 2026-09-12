@@ -94,7 +94,8 @@ what it is building.
   forces the differentiation. The cost is drift, which `checks/PatternJudgementCheck.md`
   manages by treating two restatements that read the same as a *finding*.
 - **Every pattern file has one skeleton**: **Provides / Read at / Spec / Design patterns /
-  Constraints**. `patterns/SPEC.md` is the full field spec.
+  Constraints**. `patterns/SPEC.md` is the full field spec. `## Design patterns` is the one
+  optional field, and which files carry it is not a matter of taste - see below.
 - **Every Spec line is one of exactly two things**: an **edge**, pointing to another
   pattern file named in parentheses, which is the only other file that line requires; or a
   **question**, stating something the generator must answer, citing nothing. That one rule
@@ -121,6 +122,15 @@ what it is building.
   single read. Demeanor and personality examples specifically live compiled into
   `dangerous/Creature.md`, `wild/Creature.md`, and `safe/People.md`, standing in for what
   `GENRE.md` used to carry as its own People/Creatures tag bank.
+- **Thirty-three files carry `## Design patterns`, and no others** - the Kind and
+  ingredient element files, where a location's body gets filled and flatness would show,
+  plus the three `Dressing` files. Everything else holds neutral, permanent content in its
+  Spec instead: every `setting/` and `region/` file, every classifier, and the `Naming`,
+  `Secrets` and `Faction` files. The test is whether a build would rewrite the content -
+  an option menu that reads the same whatever reference was chosen is a Spec question, not
+  a pattern, and filing it as a pattern licenses step 1b to rewrite it (in one case, to
+  rewrite an *edge* away). Those thirty-three are exactly step 1b's compile list, and
+  `tools/validate_setting.py` checks the two against each other in both directions.
 
 ## `checks/`
 

@@ -36,8 +36,6 @@ an owner who knows about it; a false ledger page was written by a person who is 
 the room. This makes the Trigger social as often as physical - and it means a discovered
 secret in a settlement has a *consequence*, because somebody finds out the party knows.
 
-## Design patterns
-
 **Clues** - a room that is smaller inside than out; a lock better than the door deserves;
 a stock that does not match the trade; a floor worn toward a wall; a repair that hid
 something rather than fixed it; an entry in a ledger with no matching goods; somebody's

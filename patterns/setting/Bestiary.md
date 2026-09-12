@@ -39,8 +39,6 @@ dice are: a tougher creature gets more d6s or a bigger bonus, never a d8. The bo
 matters - something that outpaces the party, or can't be outrun - as a single number, 1-6,
 read against a person's own walking pace of 3; most entries omit it.
 
-## Design patterns
-
 **Entry fields, and which pattern demands each**
 
 - **Description** - appearance and behaviour, 1-3 sentences. Every file.

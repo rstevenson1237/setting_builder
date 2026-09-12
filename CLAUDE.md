@@ -50,6 +50,14 @@ it is read off the citations. `patterns/SPEC.md` is the full field spec.
 line that is the same for all of them belongs in the file it cites.** Same test
 `setting/Procedures.md` applies one level up.
 
+**`## Design patterns` is compiled content, and only 33 files carry it** - the Kind and
+ingredient element files plus the three `Dressing` files, which are exactly `STEPS.md` step
+1b's compile list. Everything else - all of `setting/` and `region/`, every classifier, and
+the `Naming`, `Secrets` and `Faction` files - keeps its option menus in Spec, because
+content that reads the same whatever genre was chosen is a question, not a pattern, and
+filing it as a pattern licenses step 1b to rewrite it. Before adding a `## Design patterns`
+section to any file, check it against that list.
+
 **Constraints is where every prohibition lives** - anything that closes a pathway: what
 belongs in another file, what this file must never do, a named failure mode. It is blank
 when a file is first created; it fills as the patterns are refined and negative patterns

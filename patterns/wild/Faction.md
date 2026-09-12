@@ -37,8 +37,6 @@ enforcement is what a party actually meets before they meet the faction itself.
 should recognise the same power two regions apart from its marks alone, before anyone
 names it.
 
-## Design patterns
-
 **What a position is for** - watching a crossing or approach; holding a route open or shut;
 working a resource out of the ground, the water, or the herd that passes through; a forward
 camp for something the faction holds more securely elsewhere; a foothold in country they do

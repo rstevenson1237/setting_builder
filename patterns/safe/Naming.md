@@ -23,8 +23,6 @@ NAMING
         never sent to setting/Language.md mid-session
 ```
 
-## Design patterns
-
 **SAFE is the only rating whose namers are present.** A dungeon is named by the dead and
 the absent; wild country by people passing through. A settlement is named by the people
 living in it, which means its names are **current, contested, and often two-layered**:
@@ -45,10 +43,6 @@ exactly the case the Spec's gloss line exists for.
 recognised by people who cannot read; an event; a founder or grantor; a saint or power; a
 position - the upper, the far, the one by the water; a joke that stuck.
 
-**Restraint.** Name what the party will ask for by name. A settlement's locations are
-mostly places to *do something*, and a working stable does not need a proper noun if
-nobody will ever say it twice.
-
 ## Constraints
 
 - **Write-back.** A carried name's older or dead tongue is described here only as a *kind*
@@ -65,3 +59,7 @@ nobody will ever say it twice.
   place named after someone already named elsewhere. When it does, the gloss is
   mandatory, not optional - a name the referee can't translate at the table is worse
   than no name at all.
+
+- **Restraint.** Name what the party will ask for by name. A settlement's locations
+  are mostly places to *do something*, and a working stable does not need a proper
+  noun if nobody will ever say it twice.

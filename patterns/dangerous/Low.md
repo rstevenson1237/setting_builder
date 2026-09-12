@@ -19,7 +19,7 @@ DANGEROUS - LOW                        (parameterized by node role)
 
   -- substrate: what this room is
   1     Dressing - what it is now, and what it was    (dangerous/Dressing.md)
-  1     Node role honoured, per the Design patterns below
+  1     Node role honoured, per the node-role spec below
   1     Secrets - whether it conceals anything, at the rate its node role sets
                                                       (dangerous/Secrets.md)
 
@@ -54,9 +54,6 @@ guarded, because a guard is a challenge and LOW has none.
 **The Secret is LOW's whole load.** It is the only class whose concealment rate is set by
 node role rather than by weight, which is why `dangerous/Secrets.md` survives here after
 HIGH stopped drawing it - see that file's own inclusion table.
-
-
-## Design patterns
 
 **What honouring a node role means** - the role is read off `Connections.mmd` at 4b, not
 chosen here, and it changes the Exits line and, for some roles, the Secret. Per

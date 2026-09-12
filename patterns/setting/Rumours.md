@@ -23,8 +23,6 @@ RUMOURS - a d20 table
 cause, a wrong location, a wrong number, or a wrong person attached. That gives a party
 something that pays off and something that bites, from the same lead.
 
-## Design patterns
-
 **What a rumour points at** - a region, by name; a specific location within one; a person, by
 name; a creature, and what it does; a treasure, and where; an event in `setting/History.md`,
 misremembered; a Truth, stated as superstition; a faction, without naming it; a route -
@@ -43,9 +41,6 @@ the simplest explanation, in a place that prefers complicated ones.
 cause for a real effect; something everyone repeats, sourced to nobody; a thing that was
 true and stopped being.
 
-**Marking.** T/P/F is for the referee and never shared. Mark against the truth of the
-substance, not of the framing.
-
 ## Constraints
 
 - **Do not assume who is providing a rumour or why.** The table gives the substance;
@@ -56,3 +51,6 @@ substance, not of the framing.
   instruction. "The old workings flooded and something came up with the water" is a
   rumour; "the party should investigate the workings" is a referee telling players their
   business.
+
+- **Marking.** T/P/F is for the referee and never shared. Mark against the truth of
+  the substance, not of the framing.

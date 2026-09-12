@@ -31,5 +31,28 @@ around, or leave.
 **A safe pocket is worth more than a bigger number.** Somewhere the condition does not
 reach turns endurance into a decision about how long to stay out of it.
 
+## Design patterns
+
+**Water and footing** - standing water that never drained; a floor slick with what grows
+on it; silt that takes a boot and keeps it; ice where a draught crosses water; stone worn
+smooth by whatever has been dragged down it; a surface that holds a person and not a
+person carrying something.
+
+**Air** - air that will not carry a flame; a heaviness that settles into the lowest part
+of the room; dust that hangs where something dropped it; a smell strong enough to be a
+fact rather than dressing; what grows on the walls, breathed.
+
+**Temperature** - a cold that comes up through the floor rather than through the air; heat
+still in stone long after whatever made it is gone; a draught that takes warmth faster
+than still air at the same reading; damp, which makes every other condition here worse.
+
+**Light, dark, and sound** - dark that swallows a light source's useful radius; glare off
+water or pale stone that hides what is under it; a room that carries every sound made in
+it somewhere else; a room that carries none, so nothing can be heard coming.
+
+**What the place has become** - growth that has taken the walls and is load-bearing now; a
+floor eaten thin from below; a ceiling holding on the strength of one thing; a bloom, a
+colony, or a nest old enough to be terrain rather than a creature.
+
 ## Constraints
 *(Empty. Entries arrive from generation testing, never from anticipation.)*

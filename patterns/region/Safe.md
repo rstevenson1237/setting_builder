@@ -35,8 +35,6 @@ after, not per location, so the die measures how often the settlement generates 
 its own rather than traverse pressure. d8 is baseline; d6 is a place with something wrong
 with it, d10 a place where little happens.
 
-## Design patterns
-
 The Region Overview's fields, for a SAFE region.
 
 - **Overview** - what this settlement is for, why it is here rather than a mile away, and

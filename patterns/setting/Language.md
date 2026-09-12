@@ -41,8 +41,6 @@ a name came from before anyone tells them.
 revisited at 4d. This one is appended to continuously, and it stops being useful the moment
 a step coins a name without recording it.
 
-## Design patterns
-
 **Who a tongue belongs to** - the people currently here; a people who were here and are not;
 a people who were never here and whose language arrived by trade or conquest; something that
 is not a people; a trade jargon; a liturgical register nobody speaks conversationally.

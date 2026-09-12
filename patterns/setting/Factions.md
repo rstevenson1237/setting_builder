@@ -28,8 +28,6 @@ that neither knows, is holding the most valuable thing in the setting.
 what a faction does; the mark is how a party knows it is looking at one. Without it, faction
 presence can only be communicated by narration, and every appearance starts from nothing.
 
-## Design patterns
-
 **What a faction wants** - a route; a resource, and exclusive access to it; a person; a
 place cleared; a place kept sealed; legitimacy; a debt honoured; a rival gone; to know
 something; to stop something being known.

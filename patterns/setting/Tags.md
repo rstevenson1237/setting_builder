@@ -30,8 +30,6 @@ regardless of whether it was used. This file's pools stay pure color; the struct
 of that old job now belongs to the compiled tier-2 pattern files (demeanor and personality
 examples in `dangerous/Creature.md`, `wild/Creature.md`, `safe/People.md`).
 
-## Design patterns
-
 **What makes a good tag** - the same test `patterns/setting/Genre.md` already uses for its
 own tag-building: it represents a theme (compresses something already true of the chosen
 reference down to a word or two, rather than introducing a new idea of its own); it acts

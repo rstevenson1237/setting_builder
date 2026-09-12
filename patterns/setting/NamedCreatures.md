@@ -28,8 +28,6 @@ remembers of the party.
 rumour, a piece of lore, or a survivor before they ever see the thing. That is only possible
 if the entry is consistent, which is the entire reason it is not written inline.
 
-## Design patterns
-
 **Who earns a row** - a region's set-piece threat; something that ranges across more than one
 region; a person a settlement's Situation revolves around; a creature that will survive an
 encounter and remember it; a leader whose faction outlives them; something the party is

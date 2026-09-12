@@ -22,8 +22,6 @@ NAMING
         setting/Language.md mid-session
 ```
 
-## Design patterns
-
 **Whose name it is.** A DANGEROUS region is usually named by people who are not in it, and
 its rooms often by people who are no longer anywhere. Three registers, and a region should
 carry more than one:
@@ -50,11 +48,6 @@ leaving the table.
 number or ordinal, where the builders were systematic; a warning; a name that is plainly a
 euphemism.
 
-**Restraint.** Not every room needs a proper noun. A region with forty named rooms has
-diluted every one of them. Name what the party will refer to again - entrances, set
-pieces, and anywhere a Quest, Key, or piece of Lore points. Elsewhere a descriptive label
-is better than a name at all.
-
 ## Constraints
 
 - **Write-back.** Every coinage used by any of the three registers above - the builders'
@@ -63,11 +56,15 @@ is better than a name at all.
   register, never a real tongue's name, so the next setting built with this library does
   not inherit a prior one's proper nouns by accident. If a coinage is needed and doesn't
   exist yet, coin it at the setting or region level and record it back before using it here.
-</content>
 
 - **Do not coin here.** A DANGEROUS location's own name is drawn from the common
-  tongue's plain vocabulary - the border register, described below - not built fresh
+  tongue's plain vocabulary - the border register, in the Spec above - not built fresh
   from `setting/Language.md`'s roots. A location may still carry a name in another
   tongue it did not invent here: the builders' own dead-tongue name, or what something
   living here already goes by. When it does, the gloss is mandatory - a name the referee
   can't translate at the table is worse than no name at all.
+
+- **Restraint.** Not every room needs a proper noun. A region with forty named rooms
+  has diluted every one of them. Name what the party will refer to again - entrances,
+  set pieces, and anywhere a Quest, Key, or piece of Lore points. Elsewhere a
+  descriptive label is better than a name at all.

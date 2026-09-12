@@ -50,8 +50,6 @@ each Secret child that the graph hangs off it - mandatory per child, not a rate.
 here which parents carry children is therefore deciding how much of the region's content
 sits behind something, and a child whose parent states nothing is unreachable.
 
-## Design patterns
-
 The Region Overview's fields, for a WILD region.
 
 - **Overview** - what this stretch of country is, who uses it and for what, and why it has

@@ -42,8 +42,6 @@ let a plain dead end's Secret payload be a route off the map (per the Payloads l
 without also relabeling its node role - that quietly turns a 50%-rate room into a
 100%-rate one without the graph saying so.
 
-## Design patterns
-
 **Clues** - a draft where there should be none; a wall that does not match its neighbours
 in course, colour, or wear; a floor worn toward a blank face; a fixture that has been
 moved; a sound that carries further than the room accounts for; a hinge, a groove, or a

@@ -19,8 +19,6 @@ SETTING
   1     Something the setting has that a generic instance of the genre does not
 ```
 
-## Design patterns
-
 **What a setting is built on** - a resource somebody is extracting; a boundary between two
 kinds of country or two claims; a road, river, or crossing and who controls it; a ruin being
 worked, or newly broken open; a keep, garrison, or stockade holding a border alone; a route

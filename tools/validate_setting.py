@@ -214,6 +214,47 @@ def check_read_at_steps(diag: Diagnostics, path, text: str):
 
 
 # ---------------------------------------------------------------------------
+# STEPS.md step 1b's compile list vs. the tree
+#
+# Step 1b rewrites the "## Design patterns" section of every pattern file
+# that carries one - that section is the per-build compiled content, and a
+# Spec is never rewritten. So the compile list and the set of files carrying
+# the section are the same set, stated twice, and they drift apart silently:
+# the list once named 18 files while saying "every other tier-2 element
+# file", leaving fifteen carrying patterns nobody compiled and two
+# (Environmental, Residual) carrying none at all. This checks both
+# directions. Which files earn patterns is a reach-mode judgement and stays
+# a human decision - this only holds STEPS.md and the tree to the same
+# answer once that decision is made.
+# ---------------------------------------------------------------------------
+
+COMPILE_LIST_RE = re.compile(r'^\s*-\s+1b\..*?\*\*Compile list\*\*(.*)$', re.M)
+
+
+def check_compile_list(diag: Diagnostics):
+    if not STEPS_MD.exists() or not PATTERNS.exists():
+        return
+    m = COMPILE_LIST_RE.search(STEPS_MD.read_text())
+    if not m:
+        diag.warn(STEPS_MD, "step 1b names no '**Compile list**' - step 1b's compiled "
+                             "files cannot be checked against the tree without one")
+        return
+    listed = {f"{folder}/{fname}"
+              for _, folder, fname in PATTERN_CITE_RE.findall(m.group(1))}
+    carrying = {p.relative_to(PATTERNS).as_posix()
+                for p in sorted(PATTERNS.glob("*/*.md"))
+                if "\n## Design patterns\n" in p.read_text()}
+    for rel in sorted(listed - carrying):
+        diag.error(STEPS_MD, f"step 1b's compile list names {rel}, which carries no "
+                              f"'## Design patterns' section - step 1b would have "
+                              f"nothing to compile into it")
+    for rel in sorted(carrying - listed):
+        diag.error(STEPS_MD, f"patterns/{rel} carries '## Design patterns' but is not on "
+                              f"step 1b's compile list - its examples would never be "
+                              f"recompiled for a new setting")
+
+
+# ---------------------------------------------------------------------------
 # Regions.md / setting/region/Connections.mmd
 # ---------------------------------------------------------------------------
 
@@ -705,6 +746,7 @@ def is_fresh_start() -> bool:
 def main() -> int:
     diag = Diagnostics()
     check_pattern_files(diag)
+    check_compile_list(diag)
 
     if is_fresh_start():
         seeded = sorted(n for n in SEED_FILES if (SETTING / n).exists())

@@ -4,9 +4,10 @@ What every file in `patterns/*/*.md` is made of, and why. `README.md` says what 
 patterns are *for* within the build; this file says what one looks like and how to tell a
 correct one from a broken one. `CLAUDE.md` carries the short version.
 
-Status: the field model and the tier split below are settled and implemented. The **reach
-mode** section is settled as a model but **not yet implemented** - the "Known divergences"
-section at the end names exactly where the current files differ from it.
+Status: the field model and the tier split below are settled and implemented, and so is
+the one consequence of reach mode that had teeth - which files carry `## Design patterns`.
+The modes themselves are still a reading of the spec lines rather than something the files
+declare; the "Known divergences" section at the end says what that leaves open.
 
 ## The governing distinction
 
@@ -70,7 +71,10 @@ five baseline lines are constant, so they are Dressing's.) This is the same test
 The deliberate injection of highly specific content that keeps generated output from
 reading flat. **Specific and compiled** - rewritten at step 1b from the chosen genre
 reference. A section here is a claim that this file's output would be too generic without
-it; see "Which files earn patterns" below.
+it; which files can make that claim is settled by reach mode, in "Which files earn
+patterns" below. Thirty-three files carry one, and they are exactly STEPS.md step 1b's
+compile list - the two sets are checked against each other by
+`tools/validate_setting.py`.
 
 ### `## Constraints`
 Every prohibition: what belongs in another file, what this file must never do, a named
@@ -152,14 +156,19 @@ from the spec graph: nothing draws it, so nothing guarantees it is ever read.
 ### Which files earn patterns
 
 Mode answers this. **Kind** and **ingredient** files fill a location's body and are where
-flatness shows, so they are where specific content is spent. **Second pass** and
-**conditional** files are mostly structural - a Clue/Trigger/Payload shape, a naming
-procedure - and a `## Design patterns` section in one is a claim that needs justifying.
-`Dressing` is the standing exception: it is second pass and genuinely needs both.
+flatness shows, so they are where specific content is spent - they carry
+`## Design patterns`, and they are step 1b's compile list. **Second pass** and
+**conditional** files are structural - a Clue/Trigger/Payload shape, a naming procedure -
+and carry none; `Dressing` is the standing exception, second pass and genuinely needing
+both.
 
-A classifier's own content is neutral by definition, so a classifier carrying
-`## Design patterns` is worth a second look - its option menus are usually answering a
-question rather than injecting specificity.
+A classifier's own content is neutral by definition, so **no classifier carries
+`## Design patterns`** - not a rating classifier, not a middle-tier one, and not a
+`setting/` or `region/` file. Their option menus answer a question rather than inject
+specificity, so they are Spec lines. This was the library's most persistent drift: an
+option menu reads like content, and filing it as compiled content means step 1b is
+licensed to rewrite it for the next setting - including, in one case caught during the
+WILD restructure, rewriting an *edge* away.
 
 ## What a spec line owes
 
@@ -210,24 +219,33 @@ name rather than the pattern that produces it.
 
 Today: citation format; `## Provides`, `## Read at`, `## Spec` and `## Constraints`
 present on every file; no leftover `## Design questions` heading; `## Read at` step ids
-resolving against STEPS.md.
+resolving against STEPS.md; and step 1b's compile list against the set of files carrying
+`## Design patterns`, in both directions - a listed file with no section to compile into,
+and a file carrying one that no step recompiles, are both errors.
 
-Proposed, once reach modes are implemented: that every element file is reached by some
-classifier in the mode it claims, which turns the orphans below into errors rather than
+That last check holds STEPS.md and the tree to the same answer; it does not decide the
+answer. Whether a given file *earns* patterns is the reach-mode judgement above and stays
+a human call.
+
+Proposed, once reach modes are declared: that every element file is reached by some
+classifier in the mode it claims, which turns an orphan into an error rather than
 silence.
 
 ## Known divergences
 
 Real, current, and deliberately not yet fixed:
 
-1. **Twenty classifiers carry `## Design patterns`**, sixteen of them `setting/*`. Their
-   content is neutral option menus - `setting/Keys.md`'s "Forms", `setting/Truths.md`'s
-   "Kinds of truth" - which by the neutrality test are Spec questions, not patterns.
-2. **STEPS.md step 1b's compile list names 18 files** but says "every other tier-2 element
-   file". Twenty-one element files carrying patterns are not on the list. Splitting them
-   by reach mode is what decides which belong there - not all of them do.
+1. **Reach mode is a reading, not a declaration.** The table above is derived by hand from
+   the classifiers' spec lines; no file states its own mode, so nothing stops a new file
+   from claiming one mode in its `## Read at` and being drawn in another. Encoding it is
+   what would let the validator check that every element file is reached in the mode it
+   claims. One known wrinkle to settle first: `Faction` is conditional in SAFE and WILD
+   but a Kind of Encounter in DANGEROUS, which is why `dangerous/Faction.md` carries
+   patterns and the other two do not.
 
-Both change what step 1b rewrites, so they are held together rather than fixed piecemeal.
+The two divergences about `## Design patterns` that this section used to carry are closed:
+twenty-eight files' neutral option menus moved into their Specs, and step 1b's compile list
+was rewritten from the reach-mode split and is now validated.
 
 The orphaned element files this section used to list are closed. `safe/Naming.md` and
 `wild/Naming.md` are drawn as the last line of their classifiers, `wild/Faction.md` by a

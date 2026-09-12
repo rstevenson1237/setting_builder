@@ -2,9 +2,8 @@
 
 **This file is an elicitation procedure, and carries sections the skeleton does not.** It
 runs a conversation with the user before any artifact exists, so alongside the standard
-`Provides / Read at / Spec / Design patterns / Constraints` it holds the Seed pool, the
-eligibility test, the three narrowing rounds, the Q2 axes, and how GENRE.md is built from
-the answers. Those extra sections are the procedure itself, not a file left unconverted -
+skeleton it holds the Seed pool, the eligibility test, the three narrowing rounds, the Q2
+axes, and how GENRE.md is built from the answers. Those extra sections are the procedure itself, not a file left unconverted -
 every other `patterns/*/*.md` file generates content from a choice already made, and only
 this one makes the choice.
 
@@ -139,6 +138,11 @@ assumes everyone at the table has read it; naming only the general trope throws 
 texture the specific thing was chosen for. Both halves of the pool entries above model this
 - keep the same shape when the user names their own reference freehand.
 
+**What makes a reference well-chosen** - it names a concrete body of work (an author, a
+series, a TTRPG line), not a mood; two referees given only the reference name would build
+recognizably similar settings from it; it survives being stated in one sentence per half
+(specific, then general) without needing to explain either half to be understood.
+
 ## Three rounds of narrowing
 
 Start from whatever the user actually said, however general - "dark fantasy," "something
@@ -235,18 +239,6 @@ inspiration, or sparse/utilitarian - a location's own name is still plain and de
 drawn from the common tongue, not freshly coined, though it may carry a name coined
 elsewhere and glossed for the referee. State this the same way regardless of genre.
 
-Tags no longer live in this file - `patterns/setting/Tags.md` owns tag-building now
-(what a tag is, the intentionality test, the pool shape), read at the new step 1b right
-after this one. What stays here is everything about *choosing and stating the reference
-itself* - the tag bank was always downstream of that choice, not part of making it.
-
-## Design patterns
-
-**What makes a reference well-chosen** - it names a concrete body of work (an author, a
-series, a TTRPG line), not a mood; two referees given only the reference name would build
-recognizably similar settings from it; it survives being stated in one sentence per half
-(specific, then general) without needing to explain either half to be understood.
-
 **Guardrails, regardless of reference chosen** - low magic does not mean *no* magic unless
 Q2 explicitly chose that; points of light does not mean *no* settlements, only that they
 don't add up to a governed world; a Mythic Underworld does not require literal dungeons if
@@ -261,6 +253,11 @@ its own terms once it clears the eligibility test above. What doesn't move regar
 reference chosen is the fixed three-test section and the container/data, stub-before-file,
 and cash-out mechanics the rest of this framework is built from - those are the load-bearing
 parts, not the genre dressing.
+
+Tags no longer live in this file - `patterns/setting/Tags.md` owns tag-building now
+(what a tag is, the intentionality test, the pool shape), read at the new step 1b right
+after this one. What stays here is everything about *choosing and stating the reference
+itself* - the tag bank was always downstream of that choice, not part of making it.
 
 ## Constraints
 *(Empty. Entries arrive from generation testing, never from anticipation.)*

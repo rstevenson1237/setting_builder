@@ -42,8 +42,6 @@ fixed conversion. Mundane bulk goods may run as low as 5 cn per wt (a bag of cop
 pennies); there is no upper bound on value-dense items (a single pure diamond may be worth
 5000 cn at 0 wt).
 
-## Design patterns
-
 **Table I - Scavenged Loot.** Everyday debris, minor coin, tools, scraps. Average under
 500 cn. This is what most finds are, and it should mostly be *useful* rather than valuable -
 rope, oil, a whetstone, someone's boots in the party's size.

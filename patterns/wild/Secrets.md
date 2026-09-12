@@ -30,8 +30,6 @@ Lower than DANGEROUS, because WILD's concealment budget is mostly spent on the S
 itself. A region already hiding whole locations behind triggers does not need every
 landmark hiding something too.
 
-## Design patterns
-
 **Clues that weather leaves.** Concealment outdoors is undone by time, and that is what
 gives a party something to see: a hollow that has slumped; a covering that has rotted
 through; a plant growing where the ground was disturbed; frost or dew that melts in a
