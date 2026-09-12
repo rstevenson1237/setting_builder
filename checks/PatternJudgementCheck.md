@@ -17,4 +17,3 @@ prior pass flagged as sound but unused.
 Per `STEPS.md` step 5b, this file is (re)created against every file in `patterns/`,
 following `templates/Pattern_Judgement_Check.md`, including its inversion that two
 restatements which read the same are a finding rather than a convenience.
-</content>

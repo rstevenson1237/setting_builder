@@ -99,4 +99,3 @@ A citation from one `patterns/*/*.md` file to another is always `folder/File.md`
 `patterns/` prefix - except a reference to a `patterns/setting/*.md` file, which always
 keeps the `patterns/` prefix, since a bare `setting/File.md` means the *generated* file of
 that name, not the pattern that produces it. `tools/validate_setting.py` enforces this.
-</content>

@@ -377,4 +377,3 @@ sync.
   manual dispatch). The PDF is published alongside the site and linked from its nav as
   "Download PDF". This requires a one-time repository setting: **Settings -> Pages ->
   Source: GitHub Actions**.
-</content>
