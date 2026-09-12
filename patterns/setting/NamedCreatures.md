@@ -4,10 +4,9 @@
 What earns a row in `setting/NamedCreatures.md` rather than staying a Bestiary template.
 
 ## Read at
-Step 2h to stub the file, step 4c to add a row whenever a location calls for a recurring
-individual, and step 4d to write every entry. The reusable templates it is distinct from
-are in `patterns/setting/Bestiary.md`.
-
+**Mode: entry.** Step 2h to stub the file, step 4c to add a row whenever a location
+calls for a recurring individual, and step 4d to write every entry. The reusable
+templates it is distinct from are in `patterns/setting/Bestiary.md`.
 ## Spec
 
 ```

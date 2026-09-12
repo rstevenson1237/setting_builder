@@ -4,8 +4,7 @@
 What a medium-weight location guarantees.
 
 ## Read at
-Step 4c, for a location its gazetteer stub marks medium.
-
+**Mode: entry.** Step 4c, for a location its gazetteer stub marks medium.
 ## Spec
 
 **Every line below is read the same way:** `1` is mandatory; a percentage is the rate at

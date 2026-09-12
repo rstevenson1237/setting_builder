@@ -5,11 +5,10 @@ What written record a settlement holds, who controls access to it, and what it c
 read.
 
 ## Read at
-Step 4c, when `safe/Settlement.md`'s registry block draws a hook and the hook is lore -
-one hook at working prominence, two at central. Also drawn by `safe/Wealth.md`, where the
-contents of a cache are lore rather than treasure. Criteria are in
-`patterns/setting/Lore.md`.
-
+**Mode: ingredient.** Step 4c, when `safe/Settlement.md`'s registry block draws a hook
+and the hook is lore - one hook at working prominence, two at central. Also drawn by
+`safe/Wealth.md`, where the contents of a cache are lore rather than treasure. Criteria
+are in `patterns/setting/Lore.md`.
 ## Spec
 
 ```

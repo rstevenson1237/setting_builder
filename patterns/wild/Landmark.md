@@ -4,9 +4,9 @@
 What a Landmark-tier location guarantees, and whether it carries children.
 
 ## Read at
-Step 4c, for a WILD location its stub marks landmark. Generate all Landmarks before any
-Hidden or Secret location, since each child's connection is written into its parent.
-
+**Mode: entry.** Step 4c, for a WILD location its stub marks landmark. Generate all
+Landmarks before any Hidden or Secret location, since each child's connection is written
+into its parent.
 ## Spec
 
 **Every line below is read the same way:** `1` is mandatory; a percentage is the rate at

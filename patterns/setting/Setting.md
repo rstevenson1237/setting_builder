@@ -6,8 +6,7 @@ are decided separately, by `patterns/setting/Tags.md` at step 1b - this file onl
 to them.
 
 ## Read at
-Step 2a, right after `GENRE.md` and `setting/Tags.md` both exist.
-
+**Mode: entry.** Step 2a, right after `GENRE.md` and `setting/Tags.md` both exist.
 ## Spec
 
 ```

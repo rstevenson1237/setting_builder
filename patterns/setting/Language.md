@@ -4,9 +4,9 @@
 How a tongue is built, what a root is, and how the file grows without being rewritten.
 
 ## Read at
-Step 1d to seed it, step 2h to tailor it, and every step thereafter that coins a proper
-noun. The per-rating naming guidance is in each folder's `Naming.md`.
-
+**Mode: entry.** Step 1d to seed it, step 2h to tailor it, and every step thereafter
+that coins a proper noun. The per-rating naming guidance is in each folder's
+`Naming.md`.
 ## Spec
 
 ```

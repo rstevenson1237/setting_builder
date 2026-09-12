@@ -7,9 +7,9 @@ setting-level, one region-level) every location gazetteer stub uses instead of i
 three tags fresh.
 
 ## Read at
-Step 1b, right after `GENRE.md` exists, to seed `setting/Tags.md`. Read again per region,
-alongside its Region Overview at step 3c, to seed that region's own `Tags.md`.
-
+**Mode: entry.** Step 1b, right after `GENRE.md` exists, to seed `setting/Tags.md`. Read
+again per region, alongside its Region Overview at step 3c, to seed that region's own
+`Tags.md`.
 ## Spec
 
 ```

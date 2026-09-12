@@ -4,9 +4,8 @@
 What belongs in `setting/Procedures.md` and what does not.
 
 ## Read at
-Step 1c to seed it, step 2h to tailor it, and step 4d only if generation turned out to need
-something the seed did not cover.
-
+**Mode: entry.** Step 1c to seed it, step 2h to tailor it, and step 4d only if
+generation turned out to need something the seed did not cover.
 ## Spec
 
 ```

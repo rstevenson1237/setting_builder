@@ -5,8 +5,7 @@ What a DANGEROUS location is called, in whose mouth, and - when the name reuses 
 constructed-language proper noun coined elsewhere - what it means for the referee.
 
 ## Read at
-Step 4c, for every DANGEROUS location, after Dressing.
-
+**Mode: second pass.** Step 4c, for every DANGEROUS location, after Dressing.
 ## Spec
 
 ```

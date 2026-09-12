@@ -5,12 +5,12 @@ What a WILD location holds to be taken - which registry or table it comes from, 
 still out here, and what reaching it costs.
 
 ## Read at
-Step 4c, when a classifier's spec line draws the reward block - `wild/Landmark.md`,
-`wild/Hidden.md`, or `wild/Secret.md`. Tables are `setting/Treasure1.md`-`5.md`. This is
-the supply end of a Key or a piece of Lore: the object found here. The demand end - a lock
-whose key is out here, or a quest given elsewhere that this place carries - is drawn by
-the classifier's own registry lines instead.
-
+**Mode: ingredient.** Step 4c, when a classifier's spec line draws the reward block -
+`wild/Landmark.md`, `wild/Hidden.md`, or `wild/Secret.md`. Tables are
+`setting/Treasure1.md`-`5.md`. This is the supply end of a Key or a piece of Lore: the
+object found here. The demand end - a lock whose key is out here, or a quest given
+elsewhere that this place carries - is drawn by the classifier's own registry lines
+instead.
 ## Spec
 
 ```

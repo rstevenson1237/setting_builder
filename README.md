@@ -116,6 +116,13 @@ what it is building.
   during an actual build.
 - **`## Read at` names the STEPS.md step(s) that read the file**, which is what makes step
   coverage auditable; the validator checks those ids against STEPS.md.
+- **`## Read at` also opens with the file's reach mode** - how it is arrived at, declared
+  as `**Mode: ingredient.**` and validated. Four modes are drawn by another file's Spec
+  (`second pass`, `kind`, `ingredient`, `conditional`) and `entry` is the fifth, a file a
+  step reads directly. A file claiming a drawn mode that nobody's Spec draws is an orphan,
+  and an error - four files were orphaned that way before, and the fix held only because
+  someone remembered to look. Edges are read from the Spec's fenced blocks alone; the
+  prose under them cites pattern files freely.
 - A file's `## Design patterns` content is genre-specific and compiled fresh per
   build at step 1b from this setting's chosen genre reference, replacing what a
   lookup-table join at generation time would otherwise have to translate correctly every

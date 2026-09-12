@@ -4,9 +4,9 @@
 What a high-weight location guarantees.
 
 ## Read at
-Step 4c, for a location its gazetteer stub marks high. Generate the region's high-weight
-locations first, so medium and low can foreshadow what has already been decided.
-
+**Mode: entry.** Step 4c, for a location its gazetteer stub marks high. Generate the
+region's high-weight locations first, so medium and low can foreshadow what has already
+been decided.
 ## Spec
 
 **Every line below is read the same way:** `1` is mandatory; a percentage is the rate at

@@ -5,11 +5,10 @@ What a WILD location is called, in whose mouth, and - when the name reuses a
 constructed-language proper noun coined elsewhere - what it means for the referee.
 
 ## Read at
-Step 4c, drawn as the last line of `wild/Landmark.md`, `wild/Hidden.md` and
-`wild/Secret.md` - every WILD location, after everything else in its entry is decided. Also
-cited by `wild/Ruin.md` and `wild/Crossing.md`, which draw a second name in an older
-tongue on top of the name this pass gives.
-
+**Mode: second pass.** Step 4c, drawn as the last line of `wild/Landmark.md`,
+`wild/Hidden.md` and `wild/Secret.md` - every WILD location, after everything else in
+its entry is decided. Also cited by `wild/Ruin.md` and `wild/Crossing.md`, which draw a
+second name in an older tongue on top of the name this pass gives.
 ## Spec
 
 ```

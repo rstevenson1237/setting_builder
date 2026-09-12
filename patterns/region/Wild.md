@@ -5,9 +5,8 @@ What a WILD Region Overview says, how many locations it holds and in what mix of
 classifications, and what shape its connection graph takes.
 
 ## Read at
-Step 3c, drafting `setting/region/[Code].md` for a WILD region. Read again at 4a and 4b,
-which take their counts and graph shape from here.
-
+**Mode: entry.** Step 3c, drafting `setting/region/[Code].md` for a WILD region. Read
+again at 4a and 4b, which take their counts and graph shape from here.
 ## Spec
 
 ```

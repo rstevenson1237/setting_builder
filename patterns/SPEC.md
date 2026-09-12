@@ -139,11 +139,15 @@ reason, rather than omitting the heading, because the absence is the class's def
 
 ## Reach modes
 
-Every element file is reached in exactly one of four modes, and the mode is what a
-classifier's spec line already encodes. Mode predicts what a file needs.
+How a file is arrived at. Every file **declares its mode**, as the first thing in its
+`## Read at`: `**Mode: ingredient.**`. Four modes are drawn by another file's Spec, and
+`entry` is the fifth - a file a STEPS.md step reads directly, which nothing draws. The
+declaration is validated, so what a file claims and what the graph does cannot drift apart
+silently.
 
 | mode | reached | example |
 |---|---|---|
+| **entry** | read directly by a STEPS.md step; nothing draws it | every `setting/` and `region/` file, and the rating classifiers |
 | **second pass** | every output, unconditionally, after the fact | `Dressing`, `Secrets`, `Naming` |
 | **kind** | exactly one of N, mutually exclusive | `safe/Commerce.md`, `wild/Ruin.md`, `dangerous/Trap.md`, and WILD's and DANGEROUS's `Lore` and `Key` under `Treasure`'s "what it is" |
 | **ingredient** | drawn at a stated rate | `Creature`, `Hazard`, `Treasure`, `Mystery`, `Quest`, and SAFE's `Lore`, `Key`, `Quest` and `Faction` hooks |
@@ -159,7 +163,23 @@ already turned out to be.
 
 **Every element file is reached by a classifier, in the mode it claims.** A file reachable
 only through its own `## Read at`, or only from inside another element file, is orphaned
-from the spec graph: nothing draws it, so nothing guarantees it is ever read.
+from the spec graph: nothing draws it, so nothing guarantees it is ever read. A file
+declaring any of the four drawn modes and cited by nobody's Spec is now an error, which is
+what keeps the four orphans two passes closed - `safe/Naming.md`, `wild/Naming.md`,
+`wild/Faction.md` and `dangerous/Faction.md` - from silently reopening.
+
+**A file may declare two modes, and two do.** "Exactly one of four" was the original claim
+and it is not true of the library: `safe/People.md` is both a Kind, where the location *is*
+a household, and the mandatory person in every SAFE location's gate block; `dangerous/Key.md`
+is drawn from both ends, as a Kind under `dangerous/Treasure.md` for the key lying here and
+as a rated line on each weight file for the lock that a key elsewhere opens. Both declare
+`kind, ingredient`. Declare two only where the draws are genuinely different in kind and
+both primary - an extra rated draw on top of a primary one (`wild/Naming.md`'s second name
+in an older tongue) is prose in `## Read at`, not a second mode.
+
+**Edges are read from the Spec's fenced blocks only.** The prose under the block cites
+pattern files freely - `setting/Truths.md` names three - and counting those would make half
+the leaves in the library read as classifiers.
 
 ### Which files earn patterns
 
@@ -238,7 +258,9 @@ name rather than the pattern that produces it.
 
 Today: citation format; `## Provides`, `## Read at`, `## Spec` and `## Constraints`
 present on every file; no leftover `## Design questions` heading; `## Read at` step ids
-resolving against STEPS.md; and step 1b's compile list against the set of files carrying
+resolving against STEPS.md; a valid `**Mode:**` declaration opening every `## Read at`, and
+every file claiming a drawn mode actually drawn by some other file's Spec; and step 1b's
+compile list against the set of files carrying
 `## Design patterns`, in both directions - a listed file with no section to compile into,
 and a file carrying one that no step recompiles, are both errors.
 
@@ -246,19 +268,20 @@ That last check holds STEPS.md and the tree to the same answer; it does not deci
 answer. Whether a given file *earns* patterns is the reach-mode judgement above and stays
 a human call.
 
-Proposed, once reach modes are declared: that every element file is reached by some
-classifier in the mode it claims, which turns an orphan into an error rather than
-silence.
+Still proposed: checking that a file is drawn *in the mode it claims*, not merely drawn at
+all. That needs the drawing line's own shape read - a `{a | b | c}` choice for a kind, a
+rate for an ingredient - and the fenced blocks carry enough false positives (a rate table
+naming a classifier it explicitly does *not* draw, in `dangerous/Secrets.md`) that it would
+want a pass of its own.
 
 ## Known divergences
 
 Real, current, and deliberately not yet fixed:
 
-1. **Reach mode is a reading, not a declaration.** The table above is derived by hand from
-   the classifiers' spec lines; no file states its own mode, so nothing stops a new file
-   from claiming one mode in its `## Read at` and being drawn in another. Encoding it is
-   what would let the validator check that every element file is reached in the mode it
-   claims.
+1. **A declared mode is checked for being drawn, not for being drawn that way.** Every
+   file states its mode and the orphan check is live, but nothing yet verifies that a file
+   claiming `kind` is drawn by a choice line rather than a rate. See "What the validator
+   enforces" above for why that wants its own pass.
 
 The two divergences about `## Design patterns` that this section used to carry are closed:
 twenty-eight files' neutral option menus moved into their Specs, and step 1b's compile list

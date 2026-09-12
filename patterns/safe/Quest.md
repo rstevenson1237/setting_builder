@@ -5,10 +5,10 @@ How a SAFE location gives a quest: who asks, what they want, what they offer, an
 they leave out.
 
 ## Read at
-Step 4c, when `safe/Settlement.md`'s registry block draws a hook and the hook is a quest -
-one hook at working prominence, two at central. SAFE **gives** - this is the giver end.
-Criteria are in `patterns/setting/Quests.md`; the registry is `setting/Quests.md`.
-
+**Mode: ingredient.** Step 4c, when `safe/Settlement.md`'s registry block draws a hook
+and the hook is a quest - one hook at working prominence, two at central. SAFE **gives**
+- this is the giver end. Criteria are in `patterns/setting/Quests.md`; the registry is
+`setting/Quests.md`.
 ## Spec
 
 ```

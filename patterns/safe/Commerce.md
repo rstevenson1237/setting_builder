@@ -5,9 +5,8 @@ What a location where goods and services change hands offers, at what price, and
 cannot supply.
 
 ## Read at
-Step 4c, when `safe/Settlement.md`'s Kind line draws Commerce - hospitality, a trade, or
-a market.
-
+**Mode: kind.** Step 4c, when `safe/Settlement.md`'s Kind line draws Commerce -
+hospitality, a trade, or a market.
 ## Spec
 
 ```

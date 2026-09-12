@@ -5,8 +5,7 @@ What events shaped the setting, how far back they run, and what physical marks t
 for a party to find.
 
 ## Read at
-Step 2b, after `setting/Setting.md`.
-
+**Mode: entry.** Step 2b, after `setting/Setting.md`.
 ## Spec
 
 ```

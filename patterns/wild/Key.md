@@ -4,10 +4,9 @@
 When a WILD location holds an object whose real function is opening something elsewhere.
 
 ## Read at
-Step 4c, when `wild/Treasure.md` draws What it is: key. A key found out here is a find and
-is reached through the reward block; the lock it opens belongs to whichever location holds
-it. Criteria are in `patterns/setting/Keys.md`.
-
+**Mode: kind.** Step 4c, when `wild/Treasure.md` draws What it is: key. A key found out
+here is a find and is reached through the reward block; the lock it opens belongs to
+whichever location holds it. Criteria are in `patterns/setting/Keys.md`.
 ## Spec
 
 ```

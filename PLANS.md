@@ -113,6 +113,17 @@ looking for owes them something. Which parents carry children is read off the re
   `build_site.py` and `patterns.js` track the field changes. Clean run is 0 errors,
   0 warnings.
 - `patterns/SPEC.md` written.
+- Reach mode declared and validated (the old item 3, then item 1). Every file's `## Read at`
+  now opens `**Mode: ...**`, from `second pass`, `kind`, `ingredient`, `conditional`, or
+  `entry` for a file a STEPS.md step reads directly and nothing draws. The validator checks
+  the declaration is present and valid, and that any file claiming one of the four drawn
+  modes is actually cited by some other file's Spec - which is the orphan check SPEC.md had
+  been proposing, and what keeps `safe/Naming.md`, `wild/Naming.md`, `wild/Faction.md` and
+  `dangerous/Faction.md` from silently reopening. Edges are read from the fenced blocks
+  alone. Two corrections the review pass forced: "exactly one of four modes" was not true -
+  `safe/People.md` is a Kind and every SAFE location's gate person, and `dangerous/Key.md`
+  is drawn from both ends, so both declare `kind, ingredient` - and `Faction` means a
+  different mode in each rating rather than one row in the table.
 - The earns-patterns test corrected, one commit after the pass that introduced it. The
   demotion pass used reach mode as the test and it does not survive contact with the files:
   it forced `Dressing` to be named a standing exception, and it split the four files drawn
@@ -144,31 +155,17 @@ looking for owes them something. Which parents carry children is read off the re
 
 ## Open
 
-**1. Reach modes are modelled but not declared.** `patterns/SPEC.md` records four ways an
-element is reached - second pass, kind, ingredient, conditional - read off the classifiers'
-spec lines. The one consequence that had teeth is now implemented: mode decides which files
-carry `## Design patterns`, and that split is validated. What is left is making the mode
-itself explicit, which is what would keep the orphans the last two passes closed -
-`safe/Naming.md`, `wild/Naming.md`, `wild/Faction.md` and `dangerous/Faction.md` - from
-silently reopening. One wrinkle the compile-list pass surfaced and did not settle: `Faction`
-is conditional in SAFE and WILD but a Kind of Encounter in DANGEROUS, which is why
-`dangerous/Faction.md` carries patterns and the other two do not. The table in SPEC.md is
-still a reading rather than a declaration.
-
-One thing that pass must get right, now that the option menus have moved: **an edge is a
-line in the Spec's fenced block, never a citation in the prose under it.** The demotion
-pass put a lot more pattern citations into that prose - `setting/Truths.md` now names
-`safe/Dressing.md`, `wild/Mystery.md` and `dangerous/Mystery.md` there - and anything that
-reads the tree mechanically has to scan the fenced block alone, or half the leaves in the
-library will read as classifiers.
-
-**2. `dangerous/Secrets.md` is half dissolved.** HIGH no longer draws it - concealment there
+**1. `dangerous/Secrets.md` is half dissolved.** HIGH no longer draws it - concealment there
 is a hidden Treasure disposition or a Hazard's or Mystery's own clue. LOW and MEDIUM still
 do, and at LOW it is load-bearing (its rate is set by node role, the only place node role
 feeds content). Finishing the dissolution means rehoming that inclusion table into the class
-Specs.
+Specs. The mode pass sharpened the anomaly rather than settling it: the file declares
+`second pass`, meaning every location of its rating consults it, but only `dangerous/Low.md`
+and `Medium.md` draw it - `dangerous/High.md` does not, and Secrets' own rate table says so
+in a line that cites `dangerous/High.md` to record that it is *not* drawn. That is also the
+false positive standing in the way of checking a file is drawn in the mode it claims.
 
-**3. `wild/Hazard.md` and `wild/Creature.md` share a boundary that is stated in only one
+**2. `wild/Hazard.md` and `wild/Creature.md` share a boundary that is stated in only one
 direction.** Hazard's Constraint says a living hazard with a want, a reaction, or somewhere
 else to be is a creature; `wild/Creature.md` does not say the converse. Per `STEPS.md` step
 5b the duplication check is inverted for `patterns/`, so this is the kind of thing a

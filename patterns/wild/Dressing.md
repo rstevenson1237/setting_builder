@@ -5,10 +5,10 @@ The physical reality of a WILD location, where it sits in its region, how its pa
 as one place, and how it sounds on the page.
 
 ## Read at
-Step 4c, drawn unconditionally by `wild/Landmark.md`, `wild/Hidden.md` and
-`wild/Secret.md`'s substrate blocks - every WILD location without exception. Units, the
-Exits syntax and the citation formats are in `templates/Location.md`.
-
+**Mode: second pass.** Step 4c, drawn unconditionally by `wild/Landmark.md`,
+`wild/Hidden.md` and `wild/Secret.md`'s substrate blocks - every WILD location without
+exception. Units, the Exits syntax and the citation formats are in
+`templates/Location.md`.
 ## Spec
 
 ```

@@ -4,11 +4,11 @@
 What a built-or-once-built Landmark is, and what its condition says about who left it.
 
 ## Read at
-Step 4c, when a WILD classifier's Kind line draws Ruin - `wild/Landmark.md`,
-`wild/Hidden.md`, or `wild/Secret.md`, all three of which draw one kind per location.
-A Ruin is anything made by hands and no longer used as made, including things
-still standing and still occupied by somebody other than their builders.
-
+**Mode: kind.** Step 4c, when a WILD classifier's Kind line draws Ruin -
+`wild/Landmark.md`, `wild/Hidden.md`, or `wild/Secret.md`, all three of which draw one
+kind per location. A Ruin is anything made by hands and no longer used as made,
+including things still standing and still occupied by somebody other than their
+builders.
 ## Spec
 
 **Every line below is read the same way:** `1` is mandatory; a percentage is the rate

@@ -5,8 +5,7 @@ The three powers a party may treat with, oppose, or ignore, and how each is reco
 before it is named.
 
 ## Read at
-Step 2f, after `setting/Bestiary.md`.
-
+**Mode: entry.** Step 2f, after `setting/Bestiary.md`.
 ## Spec
 
 ```

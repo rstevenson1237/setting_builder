@@ -5,10 +5,10 @@ What a DANGEROUS Region Overview says, how many locations the region holds and i
 mix, and what shape its connection graph takes.
 
 ## Read at
-Step 3c, drafting `setting/region/[Code].md` for a DANGEROUS region, alongside `GENRE.md`,
-`setting/region/Regions.md`, and the setting-level artifacts the region draws on. Read
-again at 4a and 4b, which take their counts and graph shape from here.
-
+**Mode: entry.** Step 3c, drafting `setting/region/[Code].md` for a DANGEROUS region,
+alongside `GENRE.md`, `setting/region/Regions.md`, and the setting-level artifacts the
+region draws on. Read again at 4a and 4b, which take their counts and graph shape from
+here.
 ## Spec
 
 Location count is set here, not by a fixed multiplier. Pick the region's kind first:

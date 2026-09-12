@@ -13,8 +13,8 @@ genre references, three rounds of narrowing questions that pick one, and what ax
 get dialed once it's picked.
 
 ## Read at
-Step 1a, before anything else - GENRE.md is the first artifact in the build.
-
+**Mode: entry.** Step 1a, before anything else - GENRE.md is the first artifact in the
+build.
 ## Spec
 
 ```

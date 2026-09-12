@@ -74,6 +74,13 @@ stays where it is.
 those step ids against STEPS.md - a phase-2 renumber once left eight `setting/` patterns
 pointing one step too far down, three at a step that no longer existed.
 
+**`## Read at` opens with the file's reach mode** - `**Mode: ingredient.**` - one of
+`second pass`, `kind`, `ingredient`, `conditional`, or `entry` for a file a step reads
+directly. The four drawn modes are validated: a file claiming one that no other file's Spec
+draws is an orphan and an error. Two files declare two modes (`safe/People.md`,
+`dangerous/Key.md`); that is allowed where both draws are primary. Reach mode is coupling
+information only - it does not decide which files carry `## Design patterns`.
+
 ## Validator posture
 
 `tools/validate_setting.py` (`python3 tools/validate_setting.py`) checks `patterns/*/*.md`

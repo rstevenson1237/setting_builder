@@ -4,10 +4,10 @@
 Which mechanism a built hazard uses, and who set it.
 
 ## Read at
-Step 4c, when `dangerous/Hazard.md` draws Mechanism: trap. Resolution is not here - it is in
-`setting/Procedures.md`. Distinct from `dangerous/Environmental.md` and
-`dangerous/Residual.md`: a trap was built for this, by somebody, and still does that job.
-
+**Mode: kind.** Step 4c, when `dangerous/Hazard.md` draws Mechanism: trap. Resolution is
+not here - it is in `setting/Procedures.md`. Distinct from `dangerous/Environmental.md`
+and `dangerous/Residual.md`: a trap was built for this, by somebody, and still does that
+job.
 ## Spec
 
 ```

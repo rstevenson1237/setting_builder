@@ -5,10 +5,9 @@ The physical reality of a DANGEROUS location, how much of it the weight class ea
 its parts read as one place, and how it sounds on the page.
 
 ## Read at
-Step 4c, for every DANGEROUS location without exception - unlike the element files, this
-is not conditional on a spec line drawing it. Units, the Exits line syntax, and the
-citation formats are in `templates/Location.md`.
-
+**Mode: second pass.** Step 4c, for every DANGEROUS location without exception - unlike
+the element files, this is not conditional on a spec line drawing it. Units, the Exits
+line syntax, and the citation formats are in `templates/Location.md`.
 ## Spec
 
 ```

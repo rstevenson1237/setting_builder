@@ -5,9 +5,9 @@ What the five d20 tables hold, how value is distributed within each, and what mo
 to a party at this setting's altitude.
 
 ## Read at
-Step 2g, after `setting/Factions.md`. Reads `GENRE.md` for party altitude - what the
-characters can survive - since value is only meaningful relative to what they have.
-
+**Mode: entry.** Step 2g, after `setting/Factions.md`. Reads `GENRE.md` for party
+altitude - what the characters can survive - since value is only meaningful relative to
+what they have.
 ## Spec
 
 ```
