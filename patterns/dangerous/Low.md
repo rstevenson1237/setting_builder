@@ -20,11 +20,12 @@ DANGEROUS - LOW                        (parameterized by node role)
   -- substrate: what this room is
   1     Dressing - what it is now, and what it was    (dangerous/Dressing.md)
   1     Node role honoured, per the node-role spec below
-  100%  Secrets, where the node role is "appears as dead end" - the hidden route
-        IS the role                                   (dangerous/Secrets.md)
-  50%   Secrets, where the node role is an honest dead end
-                                                      (dangerous/Secrets.md)
-  30%   Secrets, at every other node role              (dangerous/Secrets.md)
+  100%  A concealed detail, where the node role is "appears as dead end" - the
+        hidden route IS the role                      (patterns/setting/Secrets.md)
+  50%   A concealed detail, where the node role is an honest dead end
+                                                      (patterns/setting/Secrets.md)
+  30%   A concealed detail, at every other node role   (patterns/setting/Secrets.md)
+        Each states its Clue, Trigger and Payload
 
   -- challenge: none. LOW presents as unremarkable, and a challenge here would
      make it a MEDIUM location. What LOW carries instead is its Secret.
@@ -37,7 +38,7 @@ DANGEROUS - LOW                        (parameterized by node role)
   5%    A lock, and the key that opens it is elsewhere      (dangerous/Key.md)
   5%    The target of a quest given elsewhere               (dangerous/Quest.md)
 
-  1     Naming, after everything above                      (dangerous/Naming.md)
+  1     Naming, after everything above          (patterns/setting/Naming.md)
 ```
 
 Low weight means the location presents as unremarkable. It does not mean the location is
@@ -54,8 +55,8 @@ rewards looking without demanding action.
 
 **The Secret is LOW's whole load**, and the three rates above are the only place node role
 feeds content rather than just the Exits line. LOW is also the reason the DANGEROUS
-concealment rate lives in the weight classes at all: a single rate in
-`dangerous/Secrets.md` could not say what these three lines say.
+concealment rate lives in the weight classes at all: no single rate could say what these
+three lines say.
 
 **Dead end and appears as dead end are different roles precisely because of this rate.** A
 plain dead end hides something only half the time - if it never did, players would stop

@@ -41,8 +41,8 @@ SAFE - LOCATION                        (parameterized by prominence)
           gathering place             -> safe/Social.md
           household                   -> safe/People.md
           strongroom, hoard, vault    -> safe/Wealth.md
-  1     Secrets - whether it conceals anything, at the settlement-wide rate its file
-        sets                                                         (safe/Secrets.md)
+  10%   A concealed detail - state its Clue, Trigger and Payload
+                                                       (patterns/setting/Secrets.md)
 
   -- gate: who stands between the party and what this place has
   1     A person, drawn from the region's People roster - never invented here
@@ -67,7 +67,7 @@ SAFE - LOCATION                        (parameterized by prominence)
   30%   A Named Creature, where the person will recur or be heard of first
                                                               (patterns/setting/NamedCreatures.md)
 
-  1     Naming, after everything above                                (safe/Naming.md)
+  1     Naming, after everything above                 (patterns/setting/Naming.md)
 ```
 
 **SAFE has no challenge block, and a gate instead.** A DANGEROUS location asks what opposes

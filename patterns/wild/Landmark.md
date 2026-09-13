@@ -23,7 +23,8 @@ WILD - LANDMARK
   1     Kind   {ruin | lair | natural feature | crossing}   (wild/Ruin.md, wild/Lair.md,
                                                              wild/NaturalFeature.md,
                                                              wild/Crossing.md)
-  1     Secrets - whether it conceals anything                       (wild/Secrets.md)
+  20%   A concealed detail - state its Clue, Trigger and Payload
+                                                 (patterns/setting/Secrets.md)
 
   -- access: how the party comes to be standing here
   1     Freely discoverable by roaming - no parent, and no lead required to reach it
@@ -43,7 +44,7 @@ WILD - LANDMARK
                                                                      (wild/Secret.md)
   10%   This location's carrying role in a quest given elsewhere     (wild/Quest.md)
 
-  1     Naming, after everything above                               (wild/Naming.md)
+  1     Naming, after everything above                (patterns/setting/Naming.md)
 ```
 
 **The blocks are what the entry is**, and WILD carries one DANGEROUS does not. Substrate

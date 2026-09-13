@@ -25,7 +25,6 @@ KIND: RUIN
   30%   Something the builders did that nobody does any more
   25%   What holds it is one of the three factions, using it as a position
                                                               (wild/Faction.md)
-  20%   A name in an older tongue                             (wild/Naming.md)
 ```
 
 **Ruin condition is the storytelling.** A tower thrown down is a different story from a

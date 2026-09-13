@@ -171,16 +171,15 @@ already turned out to be.
 only through its own `## Read at`, or only from inside another element file, is orphaned
 from the spec graph: nothing draws it, so nothing guarantees it is ever read. A file
 declaring any of the four drawn modes and cited by nobody's Spec is now an error, which is
-what keeps the four orphans two passes closed - `safe/Naming.md`, `wild/Naming.md`,
-`wild/Faction.md` and `dangerous/Faction.md` - from silently reopening.
+what keeps a file that nothing draws from silently reopening as an orphan.
 
 **A file may declare two modes, and two do.** `safe/People.md` is both a Kind, where the location *is*
 a household, and the mandatory person in every SAFE location's gate block; `dangerous/Key.md`
 is drawn from both ends, as a Kind under `dangerous/Treasure.md` for the key lying here and
 as a rated line on each weight file for the lock that a key elsewhere opens. Both declare
 `kind, ingredient`. Declare two only where the draws are genuinely different in kind and
-both primary - an extra rated draw on top of a primary one (`wild/Naming.md`'s second name
-in an older tongue) is prose in `## Read at`, not a second mode.
+both primary. An extra rated draw on top of a primary one is prose in `## Read at`, not a
+second mode.
 
 **Edges are read from the Spec's fenced blocks only.** The prose under the block cites
 pattern files freely - `setting/Truths.md` names three - and counting those would make half
@@ -272,9 +271,8 @@ stays a human call.
 alternatives it offers in braces, how many files it cites - and three rules follow:
 
 - **second pass** means every output, unconditionally, so at least one line must draw it
-  at rate `1`. Drawn only at a rate, it is an ingredient. (Extra rated draws on top are
-  fine: `wild/Naming.md` is drawn at `1` by all three WILD classifiers and again at 20% by
-  `wild/Ruin.md` and `wild/Crossing.md` for a name in an older tongue.)
+  at rate `1`. Drawn only at a rate, it is an ingredient. Extra rated draws on top of
+  that mandatory one are allowed.
 - **conditional** means triggered by content already generated, so no line may draw it at
   rate `1`. Drawn unconditionally, it is mandatory, which is an ingredient.
 - **kind** means exactly one of N, mutually exclusive, so at least one line must draw it

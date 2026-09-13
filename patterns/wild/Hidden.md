@@ -22,7 +22,8 @@ WILD - HIDDEN
   1     Dressing - what it is, and what weather has done to it       (wild/Dressing.md)
   1     Kind   {ruin | lair | natural feature}      (wild/Ruin.md, wild/Lair.md,
                                                      wild/NaturalFeature.md)
-  1     Secrets - whether it conceals anything                       (wild/Secrets.md)
+  20%   A concealed detail - state its Clue, Trigger and Payload
+                                                 (patterns/setting/Secrets.md)
 
   -- access: how the party comes to be standing here
   1     Parent Landmark, named
@@ -41,7 +42,7 @@ WILD - HIDDEN
         location - one per child, and none where it has none         (wild/Secret.md)
   15%   This location's carrying role in a quest given elsewhere     (wild/Quest.md)
 
-  1     Naming, after everything above                               (wild/Naming.md)
+  1     Naming, after everything above                (patterns/setting/Naming.md)
 ```
 
 A Hidden location is not found by roaming. It is found by **stopping at a Landmark and

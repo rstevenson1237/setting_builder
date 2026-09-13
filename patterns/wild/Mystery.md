@@ -6,7 +6,7 @@ What is strange about a WILD location, how it is engaged, and what it costs to g
 ## Read at
 **Mode: ingredient.** Step 4c, when a classifier's spec line draws a challenge and the
 challenge is a mystery - `wild/Landmark.md`, `wild/Hidden.md`, or `wild/Secret.md`.
-Distinct from `wild/Secrets.md`: a Mystery is content and stands in plain sight; a
+Distinct from `patterns/setting/Secrets.md`: a Mystery is content and stands in plain sight; a
 Secret is a discovery structure and does not.
 
 ## Spec

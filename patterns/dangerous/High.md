@@ -39,11 +39,11 @@ DANGEROUS - HIGH
   25%   A lock, and the key that opens it is elsewhere       (dangerous/Key.md)
   20%   The target of a quest given elsewhere                (dangerous/Quest.md)
 
-  1     Naming, after everything above                       (dangerous/Naming.md)
+  1     Naming, after everything above           (patterns/setting/Naming.md)
 ```
 
-**HIGH draws no Secret, and it is the only weight that draws none.** There is no line for
-`dangerous/Secrets.md` above because what a HIGH room conceals is already carried by
+**HIGH draws no Secret, and it is the only weight that draws none.** There is no concealed-detail line
+above because what a HIGH room conceals is already carried by
 structures it has: a Treasure whose disposition is `hidden`, or a Hazard's or a Mystery's
 own clue. Adding a separate discovery structure on top would be a third thing to search a
 room that is already the region's most searched. `dangerous/Medium.md` draws one at 40% and

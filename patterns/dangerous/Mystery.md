@@ -7,7 +7,7 @@ What the strange thing is, how it is engaged, and what engaging it wrongly costs
 **Mode: ingredient.** Step 4c, when a weight file's spec draws a mystery as a challenge
 or on its own line. Distinct from `dangerous/Hazard.md`, which is the costly case: a
 mystery is neutral until a genuinely wrong attempt is made. Distinct from
-`dangerous/Secrets.md`: a Mystery is content and may be in plain sight; a Secret is a
+`patterns/setting/Secrets.md`: a Mystery is content and may be in plain sight; a Secret is a
 discovery structure and by definition is not.
 
 ## Spec

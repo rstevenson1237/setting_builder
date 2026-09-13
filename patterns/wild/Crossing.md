@@ -25,7 +25,6 @@ KIND: CROSSING
   40%   Something else caught here, mid-crossing, when the party arrives
   30%   A toll, custom, or right-of-way someone here enforces
   30%   What controls it is one of the three factions           (wild/Faction.md)
-  20%   A name in an older tongue                               (wild/Naming.md)
 ```
 
 ## Design patterns

@@ -73,13 +73,12 @@ weather - scree, corrie, holt, spinney, sike, hag, tor, brake. Name the species 
 
 ## Constraints
 
-- **Purpose is supplied by the kind file, not restated here.** `wild/Ruin.md` states
-  what a Ruin was, `wild/Lair.md` states why its occupant stays,
-  `wild/NaturalFeature.md` states why a party would stop, `wild/Crossing.md` states what
-  must be crossed - whichever applies has already answered "what is this for." Dressing
-  does not reopen that question; it dresses the answer. Every WILD location draws exactly
-  one kind, at all three tiers, so there is never a location with no answer to fall back
-  on.
+- **Purpose is supplied by the kind file, not restated here.** Whichever Kind the
+  classifier drew has already answered "what is this for" - what a Ruin was, why a Lair's
+  occupant stays, why a party would stop at a Natural Feature, what a Crossing crosses.
+  Dressing does not reopen that question; it dresses the answer. Every WILD location draws
+  exactly one kind, at all three tiers, so there is never a location with no answer to
+  fall back on.
 
 - **No detail budget is not a licence to explain at length**, and WILD is the rating
   most likely to confuse the two. Every location getting the full treatment means every

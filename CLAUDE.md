@@ -46,8 +46,7 @@ line that is the same for all of them belongs in the file it cites.** Same test
 `STEPS.md` step 1b's compile list, which `tools/validate_setting.py` checks against the
 tree in both directions. The test is what a file's output *is*: a file that fills a
 location's body - its Dressing, its Kind, an ingredient drawn into it, a hook hanging off
-it - carries patterns; a file supplying a *shape applied to* a location carries none, and
-only `Naming` (a procedure) and `Secrets` (a Clue/Trigger/Payload structure) are shapes.
+it - carries patterns; a file supplying a *shape applied to* a location carries none.
 All of `setting/` and `region/` and every classifier keep their option menus in Spec too,
 because content that reads the same whatever genre was chosen is a question, not a pattern,
 and filing it as a pattern licenses step 1b to rewrite it. Before adding or removing a

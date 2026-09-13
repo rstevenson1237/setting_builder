@@ -5,8 +5,8 @@ How a tongue is built, what a root is, and how the file grows without being rewr
 
 ## Read at
 **Mode: entry.** Step 1d to seed it, step 2h to tailor it, and every step thereafter
-that coins a proper noun. The per-rating naming guidance is in each folder's
-`Naming.md`.
+that coins a proper noun. What a location is called, and in whose mouth, is
+`patterns/setting/Naming.md`.
 
 ## Spec
 
@@ -20,10 +20,19 @@ TONGUE
 ```
 
 ```
-FILE GROWTH
-  1     Every coined proper noun recorded under "Coined here", decomposed into its roots
+REGISTER - whenever any step coins a proper noun
+  1     Recorded under "Coined here", decomposed into its roots
   1     A name that cannot be decomposed is either wrong, or a loan word and marked as one
   1     Roots are added, never replaced
+```
+
+```
+REUSE - whenever any artifact reuses a proper noun coined elsewhere
+  1     Glossed where it appears - what it means, or who it was - so the referee is
+        never sent to this file mid-session
+  1     Coining happens at the setting and region level only. Nothing below coins; a
+        location, a creature entry or a treasure entry reuses what already exists, or
+        is named in the common tongue instead
 ```
 
 **A root is a morpheme with a gloss** - the raw material names are built from, not a name
@@ -37,6 +46,11 @@ fourth inventory nobody uses is dead weight.
 two names. The seeds differ deliberately - open running syllables against strict closed
 ones, five vowels against three - and that contrast is what lets a party hear which culture
 a name came from before anyone tells them.
+
+**Register and reuse are the two halves of the same rule**, and both are stated here
+rather than at whichever level happens to need them. Every step that coins registers; every
+artifact that reuses glosses. A step that coins without registering strands a name, and an
+artifact that reuses without glossing hands the referee a word it cannot translate.
 
 **This is the framework's one living artifact.** Every other file is written once and
 revisited at 4d. This one is appended to continuously, and it stops being useful the moment

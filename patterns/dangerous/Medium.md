@@ -18,7 +18,8 @@ DANGEROUS - MEDIUM
 
   -- substrate: what this room is
   1     Dressing - what it is now, and what it was     (dangerous/Dressing.md)
-  40%   Secrets - whether it conceals anything          (dangerous/Secrets.md)
+  40%   A concealed detail - state its Clue, Trigger and Payload
+                                            (patterns/setting/Secrets.md)
 
   -- challenge: what opposes the party
   1     Challenge   {encounter | hazard} - guaranteed, and obvious
@@ -37,7 +38,7 @@ DANGEROUS - MEDIUM
   10%   A lock, and the key that opens it is elsewhere  (dangerous/Key.md)
   10%   The target of a quest given elsewhere           (dangerous/Quest.md)
 
-  1     Naming, after everything above                  (dangerous/Naming.md)
+  1     Naming, after everything above      (patterns/setting/Naming.md)
 ```
 
 Medium weight means the location presents **one thing to deal with**, and presents it
