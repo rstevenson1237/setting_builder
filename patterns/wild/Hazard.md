@@ -6,10 +6,11 @@ and what it costs.
 
 ## Read at
 **Mode: ingredient.** Step 4c, when a classifier's spec line draws a challenge and the
-challenge is a hazard - `wild/Landmark.md`, `wild/Hidden.md`, or `wild/Secret.md`.
-Impact tiers and resolution are in `setting/Procedures.md`. Distinct from
-`wild/Mystery.md`, which is the neutral case: a mystery costs nothing until a genuinely
-wrong attempt is made, a hazard acts on contact or condition.
+challenge is a hazard - `wild/Landmark.md`, `wild/Hidden.md`, or `wild/Secret.md`. The
+tier it carries is `patterns/setting/Impact.md`'s, and resolution is
+`setting/Procedures.md`'s. Distinct from `wild/Mystery.md`, which is the neutral case: a
+mystery costs nothing until a genuinely wrong attempt is made, a hazard acts on contact
+or condition.
 
 ## Spec
 
@@ -17,7 +18,7 @@ wrong attempt is made, a hazard acts on contact or condition.
 HAZARD
   1     Mechanism   {set | condition of the ground | living} - decide first, they read
         differently
-  1     Impact tier, per setting/Procedures.md   {nuisance | damaging | lethal}
+  1     Impact tier   {nuisance | damaging | lethal}   (patterns/setting/Impact.md)
   1     A warning available to somebody moving carefully
   1     What it was for, and who set it - where the mechanism is `set`
   20%   Something already caught in it
