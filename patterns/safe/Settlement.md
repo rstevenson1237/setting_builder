@@ -49,7 +49,7 @@ SAFE - LOCATION                        (parameterized by prominence)
                                                                      (safe/People.md)
   1     What it takes to get anything out of them, stated as terms rather than a mood
         (A Wealth location may instead be gated by its Protection, its owner absent,
-         dead, or unaware the place is here - see safe/Wealth.md)
+         dead, or unaware the place is here)
 
   -- transaction: what the party can get here
   1     One thing obtainable here and not at the last location - a good, a service, a

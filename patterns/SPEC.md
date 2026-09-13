@@ -289,24 +289,48 @@ That last check holds STEPS.md and the tree to the same answer; it does not deci
 answer. Whether a given file *earns* patterns is the body-versus-shape judgement above and
 stays a human call.
 
-The draw set that check would read is now clean: the decorative citations are gone and
-`safe/Wealth.md`'s prose-only draws are in its block, so what `spec_edges()` returns is
-the set of real edges.
+**A file is also checked against the mode it claims, for three of the four modes.**
+`spec_draws()` reads each drawing line's shape - the rate token governing it, how many
+alternatives it offers in braces, how many files it cites - and three rules follow:
 
-Still proposed: checking that a file is drawn *in the mode it claims*, not merely drawn at
-all. That needs the drawing line's own shape read - a `{a | b | c}` choice for a kind, a
-rate for an ingredient. The one false positive standing in the way is gone:
-`dangerous/Secrets.md` used to carry a rate table naming the classifier that explicitly
-does *not* draw it, and those rates now live in the drawing classes.
+- **second pass** means every output, unconditionally, so at least one line must draw it
+  at rate `1`. Drawn only at a rate, it is an ingredient. (Extra rated draws on top are
+  fine: `wild/Naming.md` is drawn at `1` by all three WILD classifiers and again at 20% by
+  `wild/Ruin.md` and `wild/Crossing.md` for a name in an older tongue.)
+- **conditional** means triggered by content already generated, so no line may draw it at
+  rate `1`. Drawn unconditionally, it is mandatory, which is an ingredient.
+- **kind** means exactly one of N, mutually exclusive, so at least one line must draw it
+  as a choice among its siblings - braces offering alternatives, and the alternatives
+  cited. Drawn only alone, it is an ingredient.
+
+**There is no rule for `ingredient`, and that is not an oversight** - see the divergence
+below.
 
 ## Known divergences
 
 Real, current, and deliberately not yet fixed:
 
-1. **A declared mode is checked for being drawn, not for being drawn that way.** Every
-   file states its mode and the orphan check is live, but nothing yet verifies that a file
-   claiming `kind` is drawn by a choice line rather than a rate. See "What the validator
-   enforces" above for why that wants its own pass.
+1. **`kind` and `ingredient` are not separable by line shape, so neither is checked
+   against the other.** This section used to propose the rule as "a `{a | b | c}` choice
+   for a kind, a rate for an ingredient". It does not survive the files. Compare:
+
+   ```
+   wild/Hidden.md    1  Kind       {ruin | lair | natural feature}   (three files)
+   dangerous/High.md 1  Challenge  {encounter | hazard | mystery}    (three files)
+   ```
+
+   Identical shape - mandatory, three alternatives, three citations - and the first draws
+   three `kind` files while the second draws three `ingredient` files. The difference is
+   that a Kind decides what the location *is* and a challenge is something *in* it, which
+   is semantic and not on the line. `safe/Settlement.md`'s hook line is the same story
+   from the other side: ONE of `{quest | lore | key | faction}`, which reads as "exactly
+   one of N, mutually exclusive", drawing four files that are deliberately `ingredient`.
+
+   So the three rules above are stated as **existence** checks - a kind needs *at least
+   one* choice-shaped draw - never as exclusions. An exclusion would have to claim some
+   shape cannot be an ingredient, and no shape qualifies. Anything stronger needs the
+   modes to be declared on the drawing line rather than inferred from it, which is a
+   larger change than it sounds and has not been shown to be worth it.
 
 The two divergences about `## Design patterns` that this section used to carry are closed:
 twenty-eight files' neutral option menus moved into their Specs, and step 1b's compile list
