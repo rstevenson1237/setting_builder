@@ -15,8 +15,12 @@ the parenthetical on that line allows for.
 ```
 WEALTH
   1     Contents                   {Treasure | Lore | Both}
+                        (patterns/setting/Treasure.md,
+                         patterns/setting/UniqueTreasures.md, safe/Lore.md)
   1     Who it belongs to, or belonged to - and whether they know it is still here
   1     Protection, exactly one    {hidden | gated | guarded | trapped} - see Patterns
+          hidden: the Clue/Trigger/Payload structure, guaranteed by this line
+                        (safe/Secrets.md)
   30%   A second protection, of a different kind than the first
   20%   Somebody else wants it, and is closer to getting it than the party
 ```

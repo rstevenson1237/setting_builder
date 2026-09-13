@@ -14,7 +14,6 @@ SOCIAL
   1     Who is here, and what they are doing - not waiting to be talked to
   1     What is circulating: a rumour, drawn from setting/Rumours.md where one fits
   40%   A tension a stranger can be pulled into by doing nothing wrong
-  30%   Somebody with a job to offer - see safe/Quest.md
   20%   Somebody who knows something and will not say it here
 ```
 
@@ -58,6 +57,13 @@ wants and nobody will start; somebody being frozen out; an outsider group tolera
 more.
 
 ## Constraints
+
+- **A Kind never draws a hook.** The hook layer is `safe/Settlement.md`'s registry
+  block - ONE at working prominence, two at central - and each hook file supplies its
+  own holder: `safe/Quest.md` draws the giver, `safe/Key.md` and `safe/Lore.md` the
+  person who has it. A Kind adding its own rate for a quest, a key or a piece of lore
+  is a second, unaccounted path to an object whose cardinality the registry has already
+  fixed. What stays here is what is true of a gathering place.
 
 - **A rumour is repeated, not delivered.** Whoever says it has their own reason for
   saying it, is probably wrong about part of it, and will not mark it true or false.

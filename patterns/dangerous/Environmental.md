@@ -14,7 +14,7 @@ still acting.
 ```
 ENVIRONMENTAL
   1     What the place is doing - the physical condition, stated plainly
-  1     What it is a consequence of, in the location's own Dressing  (dangerous/Dressing.md)
+  1     What it is a consequence of, in the location's own Dressing
   1     Whether it is constant, or worsens while the party is in it
   30%   Somewhere in this location it does not reach, and why
 ```

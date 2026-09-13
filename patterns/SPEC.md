@@ -53,6 +53,21 @@ What this file decides, as a fenced block. Every line is one of exactly two thin
   other file that line requires; or
 - **a question** - it states something the generator must answer, and cites nothing.
 
+**What makes a citation an edge is that the generator must go and read that file.**
+Anything already in context at this step is not an edge and takes no parentheses: state it
+as part of the question, naming the generated artifact it is actually read from (`from
+setting/Bestiary.md`) rather than the pattern that produced it. A Dressing line the
+classifier already drew one level up, an event already written into `setting/History.md`,
+the register a line files its stub in - all questions. A decorative citation is not
+harmless: it makes a leaf read as a classifier, and `dangerous/Environmental.md` and
+`dangerous/Residual.md` both did for as long as they carried one.
+
+**And the converse: an edge belongs in the fenced block.** Edges are read from the block
+only, so a draw stated in the prose underneath is invisible to the tree even when both
+ends know about it - `safe/Wealth.md` drew `safe/Lore.md` and `safe/Secrets.md` from its
+paragraphs while `safe/Lore.md`'s own `## Read at` recorded being drawn by it. If a line
+requires another pattern file, the parentheses go on the line.
+
 `1` is mandatory; a percentage is the rate at which a feature carrying that content
 appears. Neutral and permanent - step 1b never rewrites a Spec.
 
@@ -201,10 +216,16 @@ identically-drawn siblings kept theirs. Body-versus-shape gets `Dressing` right 
 exception and all four hooks right together. Mode stays, because how a file is reached is
 real coupling information worth declaring - it just does not decide this.
 
-A classifier's own content is neutral by definition, so **no classifier carries
-`## Design patterns`** - not a rating classifier, not a middle-tier one, and not a
-`setting/` or `region/` file. Their option menus answer a question rather than inject
-specificity, so they are Spec lines. This was the library's most persistent drift: an
+A rating classifier's own content is neutral by definition, so **no rating classifier
+carries `## Design patterns`**, and neither does a `setting/` or `region/` file. Their
+option menus answer a question rather than inject specificity, so they are Spec lines.
+
+A **middle-tier** classifier is decided by body-versus-shape like anything else, and they
+split both ways: `dangerous/Encounter.md` and `dangerous/Hazard.md` carry none, because
+their output is the dispatch and the Kind beneath fills the body; `dangerous/Treasure.md`,
+`wild/Treasure.md` and `safe/Wealth.md` each name what a hoard actually holds, which is
+body, and carry patterns. Being a classifier is not by itself the test. This sentence used
+to claim middle-tier files carry none, and those three have always contradicted it. This was the library's most persistent drift: an
 option menu reads like content, and filing it as compiled content means step 1b is
 licensed to rewrite it for the next setting - including, in one case caught during the
 WILD restructure, rewriting an *edge* away.
@@ -267,6 +288,10 @@ and a file carrying one that no step recompiles, are both errors.
 That last check holds STEPS.md and the tree to the same answer; it does not decide the
 answer. Whether a given file *earns* patterns is the body-versus-shape judgement above and
 stays a human call.
+
+The draw set that check would read is now clean: the decorative citations are gone and
+`safe/Wealth.md`'s prose-only draws are in its block, so what `spec_edges()` returns is
+the set of real edges.
 
 Still proposed: checking that a file is drawn *in the mode it claims*, not merely drawn at
 all. That needs the drawing line's own shape read - a `{a | b | c}` choice for a kind, a
