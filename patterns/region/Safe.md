@@ -81,4 +81,3 @@ The Region Overview's fields, for a SAFE region.
   happening.
 
 ## Constraints
-*(Empty. Entries arrive from generation testing, never from anticipation.)*

@@ -68,4 +68,3 @@ empty-handed has spent the region's scarcest slot on nothing.
 
 
 ## Constraints
-*(Empty. Entries arrive from generation testing, never from anticipation.)*

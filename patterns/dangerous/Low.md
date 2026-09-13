@@ -48,11 +48,9 @@ That is the whole value of the class. If a low-weight room could never repay att
 players would learn to walk through them, and the region would lose the only thing that
 makes attention a real cost.
 
-**The treasure line is the old pair merged.** LOW used to draw unguarded treasure at 14%
-and "a detail that rewards looking without demanding action" at 20% - which is
-word-for-word what `dangerous/Treasure.md` already calls Table I, Scavenged Loot. They were
-one thing written twice, and the merged rate is what the two came to independently. Never
-guarded, because a guard is a challenge and LOW has none.
+**Treasure here is never guarded**, because a guard is a challenge and LOW has none.
+What LOW leaves lying is `dangerous/Treasure.md`'s Table I, Scavenged Loot - a detail that
+rewards looking without demanding action.
 
 **The Secret is LOW's whole load**, and the three rates above are the only place node role
 feeds content rather than just the Exits line. LOW is also the reason the DANGEROUS

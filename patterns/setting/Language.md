@@ -60,4 +60,3 @@ well, a road, a boundary, a burial - has told the party what it inherited rather
 without any exposition at all.
 
 ## Constraints
-*(Empty. Entries arrive from generation testing, never from anticipation.)*

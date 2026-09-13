@@ -31,8 +31,7 @@ Write the one thing.
 doing, one distinctive, recallable thing, and what they want. Genre-neutral and
 permanent. The personality flavor a "distinctive" thing draws on is not - the Personality
 Examples below are this build's compile of it, from this setting's chosen genre
-reference, standing in for what `GENRE.md` used to carry as its own People (personalities)
-tag bank.
+reference.
 
 ## Design patterns
 

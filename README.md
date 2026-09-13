@@ -127,8 +127,7 @@ what it is building.
   build at step 1b from this setting's chosen genre reference, replacing what a
   lookup-table join at generation time would otherwise have to translate correctly every
   single read. Demeanor and personality examples specifically live compiled into
-  `dangerous/Creature.md`, `wild/Creature.md`, and `safe/People.md`, standing in for what
-  `GENRE.md` used to carry as its own People/Creatures tag bank.
+  `dangerous/Creature.md`, `wild/Creature.md`, and `safe/People.md`.
 - **Thirty-five files carry `## Design patterns`, and no others.** The test is what a
   file's output *is*: a file that fills a location's body - its Dressing, its Kind, an
   ingredient drawn into it, a hook hanging off it - is where flat output would show, so

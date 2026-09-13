@@ -66,4 +66,3 @@ original occupants, in a form that no longer counts as living; somebody keeping 
 reasons of their own.
 
 ## Constraints
-*(Empty. Entries arrive from generation testing, never from anticipation.)*

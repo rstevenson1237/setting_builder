@@ -104,4 +104,3 @@ finding it is not the same as surviving opening it; gated and guarded means know
 phrase still leaves whatever is standing behind it.
 
 ## Constraints
-*(Empty. Entries arrive from generation testing, never from anticipation.)*

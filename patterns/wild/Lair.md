@@ -64,4 +64,3 @@ too far out to return nightly; refugees; a household that has gone strange out h
 picket belonging to a faction that has interests further in.
 
 ## Constraints
-*(Empty. Entries arrive from generation testing, never from anticipation.)*

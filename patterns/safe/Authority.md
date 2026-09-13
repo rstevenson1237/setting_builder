@@ -61,4 +61,3 @@ said aloud; a day nothing is done; a threshold not crossed; a debt of hospitalit
 both ways; where the dead are and how they are passed.
 
 ## Constraints
-*(Empty. Entries arrive from generation testing, never from anticipation.)*

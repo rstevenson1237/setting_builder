@@ -51,4 +51,3 @@ fulfilled later; a Key is found first and used later. A quest object that also o
 something carries both rows.
 
 ## Constraints
-*(Empty. Entries arrive from generation testing, never from anticipation.)*

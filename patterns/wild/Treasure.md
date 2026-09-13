@@ -72,4 +72,3 @@ spot; a faction that considers this country theirs; whoever is coming back for i
 soon; the person it was taken from, still findable.
 
 ## Constraints
-*(Empty. Entries arrive from generation testing, never from anticipation.)*

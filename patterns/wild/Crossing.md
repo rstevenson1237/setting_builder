@@ -51,4 +51,3 @@ not make it across; a faction using the crossing as a checkpoint; a toll-taker's
 staffed or not; wreckage or wear from an earlier, failed attempt.
 
 ## Constraints
-*(Empty. Entries arrive from generation testing, never from anticipation.)*

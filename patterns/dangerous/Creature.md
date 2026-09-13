@@ -46,8 +46,7 @@ the party a room early, so the choice to withdraw is a judgement they got to mak
 **Contract.** A DANGEROUS creature encounter owes: a Bestiary entry or inline
 description, what it's doing, a number, and scale against party altitude. Genre-neutral
 and permanent. The demeanor it carries is not - the demeanor examples below are this
-build's compile of it, standing in for what `GENRE.md` used to carry as its own
-Creatures (demeanors) tag bank.
+build's compile of it, from this setting's chosen genre reference.
 
 ## Design patterns
 
@@ -74,4 +73,3 @@ smell that arrives before the thing does, a sound heard two rooms away. A creatu
 signs should reach the party before the creature does, at least once per region.
 
 ## Constraints
-*(Empty. Entries arrive from generation testing, never from anticipation.)*

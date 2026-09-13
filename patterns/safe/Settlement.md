@@ -73,8 +73,7 @@ SAFE - LOCATION                        (parameterized by prominence)
 **SAFE has no challenge block, and a gate instead.** A DANGEROUS location asks what opposes
 the party; a settlement opposes nobody, and the thing actually standing between a party and
 what they came for is a person with terms. That is the same slot, filled the way the rating
-fills it - which is why the gate line is mandatory here and the Kind files no longer each
-ask their own version of it.
+fills it, and why the gate line is mandatory here rather than restated per Kind.
 
 **Transaction is SAFE's reward block**, and it is the pair of lines easiest to skip. *One
 thing obtainable here and not at the last location* is what stops ten locations being ten

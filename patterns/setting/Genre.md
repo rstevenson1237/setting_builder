@@ -255,10 +255,9 @@ reference chosen is the fixed three-test section and the container/data, stub-be
 and cash-out mechanics the rest of this framework is built from - those are the load-bearing
 parts, not the genre dressing.
 
-Tags no longer live in this file - `patterns/setting/Tags.md` owns tag-building now
-(what a tag is, the intentionality test, the pool shape), read at the new step 1b right
-after this one. What stays here is everything about *choosing and stating the reference
-itself* - the tag bank was always downstream of that choice, not part of making it.
+`patterns/setting/Tags.md` owns tag-building - what a tag is, the intentionality test,
+the pool shape - read at step 1b, right after this one. What stays here is everything
+about *choosing and stating the reference itself*; the tag bank is downstream of that
+choice, not part of making it.
 
 ## Constraints
-*(Empty. Entries arrive from generation testing, never from anticipation.)*

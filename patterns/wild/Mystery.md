@@ -61,4 +61,3 @@ works for one person; it draws attention from something that was not watching be
 it grants is real and is not what was wanted.
 
 ## Constraints
-*(Empty. Entries arrive from generation testing, never from anticipation.)*

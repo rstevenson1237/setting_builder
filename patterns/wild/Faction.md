@@ -79,4 +79,3 @@ claim; the country itself pushing back - weather, distance, a creature that does
 recognise the claim; somebody here who would rather be posted anywhere else.
 
 ## Constraints
-*(Empty. Entries arrive from generation testing, never from anticipation.)*

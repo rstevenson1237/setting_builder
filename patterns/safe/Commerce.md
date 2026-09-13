@@ -66,4 +66,3 @@ unsold and why; what is rationed; what is only sold to people known here; what w
 in trade from somebody who needed money badly, and is worth more than the taker knows.
 
 ## Constraints
-*(Empty. Entries arrive from generation testing, never from anticipation.)*

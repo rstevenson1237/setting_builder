@@ -50,4 +50,3 @@ a rope still fixed; a camp; a partial map; a warning scratched on the way in by 
 who did not come out.
 
 ## Constraints
-*(Empty. Entries arrive from generation testing, never from anticipation.)*

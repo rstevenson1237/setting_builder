@@ -47,4 +47,3 @@ family it was taken from; whoever the last holder owed. State how close they are
 delay has a price.
 
 ## Constraints
-*(Empty. Entries arrive from generation testing, never from anticipation.)*

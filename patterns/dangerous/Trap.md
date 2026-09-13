@@ -66,4 +66,3 @@ materials, drop a mechanism from the tier above and take out what makes it worse
 than reaching up for one the tier cannot afford.
 
 ## Constraints
-*(Empty. Entries arrive from generation testing, never from anticipation.)*

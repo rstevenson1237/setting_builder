@@ -54,4 +54,3 @@ a sequence pressed, turned, or lit; weight applied or removed; a specific person
 brought near; something given up.
 
 ## Constraints
-*(Empty. Entries arrive from generation testing, never from anticipation.)*

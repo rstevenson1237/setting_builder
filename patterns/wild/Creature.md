@@ -37,8 +37,7 @@ fight, and a party that assumes otherwise should be able to be wrong about that.
 number from the population's Range, scale against party altitude, what it's doing, and
 what avoiding it costs. Genre-neutral and permanent. The demeanor a creature carries, and
 the personality a human encounter carries, are not - the Examples below are this build's
-compile of both, standing in for what `GENRE.md` used to carry as its own Creatures
-(demeanors) and People (personalities) tag banks.
+compile of both, from this setting's chosen genre reference.
 
 ## Design patterns
 
@@ -69,4 +68,3 @@ somebody lost, somebody who does not want to be found, a faction's patrol workin
 country between its positions.
 
 ## Constraints
-*(Empty. Entries arrive from generation testing, never from anticipation.)*

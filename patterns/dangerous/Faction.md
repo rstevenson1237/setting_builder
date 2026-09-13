@@ -50,4 +50,3 @@ with the position next door; a captive who has been here too long; the region it
 eating them slowly.
 
 ## Constraints
-*(Empty. Entries arrive from generation testing, never from anticipation.)*

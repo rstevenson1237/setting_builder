@@ -62,4 +62,3 @@ graph gives it, absent otherwise. A party that stopped and looked has already pa
 something to be standing here, and the rates are where that is paid back.
 
 ## Constraints
-*(Empty. Entries arrive from generation testing, never from anticipation.)*

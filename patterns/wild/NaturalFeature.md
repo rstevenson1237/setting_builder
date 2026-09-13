@@ -61,4 +61,3 @@ whether or not anyone is remembering it; a direction that is wrong here. Rare, n
 routine, and never free.
 
 ## Constraints
-*(Empty. Entries arrive from generation testing, never from anticipation.)*

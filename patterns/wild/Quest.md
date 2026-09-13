@@ -54,4 +54,3 @@ then cut again by a different hand; a body with the right gear; a party the grou
 actually meet, and race, or join.
 
 ## Constraints
-*(Empty. Entries arrive from generation testing, never from anticipation.)*

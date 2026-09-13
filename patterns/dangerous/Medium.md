@@ -59,4 +59,3 @@ keeps a medium room from paying out twice.
 
 
 ## Constraints
-*(Empty. Entries arrive from generation testing, never from anticipation.)*

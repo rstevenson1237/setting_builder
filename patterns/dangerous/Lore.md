@@ -44,4 +44,3 @@ mistaken, or self-interested. A document that knows everything is a briefing, no
 The most useful lore is written by someone who did not know what they were describing.
 
 ## Constraints
-*(Empty. Entries arrive from generation testing, never from anticipation.)*

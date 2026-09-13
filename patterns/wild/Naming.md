@@ -50,9 +50,7 @@ warning; a name that is plainly somebody's joke.
 - **Write-back.** A carried name's older or dead tongue is described here only as a *kind*
   of register, never as a real tongue's actual name - the real name and its root breakdown
   belong solely in `setting/Language.md`, coined at the setting or region level and recorded
-  back before a location reuses it. A prior draft of this file named two specific tongues by
-  their actual coined names, which meant every future setting built with this library would
-  have inherited those names by default rather than generating its own.
+  back before a location reuses it.
 
 - **Do not coin here.** A WILD location's own name is drawn from the common tongue's
   plain, practical vocabulary - the border register, in the Spec above - not built fresh

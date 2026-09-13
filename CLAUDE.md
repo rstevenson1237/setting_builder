@@ -51,8 +51,8 @@ only `Naming` (a procedure) and `Secrets` (a Clue/Trigger/Payload structure) are
 All of `setting/` and `region/` and every classifier keep their option menus in Spec too,
 because content that reads the same whatever genre was chosen is a question, not a pattern,
 and filing it as a pattern licenses step 1b to rewrite it. Before adding or removing a
-`## Design patterns` section, check the list - and don't reason from reach mode, which was
-tried as the test here and gets `Dressing` and the SAFE hooks wrong.
+`## Design patterns` section, check the list. Don't reason from reach mode: it gets
+`Dressing` and the SAFE hooks wrong.
 
 **Constraints is where every prohibition lives** - anything that closes a pathway: what
 belongs in another file, what this file must never do, a named failure mode. It is blank
@@ -63,8 +63,7 @@ contrastively ("the pressure mechanism, not a rule of thumb") is not a prohibiti
 stays where it is.
 
 `## Read at` names the `STEPS.md` step(s) that read the file, and the validator checks
-those step ids against STEPS.md - a phase-2 renumber once left eight `setting/` patterns
-pointing one step too far down, three at a step that no longer existed.
+those step ids against STEPS.md - a renumber silently stales every one of them.
 
 **`## Read at` opens with the file's reach mode** - `**Mode: ingredient.**` - one of
 `second pass`, `kind`, `ingredient`, `conditional`, or `entry` for a file a step reads

@@ -56,4 +56,3 @@ floor eaten thin from below; a ceiling holding on the strength of one thing; a b
 colony, or a nest old enough to be terrain rather than a creature.
 
 ## Constraints
-*(Empty. Entries arrive from generation testing, never from anticipation.)*
