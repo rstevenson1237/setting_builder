@@ -80,7 +80,7 @@ The deliberate injection of highly specific content that keeps generated output 
 reading flat. **Specific and compiled** - rewritten at step 1b from the chosen genre
 reference. A section here is a claim that this file's output would be too generic without
 it; which files can make that claim is settled by reach mode, in "Which files earn
-patterns" below. Thirty-three files carry one, and they are exactly STEPS.md step 1b's
+patterns" below. Thirty-five files carry one, and they are exactly STEPS.md step 1b's
 compile list - the two sets are checked against each other by
 `tools/validate_setting.py`.
 

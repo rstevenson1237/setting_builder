@@ -34,7 +34,9 @@ was folded into Spec.
 
 **Every Spec line is one of exactly two things:** an **edge**, pointing to another pattern
 file named in parentheses, or a **question**, stating something the generator must answer
-and citing nothing. That makes the library one tree: a file whose Spec has outgoing edges
+and citing nothing. A citation is an edge only where the generator must go and read that
+file - anything already in context is stated as part of the question - and an edge belongs
+in the fenced block, never in the prose under it. That makes the library one tree: a file whose Spec has outgoing edges
 is a classifier, a file whose Spec is all questions is a leaf, and neither is declared -
 it is read off the citations. `patterns/SPEC.md` is the full field spec.
 
@@ -74,8 +76,8 @@ information only - it does not decide which files carry `## Design patterns`.
 ## Validator posture
 
 `tools/validate_setting.py` (`python3 tools/validate_setting.py`) checks `patterns/*/*.md`
-itself (citation format, the five sections, `## Read at` step ids)
-unconditionally, plus generated `setting/` content against the templates. Strict on
+itself (citation format, the five sections, `## Read at` step ids, reach-mode declarations,
+orphans, and step 1b's compile list) unconditionally, plus generated `setting/` content against the templates. Strict on
 format, relaxed on content, ratios, and prose - it fails CI on unambiguous breakage in
 content that *exists* (unknown codes, name mismatches, orphaned nodes, broken citations)
 and warns on what needs a human glance but might be intentional. **A file that is simply
