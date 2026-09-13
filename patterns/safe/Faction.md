@@ -77,4 +77,3 @@ neutral party both use; an incident both are pretending did not happen; a biddin
 the same person or the same goods; a party useful to both, and dangerous to neither yet.
 
 ## Constraints
-*(Empty. Entries arrive from generation testing, never from anticipation.)*

@@ -14,7 +14,6 @@ SOCIAL
   1     Who is here, and what they are doing - not waiting to be talked to
   1     What is circulating: a rumour, drawn from setting/Rumours.md where one fits
   40%   A tension a stranger can be pulled into by doing nothing wrong
-  30%   Somebody with a job to offer - see safe/Quest.md
   20%   Somebody who knows something and will not say it here
 ```
 
@@ -25,11 +24,6 @@ before the party walked in, and the entry should say what that evening is.
 line**, answered once per location whatever its Kind. This file supplies the menu a Social
 location draws that answer from - the "Being talked to" patterns below - and states only
 what is true of a gathering place: who is here, and what is going round it.
-
-**Contract.** A Social location owes: who's here and what they're doing, and what's
-circulating. Genre-neutral and permanent. Which gathering places, circulating content, and vocabulary fill that contract
-is not - the Examples below are this build's compile of it, from this setting's chosen
-genre reference.
 
 ## Design patterns
 
@@ -58,6 +52,11 @@ wants and nobody will start; somebody being frozen out; an outsider group tolera
 more.
 
 ## Constraints
+
+- **A Kind never draws a hook.** The hook layer is `safe/Settlement.md`'s registry
+  block, and each hook file supplies its own holder. A Kind adding its own rate for a
+  hook is a second, unaccounted path to an object whose cardinality the registry has
+  already fixed. What stays here is what is true of a gathering place.
 
 - **A rumour is repeated, not delivered.** Whoever says it has their own reason for
   saying it, is probably wrong about part of it, and will not mark it true or false.

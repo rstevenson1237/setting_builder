@@ -77,13 +77,23 @@ CHECKLIST_SOURCES = [
 #
 # Independent of everything above - this section reads the framework's own
 # authoring instructions, not the generated setting, so patterns.html builds
-# the same way whether setting/ is empty, partial, or complete. The citation
-# rules duplicated here (bare "folder/File.md" for region/safe/wild/dangerous,
-# "patterns/setting/File.md" kept prefixed since bare "setting/File.md" means
-# generated content) match tools/validate_setting.py's check_pattern_files -
-# duplicated rather than imported, same as this module already duplicates
-# site_common's parsing rules rather than sharing state with the validator.
+# the same way whether setting/ is empty, partial, or complete.
+#
+# The graph this page draws is the DRAW TREE, and it is read from
+# tools/validate_setting.py rather than reimplemented. That import is the
+# point: the edge rules used to be duplicated here, and the copies drifted -
+# this page counted every citation anywhere in a file, including the prose
+# under a Spec block, which patterns/SPEC.md names explicitly as the thing
+# that "would make half the leaves in the library read as classifiers". It
+# did: 258 edges drawn against 102 real ones, and all 39 leaves rendered as
+# classifiers. One definition, imported, cannot drift again.
+#
+# A citation that is not a draw is still worth seeing, so it is kept and
+# shown separately as a mention. Only the format audit below still reads the
+# whole file, because citation format applies everywhere, not just in Spec.
 # ---------------------------------------------------------------------------
+
+import validate_setting as vs
 
 PATTERNS_ROOT = ROOT / "patterns"
 PATTERN_FOLDERS = ("setting", "region", "safe", "wild", "dangerous")
@@ -106,9 +116,16 @@ def pattern_section(text: str, name: str) -> str:
 def parse_pattern_files() -> tuple[dict[str, dict], list[str]]:
     """Returns (nodes keyed by "folder/File.md", global format issues).
 
-    A node's own "issues" list holds only what check_pattern_files in
-    tools/validate_setting.py would also error on - this page's live audit
-    is scoped to exactly what CI enforces, not a superset of soft opinion.
+    "out" is the draw tree - edges read from Spec fenced blocks by
+    validate_setting.spec_edges, the same function CI enforces against.
+    "mentions" is every other pattern file the text names: real context, but
+    not a draw, and counting it as one is what made this page disagree with
+    the tree it claims to show.
+
+    A node's "issues" list is a SUBSET of what CI errors on - citation format
+    and a missing Constraints heading. The validator also checks section
+    presence, Read-at step ids, mode declarations, orphans and the compile
+    list; a clean audit here does not mean a clean CI run.
     """
     files = sorted(p for p in PATTERNS_ROOT.glob("*/*.md") if p.name != ".gitkeep")
     known = {p.relative_to(PATTERNS_ROOT).as_posix() for p in files}
@@ -126,6 +143,8 @@ def parse_pattern_files() -> tuple[dict[str, dict], list[str]]:
         if "## Constraints" not in text:
             issues.append("missing a '## Constraints' section")
 
+        # Format audit reads the whole file - citation format applies
+        # everywhere - and collects every resolvable target as a mention.
         for cm in PATTERN_CITE_RE.finditer(text):
             prefixed, folder, fname = cm.groups()
             target = f"{folder}/{fname}"
@@ -147,6 +166,10 @@ def parse_pattern_files() -> tuple[dict[str, dict], list[str]]:
                 else:
                     issues.append(f"cites {target}, which does not exist")
 
+        draws = sorted(vs.spec_edges(text, rel))
+        mentions = sorted(set(out) - set(draws))
+        modes = vs.declared_modes(text) or []
+
         for am in BARE_KIND_ARROW_RE.finditer(text):
             issues.append(f"'-> {am.group(1)}' names a file with no folder qualifier")
 
@@ -157,7 +180,8 @@ def parse_pattern_files() -> tuple[dict[str, dict], list[str]]:
             spec=pattern_section(text, "Spec"),
             design_patterns=pattern_section(text, "Design patterns"),
             constraints=pattern_section(text, "Constraints"),
-            out=sorted(set(out)), incoming=[], issues=issues,
+            out=draws, mentions=mentions, modes=modes,
+            incoming=[], issues=issues,
         )
         all_issues.extend(f"{rel}: {i}" for i in issues)
 
@@ -627,15 +651,18 @@ def build_patterns(setting: sc.Setting, out: Path) -> None:
         issues_html = (
             '<div class="pattern-audit pattern-audit-ok">'
             f'Every citation among the {len(nodes)} files below resolves, and every file carries its '
-            'Constraints heading. Checked fresh on every build against the same rule '
-            '<code>tools/validate_setting.py</code> enforces in CI.'
+            'Constraints heading. Checked fresh on every build. This audit is a subset of '
+            'CI - <code>tools/validate_setting.py</code> also checks section presence, Read-at '
+            'step ids, reach modes, orphans and the compile list.'
             '</div>'
         )
 
     body = [
         '<h1>Pattern Reference</h1>',
-        '<p class="hint">Every file in <code>patterns/*/*.md</code> this build reads, and every citation '
-        'between them - parsed at build time, not summarized by hand. This is the framework\'s own '
+        '<p class="hint">Every file in <code>patterns/*/*.md</code> this build reads, and the draw tree '
+        'between them - the edges read from Spec fenced blocks, which is what makes a file a classifier '
+        'or a leaf. Parsed at build time by the same function CI enforces against, not summarized by '
+        'hand. A citation that is not a draw is listed separately as a mention. This is the framework\'s own '
         'authoring instructions, not the setting itself: useful while evaluating the setting, and a '
         'standing check that the instructions stay legible to a mechanical reader, not just a careful '
         'one. Click any file below to see what it provides and trace its citations.</p>',
@@ -652,8 +679,8 @@ def build_patterns(setting: sc.Setting, out: Path) -> None:
 
     write_page(out, page, page_shell(
         setting, page, "Pattern Reference", "\n".join(body),
-        description=f"A live, generated citation graph of all {len(nodes)} patterns/*/*.md files "
-                    f"and {total_edges} citations between them.",
+        description=f"A live, generated draw tree of all {len(nodes)} patterns/*/*.md files "
+                    f"and the {total_edges} edges between them.",
         extra_scripts=["assets/patterns.js"],
         main_class="page page-wide",
     ))
@@ -811,11 +838,34 @@ def build(out_dir: Path) -> sc.Setting:
     return setting
 
 
+def build_patterns_only(out_dir: Path) -> None:
+    """patterns.html alone, with no setting/ content loaded.
+
+    The pattern reference reads patterns/*/*.md and nothing else, so it is
+    buildable at any point in a build - including before step 1, when
+    setting/ is empty and sc.load_setting() cannot produce a Setting. Without
+    this path the page was unreachable in a fresh checkout despite being
+    independent of the setting, which is how it drifted 156 phantom edges
+    from the tree it claims to show: nobody could look at it.
+    """
+    if out_dir.exists():
+        shutil.rmtree(out_dir)
+    out_dir.mkdir(parents=True)
+    shutil.copytree(ASSETS_SRC, out_dir / "assets")
+    build_patterns(sc.Setting(name="Pattern Reference"), out_dir)
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--out", default="_site", help="output directory (default: _site)")
+    parser.add_argument("--patterns-only", action="store_true",
+                        help="build only patterns.html - needs no setting/ content")
     args = parser.parse_args()
     out_dir = (ROOT / args.out).resolve() if not os.path.isabs(args.out) else Path(args.out)
+    if args.patterns_only:
+        build_patterns_only(out_dir)
+        print(f"Built patterns.html into {out_dir}")
+        return 0
     setting = build(out_dir)
     page_count = sum(1 for _ in out_dir.rglob("*.html"))
     print(f"Built {page_count} pages for '{setting.name}' into {out_dir}")

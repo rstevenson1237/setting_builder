@@ -246,19 +246,53 @@ def declared_modes(text: str):
     return [s.strip() for s in d.group(1).split(",") if s.strip()]
 
 
-def spec_edges(text: str, rel: str):
-    """Pattern files cited from inside this file's Spec fenced blocks."""
+# A logical Spec line opens with its rate in the left margin and runs until the
+# next one does - continuation lines are indented further, and a citation list
+# routinely wraps onto them. Grouping physically would split every wrapped draw
+# away from the rate that governs it.
+SPEC_RATE_RE = re.compile(r'^ {2}(1|\d+%|liner note|working|central)\s')
+BRACE_RE = re.compile(r'\{([^}]*)\}')
+
+
+def spec_draws(text: str, rel: str):
+    """Every draw in this file's Spec fenced blocks, with the shape of its line.
+
+    Yields (target, rate, n_alts, n_cited): the file drawn, the rate token
+    governing it, how many alternatives the line offers in braces, and how many
+    pattern files that one line cites.
+    """
     m = re.search(r'\n## Spec\n(.*?)(?=\n## (?:Design patterns|Constraints)\n)', text, re.S)
     if not m:
-        return set()
-    out = set()
+        return
     for fenced in re.findall(r'```(.*?)```', m.group(1), re.S):
-        for prefixed, folder, fname in PATTERN_CITE_RE.findall(fenced):
-            target = f"{folder}/{fname}"
-            if target == rel or (folder == "setting" and not prefixed):
+        logical, cur = [], None
+        for phys in fenced.splitlines():
+            if SPEC_RATE_RE.match(phys):
+                if cur:
+                    logical.append(cur)
+                cur = [phys]
+            elif cur is not None:
+                cur.append(phys)
+        if cur:
+            logical.append(cur)
+        for chunk in logical:
+            line = "\n".join(chunk)
+            targets = {f"{folder}/{fname}"
+                       for prefixed, folder, fname in PATTERN_CITE_RE.findall(line)
+                       if f"{folder}/{fname}" != rel
+                       and not (folder == "setting" and not prefixed)}
+            if not targets:
                 continue
-            out.add(target)
-    return out
+            braces = BRACE_RE.search(line)
+            n_alts = len(braces.group(1).split("|")) if braces else 0
+            rate = SPEC_RATE_RE.match(chunk[0]).group(1)
+            for target in sorted(targets):
+                yield target, rate, n_alts, len(targets)
+
+
+def spec_edges(text: str, rel: str):
+    """Pattern files cited from inside this file's Spec fenced blocks."""
+    return {t for t, _rate, _alts, _cited in spec_draws(text, rel)}
 
 
 def check_reach_modes(diag: Diagnostics):
@@ -267,9 +301,11 @@ def check_reach_modes(diag: Diagnostics):
     texts = {p.relative_to(PATTERNS).as_posix(): p.read_text()
              for p in sorted(PATTERNS.glob("*/*.md"))}
     drawn_by: dict[str, set] = {}
+    drawn_as: dict[str, list] = {}
     for rel, text in texts.items():
-        for target in spec_edges(text, rel):
+        for target, rate, n_alts, n_cited in spec_draws(text, rel):
             drawn_by.setdefault(target, set()).add(rel)
+            drawn_as.setdefault(target, []).append((rel, rate, n_alts, n_cited))
 
     for rel, text in texts.items():
         path = PATTERNS / rel
@@ -286,6 +322,83 @@ def check_reach_modes(diag: Diagnostics):
             diag.error(path, f"declares mode '{', '.join(modes)}' but no other file's "
                               f"Spec draws it - nothing reaches this file, so nothing "
                               f"guarantees it is ever read")
+            continue
+
+        shapes = drawn_as.get(rel, [])
+        if "second pass" in modes and not any(rate == "1" for _s, rate, _a, _c in shapes):
+            where = ", ".join(sorted(f"{s} at {rate}" for s, rate, _a, _c in shapes))
+            diag.error(path, "declares mode 'second pass' - every output, "
+                             "unconditionally - but is drawn only at a rate: "
+                             f"{where}. A second-pass file needs at least one "
+                             "mandatory draw, or it is an ingredient")
+        if "conditional" in modes:
+            uncond = sorted(s for s, rate, _a, _c in shapes if rate == "1")
+            if uncond:
+                diag.error(path, "declares mode 'conditional' - triggered by content "
+                                 f"already generated - but {', '.join(uncond)} draws it "
+                                 "at rate 1. A conditional drawn unconditionally is "
+                                 "mandatory, which is an ingredient")
+        if "kind" in modes and not any(alts > 1 and cited > 1
+                                       for _s, _rate, alts, cited in shapes):
+            diag.error(path, "declares mode 'kind' - exactly one of N, mutually "
+                             "exclusive - but no line draws it as a choice among "
+                             "siblings. A kind needs a '{a | b | c}' line citing the "
+                             "alternatives; drawn alone it is an ingredient")
+
+
+# ---------------------------------------------------------------------------
+# patterns/*/*.md - the same sentence in three or more files
+#
+# Prose points to where something is; it never restates what is there, because
+# every copy drifts from its original and the copy is the one a reader trusts.
+# See "What prose owes" in patterns/SPEC.md.
+#
+# Two files saying the same thing is usually deliberate - restatement across
+# the three rating folders is how a trap in SAFE gets differentiated from a
+# trap in DANGEROUS, and parallel files carry parallel pointers. Three or more
+# is the band where it stops being parallel structure and starts being a rule
+# restated, which is why the threshold sits there rather than at two.
+#
+# This is a warning, not an error: the judgement of whether a given repetition
+# is parallel structure stays human. Run against the tree before the sweep that
+# introduced it, it found 47 copies across 13 sentences - the Spec preamble in
+# twelve files, the edge/question rule in seven, the compiled-content note in
+# five.
+# ---------------------------------------------------------------------------
+
+DUP_MIN_WORDS = 9
+DUP_MIN_FILES = 3
+
+
+def _normalise_sentence(s: str) -> str:
+    s = re.sub(r'`[^`]*`', 'X', s)          # a cited filename is not the prose
+    s = re.sub(r'[^a-z ]', ' ', s.lower())
+    return " ".join(s.split())
+
+
+def check_repeated_prose(diag: Diagnostics):
+    if not PATTERNS.exists():
+        return
+    seen: dict[str, set] = {}
+    original: dict[str, str] = {}
+    for path in sorted(PATTERNS.glob("*/*.md")):
+        rel = path.relative_to(PATTERNS).as_posix()
+        text = re.sub(r'```.*?```', '', path.read_text(), flags=re.S)
+        for raw in re.split(r'(?<=[.!?])\s+', text):
+            raw = " ".join(raw.split())
+            if len(raw.split()) < DUP_MIN_WORDS:
+                continue
+            key = _normalise_sentence(raw)
+            if not key:
+                continue
+            seen.setdefault(key, set()).add(rel)
+            original.setdefault(key, raw)
+    for key, files in sorted(seen.items()):
+        if len(files) >= DUP_MIN_FILES:
+            diag.warn(PATTERNS, f"the same sentence appears in {len(files)} files "
+                                f"({', '.join(sorted(files))}): {original[key][:90]!r} - "
+                                f"prose points to where a rule lives rather than "
+                                f"restating it; see 'What prose owes' in patterns/SPEC.md")
 
 
 # ---------------------------------------------------------------------------
@@ -823,6 +936,7 @@ def main() -> int:
     check_pattern_files(diag)
     check_compile_list(diag)
     check_reach_modes(diag)
+    check_repeated_prose(diag)
 
     if is_fresh_start():
         seeded = sorted(n for n in SEED_FILES if (SETTING / n).exists())

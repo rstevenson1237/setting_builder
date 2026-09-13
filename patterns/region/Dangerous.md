@@ -79,10 +79,9 @@ NODE ROLE
 **No location is left unassigned, and "simple connection" is a role, not a null value.**
 It is the honest name for a location that is neither an entrance, a dead end, a branch
 point, nor part of a loop - a straightforward link between two other nodes - and
-`dangerous/Low.md` still requires it to be honoured like any other role. What used to be
-recorded as `empty` is `simple connection`; the old label described the absence of a role
-rather than naming one, which is how it became the silent default no size rule actually
-called for.
+`dangerous/Low.md` requires it to be honoured like any other role. Never record it as
+`empty`: a label naming the absence of a role rather than a role becomes the silent
+default that no size rule actually called for.
 
 **LOW distribution - this is where the graph's shape has to actually show up,** since LOW
 is the largest class:
@@ -134,4 +133,3 @@ The Region Overview's fields, for a DANGEROUS region.
   Entry 6 is the place noticing; entry 1 is the place acting.
 
 ## Constraints
-*(Empty. Entries arrive from generation testing, never from anticipation.)*

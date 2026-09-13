@@ -43,4 +43,3 @@ in only one place; a name in the older tongue, per `setting/Language.md`; a meas
 matching wear pattern; an inscription that names the lock and not the key.
 
 ## Constraints
-*(Empty. Entries arrive from generation testing, never from anticipation.)*

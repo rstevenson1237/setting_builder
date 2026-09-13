@@ -12,8 +12,7 @@ from `dangerous/Trap.md`, which is still doing the job it was built for, and fro
 
 ```
 RESIDUAL
-  1     What made it, and that the maker is gone   (patterns/setting/History.md,
-                                                    patterns/setting/Truths.md)
+  1     What made it - an event from setting/History.md - and that the maker is gone
   1     What it is still doing, and to what
   1     Whether it is spreading, holding, or fading
   30%   What it was meant to protect, and whether that is still there

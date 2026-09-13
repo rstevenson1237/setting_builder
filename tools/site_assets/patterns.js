@@ -68,7 +68,9 @@
       ? '<div class="pattern-insp-block"><h4>Issues</h4><p style="color:var(--dangerous)">' + esc(n.issues.join("; ")) + "</p></div>" : "";
     inspectorEl.innerHTML =
       '<div class="pattern-insp-head" style="--pattern-col-color:var(' + FOLDER_VAR[n.folder] + ')">' +
-      '<div class="pattern-insp-eyebrow">' + n.folder + "/</div>" +
+      '<div class="pattern-insp-eyebrow">' + n.folder + "/" +
+      ((n.modes && n.modes.length) ? " &middot; " + n.modes.join(", ") : "") +
+      ((n.out && n.out.length) ? " &middot; classifier" : " &middot; leaf") + "</div>" +
       "<h3>" + esc(n.filename) + "</h3></div>" +
       issuesHtml +
       fieldBlock("Provides", n.provides) +
@@ -76,8 +78,9 @@
       fieldBlock("Spec", n.spec, true) +
       fieldBlock("Design patterns", n.design_patterns) +
       fieldBlock("Constraints", n.constraints) +
-      chipRow("Cites", n.out) +
-      chipRow("Cited by", n.incoming);
+      chipRow("Draws", n.out) +
+      chipRow("Drawn by", n.incoming) +
+      chipRow("Mentions", n.mentions || []);
     Array.prototype.forEach.call(inspectorEl.querySelectorAll(".pattern-chip"), function (c) {
       c.addEventListener("click", function () { selectNode(c.getAttribute("data-id")); });
     });

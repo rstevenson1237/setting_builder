@@ -27,13 +27,6 @@ PERSON
 grudge, a way of speaking, a thing they carry - and forgets three sentences of appearance.
 Write the one thing.
 
-**Contract.** A People entry owes: a roster name (never invented here), what they're
-doing, one distinctive, recallable thing, and what they want. Genre-neutral and
-permanent. The personality flavor a "distinctive" thing draws on is not - the Personality
-Examples below are this build's compile of it, from this setting's chosen genre
-reference, standing in for what `GENRE.md` used to carry as its own People (personalities)
-tag bank.
-
 ## Design patterns
 
 **Personality flavor** - a one-word disposition a "distinctive" line can hang on, compiled

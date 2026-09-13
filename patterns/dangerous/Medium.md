@@ -8,17 +8,13 @@ What a medium-weight location guarantees.
 
 ## Spec
 
-**Every line below is read the same way:** `1` is mandatory; a percentage is the rate at
-which a Feature carrying that content appears. Every line is either an edge - it names a
-file in parentheses, the only other file that line requires - or a question the generator
-answers here.
-
 ```
 DANGEROUS - MEDIUM
 
   -- substrate: what this room is
   1     Dressing - what it is now, and what it was     (dangerous/Dressing.md)
-  40%   Secrets - whether it conceals anything          (dangerous/Secrets.md)
+  40%   A concealed detail - state its Clue, Trigger and Payload
+                                            (patterns/setting/Secrets.md)
 
   -- challenge: what opposes the party
   1     Challenge   {encounter | hazard} - guaranteed, and obvious
@@ -37,7 +33,7 @@ DANGEROUS - MEDIUM
   10%   A lock, and the key that opens it is elsewhere  (dangerous/Key.md)
   10%   The target of a quest given elsewhere           (dangerous/Quest.md)
 
-  1     Naming, after everything above                  (dangerous/Naming.md)
+  1     Naming, after everything above      (patterns/setting/Naming.md)
 ```
 
 Medium weight means the location presents **one thing to deal with**, and presents it
@@ -57,6 +53,4 @@ fiction: a thing that lives here has accumulated something, a mechanism has not.
 alongside the payload; at MEDIUM the find is *either* a document *or* a roll, which is what
 keeps a medium room from paying out twice.
 
-
 ## Constraints
-*(Empty. Entries arrive from generation testing, never from anticipation.)*

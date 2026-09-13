@@ -4,11 +4,6 @@ What every file in `patterns/*/*.md` is made of, and why. `README.md` says what 
 patterns are *for* within the build; this file says what one looks like and how to tell a
 correct one from a broken one. `CLAUDE.md` carries the short version.
 
-Status: the field model and the tier split below are settled and implemented, and so is
-the one consequence of reach mode that had teeth - which files carry `## Design patterns`.
-The modes themselves are still a reading of the spec lines rather than something the files
-declare; the "Known divergences" section at the end says what that leaves open.
-
 ## The governing distinction
 
 Two things are true of a pattern file's content, and they are independent:
@@ -38,10 +33,14 @@ the test is whether a reader can tell what artifact or feature the file is respo
 for. Neutral and permanent.
 
 ### `## Read at`
-When the file is reached, by which STEPS.md step, and **by what**. This is the coupling
-record: for an element file it names the classifier and the spec line that draws it, and
-for a classifier the step that reads it. It also carries the boundary against any sibling
-file that could be confused for this one. Neutral and permanent.
+When the file is reached, by which STEPS.md step, and under **what condition** - the spec
+line that draws it and what that line decided. It also carries the boundary against any
+sibling file that could be confused for this one. Neutral and permanent.
+
+**It never lists the files that draw it.** Which files carry the drawing line is in the
+tree, computed by `tools/validate_setting.py` and rendered by the pattern reference, and a
+list here is a copy that goes stale the moment a classifier is added or split. State the
+condition, not the roster.
 
 The step ids here are validated against STEPS.md. `## Read at` is the only record of how a
 file is reached, which is why it is prose that has to stay honest rather than decoration.
@@ -52,6 +51,19 @@ What this file decides, as a fenced block. Every line is one of exactly two thin
 - **an edge** - it points to another pattern file, named in parentheses, which is the only
   other file that line requires; or
 - **a question** - it states something the generator must answer, and cites nothing.
+
+**What makes a citation an edge is that the generator must go and read that file.**
+Anything already in context at this step is not an edge and takes no parentheses: state it
+as part of the question, naming the generated artifact it is actually read from (`from
+setting/Bestiary.md`) rather than the pattern that produced it. A Dressing line the
+classifier already drew one level up, an event already written into `setting/History.md`,
+the register a line files its stub in - all questions. A decorative citation is not
+harmless: it makes a leaf read as a classifier.
+
+**And the converse: an edge belongs in the fenced block.** Edges are read from the block
+only, so a draw stated in the prose underneath is invisible to the tree even when both
+ends know about it. If a line requires another pattern file, the parentheses go on the
+line.
 
 `1` is mandatory; a percentage is the rate at which a feature carrying that content
 appears. Neutral and permanent - step 1b never rewrites a Spec.
@@ -72,9 +84,8 @@ The deliberate injection of highly specific content that keeps generated output 
 reading flat. **Specific and compiled** - rewritten at step 1b from the chosen genre
 reference. A section here is a claim that this file's output would be too generic without
 it; which files can make that claim is settled by reach mode, in "Which files earn
-patterns" below. Thirty-three files carry one, and they are exactly STEPS.md step 1b's
-compile list - the two sets are checked against each other by
-`tools/validate_setting.py`.
+patterns" below. The files that carry one are exactly STEPS.md step 1b's compile list -
+the two sets are checked against each other by `tools/validate_setting.py`.
 
 ### `## Constraints`
 Every prohibition: what belongs in another file, what this file must never do, a named
@@ -92,9 +103,7 @@ A file's Spec says which it is, without asserting anything: outgoing edges make 
 not a property a file declares.
 
 A contract lives in the file it describes. A classifier names a Kind or draws a feature and
-cites the file; it does not carry that file's contract inline. (It used to:
-`wild/Landmark.md` held four KIND blocks and `dangerous/High.md` held the MYSTERY block,
-which left five files with no Spec of their own.)
+cites the file; it does not carry that file's contract inline.
 
 A classifier may cite a file that is itself a classifier - `Encounter` drawing
 `{creature | named creature | faction}`, `Hazard` drawing a mechanism - which is how a
@@ -145,16 +154,19 @@ How a file is arrived at. Every file **declares its mode**, as the first thing i
 declaration is validated, so what a file claims and what the graph does cannot drift apart
 silently.
 
-| mode | reached | example |
-|---|---|---|
-| **entry** | read directly by a STEPS.md step; nothing draws it | every `setting/` and `region/` file, and the rating classifiers |
-| **second pass** | every output, unconditionally, after the fact | `Dressing`, `Secrets`, `Naming` |
-| **kind** | exactly one of N, mutually exclusive | `safe/Commerce.md`, `wild/Ruin.md`, `dangerous/Trap.md`, and WILD's and DANGEROUS's `Lore` and `Key` under `Treasure`'s "what it is" |
-| **ingredient** | drawn at a stated rate | `Creature`, `Hazard`, `Treasure`, `Mystery`, `Quest`, and SAFE's `Lore`, `Key`, `Quest` and `Faction` hooks |
-| **conditional** | triggered by content already generated | `wild/Faction.md` |
+| mode | reached |
+|---|---|
+| **entry** | read directly by a STEPS.md step; nothing draws it |
+| **second pass** | every output, unconditionally, after the fact |
+| **kind** | exactly one of N, mutually exclusive |
+| **ingredient** | drawn at a stated rate |
+| **conditional** | triggered by content already generated |
 
-`Faction` is the one name that means a different mode in each rating, and reading it as one
-thing is a mistake this table used to make: `safe/Faction.md` is one of four hooks in
+Which files are in which mode is not listed here - every file declares its own, and the
+pattern reference renders the graph.
+
+`Faction` is the one name that means a different mode in each rating, and must not be read
+as one thing: `safe/Faction.md` is one of four hooks in
 `safe/Settlement.md`'s registry line, so it is an ingredient exactly like its three
 siblings; `dangerous/Faction.md` is a Kind of `dangerous/Encounter.md`; only
 `wild/Faction.md` is conditional, drawn from inside each of the four WILD kind files at a
@@ -165,17 +177,15 @@ already turned out to be.
 only through its own `## Read at`, or only from inside another element file, is orphaned
 from the spec graph: nothing draws it, so nothing guarantees it is ever read. A file
 declaring any of the four drawn modes and cited by nobody's Spec is now an error, which is
-what keeps the four orphans two passes closed - `safe/Naming.md`, `wild/Naming.md`,
-`wild/Faction.md` and `dangerous/Faction.md` - from silently reopening.
+what keeps a file that nothing draws from silently reopening as an orphan.
 
-**A file may declare two modes, and two do.** "Exactly one of four" was the original claim
-and it is not true of the library: `safe/People.md` is both a Kind, where the location *is*
+**A file may declare two modes, and two do.** `safe/People.md` is both a Kind, where the location *is*
 a household, and the mandatory person in every SAFE location's gate block; `dangerous/Key.md`
 is drawn from both ends, as a Kind under `dangerous/Treasure.md` for the key lying here and
 as a rated line on each weight file for the lock that a key elsewhere opens. Both declare
 `kind, ingredient`. Declare two only where the draws are genuinely different in kind and
-both primary - an extra rated draw on top of a primary one (`wild/Naming.md`'s second name
-in an older tongue) is prose in `## Read at`, not a second mode.
+both primary. An extra rated draw on top of a primary one is prose in `## Read at`, not a
+second mode.
 
 **Edges are read from the Spec's fenced blocks only.** The prose under the block cites
 pattern files freely - `setting/Truths.md` names three - and counting those would make half
@@ -192,22 +202,20 @@ reference was chosen. Only two things are shapes: `Naming`, a procedure, and `Se
 Clue/Trigger/Payload discovery structure that can sit on top of any feature a location
 already has.
 
-Mode was tried as the test here and does not survive contact with the files. It predicted
-that second-pass and conditional files carry no patterns, which forced `Dressing` to be
-named a standing exception - and an exception that exists only to save a rule is a sign the
-rule is cutting in the wrong place. It also split the four files drawn by
-`safe/Settlement.md`'s single hook line three-to-one, stripping `safe/Faction.md` while its
-identically-drawn siblings kept theirs. Body-versus-shape gets `Dressing` right with no
-exception and all four hooks right together. Mode stays, because how a file is reached is
-real coupling information worth declaring - it just does not decide this.
+**Reach mode does not decide this**, and reasoning from it gets `Dressing` and the four
+SAFE hooks wrong. Mode stays, because how a file is reached is real coupling information
+worth declaring - it just does not decide which files carry patterns.
 
-A classifier's own content is neutral by definition, so **no classifier carries
-`## Design patterns`** - not a rating classifier, not a middle-tier one, and not a
-`setting/` or `region/` file. Their option menus answer a question rather than inject
-specificity, so they are Spec lines. This was the library's most persistent drift: an
-option menu reads like content, and filing it as compiled content means step 1b is
-licensed to rewrite it for the next setting - including, in one case caught during the
-WILD restructure, rewriting an *edge* away.
+A rating classifier's own content is neutral by definition, so **no rating classifier
+carries `## Design patterns`**, and neither does a `setting/` or `region/` file. Their
+option menus answer a question rather than inject specificity, so they are Spec lines.
+
+A **middle-tier** classifier is decided by body-versus-shape like anything else, and they
+split both ways: one whose output is the dispatch, with the Kind beneath filling the body,
+carries none; one that names what a hoard actually holds is filling the body itself, and
+carries patterns. Being a classifier is not by itself the test. This is the library's most persistent drift: an option
+menu reads like content, and filing it as compiled content licenses step 1b to rewrite it
+for the next setting - an *edge* included.
 
 ## What a spec line owes
 
@@ -237,15 +245,24 @@ Corollaries:
   explained rather than stated; an over-long entry means too many Features were drawn,
   which is the classifier's problem and not the line's.
 
-Hard word ceilings were tried and removed. `templates/Location.md` carried a per-Feature
-cap keyed to position - 15 words for the first Feature, 8-12 for the rest - which measured
-prominence while the thing that actually varies is complexity: contracts run from two
-mandatory lines (`wild/Quest.md`) to six (`wild/Mystery.md`), and both got the same
-allowance. `safe/Dressing.md` and `wild/Dressing.md` carried whole-entry word budgets that
-were, by their own admission, provisional figures carried across by analogy from a
-DANGEROUS calibration that is not recorded anywhere - and `dangerous/Dressing.md`, the
-rating they were taken from, carries no budget at all. Decomposition does the work all
-three were standing in for.
+**No hard word ceiling, anywhere.** A per-Feature cap measures prominence, while the
+thing that actually varies is complexity - contracts run from two mandatory lines
+(`wild/Quest.md`) to six (`wild/Mystery.md`). Decomposition does the work a cap would be
+standing in for.
+
+## What prose owes
+
+Prose in any field points to where something is. It never restates what is there.
+
+- **Never state a count that can be derived from a list.** Name the list.
+- **Never enumerate the files** that carry a line, a mode, or a section. The tree carries
+  that, `tools/validate_setting.py` computes it, and the pattern reference renders it.
+- **Never restate a rule another file owns.** Cite it.
+- **Never restate the fenced block** in the prose beneath it. The block is the contract.
+
+Every copy drifts from its original, and the copy is the one a reader trusts, because it
+is the one in front of them. `tools/validate_setting.py` warns when a sentence of nine
+words or more appears in three or more files.
 
 ## Citation format
 
@@ -268,26 +285,44 @@ That last check holds STEPS.md and the tree to the same answer; it does not deci
 answer. Whether a given file *earns* patterns is the body-versus-shape judgement above and
 stays a human call.
 
-Still proposed: checking that a file is drawn *in the mode it claims*, not merely drawn at
-all. That needs the drawing line's own shape read - a `{a | b | c}` choice for a kind, a
-rate for an ingredient. The one false positive standing in the way is gone:
-`dangerous/Secrets.md` used to carry a rate table naming the classifier that explicitly
-does *not* draw it, and those rates now live in the drawing classes.
+**A file is also checked against the mode it claims, for three of the four modes.**
+`spec_draws()` reads each drawing line's shape - the rate token governing it, how many
+alternatives it offers in braces, how many files it cites - and three rules follow:
+
+- **second pass** means every output, unconditionally, so at least one line must draw it
+  at rate `1`. Drawn only at a rate, it is an ingredient. Extra rated draws on top of
+  that mandatory one are allowed.
+- **conditional** means triggered by content already generated, so no line may draw it at
+  rate `1`. Drawn unconditionally, it is mandatory, which is an ingredient.
+- **kind** means exactly one of N, mutually exclusive, so at least one line must draw it
+  as a choice among its siblings - braces offering alternatives, and the alternatives
+  cited. Drawn only alone, it is an ingredient.
+
+**There is no rule for `ingredient`, and that is not an oversight** - see the divergence
+below.
 
 ## Known divergences
 
 Real, current, and deliberately not yet fixed:
 
-1. **A declared mode is checked for being drawn, not for being drawn that way.** Every
-   file states its mode and the orphan check is live, but nothing yet verifies that a file
-   claiming `kind` is drawn by a choice line rather than a rate. See "What the validator
-   enforces" above for why that wants its own pass.
+1. **`kind` and `ingredient` are not separable by line shape, so neither is checked
+   against the other.** The tempting rule - "a `{a | b | c}` choice for a kind, a rate for
+   an ingredient" - does not survive the files. Compare:
 
-The two divergences about `## Design patterns` that this section used to carry are closed:
-twenty-eight files' neutral option menus moved into their Specs, and step 1b's compile list
-was rewritten from the reach-mode split and is now validated.
+   ```
+   wild/Hidden.md    1  Kind       {ruin | lair | natural feature}   (three files)
+   dangerous/High.md 1  Challenge  {encounter | hazard | mystery}    (three files)
+   ```
 
-The orphaned element files this section used to list are closed. `safe/Naming.md` and
-`wild/Naming.md` are drawn as the last line of their classifiers, `wild/Faction.md` by a
-Spec line in each of the four WILD kind files, and `dangerous/Faction.md` by
-`dangerous/Encounter.md`.
+   Identical shape - mandatory, three alternatives, three citations - and the first draws
+   three `kind` files while the second draws three `ingredient` files. The difference is
+   that a Kind decides what the location *is* and a challenge is something *in* it, which
+   is semantic and not on the line. `safe/Settlement.md`'s hook line is the same story
+   from the other side: ONE of `{quest | lore | key | faction}`, which reads as "exactly
+   one of N, mutually exclusive", drawing four files that are deliberately `ingredient`.
+
+   So the three rules above are stated as **existence** checks - a kind needs *at least
+   one* choice-shaped draw - never as exclusions. An exclusion would have to claim some
+   shape cannot be an ingredient, and no shape qualifies. Anything stronger needs the
+   modes to be declared on the drawing line rather than inferred from it, which is a
+   larger change than it sounds and has not been shown to be worth it.

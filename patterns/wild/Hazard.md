@@ -6,10 +6,10 @@ and what it costs.
 
 ## Read at
 **Mode: ingredient.** Step 4c, when a classifier's spec line draws a challenge and the
-challenge is a hazard - `wild/Landmark.md`, `wild/Hidden.md`, or `wild/Secret.md`. What
-a tier resolves to - what is rolled, and what it does - is `setting/Procedures.md`'s.
-Distinct from `wild/Mystery.md`, which is the neutral case: a mystery costs nothing
-until a genuinely wrong attempt is made, a hazard acts on contact or condition.
+challenge is a hazard. What a tier resolves to - what is rolled, and what it does - is
+`setting/Procedures.md`'s. Distinct from `wild/Mystery.md`, which is the neutral case: a
+mystery costs nothing until a genuinely wrong attempt is made, a hazard acts on contact or
+condition.
 
 ## Spec
 
@@ -46,11 +46,6 @@ action they spend on it.
 **Set hazards have owners.** Somebody put it here for something, and that somebody is a
 fact about the region - a trapline means a trapper, a deadfall on a trail means whoever
 uses the trail is not welcome.
-
-**Contract.** A WILD hazard owes: its mechanism, an impact tier, a warning available to
-careful movement, and (where it was set) what it was for. Genre-neutral and permanent.
-Which mechanisms fill that contract is not - the Design patterns below are this build's
-compile of it, from this setting's chosen genre reference.
 
 ## Design patterns
 

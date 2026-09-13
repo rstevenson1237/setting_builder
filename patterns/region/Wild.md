@@ -92,4 +92,3 @@ The Region Overview's fields, for a WILD region.
 - **Tables** - a d6 Encounter table, rolled on each failed Difficulty roll.
 
 ## Constraints
-*(Empty. Entries arrive from generation testing, never from anticipation.)*

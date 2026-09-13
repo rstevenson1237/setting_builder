@@ -81,12 +81,12 @@ materials.
 
 ## Constraints
 
-- **Details already included in the region description are not included here.** A prior
-  full build had a Region Overview claim a recurring motif that fewer than a third of the
-  region's locations actually carried - the claim existed at the overview level and nowhere
-  a party could touch it. Per `GENRE.md`, say a thing once, at the highest level where it is
-  true: a location's Dressing states what is specific to it, not what the Region Overview
-  already covers for the whole region.
+- **Details already included in the region description are not included here.** Per
+  `GENRE.md`, say a thing once, at the highest level where it is true: a location's
+  Dressing states what is specific to it, not what the Region Overview already covers for
+  the whole region. The inverse is the failure to watch for - a motif claimed at the
+  overview level and carried by only a handful of the region's locations exists nowhere a
+  party can touch it.
 
 - **Do not reuse a purpose already used in this region.** Repetition is the failure this
   list exists to prevent, and a region with three storerooms has told the party that

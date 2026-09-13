@@ -10,11 +10,6 @@ into its parent.
 
 ## Spec
 
-**Every line below is read the same way:** `1` is mandatory; a percentage is the rate at
-which a Feature carrying that content appears. Every line is either an edge - it names a
-file in parentheses, the only other file that line requires - or a question the generator
-answers here.
-
 ```
 WILD - LANDMARK
 
@@ -23,7 +18,8 @@ WILD - LANDMARK
   1     Kind   {ruin | lair | natural feature | crossing}   (wild/Ruin.md, wild/Lair.md,
                                                              wild/NaturalFeature.md,
                                                              wild/Crossing.md)
-  1     Secrets - whether it conceals anything                       (wild/Secrets.md)
+  20%   A concealed detail - state its Clue, Trigger and Payload
+                                                 (patterns/setting/Secrets.md)
 
   -- access: how the party comes to be standing here
   1     Freely discoverable by roaming - no parent, and no lead required to reach it
@@ -43,15 +39,8 @@ WILD - LANDMARK
                                                                      (wild/Secret.md)
   10%   This location's carrying role in a quest given elsewhere     (wild/Quest.md)
 
-  1     Naming, after everything above                               (wild/Naming.md)
+  1     Naming, after everything above                (patterns/setting/Naming.md)
 ```
-
-**The blocks are what the entry is**, and WILD carries one DANGEROUS does not. Substrate
-says what the place is, challenge what opposes the party, reward what is here to take,
-registry what ties it to somewhere else - the same four. **Access** is WILD's own: at
-depth, how a room is reached is the connection graph, written at 4b and needing no words
-in the entry; out here it is content, written into the parent's Features, and it is the
-whole distinction between this tier and the two below it.
 
 **A Landmark can be named, revisited, and connected to.** That is the test, and it is what
 separates a Landmark from terrain. A stretch of eroded slope, a brook, a field of flowers

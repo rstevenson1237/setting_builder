@@ -34,12 +34,6 @@ anything out of the person behind the counter is, most of the time, money, and t
 line is where that is stated in terms. The rated condition above is a *second* gate on top
 of it: the cases where coin alone does not do it.
 
-**Contract.** A Commerce location owes: what it deals in, who runs it, what's in stock,
-what it can't supply and where that sends them, and prices in cn. This much is
-genre-neutral and permanent. Which trades, goods, and vocabulary fill that contract is not
-- the Examples below are this build's compile of it, from this setting's chosen genre
-reference, and are what change if the reference ever did.
-
 ## Design patterns
 
 **Hospitality** - a taproom with a floor to sleep on; an inn with rooms of two classes; a
@@ -66,4 +60,3 @@ unsold and why; what is rationed; what is only sold to people known here; what w
 in trade from somebody who needed money badly, and is worth more than the taker knows.
 
 ## Constraints
-*(Empty. Entries arrive from generation testing, never from anticipation.)*

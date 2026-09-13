@@ -4,17 +4,11 @@
 What a built-or-once-built Landmark is, and what its condition says about who left it.
 
 ## Read at
-**Mode: kind.** Step 4c, when a WILD classifier's Kind line draws Ruin -
-`wild/Landmark.md`, `wild/Hidden.md`, or `wild/Secret.md`, all three of which draw one
-kind per location. A Ruin is anything made by hands and no longer used as made,
-including things still standing and still occupied by somebody other than their
-builders.
+**Mode: kind.** Step 4c, when a WILD classifier's Kind line draws Ruin. A Ruin is anything
+made by hands and no longer used as made, including things still standing and still
+occupied by somebody other than their builders.
 
 ## Spec
-
-**Every line below is read the same way:** `1` is mandatory; a percentage is the rate
-at which a Feature carrying that content appears. This block is setting-neutral and
-permanent - step 1b recompiles the Design patterns below it, never this.
 
 ```
 KIND: RUIN
@@ -25,7 +19,6 @@ KIND: RUIN
   30%   Something the builders did that nobody does any more
   25%   What holds it is one of the three factions, using it as a position
                                                               (wild/Faction.md)
-  20%   A name in an older tongue                             (wild/Naming.md)
 ```
 
 **Ruin condition is the storytelling.** A tower thrown down is a different story from a
@@ -33,8 +26,6 @@ tower abandoned, which is different from a tower still roofed and empty. State w
 happened to it, not just that it is ruined.
 
 ## Design patterns
-
-Compiled for this build, from this setting's chosen genre reference.
 
 **Defensive** - a watchtower on a height; a signal or beacon station; a wall running to
 nowhere, and the gap in it; a gatehouse without its gate; a hillfort's ditch and bank; a
@@ -66,4 +57,3 @@ original occupants, in a form that no longer counts as living; somebody keeping 
 reasons of their own.
 
 ## Constraints
-*(Empty. Entries arrive from generation testing, never from anticipation.)*

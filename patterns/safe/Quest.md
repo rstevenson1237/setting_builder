@@ -63,4 +63,3 @@ a debt falling due. Deadlines are what make a party choose between two hooks, wh
 point of having more than one.
 
 ## Constraints
-*(Empty. Entries arrive from generation testing, never from anticipation.)*

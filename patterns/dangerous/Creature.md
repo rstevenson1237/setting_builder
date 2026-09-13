@@ -43,12 +43,6 @@ fought, and the region is not sized to the party. Where a location's creature is
 those, its Bestiary **Sign** and **Disposition** carry the warning - and they must reach
 the party a room early, so the choice to withdraw is a judgement they got to make.
 
-**Contract.** A DANGEROUS creature encounter owes: a Bestiary entry or inline
-description, what it's doing, a number, and scale against party altitude. Genre-neutral
-and permanent. The demeanor it carries is not - the demeanor examples below are this
-build's compile of it, standing in for what `GENRE.md` used to carry as its own
-Creatures (demeanors) tag bank.
-
 ## Design patterns
 
 **Demeanor flavor** - a one-word behavior for how something met here carries itself
@@ -74,4 +68,3 @@ smell that arrives before the thing does, a sound heard two rooms away. A creatu
 signs should reach the party before the creature does, at least once per region.
 
 ## Constraints
-*(Empty. Entries arrive from generation testing, never from anticipation.)*

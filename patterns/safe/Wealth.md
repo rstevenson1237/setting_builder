@@ -15,8 +15,12 @@ the parenthetical on that line allows for.
 ```
 WEALTH
   1     Contents                   {Treasure | Lore | Both}
+                        (patterns/setting/Treasure.md,
+                         patterns/setting/UniqueTreasures.md, safe/Lore.md)
   1     Who it belongs to, or belonged to - and whether they know it is still here
   1     Protection, exactly one    {hidden | gated | guarded | trapped} - see Patterns
+          hidden: states a Clue, Trigger and Payload, guaranteed by this line
+                        (patterns/setting/Secrets.md)
   30%   A second protection, of a different kind than the first
   20%   Somebody else wants it, and is closer to getting it than the party
 ```
@@ -32,10 +36,10 @@ here - which is what makes it worth a Protection line instead of an access claus
 **Protection is exactly one, chosen for the Kind, not rolled.** The four are not
 interchangeable flavor text - each implies a different discovery structure:
 
-- **hidden** reuses `safe/Secrets.md`'s Clue/Trigger/Payload structure directly, guaranteed
+- **hidden** states a Clue, Trigger and Payload per `patterns/setting/Secrets.md`, guaranteed
   by this spec line rather than by that file's own 10% settlement-wide roll. A Wealth
   location whose Protection is hidden has already spent its Secret; do not also roll
-  `safe/Secrets.md`'s independent rate against it.
+  the settlement-wide concealment rate against it as well.
 - **gated** means the cache's existence is known and unconcealed - access needs a stated,
   non-secret condition instead.
 - **guarded** cites a creature already present in this region's Overview under Creatures,
@@ -45,7 +49,7 @@ interchangeable flavor text - each implies a different discovery structure:
 - **trapped** follows the format below, at 5% lethal, else 35% damaging, else nuisance -
   a ladder short of DANGEROUS's on purpose, for the reason in the next paragraph.
 
-**A SAFE trap is usually somebody's work, not a dungeon mechanism.** Per `safe/Secrets.md`'s
+**A SAFE trap is usually somebody's work, not a dungeon mechanism.** Per `patterns/setting/Secrets.md`'s
 own principle, prefer an alarm, a marking dye, a lock that jams or maims, or a mechanism
 that ruins the goods rather than the person - a Lethal tier here should be rare and
 deliberate, reserved for a Wealth location the region's Situation already justifies treating
@@ -57,11 +61,6 @@ that seriously. Write it in the same line format every Feature uses:
 means it is safe from the wilderness, not that everything inside it is accounted for or
 under anyone's real control - a Wealth location is where that gap becomes something a party
 can act on.
-
-**Contract.** A Wealth location owes: contents (Treasure, Lore, or both), whose it is or
-was, and exactly one Protection with its own discovery structure. Genre-neutral and
-permanent. What the cache actually holds and what conceals it is not - the Examples below
-are this build's compile of it, from this setting's chosen genre reference.
 
 ## Design patterns
 
@@ -77,7 +76,7 @@ rather than a person.
 
 **Hidden** - a wall thinner than it should be; a floor that does not match the joists below
 it; a chest bricked into a foundation; a compartment behind an altar or a hearth; a stair
-with one step too many; a room smaller inside than out. Per `safe/Secrets.md`, the Clue must
+with one step too many; a room smaller inside than out. Per `patterns/setting/Secrets.md`, the Clue must
 already be legible to somebody paying attention.
 
 **Gated** - a phrase known only to a family or an order; a password changed every season; a
@@ -100,4 +99,3 @@ finding it is not the same as surviving opening it; gated and guarded means know
 phrase still leaves whatever is standing behind it.
 
 ## Constraints
-*(Empty. Entries arrive from generation testing, never from anticipation.)*

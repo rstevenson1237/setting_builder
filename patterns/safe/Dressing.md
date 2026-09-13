@@ -53,7 +53,7 @@ somebody's, a floor swept in one place and not another, the shelf that gets reac
 
 **Condition, and being reused.** Settlements reuse. A hall that was a barn; a shop in the
 front room of a house; a chapel with a beam from a ship; a gate rebuilt narrower than the
-one before it; a wall using dressed stone from somewhere older. Per `safe/Naming.md` and the
+one before it; a wall using dressed stone from somewhere older. Per `patterns/setting/Naming.md` and the
 Region Overview's own Ambiance field, that older stone came from somewhere the party may be
 going. State which it is - built for this, or repurposed - before reaching for signs of use.
 
@@ -83,7 +83,6 @@ building terms - jetty, purlin, wattle, mullion, sill, byre; real goods named as
 
 ## Constraints
 
-- **Purpose is supplied by the Kind, not restated here.** `safe/Commerce.md`,
-  `safe/Authority.md`, `safe/Social.md`, `safe/People.md`, and `safe/Wealth.md` each
-  state what a location of that Kind is for; Dressing does not reopen that question, it
-  dresses the answer.
+- **Purpose is supplied by the Kind, not restated here.** Whichever Kind the classifier
+  drew has already stated what a location of that Kind is for. Dressing does not reopen
+  that question, it dresses the answer.

@@ -5,10 +5,9 @@ The physical reality of a WILD location, where it sits in its region, how its pa
 as one place, and how it sounds on the page.
 
 ## Read at
-**Mode: second pass.** Step 4c, drawn unconditionally by `wild/Landmark.md`,
-`wild/Hidden.md` and `wild/Secret.md`'s substrate blocks - every WILD location without
-exception. Units, the Exits syntax and the citation formats are in
-`templates/Location.md`.
+**Mode: second pass.** Step 4c, drawn unconditionally by every WILD classifier's substrate
+block - every WILD location without exception. Units, the Exits syntax and the citation
+formats are in `templates/Location.md`.
 
 ## Spec
 
@@ -73,13 +72,12 @@ weather - scree, corrie, holt, spinney, sike, hag, tor, brake. Name the species 
 
 ## Constraints
 
-- **Purpose is supplied by the kind file, not restated here.** `wild/Ruin.md` states
-  what a Ruin was, `wild/Lair.md` states why its occupant stays,
-  `wild/NaturalFeature.md` states why a party would stop, `wild/Crossing.md` states what
-  must be crossed - whichever applies has already answered "what is this for." Dressing
-  does not reopen that question; it dresses the answer. Every WILD location draws exactly
-  one kind, at all three tiers, so there is never a location with no answer to fall back
-  on.
+- **Purpose is supplied by the kind file, not restated here.** Whichever Kind the
+  classifier drew has already answered "what is this for" - what a Ruin was, why a Lair's
+  occupant stays, why a party would stop at a Natural Feature, what a Crossing crosses.
+  Dressing does not reopen that question; it dresses the answer. Every WILD location draws
+  exactly one kind, at all three tiers, so there is never a location with no answer to
+  fall back on.
 
 - **No detail budget is not a licence to explain at length**, and WILD is the rating
   most likely to confuse the two. Every location getting the full treatment means every

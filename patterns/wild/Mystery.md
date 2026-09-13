@@ -5,9 +5,8 @@ What is strange about a WILD location, how it is engaged, and what it costs to g
 
 ## Read at
 **Mode: ingredient.** Step 4c, when a classifier's spec line draws a challenge and the
-challenge is a mystery - `wild/Landmark.md`, `wild/Hidden.md`, or `wild/Secret.md`.
-Distinct from `wild/Secrets.md`: a Mystery is content and stands in plain sight; a
-Secret is a discovery structure and does not.
+challenge is a mystery. Distinct from `patterns/setting/Secrets.md`: a Mystery is content
+and stands in plain sight; a Secret is a discovery structure and does not.
 
 ## Spec
 
@@ -28,12 +27,6 @@ what separates it from `wild/Hazard.md`.
 **Outdoors, a mystery has been exposed to weather and to other people.** Both leave marks,
 and both are detail the party can reason from. Somebody has been here before. What did
 they try, and did it work?
-
-**Contract.** A WILD mystery owes: the thing itself, physical details it can be reasoned
-from, an explicit trigger, what the correct trigger accomplishes, what a wrong attempt
-costs, and a price. Genre-neutral and permanent. What the thing actually is is not - the
-Examples below are this build's compile of it, from this setting's chosen genre
-reference.
 
 ## Design patterns
 
@@ -61,4 +54,3 @@ works for one person; it draws attention from something that was not watching be
 it grants is real and is not what was wanted.
 
 ## Constraints
-*(Empty. Entries arrive from generation testing, never from anticipation.)*

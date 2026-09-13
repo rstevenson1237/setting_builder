@@ -4,16 +4,10 @@
 What an occupied Landmark is, and what its occupancy implies about the country around it.
 
 ## Read at
-**Mode: kind.** Step 4c, when a WILD classifier's Kind line draws Lair -
-`wild/Landmark.md`, `wild/Hidden.md`, or `wild/Secret.md`, all three of which draw one
-kind per location. A Lair is a place something currently lives, whether it built the
-place or moved in.
+**Mode: kind.** Step 4c, when a WILD classifier's Kind line draws Lair. A Lair is a place
+something currently lives, whether it built the place or moved in.
 
 ## Spec
-
-**Every line below is read the same way:** `1` is mandatory; a percentage is the rate
-at which a Feature carrying that content appears. This block is setting-neutral and
-permanent - step 1b recompiles the Design patterns below it, never this.
 
 ```
 KIND: LAIR
@@ -36,8 +30,6 @@ room; a den whose owner ranges three landmarks in every direction is a fact abou
 region.
 
 ## Design patterns
-
-Compiled for this build, from this setting's chosen genre reference.
 
 **Kinds of holding** - a cave or rock shelter; a burrow or dug warren; a hollow tree or
 fallen trunk; a nest on a height, on a stack, or in a crown; a thicket beaten down from
@@ -64,4 +56,3 @@ too far out to return nightly; refugees; a household that has gone strange out h
 picket belonging to a faction that has interests further in.
 
 ## Constraints
-*(Empty. Entries arrive from generation testing, never from anticipation.)*

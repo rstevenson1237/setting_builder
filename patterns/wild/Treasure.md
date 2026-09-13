@@ -5,11 +5,10 @@ What a WILD location holds to be taken - which registry or table it comes from, 
 still out here, and what reaching it costs.
 
 ## Read at
-**Mode: ingredient.** Step 4c, when a classifier's spec line draws the reward block -
-`wild/Landmark.md`, `wild/Hidden.md`, or `wild/Secret.md`. Tables are
-`setting/Treasure1.md`-`5.md`. This is the supply end of a Key or a piece of Lore: the
-object found here. The demand end - a lock whose key is out here, or a quest given
-elsewhere that this place carries - is drawn by the classifier's own registry lines
+**Mode: ingredient.** Step 4c, when a classifier's spec line draws the reward block.
+Tables are `setting/Treasure1.md`-`5.md`. This is the supply end of a Key or a piece of
+Lore: the object found here. The demand end - a lock whose key is out here, or a quest
+given elsewhere that this place carries - is drawn by the classifier's own registry lines
 instead.
 
 ## Spec
@@ -43,11 +42,6 @@ submerged, sheltered, or recent. A pristine find in open country needs a reason.
 **Carrying is a real cost out here.** Four hours per action, distances in miles, and a
 party already loaded. Bulk that would be trivial in a dungeon is a decision in the field.
 
-**Contract.** A WILD treasure find owes: what it is, why it survived weathering, and what
-reaching it costs. Genre-neutral and permanent. What it actually is and who
-might claim it is not - the Examples below are this build's compile of it, from this
-setting's chosen genre reference.
-
 ## Design patterns
 
 **Which table**
@@ -72,4 +66,3 @@ spot; a faction that considers this country theirs; whoever is coming back for i
 soon; the person it was taken from, still findable.
 
 ## Constraints
-*(Empty. Entries arrive from generation testing, never from anticipation.)*

@@ -10,11 +10,6 @@ read at 4a, which takes its location list from here.
 
 ## Spec
 
-**Every line below is read the same way:** `1` is mandatory; a percentage is the rate at
-which a Feature carrying that content appears. Every line is either an edge - it names a
-file in parentheses, the only other file that line requires - or a question the generator
-answers here.
-
 ```
 SETTLEMENT TYPE
   {steading | thorp | village | town | seat} - read from the Region Overview's Layout
@@ -41,15 +36,15 @@ SAFE - LOCATION                        (parameterized by prominence)
           gathering place             -> safe/Social.md
           household                   -> safe/People.md
           strongroom, hoard, vault    -> safe/Wealth.md
-  1     Secrets - whether it conceals anything, at the settlement-wide rate its file
-        sets                                                         (safe/Secrets.md)
+  10%   A concealed detail - state its Clue, Trigger and Payload
+                                                       (patterns/setting/Secrets.md)
 
   -- gate: who stands between the party and what this place has
   1     A person, drawn from the region's People roster - never invented here
                                                                      (safe/People.md)
   1     What it takes to get anything out of them, stated as terms rather than a mood
         (A Wealth location may instead be gated by its Protection, its owner absent,
-         dead, or unaware the place is here - see safe/Wealth.md)
+         dead, or unaware the place is here)
 
   -- transaction: what the party can get here
   1     One thing obtainable here and not at the last location - a good, a service, a
@@ -67,14 +62,13 @@ SAFE - LOCATION                        (parameterized by prominence)
   30%   A Named Creature, where the person will recur or be heard of first
                                                               (patterns/setting/NamedCreatures.md)
 
-  1     Naming, after everything above                                (safe/Naming.md)
+  1     Naming, after everything above                 (patterns/setting/Naming.md)
 ```
 
 **SAFE has no challenge block, and a gate instead.** A DANGEROUS location asks what opposes
 the party; a settlement opposes nobody, and the thing actually standing between a party and
 what they came for is a person with terms. That is the same slot, filled the way the rating
-fills it - which is why the gate line is mandatory here and the Kind files no longer each
-ask their own version of it.
+fills it, and why the gate line is mandatory here rather than restated per Kind.
 
 **Transaction is SAFE's reward block**, and it is the pair of lines easiest to skip. *One
 thing obtainable here and not at the last location* is what stops ten locations being ten
@@ -90,9 +84,6 @@ which is the registry test. That a settlement hands them over through a person, 
 leaving them to be found, is the gate's business and already stated one block up. This is
 where SAFE parts from WILD, whose lore and keys are objects lying in open country and are
 drawn in its reward block instead.
-
-**Naming comes last because a place is named for what turned out to be in it**, the same as
-every other rating.
 
 Prominence is decided here and recorded nowhere else - `Locations.md` carries name and tags
 only for SAFE. Note it in the entry's own drafting and let the feature count carry it.
@@ -113,9 +104,7 @@ that matters gets a fuller list, not a longer entry per item.
   **The variance is the point** - a settlement where every location is equally detailed
   reads as a gazetteer, not a place.
 
-- **The gate is one line, here, and not five in the Kind files.** `safe/Authority.md`
-  asked what a stranger must do to get a hearing, `safe/Social.md` what it takes to be
-  talked to rather than tolerated, and `safe/Commerce.md` for a condition on trade -
-  three phrasings of the question every SAFE location answers. A question all the drawn
-  classes share belongs to the class drawing them; what stays in a Kind file is the menu
-  of answers that kind supplies.
+- **The gate is one line, here, and not one per Kind.** A question all the drawn classes
+  share belongs to the class drawing them; what stays in a Kind file is the menu of
+  answers that kind supplies. Several phrasings of the question every SAFE location
+  answers is drift, not differentiation.

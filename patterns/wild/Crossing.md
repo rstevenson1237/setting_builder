@@ -6,16 +6,12 @@ controls passing through it.
 
 ## Read at
 **Mode: kind.** Step 4c, when `wild/Landmark.md`'s Kind line draws Crossing. Alone among
-the four kinds it is drawn at the Landmark tier only, per that file's own Constraint -
-`wild/Hidden.md` and `wild/Secret.md` draw three. A Crossing is a Landmark whose
-function is that the region's own shape makes going through it cheaper than going around
-it - built, natural, or held, and regardless of who if anyone lives there.
+the four kinds it is drawn at the Landmark tier only, per that file's own Constraint. A
+Crossing is a Landmark whose function is that the region's own shape makes going through
+it cheaper than going around it - built, natural, or held, and regardless of who if anyone
+lives there.
 
 ## Spec
-
-**Every line below is read the same way:** `1` is mandatory; a percentage is the rate
-at which a Feature carrying that content appears. This block is setting-neutral and
-permanent - step 1b recompiles the Design patterns below it, never this.
 
 ```
 KIND: CROSSING
@@ -25,12 +21,9 @@ KIND: CROSSING
   40%   Something else caught here, mid-crossing, when the party arrives
   30%   A toll, custom, or right-of-way someone here enforces
   30%   What controls it is one of the three factions           (wild/Faction.md)
-  20%   A name in an older tongue                               (wild/Naming.md)
 ```
 
 ## Design patterns
-
-Compiled for this build, from this setting's chosen genre reference.
 
 **What must be crossed** - a river at its one fordable reach; a gorge with one bridge or
 none; a marsh with one causeway across it; a mountain's one pass below the snow line; a wall
@@ -51,4 +44,3 @@ not make it across; a faction using the crossing as a checkpoint; a toll-taker's
 staffed or not; wreckage or wear from an earlier, failed attempt.
 
 ## Constraints
-*(Empty. Entries arrive from generation testing, never from anticipation.)*

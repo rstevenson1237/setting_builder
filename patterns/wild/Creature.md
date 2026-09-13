@@ -5,11 +5,10 @@ What lives in or ranges through a WILD location, and how it meets a party.
 
 ## Read at
 **Mode: ingredient.** Step 4c, when a classifier's spec line draws a challenge and the
-challenge is a creature - `wild/Landmark.md`, `wild/Hidden.md`, or `wild/Secret.md`.
-Scaling is in `patterns/setting/Bestiary.md`. Distinct from `wild/Faction.md`, which is
-what a place is held or worked by rather than what the party meets in it, and from
-`wild/Hazard.md`'s living mechanisms, which have nowhere else to be and nothing they
-want.
+challenge is a creature. Scaling is in `patterns/setting/Bestiary.md`. Distinct from
+`wild/Faction.md`, which is what a place is held or worked by rather than what the party
+meets in it, and from `wild/Hazard.md`'s living mechanisms, which have nowhere else to be
+and nothing they want.
 
 ## Spec
 
@@ -20,6 +19,8 @@ CREATURE
   1     Scale - pitched against party altitude, not the region die. Usually something a
         party can handle or avoid; occasionally something they cannot, and must read
   1     What it is doing, and whether it has noticed the party first
+  1     Reaction - most things met in the open would rather not fight, and a party
+        that assumes otherwise should be able to be wrong
   1     Whether it can be avoided, and what avoiding it costs
   40%   Range - it is not only here, and the party may meet it elsewhere in the region
   30%   Absent, with signs of it, and elsewhere in the region right now
@@ -29,16 +30,6 @@ CREATURE
 in the room is a problem to solve; in open country it is a fact to be navigated. State
 what it costs to go around - time, ground, noise, or a worse route - so avoidance is a
 decision rather than a free option.
-
-Reaction matters more here than at depth. Most things met in the open would rather not
-fight, and a party that assumes otherwise should be able to be wrong about that.
-
-**Contract.** A WILD creature encounter owes: a Bestiary entry or inline description,
-number from the population's Range, scale against party altitude, what it's doing, and
-what avoiding it costs. Genre-neutral and permanent. The demeanor a creature carries, and
-the personality a human encounter carries, are not - the Examples below are this build's
-compile of both, standing in for what `GENRE.md` used to carry as its own Creatures
-(demeanors) and People (personalities) tag banks.
 
 ## Design patterns
 
@@ -69,4 +60,3 @@ somebody lost, somebody who does not want to be found, a faction's patrol workin
 country between its positions.
 
 ## Constraints
-*(Empty. Entries arrive from generation testing, never from anticipation.)*

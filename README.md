@@ -80,8 +80,8 @@ what it is building.
 - `patterns/safe/`, `wild/` and `dangerous/` each hold **two kinds of file**: a class file
   per rating's classes (`Settlement.md`; `Landmark.md`/`Hidden.md`/`Secret.md`;
   `High.md`/`Medium.md`/`Low.md`) naming what a location of that class *is* and carrying its
-  inclusion spec, with Dressing and Secrets folded in as that spec's own unconditional first
-  line rather than a separate blanket read; and element files, cited by name in parentheses
+  inclusion spec, with Dressing folded in as that spec's own unconditional first line
+  rather than a separate blanket read; and element files, cited by name in parentheses
   on whichever spec line draws them, supplying what that line is made of. A class file's
   spec is grouped into named blocks - substrate, challenge, reward, registry, plus WILD's
   access - and `patterns/SPEC.md` carries the table of how each rating fills them. The three
@@ -89,16 +89,24 @@ what it is building.
   **kind of place** first and then draws elements into it, `dangerous/` treats the place as
   a room and asks only what is in it, and `safe/` classifies by **the function of a
   building** and has no challenge block at all.
-- **Restatement across the three rating folders is deliberate.** A trap in SAFE is a
-  swindle, in WILD a snare, in DANGEROUS a deadfall, and writing each separately is what
-  forces the differentiation. The cost is drift, which `checks/PatternJudgementCheck.md`
-  manages by treating two restatements that read the same as a *finding*.
+- **Restatement across the three rating folders is deliberate, for content.** A trap in
+  SAFE is a swindle, in WILD a snare, in DANGEROUS a deadfall, and writing each separately
+  is what forces the differentiation. The cost is drift, which
+  `checks/PatternJudgementCheck.md` manages by treating two restatements that read the
+  same as a *finding*. **A procedure is not content**: naming a place and stating a
+  concealed detail's Clue/Trigger/Payload are the same act in every rating, so they live
+  once at setting level and the rating supplies only the answers - which mouth a name is
+  in, what a clue looks like here. Three phrasings of one procedure is drift, not
+  differentiation.
 - **Every pattern file has one skeleton**: **Provides / Read at / Spec / Design patterns /
   Constraints**. `patterns/SPEC.md` is the full field spec. `## Design patterns` is the one
   optional field, and which files carry it is not a matter of taste - see below.
 - **Every Spec line is one of exactly two things**: an **edge**, pointing to another
   pattern file named in parentheses, which is the only other file that line requires; or a
-  **question**, stating something the generator must answer, citing nothing. That one rule
+  **question**, stating something the generator must answer, citing nothing. A citation is
+  an edge only where the generator must go and read that file - anything already in context
+  at that step is stated as part of the question - and an edge belongs in the Spec's fenced
+  block, since that is the only place edges are read from. That one rule
   makes the library a single tree - a file whose Spec has outgoing edges is a
   **classifier**, a file whose Spec is all questions is a **leaf**, and neither is
   declared anywhere, so the structure cannot fall out of step with itself. A classifier may
@@ -126,10 +134,9 @@ what it is building.
 - A file's `## Design patterns` content is genre-specific and compiled fresh per
   build at step 1b from this setting's chosen genre reference, replacing what a
   lookup-table join at generation time would otherwise have to translate correctly every
-  single read. Demeanor and personality examples specifically live compiled into
-  `dangerous/Creature.md`, `wild/Creature.md`, and `safe/People.md`, standing in for what
-  `GENRE.md` used to carry as its own People/Creatures tag bank.
-- **Thirty-five files carry `## Design patterns`, and no others.** The test is what a
+  single read. Demeanor and personality examples are the two draws that want more than a
+  plain example swap; step 1b names where they land.
+- **Only the files on step 1b's compile list carry `## Design patterns`.** The test is what a
   file's output *is*: a file that fills a location's body - its Dressing, its Kind, an
   ingredient drawn into it, a hook hanging off it - is where flat output would show, so
   that is where specific content is spent. A file supplying a *shape applied to* a
@@ -138,7 +145,7 @@ what it is building.
   content in its Spec instead - every `setting/` and `region/` file, and every classifier.
   An option menu that reads the same whatever reference was chosen is a Spec question, not
   a pattern, and filing it as a pattern licenses step 1b to rewrite it (in one case, to
-  rewrite an *edge* away). Those thirty-five are exactly step 1b's compile list, and
+  rewrite an *edge* away). That list and the tree are
   `tools/validate_setting.py` checks the two against each other in both directions.
 
 ## `checks/`

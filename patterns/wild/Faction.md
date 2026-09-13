@@ -6,13 +6,12 @@ than simply occupied by whatever the Kind block's own occupant already describes
 
 ## Read at
 **Mode: conditional.** Step 4c, when a Kind file's own spec line draws a faction as what
-holds, controls, or works this place - `wild/Ruin.md`, `wild/Lair.md`,
-`wild/NaturalFeature.md` and `wild/Crossing.md` each carry one, at a rate that suits the
-kind. Conditional, not rated at the classifier: whether a faction is even possible here
-depends on the Kind already drawn, which is why the four rates live in the four kind
-files rather than one line up a level. Distinct from `wild/Creature.md`, which covers
-what lives here on its own account; a faction's presence implies purpose and consequence
-reaching beyond this one Landmark.
+holds, controls, or works this place, at a rate that suits the kind. Conditional, not
+rated at the classifier: whether a faction is even possible here depends on the Kind
+already drawn, which is why the four rates live in the four kind files rather than one
+line up a level. Distinct from `wild/Creature.md`, which covers what lives here on its own
+account; a faction's presence implies purpose and consequence reaching beyond this one
+Landmark.
 
 ## Spec
 
@@ -79,4 +78,3 @@ claim; the country itself pushing back - weather, distance, a creature that does
 recognise the claim; somebody here who would rather be posted anywhere else.
 
 ## Constraints
-*(Empty. Entries arrive from generation testing, never from anticipation.)*

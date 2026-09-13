@@ -4,16 +4,11 @@
 What an unbuilt, unoccupied Landmark is, and why it is worth four hours to visit.
 
 ## Read at
-**Mode: kind.** Step 4c, when a WILD classifier's Kind line draws Natural Feature -
-`wild/Landmark.md`, `wild/Hidden.md`, or `wild/Secret.md`, all three of which draw one
-kind per location. Alone among the kinds it has no builder and no occupant, so it has to
-earn its slot on what it *does*.
+**Mode: kind.** Step 4c, when a WILD classifier's Kind line draws Natural Feature. Alone
+among the kinds it has no builder and no occupant, so it has to earn its slot on what it
+*does*.
 
 ## Spec
-
-**Every line below is read the same way:** `1` is mandatory; a percentage is the rate
-at which a Feature carrying that content appears. This block is setting-neutral and
-permanent - step 1b recompiles the Design patterns below it, never this.
 
 ```
 KIND: NATURAL FEATURE
@@ -31,8 +26,6 @@ KIND: NATURAL FEATURE
 occupant, so unlike a Ruin or a Lair it has to earn its slot on what it *does* alone.
 
 ## Design patterns
-
-Compiled for this build, from this setting's chosen genre reference.
 
 **Stone** - a crag, tor, or stack; a cliff face with a way up or none; a gorge or ravine; a
 sinkhole; a scree slope; a cave mouth; an erratic boulder sitting where nothing put it; a
@@ -61,4 +54,3 @@ whether or not anyone is remembering it; a direction that is wrong here. Rare, n
 routine, and never free.
 
 ## Constraints
-*(Empty. Entries arrive from generation testing, never from anticipation.)*
