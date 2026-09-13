@@ -8,11 +8,6 @@ What a medium-weight location guarantees.
 
 ## Spec
 
-**Every line below is read the same way:** `1` is mandatory; a percentage is the rate at
-which a Feature carrying that content appears. Every line is either an edge - it names a
-file in parentheses, the only other file that line requires - or a question the generator
-answers here.
-
 ```
 DANGEROUS - MEDIUM
 
@@ -57,6 +52,5 @@ fiction: a thing that lives here has accumulated something, a mechanism has not.
 **Lore substitutes for the table roll rather than adding to it.** At HIGH lore arrives
 alongside the payload; at MEDIUM the find is *either* a document *or* a roll, which is what
 keeps a medium room from paying out twice.
-
 
 ## Constraints

@@ -10,11 +10,6 @@ read at 4a, which takes its location list from here.
 
 ## Spec
 
-**Every line below is read the same way:** `1` is mandatory; a percentage is the rate at
-which a Feature carrying that content appears. Every line is either an edge - it names a
-file in parentheses, the only other file that line requires - or a question the generator
-answers here.
-
 ```
 SETTLEMENT TYPE
   {steading | thorp | village | town | seat} - read from the Region Overview's Layout
@@ -89,9 +84,6 @@ which is the registry test. That a settlement hands them over through a person, 
 leaving them to be found, is the gate's business and already stated one block up. This is
 where SAFE parts from WILD, whose lore and keys are objects lying in open country and are
 drawn in its reward block instead.
-
-**Naming comes last because a place is named for what turned out to be in it**, the same as
-every other rating.
 
 Prominence is decided here and recorded nowhere else - `Locations.md` carries name and tags
 only for SAFE. Note it in the entry's own drafting and let the feature count carry it.

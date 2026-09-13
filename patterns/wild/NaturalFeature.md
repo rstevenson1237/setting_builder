@@ -10,10 +10,6 @@ among the kinds it has no builder and no occupant, so it has to earn its slot on
 
 ## Spec
 
-**Every line below is read the same way:** `1` is mandatory; a percentage is the rate
-at which a Feature carrying that content appears. This block is setting-neutral and
-permanent - step 1b recompiles the Design patterns below it, never this.
-
 ```
 KIND: NATURAL FEATURE
   1     What it physically is, and its scale in yards

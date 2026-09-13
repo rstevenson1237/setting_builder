@@ -47,11 +47,6 @@ action they spend on it.
 fact about the region - a trapline means a trapper, a deadfall on a trail means whoever
 uses the trail is not welcome.
 
-**Contract.** A WILD hazard owes: its mechanism, an impact tier, a warning available to
-careful movement, and (where it was set) what it was for. Genre-neutral and permanent.
-Which mechanisms fill that contract is not - the Design patterns below are this build's
-compile of it, from this setting's chosen genre reference.
-
 ## Design patterns
 
 **Set by people** - a snare or spring-noose on a game trail; a pit with a covered mouth; a

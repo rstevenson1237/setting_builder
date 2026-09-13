@@ -19,15 +19,9 @@ ENVIRONMENTAL
   30%   Somewhere in this location it does not reach, and why
 ```
 
-**An environmental hazard is Dressing with a cost.** It is the same fact the Dressing line
-already records - the room is flooded, the air is bad, the floor never dried - read as
-something the party has to price rather than something they walk past. That is why the
-consequence line is mandatory: a condition with no cause in the room is an event, and an
-event in a room is a trap wearing weather.
-
-**It has no owner**, which is what makes it different to play against. There is nobody to
-negotiate with, outwit, or make an example of. The only moves are prepare, endure, route
-around, or leave.
+**An environmental hazard is Dressing with a cost** - the same fact the Dressing line
+already records, read as something the party has to price rather than walk past. It has
+no owner, so the only moves are prepare, endure, route around, or leave.
 
 **A safe pocket is worth more than a bigger number.** Somewhere the condition does not
 reach turns endurance into a decision about how long to stay out of it.

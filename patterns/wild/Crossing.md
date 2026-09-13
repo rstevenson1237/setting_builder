@@ -13,10 +13,6 @@ lives there.
 
 ## Spec
 
-**Every line below is read the same way:** `1` is mandatory; a percentage is the rate
-at which a Feature carrying that content appears. This block is setting-neutral and
-permanent - step 1b recompiles the Design patterns below it, never this.
-
 ```
 KIND: CROSSING
   1     What must be crossed, and why the country will not simply be gone around

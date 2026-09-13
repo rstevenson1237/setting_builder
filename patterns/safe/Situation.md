@@ -26,11 +26,6 @@ SITUATION - as seen from this location
 nobody does anything, because that is what makes a party's inaction a choice. A situation
 with no trajectory is scenery.
 
-**Contract.** A Situation-at-a-location entry owes: what's visibly different here, who's
-worse off by name, and which rung it's on. Genre-neutral and permanent. What kind of
-situation this region has, and its escalation ladder's own content, is not - the Examples
-below are this build's compile of it, from this setting's chosen genre reference.
-
 ## Design patterns
 
 **Kinds of situation** - armed men camped nearby who have not left; refugees arriving from

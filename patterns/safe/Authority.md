@@ -31,11 +31,6 @@ draws that answer from - the "Getting a hearing" patterns below - and states onl
 true of authority specifically: the claim, its basis, what it actually settles, and where
 it stops.
 
-**Contract.** An Authority location owes: who holds the claim and its basis, what
-actually gets settled, and where the claim's edge is. Genre-neutral and permanent. Which offices, procedures, and vocabulary fill that
-contract is not - the Examples below are this build's compile of it, from this setting's
-chosen genre reference.
-
 ## Design patterns
 
 **Basis of the claim** - a lord's grant, honoured or not; an inherited office nobody

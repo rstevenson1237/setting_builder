@@ -25,11 +25,6 @@ line**, answered once per location whatever its Kind. This file supplies the men
 location draws that answer from - the "Being talked to" patterns below - and states only
 what is true of a gathering place: who is here, and what is going round it.
 
-**Contract.** A Social location owes: who's here and what they're doing, and what's
-circulating. Genre-neutral and permanent. Which gathering places, circulating content, and vocabulary fill that contract
-is not - the Examples below are this build's compile of it, from this setting's chosen
-genre reference.
-
 ## Design patterns
 
 **Gathering places** - a taproom; the market on its day; a green, a well, or a bridge where

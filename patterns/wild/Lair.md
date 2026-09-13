@@ -9,10 +9,6 @@ something currently lives, whether it built the place or moved in.
 
 ## Spec
 
-**Every line below is read the same way:** `1` is mandatory; a percentage is the rate
-at which a Feature carrying that content appears. This block is setting-neutral and
-permanent - step 1b recompiles the Design patterns below it, never this.
-
 ```
 KIND: LAIR
   1     What lives here, from setting/Bestiary.md

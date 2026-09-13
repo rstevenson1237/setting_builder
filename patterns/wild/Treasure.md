@@ -42,11 +42,6 @@ submerged, sheltered, or recent. A pristine find in open country needs a reason.
 **Carrying is a real cost out here.** Four hours per action, distances in miles, and a
 party already loaded. Bulk that would be trivial in a dungeon is a decision in the field.
 
-**Contract.** A WILD treasure find owes: what it is, why it survived weathering, and what
-reaching it costs. Genre-neutral and permanent. What it actually is and who
-might claim it is not - the Examples below are this build's compile of it, from this
-setting's chosen genre reference.
-
 ## Design patterns
 
 **Which table**

@@ -28,12 +28,6 @@ what separates it from `wild/Hazard.md`.
 and both are detail the party can reason from. Somebody has been here before. What did
 they try, and did it work?
 
-**Contract.** A WILD mystery owes: the thing itself, physical details it can be reasoned
-from, an explicit trigger, what the correct trigger accomplishes, what a wrong attempt
-costs, and a price. Genre-neutral and permanent. What the thing actually is is not - the
-Examples below are this build's compile of it, from this setting's chosen genre
-reference.
-
 ## Design patterns
 
 **Placed** - standing stones, singly or in a ring; a monolith with a worked face; a cairn

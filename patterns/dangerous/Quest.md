@@ -29,9 +29,6 @@ registered. Every location's stub exists before any location file is written, so
 in another region can name this one by code and name at 4c; what it is actually taking is
 written at 4d.
 
-**A quest needs a middle.** Two ends make a delivery. What stands in the way is what makes
-it an adventure, and it is stated here, at the target, because this is where it lives.
-
 ## Design patterns
 
 **What a dangerous place can supply** - a substance only found in a living thing here; a
