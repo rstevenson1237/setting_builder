@@ -5,6 +5,9 @@ on:
     branches: [main]
     paths:
       - "setting/**"
+      # patterns.html is generated from patterns/*/*.md, so a pattern edit
+      # has to redeploy the site or the published graph goes stale.
+      - "patterns/**"
       - "tools/build_site.py"
       - "tools/build_pdf.py"
       - "tools/site_common.py"
