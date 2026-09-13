@@ -19,7 +19,7 @@ ENCOUNTER
                         (dangerous/Creature.md, patterns/setting/NamedCreatures.md,
                          dangerous/Faction.md)
   1     What it is doing when the party arrives - not waiting
-  1     Number, and scale against party altitude per GENRE.md - never the region die
+  1     Number, and scale - stated by the kind file that was drawn
   1     A sign of it readable before the encounter itself is met
   30%   Something it wants that is not a fight
   25%   Absent when the party arrives - its signs, and where it is instead
@@ -33,9 +33,6 @@ a room early - and the sign line is where that happens, whichever kind was drawn
 **Presence is decided apart from description.** A location's occupant is not always at
 home. A room written as a den, found empty, with the thing that lives in it somewhere
 behind the party, is worth more than the same room with the thing standing in it.
-
-**Scale is against what the characters can survive, never against the region die.** The
-die is a difficulty die; AD is a power count on a separate axis.
 
 ## Constraints
 
