@@ -59,11 +59,9 @@ more.
 ## Constraints
 
 - **A Kind never draws a hook.** The hook layer is `safe/Settlement.md`'s registry
-  block - ONE at working prominence, two at central - and each hook file supplies its
-  own holder: `safe/Quest.md` draws the giver, `safe/Key.md` and `safe/Lore.md` the
-  person who has it. A Kind adding its own rate for a quest, a key or a piece of lore
-  is a second, unaccounted path to an object whose cardinality the registry has already
-  fixed. What stays here is what is true of a gathering place.
+  block, and each hook file supplies its own holder. A Kind adding its own rate for a
+  hook is a second, unaccounted path to an object whose cardinality the registry has
+  already fixed. What stays here is what is true of a gathering place.
 
 - **A rumour is repeated, not delivered.** Whoever says it has their own reason for
   saying it, is probably wrong about part of it, and will not mark it true or false.

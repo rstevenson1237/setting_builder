@@ -80,9 +80,8 @@ The deliberate injection of highly specific content that keeps generated output 
 reading flat. **Specific and compiled** - rewritten at step 1b from the chosen genre
 reference. A section here is a claim that this file's output would be too generic without
 it; which files can make that claim is settled by reach mode, in "Which files earn
-patterns" below. Thirty-five files carry one, and they are exactly STEPS.md step 1b's
-compile list - the two sets are checked against each other by
-`tools/validate_setting.py`.
+patterns" below. The files that carry one are exactly STEPS.md step 1b's compile list -
+the two sets are checked against each other by `tools/validate_setting.py`.
 
 ### `## Constraints`
 Every prohibition: what belongs in another file, what this file must never do, a named
@@ -151,13 +150,16 @@ How a file is arrived at. Every file **declares its mode**, as the first thing i
 declaration is validated, so what a file claims and what the graph does cannot drift apart
 silently.
 
-| mode | reached | example |
-|---|---|---|
-| **entry** | read directly by a STEPS.md step; nothing draws it | every `setting/` and `region/` file, and the rating classifiers |
-| **second pass** | every output, unconditionally, after the fact | `Dressing`, `Secrets`, `Naming` |
-| **kind** | exactly one of N, mutually exclusive | `safe/Commerce.md`, `wild/Ruin.md`, `dangerous/Trap.md`, and WILD's and DANGEROUS's `Lore` and `Key` under `Treasure`'s "what it is" |
-| **ingredient** | drawn at a stated rate | `Creature`, `Hazard`, `Treasure`, `Mystery`, `Quest`, and SAFE's `Lore`, `Key`, `Quest` and `Faction` hooks |
-| **conditional** | triggered by content already generated | `wild/Faction.md` |
+| mode | reached |
+|---|---|
+| **entry** | read directly by a STEPS.md step; nothing draws it |
+| **second pass** | every output, unconditionally, after the fact |
+| **kind** | exactly one of N, mutually exclusive |
+| **ingredient** | drawn at a stated rate |
+| **conditional** | triggered by content already generated |
+
+Which files are in which mode is not listed here - every file declares its own, and the
+pattern reference renders the graph.
 
 `Faction` is the one name that means a different mode in each rating, and must not be read
 as one thing: `safe/Faction.md` is one of four hooks in
@@ -205,10 +207,9 @@ carries `## Design patterns`**, and neither does a `setting/` or `region/` file.
 option menus answer a question rather than inject specificity, so they are Spec lines.
 
 A **middle-tier** classifier is decided by body-versus-shape like anything else, and they
-split both ways: `dangerous/Encounter.md` and `dangerous/Hazard.md` carry none, because
-their output is the dispatch and the Kind beneath fills the body; `dangerous/Treasure.md`,
-`wild/Treasure.md` and `safe/Wealth.md` each name what a hoard actually holds, which is
-body, and carry patterns. Being a classifier is not by itself the test. This is the library's most persistent drift: an option
+split both ways: one whose output is the dispatch, with the Kind beneath filling the body,
+carries none; one that names what a hoard actually holds is filling the body itself, and
+carries patterns. Being a classifier is not by itself the test. This is the library's most persistent drift: an option
 menu reads like content, and filing it as compiled content licenses step 1b to rewrite it
 for the next setting - an *edge* included.
 

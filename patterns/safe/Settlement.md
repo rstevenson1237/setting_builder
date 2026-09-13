@@ -112,9 +112,7 @@ that matters gets a fuller list, not a longer entry per item.
   **The variance is the point** - a settlement where every location is equally detailed
   reads as a gazetteer, not a place.
 
-- **The gate is one line, here, and not five in the Kind files.** `safe/Authority.md`
-  asked what a stranger must do to get a hearing, `safe/Social.md` what it takes to be
-  talked to rather than tolerated, and `safe/Commerce.md` for a condition on trade -
-  three phrasings of the question every SAFE location answers. A question all the drawn
-  classes share belongs to the class drawing them; what stays in a Kind file is the menu
-  of answers that kind supplies.
+- **The gate is one line, here, and not one per Kind.** A question all the drawn classes
+  share belongs to the class drawing them; what stays in a Kind file is the menu of
+  answers that kind supplies. Several phrasings of the question every SAFE location
+  answers is drift, not differentiation.

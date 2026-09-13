@@ -134,9 +134,9 @@ what it is building.
 - A file's `## Design patterns` content is genre-specific and compiled fresh per
   build at step 1b from this setting's chosen genre reference, replacing what a
   lookup-table join at generation time would otherwise have to translate correctly every
-  single read. Demeanor and personality examples specifically live compiled into
-  `dangerous/Creature.md`, `wild/Creature.md`, and `safe/People.md`.
-- **Thirty-five files carry `## Design patterns`, and no others.** The test is what a
+  single read. Demeanor and personality examples are the two draws that want more than a
+  plain example swap; step 1b names where they land.
+- **Only the files on step 1b's compile list carry `## Design patterns`.** The test is what a
   file's output *is*: a file that fills a location's body - its Dressing, its Kind, an
   ingredient drawn into it, a hook hanging off it - is where flat output would show, so
   that is where specific content is spent. A file supplying a *shape applied to* a
@@ -145,7 +145,7 @@ what it is building.
   content in its Spec instead - every `setting/` and `region/` file, and every classifier.
   An option menu that reads the same whatever reference was chosen is a Spec question, not
   a pattern, and filing it as a pattern licenses step 1b to rewrite it (in one case, to
-  rewrite an *edge* away). Those thirty-five are exactly step 1b's compile list, and
+  rewrite an *edge* away). That list and the tree are
   `tools/validate_setting.py` checks the two against each other in both directions.
 
 ## `checks/`

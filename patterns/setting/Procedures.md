@@ -39,7 +39,7 @@ condition that recurs here specifically - cold, bad air, a sickness, a debt.
 ## Constraints
 
 - **What never goes here** - anything that varies by rating; anything about one place;
-  character creation; a combat system. This file exists so that fifteen pattern files
+  character creation; a combat system. This file exists so that pattern files
   can cite one rule instead of restating it, and it stops being able to do that the
   moment it starts holding content.
 

@@ -44,9 +44,9 @@ it is read off the citations. `patterns/SPEC.md` is the full field spec.
 line that is the same for all of them belongs in the file it cites.** Same test
 `setting/Procedures.md` applies one level up.
 
-**`## Design patterns` is compiled content, and only 35 files carry it** - exactly
-`STEPS.md` step 1b's compile list, which `tools/validate_setting.py` checks against the
-tree in both directions. The test is what a file's output *is*: a file that fills a
+**`## Design patterns` is compiled content, carried only by the files on `STEPS.md` step
+1b's compile list**, which `tools/validate_setting.py` checks against the tree in both
+directions. The test is what a file's output *is*: a file that fills a
 location's body - its Dressing, its Kind, an ingredient drawn into it, a hook hanging off
 it - carries patterns; a file supplying a *shape applied to* a location carries none.
 All of `setting/` and `region/` and every classifier keep their option menus in Spec too,
