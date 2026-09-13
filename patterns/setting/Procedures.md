@@ -12,8 +12,7 @@ generation turned out to need something the seed did not cover.
 ```
 PROCEDURES
   1     Tests and consequences
-  1     Impact tiers - the three names, and what each resolves to
-                                             (patterns/setting/Impact.md)
+  1     Trap impact tiers
   1     Searching - what it costs and what it finds
   1     Time, by region rating
   1     Scaling - the three Action Dice scales, kept separate
@@ -29,11 +28,9 @@ the wrong procedure for this genre. Everything here should be resolvable in one 
 roll at all.
 
 **What the seed must already answer** - what happens when a character is exposed to
-something lethal; what a hazard does at each of `patterns/setting/Impact.md`'s three
-tiers; what searching costs and what it finds without a roll; how long an action takes
-in each rating; how the three Action Dice scales relate, and that they do not; what a
-region die means and what it does not.
-
+something lethal; what a trap does at each of its three tiers; what searching costs and what
+it finds without a roll; how long an action takes in each rating; how the three Action Dice
+scales relate, and that they do not; what a region die means and what it does not.
 
 **What a setting adds at 2h** - a resolution its Truths require; a currency or a wage, if
 `setting/Treasure.md` needs an anchor; a travel or supply rule its geography demands; a

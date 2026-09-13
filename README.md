@@ -202,10 +202,6 @@ authority; the short version:
   complication, 4+ = success - so a *smaller* die is *harder*. **d8 is baseline**; d6
   slightly tougher, d10 slightly easier, d4 and d12 deliberate outliers.
 
-Creature AD is pitched against **party altitude** - what the characters can survive, per
-`GENRE.md`'s lethality framing - never against the region die. See "The three tests" in
-`CLAUDE.md` for why this is called out there too.
-
 The location counts follow from the difficulty math rather than being conventions: a WILD
 region at N locations expects **exactly one** encounter per full traverse at every die, and
 a DANGEROUS region at 3N expects **exactly three** of the Danger track's six steps per full

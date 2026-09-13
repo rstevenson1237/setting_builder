@@ -42,8 +42,8 @@ interchangeable flavor text - each implies a different discovery structure:
   by name - per `region/Safe.md`, anything non-Man in a SAFE region is already
   working, penned, or a problem, and a guardian is the "working" case. Do not invent a new
   Bestiary entry here; if none fits, that is a signal to use a different Protection.
-- **trapped** follows the format below, drawing its tier and its cost currency from
-  `patterns/setting/Impact.md` and its resolution from `setting/Procedures.md`.
+- **trapped** follows the format below, at 5% lethal, else 35% damaging, else nuisance -
+  a ladder short of DANGEROUS's on purpose, for the reason in the next paragraph.
 
 **A SAFE trap is usually somebody's work, not a dungeon mechanism.** Per `safe/Secrets.md`'s
 own principle, prefer an alarm, a marking dye, a lock that jams or maims, or a mechanism

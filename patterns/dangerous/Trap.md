@@ -13,16 +13,18 @@ job.
 
 ```
 TRAP
-  1     Mechanism - what physically does it, from the Design patterns below
+  1     Mechanism - what physically does it, from the list below for the tier
+        `dangerous/Hazard.md` rolled
   1     Who set it, and whether anyone is still here to maintain it
 ```
 
-**Everything else a trap owes is Hazard's.** The clue, the trigger, and the impact tier are
-mandatory lines on `dangerous/Hazard.md` and are answered there for every mechanism; this
-file states only what is true of a trap specifically. A trap is the mechanism whose defining
-fact is that **somebody built it for this**, which is why the maker line is here and not up
-a level - `dangerous/Environmental.md` has no maker and `dangerous/Residual.md`'s maker is
-gone.
+**Everything else a trap owes is Hazard's.** The clue, the trigger, and the impact tier
+are mandatory lines on `dangerous/Hazard.md` and are answered there for every mechanism;
+this file states only what is true of a trap specifically, and sorts its mechanisms by
+the tier that was already rolled so the selection cannot quietly outrun it. A trap is
+the mechanism whose defining fact is that **somebody built it for this**, which is why
+the maker line is here and not up a level - `dangerous/Environmental.md` has no maker
+and `dangerous/Residual.md`'s maker is gone.
 
 **A mechanism has to be maintainable by whoever is here.** Mechanisms are drawn from what
 the region is built from and what its occupants can keep working - a trap needing a
@@ -42,25 +44,26 @@ it.
 
 ## Design patterns
 
-**Falling and footing** - deadfall or collapsing floor; covered pit, shallow or deep;
-spiked pit with a beam across it; turning trapdoor mounted on an axis; a floor that gives
-onto something living below.
+**Nuisance mechanisms** - an alarm, bell, or released creature that alerts something
+elsewhere; a marking trap - dye, scent, residue - that draws attention later; a snare or
+net; a trap that ruins a resource rather than a person; a lid weighted to hold something
+shut from the inside; a container that destroys its contents when opened wrong; a
+mechanism so rusted it half-works and is worse for it.
 
-**Striking** - swinging blade, scythe or pendulum; spear trap at chest height; dart or
-needle from a wall; a hanging weight on a trip line; a small catapult loaded with a
-ball-and-chain.
+**Damaging mechanisms** - a covered pit, shallow; a dart or needle from a wall; a spear
+trap at chest height; a hanging weight on a trip line; choking gas, spores or dust; a
+chest that gasses, sprays, or fouls what it holds; a fixture whose ornament is wired to
+its base; a turning trapdoor mounted on an axis.
 
-**Area** - choking gas, spores or dust; flooding chamber; rockslide or cave-in; boiling
-oil from a heated cauldron; walls that close.
+**Lethal mechanisms** - a spiked pit, deep, with a beam across it; a deadfall or
+collapsing floor; a floor that gives onto something living below; a swinging blade, scythe
+or pendulum; a small catapult loaded with a ball-and-chain; a flooding chamber; a
+rockslide or cave-in; boiling oil from a heated cauldron; walls that close.
 
-**Guarding an object** - a chest that gasses, sprays, or fouls what it holds; a fixture
-whose ornament is wired to its base; a container that destroys its contents when opened
-wrong; a lid weighted to hold something shut from the inside.
-
-**Consequence without damage** - an alarm, bell, or released creature that alerts
-something elsewhere; a marking trap - dye, scent, residue - that draws attention later; a
-snare or net; a trap that ruins a resource rather than a person; a mechanism so rusted it
-half-works and is worse for it.
+**The same mechanism can sit a tier lower** - a pit is the plain case: shallow and empty
+it is damaging, deep and spiked it is lethal. Where a tier's list is thin for the region's
+materials, drop a mechanism from the tier above and take out what makes it worse, rather
+than reaching up for one the tier cannot afford.
 
 ## Constraints
 *(Empty. Entries arrive from generation testing, never from anticipation.)*

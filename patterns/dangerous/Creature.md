@@ -26,6 +26,10 @@ CREATURE
   25%   Absent when the party arrives - signs of it, and it is elsewhere in the region
 ```
 
+**The region's die says nothing about what to put here.** It is a difficulty die - 1 =
+failure, 2-3 = complication, 4+ = success, so a *smaller* die is *harder* - and AD is a
+power count on a separate axis. A d8 DANGEROUS region does not want an 8 AD creature.
+
 **Presence is rolled apart from description.** A location's occupant is not always at
 home. A room written as a den, found empty, with the thing that lives in it somewhere
 behind the party, is worth more than the same room with the thing standing in it - and it

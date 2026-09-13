@@ -147,7 +147,7 @@ silently.
 
 | mode | reached | example |
 |---|---|---|
-| **entry** | read directly by a STEPS.md step; nothing draws it | every `region/` file, every `setting/` file a step names, and the rating classifiers |
+| **entry** | read directly by a STEPS.md step; nothing draws it | every `setting/` and `region/` file, and the rating classifiers |
 | **second pass** | every output, unconditionally, after the fact | `Dressing`, `Secrets`, `Naming` |
 | **kind** | exactly one of N, mutually exclusive | `safe/Commerce.md`, `wild/Ruin.md`, `dangerous/Trap.md`, and WILD's and DANGEROUS's `Lore` and `Key` under `Treasure`'s "what it is" |
 | **ingredient** | drawn at a stated rate | `Creature`, `Hazard`, `Treasure`, `Mystery`, `Quest`, and SAFE's `Lore`, `Key`, `Quest` and `Faction` hooks |

@@ -6,11 +6,10 @@ and what it costs.
 
 ## Read at
 **Mode: ingredient.** Step 4c, when a classifier's spec line draws a challenge and the
-challenge is a hazard - `wild/Landmark.md`, `wild/Hidden.md`, or `wild/Secret.md`. The
-tier it carries is `patterns/setting/Impact.md`'s, and resolution is
-`setting/Procedures.md`'s. Distinct from `wild/Mystery.md`, which is the neutral case: a
-mystery costs nothing until a genuinely wrong attempt is made, a hazard acts on contact
-or condition.
+challenge is a hazard - `wild/Landmark.md`, `wild/Hidden.md`, or `wild/Secret.md`. What
+a tier resolves to - what is rolled, and what it does - is `setting/Procedures.md`'s.
+Distinct from `wild/Mystery.md`, which is the neutral case: a mystery costs nothing
+until a genuinely wrong attempt is made, a hazard acts on contact or condition.
 
 ## Spec
 
@@ -18,7 +17,10 @@ or condition.
 HAZARD
   1     Mechanism   {set | condition of the ground | living} - decide first, they read
         differently
-  1     Impact tier   {nuisance | damaging | lethal}   (patterns/setting/Impact.md)
+  1     Impact - the first of these that hits, and nothing below it:
+          15%   lethal    can kill outright, and the warning already said so
+          45%   damaging  costs the party something they have to spend to get back
+          1     nuisance  costs time, ground, a piece of gear, or the route they wanted
   1     A warning available to somebody moving carefully
   1     What it was for, and who set it - where the mechanism is `set`
   20%   Something already caught in it
@@ -29,6 +31,10 @@ mechanisms across `Trap`, `Environmental` and `Residual` because each carries a 
 its own - a maker still here, a condition with a cause in the Dressing, a maker gone. A
 WILD hazard's three answer the same two questions whichever is drawn, so the choice fits on
 one line and earns no middle tier.
+
+**Lethal sits lower here than at depth.** A dungeon can hide a pressure plate in a worked
+floor; open country almost always shows its hand, so a WILD hazard that kills is one the
+party was told about and walked into anyway.
 
 **In the open, almost everything gives warning.** A dungeon can hide a pressure plate in a
 worked floor; broken ground announces itself to anyone reading it. So a WILD hazard's
