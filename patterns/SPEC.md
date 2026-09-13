@@ -33,10 +33,14 @@ the test is whether a reader can tell what artifact or feature the file is respo
 for. Neutral and permanent.
 
 ### `## Read at`
-When the file is reached, by which STEPS.md step, and **by what**. This is the coupling
-record: for an element file it names the classifier and the spec line that draws it, and
-for a classifier the step that reads it. It also carries the boundary against any sibling
-file that could be confused for this one. Neutral and permanent.
+When the file is reached, by which STEPS.md step, and under **what condition** - the spec
+line that draws it and what that line decided. It also carries the boundary against any
+sibling file that could be confused for this one. Neutral and permanent.
+
+**It never lists the files that draw it.** Which files carry the drawing line is in the
+tree, computed by `tools/validate_setting.py` and rendered by the pattern reference, and a
+list here is a copy that goes stale the moment a classifier is added or split. State the
+condition, not the roster.
 
 The step ids here are validated against STEPS.md. `## Read at` is the only record of how a
 file is reached, which is why it is prose that has to stay honest rather than decoration.

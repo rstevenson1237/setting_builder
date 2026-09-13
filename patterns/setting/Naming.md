@@ -4,10 +4,8 @@
 What a location is called, and in whose mouth.
 
 ## Read at
-**Mode: second pass.** Step 4c, drawn as the last line of every classifier -
-`safe/Settlement.md`, `wild/Landmark.md`, `wild/Hidden.md`, `wild/Secret.md`,
-`dangerous/High.md`, `dangerous/Medium.md`, `dangerous/Low.md` - after everything else in
-the entry is decided. Coining and glossing are not here: both are
+**Mode: second pass.** Step 4c, drawn as the last line of every classifier, after
+everything else in the entry is decided. Coining and glossing are not here: both are
 `patterns/setting/Language.md`'s REGISTER and REUSE blocks, which apply to every artifact
 rather than to locations alone.
 
