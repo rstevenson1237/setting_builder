@@ -250,6 +250,20 @@ thing that actually varies is complexity - contracts run from two mandatory line
 (`wild/Quest.md`) to six (`wild/Mystery.md`). Decomposition does the work a cap would be
 standing in for.
 
+## What prose owes
+
+Prose in any field points to where something is. It never restates what is there.
+
+- **Never state a count that can be derived from a list.** Name the list.
+- **Never enumerate the files** that carry a line, a mode, or a section. The tree carries
+  that, `tools/validate_setting.py` computes it, and the pattern reference renders it.
+- **Never restate a rule another file owns.** Cite it.
+- **Never restate the fenced block** in the prose beneath it. The block is the contract.
+
+Every copy drifts from its original, and the copy is the one a reader trusts, because it
+is the one in front of them. `tools/validate_setting.py` warns when a sentence of nine
+words or more appears in three or more files.
+
 ## Citation format
 
 A citation from one `patterns/*/*.md` file to another is always `folder/File.md`, bare,

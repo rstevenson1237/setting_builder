@@ -30,8 +30,6 @@ use it.
 
 ## Design patterns
 
-Compiled for this build, from this setting's chosen genre reference.
-
 **Fixtures** - a statue whose pose or gaze means something; an altar with a fitting, a
 channel, or a stain; a fountain, basin or cistern that still runs or conspicuously does
 not; a door with no handle and a made surface; a mechanism part-visible in a wall; a floor

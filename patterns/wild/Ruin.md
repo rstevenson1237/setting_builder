@@ -27,8 +27,6 @@ happened to it, not just that it is ruined.
 
 ## Design patterns
 
-Compiled for this build, from this setting's chosen genre reference.
-
 **Defensive** - a watchtower on a height; a signal or beacon station; a wall running to
 nowhere, and the gap in it; a gatehouse without its gate; a hillfort's ditch and bank; a
 toll tower at a crossing; a bastion built against something that came from the wrong

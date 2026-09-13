@@ -25,8 +25,6 @@ KIND: CROSSING
 
 ## Design patterns
 
-Compiled for this build, from this setting's chosen genre reference.
-
 **What must be crossed** - a river at its one fordable reach; a gorge with one bridge or
 none; a marsh with one causeway across it; a mountain's one pass below the snow line; a wall
 with one gate still standing; a border a faction actually enforces; a stretch of open ground

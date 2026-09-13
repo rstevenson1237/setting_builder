@@ -31,8 +31,6 @@ region.
 
 ## Design patterns
 
-Compiled for this build, from this setting's chosen genre reference.
-
 **Kinds of holding** - a cave or rock shelter; a burrow or dug warren; a hollow tree or
 fallen trunk; a nest on a height, on a stack, or in a crown; a thicket beaten down from
 inside; a dam, mound, or built structure of the occupant's own making; a taken-over ruin;

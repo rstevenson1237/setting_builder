@@ -27,8 +27,6 @@ occupant, so unlike a Ruin or a Lair it has to earn its slot on what it *does* a
 
 ## Design patterns
 
-Compiled for this build, from this setting's chosen genre reference.
-
 **Stone** - a crag, tor, or stack; a cliff face with a way up or none; a gorge or ravine; a
 sinkhole; a scree slope; a cave mouth; an erratic boulder sitting where nothing put it; a
 natural arch; a fissure that breathes.

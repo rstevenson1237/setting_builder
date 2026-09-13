@@ -347,6 +347,61 @@ def check_reach_modes(diag: Diagnostics):
 
 
 # ---------------------------------------------------------------------------
+# patterns/*/*.md - the same sentence in three or more files
+#
+# Prose points to where something is; it never restates what is there, because
+# every copy drifts from its original and the copy is the one a reader trusts.
+# See "What prose owes" in patterns/SPEC.md.
+#
+# Two files saying the same thing is usually deliberate - restatement across
+# the three rating folders is how a trap in SAFE gets differentiated from a
+# trap in DANGEROUS, and parallel files carry parallel pointers. Three or more
+# is the band where it stops being parallel structure and starts being a rule
+# restated, which is why the threshold sits there rather than at two.
+#
+# This is a warning, not an error: the judgement of whether a given repetition
+# is parallel structure stays human. Run against the tree before the sweep that
+# introduced it, it found 47 copies across 13 sentences - the Spec preamble in
+# twelve files, the edge/question rule in seven, the compiled-content note in
+# five.
+# ---------------------------------------------------------------------------
+
+DUP_MIN_WORDS = 9
+DUP_MIN_FILES = 3
+
+
+def _normalise_sentence(s: str) -> str:
+    s = re.sub(r'`[^`]*`', 'X', s)          # a cited filename is not the prose
+    s = re.sub(r'[^a-z ]', ' ', s.lower())
+    return " ".join(s.split())
+
+
+def check_repeated_prose(diag: Diagnostics):
+    if not PATTERNS.exists():
+        return
+    seen: dict[str, set] = {}
+    original: dict[str, str] = {}
+    for path in sorted(PATTERNS.glob("*/*.md")):
+        rel = path.relative_to(PATTERNS).as_posix()
+        text = re.sub(r'```.*?```', '', path.read_text(), flags=re.S)
+        for raw in re.split(r'(?<=[.!?])\s+', text):
+            raw = " ".join(raw.split())
+            if len(raw.split()) < DUP_MIN_WORDS:
+                continue
+            key = _normalise_sentence(raw)
+            if not key:
+                continue
+            seen.setdefault(key, set()).add(rel)
+            original.setdefault(key, raw)
+    for key, files in sorted(seen.items()):
+        if len(files) >= DUP_MIN_FILES:
+            diag.warn(PATTERNS, f"the same sentence appears in {len(files)} files "
+                                f"({', '.join(sorted(files))}): {original[key][:90]!r} - "
+                                f"prose points to where a rule lives rather than "
+                                f"restating it; see 'What prose owes' in patterns/SPEC.md")
+
+
+# ---------------------------------------------------------------------------
 # STEPS.md step 1b's compile list vs. the tree
 #
 # Step 1b rewrites the "## Design patterns" section of every pattern file
@@ -881,6 +936,7 @@ def main() -> int:
     check_pattern_files(diag)
     check_compile_list(diag)
     check_reach_modes(diag)
+    check_repeated_prose(diag)
 
     if is_fresh_start():
         seeded = sorted(n for n in SEED_FILES if (SETTING / n).exists())
