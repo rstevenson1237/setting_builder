@@ -52,6 +52,12 @@ Coined here:
 - Telar = tel (road) + ar (place, holding) - the setting's own name, in `setting/Setting.md`
 - Brekar = brek (break, ruin) + ar (place, holding) - the reaver band holding the Sunk
   Bridge's own name for itself, in `setting/Factions.md`
+- Tolkar = tolk (toll, a due paid or owed) + ar (place, holding) - the western garrison
+  region's name, in `setting/region/Regions.md`
+- Marfen = mar (water, river) + fen (marsh, wet ground) - the ford region's name, in
+  `setting/region/Regions.md`
+- Velar = vel (coin, minted metal) + ar (place, holding) - the eastern market region's
+  name, in `setting/region/Regions.md`
 
 ## Essath
 Spoken by: the dead. The priest-kings who cut the black ziggurats and drowned temples are
@@ -91,6 +97,8 @@ Roots:
 Coined here:
 - Nirguk = nirg (serpent) + uk (lord, master) - the Serpent-kin's own name for themselves,
   in `setting/Bestiary.md`
+- Daghash = dagh (pit, abyss) + ash (place of power, temple, seat) - the black ziggurat
+  region's name, in `setting/region/Regions.md`
 
 ## Uhgum
 Spoken by: the Man-Apes, in numbers nobody has counted. Living, not dead - the one non-human
