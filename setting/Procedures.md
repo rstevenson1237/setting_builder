@@ -24,6 +24,13 @@ hazard - is always one Test**, per `GENRE.md`'s high lethality. The named conseq
 A Test is never stacked with another Test for the same danger, and nothing in this
 framework grants a re-roll.
 
+**Cost of sorcery, per `setting/Truths.md`.** No Test decides whether a working succeeds -
+that is the referee's ruling, same as anything else. What is rolled is the toll: one year
+off the caster's own life for a working scaled to a single person or a single room, or 1d6
+years, rolled openly at the table, for anything reshaping more than that at once. The years
+are never given back, and the referee states which physical toll they bought before moving
+on - per `setting/Truths.md`, the cost always shows.
+
 ## Traps
 
 Every mechanism - listed by tier in `dangerous/Trap.md`, clued and triggered per
@@ -104,3 +111,10 @@ of the count - not a fixed multiplier chosen for its own sake. The exact ratio d
 rating (a WILD region's count against a one-encounter expectation, a DANGEROUS region's
 count against the Danger track's six steps) and is stated where it is applied, in
 `patterns/region/Wild.md` and `patterns/region/Dangerous.md`.
+
+**Currency, tailored at step 2h.** The standard coin is the Telar crown-mark (cn), struck to
+the same weight and accepted interchangeably by all three kingdoms regardless of which of
+their mints struck it - the one piece of standing agreement left between them, per
+`setting/History.md`. Essath coin and grave-silver are valued for their metal alone and are
+never accepted at face - per `setting/Treasure.md`, that is a find and a problem at once. A
+laborer's ordinary wage runs 2 cn a day, 12 cn a week, per `setting/Treasure1.md`.

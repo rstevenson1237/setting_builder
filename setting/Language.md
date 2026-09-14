@@ -39,6 +39,14 @@ Roots:
 - osk - one
 - dral - many
 - arn - toward, in the direction of
+- tel - road, way
+- tolk - toll, a due paid or owed
+- sarn - oath, a sworn word
+- vel - coin, minted metal
+
+*(tel was already spent on this setting's own name at step 2a and should have been listed
+here from the start; tolk, sarn, and vel are added at step 2h now that toll, oath, and
+coin have turned out to be load-bearing concepts this build keeps needing to name.)*
 
 Coined here:
 - Telar = tel (road) + ar (place, holding) - the setting's own name, in `setting/Setting.md`
