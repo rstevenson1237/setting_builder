@@ -170,9 +170,9 @@ looking for owes them something. Which parents carry children is read off the re
 Rationale and open questions: `DRAKENHOLD.md`. Phases land in order.
 
 **1. `STEPS.md`**
-- [ ] Add step ids by suffix; never renumber - every `## Read at` cites them.
-- [ ] `4c`: the unit of generation is a block, not a location.
-- [ ] `1b` compile list: add `dangerous/Door.md`.
+- [x] Add step ids by suffix; never renumber - every `## Read at` cites them.
+- [x] `4c`: in a DANGEROUS region the unit of generation is the block. HIGH region-wide
+      first, then block by block, MEDIUM before LOW within each.
 
 **2. Templates**
 - [ ] `Connections.mmd`, `Region_Connections.mmd`: existence only - no type, no quantity.
@@ -189,7 +189,9 @@ Rationale and open questions: `DRAKENHOLD.md`. Phases land in order.
 
 **3. `patterns/`**
 - [ ] New `dangerous/Door.md`: `Mode: second pass`; kinds open, one-way, secret, vertical;
-      carries `## Design patterns`.
+      carries `## Design patterns`. Add it to `STEPS.md` step 1b's compile list in the same
+      change - the validator checks that list against the tree in both directions, so the
+      list entry errors until the file carrying the section exists.
 - [ ] `dangerous/Dressing.md`: `1  Every exit typed and positioned` becomes an edge citing
       `dangerous/Door.md`.
 - [ ] `dangerous/Low.md`: restate the three concealment rates against the location's exits.
