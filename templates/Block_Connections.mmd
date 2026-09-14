@@ -15,6 +15,12 @@ Read first:
 One file per block, `setting/region/[Region Code]/[Block Name].mmd`. DANGEROUS regions only;
 SAFE and WILD regions carry a single region diagram instead, per `templates/Region_Connections.mmd`.
 
+**Membership is stated, not inferred.** The `Locations:` header names every location this
+block owns. It has to be explicit: a cross-block edge puts the far location's node in this
+file too, so which block a node appears in cannot by itself say which block owns it. Every
+code in the header has a node in the diagram, and every location belongs to exactly one
+block in the region.
+
 **Locations connect only to locations.** A location never connects to a block, a region, or
 the setting. Every edge here has a location at both ends.
 
@@ -41,6 +47,7 @@ Purpose: [purpose family, per patterns/dangerous/Dressing.md - Keeping, Working,
 Holding, Meeting, Believing, Dying, or Moving]
 Region: [Region Code] [Region Name]
 Rooms: [room budget]
+Locations: [every location code belonging to this block, comma separated]
 ```
 
 ```mermaid

@@ -17,7 +17,8 @@ end - a lock here - is drawn by the weight file's obligation line, and only wher
 KEY - supply, a key lying here
   1     The object, and what it physically is
   1     How it is held here - carried, fitted, buried, mounted, owed
-  1     A stub row in setting/Keys.md naming this location as where it is found
+  1     A stub row in setting/Keys.md naming this location and the location it
+        opens - the second is the obligation
   40%   A clue connecting object to lock, where the connection is not obvious
   20%   Evidence it has been used before
 

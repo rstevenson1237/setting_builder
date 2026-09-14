@@ -499,7 +499,9 @@ def parse_regions(diag: Diagnostics):
 
 TOP_NODE_RE = re.compile(r'(\w+)\["([A-Z]+) - (.*?)"\]')
 LOC_NODE_RE = re.compile(r'(\w+)\["([A-Z]+\.\d+) (.*?)"\]')
-EDGE_RE = re.compile(r'(\w+)(?:\[[^\]]*\])?\s*(---|-\.-|-->)\s*(\w+)(?:\[[^\]]*\])?')
+EDGE_RE = re.compile(
+    r'(\w+)(?:\[[^\]]*\])?\s*(---|-\.-|-->)(?:\|([^|]*)\|)?\s*(\w+)(?:\[[^\]]*\])?')
+EDGE_KINDS = {"---": "open", "-->": "one-way", "-.-": "secret"}
 
 
 def parse_mmd_edges(text: str, node_re: re.Pattern):
@@ -511,24 +513,30 @@ def parse_mmd_edges(text: str, node_re: re.Pattern):
     for raw_line in text.splitlines():
         line = raw_line.split("%%")[0]
         for m in EDGE_RE.finditer(line):
-            a, typ, b = m.groups()
+            a, typ, label, b = m.groups()
             ca, cb = id_to_code.get(a), id_to_code.get(b)
             if ca is None:
                 unresolved.add(a)
             if cb is None:
                 unresolved.add(b)
             if ca and cb:
-                edges.append((ca, typ, cb))
+                edges.append((ca, typ, (label or "").strip(), cb))
     return id_to_code, edges, unresolved
+
+
+def edge_key(a: str, typ: str, label: str, b: str):
+    """Identity of an edge, direction-sensitive only where the kind is."""
+    ends = (a, b) if typ == "-->" else tuple(sorted((a, b)))
+    return (ends, typ, label)
 
 
 def check_top_connections(diag: Diagnostics, regions: dict):
     path = SETTING / "region" / "Connections.mmd"
     if not path.exists():
         diag.warn(path, "missing - not built yet")
-        return
+        return []
     text = path.read_text()
-    id_to_code, _edges, unresolved = parse_mmd_edges(text, TOP_NODE_RE)
+    id_to_code, top_edges, unresolved = parse_mmd_edges(text, TOP_NODE_RE)
     for u in sorted(unresolved):
         diag.error(path, f"edge references node id {u!r} with no bracketed definition")
     codes_in_graph = set(id_to_code.values())
@@ -538,6 +546,7 @@ def check_top_connections(diag: Diagnostics, regions: dict):
     for code in codes_in_graph:
         if code not in regions:
             diag.error(path, f"node references unknown region code {code}")
+    return top_edges
 
 
 # ---------------------------------------------------------------------------
@@ -749,6 +758,174 @@ def check_location_file(diag, path, region_code, num, stub, rating, all_location
 
 
 # ---------------------------------------------------------------------------
+# Blocks - a DANGEROUS region's generation batches (STEPS.md 4b/4c)
+# ---------------------------------------------------------------------------
+
+BLOCK_NODE_RE = re.compile(r'(\w+)\["([^".]+)"\]')
+BLOCK_HEADER_RE = re.compile(r'^(Block|Purpose|Region|Rooms|Locations):\s*(.+?)\s*$', re.M)
+PURPOSE_FAMILIES = {"keeping", "working", "living", "holding",
+                    "meeting", "believing", "dying", "moving"}
+
+
+def parse_block_files(diag: Diagnostics, region_code: str, rdir: Path, all_locations: dict):
+    """Every [Block Name].mmd in a region folder: header, nodes and typed edges."""
+    blocks: dict[str, dict] = {}
+    if not rdir.is_dir():
+        return blocks
+    for path in sorted(rdir.glob("*.mmd")):
+        if path.name == "Connections.mmd":
+            continue
+        text = path.read_text()
+        head = {k: v for k, v in BLOCK_HEADER_RE.findall(text)}
+        name = head.get("Block") or path.stem
+        if "Block" not in head:
+            diag.error(path, "block diagram has no 'Block:' header line")
+        purpose = (head.get("Purpose") or "").strip().lower()
+        if purpose and purpose not in PURPOSE_FAMILIES:
+            diag.error(path, f"Purpose {head.get('Purpose')!r} is not one of "
+                             f"dangerous/Dressing.md's families: {', '.join(sorted(PURPOSE_FAMILIES))}")
+        elif not purpose:
+            diag.warn(path, "block diagram has no 'Purpose:' header line - a block is a functional quarter")
+        id_to_code, edges, unresolved = parse_mmd_edges(text, LOC_NODE_RE)
+        for u in sorted(unresolved):
+            diag.error(path, f"edge references node id {u!r} with no bracketed definition")
+        for code in id_to_code.values():
+            if code not in all_locations:
+                diag.error(path, f"node references unknown location code {code}")
+        for m in TOP_NODE_RE.finditer(text):
+            diag.error(path, f"node {m.group(2)!r} is a region, not a location - "
+                             f"a location never connects to a region")
+        members = set(re.findall(r'[A-Z]+\.\d+', head.get("Locations", "")))
+        if not members:
+            diag.error(path, "block diagram has no 'Locations:' header line - membership must be "
+                             "explicit, because a cross-block edge puts the far location's node in "
+                             "this file too and appearance alone cannot say which block owns it")
+        for code in sorted(members - set(id_to_code.values())):
+            diag.error(path, f"Locations names {code}, which has no node in this diagram")
+        for code in sorted(members):
+            if code not in all_locations:
+                diag.error(path, f"Locations names unknown location code {code}")
+        blocks[name] = {"path": path, "purpose": purpose, "members": members,
+                        "codes": set(id_to_code.values()), "edges": edges}
+    return blocks
+
+
+def check_block_purposes(diag: Diagnostics, region_code: str, blocks: dict):
+    seen: dict[str, str] = {}
+    for name, b in blocks.items():
+        if not b["purpose"]:
+            continue
+        if b["purpose"] in seen:
+            diag.warn(b["path"], f"purpose family {b['purpose']!r} is already used by block "
+                                 f"{seen[b['purpose']]!r} in region {region_code} - per "
+                                 f"patterns/region/Dangerous.md no two blocks share a family")
+        else:
+            seen[b["purpose"]] = name
+
+
+def check_block_symmetry(diag: Diagnostics, region_code: str, blocks: dict):
+    """A cross-block edge is declared in both block files, identically."""
+    owner: dict[str, str] = {}
+    for name, b in blocks.items():
+        for code in b["members"]:
+            if code in owner:
+                diag.error(b["path"], f"location {code} is claimed by block {owner[code]!r} as well - "
+                                      f"a location belongs to exactly one block")
+            else:
+                owner[code] = name
+    declared: dict[tuple, set] = {}
+    for name, b in blocks.items():
+        for a, typ, label, c in b["edges"]:
+            declared.setdefault(edge_key(a, typ, label, c), set()).add(name)
+    reported = set()
+    for name, b in blocks.items():
+        for a, typ, label, c in b["edges"]:
+            ba, bc = owner.get(a), owner.get(c)
+            if ba is None or bc is None or ba == bc:
+                continue
+            key = edge_key(a, typ, label, c)
+            here = declared.get(key, set())
+            for other in (ba, bc):
+                if other in blocks and other not in here and (key, other) not in reported:
+                    reported.add((key, other))
+                    diag.error(blocks[other]["path"],
+                               f"cross-block edge {a} {typ}"
+                               + (f"|{label}|" if label else "")
+                               + f" {c} is declared in block {name!r} but not here - both ends "
+                                 f"declare it, identically in existence, type and direction")
+
+
+def check_block_connectivity(diag: Diagnostics, blocks: dict):
+    for name, b in blocks.items():
+        nodes = set(b["members"]) or set(b["codes"])
+        if len(nodes) < 2:
+            continue
+        adj = {n: set() for n in nodes}
+        for a, _typ, _l, c in b["edges"]:
+            if a in nodes and c in nodes:
+                adj[a].add(c)
+                adj[c].add(a)
+        seen, stack = set(), [next(iter(nodes))]
+        while stack:
+            cur = stack.pop()
+            if cur in seen:
+                continue
+            seen.add(cur)
+            stack.extend(adj[cur] - seen)
+        if seen != nodes:
+            diag.warn(b["path"], f"block {name!r} is not internally connected - "
+                                 f"{len(nodes - seen)} location(s) reachable only through another block")
+
+
+def check_low_shape_mix(diag: Diagnostics, region_code: str, region_locs: dict, edges: list, path):
+    """patterns/region/Dangerous.md's LOW SHAPE MIX, measured on the assembled graph."""
+    lows = {f"{region_code}.{n}" for n, l in region_locs.items() if l.get("weight") == "low"}
+    if len(lows) < 5:
+        return
+    undirected = {frozenset((a, b)) for a, _typ, _l, b in edges if a != b}
+    deg: dict[str, int] = {}
+    for e in undirected:
+        for n in e:
+            deg[n] = deg.get(n, 0) + 1
+
+    def cls(n):
+        d = deg.get(n, 0)
+        return d if d <= 3 else 4
+
+    classes = [cls(n) for n in lows]
+    non_through = sum(1 for c in classes if c != 2)
+    if non_through / len(lows) < 0.60:
+        diag.warn(path, f"region {region_code}: {non_through}/{len(lows)} LOW locations have a degree "
+                        f"other than 2 (want 60%+). Degree is coarse - a location on a loop is degree 2 "
+                        f"and reads here as a corridor, so check this against the map before acting")
+    names = {0: "isolated", 1: "dead end", 2: "through-connection", 3: "branch", 4: "branch (many)"}
+    for c in sorted(set(classes)):
+        share = classes.count(c) / len(lows)
+        if share > 1 / 3:
+            diag.warn(path, f"region {region_code}: {names[c]} accounts for {share:.0%} of LOW "
+                            f"locations (want no single class over a third)")
+
+
+def check_region_edge_realization(diag: Diagnostics, top_path, top_edges: list,
+                                  all_loc_edges: list, all_locations: dict):
+    """Both directions of the claim templates/Connections.mmd makes at 3b."""
+    crossings = set()
+    for a, _typ, _l, b in all_loc_edges:
+        ra = all_locations.get(a, {}).get("region")
+        rb = all_locations.get(b, {}).get("region")
+        if ra and rb and ra != rb:
+            crossings.add(frozenset((ra, rb)))
+    licensed = {frozenset((a, b)) for a, _typ, _l, b in top_edges if a != b}
+    for pair in sorted(crossings - licensed, key=sorted):
+        x, y = sorted(pair)
+        diag.error(top_path, f"locations connect {x} to {y}, but no region-level edge licenses it")
+    for pair in sorted(licensed - crossings, key=sorted):
+        x, y = sorted(pair)
+        diag.warn(top_path, f"region edge {x} - {y} is not yet realized by any "
+                            f"location-to-location connection")
+
+
+# ---------------------------------------------------------------------------
 # Lore / Keys / NamedCreatures / UniqueTreasures registries
 # ---------------------------------------------------------------------------
 
@@ -793,6 +970,20 @@ def parse_registry(diag: Diagnostics, kind: str, path: Path, marker: str, all_lo
             diag.error(path, f"line {lineno}: duplicate title {title!r}")
         entries[title] = codes
     return entries
+
+
+def check_key_obligations(diag: Diagnostics, path: Path, registry: dict, build_complete: bool):
+    """A Keys row names where the key is found and where it opens. The second is the
+    obligation; unconsumed at the close of 4c it is a dangling thread by definition."""
+    for title, codes in sorted(registry.items()):
+        if len(codes) >= 2:
+            continue
+        msg = (f"key {title!r} names only where it is found - the location it opens is the "
+               f"obligation, and nothing draws a lock without it")
+        if build_complete:
+            diag.error(path, msg + " (every location is written, so this will never be honoured)")
+        else:
+            diag.warn(path, msg)
 
 
 def cross_check_registry(diag: Diagnostics, kind: str, path: Path, registry: dict, cited: dict):
@@ -877,7 +1068,7 @@ def report_topology(regions: dict, region_locs: dict, region_edges: dict) -> lis
             continue
         adj = {n: set() for n in nodes}
         undirected = set()
-        for a, typ, b in region_edges.get(code, []):
+        for a, typ, _lbl, b in region_edges.get(code, []):
             if a in nodes and b in nodes:
                 adj[a].add(b)
                 adj[b].add(a)
@@ -931,6 +1122,53 @@ def is_fresh_start() -> bool:
     )
 
 
+def report_pending(region_filter: str | None) -> int:
+    """Inbound edges owed to blocks not yet written.
+
+    A block's membership is the file its nodes are declared in, so a block that does not
+    exist yet owns no locations and cannot be named. What is answerable - and what is
+    actually needed before writing one - is which already-declared edges point at locations
+    no block file has claimed.
+    """
+    diag = Diagnostics()
+    regions = parse_regions(diag)
+    any_out = False
+    for region_code, info in regions.items():
+        if region_filter and region_code != region_filter:
+            continue
+        if info["rating"] != "DANGEROUS":
+            continue
+        rdir = SETTING / "region" / region_code
+        locs = parse_locations_gazetteer(diag, region_code, info["rating"], rdir / "Locations.md")
+        all_locations = {f"{region_code}.{n}": {"region": region_code} for n in locs}
+        blocks = parse_block_files(Diagnostics(), region_code, rdir, all_locations)
+        placed = {c for b in blocks.values() for c in b["members"]}
+        inbound: dict[str, list] = {}
+        for name, b in blocks.items():
+            for a, typ, label, c in b["edges"]:
+                for near, far in ((a, c), (c, a)):
+                    if near in b["members"] and far not in placed:
+                        inbound.setdefault(far, []).append(
+                            f"{near} {typ}" + (f"|{label}|" if label else "") + f" {far}  (from block {name!r})")
+        unplaced = sorted(f"{region_code}.{n}" for n in locs if f"{region_code}.{n}" not in placed)
+        if not inbound and not unplaced:
+            continue
+        any_out = True
+        print(f"{region_code} {info['name']}")
+        print(f"  blocks written: {', '.join(sorted(blocks)) or '(none)'}")
+        if inbound:
+            print("  edges owed to locations no block has claimed:")
+            for far in sorted(inbound):
+                for line in inbound[far]:
+                    print(f"    {line}")
+        if unplaced:
+            print(f"  locations in no block yet: {', '.join(unplaced)}")
+        print()
+    if not any_out:
+        print("Nothing pending: every location sits in a block and no edge points outside one.")
+    return 0
+
+
 def main() -> int:
     diag = Diagnostics()
     check_pattern_files(diag)
@@ -956,7 +1194,8 @@ def main() -> int:
         return 1 if diag.errors else 0
 
     regions = parse_regions(diag)
-    check_top_connections(diag, regions)
+    top_path = SETTING / "region" / "Connections.mmd"
+    top_edges = check_top_connections(diag, regions)
 
     region_locs: dict[str, dict] = {}
     for region_code, info in regions.items():
@@ -972,11 +1211,34 @@ def main() -> int:
     mundane_edges: set[tuple[str, str]] = set()
     hidden_edges: set[tuple[str, str]] = set()
     region_edges: dict[str, list] = {}
+    all_loc_edges: list = []
     for region_code, info in regions.items():
-        cpath = SETTING / "region" / region_code / "Connections.mmd"
-        edges = check_region_connections(diag, region_code, region_locs[region_code], all_locations, cpath)
+        rdir = SETTING / "region" / region_code
+        cpath = rdir / "Connections.mmd"
+        if info["rating"] == "DANGEROUS":
+            # Connections.mmd is the block-existence tier; the typed location edges
+            # live one file per block.
+            blocks = parse_block_files(diag, region_code, rdir, all_locations)
+            check_block_purposes(diag, region_code, blocks)
+            check_block_symmetry(diag, region_code, blocks)
+            check_block_connectivity(diag, blocks)
+            edges = []
+            for b in blocks.values():
+                edges.extend(b["edges"])
+            if not blocks:
+                diag.warn(rdir, "DANGEROUS region has no block diagrams yet")
+            placed = {c for b in blocks.values() for c in b["members"]}
+            for num in region_locs[region_code]:
+                code = f"{region_code}.{num}"
+                if code not in placed:
+                    diag.warn(rdir, f"location {code} appears in no block diagram yet")
+            check_low_shape_mix(diag, region_code, region_locs[region_code], edges, rdir)
+        else:
+            edges = check_region_connections(diag, region_code, region_locs[region_code],
+                                             all_locations, cpath)
         region_edges[region_code] = edges
-        for a, typ, b in edges:
+        all_loc_edges.extend(edges)
+        for a, typ, _lbl, b in edges:
             if typ == "---":
                 mundane_edges.add((a, b))
                 mundane_edges.add((b, a))
@@ -985,6 +1247,8 @@ def main() -> int:
             elif typ == "-.-":
                 hidden_edges.add((a, b))
                 hidden_edges.add((b, a))
+
+    check_region_edge_realization(diag, top_path, top_edges, all_loc_edges, all_locations)
 
     registries: dict[str, dict] = {}
     registry_paths: dict[str, Path] = {}
@@ -1007,6 +1271,12 @@ def main() -> int:
             if fpath.exists():
                 check_location_file(diag, fpath, region_code, num, stub, regions[region_code]["rating"],
                                      all_locations, mundane_edges, hidden_edges, citations)
+
+    build_complete = not any(
+        not (SETTING / "region" / rc / f"{num}.md").exists()
+        for rc, locs in region_locs.items() for num in locs
+    )
+    check_key_obligations(diag, SETTING / "Keys.md", registries.get("Keys", {}), build_complete)
 
     for kind, path, _marker in REGISTRY_KINDS:
         cross_check_registry(diag, kind, path, registries[kind], citations[kind])
@@ -1031,4 +1301,6 @@ def main() -> int:
 
 
 if __name__ == "__main__":
+    if len(sys.argv) > 1 and sys.argv[1] == "--pending":
+        sys.exit(report_pending(sys.argv[2] if len(sys.argv) > 2 else None))
     sys.exit(main())

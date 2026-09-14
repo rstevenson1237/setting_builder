@@ -223,19 +223,23 @@ Rationale and open questions: `DRAKENHOLD.md`. Phases land in order.
       is local, the answer more often comes from elsewhere.*
 
 **5. `tools/validate_setting.py`**
-- [ ] `EDGE_RE`: match labelled edges.
-- [ ] Cross-block edges: symmetry over existence, type and direction.
-- [ ] Location-tier files: no bare region nodes.
-- [ ] Every region-tier edge realized by at least one location-tier edge; no cross-region
-      location edge without one.
-- [ ] Unconsumed `setting/Keys.md` obligations at the close of 4c: error.
-- [ ] A block whose induced subgraph is disconnected: warning.
-- [ ] A purpose repeated within a block: warning.
-- [ ] LOW node mix, per region: 60%+ of LOW-weight locations have degree != 2, and no single
-      degree class (1, 2, 3, 4+) exceeds a third. Warning. Dedupe cross-block edges declared
-      in both files before computing degree. Blind spot to state in the message: a loop leg
-      is degree 2 and reads as a corridor.
-- [ ] `--pending <block>`: list inbound edges declared against a block.
+- [x] `EDGE_RE`: matches labelled edges. Was dropping them silently.
+- [x] Cross-block edges: symmetry over existence, type and direction.
+- [x] Location-tier files: no bare region nodes.
+- [x] Every region-tier edge realized by at least one location-tier edge (warning); no
+      cross-region location edge without one (error).
+- [x] Unconsumed `setting/Keys.md` obligations: error once every location is written,
+      warning before. *Required naming the opened location at 4c - `templates/Keys.md`
+      deferred it to 4d, so no obligation existed for a weight file to draw.*
+- [x] A block whose induced subgraph is disconnected: warning.
+- [x] Block purpose families: no two blocks in a region share one. *The per-location purpose
+      repeat is not mechanical - purpose lives in Referee Notes prose - and stays step 5
+      judgement material.*
+- [x] LOW shape mix: degree classes over deduped edges, warning, blind spot in the message.
+- [x] `--pending [REGION]`: lists edges owed to locations no block has claimed. *Not
+      addressable by block name: a block that does not exist yet owns no locations.*
+- [x] Block membership is an explicit `Locations:` header. *"The file is the block" is
+      ambiguous once a cross-block edge puts the far location's node in both files.*
 
 ## Open
 
