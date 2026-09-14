@@ -5,7 +5,7 @@ What a concealed detail is made of, and what makes it findable.
 
 ## Read at
 **Mode: ingredient.** Step 4c, cited by every line that conceals something. The rate is
-never here: it varies by rating and, in DANGEROUS, by weight and node role, so it belongs
+never here: it varies by rating and, in DANGEROUS, by weight and by the location's own exits, so it belongs
 to the line that draws. Distinct from the `Mystery` files, which are content and may stand
 in plain sight, and from `wild/Secret.md`, which is a whole concealed *location* rather
 than a detail inside one.

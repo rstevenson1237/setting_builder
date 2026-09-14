@@ -193,24 +193,26 @@ Rationale and open questions: `DRAKENHOLD.md`. Phases land in order.
       only; 5c authors nothing.
 
 **3. `patterns/`**
-- [ ] New `dangerous/Door.md`: `Mode: second pass`; kinds open, one-way, secret, vertical;
+- [x] New `dangerous/Door.md`: `Mode: second pass`; kinds open, one-way, secret, vertical;
       carries `## Design patterns`. Add it to `STEPS.md` step 1b's compile list in the same
       change - the validator checks that list against the tree in both directions, so the
       list entry errors until the file carrying the section exists.
-- [ ] `dangerous/Dressing.md`: `1  Every exit typed and positioned` becomes an edge citing
+- [x] `dangerous/Dressing.md`: `1  Every exit typed and positioned` becomes an edge citing
       `dangerous/Door.md`.
-- [ ] `dangerous/Low.md`: restate the three concealment rates against the location's exits.
-- [ ] `dangerous/High.md`, `Medium.md`, `Low.md`: delete the demand-side Key and Quest
-      registry lines; draw any obligation recorded against this location at rate `1`.
-- [ ] `dangerous/Key.md`: the supply-side line records a `setting/Keys.md` stub; `Unlocks` is
+- [x] `dangerous/Low.md`: restate the three concealment rates against the location's exits.
+- [x] `dangerous/High.md`, `Medium.md`, `Low.md`: demand-side Key line replaced by an
+      obligation draw at rate `1`. *The Quest line is reworded, not deleted - DANGEROUS
+      registers supply, so the line stays rated.*
+- [x] `dangerous/Key.md`: the supply-side line records a `setting/Keys.md` stub; `Unlocks` is
       written at 4d.
-- [ ] Weight files: reword "the target of a quest given elsewhere" to supply-side
+- [x] Weight files: reword "the target of a quest given elsewhere" to supply-side
       registration, per `dangerous/Quest.md`.
-- [ ] `setting/Secrets.md`: rate varies by rating and, in DANGEROUS, by weight and by the
+- [x] `setting/Secrets.md`: rate varies by rating and, in DANGEROUS, by weight and by the
       location's exits.
-- [ ] `wild/Landmark.md`: drop the node-role analogy.
-- [ ] `region/Dangerous.md`: replace LOW NODE ROLE MIX with a graph-shape rule joined to stub
-      weight.
+- [x] `wild/Landmark.md`: drop the node-role analogy.
+- [x] `region/Dangerous.md`: LOW SHAPE MIX replaces LOW NODE ROLE MIX; the per-location
+      NODE ROLE block is deleted. *Also added the BLOCKS spec, which phase 1's 4c cites for
+      the block definition and which the plan did not list.*
 
 **4. `GENRE.md`**
 - [ ] Add the house rules to the fixed block, under **What a line has to earn**, and state

@@ -17,7 +17,7 @@ DRESSING - every location
   1     Condition - active use, or former use: abandoned, decayed, ruined, destroyed
   1     Purpose - what it was for
   1     Ambiance - smell and sound, attributable to Condition or Purpose
-  1     Every exit typed and positioned
+  1     Every exit typed and positioned                 (dangerous/Door.md)
 ```
 
 ## Design patterns
@@ -58,16 +58,6 @@ here), never free-floating mood. A smell or sound equally true of any room in th
 belongs in the Region Overview's own Ambiance field, not here - per this file's Constraints
 below. Temperature and footing are real facts but follow from Condition; state them there,
 or in a Feature line, when they matter enough to act on.
-
-**Exits.** Every exit gets a type - material, construction, condition - never just "a
-door." Every exit gets a position: which wall or corner it opens from.
-
-Two exits of the same type are told apart by their positions and their details, and this
-is not housekeeping. **It is what makes a branch a decision rather than a coin flip.** A
-party choosing between "a door" and "a door" is guessing. A party choosing between "a low
-door, scorched black around the frame" and "a wide arch, its threshold worn smooth" is
-deciding. Where the region's graph marks a location a branch or a divide, its exits carry
-the weight of that choice and must earn it.
 
 **Integration.** The last pass, and the one that separates a location from a list of
 features. Everything in the room was put there by the same history: the same builders, the

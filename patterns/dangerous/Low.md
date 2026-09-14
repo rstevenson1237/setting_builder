@@ -1,25 +1,24 @@
 # Dangerous - Low
 
 ## Provides
-What a low-weight location guarantees, and what its node role requires of it.
+What a low-weight location guarantees, and what its own exits require of it.
 
 ## Read at
-**Mode: entry.** Step 4c, for a location its gazetteer stub marks low. Node role is
-taken from the region's `Connections.mmd`, written at 4b.
+**Mode: entry.** Step 4c, for a location its gazetteer stub marks low, generated as part of
+its block.
 
 ## Spec
 
 ```
-DANGEROUS - LOW                        (parameterized by node role)
+DANGEROUS - LOW                      (parameterized by this room's own exits)
 
   -- substrate: what this room is
   1     Dressing - what it is now, and what it was    (dangerous/Dressing.md)
-  1     Node role honoured, per the node-role spec below
-  100%  A concealed detail, where the node role is "appears as dead end" - the
-        hidden route IS the role                      (patterns/setting/Secrets.md)
-  50%   A concealed detail, where the node role is an honest dead end
+  100%  A concealed detail, where this room has one mundane exit and a secret one -
+        the concealed route IS the detail             (patterns/setting/Secrets.md)
+  50%   A concealed detail, where this room has exactly one exit and it is mundane
                                                       (patterns/setting/Secrets.md)
-  30%   A concealed detail, at every other node role   (patterns/setting/Secrets.md)
+  30%   A concealed detail, at every other exit count (patterns/setting/Secrets.md)
         Each states its Clue, Trigger and Payload
 
   -- challenge: none. LOW presents as unremarkable, and a challenge here would
@@ -30,8 +29,9 @@ DANGEROUS - LOW                        (parameterized by node role)
 
   -- registry: what ties this room to somewhere else
   10%   A detail that foreshadows a HIGH location elsewhere in the region
-  5%    A lock, and the key that opens it is elsewhere      (dangerous/Key.md)
-  5%    The target of a quest given elsewhere               (dangerous/Quest.md)
+  1     Any lock obligation recorded against this room      (dangerous/Key.md)
+  5%    Something here that someone elsewhere would want, registered as supply
+                                                            (dangerous/Quest.md)
 
   1     Naming, after everything above          (patterns/setting/Naming.md)
 ```
@@ -48,52 +48,20 @@ makes attention a real cost.
 What LOW leaves lying is `dangerous/Treasure.md`'s Table I, Scavenged Loot - a detail that
 rewards looking without demanding action.
 
-**The Secret is LOW's whole load**, and the three rates above are the only place node role
-feeds content rather than just the Exits line. LOW is also the reason the DANGEROUS
-concealment rate lives in the weight classes at all: no single rate could say what these
-three lines say.
+**The Secret is LOW's whole load**, and it is the reason the DANGEROUS concealment rate lives
+in the weight classes at all: no single rate could say what these three lines say.
 
-**Dead end and appears as dead end are different roles precisely because of this rate.** A
-plain dead end hides something only half the time - if it never did, players would stop
-checking and the role dies; if it always did, it would not be a secret, it would be a step.
-Appears as dead end exists for the other half of that question: a location assigned that
-role at 4b is committing, at the graph level, to the hidden route always being there.
-
-**What honouring a node role means** - the role is read off `Connections.mmd` at 4b, not
-chosen here, and it changes the Exits line and, for some roles, the Secret. Per
-`dangerous/Dressing.md`, every exit still gets its own type and position regardless of role.
-
-- **Entryway** - one exit reads as the way in from outside the region rather than to
-  another location: state what marks it from the outside (a specific approach, not "the
-  entrance").
-- **Simple connection** - one exit in, one out, no decision. Dressing still earns its
-  baseline; a corridor is not exempt from having a purpose and a sensory fact.
-- **Dead end** - exits stop at one. Per the 50% dead-end rate above, roughly
-  half of these hide a Secret whose Payload is a cache or a piece of lore, not a route -
-  that is what keeps this role distinct from Appears as dead end below.
-- **Appears as dead end** - presents with exactly one exit, same as Dead end, but carries a
-  Secret whose Payload is specifically the hidden (-.-) route recorded at 4b. The Clue has
-  to be findable before the room reads as a dead end at all, or the room is just a dead end
-  that got lucky.
-- **Branch** - two exits, both eventually reconverging elsewhere in the region. Per
-  `dangerous/Dressing.md`, the two exits must be told apart by type and position, not just
-  labeled - a real choice, not a coin flip.
-- **Branch (many)** - three or more exits. The room's Purpose or Architecture should account
-  for why this particular space has that many ways out - a junction, a collapsed chamber
-  with several breaches, a room built to be passed through from any side.
-- **Divide** - a choice that does not reconverge: each exit commits the party to a distinct
-  wing of the region they cannot cross back between without retracing. State that
-  consequence in the room, not just in the graph - per GENRE.md, a divide the players can't
-  see coming makes their decision for them instead of letting them make it.
-- **Loop leg** - one of a chain of three or more locations that returns to an
-  already-visited node without reusing an edge - a circular route. A single loop leg's own
-  entry does not need to announce the loop; the loop is a fact about the graph, discovered
-  by walking it, not a line of text repeated at every leg.
+**A room with one exit and a room with one exit plus a concealed route are different cases
+precisely because of this rate.** A room that simply ends hides something only half the time
+- if it never did, players would stop checking and the case dies; if it always did, it would
+not be a secret, it would be a step. The other half of that question is the room whose
+concealed route the block diagram already drew: that edge exists, so the detail revealing it
+is not a rate but a certainty.
 
 ## Constraints
 
-- **Never let an honest dead end's Secret pay out a route off the map.** A Payload that
-  is a hidden way through is what the "appears as dead end" role commits to at the graph
-  level, at 100%. Handing one to a plain dead end quietly turns a 50%-rate room into a
-  100%-rate one without the graph saying so - if the room should have the route, relabel
-  its node role at 4b and let the rate follow.
+- **Never let a room that simply ends pay out a route off the map.** A Payload that is a
+  hidden way through belongs to a room whose secret edge the block diagram actually drew,
+  at 100%. Handing one to a room with no such edge turns a 50% room into a 100% one while
+  the graph says otherwise - if the room should have the route, draw the edge at 4b and let
+  the rate follow.

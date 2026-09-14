@@ -33,8 +33,9 @@ DANGEROUS - HIGH
   40%   Second treasure, of a different disposition         (dangerous/Treasure.md)
 
   -- registry: what elsewhere points at this room
-  25%   A lock, and the key that opens it is elsewhere       (dangerous/Key.md)
-  20%   The target of a quest given elsewhere                (dangerous/Quest.md)
+  1     Any lock obligation recorded against this room       (dangerous/Key.md)
+  20%   Something here that someone elsewhere would want, registered as supply
+                                                     (dangerous/Quest.md)
 
   1     Naming, after everything above           (patterns/setting/Naming.md)
 ```

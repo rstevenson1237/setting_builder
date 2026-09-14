@@ -58,7 +58,7 @@ owes them something for it.
 Landmarks have children and by which edge - a normal edge to a Hidden child, a hidden
 (`-.-`) edge to a Secret one. So the lead lines are mandatory *per child the graph gives
 this Landmark* and absent otherwise; they are not a rate, the same way
-`dangerous/Low.md`'s node role is read off the graph rather than chosen. A Hidden child
+`dangerous/Low.md`'s concealment rates follow from edges the graph already drew. A Hidden child
 whose parent never stated the detail leading to it is unreachable.
 
 **Naming comes last because a place is named for what turned out to be there.** It is the

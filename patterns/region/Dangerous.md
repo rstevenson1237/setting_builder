@@ -57,8 +57,7 @@ Connection graph:
 ```
 TOPOLOGY - dense, few entrances
   1     Every location reachable from an entrance
-  1     At least one loop (3+ consecutive loop legs) - a path that returns without
-        backtracking
+  1     At least one loop (3+ locations) - a path that returns without backtracking
   1     At least one divide - a choice that does not reconverge
   1     At least one branch (many), per 12 locations - a choice of three or more exits
   60%   A dead end, per 12 locations
@@ -68,33 +67,38 @@ TOPOLOGY - dense, few entrances
   30%   A one-way connection
 ```
 
-**Node role - every location carries exactly one, named here, assigned at 4b:**
+**Blocks - a DANGEROUS region is generated one block at a time**, per STEPS.md 4c:
 
 ```
-NODE ROLE
-  entryway | simple connection | dead end | appears as dead end | branch |
-  branch (many) | divide | loop leg
+BLOCKS
+  1     Every location belongs to exactly one block
+  1     Each block is one functional quarter - its locations share a purpose family
+        from dangerous/Dressing.md
+  1     No two blocks in a region share a purpose family
+  12-20 locations per block; a region of 12 or fewer is a single block
 ```
 
-**No location is left unassigned, and "simple connection" is a role, not a null value.**
-It is the honest name for a location that is neither an entrance, a dead end, a branch
-point, nor part of a loop - a straightforward link between two other nodes - and
-`dangerous/Low.md` requires it to be honoured like any other role. Never record it as
-`empty`: a label naming the absence of a role rather than a role becomes the silent
-default that no size rule actually called for.
+The quarter is what holds a block together and what sharpens it: a barracks range, a
+kitchen and its stores, a run of private cells are each answering a different question about
+the same place. It is also the scale at which `dangerous/Dressing.md`'s bar on reusing a
+purpose can actually be met - the Purpose list holds 63 nouns, which no hundred-location
+region could spread across itself.
 
 **LOW distribution - this is where the graph's shape has to actually show up,** since LOW
 is the largest class:
 
 ```
-LOW NODE ROLE MIX - of a region's LOW-weight locations
-  60%+  Carry a role other than simple connection
-  1     No single role - simple connection included - accounts for more than a third of a
-        region's LOW locations
+LOW SHAPE MIX - of a region's LOW-weight locations, measured on the assembled graph
+  60%+  A degree other than 2 - not a plain through-connection
+  1     No single degree class - 1, 2, 3, 4+ - accounts for more than a third
 ```
 
-A region where every non-baseline role landed on a HIGH or MEDIUM location and every LOW
-location defaulted to simple connection has technically satisfied the graph-wide counts
+Degree is a coarse instrument and the rule is a warning rather than a bar: a location on a
+loop has degree 2 and reads here as a corridor, so a loop-heavy region will look flatter
+than it plays. Read a failure as a question, not a verdict.
+
+A region where every dead end, branch and divide landed on a HIGH or MEDIUM location while
+every LOW location sat between two neighbours has technically satisfied the graph-wide counts
 above while failing this rule - the counts are necessary, not sufficient, and this is the
 check that catches it.
 
