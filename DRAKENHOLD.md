@@ -347,18 +347,51 @@ made elsewhere, independently. At LOW it is a 1-in-20 chance the lock is ever wr
 This is the open-thread failure from Part four, produced by the library rather than by the
 generator, and it is a defect rather than a judgement call.
 
-**The fix is the atomic rule, and blocks make it enforceable.** A two-ended element is
-written into both ends in one action, or it is not written. That gives one rule covering all
-three cases above:
+### The fix: obligations, not deferral
 
-> A two-ended element may be authored only where the far end is already written, or where
-> both ends are in the same generation batch. Anything else waits for the reinforcement
-> pass.
+Two candidate fixes, and the choice is not close.
 
-The HIGH-foreshadow line satisfies the first clause today. `dangerous/Key.md`'s supply line
-satisfies neither and needs to be scoped to within-batch, with cross-batch keys deferred to
-reinforcement. Quest needs no change: supply-side registration is not a thread, because
-nothing is owed until a giver is drafted.
+**Deferring every two-ended element to a later layer-in pass is the wrong one**, for a
+reason `dangerous/Key.md` states about itself: two-ended elements "are the reason a point
+crawl is a network rather than a list." Strip them from 4c and 4c produces a list, with every
+network property bolted on afterwards. And bolted on is literal - `dangerous/Dressing.md`'s
+Integration is explicitly the last pass, the one checking that everything in the room was put
+there by the same history. A lock added to a finished room after that pass has run cannot
+participate in the room's design; it can only sit on top of it. Deferral buys safety by
+giving up the thing the elements are for.
+
+**The obligation is the right one.** The near end names its target as it does today, and that
+naming writes a binding obligation against the far location. When the far location is
+generated, the obligation is drawn at rate `1`, overriding the percentage. The percentages
+stop being two independent gambles and become what they should always have been: a
+**supply-side seeding rate**, with the demand side guaranteed rather than re-rolled.
+
+That means the demand-side lines are **deleted, not lowered** - `25% / 10% / 5% A lock, and
+the key that opens it is elsewhere` and `The target of a quest given elsewhere` come off all
+three weight files, replaced by a single line reading *any obligation recorded against this
+location, at rate 1*. A spontaneously drawn lock whose key was never written anywhere is an
+orphan nobody can open, which is strictly worse than not drawing one.
+
+**One discipline makes it sound: obligations point forward only.** An obligation may name a
+location in the current generation batch - written atomically, both ends in view - or in a
+batch not yet generated, where the override fires when that batch comes up. It may never
+point backwards into a finished batch, because there is no longer anywhere for the override
+to fire; that case, and only that case, waits for the reinforcement pass. Batch ordering is
+already fixed (region order, and HIGH before MEDIUM before LOW within a region), so which
+direction a given obligation points is a mechanical question with a mechanical answer.
+
+**And it yields the invariant that was missing: zero unconsumed obligations at the close of
+4c.** Every obligation is created when a near end is written and consumed when its far end is
+generated, so anything still outstanding is a dangling thread, by definition, detectable by
+`tools/validate_setting.py` rather than by reading. That is a hard error, not a judgement
+call - which also settles where the open-thread ledger lives. It is not a standing prose
+file: it is a field in the topology data with a closed lifecycle, and the closed lifecycle is
+what stops it accumulating.
+
+Quest needs no change under any of this. It names no far end - it registers supply and lets
+givers be drafted from the registry - so it creates no obligation and can dangle nothing.
+The HIGH-foreshadow line needs no change either: generation order already guarantees its far
+end.
 
 One smaller incoherence, noted while confirming this: the weight files draw *the target of a
 quest given elsewhere*, which reads as though the giver already exists, while
@@ -389,17 +422,27 @@ vocabulary, only a scope. And the predecessor is the evidence it works: Drakenho
 *are* functional quarters (Trade Hall, Granaries, Workshop, Forge, Guildmaster Manse;
 Judgement Hall, Prison and Barracks, Throne, Treasure Vaults, Dragon's Lair), running 16 to
 65 rooms each. That is a size range for a block, taken from a build that shipped, and it is
-worth noting the re-scoping: Drakenhold's *blocks* grouped regions, and what is proposed
-here is the same idea one level down, grouping locations inside a region.
+worth correcting an earlier claim in these notes: Drakenhold's blocks did **not** group only
+regions. They grouped at both scales, giving five nested levels - setting groups region
+blocks, region blocks group regions, regions group location blocks, location blocks group
+locations, and locations group features. Its diagram tiers encode exactly that ladder: T1 is
+setting to blocks, T2 block to regions, T3 region to location groups, T4 group to locations,
+and the location entry itself is the last rung. So the proposal here is not the same idea one
+level down - it is the *second* half of an arrangement that shipped whole, and the tiering is
+proven at both scales rather than inferred from one.
 
-This also fixes a constraint that is currently unsatisfiable rather than merely unchecked.
-`dangerous/Dressing.md` says **do not reuse a purpose already used in this region**, and its
-Purpose list holds 63 nouns across the eight families. A region of 50-100 locations cannot
-obey that rule - there are not enough purposes - and Drakenhold's FA alone is 65 rooms. At
-block scope the rule becomes both satisfiable and checkable: no repeated purpose *within a
-block*, with blocks differentiated by family. The constraint was right about the failure it
-names (a region with three storerooms has told the party rooms do not matter) and wrong about
-the scope it names it at.
+It also settles what to do with a constraint that is currently unsatisfiable rather than
+merely unchecked. `dangerous/Dressing.md` says **do not reuse a purpose already used in this
+region**, and its Purpose list holds 63 nouns across eight families - so a region of 50-100
+locations cannot obey it, and Drakenhold's FA alone is 65 rooms. The resolution is not to
+rescope it to the block and keep it absolute. It is **step 5 judgement material**: the
+failure it names is real (a region with three storerooms has told the party rooms do not
+matter) but whether a given repeat is that failure or is two granaries in a hold that
+plausibly had two needs a person to look. So it belongs in the judgement checks, with
+`tools/validate_setting.py` raising a **warning** on purpose-repeat density and never an
+error - which is the validator's stated posture anyway: strict on format, relaxed on content
+and ratios, warning on what needs a human glance but might be intentional. Blocks still help,
+by making the repeat legible at the scale a person can actually assess.
 
 The batch is likewise the natural unit for Part four's reinforcement pass, and for Part
 five's atomic rule - "both ends in the same batch" is only a usable test because a batch is a
@@ -434,9 +477,10 @@ The honest detractors, none of which look decisive:
   Mitigated by committing the generated `.mmd`, which keeps it rendering exactly where it
   renders today, and by a generated-do-not-edit header so a hand edit is not silently
   overwritten. The repo already has the precedent - two builders rendering one source.
-- **Format choice is constrained by "stdlib-only Python throughout."** JSON is stdlib and
-  `tomllib` is stdlib from 3.11; YAML is not available and should not be reached for. This
-  narrows the choice rather than blocking it.
+- **Format choice is less constrained than it first looked.** `README.md`'s "stdlib-only
+  Python throughout" is a description of what the repo happens to contain, not a rule it is
+  held to, so a dependency is on the table. JSON and `tomllib` remain the zero-dependency
+  options.
 - **A generator emits mermaid more reliably than a bespoke schema.** Probably true, and it
   cuts the other way on balance: a malformed bespoke file is caught by the validator, while
   a plausible-but-wrong mermaid graph is not caught by anything. Errors that surface are
@@ -444,8 +488,38 @@ The honest detractors, none of which look decisive:
 - **Merge behaviour** is roughly a wash if the format keeps one edge per line, and worse if
   it nests.
 
-The prerequisite ordering stands: this is what makes block membership a field rather than a
-convention, and blocks derivable rather than authored.
+**Is there a library that does this?** Not as one piece, and the split is clean. Checked
+against PyPI from this session:
+
+- **`networkx` (3.6.1)** is the data model and the algorithms, and it is a close fit.
+  Arbitrary attribute dicts on nodes and edges carry role, edge type, gating condition, block
+  membership and obligations with no schema work; `node_link_data` round-trips the whole graph
+  to JSON; and the mix rules that currently go unenforced - dead-end counts, entrance counts,
+  reachability, the 60%-of-LOW role spread - are ordinary graph queries rather than bespoke
+  parsing. It has no mermaid exporter, and emitting flowchart text from a graph is on the
+  order of thirty lines.
+- **`mermaid-py` (0.8.4)** and **`python-mermaid` (0.1.6)** are emitters and renderers, not
+  data models. Their node objects are presentation-shaped - shape, style, position - so they
+  would sit downstream of the real model, replacing the thirty lines and adding a dependency
+  that also wants network access to render. Not worth it for text output.
+
+So: `networkx` for the model and hand-rolled emission, or plain JSON and hand-rolled
+everything. The former buys the checks; the latter buys zero dependencies.
+
+**Could mermaid itself be the single source of truth?** Closer than these notes first
+implied, and still no. Mermaid can carry more than the templates currently use: `classDef`
+plus `class A1,A5 entryway` assigns node roles and *renders* them as styling, so the role
+table could be eliminated today at low cost; `subgraph` maps exactly onto a location block
+and renders as a visual grouping; edge type fits an edge label or an arrow form. Node
+metadata syntax (`A@{ ... }`) exists in recent versions but takes a fixed key set, not
+domain fields.
+
+Where it fails is not topology. It is that the graph file now has to hold **authoring
+state** - obligations, and whether each has been consumed - which is not a property of a node
+or an edge or a drawing, and has no expression in a diagram language at any version. That is
+the argument that actually decides it, and it only appeared once Part five's obligations did.
+The prerequisite ordering stands: the internal format is what makes block membership and
+obligations fields rather than conventions.
 
 **The house rules go into `GENRE.md`'s fixed block.** It is the right home on the
 governing distinction - neutral, permanent, already reproduced verbatim and never
@@ -507,6 +581,7 @@ recompile for a new genre will leave Truths untouched while everything around it
   location or a separate partition list.
 - Whether blocks are authored or derived once the format exists. Current lean is authored,
   since a functional quarter is a design decision and not a graph property.
-- Whether an open-thread ledger is needed at all. Under Part five's atomic rule the only
-  deferred threads are ones a person chose in the reinforcement pass, which may be few
-  enough to live in that pass's own notes rather than in a standing file.
+- `networkx` plus hand-rolled emission, or plain JSON and no dependency.
+- Whether obligations may cross regions or only batches within a region. Cross-region
+  obligations are what make keys interesting and are also the ones most likely to point
+  backwards into finished ground.
