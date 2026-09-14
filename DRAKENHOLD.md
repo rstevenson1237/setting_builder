@@ -399,6 +399,78 @@ quest given elsewhere*, which reads as though the giver already exists, while
 are drafted from it. The line and the file it cites describe opposite directions of travel.
 The file is right; the line should be reworded.
 
+## Part six: node role belongs on the stub
+
+A better option than either a role table or a role field in the graph: since roles
+concentrate on LOW locations, and a stub already carries a classification token at 4a,
+encode the role there - `low, branch` rather than `low` plus a lookup somewhere else.
+
+**The library already agrees, more strongly than the proposal claims.** `node role` appears
+in `dangerous/Low.md`, `patterns/region/Dangerous.md`, `patterns/setting/Secrets.md`,
+`wild/Landmark.md` and `templates/Region_Connections.mmd`. It appears **nowhere in
+`dangerous/High.md` or `dangerous/Medium.md`** - not in their Specs, not in their prose.
+`dangerous/Low.md` says why in as many words: the three concealment rates parameterised by
+role *"are the only place node role feeds content rather than just the Exits line."* So
+`templates/Region_Connections.mmd`'s instruction that **every** location gets a role produces
+write-only data for the 40-55% of a region that is HIGH or MEDIUM - assigned at 4b, never
+read by anything. Narrowing role to LOW is not a compromise for this proposal's sake; it is
+deleting a field nobody consumes.
+
+**It also shortens 4c's context rather than lengthening it.** Today `dangerous/Low.md` must
+read the role off `Connections.mmd` - *"the role is read off `Connections.mmd` at 4b, not
+chosen here"* - so writing a LOW location means opening the graph file. Put the role on the
+stub and 4c reads it from the line it already reads for weight and tags. One fewer file in
+the narrowest context in the build.
+
+**And it relieves the graph file.** Under this, the `.mmd` carries no roles - no `class`
+assignments, no appended table. It goes back to being a drawing. What the internal topology
+format is still needed for is obligations and block membership, neither of which is a
+property of a node or an edge; role drops out of that argument entirely.
+
+### The real question underneath: is role an input or an output?
+
+Every one of the eight roles is **derivable** from a typed graph. Dead end is degree 1;
+appears as dead end is degree 2 or more with all but one edge hidden; branch is degree 3 and
+branch (many) degree 4 or more; simple connection is degree 2; entryway carries an edge
+leaving the region; divide is an articulation point; loop leg sits on a cycle. The last two
+are the only non-trivial ones and `networkx` supplies both off the shelf. So a role could be
+computed and never written down at all.
+
+But derivation only works *after* 4b, and the mix rules want to be checkable before it -
+`patterns/region/Dangerous.md` requires 60%+ of a region's LOW locations to carry a role
+other than simple connection, and no single role to account for more than a third of them.
+Declared on the stub, both are checkable at 4a against the gazetteer alone, with no graph in
+existence. Declared on the stub, the role also gives 4b a shape to build toward instead of a
+graph to annotate afterwards, which is the likelier route to a graph that was designed rather
+than described. And the library's own language is already intent language: a location
+*"assigned that role at 4b is committing, at the graph level, to the hidden route always
+being there."*
+
+**So: declare on the stub at 4a, derive from the graph at 4b, and have the validator compare
+them.** That is not the two-tables failure repeating itself. Two *authored* copies drift, and
+the drift is silent. Here one side is a target and the other is a measurement, and a
+measurement cannot drift - it can only disagree, which is information. This framework already
+treats exactly this relationship as first-class: `templates/Region.md` holds that a claim made
+at region level *"is a promise the locations have to keep"*, and 5c audits it.
+
+One honest split inside that. Five roles are local degree facts - entryway, simple connection,
+dead end, branch, branch (many) - and a stub declaring one constrains 4b trivially. Three are
+global graph properties: divide (an articulation point), loop leg (membership of a cycle), and
+appears as dead end (which depends on an edge existing *and* being typed hidden). A stub
+cannot know at 4a that 4b will be able to produce a three-node cycle through it, and a set of
+declarations could be jointly unsatisfiable. For those three the declaration is a target 4b
+may have to renegotiate, and the validator should report a divergence as a **warning** for a
+person to adjudicate, not an error.
+
+### Syntax
+
+Not `low/branch`. The validator matches weight against an exact set and separately checks the
+`Locations.md` stub's weight against the location file header's, so a fused token turns every
+weight comparison into a prefix parse. It also reads wrong: WILD's `landmark/hidden/secret`
+uses slashes to mean *one of these three*, so `low/branch` scans as an alternation. A second
+comma-separated slot - `(low, branch)` - keeps one token with two fields, is unambiguous
+against the existing convention, and makes the validator change additive.
+
 ## Resolved
 
 **The block tier is a generation batch, not a level of the setting.** It was a deliberate
@@ -581,7 +653,11 @@ recompile for a new genre will leave Truths untouched while everything around it
   location or a separate partition list.
 - Whether blocks are authored or derived once the format exists. Current lean is authored,
   since a functional quarter is a design decision and not a graph property.
-- `networkx` plus hand-rolled emission, or plain JSON and no dependency.
+- `networkx` plus hand-rolled emission, or plain JSON and no dependency. Part six shrinks
+  what the format has to hold - obligations and block membership, not roles - which makes
+  the zero-dependency option more plausible than it was.
 - Whether obligations may cross regions or only batches within a region. Cross-region
   obligations are what make keys interesting and are also the ones most likely to point
   backwards into finished ground.
+- Whether the three global roles are declared at all, or left entirely to derivation, with
+  only the five local ones on the stub.
