@@ -1258,9 +1258,10 @@ def main() -> int:
 
     citations: dict[str, dict] = {kind: {} for kind, _, _ in REGISTRY_KINDS}
 
+    NON_LOCATION_FILES = {"Locations.md", "Tags.md"}
     for region_code, locs in region_locs.items():
         rdir = SETTING / "region" / region_code
-        existing_files = {p.stem for p in rdir.glob("*.md") if p.name != "Locations.md"}
+        existing_files = {p.stem for p in rdir.glob("*.md") if p.name not in NON_LOCATION_FILES}
         expected_files = {str(num) for num in locs}
         for missing in sorted(expected_files - existing_files, key=lambda x: int(x)):
             diag.warn(rdir, f"missing location file {missing}.md for gazetteer entry {region_code}.{missing} - not written yet")
