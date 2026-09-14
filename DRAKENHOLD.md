@@ -599,11 +599,9 @@ a mechanism.
 
 ### Three things to settle before writing one
 
-- **Cross-block edges need an owner.** If both FA's file and GA's file declare the FA-to-GA
-  edge, that is two authored copies and the drift is back. Declare each cross-block edge
-  **once**, in the file of the earlier-generated block, and let the other end appear as a
-  reference node only. The validator can then check every reference node resolves to a
-  declaration somewhere.
+- **Cross-block edges need an owner.** *Settled at Part nine, the other way:* both files
+  declare the edge and a symmetry check over existence, type and direction holds them
+  together, rather than one file owning it and the other referencing it.
 - **Edge type becomes a controlled vocabulary in a label**, since Drakenhold's nine types
   exceed mermaid's three arrow forms. That is fine - an enum check is easy - but note
   `EDGE_RE` currently reads `(\w+)\s*(---|-\.-|-->)\s*(\w+)` and would **silently fail
@@ -613,6 +611,78 @@ a mechanism.
 - **The header.** Block name, its purpose family, its region, and its room budget. Mermaid
   supports YAML frontmatter inside the diagram in recent versions; a markdown header above
   the fence is version-proof and is what the build already splices around.
+
+## Part nine: the tier contract
+
+Five rules settle how the diagram tiers relate, and they close the cross-block question Part
+eight left open.
+
+1. **Locations connect only to locations.** A location never connects to a region. Every edge
+   at the location tier has a location at both ends, across blocks and regions alike.
+2. **Only the location tier carries type.** Every other tier says whether a connection exists
+   and nothing else.
+3. **Every group tier - setting, region group, region, location group - asserts existence
+   only**, not type and not quantity.
+4. **Before writing a location diagram, confirm whether it connects, and match the connection
+   where it does.**
+5. **A location belongs to exactly one group.** Drakenhold drew a boundary location on two
+   diagrams to reinforce the connection, not because it held dual membership.
+
+**Rule 3 is already this framework's rule one tier up, verbatim.** `templates/Connections.mmd`
+says *"No indicator of connection type or quantity is needed at this level, just that the
+connection exists"*, and STEPS.md 3b calls the region graph "existence only". So this is a
+generalization of a decision already taken, not a new invention - which is the best kind.
+
+**And rule 5 retires a detractor these notes raised twice.** Drakenhold's text reads *"A
+location may belong to two regions of different modes"*, which is what prompted the "seam"
+objection - but its operative half is *"drawn identically in each"*, and its Shared nodes
+entry says the same: *"a location on a region boundary belongs to both diagrams and is drawn
+identically in each."* That is duplication for emphasis with an equality rule attached, not
+dual membership. Single membership stands, and the objection is withdrawn.
+
+### What follows
+
+**The only typed graph in the system is the location tier.** Every diagram above it is a
+boolean adjacency summary of the tier below. That is the whole contract in one line, and it
+makes every upper tier **derivable**: two regions are connected exactly when some location in
+one has an edge to some location in the other.
+
+**Which creates an ordering paradox with a familiar resolution.** Step 3b writes the region
+graph before any location exists, so the upper tier cannot be derived when it is written - it
+is authored as intent. That is the claim-versus-delivery relationship the framework already
+runs on, and it yields two mechanical invariants:
+
+- every region-tier edge is realized by at least one location-tier edge, and
+- no cross-region location-tier edge exists without a region-tier edge to license it.
+
+The first is a promise the locations must keep; the second catches a location quietly opening
+a border the region graph never declared. Both are computable once 4c closes, and the second
+is the one more likely to fire.
+
+**Rule 4 is duplication with an equality check, and is only safe if the check exists.** A
+cross-block edge appears in both block files - which is two authored copies, the exact drift
+these notes have warned about throughout - held together solely by a checker treating
+asymmetry as the error. Drakenhold ran it that way deliberately. It works, but the checker is
+not optional, and it has to cover three things, not one:
+
+- **existence** - both files declare the edge;
+- **type** - both declare the same one, now that labels carry a controlled vocabulary;
+- **direction** - and this is the trap. A one-way edge must read `A --> B` in *both* files.
+  Written from B's point of view it is natural to type `B --> A`, which is a different edge,
+  renders plausibly, and reverses the map.
+
+**Rule 1 buys a cheap check of its own.** `tools/validate_setting.py` already distinguishes
+region nodes (`TOP_NODE_RE`, a bare code) from location nodes (`LOC_NODE_RE`, code and
+number). Rule 1 means a location-tier file must never contain a bare region node, which is
+one regex away from being enforced.
+
+**The real cost is context, and it is worth tooling around.** Rule 4 means writing block *N*
+requires knowing which of blocks 1 to *N-1* declared edges into it - which naively means
+reading them all, and at Drakenhold's scale that is 79 files. The extraction is purely
+mechanical, though, and the validator already parses every diagram: a `--pending` mode
+listing the inbound edges declared against a block, run before that block is written, removes
+the need to read anything. Cheap to build, and it is what makes "author as blocks, then wire
+them together" hold at scale rather than only in principle.
 
 ## Resolved
 
@@ -798,10 +868,10 @@ reopen it on evidence rather than on mood.
 **1. Concrete format, and how block membership is stored. - CLOSED by Part eight.**
 There is no internal format. Mermaid stays the source of truth, one file per block, and
 membership is the file a node is declared in. `tomllib` being parse-only no longer matters.
-*Detractor* mermaid still cannot express a location sitting on the seam between two blocks,
-since a node is declared in exactly one file - and Drakenhold explicitly allowed a node to
-belong to two regions at once, so the case will arise. The reference-node convention for
-cross-block edges is the escape hatch, and it should be written down before it is needed.
+*Detractor* withdrawn at Part nine - single membership is the rule, and the predecessor's
+boundary nodes were drawn twice for emphasis rather than held in two groups. What remains is
+that cross-block edges are now declared in two files and held together only by a symmetry
+check, so that check is load-bearing rather than a nicety.
 
 **2. Blocks authored or derived. - CLOSED by Part eight.**
 Authored, structurally: a block is a file, so there is nothing to derive.
