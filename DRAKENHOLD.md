@@ -552,6 +552,68 @@ ratios in `patterns/region/Dangerous.md` are already written as graph-wide rates
 per twelve locations, the share of those that are hidden, the one-way rate - so they were
 always going to be measured over the graph rather than counted off the stubs.
 
+## Part eight: one mermaid file per block, and mermaid keeps the crown
+
+**This supersedes the internal-format decision.** Write each block as its own mermaid
+diagram with a small header. Block membership stops being a field and becomes *which file a
+node is declared in*; cross-block connections are the edges whose far node is declared
+somewhere else, which is trivially parseable; and mermaid stays the single source of truth
+for topology.
+
+**The one argument against mermaid does not survive scrutiny, and the repo is why.** These
+notes held that mermaid could carry role, edge type and grouping but not *authoring state* -
+obligations and whether each is consumed - because that is not a property of a node, an edge
+or a drawing. True, and beside the point: **an obligation is not topology at all.** It is a
+dependency between a key and a lock, not a passage between rooms, and the framework already
+has its registry. `templates/Keys.md` holds exactly the shape, and holds it deferred:
+
+> **4c**: append a stub row - Object Name and Location only [...]
+> `Unlocks: [what it unlocks or triggers, written in step 4d: the specific Feature and
+> Location Code]`
+
+That row *is* the obligation. Pending is `Unlocks` unwritten; consumed is `Unlocks` naming a
+feature that exists in a location file on disk - both readable by
+`tools/validate_setting.py` from artifacts it already parses. No new storage, no new format,
+and the zero-unconsumed invariant from Part five survives intact.
+
+**Which also exposes a live contradiction between two files, unrelated to any of these
+proposals.** `dangerous/Key.md`'s Spec makes naming the lock mandatory at 4c - `1  What it
+opens, named by location code and feature` - while `templates/Keys.md` says a 4c stub carries
+"Object Name and Location only" and defers `Unlocks` to 4d. They disagree about when the far
+end is named, today. Part five reached the same defect from the graph side; the template was
+already right, and the fix is to make `dangerous/Key.md` agree with it rather than to invent
+a mechanism.
+
+### What the file-per-block arrangement buys
+
+- **Membership cannot drift**, because it is not recorded anywhere - the file is the block.
+  That deletes the open question of field-versus-partition-list, and settles
+  authored-versus-derived structurally rather than by argument.
+- **It is Drakenhold's arrangement.** `T4_<REGION>_<GROUP>.md`, one diagram per location
+  group, spliced into its host by the build. Seventy-nine of them shipped.
+- **The generation batch gets one readable artifact** - the block's topology, at the size a
+  person can hold, which is what "author as blocks" wanted.
+- **Nothing new is built.** GitHub rendering, hand-editability and
+  `tools/validate_setting.py`'s existing `parse_mmd_edges` all keep working, and no build
+  step generates what was previously authored.
+
+### Three things to settle before writing one
+
+- **Cross-block edges need an owner.** If both FA's file and GA's file declare the FA-to-GA
+  edge, that is two authored copies and the drift is back. Declare each cross-block edge
+  **once**, in the file of the earlier-generated block, and let the other end appear as a
+  reference node only. The validator can then check every reference node resolves to a
+  declaration somewhere.
+- **Edge type becomes a controlled vocabulary in a label**, since Drakenhold's nine types
+  exceed mermaid's three arrow forms. That is fine - an enum check is easy - but note
+  `EDGE_RE` currently reads `(\w+)\s*(---|-\.-|-->)\s*(\w+)` and would **silently fail
+  to match** a labelled edge like `A -->|gated by rod| B`, dropping it from the graph with no
+  error. Extend the regex in the same change that introduces labels, or edges will vanish
+  quietly.
+- **The header.** Block name, its purpose family, its region, and its room budget. Mermaid
+  supports YAML frontmatter inside the diagram in recent versions; a markdown header above
+  the fence is version-proof and is what the build already splices around.
+
 ## Resolved
 
 **The block tier is a generation batch, not a level of the setting.** It was a deliberate
@@ -733,29 +795,23 @@ recompile for a new genre will leave Truths untouched while everything around it
 Each carries the strongest argument against the recommendation, so a later reader can
 reopen it on evidence rather than on mood.
 
-**1. Concrete format, and how block membership is stored.**
-*Recommend* JSON, with a small block table carrying each block's purpose family and a
-single-valued `block` field on each location pointing into it. TOML loses on a concrete
-technicality: `tomllib` is parse-only - `load` and `loads`, no `dump` - so writing TOML costs
-a dependency to do the half of the job that actually matters here, and the file is
-machine-written and machine-checked rather than hand-edited.
-*Detractor* JSON has no comments, and this file will want to say why an edge is one-way. And
-a single-valued block field cannot express a location sitting on the seam between two
-quarters - Drakenhold explicitly allowed a location to belong to two regions at once, so the
-same will happen one level down.
+**1. Concrete format, and how block membership is stored. - CLOSED by Part eight.**
+There is no internal format. Mermaid stays the source of truth, one file per block, and
+membership is the file a node is declared in. `tomllib` being parse-only no longer matters.
+*Detractor* mermaid still cannot express a location sitting on the seam between two blocks,
+since a node is declared in exactly one file - and Drakenhold explicitly allowed a node to
+belong to two regions at once, so the case will arise. The reference-node convention for
+cross-block edges is the escape hatch, and it should be written down before it is needed.
 
-**2. Blocks authored or derived.**
-*Recommend* authored. A functional quarter is a statement about what a part of the place was
-*for*; derivation would be community detection over the connection graph, which finds
-topological clusters and knows nothing about purpose - and purpose is the whole reason the
-block carries binding detail.
-*Detractor* an authored block can disagree with the graph, producing a "barracks quarter"
-that reads as a unit on the page and plays as scattered rooms. Cheap mitigation: warn when
-the subgraph induced by a block is not connected.
+**2. Blocks authored or derived. - CLOSED by Part eight.**
+Authored, structurally: a block is a file, so there is nothing to derive.
+*Detractor* an authored block can still disagree with the graph, producing a quarter that
+reads as a unit on the page and plays as scattered rooms. Cheap mitigation: warn when a
+block file's own edges leave it disconnected.
 
-**3. `networkx`, or plain JSON and no dependency.**
-*Recommend* plain JSON, no dependency - **this reverses the earlier lean, and Part seven is
-why.** The case for `networkx` was that the unenforced mix rules are graph queries, and the
+**3. `networkx`, or no dependency.**
+*Recommend* no dependency - **this reversed on Part seven and Part eight only strengthens
+it.** The case for `networkx` was that the unenforced mix rules are graph queries, and the
 hard ones were articulation points and cycle membership, both needed to derive node roles.
 Roles are now deleted. What remains is arithmetic: dead ends are degree 1, branches degree 3
 or more, the one-way rate is an edge-attribute count, independent loops are `E - V + C`, and
