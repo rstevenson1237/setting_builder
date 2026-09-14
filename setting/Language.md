@@ -78,9 +78,9 @@ Roots:
 - kaash - below, beneath
 - ith - word, name, utterance
 
-Coined here: none yet - the first Essath coinages will name what this build's ruins and
-dead are called, starting wherever `setting/History.md` or a DANGEROUS region first needs
-one, at step 2b onward.
+Coined here:
+- Nirguk = nirg (serpent) + uk (lord, master) - the Serpent-kin's own name for themselves,
+  in `setting/Bestiary.md`
 
 ## Uhgum
 Spoken by: the Man-Apes, in numbers nobody has counted. Living, not dead - the one non-human
