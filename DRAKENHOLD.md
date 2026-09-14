@@ -728,19 +728,120 @@ specific-and-compiled. The distinction governs pattern-file content and `Truths.
 generated content, so this is not a spec violation; it is worth watching anyway, because a
 recompile for a new genre will leave Truths untouched while everything around it changes.
 
-## Open
+## Open, with a recommendation each
 
-- The concrete format: JSON or TOML, and whether block membership is a field on the
-  location or a separate partition list.
-- Whether blocks are authored or derived once the format exists. Current lean is authored,
-  since a functional quarter is a design decision and not a graph property.
-- `networkx` plus hand-rolled emission, or plain JSON and no dependency. Part six shrinks
-  what the format has to hold - obligations and block membership, not roles - which makes
-  the zero-dependency option more plausible than it was.
-- Whether obligations may cross regions or only batches within a region. Cross-region
-  obligations are what make keys interesting and are also the ones most likely to point
-  backwards into finished ground.
-- Whether `Door.md` eventually gets WILD and SAFE counterparts, or exits stay in their
-  Dressing files outside DANGEROUS.
-- Whether `patterns/region/Dangerous.md`'s LOW NODE ROLE MIX rule survives the deletion of
-  roles, or is restated as a plain graph-shape rule about dead ends, branches and loops.
+Each carries the strongest argument against the recommendation, so a later reader can
+reopen it on evidence rather than on mood.
+
+**1. Concrete format, and how block membership is stored.**
+*Recommend* JSON, with a small block table carrying each block's purpose family and a
+single-valued `block` field on each location pointing into it. TOML loses on a concrete
+technicality: `tomllib` is parse-only - `load` and `loads`, no `dump` - so writing TOML costs
+a dependency to do the half of the job that actually matters here, and the file is
+machine-written and machine-checked rather than hand-edited.
+*Detractor* JSON has no comments, and this file will want to say why an edge is one-way. And
+a single-valued block field cannot express a location sitting on the seam between two
+quarters - Drakenhold explicitly allowed a location to belong to two regions at once, so the
+same will happen one level down.
+
+**2. Blocks authored or derived.**
+*Recommend* authored. A functional quarter is a statement about what a part of the place was
+*for*; derivation would be community detection over the connection graph, which finds
+topological clusters and knows nothing about purpose - and purpose is the whole reason the
+block carries binding detail.
+*Detractor* an authored block can disagree with the graph, producing a "barracks quarter"
+that reads as a unit on the page and plays as scattered rooms. Cheap mitigation: warn when
+the subgraph induced by a block is not connected.
+
+**3. `networkx`, or plain JSON and no dependency.**
+*Recommend* plain JSON, no dependency - **this reverses the earlier lean, and Part seven is
+why.** The case for `networkx` was that the unenforced mix rules are graph queries, and the
+hard ones were articulation points and cycle membership, both needed to derive node roles.
+Roles are now deleted. What remains is arithmetic: dead ends are degree 1, branches degree 3
+or more, the one-way rate is an edge-attribute count, independent loops are `E - V + C`, and
+connectivity is a breadth-first walk. That is tens of lines, not a library.
+*Detractor* if per-node topological facts are ever wanted again - which nodes sit on a loop,
+which are articulation points - a worse `networkx` gets rebuilt by hand. The escape is cheap
+though: the data is JSON either way, so adopting the library later is a read, not a
+migration.
+
+**4. Whether obligations may cross regions.**
+*Recommend* yes, with no rule beyond the forward-only one already decided. Regions generate
+in order, so "forward" is well defined across them, and cross-region obligations are the ones
+worth having - a key found in the first region opening something in the fourth is the whole
+point of a two-ended element.
+*Detractor* these have the longest lifetimes and so are the most likely to strand if
+generation order changes or a region is regenerated, and an obligation held across five
+regions freezes a design decision for a long time - the far location's lock is dictated by a
+choice made long before anyone knew what that location would be. The zero-unconsumed
+invariant catches stranding; nothing catches staleness, so report obligation distance as a
+diagnostic.
+
+**5. `Door.md` for WILD and SAFE.**
+*Recommend* not yet - DANGEROUS only. WILD carries concealed access in its location
+*classification* rather than on its edges, SAFE's gate is social rather than physical, and
+three files for one concept triples the surface with no current consumer.
+*Detractor* deliberate restatement across ratings is this library's convention, to the point
+that step 5b **inverts** the duplication check for `patterns/` - so a single-rating file is
+the anomaly here, not the norm, and a reader finding exits inline in `wild/Dressing.md` and
+as a whole file in DANGEROUS has found exactly the asymmetry that invites drift.
+
+**6. Whether LOW NODE ROLE MIX survives.**
+*Recommend* restate it as a graph-shape rule joined to stub weight. The content is still
+wanted - a region whose every LOW location is a corridor is a boring region - but it has to be
+expressed as dead-end, branch, one-way and loop rates rather than as role labels.
+*Detractor* the rule says something the graph-wide rates do not, and
+`patterns/region/Dangerous.md` says so in as many words: a region where every non-baseline
+shape landed on HIGH or MEDIUM while every LOW defaulted to a corridor *"has technically
+satisfied the graph-wide counts above while failing this rule."* So the restatement cannot be
+purely about the graph - it has to cross-reference stub weight, which makes it a two-source
+check rather than the clean single-source one the deletion was meant to buy.
+
+**7. Step numbering, which blocks all of the above.**
+Batching at 4c, promoting 5c to authoring, and adding `Door.md` all touch STEPS.md - and
+`CLAUDE.md` warns that `## Read at` names step ids and a renumber "silently stales every one
+of them," with the validator checking those ids against STEPS.md.
+*Recommend* grow by suffix and never renumber: reinforcement becomes `5d`, batching is a
+property of `4c` rather than a new step. Every existing `## Read at` line survives untouched.
+*Detractor* suffix-only growth makes the numbering progressively less useful as a reading
+order, and the renumber only gets more expensive the longer it waits. The validator already
+parses every step id, so a scripted rewrite is not the frightening part - deciding the new
+order is.
+
+**8. A `CLAUDE.md` line pointing at the house rules.**
+*Recommend* add it - one line naming the `GENRE.md` block as the rung below the three tests.
+That file's entire remit is what must be re-checked every request, and this is the cheapest
+lever against the dilution problem.
+*Detractor* `CLAUDE.md` is short by explicit design and every line added dilutes the rest,
+which is the same failure one level up. And if a rule needs a pointer in the
+always-loaded file to get applied, that is evidence it is not checkable - in which case the
+effort belongs in making it checkable, not in pointing harder at it.
+
+**9. Standing Mysteries as an artifact.**
+*Recommend* add it at setting level, scoped `[local]` and `[setting]`. It expresses something
+this framework currently cannot say at all: that a question is deliberately unanswered rather
+than merely unwritten.
+*Detractor* the pressure that motivated it is largely gone now that obligations give a hard
+zero-dangling invariant, and a new artifact costs a template, a pattern file, a step id, a
+validator rule and a place in the build - a lot of machinery for something that may hold four
+lines. A section inside `setting/Truths.md` would carry it at a fraction of the cost.
+
+## Consequential edits already implied
+
+Not questions - things that are now owed by decisions taken above, listed so they are not
+lost.
+
+- `dangerous/Key.md`: scope the supply-side "named by location code and feature" line to the
+  obligation mechanism, and delete the demand-side lines from all three weight files.
+- `dangerous/Quest.md` and the weight files: reword *"the target of a quest given elsewhere"*,
+  which describes the opposite direction of travel from the file it cites.
+- `patterns/setting/Secrets.md`: its rate "varies by rating and, in DANGEROUS, by weight and
+  node role" - the last clause becomes a statement about the location's exits.
+- `wild/Landmark.md`: its analogy to *"`dangerous/Low.md`'s node role [being] read off the
+  graph rather than chosen"* is stale once roles are gone. Reword; nothing structural breaks.
+- `templates/Location.md`: move `setting/Truths.md` from the look-up-only list into the narrow
+  consult list.
+- `templates/Region_Connections.mmd`: drop the node-role table and the "every location gets
+  one" instruction.
+- STEPS.md step 1b: add `dangerous/Door.md` to the compile list, since it carries
+  `## Design patterns` and the validator checks that list in both directions.
