@@ -42,6 +42,8 @@ Roots:
 
 Coined here:
 - Telar = tel (road) + ar (place, holding) - the setting's own name, in `setting/Setting.md`
+- Brekar = brek (break, ruin) + ar (place, holding) - the reaver band holding the Sunk
+  Bridge's own name for itself, in `setting/Factions.md`
 
 ## Essath
 Spoken by: the dead. The priest-kings who cut the black ziggurats and drowned temples are
