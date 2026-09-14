@@ -65,9 +65,8 @@ same occupant, the same collapse, the same water. Before the entry is done, chec
 each feature could plausibly share a room with the others - and where one cannot, change
 it rather than explaining it.
 
-**Vocabulary, per `GENRE.md`'s Voice.** Real architectural terms - corbel, lintel,
-revetment, spandrel, newel. Real trades and their leavings. Real materials named as
-materials.
+**Vocabulary.** Real architectural terms - corbel, lintel, revetment, spandrel, newel. Real
+trades and their leavings. Real materials named as materials.
 
 ## Constraints
 

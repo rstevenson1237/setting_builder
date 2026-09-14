@@ -78,8 +78,8 @@ not paid for. Access is social here rather than physical, and that is worth a cl
 Before the entry is done, check that its parts could plausibly share a building - and where
 one cannot, change it rather than explaining it.
 
-**Vocabulary, per `GENRE.md`'s Voice.** Real trades and their tools and leavings; real
-building terms - jetty, purlin, wattle, mullion, sill, byre; real goods named as goods.
+**Vocabulary.** Real trades and their tools and leavings; real building terms - jetty,
+purlin, wattle, mullion, sill, byre; real goods named as goods.
 
 ## Constraints
 

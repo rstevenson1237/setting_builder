@@ -66,9 +66,8 @@ into a guess.
 same tenancy. Before the entry is done, check that its parts could plausibly share a place
 - and where one cannot, change it rather than explaining it.
 
-**Vocabulary, per `GENRE.md`'s Voice.** Real terms for landform, watercourse, vegetation and
-weather - scree, corrie, holt, spinney, sike, hag, tor, brake. Name the species rather than
-"trees."
+**Vocabulary.** Real terms for landform, watercourse, vegetation and weather - scree,
+corrie, holt, spinney, sike, hag, tor, brake. Name the species rather than "trees."
 
 ## Constraints
 

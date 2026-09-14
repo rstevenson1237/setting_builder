@@ -26,14 +26,6 @@ them, no throne owes them anything, and no guild will avenge them if they fail -
 hold at the end of a job is only what they were strong, clever, or lucky enough to take and
 keep.
 
-## Tags
-
-**Safe:** Garrison, Tribute, Slavers, Usurers, Caravans, Priest-Kings, Walled City, Decadent Court, Temple Cult, Mercenary Guild
-**Wild:** Raiders, Nomads, Old Road, Burial Mound, Standing Stones, Wolf Pack, Horse Lords, Trackless Waste, Border Reavers, Salt Flat
-**Dangerous:** Serpent Cult, Black Ziggurat, Drowned Temple, Elder Sorcery, Man-Apes, Cursed Idol, Sunken City, Undying Sorcerer, Bloodstone Altar, Pit of the Old Ones
-**People (personalities):** Treacherous, Fatalistic, Grasping, Superstitious, Proud, Servile, Ruthless, World-Weary, Zealous, Craven
-**Creatures (demeanors):** Predatory, Territorial, Cunning, Ravenous, Skulking, Frenzied, Wary, Ancient, Venomous, Relentless
-
 ## What a line has to earn
 
 Three tests, applied to every line of every artifact at every level. **They outrank the
@@ -129,9 +121,9 @@ Where one of these and a test disagree, the test wins.
   promise about what the room contains, and an unkept one sends the referee improvising the
   thing the entry was supposed to hand them.
 
-Naming draws on disclosed real-world inspirations, the way Howard's Hyborian Age recombines
-real cultures under invented names: a place or people's name should evoke a real-world
-culture's texture (a Celtic frontier clan, a Central Asian steppe empire, an Egyptian
-river-kingdom) without naming that culture outright. A location's own name is still plain
-and descriptive, drawn from the common tongue, not freshly coined, though it may carry a
-name coined elsewhere and glossed for the referee.
+Naming draws on an invented phoneme-and-root system rather than a disclosed real-world
+culture's texture: proper nouns across this setting are built from a constructed language -
+its phoneme inventory, syllable shapes, affixes, and root list seeded in `setting/Language.md`
+at step 1d - rather than echoing a real-world people outright. A location's own name is
+still plain and descriptive, drawn from the common tongue, not freshly coined, though it may
+carry a name coined elsewhere and glossed for the referee.
