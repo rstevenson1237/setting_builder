@@ -220,6 +220,10 @@ Rationale and open questions: `DRAKENHOLD.md`. Phases land in order.
 - [ ] Unconsumed `setting/Keys.md` obligations at the close of 4c: error.
 - [ ] A block whose induced subgraph is disconnected: warning.
 - [ ] A purpose repeated within a block: warning.
+- [ ] LOW node mix, per region: 60%+ of LOW-weight locations have degree != 2, and no single
+      degree class (1, 2, 3, 4+) exceeds a third. Warning. Dedupe cross-block edges declared
+      in both files before computing degree. Blind spot to state in the message: a loop leg
+      is degree 2 and reads as a corridor.
 - [ ] `--pending <block>`: list inbound edges declared against a block.
 
 ## Open

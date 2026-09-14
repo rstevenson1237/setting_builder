@@ -144,7 +144,8 @@ and vertical. DANGEROUS only; WILD and SAFE keep exits in their `Dressing.md` fi
 `setting/Keys.md` stub row and `Unlocks` is written at 4d, per `templates/Keys.md`. The
 demand-side percentages come off all three weight files, replaced by a rate-`1` draw of any
 obligation recorded against the location. Obligations point forward only - same batch, or a
-batch not yet generated. Zero unconsumed obligations at the close of 4c.
+batch not yet generated, and may cross regions. Zero unconsumed obligations at the close of
+4c.
 
 **Quest is unchanged.** It registers supply and lets givers be drafted from the registry, so
 it names no far end and creates no obligation.
@@ -166,90 +167,19 @@ build. No new step id is created.
 **The no-repeated-purpose rule is step 5 judgement material**, scoped to the block and
 raising a validator warning, never an error.
 
-## Open, with a recommendation each
+**LOW NODE ROLE MIX becomes a degree-class rule joined to stub weight**, checked over the
+assembled graph and raising a warning. Articulation points and cycle membership are out of
+scope.
 
-Each carries the strongest argument against the recommendation, so a later reader can
-reopen it on evidence rather than on mood.
+## Postponed
 
-**1. Concrete format, and how block membership is stored. - CLOSED by Part eight.**
-There is no internal format. Mermaid stays the source of truth, one file per block, and
-membership is the file a node is declared in. `tomllib` being parse-only no longer matters.
-*Detractor* withdrawn at Part nine - single membership is the rule, and the predecessor's
-boundary nodes were drawn twice for emphasis rather than held in two groups. What remains is
-that cross-block edges are now declared in two files and held together only by a symmetry
-check, so that check is load-bearing rather than a nicety.
+**`Door.md` for WILD and SAFE.** Exits stay in their `Dressing.md` files outside DANGEROUS.
+*Detractor* deliberate restatement across ratings is this library's convention - step 5b
+inverts the duplication check for `patterns/` - so a single-rating file is the anomaly here,
+and a reader finding exits inline in `wild/Dressing.md` and as a whole file in DANGEROUS has
+found the asymmetry that invites drift.
 
-**2. Blocks authored or derived. - CLOSED by Part eight.**
-Authored, structurally: a block is a file, so there is nothing to derive.
-*Detractor* an authored block can still disagree with the graph, producing a quarter that
-reads as a unit on the page and plays as scattered rooms. Cheap mitigation: warn when a
-block file's own edges leave it disconnected.
-
-**3. `networkx`, or no dependency.**
-*Recommend* no dependency - **this reversed on Part seven and Part eight only strengthens
-it.** The case for `networkx` was that the unenforced mix rules are graph queries, and the
-hard ones were articulation points and cycle membership, both needed to derive node roles.
-Roles are now deleted. What remains is arithmetic: dead ends are degree 1, branches degree 3
-or more, the one-way rate is an edge-attribute count, independent loops are `E - V + C`, and
-connectivity is a breadth-first walk. That is tens of lines, not a library.
-*Detractor* if per-node topological facts are ever wanted again - which nodes sit on a loop,
-which are articulation points - a worse `networkx` gets rebuilt by hand. The escape is cheap
-though: the data is JSON either way, so adopting the library later is a read, not a
-migration.
-
-**4. Whether obligations may cross regions.**
-*Recommend* yes, with no rule beyond the forward-only one already decided. Regions generate
-in order, so "forward" is well defined across them, and cross-region obligations are the ones
-worth having - a key found in the first region opening something in the fourth is the whole
-point of a two-ended element.
-*Detractor* these have the longest lifetimes and so are the most likely to strand if
-generation order changes or a region is regenerated, and an obligation held across five
-regions freezes a design decision for a long time - the far location's lock is dictated by a
-choice made long before anyone knew what that location would be. The zero-unconsumed
-invariant catches stranding; nothing catches staleness, so report obligation distance as a
-diagnostic.
-
-**5. `Door.md` for WILD and SAFE.**
-*Recommend* not yet - DANGEROUS only. WILD carries concealed access in its location
-*classification* rather than on its edges, SAFE's gate is social rather than physical, and
-three files for one concept triples the surface with no current consumer.
-*Detractor* deliberate restatement across ratings is this library's convention, to the point
-that step 5b **inverts** the duplication check for `patterns/` - so a single-rating file is
-the anomaly here, not the norm, and a reader finding exits inline in `wild/Dressing.md` and
-as a whole file in DANGEROUS has found exactly the asymmetry that invites drift.
-
-**6. Whether LOW NODE ROLE MIX survives.**
-*Recommend* restate it as a graph-shape rule joined to stub weight. The content is still
-wanted - a region whose every LOW location is a corridor is a boring region - but it has to be
-expressed as dead-end, branch, one-way and loop rates rather than as role labels.
-*Detractor* the rule says something the graph-wide rates do not, and
-`patterns/region/Dangerous.md` says so in as many words: a region where every non-baseline
-shape landed on HIGH or MEDIUM while every LOW defaulted to a corridor *"has technically
-satisfied the graph-wide counts above while failing this rule."* So the restatement cannot be
-purely about the graph - it has to cross-reference stub weight, which makes it a two-source
-check rather than the clean single-source one the deletion was meant to buy.
-
-**7. Step numbering, which blocks all of the above.**
-Batching at 4c, promoting 5c to authoring, and adding `Door.md` all touch STEPS.md - and
-`CLAUDE.md` warns that `## Read at` names step ids and a renumber "silently stales every one
-of them," with the validator checking those ids against STEPS.md.
-*Recommend* grow by suffix and never renumber: reinforcement becomes `5d`, batching is a
-property of `4c` rather than a new step. Every existing `## Read at` line survives untouched.
-*Detractor* suffix-only growth makes the numbering progressively less useful as a reading
-order, and the renumber only gets more expensive the longer it waits. The validator already
-parses every step id, so a scripted rewrite is not the frightening part - deciding the new
-order is.
-
-**8. A `CLAUDE.md` line pointing at the house rules. - CLOSED.**
-Not needed. `GENRE.md` is in every template's Context and `CLAUDE.md` already requires it be
-re-read at every generation step.
-
-
-**9. Standing Mysteries as an artifact.**
-*Recommend* add it at setting level, scoped `[local]` and `[setting]`. It expresses something
-this framework currently cannot say at all: that a question is deliberately unanswered rather
-than merely unwritten.
-*Detractor* the pressure that motivated it is largely gone now that obligations give a hard
-zero-dangling invariant, and a new artifact costs a template, a pattern file, a step id, a
-validator rule and a place in the build - a lot of machinery for something that may hold four
-lines. A section inside `setting/Truths.md` would carry it at a fraction of the cost.
+**Standing Mysteries as an artifact.** A setting-level record of what is deliberately
+unanswered, scoped `[local]` and `[setting]`.
+*Detractor* nothing in the framework can currently say a question is deliberately unanswered
+rather than merely unwritten, and `checks/`'s Room to Grow is not the same act.
