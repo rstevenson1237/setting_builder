@@ -30,8 +30,9 @@ DANGEROUS - MEDIUM
 
   -- registry: what ties this room to somewhere else
   25%   A detail that foreshadows a HIGH location elsewhere in the region
-  10%   A lock, and the key that opens it is elsewhere  (dangerous/Key.md)
-  10%   The target of a quest given elsewhere           (dangerous/Quest.md)
+  1     Any lock obligation recorded against this room       (dangerous/Key.md)
+  10%   Something here that someone elsewhere would want, registered as supply
+                                                     (dangerous/Quest.md)
 
   1     Naming, after everything above      (patterns/setting/Naming.md)
 ```

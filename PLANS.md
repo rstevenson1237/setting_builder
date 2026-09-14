@@ -165,6 +165,82 @@ looking for owes them something. Which parents carry children is read off the re
   carrying sections the skeleton does not, so its Seed pool, eligibility test, narrowing
   rounds and Q2 axes read as the procedure rather than as a file left unconverted.
 
+## Implementation
+
+Rationale and open questions: `DRAKENHOLD.md`. Phases land in order.
+
+**1. `STEPS.md`**
+- [x] Add step ids by suffix; never renumber - every `## Read at` cites them.
+- [x] `4c`: in a DANGEROUS region the unit of generation is the block. HIGH region-wide
+      first, then block by block, MEDIUM before LOW within each.
+
+**2. Templates and `STEPS.md` 4b**
+- [x] `STEPS.md` `4b`: drop the node-role assignment. A DANGEROUS region produces a
+      block-existence diagram plus one typed diagram per block; SAFE and WILD keep a single
+      region diagram. Confirm and match an existing cross-block edge before writing one.
+- [x] `Connections.mmd`: existence only, and the group-tier rule stated. `Region_Connections.mmd`
+      splits by rating - typed location graph for SAFE and WILD, block-existence for DANGEROUS.
+      *Plan correction: the item read "existence only" for both, which is wrong for SAFE and
+      WILD, where the region diagram is the location tier.*
+- [x] `Region_Connections.mmd`: node-role table and "every location gets one" deleted.
+- [x] New `Block_Connections.mmd`: one diagram per block. Header carries block name, purpose
+      family, region, room budget. Location-tier edges carry type. A cross-block edge is
+      declared in both files, identical in existence, type and direction. Locations connect
+      only to locations.
+- [x] `Location.md`: `setting/Truths.md` in the consult list, availability not a quota.
+- [x] `Setting_Judgement_Check.md`: Room to Grow also names reinforcement candidates -
+      elements thin enough on the ground that a later pass could thicken them. Recommendation
+      only; 5c authors nothing.
+
+**3. `patterns/`**
+- [x] New `dangerous/Door.md`: `Mode: second pass`; kinds open, one-way, secret, vertical;
+      carries `## Design patterns`. Add it to `STEPS.md` step 1b's compile list in the same
+      change - the validator checks that list against the tree in both directions, so the
+      list entry errors until the file carrying the section exists.
+- [x] `dangerous/Dressing.md`: `1  Every exit typed and positioned` becomes an edge citing
+      `dangerous/Door.md`.
+- [x] `dangerous/Low.md`: restate the three concealment rates against the location's exits.
+- [x] `dangerous/High.md`, `Medium.md`, `Low.md`: demand-side Key line replaced by an
+      obligation draw at rate `1`. *The Quest line is reworded, not deleted - DANGEROUS
+      registers supply, so the line stays rated.*
+- [x] `dangerous/Key.md`: the supply-side line records a `setting/Keys.md` stub; `Unlocks` is
+      written at 4d.
+- [x] Weight files: reword "the target of a quest given elsewhere" to supply-side
+      registration, per `dangerous/Quest.md`.
+- [x] `setting/Secrets.md`: rate varies by rating and, in DANGEROUS, by weight and by the
+      location's exits.
+- [x] `wild/Landmark.md`: drop the node-role analogy.
+- [x] `region/Dangerous.md`: LOW SHAPE MIX replaces LOW NODE ROLE MIX; the per-location
+      NODE ROLE block is deleted. *Also added the BLOCKS spec, which phase 1's 4c cites for
+      the block definition and which the plan did not list.*
+
+**4. `GENRE.md`**
+- [x] House rules added to the fixed block in both `GENRE.md` and `templates/Genre.md`,
+      stated as standing consequences rather than a fourth test, with the tests winning any
+      disagreement. *The predecessor's "the clue lives outside the location holding the
+      secret" is reconciled rather than copied: it contradicts `patterns/setting/Secrets.md`,
+      whose Clue is local and visible by ordinary observation. The rule is split - the clue
+      is local, the answer more often comes from elsewhere.*
+
+**5. `tools/validate_setting.py`**
+- [x] `EDGE_RE`: matches labelled edges. Was dropping them silently.
+- [x] Cross-block edges: symmetry over existence, type and direction.
+- [x] Location-tier files: no bare region nodes.
+- [x] Every region-tier edge realized by at least one location-tier edge (warning); no
+      cross-region location edge without one (error).
+- [x] Unconsumed `setting/Keys.md` obligations: error once every location is written,
+      warning before. *Required naming the opened location at 4c - `templates/Keys.md`
+      deferred it to 4d, so no obligation existed for a weight file to draw.*
+- [x] A block whose induced subgraph is disconnected: warning.
+- [x] Block purpose families: no two blocks in a region share one. *The per-location purpose
+      repeat is not mechanical - purpose lives in Referee Notes prose - and stays step 5
+      judgement material.*
+- [x] LOW shape mix: degree classes over deduped edges, warning, blind spot in the message.
+- [x] `--pending [REGION]`: lists edges owed to locations no block has claimed. *Not
+      addressable by block name: a block that does not exist yet owns no locations.*
+- [x] Block membership is an explicit `Locations:` header. *"The file is the block" is
+      ambiguous once a cross-block edge puts the far location's node in both files.*
+
 ## Open
 
 **1. `wild/Hazard.md` and `wild/Creature.md` share a boundary that is stated in only one

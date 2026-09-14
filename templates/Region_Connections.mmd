@@ -1,7 +1,10 @@
 # Region_Connections.mmd
 
 ## Purpose
-A graph of the connections between the locations within a single region, and any locations in neighboring regions they physically connect to.
+A single region's connection diagram. What it holds depends on the region's rating: for SAFE
+and WILD it is the typed graph of the region's locations; for DANGEROUS it is a
+block-to-block graph asserting existence only, with the typed location graphs living one per
+block.
 
 ## Context
 Read first:
@@ -9,21 +12,28 @@ Read first:
 - this region's `Locations.md`
 
 ## Instructions
-Unlike `setting/Connections.mmd` (region-level, existence only), this diagram may be directional and should indicate different connection types where they matter to how a party moves through the region.
+
+**SAFE and WILD - the typed location graph.** These regions carry no blocks, so this diagram
+is the location tier and carries type. It may be directional and should indicate connection
+types where they matter to how a party moves through the region.
 
 Connection type reference:
 - `A --- B` normal - an open, two-way passage or path
 - `A -.- B` hidden - a concealed, sealed, or secret connection
 - `A --> B` one-way - only traversable in the direction shown
 
-**For a DANGEROUS region, assign each location's node role here** - entryway, simple
-connection, dead end, appears as dead end, branch, branch (many), divide, or loop leg, per
-`patterns/dangerous/Low.md` - as a table beneath the graph. Every location gets one; simple
-connection is a named role, not an empty default. This is the only place in the build the
-graph's shape and each node's role are both in view at once; `templates/Location.md` step
-4c reads the role from here rather than inventing it.
+**DANGEROUS - the block-existence graph.** A DANGEROUS region is generated block by block,
+so this diagram is a group tier: it states which blocks connect to which and nothing else -
+no type, no direction, no quantity, per `templates/Connections.mmd`'s rule one tier up. The
+typed edges between the locations of two connected blocks are written in the block diagrams
+themselves, per `templates/Block_Connections.mmd`.
+
+**Locations connect only to locations.** A location never connects to a block or a region,
+so a block node and a location node never appear in the same diagram.
 
 ## Template
+
+SAFE and WILD:
 ```mermaid
 graph LR
     A1["[Code] [Location Name]"] --- A2["[Code] [Location Name]"]
@@ -31,11 +41,9 @@ graph LR
     A3 --> A4["[Code] [Location Name]"]
 ```
 
-For a DANGEROUS region, follow the graph with a node role table:
-
-```
-| Code | Node Role |
-|------|-----------|
-| A1   | [entryway / simple connection / dead end / appears as dead end / branch / branch (many) / divide / loop leg] |
-| A2   | [...] |
+DANGEROUS:
+```mermaid
+graph LR
+    B1["[Block Name]"] --- B2["[Block Name]"]
+    B2 --- B3["[Block Name]"]
 ```

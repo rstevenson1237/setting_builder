@@ -8,12 +8,13 @@ Consult when drafting - and only this, deliberately narrow so the entry stays sh
 - `GENRE.md` - a Feature is something to react to on the spot, not a beat in a larger scripted arc.
 - this location's parent Region Overview (`setting/region/[Region Code].md`).
 - this location's own gazetteer stub (name, weight/classification, its two tags) from `setting/region/[Region Code]/Locations.md`. The two tags were drawn, not invented - one from `setting/Tags.md`, one from this region's own `setting/region/[Region Code]/Tags.md` - and are read here only for color; they name no Kind and carry no inclusion math.
+- `setting/Truths.md` - read at every location, whatever its rating or weight. Availability is not a quota: where this location touches a truth it is an **instance** of it, in this room's own terms, never a restatement of it. A truth surfacing in every room is wallpaper.
 - `setting/Procedures.md` - the shared mechanics the pattern files cite rather than restate: trap resolution, searching, time, and scaling.
 - `setting/Language.md` - roots for any proper noun coined here, and where every coinage is recorded back; it is the one artifact that grows as generation proceeds.
 - For a WILD Hidden or Secret location, its parent must already be generated, since its connection is written into the parent's own Exits or Features - generate WILD locations Landmark tier first, then Hidden, then Secret.
 - If a Feature calls for a piece of Lore, a Key, a Quest, a Named Creature, or a Unique Treasure, record only a **stub** (name and this location) in the matching `setting/` file now. Its full content is written later, in step 4d. This is the container/data split: the location cites, the registry holds.
 
-Consult `setting/Bestiary.md`, `setting/Factions.md`, `setting/History.md`, `setting/Truths.md`, or `setting/Rumours.md` only to look up a name the stub or region overview already references - never to pull in new material wholesale.
+Consult `setting/Bestiary.md`, `setting/Factions.md`, `setting/History.md`, or `setting/Rumours.md` only to look up a name the stub or region overview already references - never to pull in new material wholesale.
 
 ## Instructions
 

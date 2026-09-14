@@ -92,6 +92,51 @@ solution is never written into the problem.** These four aren't a fourth test - 
 three tests above, restated as one memorable line any pattern file can point back to
 instead of re-deriving them.
 
+**The rules below are not a fourth test.** The three above are the tests, and they judge a
+line. These are their standing consequences in the situations that recur - written down so
+they are not re-derived every time, and fixed across every genre exactly as the tests are.
+Where one of these and a test disagree, the test wins.
+
+- **A clue announces a secret; it must not also be its answer.** What says something is here
+  is local and plainly visible - a seam, a draft, a floor worn toward a blank face. What
+  *opens* it should more often have been met somewhere else: a name learned three regions
+  back, a rite watched in public, a mark a waystone taught. A secret whose presence and whose
+  answer both sit entirely inside itself is a search roll wearing a costume.
+
+- **A secret is opened by an act, not a roll.** Standing somewhere, clearing something,
+  speaking a name, looking back. If a player can look at the thing and reason about it, the
+  reasoning is the mechanic and a roll takes it away from them.
+
+- **Every gate has an answer that is not the gate, and the answer is priced.** Not a second
+  door - a longer road, a worse road, a road that arrives in the wrong place. Both branches
+  cost something, and which is the mistake is never written down.
+
+- **A bypass may be cheaper in time and still expensive.** Where it is, state the cost as what
+  the party arrives *without* - unpractised, unmet, burning light they will want later.
+
+- **A guardian is more often a condition than a monster.** A thing that will not touch anyone
+  wearing the right mark; a thing that escalates through three refusals before it strikes; a
+  toll-taker who bans rather than kills. Violence is the least interesting reason a thing has
+  survived.
+
+- **Repetition before explanation.** Show the same stone four times across two regions before
+  anything names it. Recognition is worth more than information and costs less.
+
+- **Withholding is content.** The first genuinely rich-looking room contains nothing. A
+  question the setting declines to answer is an answer, provided it declines on purpose.
+
+- **Trope is free structure; defiance is funded by convention held elsewhere.** Naming a trope
+  imports a whole shape for three words, and the budget saved buys the detail that could only
+  be this instance. A setting that subverts constantly teaches players that nothing means what
+  it looks like, and then every clue placed anywhere goes unread.
+
+- **State the nil.** A field that resolves to nothing says so. An omitted field is ambiguous -
+  did the writer decide, or forget? - and a written *none* is a decision on the page.
+
+- **Every bolded noun in a Player Summary appears below it as a Feature.** The summary is a
+  promise about what the room contains, and an unkept one sends the referee improvising the
+  thing the entry was supposed to hand them.
+
 [Naming-convention line, settled by Q2, plus the fixed location-name exception, per
 `patterns/setting/Genre.md`]
 ```
