@@ -1,7 +1,4 @@
-Tags of the Sundered Marches
-
-*(Working title - the setting's coined name is set at step 2a, once `setting/Language.md`
-exists to coin it from.)*
+Tags of Telar
 
 - **Garrison** - a standing company holds one point by force, paid in coin or forage
   rights, not loyalty.

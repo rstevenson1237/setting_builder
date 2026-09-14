@@ -1,7 +1,7 @@
-Tongues of the Sundered Marches
+Tongues of Telar
 
-*(Working title - see `setting/Tags.md` and `setting/Procedures.md`. Seeded generic at
-step 1d; tailored and first drawn on for real coinage at step 2a onward.)*
+*(Seeded generic at step 1d; tailored and first drawn on for real coinage at step 2a
+onward.)*
 
 ## Marchspeech
 Spoken by: the living - garrisons, caravaneers, mercenary companies, and every settlement
@@ -40,7 +40,8 @@ Roots:
 - dral - many
 - arn - toward, in the direction of
 
-Coined here: none yet - `setting/Setting.md` coins the setting's own name first, at step 2a.
+Coined here:
+- Telar = tel (road) + ar (place, holding) - the setting's own name, in `setting/Setting.md`
 
 ## Essath
 Spoken by: the dead. The priest-kings who cut the black ziggurats and drowned temples are
