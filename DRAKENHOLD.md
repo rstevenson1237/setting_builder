@@ -310,6 +310,62 @@ deliberate ones. This framework has neither file, and adding the Standing Myster
 without also adding the tracking file would produce exactly the confusion the split exists
 to prevent.
 
+## Part five: two-ended elements, confirmed and unconfirmed
+
+The question of whether a named destination reliably picks up the thread pointed at it has
+three different answers in the current library, and only one of the three is safe.
+
+**Safe, by generation order.** `dangerous/Medium.md` and `Low.md` carry *a detail that
+foreshadows a HIGH location elsewhere in the region*, at 25% and 10%. This one cannot
+dangle: 4c generates HIGH first, then MEDIUM, then LOW, precisely so lower tiers can
+foreshadow what is already decided. The far end exists before the near end is written. This
+is the model the other two should be measured against.
+
+**Safe, by registering supply and drafting demand later.** `dangerous/Quest.md` is explicit:
+*"Register supply, do not wait for demand. When a location holds something a person
+elsewhere would want [...] record it as a Quest stub now, even if no giver exists yet.
+Givers are drafted from what has been registered."* A DANGEROUS location is the target end;
+it writes a stub row naming itself, and the giver is written afterwards out of the registry.
+Nothing is owed by anyone at the time the stub is written, which is Part four's discipline
+already implemented. This is correct and should not change.
+
+**Not safe: `dangerous/Key.md`.** Its supply end carries a mandatory line - `1  What it
+opens, named by location code and feature`. So a key found at `A.3` names the lock at
+`C.11`, by code and by feature, at the moment `A.3` is written. The demand end - the lock
+itself - is a *separate, independently rated* draw on the far location's own weight file:
+25% at HIGH, 10% at MEDIUM, 5% at LOW. The two draws are unrelated events. `C.11` has no
+idea a key named it: `templates/Location.md`'s Context does not include `setting/Keys.md`,
+and 4c's order is by region and by class, so `C.11` may well have been written already.
+
+The file states the assumption it is relying on: *"Every location stub in the setting exists
+before any location file is written, so a key found here can name its lock by code and name
+at 4c, in another region, in a location not yet drafted."* The stub does exist - but a stub
+is a name, a weight and two tags. **It has no features.** So the key names a location that
+exists and a feature that does not, and whether that feature ever appears is a 5-25% roll
+made elsewhere, independently. At LOW it is a 1-in-20 chance the lock is ever written.
+
+This is the open-thread failure from Part four, produced by the library rather than by the
+generator, and it is a defect rather than a judgement call.
+
+**The fix is the atomic rule, and blocks make it enforceable.** A two-ended element is
+written into both ends in one action, or it is not written. That gives one rule covering all
+three cases above:
+
+> A two-ended element may be authored only where the far end is already written, or where
+> both ends are in the same generation batch. Anything else waits for the reinforcement
+> pass.
+
+The HIGH-foreshadow line satisfies the first clause today. `dangerous/Key.md`'s supply line
+satisfies neither and needs to be scoped to within-batch, with cross-batch keys deferred to
+reinforcement. Quest needs no change: supply-side registration is not a thread, because
+nothing is owed until a giver is drafted.
+
+One smaller incoherence, noted while confirming this: the weight files draw *the target of a
+quest given elsewhere*, which reads as though the giver already exists, while
+`dangerous/Quest.md` says the opposite - that DANGEROUS registers supply first and givers
+are drafted from it. The line and the file it cites describe opposite directions of travel.
+The file is right; the line should be reworded.
+
 ## Resolved
 
 **The block tier is a generation batch, not a level of the setting.** It was a deliberate
@@ -320,11 +376,34 @@ hierarchy - so nothing new is owed between `setting/` and `region/`. What is owe
 batching concept in STEPS.md 4c: a partition of a region's locations that is generated
 together.
 
-This also settles a friction point above at no extra cost. `dangerous/Dressing.md`'s
-constraint **do not reuse a purpose already used in this region** is uncheckable by a
-generator that sees one location at a time; it becomes checkable the moment the unit of
-generation is a block. The batch is likewise the natural unit for Part four's reinforcement
-pass.
+**A block is a functional quarter, and that is what holds it together.** A block is not an
+arbitrary slice of N locations - it is a set of locations sharing a purpose: the former
+barracks, the dining and food preparation rooms, the private quarters. Each purpose sharpens
+the design of its own locations while all of them sit in one conceptual region. That gives a
+block the thing an arbitrary partition lacks - a reason its members belong together, which is
+also the thing that makes them specific.
+
+This maps directly onto `dangerous/Dressing.md`'s existing Purpose taxonomy - Keeping,
+Working, Living, Holding, Meeting, Believing, Dying, Moving - so the concept needs no new
+vocabulary, only a scope. And the predecessor is the evidence it works: Drakenhold's regions
+*are* functional quarters (Trade Hall, Granaries, Workshop, Forge, Guildmaster Manse;
+Judgement Hall, Prison and Barracks, Throne, Treasure Vaults, Dragon's Lair), running 16 to
+65 rooms each. That is a size range for a block, taken from a build that shipped, and it is
+worth noting the re-scoping: Drakenhold's *blocks* grouped regions, and what is proposed
+here is the same idea one level down, grouping locations inside a region.
+
+This also fixes a constraint that is currently unsatisfiable rather than merely unchecked.
+`dangerous/Dressing.md` says **do not reuse a purpose already used in this region**, and its
+Purpose list holds 63 nouns across the eight families. A region of 50-100 locations cannot
+obey that rule - there are not enough purposes - and Drakenhold's FA alone is 65 rooms. At
+block scope the rule becomes both satisfiable and checkable: no repeated purpose *within a
+block*, with blocks differentiated by family. The constraint was right about the failure it
+names (a region with three storerooms has told the party rooms do not matter) and wrong about
+the scope it names it at.
+
+The batch is likewise the natural unit for Part four's reinforcement pass, and for Part
+five's atomic rule - "both ends in the same batch" is only a usable test because a batch is a
+bounded, nameable thing.
 
 **And it exposes a format question worth taking seriously: mermaid is a rendering format
 currently being used as the data model.** The evidence is already in the repo.
@@ -336,14 +415,37 @@ count, 60%+ of LOW carrying a role other than simple connection, the dead-end an
 rates - are stated as binding rules with no enforcement anywhere, while the validator does
 check the things mermaid *can* say, such as every Exits line matching a real edge.
 
-An internal topology format with the `.mmd` generated from it would give first-class homes
-to node role, edge type, gating condition and block membership; would let the validator
-check the mix rules it currently cannot; and fits the build this repo already has, where
-`build_site.py` and `build_pdf.py` render the same sources two ways rather than keeping a
-second copy in sync. The cost is that a hand-editable, natively GitHub-rendered artifact
-becomes a derived one - mitigated by keeping the generated `.mmd` committed, so it still
-renders where it renders today. Not decided here; recorded as the next architectural
-question, and noted as the prerequisite for blocks being derivable rather than authored.
+**Decided: the topology gets an internal format and the `.mmd` is generated from it.** The
+governing argument is that two tables serving one purpose in one file is asking for trouble,
+and the repo is already carrying that exact arrangement - a graph that cannot express a node
+role, and a markdown role table appended beneath it that nothing reads.
+
+It is worse than two, which strengthens the case rather than weakening it. There are **three**
+representations of the same connections today: the mermaid graph, the node-role table inside
+the same file, and every location's own `**Exits:**` line. The validator already cross-checks
+the third against the first - an Exits line naming an edge that no `Connections.mmd` carries
+is a hard error, and one crossing a hidden `-.-` edge is a warning. So two of the three are
+reconciled by code and the third is reconciled by nobody. An internal format should be the
+single source all three are rendered or checked from.
+
+The honest detractors, none of which look decisive:
+
+- **Hand-editability and native GitHub rendering are lost** for the source of truth.
+  Mitigated by committing the generated `.mmd`, which keeps it rendering exactly where it
+  renders today, and by a generated-do-not-edit header so a hand edit is not silently
+  overwritten. The repo already has the precedent - two builders rendering one source.
+- **Format choice is constrained by "stdlib-only Python throughout."** JSON is stdlib and
+  `tomllib` is stdlib from 3.11; YAML is not available and should not be reached for. This
+  narrows the choice rather than blocking it.
+- **A generator emits mermaid more reliably than a bespoke schema.** Probably true, and it
+  cuts the other way on balance: a malformed bespoke file is caught by the validator, while
+  a plausible-but-wrong mermaid graph is not caught by anything. Errors that surface are
+  cheaper than errors that do not.
+- **Merge behaviour** is roughly a wash if the format keeps one edge per line, and worse if
+  it nests.
+
+The prerequisite ordering stands: this is what makes block membership a field rather than a
+convention, and blocks derivable rather than authored.
 
 **The house rules go into `GENRE.md`'s fixed block.** It is the right home on the
 governing distinction - neutral, permanent, already reproduced verbatim and never
@@ -401,7 +503,10 @@ recompile for a new genre will leave Truths untouched while everything around it
 
 ## Open
 
-- The topology format question above: internal model with generated `.mmd`, or keep
-  mermaid as the source and teach the validator to read the role table.
-- Whether blocks are authored or derived from the topology once a format exists.
-- Where the open-thread ledger lives, and what closes an entry in it.
+- The concrete format: JSON or TOML, and whether block membership is a field on the
+  location or a separate partition list.
+- Whether blocks are authored or derived once the format exists. Current lean is authored,
+  since a functional quarter is a design decision and not a graph property.
+- Whether an open-thread ledger is needed at all. Under Part five's atomic rule the only
+  deferred threads are ones a person chose in the reinforcement pass, which may be few
+  enough to live in that pass's own notes rather than in a standing file.
