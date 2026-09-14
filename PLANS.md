@@ -174,7 +174,10 @@ Rationale and open questions: `DRAKENHOLD.md`. Phases land in order.
 - [x] `4c`: in a DANGEROUS region the unit of generation is the block. HIGH region-wide
       first, then block by block, MEDIUM before LOW within each.
 
-**2. Templates**
+**2. Templates and `STEPS.md` 4b**
+- [ ] `STEPS.md` `4b`: drop the node-role assignment. A DANGEROUS region produces a
+      block-existence diagram plus one typed diagram per block; SAFE and WILD keep a single
+      region diagram. Confirm and match an existing cross-block edge before writing one.
 - [ ] `Connections.mmd`, `Region_Connections.mmd`: existence only - no type, no quantity.
 - [ ] `Region_Connections.mmd`: delete the node-role table and the "every location gets one"
       instruction.
