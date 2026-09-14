@@ -471,6 +471,87 @@ uses slashes to mean *one of these three*, so `low/branch` scans as an alternati
 comma-separated slot - `(low, branch)` - keeps one token with two fields, is unambiguous
 against the existing convention, and makes the validator change additive.
 
+## Part seven: delete node role, and give exits their own file
+
+**This supersedes Part six.** Rather than deciding where the role label lives, drop the label:
+hold the topology to interesting *ratios* (loops, branches, dead ends, one-ways), let the
+exits carry what a connection actually is, and add a `Door.md` pattern defining what an exit
+looks like - with one-way, secret and vertical among its kinds. Part six argued the role
+should move onto the stub. This is better, because it questions whether the field earns its
+existence at all, and the answer is that it mostly does not.
+
+**Nothing of substance is lost, because the label was always downstream of the exits.** The
+only consumer of node role is `dangerous/Low.md`'s three concealment rates - 100% where the
+role is *appears as dead end*, 50% at an honest dead end, 30% everywhere else - and Low.md
+defends the split: *"no single rate could say what these three lines say."* True, and it is a
+**three-way** distinction being carried by an **eight-way** vocabulary. All three are readable
+off a location's own exits with no graph and no label:
+
+- exactly one mundane exit and no concealed one - the honest dead end, 50%
+- one mundane exit plus a concealed route - that *is* appears as dead end, and it is 100% by
+  construction rather than by rate
+- anything else - 30%
+
+Low.md's own Constraint concedes the direction of travel: *"if the room should have the
+route, relabel its node role at 4b and let the rate follow."* That is relabelling the graph to
+justify content already decided - the tail wagging the dog. Making the exit the fact removes
+the need for a label to agree with.
+
+The other five roles never fed content at all. `dangerous/Low.md` states that the three rates
+*"are the only place node role feeds content rather than just the Exits line"*, so entryway,
+simple connection, branch, branch (many) and loop leg exist solely to shape an Exits line that
+`Door.md` would now govern directly and better.
+
+### What must not move: edge facts are per-edge, not per-end
+
+The one thing `Door.md` cannot own is which edges are one-way, concealed or vertical. Those
+are properties of an **edge**, and both ends have to agree - decide concealment at 4c and `A`
+writes a secret passage where `B` writes an open arch. So the split is:
+
+- **4b owns edge facts** - existence, direction, concealment, vertical. Unchanged, and it is
+  what keeps `tools/validate_setting.py`'s existing Exits-against-graph reconciliation
+  working rather than discarding it.
+- **`Door.md` owns realization** - what the thing physically is at each end given its type:
+  material, construction, condition, position, and how a one-way, secret or vertical
+  connection presents to someone standing at it.
+
+With roles gone and edge facts still on the graph, what the internal topology format has to
+hold is unchanged from Part six: obligations and block membership, and nothing else.
+
+### `Door.md` earns a file, on the spec's own tests
+
+- **Same for every weight**, so by `patterns/SPEC.md`'s where-a-line-lives rule it belongs in
+  a cited file rather than in each weight file's Spec.
+- **A real choice of two or more kinds** - open, one-way, secret, vertical - which is the
+  spec's stated bar for a file earning its level rather than being a rename.
+- **Mode: second pass**, drawn at rate `1`. The cleanest wiring is for `Dressing.md`'s
+  existing `1  Every exit typed and positioned` to become an edge citing it, which makes
+  Dressing a classifier for that line and satisfies second pass's requirement of at least one
+  rate-`1` draw.
+- **It fills a location's body**, so by the body-versus-shape test it carries
+  `## Design patterns` - which means **adding it to STEPS.md step 1b's compile list**, since
+  the validator checks that list against the tree in both directions and a file carrying the
+  section that no step recompiles is an error.
+- Naming follows the library's singular convention (`Creature.md`, `Treasure.md`, `Key.md`),
+  so `Door.md`.
+
+**Build one, not three.** All three `Dressing.md` files carry the same `1  Every exit typed
+and positioned` line and an `**Exits.**` section, so the material exists to extract in each
+rating. Only DANGEROUS needs the kinds, though: it is the only rating with a dense authored
+graph, while WILD carries concealed access in its location *classification* rather than on its
+edges and SAFE is a shallow hub. Start at `dangerous/Door.md` and leave the other two ratings'
+exits in their Dressing files until something asks for them.
+
+### The cost, stated plainly
+
+Part six's one real advantage is given up: with no role on the stub, the mix rules cannot be
+checked at 4a from the gazetteer alone - they can only be checked after 4b, against the graph.
+That is a small loss. A bad distribution caught at 4b costs a rewiring, and no prose has been
+written yet at that point; the same fault caught at 4a would only have saved re-stubbing. The
+ratios in `patterns/region/Dangerous.md` are already written as graph-wide rates - dead ends
+per twelve locations, the share of those that are hidden, the one-way rate - so they were
+always going to be measured over the graph rather than counted off the stubs.
+
 ## Resolved
 
 **The block tier is a generation batch, not a level of the setting.** It was a deliberate
@@ -659,5 +740,7 @@ recompile for a new genre will leave Truths untouched while everything around it
 - Whether obligations may cross regions or only batches within a region. Cross-region
   obligations are what make keys interesting and are also the ones most likely to point
   backwards into finished ground.
-- Whether the three global roles are declared at all, or left entirely to derivation, with
-  only the five local ones on the stub.
+- Whether `Door.md` eventually gets WILD and SAFE counterparts, or exits stay in their
+  Dressing files outside DANGEROUS.
+- Whether `patterns/region/Dangerous.md`'s LOW NODE ROLE MIX rule survives the deletion of
+  roles, or is restated as a plain graph-shape rule about dead ends, branches and loops.
