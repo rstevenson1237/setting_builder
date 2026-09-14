@@ -165,6 +165,60 @@ looking for owes them something. Which parents carry children is read off the re
   carrying sections the skeleton does not, so its Seed pool, eligibility test, narrowing
   rounds and Q2 axes read as the procedure rather than as a file left unconverted.
 
+## Implementation
+
+Rationale and open questions: `DRAKENHOLD.md`. Phases land in order.
+
+**1. `STEPS.md`**
+- [ ] Add step ids by suffix; never renumber - every `## Read at` cites them.
+- [ ] `4c`: the unit of generation is a block, not a location.
+- [ ] New `5d`: reinforcement - author supporting detail for a chosen element into locations
+      already written.
+- [ ] `1b` compile list: add `dangerous/Door.md`.
+
+**2. Templates**
+- [ ] `Connections.mmd`, `Region_Connections.mmd`: existence only - no type, no quantity.
+- [ ] `Region_Connections.mmd`: delete the node-role table and the "every location gets one"
+      instruction.
+- [ ] New `Block_Connections.mmd`: one diagram per block. Header carries block name, purpose
+      family, region, room budget. Location-tier edges carry type. A cross-block edge is
+      declared in both files, identical in existence, type and direction. Locations connect
+      only to locations.
+- [ ] `Location.md`: move `setting/Truths.md` into the consult list.
+
+**3. `patterns/`**
+- [ ] New `dangerous/Door.md`: `Mode: second pass`; kinds open, one-way, secret, vertical;
+      carries `## Design patterns`.
+- [ ] `dangerous/Dressing.md`: `1  Every exit typed and positioned` becomes an edge citing
+      `dangerous/Door.md`.
+- [ ] `dangerous/Low.md`: restate the three concealment rates against the location's exits.
+- [ ] `dangerous/High.md`, `Medium.md`, `Low.md`: delete the demand-side Key and Quest
+      registry lines; draw any obligation recorded against this location at rate `1`.
+- [ ] `dangerous/Key.md`: the supply-side line records a `setting/Keys.md` stub; `Unlocks` is
+      written at 4d.
+- [ ] Weight files: reword "the target of a quest given elsewhere" to supply-side
+      registration, per `dangerous/Quest.md`.
+- [ ] `setting/Secrets.md`: rate varies by rating and, in DANGEROUS, by weight and by the
+      location's exits.
+- [ ] `wild/Landmark.md`: drop the node-role analogy.
+- [ ] `region/Dangerous.md`: replace LOW NODE ROLE MIX with a graph-shape rule joined to stub
+      weight.
+
+**4. Root**
+- [ ] `GENRE.md`: add the house rules to the fixed block.
+- [ ] `CLAUDE.md`: one line naming that block as the rung below the three tests.
+
+**5. `tools/validate_setting.py`**
+- [ ] `EDGE_RE`: match labelled edges.
+- [ ] Cross-block edges: symmetry over existence, type and direction.
+- [ ] Location-tier files: no bare region nodes.
+- [ ] Every region-tier edge realized by at least one location-tier edge; no cross-region
+      location edge without one.
+- [ ] Unconsumed `setting/Keys.md` obligations at the close of 4c: error.
+- [ ] A block whose induced subgraph is disconnected: warning.
+- [ ] A purpose repeated within a block: warning.
+- [ ] `--pending <block>`: list inbound edges declared against a block.
+
 ## Open
 
 **1. `wild/Hazard.md` and `wild/Creature.md` share a boundary that is stated in only one
