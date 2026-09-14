@@ -11,6 +11,10 @@ Read first:
 ## Instructions
 Show the connections between regions at a high level as an authoritative representation of their relationship. No indicator of connection type or quantity is needed at this level, just that the connection exists (A connects to B, B connects to A and C, C connects to B, etc).
 
+**Every group tier asserts existence only** - this diagram, and a DANGEROUS region's block-to-block diagram below it. Only the location tier carries connection type, because only locations are connected to one another: a location never connects to a region, and a location node never appears here.
+
+This is written at 3b, before any location exists, so it is a claim rather than a reading: every edge here is a promise that some location in one region connects to some location in the other, and no cross-region location edge may exist without an edge here licensing it. Both directions are checked once 4c closes.
+
 ## Template
 ```mermaid
 graph LR

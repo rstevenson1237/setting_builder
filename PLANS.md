@@ -175,18 +175,20 @@ Rationale and open questions: `DRAKENHOLD.md`. Phases land in order.
       first, then block by block, MEDIUM before LOW within each.
 
 **2. Templates and `STEPS.md` 4b**
-- [ ] `STEPS.md` `4b`: drop the node-role assignment. A DANGEROUS region produces a
+- [x] `STEPS.md` `4b`: drop the node-role assignment. A DANGEROUS region produces a
       block-existence diagram plus one typed diagram per block; SAFE and WILD keep a single
       region diagram. Confirm and match an existing cross-block edge before writing one.
-- [ ] `Connections.mmd`, `Region_Connections.mmd`: existence only - no type, no quantity.
-- [ ] `Region_Connections.mmd`: delete the node-role table and the "every location gets one"
-      instruction.
-- [ ] New `Block_Connections.mmd`: one diagram per block. Header carries block name, purpose
+- [x] `Connections.mmd`: existence only, and the group-tier rule stated. `Region_Connections.mmd`
+      splits by rating - typed location graph for SAFE and WILD, block-existence for DANGEROUS.
+      *Plan correction: the item read "existence only" for both, which is wrong for SAFE and
+      WILD, where the region diagram is the location tier.*
+- [x] `Region_Connections.mmd`: node-role table and "every location gets one" deleted.
+- [x] New `Block_Connections.mmd`: one diagram per block. Header carries block name, purpose
       family, region, room budget. Location-tier edges carry type. A cross-block edge is
       declared in both files, identical in existence, type and direction. Locations connect
       only to locations.
-- [ ] `Location.md`: move `setting/Truths.md` into the consult list.
-- [ ] `Setting_Judgement_Check.md`: Room to Grow also names reinforcement candidates -
+- [x] `Location.md`: `setting/Truths.md` in the consult list, availability not a quota.
+- [x] `Setting_Judgement_Check.md`: Room to Grow also names reinforcement candidates -
       elements thin enough on the ground that a later pass could thicken them. Recommendation
       only; 5c authors nothing.
 

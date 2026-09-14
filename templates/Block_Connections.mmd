@@ -1,0 +1,52 @@
+# Block_Connections.mmd
+
+## Purpose
+The typed graph of connections between the locations of a single block - one functional
+quarter of a DANGEROUS region. The location tier, and the only tier that carries connection
+type.
+
+## Context
+Read first:
+- `GENRE.md`
+- this region's `Locations.md` and its block-existence diagram (`setting/region/[Code]/Connections.mmd`)
+- every block diagram already written for this region, for edges declared into this block
+
+## Instructions
+One file per block, `setting/region/[Region Code]/[Block Name].mmd`. DANGEROUS regions only;
+SAFE and WILD regions carry a single region diagram instead, per `templates/Region_Connections.mmd`.
+
+**Locations connect only to locations.** A location never connects to a block, a region, or
+the setting. Every edge here has a location at both ends.
+
+**Confirm before writing, and match what you confirm.** The region's block-existence diagram
+says which blocks this one connects to, and blocks already written may declare edges into
+this one. Both are read before the first edge is drawn. A cross-block edge is declared in
+**both** block files and must be identical in all three of existence, type and direction -
+a one-way edge reads `A --> B` in both files, never reversed to suit the far end's point of
+view.
+
+Connection type reference - the four kinds, per `patterns/dangerous/Door.md`:
+- `A --- B` open - a two-way passage
+- `A -.- B` secret - concealed, sealed, or needing a trigger to reveal
+- `A --> B` one-way - traversable only in the direction shown
+- `A ---|vertical| B` vertical - a climb, shaft, or drop between levels
+
+A gate or a condition on an edge is stated in its label (`A ---|gated: forge rod| B`), not as
+a fifth kind.
+
+## Template
+```
+Block: [Block Name]
+Purpose: [purpose family, per patterns/dangerous/Dressing.md - Keeping, Working, Living,
+Holding, Meeting, Believing, Dying, or Moving]
+Region: [Region Code] [Region Name]
+Rooms: [room budget]
+```
+
+```mermaid
+graph LR
+    A1["[Code] [Location Name]"] --- A2["[Code] [Location Name]"]
+    A2 -.- A3["[Code] [Location Name]"]
+    A3 --> A4["[Code] [Location Name]"]
+    A4 ---|vertical| B7["[Code] [Location Name]"]
+```
