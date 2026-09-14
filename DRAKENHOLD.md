@@ -266,9 +266,142 @@ Two smaller carries from the same source, both cheap:
   the scope of the refusal" is a different act from "not written yet", and this framework
   can currently express only the second.
 
+## Part four: connectedness, and why it is written backwards
+
+The finding above - that this framework has no way to draw *a thing that will be recognised
+again somewhere else* - is correct about the gap and wrong about the fix. Drakenhold's own
+experience of building that connectedness is the correction, and it is worth recording
+because it inverts the obvious remedy.
+
+**Forward-declaring connections does not work.** Maintaining the link count and finding
+adequate placements for every detail was the hardest single problem in that build. A
+generator that emits a cross-reference whenever a feature would be richer for having one
+produces open threads faster than any pass can close them, and the far ends accumulate
+unwritten. The end state of that approach is a large ledger of details owed and a corpus
+that cannot be checked, because every unresolved thread looks identical to a deliberate one.
+
+**What worked was retroactive reinforcement.** Write a baseline region, and baseline
+locations within it. Then, where a human decides a specific element needs reinforcing, go
+back and place the supporting detail into locations that already exist. The far end is
+written second, deliberately, into known ground - which is why the placements are adequate
+rather than approximate, and why the count stays bounded: nothing is owed until somebody
+decides it is owed.
+
+Two consequences for this framework.
+
+**The reinforcement pass already exists structurally and is scoped as bookkeeping.**
+STEPS.md 5c is the only step that reads upward: it fills `Truths.md`'s Handles and
+`History.md`'s Left lines with real Location Codes and names unfulfilled claims under Room
+to Grow. That is the right step at the right place in the order, doing a strictly smaller
+job than the one described above - it *records* where a claim landed and *reports* where it
+did not, but it never authors the supporting detail that would make it land. Promoting it
+from audit to authoring is the concrete change: a pass that takes a chosen element and
+writes its placements into locations that are already on disk. `repetition before
+explanation` - show the same stone four times across two regions before anything names it -
+is then implementable without any forward declaration at all, because the repetitions are
+placed after the stone is known to matter.
+
+**The open-detail problem is a ledger problem, and Drakenhold solved it with a split this
+framework does not have.** `OPEN_QUESTIONS.md` holds what the authors have not yet settled;
+`10_STANDING_MYSTERIES` holds what the setting has decided not to answer, scoped `[local]`
+or `[setting]`, and is explicit that the two never mix: *"Questions the authors have not yet
+settled are not kept here."* That split is what keeps unresolved threads from hiding among
+deliberate ones. This framework has neither file, and adding the Standing Mysteries artifact
+without also adding the tracking file would produce exactly the confusion the split exists
+to prevent.
+
+## Resolved
+
+**The block tier is a generation batch, not a level of the setting.** It was a deliberate
+compromise for regions of 50-100 locations, on the reasoning that both a person and a
+generator handle a block and then the wiring between blocks better than one undifferentiated
+pass. That is a statement about *how much is generated at once*, not about the artifact
+hierarchy - so nothing new is owed between `setting/` and `region/`. What is owed is a
+batching concept in STEPS.md 4c: a partition of a region's locations that is generated
+together.
+
+This also settles a friction point above at no extra cost. `dangerous/Dressing.md`'s
+constraint **do not reuse a purpose already used in this region** is uncheckable by a
+generator that sees one location at a time; it becomes checkable the moment the unit of
+generation is a block. The batch is likewise the natural unit for Part four's reinforcement
+pass.
+
+**And it exposes a format question worth taking seriously: mermaid is a rendering format
+currently being used as the data model.** The evidence is already in the repo.
+`templates/Region_Connections.mmd` cannot express a node role, so it instructs the build to
+append a markdown table *beneath the graph, inside the `.mmd` file* - and
+`tools/validate_setting.py` never reads that table. The consequence is that
+`patterns/region/Dangerous.md`'s CLASS MIX and LOW NODE ROLE MIX figures - 8-15% HIGH by
+count, 60%+ of LOW carrying a role other than simple connection, the dead-end and one-way
+rates - are stated as binding rules with no enforcement anywhere, while the validator does
+check the things mermaid *can* say, such as every Exits line matching a real edge.
+
+An internal topology format with the `.mmd` generated from it would give first-class homes
+to node role, edge type, gating condition and block membership; would let the validator
+check the mix rules it currently cannot; and fits the build this repo already has, where
+`build_site.py` and `build_pdf.py` render the same sources two ways rather than keeping a
+second copy in sync. The cost is that a hand-editable, natively GitHub-rendered artifact
+becomes a derived one - mitigated by keeping the generated `.mmd` committed, so it still
+renders where it renders today. Not decided here; recorded as the next architectural
+question, and noted as the prerequisite for blocks being derivable rather than authored.
+
+**The house rules go into `GENRE.md`'s fixed block.** It is the right home on the
+governing distinction - neutral, permanent, already reproduced verbatim and never
+reauthored - and it is the rung below **What a line has to earn**, which is exactly where
+the ladder was empty. No new artifact is needed.
+
+The known objection stands and is the real work: broad rules dilute as context grows, and a
+rule that is read but not applied is indistinguishable from one that was never written. The
+mitigation is not repetition, which "never restate a rule another file owns" forbids - it is
+that **a rule survives distance in proportion to how checkable it is at the point of
+writing**, and Drakenhold's own house rules split cleanly on that axis:
+
+- *Mechanically checkable, and should become validator rules or judgement-check line items
+  on top of their `GENRE.md` statement*: every bolded noun in the Player Summary appears
+  below as a Feature (Drakenhold calls this *"the module's most common real failure, and it
+  is exactly checkable"*); no secret gated on a search roll; every gate has an answer that
+  is not the gate; state the nil.
+- *Judgement, not checkable, and these are the ones that actually dilute*: withholding is
+  content; repetition before explanation; trope is free structure and defiance is funded by
+  convention held elsewhere.
+
+The second set is what `checks/` is for, and the one cheap lever the repo already has for
+the first is `CLAUDE.md` - whose entire remit is what must be actively re-checked every
+request. A single line there, naming the `GENRE.md` block as the rung below the three tests
+rather than as background, costs almost nothing and is the difference between a rule that is
+in context and a rule that is in force.
+
+**Truths are read at every location, and `templates/Location.md`'s Context line changes.**
+Taking `setting/Truths.md` as an extension of `GENRE.md` - where `GENRE.md` connects
+outward to its references and `Truths.md` states what *this* world does - makes the earlier
+proposal of a rated draw on HIGH and MEDIUM wrong. The right shape is the one
+`dangerous/Dressing.md` already uses: **Mode: second pass**, read unconditionally at 4c for
+every location regardless of rating or weight.
+
+Two things follow, and both are edits rather than new structure.
+
+*Availability is not a quota.* Reading Truths at every location must not mean instantiating
+one at every location - a truth that surfaces in every room is wallpaper, and restating it
+downward fails all three tests at once. The contract is that where a location touches a
+Truth it is an **instance** of it in that room's own terms, never a restatement of it.
+
+*The Context section currently forbids this.* `templates/Location.md` says to consult
+`setting/Truths.md` *"only to look up a name the stub or region overview already references
+- never to pull in new material wholesale"*, which is the correct instruction for
+`Bestiary`, `Factions`, `History` and `Rumours` and now the wrong one for `Truths`. Truths
+moves up into the narrow consult list proper, alongside `GENRE.md` and
+`setting/Procedures.md`. Ordering is already fine: Truths is written at 2c, locations at 4c.
+
+One note worth keeping. This makes `Truths.md` *specific to this setting* yet *not
+recompiled* by step 1b - it is authored at 2c and then read like a permanent rule. That is a
+third category alongside `patterns/SPEC.md`'s neutral-and-permanent and
+specific-and-compiled. The distinction governs pattern-file content and `Truths.md` is
+generated content, so this is not a spec violation; it is worth watching anyway, because a
+recompile for a new genre will leave Truths untouched while everything around it changes.
+
 ## Open
 
-- Whether the block tier is a new level or a rule that a vertical stack is one region.
-- Whether the Truth-instance draw belongs on every weight file or only HIGH and MEDIUM.
-- Where the house-rules artifact sits, and whether pattern files cite it or it is read
-  unconditionally at 4c the way `dangerous/Dressing.md` is.
+- The topology format question above: internal model with generated `.mmd`, or keep
+  mermaid as the source and teach the validator to read the role table.
+- Whether blocks are authored or derived from the topology once a format exists.
+- Where the open-thread ledger lives, and what closes an entry in it.
