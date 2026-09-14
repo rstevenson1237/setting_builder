@@ -156,8 +156,9 @@ location touches a Truth it is an instance of it, never a restatement.
 **House rules go into `GENRE.md`'s fixed block**, as the rung below **What a line has to
 earn**. The checkable subset additionally becomes validator rules or judgement-check items.
 
-**Reinforcement is an authoring step.** STEPS.md 5c's upward read is promoted from
-bookkeeping to authoring supporting detail into locations already written, as a new `5d`.
+**Reinforcement is a recommendation, not a step.** 5c names reinforcement candidates under
+Room to Grow and authors nothing; acting on one is a human decision outside the numbered
+build. No new step id is created.
 
 **Step ids grow by suffix and are never renumbered**, since every `## Read at` cites them.
 

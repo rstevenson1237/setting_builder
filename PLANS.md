@@ -172,8 +172,6 @@ Rationale and open questions: `DRAKENHOLD.md`. Phases land in order.
 **1. `STEPS.md`**
 - [ ] Add step ids by suffix; never renumber - every `## Read at` cites them.
 - [ ] `4c`: the unit of generation is a block, not a location.
-- [ ] New `5d`: reinforcement - author supporting detail for a chosen element into locations
-      already written.
 - [ ] `1b` compile list: add `dangerous/Door.md`.
 
 **2. Templates**
@@ -185,6 +183,9 @@ Rationale and open questions: `DRAKENHOLD.md`. Phases land in order.
       declared in both files, identical in existence, type and direction. Locations connect
       only to locations.
 - [ ] `Location.md`: move `setting/Truths.md` into the consult list.
+- [ ] `Setting_Judgement_Check.md`: Room to Grow also names reinforcement candidates -
+      elements thin enough on the ground that a later pass could thicken them. Recommendation
+      only; 5c authors nothing.
 
 **3. `patterns/`**
 - [ ] New `dangerous/Door.md`: `Mode: second pass`; kinds open, one-way, secret, vertical;
