@@ -215,10 +215,12 @@ Rationale and open questions: `DRAKENHOLD.md`. Phases land in order.
       the block definition and which the plan did not list.*
 
 **4. `GENRE.md`**
-- [ ] Add the house rules to the fixed block, under **What a line has to earn**, and state
-      what each half is: the three tests are the tests; the house rules are their standing
-      consequences in the situations that recur. No pointer elsewhere - `GENRE.md` is already
-      in every template's Context.
+- [x] House rules added to the fixed block in both `GENRE.md` and `templates/Genre.md`,
+      stated as standing consequences rather than a fourth test, with the tests winning any
+      disagreement. *The predecessor's "the clue lives outside the location holding the
+      secret" is reconciled rather than copied: it contradicts `patterns/setting/Secrets.md`,
+      whose Clue is local and visible by ordinary observation. The rule is split - the clue
+      is local, the answer more often comes from elsewhere.*
 
 **5. `tools/validate_setting.py`**
 - [ ] `EDGE_RE`: match labelled edges.
