@@ -153,8 +153,9 @@ it names no far end and creates no obligation.
 and move into `templates/Location.md`'s consult list. Availability is not a quota: where a
 location touches a Truth it is an instance of it, never a restatement.
 
-**House rules go into `GENRE.md`'s fixed block**, as the rung below **What a line has to
-earn**. The checkable subset additionally becomes validator rules or judgement-check items.
+**House rules go into `GENRE.md`'s fixed block**, stated as the standing consequences of the
+three tests rather than as further tests. The checkable subset additionally becomes validator
+rules or judgement-check items. No pointer is added elsewhere.
 
 **Reinforcement is a recommendation, not a step.** 5c names reinforcement candidates under
 Room to Grow and authors nothing; acting on one is a human decision outside the numbered
@@ -239,14 +240,10 @@ order, and the renumber only gets more expensive the longer it waits. The valida
 parses every step id, so a scripted rewrite is not the frightening part - deciding the new
 order is.
 
-**8. A `CLAUDE.md` line pointing at the house rules.**
-*Recommend* add it - one line naming the `GENRE.md` block as the rung below the three tests.
-That file's entire remit is what must be re-checked every request, and this is the cheapest
-lever against the dilution problem.
-*Detractor* `CLAUDE.md` is short by explicit design and every line added dilutes the rest,
-which is the same failure one level up. And if a rule needs a pointer in the
-always-loaded file to get applied, that is evidence it is not checkable - in which case the
-effort belongs in making it checkable, not in pointing harder at it.
+**8. A `CLAUDE.md` line pointing at the house rules. - CLOSED.**
+Not needed. `GENRE.md` is in every template's Context and `CLAUDE.md` already requires it be
+re-read at every generation step.
+
 
 **9. Standing Mysteries as an artifact.**
 *Recommend* add it at setting level, scoped `[local]` and `[setting]`. It expresses something

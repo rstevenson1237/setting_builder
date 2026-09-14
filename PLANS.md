@@ -205,9 +205,11 @@ Rationale and open questions: `DRAKENHOLD.md`. Phases land in order.
 - [ ] `region/Dangerous.md`: replace LOW NODE ROLE MIX with a graph-shape rule joined to stub
       weight.
 
-**4. Root**
-- [ ] `GENRE.md`: add the house rules to the fixed block.
-- [ ] `CLAUDE.md`: one line naming that block as the rung below the three tests.
+**4. `GENRE.md`**
+- [ ] Add the house rules to the fixed block, under **What a line has to earn**, and state
+      what each half is: the three tests are the tests; the house rules are their standing
+      consequences in the situations that recur. No pointer elsewhere - `GENRE.md` is already
+      in every template's Context.
 
 **5. `tools/validate_setting.py`**
 - [ ] `EDGE_RE`: match labelled edges.
