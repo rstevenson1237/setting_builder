@@ -6,6 +6,12 @@ The full write-up for a single location, saved as `[Location Code].md` inside it
 ## Context
 Consult when drafting - and only this, deliberately narrow so the entry stays shaped by its stub and region rather than washed out by the full setting:
 - `GENRE.md` - a Feature is something to react to on the spot, not a beat in a larger scripted arc.
+- this location's class file, named by its rating and its stub's weight/classification. It is
+  the **entry point for everything the pattern library contributes here**: every other pattern
+  file is reached from its Spec, and none is pulled in directly.
+  - SAFE - `patterns/safe/Settlement.md`
+  - WILD - `patterns/wild/Landmark.md`, `Hidden.md`, or `Secret.md`
+  - DANGEROUS - `patterns/dangerous/High.md`, `Medium.md`, or `Low.md`
 - this location's parent Region Overview (`setting/region/[Region Code].md`).
 - this location's own gazetteer stub (name, weight/classification, its two tags) from `setting/region/[Region Code]/Locations.md`. The two tags were drawn, not invented - one from `setting/Tags.md`, one from this region's own `setting/region/[Region Code]/Tags.md` - and are read here only for color; they name no Kind and carry no inclusion math.
 - `setting/Truths.md` - read at every location, whatever its rating or weight. Availability is not a quota: where this location touches a truth it is an **instance** of it, in this room's own terms, never a restatement of it. A truth surfacing in every room is wallpaper.
