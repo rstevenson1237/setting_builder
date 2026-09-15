@@ -39,7 +39,7 @@ judgment, which is not always the same judgment twice.
 Dangers: Debt and feud more than violence - an overextended house, a moneylender's ledger
 called in at the wrong time, a bribe traced back to the wrong clerk.
 
-Creatures: Man - a company of Mercenary Sellswords serves as the hired watch
+Creatures: Man - a company of sellswords on a Nine Wagons contract serves as the hired watch
 (setting/Bestiary.md), and caravan and warehouse livestock fill the yards behind the market.
 
 Factions: The Nine Wagons hold the whole of Velar's warehouse row and, in practice, the

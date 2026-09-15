@@ -43,7 +43,7 @@ ground begins somewhere past the cairns and carries no border marker of its own 
 found by finding them.
 
 Creatures: A Ford-Eel holds the deep water at the ford and at any crossing besides the
-causeway. A Grey Wolf Pack ranges the whole of Marfen and has been seen shadowing travelers
+causeway. A Grey Wolf pack ranges the whole of Marfen and has been seen shadowing travelers
 on the causeway itself. Man-Apes hold the ground past the cairns and answer the iron-truce
 the same as anywhere else in Telar. Barrow-Kin tend the mounds south of the causeway and
 have not approached anyone in living memory. At least one Drowned Thing has never left the
@@ -67,7 +67,7 @@ Tables: d6 Encounter, rolled on each failed Difficulty roll.
    reached the ford.
 2. A Ford-Eel takes something left too near the water's edge, seen only as a ripple closing
    over it.
-3. A Grey Wolf Pack shadows the party's line of travel for a stretch before peeling off.
+3. A Grey Wolf pack shadows the party's line of travel for a stretch before peeling off.
 4. Knuckle-prints beside a footprint, and bark stripped from a tree well above head height -
    Man-Apes have passed this way recently.
 5. A carrion vulture flock lifts off ahead of the party, circling over something already

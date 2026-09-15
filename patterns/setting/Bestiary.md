@@ -37,9 +37,9 @@ AD LADDER - what a count means, in absolute terms
 ```
 AD SPREAD - anchored to what GENRE.md's lethality establishes the party can survive,
 NOT to the region dice
-  1     At least six entries at 1-3 AD
+  1     At least six entries at 1-3 AD    - people, numbers, the things underfoot
   1     At least six entries at 4-8 AD    - the working middle of the setting
-  1     At least four entries at 9-12 AD
+  1     At least two entries at 9-12 AD
   1     At least one entry at 13+
   1     At least one entry the party is NOT meant to beat
   1     No more than a third of entries sharing a single AD value

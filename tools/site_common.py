@@ -302,7 +302,10 @@ def parse_treasure(roman: str) -> list[tuple[int, str, str, str]]:
 
 
 BESTIARY_HEADER_RE = re.compile(r"^(.+?)\s+\((.+?)\)\s*-\s*AD:\s*(.+)$")
-BESTIARY_SUBFIELD_LABELS = ["Description", "Range", "Sign", "Disposition"]
+# An entry may carry more than one Special line - several are expected at 8 AD
+# and above - and each becomes its own field, so they render as separate
+# abilities rather than one run-on paragraph.
+BESTIARY_SUBFIELD_LABELS = ["Description", "Range", "Sign", "Disposition", "Special"]
 
 
 def parse_bestiary() -> list[dict]:
