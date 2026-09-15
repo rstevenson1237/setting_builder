@@ -10,8 +10,10 @@ Consult when drafting - and only this, deliberately narrow so the entry stays sh
   the **entry point for everything the pattern library contributes here**: every other pattern
   file is reached from its Spec, and none is pulled in directly.
   - SAFE - `patterns/safe/Settlement.md`
-  - WILD - `patterns/wild/Landmark.md`, `Hidden.md`, or `Secret.md`
-  - DANGEROUS - `patterns/dangerous/High.md`, `Medium.md`, or `Low.md`
+  - WILD - `patterns/wild/Landmark.md`, `patterns/wild/Hidden.md`, or
+    `patterns/wild/Secret.md`
+  - DANGEROUS - `patterns/dangerous/High.md`, `patterns/dangerous/Medium.md`, or
+    `patterns/dangerous/Low.md`
 - this location's parent Region Overview (`setting/region/[Region Code].md`).
 - this location's own gazetteer stub (name, weight/classification, its two tags) from `setting/region/[Region Code]/Locations.md`. The two tags were drawn, not invented - one from `setting/Tags.md`, one from this region's own `setting/region/[Region Code]/Tags.md` - and are read here only for color; they name no Kind and carry no inclusion math.
 - `setting/Truths.md` - read at every location, whatever its rating or weight. Availability is not a quota: where this location touches a truth it is an **instance** of it, in this room's own terms, never a restatement of it. A truth surfacing in every room is wallpaper.
@@ -43,7 +45,7 @@ Consult `setting/Bestiary.md`, `setting/Factions.md`, `setting/History.md`, or `
 ## Citations
 Every citation below sits inside its own parentheses, exactly as written, so `tools/build_site.py` can find and link it. A citation that doesn't match one of these forms renders as plain, unlinked text.
 
-- **Bestiary** - `(Demeanor, Number appearing, Bestiary : Entry Name)`. Demeanor is one word from the demeanor examples compiled into `dangerous/Creature.md` or `wild/Creature.md` (whichever matches this location's rating); Number appearing is a count fitting the Bestiary entry's own Range; Entry Name must match a `setting/Bestiary.md` heading exactly. Example: `(Patient, 5, Bestiary : Road Toll Gang)`.
+- **Bestiary** - `(Demeanor, Number appearing, Bestiary : Entry Name)`. Demeanor is one word from the demeanor examples compiled into `patterns/dangerous/Creature.md` or `patterns/wild/Creature.md` (whichever matches this location's rating); Number appearing is a count fitting the Bestiary entry's own Range; Entry Name must match a `setting/Bestiary.md` heading exactly. Example: `(Patient, 5, Bestiary : Road Toll Gang)`.
 - **Lore** - `(Lore: Title)`
 - **Keys** - `(Keys: Title)`
 - **Quest** - `(Quest: Title)`

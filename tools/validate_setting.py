@@ -18,7 +18,7 @@ to run against a build in progress, not just a finished one. Errors are
 reserved for content that exists but is wrong (malformed, inconsistent with
 something else that exists, or an unresolved/malformed citation).
 
-Usage: python3 tools/validate_setting.py
+Usage: python3 tools/validate_setting.py [--pending [REGION] | --read-set [STEP]]
 Exits 1 if any error is found, 0 otherwise (warnings never fail the run).
 """
 from __future__ import annotations
@@ -319,9 +319,9 @@ def check_reach_modes(diag: Diagnostics):
                 diag.error(path, f"declares reach mode '{mode}', which is not one of "
                                   f"{', '.join(VALID_MODES)}")
         if any(m in DRAWN_MODES for m in modes) and rel not in drawn_by:
-            diag.error(path, f"declares mode '{', '.join(modes)}' but no other file's "
-                              f"Spec draws it - nothing reaches this file, so nothing "
-                              f"guarantees it is ever read")
+            # Reachability is check_read_set_graph's, walked from STEPS.md through
+            # templates/ rather than inferred from a declaration here. Nothing to
+            # compare the mode's shape against, so the shape checks are skipped.
             continue
 
         shapes = drawn_as.get(rel, [])
@@ -344,6 +344,151 @@ def check_reach_modes(diag: Diagnostics):
                              "exclusive - but no line draws it as a choice among "
                              "siblings. A kind needs a '{a | b | c}' line citing the "
                              "alternatives; drawn alone it is an ingredient")
+
+
+# ---------------------------------------------------------------------------
+# The read-set graph: STEPS.md -> templates/ -> patterns/
+#
+# One direction, no back-pointers. A STEPS.md step names its template(s); a
+# template names every pattern file a regeneration of its artifact requires;
+# a pattern file's Spec names what it draws. Every edge is recorded in
+# exactly one place, which is the property that keeps the graph in sync -
+# a pattern file declaring which step reads it is a second copy of an edge
+# the step and template already own, and a second copy is what drifts.
+#
+# Reachability is what this buys: a pattern file no generation template can
+# reach is never read, so the content it describes is never generated. That
+# is silent under-generation rather than a malformed file, so it warns here
+# and is judged at STEPS.md step 5b, per templates/Pattern_Judgement_Check.md.
+#
+# A phase-5 template is a review pass, and the pattern files it names are
+# examples of what to review rather than inputs to a generation. They are
+# excluded from the root set so an orphan cannot be masked by being cited as
+# an example.
+# ---------------------------------------------------------------------------
+
+TEMPLATES = ROOT / "templates"
+TEMPLATE_CITE_RE = re.compile(r'\btemplates/([A-Za-z_]+\.(?:md|mmd))\b')
+# A template's pattern citations are always fully qualified - "patterns/" plus
+# folder plus file. The elided form ("patterns/region/Safe.md, Wild.md") reads
+# fine but hides an edge, so the graph requires the long form and the orphan
+# warning is what surfaces an elision that dropped a file off the graph.
+TEMPLATE_PATTERN_CITE_RE = re.compile(
+    r'\bpatterns/(' + '|'.join(PATTERN_FOLDERS) + r')/([A-Za-z]+\.md)\b'
+)
+# The bare form is how one pattern file cites another (patterns/SPEC.md's
+# citation grammar) and it is wrong in a template, where it drops the edge off
+# the graph silently. "setting/" is excluded because a bare setting/X.md in a
+# template is a reference to the generated content file of that name.
+TEMPLATE_BARE_CITE_RE = re.compile(
+    r'(?<!/)\b(' + '|'.join(f for f in PATTERN_FOLDERS if f != "setting") + r')/([A-Za-z]+\.md)\b'
+)
+STEP_BODY_RE = re.compile(r'^\s*-\s+([1-9][0-9]*[a-z])\.(.*?)(?=\n\s*-\s+[1-9][0-9]*[a-z]\.|\n[1-9]\.|\Z)',
+                          re.S | re.M)
+
+
+def step_bodies() -> dict[str, str]:
+    """Every STEPS.md step id mapped to its own text."""
+    if not STEPS_MD.exists():
+        return {}
+    return {m.group(1): m.group(2) for m in STEP_BODY_RE.finditer(STEPS_MD.read_text())}
+
+
+def spec_closure(entries: set, pattern_files: set) -> set:
+    """Every pattern file reachable from these entry points by Spec edges."""
+    reach, stack = set(entries), sorted(entries)
+    while stack:
+        cur = stack.pop()
+        for target in spec_edges((PATTERNS / cur).read_text(), cur):
+            if target in pattern_files and target not in reach:
+                reach.add(target)
+                stack.append(target)
+    return reach
+
+
+def read_set_graph():
+    """STEPS.md -> templates -> pattern entry points -> Spec closure.
+
+    Returns a dict of the whole graph so callers can report any layer of it:
+    step_templates, template_roots, roots (generation only), reach, orphans.
+    """
+    bodies = step_bodies()
+    step_templates = {sid: set(TEMPLATE_CITE_RE.findall(body)) for sid, body in bodies.items()}
+
+    pattern_files = ({p.relative_to(PATTERNS).as_posix() for p in PATTERNS.glob("*/*.md")}
+                     if PATTERNS.exists() else set())
+    template_roots: dict[str, set] = {}
+    for name in sorted({t for ts in step_templates.values() for t in ts}):
+        path = TEMPLATES / name
+        if not path.exists():
+            continue
+        template_roots[name] = {f"{folder}/{fname}"
+                                for folder, fname in TEMPLATE_PATTERN_CITE_RE.findall(path.read_text())
+                                if f"{folder}/{fname}" in pattern_files}
+
+    # Roots come from generation steps only - phase 5 is review.
+    roots: set = set()
+    for sid, names in step_templates.items():
+        if sid[0] == "5":
+            continue
+        for name in names:
+            roots |= template_roots.get(name, set())
+
+    reach = spec_closure(roots, pattern_files)
+    return dict(step_templates=step_templates, template_roots=template_roots,
+                pattern_files=pattern_files, roots=roots, reach=reach,
+                orphans=pattern_files - reach)
+
+
+def check_read_set_graph(diag: Diagnostics):
+    if not PATTERNS.exists() or not STEPS_MD.exists():
+        return
+    g = read_set_graph()
+    for sid, names in sorted(g["step_templates"].items()):
+        if not names:
+            diag.warn(STEPS_MD, f"step {sid} names no template - a step's template is what "
+                                f"names the pattern files the step reads")
+        for name in sorted(names):
+            if not (TEMPLATES / name).exists():
+                diag.error(STEPS_MD, f"step {sid} names templates/{name}, which does not exist")
+    for name in sorted({n for ns in g["step_templates"].values() for n in ns}):
+        path = TEMPLATES / name
+        if not path.exists():
+            continue
+        text = path.read_text()
+        for folder, fname in sorted(set(TEMPLATE_BARE_CITE_RE.findall(text))):
+            if f"{folder}/{fname}" in g["pattern_files"]:
+                diag.error(path, f"cites {folder}/{fname} bare - a template writes a pattern "
+                                 f"citation as patterns/{folder}/{fname}, since the bare form "
+                                 f"drops the edge off the read-set graph")
+    for orphan in sorted(g["orphans"]):
+        diag.warn(PATTERNS / orphan, "no generation template reaches this file - nothing reads "
+                                     "it, so the content it describes is never generated. "
+                                     "Judged at STEPS.md step 5b")
+
+
+def report_read_set(step_filter: str | None) -> int:
+    """The read-set for each generation step, walked from its template(s)."""
+    g = read_set_graph()
+    if not g["step_templates"]:
+        print("STEPS.md defines no steps - nothing to report.")
+        return 0
+    for sid, names in sorted(g["step_templates"].items()):
+        if step_filter and sid != step_filter:
+            continue
+        entries: set = set()
+        for name in names:
+            entries |= g["template_roots"].get(name, set())
+        closure = spec_closure(entries, g["pattern_files"])
+        print(f"{sid}{'  (review pass)' if sid[0] == '5' else ''}")
+        print(f"  templates : {', '.join(sorted(names)) or '(none)'}")
+        print(f"  entries   : {', '.join(sorted(entries)) or '(none)'}")
+        expanded = sorted(closure - entries)
+        print(f"  expanded  : {', '.join(expanded) if expanded else '(none)'}")
+        print()
+    print(f"{len(g['reach'])}/{len(g['pattern_files'])} pattern files reachable from "
+          f"generation templates; {len(g['orphans'])} orphan(s)")
+    return 0
 
 
 # ---------------------------------------------------------------------------
@@ -1384,6 +1529,7 @@ def main() -> int:
     diag = Diagnostics()
     check_pattern_files(diag)
     check_compile_list(diag)
+    check_read_set_graph(diag)
     check_reach_modes(diag)
     check_repeated_prose(diag)
 
@@ -1521,4 +1667,6 @@ def main() -> int:
 if __name__ == "__main__":
     if len(sys.argv) > 1 and sys.argv[1] == "--pending":
         sys.exit(report_pending(sys.argv[2] if len(sys.argv) > 2 else None))
+    if len(sys.argv) > 1 and sys.argv[1] == "--read-set":
+        sys.exit(report_read_set(sys.argv[2] if len(sys.argv) > 2 else None))
     sys.exit(main())

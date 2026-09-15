@@ -53,7 +53,9 @@ Read these rather than a description of them.
 ## Commands
 
 ```sh
-python3 tools/validate_setting.py           # structural lint; also --pending [REGION]
+python3 tools/validate_setting.py           # structural lint
+python3 tools/validate_setting.py --pending [REGION]    # edges owed to unwritten blocks
+python3 tools/validate_setting.py --read-set [STEP]     # what a step reads, per the graph
 python3 tools/build_site.py --out _site     # static site, including patterns.html
 python3 -m http.server -d _site             # preview it locally
 pip install -r tools/requirements-pdf.txt   # WeasyPrint, for the PDF only
