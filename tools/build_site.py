@@ -421,10 +421,16 @@ def build_index(setting: sc.Setting, out: Path) -> None:
 def build_history(setting: sc.Setting, out: Path) -> None:
     page = "history.html"
     rows = []
-    for when, text in setting.history:
+    for when, text, left in setting.history:
+        marker = f'<span class="when">{html.escape(when)}</span>' if when else ""
+        trace = (
+            f'<span class="left-mark"><em>Left:</em> {render_inline(left, setting, page)}</span>'
+            if left else ""
+        )
         rows.append(
-            f'<li><span class="when">{html.escape(when)}</span>'
-            f'<span class="event">{render_inline(text, setting, page)}</span></li>'
+            f'<li>{marker}'
+            f'<span class="event">{render_inline(text, setting, page)}</span>'
+            f'{trace}</li>'
         )
     body = f'<h1>History</h1><ol class="timeline">{"".join(rows)}</ol>'
     write_page(out, page, page_shell(setting, page, "History", body))
@@ -450,8 +456,9 @@ def build_rumours(setting: sc.Setting, out: Path) -> None:
     body = (
         '<h1>Rumours</h1>'
         '<p class="hint">Referee reference — hover a mark for what it means. Players hear the rumour, not the mark.</p>'
+        '<div class="table-scroll">'
         '<table class="data-table"><thead><tr><th>#</th><th>Rumour</th><th>T/P/F</th></tr></thead>'
-        f'<tbody>{"".join(rows)}</tbody></table>'
+        f'<tbody>{"".join(rows)}</tbody></table></div>'
     )
     write_page(out, page, page_shell(setting, page, "Rumours", body))
 
@@ -508,8 +515,9 @@ def build_treasure(setting: sc.Setting, out: Path) -> None:
             for n, item, value, wt in setting.treasure[roman]
         )
         table = (
-            f'<table class="data-table"><thead><tr><th>#</th><th>Item</th>'
-            f'<th>Value (cn)</th><th>Wt</th></tr></thead><tbody>{rows}</tbody></table>'
+            f'<div class="table-scroll"><table class="data-table">'
+            f'<thead><tr><th>#</th><th>Item</th>'
+            f'<th>Value (cn)</th><th>Wt</th></tr></thead><tbody>{rows}</tbody></table></div>'
         )
         sections.append(section(sc.TREASURE_TITLES[roman], table, anchor=f"treasure-{roman}"))
     body = f'<h1>Treasure Tables</h1>{"".join(sections)}'
@@ -686,6 +694,34 @@ def build_patterns(setting: sc.Setting, out: Path) -> None:
     ))
 
 
+def read_block_files(code: str) -> list[dict]:
+    """Every `[Block Name].mmd` in a region folder, header and diagram.
+
+    A DANGEROUS region's `Connections.mmd` is the block-existence tier, not its
+    location graph - the typed location edges live one file per block, per
+    STEPS.md 4b. Reading only `Connections.mmd` therefore draws a region of
+    one box per block and no rooms at all. The header regex is the validator's,
+    so the two readers cannot drift apart.
+    """
+    rdir = sc.SETTING / "region" / code
+    if not rdir.is_dir():
+        return []
+    blocks = []
+    for path in sorted(rdir.glob("*.mmd")):
+        if path.name == "Connections.mmd":
+            continue
+        text = path.read_text()
+        head = {k: v for k, v in vs.BLOCK_HEADER_RE.findall(text)}
+        blocks.append({
+            "name": head.get("Block") or path.stem,
+            "purpose": head.get("Purpose", "").strip(),
+            "rooms": head.get("Rooms", "").strip(),
+            "members": re.findall(r"[A-Z]+\.\d+", head.get("Locations", "")),
+            "mmd": text,
+        })
+    return blocks
+
+
 def build_region(setting: sc.Setting, out: Path, code: str) -> None:
     region = setting.regions[code]
     page = f"region/{code}/index.html"
@@ -705,29 +741,64 @@ def build_region(setting: sc.Setting, out: Path, code: str) -> None:
             f'<tr><td class="num">{n}</td><td>{render_inline(text, setting, page)}</td></tr>'
             for n, text in region.table_rows
         )
-        table = f'<table class="data-table"><tbody>{rows}</tbody></table>'
+        table = f'<div class="table-scroll"><table class="data-table"><tbody>{rows}</tbody></table></div>'
         body.append(section(region.table_label, table))
 
-    loc_rows = []
-    for num in sorted(region.locations):
+    def loc_row(num: int) -> str:
         loc = region.locations[num]
         href = RESOLVER.href("location", code, num, page)
         weight = f'<span class="badge badge-weight-{loc.weight}">{loc.weight}</span>' if loc.weight else ""
         ltags = " · ".join(t.strip() for t in loc.tags.split(","))
-        loc_rows.append(
+        return (
             f'<a class="location-row" href="{href}">'
             f'<span class="loc-code">{loc.code}</span>'
             f'<span class="loc-name">{html.escape(loc.name)} {weight}</span>'
             f'<span class="loc-tags">{html.escape(ltags)}</span>'
             f'</a>'
         )
-    body.append(section("Locations", f'<div class="location-list">{"".join(loc_rows)}</div>'))
 
-    cpath = sc.SETTING / "region" / code / "Connections.mmd"
-    mmd_text = sc.load_mmd(cpath)
-    if mmd_text.strip():
-        clicks = region_graph_clicks(mmd_text, code, page)
-        body.append(section("Connections", mermaid_block(mmd_text, clicks)))
+    def loc_list(nums) -> str:
+        return f'<div class="location-list">{"".join(loc_row(n) for n in nums)}</div>'
+
+    summary_mmd = sc.load_mmd(sc.SETTING / "region" / code / "Connections.mmd")
+    blocks = read_block_files(code)
+
+    if blocks:
+        # A region generated in blocks reads as a summary of its quarters and
+        # then one quarter at a time, which is the order it was written in.
+        if summary_mmd.strip():
+            body.append(section(
+                "Region Summary",
+                mermaid_block(summary_mmd, region_graph_clicks(summary_mmd, code, page)),
+            ))
+        claimed: set[int] = set()
+        for b in blocks:
+            nums = []
+            for m in b["members"]:
+                rc, num_s = m.split(".", 1)
+                if rc == code and int(num_s) in region.locations:
+                    nums.append(int(num_s))
+            nums.sort()
+            claimed.update(nums)
+            meta = " · ".join(x for x in (
+                f'{html.escape(b["purpose"])}' if b["purpose"] else "",
+                f'{len(nums)} locations' if nums else "",
+            ) if x)
+            inner = f'<p class="block-meta">{meta}</p>' if meta else ""
+            inner += mermaid_block(b["mmd"], region_graph_clicks(b["mmd"], code, page))
+            if nums:
+                inner += loc_list(nums)
+            body.append(section(f'Block: {html.escape(b["name"])}', inner))
+        rest = [n for n in sorted(region.locations) if n not in claimed]
+        if rest:
+            body.append(section("Locations outside any block", loc_list(rest)))
+    else:
+        body.append(section("Locations", loc_list(sorted(region.locations))))
+        if summary_mmd.strip():
+            body.append(section(
+                "Connections",
+                mermaid_block(summary_mmd, region_graph_clicks(summary_mmd, code, page)),
+            ))
 
     write_page(out, page, page_shell(setting, page, f"{code} {region.name}", "\n".join(body)))
 

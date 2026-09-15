@@ -20,6 +20,7 @@ import sys
 from pathlib import Path
 
 import site_common as sc
+import validate_setting as vs
 
 ROOT = sc.ROOT
 
@@ -87,7 +88,9 @@ def build_document(setting: sc.Setting) -> str:
 
     # ---- setting-level documents ----
     parts.append('<section class="doc" id="history"><h1>History</h1><ol class="timeline">' + "".join(
-        f'<li><strong>{html.escape(when)}</strong> — {ri(text, setting)}</li>' for when, text in setting.history
+        f'<li>{f"<strong>{html.escape(when)}</strong> — " if when else ""}{ri(text, setting)}'
+        f'{f"<br><em>Left:</em> {ri(left, setting)}" if left else ""}</li>'
+        for when, text, left in setting.history
     ) + "</ol></section>")
     toc.append(toc_entry("History", "history"))
 
@@ -190,8 +193,23 @@ def build_document(setting: sc.Setting) -> str:
             trows = "".join(f'<tr><td class="num">{n}</td><td>{ri(t, setting)}</td></tr>' for n, t in region.table_rows)
             table_html = f'<h3>{html.escape(region.table_label)}</h3><table class="data-table"><tbody>{trows}</tbody></table>'
 
-        rconn_path = sc.SETTING / "region" / code / "Connections.mmd"
-        rconn = connections_block(sc.load_mmd(rconn_path), setting)
+        # A DANGEROUS region's Connections.mmd asserts block existence only -
+        # its typed location edges live one file per block, per STEPS.md 4b -
+        # so reading that file alone leaves the region with no connections at
+        # all in the PDF. Describe the summary, then each block in turn.
+        rdir = sc.SETTING / "region" / code
+        rconn = connections_block(sc.load_mmd(rdir / "Connections.mmd"), setting)
+        block_paths = sorted(q for q in rdir.glob("*.mmd") if q.name != "Connections.mmd") \
+            if rdir.is_dir() else []
+        for bpath in block_paths:
+            btext = bpath.read_text()
+            head = {k: v for k, v in vs.BLOCK_HEADER_RE.findall(btext)}
+            bname = head.get("Block") or bpath.stem
+            bconn = connections_block(btext, setting)
+            if bconn:
+                purpose = head.get("Purpose", "").strip()
+                meta = f' <em>({html.escape(purpose)})</em>' if purpose else ""
+                rconn += f'<h3>Block: {html.escape(bname)}{meta}</h3>' + bconn
 
         parts.append(
             f'<section class="doc region-doc" id="{r_anchor}">'

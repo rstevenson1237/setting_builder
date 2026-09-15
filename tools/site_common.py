@@ -88,7 +88,7 @@ class Setting:
     name: str = ""
     tags: str = ""
     outline: str = ""
-    history: list[tuple[str, str]] = field(default_factory=list)
+    history: list[tuple[str, str, str]] = field(default_factory=list)
     truths: list[str] = field(default_factory=list)
     rumours: list[tuple[int, str, str]] = field(default_factory=list)
     bestiary: list[dict] = field(default_factory=list)
@@ -127,13 +127,43 @@ TREASURE_FILES = {"I": 1, "II": 2, "III": 3, "IV": 4, "V": 5}
 TAGS_ENTRY_RE = re.compile(r"^-\s*\*\*(.+?)\*\*\s*-\s*(.+)$")
 
 
+def join_wrapped(lines: list[str]) -> list[str]:
+    """Rejoin hard-wrapped source lines into logical lines.
+
+    Every `setting/` file is hard-wrapped at ~95 columns, so a parser that
+    matches line by line silently drops every continuation. A new logical line
+    starts at a list bullet, a numbered row, a `Field:` label, or a table row;
+    anything else continues the line above it. Callers that match their own
+    entry shape pass `starts` instead - see `parse_region_overview`.
+    """
+    out: list[str] = []
+    for raw in lines:
+        line = raw.strip()
+        if not line:
+            continue
+        if not out or _STARTS_LOGICAL_RE.match(line):
+            out.append(line)
+        else:
+            out[-1] += " " + line
+    return out
+
+
+_STARTS_LOGICAL_RE = re.compile(
+    r"^(?:[-*+]\s|\d+[.)]\s|\||#|```|[A-Z][A-Za-z ]{0,24}:\s)"
+)
+
+
 def parse_tags_file(path: Path) -> list[tuple[str, str]]:
-    """Parse a Tags.md file (setting- or region-level) into (tag, gloss) pairs."""
+    """Parse a Tags.md file (setting- or region-level) into (tag, gloss) pairs.
+
+    Glosses wrap across physical lines; join them before matching, or every
+    entry renders truncated mid-sentence.
+    """
     if not path.exists():
         return []
     out = []
-    for line in path.read_text().splitlines():
-        m = TAGS_ENTRY_RE.match(line.strip())
+    for line in join_wrapped(path.read_text().splitlines()):
+        m = TAGS_ENTRY_RE.match(line)
         if m:
             out.append((m.group(1).strip(), m.group(2).strip()))
     return out
@@ -151,11 +181,37 @@ def parse_setting() -> tuple[str, str, str]:
     return name, "", outline
 
 
-def parse_history() -> list[tuple[str, str]]:
-    """Each entry is a blank-line-separated block: a wrapped "[when] - [event]"
-    paragraph, then a wrapped "Left: ..." line. Join each block's wrapped
-    lines before splitting when/event, and keep the Left line in the block's
-    text rather than dropping it as its own fake entry."""
+# A History entry opens with a dating phrase, per templates/History.md's
+# "[x] years ago - [what happened]". The phrase is what the timeline shows as
+# the entry's marker, and it is only ever the leading clause: splitting on the
+# first " - " instead turns a whole sentence into a heading wherever the first
+# hyphen arrives late, which is what it does for most real entries.
+HISTORY_WHEN_RE = re.compile(
+    r"""^(
+        [A-Za-z0-9][^,.;:]{0,60}?\s+ago
+        |within\s+living\s+memory
+        |in\s+the\s+[A-Za-z' ]{1,30}\s+reign
+    )\b""",
+    re.IGNORECASE | re.VERBOSE,
+)
+
+# Authoring markers that step 5c is meant to replace. They are not content and
+# must not reach a reader; a build that still shows them is showing the build's
+# own TODO list.
+PENDING_MARKER_RE = re.compile(r"\s*[-\u2013\u2014]?\s*\[pending\s+\w+\]", re.IGNORECASE)
+
+
+def parse_history() -> list[tuple[str, str, str]]:
+    """Each entry is a blank-line-separated block: a wrapped prose paragraph
+    opening with a dating phrase, then a wrapped "Left: ..." line naming what
+    the event left behind that a party can find.
+
+    Returns (when, event, left). `when` is the leading dating phrase and is
+    empty where the entry does not open with one - better no marker than a
+    sentence rendered as a heading. `left` is returned separately rather than
+    concatenated onto the event, because it is a different kind of statement:
+    the event is history, the Left line is a handle in the present.
+    """
     text = (SETTING / "History.md").read_text()
     blocks = re.split(r"\n\s*\n", text.strip())
     entries = []
@@ -164,11 +220,23 @@ def parse_history() -> list[tuple[str, str]]:
         if not lines:
             continue
         left_idx = next((i for i, l in enumerate(lines) if l.startswith("Left:")), len(lines))
-        header = " ".join(lines[:left_idx])
-        left = " ".join(lines[left_idx:])
-        m = re.match(r"^(.+?)\s*-\s*(.+)$", header)
-        when, event = (m.group(1).strip(), m.group(2).strip()) if m else ("", header)
-        entries.append((when, f"{event} {left}".strip() if left else event))
+        event = " ".join(lines[:left_idx]).strip()
+        left = " ".join(lines[left_idx:]).strip()
+        left = PENDING_MARKER_RE.sub("", left).strip().rstrip("-\u2013\u2014 ").strip()
+        if left[:5].lower() == "left:":
+            left = left[5:].strip()
+        when = ""
+        m = HISTORY_WHEN_RE.match(event)
+        if m:
+            when = m.group(1).strip()
+            # Drop the dating phrase and any separator left dangling behind it,
+            # so the event reads as its own sentence under the marker.
+            event = event[m.end():].lstrip()
+            event = re.sub(r"^[\s,\u2013\u2014-]+", "", event)
+            if event[:1].islower():
+                event = event[0].upper() + event[1:]
+        event = PENDING_MARKER_RE.sub("", event).strip()
+        entries.append((when, event, left))
     return entries
 
 
@@ -181,6 +249,10 @@ def parse_truths() -> list[str]:
     out = []
     for block in blocks[1:]:
         joined = " ".join(l.strip() for l in block.splitlines() if l.strip())
+        # Same authoring marker History carries, and the same reason to drop it:
+        # step 5c replaces it with a real Location Code, and until it does the
+        # build's own TODO is not content a reader should be shown.
+        joined = PENDING_MARKER_RE.sub("", joined).strip().rstrip("-\u2013\u2014 ").strip()
         if joined:
             out.append(joined.lstrip("- ").strip())
     return out
@@ -396,7 +468,16 @@ def parse_regions_gazetteer() -> dict[str, dict]:
     return out
 
 
-REGION_FIELD_LABELS = ["Overview", "Ambiance", "Layout", "Features", "Dangers", "Creatures", "Secrets", "Treasure"]
+# Follows templates/Region.md's own field order. Five of these are
+# rating-specific - Architecture (DANGEROUS), People and Situation (SAFE),
+# Terrain and Foraging (WILD) - and Factions is asked of every rating. All six
+# were being parsed into nothing, so the rating-specific half of every Region
+# Overview never reached the web view or the PDF.
+REGION_FIELD_LABELS = [
+    "Overview", "Ambiance", "Architecture", "People", "Situation", "Terrain",
+    "Foraging", "Layout", "Features", "Dangers", "Creatures", "Factions",
+    "Secrets", "Treasure",
+]
 
 
 def parse_region_overview(code: str, gaz: dict) -> Region:
@@ -419,11 +500,17 @@ def parse_region_overview(code: str, gaz: dict) -> Region:
         label, val = m.group(1), m.group(2)
         if label == "Tables":
             table_label = val.strip()
+            # Rows wrap like every other field, so collect the block first and
+            # rejoin it - matching the numbered-row regex against each physical
+            # line drops every continuation and truncates the row mid-sentence.
+            block: list[str] = []
             while i < n and lines[i].strip():
-                rm = re.match(r"^(\d+)\.\s*(.+)$", lines[i].strip())
+                block.append(lines[i])
+                i += 1
+            for row in join_wrapped(block):
+                rm = re.match(r"^(\d+)[.)]\s*(.+)$", row)
                 if rm:
                     table_rows.append((int(rm.group(1)), rm.group(2).strip()))
-                i += 1
         elif label in REGION_FIELD_LABELS:
             parts = [val.strip()]
             while i < n and lines[i].strip():
@@ -532,7 +619,12 @@ def parse_location_file(region_code: str, num: int) -> Location:
 
 
 NODE_RE = re.compile(r'(\w+)\["([A-Z]+(?:\.\d+)?) (.*?)"\]')
-EDGE_RE = re.compile(r'(\w+)(?:\[[^\]]*\])?\s*(---|-\.-|-->)\s*(\w+)(?:\[[^\]]*\])?')
+# Matches validate_setting.EDGE_RE, labelled edges included. Without the
+# optional |label| group a vertical or gated edge - `D6 ---|vertical| D9` - is
+# dropped silently, so the PDF's text edge list loses exactly the connections
+# that carry the most information.
+EDGE_RE = re.compile(
+    r'(\w+)(?:\[[^\]]*\])?\s*(---|-\.-|-->)(?:\|([^|]*)\|)?\s*(\w+)(?:\[[^\]]*\])?')
 
 
 def load_mmd(path: Path) -> str:
@@ -574,19 +666,20 @@ def describe_edges(mmd_text: str, setting: "Setting") -> list[str]:
     """Human-readable connection lines for contexts (like a PDF) that can't
     render the mermaid graph itself."""
     lines = []
-    for a, typ, b in mmd_edges_by_code(mmd_text):
+    for a, typ, label, b in mmd_edges_by_code(mmd_text):
         la, lb = edge_label(a, setting), edge_label(b, setting)
+        note = f" [{label}]" if label else ""
         if typ == "---":
-            lines.append(f"{la} — {lb}")
+            lines.append(f"{la} — {lb}{note}")
         elif typ == "-.-":
-            lines.append(f"{la} ⤳ {lb} (hidden)")
+            lines.append(f"{la} ⤳ {lb} (hidden){note}")
         elif typ == "-->":
-            lines.append(f"{la} → {lb} (one-way)")
+            lines.append(f"{la} → {lb} (one-way){note}")
     return lines
 
 
-def mmd_edges_by_code(text: str) -> list[tuple[str, str, str]]:
-    """Return (code_a, edge_type, code_b) using the ["CODE Name"] node labels."""
+def mmd_edges_by_code(text: str) -> list[tuple[str, str, str, str]]:
+    """Return (code_a, edge_type, label, code_b) using the ["CODE Name"] node labels."""
     id_to_code: dict[str, str] = {}
     for m in NODE_RE.finditer(text):
         id_to_code[m.group(1)] = m.group(2)
@@ -594,10 +687,10 @@ def mmd_edges_by_code(text: str) -> list[tuple[str, str, str]]:
     for raw_line in text.splitlines():
         line = raw_line.split("%%")[0]
         for m in EDGE_RE.finditer(line):
-            a, typ, b = m.groups()
+            a, typ, label, b = m.groups()
             ca, cb = id_to_code.get(a), id_to_code.get(b)
             if ca and cb:
-                edges.append((ca, typ, cb))
+                edges.append((ca, typ, (label or "").strip(), cb))
     return edges
 
 
