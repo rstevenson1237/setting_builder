@@ -15,9 +15,10 @@ Do not consult location, region, or faction files - these tables are setting-lev
 ## Instructions
 One file per table: `setting/Treasure1.md` through `setting/Treasure5.md`, corresponding
 to Treasure Tables I-V in order. Each table is a d20 list, numbered 1-20, of item name,
-valuation in standard silver coins (cn), and weight in slots (wt). Table shape, quality/
-effect distribution, and what each of the five tables holds are all in
-`patterns/setting/Treasure.md`.
+valuation in standard silver coins (cn), and weight (wt) - 1 wt is one hand or about 100
+coins, 2 wt is both hands, 3+ wt needs more than one person. Table shape, quality/effect
+distribution, the value-to-weight relationship, and what each of the five tables holds are
+all in `patterns/setting/Treasure.md`.
 
 ## Template
 ```

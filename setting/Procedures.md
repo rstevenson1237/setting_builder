@@ -84,8 +84,11 @@ against either:
   Consequences above - there is no fixed mapping from a die's size to a fixed use.
 - **Creatures** carry Action Dice as a d6 count only, from 1 to 18, read roughly like
   classic Hit Dice - tougher means more d6s or a bonus (-2 to +6, written `4d6+2`), never a
-  larger die. Movement Allowance (MA), where stated, is a single number 1-6 read against a
-  person's own walking pace of 3.
+  larger die. What a given count means in absolute terms is the AD ladder in
+  `setting/Bestiary.md`. The bonus averages a third of AD rounded up, and **MA** - how many
+  targets the creature can engage at once, from speed, size, or multiple attacks - averages
+  a quarter of AD rounded up. Both are stated on every creature, and it is the distance
+  from the average, in either direction, that tells the referee how lethal the thing is.
 - **Factions** carry a d6 count with no bonus at all, and that count means something only
   next to another faction's - two factions at 4 and 8 tells the referee who wins a
   contest between them; a faction's count alone says nothing.

@@ -32,6 +32,14 @@ that drew it - not from here.
 **A gate is not a fifth kind.** It qualifies a kind, and it is stated as what opens it rather
 than as the fact of being shut. A door that needs a rod is an open exit with a price.
 
+**A gate is stated on the exit line, not moved into a Feature.** What opens a way through
+belongs where the party reads what the way through is; written as a Feature instead, the
+exit reads as unobstructed and the gate reads as decoration, and the two facts have to be
+reassembled at the table. Where the gate wants a portable object the party does not
+already have, that object is a key: record a `setting/Keys.md` row for it here, per
+`dangerous/Key.md`'s demand end, rather than leaving a socket in the wall that nothing in
+the setting fills.
+
 ## Design patterns
 
 **Material and construction.** Real materials named as materials, and real joinery: banded
@@ -55,6 +63,14 @@ far side, a socket wanting a fitted object, a mechanism wanting power the level 
 currently have, a weight no single person shifts.
 
 ## Constraints
+
+- **No kind-and-material pairing carries more than a third of a block's exits.** Where a
+  region's Architecture fixes one material - and it usually does, since that is what makes
+  the place one built work - "type" stops discriminating and the whole burden moves onto
+  construction and condition, which this file's Design patterns stock for exactly that
+  reason. A block whose exits are mostly one repeated phrase has written the diagram out
+  in words rather than described anything, and the rule below cannot be met by compass
+  direction alone.
 
 - **Two exits of the same kind are told apart by their type and their position, and this is
   not housekeeping.** It is what makes a choice a decision rather than a coin flip. A party

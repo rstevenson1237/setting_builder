@@ -18,9 +18,10 @@ Read first:
 ```
 Named Creatures of [Setting Name]
 
-[Creature Name] (Type) - AD: Xd6 [+/-N] [MA: Y] - appears at [Location Code(s)]
+[Creature Name] (Type) - AD: Xd6+N [MA: Y] - appears at [Location Code(s)]
 Motivation: [the standing goal driving this creature, written in step 4d]
 Remembers: [something specific it remembers, written in step 4d]
 Wants: [something specific it wants, written in step 4d]
 Description: [1-3 sentences, written in step 4d, same style as a Bestiary entry]
+Special: [what it can do that its Action Dice do not already say, or `none`, written in step 4d]
 ```

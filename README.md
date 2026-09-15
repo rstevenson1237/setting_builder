@@ -256,13 +256,18 @@ roughly 3x it, one per room.
 **DANGEROUS locations carry a weight** - low, medium, or high - selecting
 `patterns/dangerous/Low.md`, `Medium.md`, or `High.md`. Weight is a **presentation**
 distinction, not a content budget: a class is defined by what it *guarantees*, never by a
-ceiling on what may appear. Low is the largest class and grows fastest with region size,
-because connective space is where a region's decisions get made, not where its filler goes.
-Each DANGEROUS location also carries a **node role** from its region's graph - entryway,
-simple connection, dead end, appears as dead end, branch, branch (many), divide, or loop
-leg - assigned at 4b and read at 4c. Every location gets one; simple connection is a named
-role for an unremarkable link, not an empty default, and at least 60% of a region's LOW
-locations must carry a role other than it, per `patterns/region/Dangerous.md`.
+ceiling on what may appear. The mix is 30% high, 50% medium, and the rest low, fixed
+rather than sliding with region size - medium is the largest class because it is the only
+one that guarantees something to act on, and low is the residue rather than a target,
+per `patterns/region/Dangerous.md`.
+
+**A DANGEROUS region is generated one block at a time**, a block being one functional
+quarter of 12-20 locations sharing a purpose family from `dangerous/Dressing.md`, with no
+two blocks in a region sharing one. Its `Connections.mmd` asserts block existence only;
+the typed location edges live in one `[Block Name].mmd` per block, whose header states the
+block's membership explicitly. A cross-block edge is declared in both files and must match
+in existence, type and direction. The shape of a region's LOW locations is checked over the
+assembled graph by degree class rather than by any per-location role.
 
 **WILD locations carry a classification instead** - landmark, hidden, or secret - selecting
 `patterns/wild/Landmark.md`, `Hidden.md`, or `Secret.md`. Roughly half or more are landmark
