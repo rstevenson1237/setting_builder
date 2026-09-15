@@ -64,13 +64,14 @@ currently have, a weight no single person shifts.
 
 ## Constraints
 
-- **No kind-and-material pairing carries more than a third of a block's exits.** Where a
-  region's Architecture fixes one material - and it usually does, since that is what makes
-  the place one built work - "type" stops discriminating and the whole burden moves onto
-  construction and condition, which this file's Design patterns stock for exactly that
-  reason. A block whose exits are mostly one repeated phrase has written the diagram out
-  in words rather than described anything, and the rule below cannot be met by compass
-  direction alone.
+- **No written exit description repeats across more than a third of a block's exits.**
+  Kind comes from the diagram and material usually comes from the region's Architecture, so
+  neither is free to vary - in a single-material region most exits will honestly read "open
+  archway - basalt", and demanding otherwise would ask a file to contradict the region above
+  it. What has to vary is the rest of the line: the construction and the condition, which
+  this file's Design patterns stock for exactly that reason. A block whose exits are mostly
+  one repeated phrase has written the diagram out in words rather than described anything,
+  and the rule below cannot be met by compass direction alone.
 
 - **Two exits of the same kind are told apart by their type and their position, and this is
   not housekeeping.** It is what makes a choice a decision rather than a coin flip. A party

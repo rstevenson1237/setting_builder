@@ -881,7 +881,11 @@ def check_block_connectivity(diag: Diagnostics, blocks: dict):
 def check_low_shape_mix(diag: Diagnostics, region_code: str, region_locs: dict, edges: list, path):
     """patterns/region/Dangerous.md's LOW SHAPE MIX, measured on the assembled graph."""
     lows = {f"{region_code}.{n}" for n, l in region_locs.items() if l.get("weight") == "low"}
-    if len(lows) < 5:
+    # LOW is the residue of the class mix rather than its largest class, so a
+    # normal region now has three or four LOW rooms. The 60% rule still reads at
+    # four; the no-class-over-a-third rule does not, because four rooms across
+    # four degree classes puts any pair at half by arithmetic alone.
+    if len(lows) < 4:
         return
     undirected = {frozenset((a, b)) for a, _typ, _l, b in edges if a != b}
     deg: dict[str, int] = {}
@@ -900,6 +904,8 @@ def check_low_shape_mix(diag: Diagnostics, region_code: str, region_locs: dict, 
                         f"other than 2 (want 60%+). Degree is coarse - a location on a loop is degree 2 "
                         f"and reads here as a corridor, so check this against the map before acting")
     names = {0: "isolated", 1: "dead end", 2: "through-connection", 3: "branch", 4: "branch (many)"}
+    if len(lows) < 6:
+        return
     for c in sorted(set(classes)):
         share = classes.count(c) / len(lows)
         if share > 1 / 3:
@@ -1025,9 +1031,12 @@ def check_rumours(diag: Diagnostics):
     rownums = [int(x) for x in re.findall(r"^\|\s*(\d+)\s*\|", text, re.M)]
     if rownums != list(range(1, 21)):
         diag.error(path, f"expected 20 rows numbered 1-20, found {rownums}")
-    tpf = re.findall(r"\|\s*[TPF]\s*\|\s*$", text, re.M)
+    # templates/Rumours.md puts Settled at after the mark, so T/P/F is no longer
+    # the last cell - match it as its own cell wherever it sits in the row.
+    tpf = [l for l in text.splitlines()
+           if re.match(r"^\|\s*\d+\s*\|", l) and re.search(r"\|\s*[TPF]\s*\|", l)]
     if len(tpf) != len(rownums):
-        diag.warn(path, "not every rumour row carries a trailing T/P/F mark")
+        diag.warn(path, "not every rumour row carries a T/P/F mark")
 
 
 BESTIARY_TYPES = {"beast", "man", "humanoid", "undead", "guardian", "hazard",
@@ -1161,9 +1170,15 @@ def check_class_mix(diag: Diagnostics, region_code: str, rating: str, locs: dict
 # it is a prose rule, so this is a heuristic and a warning - it flags a stated
 # price, a stated count, or a value judgement sitting in the same Feature as
 # the citation, and a human decides.
+# "a single coping stone" is the container and legal; "a single old coin" is the
+# contents and is not. Nothing in the text distinguishes them except the noun,
+# so the container vocabulary is excluded by name rather than guessed at.
+_CONTAINER_NOUNS = (r"stone|slab|panel|block|course|case|chest|coffer|niche|cavity"
+                    r"|alcove|jar|urn|pot|sack|pack|bag|crack|seam|socket|shelf|drawer")
 TREASURE_TELL_RE = re.compile(
     r"\b(?:worth (?:little|its|a|nothing|stooping)|nothing more|barely worth"
-    r"|a single \w+|a handful of|a scatter of|odds and ends"
+    r"|a single (?!(?:\w+\s+){0,2}(?:" + _CONTAINER_NOUNS + r")\b)\w+"
+    r"|a handful of|a scatter of|odds and ends"
     r"|\d+\s*cn\b)", re.I)
 
 
@@ -1198,9 +1213,10 @@ def check_registry_floors(diag: Diagnostics, registries: dict, build_complete: b
     """
     if not build_complete:
         return
-    for kind in ("Keys", "NamedCreatures"):
+    # Keys of REGISTRY_KINDS, not filenames - "NamedCreature" is singular there.
+    for kind, filename in (("Keys", "Keys.md"), ("NamedCreature", "NamedCreatures.md")):
         if not registries.get(kind):
-            path = SETTING / f"{kind}.md"
+            path = SETTING / filename
             diag.warn(path, f"no {kind} rows at the close of the build - check this is a "
                             f"decision and not a draw that never fired, per "
                             f"patterns/dangerous/Treasure.md's rates")

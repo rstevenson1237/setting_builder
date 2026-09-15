@@ -103,6 +103,16 @@ BLOCKS
   12-20 locations per block; a region of 12 or fewer is a single block
 ```
 
+**The family names what the quarter is for, not what every room in it was.** The Purpose
+list holds 63 nouns across eight families, so no family has enough nouns to give a
+twelve-to-twenty-room block one apiece - and `dangerous/Dressing.md` bars reusing a purpose
+inside a block. A block's rooms therefore take whichever purposes *serve* its family: a
+Believing quarter has its chapel and its vestry and also the passage the procession walked,
+the archive its rite was recorded in, and the pit its offerings went into. What the family
+rules out is a room that serves some other quarter's question - a barracks in a temple
+block belongs to the block that is about holding people, or the region has one block too
+few.
+
 The quarter is what holds a block together and what sharpens it: a barracks range, a
 kitchen and its stores, a run of private cells are each answering a different question about
 the same place. It is also the scale at which `dangerous/Dressing.md`'s bar on reusing a

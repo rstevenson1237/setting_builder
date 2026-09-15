@@ -595,3 +595,5 @@ code {
 }
 
 .block-meta { color: var(--ink-soft); font-size: 0.85rem; margin: 0 0 0.6rem; text-transform: capitalize; }
+
+.data-table td.settled { color: var(--ink-soft); font-size: 0.85rem; }

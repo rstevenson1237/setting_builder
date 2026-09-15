@@ -90,7 +90,7 @@ class Setting:
     outline: str = ""
     history: list[tuple[str, str, str]] = field(default_factory=list)
     truths: list[str] = field(default_factory=list)
-    rumours: list[tuple[int, str, str]] = field(default_factory=list)
+    rumours: list[tuple[int, str, str, str]] = field(default_factory=list)
     bestiary: list[dict] = field(default_factory=list)
     factions: list[dict] = field(default_factory=list)
     faction_notes: list[str] = field(default_factory=list)
@@ -272,7 +272,14 @@ def parse_table_rows(path: Path) -> list[list[str]]:
     return rows
 
 
-def parse_rumours() -> list[tuple[int, str, str]]:
+def parse_rumours() -> list[tuple[int, str, str, str]]:
+    """Returns (number, rumour, mark, settled).
+
+    `settled` is templates/Rumours.md's Settled at column - where a party finds
+    what confirms, denies or corrects the lead, and for a partial entry which
+    half is false. It is referee-side exactly as the mark is, and empty for a
+    table written before the column existed.
+    """
     rows = parse_table_rows(SETTING / "Rumours.md")
     out = []
     for cells in rows:
@@ -282,7 +289,7 @@ def parse_rumours() -> list[tuple[int, str, str]]:
             n = int(cells[0])
         except ValueError:
             continue
-        out.append((n, cells[1], cells[2]))
+        out.append((n, cells[1], cells[2], cells[3] if len(cells) > 3 else ""))
     return out
 
 

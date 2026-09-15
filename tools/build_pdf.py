@@ -99,13 +99,16 @@ def build_document(setting: sc.Setting) -> str:
     ) + "</ul></section>")
     toc.append(toc_entry("Truths", "truths"))
 
+    any_settled = any(settled for _, _, _, settled in setting.rumours)
     rrows = "".join(
-        f'<tr><td class="num">{n}</td><td>{ri(text, setting)}</td><td class="tpf">{tpf}</td></tr>'
-        for n, text, tpf in setting.rumours
+        f'<tr><td class="num">{n}</td><td>{ri(text, setting)}</td><td class="tpf">{tpf}</td>'
+        + (f'<td>{ri(settled, setting)}</td>' if any_settled else "") + '</tr>'
+        for n, text, tpf, settled in setting.rumours
     )
+    settled_head = "<th>Settled at</th>" if any_settled else ""
     parts.append(
         '<section class="doc" id="rumours"><h1>Rumours</h1>'
-        '<table class="data-table"><thead><tr><th>#</th><th>Rumour</th><th>T/P/F</th></tr></thead>'
+        f'<table class="data-table"><thead><tr><th>#</th><th>Rumour</th><th>T/P/F</th>{settled_head}</tr></thead>'
         f'<tbody>{rrows}</tbody></table></section>'
     )
     toc.append(toc_entry("Rumours", "rumours"))
