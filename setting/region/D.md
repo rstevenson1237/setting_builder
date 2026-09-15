@@ -48,8 +48,10 @@ unanswered anywhere else in Telar - if the ziggurat knows, it hasn't said. Nirgu
 to the surface avoids every bound threshold on the Middle tier entirely, which is the only
 reason their enclave has never had to test one.
 
-Treasure: setting/Treasure3.md (gems and jewelry) for the priest-kings' own regalia, and
-setting/Treasure5.md (treasure cache) for what the Lower tier has kept sealed.
+Treasure: setting/Treasure1.md (scavenged loot) is most of what Daghash actually gives up -
+what centuries of visitors dropped, wedged, cached and did not come back for.
+setting/Treasure3.md (gems and jewelry) covers the priest-kings' own untouched niches, and
+setting/Treasure5.md (treasure cache) what Nirguk has kept stacked on the Lower tier.
 
 Tables: d6 Danger, counting down from 6 with each failed Difficulty roll.
 6. Something on the Lower tier notices a threshold has been disturbed - nothing visible

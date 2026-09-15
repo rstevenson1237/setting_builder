@@ -57,7 +57,7 @@ Brekar nor the crowns hold acknowledged ground beyond the garrison's own writ. W
 Serpent Cult holds any unacknowledged ground in Tolkar is this region's Secret, below.
 
 Secrets: One of the tanning-yard hands answers to the coiled-serpent mark
-(setting/Bestiary.md's Serpent Cult Initiate) and reports what he overhears at the toll-house
+(a Serpent Cult cell, per setting/Factions.md) and reports what he overhears at the toll-house
 eastward, to a cell nobody at Tolkar has ever found.
 
 Treasure: Ordinary road goods, tack, and remounts change hands at the farrier's and the
@@ -70,7 +70,7 @@ Tables: d6 Events, rolled on entry and again each week.
 2. A Brekar rider is caught trying to sell captured goods at the market under a false name.
 3. Toll-master Kessin's ledger comes up short a full day's count; he blames the last shift
    at the gate.
-4. A company of Mercenary Sellswords passes through looking for work, asking loudly about
+4. A company of sellswords off a Nine Wagons contract passes through looking for work, asking loudly about
    the ford.
 5. A rider from the middle kingdom reaches the garrison demanding Tolkar's patrols stay off
    contested ground near the cairns.

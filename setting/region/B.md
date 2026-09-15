@@ -43,7 +43,7 @@ ground begins somewhere past the cairns and carries no border marker of its own 
 found by finding them.
 
 Creatures: A Ford-Eel holds the deep water at the ford and at any crossing besides the
-causeway. A Grey Wolf Pack ranges the whole of Marfen and has been seen shadowing travelers
+causeway. A Grey Wolf pack ranges the whole of Marfen and has been seen shadowing travelers
 on the causeway itself. Man-Apes hold the ground past the cairns and answer the iron-truce
 the same as anywhere else in Telar. Barrow-Kin tend the mounds south of the causeway and
 have not approached anyone in living memory. At least one Drowned Thing has never left the
@@ -59,15 +59,16 @@ armies are now said to watch from a distance - nobody currently uses it. What is
 inside the one burial mound nobody has opened is Marfen's own unanswered question. The
 drowned temple keeps whatever took the two trading companies fifteen years ago.
 
-Treasure: What the marsh and the ruins give up leans on setting/Treasure1.md (scavenged
-finds) and setting/Treasure5.md (what the mounds and the drowned temple may cache).
+Treasure: What the marsh and the ruins give up leans on setting/Treasure3.md (the grave-goods
+in the mounds) and setting/Treasure5.md (what the drowned temple has held since the flood).
+Scavenged finds from setting/Treasure1.md are what the causeway and the old road turn up.
 
 Tables: d6 Encounter, rolled on each failed Difficulty roll.
 1. A Brekar rider intercepts the party on the causeway to collect the toll before they've
    reached the ford.
 2. A Ford-Eel takes something left too near the water's edge, seen only as a ripple closing
    over it.
-3. A Grey Wolf Pack shadows the party's line of travel for a stretch before peeling off.
+3. A Grey Wolf pack shadows the party's line of travel for a stretch before peeling off.
 4. Knuckle-prints beside a footprint, and bark stripped from a tree well above head height -
    Man-Apes have passed this way recently.
 5. A carrion vulture flock lifts off ahead of the party, circling over something already

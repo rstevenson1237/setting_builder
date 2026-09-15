@@ -103,6 +103,9 @@ Coined here:
   for the Chamber of the Coiled Serpent, in `setting/region/D/13.md`
 - Vaalsenn = vaal (to bind, to seal) + senn (one) - the name-tablet that performs an Essath
   binding once, in `setting/UniqueTreasures.md` and `setting/region/D/13.md`
+- Vaaluk = vaal (to bind, to seal) + uk (lord, master) - the Nirguk enclave eldest at
+  D.15 Nirguk Warren, in `setting/NamedCreatures.md`; the one of them that reads the
+  bindings rather than living under them
 
 ## Uhgum
 Spoken by: the Man-Apes, in numbers nobody has counted. Living, not dead - the one non-human

@@ -16,10 +16,11 @@ elsewhere, is drawn by the weight file's own registry lines instead.
 ```
 TREASURE
   1     Disposition   {guarded | hidden | discarded}
-  1     What it is    {table roll | unique treasure | lore | key}
+  1     What it is - exactly one, drawn at these rates rather than freely chosen
+        {table roll 55% | key 20% | lore 20% | unique treasure 5%}
                         (patterns/setting/Treasure.md,
-                         patterns/setting/UniqueTreasures.md,
-                         dangerous/Lore.md, dangerous/Key.md)
+                         dangerous/Key.md, dangerous/Lore.md,
+                         patterns/setting/UniqueTreasures.md)
   1     What it is in, under, or behind, and the search or trigger that reaches it
   1     Guarded: what guards it, drawn as an Encounter or a Hazard
                         (dangerous/Encounter.md, dangerous/Hazard.md)
@@ -39,6 +40,14 @@ stub row in its own registry and the row needs a name to be written against.
 
 **One pull per citation.** A location wanting more takes a second citation elsewhere in its
 Features rather than multiplying one.
+
+**The rates exist because an unrated menu collapses to its first option.** A four-way
+choice with no weights on it reads as "pick one", and what gets picked is whatever is
+easiest to write - which is always the table roll, since it names nothing and owes no
+registry a row. Keys and Lore are the two things that make a region a network instead of a
+list, and both reach a location only through this line. A DANGEROUS region that finishes
+4c having drawn no key at all has not found that keys did not fit; it has skipped the
+draw.
 
 **A guard is drawn, not invented.** Where the disposition is `guarded`, the thing guarding
 it comes from `dangerous/Encounter.md` or `dangerous/Hazard.md` like any other - which is

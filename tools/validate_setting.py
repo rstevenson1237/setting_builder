@@ -654,6 +654,7 @@ def check_location_file(diag, path, region_code, num, stub, rating, all_location
     if not m:
         diag.error(path, f"header line does not match Location.md format: {lines[0]!r}")
         return
+    check_treasure_citation_prose(diag, path, text)
     hcode, hnum_s, hname, hweight, htags = m.groups()
     if hcode != region_code or int(hnum_s) != num:
         diag.error(path, f"header code {hcode}.{hnum_s} does not match this file's location {region_code}.{num}")
@@ -880,7 +881,11 @@ def check_block_connectivity(diag: Diagnostics, blocks: dict):
 def check_low_shape_mix(diag: Diagnostics, region_code: str, region_locs: dict, edges: list, path):
     """patterns/region/Dangerous.md's LOW SHAPE MIX, measured on the assembled graph."""
     lows = {f"{region_code}.{n}" for n, l in region_locs.items() if l.get("weight") == "low"}
-    if len(lows) < 5:
+    # LOW is the residue of the class mix rather than its largest class, so a
+    # normal region now has three or four LOW rooms. The 60% rule still reads at
+    # four; the no-class-over-a-third rule does not, because four rooms across
+    # four degree classes puts any pair at half by arithmetic alone.
+    if len(lows) < 4:
         return
     undirected = {frozenset((a, b)) for a, _typ, _l, b in edges if a != b}
     deg: dict[str, int] = {}
@@ -899,6 +904,8 @@ def check_low_shape_mix(diag: Diagnostics, region_code: str, region_locs: dict, 
                         f"other than 2 (want 60%+). Degree is coarse - a location on a loop is degree 2 "
                         f"and reads here as a corridor, so check this against the map before acting")
     names = {0: "isolated", 1: "dead end", 2: "through-connection", 3: "branch", 4: "branch (many)"}
+    if len(lows) < 6:
+        return
     for c in sorted(set(classes)):
         share = classes.count(c) / len(lows)
         if share > 1 / 3:
@@ -1024,9 +1031,166 @@ def check_rumours(diag: Diagnostics):
     rownums = [int(x) for x in re.findall(r"^\|\s*(\d+)\s*\|", text, re.M)]
     if rownums != list(range(1, 21)):
         diag.error(path, f"expected 20 rows numbered 1-20, found {rownums}")
-    tpf = re.findall(r"\|\s*[TPF]\s*\|\s*$", text, re.M)
+    # templates/Rumours.md puts Settled at after the mark, so T/P/F is no longer
+    # the last cell - match it as its own cell wherever it sits in the row.
+    tpf = [l for l in text.splitlines()
+           if re.match(r"^\|\s*\d+\s*\|", l) and re.search(r"\|\s*[TPF]\s*\|", l)]
     if len(tpf) != len(rownums):
-        diag.warn(path, "not every rumour row carries a trailing T/P/F mark")
+        diag.warn(path, "not every rumour row carries a T/P/F mark")
+
+
+BESTIARY_TYPES = {"beast", "man", "humanoid", "undead", "guardian", "hazard",
+                  "fantasy creature", "construct", "horror", "wyrm", "fey", "fiend", "giant"}
+
+# "[Name] (Type) - AD: Xd6+N [MA: Y]" per templates/Bestiary.md. The bonus and
+# the MA bracket are optional in the pattern so a partially-written file still
+# parses; both are reported as findings rather than as parse failures.
+STATBLOCK_RE = re.compile(
+    r"^(?P<name>.+?)\s*\((?P<type>[^)]+)\)\s*-\s*AD:\s*(?P<ad>\d+)d6\s*(?P<mod>[+-]\s*\d+)?"
+    r"(?:\s*\[MA:\s*(?P<ma>\d+)\s*\])?",
+    re.M,
+)
+
+
+def parse_statblocks(text: str):
+    """Every creature header line in a Bestiary or NamedCreatures file."""
+    out = []
+    for m in STATBLOCK_RE.finditer(text):
+        mod = m.group("mod")
+        out.append({
+            "name": m.group("name").strip().lstrip("-").strip(),
+            "type": m.group("type").strip(),
+            "ad": int(m.group("ad")),
+            "mod": int(mod.replace(" ", "")) if mod else None,
+            "ma": int(m.group("ma")) if m.group("ma") else None,
+        })
+    return out
+
+
+def check_statblocks(diag: Diagnostics, path: Path, label: str, expect_special: bool):
+    """patterns/setting/Bestiary.md's AD ladder, modifier and MA scaling.
+
+    Content, not format, so almost everything here is a warning: the averages
+    exist to be deviated from, and a single entry off its average is the field
+    doing its job. What is worth an error is a value outside the declared
+    range, and what is worth a warning is a *systematic* absence of deviation -
+    a file where nothing carries a modifier has not decided anything.
+    """
+    if not path.exists():
+        diag.warn(path, "missing - not built yet")
+        return
+    text = path.read_text()
+    blocks = parse_statblocks(text)
+    if not blocks:
+        if text.strip().count("\n") > 1:
+            diag.warn(path, f"no {label} stat lines parsed - expected "
+                            f"'[Name] (Type) - AD: Xd6+N [MA: Y]'")
+        return
+    no_mod = no_ma = no_special = 0
+    entries = [b for b in text.split("\n\n") if b.strip()]
+    for b in blocks:
+        if b["type"].lower() not in BESTIARY_TYPES:
+            diag.error(path, f"{b['name']}: type {b['type']!r} is not one of "
+                             f"patterns/setting/Bestiary.md's TYPE MIX")
+        if not 1 <= b["ad"] <= 18:
+            diag.error(path, f"{b['name']}: AD {b['ad']} is outside the 1-18 range")
+        if b["mod"] is None:
+            no_mod += 1
+        elif not -2 <= b["mod"] <= 6:
+            diag.error(path, f"{b['name']}: modifier {b['mod']:+d} is outside the -2..+6 range")
+        if b["ma"] is None:
+            no_ma += 1
+        elif not 1 <= b["ma"] <= 6:
+            diag.error(path, f"{b['name']}: MA {b['ma']} is outside the 1-6 range")
+    n = len(blocks)
+    if no_mod:
+        diag.warn(path, f"{no_mod}/{n} entries state no modifier - it is written on every "
+                        f"entry, because its distance from the average (AD/3, rounded up) "
+                        f"is what it is for")
+    if no_ma:
+        diag.warn(path, f"{no_ma}/{n} entries state no MA - it is written on every entry, "
+                        f"because its distance from the average (AD/4, rounded up) is what "
+                        f"it is for")
+    # A file that sits exactly on both averages every time has thrown the
+    # fields away just as surely as one that omits them.
+    rated = [b for b in blocks if b["mod"] is not None]
+    if len(rated) >= 4 and all(b["mod"] == -(-b["ad"] // 3) for b in rated):
+        diag.warn(path, "every modifier sits exactly on its average - deviation is the "
+                        "information the field carries")
+    rated = [b for b in blocks if b["ma"] is not None]
+    if len(rated) >= 4 and all(b["ma"] == -(-b["ad"] // 4) for b in rated):
+        diag.warn(path, "every MA sits exactly on its average - deviation is the "
+                        "information the field carries")
+    if expect_special:
+        for entry in entries:
+            m = STATBLOCK_RE.search(entry)
+            if not m:
+                continue
+            ad = int(m.group("ad"))
+            if ad >= 4 and not re.search(r"^Special:", entry, re.M):
+                no_special += 1
+        if no_special:
+            diag.warn(path, f"{no_special} entries at 4+ AD carry no Special: line - a "
+                            f"special ability is expected more often at 4 AD and above, "
+                            f"and several at 8 and above; `none` is a decision, silence "
+                            f"is not")
+
+
+def check_class_mix(diag: Diagnostics, region_code: str, rating: str, locs: dict):
+    """patterns/region/Dangerous.md's CLASS MIX: 30% HIGH, 50% MEDIUM, rest LOW.
+
+    A warning, and deliberately loose - the mix is a shape, not an arithmetic
+    target, and a region a room either side of it has not failed anything. What
+    it catches is the drift the mix exists to prevent: a region that is mostly
+    LOW is mostly rooms with no challenge in them, since dangerous/Low.md draws
+    none by definition.
+    """
+    if rating != "DANGEROUS" or not locs:
+        return
+    n = len(locs)
+    counts = {w: 0 for w in ("high", "medium", "low")}
+    for l in locs.values():
+        if l.get("weight") in counts:
+            counts[l["weight"]] += 1
+    for weight, want, slack in (("high", 0.30, 0.10), ("medium", 0.50, 0.12)):
+        got = counts[weight] / n
+        if abs(got - want) > slack:
+            diag.warn(SETTING / "region" / region_code,
+                      f"region {region_code}: {counts[weight]}/{n} locations are {weight.upper()} "
+                      f"({got:.0%}); patterns/region/Dangerous.md wants about {want:.0%}")
+    if counts["low"] / n > 0.35:
+        diag.warn(SETTING / "region" / region_code,
+                  f"region {region_code}: {counts['low']}/{n} locations are LOW "
+                  f"({counts['low'] / n:.0%}) - LOW is the residue of the mix, not its "
+                  f"largest class, and it draws no challenge at all")
+
+
+# A Feature citing a treasure table must not also say what comes up on it.
+# patterns/dangerous/Treasure.md and wild/Treasure.md both state this outright;
+# it is a prose rule, so this is a heuristic and a warning - it flags a stated
+# price, a stated count, or a value judgement sitting in the same Feature as
+# the citation, and a human decides.
+# "a single coping stone" is the container and legal; "a single old coin" is the
+# contents and is not. Nothing in the text distinguishes them except the noun,
+# so the container vocabulary is excluded by name rather than guessed at.
+_CONTAINER_NOUNS = (r"stone|slab|panel|block|course|case|chest|coffer|niche|cavity"
+                    r"|alcove|jar|urn|pot|sack|pack|bag|crack|seam|socket|shelf|drawer")
+TREASURE_TELL_RE = re.compile(
+    r"\b(?:worth (?:little|its|a|nothing|stooping)|nothing more|barely worth"
+    r"|a single (?!(?:\w+\s+){0,2}(?:" + _CONTAINER_NOUNS + r")\b)\w+"
+    r"|a handful of|a scatter of|odds and ends"
+    r"|\d+\s*cn\b)", re.I)
+
+
+def check_treasure_citation_prose(diag: Diagnostics, path: Path, text: str):
+    for line in text.splitlines():
+        if not TREASURE_CITE_RE.search(line):
+            continue
+        m = TREASURE_TELL_RE.search(line)
+        if m:
+            diag.warn(path, f"a Feature citing a treasure table also describes or prices "
+                            f"what is found ({m.group(0)!r}) - the roll decides the "
+                            f"contents, and naming them contradicts whatever comes up")
 
 
 def check_tags_file(diag: Diagnostics, path: Path):
@@ -1037,6 +1201,53 @@ def check_tags_file(diag: Diagnostics, path: Path):
     count = len(re.findall(r"^- \*\*.+\*\* - ", text, re.M))
     if count < 15:
         diag.warn(path, f"only {count} tags found - the pool is meant to hold ~25")
+
+
+def check_registry_floors(diag: Diagnostics, registries: dict, build_complete: bool):
+    """A setting with no keys and no named creatures passes every other check.
+
+    Nothing requires either registry to hold anything, so a run that quietly
+    never drew one produces an empty file and no finding. Both are the
+    mechanisms that make a set of regions a network rather than a list, so an
+    empty one at the close of the build is a result worth seeing.
+    """
+    if not build_complete:
+        return
+    # Keys of REGISTRY_KINDS, not filenames - "NamedCreature" is singular there.
+    for kind, filename in (("Keys", "Keys.md"), ("NamedCreature", "NamedCreatures.md")):
+        if not registries.get(kind):
+            path = SETTING / filename
+            diag.warn(path, f"no {kind} rows at the close of the build - check this is a "
+                            f"decision and not a draw that never fired, per "
+                            f"patterns/dangerous/Treasure.md's rates")
+
+
+def check_rumour_settling(diag: Diagnostics, build_complete: bool):
+    """templates/Rumours.md's Settled at column, filled at 5c.
+
+    Before the build is complete a pending marker is the correct state, so this
+    only reports once every location exists.
+    """
+    path = SETTING / "Rumours.md"
+    if not path.exists():
+        return
+    text = path.read_text()
+    rows = [l for l in text.splitlines()
+            if re.match(r"^\|\s*\d+\s*\|", l)]
+    if not rows:
+        return
+    if not re.search(r"\|\s*Settled at\s*\|", text, re.I):
+        diag.warn(path, "no 'Settled at' column - every rumour records where it is "
+                        "confirmed, denied or corrected, per templates/Rumours.md")
+        return
+    if not build_complete:
+        return
+    unsettled = [l for l in rows if re.search(r"pending", l, re.I)
+                 or l.rstrip().endswith("||") or re.search(r"\|\s*\|\s*$", l)]
+    if unsettled:
+        diag.warn(path, f"{len(unsettled)}/{len(rows)} rumours are still unsettled - step "
+                        f"5c fills the column against the locations actually built, and a "
+                        f"rumour pointing off the map says so rather than being left blank")
 
 
 def check_top_level_files(diag: Diagnostics):
@@ -1285,6 +1496,12 @@ def main() -> int:
     check_treasure_tables(diag)
     check_rumours(diag)
     check_top_level_files(diag)
+    check_statblocks(diag, SETTING / "Bestiary.md", "Bestiary", expect_special=True)
+    check_statblocks(diag, SETTING / "NamedCreatures.md", "Named Creature", expect_special=True)
+    for region_code, locs in region_locs.items():
+        check_class_mix(diag, region_code, regions[region_code]["rating"], locs)
+    check_registry_floors(diag, registries, build_complete)
+    check_rumour_settling(diag, build_complete)
     check_tags_file(diag, SETTING / "Tags.md")
 
     for line in report_topology(regions, region_locs, region_edges):

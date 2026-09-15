@@ -35,22 +35,35 @@ expects 0.6 steps across a full clear, which is effectively no countdown at all.
 tension has to come from what is in it - one thing that cannot be fought, a way in that is
 not a way out, something that wakes - because the track will not supply any.
 
-Class distribution, scaled by count:
+Class distribution, and entrances scaled by count:
 
 The die is a **difficulty die**, not a power level - d8 baseline, d6 tougher, d10 easier,
-per `setting/Procedures.md`. It sets the class mix below through the location count only;
-it is not a benchmark for creature AD.
+per `setting/Procedures.md`. It sets the entrance count below through the location count
+only; it is not a benchmark for creature AD.
 
 ```
 CLASS MIX
-  ~12 locations    1-2 entrances    15% HIGH    40% MEDIUM    45% LOW
-  ~24 locations      2 entrances    10% HIGH    35% MEDIUM    55% LOW
-  ~36 locations    2-3 entrances     8% HIGH    32% MEDIUM    60% LOW
+  30%   HIGH
+  50%   MEDIUM
+        LOW - the rest, and not a quota of its own
+
+ENTRANCES - by location count
+  ~12 locations    1-2 entrances
+  ~24 locations      2 entrances
+  ~36 locations    2-3 entrances
 ```
 
-LOW is the largest class and grows fastest with size. A dungeon with no unremarkable rooms
-has nothing to make its remarkable ones legible, and connective space is where the
-region's decisions get made rather than where its filler goes.
+**MEDIUM is the largest class, and the mix does not slide with size.** A region is
+mostly rooms that present one thing to deal with and present it plainly, because that
+is the only class that guarantees the party something to act on -
+`dangerous/Low.md` draws no challenge at all by definition, so a region that is half
+LOW is half rooms with nothing in them to address.
+
+LOW is what is left over rather than a target to fill. It still earns its place: a
+dungeon with no unremarkable rooms has nothing to make its remarkable ones legible,
+and a room that looks like nothing is what makes attention a real cost. But it is the
+residue of the count, so a region that comes out a room or two either side of 20% LOW
+has not failed anything - a region that comes out half LOW has.
 
 Connection graph:
 
@@ -64,7 +77,19 @@ TOPOLOGY - dense, few entrances
   40%   Of those dead ends: appears as dead end instead - a hidden (-.-) edge is the real
         exit, cashing out the dead-end Secret rate in `dangerous/Low.md` as a route
         rather than a cache
-  30%   A one-way connection
+```
+
+Edges are typed when the diagram is drawn at 4b, and `dangerous/Door.md` reads that type
+rather than choosing one. The mix is therefore decided here, and it has to be decided
+here: left to per-edge judgement every edge comes out open, because open is the type that
+needs no reason.
+
+```
+EDGE KIND MIX - over a region's location-tier edges
+  60%   open        (---)
+  15%   secret      (-.-)
+  15%   vertical    (---|vertical|)
+  10%   one-way     (-->)
 ```
 
 **Blocks - a DANGEROUS region is generated one block at a time**, per STEPS.md 4c:
@@ -78,14 +103,25 @@ BLOCKS
   12-20 locations per block; a region of 12 or fewer is a single block
 ```
 
+**The family names what the quarter is for, not what every room in it was.** The Purpose
+list holds 63 nouns across eight families, so no family has enough nouns to give a
+twelve-to-twenty-room block one apiece - and `dangerous/Dressing.md` bars reusing a purpose
+inside a block. A block's rooms therefore take whichever purposes *serve* its family: a
+Believing quarter has its chapel and its vestry and also the passage the procession walked,
+the archive its rite was recorded in, and the pit its offerings went into. What the family
+rules out is a room that serves some other quarter's question - a barracks in a temple
+block belongs to the block that is about holding people, or the region has one block too
+few.
+
 The quarter is what holds a block together and what sharpens it: a barracks range, a
 kitchen and its stores, a run of private cells are each answering a different question about
 the same place. It is also the scale at which `dangerous/Dressing.md`'s bar on reusing a
 purpose can actually be met - the Purpose list holds 63 nouns, which no hundred-location
 region could spread across itself.
 
-**LOW distribution - this is where the graph's shape has to actually show up,** since LOW
-is the largest class:
+**LOW distribution - this is where the graph's shape has to actually show up.** LOW is
+the class most likely to be drawn as plain corridor, so it is the one the graph has to
+argue with:
 
 ```
 LOW SHAPE MIX - of a region's LOW-weight locations, measured on the assembled graph

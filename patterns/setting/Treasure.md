@@ -33,15 +33,35 @@ be read for the best outcome. Both are anti-optimisation, and both matter more t
 contents.
 
 **Anchor value to party altitude.** A find is interesting because of what it buys these
-characters. State somewhere in the tables what a week's ordinary wage is, so every number
-below has a scale - treasure hunters barely above commoners, per `GENRE.md`, means most
-finds should be *useful*, and a table-topping result should change what the party can
-attempt next.
+characters. State what a week's ordinary wage is at the head of Table I, and point back to
+it from each of the others, so every number in every table has a scale - treasure hunters
+barely above commoners, per `GENRE.md`, means most finds should be *useful*, and a
+table-topping result should change what the party can attempt next.
 
-**Value-to-weight.** 100 standard cn weighs 1 wt - the table's average relationship, not a
-fixed conversion. Mundane bulk goods may run as low as 5 cn per wt (a bag of copper
-pennies); there is no upper bound on value-dense items (a single pure diamond may be worth
-5000 cn at 0 wt).
+**What one wt is.** `wt` is bulk and weight together - what it takes to move the thing,
+not what it weighs on a scale:
+
+```
+WEIGHT
+  0 wt   Pocketed and forgotten about - no call on anyone's hands
+  1 wt   One hand, or about 100 coins
+  2 wt   Both hands
+  3+ wt  More than one person to carry, and more still the higher it goes
+```
+
+**Encumbrance is the lever value pushes off of.** About 100 coins - or a comparable
+volume of anything else - per wt is the average relationship, which is what makes a find a
+decision rather than an addition. A hoard is heavy *because* it is worth something: a
+chest of coin worth 4000 cn is roughly 40 wt and several trips, and writing it at 6 wt to
+keep the number tidy deletes the only interesting thing about finding it. State the wt the
+haul actually costs, however large that gets.
+
+**A small but incredibly valuable item earns its value by rising an order of magnitude
+against that average**, not by escaping it. A gem at 1 wt and 1000 cn is the shape - ten
+times the average, small enough to run with, and the reason a party takes it over the
+plate. Two orders is a table-topping result and rare; anything past that is a Unique
+Treasure and belongs in `setting/UniqueTreasures.md`. Mundane bulk runs the other way, as
+low as 5 cn per wt for a sack of copper pennies.
 
 **Table I - Scavenged Loot.** Everyday debris, minor coin, tools, scraps. Average under
 500 cn. This is what most finds are, and it should mostly be *useful* rather than valuable -
@@ -64,6 +84,12 @@ decide what to leave, which is the most interesting decision treasure can produc
 **Table V - Treasure Cache.** The payoff, and the only table where a single result should
 be able to change a party's plans. A mix of coinage - not only standard silver, include
 other denominations or foreign/exotic coin - plate, a hoard's worth of one thing.
+
+This is also the table where the weight scale bites hardest, and it should. A result here
+is usually more than a party can carry out in one trip, and saying so in the `wt` column
+is what turns the payoff into the problem it ought to be: what to take first, what to
+cache, what to come back for, and who is still here when they do. A cache that fits in a
+backpack is a number, not a haul.
 
 **Materials and coinage** should come from `setting/History.md` and `setting/Truths.md` -
 what was minted here, by whom, and whether it is still accepted. Coin from a fallen realm

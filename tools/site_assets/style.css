@@ -350,11 +350,16 @@ code {
   background: var(--accent-soft);
 }
 .timeline .when { display: block; font-weight: 700; color: var(--accent); font-size: 0.85rem; }
+.timeline .event { display: block; }
+.timeline .left-mark { display: block; margin-top: 0.35rem; color: var(--ink-soft); font-size: 0.9rem; }
 
 .truths-list { padding-left: 1.2rem; }
 .truths-list li { margin-bottom: 0.7rem; }
 
-.data-table { width: 100%; border-collapse: collapse; margin: 0.6rem 0; }
+/* A wide table scrolls inside its own box rather than pushing the page
+   sideways; .page is capped at 880px and has no horizontal scroll. */
+.table-scroll { overflow-x: auto; margin: 0.6rem 0; }
+.data-table { width: 100%; border-collapse: collapse; margin: 0; }
 .data-table th, .data-table td {
   text-align: left;
   padding: 0.4rem 0.6rem;
@@ -490,7 +495,18 @@ code {
   position: relative;
 }
 .pattern-diagram-inner { position: relative; padding: 0.9rem; }
-#pattern-edge-layer { position: absolute; inset: 0; pointer-events: none; overflow: visible; }
+/* Above .pattern-columns, or every segment crossing an opaque card is
+   hidden and only the bits in the gutters show. pointer-events stays
+   none so the cards underneath remain clickable. */
+#pattern-edge-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: visible;
+  z-index: 2;
+}
 #pattern-edge-layer path { fill: none; stroke-width: 1.4; }
 
 .pattern-columns {
@@ -577,3 +593,7 @@ code {
   .pattern-workspace { grid-template-columns: 1fr; }
   .pattern-columns { grid-template-columns: repeat(2, minmax(130px, 1fr)); }
 }
+
+.block-meta { color: var(--ink-soft); font-size: 0.85rem; margin: 0 0 0.6rem; text-transform: capitalize; }
+
+.data-table td.settled { color: var(--ink-soft); font-size: 0.85rem; }

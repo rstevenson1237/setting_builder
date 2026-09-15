@@ -15,6 +15,8 @@ RUMOURS - a d20 table
   ~40%  Partially true - and the false half is the interesting half
   ~20%  False
   1     At least three pointing at a region, not a detail
+  1     Every entry records where it is settled - the location(s) holding what
+        confirms, denies or corrects it, filled at 5c
   1     At least two that are true and sound false
   1     At least one that is false and sounds unmistakably true
 ```
@@ -22,6 +24,19 @@ RUMOURS - a d20 table
 **Partially true is the productive band.** The useful shape is a real fact with a wrong
 cause, a wrong location, a wrong number, or a wrong person attached. That gives a party
 something that pays off and something that bites, from the same lead.
+
+**A rumour is settled somewhere, and the table says where.** T/P/F records that a rumour is
+wrong; it does not record *where a party would find that out*, and a mark the referee
+cannot cash is half a field. Every entry names the location or locations holding what
+settles it - a document that contradicts it, a place that is not what it was said to be, a
+person who was there. For a `P` entry, which half is false is named alongside, because the
+eight ways to be partially true above are only useful if the one chosen is written down.
+
+The column is filled at step 5c, against the locations actually built, for the same reason
+`setting/Truths.md`'s Handles and `setting/History.md`'s `Left` lines are: at 2d no
+location exists to name. A rumour that deliberately points past the edge of the setting
+says so rather than being left blank - an empty cell cannot be told apart from one nobody
+got to.
 
 **What a rumour points at** - a region, by name; a specific location within one; a person, by
 name; a creature, and what it does; a treasure, and where; an event in `setting/History.md`,
@@ -52,5 +67,10 @@ true and stopped being.
   rumour; "the party should investigate the workings" is a referee telling players their
   business.
 
-- **Marking.** T/P/F is for the referee and never shared. Mark against the truth of
-  the substance, not of the framing.
+- **Marking.** T/P/F is for the referee and never shared, and so is where a rumour is
+  settled. Mark against the truth of the substance, not of the framing.
+
+- **Settling a rumour is not resolving it for the party.** The column names where the
+  truth sits, never what the party should do, which way they should lean, or what they
+  will conclude on finding it - that is the third test, and a "Settled at" line written as
+  advice breaks it exactly as surely as the rumour text would.

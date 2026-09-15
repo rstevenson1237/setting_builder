@@ -20,7 +20,8 @@ CREATURE
   1     Scale, against party altitude, per GENRE.md - never against the region die:
           low weight     something the party can walk past or through; often absent
           medium weight  a real fight the party is expected to win at some cost
-          high weight    a fight the party should weigh, and may lose. MA where it has it
+          high weight    a fight the party should weigh, and may lose - and where its MA
+                         sits above its average, how fast the party stops being separate targets
   25%   A Named Creature, at high weight
   30%   Something it wants that is not a fight
   25%   Absent when the party arrives - signs of it, and it is elsewhere in the region

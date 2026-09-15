@@ -15,14 +15,22 @@ instead.
 
 ```
 TREASURE
-  1     What it is    {table roll | unique treasure | lore | key}
+  1     What it is - exactly one, drawn at these rates rather than freely chosen
+        {table roll 45% | key 30% | lore 20% | unique treasure 5%}
                         (patterns/setting/Treasure.md,
-                         patterns/setting/UniqueTreasures.md,
-                         wild/Lore.md, wild/Key.md)
+                         wild/Key.md, wild/Lore.md,
+                         patterns/setting/UniqueTreasures.md)
   1     Why it is still here after weathering
   1     What reaching it costs - climb, dig, wade, carry, or wait
   30%   Something that has a claim on it
 ```
+
+**The key rate is highest here, and that is the point.** Per `wild/Key.md`, open country
+is where a key gets separated from its lock - a key found in the wild points a party at a
+dungeon they may not have heard of yet, which is the one thing a WILD region can do that
+neither of the others can. An unrated menu would never produce it: the table roll is
+always the cheapest option to write, so it wins every draw that does not weight against
+it.
 
 **Lore and a Key are things a WILD location holds, not hooks it hands out.** Both are
 objects found in the open and carried away, which is the reward block's definition, so
