@@ -85,5 +85,5 @@ must be answered first; something that will follow whoever takes it.
 - **A region's stated table-lean is a draw, not a claim.** When a Region Overview names
   which of the five Treasure tables the region leans on, treat it as a per-location draw
   the same way a class file's own spec lines are drawn, and settle any that never got
-  cited at 4e. A lean no room ever cashes out is a fact about the region that reaches no
+  cited at 5c. A lean no room ever cashes out is a fact about the region that reaches no
   player.

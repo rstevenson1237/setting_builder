@@ -273,21 +273,16 @@ name rather than the pattern that produces it.
 
 ## What the validator enforces
 
-Today: citation format; `## Provides`, `## Read at`, `## Spec` and `## Constraints`
-present on every file; no leftover `## Design questions` heading; `## Read at` step ids
-resolving against STEPS.md; a valid `**Mode:**` declaration opening every `## Read at`, and
-every file claiming a drawn mode actually drawn by some other file's Spec; and step 1b's
-compile list against the set of files carrying
-`## Design patterns`, in both directions - a listed file with no section to compile into,
-and a file carrying one that no step recompiles, are both errors.
+Run `python3 tools/validate_setting.py` to see it; the script is the list. This section
+states only what the checks *mean*, which is not readable off them.
 
-That last check holds STEPS.md and the tree to the same answer; it does not decide the
-answer. Whether a given file *earns* patterns is the body-versus-shape judgement above and
-stays a human call.
+The compile-list check holds STEPS.md and the tree to the same answer; it does not decide
+the answer. Whether a given file *earns* patterns is the body-versus-shape judgement above
+and stays a human call.
 
-**A file is also checked against the mode it claims, for three of the four modes.**
-`spec_draws()` reads each drawing line's shape - the rate token governing it, how many
-alternatives it offers in braces, how many files it cites - and three rules follow:
+**A file is also checked against the mode it claims, for three of the four modes**, by
+reading each drawing line's shape - the rate token governing it, how many alternatives it
+offers in braces, how many files it cites. Three rules follow:
 
 - **second pass** means every output, unconditionally, so at least one line must draw it
   at rate `1`. Drawn only at a rate, it is an ingredient. Extra rated draws on top of
