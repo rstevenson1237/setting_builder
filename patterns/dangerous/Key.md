@@ -4,12 +4,7 @@
 When a DANGEROUS location holds an object whose real function is opening something
 somewhere else.
 
-## Read at
-**Mode: kind, ingredient.** Step 4c, from either end. The **supply** end - a key lying here
-to be found - is drawn by `dangerous/Treasure.md` as what the treasure is. The **demand**
-end - a lock here - is drawn by the weight file's obligation line, and only where a
-`setting/Keys.md` row already names this location. Criteria for what earns a row are in
-`patterns/setting/Keys.md`.
+Criteria for what earns a row are in `patterns/setting/Keys.md`.
 
 ## Spec
 

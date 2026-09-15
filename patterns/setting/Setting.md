@@ -5,9 +5,6 @@ The setting's name and the referee-facing outline every other artifact builds on
 are decided separately, by `patterns/setting/Tags.md` at step 1b - this file only points
 to them.
 
-## Read at
-**Mode: entry.** Step 2a, right after `GENRE.md` and `setting/Tags.md` both exist.
-
 ## Spec
 
 ```

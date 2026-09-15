@@ -4,12 +4,10 @@
 What in a WILD location acts against the party, whether anybody set it, what warns of it,
 and what it costs.
 
-## Read at
-**Mode: ingredient.** Step 4c, when a classifier's spec line draws a challenge and the
-challenge is a hazard. What a tier resolves to - what is rolled, and what it does - is
+What a tier resolves to - what is rolled, and what it does - is
 `setting/Procedures.md`'s. Distinct from `wild/Mystery.md`, which is the neutral case: a
-mystery costs nothing until a genuinely wrong attempt is made, a hazard acts on contact or
-condition.
+mystery costs nothing until a genuinely wrong attempt is made, a hazard acts on contact
+or condition.
 
 ## Spec
 

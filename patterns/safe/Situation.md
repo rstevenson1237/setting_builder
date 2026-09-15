@@ -4,11 +4,8 @@
 How the region's standing Situation shows up at this particular location, and what its
 next rung looks like from here.
 
-## Read at
-**Mode: ingredient.** Step 4c, when `safe/Settlement.md`'s registry block draws the
-Situation - at 40% in passing at any prominence, and mandatorily at the one central
-location the settlement is partly about. The Situation itself is authored at region
-level in `region/Safe.md`; this file states how it lands here.
+The Situation itself is authored at region level in `region/Safe.md`; this file states
+how it lands here.
 
 ## Spec
 

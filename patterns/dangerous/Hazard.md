@@ -4,13 +4,11 @@
 What in a DANGEROUS location acts against the party without anything choosing to, what
 warns of it, and what it costs.
 
-## Read at
-**Mode: ingredient.** Step 4c, when a weight file's spec draws a challenge and the
-challenge is a hazard, or when `dangerous/Treasure.md` draws a guard. Which *mechanism*
-is decided here; the mechanism file supplies what fills it, tier by tier. What a tier
-resolves to - what is rolled, and what it does - is `setting/Procedures.md`'s. Distinct
-from `dangerous/Mystery.md`, which is the neutral case: a mystery costs nothing until a
-genuinely wrong attempt is made, a hazard acts on contact or condition.
+Which *mechanism* is decided here; the mechanism file supplies what fills it, tier by
+tier. What a tier resolves to - what is rolled, and what it does - is
+`setting/Procedures.md`'s. Distinct from `dangerous/Mystery.md`, which is the neutral
+case: a mystery costs nothing until a genuinely wrong attempt is made, a hazard acts on
+contact or condition.
 
 ## Spec
 

@@ -4,12 +4,10 @@
 What a Landmark defined by the cost of going around it guarantees, and what currently
 controls passing through it.
 
-## Read at
-**Mode: kind.** Step 4c, when `wild/Landmark.md`'s Kind line draws Crossing. Alone among
-the four kinds it is drawn at the Landmark tier only, per that file's own Constraint. A
-Crossing is a Landmark whose function is that the region's own shape makes going through
-it cheaper than going around it - built, natural, or held, and regardless of who if anyone
-lives there.
+Alone among the four kinds it is drawn at the Landmark tier only, per that file's own
+Constraint. A Crossing is a Landmark whose function is that the region's own shape makes
+going through it cheaper than going around it - built, natural, or held, and regardless
+of who if anyone lives there.
 
 ## Spec
 

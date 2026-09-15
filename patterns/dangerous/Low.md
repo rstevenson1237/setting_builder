@@ -3,10 +3,6 @@
 ## Provides
 What a low-weight location guarantees, and what its own exits require of it.
 
-## Read at
-**Mode: entry.** Step 4c, for a location its gazetteer stub marks low, generated as part of
-its block.
-
 ## Spec
 
 ```

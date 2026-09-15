@@ -49,8 +49,8 @@ So, when writing or editing any of them:
 
 `patterns/SPEC.md` is the full spec. The rules that get broken without it open:
 
-- **One skeleton, every file**: **Provides / Read at / Spec / Design patterns /
-  Constraints**. There is no `## Design questions` heading.
+- **One skeleton, every file**: **Provides / Spec / Design patterns / Constraints**. There
+  is no `## Read at` and no `## Design questions` heading.
 - **Every Spec line is an edge or a question.** An edge names another pattern file in
   parentheses and belongs in the fenced block, never in the prose under it. A question
   cites nothing. A citation is an edge only where the generator must go and read that file;
@@ -61,8 +61,11 @@ So, when writing or editing any of them:
 - **Constraints is where every prohibition lives** - anything that closes a pathway. Write
   entries generalized rather than tied to whichever setting produced them. A positive rule
   phrased contrastively is not a prohibition and stays where it is.
-- **`## Read at` names the STEPS.md step(s) that read the file** and opens with the file's
-  reach mode - `**Mode: ingredient.**`. Both are validated.
+- **A pattern file never says when or by what it is reached.** The read-set graph runs one
+  way - a STEPS.md step names its template, a template names the pattern files its artifact
+  requires, a Spec line names what it draws - and a file restating its own position is a
+  second copy of an edge something upstream owns. `## Provides` carries the boundary against
+  a sibling file and a pointer to the authority for anything adjacent; nothing else.
 - **`## Design patterns` is compiled content**, carried only by the files on STEPS.md step
   1b's compile list. Check that list before adding or removing the section.
 

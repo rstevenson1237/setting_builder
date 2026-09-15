@@ -18,7 +18,7 @@ to run against a build in progress, not just a finished one. Errors are
 reserved for content that exists but is wrong (malformed, inconsistent with
 something else that exists, or an unresolved/malformed citation).
 
-Usage: python3 tools/validate_setting.py
+Usage: python3 tools/validate_setting.py [--pending [REGION] | --read-set [STEP]]
 Exits 1 if any error is found, 0 otherwise (warnings never fail the run).
 """
 from __future__ import annotations
@@ -30,6 +30,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 SETTING = ROOT / "setting"
 PATTERNS = ROOT / "patterns"
+STEPS_MD = ROOT / "STEPS.md"
 
 ARTICLES = ("the ", "a ", "an ")
 
@@ -133,7 +134,6 @@ def check_pattern_files(diag: Diagnostics):
             diag.error(path, f"'-> {m.group(1)}' names a file with no folder - "
                               f"every citation states which patterns/ folder it points to")
         check_pattern_sections(diag, path, text)
-        check_read_at_steps(diag, path, text)
 
 
 # ---------------------------------------------------------------------------
@@ -158,7 +158,7 @@ def check_pattern_files(diag: Diagnostics):
 
 def check_pattern_sections(diag: Diagnostics, path, text: str):
     has = lambda h: f"\n## {h}\n" in text or text.startswith(f"## {h}\n")
-    for required in ("Provides", "Read at", "Spec"):
+    for required in ("Provides", "Spec"):
         if not has(required):
             diag.error(path, f"missing a '## {required}' section - every patterns/*/*.md "
                               f"file carries one")
@@ -168,102 +168,19 @@ def check_pattern_sections(diag: Diagnostics, path, text: str):
 
 
 
-# ---------------------------------------------------------------------------
-# patterns/*/*.md - "## Read at" names real STEPS.md steps
-#
-# STEPS.md is the authority on build order, so a Read at citing a step that
-# does not exist there is stale. This check exists because a phase-2 renumber
-# once left eight setting/ patterns pointing a step too far down, three of
-# them at a "2i" that had stopped existing entirely.
-# ---------------------------------------------------------------------------
-
-STEP_ID_RE = re.compile(r'\b([1-9][0-9]*[a-z])\b')
-STEPS_MD = ROOT / "STEPS.md"
-
-
-def known_step_ids():
-    if not STEPS_MD.exists():
-        return None
-    ids = set()
-    for line in STEPS_MD.read_text().splitlines():
-        m = re.match(r'\s*-\s+([1-9][0-9]*[a-z])\.\s', line)
-        if m:
-            ids.add(m.group(1))
-    return ids or None
-
-
-_STEP_IDS = None
-
-
-def check_read_at_steps(diag: Diagnostics, path, text: str):
-    global _STEP_IDS
-    if _STEP_IDS is None:
-        _STEP_IDS = known_step_ids()
-    if not _STEP_IDS:
-        return
-    m = re.search(r'\n## Read at\n(.*?)(?=\n## )', text, re.S)
-    if not m:
-        return
-    cited = set(STEP_ID_RE.findall(m.group(1)))
-    if not cited:
-        diag.warn(path, "'## Read at' names no STEPS.md step - state which step reads "
-                         "this file, so step coverage can be audited")
-        return
-    for step in sorted(cited - _STEP_IDS):
-        diag.error(path, f"'## Read at' cites step {step}, which STEPS.md does not define")
-
-
-# ---------------------------------------------------------------------------
-# patterns/*/*.md - "## Read at" declares a reach mode, and drawn modes are
-# actually drawn
-#
-# Reach mode is how a file is arrived at, declared as the first thing in
-# "## Read at". Four modes are drawn by another file's Spec - second pass,
-# kind, ingredient, conditional - and "entry" is the fifth: a file a STEPS.md
-# step reads directly, which nothing draws. A file claiming a drawn mode and
-# cited by no other file's Spec is orphaned from the graph: nothing reaches
-# it, so nothing guarantees it is ever read. That is the failure this check
-# exists for - four files were orphaned that way before, and the fix held
-# only because someone remembered to look.
-#
-# Edges are read from the Spec's FENCED BLOCKS ONLY. Prose under the block
-# cites pattern files freely - setting/Truths.md names three - and counting
-# those would make half the leaves in the library look like classifiers.
-# ---------------------------------------------------------------------------
-
-DRAWN_MODES = ("second pass", "kind", "ingredient", "conditional")
-VALID_MODES = DRAWN_MODES + ("entry",)
-MODE_RE = re.compile(r'\*\*Mode:\s*([^.*]+?)\s*\.\*\*')
-
-
-def declared_modes(text: str):
-    m = re.search(r'\n## Read at\n(.*?)(?=\n## )', text, re.S)
-    if not m:
-        return None
-    d = MODE_RE.search(m.group(1).strip())
-    if not d or not m.group(1).strip().startswith("**Mode:"):
-        return None
-    return [s.strip() for s in d.group(1).split(",") if s.strip()]
-
-
 # A logical Spec line opens with its rate in the left margin and runs until the
 # next one does - continuation lines are indented further, and a citation list
 # routinely wraps onto them. Grouping physically would split every wrapped draw
 # away from the rate that governs it.
 SPEC_RATE_RE = re.compile(r'^ {2}(1|\d+%|liner note|working|central)\s')
-BRACE_RE = re.compile(r'\{([^}]*)\}')
 
 
-def spec_draws(text: str, rel: str):
-    """Every draw in this file's Spec fenced blocks, with the shape of its line.
-
-    Yields (target, rate, n_alts, n_cited): the file drawn, the rate token
-    governing it, how many alternatives the line offers in braces, and how many
-    pattern files that one line cites.
-    """
+def spec_edges(text: str, rel: str):
+    """Pattern files this file's Spec fenced blocks draw."""
     m = re.search(r'\n## Spec\n(.*?)(?=\n## (?:Design patterns|Constraints)\n)', text, re.S)
     if not m:
-        return
+        return set()
+    out = set()
     for fenced in re.findall(r'```(.*?)```', m.group(1), re.S):
         logical, cur = [], None
         for phys in fenced.splitlines():
@@ -277,73 +194,164 @@ def spec_draws(text: str, rel: str):
             logical.append(cur)
         for chunk in logical:
             line = "\n".join(chunk)
-            targets = {f"{folder}/{fname}"
-                       for prefixed, folder, fname in PATTERN_CITE_RE.findall(line)
-                       if f"{folder}/{fname}" != rel
-                       and not (folder == "setting" and not prefixed)}
-            if not targets:
-                continue
-            braces = BRACE_RE.search(line)
-            n_alts = len(braces.group(1).split("|")) if braces else 0
-            rate = SPEC_RATE_RE.match(chunk[0]).group(1)
-            for target in sorted(targets):
-                yield target, rate, n_alts, len(targets)
+            out |= {f"{folder}/{fname}"
+                    for prefixed, folder, fname in PATTERN_CITE_RE.findall(line)
+                    if f"{folder}/{fname}" != rel
+                    and not (folder == "setting" and not prefixed)}
+    return out
 
 
-def spec_edges(text: str, rel: str):
-    """Pattern files cited from inside this file's Spec fenced blocks."""
-    return {t for t, _rate, _alts, _cited in spec_draws(text, rel)}
+# ---------------------------------------------------------------------------
+# The read-set graph: STEPS.md -> templates/ -> patterns/
+#
+# One direction, no back-pointers. A STEPS.md step names its template(s); a
+# template names every pattern file a regeneration of its artifact requires;
+# a pattern file's Spec names what it draws. Every edge is recorded in
+# exactly one place, which is the property that keeps the graph in sync -
+# a pattern file declaring which step reads it is a second copy of an edge
+# the step and template already own, and a second copy is what drifts.
+#
+# Reachability is what this buys: a pattern file no generation template can
+# reach is never read, so the content it describes is never generated. That
+# is silent under-generation rather than a malformed file, so it warns here
+# and is judged at STEPS.md step 5b, per templates/Pattern_Judgement_Check.md.
+#
+# A phase-5 template is a review pass, and the pattern files it names are
+# examples of what to review rather than inputs to a generation. They are
+# excluded from the root set so an orphan cannot be masked by being cited as
+# an example.
+# ---------------------------------------------------------------------------
+
+TEMPLATES = ROOT / "templates"
+TEMPLATE_CITE_RE = re.compile(r'\btemplates/([A-Za-z_]+\.(?:md|mmd))\b')
+# A template's pattern citations are always fully qualified - "patterns/" plus
+# folder plus file. The elided form ("patterns/region/Safe.md, Wild.md") reads
+# fine but hides an edge, so the graph requires the long form and the orphan
+# warning is what surfaces an elision that dropped a file off the graph.
+TEMPLATE_PATTERN_CITE_RE = re.compile(
+    r'\bpatterns/(' + '|'.join(PATTERN_FOLDERS) + r')/([A-Za-z]+\.md)\b'
+)
+# The bare form is how one pattern file cites another (patterns/SPEC.md's
+# citation grammar) and it is wrong in a template, where it drops the edge off
+# the graph silently. "setting/" is excluded because a bare setting/X.md in a
+# template is a reference to the generated content file of that name.
+TEMPLATE_BARE_CITE_RE = re.compile(
+    r'(?<!/)\b(' + '|'.join(f for f in PATTERN_FOLDERS if f != "setting") + r')/([A-Za-z]+\.md)\b'
+)
+TEMPLATE_STEP_CITE_RE = re.compile(r'\b[Ss]tep\s+([1-9][0-9]*[a-z])\b')
+STEP_BODY_RE = re.compile(r'^\s*-\s+([1-9][0-9]*[a-z])\.(.*?)(?=\n\s*-\s+[1-9][0-9]*[a-z]\.|\n[1-9]\.|\Z)',
+                          re.S | re.M)
 
 
-def check_reach_modes(diag: Diagnostics):
-    if not PATTERNS.exists():
+def step_bodies() -> dict[str, str]:
+    """Every STEPS.md step id mapped to its own text."""
+    if not STEPS_MD.exists():
+        return {}
+    return {m.group(1): m.group(2) for m in STEP_BODY_RE.finditer(STEPS_MD.read_text())}
+
+
+def spec_closure(entries: set, pattern_files: set) -> set:
+    """Every pattern file reachable from these entry points by Spec edges."""
+    reach, stack = set(entries), sorted(entries)
+    while stack:
+        cur = stack.pop()
+        for target in spec_edges((PATTERNS / cur).read_text(), cur):
+            if target in pattern_files and target not in reach:
+                reach.add(target)
+                stack.append(target)
+    return reach
+
+
+def read_set_graph():
+    """STEPS.md -> templates -> pattern entry points -> Spec closure.
+
+    Returns a dict of the whole graph so callers can report any layer of it:
+    step_templates, template_roots, roots (generation only), reach, orphans.
+    """
+    bodies = step_bodies()
+    step_templates = {sid: set(TEMPLATE_CITE_RE.findall(body)) for sid, body in bodies.items()}
+
+    pattern_files = ({p.relative_to(PATTERNS).as_posix() for p in PATTERNS.glob("*/*.md")}
+                     if PATTERNS.exists() else set())
+    template_roots: dict[str, set] = {}
+    for name in sorted({t for ts in step_templates.values() for t in ts}):
+        path = TEMPLATES / name
+        if not path.exists():
+            continue
+        template_roots[name] = {f"{folder}/{fname}"
+                                for folder, fname in TEMPLATE_PATTERN_CITE_RE.findall(path.read_text())
+                                if f"{folder}/{fname}" in pattern_files}
+
+    # Roots come from generation steps only - phase 5 is review.
+    roots: set = set()
+    for sid, names in step_templates.items():
+        if sid[0] == "5":
+            continue
+        for name in names:
+            roots |= template_roots.get(name, set())
+
+    reach = spec_closure(roots, pattern_files)
+    return dict(step_templates=step_templates, template_roots=template_roots,
+                pattern_files=pattern_files, roots=roots, reach=reach,
+                orphans=pattern_files - reach)
+
+
+def check_read_set_graph(diag: Diagnostics):
+    if not PATTERNS.exists() or not STEPS_MD.exists():
         return
-    texts = {p.relative_to(PATTERNS).as_posix(): p.read_text()
-             for p in sorted(PATTERNS.glob("*/*.md"))}
-    drawn_by: dict[str, set] = {}
-    drawn_as: dict[str, list] = {}
-    for rel, text in texts.items():
-        for target, rate, n_alts, n_cited in spec_draws(text, rel):
-            drawn_by.setdefault(target, set()).add(rel)
-            drawn_as.setdefault(target, []).append((rel, rate, n_alts, n_cited))
-
-    for rel, text in texts.items():
-        path = PATTERNS / rel
-        modes = declared_modes(text)
-        if modes is None:
-            diag.error(path, "'## Read at' does not open with a '**Mode: ...**' "
-                              f"declaration - one of {', '.join(VALID_MODES)}")
+    g = read_set_graph()
+    for sid, names in sorted(g["step_templates"].items()):
+        if not names:
+            diag.warn(STEPS_MD, f"step {sid} names no template - a step's template is what "
+                                f"names the pattern files the step reads")
+        for name in sorted(names):
+            if not (TEMPLATES / name).exists():
+                diag.error(STEPS_MD, f"step {sid} names templates/{name}, which does not exist")
+    for name in sorted({n for ns in g["step_templates"].values() for n in ns}):
+        path = TEMPLATES / name
+        if not path.exists():
             continue
-        for mode in modes:
-            if mode not in VALID_MODES:
-                diag.error(path, f"declares reach mode '{mode}', which is not one of "
-                                  f"{', '.join(VALID_MODES)}")
-        if any(m in DRAWN_MODES for m in modes) and rel not in drawn_by:
-            diag.error(path, f"declares mode '{', '.join(modes)}' but no other file's "
-                              f"Spec draws it - nothing reaches this file, so nothing "
-                              f"guarantees it is ever read")
+        text = path.read_text()
+        for folder, fname in sorted(set(TEMPLATE_BARE_CITE_RE.findall(text))):
+            if f"{folder}/{fname}" in g["pattern_files"]:
+                diag.error(path, f"cites {folder}/{fname} bare - a template writes a pattern "
+                                 f"citation as patterns/{folder}/{fname}, since the bare form "
+                                 f"drops the edge off the read-set graph")
+    known = set(g["step_templates"])
+    for name in sorted({n for ns in g["step_templates"].values() for n in ns}):
+        path = TEMPLATES / name
+        if not path.exists():
             continue
+        for sid in sorted(set(TEMPLATE_STEP_CITE_RE.findall(path.read_text())) - known):
+            diag.error(path, f"cites step {sid}, which STEPS.md does not define")
+    for orphan in sorted(g["orphans"]):
+        diag.warn(PATTERNS / orphan, "no generation template reaches this file - nothing reads "
+                                     "it, so the content it describes is never generated. "
+                                     "Judged at STEPS.md step 5b")
 
-        shapes = drawn_as.get(rel, [])
-        if "second pass" in modes and not any(rate == "1" for _s, rate, _a, _c in shapes):
-            where = ", ".join(sorted(f"{s} at {rate}" for s, rate, _a, _c in shapes))
-            diag.error(path, "declares mode 'second pass' - every output, "
-                             "unconditionally - but is drawn only at a rate: "
-                             f"{where}. A second-pass file needs at least one "
-                             "mandatory draw, or it is an ingredient")
-        if "conditional" in modes:
-            uncond = sorted(s for s, rate, _a, _c in shapes if rate == "1")
-            if uncond:
-                diag.error(path, "declares mode 'conditional' - triggered by content "
-                                 f"already generated - but {', '.join(uncond)} draws it "
-                                 "at rate 1. A conditional drawn unconditionally is "
-                                 "mandatory, which is an ingredient")
-        if "kind" in modes and not any(alts > 1 and cited > 1
-                                       for _s, _rate, alts, cited in shapes):
-            diag.error(path, "declares mode 'kind' - exactly one of N, mutually "
-                             "exclusive - but no line draws it as a choice among "
-                             "siblings. A kind needs a '{a | b | c}' line citing the "
-                             "alternatives; drawn alone it is an ingredient")
+
+def report_read_set(step_filter: str | None) -> int:
+    """The read-set for each generation step, walked from its template(s)."""
+    g = read_set_graph()
+    if not g["step_templates"]:
+        print("STEPS.md defines no steps - nothing to report.")
+        return 0
+    for sid, names in sorted(g["step_templates"].items()):
+        if step_filter and sid != step_filter:
+            continue
+        entries: set = set()
+        for name in names:
+            entries |= g["template_roots"].get(name, set())
+        closure = spec_closure(entries, g["pattern_files"])
+        print(f"{sid}{'  (review pass)' if sid[0] == '5' else ''}")
+        print(f"  templates : {', '.join(sorted(names)) or '(none)'}")
+        print(f"  entries   : {', '.join(sorted(entries)) or '(none)'}")
+        expanded = sorted(closure - entries)
+        print(f"  expanded  : {', '.join(expanded) if expanded else '(none)'}")
+        print()
+    print(f"{len(g['reach'])}/{len(g['pattern_files'])} pattern files reachable from "
+          f"generation templates; {len(g['orphans'])} orphan(s)")
+    return 0
 
 
 # ---------------------------------------------------------------------------
@@ -1384,7 +1392,7 @@ def main() -> int:
     diag = Diagnostics()
     check_pattern_files(diag)
     check_compile_list(diag)
-    check_reach_modes(diag)
+    check_read_set_graph(diag)
     check_repeated_prose(diag)
 
     if is_fresh_start():
@@ -1521,4 +1529,6 @@ def main() -> int:
 if __name__ == "__main__":
     if len(sys.argv) > 1 and sys.argv[1] == "--pending":
         sys.exit(report_pending(sys.argv[2] if len(sys.argv) > 2 else None))
+    if len(sys.argv) > 1 and sys.argv[1] == "--read-set":
+        sys.exit(report_read_set(sys.argv[2] if len(sys.argv) > 2 else None))
     sys.exit(main())

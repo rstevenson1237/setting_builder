@@ -3,11 +3,6 @@
 ## Provides
 What a Landmark-tier location guarantees, and whether it carries children.
 
-## Read at
-**Mode: entry.** Step 4c, for a WILD location its stub marks landmark. Generate all
-Landmarks before any Hidden or Secret location, since each child's connection is written
-into its parent.
-
 ## Spec
 
 ```

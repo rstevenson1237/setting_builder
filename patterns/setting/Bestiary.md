@@ -4,9 +4,8 @@
 What creatures the setting holds - how they are distributed across type and power, and
 what each entry must state so the location patterns can use it without reinventing it.
 
-## Read at
-**Mode: entry.** Step 2e, after `setting/Rumours.md`. The Bestiary is written in one
-pass rather than grown, so it has to anticipate demands made several steps later.
+The Bestiary is written in one pass rather than grown, so it has to anticipate demands
+made several steps later.
 
 ## Spec
 

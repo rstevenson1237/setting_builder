@@ -3,10 +3,8 @@
 ## Provides
 A hazard something left behind that is still acting, after whatever made it has gone.
 
-## Read at
-**Mode: kind.** Step 4c, when `dangerous/Hazard.md` draws Mechanism: residual. Distinct
-from `dangerous/Trap.md`, which is still doing the job it was built for, and from
-`dangerous/Environmental.md`, which the place does on its own account.
+Distinct from `dangerous/Trap.md`, which is still doing the job it was built for, and
+from `dangerous/Environmental.md`, which the place does on its own account.
 
 ## Spec
 

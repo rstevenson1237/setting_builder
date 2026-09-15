@@ -8,7 +8,7 @@ Read first:
 - `GENRE.md`
 - `setting/Setting.md`, `setting/History.md`, `setting/Truths.md`, `setting/Rumours.md`, `setting/Bestiary.md`, `setting/Factions.md`
 - `setting/region/Regions.md`
-- `patterns/region/Safe.md`, `Wild.md`, or `Dangerous.md` - read only the one that matches this region's rating.
+- `patterns/region/Safe.md`, `patterns/region/Wild.md`, or `patterns/region/Dangerous.md` - read only the one that matches this region's rating.
 - `setting/Procedures.md`
 
 ## Instructions
@@ -58,8 +58,9 @@ Fill every field below - the Tables field is authored now, not deferred. Five fi
   region with no faction presence says so rather than leaving the question unanswered.
   Where a faction is present, name **which specific areas or locations it controls**, not
   just that it is "active here." Reference the faction by its established name and visual
-  identity, and state what it wants from holding this ground, per `safe/Faction.md`,
-  `wild/Faction.md`, or `dangerous/Faction.md` - whichever matches this region's rating.
+  identity, and state what it wants from holding this ground, per `patterns/safe/Faction.md`,
+  `patterns/wild/Faction.md`, or `patterns/dangerous/Faction.md` - whichever matches this
+  region's rating.
   This is the region-wide fact a location's own Faction Presence Feature draws on; it does
   not invent a faction's involvement independently of what is stated here.
 - **Secrets**: What may be revealed about the setting's past or the party's immediate

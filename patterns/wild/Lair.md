@@ -3,9 +3,7 @@
 ## Provides
 What an occupied Landmark is, and what its occupancy implies about the country around it.
 
-## Read at
-**Mode: kind.** Step 4c, when a WILD classifier's Kind line draws Lair. A Lair is a place
-something currently lives, whether it built the place or moved in.
+A Lair is a place something currently lives, whether it built the place or moved in.
 
 ## Spec
 
