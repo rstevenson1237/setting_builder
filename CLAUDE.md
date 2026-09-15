@@ -24,6 +24,27 @@ a fact restated downward from the level where it was already true).
 `STEPS.md` is the current, authoritative, sequential build log. Where it disagrees with any
 other file, including this one, STEPS.md wins.
 
+## Documentation says where, not how
+
+Prose about a system states **where it lives and what it does**. It never restates **how it
+works** - to understand a system, read the system. A one-line gloss naming a subsystem is
+fine; a paragraph reproducing its rules is a second copy that nothing keeps current, and it
+will drift into contradicting the thing it describes. This binds `README.md`, this file,
+and every explanatory passage in `templates/` and `patterns/`.
+
+So, when writing or editing any of them:
+
+- Name the authority and stop. If a rule is spec'd in `STEPS.md`, `patterns/SPEC.md`,
+  `setting/Procedures.md`, a template, or the validator, cite that file rather than
+  summarizing it.
+- Keep only what lives nowhere else - operational facts (commands, one-time setup) and
+  rules that must be in context before the authority is opened.
+- **Never update documentation to match a change.** If a passage has gone stale, that is
+  evidence it was restating rather than pointing: cut it back to a pointer instead of
+  refreshing it.
+- Cut history on sight. Rationale, superseded approaches and what a rule replaced belong in
+  commit messages, not in a file loaded on every read.
+
 ## Pattern file rules
 
 `patterns/SPEC.md` is the full spec. The rules that get broken without it open:
