@@ -20,11 +20,7 @@ then answers a set of binary/dial axis questions, defaulted to what the referenc
 and dialed elsewhere only where the user wants to diverge. Build the genre-identity
 paragraph and the 3-5 axis bullets from the chosen reference and Q2 together.
 
-This file no longer carries a Tags section - step 1b, right after this one, generates
-`setting/Tags.md` from the chosen reference instead, following `templates/Tags.md` and
-`patterns/setting/Tags.md`. Genre-specific demeanor and personality examples are compiled
-directly into `dangerous/Creature.md`, `wild/Creature.md`, and `safe/People.md` at the
-same step, rather than living in this file as a tag bank.
+Tags and genre-specific examples are not authored here; step 1b handles both, per STEPS.md.
 
 ## Template
 ```

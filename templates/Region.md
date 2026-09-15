@@ -43,10 +43,8 @@ Fill every field below - the Tables field is authored now, not deferred. Five fi
   content, the spatial anchor for what those fields already name, so a referee can place
   them on the map rather than just know they exist.
 
-  State the region's time assumption per its rating: WILD regions default to 4 hours per
-  action (travel, tracking, foraging, and the like all cost a slot at that scale); SAFE
-  regions aren't time-bound at all - don't track hours there unless something specific
-  demands it; DANGEROUS regions run on the Danger table's countdown instead of real time.
+  State the region's time assumption, which follows from its rating per
+  `setting/Procedures.md`. Write the assumption itself, not the rule it came from.
 - **Features**: The main elements a party will interact with. Challenges and rewards -
   environmental hazards, tricks, traps and puzzles that reward both character and player
   skill.

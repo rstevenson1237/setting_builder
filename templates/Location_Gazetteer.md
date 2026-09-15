@@ -9,16 +9,17 @@ Read first:
 - `setting/region/[Region Code].md`
 
 ## Instructions
-List the locations within a single region - each location is an explorable area within that region. In SAFE and WILD regions, locations are major landmarks; in DANGEROUS regions, one location per room is a good standard. Counts and the class mix come from the region's pattern file (`patterns/region/Safe.md`, `Wild.md`, or `Dangerous.md`), which sets them as a range rather than a fixed multiplier. The defaults - about the die for SAFE and WILD, about three times it for DANGEROUS - are not rules of thumb: per `setting/Procedures.md` they make a full WILD traverse expect exactly one encounter and a full DANGEROUS clear expect exactly three of the Danger track's six steps, at every die size. Deviating is a deliberate trade with a measurable cost.
+List the locations within a single region - each location is an explorable area within that region. In SAFE and WILD regions, locations are major landmarks; in DANGEROUS regions, one location per room is a good standard. **Take the location count and the class mix from the region's pattern file** - `patterns/region/Safe.md`, `Wild.md`, or `Dangerous.md` - which states both as ranges and gives the cost of deviating. Don't reason them out here.
 
 Each location in a DANGEROUS region is assigned a weight; each location in a WILD region is assigned a classification instead. Both are skipped for SAFE regions.
 
-DANGEROUS weight:
-- **low** - connective areas, empty rooms, or areas that contain detail but do not demand action.
-- **medium** - one major reactive element, such as a trap, a monster, or a puzzle to solve.
-- **high** - an area that is central to the theme of the region and contains one or more major features.
+DANGEROUS weight, in the proportions `patterns/region/Dangerous.md` sets. Enough to assign
+one here; what each guarantees is in its own file, read at 4c:
+- **low** - connective areas, empty rooms, or areas that contain detail but do not demand action. See `patterns/dangerous/Low.md`.
+- **medium** - one major reactive element, such as a trap, a monster, or a puzzle to solve. See `patterns/dangerous/Medium.md`.
+- **high** - an area that is central to the theme of the region and contains one or more major features. See `patterns/dangerous/High.md`.
 
-WILD classification - roughly half or more of a region's locations are Landmark, at least a third Hidden, and the remainder (usually under a fifth) Secret:
+WILD classification, in the proportions `patterns/region/Wild.md` sets:
 - **landmark** - discoverable through open exploration anywhere in the region; a site, a connection, or a natural feature. See `patterns/wild/Landmark.md`.
 - **hidden** - directly discoverable from a specific Landmark, through a visible feature that connects to it - not found by roaming the region generally. See `patterns/wild/Hidden.md`.
 - **secret** - discoverable only through a trigger at a Landmark or Hidden location that reveals the connection. See `patterns/wild/Secret.md`.

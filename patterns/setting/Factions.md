@@ -24,7 +24,7 @@ FACTIONS - three
 not know one another exist. A party that learns two powers are working the same ground, and
 that neither knows, is holding the most valuable thing in the setting.
 
-**Visual identity is the field this framework kept missing.** Resources and Goals describe
+**Visual identity is required, not optional.** Resources and Goals describe
 what a faction does; the mark is how a party knows it is looking at one. Without it, faction
 presence can only be communicated by narration, and every appearance starts from nothing.
 

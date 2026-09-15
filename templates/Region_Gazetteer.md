@@ -17,7 +17,7 @@ to resupply, somewhere to cross, and somewhere to go, and three regions is the s
 version of that. More is a choice; fewer is missing a leg. A second SAFE region is worth
 adding where the setting is about somewhere being contested.
 
-List an overview of all regions within the setting. This file is a Regional Gazetteer - further entries can be added by appending to or changing this file. Each region is rated SAFE, WILD, or DANGEROUS, and given a die size (d4-d12) indicating how dangerous an encounter within it can be. Start every region at **d8** and move off it only for a reason - the die is a difficulty die, not a power level, so a smaller die is harder; see `setting/Procedures.md`. A DANGEROUS region such as a dungeon may sit within a WILD region, and this should be noted in its overview. Each entry includes a 1 sentence overview of the region.
+List an overview of all regions within the setting. This file is a Regional Gazetteer - further entries can be added by appending to or changing this file. Each region is rated SAFE, WILD, or DANGEROUS and given a die size (d4-d12), per `setting/Procedures.md`. Start every region at **d8** and move off it only for a reason. A DANGEROUS region such as a dungeon may sit within a WILD region, and this should be noted in its overview. Each entry includes a 1 sentence overview of the region.
 
 Codes follow a plain A-Z progression with no differentiation between types (A, B, C, ...). For a complex setting with more than 26 regions, continue with double letters (AA, AB, AC, ...).
 
