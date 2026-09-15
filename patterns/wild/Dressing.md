@@ -4,10 +4,7 @@
 The physical reality of a WILD location, where it sits in its region, how its parts read
 as one place, and how it sounds on the page.
 
-## Read at
-**Mode: second pass.** Step 4c, drawn unconditionally by every WILD classifier's substrate
-block - every WILD location without exception. Units, the Exits syntax and the citation
-formats are in `templates/Location.md`.
+Units, the Exits syntax and the citation formats are in `templates/Location.md`.
 
 ## Spec
 

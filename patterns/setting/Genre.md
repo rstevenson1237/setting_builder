@@ -12,10 +12,6 @@ The seed-and-narrow flow that produces GENRE.md's customizable spine: a pool of 
 genre references, three rounds of narrowing questions that pick one, and what axes still
 get dialed once it's picked.
 
-## Read at
-**Mode: entry.** Step 1a, before anything else - GENRE.md is the first artifact in the
-build.
-
 ## Spec
 
 ```

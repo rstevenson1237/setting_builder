@@ -3,10 +3,8 @@
 ## Provides
 What an unbuilt, unoccupied Landmark is, and why it is worth four hours to visit.
 
-## Read at
-**Mode: kind.** Step 4c, when a WILD classifier's Kind line draws Natural Feature. Alone
-among the kinds it has no builder and no occupant, so it has to earn its slot on what it
-*does*.
+Alone among the kinds it has no builder and no occupant, so it has to earn its slot on
+what it *does*.
 
 ## Spec
 

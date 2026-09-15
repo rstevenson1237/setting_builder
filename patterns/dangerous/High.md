@@ -3,11 +3,6 @@
 ## Provides
 What a high-weight location guarantees.
 
-## Read at
-**Mode: entry.** Step 4c, for a location its gazetteer stub marks high. Generate the
-region's high-weight locations first, so medium and low can foreshadow what has already
-been decided.
-
 ## Spec
 
 ```

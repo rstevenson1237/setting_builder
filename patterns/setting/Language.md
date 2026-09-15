@@ -3,10 +3,7 @@
 ## Provides
 How a tongue is built, what a root is, and how the file grows without being rewritten.
 
-## Read at
-**Mode: entry.** Step 1d to seed it, step 2h to tailor it, and every step thereafter
-that coins a proper noun. What a location is called, and in whose mouth, is
-`patterns/setting/Naming.md`.
+What a location is called, and in whose mouth, is `patterns/setting/Naming.md`.
 
 ## Spec
 

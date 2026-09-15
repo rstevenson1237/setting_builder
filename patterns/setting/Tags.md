@@ -6,11 +6,6 @@ with a single tag-line instead of embedding tags inline, and the two-tag draw (o
 setting-level, one region-level) every location gazetteer stub uses instead of inventing
 three tags fresh.
 
-## Read at
-**Mode: entry.** Step 1b, right after `GENRE.md` exists, to seed `setting/Tags.md`. Read
-again per region, alongside its Region Overview at step 3c, to seed that region's own
-`Tags.md`.
-
 ## Spec
 
 ```

@@ -168,7 +168,6 @@ def parse_pattern_files() -> tuple[dict[str, dict], list[str]]:
 
         draws = sorted(vs.spec_edges(text, rel))
         mentions = sorted(set(out) - set(draws))
-        modes = vs.declared_modes(text) or []
 
         for am in BARE_KIND_ARROW_RE.finditer(text):
             issues.append(f"'-> {am.group(1)}' names a file with no folder qualifier")
@@ -176,11 +175,10 @@ def parse_pattern_files() -> tuple[dict[str, dict], list[str]]:
         nodes[rel] = dict(
             rel=rel, folder=rel.split("/")[0], filename=path.name, title=title,
             provides=pattern_section(text, "Provides"),
-            read_at=pattern_section(text, "Read at"),
             spec=pattern_section(text, "Spec"),
             design_patterns=pattern_section(text, "Design patterns"),
             constraints=pattern_section(text, "Constraints"),
-            out=draws, mentions=mentions, modes=modes,
+            out=draws, mentions=mentions,
             incoming=[], issues=issues,
         )
         all_issues.extend(f"{rel}: {i}" for i in issues)
@@ -667,8 +665,8 @@ def build_patterns(setting: sc.Setting, out: Path) -> None:
             '<div class="pattern-audit pattern-audit-ok">'
             f'Every citation among the {len(nodes)} files below resolves, and every file carries its '
             'Constraints heading. Checked fresh on every build. This audit is a subset of '
-            'CI - <code>tools/validate_setting.py</code> also checks section presence, Read-at '
-            'step ids, reach modes, orphans and the compile list.'
+            'CI - <code>tools/validate_setting.py</code> also checks section presence, '
+            'read-set reachability and the compile list.'
             '</div>'
         )
 

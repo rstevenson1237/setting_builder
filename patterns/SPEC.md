@@ -23,7 +23,7 @@ intentional, budgeted insertion of highly specific content, not the default home
 anything that happens to be a list. A question that can be stated neutrally belongs in the
 Spec even when it reads like a menu.
 
-## The five fields
+## The four fields
 
 Every file carries these, in this order. Nothing else is a section.
 
@@ -32,18 +32,16 @@ What exists after this file is read, in a sentence. Names the output, not the ac
 the test is whether a reader can tell what artifact or feature the file is responsible
 for. Neutral and permanent.
 
-### `## Read at`
-When the file is reached, by which STEPS.md step, and under **what condition** - the spec
-line that draws it and what that line decided. It also carries the boundary against any
-sibling file that could be confused for this one. Neutral and permanent.
+It also carries the **boundary** against any sibling file that could be confused for this
+one, and a pointer to the authority for anything adjacent that this file does not decide -
+a rate that belongs to the drawing line, a resolution that belongs to
+`setting/Procedures.md`, a citation format that belongs to `templates/Location.md`.
 
-**It never lists the files that draw it.** Which files carry the drawing line is in the
-tree, computed by `tools/validate_setting.py` and rendered by the pattern reference, and a
-list here is a copy that goes stale the moment a classifier is added or split. State the
-condition, not the roster.
-
-The step ids here are validated against STEPS.md. `## Read at` is the only record of how a
-file is reached, which is why it is prose that has to stay honest rather than decoration.
+**It never says when or by what the file is reached.** That is the read-set graph's, and
+the graph runs one way: a STEPS.md step names its template, a template names the pattern
+files its artifact requires, and a Spec line names what it draws. A file restating where
+it sits in that graph is a second copy of an edge something upstream already owns, and the
+second copy is what drifts.
 
 ### `## Spec`
 What this file decides, as a fenced block. Every line is one of exactly two things:
@@ -83,8 +81,8 @@ five baseline lines are constant, so they are Dressing's.) This is the same test
 The deliberate injection of highly specific content that keeps generated output from
 reading flat. **Specific and compiled** - rewritten at step 1b from the chosen genre
 reference. A section here is a claim that this file's output would be too generic without
-it; which files can make that claim is settled by reach mode, in "Which files earn
-patterns" below. The files that carry one are exactly STEPS.md step 1b's compile list -
+it; which files can make that claim is settled by what the file's output is, in "Which
+files earn patterns" below. The files that carry one are exactly STEPS.md step 1b's compile list -
 the two sets are checked against each other by `tools/validate_setting.py`.
 
 ### `## Constraints`
@@ -146,24 +144,28 @@ and the classifier says why in the prose under its Spec. A rating *dropping* one
 different matter: `dangerous/Low.md` carries a challenge block that says "none", and the
 reason, rather than omitting the heading, because the absence is the class's defining fact.
 
-## Reach modes
+## How a file is reached
 
-How a file is arrived at. Every file **declares its mode**, as the first thing in its
-`## Read at`: `**Mode: ingredient.**`. Four modes are drawn by another file's Spec, and
-`entry` is the fifth - a file a STEPS.md step reads directly, which nothing draws. The
-declaration is validated, so what a file claims and what the graph does cannot drift apart
-silently.
+Read off the graph, never declared. Five shapes recur often enough to be worth naming, and
+the names are a way of talking about a file rather than anything a file states about
+itself:
 
-| mode | reached |
+| shape | reached |
 |---|---|
-| **entry** | read directly by a STEPS.md step; nothing draws it |
+| **entry** | named by a template, so a STEPS.md step reads it directly |
 | **second pass** | every output, unconditionally, after the fact |
 | **kind** | exactly one of N, mutually exclusive |
 | **ingredient** | drawn at a stated rate |
 | **conditional** | triggered by content already generated |
 
-Which files are in which mode is not listed here - every file declares its own, and the
-pattern reference renders the graph.
+Nothing validates these, because nothing can: `kind` and `ingredient` are not separable by
+line shape. `wild/Hidden.md` draws `1 Kind {ruin | lair | natural feature}` and
+`dangerous/High.md` draws `1 Challenge {encounter | hazard | mystery}` - identical shape,
+three alternatives, three citations - and the first draws three kinds while the second
+draws three ingredients. The difference is that a Kind decides what the location *is* and a
+challenge is something *in* it, which is semantic and not on the line. Any check would be
+checking a label against itself, and the generator branches on the drawing Spec line
+regardless.
 
 `Faction` is the one name that means a different mode in each rating, and must not be read
 as one thing: `safe/Faction.md` is one of four hooks in
@@ -173,23 +175,17 @@ siblings; `dangerous/Faction.md` is a Kind of `dangerous/Encounter.md`; only
 rate the Kind sets, because whether a faction is possible here depends on what the place
 already turned out to be.
 
-**Every element file is reached by a classifier, in the mode it claims.** A file reachable
-only through its own `## Read at`, or only from inside another element file, is orphaned
-from the spec graph: nothing draws it, so nothing guarantees it is ever read. A file
-declaring any of the four drawn modes and cited by nobody's Spec is now an error, which is
-what keeps a file that nothing draws from silently reopening as an orphan.
+**Every element file is reached by a classifier.** One reachable only from inside another
+element file is orphaned: nothing draws it, so nothing reads it, and the content it
+describes is never generated. `tools/validate_setting.py` warns on any file no generation
+template reaches, and step 5b judges it.
 
-**A file may declare two modes, and two do.** `safe/People.md` is both a Kind, where the location *is*
-a household, and the mandatory person in every SAFE location's gate block; `dangerous/Key.md`
-is drawn from both ends, as a Kind under `dangerous/Treasure.md` for the key lying here and
-as a rated line on each weight file for the lock that a key elsewhere opens. Both declare
-`kind, ingredient`. Declare two only where the draws are genuinely different in kind and
-both primary. An extra rated draw on top of a primary one is prose in `## Read at`, not a
-second mode.
-
-**Edges are read from the Spec's fenced blocks only.** The prose under the block cites
-pattern files freely - `setting/Truths.md` names three - and counting those would make half
-the leaves in the library read as classifiers.
+**A file drawn two genuinely different ways is a signal, not a feature.** Two are:
+`safe/People.md`, both a Kind where the location *is* a household and the mandatory person
+in every SAFE location's gate block; and `dangerous/Key.md`, drawn as a Kind under
+`dangerous/Treasure.md` for the key lying here and as a rated line on each weight file for
+the lock a key elsewhere opens. Each is a candidate for being two files, and the second
+already is: its demand end is moving out. Prefer splitting to carrying both.
 
 ### Which files earn patterns
 
@@ -202,9 +198,8 @@ reference was chosen. Only two things are shapes: `Naming`, a procedure, and `Se
 Clue/Trigger/Payload discovery structure that can sit on top of any feature a location
 already has.
 
-**Reach mode does not decide this**, and reasoning from it gets `Dressing` and the four
-SAFE hooks wrong. Mode stays, because how a file is reached is real coupling information
-worth declaring - it just does not decide which files carry patterns.
+**How a file is reached does not decide this**, and reasoning from it gets `Dressing` and
+the four SAFE hooks wrong.
 
 A rating classifier's own content is neutral by definition, so **no rating classifier
 carries `## Design patterns`**, and neither does a `setting/` or `region/` file. Their
@@ -255,7 +250,7 @@ standing in for.
 Prose in any field points to where something is. It never restates what is there.
 
 - **Never state a count that can be derived from a list.** Name the list.
-- **Never enumerate the files** that carry a line, a mode, or a section. The tree carries
+- **Never enumerate the files** that carry a line or a section. The tree carries
   that, `tools/validate_setting.py` computes it, and the pattern reference renders it.
 - **Never restate a rule another file owns.** Cite it.
 - **Never restate the fenced block** in the prose beneath it. The block is the contract.
@@ -280,44 +275,16 @@ The compile-list check holds STEPS.md and the tree to the same answer; it does n
 the answer. Whether a given file *earns* patterns is the body-versus-shape judgement above
 and stays a human call.
 
-**A file is also checked against the mode it claims, for three of the four modes**, by
-reading each drawing line's shape - the rate token governing it, how many alternatives it
-offers in braces, how many files it cites. Three rules follow:
+**Reachability is checked, and it is the one graph question worth a machine.** The
+validator walks STEPS.md to `templates/` to each template's named pattern files and out
+along Spec edges, and warns on anything it cannot reach. A phase-5 template is excluded
+from the root set: a review pass cites pattern files as examples, and counting those would
+let an orphan hide behind a mention in a judgement check. It warns rather than errors
+because unreachable content cannot corrupt a build - it means content expected to be
+generated silently is not, which is a thinness judgement and belongs to step 5b.
 
-- **second pass** means every output, unconditionally, so at least one line must draw it
-  at rate `1`. Drawn only at a rate, it is an ingredient. Extra rated draws on top of
-  that mandatory one are allowed.
-- **conditional** means triggered by content already generated, so no line may draw it at
-  rate `1`. Drawn unconditionally, it is mandatory, which is an ingredient.
-- **kind** means exactly one of N, mutually exclusive, so at least one line must draw it
-  as a choice among its siblings - braces offering alternatives, and the alternatives
-  cited. Drawn only alone, it is an ingredient.
+**Edges are read from the Spec's fenced blocks only.** The prose under the block cites
+pattern files freely - `setting/Truths.md` names three - and counting those would make half
+the leaves in the library read as classifiers.
 
-**There is no rule for `ingredient`, and that is not an oversight** - see the divergence
-below.
-
-## Known divergences
-
-Real, current, and deliberately not yet fixed:
-
-1. **`kind` and `ingredient` are not separable by line shape, so neither is checked
-   against the other.** The tempting rule - "a `{a | b | c}` choice for a kind, a rate for
-   an ingredient" - does not survive the files. Compare:
-
-   ```
-   wild/Hidden.md    1  Kind       {ruin | lair | natural feature}   (three files)
-   dangerous/High.md 1  Challenge  {encounter | hazard | mystery}    (three files)
-   ```
-
-   Identical shape - mandatory, three alternatives, three citations - and the first draws
-   three `kind` files while the second draws three `ingredient` files. The difference is
-   that a Kind decides what the location *is* and a challenge is something *in* it, which
-   is semantic and not on the line. `safe/Settlement.md`'s hook line is the same story
-   from the other side: ONE of `{quest | lore | key | faction}`, which reads as "exactly
-   one of N, mutually exclusive", drawing four files that are deliberately `ingredient`.
-
-   So the three rules above are stated as **existence** checks - a kind needs *at least
-   one* choice-shaped draw - never as exclusions. An exclusion would have to claim some
-   shape cannot be an ingredient, and no shape qualifies. Anything stronger needs the
-   modes to be declared on the drawing line rather than inferred from it, which is a
-   larger change than it sounds and has not been shown to be worth it.
+`--read-set [STEP]` prints what any step reads, entry points separated from Spec expansion.

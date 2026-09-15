@@ -18,6 +18,13 @@ For each pattern file, and for the set of pattern files as a whole, confirm the 
 - **Discoverable** - does using the pattern require the players to notice, investigate, or search for something, rather than handing content to them automatically?
 - **Interactive** - does the pattern give players something to act on (examine, trigger, disarm, solve, take) rather than pure read-aloud flavor?
 - **Not overly generic** - could the pattern's output, as written, be dropped unchanged into any generic fantasy dungeon without a rewrite? If so, it needs sharper genre-specific hooks.
+- **Wiring** - is every pattern file actually reached? `tools/validate_setting.py` warns on
+  any file no generation template can reach, walking STEPS.md to `templates/` to each
+  template's named pattern files and out along Spec edges. An unreachable file is never
+  read, so the content it describes is never generated - which is silent under-generation
+  rather than a broken file, and the judgement here is whether the file should be wired in
+  or should go. Check the reverse too: a file reached at a rate so low it will not fire in a
+  setting of this size is wired but not funded.
 - **Gaps** - is there a location type, weight, or region rating with no pattern coverage, or a pattern file that's thin relative to how often it'll be drawn on?
 - **Missing relevant features** - within an existing pattern, is there a feature type clearly relevant to that pattern's scope that isn't currently included (e.g. a common DANGEROUS-location situation the low/medium/high files don't address)?
 - **Unhoused content** - has the user asked for specific content (a mechanic, a theme, a recurring element) that doesn't fit into any current pattern file? Flag it explicitly rather than force-fitting it into an unrelated pattern, so it can become a new pattern file or an addition to an existing one.

@@ -3,9 +3,6 @@
 ## Provides
 What a medium-weight location guarantees.
 
-## Read at
-**Mode: entry.** Step 4c, for a location its gazetteer stub marks medium.
-
 ## Spec
 
 ```

@@ -4,12 +4,9 @@
 What an exit physically is: its kind, what it is made of and how well, where it sits, and
 where it goes.
 
-## Read at
-**Mode: second pass.** Step 4c, for every exit of every DANGEROUS location without
-exception, drawn by `dangerous/Dressing.md`'s exit line. Distinct from the region's block
-diagram, which decides *which* locations connect and by what kind of edge: this file decides
-what standing at that connection is like. The Exits line syntax and units are in
-`templates/Location.md`.
+Distinct from the region's block diagram, which decides *which* locations connect and by
+what kind of edge: this file decides what standing at that connection is like. The Exits
+line syntax and units are in `templates/Location.md`.
 
 ## Spec
 

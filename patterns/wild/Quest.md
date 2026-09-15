@@ -4,12 +4,9 @@
 How a WILD location participates in a Quest. WILD **carries**: it is where quests are
 travelled through, obstructed, and occasionally offered by somebody living rough.
 
-## Read at
-**Mode: ingredient.** Step 4c, when a classifier's registry line draws this location's
-carrying role in a quest. A quest is the one hook that stays in registry rather than
-moving into the reward block with lore and keys, because it is not an object and cannot be
-picked up. Criteria are in `patterns/setting/Quests.md`; the registry is
-`setting/Quests.md`.
+A quest is the one hook that stays in registry rather than moving into the reward block
+with lore and keys, because it is not an object and cannot be picked up. Criteria are in
+`patterns/setting/Quests.md`; the registry is `setting/Quests.md`.
 
 ## Spec
 

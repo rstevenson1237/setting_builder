@@ -4,10 +4,6 @@
 Where a claim to authority is exercised, on what basis, and what a stranger has to do to
 get anything out of it.
 
-## Read at
-**Mode: kind.** Step 4c, when `safe/Settlement.md`'s Kind line draws Authority - an
-office, a posting place, or a custom.
-
 ## Spec
 
 ```

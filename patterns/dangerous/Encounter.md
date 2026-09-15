@@ -4,12 +4,9 @@
 What the party meets in a DANGEROUS location, what it is doing, and what reaches them
 before it does.
 
-## Read at
-**Mode: ingredient.** Step 4c, when a weight file's spec draws a challenge and the
-challenge is an encounter, or when `dangerous/Treasure.md` draws a guard. Which *kind*
-of encounter is decided here; the kind file supplies what fills it. Distinct from
-`dangerous/Hazard.md`: an encounter has something that can act on its own account, a
-hazard only reacts.
+Which *kind* of encounter is decided here; the kind file supplies what fills it.
+Distinct from `dangerous/Hazard.md`: an encounter has something that can act on its own
+account, a hazard only reacts.
 
 ## Spec
 

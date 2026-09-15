@@ -4,10 +4,6 @@
 What kind of settled place this is, which locations it can plausibly hold, and - for each
 one - how much it matters.
 
-## Read at
-**Mode: entry.** Step 4c, before any other `safe/` file, for every SAFE location. Also
-read at 4a, which takes its location list from here.
-
 ## Spec
 
 ```

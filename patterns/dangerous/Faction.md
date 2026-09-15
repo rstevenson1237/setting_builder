@@ -3,11 +3,8 @@
 ## Provides
 What it means for a DANGEROUS location to be *held* rather than merely inhabited.
 
-## Read at
-**Mode: kind.** Step 4c, when `dangerous/Encounter.md` draws Kind: faction - that is,
-where a location's occupants belong to a power in `setting/Factions.md`. Distinct from
-`dangerous/Creature.md`, which covers what lives in a room on its own account; a faction
-presence implies things outside the room.
+Distinct from `dangerous/Creature.md`, which covers what lives in a room on its own
+account; a faction presence implies things outside the room.
 
 ## Spec
 

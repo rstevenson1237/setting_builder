@@ -11,7 +11,7 @@ Read first:
 ## Instructions
 List the locations within a single region - each location is an explorable area within that region. In SAFE and WILD regions, locations are major landmarks; in DANGEROUS regions, one location per room is a good standard. **Take the location count and the class mix from the region's pattern file** - `patterns/region/Safe.md`, `patterns/region/Wild.md`, or `patterns/region/Dangerous.md` - which states both as ranges and gives the cost of deviating. Don't reason them out here.
 
-Each location in a DANGEROUS region is assigned a weight; each location in a WILD region is assigned a classification instead. Both are skipped for SAFE regions.
+Each location in a DANGEROUS region is assigned a weight; each location in a WILD region is assigned a classification instead. Both are skipped for SAFE regions, whose list of locations comes from `patterns/safe/Settlement.md` - the settlement type it reads off the Region Overview's Layout field states which locations a place like this can plausibly hold.
 
 DANGEROUS weight, in the proportions `patterns/region/Dangerous.md` sets. Enough to assign
 one here; what each guarantees is in its own file, read at 4c:
