@@ -99,6 +99,10 @@ Coined here:
   in `setting/Bestiary.md`
 - Daghash = dagh (pit, abyss) + ash (place of power, temple, seat) - the black ziggurat
   region's name, in `setting/region/Regions.md`
+- Nirgash = nirg (serpent) + ash (place of power, temple, seat) - the priest-kings' own name
+  for the Chamber of the Coiled Serpent, in `setting/region/D/13.md`
+- Vaalsenn = vaal (to bind, to seal) + senn (one) - the name-tablet that performs an Essath
+  binding once, in `setting/UniqueTreasures.md` and `setting/region/D/13.md`
 
 ## Uhgum
 Spoken by: the Man-Apes, in numbers nobody has counted. Living, not dead - the one non-human

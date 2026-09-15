@@ -1,0 +1,31 @@
+Block: Ziggurat
+Purpose: Believing
+Region: D Daghash
+Rooms: 18
+Locations: D.1, D.2, D.3, D.4, D.5, D.6, D.7, D.8, D.9, D.10, D.11, D.12, D.13, D.14, D.15, D.16, D.17, D.18
+
+```mermaid
+graph LR
+    D1["D.1 South Stair"] --- D5["D.5 Collapsed Portico"]
+    D5 --- D2["D.2 Upper Terrace"]
+    D5 --- D3["D.3 Roofless Hall"]
+    D5 --- D4["D.4 Wind-Worn Colonnade"]
+    D5 --- D6["D.6 Sky Well"]
+    D4 --- D6
+    D6 ---|vertical| D9["D.9 Inscribed Gallery"]
+    D9 --- D8["D.8 Procession Passage"]
+    D8 --- D7["D.7 First Threshold"]
+    D8 --- D10["D.10 Second Threshold"]
+    D7 --- D13["D.13 Chamber of the Coiled Serpent"]
+    D7 ---|vertical| D17["D.17 Sealed Door"]
+    D10 --- D12["D.12 Sealed Archive"]
+    D10 --- D11["D.11 Ash-Choked Cellar"]
+    D11 --- D14["D.14 North Service Tunnel"]
+    D9 --> D11
+    D3 --> D11
+    D17 --- D15["D.15 Nirguk Warren"]
+    D15 --- D16["D.16 Enclave Nursery"]
+    D15 --- D18["D.18 Nirguk's Hoard"]
+    D16 -.- D14
+    D1 --- B2["B.2 Boundary Cairns"]
+```
