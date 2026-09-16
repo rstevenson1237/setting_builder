@@ -57,9 +57,10 @@ good with the template discarded has still succeeded.
   situation quietly turns into a plot, and it robs the players of the only thing the game
   was going to give them.
 
-**In short: situations, not stories; specific, not generic; actionable, not ideas; the
-solution is never written into the problem.** One line for a pattern file to point back to
-instead of re-deriving the three.
+**In short: translated, not merely written; actionable, not ideas; the solution is never
+written into the problem.** One line for a pattern file to point back to instead of
+re-deriving the three, in their order - a fact that does not reach the players, a fact they
+cannot act on, and a fact that hands them the answer.
 
 ### The standing consequences
 
