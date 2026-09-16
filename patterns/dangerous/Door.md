@@ -39,9 +39,9 @@ than as the fact of being shut. A door that needs a rod is an open exit with a p
 time, force, or a tool rather than an answer. It owes `setting/Keys.md` no row, and it is
 the one gate a party can always spend effort on instead of solving.
 
-**A trap on a way through is drawn, not decorated on.** It arrives with the Clue, Trigger
-and Impact every hazard owes, which is what stops a trapped exit being a sentence that
-fires when the referee decides it does.
+**A trap on a way through is drawn, not decorated on.** It arrives with the clue, the
+trigger and the stated cost every hazard owes, which is what stops a trapped exit being a
+sentence that fires when the referee decides it does.
 
 **A gate is stated on the exit line, not moved into a Feature.** What opens a way through
 belongs where the party reads what the way through is; written as a Feature instead, the

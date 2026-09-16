@@ -15,11 +15,13 @@ or condition.
 HAZARD
   1     Mechanism   {set | condition of the ground | living} - decide first, they read
         differently
-  1     Impact - the first of these that hits, and nothing below it:
+  1     Tier - the first of these that hits, and nothing below it:
           15%   lethal    can kill outright, and the warning already said so
           45%   damaging  costs the party something they have to spend to get back
           1     nuisance  costs time, ground, a piece of gear, or the route they wanted
   1     A warning available to somebody moving carefully
+  1     Trigger - what sets it off, or what crossing it costs
+  1     Damage - the expression the tier allows, per setting/Procedures.md
   1     What it was for, and who set it - where the mechanism is `set`
   20%   Something already caught in it
 ```
@@ -28,11 +30,17 @@ HAZARD
 mechanisms across `Trap`, `Environmental` and `Residual` because each carries a contract of
 its own - a maker still here, a condition with a cause in the Dressing, a maker gone. A
 WILD hazard's three answer the same two questions whichever is drawn, so the choice fits on
-one line and earns no middle tier.
+one line and earns no middle level.
 
-**Lethal sits lower here than at depth.** A dungeon can hide a pressure plate in a worked
-floor; open country almost always shows its hand, so a WILD hazard that kills is one the
-party was told about and walked into anyway.
+**Lethal sits lower here than at depth**, and so does what it forces: a WILD hazard that
+kills is one the party was told about and walked into anyway, so it rarely goes past 2d.
+Reaching 3d in the open means the warning was as loud as the country could make it.
+
+**The mechanism picks the damage type.** A `set` hazard delivers what somebody
+could build in the open - Piercing, Crushing, Poison. A `condition of the ground` delivers
+what the country does: Crushing from a fall or a slide, Frost from water and exposure,
+Poison from bad air. A `living` hazard delivers Poison, or the Condition its sting or its
+spore leaves behind.
 
 **In the open, almost everything gives warning.** A dungeon can hide a pressure plate in a
 worked floor; broken ground announces itself to anyone reading it. So a WILD hazard's

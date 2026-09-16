@@ -134,8 +134,8 @@ that it holds one thing and does nothing else: it does not range, does not forag
 not want anything, and its **Special** states the condition it acts on.
 
 **A `Hazard` entry is not `dangerous/Hazard.md`.** That file is the per-location
-mechanism - trap, environmental, residual - and it owns clue, trigger and impact for the
-one place it is drawn into. A Hazard-type Bestiary entry is a recurring living or
+mechanism - trap, environmental, residual - and it owns the clue, the trigger, and what is
+forced, for the one place it is drawn into. A Hazard-type Bestiary entry is a recurring living or
 persisting danger with a stat line, cited by name from wherever it turns up rather than
 reinvented per room. If it has a want, a reaction, or somewhere else to be, it is a
 creature and not a hazard; if it exists in one place only, it belongs inline at that

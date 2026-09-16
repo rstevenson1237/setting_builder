@@ -58,6 +58,12 @@ Every citation below sits inside its own parentheses, exactly as written, so `to
 - **Named Creature** - `(Named Creature: Name)`
 - **Unique Treasure** - `(Unique Treasure: Name)`
 - **Treasure table** - `(Treasure [I-V], d20)`
+- **Forced damage** - `(Test of Constitution, Xd, Type)`, `(Test of Sanity, Xd)`,
+  `(Test of Fate, Condition)`, or `(Test of Fate, Impact)`, per `setting/Procedures.md`,
+  which is where the Types, the Conditions and what `Xd` means are all defined. Every
+  hazard Feature carries one. Unlike the forms above this one links nowhere, since
+  `setting/Procedures.md` is not a rendered page; `tools/validate_setting.py` checks its
+  grammar instead.
 
 A location code mentioned in running text (`A.3`, `C.15`) is linked automatically wherever it already names a real location; nothing special is needed to write one.
 
