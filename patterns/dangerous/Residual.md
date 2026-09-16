@@ -63,6 +63,11 @@ something bred or kept that has outlived its keeper.
 marks say it once was; something strong in one room and barely detectable two rooms out; a
 warning left by whoever found it after the maker had already gone.
 
+**Vocabulary.** What decay and working leave behind is named technically, never
+atmospherically: spall, efflorescence, salt-bloom, verdigris, patina, clinker, slag,
+tailings, sinter, rime, midden, char, calcined, leached. Each carries a process as well as a
+deposit, which is what makes one worth a Feature at all.
+
 ## Constraints
 
 - **Low Magic is a constraint here too.** Per `GENRE.md` a residual hazard is rare,

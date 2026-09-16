@@ -73,6 +73,10 @@ it is damaging, deep and spiked it is lethal. Where a tier's list is thin for th
 materials, drop a mechanism from the tier above and take out what makes it worse, rather
 than reaching up for one the tier cannot afford.
 
+**Vocabulary.** Name the working parts instead of describing them: springe, gin, deadfall,
+treadle, detent, sear, tumbler, counterweight, trip-line, quarrel, scythe-beam, pitfall lid.
+A mechanism with a name is a mechanism a referee can rule on without inventing how it works.
+
 ## Constraints
 
 - **Never pick a damage type the mechanism cannot produce.** The type follows the thing that
