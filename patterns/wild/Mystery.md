@@ -3,7 +3,8 @@
 ## Provides
 What is strange about a WILD location, how it is engaged, and what it costs to get wrong.
 
-Distinct from `patterns/setting/Secrets.md`: a Mystery is content and stands in plain
+Distinct from a concealed detail, whose rate and triple
+the classification file draws: a Mystery is content and stands in plain
 sight; a Secret is a discovery structure and does not.
 
 ## Spec

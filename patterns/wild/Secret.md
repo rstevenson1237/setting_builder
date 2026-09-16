@@ -12,8 +12,12 @@ WILD - SECRET
   1     Dressing - what it is, and what weather has done to it       (wild/Dressing.md)
   1     Kind   {ruin | lair | natural feature}      (wild/Ruin.md, wild/Lair.md,
                                                      wild/NaturalFeature.md)
-  20%   A concealed detail - state its Clue, Trigger and Payload
-                                                 (patterns/setting/Secrets.md)
+  20%   A concealed detail inside this location - a second triple, not the access one
+        below:
+          Clue    - in this location's own Dressing, never the parent's
+          Trigger - a stated act here
+          Payload - never another location: a cache, a piece of Lore, a Key, or why this
+                    place was worth concealing
 
   -- access: how the party comes to be standing here
   1     Parent location, named
@@ -35,9 +39,13 @@ WILD - SECRET
   1     Naming, after everything above                (patterns/setting/Naming.md)
 ```
 
-The Clue/Trigger/Payload here is the same shape as a feature-level Secret, scaled up: the
-Payload is an Exit to an entire location rather than a detail inside one. Mark the edge
-hidden (`-.-`) in the region's `Connections.mmd`.
+**This file carries two Clue/Trigger/Payload triples and they do different work.** The
+access triple is the location itself: its Clue sits in the *parent's* Features, and its
+Payload is an Exit to this whole place rather than a detail inside one. Mark that edge
+hidden (`-.-`) in the region's `Connections.mmd`. The rated triple in the substrate block
+is an ordinary concealed detail, wholly inside this location, and both of its ends are
+here. Writing one where the other belongs is how a Secret location ends up either
+unreachable or reached twice.
 
 Unlike a feature-level Secret, this is **mandatory, not rated** - a Secret-tier location
 without a stated Clue at its parent is unreachable, and unreachable content is content

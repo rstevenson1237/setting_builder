@@ -12,8 +12,11 @@ WILD - HIDDEN
   1     Dressing - what it is, and what weather has done to it       (wild/Dressing.md)
   1     Kind   {ruin | lair | natural feature}      (wild/Ruin.md, wild/Lair.md,
                                                      wild/NaturalFeature.md)
-  20%   A concealed detail - state its Clue, Trigger and Payload
-                                                 (patterns/setting/Secrets.md)
+  20%   A concealed detail, stated as:
+          Clue    - in this location's own ground and growth, not the parent's
+          Trigger - a stated act at a stated spot
+          Payload - never a way onward: a cache, a piece of Lore, a Key, or what the
+                    parent only implied, carried one step further
 
   -- access: how the party comes to be standing here
   1     Parent Landmark, named
@@ -52,4 +55,15 @@ leads are read off the region's `Connections.mmd` the same way - mandatory per c
 graph gives it, absent otherwise. A party that stopped and looked has already paid
 something to be standing here, and the rates are where that is paid back.
 
+**A party standing in a Hidden location is already looking.** They followed a visible
+detail from the parent to get here, so they arrived expecting the place to repay
+attention - which lets a clue here sit closer to the edge of notice than a Landmark's can.
+What it still cannot do is need a lead of its own to find: a clue reached only by acting on
+another clue is two triggers deep, and `region/Wild.md`'s depth rule exists because that
+second one never gets reached.
+
 ## Constraints
+
+- **A Hidden location's concealed detail never pays out a route.** Ways onward are its
+  Secret-child Clue lines, one per child the region's `Connections.mmd` hangs here. A
+  Payload that is a way through puts an edge in the prose that the graph does not carry.

@@ -53,7 +53,7 @@ automatically, the moment a player states they are looking for it. Searching a l
 costs one action (see Time, below) wherever actions are tracked - nothing more is owed for
 finding what was never hidden.
 
-**A Secret is never found this way.** Per `patterns/setting/Secrets.md`, a concealed detail
+**A Secret is never found this way.** Per `GENRE.md`, a concealed detail
 is undone by a stated act on a visible Clue - standing somewhere, clearing something,
 speaking a name - not by a search roll against it. There is no generic search roll anywhere
 in this framework; a lucky roll never substitutes for the Clue/Trigger/Payload chain, and a

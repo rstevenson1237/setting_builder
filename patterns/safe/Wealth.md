@@ -17,8 +17,10 @@ WEALTH
                          patterns/setting/UniqueTreasures.md, safe/Lore.md)
   1     Who it belongs to, or belonged to - and whether they know it is still here
   1     Protection, exactly one    {hidden | gated | guarded | trapped} - see Patterns
-          hidden: states a Clue, Trigger and Payload, guaranteed by this line
-                        (patterns/setting/Secrets.md)
+          hidden: guaranteed by this line, and states
+            Clue    - legible in the building itself to somebody paying attention
+            Trigger - a stated act on the clue
+            Payload - the cache, and who notices it has been found
   30%   A second protection, of a different kind than the first
   20%   Somebody else wants it, and is closer to getting it than the party
 ```
@@ -34,10 +36,9 @@ here - which is what makes it worth a Protection line instead of an access claus
 **Protection is exactly one, chosen for the Kind, not rolled.** The four are not
 interchangeable flavor text - each implies a different discovery structure:
 
-- **hidden** states a Clue, Trigger and Payload per `patterns/setting/Secrets.md`, guaranteed
-  by this spec line rather than by that file's own 10% settlement-wide roll. A Wealth
-  location whose Protection is hidden has already spent its Secret; do not also roll
-  the settlement-wide concealment rate against it as well.
+- **hidden** states its Clue, Trigger and Payload on this line, guaranteed, rather than at
+  `safe/Settlement.md`'s 10% settlement-wide rate. A Wealth location whose Protection is
+  hidden has already spent its Secret; do not roll that rate against it as well.
 - **gated** means the cache's existence is known and unconcealed - access needs a stated,
   non-secret condition instead.
 - **guarded** cites a creature already present in this region's Overview under Creatures,
@@ -47,9 +48,9 @@ interchangeable flavor text - each implies a different discovery structure:
 - **trapped** follows the format below, at 5% lethal, else 35% damaging, else nuisance -
   a ladder short of DANGEROUS's on purpose, for the reason in the next paragraph.
 
-**A SAFE trap is usually somebody's work, not a dungeon mechanism.** Per `patterns/setting/Secrets.md`'s
-own principle, prefer an alarm, a marking dye, a lock that jams or maims, or a mechanism
-that ruins the goods rather than the person - a Lethal tier here should be rare and
+**A SAFE trap is usually somebody's work, not a dungeon mechanism.** Prefer an alarm, a
+marking dye, a lock that jams or maims, or a mechanism that ruins the goods rather than
+the person - a Lethal tier here should be rare and
 deliberate, reserved for a Wealth location the region's Situation already justifies treating
 that seriously. Write it in the same line format every Feature uses:
 
@@ -74,8 +75,9 @@ rather than a person.
 
 **Hidden** - a wall thinner than it should be; a floor that does not match the joists below
 it; a chest bricked into a foundation; a compartment behind an altar or a hearth; a stair
-with one step too many; a room smaller inside than out. Per `patterns/setting/Secrets.md`, the Clue must
-already be legible to somebody paying attention.
+with one step too many; a room smaller inside than out. The Clue is what the building gets
+wrong about itself, and per `GENRE.md` it is legible before anyone knows there is anything
+to find.
 
 **Gated** - a phrase known only to a family or an order; a password changed every season; a
 condition tied to a date or event - a saint's day, a full granary, market day; a permission

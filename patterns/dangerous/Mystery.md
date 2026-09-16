@@ -4,9 +4,9 @@
 What the strange thing is, how it is engaged, and what engaging it wrongly costs.
 
 Distinct from `dangerous/Hazard.md`, which is the costly case: a mystery is neutral
-until a genuinely wrong attempt is made. Distinct from `patterns/setting/Secrets.md`: a
-Mystery is content and may be in plain sight; a Secret is a discovery structure and by
-definition is not.
+until a genuinely wrong attempt is made. Distinct from a concealed detail, whose rate and
+triple the weight file draws: a Mystery is content and may be in plain sight; a concealed
+detail is a discovery structure and by definition is not.
 
 ## Spec
 
