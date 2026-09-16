@@ -651,7 +651,7 @@ ROMAN_TABLES = {"I", "II", "III", "IV", "V"}
 
 
 def check_location_file(diag, path, region_code, num, stub, rating, all_locations,
-                         mundane_edges, hidden_edges, citations):
+                         mundane_edges, hidden_edges, citations, conditions=None):
     text = path.read_text()
     lines = text.splitlines()
     if not lines or not lines[0].strip():
@@ -663,6 +663,7 @@ def check_location_file(diag, path, region_code, num, stub, rating, all_location
         diag.error(path, f"header line does not match Location.md format: {lines[0]!r}")
         return
     check_treasure_citation_prose(diag, path, text)
+    check_forced_damage(diag, path, text, conditions)
     hcode, hnum_s, hname, hweight, htags = m.groups()
     if hcode != region_code or int(hnum_s) != num:
         diag.error(path, f"header code {hcode}.{hnum_s} does not match this file's location {region_code}.{num}")
@@ -1190,6 +1191,88 @@ TREASURE_TELL_RE = re.compile(
     r"|\d+\s*cn\b)", re.I)
 
 
+# A hazard states what it forces in one of three expressions, per
+# setting/Procedures.md and templates/Location.md's Citations section. The
+# grammar is fixed, so a malformed one is a format error like any other
+# citation. Which Conditions exist is content and varies per setting, so an
+# unrecognised Condition name only warns - Procedures.md is where a missing one
+# is added, and a partial build may not have that section yet.
+#
+# There is deliberately no check that a hazard HAS an expression. Nothing in a
+# location file marks a Feature as a hazard - secrets, containers and hidden
+# exits all carry the same trigger arrow - so the only available test would
+# guess from the prose, and a warning that fires on every legitimate secret is
+# a warning nobody reads. A hazard written with no stated cost is caught at
+# STEPS.md step 5, per templates/Setting_Judgement_Check.md.
+DAMAGE_TYPES = ("Piercing", "Crushing", "Poison", "Fire", "Frost", "Blast")
+ANY_TEST_CITE_RE = re.compile(r'\(Test of [^)]*\)?')
+TEST_CITE_RE = re.compile(r'\(Test of (Constitution|Sanity|Fate),\s*([^()]+)\)')
+XD_RE = re.compile(r'^(\d+)d$')
+CONDITION_NAME_RE = re.compile(r'^- \*\*([^*]+)\*\* - ', re.M)
+
+
+def procedures_conditions() -> set[str] | None:
+    """Condition names from setting/Procedures.md, or None if unreadable."""
+    path = SETTING / "Procedures.md"
+    if not path.exists():
+        return None
+    m = re.search(r'\n## Conditions\n(.*?)(?=\n## |\Z)', path.read_text(), re.S)
+    if not m:
+        return None
+    return {n.strip() for n in CONDITION_NAME_RE.findall(m.group(1))}
+
+
+def check_forced_damage(diag: Diagnostics, path: Path, text: str, conditions):
+    for raw in text.splitlines():
+        for loose in ANY_TEST_CITE_RE.finditer(raw):
+            cite = loose.group(0)
+            m = TEST_CITE_RE.match(cite)
+            if not m:
+                diag.error(path, f"{cite!r} is not a forced-damage expression - "
+                                 f"templates/Location.md allows only "
+                                 f"(Test of Constitution, Xd, Type), (Test of Sanity, Xd), "
+                                 f"(Test of Fate, Condition) and (Test of Fate, Impact)")
+                continue
+            test, args = m.group(1), [a.strip() for a in m.group(2).split(",")]
+            if test == "Constitution":
+                if len(args) != 2:
+                    diag.error(path, f"{cite!r} - a Test of Constitution takes Xd and a damage Type")
+                    continue
+                xd, dtype = args
+                _check_xd(diag, path, cite, xd)
+                if dtype not in DAMAGE_TYPES:
+                    diag.error(path, f"{cite!r} - {dtype!r} is not a damage Type; "
+                                     f"setting/Procedures.md names {', '.join(DAMAGE_TYPES)}")
+            elif test == "Sanity":
+                if len(args) != 1:
+                    diag.error(path, f"{cite!r} - a Test of Sanity takes Xd and nothing else; "
+                                     f"a madness has no Type")
+                    continue
+                _check_xd(diag, path, cite, args[0])
+            else:  # Fate
+                if len(args) != 1:
+                    diag.error(path, f"{cite!r} - a Test of Fate takes one Condition, or Impact")
+                    continue
+                arg = args[0]
+                if XD_RE.match(arg):
+                    diag.error(path, f"{cite!r} - a Test of Fate forces no wound, so it takes "
+                                     f"no Xd; use a Condition or Impact")
+                elif arg != "Impact" and conditions is not None and arg not in conditions:
+                    diag.warn(path, f"{cite!r} - {arg!r} is not a Condition named in "
+                                    f"setting/Procedures.md; add it there rather than "
+                                    f"describing it in place")
+
+
+def _check_xd(diag: Diagnostics, path: Path, cite: str, xd: str):
+    m = XD_RE.match(xd)
+    if not m:
+        diag.error(path, f"{cite!r} - {xd!r} is not a count of Tests; write 1d, 2d or 3d")
+        return
+    if not 1 <= int(m.group(1)) <= 3:
+        diag.error(path, f"{cite!r} - {xd!r} is outside 1d-3d; per setting/Procedures.md "
+                         f"3d is already lethal to all but the strongest")
+
+
 def check_treasure_citation_prose(diag: Diagnostics, path: Path, text: str):
     for line in text.splitlines():
         if not TREASURE_CITE_RE.search(line):
@@ -1478,6 +1561,7 @@ def main() -> int:
     citations: dict[str, dict] = {kind: {} for kind, _, _ in REGISTRY_KINDS}
 
     NON_LOCATION_FILES = {"Locations.md", "Tags.md"}
+    conditions = procedures_conditions()
     for region_code, locs in region_locs.items():
         rdir = SETTING / "region" / region_code
         existing_files = {p.stem for p in rdir.glob("*.md") if p.name not in NON_LOCATION_FILES}
@@ -1490,7 +1574,8 @@ def main() -> int:
             fpath = rdir / f"{num}.md"
             if fpath.exists():
                 check_location_file(diag, fpath, region_code, num, stub, regions[region_code]["rating"],
-                                     all_locations, mundane_edges, hidden_edges, citations)
+                                     all_locations, mundane_edges, hidden_edges, citations,
+                                     conditions)
 
     build_complete = not any(
         not (SETTING / "region" / rc / f"{num}.md").exists()

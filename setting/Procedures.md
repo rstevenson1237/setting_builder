@@ -18,11 +18,22 @@ also uses:
   hurt, marked, slowed, short of something, or noticed.
 - **4+ - clear.** Whatever was risked is avoided.
 
-**Exposure to something that can kill - poison, a fall, drowning, fire, a lethal trap or
-hazard - is always one Test**, per `GENRE.md`'s high lethality. The named consequence on a
-1 may be death outright, and there is no second Test to earn back a result already rolled.
-A Test is never stacked with another Test for the same danger, and nothing in this
-framework grants a re-roll.
+**Three Tests are named, and whatever forces one says which.** A **Test of Constitution**
+is what the body is put to - poison, a fall, drowning, fire, a blade in the dark. A **Test
+of Sanity** is what the mind is put to. A **Test of Fate** is what neither answers for,
+where what is at stake is the character's luck and nothing they carry bears on it. Which
+die is rolled is the rule above: whichever of the character's own dice the fiction says
+fits, a flat d6 where none does. A Test of Fate is always the flat d6, since by definition
+nothing fits it.
+
+**Forced damage is written `Xd`, and X is how many Tests must be passed to take nothing.**
+A Test is passed on 4+; each is rolled on the ladder above, and the first one not passed
+ends it - the rest are never rolled. On a 1 the wound or the madness lands in full; on 2-3
+it lands at the complication grade, marked rather than maimed, shaken rather than mad. `1d`
+is survivable by anyone; `2d` wants a character with dice worth spending; `3d` is lethal to
+all but the strongest, per `GENRE.md`'s high lethality, and a region writing `3d` more than
+once or twice has stopped meaning it. Nothing here grants a re-roll, and a result already
+rolled is not earned back.
 
 **Cost of sorcery, per `setting/Truths.md`.** No Test decides whether a working succeeds -
 that is the referee's ruling, same as anything else. What is rolled is the toll: one year
@@ -31,19 +42,78 @@ years, rolled openly at the table, for anything reshaping more than that at once
 are never given back, and the referee states which physical toll they bought before moving
 on - per `setting/Truths.md`, the cost always shows.
 
-## Traps
+## Hazards
 
-Every mechanism - listed by tier in `dangerous/Trap.md`, clued and triggered per
-`dangerous/Hazard.md` - resolves at one of three impact tiers when it is sprung, never
-described here (the tier's own Design patterns hold the mechanisms):
+Every hazard states what it forces in one of three expressions, written into the Feature
+line itself where the effect is stated:
 
-- **Nuisance** - no Test. It costs time, noise, a resource, or the party's position - never
-  blood. It hands the party a problem to solve, not a wound to carry.
-- **Damaging** - one Test. On a 1, the character is hurt and it shows; on 2-3, a scare and a
-  cost short of a wound; on 4+, nothing but the noise it made springing.
-- **Lethal** - one Test. On a 1, the named consequence is death or a maiming that does not
-  heal clean; on 2-3, hurt badly enough to change what the party does next; even a 4+ costs
-  something - hurt, shaken, or marked - a lethal mechanism is never free to walk away from.
+- `(Test of Constitution, Xd, Type)` - Type is **Piercing**, **Crushing**, **Poison**,
+  **Fire**, **Frost** or **Blast**
+- `(Test of Sanity, Xd)`
+- `(Test of Fate, Condition)` or `(Test of Fate, Impact)`
+
+A **Condition** is one of the named entries below, written by its name and nothing more. An
+**Impact** is what the character has to do to get out of the hazard, stated on the line
+itself - a turn spent loosening a snare, no heavy exertion for a turn until the gas clears.
+
+Which expressions a hazard may use is decided by the tier it rolled, listed by
+mechanism in `dangerous/Trap.md`, `dangerous/Environmental.md`, `dangerous/Residual.md` and
+`wild/Hazard.md`:
+
+- **Nuisance** - `(Test of Fate, Impact)`, or a Condition costing no wound. It costs time,
+  noise, a resource, or the party's position; never blood.
+- **Damaging** - `(Test of Fate, Condition)`, `(Test of Constitution, 1d, Type)`, or
+  `(Test of Sanity, 1d)`.
+- **Lethal** - a Test of Constitution or of Sanity above 1d.
+
+## Wounds and Madness
+
+**A wound is a state, not a count.** Nothing is tracked between wounds and there is no
+track to fill; a character carrying one states it and plays it, and a second of the same
+kind is what kills or breaks them. What each does:
+
+- **Piercing** - it bleeds and keeps bleeding until it is bound, and binding it costs an
+  action somebody has to spend.
+- **Crushing** - something is broken. No load carried, no moving at speed, until it is set
+  and given the week it needs.
+- **Poison** - it works while the character does. Every action taken before it runs its
+  course makes it worse.
+- **Fire** - what the burn touched is no longer reliable: the hand grips badly, the gear is
+  gone, the face cannot be shown.
+- **Frost** - the extremity goes first, the character loses the use of it before they feel
+  it go, and it does not come back.
+- **Blast** - thrown, deafened and prone: no order heard, no warning heard, and a turn
+  spent finding their feet.
+- **Madness** - what was seen now sits between the character and what is in front of them.
+  Name the one thing they will not now do, or will now do, and it holds until something
+  undoes it.
+
+What heals a wound and what undoes a madness are rulings, not rolls, and take the time the
+fiction gives them.
+
+## Conditions
+
+Every Condition carries a name, an effect and a duration. A hazard naming one writes only
+the name; a hazard needing a condition not listed here adds it here rather than describing
+it in place.
+
+- **Blinded** - cannot see, and acts on what can be heard. Until the eyes are washed out,
+  or until the light is back.
+- **Choking** - cannot speak, and cannot take an action needing breath. Until out of the
+  air that caused it, and one turn beyond.
+- **Snared** - held where they stand. Until a turn is spent getting free, by the character
+  or by somebody reaching them.
+- **Slowed** - moves at half, and goes last wherever order matters. One turn.
+- **Deafened** - hears nothing, including what is coming. One turn.
+- **Burned** - whatever was gripped or worn on the burned side is dropped or ruined. Until
+  it is replaced.
+- **Frozen** - the fingers will not do fine work: no knot, no lock, no catch. Until warmed.
+- **Marked** - carries a stain, a scent or a residue anybody looking for it will find, and
+  cannot pass for somebody who was never there. Weeks, not days.
+- **Poisoned** - every Test rolls the flat d6, whatever dice the character carries. Until
+  the dose runs its course.
+- **Shaken** - will not voluntarily approach what caused it. Until the party leaves the
+  location, or somebody talks them round.
 
 ## Searching
 

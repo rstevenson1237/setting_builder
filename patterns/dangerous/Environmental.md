@@ -15,6 +15,8 @@ ENVIRONMENTAL
   1     What the place is doing - the physical condition, stated plainly
   1     What it is a consequence of, in the location's own Dressing
   1     Whether it is constant, or worsens while the party is in it
+  1     Trigger - what being in it, or doing something in it, costs
+  1     Damage - the expression the tier allows, per setting/Procedures.md
   30%   Somewhere in this location it does not reach, and why
 ```
 
@@ -29,7 +31,21 @@ flooded corridor in one location because the roll came up water. Where the regio
 two kinds, the location's own Dressing picks between them.
 
 **A safe pocket is worth more than a bigger number.** Somewhere the condition does not
-reach turns endurance into a decision about how long to stay out of it.
+reach turns endurance into a decision about how long to stay out of it, and it is where an
+Impact is paid - the ground a character has to reach, or the turn they have to spend, to
+stop being in it.
+
+**Nothing here is aimed, so the trigger is a threshold, not an act.** What springs a trap is
+something a character did to it; what an environmental hazard answers to is being in it at
+all, or doing in it the one thing it will not take - moving quickly, carrying a full load,
+striking a light, staying past the turn it takes to work. State that threshold, because it
+is the only thing the party can hold to.
+
+**Its damage types are the ones a place produces without help**: Frost and Fire where
+temperature is the kind; Poison where air is; Crushing where collapse or footing is; Blast
+only where the place is holding something back. Sanity is rarely this file's - a condition
+with no author is grim, not maddening, and per `dangerous/Residual.md` what breaks a mind
+usually had one behind it.
 
 ## Design patterns
 

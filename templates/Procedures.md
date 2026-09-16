@@ -12,7 +12,8 @@ Read first:
 - At 2h only: `setting/Setting.md`, `setting/Truths.md`
 
 ## Instructions
-Sections, in order: Tests and Consequences, Traps, Searching, Time, Scaling, Region Dice.
+Sections, in order: Tests and Consequences, Hazards, Wounds and Madness, Conditions,
+Searching, Time, Scaling, Region Dice.
 
 ## Template
 ```
@@ -21,7 +22,13 @@ Procedures of [Setting Name]
 ## Tests and Consequences
 [...]
 
-## Traps
+## Hazards
+[...]
+
+## Wounds and Madness
+[...]
+
+## Conditions
 [...]
 
 ## Searching

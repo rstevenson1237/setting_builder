@@ -13,6 +13,8 @@ RESIDUAL
   1     What made it - an event from setting/History.md - and that the maker is gone
   1     What it is still doing, and to what
   1     Whether it is spreading, holding, or fading
+  1     Trigger - what crossing it or disturbing it does
+  1     Damage - the expression the tier allows, per setting/Procedures.md
   30%   What it was meant to protect, and whether that is still there
 ```
 
@@ -28,6 +30,16 @@ doing what it does, because whatever set it going has no further say.
 
 **Fading is the most useful state**, because it dates itself: something weaker than it
 clearly once was tells a party how long ago, without a word of exposition.
+
+**The trigger is an edge, not a mechanism.** Nothing here was built to catch anyone, so what
+sets it off is reaching the ground it still holds, or handling the thing it is still in. An
+effect with a clear edge - the boundary, the room, the object - is what gives the party
+something to stay outside of.
+
+**Sanity is this file's own type**, where the others rarely touch it: what a rite or a death
+left is the case where the harm is to the mind rather than the body. Poison is its other -
+what a working left in the water or the ground. Per `GENRE.md`'s Low Magic, a region where
+several rooms force a Test of Sanity has made the extraordinary routine.
 
 ## Design patterns
 
