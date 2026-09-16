@@ -14,3 +14,12 @@ A fragmentary Essath scroll, damaged but legible in patches - a running tally of
 
 The Copied Seal (*inscription*) - found at D.17 Sealed Door
 Scratched beneath the original binding-line in a cruder, later hand - somebody's attempt to copy the Essath seal-script word for word. The copy gets the shapes close enough to recognize but breaks the tongue's own rule that no word ends on an open vowel: whoever cut this did not actually speak Essath, only traced what they found, and traced it wrong. Somebody from outside the priest-kings' own tradition has stood at this exact door before, close enough to copy what they could not read - and left without whatever they came for.
+
+Vornuk's Tally (*tally*) - found at E.17 The First Master's Niche
+A running count of offerings made at the First Hall, kept in a household scribe's careful hand and sealed behind grave-mould that has kept it from scavengers rather than any effort of its own. The scribe writes as though Vornuk's reign will simply be followed by another the way every reign before it was, and notes, almost in passing, that Skaruk had already been named to take the Second Hall before Vornuk's own count ends - the succession, at least, was settled and orderly. Nothing in the tally explains why it was the last thing this scribe ever recorded here.
+
+Skaruk's Tally (*tally*) - found at E.21 The Second Master's Niche
+A shorter, terser count than Vornuk's own, in a hand that corrects itself twice - crossed figures rewritten rather than struck through cleanly. The writer notes, with what reads as real irritation, that offerings meant for the Second Hall kept turning up short of what Vornuk's own household reported sending, and names no thief outright but plainly suspects one close to hand. Whether the shortfall was ever resolved, or whether it had anything to do with what came after, the tally itself does not say - it simply notes that Gholuk was named to the Third Hall the same season, and stops.
+
+Gholuk's Tally (*tally*) - found at E.23 The Third Master's Niche
+The last of the three, in the same careful hand as its earlier entries until its final line, which is hurried, harder-pressed into the stone-paper than anything before it. It orders every threshold in the Sanctum sealed - all three halls, the formal approach above, everything - and gives no reason why. No later hand ever added to it. Whatever Gholuk sealed the Sanctum against, he did not think it worth writing down, and nothing else found here says whether he was still inside when the order was carried out.

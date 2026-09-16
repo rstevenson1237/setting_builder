@@ -106,6 +106,14 @@ Coined here:
 - Vaaluk = vaal (to bind, to seal) + uk (lord, master) - the Nirguk enclave eldest at
   D.15 Nirguk Warren, in `setting/NamedCreatures.md`; the one of them that reads the
   bindings rather than living under them
+- Nakhash = nakh (tomb, the buried dead) + ash (place of power, temple, seat) - the
+  Serpent Cult's own burial-ground region's name, in `setting/region/Regions.md`
+- Vornuk = vorn (blood) + uk (lord, master, priest-king) - Nakhash's First Hall master, in
+  `setting/region/E/13.md` and `setting/Lore.md`
+- Skaruk = skar (ash, char) + uk (lord, master, priest-king) - Nakhash's Second Hall
+  master, in `setting/region/E/18.md` and `setting/Lore.md`
+- Gholuk = ghol (shadow, the unseen) + uk (lord, master, priest-king) - Nakhash's Third
+  Hall master, in `setting/region/E/22.md` and `setting/Lore.md`
 
 ## Uhgum
 Spoken by: the Man-Apes, in numbers nobody has counted. Living, not dead - the one non-human

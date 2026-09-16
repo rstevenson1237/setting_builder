@@ -15,3 +15,7 @@ Velar is the eastern market town where the Nine Wagons trading company has based
 D Daghash (pit-temple) - DANGEROUS, d6
 Tags: see setting/region/D/Tags.md
 Daghash is the roofless black ziggurat the priest-kings of Essath cut into Marfen's hills more than five hundred years ago, unclaimed since their kingdom ended within a single reign for reasons no one now living knows; it sits within Marfen's own borders.
+
+E Nakhash (tomb-temple) - DANGEROUS, d8
+Tags: see setting/region/E/Tags.md
+Nakhash is the barrow field and sealed burial complex the Serpent Cult's own dead generations kept south of the Sunk Bridge ford, its mounds scattered across drier ground until the last few seasons, when something started digging back into them; it sits within Marfen's own borders.

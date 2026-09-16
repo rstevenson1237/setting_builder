@@ -51,4 +51,7 @@ The Serpent Cult - AD: 3d6
   will not be seen by accident - and among themselves, a cultist identifies safely by
   invoking "the old debt" in ordinary conversation.
 - Goals: keep Nirguk's enclaves undiscovered; place a cultist into a position of standing in
-  each of the three kingdoms' courts, one seat at a time.
+  each of the three kingdoms' courts, one seat at a time; reopen Nakhash, the order's own
+  sealed burial ground south of the Sunk Bridge ford, and recover the three-piece regalia
+  its last reign was buried with - the cell currently doing that digging answers to a
+  chamber-master calling herself the Coil-Mother (setting/NamedCreatures.md).
