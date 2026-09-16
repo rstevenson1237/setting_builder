@@ -30,7 +30,13 @@ Consult `setting/Bestiary.md`, `setting/Factions.md`, `setting/History.md`, or `
 2. This pattern determines the minimum percentage that a feature or detail occurs in this location, consider '1' a mandatory entry
 3. Sort the Features the pattern produced by prominence, most important first, and write them in that order - this is a per-Feature ordering within one entry, distinct from a SAFE location's own liner note/working/central Prominence
 4. Give each thing the players can address its own Feature line. Where a line the pattern drew names something that can be looked at, acted on, taken, fought, or opened **as its own object**, it is its own Feature - treasure hidden in a pillar and guarded by a beast is three Features, not one complex one. A drawn line that only qualifies another thing - its condition, its position, how it is reached - stays on that thing's line. There is no word budget: state every Feature in the minimum number of words that convey it completely, and never write prose to join Features up. An entry is as long as the number of Features the pattern drew, which is the classifier's decision, not this line's
-5. Output the pattern generated exactly according to the template below
+5. **Every entry displays information at three tiers, and each tier's way in sits in the tier above it.**
+   - **Obvious** - what a party perceives on arriving, having done nothing: the Player Summary, the Referee Notes, and every Feature and Exit that states itself plainly.
+   - **Trigger** - what acting on something obvious yields: a Feature line naming an action and its effect, a container opened, a stated detail investigated. Per `setting/Procedures.md` a stated detail investigated is a detail found, and no roll stands in for the looking.
+   - **Secret** - what the class file's own concealment line drew: its Clue sits in the obvious tier, its Trigger is a stated act on that Clue, and its Payload is what the act produces. Per `GENRE.md` a secret is opened by an act, never by a roll.
+
+   The chain is the rule, not the count. A location need not carry all three - the class file's rates decide that - but where a tier is present, what leads into it is stated in the tier above: a concealed detail whose Clue appears nowhere obvious is content the referee knows and the players cannot reach, and a Feature whose action is anchored to nothing visible is a lever in an empty room. An entry sitting wholly in one tier has flattened - everything in the summary leaves nothing worth doing, everything behind a clue leaves a room that reads empty.
+6. Output the pattern generated exactly according to the template below
 
 ## Template
 ```

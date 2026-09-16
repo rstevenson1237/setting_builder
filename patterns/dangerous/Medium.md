@@ -10,8 +10,11 @@ DANGEROUS - MEDIUM
 
   -- substrate: what this room is
   1     Dressing - what it is now, and what it was     (dangerous/Dressing.md)
-  40%   A concealed detail - state its Clue, Trigger and Payload
-                                            (patterns/setting/Secrets.md)
+  40%   A concealed detail, stated as:
+          Clue    - visible in this room's own Dressing, and never the drawn challenge
+          Trigger - a stated act on the clue
+          Payload - something that changes what the challenge is worth: a way past it,
+                    what it is sitting on, or what the room is not saying about it
 
   -- challenge: what opposes the party
   1     Challenge   {encounter | hazard} - guaranteed, and obvious
@@ -44,6 +47,12 @@ variance. That is why the visibility line is mandatory here and nowhere else: it
 until a wrong attempt is made, so it is not one thing to deal with - it is something to
 work out. MEDIUM draws only `{encounter | hazard}`.
 
+**At MEDIUM the clue competes with the challenge for attention, and that is the point.**
+The room presents one thing plainly, per the visibility line above, and a party dealing
+with that thing is not searching. A clue findable only by turning away from the challenge
+is fair. A clue that cannot be found at all while the challenge is live is not - it is a
+detail the room kept for a second visit the party has no reason to make.
+
 The treasure rates are conditional on the challenge because reward should follow the
 fiction: a thing that lives here has accumulated something, a mechanism has not.
 
@@ -52,3 +61,8 @@ alongside the payload; at MEDIUM the find is *either* a document *or* a roll, wh
 keeps a medium room from paying out twice.
 
 ## Constraints
+
+- **The Payload is not a second treasure draw.** Where a concealed detail pays out at
+  MEDIUM, it is the treasure this room already drew, moved behind the clue - not another
+  one stacked on top. A room that pays twice for one challenge has quietly become a HIGH
+  location without the challenge to justify it.

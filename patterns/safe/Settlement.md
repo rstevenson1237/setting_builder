@@ -32,8 +32,12 @@ SAFE - LOCATION                        (parameterized by prominence)
           gathering place             -> safe/Social.md
           household                   -> safe/People.md
           strongroom, hoard, vault    -> safe/Wealth.md
-  10%   A concealed detail - state its Clue, Trigger and Payload
-                                                       (patterns/setting/Secrets.md)
+  10%   A concealed detail, stated as:
+          Clue    - a mismatch, or somebody's behaviour around an ordinary question
+          Trigger - as often social as physical: asking the right person, being trusted,
+                    being absent, buying what nobody buys, settling a debt
+          Payload - what is concealed, AND who finds out the party knows, how soon, and
+                    what they do about it
 
   -- gate: who stands between the party and what this place has
   1     A person, drawn from the region's People roster - never invented here
@@ -92,6 +96,18 @@ everyone knows is empty).
 Per D17, extra weight in SAFE arrives as **more locations**, not heavier ones. A settlement
 that matters gets a fuller list, not a longer entry per item.
 
+**In a settlement a secret belongs to somebody, and that owner is the half that matters.**
+A concealed cellar has a man who knows it is there; a false page in a ledger was written by
+somebody still in the room. A dungeon's secret has nobody to notice it found - a
+settlement's always does, which is why its Payload is not finished until it names who, how
+soon, and what they do. That second half is usually worth more to the party than the
+contents.
+
+**Clues here are people and mismatches, not construction.** A room smaller inside than out;
+a lock better than the door deserves; a stock that does not match the trade; an entry in a
+ledger with no matching goods; a bricked opening; a key on a ring with nothing to open;
+somebody's reaction to an ordinary question; a person never left alone with strangers.
+
 ## Constraints
 
 - **Decide prominence first, and do not derive it from size.** A crossroads shrine may
@@ -104,3 +120,8 @@ that matters gets a fuller list, not a longer entry per item.
   share belongs to the class drawing them; what stays in a Kind file is the menu of
   answers that kind supplies. Several phrasings of the question every SAFE location
   answers is drift, not differentiation.
+
+- **Never conceal something in a settlement that nobody living put there.** A concealed
+  detail here has an owner, an heir, or a person who has been quietly maintaining it, and
+  that person is what makes finding it a situation rather than a container. Ownerless
+  concealment is a DANGEROUS device and reads as one the moment it is written here.

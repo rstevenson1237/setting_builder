@@ -13,8 +13,11 @@ WILD - LANDMARK
   1     Kind   {ruin | lair | natural feature | crossing}   (wild/Ruin.md, wild/Lair.md,
                                                              wild/NaturalFeature.md,
                                                              wild/Crossing.md)
-  20%   A concealed detail - state its Clue, Trigger and Payload
-                                                 (patterns/setting/Secrets.md)
+  20%   A concealed detail, stated as:
+          Clue    - weather, growth or ground, legible from where a party would stand
+          Trigger - a stated act at a stated spot
+          Payload - never a way onward: a cache, a piece of Lore, a Key, a vantage, or
+                    what this place was actually for
 
   -- access: how the party comes to be standing here
   1     Freely discoverable by roaming - no parent, and no lead required to reach it
@@ -63,6 +66,18 @@ one pass that gets cheaper by running after everything else is decided.
 from the region's entry or another named Landmark for every WILD location that has one;
 the line was written twice and is answered there.
 
+**Outdoors a clue is weather and time, not construction.** Nothing here was built to
+conceal anything; the country covered it. A hollow that has slumped; a covering rotted
+through; a plant growing where the ground was disturbed; frost or dew melting in a shape;
+snow lying differently; water draining where it should pool; a stone moved and settled
+wrong; growth younger than the growth around it; a path worn to nowhere; a mark cut above
+standing height; a cairn that is a marker rather than a grave.
+
+**A party can walk past a whole hillside**, which is the way an outdoor clue fails that an
+underground one does not. A room has four walls and a party in it will look at all of
+them; a Landmark has a horizon. State the clue against the reason the party stopped here,
+so it sits where they are already standing rather than somewhere they had no cause to go.
+
 ## Constraints
 
 - **A Crossing is chosen for what it costs to go around, not for who built or lives
@@ -76,3 +91,8 @@ the line was written twice and is answered there.
   `wild/Secret.md` draw three kinds and this file four. A crossing exists because going
   around it is expensive, so the country itself advertises it; one nobody can find is
   not doing the only job the kind has.
+
+- **A Landmark's concealed detail never pays out a route.** Ways onward from a Landmark are
+  its child-lead lines, one per Hidden or Secret child the region's `Connections.mmd`
+  actually hangs here. A Payload that is a way through invents an edge the graph does not
+  carry, and the two then disagree about what this place connects to.

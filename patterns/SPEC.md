@@ -194,9 +194,7 @@ location's body - its Dressing, its Kind, an ingredient drawn into it, a hook ha
 it - is where flat output would show, so that is where specific content is spent: those
 files carry `## Design patterns`, and they are step 1b's compile list. A file that supplies
 a *shape applied to* a location carries none, because a shape reads the same whatever
-reference was chosen. Only two things are shapes: `Naming`, a procedure, and `Secrets`, a
-Clue/Trigger/Payload discovery structure that can sit on top of any feature a location
-already has.
+reference was chosen. One thing is a shape: `Naming`, a procedure.
 
 **How a file is reached does not decide this**, and reasoning from it gets `Dressing` and
 the four SAFE hooks wrong.

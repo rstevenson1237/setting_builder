@@ -13,7 +13,8 @@ Consult when running this check:
 ## Instructions
 For each pattern file, and for the set of pattern files as a whole, confirm the following. Record each as Confirmed / Needs Attention, with a note.
 
-- **No overlap or contradiction** - does one pattern's instructions duplicate or conflict with another's (e.g. two patterns both claiming the same trigger-and-effect shape, or giving incompatible guidance for the same situation)? Where two patterns legitimately share a boundary (e.g. `Hazard.md` vs. `Mystery.md`, `patterns/setting/Secrets.md` layered on top of any other pattern, `patterns/wild/Secret.md`'s location-level Clue/Trigger/Payload vs. a feature-level concealed detail), is the distinction stated clearly enough that a generator won't blur them?
+- **No overlap or contradiction** - does one pattern's instructions duplicate or conflict with another's (e.g. two patterns both claiming the same trigger-and-effect shape, or giving incompatible guidance for the same situation)? Where two patterns legitimately share a boundary (e.g. `Hazard.md` vs. `Mystery.md`, `patterns/wild/Secret.md`'s location-level Clue/Trigger/Payload vs. the feature-level concealed detail its own substrate block also draws), is the distinction stated clearly enough that a generator won't blur them?
+- **The three tiers are supplied, and each drawing class states its own triple** - per `templates/Location.md` a location displays information at three tiers, and the pattern library is what fills them. For each class file, does its Spec draw something **obvious** (Dressing, a visible challenge, a reason to stop), something at the **trigger** tier that rewards acting on what is obvious, and - at whatever rate it sets - a **secret**: a concealed detail whose Clue, Trigger and Payload that file states itself? A class drawing a concealed detail without stating its own triple has lost the customization the distribution was for, and a class whose Spec reaches only one tier will produce flat entries however good its Design patterns are. Check the element files against the same three: a file supplying only read-aloud sits at one tier and is the **Interactive** finding below.
 - **Specific** - does the pattern push toward named, particular content (a specific mechanism, a specific creature, a specific object) rather than a reskinnable placeholder?
 - **Discoverable** - does using the pattern require the players to notice, investigate, or search for something, rather than handing content to them automatically?
 - **Interactive** - does the pattern give players something to act on (examine, trigger, disarm, solve, take) rather than pure read-aloud flavor?
@@ -42,16 +43,28 @@ is a *mechanic* and move it to `setting/Procedures.md`, or *format* and move it 
 `Quest.md`, `Key.md` and `Lore.md`, plus each folder's version against its
 `patterns/setting/` counterpart, which holds criteria rather than selection.
 
+**The concealment triples are the same trade, and the same risk.** Each class that draws a
+concealed detail states its own Clue, Trigger and Payload, so that what a clue is made of,
+what a trigger is, and what a payload may be are written for what *that* class conceals -
+construction underground, weather and time outdoors, people and mismatches in a settlement.
+Two of those triples that have converged on the same wording are a finding here, exactly as
+two Hazard files would be: either differentiate them, or establish that the shared part is
+a *mechanic* and belongs in `setting/Procedures.md`, or a *rule* and belongs in `GENRE.md`,
+which already owns the two that are genuinely constant.
+
 ## Template
 ```
 # Pattern Judgement Check - [Date or revision note]
 
 ## Cross-pattern
 - No overlap or contradiction: [Confirmed / Needs Attention - note]
+- Three tiers supplied across the class files: [Confirmed / Needs Attention - note]
+- Concealment triples stated per class, and not converged: [Confirmed / Needs Attention - note]
 - Gaps in coverage: [Confirmed / Needs Attention - note]
 - Unhoused user-requested content: [Confirmed / Needs Attention - note]
 
 ## [patterns/<folder>/File.md]
+- Tier coverage - obvious / trigger / secret: [Confirmed / Needs Attention - note]
 - Specific: [Confirmed / Needs Attention - note]
 - Discoverable: [Confirmed / Needs Attention - note]
 - Interactive: [Confirmed / Needs Attention - note]

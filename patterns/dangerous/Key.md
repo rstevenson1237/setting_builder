@@ -52,8 +52,8 @@ decoration; owed - somebody here has it and will trade; split, and this is one p
 
 **Connections that are not obvious** - the object and its lock share a maker's mark, a
 material, a tongue from `setting/Language.md`, or a measurement. The connection is itself
-a discovery, and it can carry a Clue/Trigger/Payload of its own per
-`patterns/setting/Secrets.md`.
+a discovery, and where the drawing class conceals it, that class's own concealment line
+states the Clue, Trigger and Payload.
 
 ## Constraints
 
