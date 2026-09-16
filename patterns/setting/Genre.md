@@ -29,7 +29,7 @@ GENRE
         elaboration, drawn from the chosen reference and Q2
   1     A short paragraph stating what player characters are here, stated the way GENRE.md's
         B/X-Conan default states it - not heroes, not the resolution of anything
-  1     The fixed "What a line has to earn" three tests, reproduced verbatim from
+  1     The fixed "What a line has to earn" section - both tiers - reproduced verbatim from
         `templates/Genre.md` - never reauthored per genre
   1     A naming-convention line, settled by Q2 rather than assumed
 ```

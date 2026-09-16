@@ -40,11 +40,17 @@ situation this puts a party into]
 
 ## What a line has to earn
 
-Three tests, applied to every line of every artifact at every level. **They outrank the
-templates.** A line that fails them is cut even where a template asks for it, and a template
-that keeps producing lines that fail them is the wrong template and should be changed. Good
-content is the point; the templates exist to serve it, and content that is good with the
-template discarded has still succeeded.
+Two tiers, both fixed across every genre and reproduced verbatim, never reauthored. The
+**three tests** judge a line. The **standing consequences** under them are what those tests
+have already settled in the situations that recur, written down so they are not re-derived
+every time. Where a consequence and a test disagree, the test wins.
+
+**They outrank the templates.** A line that fails them is cut even where a template asks for
+it, and a template that keeps producing lines that fail them is the wrong template and should
+be changed. Good content is the point; the templates exist to serve it, and content that is
+good with the template discarded has still succeeded.
+
+### The three tests
 
 - **Every word is translated.** A fact travels page → referee → players, and only the part
   that survives both hops was worth writing. A *setting fact* must reach the players as
@@ -63,35 +69,29 @@ template discarded has still succeeded.
   situation quietly turns into a plot, and it robs the players of the only thing the game
   was going to give them.
 
-**Say a thing once, at the highest level where it is true, and deliver it at the lowest
-level where it is touched.** Restating a fact downward — or upward — fails all three tests
-at once: the restatement is not actionable, it did not survive translation, and it usually
-arrives with the conclusion the reader was supposed to draw for themselves. When a region
-overview and a location say the same thing, the region overview is the one that is wrong.
-
-**Give situations, not stories.** Every generation step produces something to react to, not
-a scene someone has already decided how to play: a pressure, a danger, a want, a rule -
-never a plot with a beginning the party is expected to find and an end the referee has
-already written. This is the same failure as writing the party's conclusion for them, one
-level up - a story is a decision about how events resolve, made in advance, on the party's
-behalf.
-
-**Be specific, not generic.** A tag, a name, a threat, or a rule earns its place by ruling
-things out - by making some later choices easy and others wrong. *Dark, mysterious,
-dangerous* could describe half the settings in the genre and directs nothing; anything this
-generic, at any level, was not worth writing. Specificity isn't flavor layered on top of the
-tests above - it's what makes "translated," "actionable," and "situation, not story"
-checkable at all, since a generic line can't be tested against anything.
-
 **In short: situations, not stories; specific, not generic; actionable, not ideas; the
-solution is never written into the problem.** These four aren't a fourth test - they're the
-three tests above, restated as one memorable line any pattern file can point back to
-instead of re-deriving them.
+solution is never written into the problem.** One line for a pattern file to point back to
+instead of re-deriving the three.
 
-**The rules below are not a fourth test.** The three above are the tests, and they judge a
-line. These are their standing consequences in the situations that recur - written down so
-they are not re-derived every time, and fixed across every genre exactly as the tests are.
-Where one of these and a test disagree, the test wins.
+### The standing consequences
+
+- **Say a thing once, at the highest level where it is true, and deliver it at the lowest
+  level where it is touched.** A restatement is not actionable, it did not survive
+  translation, and it usually arrives with the conclusion the reader was supposed to draw for
+  themselves. When a region overview and a location say the same thing, the region overview is
+  the one that is wrong.
+
+- **Give situations, not stories.** Every generation step produces something to react to, not
+  a scene someone has already decided how to play: a pressure, a danger, a want, a rule -
+  never a plot with a beginning the party is expected to find and an end the referee has
+  already written. A story is a decision about how events resolve, made in advance, on the
+  party's behalf.
+
+- **Be specific, not generic.** A tag, a name, a threat, or a rule earns its place by ruling
+  things out - by making some later choices easy and others wrong. *Dark, mysterious,
+  dangerous* could describe half the settings in the genre and directs nothing; anything this
+  generic, at any level, was not worth writing. Specificity is also what makes the three tests
+  checkable at all, since a generic line can't be tested against anything.
 
 - **A clue announces a secret; it must not also be its answer.** What says something is here
   is local and plainly visible - a seam, a draft, a floor worn toward a blank face. What
@@ -130,9 +130,8 @@ Where one of these and a test disagree, the test wins.
   has moved it in years*, *the only one of its kind anywhere*, *matching nothing else here* -
   each is a claim about absence across time or space, which no party can check and no referee
   can adjudicate. State the observable and leave the inference unwritten: *unworn under thick
-  dust*; *the same line, on every token*. This is the third test applied to the evidence rather
-  than to the conclusion - an unverifiable claim is a conclusion with its working thrown away,
-  and the players are left unable to reach either half.
+  dust*; *the same line, on every token*. An unverifiable claim is a conclusion with its
+  working thrown away, and the players are left unable to reach either half.
 
 - **State the nil.** A field that resolves to nothing says so. An omitted field is ambiguous -
   did the writer decide, or forget? - and a written *none* is a decision on the page.
