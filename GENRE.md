@@ -114,6 +114,14 @@ Where one of these and a test disagree, the test wins.
   be this instance. A setting that subverts constantly teaches players that nothing means what
   it looks like, and then every clue placed anywhere goes unread.
 
+- **Nothing is asserted that no one at the table could witness.** *In living memory*, *nobody
+  has moved it in years*, *the only one of its kind anywhere*, *matching nothing else here* -
+  each is a claim about absence across time or space, which no party can check and no referee
+  can adjudicate. State the observable and leave the inference unwritten: *unworn under thick
+  dust*; *the same line, on every token*. This is the third test applied to the evidence rather
+  than to the conclusion - an unverifiable claim is a conclusion with its working thrown away,
+  and the players are left unable to reach either half.
+
 - **State the nil.** A field that resolves to nothing says so. An omitted field is ambiguous -
   did the writer decide, or forget? - and a written *none* is a decision on the page.
 
