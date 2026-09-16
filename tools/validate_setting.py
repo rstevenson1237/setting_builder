@@ -700,6 +700,56 @@ def feature_segments(body: str) -> list[str]:
     return merged
 
 
+# ---------------------------------------------------------------------------
+# GENRE.md - every bolded noun in a Player Summary appears below it as a Feature
+#
+# The summary is a promise about what the room contains, and an unkept one sends
+# the referee improvising the thing the entry was supposed to hand them. The rule
+# is absolute in GENRE.md, but matching a summary's phrasing to a Feature is not:
+# a summary bolding "the pale residue" is kept by a Feature named "Warded
+# Shelving" whose line describes that residue. So this warns rather than errors,
+# and matches generously - against whole Feature lines rather than their labels
+# alone, and on any one significant word - because a false positive here trains a
+# reader to skim the warning list. A possessive is stripped from both sides, so
+# "Stone Ward's" is kept by "Stone Ward", and the stopword list carries the words
+# whose sharing proves nothing - "stone" and "old", and the qualifiers a bolded
+# phrase picks up around its noun.
+# ---------------------------------------------------------------------------
+
+BOLD_RE = re.compile(r'\*\*([^*]+)\*\*')
+# Words too common to make a match meaningful - a summary and a label sharing
+# only "stone" or "old" have not been shown to be about the same thing.
+SUMMARY_STOPWORDS = frozenset("""
+the a an of to in on at by for with from that which it its is are was were be and or but as
+into onto over under up down out off no not this these those their them they there here has
+have had do does did than then so if when where while one two three four five six seven
+eight nine ten old new great small long short high low own same other first last still
+stone wall floor room place thing work water ground side end part
+itself themselves except another rather only more most some each every any all both
+anything nothing someone somebody anyone everything much many few little lot kind sort
+""".split())
+
+
+def _summary_tokens(phrase: str) -> set[str]:
+    words = (re.sub(r"'s$", "", w) for w in re.findall(r"[a-z][a-z'-]+", phrase.lower()))
+    return {w for w in words if len(w) > 2 and w not in SUMMARY_STOPWORDS}
+
+
+def check_summary_promises(diag: Diagnostics, path: Path, summary: str, lines: list[str]):
+    """Per GENRE.md, a bolded noun in the Player Summary is a Feature below it."""
+    joined = re.sub(r"'s\b", "", " ".join(lines).lower())
+    for raw in BOLD_RE.findall(summary):
+        phrase = raw.strip()
+        tokens = _summary_tokens(phrase)
+        if not tokens:
+            continue
+        if any(tok in joined for tok in tokens):
+            continue
+        diag.warn(path, f"Player Summary promises **{phrase}** but no Feature below it "
+                        f"carries that name - per GENRE.md the summary is a promise about "
+                        f"what the room contains, and the referee improvises an unkept one")
+
+
 def check_feature_grammar(diag: Diagnostics, path: Path, label: str, body: str):
     last = None
     for m in CITATION_RE.finditer(body):
@@ -786,6 +836,7 @@ def check_location_file(diag, path, region_code, num, stub, rating, all_location
     idx += 1
 
     features = []
+    feature_lines = []
     exits_line = None
     for raw in body[idx:]:
         s = raw.strip()
@@ -798,10 +849,13 @@ def check_location_file(diag, path, region_code, num, stub, rating, all_location
         if fm:
             label = fm.group(1)
             features.append(label)
+            feature_lines.append(s)
             low = label.strip().lower()
             if low.startswith(ARTICLES):
                 diag.error(path, f"Feature label '{label}' starts with a leading article")
             check_feature_grammar(diag, path, label, fm.group(2))
+
+    check_summary_promises(diag, path, summary, feature_lines)
 
     if not features:
         diag.error(path, "no Feature lines found (expected at least one **Name:** line)")
