@@ -29,3 +29,9 @@ it since; the detour it forces adds a week to every crossing, and no garrison ha
 to retake it.
 Left: the reaver band's own camp and toll-barrier at the ford - B.1 Sunk Bridge Ford; and
 the abandoned old approach road already going back to weed - B.6 Old Approach Road.
+
+A season or two ago, a Serpent Cult cell answering to a chamber-master who calls herself
+the Coil-Mother began digging back into Nakhash, the order's own sealed burial ground south
+of the ford, to reclaim the regalia its last reign was buried with.
+Left: fresh spoil at several of Nakhash's mounds, older robbed mounds left alone, and the
+cell's own dig camp - E.2 and E.3, and E.8 Cultist Dig Camp.

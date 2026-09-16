@@ -1,0 +1,23 @@
+Block: Sanctum
+Purpose: Believing
+Region: E Nakhash
+Rooms: 12
+Locations: E.13, E.14, E.15, E.16, E.17, E.18, E.19, E.20, E.21, E.22, E.23, E.24
+
+```mermaid
+graph LR
+    E2["E.2 The Dug Mound"] ---|vertical| E13["E.13 The First Hall"]
+    E3["E.3 The Broken Crown"] ---|vertical| E13
+    E13 --- E14["E.14 The Unmarked Grave"]
+    E13 --- E15["E.15 The Charnel Cut"]
+    E13 -.- E16["E.16 The Sprung Floor"]
+    E13 --- E17["E.17 The First Master's Niche"]
+    E13 ---|gated: coil, rod, collar + Vornuk's name| E18["E.18 The Second Hall"]
+    E15 -.- E19["E.19 The Filled-In Grave"]
+    E18 --- E19
+    E18 --- E20["E.20 The Barred Recess"]
+    E18 --- E21["E.21 The Second Master's Niche"]
+    E18 ---|gated: coil, rod, collar + Skaruk's name| E22["E.22 The Third Hall"]
+    E22 --- E23["E.23 The Third Master's Niche"]
+    E22 --- E24["E.24 Nakhash's Hoard"]
+```

@@ -1,43 +1,124 @@
-# Setting Judgement Check - Telar, all four regions complete (A, B, C, D)
+# Setting Judgement Check - Telar, five regions complete (A, B, C, D, E)
 
-Run after the regeneration pass that reweighted region D, rebuilt `setting/Bestiary.md` and
-the five treasure tables against the new scaling, and closed step 5c. 40 locations across
-four regions.
+Run after adding Region E (Nakhash, DANGEROUS d8), the Serpent Cult's own burial complex,
+built 3a through 5c against the existing four regions. 64 locations across five regions.
+`python3 tools/validate_setting.py` runs clean (0 errors); its remaining warnings are the
+expected soft flags on genuinely secret exits, discussed under Open Items.
 
 ## Setting-level
-- Discrete and discoverable, not vague: Confirmed - every Feature across all 40 locations names an object, a person or a trigger a party can act on. The weakest room in the previous pass, D.1 South Stair, was two lines of read-aloud and now carries the counted risers that tie the stair to the boundary cairns; nothing in region D is now pure description.
-- Genre held across levels: Confirmed - Low Magic (one Unique Treasure, one Named Creature, and every working in Daghash charges the toll `Truths.md` states), Fragmented Authority (three crowns, none of whose writ reaches the ford, and a reaver band holding it because nobody has organised to take it back), Scarce Population (four regions, two settlements), Decay (Daghash outlasted the kingdom that built it, Tolkar collects a toll for a crown that no longer exists). No authored plot has crept in: Brekar holds the ford, the Wagons profit from it, and nothing anywhere states what the party should do about either.
-- Recurring elements actually recur: Confirmed - the three-coil serpent turn appears at D.5's fallen lintel, D.7's fixed figure, D.10's figurine and D.13's completed relief, four sightings across two tiers before anything names it; Essath binding-script threads B.2, D.7, D.9, D.12, D.17 and D.13; Brekar's three-loop hitch runs A.3, B.1 and region B's own tag pool. `setting/Keys.md` now carries three keys where it carried one, and two of the three cross regions.
+- Discrete and discoverable, not vague: Confirmed - every Feature across all 64 locations
+  names an object, a person, or a trigger a party can act on. Region E's gated doorways
+  name exactly what each wants (three regalia pieces and a spoken name) rather than
+  gesturing at "an ancient seal."
+- Genre held across levels: Confirmed - Low Magic held even under pressure: Region E wanted
+  three "warded gate" beats by the brief's own wording, and only the above-ground Sealed
+  Approach (E.1) actually drew `dangerous/Mystery.md`'s ward fixture, honoring
+  `dangerous/Door.md`'s "a region carries at most one warded way" - the Sanctum's two
+  internal gates are built as `Door.md` "wanting a fitted object" locks instead, priest-craft
+  rather than sorcery cast fresh. Fragmented Authority, Scarce Population, and Decay are
+  untouched. No authored plot has crept in: the Serpent Cult cell digging at Nakhash wants
+  the same three things the party might come for, and nothing states who should win that
+  race.
+- Recurring elements actually recur: Confirmed, and strengthened. The three-coil serpent
+  motif now appears in two regions rather than one - Region E's Architecture field states
+  it explicitly as the same turn already seen at Daghash, cut into chamber thresholds rather
+  than lintels. `Stone Ward` (D.18, now also E.24 x6), `Barrow Wight` and `Barrow-Kin` (B.3,
+  now also E.5/E.9), and `Threshold-Bane` (D.7, now also E.1) all recur rather than each
+  region inventing its own one-off guardian - `checks/SettingJudgementCheck.md`'s own prior
+  Room to Grow flagged Threshold-Bane and Grave-Mould as appearing only once; both now
+  appear a second time (E.1, E.17). `setting/Keys.md` grew from 3 entries to 5,
+  `setting/Quests.md` from 2 to 3, `setting/Lore.md` from 5 to 8, `setting/NamedCreatures.md`
+  from 1 to 2, `setting/UniqueTreasures.md` from 1 to 2 - and the two Unique Treasures now
+  reference each other (the Vaalsenn Tablet's own entry already named the Serpent Cult's
+  interest in Daghash; the Kaash Collar backfilled into D.18 pays that off from the other
+  direction).
 
 ## Region A (Tolkar, SAFE d8)
-- Region reinforces the setting: Confirmed - the toll Tolkar still collects for a crown that split twenty-eight years ago is `History.md`'s third event standing up as a present-day situation, and the Situation field's toll shortfall is what A.3's letter is about.
-- Locations reinforce this region: Confirmed - the garrison, the toll queue and the debt trade all land in rooms. A.3 supplies the Brekar passage-mark that opens B.1, which is the region's one reach into another.
+- Region reinforces the setting: Confirmed, unchanged.
+- Locations reinforce this region: Confirmed. A.8's new quest Feature (The Debt on the
+  Dosing Table) uses the location's own pre-existing `Tribute` tag rather than inventing an
+  unrelated hook, and gives Region A its first quest that both gives and resolves inside its
+  own borders (A.8 to A.6), distinct from the two existing quests that both resolve into
+  Region B.
 
 ## Region B (Marfen, WILD d6)
-- Region reinforces the setting: Confirmed - the ford, the cairns, the mounds and the drowned temple each deliver a different `History.md` event, and B.2 now carries the pilgrim-token that opens D.17, which is the setting's longest key reach.
-- Locations reinforce this region: Needs Attention - see Open Items. B.3 Burial Mounds is isolated in the region graph, and B.6's exit to B.2 is written as mundane where the diagram marks it hidden.
+- Region reinforces the setting: Confirmed, and its longest-standing Open Item is closed
+  this pass - see Open Items below.
+- Locations reinforce this region: Confirmed. B.3 Burial Mounds now carries the connection
+  south into Nakhash as a stated Feature (the Worn Track South) rather than an assumption,
+  and its own Untried Mound and rumour 14's settled explanation are untouched - the new
+  content sits beside the old rather than restating or contradicting it.
 
 ## Region C (Velar, SAFE d8)
-- Region reinforces the setting: Confirmed - the Nine Wagons growing rich for exactly as long as the ford stays blocked is the setting's cleanest situation-not-story, and C.4's ledger is where a party can read it rather than be told it.
-- Locations reinforce this region: Confirmed - warehouse row, the counting house, the moneylender and the watch all carry the detour economy, and C.6's unopened door settles rumour 11 by not being what the rumour says.
+- Region reinforces the setting: Confirmed, unchanged.
+- Locations reinforce this region: Confirmed, unchanged.
 
 ## Region D (Daghash, DANGEROUS d6)
-- Region reinforces the setting: Confirmed - the ziggurat is `History.md`'s first event still standing, and its Architecture claim (cut black basalt, better masonry than anything now living, the serpent motif at every lintel) is carried by the rooms rather than asserted. The Treasure claim was corrected this pass: it named Tables III and V while seven of its twelve citations are Table I, and now names all three.
-- Locations reinforce this region: Confirmed - the class mix is 5 high / 9 medium / 4 low against the 30/50/rest spec, every medium room presents one thing to deal with plainly, and the four low rooms are genuinely unremarkable without being empty. Doors carry all four kinds against the region's edge mix - 15 open, 4 vertical, 3 secret, 2 one-way - where the previous pass had no secret exit at all and a fifth of its edges typed as anything but open. The most-repeated exit description is 12% of the block's 41 exits, against `dangerous/Door.md`'s one-third bar; the previous pass read "open archway" on half of them. Two gates exist where the previous pass had none despite a 40% rate: D.17's seal, stated on the exit line, and D.13's socket, nested in the feature that conceals what it opens - and both now have keys that exist somewhere in the setting rather than sockets nothing fills.
+- Region reinforces the setting: Confirmed, and reinforced further - D.18 Nirguk's Hoard's
+  pre-existing `Serpent Cult` tag is now paid off with an actual Feature (the Kaash Collar),
+  which the tag alone had only gestured at previously.
+- Locations reinforce this region: Confirmed, unchanged from the prior pass, with one
+  addition: D.18 carries a new Feature and Truths.md's second Handle now cites it alongside
+  D.9 and D.13.
+
+## Region E (Nakhash, DANGEROUS d8)
+- Region reinforces the setting: Confirmed. The Overview's claims are all delivered: the
+  Serpent Cult holding Nakhash as a position (E.8, per `dangerous/Faction.md`'s off-site-
+  consequence test - Vray's cell, a standing order, a stated consequence if she's lost);
+  the "defenses test what a party is carrying" claim (E.24's six Stone Wards, triggered by
+  the regalia specifically); and the region's own new `setting/History.md` event (the cell
+  reopening the tomb) is carried by E.2, E.3, and E.8 rather than asserted once and dropped.
+- Locations reinforce this region: Confirmed. Class mix is 7 high / 12 medium / 5 low
+  against the 30/50/rest spec exactly. Two blocks (Barrow Field, Dying; Sanctum, Believing)
+  at 12 locations each - the first region built in two blocks, and the cross-block
+  discipline held: the two vertical edges (E.2->E.13, E.3->E.13) are declared identically in
+  both `Barrow Field.mmd` and `Sanctum.mmd`, closing the gap `checks/SettingJudgementCheck.md`
+  previously flagged as untested. Doors carry open, secret, vertical, and gated kinds; the
+  region's die (d8) is the setting baseline rather than an outlier, matching the brief's
+  explicit instruction rather than the harsher d6 Daghash uses - the region's tension comes
+  from its traps and its living faction rather than a harsher countdown.
+- Information tiered, and the chain holds: Needs Attention going in, Confirmed after this
+  pass - three hidden exits (E.13->E.16, E.3->E.8, E.8->E.3) were initially stated only on
+  their Exits lines with no Clue in the obvious tier, which `templates/Location.md`'s own
+  chain rule flags as the costliest failure (content the referee knows and the players
+  cannot reach). Each now carries a Feature (a wall-hanging, fresh tool-marks, a second coil
+  of rope) that puts the Clue where a party can actually find it. E.5/E.6 and E.15/E.19 were
+  already correct on both ends.
+- Secret tier rationed across the region: Confirmed - 8 of 24 locations carry a concealed
+  detail or hidden exit, close to a third, in line with `dangerous/Low.md`'s and
+  `dangerous/Medium.md`'s stated rates rather than every room or none.
 
 ## Room to Grow
 Claims made upward with no location under them yet - not defects, just named openings.
 
-- **The old crown seat** (`History.md`, second event; `Rumours.md` 18) - the Left line names the seat and no location is it. Three armies watch an empty building over it, which is a whole region's worth of situation with nothing built on it. The plainest growth in the setting.
-- **A burned keep east of the ford** (`Rumours.md` 9) - marked P and settled nowhere. Region B is the natural home; it is currently the only rumour pointing at a place the setting says exists and has not built.
-- **The hedge-sorcerer downriver** (`Rumours.md` 6) - the one place a party could watch sorcery charged on somebody who is not them. `Truths.md`'s second Handle is currently carried by D.9 alone, where the toll is taken from the party's own reader.
-- **The Trackless Waste** (`Rumours.md` 13) - true, and deliberately off the western edge. Named here so the judgement that it stays off the map is made on purpose.
-- **Threshold-Bane appears once.** The Bestiary entry is built to recur - the waystones are called its outdoor form - and only D.7 has one. Region B's cairns are where a second would pay, and would make `Truths.md`'s fourth Handle a thing a party meets rather than reads.
-- **Ash-Choke and Grave-Mould appear once and never.** D.11 carries the choke; nothing carries the mould, which wants a sealed chamber and would fit D.12 or a room the Lower tier does not yet have.
-- **Table II is cited once in the whole setting** (A.3). Equipment is what a party at this altitude most wants and the setting hands it out least.
-- **`Language.md` coinage** - Confirmed, not a gap: Telar, Brekar, Tolkar, Marfen, Velar, Nirguk, Daghash, Nirgash, Vaalsenn and Vaaluk are each recorded and each used at least once.
+- **The old crown seat**, **a burned keep east of the ford**, **the hedge-sorcerer
+  downriver**, and **the Trackless Waste** - carried forward from the prior check, unchanged
+  by this pass. The Trackless Waste's own rumour (13) was repointed to Nakhash's digging and
+  hoard this pass, since it was the one rumour explicitly pointing away from the map rather
+  than into it; the Waste itself is untouched as a setting fact and remains named here as a
+  deliberate absence rather than a loss.
+- **Gholuk's own sealing order** (`setting/Lore.md`, Gholuk's Tally, found at E.23) - the
+  Sanctum's last master ordered every threshold sealed and gave no reason; nothing else
+  found in Nakhash says why, or whether he was still inside when it was carried out. The
+  plainest new growth point this region adds.
+- **Vray's cell has four members named only by role** (the Rope-Watch at E.2, the Younger
+  Cultist and three others at E.8, the two cultists forcing the Second Hall's gate at E.18) -
+  none individually earn a `setting/NamedCreatures.md` row yet, but a return visit to Nakhash
+  is the natural place one of them would, per that file's own "heard of before met" guidance.
+- **Table II is cited twice in the whole setting** (A.3, and now E.20) - still the thinnest
+  of the five tables; equipment remains what a party at this altitude wants most and is
+  handed out least.
 
 ## Open Items
-- **B.3 Burial Mounds is isolated in region B's graph.** The mound-field is reachable in the fiction - the region overview places it two miles south of the causeway - but no edge connects it, so the topology report flags it every run. Either draw the edge from B.1 or B.2, or state in B.3's own entry that reaching it is open marsh travel rather than a connection.
-- **B.6's exit to B.2 is written as mundane where `Connections.mmd` marks it hidden.** Carried over from the previous pass and still unresolved: confirm whether this is the far side of an already-triggered secret, which is legal, or a template violation. This is the build's one standing validator warning.
-- **The Ziggurat block carries the whole of region D.** 18 rooms is inside the 12-20 band so no split is required, but it means step 4c's cross-block discipline - a cross-block edge declared in both files and matching in existence, type and direction - has never been exercised by a real build. The first region generated in two blocks will be testing that machinery for the first time.
+- **B.3 Burial Mounds' isolation is closed.** The prior check's standing Open Item - B.3 had
+  no edge in `region/B/Connections.mmd` - is resolved: B.1---B.3 closes the region-internal
+  gap, and B.3---E.11 is the new region-to-region connection this build needed anyway.
+- **B.6's exit to B.2 is written as mundane where `Connections.mmd` marks it hidden.**
+  Carried over from the prior two passes, still unresolved, and out of scope for this
+  build - it belongs to Region B's own content, not to anything Region E touches.
+- **Region E's own eight secret-exit warnings are the expected case, not a defect.** Per
+  `tools/validate_setting.py`'s own comment, an edge the block diagram marks hidden but
+  whose Exits line reads as mundane is the legitimate far-side-of-an-already-triggered-secret
+  pattern (E.15's crawl-space into E.19 reads open from either end once found, for
+  instance). Reviewed individually above under Information tiered; none of the eight needed
+  a change beyond the three chain gaps already fixed.

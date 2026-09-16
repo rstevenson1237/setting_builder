@@ -1,0 +1,25 @@
+Block: Barrow Field
+Purpose: Dying
+Region: E Nakhash
+Rooms: 12
+Locations: E.1, E.2, E.3, E.4, E.5, E.6, E.7, E.8, E.9, E.10, E.11, E.12
+
+```mermaid
+graph LR
+    E11["E.11 The Old Procession Track"] --- E12["E.12 The Empty Mound"]
+    E11 --- E1["E.1 The Sealed Approach"]
+    E11 --- E7["E.7 The Cut-Stone Mound"]
+    E11 --- E4["E.4 The Robbed Mound"]
+    E7 --- E6["E.6 The Sworn Mound"]
+    E6 --- E8["E.8 Cultist Dig Camp"]
+    E8 --- E2["E.2 The Dug Mound"]
+    E8 -.- E3["E.3 The Broken Crown"]
+    E12 --- E9["E.9 Barrow-Kin Watch"]
+    E12 --- E10["E.10 The Ward-Marked Mound"]
+    E9 --- E4
+    E10 --- E5["E.5 The Waking Mound"]
+    E10 --- E3
+    E5 -.- E6
+    E2 ---|vertical| E13["E.13 The First Hall"]
+    E3 ---|vertical| E13
+```

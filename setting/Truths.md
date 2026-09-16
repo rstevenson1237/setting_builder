@@ -14,7 +14,9 @@ Truths of Telar
   years-per-casting straight off a stated physical toll at the location - a hand gone
   translucent, a patch of hair gone white to the root, a wound years old that has never
   once closed. D.9 Inscribed Gallery's unworn panel is where a party can watch the toll taken
-  from one of their own, and D.13's Vaalsenn Tablet is where it is charged deliberately.
+  from one of their own, D.13's Vaalsenn Tablet is where it is charged deliberately, and
+  D.18's Kaash Collar is where the same toll is paid in sight rather than years - what it
+  shows does not lift until whatever it showed the bearer finally does.
 
 - **The Man-Apes will not strike first at anyone wearing worked iron above the elbow,
   honouring a bargain neither side now remembers the terms of.**
