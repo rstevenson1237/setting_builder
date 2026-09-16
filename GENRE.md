@@ -64,11 +64,13 @@ cannot act on, and a fact that hands them the answer.
 
 ### The standing consequences
 
-- **Say a thing once, at the highest level where it is true, and deliver it at the lowest
-  level where it is touched.** A restatement is not actionable, it did not survive
+- **Say a fact once, at the highest level where it is true, and deliver it at the lowest
+  level where it is touched.** A restated fact is not actionable, it did not survive
   translation, and it usually arrives with the conclusion the reader was supposed to draw for
   themselves. When a region overview and a location say the same thing, the region overview is
-  the one that is wrong.
+  the one that is wrong. This governs facts, not motifs - an object recurring across locations
+  is the rule below, and the two never conflict, because a motif carries no statement to
+  restate.
 
 - **Give situations, not stories.** Every generation step produces something to react to, not
   a scene someone has already decided how to play: a pressure, a danger, a want, a rule -
@@ -94,10 +96,9 @@ cannot act on, and a fact that hands them the answer.
 
 - **Every gate has an answer that is not the gate, and the answer is priced.** Not a second
   door - a longer road, a worse road, a road that arrives in the wrong place. Both branches
-  cost something, and which is the mistake is never written down.
-
-- **A bypass may be cheaper in time and still expensive.** Where it is, state the cost as what
-  the party arrives *without* - unpractised, unmet, burning light they will want later.
+  cost something, and which is the mistake is never written down. Where the way round is
+  cheaper in time it is still priced, as what the party arrives *without* - unpractised,
+  unmet, burning light they will want later.
 
 - **A guardian is a condition unless the location's own rates say otherwise.** A thing that
   will not touch anyone wearing the right mark; a thing that escalates through three refusals
@@ -106,7 +107,9 @@ cannot act on, and a fact that hands them the answer.
   with none is a fight with a costume on.
 
 - **Repetition before explanation.** Show the same stone four times across two regions before
-  anything names it. Recognition is worth more than information and costs less.
+  anything names it. Recognition is worth more than information and costs less. A motif repeats
+  as an object a party meets again, never as a sentence repeated about it - the moment it
+  carries a statement, the rule above governs and it is said once.
 
 - **Withholding is content.** At least one genuinely rich-looking room per region contains
   nothing. A question the setting declines to answer is an answer where nothing elsewhere
