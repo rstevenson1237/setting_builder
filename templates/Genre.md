@@ -96,8 +96,8 @@ cannot act on, and a fact that hands them the answer.
 
 - **A clue announces a secret; it must not also be its answer.** What says something is here
   is local and plainly visible - a seam, a draft, a floor worn toward a blank face. What
-  *opens* it should more often have been met somewhere else: a name learned three regions
-  back, a rite watched in public, a mark a waystone taught. A secret whose presence and whose
+  *opens* it is met outside this location: a name learned three regions back, a rite watched in
+  public, a mark a waystone taught. A secret whose presence and whose
   answer both sit entirely inside itself is a search roll wearing a costume.
 
 - **A secret is opened by an act, not a roll.** Standing somewhere, clearing something,
@@ -111,16 +111,19 @@ cannot act on, and a fact that hands them the answer.
 - **A bypass may be cheaper in time and still expensive.** Where it is, state the cost as what
   the party arrives *without* - unpractised, unmet, burning light they will want later.
 
-- **A guardian is more often a condition than a monster.** A thing that will not touch anyone
-  wearing the right mark; a thing that escalates through three refusals before it strikes; a
-  toll-taker who bans rather than kills. Violence is the least interesting reason a thing has
-  survived.
+- **A guardian is a condition unless the location's own rates say otherwise.** A thing that
+  will not touch anyone wearing the right mark; a thing that escalates through three refusals
+  before it strikes; a toll-taker who bans rather than kills. Where a guardian does answer with
+  violence, its condition is still stated - what it lets past is the handle, and a guardian
+  with none is a fight with a costume on.
 
 - **Repetition before explanation.** Show the same stone four times across two regions before
   anything names it. Recognition is worth more than information and costs less.
 
-- **Withholding is content.** The first genuinely rich-looking room contains nothing. A
-  question the setting declines to answer is an answer, provided it declines on purpose.
+- **Withholding is content.** At least one genuinely rich-looking room per region contains
+  nothing. A question the setting declines to answer is an answer where nothing elsewhere
+  answers it either; the same question answered in the next region is an omission, not a
+  refusal.
 
 - **Trope is free structure; defiance is funded by convention held elsewhere.** Naming a trope
   imports a whole shape for three words, and the budget saved buys the detail that could only
