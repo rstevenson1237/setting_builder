@@ -650,6 +650,92 @@ TREASURE_CITE_RE = re.compile(r'\(Treasure\s+([IVX]+),\s*d20\)')
 ROMAN_TABLES = {"I", "II", "III", "IV", "V"}
 
 
+# ---------------------------------------------------------------------------
+# The Feature grammar - templates/Location.md instruction 5
+#
+# A Feature is one sentence whose only separators are "," and "->". The banned
+# punctuation is the whole point: a dash, a semicolon or a second sentence is
+# the slot a trailing clause hangs in, and the trailing clause is where a
+# Feature explains itself, dates itself, or writes down the party's conclusion.
+# Removing the slot is cheaper than judging what fills it, and unlike the prose
+# heuristics elsewhere in this file it is decidable, so separators are errors.
+#
+# Length is not. Eight words to a segment and four segments (six with a "->")
+# are the target, but a legal sentence one word over is a judgement call about
+# phrasing, so those warn. A citation is outside the grammar - it is machinery,
+# not prose - and is stripped before anything is counted.
+# ---------------------------------------------------------------------------
+
+# Every parenthesised group is stripped before the grammar is applied: a
+# citation is machinery, not prose, and its own commas and colons are not the
+# sentence's. Where it sits is checked separately, since instruction 5 puts it
+# last and a Feature that carries prose after one has hidden a second clause
+# behind the machinery.
+CITATION_RE = re.compile(r'\s*\([^()]*\)')
+BANNED_SEP_RE = re.compile(r'(;|(?<!\*):(?!\*)|\s[-\u2013\u2014]\s|\.\s+\S)')
+SEG_SPLIT_RE = re.compile(r'\s*(?:,|->)\s*')
+SEG_MAX_WORDS = 8
+SEG_MAX_COUNT = 4
+SEG_MAX_COUNT_ARROW = 6
+LIST_ITEM_WORDS = 3
+
+
+def feature_segments(body: str) -> list[str]:
+    """Body split per instruction 5, with a short-item list collapsed to one segment."""
+    text = CITATION_RE.sub("", body).strip().rstrip(".")
+    merged: list[str] = []
+    run: list[str] = []
+    for seg in (s.strip() for s in SEG_SPLIT_RE.split(text)):
+        if not seg:
+            continue
+        if len(seg.split()) <= LIST_ITEM_WORDS:
+            run.append(seg)
+            continue
+        if run:
+            merged.append(" ".join(run))
+            run = []
+        merged.append(seg)
+    if run:
+        merged.append(" ".join(run))
+    return merged
+
+
+def check_feature_grammar(diag: Diagnostics, path: Path, label: str, body: str):
+    last = None
+    for m in CITATION_RE.finditer(body):
+        last = m
+    if last and body[last.end():].strip(" ."):
+        diag.error(path, f"Feature '{label}' carries prose after its citation "
+                         f"{last.group(0).strip()!r} - per instruction 5 of "
+                         f"templates/Location.md a citation sits last")
+
+    stripped = CITATION_RE.sub("", body).strip()
+    sep = BANNED_SEP_RE.search(stripped)
+    if sep:
+        found = sep.group(0)
+        what = ("a second sentence" if found.startswith(".")
+                else f"{found.strip()!r}")
+        diag.error(path, f"Feature '{label}' uses {what} - per instruction 5 of "
+                         f"templates/Location.md a Feature is one sentence separated "
+                         f"only by ',' and '->'")
+        # Segments are meaningless across an illegal separator, and the line is
+        # being rewritten regardless - a length warning on top is just noise.
+        return
+    if stripped and not body.rstrip().endswith((".", ")")):
+        diag.error(path, f"Feature '{label}' does not end in a period")
+
+    segs = feature_segments(body)
+    cap = SEG_MAX_COUNT_ARROW if "->" in stripped else SEG_MAX_COUNT
+    if len(segs) > cap:
+        diag.warn(path, f"Feature '{label}' runs {len(segs)} segments against a cap of "
+                        f"{cap} - mechanics buy length, prose does not")
+    for seg in segs:
+        n = len(seg.split())
+        if n > SEG_MAX_WORDS:
+            diag.warn(path, f"Feature '{label}' has a {n}-word segment "
+                            f"(cap {SEG_MAX_WORDS}): {seg!r}")
+
+
 def check_location_file(diag, path, region_code, num, stub, rating, all_locations,
                          mundane_edges, hidden_edges, citations, conditions=None):
     text = path.read_text()
@@ -715,6 +801,7 @@ def check_location_file(diag, path, region_code, num, stub, rating, all_location
             low = label.strip().lower()
             if low.startswith(ARTICLES):
                 diag.error(path, f"Feature label '{label}' starts with a leading article")
+            check_feature_grammar(diag, path, label, fm.group(2))
 
     if not features:
         diag.error(path, "no Feature lines found (expected at least one **Name:** line)")
