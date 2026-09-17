@@ -89,6 +89,11 @@ that reads as floor.
 colony or a nest old enough to be terrain rather than a creature; a room whose original
 shape can no longer be made out from inside it.
 
+**Vocabulary.** Mining and quarrying supply most of what an underground condition is
+properly called: chokedamp, firedamp, sough, adit, winze, stope, stull, lagging, shoring,
+out of plumb, camber, flowstone, seep, sump, weep. *Chokedamp* is one word for air that will
+not carry a flame, which is the entire case for keeping this list.
+
 ## Constraints
 
 - **A fall that has finished is Dressing, not a hazard.** What this file draws is a

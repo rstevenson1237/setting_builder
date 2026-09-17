@@ -19,15 +19,16 @@ CREATURE
   1     What it is doing, and whether it has noticed the party first
   1     Reaction - most things met in the open would rather not fight, and a party
         that assumes otherwise should be able to be wrong
-  1     Whether it can be avoided, and what avoiding it costs
+  1     Its limit - the ground, depth, light, or distance it will not cross
   40%   Range - it is not only here, and the party may meet it elsewhere in the region
   30%   Absent, with signs of it, and elsewhere in the region right now
 ```
 
 **A WILD creature is usually avoidable, and that is the point.** In a dungeon a creature
-in the room is a problem to solve; in open country it is a fact to be navigated. State
-what it costs to go around - time, ground, noise, or a worse route - so avoidance is a
-decision rather than a free option.
+in the room is a problem to solve; in open country it is a fact to be navigated. State the
+limit and stop: where a thing will not go is a fact about the thing, and what going around
+costs is the party's to find out. Per `GENRE.md`, a line saying the way around is free,
+or worth taking, has made their decision for them.
 
 ## Design patterns
 

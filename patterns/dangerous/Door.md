@@ -91,6 +91,11 @@ line of fittings buried at the sill; a name cut into the lintel in a tongue from
 *Trapped* - the mechanism comes from `dangerous/Trap.md`, and the tell that it is there
 from the frame, the threshold, or what is lying short of it.
 
+**Vocabulary.** An opening's parts already have names, and the name costs less than the
+description: jamb, reveal, soffit, threshold-stone, pintle, gudgeon, strap-hinge, hasp,
+staple, drawbar, bar-socket, wicket, postern. Where something sits on a door is given in
+these rather than in left and right.
+
 ## Constraints
 
 - **No written exit description repeats across more than a third of a block's exits.**
