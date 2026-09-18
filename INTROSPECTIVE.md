@@ -723,7 +723,29 @@ Original task, kept for its measurements:
 
 ### Phase 2: feedback intake and the rule ladder (two sessions)
 
-**P2.1 Write `FEEDBACK.md`.**
+~~**P2.1 Write `FEEDBACK.md`.**~~ Landed. `FEEDBACK.md` carries the eight routes, the toll
+on a rule, and the log; `CLAUDE.md` gains the one line routing feedback through it, and
+`README.md` lists it as an authority. Two things the task did not anticipate, both from the
+retro-classification the acceptance asks for.
+
+Fourteen of `d15f10e`'s twenty-one Constraints state a boundary against a sibling file and
+never came through the feedback door at all, so the file needs a section saying what is not
+an item: `patterns/SPEC.md` already decides where a boundary lives, and routing one through
+the log would fill it with entries no output produced. That is also why the acceptance's
+prediction is reported against the twelve items that *are* feedback, where six land on R2,
+rather than against every prohibition the three pull requests added.
+
+The other is the toll. Of those twelve, two rule additions named the judgement-check item
+that would read them back, and both are in `ae492fa`, the last of the three - the ladder was
+being climbed already, one pull request before the plan was written. P2.3's cut list gains
+one entry the classification turned up: `dangerous/Mystery.md`'s "never write what the
+fixture is for above the details it is reasoned from" is `GENRE.md`'s third test restated
+one file down.
+
+Still owed: the user has not read the routes. Approving them is the half of the acceptance
+a session cannot close.
+
+Original task, kept for what it specifies:
 - Files: new `FEEDBACK.md`; one `CLAUDE.md` line: feedback on generated content is
   routed through it before any file changes.
 - Steps: the routes, in the order they are tried:

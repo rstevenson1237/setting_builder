@@ -21,6 +21,8 @@ Read these rather than a description of them.
 - `STEPS.md` - the authoritative, sequential build log. Every artifact created follows a
   numbered step here (e.g. `4c`) naming its template and pattern file. Step ids grow by
   suffix and are never renumbered.
+- `FEEDBACK.md` - the routes a reaction to generated content is classified against before
+  any file changes, and the log of what each item landed as.
 - `patterns/SPEC.md` - the full field spec for pattern files.
 - `setting/Procedures.md` - the authority on dice, scaling, time and resolution.
 - `CLAUDE.md` - always loaded as system context; the rules needing active re-checking on
