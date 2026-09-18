@@ -573,9 +573,8 @@ its Notes, which the comparison's Methodology section prices.
 ### Phase 1: the house style (four to six sessions)
 
 ~~**P1.1 Write `STYLE.md`.**~~ Landed. `STYLE.md` is the positive target and `CLAUDE.md`
-names it beside `GENRE.md` as re-read at every generation step. Until P1.3 lands,
-`templates/Location.md` instruction 5 still says one sentence per Feature where `STYLE.md`
-says one to four; the budget is `STYLE.md`'s and the instruction is the stale copy.
+names it beside `GENRE.md` as re-read at every generation step. The branch form is the
+template's `->`, not a colon, at the user's call.
 
 Original task, kept for what it specifies:
 - Files: new `STYLE.md`; `CLAUDE.md` names it beside `GENRE.md` as re-read at every
@@ -609,7 +608,23 @@ Original task, kept for what it specifies:
 - Acceptance: the user approves all six; they pass the location checks with zero
   warnings; they are the regression floor for every later grammar change.
 
-**P1.3 Replace the punctuation ban with a sentence budget.**
+~~**P1.3 Replace the punctuation ban with a sentence budget.**~~ Landed. Instruction 5 now
+carries the line's shape only and cites `STYLE.md` for every sentence-level rule;
+`check_feature_grammar` errors on the dash-hung clause and on prose after a citation, and
+warns on a fifth sentence, a sentence past twenty words, and the two comma artifacts of the
+grammar it replaces. Telar: 0 errors, 154 warnings, and `metrics.py` reports sentences where
+it reported segments, with all four tell counts unchanged against the baseline.
+
+Three things the task text did not anticipate, each settled in the commit body: "a citation
+sits last" was only coherent while a Feature was one sentence and is now "a citation closes
+its sentence"; checking parentheses against the documented citation forms surfaced 11 in
+Telar that match none of them, including four `(Faction: Name)` that no template defines and
+`build_site.py` does not link, left as warnings because adding the form would change
+rendering, which this task's acceptance forbids; and the tell warnings are not wired in,
+since the tells live in `metrics.py` and P2.2 owns `style/tells.txt` as the one list. The
+Player Summary's one-to-three sentences are stated in the template and not yet checked.
+
+Original task, kept for what it specifies:
 - Files: `templates/Location.md` instruction 5; `check_feature_grammar`.
 - Steps: the sentence budget is `STYLE.md`'s, and instruction 5 cites it rather than
   restating a second number; branches are sentences joined by `->`, which still means

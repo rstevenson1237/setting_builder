@@ -3,13 +3,14 @@
 The positive target: what a line in this repository should *read* like. `GENRE.md`'s three
 tests outrank this file and decide whether a line lives at all; this file decides how the
 surviving line is written. `templates/` owns the shape a referee sees - the header, the
-labels, the tables, the citation forms - and this file owns the sentences inside it.
+label form, the tables, the citation forms - and this file owns the sentences inside it.
+Open an artifact's template for the shape and this file for the sentences.
 
 **Re-read this at every generation step, beside `GENRE.md`.**
 
 ## The four sources
 
-Three published modules and one endorsed output. Each contributes a shape, never its wording.
+Three published modules and one endorsed output, each a shape and never its wording.
 
 - **The Hole in the Oak** - the branch form. A bold label, then each branch as its own short
   sentence, carried on the `->` the templates already use for trigger to effect: `Pried ->
@@ -19,18 +20,18 @@ Three published modules and one endorsed output. Each contributes a shape, never
   registry entry by its name, and stops. What a thing means, what it opens and what it is
   worth sit where they are defined, so the room stays a container.
 - **B4 The Lost City** - the referee's voice on the page. Room name, a line of dimensions and
-  fixtures, what is obvious in a sentence or two, mechanics stated where they are needed, and
-  a plain aside to the referee about running the room.
-- **`fixtures/control/arm1b-output.md`** - the register itself. The user endorsed this output,
-  and `style/exemplars/` is written to match it. Read a page of it before writing a location.
+  fixtures, what is obvious in a sentence or two, mechanics where they are needed, and a plain
+  aside to the referee about running the room.
+- **`fixtures/control/arm1b-output.md`** - the register itself. The user endorsed it, and
+  `style/exemplars/` matches it. Read a page before writing a location.
 
-All four share the form the templates already have, and none bans the full stop.
+All four share the form the templates have, and none bans the full stop.
 
 ## One register: the referee's
 
 Almost every line is written to a referee reading the page mid-session. Plain nouns,
-dimensions, materials, and the verbs of making and decay. A specialist term stands unglossed,
-since the referee is looking at the word.
+dimensions, materials, and the verbs of making and decay. A specialist term stands unglossed; the referee is
+looking at the word.
 
 The **Player Summary** is the one line spoken aloud. One to three sentences of what a party
 perceives on arriving, in words a referee can say without stumbling. Every bolded noun is a
@@ -51,11 +52,11 @@ Two go, wherever they appear:
 
 ## The sentence budget
 
-Measured off the endorsed baseline, which runs about fourteen words to the sentence.
+Measured off the endorsed baseline, at about fourteen words to the sentence.
 
 - A **Feature** is one to four sentences of about fifteen words each. Past twenty words a
-  sentence is long; past four sentences the Feature is two Features, or it is carrying
-  content a registry owns.
+  sentence is long; past four sentences it is two Features, or it is carrying content a
+  registry owns.
 - A **Player Summary** is one to three sentences, same lengths.
 - **Referee Notes** are the same sentences, with no separate allowance.
 - **Full stops are free.** Length is the constraint, not punctuation. Where a fact wants a
@@ -76,8 +77,8 @@ One Feature and one Player Summary from the same entry, to shape:
 
 ## The tells
 
-A tell is the textual signature of a class of failure - a candidate to read, not an error.
+A tell is the signature of a class of failure - a candidate to read, not an error.
 `style/tells.txt` is the list, and `python3 tools/metrics.py --tells [PATH]` reports it over
-any markdown; until that file exists, the tells in force are the four `tools/metrics.py`
+any markdown; until it exists, the four in force are the ones `tools/metrics.py`
 carries. **Clear a tell by rewriting the line.** Swapping a word or dropping in a comma to
 satisfy the pattern leaves the failure in place and costs the measurement too.
