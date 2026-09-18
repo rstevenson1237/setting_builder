@@ -43,6 +43,8 @@ Read these rather than a description of them.
 - `setting/region/[Code]/` - one region: its own `Tags.md` pool, its `Locations.md`
   gazetteer, its connection diagrams, and one `[LocationCode].md` per location. The Region
   Overview sits beside it at `setting/region/[Code].md`.
+- `style/` - what the register looks like on a finished page. `exemplars/` holds one per
+  class, read beside the template at generation and checked by the validator on every run.
 - `checks/` - output of the judgement checks (STEPS.md step 5): non-mechanical review
   passes `tools/validate_setting.py` can't do, following the checklist format in the
   matching `templates/*_Judgement_Check.md`.

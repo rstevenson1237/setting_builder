@@ -782,40 +782,19 @@ def check_feature_grammar(diag: Diagnostics, path: Path, label: str, body: str):
                         f"comma - read the line aloud and place the comma where it lands")
 
 
-def check_location_file(diag, path, region_code, num, stub, rating, all_locations,
-                         mundane_edges, hidden_edges, citations, conditions=None):
-    text = path.read_text()
-    lines = text.splitlines()
-    if not lines or not lines[0].strip():
-        diag.error(path, "file is empty or missing its header line")
-        return
+def parse_location_body(diag: Diagnostics, path: Path, body: list[str]):
+    """Everything below a location's header line: Summary, Notes, Features, Exits.
 
-    m = LOC_HEADER_RE.match(lines[0].strip())
-    if not m:
-        diag.error(path, f"header line does not match Location.md format: {lines[0]!r}")
-        return
-    check_treasure_citation_prose(diag, path, text)
-    check_forced_damage(diag, path, text, conditions)
-    hcode, hnum_s, hname, hweight, htags = m.groups()
-    if hcode != region_code or int(hnum_s) != num:
-        diag.error(path, f"header code {hcode}.{hnum_s} does not match this file's location {region_code}.{num}")
-    if not names_match(hname, stub["name"]):
-        diag.error(path, f"header name {hname!r} does not match its Locations.md stub name {stub['name']!r}")
-    if rating in ("DANGEROUS", "WILD"):
-        if hweight != stub["weight"]:
-            diag.error(path, f"header weight/classification {hweight!r} does not match Locations.md stub {stub['weight']!r}")
-    elif hweight:
-        diag.error(path, f"{rating} region location should not carry a weight/classification tag in its header")
-    if len([t for t in htags.split(",") if t.strip()]) != 2:
-        diag.warn(path, f"header carries {htags.strip()!r} - expected exactly two tags, one from setting/Tags.md and one from the region's own Tags.md")
-
-    body = [l for l in lines[1:]]
+    The shape templates/Location.md owns, and the only part of a location file
+    that is legible without a region around it. Returned so both a generated
+    location and a standalone exemplar are read by the same code.
+    """
     idx = 0
     while idx < len(body) and not body[idx].strip():
         idx += 1
     if idx >= len(body):
         diag.error(path, "missing Player Summary")
-        return
+        return None
     summary = body[idx].strip()
     if summary.startswith("*") and not summary.startswith("**"):
         diag.error(path, "Player Summary appears to be wrapped in italics - it should be plain text")
@@ -825,7 +804,7 @@ def check_location_file(diag, path, region_code, num, stub, rating, all_location
         idx += 1
     if idx >= len(body):
         diag.error(path, "missing Referee Notes")
-        return
+        return None
     notes = body[idx].strip()
     if not (notes.startswith("*") and not notes.startswith("**") and notes.endswith("*") and not notes.endswith("**")):
         diag.error(path, "Referee Notes line is not wrapped in single-asterisk italics")
@@ -857,7 +836,42 @@ def check_location_file(diag, path, region_code, num, stub, rating, all_location
         diag.error(path, "no Feature lines found (expected at least one **Name:** line)")
     if exits_line is None:
         diag.error(path, "missing **Exits:** line")
-    else:
+    return {"summary": summary, "notes": notes, "features": features,
+            "feature_lines": feature_lines, "exits_line": exits_line}
+
+
+def check_location_file(diag, path, region_code, num, stub, rating, all_locations,
+                         mundane_edges, hidden_edges, citations, conditions=None):
+    text = path.read_text()
+    lines = text.splitlines()
+    if not lines or not lines[0].strip():
+        diag.error(path, "file is empty or missing its header line")
+        return
+
+    m = LOC_HEADER_RE.match(lines[0].strip())
+    if not m:
+        diag.error(path, f"header line does not match Location.md format: {lines[0]!r}")
+        return
+    check_treasure_citation_prose(diag, path, text)
+    check_forced_damage(diag, path, text, conditions)
+    hcode, hnum_s, hname, hweight, htags = m.groups()
+    if hcode != region_code or int(hnum_s) != num:
+        diag.error(path, f"header code {hcode}.{hnum_s} does not match this file's location {region_code}.{num}")
+    if not names_match(hname, stub["name"]):
+        diag.error(path, f"header name {hname!r} does not match its Locations.md stub name {stub['name']!r}")
+    if rating in ("DANGEROUS", "WILD"):
+        if hweight != stub["weight"]:
+            diag.error(path, f"header weight/classification {hweight!r} does not match Locations.md stub {stub['weight']!r}")
+    elif hweight:
+        diag.error(path, f"{rating} region location should not carry a weight/classification tag in its header")
+    if len([t for t in htags.split(",") if t.strip()]) != 2:
+        diag.warn(path, f"header carries {htags.strip()!r} - expected exactly two tags, one from setting/Tags.md and one from the region's own Tags.md")
+
+    parsed = parse_location_body(diag, path, lines[1:])
+    if parsed is None:
+        return
+    exits_line = parsed["exits_line"]
+    if exits_line is not None:
         src = f"{region_code}.{num}"
         body = exits_line[len("**Exits:**"):].strip()
         descs = [d.strip(" ,") for d in EXIT_DEST_RE.split(body)]
@@ -902,6 +916,47 @@ def check_location_file(diag, path, region_code, num, stub, rating, all_location
     for roman in TREASURE_CITE_RE.findall(text):
         if roman not in ROMAN_TABLES:
             diag.error(path, f"Treasure citation uses unrecognized numeral {roman!r} (expected I-V)")
+
+
+# ---------------------------------------------------------------------------
+# style/exemplars/location/*.md - the regression floor for the Feature grammar
+#
+# An exemplar is a location entry with no region under it: its codes are the
+# placeholder X.n, and the locations, registry rows and edges it cites do not
+# exist. So everything cross-file is skipped here and what is checked is the
+# part templates/Location.md owns on its own - the header, the three-part body,
+# the Feature grammar, and the forced-damage and treasure-citation forms.
+#
+# This runs on every invocation, setting/ generated or not. Per INTROSPECTIVE.md
+# P1.2 the exemplars are what a later grammar change is measured against, which
+# only holds while they are checked whether or not a setting is present.
+# ---------------------------------------------------------------------------
+
+EXEMPLARS = ROOT / "style" / "exemplars"
+
+
+def check_exemplars(diag: Diagnostics):
+    loc_dir = EXEMPLARS / "location"
+    if not loc_dir.exists():
+        diag.warn(loc_dir, "missing - the location exemplars are not written yet")
+        return
+    paths = sorted(loc_dir.glob("*.md"))
+    if not paths:
+        diag.warn(loc_dir, "holds no exemplars - nothing for a grammar change to regress against")
+        return
+    conditions = procedures_conditions()
+    for path in paths:
+        text = path.read_text()
+        lines = text.splitlines()
+        if not lines or not lines[0].strip():
+            diag.error(path, "file is empty or missing its header line")
+            continue
+        if not LOC_HEADER_RE.match(lines[0].strip()):
+            diag.error(path, f"header line does not match Location.md format: {lines[0]!r}")
+            continue
+        check_treasure_citation_prose(diag, path, text)
+        check_forced_damage(diag, path, text, conditions)
+        parse_location_body(diag, path, lines[1:])
 
 
 # ---------------------------------------------------------------------------
@@ -1614,6 +1669,7 @@ def main() -> int:
     check_compile_list(diag)
     check_read_set_graph(diag)
     check_repeated_prose(diag)
+    check_exemplars(diag)
 
     if is_fresh_start():
         seeded = sorted(n for n in SEED_FILES if (SETTING / n).exists())
