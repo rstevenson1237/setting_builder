@@ -23,7 +23,7 @@ adjudicate: *deface an old-tongue stone and whatever it was holding is no longer
 handle; *the old letters carry a weight nobody can explain* is the same idea with nothing
 to grip.
 
-Handles are completed at 4d, when locations exist, and **every truth is re-tested then.** A
+Handles are completed at 5c, when locations exist, and **every truth is re-tested then.** A
 truth no location cashed out is cut from the file - it was atmosphere that survived because
 nothing had yet been built to contradict it. This is the one place the framework deletes
 rather than revises, and it should be used.

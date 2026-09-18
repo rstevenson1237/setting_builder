@@ -1,21 +1,25 @@
 # History.md
 
 ## Purpose
-Records 1 or more major events that have shaped the setting, oldest to newest.
+The major events that shaped the setting, oldest to newest, each leaving a mark a party can
+find.
 
 ## Context
 Read first:
-- `GENRE.md`
-- `patterns/setting/History.md`
+- `GENRE.md`, and `STYLE.md` for the register a setting-level line is written in.
+- `patterns/setting/History.md` - **how many events, how far back they run, how long each
+  runs, what kinds there are, and what a `Left` line carries.** This template states only
+  the shape they sit in.
 - `setting/Setting.md`
 
 ## Instructions
-List 3-7 major events that have influenced the setting, in order from oldest to newest.
+Fill the block below per `patterns/setting/History.md`'s Spec. A `Left` line's Location
+Codes are filled at 5c, once locations exist, and read `[pending 5c]` until then.
 
 ## Template
 ```
 History of [Setting Name]
 
-[x] years ago - [What happened, in one or two sentences]
-Left: [the physical thing findable now] - [Location Code(s), or `[pending 4d]` before locations exist]
+[x] years ago - [the event]
+Left: [the physical thing findable now] - [Location Code(s), or `[pending 5c]`]
 ```
