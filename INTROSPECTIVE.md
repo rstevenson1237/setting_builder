@@ -177,6 +177,66 @@ become a rule; the region brief the user wrote for Region E becomes a first-clas
 input, which is the profile mechanism and the iterative growth mechanism at once;
 Procedures becomes an interface, not a rulebook.
 
+### The baseline, read
+
+The user supplied the output of the conversational prompt (`fixtures/control/
+arm1b-output.md`, with its map), noting that formatting was not strict and the target
+was not this rule set, but that the prose is good reference. Read against the same
+tells as Telar:
+
+| Measure | Baseline (Morthek) | Telar |
+|---|---|---|
+| Keyed locations | 26 plus a 4-location town | 64 |
+| Words per keyed room | 322 | 182 |
+| Mean words per sentence | 14.3 | Feature grammar, 22 per line |
+| "rather than" | 3 in 11,200 words | 46 in 11,700 |
+| Absence claims | 4 | 6 |
+| Referee asides ("Referee:") | 8 | 0 |
+| Motif recurrence: Suelle | 5 rooms, named nowhere as a motif | see F11 |
+
+Three findings, in order of weight.
+
+**Nearly every standing consequence in `GENRE.md` is present, unprompted.** A guardian
+that is a condition (the guard-post skeleton lets people in and stops them leaving; the
+Wight pauses at Morthek's mark; the ghoul negotiates). Every gate with a priced answer
+that is not the gate (the portcullis forced with noise, or the lever, or the crawlspace
+with gear off). Withholding as content (the False Vault; cell 20D's soldier "unresolved,
+and will remain so"). A clue outside the room it opens (the duty roster in the armory
+names the Wight two levels down; the cipher key in a jar and the sequence under a desk
+open a door in another wing). Repetition before explanation (Suelle in five rooms, the
+eye in every carved surface, never explained). Rumours marked true and partial with
+the false half named. The consequences are a description of what a competent module
+already does. They were written as if generative. They are diagnostic, and the model
+had them from the genre before any file in this repository named them.
+
+**The register that reads as a module has voice, and the framework's tests would cut
+it.** "Morthek's joke. He found this genuinely funny." "Do not protect fools." "Referees
+who read it aloud tend to find that their players remember this room longer than the
+ones with treasure." Each fails a test in `GENRE.md` (unwitnessable, mood, a conclusion
+written down), and each is what B2 and B4 sound like. The first test, every word is
+translated, is right about facts and wrong about the referee's ear: an aside that tells
+the referee how to run a room is translated, into a ruling. `STYLE.md` (P1.1) has to
+say which asides are allowed, and the answer is the ones addressed to the referee about
+running the room, never the ones that state what the players will feel. The
+"conclusion tells" that #41 cut were the second kind; the baseline shows the first kind
+is the module's voice and should stay.
+
+**The form is the framework's form, at paragraph length.** Numbered room, an italic
+line of dimensions and fixtures, bold sub-labels each holding one thing, a stat line in
+a blockquote, exits with construction and state. It is `templates/Location.md` with
+full stops. Sentences average fourteen words and a sub-label carries two to four of
+them. That is the sentence budget P1.3 should set, measured rather than guessed: one to
+four sentences per Feature, around fifteen words each, with the trailing explanatory
+clause banned and nothing else.
+
+What the baseline does not do, and what the framework is for: it has no registries, so
+Suelle's five appearances were held in one context window and would not survive a
+second session; its dimensions are stated but no check reconciles them to the map; its
+exits are listed in prose and no script confirms both ends; its treasure is priced in a
+currency the Notes do not use; and at 26 rooms it is at the edge of what one window
+holds. Those are the memory problems of Part two, and nothing in the prose rules
+addresses them.
+
 ---
 
 ## Part three: what to keep
@@ -505,10 +565,11 @@ Pro-plan sitting for an Opus agent.
     today, as one DANGEROUS region of one block, with a two-line brief.
   A second example prompt, `fixtures/control/arm1b-prompt.md`, is conversational: no
   map, no rules, "start with a proposed idea, pause for feedback, iterate until
-  finished", one safe site and one adventure site. Run it as arm 1b with the same map
-  offered at the first pause, so the comparison stays on one dungeon; its real value is
-  as evidence that the baseline is a feedback loop and not a prompt, which is what
-  `STEPS.md`'s per-region close (P5.2) and the brief (P5.1) formalise.
+  finished", one safe site and one adventure site. Its output is committed beside it
+  (`arm1b-output.md` and its map) and is already read in Part two; arm 1b is therefore
+  a reading, not a generation, and it is the reference register for Phase 1. Its real
+  value is as evidence that the baseline is a feedback loop and not a prompt, which is
+  what `STEPS.md`'s per-region close (P5.2) and the brief (P5.1) formalise.
   Judge all arms with `templates/Setting_Judgement_Check.md`'s items, `metrics.py`'s
   tells, and one more question per arm: could a referee run it tonight?
 - Acceptance: a table in the commit body, item by item and arm by arm, and one
@@ -523,11 +584,17 @@ Pro-plan sitting for an Opus agent.
 **P1.1 Write `STYLE.md`.**
 - Files: new `STYLE.md`; `CLAUDE.md` names it beside `GENRE.md` as re-read at every
   generation step.
-- Steps: under 800 words, in this order: the three sources and what is taken from each,
-  with one shape example per source (shape, never quoted text); the one register, the
-  referee's, and how the spoken Player Summary differs from it (spoken, one to three
-  sentences, bolded nouns are promises, never a conclusion); the sentence budget; the
-  tells, pointing at `style/tells.txt`.
+- Steps: under 800 words, in this order: the three published sources and what is taken
+  from each, with one shape example per source (shape, never quoted text), and the
+  baseline output at `fixtures/control/arm1b-output.md` as the fourth source, the one
+  the user has endorsed and the one the exemplars are written against; the one
+  register, the referee's, and how the spoken Player Summary differs from it (spoken,
+  one to three sentences, bolded nouns are promises, never a conclusion); **which
+  referee asides are allowed**: an instruction about running the room ("do not prompt
+  them", "let them interpret") stays, a statement of what the players will feel or
+  conclude goes, and an unwitnessable claim about the setting goes; the sentence
+  budget, taken from the baseline's measured shape (one to four sentences per Feature,
+  about fifteen words each); the tells, pointing at `style/tells.txt`.
 - Acceptance: a reader who has never seen the repository writes one Feature and one
   Summary from `STYLE.md` alone. The user approves before P1.2.
 
@@ -536,8 +603,13 @@ Pro-plan sitting for an Opus agent.
   hidden child, DANGEROUS high, medium and low, one DANGEROUS region overview. Codes
   `X.n`, no Telar nouns.
 - Steps: write each to `STYLE.md` and the class file's Spec exactly as 4c would, then
-  hand-edit to the target. Every line the class file draws at `1` is visibly present.
-  Add to `templates/Location.md`'s Context: "the exemplar for this rating and weight".
+  hand-edit to the target with `fixtures/control/arm1b-output.md` open as the register
+  to match: its Area 8 (a trap with visible mechanics and a pit that is a containment,
+  not a kill) is the DANGEROUS medium shape, its Area 6 (the dwarves) is a faction
+  presence with a want, a stance and a betrayal threshold, and its Cobb's Landing
+  entries are SAFE working locations with prices and a refusal each. Every line the
+  class file draws at `1` is visibly present. Add to `templates/Location.md`'s Context:
+  "the exemplar for this rating and weight".
 - Acceptance: the user approves all six; they pass the location checks with zero
   warnings; they are the regression floor for every later grammar change.
 
@@ -603,8 +675,13 @@ Pro-plan sitting for an Opus agent.
 **P2.3 Audit the Constraints and consequences.**
 - Files: every Constraints section; `GENRE.md` and `templates/Genre.md`.
 - Steps: table each entry as keep, list (move to a `genre/` list, cut here), tell,
-  exemplar, merge, or cut. Add the "one fact per region points past the edge of the
-  map" consequence (F7) and stay under twelve by merging.
+  exemplar, merge, or cut. One more column: **does the baseline break it?** Read each
+  Constraint and each consequence against `fixtures/control/arm1b-output.md`. A rule
+  the baseline honours unprompted is diagnostic, not generative, and is a candidate for
+  the judgement checks rather than for generation-time context; a rule the baseline
+  breaks and the user still endorses the output of is a rule to cut. Add the "one fact
+  per region points past the edge of the map" consequence (F7) and stay under twelve
+  by merging.
 - Acceptance: consequences at or under twelve; no Constraint a list or tell already
   covers; the fixed block byte-identical in both files.
 
