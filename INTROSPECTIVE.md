@@ -35,6 +35,12 @@ like a generator sits outside it and is not to be built.
   the work is done.
 - **Part seven records the user's decisions.** A task does not reopen one; a task that
   finds one wrong logs it in `FEEDBACK.md` and proceeds as decided.
+- **Six tasks are marked DEFERRED** after the user's final check against the baseline
+  (the Drakenhold brief, the templates, a bare rules reference). They stay in the file
+  with their reasoning and are not executed until the condition each names is met.
+  The minimum path, in order: P0.1, P0.2 (a reading), P1.1, P1.2, P1.3, P1.4, P1.5,
+  P2.1, P2.2, P2.3, P2.4, P3.1, P3.2, P3.3, P4.1, P4.2, P4.3, P5.1, P5.2, P5.3, P6.1,
+  P6.2, P6.3, P7.2. About 24 sessions.
 
 ---
 
@@ -228,6 +234,17 @@ full stops. Sentences average fourteen words and a sub-label carries two to four
 them. That is the sentence budget P1.3 should set, measured rather than guessed: one to
 four sentences per Feature, around fifteen words each, with the trailing explanatory
 clause banned and nothing else.
+
+**How much of this is over-engineering, against the user's own baseline.** The user
+named the baseline as the Drakenhold brief, the detailed template files, and a bare
+rules reference: about 15,000 words. Against that, what this plan adds that is new is
+small: `STYLE.md` and six exemplars, `FEEDBACK.md`, the lists under `genre/`, and four
+scripts (draw, context, map, metrics). Everything else is a reduction of what exists.
+Six tasks were over that line and are marked DEFERRED in Part six: rewriting Telar
+wholesale, axis dials, a second pack, a release flag, playtest intake, block documents.
+Roughly a third of the plan's sessions. What should not be cut further is `context.py`
+and the memory layer it reads, because motif saturation across sessions is the one
+failure observed six times and nothing in a one-shot baseline prevents it.
 
 What the baseline does not do, and what the framework is for: it has no registries, so
 Suelle's five appearances were held in one context window and would not survive a
@@ -636,7 +653,11 @@ Pro-plan sitting for an Opus agent.
 - Steps: state each budget once in `STYLE.md` and cite it.
 - Acceptance: no template restates a rule `STYLE.md` owns.
 
-**P1.6 Rewrite Telar to the new grammar, one region per session.**
+**P1.6 DEFERRED: rewrite Telar to the new grammar.** Cut at the user's final check:
+five sessions on content D3 removes. The exemplars are the fixture; if the checks need
+tuning against a whole region, rewrite Region A only, as part of P1.3.
+
+Original task, kept for its measurements:
 - Files: `setting/region/*`.
 - Steps: order A, C, B, D, E, exemplar open. Nothing a party can find is removed; every
   citation, exit and Test unchanged. `metrics.py` delta in each commit body.
@@ -661,8 +682,8 @@ Pro-plan sitting for an Opus agent.
     for it. Consequences capped at twelve; past the cap, merge.
   - **R6 Constraint**: about one pattern file's output and no other. Last resort.
   - **R7 Rules project**: a mechanic the interface cannot cite. Log and stop.
-  - **R0 Playtest**: an observation from the table; becomes an item only on a second
-    session or a failed chain re-read.
+  - **R0 Playtest**: an observation from the table, logged here as a line until P5.5
+    exists; becomes an item only on a second session or a failed chain re-read.
   A log: date, quote, route, commit; struck when landed.
 - Acceptance: the user approves the routes; the last three PRs' rule additions are
   retro-classified as a worked example, and most land on R2.
@@ -759,7 +780,9 @@ Pro-plan sitting for an Opus agent.
 - Acceptance: the validator requires `PACK.md` with every axis defaulted; one location
   per rating generated from the exemplar shape under this pack reads as B/X to the user.
 
-**P3.4 Wire the axis dials to Spec rates.**
+**P3.4 DEFERRED: wire the axis dials to Spec rates.** A pack states its axes in
+`PACK.md` and the generator reads them; inline brackets and a checker are worth
+building only when a second pack exists. Original task:
 - Files: `patterns/setting/Genre.md`; the few Spec lines that should move (hazard
   tiers, ward and residual caps, Unique Treasure count, SAFE count and die, WILD count).
 - Steps: inline brackets on those lines only: `20% lethal [lethality: low 10% | high
@@ -767,7 +790,8 @@ Pro-plan sitting for an Opus agent.
   no bracket names an unstated axis.
 - Acceptance: setting lethality low and regenerating one exemplar changes its tier draw.
 
-**P3.5 Prove portability with a second pack.**
+**P3.5 DEFERRED: prove portability with a second pack.** Scope is OSR fantasy for now
+(the user's System B decision). Run when a second genre is wanted. Original task:
 - Files: `genre/scifi-horror/` recovered from `b6e0bf7^`'s `tags_scifi.md`; a
   `fixtures/slice/` of three locations per pack.
 - Acceptance: zero cross-pack noun overlap outside behavioural primitives; the user
@@ -866,14 +890,16 @@ Pro-plan sitting for an Opus agent.
   beats forward-declared threads is the reason.
 - Acceptance: one pass over Telar lands three rows; validator clean.
 
-**P5.4 The ship step.**
-- Files: `STEPS.md` step 7; `build_site.py` and `build_pdf.py` `--release <tag>`.
-- Steps: a tag on `main`, the site and PDF built with the tag on the title page, a
-  `checks/` snapshot. Nothing stripped; the output carries no authoring scaffolding, so
-  ship can run per edition.
-- Acceptance: the release site names the release.
+**P5.4 The ship step, reduced to a tag.**
+- Files: `STEPS.md` step 7 only.
+- Steps: ship is a git tag on the example branch and the Pages build that already runs.
+  No flag, no code. Nothing is stripped; the output carries no authoring scaffolding,
+  so ship can run per edition.
+- Acceptance: one sentence in `STEPS.md`.
 
-**P5.5 Playtest intake.**
+**P5.5 DEFERRED: playtest intake.** Drakenhold built it before any session ran and it
+stayed empty. Write it after the first playtest of the example, when its shape is
+known; until then a playtest observation is a `FEEDBACK.md` line. Original task:
 - Files: new `checks/Playtest.md`.
 - Steps: a table of what happened and where, never what to do about it; route R0.
 - Acceptance: the file exists with its rule.
@@ -902,7 +928,8 @@ Pro-plan sitting for an Opus agent.
 
 ### Phase 7: long form (two sessions, after a one-shot has shipped)
 
-**P7.1 Block connective documents.**
+**P7.1 DEFERRED: block connective documents.** Premature until a DANGEROUS region with
+more than one block is built. Original task:
 - Files: new `templates/Block.md`; `region/Dangerous.md` BLOCKS.
 - Steps: for a DANGEROUS region with more than one block, a short document per block:
   purpose family, what it hands to neighbours, an optional Danger table override, and
