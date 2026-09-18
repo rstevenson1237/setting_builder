@@ -8,9 +8,17 @@ the same commit. When every task is struck, delete the file.
 Written from a full read of this repository at commit `ae492fa` (108 commits, at least
 six generated settings wiped and rebuilt), of the predecessor
 `rstevenson1237/drakenhold` (66 commits), and of the `Rules_Light_TTRPG_Design_Notes.md`
-that project mirrors. Revised after the user's corrections on the rules interface, the
-tag system's intent, profiles, cameos and voice; the first draft's errors on those are
-recorded under Part three so the reasoning can be read back.
+that project mirrors. Revised twice: after the user's corrections on the rules interface,
+the tag system's intent, profiles, cameos and voice (the first draft's errors on those
+are recorded under Part four so the reasoning can be read back), and again after the
+user answered every open question, which are now the decisions in Part seven.
+
+**The scripting boundary, stated once.** The user tried a deterministic generator that
+built most of the context window and left the model only the prose, and it was too
+complex to make work. What is in scope here is narrower: scripts that draw, assemble
+context, count and check. No script writes prose, and no script decides what a room is
+for. `tools/draw.py` and `tools/context.py` sit inside that line; anything that reads
+like a generator sits outside it and is not to be built.
 
 ## How to use this file
 
@@ -23,10 +31,10 @@ recorded under Part three so the reasoning can be read back.
   writes to. Phase 3 moves content between trees, so nothing that reads pattern files
   is rewritten until it lands.
 - **Nothing here authorises deleting Telar** until task P7.2 says so. It is the only
-  corpus the checks have been tuned against.
-- **The open questions at the end need the user**, and the recommended answer is stated
-  for each. A task that depends on one says which, and proceeds on the recommendation if
-  no answer has arrived.
+  corpus the checks have been tuned against, and per D3 it is removed, not kept, when
+  the work is done.
+- **Part seven records the user's decisions.** A task does not reopen one; a task that
+  finds one wrong logs it in `FEEDBACK.md` and proceeds as decided.
 
 ---
 
@@ -295,10 +303,9 @@ build". Nothing marks a release.
 Region B: 6 locations, 4 edges, two disconnected components. `region/Wild.md` puts the
 ground between points in the Terrain field and stops. Drakenhold's `WILD_LOW.md` reached
 the governing insight, a road's negative space is time and cannot be keyed, and this
-repository does not carry it. Per F4 the fix is not a travel procedure in the overview;
-it is a Terrain field that states distances and what a watch buys, so the referee runs
-the Notes' Navigate move against real numbers, plus a connectivity error in the
-validator.
+repository does not carry it. Per F4 the fix is not a travel procedure; per F12 it is
+the user's map: hexes with landmarks placed in them, distances readable off it, and a
+connectivity error in the validator so a region cannot ship in two pieces.
 
 **Answered by** P4.3.
 
@@ -327,6 +334,44 @@ commit-message material by the repository's own rule.
 Checks are tuned against Telar. A rewrite of Telar loses the tuning.
 
 **Answered by** P1.2 and P2.2.
+
+### F11. The setting in the tree corrupts the context that generates the rest of it
+
+The user's account of the six regenerations: leaving an existing setting in the tree
+tends to corrupt context, which is why owed debts, tally sheets and boundary stones,
+each fine once, recur to the point of the ridiculous. The mechanism is plain once
+named: the generator reads sibling rooms and registries while writing a new room, and
+what it reads it reinforces. Telar has three Tallies in Region E's three master niches
+and a Ledger, a Tally and a Toll in the first two regions; `GENRE.md`'s "repetition
+before explanation" rule licenses the motif and nothing bounds it.
+
+Two consequences. A **motif-saturation tell**: a noun that appears in more than a
+stated share of a region's rooms is a warning, computed by a script, not by taste.
+And a **context discipline**: a room is generated from its contract, its draws, its
+brief, its region overview, its graph edges and the exemplar, never from its sibling
+rooms. The registries are read only for a name a citation needs. `tools/context.py`
+is what enforces that, because a model told "consult only to look up a name" does not.
+
+The same fact decides where a shipped example lives: not in `main`'s `setting/`. The
+template ships with an empty `setting/` (the validator's fresh-start state), and a
+built module lives on its own branch or release tag.
+
+**Answered by** P2.4 (the tell), P3.2 (the assembler), P7.2 (where the example lives).
+
+### F12. The map is meant to be an input, and 4b treats it as an output
+
+The user's account of Q4: the expected output performs well for both hex crawl and
+point crawl because the user draws the map first, hexes for WILD with landmarks placed
+in them, a dungeon map for DANGEROUS, and hands the generator a target of connections
+and room sizes; with that, generated content is close on the first try.
+
+`STEPS.md` 4b has the generator draw the diagram. The files a user would author are
+the ones the framework already has: `Locations.md` stubs and the `.mmd` diagrams. What
+is missing is the statement that they may be authored by the user, a place for room
+size on the stub, and the Referee Notes check that honours it. This also settles "the
+path is not clear" for WILD without a travel procedure: a human draws the loops.
+
+**Answered by** P4.3 (map-first at 4a and 4b) and P5.1 (the brief points at the map).
 
 ### F10. The user's original rules, mapped
 
@@ -375,16 +420,29 @@ rules/
 style/
   exemplars/                                      six golden entries, read at 4c (P1.2)
   tells.txt                                       the tell list the validator reads (P2.2)
-fixtures/                                         known-bad entries per tell (P2.2)
-tools/                                            as now, plus draw.py, metrics.py, --status
-setting/                                          the only variable
+fixtures/
+  bad/  good/                                     known-bad entries per tell; the exemplars (P2.2)
+  briefs/drakenhold.md                            the campaign-scale brief, committed (P0.2)
+  control/                                        the three control arms and their outputs (P0.2)
+tools/                                            as now, plus draw.py, context.py, metrics.py, --status
+setting/                                          EMPTY on main; the only variable in a build (F11)
   region/[Code].brief.md                          the user's brief per region (P5.1)
+  region/[Code]/Locations.md, *.mmd               may be authored by the user: the map (P4.3)
 checks/                                           as now, plus Playtest.md (P5.5)
 ```
 
 Frozen per release: everything but `setting/`, `checks/`, `GENRE.md`. Customised by
-the user: `GENRE.md` via the step 1a questionnaire (pack plus dials), one brief per
-region, and `rules/Notes.md` when a revision lands.
+the user: `GENRE.md` via the step 1a questionnaire (pack plus dials), one brief and
+optionally one map per region. The rules stay out of tree (Q1); only the citation
+grammar in `templates/` couples to them, and `templates/` is the one place the user
+expects to keep tweaking as the rules move.
+
+**The output format is not on the table.** The user is largely happy with the formatted
+output as it stands: the location header, the Player Summary, the Referee Notes, the
+bold Feature labels, the Exits line, the citation forms, the region fields and tables.
+Every task below that touches `templates/` changes sentence-level grammar or adds a
+field; none changes the shape a referee sees. Tweaks to setting references (how a
+Feature cites a registry or a table) are the one area the user named as open.
 
 Success criteria:
 
@@ -397,9 +455,11 @@ Success criteria:
 4. A second pack passes the nine-location slice with no fantasy nouns leaking.
 5. Every feedback item since the plan landed is logged with a route, and every route
    that added a rule also added a list entry, a tell or an exemplar first.
-6. The per-location read set is at or under 10,000 words for every rating.
+6. `context.py 4c` prints at or under 6,000 words for every rating, and no sibling
+   location is ever in a room's context.
 7. Two generations of the same location under the same brief draw different doors,
    containers and clues, by arithmetic.
+8. The motif-saturation tell reports nothing above threshold on the shipped example.
 
 ---
 
@@ -421,16 +481,23 @@ Pro-plan sitting for an Opus agent.
 - Acceptance: the numbers in Part one reproduce within rounding; output recorded at the
   foot of this file.
 
-**P0.2 Run the control.**
-- Files: new `fixtures/control/` holding the 600-word prompt (the user's fifteen rules
-  plus the B/X references) and its output; a short comparison note in the commit body.
-- Steps: with no framework file in context, generate a one-shot from the control prompt:
-  one SAFE thorp, one WILD stretch, one twelve-room DANGEROUS site. Then read Telar's
-  regions A, B and D against it with `templates/Setting_Judgement_Check.md`'s items and
-  `metrics.py`'s tells. Record where each wins. This is the only measurement of what the
-  infrastructure earns on a one-shot, and it decides how hard Phase 3 and 6 cut.
-- Acceptance: a table in the commit body, item by item, and one sentence per item on
-  which artefact in the framework produced the difference, or that nothing did.
+**P0.2 Run the control, three arms.**
+- Files: `fixtures/control/` holding each arm's prompt and output; `fixtures/briefs/
+  drakenhold.md` (already committed) as the brief; a comparison note in the commit body.
+- Steps: the user has stated that generation with no prompt and with a well-defined one
+  should both give reasonable output, so both are arms. Each arm builds the same
+  one-shot slice from the Drakenhold brief: region A Thornhaven, region B Ironwood
+  Trail, and region HB Crypts cut to twelve rooms.
+  - **Arm 0, no framework**: the brief alone, no rules, no format.
+  - **Arm 1, the short rules**: the brief plus the user's fifteen rules and the B/X
+    references, which the user will supply; if they have not arrived, use the list in
+    F10's first column as it was originally worded in the conversation.
+  - **Arm 2, the framework**: steps 1 through 4c as `STEPS.md` stands today.
+  Judge all three with `templates/Setting_Judgement_Check.md`'s items and `metrics.py`'s
+  tells, and with one more question per arm: could a referee run it tonight?
+- Acceptance: a table in the commit body, item by item and arm by arm, and one
+  sentence per item naming which framework artefact produced the difference, or that
+  nothing did. This decides how hard Phases 3 and 6 cut.
 
 ### Phase 1: the house style (four to six sessions)
 
@@ -464,7 +531,8 @@ Pro-plan sitting for an Opus agent.
   and stray parenthesis, warns on a fourth sentence or a long one, warns on each tell,
   and warns on a comma inside a phrase (`, the ` or `, a ` after a preposition).
 - Acceptance: the exemplars pass clean; E.22's line now warns; Telar reports errors,
-  cleared by P1.6.
+  cleared by P1.6. The rendered shape of a location (site and PDF) is unchanged: this
+  task touches sentences, not the format.
 
 **P1.4 Bring the Region Overview under the same style.** Parallel with P1.5.
 - Files: `templates/Region.md`; `STYLE.md` region section.
@@ -521,6 +589,25 @@ Pro-plan sitting for an Opus agent.
 - Acceptance: consequences at or under twelve; no Constraint a list or tell already
   covers; the fixed block byte-identical in both files.
 
+**P2.4 The motif-saturation tell.**
+- Files: `tools/metrics.py`; `tools/validate_setting.py`; `style/tells.txt` gains a
+  section for it.
+- Steps: measured on Telar while writing this task, the user's named motifs are not
+  dense inside one region; they are spread across regions: "tally" in 6 rooms across 4
+  of 5 regions, "toll" in 8 rooms across 4, "cairn" in 5 across 3, "sealed" in 17 rooms
+  across 3. A per-region density count misses them and is swamped by structural words
+  (exits, feet) and nouns a region legitimately owns (mound, niche). So the tell counts
+  **region spread**: for each content noun (after a stopword list, the structural
+  vocabulary, Bestiary, faction and `Language.md` names), the number of regions it
+  appears in and the number of rooms. Warn at three or more regions and five or more
+  rooms: "motif 'tally' in 6 rooms across A, C, D, E". A second signal is the
+  setting-level seed: the same nouns counted across `setting/*.md` and the region
+  overviews (toll 54, Essath 48, sealed 38, bound 24 on Telar) so the user can see
+  which motifs the context is seeding before a room is written. Both thresholds live
+  in `tells.txt`.
+- Acceptance: the check reproduces the tally, toll and cairn findings above without
+  being told the words; it is a warning, never an error.
+
 ### Phase 3: the four trees (five sessions)
 
 **P3.1 Reduce `patterns/` to contracts and create `genre/`.**
@@ -540,16 +627,24 @@ Pro-plan sitting for an Opus agent.
 - Acceptance: zero errors; no `## Design patterns` under `patterns/`; `patterns/` at
   or under 12,000 words; the site renders contract and lists side by side.
 
-**P3.2 Make the draw arithmetic.**
-- Files: new `tools/draw.py`; `templates/Location.md` instructions; `STEPS.md` 4c.
+**P3.2 Make the draw arithmetic, and assemble the context.**
+- Files: new `tools/draw.py`, new `tools/context.py`; `templates/Location.md`
+  instructions; `STEPS.md` 4c.
 - Steps: `draw.py <location-code> <list-name>...` returns, per list, an index and the
   entry, derived from a hash of the code and the list name, with `--reroll N` to move
-  on. Rated lines (`40%`) resolve the same way against a fixed threshold. 4c's
-  instruction: run the draw for every list-citing and rated line before writing, paste
-  the result at the top of the drafting scratch, write to it. The site's location page
-  may show the draw record as a collapsed note for the user's review; the PDF never.
+  on. Rated lines (`40%`) resolve the same way against a fixed threshold.
+  `context.py 4c <location-code>` then prints, in one stream and nothing else: the
+  class contract, the drawn entries (not the lists), the region brief, the region
+  overview, this location's stub and its edges from the diagram with the far ends'
+  names only, `setting/Truths.md`, the exemplar for this rating and weight, the
+  template, and the citation grammar. It never prints a sibling location, and it
+  prints a registry only as the names a citation may use. 4c's instruction becomes:
+  run `context.py`, write to what it printed. The site's location page may show the
+  draw record as a collapsed note for the user's review; the PDF never.
 - Acceptance: criterion 7 in Part five; the user rerolls one draw on one exemplar and
-  the entry changes without a rule changing.
+  the entry changes without a rule changing; `context.py 4c` for a DANGEROUS medium
+  location prints under 6,000 words, which is where the Pro-plan budget is actually
+  won.
 
 **P3.3 Build the B/X 1981 baseline pack.**
 - Files: `genre/bx-1981/PACK.md`, `Tags.md`, `Vocabulary.md`, `Bestiary.md`; the
@@ -581,39 +676,54 @@ Pro-plan sitting for an Opus agent.
 
 ### Phase 4: the rules interface (two sessions)
 
-**P4.1 State the interface.**
-- Files: new `rules/README.md`; optional `rules/Notes.md` (Q1).
+**P4.1 State the interface, verified once against the Notes.**
+- Files: new `rules/README.md`. No `rules/Notes.md` in tree (Q1).
 - Steps: `README.md` states the contract: the rules are external and moving; the
   framework's only coupling is the citation grammar in `templates/Location.md`; a
-  citation names a Test kind and a type or condition and nothing about resolution; the
-  referee resolves it against whatever revision they hold. Lists the citation forms and
-  where each is checked. If Q1 pins a snapshot, it is read-only and replaced wholesale.
-- Acceptance: the README is under 300 words and every citation form it lists has a
-  validator check.
+  citation names a Test kind and what is at stake and nothing about resolution; the
+  referee resolves it against whatever revision they hold. Lists the citation forms
+  and where each is checked. Then, once, with the Notes the user supplied open, check
+  every form against the rulebook's own vocabulary: Test of Constitution, Sanity and
+  Fate exist there; the six damage types exist there; Conditions are the Notes'
+  free-form name/effect/duration and the setting's list is an instance of that; `Xd`
+  does not exist there and is recorded as the framework's proposal, which the user
+  says is a candidate for the next rules revision if playtesting proves it. The Notes
+  are then closed and not cited again; the README records the revision date checked.
+- Acceptance: the README is under 300 words, every citation form it lists has a
+  validator check, and the one-time verification is recorded in the commit body.
 
 **P4.2 Cut `Procedures.md` to the interface.**
 - Files: `templates/Procedures.md`, `patterns/setting/Procedures.md`,
-  `setting/Procedures.md`, the forced-damage grammar.
+  `setting/Procedures.md`.
 - Steps: remove from the seed everything that restates or re-derives a mechanic the
   rules own: the Test ladder, wound effects, the Search rule as a mechanic (the
-  no-roll-for-secrets rule stays, restated as a content rule in `GENRE.md` where it
-  already is), the Scaling section beyond the AD ladder the Bestiary needs. What
-  remains: the citation grammar with one line per form; the Conditions list, because a
-  citation names one and the referee needs the name resolved; Time by rating in one
-  line each; Region Dice in three lines; currency and wage as setting facts. Whether
-  `Xd` survives is Q4; if not, the citation form drops it. The treasure taxonomy is a
-  setting fact and stays where the setting wants it.
-- Acceptance: `setting/Procedures.md` under 600 words; every term in it is either a
-  citation form, a Condition name, or a setting fact; nothing in it tells the referee
-  how a roll resolves.
+  no-roll-for-secrets rule stays, as a content rule in `GENRE.md` where it already is),
+  the Scaling section beyond the AD ladder the Bestiary needs. What remains: the
+  citation grammar with one line per form, `Xd` included (Q2: it stays as the
+  template's current form and is the kind of thing the user expects to keep tweaking
+  in `templates/` as the rules move); the Conditions list, because a citation names one
+  and the referee needs the name resolved; Time by rating in one line each; Region
+  Dice in three lines; currency and wage as setting facts; the treasure taxonomy as a
+  setting fact.
+- Acceptance: `setting/Procedures.md` under 600 words; every term in it is a citation
+  form, a Condition name, or a setting fact; nothing in it tells the referee how a roll
+  resolves.
 
-**P4.3 Give WILD its numbers.**
-- Files: `patterns/region/Wild.md`, `templates/Region.md` Terrain and Layout fields, the
-  validator, Region B.
-- Steps: Terrain states the ground's rate; Layout states distances between Landmarks in
-  hours or miles and what one action buys, both already half-present. "Every Landmark
-  reachable" becomes an error. Region B's graph is connected.
-- Acceptance: TOPOLOGY reports B as one component; validator clean.
+**P4.3 Map first: 4a and 4b accept a user-authored map.**
+- Files: `STEPS.md` 4a and 4b; `templates/Location_Gazetteer.md`,
+  `templates/Region_Connections.mmd`, `templates/Block_Connections.mmd`; the validator's
+  stub parser and Referee Notes check; `patterns/region/Wild.md`.
+- Steps: 4a and 4b state that the user may author `Locations.md` and the diagrams
+  directly, from a map they drew (hexes with landmarks placed for WILD, a dungeon map
+  for DANGEROUS), and that the generator fills only what is absent and never redraws
+  what is present. The stub line gains an optional size in parentheses after the name
+  (`E.20 The Barred Recess (12 ft, medium)`), and `check_location_file` warns when the
+  Referee Notes' stated dimension disagrees with it. `region/Wild.md` says that
+  distances come off the map and are stated in Layout in hours or miles; "every
+  Landmark reachable" becomes an error so a region cannot ship in two pieces. Region
+  B's graph is connected by hand as the worked example.
+- Acceptance: a user-authored `Locations.md` with sizes and a hand-drawn `.mmd`
+  survive 4c untouched; TOPOLOGY reports B as one component; validator clean.
 
 ### Phase 5: the iterative workflow (three sessions)
 
@@ -622,11 +732,14 @@ Pro-plan sitting for an Opus agent.
   per region.
 - Steps: the brief is what the user hands the generator per region and what Region E's
   PR description was: rating, die, size, what the region is for, what it must contain,
-  what it must not, which existing elements it touches. Under 20 lines. 3a reads the
-  briefs that exist rather than deciding count in prose; a one-shot is three briefs. A
-  brief may be amended as play reveals what the region needs, and an amendment is a new
-  region pass, not an edit to written rooms. Region E's brief is recovered from its PR
-  and committed as the worked example.
+  what it must not, which existing elements it touches, and whether a map is supplied
+  (P4.3). Under 20 lines. 3a reads the briefs that exist rather than deciding count in
+  prose; a one-shot is three briefs. A brief may be amended as play reveals what the
+  region needs, and an amendment is a new region pass, not an edit to written rooms.
+  Region E's brief is recovered from its PR and committed as the region-scale worked
+  example; `fixtures/briefs/drakenhold.md` is the campaign-scale one, and its gazetteer
+  lines (rating, die, one paragraph, a location count where the user cared) are the
+  shape a region brief compresses to when the user is in a hurry.
 - Acceptance: every region in Telar has a brief file; 3a cites the template.
 
 **P5.2 Per-region close.**
@@ -691,45 +804,54 @@ Pro-plan sitting for an Opus agent.
   Drakenhold's `blocks/` carried this for 22 regions in three peaks.
 - Acceptance: required per block when a region has more than one; none otherwise.
 
-**P7.2 Regenerate a shipped example under the B/X pack.** Depends on Q3.
-- Files: `setting/` wiped and rebuilt from three briefs under `genre/bx-1981/`.
-- Steps: run steps 1 through 7 as a user would, one session per step or region, logging
-  every friction point in `FEEDBACK.md`. The acceptance test for the template as a whole.
-- Acceptance: criteria 2, 3, 6 and 7 in Part five hold; the shipped site is the
-  repository's example.
+**P7.2 Regenerate a shipped example under the B/X pack, off `main`.**
+- Files: `setting/` wiped on `main` to the fresh-start state; a branch
+  `example/<name>` where three briefs are built under `genre/bx-1981/`.
+- Steps: per Q3, Telar is written against through Phase 1 and then removed entirely.
+  The regenerated module is built on its own branch, one session per step or region,
+  logging every friction point in `FEEDBACK.md`, and shipped from that branch with
+  P5.4's release tag and the Pages site. `main` keeps `setting/` empty so that no
+  built content sits in the context of the next build (F11). The user's tweaking phase
+  on the example is minor edits and playtest rework, not a rewrite.
+- Acceptance: criteria 2, 3, 6 and 7 in Part five hold on the example branch; `main`
+  validates as a fresh start; the site is built from the tag.
 
 ---
 
-## Part seven: open questions for the user
+## Part seven: decisions recorded
 
-**Q1. The Design Notes: pinned snapshot in `rules/`, or out of tree?** Recommendation:
-out of tree by default, since the interface is the coupling and the rules move; pin a
-snapshot only when a module ships, tagged with the release, so a referee knows which
-revision it was written against.
+The six open questions of the previous revision, answered by the user. These are not
+to be re-litigated by a task; a task that finds one wrong logs it in `FEEDBACK.md`.
 
-**Q2. `Xd` in the citation grammar: keep as a stated house rule, or drop to the Notes'
-one-Test form?** Recommendation: drop it. A citation that names a count of Tests is
-telling the referee how to resolve, which is the rulebook's job. `(Test of
-Constitution, Crushing)` is the interface; lethality is expressed by which Test and
-which type, and by the region's die.
+**D1. The rules stay out of tree.** The Notes combine the user's house rules, speculation
+and a genre context that can misalign with a build's target. They are used once, at
+P4.1, to build and verify the citation interface, then closed. No `rules/Notes.md`.
 
-**Q3. Telar: keep as the exemplar setting, or regenerate under the B/X pack at P7.2?**
-Recommendation: keep through Phase 1 as the rewrite corpus, then regenerate at P7.2 from
-three briefs as the shipped example. Telar is Conan; the template's example should be
-its default.
+**D2. `Xd` stays, in the template.** A Test specifying a number of rolls to proceed
+unscathed is a test case the user will fold into the rules if playtesting proves it.
+The output format is the user's own moving target, which is why `templates/` is
+separate from `patterns/` and is where that tweak is made when it changes.
 
-**Q4. WILD: point crawl only, or a hex option?** Recommendation: point crawl stays the
-data model; Terrain and Layout carry the numbers a hex-style cadence needs. A hex map is
-a different model and not worth it until a campaign asks.
+**D3. Telar is written against, then removed.** Phase 1 rewrites it as the target
+corpus; after the work is complete the tree is emptied and a module is regenerated on
+its own branch (P7.2). Leaving a setting in tree corrupts context (F11). The user's
+tweaking phase is playtest rework, never a rewrite.
 
-**Q5. The lists moved from Design patterns: rewrite from the B/X touchstones now, or
-move as-is and grow through feedback?** Recommendation: move as-is in P3.1, rewrite in
-P3.3 only where an entry fails "be specific, not generic", and let R2 grow them. Lists
-grow one line at a time from play; that is the mechanism working, not a backlog.
+**D4. Map first, and both crawls.** The user draws the hexes or the dungeon map, places
+landmarks, states connections and room sizes; the generator writes to it (P4.3). Point
+crawl and hex crawl are the same output with a different map behind it.
 
-**Q6. The control in P0.2: does the user have the 600-word prompt and a prior one-shot
-output on hand?** If so, commit both to `fixtures/control/` and P0.2 is a reading, not a
-generation.
+**D5. The lists moved from Design patterns are kept where the content is good**, and
+grown through route R2. No wholesale rewrite.
+
+**D6. The control has three arms**: no prompt, the short rules, the framework, all from
+the Drakenhold brief (P0.2). The user does not hold the 600-word prompt as a file and
+will supply it; the brief is committed at `fixtures/briefs/drakenhold.md`.
+
+**D7. The output format is settled.** What changes is sentence grammar and setting
+references, never the shape a referee sees.
+
+**D8. Scripts draw, assemble, count and check. They never write prose.**
 
 ---
 
