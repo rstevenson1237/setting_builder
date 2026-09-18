@@ -503,7 +503,13 @@ Pro-plan sitting for an Opus agent.
   - **Arm 2, the framework**: the map converted to `Locations.md` and a block diagram
     (by hand until `tools/map.py` exists, P4.3), then 3c and 4c as `STEPS.md` stands
     today, as one DANGEROUS region of one block, with a two-line brief.
-  Judge all three with `templates/Setting_Judgement_Check.md`'s items, `metrics.py`'s
+  A second example prompt, `fixtures/control/arm1b-prompt.md`, is conversational: no
+  map, no rules, "start with a proposed idea, pause for feedback, iterate until
+  finished", one safe site and one adventure site. Run it as arm 1b with the same map
+  offered at the first pause, so the comparison stays on one dungeon; its real value is
+  as evidence that the baseline is a feedback loop and not a prompt, which is what
+  `STEPS.md`'s per-region close (P5.2) and the brief (P5.1) formalise.
+  Judge all arms with `templates/Setting_Judgement_Check.md`'s items, `metrics.py`'s
   tells, and one more question per arm: could a referee run it tonight?
 - Acceptance: a table in the commit body, item by item and arm by arm, and one
   sentence per item naming which framework artefact produced the difference, or that
