@@ -59,6 +59,10 @@ Measured off the endorsed baseline, at about fourteen words to the sentence.
   registry owns.
 - A **Player Summary** is one to three sentences, same lengths.
 - **Referee Notes** are the same sentences, with no separate allowance.
+- A **region field** runs three to four sentences of about seventeen words - longer than a
+  Feature, because a Region Overview is read once and then mined for the rest of the
+  campaign. **Overview** is three sentences, hard, and a d6 table's rows are one or two.
+  `style/exemplars/region/DANGEROUS.md` is that shape measured.
 - **Full stops are free.** Length is the constraint, not punctuation. Where a fact wants a
   second sentence it gets one.
 - **No trailing explanatory clause.** A clause hung off the end to say why the thing is there,

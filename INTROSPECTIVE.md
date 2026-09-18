@@ -654,7 +654,31 @@ Original task, kept for what it specifies:
   cleared by P1.6. The rendered shape of a location (site and PDF) is unchanged: this
   task touches sentences, not the format.
 
-**P1.4 Bring the Region Overview under the same style.** Parallel with P1.5.
+~~**P1.4 Bring the Region Overview under the same style.**~~ Landed. `templates/Region.md` is
+59 lines, down from 113: its per-field descriptions are gone, because
+`patterns/region/Safe.md`, `Wild.md` and `Dangerous.md` each already carried a complete
+rating-specific list of the same fields, and the template's generic copy had begun to
+disagree with all three. What survives is the shape - the field order `site_common.py`
+parses, the five rating marks, the table - plus the two cross-field rules that live nowhere
+else. `STYLE.md` gains the region field's budget, measured off the exemplar rather than
+guessed: three to four sentences at seventeen words, longer than a Feature because the
+overview is read once and then mined.
+
+The step the task did not anticipate is that it closes P0.2's sharpest finding. The Overview
+field demanded "the one thing true of this region that is not true of the others", which is
+an absence claim across space and `GENRE.md` forbids it; the field now asks what stands in
+the way now. Two of the three rationale paragraphs went nowhere rather than to `STYLE.md`:
+"a field with no handle is scenery" and "say it once at the highest level" are both
+`GENRE.md` verbatim, which is why the file had grown to 113 lines. The Layout field's
+"distances in yards (short) or miles (long), per `setting/Procedures.md`" cited a rule
+`Procedures.md` does not carry - only `patterns/region/Wild.md` states units, and only for
+WILD. Nothing in `setting/` is edited, the 83-page site builds unchanged, and
+`templates/` drops 1,220 words.
+
+Still open, and P1.2 flagged it: the validator reads no Region Overview fields, so the
+region exemplar is a target with nothing mechanical holding it there.
+
+Original task, kept for what it specifies:
 - Files: `templates/Region.md`; `STYLE.md` region section.
 - Steps: field descriptions cut to one line each pointing at the region exemplar;
   rationale paragraphs moved to `STYLE.md` where they are style, cut where history.
