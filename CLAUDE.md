@@ -27,6 +27,11 @@ true).
 `STEPS.md` is the current, authoritative, sequential build log. Where it disagrees with any
 other file, including this one, STEPS.md wins.
 
+## Feedback is routed before anything is edited
+
+Every reaction to generated content - the user's, a check's, a playtest's - is classified
+against `FEEDBACK.md`'s routes and logged there before a file is changed.
+
 ## Documentation says where, not how
 
 Prose about a system states **where it lives and what it does**. It never restates **how it
