@@ -555,16 +555,9 @@ Pro-plan sitting for an Opus agent.
 
 ### Phase 0: freeze, measure, and run the control (two sessions)
 
-**P0.1 Tag the baseline and record metrics.**
-- Files: new `tools/metrics.py`.
-- Steps: tag `HEAD` as `framework-v0`. `metrics.py` (stdlib) prints, over
-  `setting/region/*/[0-9]*.md`: location count, mean and max words per Feature, mean
-  sentences per Feature, counts of each tell (hard-coded until `style/tells.txt`
-  exists: `rather than`, absence claims, conclusion tells, the gloss pattern), framework
-  words versus setting words, and the read-set word count per 4c entry point by walking
-  the graph `--read-set` walks.
-- Acceptance: the numbers in Part one reproduce within rounding; output recorded at the
-  foot of this file.
+~~**P0.1 Tag the baseline and record metrics.**~~ Landed. `tools/metrics.py` prints the
+report and **Baseline metrics** below is its output, naming the two figures in Part one
+it does not reproduce and the one push that section still owes.
 
 **P0.2 Run the control, three arms, on the user's twelve-room map.**
 - Files: `fixtures/control/arm1-prompt.md` (committed: the user's real prompt and map,
@@ -996,19 +989,110 @@ references, never the shape a referee sees.
 
 ## Baseline metrics
 
-Recorded by P0.1. Until then, the figures in Part one stand.
+`5780bd9` is the state every later phase is measured against, and `framework-v0` is the
+tag for it. The tag is made locally; pushing it needs credentials a session does not
+carry, so it is owed - `git tag -a framework-v0 5780bd9 && git push origin
+framework-v0`. The sha is what the figures below are anchored to either way.
 
-| Metric | Value at `ae492fa` |
-|---|---|
-| Framework words (authorities + templates + patterns) | 62,500 |
-| Setting words | 30,600 |
-| Locations | 64 |
-| Mean words per Feature | 22.3 |
-| "rather than" occurrences in `setting/region/` | 46 |
-| Absence-claim tells | 6 |
-| Conclusion tells | 1 |
-| Read set, DANGEROUS medium location | 23,900 words |
-| Read set, WILD landmark | 18,000 words |
-| Validator | 0 errors, 9 warnings (all hidden-edge far-side confirmations) |
-| Pattern files with empty Constraints | 25 of 65 |
-| `GENRE.md` standing consequences | 13 |
+What follows is `python3 tools/metrics.py` as the commit landing P0.1 prints it. That
+commit adds the tool, two README lines and this section, and touches no pattern file,
+template or location, so the corpus figures are `5780bd9`'s. Re-run it rather than
+editing these figures: a number typed here by hand is a second copy of the corpus.
+
+```
+CORPUS
+  regions            : 5 (A, B, C, D, E)
+  keyed locations    : 64
+  words              : 11,690
+  words per location : 183
+    A:  8 locations,  1,422 words
+    B:  6 locations,  1,152 words
+    C:  8 locations,  1,164 words
+    D: 18 locations,  3,604 words
+    E: 24 locations,  4,348 words
+
+FEATURES
+  Features           : 209
+  words per Feature  : mean 22.3, max 42 (body with citation)
+  prose words        : mean 20.2, max 41 (citation stripped)
+  segments           : mean 3.6, max 6
+  sentences          : mean 1.00, max 1
+  longest            : setting/region/D/9.md 'Unworn Panel'
+
+TELLS
+  rather than      :   47   the trailing clause, per PR #41
+  absence claim    :    8   absence across time or space, per GENRE.md
+  conclusion tell  :    0   the players' conclusion written down, per GENRE.md
+  gloss            :   20   a term carrying its own definition, per Location.md
+                     'rather than' is in 25 of 209 Features
+
+BUDGET
+  authorities    :    4 files,   4,641 words
+  templates/     :   23 files,  12,124 words
+  patterns/      :   66 files,  45,774 words
+  setting/       :   99 files,  33,501 words
+  checks/        :    3 files,   1,633 words   (neither framework nor setting)
+  fixtures/      :    4 files,  15,092 words   (neither framework nor setting)
+  tools/         :    5 files,   4,349 lines
+  framework      : 62,539 words
+  setting        : 33,501 words
+  ratio          : 1.87 words of framework per word of setting
+
+READ SET (step 4c)
+  CLAUDE.md                :    835
+  README.md                :    636
+  GENRE.md                 :  1,592
+  templates/Location.md    :  1,851
+  setting/Truths.md        :    394
+  setting/Procedures.md    :  1,967
+  setting/Language.md      :  1,173
+  region overview          :    687-998 across 5 regions, mean 830
+  fixed context            :  9,278 (with the mean region overview)
+
+  entry point              files  pattern  in context
+  dangerous/Creature.md        1    1,179      10,457
+  dangerous/High.md           20   14,668      23,946
+  dangerous/Low.md            20   15,126      24,404
+  dangerous/Medium.md         20   14,886      24,164
+  safe/Settlement.md          17   11,014      20,292
+  wild/Creature.md             1      535       9,813
+  wild/Hidden.md              17    9,338      18,616
+  wild/Landmark.md            18   10,042      19,320
+  wild/Secret.md              16    8,804      18,082
+```
+
+**Where Part one does not reproduce.** Two figures move, and both are Part one's
+estimate rather than the tool's arithmetic. Setting words read 33,501 against Part one's
+30,600, over 99 `.md` files against its 100, so the framework-to-setting ratio is 1.87
+and not the two words of rule per word of output that paragraph rounds to. And the WILD
+landmark read set is 19,320 against 18,000, which does not change what that section
+concludes - DANGEROUS medium lands at 24,164 with the mean region overview and 24,021
+with region D's own, against 23,900. The rest holds: templates at 12,124, patterns at
+45,774, authorities at 4,641 (4,600 before this commit's two README lines), 64
+locations, 183 words per keyed location, a mean Feature of 22.3 words, and "rather than"
+in 25 of 209 Features. Three figures the old table carried are outside what this tool
+measures and were re-counted directly: 0 validator errors and 9 warnings (`python3
+tools/validate_setting.py`), 25 of 65 pattern files with an empty `## Constraints`, and
+13 standing consequences in `GENRE.md`.
+
+**What calibrates the three inexact tells.** Each was run against the corpus as it stood
+before PR #41 rewrote it, and against the same tree now - `--tells` over
+`setting/region` whole in both cases, so the two are like for like:
+
+| Tell | Before #41 (`a239d81`) | Now (`5780bd9`) |
+|---|---|---|
+| `rather than` | 132 | 69 |
+| absence claim | 75 | 26 |
+| conclusion tell | 25 | 4 |
+| gloss | 27 | 20 |
+
+The conclusion tell is the sharpest: 25 hits before, 0 across the keyed locations now,
+and its per-file listing names the lines the #41 commit body says it cut. The gloss is
+the loosest, moving least and over-reporting most - 20 hits, of which D.18's Corbelled
+Ceiling, the one documented instance, is no longer one.
+
+Read against the baseline module, `--tells fixtures/control/arm1b-output.md` returns 3
+for `rather than` and 4 absence claims, which are the hand counts in Part two's table
+exactly. It also returns 11 conclusion tells against the keyed locations' 0, which is
+the register finding in **The baseline, read** stated as a number - and what P1.1 has to
+rule on before that figure means better or worse.
