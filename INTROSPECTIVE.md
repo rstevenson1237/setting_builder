@@ -572,7 +572,12 @@ its Notes, which the comparison's Methodology section prices.
 
 ### Phase 1: the house style (four to six sessions)
 
-**P1.1 Write `STYLE.md`.**
+~~**P1.1 Write `STYLE.md`.**~~ Landed. `STYLE.md` is the positive target and `CLAUDE.md`
+names it beside `GENRE.md` as re-read at every generation step. Until P1.3 lands,
+`templates/Location.md` instruction 5 still says one sentence per Feature where `STYLE.md`
+says one to four; the budget is `STYLE.md`'s and the instruction is the stale copy.
+
+Original task, kept for what it specifies:
 - Files: new `STYLE.md`; `CLAUDE.md` names it beside `GENRE.md` as re-read at every
   generation step.
 - Steps: under 800 words, in this order: the three published sources and what is taken
