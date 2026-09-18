@@ -593,7 +593,24 @@ Original task, kept for what it specifies:
 - Acceptance: a reader who has never seen the repository writes one Feature and one
   Summary from `STYLE.md` alone. The user approves before P1.2.
 
-**P1.2 Write the exemplars.**
+~~**P1.2 Write the exemplars.**~~ Landed. `style/exemplars/` holds the six, its README
+naming each one's class file and the three cases a single exemplar per class would not show.
+The validator's new `check_exemplars` runs the location checks over
+`style/exemplars/location/` on every invocation, generated setting or not, which is what
+makes them a floor; `parse_location_body` was split out of `check_location_file` so a
+standalone exemplar and a generated location are read by the same code. `metrics.py`'s
+fixed context now carries `STYLE.md` and the exemplar, which P1.1 had left it understating.
+Six files, 0 errors, 0 warnings, 0 tells; 18 Features at 3.2 sentences and 14.9 words per
+sentence against the endorsed baseline's 13.8.
+
+Two things the task text did not anticipate. The measured density sits at the top of
+`STYLE.md`'s one-to-four budget because every rate-`1` line the class draws has to be
+visibly present, which is the acceptance's own requirement; the thinner target P1.6 set for
+Telar is not reachable by an exemplar that shows a full draw. And `templates/Region.md` has
+no exemplar check behind it - the validator reads no Region Overview fields at all - so
+`region/DANGEROUS.md` is a target P1.4 writes to and nothing mechanical holds it there.
+
+Original task, kept for what it specifies:
 - Files: new `style/exemplars/`: one SAFE working location, one WILD landmark with a
   hidden child, DANGEROUS high, medium and low, one DANGEROUS region overview. Codes
   `X.n`, no Telar nouns.

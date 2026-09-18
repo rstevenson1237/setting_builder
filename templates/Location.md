@@ -8,6 +8,8 @@ Consult when drafting - and only this, deliberately narrow so the entry stays sh
 - `GENRE.md` - a Feature is something to react to on the spot, not a beat in a larger scripted arc.
 - `STYLE.md` - the register every line here is written in, the sentence budget, and which
   referee asides survive.
+- the exemplar for this rating and weight, in `style/exemplars/location/` - the same
+  register on a finished page.
 - this location's class file, named by its rating and its stub's weight/classification. It is
   the **entry point for everything the pattern library contributes here**: every other pattern
   file is reached from its Spec, and none is pulled in directly.

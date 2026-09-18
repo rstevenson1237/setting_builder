@@ -47,6 +47,7 @@ from validate_setting import (  # noqa: E402
 )
 
 REGION = ROOT / "setting" / "region"
+EXEMPLARS = ROOT / "style" / "exemplars" / "location"
 LOCATION_GLOB = "*/[0-9]*.md"
 SENTENCE_SPLIT_RE = re.compile(r'(?<=[.!?])\s+')
 
@@ -314,12 +315,14 @@ def report_budget() -> None:
 # it. The variable half is walked with the graph tools/validate_setting.py
 # --read-set walks, from the same entry points.
 #
-# The region overview is per-region, so it is reported as its own range rather
-# than folded into one number that would be right for no region.
+# The region overview and the exemplar are both per-entry - one region of five,
+# one class file of six - so each is reported as its own range rather than
+# folded into one number that would be right for no location.
 # ---------------------------------------------------------------------------
 
-FIXED_CONTEXT = ("CLAUDE.md", "README.md", "GENRE.md", "templates/Location.md",
-                 "setting/Truths.md", "setting/Procedures.md", "setting/Language.md")
+FIXED_CONTEXT = ("CLAUDE.md", "README.md", "GENRE.md", "STYLE.md",
+                 "templates/Location.md", "setting/Truths.md",
+                 "setting/Procedures.md", "setting/Language.md")
 
 
 def report_read_set(step: str = "4c") -> None:
@@ -338,7 +341,16 @@ def report_read_set(step: str = "4c") -> None:
               f"{len(overviews)} regions, mean {avg:,}")
     else:
         avg = 0
-    print(f"  {'fixed context':24s} : {fixed + avg:6,} (with the mean region overview)")
+    exemplars = [file_words(p) for p in sorted(EXEMPLARS.glob("*.md"))] \
+        if EXEMPLARS.exists() else []
+    if exemplars:
+        ex_avg = round(mean(exemplars))
+        print(f"  {'exemplar':24s} : {min(exemplars):6,}-{max(exemplars):,} across "
+              f"{len(exemplars)} classes, mean {ex_avg:,}")
+    else:
+        ex_avg = 0
+    print(f"  {'fixed context':24s} : {fixed + avg + ex_avg:6,} "
+          f"(with the mean region overview and exemplar)")
     print()
 
     entries: set = set()
