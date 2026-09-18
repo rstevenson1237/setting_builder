@@ -49,6 +49,8 @@ Read these rather than a description of them.
   - `build_site.py` / `build_pdf.py` - render `setting/` into a website and a PDF, with no
     separate copy to keep in sync.
   - `site_common.py` - parsing helpers shared by the two builders.
+  - `metrics.py` - what the framework costs and how the corpus reads, counted. Judges
+    nothing; the thresholds are the validator's.
 
 ## Commands
 
@@ -56,6 +58,8 @@ Read these rather than a description of them.
 python3 tools/validate_setting.py           # structural lint
 python3 tools/validate_setting.py --pending [REGION]    # edges owed to unwritten blocks
 python3 tools/validate_setting.py --read-set [STEP]     # what a step reads, per the graph
+python3 tools/metrics.py                    # corpus, tells, budget and read-set report
+python3 tools/metrics.py --tells [PATH]     # every tell hit, listed, over any markdown
 python3 tools/build_site.py --out _site     # static site, including patterns.html
 python3 -m http.server -d _site             # preview it locally
 pip install -r tools/requirements-pdf.txt   # WeasyPrint, for the PDF only
