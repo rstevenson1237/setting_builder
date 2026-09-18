@@ -1,53 +1,42 @@
-# Control arm 1: the short rule set
+# Control arm 1: the short prompt, as actually used
 
-**Reconstructed from the conversation, not supplied by the user as a file.** The rules
-block is verbatim from the user's first message. The three bracketed sections are the
-parts inferred from `rstevenson1237/drakenhold`, and the user confirms or replaces them
-by editing this file. See `INTROSPECTIVE.md` P0.2 for how it is used.
+Supplied by the user as one of many examples of the prompt that reliably produces a
+playable one-shot. Three parts: the prompt below, verbatim; the room list below,
+verbatim, which is the map; and `Rules_Light_TTRPG_Design_Notes.md`, which is out of
+tree (see `INTROSPECTIVE.md` D1) and is supplied at run time. The user's note: the
+Notes were the major context piece, since they carry the baseline content, genre
+included.
 
-Arm 1 is: this file, plus `fixtures/briefs/drakenhold.md`, plus nothing from
-`templates/`, `patterns/` or `GENRE.md`.
+See `INTROSPECTIVE.md` P0.2 for how the three arms use this.
 
 ---
 
-## [Wrapper, inferred]
+## Prompt (verbatim)
 
-Write a tabletop RPG adventure module as a Setting Playbook, in the format of the
-Setting Playbook Template below, from the brief that follows. Emulate the shape and
-register of classic TSR-era modules: B2 The Keep on the Borderlands, B4 The Lost City,
-X1 Isle of Dread, S4 The Lost Caverns of Tsojcanth, U1 The Sinister Secret of Saltmarsh,
-I6 Ravenloft, S3 Expedition to the Barrier Peaks. Build one region at a time.
+Create a one page dungeon using the provided layout. Our map is already set so do not
+change any details of the provided layout, only add to it. Use text formatting and
+bullet points to emphasize readability. Osr design philosophy. Classic 1981 Basic d&d
+theme. Utilize tags and short descriptive sentences to provide enough information to
+make rulings. B/X style stat lines for creatures. Do not create a story. Include
+interesting scenarios to challenge adventurous players. Output in markdown.
 
-## Rules (verbatim)
+## Map (verbatim)
 
-Follow the TTRPG Design Notes. Rules usage may be proposed; explicit test calls should be rare, and sufficient detail lets the Referee rule without instruction.
-Follow the Setting Playbook Template's formatting. Content inside the template is illustrative and never enters the setting.
-Sandbox. Situations to explore, not a story to follow.
-Lived-in world. Constructed language and proper names throughout; avoid tropey shorthand.
-The path is not clear. More than one route to most places, usually with a choice attached. Players are allowed to lose the way.
-Every gate has an answer that is not the gate. A lock may be genuinely hard, but the network around it always offers another way in — longer, darker, or watched by something worse. The alternate route is a cost, never a free pass.
-Negative space. Detail is distributed, not uniform. As a working proportion: a third low detail, a third medium, a third high — or a third combat and hazard, a third puzzle and conundrum, a third connective tissue. Rooms may be empty. Roughly half a region's room budget is stubbed as named locations; the rest is unnamed fill inside the stated groupings.
-Three tiers of detail. Landmarks are stated in the Overviews. Hidden detail answers a general question. Secret detail answers a specific one, and sits inside the feature it belongs to. The same three tiers govern regions, where landmark locations draw the eye from afar and the ground between them is conveyed procedurally.
-Layers of history. Every place carries a reason it was built, a history of what it was, and a reality of what it is now. Untangling those layers is player work.
-Player mechanics. Every element is written from the direction of how a player will meet it. Clues to hidden and secret detail always exist and are not always easy to find.
-Prose for the referee. Hemingway — hard-bounded, spatially precise, measurements and cardinal directions stated, because mapping is expected.
-Poetry for the players. Tolkien — lyrical, hinting at the wider world. Player-facing text asks the questions that referee text answers, and that exchange is what drives the setting's growth.
-OSR playstyle. Enough for the Referee to rule; not so much that agency narrows.
-B/X cameo. Classic material is salt and pepper, never the spine. The pleasure is a player recognizing an old danger wearing a new name.
-Tables follow the Classification, not the terrain. SAFE carries Events, WILD carries Encounters, DANGEROUS carries Dangers, regardless of where the region sits. Tables ascend from 1 to x; the Danger table is the sole exception and counts down.
-Names compound from the established root vocabulary. New roots are proposed and added to the record rather than coined in passing.
+```
+1. 20x50. Stairs down from the north -> Entrance, opening heads west->2. Doors in the south->corridor and east->9. Two pillars, one each in the west and east half of the room.
+2. 30x30. Ruined debris or furniture. Openings head north->5, south->3 and east->1.
+3. 30x30. Tapestry covers the south wall. Some debris. Secret door heads west->4, opening heads north->2 and a door heads east->corridor.
+4. 30x70. Tapestry covers the east wall. A short corridor terminates in a secret door heading east->3.
+5. 30x30. Tapestry covers the north wall. An opening heads south->2 and a door heads west->6.
+6. 30x40. A double door heads west->7 and a door heads east->5.
+7. 50x50. Partially flooded. Parallel rows of colonnades run in the north and south half of the room. A double door heads east->6 and a door heads north->8.
+8. 30x30. A raised dais with a throne. A door heads south->7.
+9. 50x30. Doors head west->1, east->corridor and north->10.
+10. 40x30. A tapestry covers the north wall. A well or fountain sits in the center of the room. A door heads south->9 or east->corridor.
+11. 30x30. An opening heads east->corridor and a secret door heads north->12.
+12. 40x50. A secret door heads south->11.
+```
 
-## [Format, inferred]
+## Context
 
-The Setting Playbook Template as it stood in `rsteventon1237/drakenhold` at
-`Setting_Playbook_Template.md` before the STYLE section and the three location forms
-were added, that is: SETTING, OVERVIEW, TRUTHS, RUMOURS, HISTORY, FACTIONS, BESTIARY,
-UNANSWERED QUESTIONS, REGIONAL GAZETTEER (Overview, Ambiance, Layout, Features, Dangers,
-Creatures, Secrets, Treasure, Tables), RELATIONAL DIAGRAMS, LOCATIONS (code, name,
-three tags, Player's Overview, Referee Overview, Features with `->` pointers).
-
-## [Rules reference, inferred]
-
-`Rules_Light_TTRPG_Design_Notes.md` at the revision the user supplied in this
-conversation, read for its vocabulary (Tests, Action Dice, Difficulty Die, regional
-modes, time and distance) and not restated.
+`Rules_Light_TTRPG_Design_Notes.md`, the revision the user holds, attached in full.

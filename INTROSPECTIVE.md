@@ -108,10 +108,14 @@ variable and the setting the casualty. A template repo inverts that.
 
 ## Part two: what the infrastructure is earning
 
-The user's original fifteen rules and the B/X references, about 600 words, reliably
-produce a one-shot at roughly 90% of the mark. That is the control this framework has
-to beat, and it has never been measured against it. What follows is the assessment;
-P0.2 is the measurement.
+The user's working baseline reliably produces a one-shot at roughly 90% of the mark,
+and it is smaller than the first draft of this file assumed: about 80 words of prompt
+("OSR design philosophy. Classic 1981 Basic D&D theme. Use tags and short descriptive
+sentences. B/X stat lines. Do not create a story."), the Design Notes as context, and a
+numbered room list with dimensions and exits. The Notes carry the genre, since their
+Implied Setting, Literary References and Creature Types sections are the 1981 baseline
+stated once. That is the control this framework has to beat, and it has never been
+measured against it. What follows is the assessment; P0.2 is the measurement.
 
 **A one-shot fits in one context window.** Every room, every clue's far end, every coined
 name is in view at once, so consistency is free and 600 words of rules is enough. The
@@ -365,13 +369,17 @@ point crawl because the user draws the map first, hexes for WILD with landmarks 
 in them, a dungeon map for DANGEROUS, and hands the generator a target of connections
 and room sizes; with that, generated content is close on the first try.
 
-`STEPS.md` 4b has the generator draw the diagram. The files a user would author are
-the ones the framework already has: `Locations.md` stubs and the `.mmd` diagrams. What
-is missing is the statement that they may be authored by the user, a place for room
-size on the stub, and the Referee Notes check that honours it. This also settles "the
-path is not clear" for WILD without a travel procedure: a human draws the loops.
+`STEPS.md` 4b has the generator draw the diagram. The format the user actually writes
+a map in is a numbered room list, one line per room: dimensions, fixtures, and exits
+as `door heads west->2`, with `corridor` and `Entrance` as off-map ends
+(`fixtures/control/arm1-prompt.md`). That is lighter than `Locations.md` plus mermaid
+and carries everything the framework's two files hold: code, size, edge, edge kind
+(door, opening, double door, secret door, stairs), direction. Converting it is a
+script's job, inside the scripting boundary. This also settles "the path is not clear"
+for WILD without a travel procedure: a human draws the loops.
 
-**Answered by** P4.3 (map-first at 4a and 4b) and P5.1 (the brief points at the map).
+**Answered by** P4.3 (map-first at 4a and 4b, with `tools/map.py`) and P5.1 (the brief
+points at the map).
 
 ### F10. The user's original rules, mapped
 
@@ -424,7 +432,7 @@ fixtures/
   bad/  good/                                     known-bad entries per tell; the exemplars (P2.2)
   briefs/drakenhold.md                            the campaign-scale brief, committed (P0.2)
   control/                                        the three control arms and their outputs (P0.2)
-tools/                                            as now, plus draw.py, context.py, metrics.py, --status
+tools/                                            as now, plus draw.py, context.py, map.py, metrics.py, --status
 setting/                                          EMPTY on main; the only variable in a build (F11)
   region/[Code].brief.md                          the user's brief per region (P5.1)
   region/[Code]/Locations.md, *.mmd               may be authored by the user: the map (P4.3)
@@ -481,23 +489,28 @@ Pro-plan sitting for an Opus agent.
 - Acceptance: the numbers in Part one reproduce within rounding; output recorded at the
   foot of this file.
 
-**P0.2 Run the control, three arms.**
-- Files: `fixtures/control/` holding each arm's prompt and output; `fixtures/briefs/
-  drakenhold.md` (already committed) as the brief; a comparison note in the commit body.
-- Steps: the user has stated that generation with no prompt and with a well-defined one
-  should both give reasonable output, so both are arms. Each arm builds the same
-  one-shot slice from the Drakenhold brief: region A Thornhaven, region B Ironwood
-  Trail, and region HB Crypts cut to twelve rooms.
-  - **Arm 0, no framework**: the brief alone, no rules, no format.
-  - **Arm 1, the short rules**: the brief plus the user's fifteen rules and the B/X
-    references, which the user will supply; if they have not arrived, use the list in
-    F10's first column as it was originally worded in the conversation.
-  - **Arm 2, the framework**: steps 1 through 4c as `STEPS.md` stands today.
-  Judge all three with `templates/Setting_Judgement_Check.md`'s items and `metrics.py`'s
-  tells, and with one more question per arm: could a referee run it tonight?
+**P0.2 Run the control, three arms, on the user's twelve-room map.**
+- Files: `fixtures/control/arm1-prompt.md` (committed: the user's real prompt and map,
+  verbatim); the Notes supplied at run time from out of tree; each arm's output
+  committed beside it; a comparison note in the commit body.
+- Steps: the baseline that reliably produces a playable one-shot turned out to be
+  about 80 words of prompt, the Design Notes as context, and a numbered room list with
+  dimensions, fixtures and `->` exits. All three arms build that same twelve-room
+  dungeon so the comparison is like for like:
+  - **Arm 0, no prompt**: the map and "write a one-page dungeon for it", nothing else.
+  - **Arm 1, the short prompt**: `arm1-prompt.md` with the Notes attached, exactly as
+    the user runs it.
+  - **Arm 2, the framework**: the map converted to `Locations.md` and a block diagram
+    (by hand until `tools/map.py` exists, P4.3), then 3c and 4c as `STEPS.md` stands
+    today, as one DANGEROUS region of one block, with a two-line brief.
+  Judge all three with `templates/Setting_Judgement_Check.md`'s items, `metrics.py`'s
+  tells, and one more question per arm: could a referee run it tonight?
 - Acceptance: a table in the commit body, item by item and arm by arm, and one
   sentence per item naming which framework artefact produced the difference, or that
-  nothing did. This decides how hard Phases 3 and 6 cut.
+  nothing did. This decides how hard Phases 3 and 6 cut. The user's prompt also names
+  three things the framework claims to supply and the control gets for free: tags,
+  short descriptive sentences, and B/X stat lines. Whether arm 2 does any of the three
+  better is the sharpest reading of this table.
 
 ### Phase 1: the house style (four to six sessions)
 
@@ -649,9 +662,12 @@ Pro-plan sitting for an Opus agent.
 **P3.3 Build the B/X 1981 baseline pack.**
 - Files: `genre/bx-1981/PACK.md`, `Tags.md`, `Vocabulary.md`, `Bestiary.md`; the
   `lists/` from P3.1 extended; `patterns/setting/Genre.md` seed pool.
-- Steps: `PACK.md` states the assumed setting of 1981 B/X the way `GENRE.md`'s paragraph
-  does (points of light, ruined empire, mythic underworld, low magic), the literary
-  references and modules the Notes name, and every Q2 axis default. The lists gain a
+- Steps: `PACK.md` is derived, with the Notes open once, from the sections that gave
+  the user's one-shots their baseline: Implied Setting (points of light, ruined empire,
+  mythic underworld, low magic), Literary References (the six authors and seven
+  modules), Creature Types, and the Treasure types. It states the assumed setting the
+  way `GENRE.md`'s paragraph does and every Q2 axis default. The Notes are then closed;
+  the pack carries the content so the Notes need not be in context at generation. The lists gain a
   `tropes-<rating>.md` facet, ten to fifteen shapes per rating, each a shape and a
   constraint and never a named monster; class files draw it at a low rate in the
   registry block. The lists moved as-is in P3.1 are rewritten only where they fail "be
@@ -709,21 +725,28 @@ Pro-plan sitting for an Opus agent.
   form, a Condition name, or a setting fact; nothing in it tells the referee how a roll
   resolves.
 
-**P4.3 Map first: 4a and 4b accept a user-authored map.**
-- Files: `STEPS.md` 4a and 4b; `templates/Location_Gazetteer.md`,
-  `templates/Region_Connections.mmd`, `templates/Block_Connections.mmd`; the validator's
-  stub parser and Referee Notes check; `patterns/region/Wild.md`.
-- Steps: 4a and 4b state that the user may author `Locations.md` and the diagrams
-  directly, from a map they drew (hexes with landmarks placed for WILD, a dungeon map
-  for DANGEROUS), and that the generator fills only what is absent and never redraws
-  what is present. The stub line gains an optional size in parentheses after the name
-  (`E.20 The Barred Recess (12 ft, medium)`), and `check_location_file` warns when the
-  Referee Notes' stated dimension disagrees with it. `region/Wild.md` says that
-  distances come off the map and are stated in Layout in hours or miles; "every
-  Landmark reachable" becomes an error so a region cannot ship in two pieces. Region
-  B's graph is connected by hand as the worked example.
-- Acceptance: a user-authored `Locations.md` with sizes and a hand-drawn `.mmd`
-  survive 4c untouched; TOPOLOGY reports B as one component; validator clean.
+**P4.3 Map first: 4a and 4b accept a user-authored map, via `tools/map.py`.**
+- Files: new `tools/map.py`; new `templates/Map.md`; `STEPS.md` 4a and 4b;
+  `templates/Location_Gazetteer.md`; the validator's stub parser and Referee Notes
+  check; `patterns/region/Wild.md`.
+- Steps: `templates/Map.md` is the user's own room-list format, stated once: one line
+  per room, `N. WxL. fixtures. exits`, exits as `<kind> heads <direction>-><N>`, with
+  `corridor`, `Entrance` and the like as off-map ends; for WILD, one line per hex or
+  landmark with distances in place of dimensions. `map.py <region-code> <map-file>`
+  writes `Locations.md` stubs (name left as the fixture phrase until 4c names it, size
+  carried in parentheses after the name), the block diagram with edge kinds read off
+  the exit words (door and opening are `---`, secret door `-.-`, stairs and shaft
+  `---|vertical|`, a one-way phrase `-->`), and the block header. It never invents an
+  edge or a room; a map with no exit to a room is an error it reports. 4a and 4b state
+  that a user map is authoritative and the generator fills only what is absent.
+  `check_location_file` warns when the Referee Notes' stated dimension disagrees with
+  the stub's. `region/Wild.md` says distances come off the map and are stated in
+  Layout; "every Landmark reachable" becomes an error. Region B is connected by hand
+  as the worked example, and `fixtures/control/arm1-prompt.md`'s map is the DANGEROUS
+  fixture the script is tested on.
+- Acceptance: `map.py` round-trips the control map into a `Locations.md` and a block
+  diagram that pass the validator with zero errors; a user-authored map survives 4c
+  untouched; TOPOLOGY reports B as one component.
 
 ### Phase 5: the iterative workflow (three sessions)
 
@@ -844,9 +867,15 @@ crawl and hex crawl are the same output with a different map behind it.
 **D5. The lists moved from Design patterns are kept where the content is good**, and
 grown through route R2. No wholesale rewrite.
 
-**D6. The control has three arms**: no prompt, the short rules, the framework, all from
-the Drakenhold brief (P0.2). The user does not hold the 600-word prompt as a file and
-will supply it; the brief is committed at `fixtures/briefs/drakenhold.md`.
+**D6. The control has three arms**: no prompt, the user's short prompt, the framework,
+all on the user's twelve-room map (P0.2). The prompt and map are committed verbatim at
+`fixtures/control/arm1-prompt.md`; the Notes attach at run time. The Drakenhold brief
+at `fixtures/briefs/drakenhold.md` is the campaign-scale brief example, not the
+control's input.
+
+**D9. The map format is the user's room list.** One line per room, dimensions,
+fixtures, `->` exits. The framework converts it (`tools/map.py`, P4.3); the user never
+writes `Locations.md` or mermaid by hand.
 
 **D7. The output format is settled.** What changes is sentence grammar and setting
 references, never the shape a referee sees.
