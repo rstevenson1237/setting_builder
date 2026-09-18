@@ -611,9 +611,10 @@ Original task, kept for what it specifies:
 
 **P1.3 Replace the punctuation ban with a sentence budget.**
 - Files: `templates/Location.md` instruction 5; `check_feature_grammar`.
-- Steps: a Feature is one to three sentences, each about twenty words or fewer;
-  `Label: outcome.` branches are sentences; `->` still means trigger to effect; a
-  citation sits last; no trailing ` - ` clause and no non-citation parenthesis. Delete
+- Steps: the sentence budget is `STYLE.md`'s, and instruction 5 cites it rather than
+  restating a second number; branches are sentences joined by `->`, which still means
+  trigger to effect; a citation sits last; no trailing ` - ` clause and no non-citation
+  parenthesis. Delete
   the eight-word segment and comma-only rules. The check errors on the trailing clause
   and stray parenthesis, warns on a fourth sentence or a long one, warns on each tell,
   and warns on a comma inside a phrase (`, the ` or `, a ` after a preposition).

@@ -12,8 +12,9 @@ labels, the tables, the citation forms - and this file owns the sentences inside
 Three published modules and one endorsed output. Each contributes a shape, never its wording.
 
 - **The Hole in the Oak** - the branch form. A bold label, then each branch as its own short
-  sentence: `Pried: the grate lifts free. Struck: the frame splits and the shaft floods.`
-  Two branches are two sentences, never one comma-welded clause.
+  sentence, carried on the `->` the templates already use for trigger to effect: `Pried ->
+  the grate lifts free. Struck -> the frame splits and the shaft floods.` Two branches are
+  two sentences, never one comma-welded clause.
 - **Arden Vul** - the cross-reference. An entry names another location by its code and a
   registry entry by its name, and stops. What a thing means, what it opens and what it is
   worth sit where they are defined, so the room stays a container.
@@ -23,8 +24,7 @@ Three published modules and one endorsed output. Each contributes a shape, never
 - **`fixtures/control/arm1b-output.md`** - the register itself. The user endorsed this output,
   and `style/exemplars/` is written to match it. Read a page of it before writing a location.
 
-What the four share is the form the templates already have, and none of them bans the full
-stop.
+All four share the form the templates already have, and none bans the full stop.
 
 ## One register: the referee's
 
@@ -39,8 +39,8 @@ promise that the thing appears as a Feature below. It says what is there, never 
 ## Which referee asides stay
 
 An aside addressed to the referee *about running the room* stays: `Do not prompt them.`
-`Let them argue about it.` `Roll this where they can see it.` It changes a ruling, so it has
-travelled the whole way and earned its place.
+`Let them argue about it.` `Roll this where they can see it.` It changes a ruling, so it
+earns its place.
 
 Two go, wherever they appear:
 
@@ -70,9 +70,9 @@ One Feature and one Player Summary from the same entry, to shape:
 > it, wall to wall, without a seam. Something beneath it creaks as the first boot lands.
 
 > **Weighted Floor:** One slab spans the room, pivoting on an iron rod set east wall to west.
-> Weight past the centre of either half tips it and slides everything down into a pit ten feet
-> below (Test of Fate, Condition). Crossed from both sides at once, it holds level. A pole set
-> down on it draws the creak before it tips.
+> Weight past the centre -> it tips, and everything on it slides into the pit below (Test of
+> Fate, Condition). Crossed from both sides at once -> it holds level. The pit is ten feet
+> deep, and a pole set on the slab draws its creak first.
 
 ## The tells
 
@@ -80,4 +80,4 @@ A tell is the textual signature of a class of failure - a candidate to read, not
 `style/tells.txt` is the list, and `python3 tools/metrics.py --tells [PATH]` reports it over
 any markdown; until that file exists, the tells in force are the four `tools/metrics.py`
 carries. **Clear a tell by rewriting the line.** Swapping a word or dropping in a comma to
-satisfy the pattern leaves the failure in place and costs the measurement as well.
+satisfy the pattern leaves the failure in place and costs the measurement too.
