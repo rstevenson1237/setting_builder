@@ -454,7 +454,7 @@ Feature cites a registry or a table) are the one area the user named as open.
 
 Success criteria:
 
-1. P0.2's control comparison is recorded and the framework beats the 600-word prompt on
+1. P0.2's control comparison is recorded and the framework beats the short prompts on
    the one-shot, or the cuts in Phase 3 and 6 are made without regret.
 2. A fresh clone plus one step-1 session produces `GENRE.md`, `setting/Tags.md`,
    `Procedures.md` and `Language.md` under the B/X pack.
