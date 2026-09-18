@@ -653,51 +653,43 @@ ROMAN_TABLES = {"I", "II", "III", "IV", "V"}
 # ---------------------------------------------------------------------------
 # The Feature grammar - templates/Location.md instruction 5
 #
-# A Feature is one sentence whose only separators are "," and "->". The banned
-# punctuation is the whole point: a dash, a semicolon or a second sentence is
-# the slot a trailing clause hangs in, and the trailing clause is where a
-# Feature explains itself, dates itself, or writes down the party's conclusion.
-# Removing the slot is cheaper than judging what fills it, and unlike the prose
-# heuristics elsewhere in this file it is decidable, so separators are errors.
-#
-# Length is not. Eight words to a segment and four segments (six with a "->")
-# are the target, but a legal sentence one word over is a judgement call about
-# phrasing, so those warn. A citation is outside the grammar - it is machinery,
-# not prose - and is stripped before anything is counted.
+# The sentences are STYLE.md's budget and are warned on, since a line one word
+# over is a judgement call about phrasing. What errors here is the shape the
+# template owns and the validator can decide: where a citation sits, what a
+# parenthesis may hold, and the dash a trailing clause hangs off.
 # ---------------------------------------------------------------------------
 
-# Every parenthesised group is stripped before the grammar is applied: a
-# citation is machinery, not prose, and its own commas and colons are not the
-# sentence's. Where it sits is checked separately, since instruction 5 puts it
-# last and a Feature that carries prose after one has hidden a second clause
-# behind the machinery.
+# The citation forms templates/Location.md's Citations section lists. A
+# parenthesis in a Feature holds one of these and nothing else - a parenthetical
+# aside is the slot a trailing clause hides in.
+CITATION_FORM_RE = re.compile(
+    r'\((?:Lore|Keys|Quest|Named Creature|Unique Treasure):\s*[^()]+\)'
+    r'|\(Treasure\s+[IVX]+,\s*d20\)'
+    r'|\(Test of [A-Za-z]+,[^()]+\)'
+    r'|\([^(),]+,\s*[^(),]+,\s*Bestiary\s*:[^()]+\)'
+)
+# Any parenthesised group, stripped before prose is counted: a citation is
+# machinery, not prose, and its own commas are not the sentence's.
 CITATION_RE = re.compile(r'\s*\([^()]*\)')
-BANNED_SEP_RE = re.compile(r'(;|(?<!\*):(?!\*)|\s[-\u2013\u2014]\s|\.\s+\S)')
-SEG_SPLIT_RE = re.compile(r'\s*(?:,|->)\s*')
-SEG_MAX_WORDS = 8
-SEG_MAX_COUNT = 4
-SEG_MAX_COUNT_ARROW = 6
-LIST_ITEM_WORDS = 3
+SENT_SPLIT_RE = re.compile(r'(?<=[.!?])\s+')
+SENT_MAX = 4          # STYLE.md: a Feature is one to four sentences
+SENT_MAX_WORDS = 20   # STYLE.md: past twenty words a sentence is long
+TRAILING_DASH_RE = re.compile(r'\s[-\u2013\u2014]\s')
+# A determiner is never followed by a comma in English, so this fires only on
+# the artifact: "counting double against the, Danger track".
+COMMA_AFTER_DET_RE = re.compile(r'\b(?:the|a|an)\s*,', re.I)
+# A comma between a noun and its own prepositional phrase: "a timber bar
+# seated, in stone sockets". Phrasal particles are excluded, since "goes over,
+# and takes" is a legitimate comma.
+_PREPS = (r'in|on|at|with|under|into|from|through|against|beside|'
+          r'below|above|by|for|of')
+COMMA_IN_PHRASE_RE = re.compile(r',\s+(?:' + _PREPS + r')\b\s+\S+', re.I)
 
 
-def feature_segments(body: str) -> list[str]:
-    """Body split per instruction 5, with a short-item list collapsed to one segment."""
-    text = CITATION_RE.sub("", body).strip().rstrip(".")
-    merged: list[str] = []
-    run: list[str] = []
-    for seg in (s.strip() for s in SEG_SPLIT_RE.split(text)):
-        if not seg:
-            continue
-        if len(seg.split()) <= LIST_ITEM_WORDS:
-            run.append(seg)
-            continue
-        if run:
-            merged.append(" ".join(run))
-            run = []
-        merged.append(seg)
-    if run:
-        merged.append(" ".join(run))
-    return merged
+def feature_sentences(body: str) -> list[str]:
+    """The Feature's prose split into sentences, with its citation removed."""
+    text = CITATION_RE.sub("", body).strip()
+    return [s.strip() for s in SENT_SPLIT_RE.split(text) if s.strip()]
 
 
 # ---------------------------------------------------------------------------
@@ -751,39 +743,43 @@ def check_summary_promises(diag: Diagnostics, path: Path, summary: str, lines: l
 
 
 def check_feature_grammar(diag: Diagnostics, path: Path, label: str, body: str):
-    last = None
-    for m in CITATION_RE.finditer(body):
-        last = m
-    if last and body[last.end():].strip(" ."):
-        diag.error(path, f"Feature '{label}' carries prose after its citation "
-                         f"{last.group(0).strip()!r} - per instruction 5 of "
-                         f"templates/Location.md a citation sits last")
+    for sent in SENT_SPLIT_RE.split(body):
+        last = None
+        for m in CITATION_RE.finditer(sent):
+            last = m
+        if last and sent[last.end():].strip(" ."):
+            diag.error(path, f"Feature '{label}' carries prose after its citation "
+                             f"{last.group(0).strip()!r} - per instruction 5 of "
+                             f"templates/Location.md a citation closes its sentence")
 
     stripped = CITATION_RE.sub("", body).strip()
-    sep = BANNED_SEP_RE.search(stripped)
-    if sep:
-        found = sep.group(0)
-        what = ("a second sentence" if found.startswith(".")
-                else f"{found.strip()!r}")
-        diag.error(path, f"Feature '{label}' uses {what} - per instruction 5 of "
-                         f"templates/Location.md a Feature is one sentence separated "
-                         f"only by ',' and '->'")
-        # Segments are meaningless across an illegal separator, and the line is
-        # being rewritten regardless - a length warning on top is just noise.
-        return
+    if TRAILING_DASH_RE.search(stripped):
+        diag.error(path, f"Feature '{label}' hangs a clause off a dash - per STYLE.md a "
+                         f"trailing explanatory clause is cut rather than shortened")
+    for stray in re.finditer(r'\([^()]*\)', body):
+        if not CITATION_FORM_RE.fullmatch(stray.group(0)):
+            diag.warn(path, f"Feature '{label}' carries {stray.group(0)!r}, which matches no "
+                            f"form in templates/Location.md's Citations section - per that "
+                            f"section it renders as plain, unlinked text")
     if stripped and not body.rstrip().endswith((".", ")")):
         diag.error(path, f"Feature '{label}' does not end in a period")
 
-    segs = feature_segments(body)
-    cap = SEG_MAX_COUNT_ARROW if "->" in stripped else SEG_MAX_COUNT
-    if len(segs) > cap:
-        diag.warn(path, f"Feature '{label}' runs {len(segs)} segments against a cap of "
-                        f"{cap} - mechanics buy length, prose does not")
-    for seg in segs:
-        n = len(seg.split())
-        if n > SEG_MAX_WORDS:
-            diag.warn(path, f"Feature '{label}' has a {n}-word segment "
-                            f"(cap {SEG_MAX_WORDS}): {seg!r}")
+    sents = feature_sentences(body)
+    if len(sents) > SENT_MAX:
+        diag.warn(path, f"Feature '{label}' runs {len(sents)} sentences against STYLE.md's "
+                        f"budget of {SENT_MAX} - past that it is two Features, or it is "
+                        f"carrying content a registry owns")
+    for s in sents:
+        n = len(re.findall(r"[\w'-]+", s))
+        if n > SENT_MAX_WORDS:
+            diag.warn(path, f"Feature '{label}' has a {n}-word sentence against STYLE.md's "
+                            f"{SENT_MAX_WORDS}: {s!r}")
+    if COMMA_AFTER_DET_RE.search(stripped):
+        diag.warn(path, f"Feature '{label}' puts a comma straight after a determiner - a "
+                        f"comma dropped mid-phrase to satisfy a counter, not to be read")
+    if COMMA_IN_PHRASE_RE.search(stripped):
+        diag.warn(path, f"Feature '{label}' splits a phrase from its preposition with a "
+                        f"comma - read the line aloud and place the comma where it lands")
 
 
 def check_location_file(diag, path, region_code, num, stub, rating, all_locations,

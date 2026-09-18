@@ -15,6 +15,9 @@ Read these rather than a description of them.
 - `GENRE.md` - this build's thematic spine (era, tone, magic level, structure), customized
   at STEPS.md step 1a, plus the fixed **What a line has to earn** section: the three tests
   every line at every level must pass. The tests outrank every template.
+- `STYLE.md` - the positive prose target, re-read beside `GENRE.md` at every generation
+  step: what the sources contribute, the one register and how a spoken Player Summary differs
+  from it, which referee asides are allowed, the sentence budget, and the tells.
 - `STEPS.md` - the authoritative, sequential build log. Every artifact created follows a
   numbered step here (e.g. `4c`) naming its template and pattern file. Step ids grow by
   suffix and are never renumbered.

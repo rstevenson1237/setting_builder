@@ -6,6 +6,8 @@ The full write-up for a single location, saved as `[Location Code].md` inside it
 ## Context
 Consult when drafting - and only this, deliberately narrow so the entry stays shaped by its stub and region rather than washed out by the full setting:
 - `GENRE.md` - a Feature is something to react to on the spot, not a beat in a larger scripted arc.
+- `STYLE.md` - the register every line here is written in, the sentence budget, and which
+  referee asides survive.
 - this location's class file, named by its rating and its stub's weight/classification. It is
   the **entry point for everything the pattern library contributes here**: every other pattern
   file is reached from its Spec, and none is pulled in directly.
@@ -30,14 +32,23 @@ Consult `setting/Bestiary.md`, `setting/Factions.md`, `setting/History.md`, or `
 2. This pattern determines the minimum percentage that a feature or detail occurs in this location, consider '1' a mandatory entry
 3. Sort the Features the pattern produced by prominence, most important first, and write them in that order - this is a per-Feature ordering within one entry, distinct from a SAFE location's own liner note/working/central Prominence
 4. Give each thing the players can address its own Feature line. Where a line the pattern drew names something that can be looked at, acted on, taken, fought, or opened **as its own object**, it is its own Feature - treasure hidden in a pillar and guarded by a beast is three Features, not one complex one. A drawn line that only qualifies another thing - its condition, its position, how it is reached - stays on that thing's line. An entry is as long as the number of Features the pattern drew, which is the classifier's decision, not this line's. Where a Feature carries a registry citation it states only what is present and perceptible - what the thing means, what it was for, and what it opens is the registry entry's, written at 4d, per **A note on completeness** below
-5. **A Feature is one sentence, and its punctuation is closed.** The only separators are `,` and `->`; the sentence ends in a period. No semicolon, no colon, no dash, no second sentence, and no parenthesis except a citation, which sits last.
-   - `,` clarifies the segment before it. `->` separates an action from its consequence and nothing else - outside the Exits line it reads *triggers*, never *leads to*.
-   - **Eight words per segment.** Consecutive items of three words or fewer are one segment, so a list in apposition costs one.
-   - **Four segments, or six where the Feature carries a `->`.** Mechanics buy length; prose does not.
-   - **A precise term replaces its definition, and never carries one.** *Corbelled ceiling* and *the ceiling steps inward in courses rather than arching* are one fact at nine words' difference. Where the term is right the gloss is pure loss; where the referee would need the gloss, the term was the wrong choice and the plain word is cheaper. What earns this are nouns and the verbs of making and decay - an adjective of mood or degree names nothing a party can be shown, and `GENRE.md` has already cut it. The vocabulary each rating draws on is compiled into its `Dressing.md` and the mechanism files beside it.
-   - **Register follows the reader.** Referee Notes and Feature lines may carry a specialist term unglossed, since the referee is reading the page and can look at the word. The Player Summary is spoken aloud, so it holds only terms a referee can say without stumbling.
+5. **A Feature's sentences are `STYLE.md`'s.** The budget, the register, which referee
+   asides survive and the trailing clause are stated there and are not restated here. What
+   this template adds is the line's shape, which `tools/validate_setting.py` checks:
+   - **One bolded label, then the line.** `**Label:** body.` The label names the thing and
+     carries no leading article.
+   - **`->` reads *triggers*.** It separates an action from its consequence, and a branch is
+     written `condition -> outcome.` as its own sentence. Outside the Exits line it never
+     reads *leads to*.
+   - **A citation closes its sentence**, in one of the forms under **Citations** below, and a
+     parenthesis holds nothing else. A parenthetical aside is the slot a trailing clause
+     hides in, and a form that is not listed there renders as plain, unlinked text.
+   - **A precise term replaces its definition, and never carries one.** *Corbelled ceiling*
+     and *the ceiling steps inward in courses* are one fact at several words' difference.
+     Where the term is right the gloss is pure loss; where the referee would need the gloss,
+     the term was the wrong choice and the plain word is cheaper. The vocabulary each rating
+     draws on is compiled into its `Dressing.md` and the mechanism files beside it.
 
-   The banned punctuation is not a style preference. A dash, a semicolon, or a second sentence is the slot a trailing clause hangs in, and a trailing clause is where a Feature explains why it is there, dates itself, or writes down what the party will conclude - all three of which `GENRE.md` already cuts. Closing the punctuation removes the slot. Where a Feature will not fit, it is two Features or it is carrying content the registry owns.
 6. **Every entry displays information at three tiers, and each tier's way in sits in the tier above it.**
    - **Obvious** - what a party perceives on arriving, having done nothing: the Player Summary, the Referee Notes, and every Feature and Exit that states itself plainly.
    - **Trigger** - what acting on something obvious yields: a Feature line naming an action and its effect, a container opened, a stated detail investigated. Per `setting/Procedures.md` a stated detail investigated is a detail found, and no roll stands in for the looking.
@@ -49,8 +60,8 @@ Consult `setting/Bestiary.md`, `setting/Factions.md`, `setting/History.md`, or `
 ## Template
 ```
 [Region Code].[Location Code] **[Location Name]** [(high/medium/low) for DANGEROUS, (landmark/hidden/secret) for WILD] - *[tag from setting/Tags.md], [tag from region Tags.md]*
-[Player Summary - two sentences maximum, that can be spoken aloud to the players or paraphrased; instruction 5's separators, segment length and spoken-aloud register bind here, its one-sentence limit does not. Include any details that would be obvious glancing at the location. **Bold** any features mentioned in the summary]
-*[Referee Notes - same separators and segment length as instruction 5, without its one-sentence limit, and free to carry a specialist term unglossed. Important details the Referee will need to adjudicate player efforts to explore the location: size (feet indoors, yards outdoors), shape, former/current purpose. Include a sound or smell only when it points at a specific feature within the location - never as ambience alone]*
+[Player Summary - written to `STYLE.md`: spoken aloud to the players or paraphrased, one to three sentences, and every bolded noun a promise of a Feature below. Include any details that would be obvious glancing at the location. **Bold** any features mentioned in the summary]
+*[Referee Notes - written to `STYLE.md`'s register and budget, and free to carry a specialist term unglossed. Important details the Referee will need to adjudicate player efforts to explore the location: size (feet indoors, yards outdoors), shape, former/current purpose. Include a sound or smell only when it points at a specific feature within the location - never as ambience alone]*
 **[Feature Name, most prominent first]:** [Interactive or explorable detail for this one feature and nothing else, including where within the room it sits (a wall, a corner, the center) and, when spatially significant, its own dimension; if a specific action triggers something specify both the action and the effect. A hidden object that can be acted on is its own Feature, and its line states how it is reached; a hidden **exit**, or any exit needing a trigger to reveal or access, stays nested within an obvious feature's line along with how to access it. Written to the Feature grammar in instruction 5]
 **[Feature Name]:** [Every following Feature, same content rules as above, same grammar]
 **Exits:** [comma separated list of this space's mundane exits, each as "[exit type - material, construction, condition], [position - wall, corner, or direction] -> [Code] [Location Name]"; an exit that leaves the map entirely rather than connecting to another location - open water, an unstaked wilderness edge, a route with no fixed destination - is written the same way but with "-> [where it leads, in plain terms, with no Code]" in place of the Code and Location Name, and is always listed **last**, after every coded exit]

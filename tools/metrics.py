@@ -4,7 +4,7 @@
 Five readings, printed in one report:
 
   CORPUS    locations and words in setting/region/*/[0-9]*.md
-  FEATURES  words, segments and sentences per Feature line
+  FEATURES  words and sentences per Feature line, against STYLE.md's budget
   TELLS     the four prose tells, counted
   BUDGET    framework words against setting words
   READ SET  words in context per step 4c entry point
@@ -41,7 +41,7 @@ from validate_setting import (  # noqa: E402
     PATTERNS,
     ROOT,
     _summary_tokens,
-    feature_segments,
+    feature_sentences,
     read_set_graph,
     spec_closure,
 )
@@ -174,13 +174,16 @@ def count_tells(paths: list[Path]) -> list[Tell]:
             fm = FEATURE_RE.match(line)
             if fm and fm.group(1).strip() != "Exits":
                 label, body = fm.group(1).strip(), fm.group(2).strip()
-                segs = feature_segments(body)
-                first = re.sub(r"'s\b", "", segs[0].lower()) if segs else ""
+                sents = feature_sentences(body)
+                # The gloss sits in the line's opening clause, not anywhere in its
+                # first sentence - a comma or a '->' ends the opening.
+                opening = re.split(r',|->', sents[0])[0].strip() if sents else ""
+                first = re.sub(r"'s\b", "", opening.lower())
                 if first and GLOSS_OPENER_RE.match(first):
                     echoed = sorted(t for t in _summary_tokens(label)
                                     if re.search(r'\b' + re.escape(t), first))
                     if echoed:
-                        gloss.hit(path, lineno, f"{label} -> {segs[0]}")
+                        gloss.hit(path, lineno, f"{label} -> {opening}")
 
     return [rather, absence, conclusion, gloss]
 
@@ -192,7 +195,7 @@ def count_tells(paths: list[Path]) -> list[Tell]:
 # with its citation, which is the figure PR #41 reported (22.3 against 42.8) and
 # the one a later run has to be comparable with. The prose figure strips the
 # citation, which is what the grammar in instruction 5 actually budgets - a
-# citation is machinery, and feature_segments() drops it before counting.
+# citation is machinery, and feature_sentences() drops it before counting.
 # ---------------------------------------------------------------------------
 
 
@@ -240,17 +243,18 @@ def report_features(locs: list[Path]) -> None:
         return
     full = [words(b) for _, _, b in feats]
     prose = [words(CITATION_RE.sub("", b)) for _, _, b in feats]
-    segs = [len(feature_segments(b)) for _, _, b in feats]
-    sents = [len([s for s in SENTENCE_SPLIT_RE.split(CITATION_RE.sub("", b).strip()) if s])
-             for _, _, b in feats]
+    sents = [len(feature_sentences(b)) for _, _, b in feats]
+    per_sent = [words(s) for _, _, b in feats for s in feature_sentences(b)]
     longest = max(feats, key=lambda f: words(f[2]))
     print(f"  Features           : {len(feats)}")
     print(f"  words per Feature  : mean {mean(full):.1f}, max {max(full)} "
           f"(body with citation)")
     print(f"  prose words        : mean {mean(prose):.1f}, max {max(prose)} "
           f"(citation stripped)")
-    print(f"  segments           : mean {mean(segs):.1f}, max {max(segs)}")
-    print(f"  sentences          : mean {mean(sents):.2f}, max {max(sents)}")
+    print(f"  sentences          : mean {mean(sents):.2f}, max {max(sents)} "
+          f"(STYLE.md budgets 4)")
+    print(f"  words per sentence : mean {mean(per_sent):.1f}, max {max(per_sent)} "
+          f"(STYLE.md budgets about 15, long past 20)")
     print(f"  longest            : {rel(longest[0])} '{longest[1]}'")
     print()
 
