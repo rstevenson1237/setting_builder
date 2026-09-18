@@ -559,35 +559,16 @@ Pro-plan sitting for an Opus agent.
 report and **Baseline metrics** below is its output, naming the two figures in Part one
 it does not reproduce and the one push that section still owes.
 
-**P0.2 Run the control, three arms, on the user's twelve-room map.**
-- Files: `fixtures/control/arm1-prompt.md` (committed: the user's real prompt and map,
-  verbatim); the Notes supplied at run time from out of tree; each arm's output
-  committed beside it; a comparison note in the commit body.
-- Steps: the baseline that reliably produces a playable one-shot turned out to be
-  about 80 words of prompt, the Design Notes as context, and a numbered room list with
-  dimensions, fixtures and `->` exits. All three arms build that same twelve-room
-  dungeon so the comparison is like for like:
-  - **Arm 0, no prompt**: the map and "write a one-page dungeon for it", nothing else.
-  - **Arm 1, the short prompt**: `arm1-prompt.md` with the Notes attached, exactly as
-    the user runs it.
-  - **Arm 2, the framework**: the map converted to `Locations.md` and a block diagram
-    (by hand until `tools/map.py` exists, P4.3), then 3c and 4c as `STEPS.md` stands
-    today, as one DANGEROUS region of one block, with a two-line brief.
-  A second example prompt, `fixtures/control/arm1b-prompt.md`, is conversational: no
-  map, no rules, "start with a proposed idea, pause for feedback, iterate until
-  finished", one safe site and one adventure site. Its output is committed beside it
-  (`arm1b-output.md` and its map) and is already read in Part two; arm 1b is therefore
-  a reading, not a generation, and it is the reference register for Phase 1. Its real
-  value is as evidence that the baseline is a feedback loop and not a prompt, which is
-  what `STEPS.md`'s per-region close (P5.2) and the brief (P5.1) formalise.
-  Judge all arms with `templates/Setting_Judgement_Check.md`'s items, `metrics.py`'s
-  tells, and one more question per arm: could a referee run it tonight?
-- Acceptance: a table in the commit body, item by item and arm by arm, and one
-  sentence per item naming which framework artefact produced the difference, or that
-  nothing did. This decides how hard Phases 3 and 6 cut. The user's prompt also names
-  three things the framework claims to supply and the control gets for free: tags,
-  short descriptive sentences, and B/X stat lines. Whether arm 2 does any of the three
-  better is the sharpest reading of this table.
+~~**P0.2 Run the control, three arms, on the user's twelve-room map.**~~ Landed.
+`fixtures/control/COMPARISON.md` is the acceptance table, item by item and arm by arm, with
+the arm outputs beside it: `arm0-prompt.md`/`arm0-output.md`, `arm1-output.md`, and
+`arm2-prompt.md`/`arm2-brief.md`/`arm2/`. Three results bind later phases and are recorded
+there rather than restated here: the framework wins the four registry-shaped items and
+loses "short descriptive sentences" and "B/X stat lines" to the eighty-word prompt;
+`templates/Region.md`'s Overview field mandates an absence claim `GENRE.md` forbids, and
+`templates/Location.md`'s one-sentence Feature rule produces 27.9 words per sentence
+against the endorsed baseline's 13.8, both of which P1 has to settle; and arm 1 ran without
+its Notes, which the comparison's Methodology section prices.
 
 ### Phase 1: the house style (four to six sessions)
 
