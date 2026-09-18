@@ -118,7 +118,7 @@ stated once. That is the control this framework has to beat, and it has never be
 measured against it. What follows is the assessment; P0.2 is the measurement.
 
 **A one-shot fits in one context window.** Every room, every clue's far end, every coined
-name is in view at once, so consistency is free and 600 words of rules is enough. The
+name is in view at once, so consistency is free and 80 words of prompt is enough. The
 problem this project was started for is the other case: a module larger than a window,
 where drakenhold's clues went unclosed and motif text filled the gap. Consistency of
 detail across a large module is a memory problem, and the parts of this framework that
@@ -135,7 +135,7 @@ That is perhaps 8,000 words of tools and templates, and it earns its keep: nothi
 holds a sixty-room module together across ten sessions.
 
 **The other 46,000 words are pattern prose, spent on prose quality and variety.** That
-is the problem the 600 words already solved to 90%, and prose rules are the wrong tool
+is the problem the 80-word prompt already solved to 90%, and prose rules are the wrong tool
 for the remaining 10%, for two reasons the user has already stated:
 
 1. **A question returns the average.** `SPEC.md` gives a Spec line two forms, a question
