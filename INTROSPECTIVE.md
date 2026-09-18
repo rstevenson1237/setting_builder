@@ -684,7 +684,28 @@ Original task, kept for what it specifies:
   rationale paragraphs moved to `STYLE.md` where they are style, cut where history.
 - Acceptance: `templates/Region.md` under 60 lines.
 
-**P1.5 Bring the setting-level artifacts under the same style.**
+~~**P1.5 Bring the setting-level artifacts under the same style.**~~ Landed. The five
+templates now carry Purpose, the read set, the phase their pointer column is filled in, and
+the block's shape - nothing about what a field contains. The acceptance held on the first
+pass and was not the binding constraint: the budgets these templates restated are owned by
+`patterns/setting/*.md`'s Spec, not by `STYLE.md`, and the same is true of every field
+description they carried. `templates/Rumours.md`'s three Instructions paragraphs were a
+second copy of that file's Spec and all four of its Constraints;
+`templates/Bestiary.md` promised in one paragraph that modifier and MA scaling lived in the
+pattern file and restated both fractions in the next.
+
+`STYLE.md` gains the two things it does own and was missing. Its one-register section claimed
+the Player Summary was the only line spoken aloud, which a rumour has always contradicted.
+And the setting-level line now has a budget bullet that points at each artifact's
+`patterns/setting/*.md` Spec for the count rather than carrying a third copy of it.
+
+The step the task did not anticipate: `templates/History.md` and `templates/Truths.md` both
+said their pointer lines fill at `4d`, and so did `patterns/setting/History.md` and
+`patterns/setting/Truths.md`. STEPS.md 4d is the five registries only; 5c is where Left
+lines, Handles and the Settled-at column are filled, and STEPS.md wins. All four now read
+5c. `templates/Rumours.md` had it right and is where the discrepancy showed.
+
+Original task, kept for what it specifies:
 - Files: `templates/History.md`, `Truths.md`, `Rumours.md`, `Bestiary.md`, `Factions.md`.
 - Steps: state each budget once in `STYLE.md` and cite it.
 - Acceptance: no template restates a rule `STYLE.md` owns.

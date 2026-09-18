@@ -1,31 +1,29 @@
 # Bestiary.md
 
 ## Purpose
-Reusable, system-neutral creature templates for the setting.
+Reusable, system-neutral creature templates for the setting, written in one pass at 2e.
 
 ## Context
 Read first:
-- `GENRE.md`
-- `patterns/setting/Bestiary.md`
+- `GENRE.md`, and `STYLE.md` for the register a setting-level line is written in.
+- `patterns/setting/Bestiary.md` - **the type mix, the AD ladder and spread, modifier and MA
+  scaling, when a Special is expected, and what each field must state.** This template
+  states only the shape they sit in.
 - `setting/Setting.md`, `setting/History.md`, `setting/Truths.md`
 
 ## Instructions
-List reusable creature templates in a system-neutral rule set. Type mix, the AD ladder and
-spread, modifier and MA scaling, when a Special is expected, and what each entry must cover
-are all in `patterns/setting/Bestiary.md`.
-
-Every entry states its modifier and its MA - both are written on every line, because both
-carry their meaning in how far they sit from their average (one third of AD and one quarter
-of AD respectively, each rounded up), and an omitted field says nothing at all.
+Fill the block below per `patterns/setting/Bestiary.md`'s Spec, once per entry. Every entry
+writes both its modifier and its MA, because each carries its meaning in how far it sits
+from its average - an omitted field says nothing at all.
 
 ## Template
 ```
 Bestiary of [Setting Name]
 
 [Creature Name] (Type) - AD: Xd6+N [MA: Y]
-Description: [1-3 sentences of appearance and behaviour]
-Range: [where it lives, how many, and what it eats]
-Sign: [what a party finds before they find it]
-Disposition: [what it does on being met, before anyone decides to fight]
-Special: [what it can do that its Action Dice do not already say, or `none`]
+Description: [...]
+Range: [...]
+Sign: [...]
+Disposition: [...]
+Special: [..., or `none`]
 ```

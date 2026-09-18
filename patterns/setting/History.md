@@ -23,7 +23,7 @@ because that mark is what a location can actually contain.
 
 That is what the Left line is for, and it is not decoration on the entry - it is the only
 part of an event that survives translation to the table. Per `GENRE.md`, the players never
-meet the event; they meet the wall. Left lines are completed at 4d and **every event is
+meet the event; they meet the wall. Left lines are completed at 5c and **every event is
 re-tested then**: an event no location cashed out is given a mark at a real location or
 removed from the file.
 

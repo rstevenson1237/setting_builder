@@ -37,6 +37,8 @@ The **Player Summary** is the one line spoken aloud. One to three sentences of w
 perceives on arriving, in words a referee can say without stumbling. Every bolded noun is a
 promise that the thing appears as a Feature below. It says what is there, never what it means.
 
+A **rumour** is the other line said aloud, so it is written to be repeated rather than read.
+
 ## Which referee asides stay
 
 An aside addressed to the referee *about running the room* stays: `Do not prompt them.`
@@ -59,6 +61,10 @@ Measured off the endorsed baseline, at about fourteen words to the sentence.
   registry owns.
 - A **Player Summary** is one to three sentences, same lengths.
 - **Referee Notes** are the same sentences, with no separate allowance.
+- A **setting-level line** - a History event, a Truth, a Bestiary Description, a Faction
+  field - carries the same sentences, and states its fact rather than narrating it. How many
+  each gets, and how many entries the file holds, are in that artifact's
+  `patterns/setting/*.md` Spec.
 - A **region field** runs three to four sentences of about seventeen words - longer than a
   Feature, because a Region Overview is read once and then mined for the rest of the
   campaign. **Overview** is three sentences, hard, and a d6 table's rows are one or two.
