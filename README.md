@@ -33,10 +33,13 @@ Read these rather than a description of them.
 - `templates/` - one template per artifact type, each structured **Purpose / Context /
   Instructions / Template**. A template's own Context section lists exactly which files to
   read before drafting; don't pull in more than it names.
-- `patterns/` - pattern guidance, in five folders matching the five levels of generation:
+- `patterns/` - the contracts, in five folders matching the five levels of generation:
   `setting/`, `region/`, `safe/`, `wild/`, `dangerous/`. A generation step reads only the
   folder matching what it is building. Every file shares one skeleton, specified in
-  `patterns/SPEC.md`.
+  `patterns/SPEC.md`, and carries nothing specific to a setting.
+- `genre/` - one directory per genre pack, each holding `lists/` - the numbered draw lists
+  a Spec line reaches with `(genre: name)`. This is where a build's specific content lives;
+  which pack a build draws from is settled at STEPS.md step 1b.
 - `setting/` - the generated setting, mirroring the template set in the order STEPS.md lays
   out: setting-level artifacts, Treasure Tables I-V, the two living artifacts
   (`Procedures.md`, `Language.md`), the five registries (`Lore.md`, `Keys.md`, `Quests.md`,

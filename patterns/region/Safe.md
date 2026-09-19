@@ -19,13 +19,9 @@ TOPOLOGY - a shallow hub
 ```
 
 **SAFE is the one rating where the region file carries more than its locations do.** The
-Overview describes the place; the locations are the **interesting entry points for player
-interactivity** - not a survey of every house and person. A party arrives expecting to be
-able to buy, sell, rest, hire, ask and heal, and the locations give personality and
-direction to how those requests get answered.
-
-So SAFE locations do not interconnect. They all hang off the settlement, and the settlement
-is described here.
+Overview describes the place; the locations are the interesting entry points for player
+interactivity, not a survey of every house and person. So SAFE locations do not
+interconnect - they all hang off the settlement, and the settlement is described here.
 
 **The die is how eventful the place is.** SAFE's table is rolled on entry and each week
 after, not per location, so the die measures how often the settlement generates trouble on
@@ -34,46 +30,36 @@ with it, d10 a place where little happens.
 
 The Region Overview's fields, for a SAFE region.
 
-- **Overview** - what this settlement is for, why it is here rather than a mile away, and
-  what it lives on. Points of Light: it exists in spite of the country around it, and what
-  it trades away for that is worth stating.
-- **Ambiance** - what it looks, sounds and smells like. Architectural style and materials,
-  since SAFE is the rating where buildings recur and a shared vernacular is what makes a
-  settlement read as one place.
-- **People** - *and this field carries the roster.* Not just customs and temperament: **who
-  is here.** The trades present, the trades conspicuously absent, and who holds standing.
-  Absence is the interesting half - a settlement with no smith, no healer, or no authority
-  has told the party what it will have to do without. Individual landmarks draw their cast
-  from this list rather than inventing one each.
-- **Situation** - *what is happening right now.* A standing state affecting every location
-  in the region, not a random event: soldiers camped outside, a sickness, a festival, a
-  disputed inheritance, a shortage, somebody missing. State **who is responsible, who is
-  affected, which rung of the ladder it is on now, and what the next rung looks like.** It
-  is true whether or not the party engages, and it moves on its own. This is not a plot; it
-  is a condition, per GENRE.md.
-- **Layout** - state the settlement's **type** first (steading/thorp/village/town/seat, per
-  `safe/Settlement.md`) - decided once, here, not re-decided per location. Then its
-  shape, its approaches, its defences if any, and where the locations sit relative to each
-  other. Name roughly where its most notable Features or Dangers (below) actually sit, so a
-  referee can place them, not just know they exist. State that SAFE is not time-bound: do
-  not track hours here unless something specific demands it.
-- **Features** - what the settlement offers that is not a location: its law such as it is,
-  its prices relative to elsewhere, what it will and will not trade for, its gate hours,
-  where outsiders are allowed.
-- **Dangers** - a SAFE region is safe from the wilderness, not from its own people. Debt,
-  law, feud, faction interest, being noticed, being remembered.
-- **Creatures** - Man, overwhelmingly, and going about business. Anything else here is
-  either working, penned, or a problem.
-- **Factions** - whether any of the three hold ground here, and how much. A settlement is
-  traded with, not usually occupied outright (per `safe/Faction.md`), so "control" more
-  often means influence over a specific trade, gate, or office than territory. Name which
-  areas or offices, if any; state none if the settlement is genuinely unclaimed by all
-  three.
-- **Secrets** - what the settlement is not saying, and who knows it.
-- **Treasure** - what is *for sale or in stock* rather than found. Which tables the local
-  trade draws on, and what money looks like here.
-- **Tables** - a d6 Events table, rolled on entry and each week thereafter. Events are
-  things that happen *to* the settlement, distinct from the Situation, which is already
-  happening.
+```
+FIELDS
+  1     Overview   - what this settlement is for, why it is here rather than a mile away,
+                     and what it lives on. What it trades away to exist is worth stating
+  1     Ambiance   - what it looks, sounds and smells like, and the architectural style and
+                     materials that make it read as one place
+  1     People     - and this field carries the roster. The trades present, the trades
+                     conspicuously absent, and who holds standing. Absence is the
+                     interesting half. Locations draw their cast from this list
+  1     Situation  - what is happening right now: a standing state affecting every location,
+                     not a random event. Who is responsible, who is affected, which rung it
+                     is on, and what the next rung looks like
+  1     Layout     - the settlement's type first, per safe/Settlement.md, then its shape,
+                     approaches, defences, and where the locations sit relative to each
+                     other. State that SAFE is not time-bound
+  1     Features   - what the settlement offers that is not a location: its law such as it
+                     is, its prices relative to elsewhere, what it will not trade for, its
+                     gate hours, where outsiders are allowed
+  1     Dangers    - a SAFE region is safe from the wilderness, not from its own people:
+                     debt, law, feud, faction interest, being noticed, being remembered
+  1     Creatures  - Man, overwhelmingly, and going about business. Anything else is
+                     working, penned, or a problem
+  1     Factions   - whether any of the three hold ground here, and how much. Usually
+                     influence over a trade, gate or office rather than territory; none
+                     where the settlement is genuinely unclaimed
+  1     Secrets    - what the settlement is not saying, and who knows it
+  1     Treasure   - what is for sale or in stock rather than found; which tables the local
+                     trade draws on, and what money looks like here
+  1     Tables     - a d6 Events table, rolled on entry and each week thereafter. Events
+                     happen to the settlement, distinct from the Situation already underway
+```
 
 ## Constraints

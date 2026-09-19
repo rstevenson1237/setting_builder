@@ -31,6 +31,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 SETTING = ROOT / "setting"
 PATTERNS = ROOT / "patterns"
+GENRE = ROOT / "genre"
 STEPS_MD = ROOT / "STEPS.md"
 
 ARTICLES = ("the ", "a ", "an ")
@@ -140,17 +141,13 @@ def check_pattern_files(diag: Diagnostics):
 # ---------------------------------------------------------------------------
 # patterns/*/*.md - section structure
 #
-# One skeleton, no declared tiers: Provides / Read at / Spec / Design
-# patterns / Constraints. A Spec line either points to another pattern file
-# or states a question the generator answers, which makes the library one
-# tree - a file with outgoing citations is a classifier and a file without
-# them is a leaf, and that is read off the citations rather than asserted
-# anywhere. "Design questions" used to be a separate heading for a leaf
-# file's own contract; it was the same grammar as a Spec and on the same
-# side of the neutral/compiled split, so it was folded back in.
-#
-# "## Design patterns" stays optional: it is the per-build compiled content
-# (STEPS.md step 1b), and most files legitimately have none.
+# One skeleton, no declared tiers: Provides / Spec / Constraints. A Spec
+# line points to another pattern file, cites a genre list, or states a
+# question the generator answers - which makes the library one tree, since a
+# file with outgoing edges is a classifier and a file without them is a leaf,
+# read off the citations rather than asserted anywhere. "Design questions"
+# and "Design patterns" were both folded away: the first was the same grammar
+# as a Spec, and the second was per-build content that now lives in the pack.
 #
 # patterns/setting/Genre.md carries extra sections - it is an interactive
 # elicitation procedure and those sections are the procedure.
@@ -165,7 +162,12 @@ def check_pattern_sections(diag: Diagnostics, path, text: str):
                               f"file carries one")
     if has("Design questions"):
         diag.error(path, "carries a '## Design questions' section, which was folded into "
-                          "'## Spec' - a Spec line either cites a file or states a question")
+                          "'## Spec' - a Spec line cites a file, cites a genre list, or "
+                          "states a question")
+    if has("Design patterns"):
+        diag.error(path, "carries a '## Design patterns' section - per-build specific "
+                          "content is a numbered list in the genre pack, reached by a "
+                          "'(genre: name)' citation on the Spec line that draws it")
 
 
 
@@ -178,7 +180,7 @@ SPEC_RATE_RE = re.compile(r'^ {2}(1|\d+%|liner note|working|central)\s')
 
 def spec_edges(text: str, rel: str):
     """Pattern files this file's Spec fenced blocks draw."""
-    m = re.search(r'\n## Spec\n(.*?)(?=\n## (?:Design patterns|Constraints)\n)', text, re.S)
+    m = re.search(r'\n## Spec\n(.*?)(?=\n## Constraints\n|\Z)', text, re.S)
     if not m:
         return set()
     out = set()
@@ -349,6 +351,10 @@ def report_read_set(step_filter: str | None) -> int:
         print(f"  entries   : {', '.join(sorted(entries)) or '(none)'}")
         expanded = sorted(closure - entries)
         print(f"  expanded  : {', '.join(expanded) if expanded else '(none)'}")
+        lists: set = set()
+        for rel in sorted(closure):
+            lists |= spec_list_citations((PATTERNS / rel).read_text())
+        print(f"  lists     : {', '.join(sorted(lists)) if lists else '(none)'}")
         print()
     print(f"{len(g['reach'])}/{len(g['pattern_files'])} pattern files reachable from "
           f"generation templates; {len(g['orphans'])} orphan(s)")
@@ -371,8 +377,8 @@ def report_read_set(step_filter: str | None) -> int:
 # This is a warning, not an error: the judgement of whether a given repetition
 # is parallel structure stays human. Run against the tree before the sweep that
 # introduced it, it found 47 copies across 13 sentences - the Spec preamble in
-# twelve files, the edge/question rule in seven, the compiled-content note in
-# five.
+# twelve files, the edge/question rule in seven, and the compiled-content
+# note in five.
 # ---------------------------------------------------------------------------
 
 DUP_MIN_WORDS = 9
@@ -411,44 +417,124 @@ def check_repeated_prose(diag: Diagnostics):
 
 
 # ---------------------------------------------------------------------------
-# STEPS.md step 1b's compile list vs. the tree
+# Genre lists: patterns/ contracts vs. the selected pack
 #
-# Step 1b rewrites the "## Design patterns" section of every pattern file
-# that carries one - that section is the per-build compiled content, and a
-# Spec is never rewritten. So the compile list and the set of files carrying
-# the section are the same set, stated twice, and they drift apart silently:
-# the list once named 18 files while saying "every other tier-2 element
-# file", leaving fifteen carrying patterns nobody compiled and two
-# (Environmental, Residual) carrying none at all. This checks both
-# directions. Which files earn patterns is a reach-mode judgement and stays
-# a human decision - this only holds STEPS.md and the tree to the same
-# answer once that decision is made.
+# A pattern file is a neutral contract; everything specific to a setting is a
+# numbered list in the selected pack under genre/, reached by a "(genre: name)"
+# citation on a Spec line. That splits one fact - which content this line
+# draws - across two trees, so it is checked in both directions:
+#
+#   - a citation naming no list in the pack is a draw the generator cannot
+#     make, and errors;
+#   - a list no Spec line cites is content the build will never reach, and
+#     errors too. A one-way check catches neither end reliably, because each
+#     failure is invisible from the other side.
+#
+# Which pack is selected: genre/ normally holds exactly one, and that is it.
+# Where it holds more, GENRE.md names the chosen one on a "Pack" line (per
+# STEPS.md step 1b) and an unnamed selection is an error, since every citation
+# in the tree would otherwise resolve against an arbitrary pack.
+#
+# Citations are read from the Spec's fenced blocks only, the same rule
+# spec_edges applies to pattern edges - a list named in the prose under a
+# block is not a draw, and counting it would let dead content stay cited.
 # ---------------------------------------------------------------------------
 
-COMPILE_LIST_RE = re.compile(r'^\s*-\s+1b\..*?\*\*Compile list\*\*(.*)$', re.M)
+GENRE_CITE_RE = re.compile(r'\(genre:\s*([^)]*)\)')
+GENRE_PACK_LINE_RE = re.compile(r'^\s*[-*]?\s*\**Pack\**\s*[-:]\s*([A-Za-z0-9._-]+)\s*$', re.M)
+LIST_ENTRY_RE = re.compile(r'^\s*(\d+)\.\s+\S', re.M)
 
 
-def check_compile_list(diag: Diagnostics):
-    if not STEPS_MD.exists() or not PATTERNS.exists():
-        return
-    m = COMPILE_LIST_RE.search(STEPS_MD.read_text())
+def selected_pack() -> Path | None:
+    """The genre pack this build draws from, or None where there is none."""
+    if not GENRE.exists():
+        return None
+    packs = sorted(d for d in GENRE.iterdir() if d.is_dir() and (d / "lists").is_dir())
+    if not packs:
+        return None
+    if len(packs) == 1:
+        return packs[0]
+    genre_md = ROOT / "GENRE.md"
+    if genre_md.exists():
+        m = GENRE_PACK_LINE_RE.search(genre_md.read_text())
+        if m:
+            named = GENRE / m.group(1)
+            if named in packs:
+                return named
+    return None
+
+
+def pack_lists(pack: Path | None) -> set:
+    if pack is None:
+        return set()
+    return {p.stem for p in (pack / "lists").glob("*.md")}
+
+
+def spec_list_citations(text: str) -> set:
+    """Genre lists this file's Spec fenced blocks draw from."""
+    m = re.search(r'\n## Spec\n(.*?)(?=\n## Constraints\n|\Z)', text, re.S)
     if not m:
-        diag.warn(STEPS_MD, "step 1b names no '**Compile list**' - step 1b's compiled "
-                             "files cannot be checked against the tree without one")
+        return set()
+    out = set()
+    for fenced in re.findall(r'```(.*?)```', m.group(1), re.S):
+        for group in GENRE_CITE_RE.findall(fenced):
+            out |= {name.strip() for name in group.split(",") if name.strip()}
+    return out
+
+
+def check_genre_lists(diag: Diagnostics):
+    if not PATTERNS.exists():
         return
-    listed = {f"{folder}/{fname}"
-              for _, folder, fname in PATTERN_CITE_RE.findall(m.group(1))}
-    carrying = {p.relative_to(PATTERNS).as_posix()
-                for p in sorted(PATTERNS.glob("*/*.md"))
-                if "\n## Design patterns\n" in p.read_text()}
-    for rel in sorted(listed - carrying):
-        diag.error(STEPS_MD, f"step 1b's compile list names {rel}, which carries no "
-                              f"'## Design patterns' section - step 1b would have "
-                              f"nothing to compile into it")
-    for rel in sorted(carrying - listed):
-        diag.error(STEPS_MD, f"patterns/{rel} carries '## Design patterns' but is not on "
-                              f"step 1b's compile list - its examples would never be "
-                              f"recompiled for a new setting")
+    pattern_files = sorted(p for p in PATTERNS.glob("*/*.md") if p.name != ".gitkeep")
+    cited_anywhere: set = set()
+    cited: dict = {}
+    for path in pattern_files:
+        text = path.read_text()
+        names = spec_list_citations(text)
+        cited[path] = names
+        cited_anywhere |= names
+        # A citation anywhere but inside a Spec fenced block is not a draw, and
+        # saying so where one appears is cheaper than letting it do nothing.
+        everywhere: set = set()
+        for group in GENRE_CITE_RE.findall(text):
+            everywhere |= {n.strip() for n in group.split(",") if n.strip()}
+        for name in sorted(everywhere - names):
+            diag.error(path, f"cites (genre: {name}) outside its Spec fenced block - a list "
+                             f"citation is a draw, and draws are read from the block only")
+
+    pack = selected_pack()
+    if pack is None:
+        if cited_anywhere:
+            diag.error(ROOT / "GENRE.md",
+                       f"{len(cited_anywhere)} '(genre: ...)' citation(s) in patterns/ resolve "
+                       f"against no pack - genre/ holds no pack with a lists/ directory, or "
+                       f"holds several and GENRE.md names none. See STEPS.md step 1b")
+        return
+
+    known = pack_lists(pack)
+    rel_pack = pack.relative_to(ROOT).as_posix()
+    for path, names in cited.items():
+        for name in sorted(names - known):
+            diag.error(path, f"cites (genre: {name}), which is not a list in the selected pack "
+                             f"{rel_pack} - the generator has nothing to draw from")
+    for name in sorted(known - cited_anywhere):
+        diag.error(pack / "lists" / f"{name}.md",
+                   "no Spec line cites this list - nothing draws it, so the content it holds "
+                   "never reaches a build. Cite it or remove it")
+
+    # A list the draw cannot index is as broken as a missing one.
+    for path in sorted((pack / "lists").glob("*.md")):
+        text = path.read_text()
+        entries = [int(n) for n in LIST_ENTRY_RE.findall(text)]
+        if not entries:
+            diag.error(path, "holds no numbered entries - a list is one entry per line, "
+                             "numbered from 1")
+        elif entries != list(range(1, len(entries) + 1)):
+            diag.error(path, f"entries are not numbered 1..{len(entries)} in order - a draw "
+                             f"indexes them by position")
+        if not re.match(r'^#\s+' + re.escape(path.stem) + r'\s*$', text.split("\n")[0]):
+            diag.error(path, f"its first line is not '# {path.stem}' - a list is titled by the "
+                             f"name Spec lines cite it as")
 
 
 # ---------------------------------------------------------------------------
@@ -2104,7 +2190,7 @@ def report_fixtures() -> int:
 def main() -> int:
     diag = Diagnostics()
     check_pattern_files(diag)
-    check_compile_list(diag)
+    check_genre_lists(diag)
     check_read_set_graph(diag)
     check_repeated_prose(diag)
     check_exemplars(diag)

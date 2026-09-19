@@ -1,89 +1,81 @@
 # The pattern file spec
 
-What every file in `patterns/*/*.md` is made of, and why. `README.md` says what the
-patterns are *for* within the build; this file says what one looks like and how to tell a
-correct one from a broken one. `CLAUDE.md` carries the short version.
+What every file in `patterns/*/*.md` is made of, and why. `README.md` says what the patterns
+are *for* within the build; this file says what one looks like and how to tell a correct one
+from a broken one. `CLAUDE.md` carries the short version.
 
 ## The governing distinction
 
-Two things are true of a pattern file's content, and they are independent:
+A pattern file is a **contract**: neutral and permanent, true of this framework in any
+setting and any genre, written once and never rewritten by a build. Everything specific to a
+setting - the menus, the materials, the shapes a room can have been for - is a **list** in
+the selected genre pack under `genre/`, and a Spec line reaches it by citation.
 
-- **Neutral and permanent** - true of this framework in any setting, any genre. Written
-  once, never rewritten by a build.
-- **Specific and compiled** - true of *this* setting only. Rewritten at STEPS.md step 1b
-  from the chosen genre reference.
+Almost every rule below follows from keeping those two apart. The generator answers the
+contract's questions; the lists exist to stop those answers coming out flat. A file that
+blurs the two cannot be repointed at a new pack without hand-editing, which is the failure
+this separation prevents.
 
-Almost every rule below follows from keeping those two apart. The generator answers
-neutral questions; the specific content exists to stop those answers coming out flat. A
-file that blurs the two cannot be recompiled for a new setting without hand-editing, which
-is the failure this separation prevents.
+**Prefer a question to a list wherever the verbiage can carry it.** A list is a budgeted
+insertion of highly specific content, not the default home for anything that happens to be
+several things. A question that can be stated neutrally belongs in the Spec even where it
+reads like a menu.
 
-**Prefer a question to a pattern wherever the verbiage can carry it.** Patterns are an
-intentional, budgeted insertion of highly specific content, not the default home for
-anything that happens to be a list. A question that can be stated neutrally belongs in the
-Spec even when it reads like a menu.
-
-## The four fields
+## The three fields
 
 Every file carries these, in this order. Nothing else is a section.
 
 ### `## Provides`
-What exists after this file is read, in a sentence. Names the output, not the activity -
-the test is whether a reader can tell what artifact or feature the file is responsible
-for. Neutral and permanent.
+What exists after this file is read, in a sentence. Names the output, not the activity - the
+test is whether a reader can tell what artifact or feature the file is responsible for.
 
 It also carries the **boundary** against any sibling file that could be confused for this
-one, and a pointer to the authority for anything adjacent that this file does not decide -
-a rate that belongs to the drawing line, a resolution that belongs to
+one, and a pointer to the authority for anything adjacent that this file does not decide - a
+rate that belongs to the drawing line, a resolution that belongs to
 `setting/Procedures.md`, a citation format that belongs to `templates/Location.md`.
 
-**It never says when or by what the file is reached.** That is the read-set graph's, and
-the graph runs one way: a STEPS.md step names its template, a template names the pattern
-files its artifact requires, and a Spec line names what it draws. A file restating where
-it sits in that graph is a second copy of an edge something upstream already owns, and the
-second copy is what drifts.
+**It never says when or by what the file is reached.** That is the read-set graph's, and the
+graph runs one way: a STEPS.md step names its template, a template names the pattern files
+its artifact requires, and a Spec line names what it draws. A file restating where it sits in
+that graph is a second copy of an edge something upstream already owns, and the second copy
+is what drifts.
 
 ### `## Spec`
-What this file decides, as a fenced block. Every line is one of exactly two things:
+What this file decides, as a fenced block. Every line is one of exactly three things:
 
 - **an edge** - it points to another pattern file, named in parentheses, which is the only
-  other file that line requires; or
+  other file that line requires;
+- **a list citation** - `(genre: name)`, naming one or more lists in the selected pack that
+  the line draws its entries from; or
 - **a question** - it states something the generator must answer, and cites nothing.
 
-**What makes a citation an edge is that the generator must go and read that file.**
-Anything already in context at this step is not an edge and takes no parentheses: state it
-as part of the question, naming the generated artifact it is actually read from (`from
-setting/Bestiary.md`) rather than the pattern that produced it. A Dressing line the
-classifier already drew one level up, an event already written into `setting/History.md`,
-the register a line files its stub in - all questions. A decorative citation is not
+An edge and a list citation may sit on the same line: `1 Kind {ruin | lair} (wild/Ruin.md,
+wild/Lair.md)` dispatches, `1 Type (genre: doors)` draws, and a line that does both names
+both. Several lists on one line are written `(genre: a, b, c)`, which is how a line filtered
+by something already decided reaches each facet's list.
+
+**What makes a citation an edge is that the generator must go and read that file.** Anything
+already in context at this step is not an edge and takes no parentheses: state it as part of
+the question, naming the generated artifact it is actually read from (`from
+setting/Bestiary.md`) rather than the pattern that produced it. A decorative citation is not
 harmless: it makes a leaf read as a classifier.
 
-**And the converse: an edge belongs in the fenced block.** Edges are read from the block
-only, so a draw stated in the prose underneath is invisible to the tree even when both
-ends know about it. If a line requires another pattern file, the parentheses go on the
-line.
+**And the converse: an edge belongs in the fenced block.** Edges and list citations are read
+from the block only, so a draw stated in the prose underneath is invisible to the tree even
+when both ends know about it.
 
-`1` is mandatory; a percentage is the rate at which a feature carrying that content
-appears. Neutral and permanent - step 1b never rewrites a Spec.
+`1` is mandatory; a percentage is the rate at which a feature carrying that content appears.
 
-That two-way rule is what makes the library a single tree. A file whose Spec has outgoing
-edges is a classifier; a file whose Spec is all questions is a leaf. Neither is declared
-anywhere - it is read off the citations, so it cannot fall out of step with itself.
+That rule is what makes the library a single tree. A file whose Spec has outgoing edges is a
+classifier; a file whose Spec is all questions and list citations is a leaf. Neither is
+declared anywhere - it is read off the citations, so it cannot fall out of step with itself.
 
 **Where a line lives** follows from whether it varies: a line that differs between the
-classes that draw it belongs in the drawing class's Spec, and a line that is the same for
-all of them belongs in the file it cites. (`dangerous/High.md` requires an architecture
-detail because HIGH announces itself, so that line is HIGH's; `dangerous/Dressing.md`'s
-five baseline lines are constant, so they are Dressing's.) This is the same test
-`setting/Procedures.md` applies one level up.
-
-### `## Design patterns` *(optional, and budgeted)*
-The deliberate injection of highly specific content that keeps generated output from
-reading flat. **Specific and compiled** - rewritten at step 1b from the chosen genre
-reference. A section here is a claim that this file's output would be too generic without
-it; which files can make that claim is settled by what the file's output is, in "Which
-files earn patterns" below. The files that carry one are exactly STEPS.md step 1b's compile list -
-the two sets are checked against each other by `tools/validate_setting.py`.
+classes that draw it belongs in the drawing class's Spec, and a line that is the same for all
+of them belongs in the file it cites. (`dangerous/High.md` requires an architecture detail
+because HIGH announces itself, so that line is HIGH's; `dangerous/Dressing.md`'s baseline
+lines are constant, so they are Dressing's.) This is the same test `setting/Procedures.md`
+applies one level up.
 
 ### `## Constraints`
 Every prohibition: what belongs in another file, what this file must never do, a named
@@ -91,14 +83,30 @@ failure mode. Blank when a file is created. Fills as the patterns are refined an
 patterns are identified, and from failures observed during an actual build. Entries are
 written generalized, never tied to the setting that produced them.
 
-A positive rule phrased contrastively ("the pressure mechanism, not a rule of thumb") is
-not a prohibition and stays where it is.
+A positive rule phrased contrastively ("the pressure mechanism, not a rule of thumb") is not
+a prohibition and stays where it is.
+
+## Genre lists
+
+A list lives at `genre/<pack>/lists/<name>.md`: an `# name` heading, a one-line gloss, and
+one numbered entry per line. A Spec line citing it draws one entry; `tools/draw.py` will do
+that arithmetically at P3.2. Until then the generator picks, and the citation is what tells
+it where to pick from.
+
+Two rules hold the pack and the tree together, and `tools/validate_setting.py` enforces both:
+every `(genre: name)` resolves to a list in the selected pack, and every list in the pack is
+cited by at least one Spec line. A list nothing cites is content the build will never reach;
+a citation with no list is a draw the generator cannot make.
+
+A faceted list - one whose entries are filtered by something the contract already decided,
+such as a door's kind or a trap's tier - prefixes each entry with its facet rather than
+splitting into one file per facet, unless the facets are drawn independently.
 
 ## Classifiers and leaves
 
 A file's Spec says which it is, without asserting anything: outgoing edges make it a
-**classifier**, an all-questions Spec makes it a **leaf**. Depth is a fact about the tree,
-not a property a file declares.
+**classifier**, an all-questions Spec makes it a **leaf**. Depth is a fact about the tree, not
+a property a file declares.
 
 A contract lives in the file it describes. A classifier names a Kind or draws a feature and
 cites the file; it does not carry that file's contract inline.
@@ -108,8 +116,8 @@ A classifier may cite a file that is itself a classifier - `Encounter` drawing
 category earns a middle level instead of being a rename. A middle file is worth adding only
 when the kind beneath it is a real choice of two or more.
 
-`patterns/setting/Genre.md` carries extra sections beyond the skeleton. It is an
-interactive elicitation procedure and those sections are that procedure.
+`patterns/setting/Genre.md` carries extra sections beyond the skeleton. It is an interactive
+elicitation procedure and those sections are that procedure.
 
 ## The blocks a classifier's Spec is grouped into
 
@@ -124,20 +132,18 @@ questions in every rating:
 | **registry** | what ties this place to somewhere else, in either direction |
 
 The point of the blocks is that a line failing to belong to any of them is almost always a
-line belonging to a different class - which is a test that runs while the Spec is being
-written, not afterwards.
+line belonging to a different class - a test that runs while the Spec is being written.
 
 Each rating fills the four its own way, and one adds a fifth:
 
 - **DANGEROUS** is the plain case: challenge is what opposes the party, reward what is in
   the room.
-- **WILD** adds **access**, between substrate and challenge. At depth, how a room is
-  reached is the connection graph, written at 4b and needing no words in the entry; out in
-  the country it is content, written into the parent's Features, and it is the whole
-  distinction between Landmark, Hidden and Secret.
-- **SAFE** has no challenge - a settlement opposes nobody - and a **gate** in the same
-  slot: the person standing between the party and what this place has, and their terms.
-  Its reward block is a **transaction**: what is obtainable here and what is not.
+- **WILD** adds **access**, between substrate and challenge. At depth, how a room is reached
+  is the connection graph, written at 4b; out in the country it is content, written into the
+  parent's Features, and it is the whole distinction between Landmark, Hidden and Secret.
+- **SAFE** has no challenge - a settlement opposes nobody - and a **gate** in the same slot:
+  the person standing between the party and what this place has, and their terms. Its reward
+  block is a **transaction**: what is obtainable here and what is not.
 
 A rating renaming or adding a block is a claim that the rating genuinely works differently,
 and the classifier says why in the prose under its Spec. A rating *dropping* one is a
@@ -147,8 +153,7 @@ reason, rather than omitting the heading, because the absence is the class's def
 ## How a file is reached
 
 Read off the graph, never declared. Five shapes recur often enough to be worth naming, and
-the names are a way of talking about a file rather than anything a file states about
-itself:
+the names are a way of talking about a file rather than anything a file states about itself:
 
 | shape | reached |
 |---|---|
@@ -161,128 +166,103 @@ itself:
 Nothing validates these, because nothing can: `kind` and `ingredient` are not separable by
 line shape. `wild/Hidden.md` draws `1 Kind {ruin | lair | natural feature}` and
 `dangerous/High.md` draws `1 Challenge {encounter | hazard | mystery}` - identical shape,
-three alternatives, three citations - and the first draws three kinds while the second
-draws three ingredients. The difference is that a Kind decides what the location *is* and a
-challenge is something *in* it, which is semantic and not on the line. Any check would be
-checking a label against itself, and the generator branches on the drawing Spec line
-regardless.
+three alternatives, three citations - and the first draws three kinds while the second draws
+three ingredients. The difference is that a Kind decides what the location *is* and a
+challenge is something *in* it, which is semantic and not on the line.
 
-`Faction` is the one name that means a different mode in each rating, and must not be read
-as one thing: `safe/Faction.md` is one of four hooks in
-`safe/Settlement.md`'s registry line, so it is an ingredient exactly like its three
-siblings; `dangerous/Faction.md` is a Kind of `dangerous/Encounter.md`; only
-`wild/Faction.md` is conditional, drawn from inside each of the four WILD kind files at a
-rate the Kind sets, because whether a faction is possible here depends on what the place
-already turned out to be.
+`Faction` is the one name that means a different mode in each rating, and must not be read as
+one thing: `safe/Faction.md` is one of four hooks in `safe/Settlement.md`'s registry line, so
+it is an ingredient exactly like its three siblings; `dangerous/Faction.md` is a Kind of
+`dangerous/Encounter.md`; only `wild/Faction.md` is conditional, drawn from inside each of
+the four WILD kind files at a rate the Kind sets.
 
 **Every element file is reached by a classifier.** One reachable only from inside another
-element file is orphaned: nothing draws it, so nothing reads it, and the content it
-describes is never generated. `tools/validate_setting.py` warns on any file no generation
-template reaches, and step 5b judges it.
+element file is orphaned: nothing draws it, so nothing reads it, and the content it describes
+is never generated. `tools/validate_setting.py` warns on any file no generation template
+reaches, and step 5b judges it.
 
 **A file drawn two genuinely different ways is a signal, not a feature.** Two are:
-`safe/People.md`, both a Kind where the location *is* a household and the mandatory person
-in every SAFE location's gate block; and `dangerous/Key.md`, drawn as a Kind under
+`safe/People.md`, both a Kind where the location *is* a household and the mandatory person in
+every SAFE location's gate block; and `dangerous/Key.md`, drawn as a Kind under
 `dangerous/Treasure.md` for the key lying here and as a rated line on each weight file for
-the lock a key elsewhere opens. Each is a candidate for being two files, and the second
-already is: its demand end is moving out. Prefer splitting to carrying both.
-
-### Which files earn patterns
-
-**What the file's output is** answers this, and mode does not. A file that fills a
-location's body - its Dressing, its Kind, an ingredient drawn into it, a hook hanging off
-it - is where flat output would show, so that is where specific content is spent: those
-files carry `## Design patterns`, and they are step 1b's compile list. A file that supplies
-a *shape applied to* a location carries none, because a shape reads the same whatever
-reference was chosen. One thing is a shape: `Naming`, a procedure.
-
-**How a file is reached does not decide this**, and reasoning from it gets `Dressing` and
-the four SAFE hooks wrong.
-
-A rating classifier's own content is neutral by definition, so **no rating classifier
-carries `## Design patterns`**, and neither does a `setting/` or `region/` file. Their
-option menus answer a question rather than inject specificity, so they are Spec lines.
-
-A **middle-tier** classifier is decided by body-versus-shape like anything else, and they
-split both ways: one whose output is the dispatch, with the Kind beneath filling the body,
-carries none; one that names what a hoard actually holds is filling the body itself, and
-carries patterns. Being a classifier is not by itself the test. This is the library's most persistent drift: an option
-menu reads like content, and filing it as compiled content licenses step 1b to rewrite it
-for the next setting - an *edge* included.
+the lock a key elsewhere opens. Prefer splitting to carrying both.
 
 ## What a spec line owes
 
-A spec line says which feature appears and at what rate. What it does **not** say, and
-must not, is how many words the generated feature gets.
+A spec line says which feature appears and at what rate. What it does **not** say, and must
+not, is how many words the generated feature gets.
 
-**The unit of generated content is the Feature, not the word.** A drawn element's contract
-is satisfied across as many Features as it takes: where a contract line names something the
+**The unit of generated content is the Feature, not the word.** A drawn element's contract is
+satisfied across as many Features as it takes: where a contract line names something the
 players can address as its own object - looked at, acted on, taken, fought, opened - that
 line becomes its own Feature. Treasure hidden in a pillar and guarded by a beast is three
 Features, not one complex one. A contract line that only *qualifies* another thing - its
 condition, its position, how it is reached - stays on that thing's line.
 
 This is what keeps entries terse without a cap. One Feature states one thing, so it is
-naturally short; the generator never has to compress a complex feature into a word count
-that cannot hold it, and never has connective prose to write, because Features are listed
-rather than joined. An entry's length is therefore the number of Features the classifier
-drew - a decision already made, in the Spec - and not a budget anyone sets afterwards.
+naturally short; the generator never has to compress a complex feature into a word count that
+cannot hold it, and never has connective prose to write, because Features are listed rather
+than joined. An entry's length is therefore the number of Features the classifier drew - a
+decision already made, in the Spec - and not a budget anyone sets afterwards.
 
 Corollaries:
 
 - **Never fill a gap with prose.** Every clause traces to a drawn contract line. A clause
   with no line behind it is cut, which is a structural test rather than a stylistic one.
-- **Complexity decomposes, it does not expand.** A feature that will not fit a short line
-  is usually several features.
+- **Complexity decomposes, it does not expand.** A feature that will not fit a short line is
+  usually several features.
 - **Word counts are diagnostic at most.** An over-long Feature means something is being
-  explained rather than stated; an over-long entry means too many Features were drawn,
-  which is the classifier's problem and not the line's.
+  explained rather than stated; an over-long entry means too many Features were drawn.
 
-**No hard word ceiling, anywhere.** A per-Feature cap measures prominence, while the
-thing that actually varies is complexity - contracts run from two mandatory lines
-(`wild/Quest.md`) to six (`wild/Mystery.md`). Decomposition does the work a cap would be
-standing in for.
+**No hard word ceiling, anywhere.** A per-Feature cap measures prominence, while the thing
+that actually varies is complexity - contracts run from two mandatory lines (`wild/Quest.md`)
+to six (`wild/Mystery.md`). Decomposition does the work a cap would be standing in for.
 
 ## What prose owes
 
 Prose in any field points to where something is. It never restates what is there.
 
 - **Never state a count that can be derived from a list.** Name the list.
-- **Never enumerate the files** that carry a line or a section. The tree carries
-  that, `tools/validate_setting.py` computes it, and the pattern reference renders it.
+- **Never enumerate the files** that carry a line or a section. The tree carries that,
+  `tools/validate_setting.py` computes it, and the pattern reference renders it.
 - **Never restate a rule another file owns.** Cite it.
 - **Never restate the fenced block** in the prose beneath it. The block is the contract.
+- **Never write down why a rule exists.** That is a commit message. What stays under a block
+  is what changes a generator's output and lives nowhere else.
 
-Every copy drifts from its original, and the copy is the one a reader trusts, because it
-is the one in front of them. `tools/validate_setting.py` warns when a sentence of nine
-words or more appears in three or more files.
+Every copy drifts from its original, and the copy is the one a reader trusts, because it is
+the one in front of them. `tools/validate_setting.py` warns when a sentence of nine words or
+more appears in three or more files.
 
 ## Citation format
 
-A citation from one `patterns/*/*.md` file to another is always `folder/File.md`, bare,
-with no `patterns/` prefix - except a reference to a `patterns/setting/*.md` file, which
-always keeps the prefix, since a bare `setting/File.md` means the *generated* file of that
-name rather than the pattern that produces it.
+A citation from one `patterns/*/*.md` file to another is always `folder/File.md`, bare, with
+no `patterns/` prefix - except a reference to a `patterns/setting/*.md` file, which always
+keeps the prefix, since a bare `setting/File.md` means the *generated* file of that name
+rather than the pattern that produces it.
+
+A list citation is `(genre: name)` or `(genre: name, name)`, bare list names, no pack and no
+path. Which pack those names resolve in is the build's, not the file's.
 
 ## What the validator enforces
 
-Run `python3 tools/validate_setting.py` to see it; the script is the list. This section
-states only what the checks *mean*, which is not readable off them.
+Run `python3 tools/validate_setting.py` to see it; the script is the list. This section states
+only what the checks *mean*, which is not readable off them.
 
-The compile-list check holds STEPS.md and the tree to the same answer; it does not decide
-the answer. Whether a given file *earns* patterns is the body-versus-shape judgement above
-and stays a human call.
+**Reachability is checked, and it is the one graph question worth a machine.** The validator
+walks STEPS.md to `templates/` to each template's named pattern files and out along Spec
+edges, and warns on anything it cannot reach. A phase-5 template is excluded from the root
+set: a review pass cites pattern files as examples, and counting those would let an orphan
+hide behind a mention in a judgement check. It warns rather than errors because unreachable
+content cannot corrupt a build - it means content expected to be generated silently is not,
+which is a thinness judgement and belongs to step 5b.
 
-**Reachability is checked, and it is the one graph question worth a machine.** The
-validator walks STEPS.md to `templates/` to each template's named pattern files and out
-along Spec edges, and warns on anything it cannot reach. A phase-5 template is excluded
-from the root set: a review pass cites pattern files as examples, and counting those would
-let an orphan hide behind a mention in a judgement check. It warns rather than errors
-because unreachable content cannot corrupt a build - it means content expected to be
-generated silently is not, which is a thinness judgement and belongs to step 5b.
+**Edges and list citations are read from the Spec's fenced blocks only.** The prose under the
+block cites pattern files freely - `setting/Truths.md` names three - and counting those would
+make half the leaves in the library read as classifiers.
 
-**Edges are read from the Spec's fenced blocks only.** The prose under the block cites
-pattern files freely - `setting/Truths.md` names three - and counting those would make half
-the leaves in the library read as classifiers.
+**The list checks run both ways**, because a one-way check drifts: an uncited list is dead
+content and a dangling citation is a broken draw, and each is invisible from the other end.
 
-`--read-set [STEP]` prints what any step reads, entry points separated from Spec expansion.
+`--read-set [STEP]` prints what any step reads, entry points separated from Spec expansion,
+including the genre lists its pattern files cite.

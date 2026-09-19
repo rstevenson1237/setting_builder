@@ -36,38 +36,21 @@ REUSE - whenever any artifact reuses a proper noun coined elsewhere
 itself.
 
 **Three tongues is the default**: a common tongue for the living, an older tongue for ruins
-and the dead, and one non-human tongue. More only when the setting demands it, because a
-fourth inventory nobody uses is dead weight.
+and the dead, and one non-human tongue. A fourth inventory nobody uses is dead weight.
 
 **Make them sound unlike each other.** Two tongues sharing an inventory are one tongue with
-two names. The seeds differ deliberately - open running syllables against strict closed
-ones, five vowels against three - and that contrast is what lets a party hear which culture
-a name came from before anyone tells them.
+two names - open running syllables against strict closed ones, five vowels against three.
+That contrast is what lets a party hear which culture a name came from.
 
-**Register and reuse are the two halves of the same rule**, and both are stated here
-rather than at whichever level happens to need them. Every step that coins registers; every
-artifact that reuses glosses. A step that coins without registering strands a name, and an
-artifact that reuses without glossing hands the referee a word it cannot translate.
-
-**This is the framework's one living artifact.** Every other file is written once and
-revisited at 4d. This one is appended to continuously, and it stops being useful the moment
-a step coins a name without recording it.
-
-**Who a tongue belongs to** - the people currently here; a people who were here and are not;
-a people who were never here and whose language arrived by trade or conquest; something that
-is not a people; a trade jargon; a liturgical register nobody speaks conversationally.
-
-**What affixes mark** - place, holding, or settlement; water, and what kind; a diminutive; a
-plural or a collective; possession or belonging; age - old, first, former; direction or
-position; negation; a title.
-
-**What roots should cover** - ground and stone; water; growing things; weather and
-temperature; colour; body and body parts; making and breaking; taking and giving; light and
-dark; the dead; number; direction. A root list weighted toward abstractions cannot name a
-hill.
+**What roots should cover** - ground and stone; water; growing things; weather; colour; body
+and body parts; making and breaking; taking and giving; light and dark; the dead; number;
+direction. A root list weighted toward abstractions cannot name a hill.
 
 **Loan words are information.** A settlement using a dead tongue's word for one thing - a
-well, a road, a boundary, a burial - has told the party what it inherited rather than built,
-without any exposition at all.
+well, a road, a boundary, a burial - has told the party what it inherited rather than built.
 
 ## Constraints
+
+- **This is the framework's one living artifact**, appended to continuously. A step that
+  coins without registering strands a name; an artifact that reuses without glossing hands
+  the referee a word it cannot translate.

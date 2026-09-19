@@ -41,26 +41,19 @@ WILD - SECRET
 
 **This file carries two Clue/Trigger/Payload triples and they do different work.** The
 access triple is the location itself: its Clue sits in the *parent's* Features, and its
-Payload is an Exit to this whole place rather than a detail inside one. Mark that edge
-hidden (`-.-`) in the region's `Connections.mmd`. The rated triple in the substrate block
-is an ordinary concealed detail, wholly inside this location, and both of its ends are
-here. Writing one where the other belongs is how a Secret location ends up either
-unreachable or reached twice.
+Payload is an Exit to this whole place. Mark that edge hidden (`-.-`) in the region's
+`Connections.mmd`. The rated triple in the substrate block is an ordinary concealed detail,
+wholly inside this location. Writing one where the other belongs is how a Secret location
+ends up either unreachable or reached twice.
 
-Unlike a feature-level Secret, this is **mandatory, not rated** - a Secret-tier location
-without a stated Clue at its parent is unreachable, and unreachable content is content
-that does not exist.
-
-Its rated lines come to one Feature against a Hidden location's 0.8 and a Landmark's 0.6,
-and the reward rate is the highest of the three. A place a party had to notice a clue and
-act on it to reach is the tier's last chance to pay them for that, and nothing below it
-will.
+Unlike a feature-level Secret, the access triple is **mandatory, not rated**. Its rated
+lines come to one Feature against a Hidden location's 0.8 and a Landmark's 0.6, and the
+reward rate is the highest of the three: a place a party had to notice a clue and act on it
+to reach is the tier's last chance to pay them for that.
 
 ## Constraints
 
-- **A Secret-tier location is the end of a chain, not a link in one.** It carries no
-  child of its own, which is why it has no lead line where `wild/Landmark.md` and
-  `wild/Hidden.md` have one. Depth in a WILD region runs Landmark to Hidden to Secret and
-  stops - a clue at a parent that itself has to be found by acting on a clue is two
-  triggers deep and will not be reached. `region/Wild.md`'s topology states the same rule
-  on the graph side, where it is enforceable.
+- **A Secret-tier location is the end of a chain, not a link in one.** It carries no child
+  of its own, which is why it has no lead line where `wild/Landmark.md` and
+  `wild/Hidden.md` have one. A clue at a parent that itself has to be found by acting on a
+  clue is two triggers deep and will not be reached.

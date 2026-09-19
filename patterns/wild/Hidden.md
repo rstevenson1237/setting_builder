@@ -38,29 +38,14 @@ WILD - HIDDEN
   1     Naming, after everything above                (patterns/setting/Naming.md)
 ```
 
-A Hidden location is not found by roaming. It is found by **stopping at a Landmark and
-actually looking** - going behind, under, past, or into something the parent's entry
-already described. No trigger, no roll: per `setting/Procedures.md`, a stated detail
-investigated is a detail found.
-
-The distinction from a Secret is the whole tier: a Hidden way in is *visible and easy to
-miss*; a Secret way in is *concealed until acted on*.
-
 **A Hidden location draws a Kind like any other**, and skips only the position line - per
-`wild/Dressing.md`, its position is the parent it hangs off. What it is physically has to
-be answered somewhere, and the kind files are where that answer lives.
+`wild/Dressing.md`, its position is the parent it hangs off.
 
-Its rated lines come to about 0.8 of a Feature against a Landmark's 0.6, and its child
-leads are read off the region's `Connections.mmd` the same way - mandatory per child the
-graph gives it, absent otherwise. A party that stopped and looked has already paid
-something to be standing here, and the rates are where that is paid back.
-
-**A party standing in a Hidden location is already looking.** They followed a visible
-detail from the parent to get here, so they arrived expecting the place to repay
-attention - which lets a clue here sit closer to the edge of notice than a Landmark's can.
-What it still cannot do is need a lead of its own to find: a clue reached only by acting on
-another clue is two triggers deep, and `region/Wild.md`'s depth rule exists because that
-second one never gets reached.
+**A party standing here is already looking.** They followed a visible detail from the
+parent, so a clue here can sit closer to the edge of notice than a Landmark's can. What it
+still cannot do is need a lead of its own to find: a clue reached only by acting on another
+clue is two triggers deep, and `region/Wild.md`'s depth rule exists because that second one
+never gets reached.
 
 ## Constraints
 

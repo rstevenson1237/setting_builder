@@ -3,52 +3,26 @@
 ## Provides
 What an unbuilt, unoccupied Landmark is, and why it is worth four hours to visit.
 
-Alone among the kinds it has no builder and no occupant, so it has to earn its slot on
-what it *does*.
-
 ## Spec
 
 ```
 KIND: NATURAL FEATURE
-  1     What it physically is, and its scale in yards
+  1     What it physically is, and its scale in yards   (genre: natural-features)
   1     Why a party would stop - shelter, water, vantage, materials, or a crossing
   1     One way it is not like the country around it
   30%   Something mysterious about it, priced or dangerous to use, per GENRE.md
+                                                        (genre: natural-strangeness)
   30%   A resource findable here, tied to the region's Foraging field
   20%   A hazard that is simply part of the place
   15%   The resource is worked by one of the three factions, whose claim reaches
         past this place                                        (wild/Faction.md)
 ```
 
-**A Natural Feature is the hardest kind to write well** - it has no builder and no
-occupant, so unlike a Ruin or a Lair it has to earn its slot on what it *does* alone.
-
-## Design patterns
-
-**Stone** - a crag, tor, or stack; a cliff face with a way up or none; a gorge or ravine; a
-sinkhole; a scree slope; a cave mouth; an erratic boulder sitting where nothing put it; a
-natural arch; a fissure that breathes.
-
-**Water** - a spring, and whether it is good; a waterfall; a pool that does not drain; a
-ford; a hot spring; a lake with something under it; a bog with a firm path across; a
-river's bend where things wash up; a stream that goes underground.
-
-**Growing** - a single tree far older than its neighbours; a stand of one species where
-there should be many; a clearing nothing has recolonised; a thicket that turns a party
-back; a blowdown; a burn, and how old; a grove that is quieter than it should be.
-
-**Ground** - a natural high point with a view over the region; a bowl or hollow that holds
-weather; a saddle or pass; a place where the footing changes; a sinking ground; a game
-trail worn deep enough to walk in; a place where two kinds of country meet along a line.
-
-**Weather and time** - a place that holds mist after everywhere else clears; where snow
-lies latest; where lightning has struck repeatedly; where the wind is always from one
-quarter; where sound carries much further than it should.
-
-**Mysterious, and priced.** Per GENRE.md's Low Magic, a natural feature may carry
-something strange - but it costs, and the cost is stated. Water that heals and takes
-something; ground that will not hold a grave; a place where a thing is remembered
-whether or not anyone is remembering it; a direction that is wrong here. Rare, never
-routine, and never free.
-
 ## Constraints
+
+- **It has no builder and no occupant, so it earns its slot on what it does.** A Natural
+  Feature that offers nothing - no shelter, no water, no vantage, no materials, no way
+  through - is terrain, and terrain belongs in the Region Overview's Terrain field.
+
+- **Strangeness here is rare, never routine, and never free.** Per `GENRE.md`'s Low Magic a
+  feature may carry something strange, but the cost is stated on the same line.

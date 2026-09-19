@@ -929,22 +929,23 @@ Original task, kept for what it specifies:
 
 ### Phase 3: the four trees (five sessions)
 
-**P3.1 Reduce `patterns/` to contracts and create `genre/`.**
-- Files: all `patterns/*/*.md`; new `genre/bx-1981/`; `SPEC.md`; `STEPS.md` 1b; the
-  validator's compile-list and read-set checks; the site's pattern page.
-- Steps: for each of the 37 files on the compile list, move the `## Design patterns`
-  section into `genre/bx-1981/lists/`, split by what it lists: the menus become one file
-  per list (`doors.md`, `door-condition.md`, `containers.md`, `purposes.md`,
-  `clues-underground.md`, `clues-outdoors.md`, `clues-social.md`, `demeanours.md`,
-  `dispositions.md`, `mechanisms-nuisance.md`, and so on), one entry per line, numbered.
-  The neutral file keeps Provides, Spec and Constraints, and every Spec line that was a
-  menu or a "what it is" question now cites its list: `1 Type (genre: doors)`. Prose
-  beneath the block is cut to what changes a generator's output; expect two thirds to
-  go. `SPEC.md`'s skeleton becomes three sections and gains the list-citation form.
-  The validator checks every `(genre: name)` resolves to a list in the selected pack
-  and every list is cited by at least one line; `--read-set` adds the cited lists.
-- Acceptance: zero errors; no `## Design patterns` under `patterns/`; `patterns/` at
-  or under 12,000 words; the site renders contract and lists side by side.
+~~**P3.1 Reduce `patterns/` to contracts and create `genre/`.**~~ Landed. All 37 compile-list
+files' `## Design patterns` sections are 115 numbered lists under `genre/bx-1981/lists/`
+(11,117 words), reached by `(genre: name)` on the Spec line that draws them; the skeleton is
+three sections; `STEPS.md` 1b selects a pack instead of compiling; the validator replaces the
+compile-list check with the two list checks and `--read-set` prints the cited lists; the
+pattern page renders each cited list beside the Spec citing it.
+
+**One acceptance figure was not met, and the estimate was wrong rather than the work.**
+`patterns/` came out at 25,497 words against the stated 12,000. The floor is arithmetic: the
+fenced contracts are 8,549 words, `SPEC.md` is 2,614, and `setting/Genre.md`'s elicitation
+procedure is 2,085 and cannot move to a pack because it is what *chooses* the pack - 13,200
+before a single `## Provides` or `## Constraints`, and `CLAUDE.md` makes Constraints
+mandatory. Reaching 12,000 would have meant deleting prohibitions to hit a number. What the
+cut actually bought is the figure P3.2 is aimed at: a DANGEROUS LOW location's pattern read
+set falls from 15,126 words to 6,730, and `patterns/` plus `genre/` together are 36,614
+against the baseline's 45,774. Re-state the target against those numbers if it is worth
+keeping.
 
 **P3.2 Make the draw arithmetic, and assemble the context.**
 - Files: new `tools/draw.py`, new `tools/context.py`; `templates/Location.md`

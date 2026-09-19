@@ -37,32 +37,26 @@ DANGEROUS - MEDIUM
   1     Naming, after everything above      (patterns/setting/Naming.md)
 ```
 
-Medium weight means the location presents **one thing to deal with**, and presents it
-plainly. A challenge the party cannot see is not a medium-weight challenge - a room built
-on a concealed trap presents as empty, and belongs at low weight with the trap as its
-variance. That is why the visibility line is mandatory here and nowhere else: it suppresses
-`dangerous/Encounter.md`'s absent-on-arrival option, which is a HIGH and LOW device.
+Medium weight means the location presents **one thing to deal with**, plainly. A room built
+on a concealed trap presents as empty and belongs at low weight with the trap as its
+variance - which is why the visibility line is mandatory here and nowhere else.
 
-**Mystery is not a MEDIUM challenge.** Per `dangerous/Mystery.md` a mystery costs nothing
-until a wrong attempt is made, so it is not one thing to deal with - it is something to
-work out. MEDIUM draws only `{encounter | hazard}`.
+**Mystery is not a MEDIUM challenge.** It costs nothing until a wrong attempt is made, so
+it is not one thing to deal with; MEDIUM draws only `{encounter | hazard}`.
 
-**At MEDIUM the clue competes with the challenge for attention, and that is the point.**
-The room presents one thing plainly, per the visibility line above, and a party dealing
-with that thing is not searching. A clue findable only by turning away from the challenge
-is fair. A clue that cannot be found at all while the challenge is live is not - it is a
-detail the room kept for a second visit the party has no reason to make.
+**The clue competes with the challenge for attention, and that is the point.** A clue
+findable only by turning away from the challenge is fair; one that cannot be found at all
+while the challenge is live is a detail kept for a second visit the party has no reason to
+make.
 
-The treasure rates are conditional on the challenge because reward should follow the
-fiction: a thing that lives here has accumulated something, a mechanism has not.
-
-**Lore substitutes for the table roll rather than adding to it.** At HIGH lore arrives
-alongside the payload; at MEDIUM the find is *either* a document *or* a roll, which is what
-keeps a medium room from paying out twice.
+The treasure rates follow the fiction: a thing that lives here has accumulated something, a
+mechanism has not.
 
 ## Constraints
 
-- **The Payload is not a second treasure draw.** Where a concealed detail pays out at
-  MEDIUM, it is the treasure this room already drew, moved behind the clue - not another
-  one stacked on top. A room that pays twice for one challenge has quietly become a HIGH
+- **Lore substitutes for the table roll rather than adding to it.** At MEDIUM the find is
+  *either* a document *or* a roll, which is what keeps a medium room from paying out twice.
+
+- **The Payload is not a second treasure draw.** It is the treasure this room already drew,
+  moved behind the clue. A room that pays twice for one challenge has quietly become a HIGH
   location without the challenge to justify it.

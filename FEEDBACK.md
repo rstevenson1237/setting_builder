@@ -21,9 +21,9 @@ location generated: where it would not, the item ends here. Most items are R1.
 **R2 List.** The output was the average - a door that is a door, a container that is "a
 chest", a demeanour anyone would have written. The draw landed where every draw lands,
 because the list behind that Spec line is short or crowded at one end. Add entries to the
-list the line draws from: `genre/<pack>/lists/<name>.md` once P3.1 has moved them, and
-until then the `## Design patterns` section of the pattern file whose Spec line drew the
-field. Entries are written generalized, per `patterns/SPEC.md`, and enough of them go in
+list the line draws from: `genre/<pack>/lists/<name>.md`, named by the `(genre: name)`
+citation on that line.
+Entries are written generalized, per `patterns/SPEC.md`, and enough of them go in
 that the crowded end is no longer where the draw falls. **This is the route most items
 past R1 belong on.**
 

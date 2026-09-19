@@ -216,6 +216,10 @@ def report_budget() -> None:
         ("templates/", sorted((ROOT / "templates").glob("*.md"))),
         ("patterns/", sorted((ROOT / "patterns").glob("SPEC.md"))
                       + sorted((ROOT / "patterns").glob("*/*.md"))),
+        # The pack is framework too - it is where the specific content a Spec
+        # line draws lives now, and leaving it out would report the split as a
+        # saving rather than a move.
+        ("genre/", sorted((ROOT / "genre").glob("*/**/*.md"))),
     ]
     framework = 0
     for name, paths in layers:

@@ -2,45 +2,27 @@
 
 ## Provides
 How a settlement comes to be holding an object that opens something somewhere else.
-
 Criteria are in `patterns/setting/Keys.md`.
 
 ## Spec
 
 ```
 KEY
-  1     The object, and what it physically is
+  1     The object, and what it physically is           (genre: key-forms)
   1     What it opens, named by location code and feature
+  1     How it got here                                 (genre: key-provenance-settlement)
   1     Who has it here, and whether they know what it is
-  1     What it takes to get it - bought, borrowed, traded, stolen, inherited, earned
-  30%   A clue connecting object to lock
+                                                        (genre: key-holders-settlement)
+  1     What it takes to get it                         (genre: key-price)
+  30%   A clue connecting object to lock                (genre: key-clues)
   20%   Somebody else wants it, and is closer to getting it
+                                                        (genre: key-rivals)
 ```
 
-**In SAFE a key has a holder, and the holder is the obstacle.** In WILD it is a matter of
-finding it; at depth, of surviving to it. Here it is a matter of dealing with a person -
-which is the tier's whole contribution to the hook layer, and the reason a settlement is
-worth returning to after a party learns what a door needs.
-
-## Design patterns
-
-**How it got here** - taken off a body brought back; pawned by somebody who needed money
-more than they needed it; inherited and never understood; held by an office as a matter of
-record; bought as a curiosity; part of a temple's or guild's property; kept as proof of a
-claim; taken as payment; found by a child.
-
-**Who has it** - a moneylender, as collateral; a trader who cannot price it; the authority,
-in a chest of things nobody has looked at in years; a family, as an heirloom; a temple, as
-a relic of something else; a drunk who will not say where they got it; somebody who is
-using it as an ordinary object and would sell it cheaply.
-
-**What it takes** - coin, and more than it is worth to them; a trade for something the
-party has; a favour first; a claim proved; a debt settled; the truth about where it came
-from; theft, and what that costs in a place that will remember; waiting for somebody to
-die.
-
-**Somebody else wanting it** - a faction that knows what it opens; a collector; the
-family it was taken from; whoever the last holder owed. State how close they are, so
-delay has a price.
+**State how close the rival is**, so delay has a price.
 
 ## Constraints
+
+- **A key held in a settlement is a transaction, not a find.** Somebody owns it, and what
+  it takes to get it is stated in their terms. A key lying unattended in a settlement has
+  been written as a dungeon cache in a town.
