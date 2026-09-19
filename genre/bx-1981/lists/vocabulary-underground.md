@@ -1,0 +1,63 @@
+# vocabulary-underground
+
+Words that carry a process as well as a thing. Name the part rather than describing it.
+
+1. corbel
+2. lintel
+3. revetment
+4. spandrel
+5. newel
+6. jamb
+7. reveal
+8. soffit
+9. threshold-stone
+10. pintle
+11. gudgeon
+12. strap-hinge
+13. hasp
+14. staple
+15. drawbar
+16. bar-socket
+17. wicket
+18. postern
+19. chokedamp
+20. firedamp
+21. sough
+22. adit
+23. winze
+24. stope
+25. stull
+26. lagging
+27. shoring
+28. out of plumb
+29. camber
+30. flowstone
+31. seep
+32. sump
+33. weep
+34. springe
+35. gin
+36. deadfall
+37. treadle
+38. detent
+39. sear
+40. tumbler
+41. counterweight
+42. trip-line
+43. quarrel
+44. scythe-beam
+45. pitfall lid
+46. spall
+47. efflorescence
+48. salt-bloom
+49. verdigris
+50. patina
+51. clinker
+52. slag
+53. tailings
+54. sinter
+55. rime
+56. midden
+57. char
+58. calcined
+59. leached

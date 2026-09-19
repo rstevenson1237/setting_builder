@@ -62,6 +62,28 @@
     return '<div class="pattern-insp-block"><h4>' + label + " (" + ids.length + ")</h4><div class=\"pattern-chip-row\">" + chips + "</div></div>";
   }
 
+  // The contract and the content it draws are two halves of one thing, so the
+  // inspector shows the pack's lists beside the Spec that cites them rather
+  // than sending the reader to another tree to find out what a line draws.
+  function listBlock(names) {
+    if (!names || !names.length) return "";
+    var lists = DATA.lists || {};
+    var parts = names.map(function (name) {
+      var l = lists[name];
+      if (!l) {
+        return '<div class="pattern-list"><h5>' + esc(name) +
+          ' <span style="color:var(--dangerous)">(no such list in the pack)</span></h5></div>';
+      }
+      var items = l.entries.map(function (e) { return "<li>" + esc(e) + "</li>"; }).join("");
+      return '<details class="pattern-list"><summary>' + esc(name) +
+        ' <span style="color:var(--ink-soft)">(' + l.entries.length + ")</span></summary>" +
+        (l.gloss ? '<p class="hint">' + esc(l.gloss) + "</p>" : "") +
+        "<ol>" + items + "</ol></details>";
+    }).join("");
+    return '<div class="pattern-insp-block"><h4>Draws from ' +
+      (DATA.pack ? esc(DATA.pack) : "the pack") + " (" + names.length + ")</h4>" + parts + "</div>";
+  }
+
   function renderInspector(id) {
     var n = DATA.nodes[id];
     var issuesHtml = (n.issues && n.issues.length)
@@ -76,7 +98,7 @@
       fieldBlock("Provides", n.provides) +
       fieldBlock("Read at", n.read_at) +
       fieldBlock("Spec", n.spec, true) +
-      fieldBlock("Design patterns", n.design_patterns) +
+      listBlock(n.lists) +
       fieldBlock("Constraints", n.constraints) +
       chipRow("Draws", n.out) +
       chipRow("Drawn by", n.incoming) +

@@ -40,51 +40,46 @@ TOPOLOGY - a forest of trees
 Landmarks do not interconnect. A party roams the region and finds them; depth happens
 below a Landmark, not between them.
 
-**This graph is what the parents' lead lines answer to.** Per `wild/Landmark.md` and
-`wild/Hidden.md`, a parent states a visible detail for each Hidden child and a Clue for
-each Secret child that the graph hangs off it - mandatory per child, not a rate. Deciding
-here which parents carry children is therefore deciding how much of the region's content
-sits behind something, and a child whose parent states nothing is unreachable.
+**This graph is what the parents' lead lines answer to.** Deciding here which parents carry
+children is deciding how much of the region's content sits behind something, and a child
+whose parent states nothing is unreachable.
 
 The Region Overview's fields, for a WILD region.
 
-- **Overview** - what this stretch of country is, who uses it and for what, and why it has
-  not been settled or cleared. Points of Light: unoccupied is the default, and a reason it
-  stays that way is worth stating.
-- **Ambiance** - what the place looks, sounds and smells like across the whole region, and
-  how weather and season change it. Architectural style and materials where anything built
-  recurs here.
-- **Terrain** - the ground itself: a single descriptor or a specific combination. How hard
-  it actually is to move through, beyond what Layout's distances imply. **This field
-  carries the connective texture the referee narrates between points** - it is doing more
-  work than its length suggests, because in a point crawl everything between two landmarks
-  comes from here.
-- **Foraging** - plants, huntable wildlife, and geological goods findable here; whether they
-  are rare or abundant; what they are called locally. Game and fish are Foraging's fauna;
-  anything dangerous enough to be an encounter belongs in Creatures instead, cited from the
-  Bestiary by name where the two overlap. Any purported healing or magical value stays rare
-  and priced, per GENRE.md.
-- **Layout** - this region has no separate type field; Terrain above already carries that
-  role. State the region's overall shape and extent, distances between Landmarks in yards
-  or miles, and roughly where its most notable Features or Dangers (below) actually sit, so
-  a referee can place them, not just know they exist. State that an action costs four
-  hours, and what one action buys: a move between neighbouring Landmarks, a search of one
-  Landmark, a forage, a tracking attempt, or making camp.
-- **Features** - what a party interacts with across the region rather than at one point:
-  crossings, weather, footing, what can be seen from high ground, what the region does at
-  night.
-- **Dangers** - how the region answers intrusion. Some country is indifferent and merely
-  lethal; some is watched.
-- **Creatures** - what lives here, its range, and how it meets a party - hunting, watching,
-  avoiding, following. Reference the Bestiary by name and add what is specific to this
-  population.
-- **Factions** - whether any of the three claim ground here, and how much of the region: a
-  held Landmark used as a position, a route kept open or shut, a stretch worked for what it
-  yields. Name which Landmarks or stretches, if any; state none if the region is genuinely
-  unclaimed.
-- **Secrets** - what the region hides, and roughly where. Enough that the Secret-tier
-  locations have somewhere to come from.
-- **Treasure** - what rewards exploration here, and which tables the region leans on.
-- **Tables** - a d6 Encounter table, rolled on each failed Difficulty roll.
+```
+FIELDS
+  1     Overview   - what this stretch of country is, who uses it and for what, and why it
+                     has not been settled or cleared. A reason it stays that way is worth
+                     stating
+  1     Ambiance   - what it looks, sounds and smells like across the whole region, and how
+                     weather and season change it
+  1     Terrain    - the ground itself, and how hard it is to move through beyond what
+                     Layout's distances imply. This field carries the connective texture the
+                     referee narrates between points, which is more work than its length
+                     suggests
+  1     Foraging   - plants, huntable wildlife and geological goods findable here, how rare,
+                     and what they are called locally. Anything dangerous enough to be an
+                     encounter belongs in Creatures. Healing or magical value stays rare and
+                     priced, per GENRE.md
+  1     Layout     - no separate type field; Terrain carries that. The region's shape and
+                     extent, distances between Landmarks in yards or miles, and roughly
+                     where its notable Features and Dangers sit. State that an action costs
+                     four hours, and what one buys: a move, a search, a forage, a tracking
+                     attempt, or making camp
+  1     Features   - what a party interacts with across the region rather than at one point:
+                     crossings, weather, footing, what can be seen from high ground, what
+                     the region does at night
+  1     Dangers    - how the region answers intrusion. Some country is indifferent and
+                     merely lethal; some is watched
+  1     Creatures  - what lives here, its range, and how it meets a party. Bestiary by name,
+                     plus what is specific to this population
+  1     Factions   - whether any of the three claim ground here, and how much: a held
+                     Landmark, a route kept open or shut, a stretch worked for what it
+                     yields. Name which; none where the region is genuinely unclaimed
+  1     Secrets    - what the region hides, and roughly where. Enough that the Secret-tier
+                     locations have somewhere to come from
+  1     Treasure   - what rewards exploration here, and which tables the region leans on
+  1     Tables     - a d6 Encounter table, rolled on each failed Difficulty roll
+```
 
 ## Constraints

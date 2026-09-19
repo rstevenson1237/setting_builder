@@ -16,19 +16,8 @@ KEY ENTRY
 ```
 
 **A key need not look like its lock**, and the connection between them can itself be a
-discoverable Secret when it is not obvious.
-
-**Forms** - an actual key; a rod, pin, or bar cut to a profile; a stone or disc fitted to a
-socket; a seal or signet; a token; a specific creature's bone; a phrase or name recorded on
-something portable; a measured length; a piece broken off the lock itself.
-
-**Why they are apart** - deliberately, because keeping them together defeated the point; the
-holder died in transit; it was taken as loot; it was buried with someone; it was given for
-safekeeping and the giver never returned; the lock was built later, around a thing that
-already existed.
-
-**Connecting clues** - a shared maker's mark, material, measurement, or tongue; matching wear;
-an inscription naming the lock but not the key; a record in `setting/Lore.md`.
+discoverable Secret when it is not obvious. The forms, the reasons the two are apart, and
+the clues that connect them are drawn by each rating's own `Key.md`.
 
 ## Constraints
 
@@ -37,6 +26,4 @@ an inscription naming the lock but not the key; a record in `setting/Lore.md`.
 
 - **A key gates something elsewhere, never a single room's own contents.** Gating a room
   from inside itself is a Hazard's or a Mystery's job. Keys exist to connect locations,
-  most usefully across regions - they are the mechanism that turns a set of regions into
-  a network and gives a party a concrete reason to go back somewhere or press toward
-  somewhere new.
+  most usefully across regions.

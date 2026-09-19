@@ -35,16 +35,15 @@ DANGEROUS - HIGH
   1     Naming, after everything above           (patterns/setting/Naming.md)
 ```
 
-High weight means the location **announces itself**. The architecture line is mandatory
-because that is what does the announcing: before a party knows what is in the room, the
-room has to look like somewhere that matters. It is a question rather than an edge because
-it is HIGH's own requirement - `dangerous/Dressing.md` supplies the baseline every location
-gets, and MEDIUM and LOW do not demand this on top of it.
-
-**Treasure is mandatory at HIGH.** A high-weight location the party clears and leaves
-empty-handed has spent the region's scarcest slot on nothing.
+High weight means the location **announces itself**, and the architecture line is what does
+the announcing: before a party knows what is in the room, the room has to look like
+somewhere that matters. It is HIGH's own requirement on top of the baseline every location
+gets.
 
 ## Constraints
+
+- **Treasure is mandatory at HIGH.** A high-weight location the party clears and leaves
+  empty-handed has spent the region's scarcest slot on nothing.
 
 - **Never add a discovery structure to a HIGH room.** What it hides is already carried by
   a Treasure whose disposition is hidden, or by a Hazard's or a Mystery's own clue. A

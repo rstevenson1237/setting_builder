@@ -57,12 +57,16 @@ So, when writing or editing any of them:
 
 `patterns/SPEC.md` is the full spec. The rules that get broken without it open:
 
-- **One skeleton, every file**: **Provides / Spec / Design patterns / Constraints**. There
-  is no `## Read at` and no `## Design questions` heading.
-- **Every Spec line is an edge or a question.** An edge names another pattern file in
-  parentheses and belongs in the fenced block, never in the prose under it. A question
-  cites nothing. A citation is an edge only where the generator must go and read that file;
-  anything already in context is stated as part of the question.
+- **One skeleton, every file**: **Provides / Spec / Constraints**. There is no
+  `## Design patterns`, no `## Read at` and no `## Design questions` heading.
+- **A pattern file is a neutral, permanent contract.** Everything specific to a setting is
+  a numbered list in the selected genre pack under `genre/`, reached by a `(genre: name)`
+  citation on a Spec line. No build step rewrites a pattern file.
+- **Every Spec line is an edge, a list citation, or a question.** An edge names another
+  pattern file in parentheses; a list citation is `(genre: name)`; a question cites nothing.
+  Both kinds of citation belong in the fenced block, never in the prose under it. A
+  citation is an edge only where the generator must go and read that file; anything already
+  in context is stated as part of the question.
 - **A line that varies between the classes drawing it belongs in the drawing class's Spec;
   a line that is the same for all of them belongs in the file it cites.** Same test
   `setting/Procedures.md` applies one level up.
@@ -74,8 +78,8 @@ So, when writing or editing any of them:
   requires, a Spec line names what it draws - and a file restating its own position is a
   second copy of an edge something upstream owns. `## Provides` carries the boundary against
   a sibling file and a pointer to the authority for anything adjacent; nothing else.
-- **`## Design patterns` is compiled content**, carried only by the files on STEPS.md step
-  1b's compile list. Check that list before adding or removing the section.
+- **Prose under a block is only what changes a generator's output.** Why a rule exists is a
+  commit message, and a paragraph restating the block is a second copy of the contract.
 
 ## Pattern citation format
 
@@ -83,6 +87,9 @@ A citation from one `patterns/*/*.md` file to another is always `folder/File.md`
 `patterns/` prefix - except a reference to a `patterns/setting/*.md` file, which always
 keeps the `patterns/` prefix, since a bare `setting/File.md` means the *generated* file of
 that name, not the pattern that produces it.
+
+A genre list is cited `(genre: name)`, or `(genre: a, b)` for several - bare list names,
+no pack and no path. Which pack they resolve in is the build's, per STEPS.md step 1b.
 
 ## Validator
 
