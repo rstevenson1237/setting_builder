@@ -870,7 +870,45 @@ Original task, kept for what it specifies:
 - Acceptance: consequences at or under twelve; no Constraint a list or tell already
   covers; the fixed block byte-identical in both files.
 
-**P2.4 The motif-saturation tell.**
+~~**P2.4 The motif-saturation tell.**~~ Landed. All four figures reproduce without the
+words being named: tally in 6 rooms across A, C, D, E; toll in 8 across A, B, C, D; cairn
+in 5 across B, D, E; sealed in 17 across A, D, E - and at the setting level toll 54,
+Essath 48, sealed 38, bound 24. Telar goes from 154 warnings to 219, which is 46 spread
+motifs and 19 seeded ones, and stays at 0 errors.
+
+**It counts a word, not a noun.** Two of the four the task names - sealed, bound - are
+participles, and nothing in the standard library decides a part of speech. So the unit is
+the content word left after the exclusions, and the exclusions are what carry the weight.
+
+**The tokenizer is half the result.** The setting-level figures do not reproduce until a
+hyphen splits and a possessive drops: toll reaches 54 only where *toll-master* is two
+words, Essath 48 only where *Essath's* is one of them. Both are how the corpus actually
+writes these words, so the count follows the corpus.
+
+**The exclusion has three sources and only one of them is in `tells.txt`.** The
+validator's own stopword list and its structural constants - the Bestiary types, the WILD
+classifications, the DANGEROUS weights - already hold their half and are read where they
+live; the setting's names are read from `Bestiary.md`, `Factions.md` and `Language.md`.
+What `tells.txt` gains is what nothing else holds: the citation machinery, the measures,
+the bearings, the room's own furniture, the condition words the lists supply, and the
+general language the stopword list does not reach.
+
+**A name of one word is excluded and a name of several is not.** Taking the words of
+*Bound Dead*, *The Serpent Cult* and *Sunk-Temple Horror* would have taken bound, cult,
+serpent, sunk and temple with them - and bound is one of the four figures the seed signal
+is asked to reproduce. A one-word name is Brekar, Nirguk, Tolkar, and its recurrence is a
+proper noun doing its job.
+
+**Three things the task text did not anticipate.** The seed signal needs a threshold of
+its own, so `motif | seed | N` is a third setting and sits at 24, where the list ends on
+the lowest figure the task quotes. `tells.txt` gains a third line form, which costs
+`motif` as a tell key, and the rule that a vocabulary named again extends it - the ignore
+vocabulary is some three hundred words and would otherwise be one line nobody can read.
+And `STYLE.md` is a fourth file, outside the task's list: it defined a tell as the
+signature of a class of failure, the motif has no signature, and leaving that would have
+put `tells.txt` in contradiction with the authority it cites for what a tell is.
+
+Original task, kept for what it specifies:
 - Files: `tools/metrics.py`; `tools/validate_setting.py`; `style/tells.txt` gains a
   section for it.
 - Steps: measured on Telar while writing this task, the user's named motifs are not

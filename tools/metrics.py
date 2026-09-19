@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
 """Corpus metrics: what the framework costs, what it has produced, and how it reads.
 
-Five readings, printed in one report:
+Six readings, printed in one report:
 
   CORPUS    locations and words in setting/region/*/[0-9]*.md
   FEATURES  words and sentences per Feature line, against STYLE.md's budget
   TELLS     every tell in style/tells.txt, counted
+  MOTIFS    the words that have spread across regions, and the ones the
+            setting-level files seed before a room is written
   BUDGET    framework words against setting words
   READ SET  words in context per step 4c entry point
 
@@ -15,9 +17,10 @@ names, and neither carries a threshold - `tools/validate_setting.py` is where
 a rule with a pass and a fail lives. This file exists so a change to the
 framework can be shown to have moved something, rather than asserted to have.
 
-The Feature parsing, the tell engine, the read-set graph and the stopword list
-are imported from the validator rather than restated, so a change to the Feature
-grammar or to style/tells.txt reaches this report without a second edit.
+The Feature parsing, the tell engine, the motif arithmetic, the read-set graph
+and the stopword list are imported from the validator rather than restated, so a
+change to the Feature grammar or to style/tells.txt reaches this report without
+a second edit.
 
 Usage: python3 tools/metrics.py [--tells [PATH]]
 
@@ -37,10 +40,15 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from validate_setting import (  # noqa: E402
     CITATION_RE,
     FEATURE_RE,
+    LOCATION_GLOB,
     PATTERNS,
     ROOT,
     count_tells,
     feature_sentences,
+    motif_excluded,
+    motif_seed,
+    motif_spread,
+    parse_tells_file,
     read_set_graph,
     rel,
     spec_closure,
@@ -49,7 +57,6 @@ from validate_setting import (  # noqa: E402
 
 REGION = ROOT / "setting" / "region"
 EXEMPLARS = ROOT / "style" / "exemplars" / "location"
-LOCATION_GLOB = "*/[0-9]*.md"
 
 
 def words(text: str) -> int:
@@ -167,6 +174,37 @@ def report_tells(locs: list[Path]) -> None:
     if feats and rather:
         carrying = sum(1 for _, _, b in feats if tell_fires(rather, b))
         print(f"  {'':16s}   {RATHER_KEY!r} is in {carrying} of {len(feats)} Features")
+    print()
+
+
+# ---------------------------------------------------------------------------
+# The motifs
+#
+# Counted, not matched, so it is the one tell with no signature - the settings
+# and the rationale are style/tells.txt's, and the arithmetic is the
+# validator's. What is added here is the ordered reading: the validator warns a
+# word at a time, and which motifs a corpus is running on is a question about
+# the list rather than about any one of them.
+# ---------------------------------------------------------------------------
+
+
+def report_motifs() -> None:
+    print("MOTIFS")
+    _tells, motif = parse_tells_file()
+    if not motif.configured:
+        print("  style/tells.txt states no motif thresholds\n")
+        return
+    excluded = motif_excluded()
+    spread = motif_spread(motif, excluded)
+    print(f"  spread             : {len(spread)} word(s) in {motif.regions}+ regions "
+          f"and {motif.rooms}+ rooms")
+    for word, rooms, regions in spread:
+        print(f"    {word:18s} {len(rooms):3d} rooms across {', '.join(regions)}")
+    seed = motif_seed(motif, excluded)
+    print(f"  seed               : {len(seed)} word(s) at {motif.seed} or more across "
+          f"setting/ and the region overviews")
+    for word, count in seed:
+        print(f"    {word:18s} {count:3d}")
     print()
 
 
@@ -299,6 +337,7 @@ def main(argv: list[str]) -> int:
     report_corpus(locs)
     report_features(locs)
     report_tells(locs)
+    report_motifs()
     report_budget()
     report_read_set()
     return 0

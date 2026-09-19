@@ -93,3 +93,8 @@ tools/metrics.py --tells [PATH]` reports it over any markdown, and `python3
 tools/validate_setting.py --fixtures` reports the entries that hold each line honest.
 **Clear a tell by rewriting the line.** Swapping a word or dropping in a comma to
 satisfy the pattern leaves the failure in place and costs the measurement too.
+
+One tell has no signature and no line to rewrite: the motif, a word counted across the
+regions it has reached. A word recurring that widely is either the setting holding
+together or its voice narrowing, and only a reader can say which - so it is cleared by
+deciding, and by not reaching for the word again where it was the second.

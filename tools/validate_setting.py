@@ -1024,13 +1024,67 @@ def expand_fragments(pattern: str, fragments: dict) -> tuple[list[str], list[str
     return [p for p in text.split(" && ") if p], []
 
 
-def load_tells(diag: Diagnostics | None = None) -> list[Tell]:
-    """style/tells.txt, in file order, with the signatures under one key merged."""
+MOTIF_LINE = "motif"
+MOTIF_SETTINGS = ("regions", "rooms", "seed", "ignore")
+
+
+class Motif:
+    """The motif tell's settings, as style/tells.txt states them."""
+
+    def __init__(self):
+        self.regions = 0
+        self.rooms = 0
+        self.seed = 0
+        self.ignore: re.Pattern | None = None
+
+    @property
+    def configured(self) -> bool:
+        return bool(self.regions and self.rooms)
+
+
+def read_motif_line(motif: Motif, line: str, fragments: dict, err) -> None:
+    """One `motif | setting | value` line onto the settings."""
+    parts = [p.strip() for p in line.split(" | ", 2)]
+    if len(parts) != 3 or not all(parts):
+        err(f"a motif line is 'motif | setting | value', one of "
+            f"{', '.join(MOTIF_SETTINGS)}")
+        return
+    _, setting, value = parts
+    if setting == "ignore":
+        expanded, missing = expand_fragments(value, fragments)
+        if missing:
+            err(f"pattern draws vocabulary {', '.join(missing)} with no '= ' line above it")
+            return
+        if len(expanded) != 1:
+            err("a motif ignore pattern is matched against one word whole, so it takes "
+                "no ' && ' parts")
+            return
+        try:
+            motif.ignore = re.compile(expanded[0], re.I)
+        except re.error as exc:
+            err(f"pattern does not compile: {exc}")
+        return
+    if setting not in MOTIF_SETTINGS:
+        err(f"motif setting {setting!r} is not one of {', '.join(MOTIF_SETTINGS)}")
+        return
+    if not value.isdigit() or int(value) < 1:
+        err(f"motif {setting} is a threshold and takes a whole number of one or more")
+        return
+    setattr(motif, setting, int(value))
+
+
+def parse_tells_file(diag: Diagnostics | None = None) -> tuple[list[Tell], Motif]:
+    """style/tells.txt whole: the tells in file order, and the motif settings.
+
+    The signatures under one key are merged, and a vocabulary named again
+    extends the one above it rather than replacing it.
+    """
+    motif = Motif()
     if not TELLS_FILE.exists():
         if diag:
             diag.warn(TELLS_FILE, "missing - the tell list is not written yet, so nothing "
                                   "holds the patterns tools/metrics.py reports")
-        return []
+        return [], motif
     fragments: dict[str, str] = {}
     tells: dict[str, Tell] = {}
     order: list[str] = []
@@ -1048,8 +1102,13 @@ def load_tells(diag: Diagnostics | None = None) -> list[Tell]:
             name, pattern = name.strip(), pattern.strip()
             if not sep or not name or not pattern:
                 err("a vocabulary line is '= name | pattern'")
+            elif name in fragments:
+                fragments[name] = f"{fragments[name]}|{pattern}"
             else:
                 fragments[name] = pattern
+            continue
+        if line.split(" | ", 1)[0].strip() == MOTIF_LINE:
+            read_motif_line(motif, line, fragments, err)
             continue
         parts = [p.strip() for p in line.split(" | ", 3)]
         if len(parts) != 4 or not all(parts):
@@ -1076,7 +1135,12 @@ def load_tells(diag: Diagnostics | None = None) -> list[Tell]:
             err(f"tell {key!r} states a different rule here than on its first line - "
                 f"one key is one rule")
         tell.signatures.append((unit, compiled))
-    return [tells[k] for k in order]
+    return [tells[k] for k in order], motif
+
+
+def load_tells(diag: Diagnostics | None = None) -> list[Tell]:
+    """The tells alone, for the callers that have no use for the motif settings."""
+    return parse_tells_file(diag)[0]
 
 
 def count_tells(paths: list[Path], tells: list[Tell] | None = None) -> list[Tell]:
@@ -1136,8 +1200,7 @@ def fixture_hits(path: Path) -> dict[str, Tell]:
     return {t.key: t for t in count_tells([path])}
 
 
-def check_tell_fixtures(diag: Diagnostics):
-    tells = load_tells(diag)
+def check_tell_fixtures(diag: Diagnostics, tells: list[Tell]):
     if not tells:
         return
     slugs = {t.slug for t in tells}
@@ -1186,6 +1249,115 @@ def check_tell_fixtures(diag: Diagnostics):
             diag.error(path, f"line {lineno}: tell '{tell.key}' fires on an exemplar "
                              f"({quote!r}) - the exemplars are the endorsed register, so a "
                              f"pattern that fires here is measuring the wrong thing")
+
+
+# ---------------------------------------------------------------------------
+# The motif tell - style/tells.txt's `motif` lines
+#
+# The one tell counted over the corpus rather than matched against a unit, so
+# it has no signature and no fixture. style/tells.txt is the authority on what
+# it counts and on both thresholds; what lives here is the arithmetic.
+#
+# The two corpora are the keyed locations, where a word is counted by the rooms
+# and regions it reaches, and the setting-level files with the region overviews,
+# where it is counted by occurrence - the seed a generator is handed before a
+# room is written. Neither is an error: a recurring object is how a setting
+# holds together, and only a reader can say which a hit is.
+# ---------------------------------------------------------------------------
+
+MOTIF_WORD_RE = re.compile(r"[a-z]+(?:'[a-z]+)?")
+MOTIF_MIN_LETTERS = 3
+LOCATION_GLOB = "*/[0-9]*.md"
+# "Brekar - AD: 5d6", per templates/Factions.md. A Bestiary header carries a
+# (Type) before the dash and is read by parse_statblocks instead.
+FACTION_HEADER_RE = re.compile(r'^([^(\n]+?)\s*-\s*AD:\s*\d+d\d+\s*$', re.M)
+# A root or a coinage in setting/Language.md: "- tolk - toll, a due paid or
+# owed", "- Tolkar = tolk (toll) + ar (place)".
+LANGUAGE_NAME_RE = re.compile(r"^- ([A-Za-z][A-Za-z'-]*)\s*[-=]\s", re.M)
+
+
+def motif_words(text: str) -> list[str]:
+    """The lowercased words of a passage, possessives dropped."""
+    return [re.sub(r"'s$", "", w) for w in MOTIF_WORD_RE.findall(text.lower())]
+
+
+def setting_names() -> set[str]:
+    """The one-word names the setting has coined, which are never motifs.
+
+    A name of several words is not here: its words are vocabulary the setting
+    uses elsewhere too, and dropping them would hide a real motif.
+    """
+    names: set[str] = set()
+    for path in (SETTING / "Bestiary.md", SETTING / "NamedCreatures.md"):
+        if path.exists():
+            names.update(s["name"] for s in parse_statblocks(path.read_text()))
+    factions = SETTING / "Factions.md"
+    if factions.exists():
+        names.update(m.group(1) for m in FACTION_HEADER_RE.finditer(factions.read_text()))
+    language = SETTING / "Language.md"
+    if language.exists():
+        names.update(m.group(1) for m in LANGUAGE_NAME_RE.finditer(language.read_text()))
+    return {motif_words(n)[0] for n in names if len(motif_words(n)) == 1}
+
+
+def motif_excluded() -> frozenset:
+    """Every word a motif count drops before the thresholds are applied.
+
+    The setting's own one-word names, and the vocabulary this file already
+    knows as structure rather than as prose - a header's weight or
+    classification, and a creature's type in every citation that names one.
+    Both are read from what already holds them rather than restated in
+    style/tells.txt, which carries only what nothing else does.
+    """
+    structural = {w for term in (BESTIARY_TYPES | WILD_CLASSIFICATIONS | DANGEROUS_WEIGHTS)
+                  for w in term.split()}
+    return frozenset(setting_names() | structural | SUMMARY_STOPWORDS)
+
+
+def is_motif_word(word: str, motif: Motif, excluded: frozenset) -> bool:
+    return (len(word) >= MOTIF_MIN_LETTERS
+            and word not in excluded
+            and not (motif.ignore and motif.ignore.fullmatch(word)))
+
+
+def motif_spread(motif: Motif, excluded: frozenset | None = None):
+    """Every content word over both thresholds: its rooms, and their regions."""
+    excluded = motif_excluded() if excluded is None else excluded
+    rooms: dict[str, list] = {}
+    regions: dict[str, set] = {}
+    for path in sorted((SETTING / "region").glob(LOCATION_GLOB)):
+        for word in set(motif_words(path.read_text())):
+            if not is_motif_word(word, motif, excluded):
+                continue
+            rooms.setdefault(word, []).append(path)
+            regions.setdefault(word, set()).add(path.parent.name)
+    out = [(w, rooms[w], sorted(regions[w])) for w in rooms
+           if len(regions[w]) >= motif.regions and len(rooms[w]) >= motif.rooms]
+    return sorted(out, key=lambda r: (-len(r[1]), r[0]))
+
+
+def motif_seed(motif: Motif, excluded: frozenset | None = None):
+    """Every content word of the setting-level files at or over the seed count."""
+    excluded = motif_excluded() if excluded is None else excluded
+    counts: dict[str, int] = {}
+    paths = sorted(SETTING.glob("*.md")) + sorted((SETTING / "region").glob("[A-Z].md"))
+    for path in paths:
+        for word in motif_words(path.read_text()):
+            if is_motif_word(word, motif, excluded):
+                counts[word] = counts.get(word, 0) + 1
+    return sorted(((w, n) for w, n in counts.items() if n >= motif.seed),
+                  key=lambda r: (-r[1], r[0]))
+
+
+def check_motifs(diag: Diagnostics, motif: Motif) -> None:
+    if not motif.configured:
+        return
+    excluded = motif_excluded()
+    for word, rooms, regions in motif_spread(motif, excluded):
+        diag.warn(SETTING / "region",
+                  f"motif {word!r} in {len(rooms)} rooms across {', '.join(regions)}")
+    for word, count in motif_seed(motif, excluded):
+        diag.warn(SETTING, f"seeded motif {word!r}, {count} times before a room is written")
 
 
 # ---------------------------------------------------------------------------
@@ -1898,7 +2070,8 @@ def report_fixtures() -> int:
     The default run makes the same checks; this prints what each tell fires on,
     which is what a reader looks at when a fixture stops firing.
     """
-    tells = load_tells()
+    diag = Diagnostics()
+    tells, motif = parse_tells_file(diag)
     print(f"{rel(TELLS_FILE)}: {len(tells)} tell(s)\n")
     for tell in tells:
         units = ", ".join(u for u, _ in tell.signatures)
@@ -1915,8 +2088,11 @@ def report_fixtures() -> int:
                 print(f"               line {lineno}  {quote}")
         print()
 
-    diag = Diagnostics()
-    check_tell_fixtures(diag)
+    if motif.configured:
+        print(f"motif - counted, not matched: {motif.regions} regions and "
+              f"{motif.rooms} rooms, seeded at {motif.seed}\n")
+
+    check_tell_fixtures(diag, tells)
     for w in diag.warnings:
         print(f"WARNING: {w}")
     for e in diag.errors:
@@ -1932,7 +2108,8 @@ def main() -> int:
     check_read_set_graph(diag)
     check_repeated_prose(diag)
     check_exemplars(diag)
-    check_tell_fixtures(diag)
+    tells, motif = parse_tells_file(diag)
+    check_tell_fixtures(diag, tells)
 
     if is_fresh_start():
         seeded = sorted(n for n in SEED_FILES if (SETTING / n).exists())
@@ -2052,6 +2229,7 @@ def main() -> int:
     check_registry_floors(diag, registries, build_complete)
     check_rumour_settling(diag, build_complete)
     check_tags_file(diag, SETTING / "Tags.md")
+    check_motifs(diag, motif)
 
     for line in report_topology(regions, region_locs, region_edges):
         print(f"TOPOLOGY: {line}")
