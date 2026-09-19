@@ -110,7 +110,3 @@ not carry a flame, which is the entire case for keeping this list.
   somebody building it (`dangerous/Trap.md`) or something leaving it
   (`dangerous/Residual.md`), and filing it here strips it of the maker that made it worth
   finding.
-
-- **Never invent region-scale terrain for one location.** Molten rock, a water table, a
-  seam that burns - these are facts about where the region sits, stated above this file. A
-  location may reach one; it may not be the only room in the region that has one.

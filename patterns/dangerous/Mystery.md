@@ -81,9 +81,10 @@ brought near; something given up.
 ## Constraints
 
 - **Ward and illusion are sorcery, and `GENRE.md` prices it.** Each has a maker traceable
-  to an event in `setting/History.md`, and a region carries at most one of them. The other
-  four fixtures are things people built, and a region that reaches for the two rare ones
-  twice has made sorcery the ordinary case.
+  to an event in `setting/History.md`, and a region carries at most one of them - the same
+  one a warded exit drawn at `dangerous/Door.md` spends, since both reach a ward through
+  this file. The other four fixtures are things people built, and a region that reaches for
+  the two rare ones twice has made sorcery the ordinary case.
 
 - **A fixture whose answer is elsewhere in the region is a lock.** It owes a
   `setting/Keys.md` row through `dangerous/Key.md`'s demand end, or the party arrives at a
@@ -92,7 +93,3 @@ brought near; something given up.
 - **A fixture that costs on contact is a hazard.** A mystery is neutral until a real
   attempt fails; anything that acts on entry, on touch, or on presence is drawn at
   `dangerous/Hazard.md` and stops competing with this file for the same room.
-
-- **Never write what the fixture is for above the details it is reasoned from.** Stating
-  the function and then listing the evidence for it reverses the only work the players had
-  to do, and what is left is a fixture with a password.

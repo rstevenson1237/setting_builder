@@ -80,6 +80,16 @@ next questioned.
 Format: `` `date` - "the item" - route - `commit` ``. Items arriving together are
 classified in one table instead, as the worked example below is.
 
+### Items
+
+- ~~`2026-09-19` - "poetry for the players, hinting at a wider world", read back off the
+  user's own rule list at `INTROSPECTIVE.md` F7 - **R5**, after R2 (no Spec line draws a
+  fact about what the setting does not contain, so no list can be widened to land one) and
+  R3 (an exemplar is one region and cannot state a per-region budget) - `P2.3`. Landed as
+  the `GENRE.md` consequence **One fact per region points past the edge of the map**, with
+  the per-region row of the same name in `templates/Setting_Judgement_Check.md` reading it
+  back.~~
+
 ### Retro-classified, as the worked example
 
 The rule additions in the three pull requests before this file predate the routes. Each
@@ -88,18 +98,18 @@ quote.
 
 | Item | Route | Where it landed |
 | --- | --- | --- |
-| The model wrote the average door - "a door" | R2 | `d15f10e` - material and opening lists, plus a Constraint the lists make redundant |
-| The average container - "a chest" | R2 | `d15f10e` - a named-object Spec line, plus a Constraint |
-| The average swarm, given a countable number | R2 | `d15f10e` - a Shape menu with per-shape tells, plus a Constraint |
-| Region-scale terrain invented for one room | R2 | `d15f10e` - a Kind menu drawn against the region, plus a Constraint |
+| The model wrote the average door - "a door" | R2 | `d15f10e` - material and opening lists, plus a Constraint the lists make redundant; cut at P2.3 |
+| The average container - "a chest" | R2 | `d15f10e` - a named-object Spec line, plus a Constraint; cut at P2.3 |
+| The average swarm, given a countable number | R2 | `d15f10e` - a Shape menu with per-shape tells, plus a Constraint; cut at P2.3, with the Number Spec line taking the rule |
+| Region-scale terrain invented for one room | R2 | `d15f10e` - a Kind menu drawn against the region, plus a Constraint; cut at P2.3 |
 | A gate or a fixture with nothing to draw from | R2 | `d15f10e` - the gate and fixture menus, correctly |
 | A Feature drawn from a mechanism file had no lexicon and described itself in a relative clause | R2 | `ae492fa` - vocabulary lists in Trap, Door, Residual, Environmental, correctly |
 | A trailing clause in 70% of Features, "rather than" in 61 of 206 | R4 | `ae492fa` - a closed punctuation grammar and a mechanical check; the signature was computed by hand and nothing kept computing it |
 | A specialist term followed by its own gloss | R4 then R5 | `ae492fa` - one sentence in instruction 5, naming the judgement-check item; the toll was paid |
-| Claims nobody at the table could witness | R5 | `ae492fa` - one consequence, naming the two check rows; the toll was paid |
+| Claims nobody at the table could witness | R5 | `ae492fa` - one consequence, naming the two check rows; the toll was paid. The consequence was cut at P2.3 and the rule is `STYLE.md`'s, measured by the `absence claim` tell |
 | A hazard's cost was fiction, with nothing rolled | R7 | `a239d81` - a notation in `templates/` and `setting/Procedures.md` instead |
 | One hazard written as two Features | R6 | `a239d81` - correctly |
-| "Never write what the fixture is for above the details it is reasoned from" | none | `d15f10e` - `GENRE.md`'s third test, restated one file down; a cut candidate for P2.3 |
+| "Never write what the fixture is for above the details it is reasoned from" | none | `d15f10e` - `GENRE.md`'s third test, restated one file down; cut at P2.3 |
 
 Six of the twelve land on R2, and four of those six landed as a list **and** a prohibition
 against the average the list had just made unlikely. Three findings the classification

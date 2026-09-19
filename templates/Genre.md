@@ -77,12 +77,14 @@ cannot act on, and a fact that hands them the answer.
 ### The standing consequences
 
 - **Say a fact once, at the highest level where it is true, and deliver it at the lowest
-  level where it is touched.** A restated fact is not actionable, it did not survive
-  translation, and it usually arrives with the conclusion the reader was supposed to draw for
-  themselves. When a region overview and a location say the same thing, the region overview is
-  the one that is wrong. This governs facts, not motifs - an object recurring across locations
-  is the rule below, and the two never conflict, because a motif carries no statement to
-  restate.
+  level where it is touched; show an object again wherever it is met.** A restated fact is
+  not actionable, it did not survive translation, and it usually arrives with the conclusion
+  the reader was supposed to draw for themselves. When a region overview and a location say
+  the same thing, the region overview is the one that is wrong. A motif is the other case
+  and never the same one: show the same stone four times across two regions before anything
+  names it, because recognition is worth more than information and costs less. What repeats
+  is the object a party meets again, never a sentence about it - the moment it carries a
+  statement it is a fact, and it is said once.
 
 - **Give situations, not stories.** Every generation step produces something to react to, not
   a scene someone has already decided how to play: a pressure, a danger, a want, a rule -
@@ -96,15 +98,14 @@ cannot act on, and a fact that hands them the answer.
   generic, at any level, was not worth writing. Specificity is also what makes the three tests
   checkable at all, since a generic line can't be tested against anything.
 
-- **A clue announces a secret; it must not also be its answer.** What says something is here
-  is local and plainly visible - a seam, a draft, a floor worn toward a blank face. What
-  *opens* it is met outside this location: a name learned three regions back, a rite watched in
-  public, a mark a waystone taught. A secret whose presence and whose
-  answer both sit entirely inside itself is a search roll wearing a costume.
-
-- **A secret is opened by an act, not a roll.** Standing somewhere, clearing something,
-  speaking a name, looking back. If a player can look at the thing and reason about it, the
-  reasoning is the mechanic and a roll takes it away from them.
+- **A clue announces a secret; it must not also be its answer, and the answer is an act.**
+  What says something is here is local and plainly visible - a seam, a draft, a floor worn
+  toward a blank face. What *opens* it is met outside this location: a name learned three
+  regions back, a rite watched in public, a mark a waystone taught. A secret whose presence
+  and whose answer both sit entirely inside itself is a search roll wearing a costume. And
+  what opens it is done, not rolled - standing somewhere, clearing something, speaking a
+  name, looking back. Where a player can look at the thing and reason about it, the reasoning
+  is the mechanic and a roll takes it away from them.
 
 - **Every gate has an answer that is not the gate, and the answer is priced.** Not a second
   door - a longer road, a worse road, a road that arrives in the wrong place. Both branches
@@ -118,34 +119,25 @@ cannot act on, and a fact that hands them the answer.
   violence, its condition is still stated - what it lets past is the handle, and a guardian
   with none is a fight with a costume on.
 
-- **Repetition before explanation.** Show the same stone four times across two regions before
-  anything names it. Recognition is worth more than information and costs less. A motif repeats
-  as an object a party meets again, never as a sentence repeated about it - the moment it
-  carries a statement, the rule above governs and it is said once.
-
 - **Withholding is content.** At least one genuinely rich-looking room per region contains
   nothing. A question the setting declines to answer is an answer where nothing elsewhere
   answers it either; the same question answered in the next region is an omission, not a
   refusal.
+
+- **One fact per region points past the edge of the map.** A party meets a place, a person or
+  a road this setting does not contain and will not: a road that leaves with a destination
+  cut into its marker, a maker who was sent for and came from somewhere, a coin nobody here
+  mints. It is named, it hangs on something the party can ask after, follow or pick up, and
+  nothing in this setting answers it. One per region is the budget - none makes the map the
+  world, and a third teaches players that a lead is scenery.
 
 - **Trope is free structure; defiance is funded by convention held elsewhere.** Naming a trope
   imports a whole shape for three words, and the budget saved buys the detail that could only
   be this instance. A setting that subverts constantly teaches players that nothing means what
   it looks like, and then every clue placed anywhere goes unread.
 
-- **Nothing is asserted that no one at the table could witness.** *In living memory*, *nobody
-  has moved it in years*, *the only one of its kind anywhere*, *matching nothing else here* -
-  each is a claim about absence across time or space, which no party can check and no referee
-  can adjudicate. State the observable and leave the inference unwritten: *unworn under thick
-  dust*; *the same line, on every token*. An unverifiable claim is a conclusion with its
-  working thrown away, and the players are left unable to reach either half.
-
 - **State the nil.** A field that resolves to nothing says so. An omitted field is ambiguous -
   did the writer decide, or forget? - and a written *none* is a decision on the page.
-
-- **Every bolded noun in a Player Summary appears below it as a Feature.** The summary is a
-  promise about what the room contains, and an unkept one sends the referee improvising the
-  thing the entry was supposed to hand them.
 
 [Naming-convention line, settled by Q2, plus the fixed location-name exception, per
 `patterns/setting/Genre.md`]

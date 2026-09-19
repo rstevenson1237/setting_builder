@@ -117,10 +117,6 @@ must be answered first; something that will follow whoever takes it.
   cited at 5c. A lean no room ever cashes out is a fact about the region that reaches no
   player.
 
-- **A container is never a blank noun.** "A chest" states only that there is treasure here,
-  which the Feature already said. What it is made of, what shape it is in, and whether it
-  can be moved are what a party makes a decision out of.
-
 - **Never write a lesser guard the party must fight.** The moment it is a real threat it is
   the location's encounter, drawn at `dangerous/Encounter.md` with a sign and a want, and
   the cache has quietly been given two guards while the room was scoped for one.
