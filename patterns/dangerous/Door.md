@@ -98,40 +98,17 @@ these rather than in left and right.
 
 ## Constraints
 
-- **No written exit description repeats across more than a third of a block's exits.**
-  Kind comes from the diagram and material usually comes from the region's Architecture, so
-  neither is free to vary - in a single-material region most exits will honestly read "open
-  archway - basalt", and demanding otherwise would ask a file to contradict the region above
-  it. What has to vary is the rest of the line: the construction and the condition, which
-  this file's Design patterns stock for exactly that reason. A block whose exits are mostly
-  one repeated phrase has written the diagram out in words rather than described anything,
-  and the rule below cannot be met by compass direction alone.
-
 - **Two exits of the same kind are told apart by their type and their position, and this is
   not housekeeping.** It is what makes a choice a decision rather than a coin flip. A party
   choosing between "a door" and "a door" is guessing; a party choosing between "a low door,
   scorched black around the frame" and "a wide arch, its threshold worn smooth" is deciding.
-  A location with three or more exits carries the weight of that choice and its exits must
-  earn it.
-
-- **Never reclassify an edge here.** Kind comes from the block diagram, where both ends of
-  the connection agreed on it. An exit written as open at one end and secret at the other is
-  the same map contradicting itself.
+  Kind comes from the diagram and material usually comes from the region's Architecture, so
+  in a single-material region most exits will honestly read "open archway - basalt"; what
+  has to vary is the construction and the condition, which this file's Design patterns stock
+  for exactly that reason. No written exit description repeats across more than a third of a
+  block's exits, and compass direction alone does not meet that.
 
 - **Where an exit commits the party, the room says so.** An exit into a wing the party
   cannot cross back from without retracing states that consequence where they are standing,
   not only in the graph. A consequence the players cannot see coming makes their decision
   for them.
-
-- **Never write a bare "a door".** An exit's Type line names material, construction and
-  condition, or names the thing standing in the opening that is not a door. "A door" states
-  only that the block diagram drew an edge here, which the diagram already said, and it
-  hands the party nothing to look at, lever, burn, or listen through.
-
-- **A ward is sorcery, and `GENRE.md` prices it.** A region carries at most one warded way,
-  it has a maker somewhere in `setting/History.md`, and forcing it costs. Warding the
-  ordinary locked doors of a region is the fastest way to make sorcery routine, which is the
-  drift this genre is least able to absorb.
-
-- **Never state what an exit means.** Where it goes and what it looks like are facts; that
-  it is the way on, the safe route, or the mistake is the party's to find out.

@@ -46,7 +46,7 @@
 = idiom | \b(the only|only one|matching nothing|unlike anything)\b
 
 rather than     | line            | the trailing clause, per PR #41 | \brather than\b
-absence claim   | sentence        | absence across time or space, per GENRE.md | {idiom}
-absence claim   | sentence        | absence across time or space, per GENRE.md | {neg} && {reach}
+absence claim   | sentence        | absence across time or space, per STYLE.md | {idiom}
+absence claim   | sentence        | absence across time or space, per STYLE.md | {neg} && {reach}
 conclusion tell | line            | the players' conclusion written down, per GENRE.md | \b(which is (?:why|how|what)|the reason\b|proof\b|recognis|recogniz|unmistakab|obviously|clearly|evidently|meaning that|means that|explains\b|suggest|implie|implying|will (?:find|know|realise|realize|notice|understand|remember)|enough to tell|tells anyone|anyone can tell|the clue that|so that anyone|is how anyone)
 gloss           | feature-opening | a term carrying its own definition, per Location.md | ^(the|a|an|its|this)\b

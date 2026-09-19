@@ -78,7 +78,7 @@ corrie, holt, spinney, sike, hag, tor, brake. Name the species rather than "tree
 - **No detail budget is not a licence to explain at length**, and WILD is the rating
   most likely to confuse the two. Every location getting the full treatment means every
   location gets its position, its Condition, its Ambiance and its full complement of
-  Features - it does not mean any of those may be written out at length. A WILD entry
-  runs long in two specific ways: the connective texture that belongs in the Region
-  Overview's Terrain field gets written out again here, or a detail is given its causal
-  history instead of just being present.
+  Features - it does not mean any of those may be written out at length. The way a WILD
+  entry runs long is the connective texture that belongs in the Region Overview's Terrain
+  field, written out again here, so the entry pays a second time for ground the region
+  already covered.

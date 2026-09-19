@@ -59,15 +59,12 @@ true and stopped being.
   whoever repeats it supplies the framing, and that is `safe/Social.md`'s job. A rumour
   written with a speaker built into it can only be delivered by that speaker.
 
-- **Do not state what the players should do with it.** A rumour is a lead, not an
-  instruction. "The old workings flooded and something came up with the water" is a
-  rumour; "the party should investigate the workings" is a referee telling players their
-  business.
+- **Do not state what the players should do with it, in the entry or in the column.** A
+  rumour is a lead, not an instruction. "The old workings flooded and something came up
+  with the water" is a rumour; "the party should investigate the workings" is a referee
+  telling players their business. A "Settled at" line written as advice - which way to
+  lean, what they will conclude on finding it - breaks the third test exactly as surely as
+  the rumour text would; the column names where the truth sits and stops.
 
 - **Marking.** T/P/F is for the referee and never shared, and so is where a rumour is
   settled. Mark against the truth of the substance, not of the framing.
-
-- **Settling a rumour is not resolving it for the party.** The column names where the
-  truth sits, never what the party should do, which way they should lean, or what they
-  will conclude on finding it - that is the third test, and a "Settled at" line written as
-  advice breaks it exactly as surely as the rumour text would.

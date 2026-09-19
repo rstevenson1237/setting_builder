@@ -19,7 +19,8 @@ CREATURE
          something | rivals, here for what the party came for}
   1     What it is doing when the party arrives - not waiting
   1     Number - how many, which is half the pitch, and which the shape has largely
-        already answered
+        already answered; a swarm takes no count, and states what it covers and how fast
+        it is spreading
   1     Scale, against party altitude, per GENRE.md - never against the region die:
           low weight     something the party can walk past or through; often absent
           medium weight  a real fight the party is expected to win at some cost
@@ -108,8 +109,3 @@ signs should reach the party before the creature does, at least once per region.
   account, wants nothing, and can only be endured or routed around is an environmental
   hazard and belongs at `dangerous/Environmental.md`. What makes terrain a creature is that
   it stops being terrain.
-
-- **Never give a swarm a countable number.** Its Number line states what it covers, how
-  fast it is spreading, or how long it takes to pass - a figure invites a roster, and a
-  roster turns a condition the party has to get out of into a fight they can win by
-  arithmetic.

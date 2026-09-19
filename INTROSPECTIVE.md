@@ -798,7 +798,66 @@ Original task, kept for what it specifies:
   `validate_setting.py --fixtures`; CI.
 - Acceptance: CI green; adding a tell is one line plus one fixture.
 
-**P2.3 Audit the Constraints and consequences.**
+~~**P2.3 Audit the Constraints and consequences.**~~ Landed. The standing consequences are
+ten, from thirteen, and the Constraints are 66 across 39 files, from 76. The cap has room
+under it rather than a queue at it.
+
+**Two merges, and both were pairs that spent four lines pointing at each other.** *Say a
+fact once* and *Repetition before explanation* each closed by naming the other as the case
+it did not govern; one consequence now states the difference itself - a statement is said
+once, an object is shown again, and a motif that starts carrying a statement has become a
+fact. *A clue announces a secret* and *A secret is opened by an act* are the two halves of
+one chain, what says the thing is here and what opens it, and neither half is readable
+without the other.
+
+**Two cuts, and both are rules `STYLE.md` already owns.** The unwitnessable claim and the
+Player Summary's bolded nouns were in `GENRE.md`, in `STYLE.md`, and - for the second - in
+`templates/Location.md`'s own summary line and in the validator. `GENRE.md` decides whether
+a line lives and `STYLE.md` how the surviving line is written, and both of these are the
+second question: the fact stays, the phrasing changes. Their readbacks moved with them, so
+`style/tells.txt`'s `absence claim` and the validator's summary check now cite `STYLE.md`,
+and `FEEDBACK.md`'s worked example records where each rule went rather than leaving
+`ae492fa`'s row pointing at a consequence that is gone.
+
+**The baseline column answered a question the task did not ask.** Exactly one consequence is
+broken by `fixtures/control/arm1b-output.md` - the unwitnessable claim, four times, opening
+with *Several parties have entered in living memory* - and it is one of the two cut. The
+sharper result is on the other side of the column. Three of the rules the baseline appears
+to honour unprompted are in its seventy-word prompt: *Do not tell a story* is the situations
+consequence, *give details for the players to interact with* is the second test, and *enough
+information for the referee to make rulings* is the first. The baseline is not evidence that
+a model reaches those without being told; it is evidence that being told is enough, and what
+arm 0 did without being told is in `fixtures/control/COMPARISON.md` rows 6 and 4. So the
+diagnostic-not-generative reading applies to fewer rules than the column suggests, and
+nothing moved to the checks on it alone.
+
+**The new consequence is F7, and it pays R5's toll.** *One fact per region points past the
+edge of the map*, with a per-region row of the same name in
+`templates/Setting_Judgement_Check.md` that reads it back, and the item logged in
+`FEEDBACK.md` naming R2 and R3 as what was tried first.
+
+**Six Constraints went, and four of them `FEEDBACK.md` had already classified.** The average
+door, the blank container, the countable swarm and the region-scale terrain each landed in
+`d15f10e` as a list *and* a prohibition against the average that list had just made
+unlikely; three are cut outright and the swarm's rule moved onto `dangerous/Creature.md`'s
+Number Spec line, where it is neutral and permanent instead of sitting in compiled content.
+Two more were `GENRE.md`'s third test restated one file down - `dangerous/Mystery.md`'s
+fixture-with-a-password, which `FEEDBACK.md` had already named a cut candidate for this
+task, and `dangerous/Door.md`'s *Never state what an exit means*. Three entries merged:
+`dangerous/Door.md`'s two on telling exits apart, `patterns/setting/Rumours.md`'s two on the
+third test, and the ward rate, which `Door.md` and `Mystery.md` each capped at one per
+region independently, so a region could draw two wards and break neither entry. `Door.md`
+also lost *Never reclassify an edge here*, which its own Spec prose states two paragraphs
+above. `wild/Dressing.md` gave up the half of its length entry that the `rather than` tell
+and `STYLE.md`'s no-trailing-clause rule already carry.
+
+**One finding this task does not act on.** Prohibitions are living in Spec prose where
+`patterns/SPEC.md` says Constraints is where every prohibition lives - `dangerous/Treasure.md`'s
+*Never name or describe the contents of a table roll* is the clearest. Sweeping that
+direction would add entries to the sections this task was cutting, and it is prose placement
+rather than rule content, so it belongs with P6.1.
+
+Original task, kept for what it specifies:
 - Files: every Constraints section; `GENRE.md` and `templates/Genre.md`.
 - Steps: table each entry as keep, list (move to a `genre/` list, cut here), tell,
   exemplar, merge, or cut. One more column: **does the baseline break it?** Read each
