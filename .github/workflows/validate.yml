@@ -19,3 +19,6 @@ jobs:
 
       - name: Run structural validator
         run: python3 tools/validate_setting.py
+
+      - name: Report the tells and their fixtures
+        run: python3 tools/validate_setting.py --fixtures

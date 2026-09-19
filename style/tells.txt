@@ -1,0 +1,52 @@
+# The tells
+#
+# A tell is the signature of a class of failure - a candidate to read, never an
+# error. `STYLE.md` is the authority on what one is and how it is cleared, and
+# `INTROSPECTIVE.md`'s Baseline metrics on what each is calibrated against. This
+# file is the list: `tools/validate_setting.py` reads it, and `python3
+# tools/metrics.py --tells [PATH]` reports it over any markdown.
+#
+# One signature per line, four fields:
+#
+#   key | unit | rule | pattern
+#
+# key      what the report calls it. Two lines may share a key and their hits
+#          are one count, so one unit matching both is one hit.
+# unit     what the pattern is matched against. `line` is the whole line with
+#          its citations stripped, and every match is a hit. `sentence` is one
+#          hit per sentence. `feature-opening` is a Feature's opening clause,
+#          and fires only where that clause also names a word of its own label.
+# rule     what the tell is checking, in the words the report prints. Every line
+#          under one key states it identically.
+# pattern  a case-insensitive regex, taken whole and so free to hold `|`. Parts
+#          joined by ` && ` must all match the same unit. `{name}` draws a
+#          vocabulary list defined above it by `= name | pattern`.
+#
+# Two obligations come with a line, and `python3 tools/validate_setting.py
+# --fixtures` reports them:
+#
+#   fixtures/bad/<key>.md   required, the key hyphenated: a known-bad entry this
+#                           tell fires on. A tell with none is a pattern nothing
+#                           keeps honest.
+#   fixtures/good/<key>.md  optional: the near misses, an entry carrying the
+#                           vocabulary legitimately that this tell must not fire
+#                           on. What a tell does not fire on is shown there
+#                           rather than written here.
+#
+# `style/exemplars/` is the good corpus for every tell at once and stays at
+# zero, so a pattern that fires on the endorsed register is measuring the wrong
+# thing and is cut or narrowed rather than argued with.
+#
+# Precision is uneven and deliberately so. `rather than` is exact. The other
+# three flag the shape a failure takes, and whether a given hit is that failure
+# is a reading.
+
+= neg   | \b(nothing|nobody|no one|no-one|none|never|nowhere|not once|no longer)\b
+= reach | \b(anywhere|elsewhere|else|in living memory|in years|for generations|for centuries|ever|since|longer than|of its kind)\b
+= idiom | \b(the only|only one|matching nothing|unlike anything)\b
+
+rather than     | line            | the trailing clause, per PR #41 | \brather than\b
+absence claim   | sentence        | absence across time or space, per GENRE.md | {idiom}
+absence claim   | sentence        | absence across time or space, per GENRE.md | {neg} && {reach}
+conclusion tell | line            | the players' conclusion written down, per GENRE.md | \b(which is (?:why|how|what)|the reason\b|proof\b|recognis|recogniz|unmistakab|obviously|clearly|evidently|meaning that|means that|explains\b|suggest|implie|implying|will (?:find|know|realise|realize|notice|understand|remember)|enough to tell|tells anyone|anyone can tell|the clue that|so that anyone|is how anyone)
+gloss           | feature-opening | a term carrying its own definition, per Location.md | ^(the|a|an|its|this)\b

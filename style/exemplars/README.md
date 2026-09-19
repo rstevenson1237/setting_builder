@@ -51,5 +51,6 @@ never show:
 ## Measured
 
 Over the five location exemplars: 18 Features, 3.2 sentences per Feature, 14.9 words per
-sentence, longest 20. `python3 tools/metrics.py --tells style/exemplars` reports zero on all
-four tells.
+sentence, longest 20. Every tell in `style/tells.txt` reports zero here, and the validator
+holds it there: the exemplars are the good corpus for every tell at once, so a pattern that
+fires on them is measuring the wrong thing.

@@ -34,10 +34,10 @@ generation and checked on every run, so it carries where a sentence about the sa
 does not.
 
 **R4 Tell.** A class of failure that recurs and has a textual signature. One line in
-`style/tells.txt` and one known-bad fixture under `fixtures/bad/` the line fires on; until
-P2.2 lands, the list is the one `tools/metrics.py` carries. A tell buys a measurement, not
-a prohibition - it reports a candidate and never an error, per `STYLE.md` - which is why it
-sits above both rule routes.
+`style/tells.txt` and one known-bad entry under `fixtures/bad/` the line fires on, plus the
+near miss under `fixtures/good/` where the signature is loose enough to need one. A tell
+buys a measurement, not a prohibition - it reports a candidate and never an error, per
+`STYLE.md` - which is why it sits above both rule routes.
 
 **R5 Rule.** A class with no signature and no list behind it. One sentence in `STYLE.md`,
 or one `GENRE.md` standing consequence, and only where the item names the
