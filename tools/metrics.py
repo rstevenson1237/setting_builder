@@ -5,7 +5,7 @@ Five readings, printed in one report:
 
   CORPUS    locations and words in setting/region/*/[0-9]*.md
   FEATURES  words and sentences per Feature line, against STYLE.md's budget
-  TELLS     the four prose tells, counted
+  TELLS     every tell in style/tells.txt, counted
   BUDGET    framework words against setting words
   READ SET  words in context per step 4c entry point
 
@@ -15,9 +15,9 @@ names, and neither carries a threshold - `tools/validate_setting.py` is where
 a rule with a pass and a fail lives. This file exists so a change to the
 framework can be shown to have moved something, rather than asserted to have.
 
-The Feature parsing, the read-set graph and the stopword list are imported
-from the validator rather than restated, so a change to the Feature grammar
-reaches this report without a second edit.
+The Feature parsing, the tell engine, the read-set graph and the stopword list
+are imported from the validator rather than restated, so a change to the Feature
+grammar or to style/tells.txt reaches this report without a second edit.
 
 Usage: python3 tools/metrics.py [--tells [PATH]]
 
@@ -29,7 +29,6 @@ Usage: python3 tools/metrics.py [--tells [PATH]]
 """
 from __future__ import annotations
 
-import re
 import sys
 from pathlib import Path
 
@@ -40,16 +39,17 @@ from validate_setting import (  # noqa: E402
     FEATURE_RE,
     PATTERNS,
     ROOT,
-    _summary_tokens,
+    count_tells,
     feature_sentences,
     read_set_graph,
+    rel,
     spec_closure,
+    tell_fires,
 )
 
 REGION = ROOT / "setting" / "region"
 EXEMPLARS = ROOT / "style" / "exemplars" / "location"
 LOCATION_GLOB = "*/[0-9]*.md"
-SENTENCE_SPLIT_RE = re.compile(r'(?<=[.!?])\s+')
 
 
 def words(text: str) -> int:
@@ -68,125 +68,16 @@ def tree_words(paths) -> tuple[int, int]:
 
 
 # ---------------------------------------------------------------------------
-# The four tells
+# The tells
 #
-# Hard-coded here until style/tells.txt exists, per INTROSPECTIVE.md P0.1.
-# Each is a shape with a documented history in this repository, and each is
-# stated as the rule it is checking rather than as a bare pattern, because a
-# tell whose rule is not written down drifts into a preference.
-#
-# Precision is uneven and deliberately so. "rather than" is exact. The other
-# three over-report: they flag the shape a failure takes, and whether a given
-# hit is that failure is a reading. Calibration is the number each returned on
-# the corpus before PR #41 rewrote it against the number it returns now, which
-# is recorded at the foot of INTROSPECTIVE.md - a tell that did not move across
-# a rewrite aimed at it is measuring the wrong thing.
+# The list is style/tells.txt and the engine is the validator's count_tells, so
+# this file neither carries a pattern nor decides what one means. What it adds is
+# the reading: every hit listed, with its file and line, over whatever corpus is
+# named. Nothing here has a threshold - a tell is a candidate, per STYLE.md, and
+# tools/validate_setting.py --fixtures is where a tell has a pass and a fail.
 # ---------------------------------------------------------------------------
 
-# 1. The trailing-clause tell. PR #41 found "rather than" in 61 of 206 Features
-#    and closed the Feature's punctuation to remove the slot it hung in. It is
-#    a contrast, not an error - what it measures is how much of the line is
-#    spent qualifying rather than naming.
-RATHER_RE = re.compile(r'\brather than\b', re.I)
-
-# 2. The absence claim. GENRE.md: a claim about absence across time or space is
-#    one no party can check and no referee can adjudicate. Its shape is a
-#    negative or exclusive quantifier reaching for a scope - "nobody has moved
-#    it in years", "matching nothing else here" - or one of the exclusivity
-#    idioms, which carry the reach in themselves. Local negatives ("no rail
-#    marks the edge") carry no reach and do not fire.
-ABSENCE_NEG_RE = re.compile(
-    r'\b(nothing|nobody|no one|no-one|none|never|nowhere|not once|no longer)\b', re.I)
-ABSENCE_REACH_RE = re.compile(
-    r'\b(anywhere|elsewhere|else|in living memory|in years|for generations|'
-    r'for centuries|ever|since|longer than|of its kind)\b', re.I)
-ABSENCE_IDIOM_RE = re.compile(
-    r'\b(the only|only one|matching nothing|unlike anything)\b', re.I)
-
-# 3. The conclusion tell. GENRE.md's third test: state what is true and visible,
-#    never what the players will conclude. These are the connectives a written
-#    conclusion arrives on - the room's mechanic read off the page for the
-#    reader after it has already been stated.
-CONCLUSION_RE = re.compile(
-    r'\b(which is (?:why|how|what)|the reason\b|proof\b|recognis|recogniz|'
-    r'unmistakab|obviously|clearly|evidently|meaning that|means that|'
-    r'explains\b|suggest|implie|implying|'
-    r'will (?:find|know|realise|realize|notice|understand|remember)|'
-    r'enough to tell|tells anyone|anyone can tell|the clue that|'
-    r'so that anyone|is how anyone)', re.I)
-
-# 4. The gloss. templates/Location.md instruction 5: a precise term replaces its
-#    definition and never carries one. Its shape is the label naming a thing and
-#    the line's opening segment naming it again to define it - D.18's
-#    "**Corbelled Ceiling:** The ceiling steps inward in courses rather than
-#    arching", the word in the label and then nine words glossing it. Detected as
-#    a determiner-opened first segment echoing a significant word of its own
-#    label, which is the shape and over-reports it: a line that opens by naming
-#    the object it is about ("**Sealed Letter:** A letter from the western heir")
-#    has the shape without paying twice, and is why this is the loosest of the
-#    four.
-GLOSS_OPENER_RE = re.compile(r'^(the|a|an|its|this)\b', re.I)
-
-
-class Tell:
-    def __init__(self, key: str, rule: str):
-        self.key, self.rule = key, rule
-        self.hits: list[tuple[Path, int, str]] = []
-
-    def hit(self, path: Path, lineno: int, quote: str):
-        self.hits.append((path, lineno, quote))
-
-    def __len__(self):
-        return len(self.hits)
-
-
-def rel(p: Path) -> str:
-    try:
-        return str(p.relative_to(ROOT))
-    except ValueError:
-        return str(p)
-
-
-def count_tells(paths: list[Path]) -> list[Tell]:
-    """The four tells over any markdown - a location file, an arm's output, a brief."""
-    rather = Tell("rather than", "the trailing clause, per PR #41")
-    absence = Tell("absence claim", "absence across time or space, per GENRE.md")
-    conclusion = Tell("conclusion tell", "the players' conclusion written down, per GENRE.md")
-    gloss = Tell("gloss", "a term carrying its own definition, per Location.md")
-
-    for path in paths:
-        for lineno, raw in enumerate(path.read_text().splitlines(), 1):
-            line = raw.strip()
-            if not line:
-                continue
-            prose = CITATION_RE.sub("", line)
-
-            for m in RATHER_RE.finditer(prose):
-                rather.hit(path, lineno, prose[max(0, m.start() - 40):m.end() + 40].strip())
-
-            for sentence in SENTENCE_SPLIT_RE.split(prose):
-                if ABSENCE_IDIOM_RE.search(sentence) or (
-                        ABSENCE_NEG_RE.search(sentence) and ABSENCE_REACH_RE.search(sentence)):
-                    absence.hit(path, lineno, sentence.strip())
-
-            for m in CONCLUSION_RE.finditer(prose):
-                conclusion.hit(path, lineno, prose[max(0, m.start() - 40):m.end() + 40].strip())
-
-            fm = FEATURE_RE.match(line)
-            if fm and fm.group(1).strip() != "Exits":
-                label, body = fm.group(1).strip(), fm.group(2).strip()
-                sents = feature_sentences(body)
-                # The gloss sits in the line's opening clause, not anywhere in its
-                # first sentence - a comma or a '->' ends the opening.
-                opening = re.split(r',|->', sents[0])[0].strip() if sents else ""
-                first = re.sub(r"'s\b", "", opening.lower())
-                if first and GLOSS_OPENER_RE.match(first):
-                    echoed = sorted(t for t in _summary_tokens(label)
-                                    if re.search(r'\b' + re.escape(t), first))
-                    if echoed:
-                        gloss.hit(path, lineno, f"{label} -> {opening}")
-
-    return [rather, absence, conclusion, gloss]
+RATHER_KEY = "rather than"
 
 
 # ---------------------------------------------------------------------------
@@ -262,13 +153,20 @@ def report_features(locs: list[Path]) -> None:
 
 def report_tells(locs: list[Path]) -> None:
     print("TELLS")
-    feats = features(locs)
     tells = count_tells(locs)
+    if not tells:
+        print("  style/tells.txt lists no tells\n")
+        return
     for t in tells:
         print(f"  {t.key:16s} : {len(t):4d}   {t.rule}")
-    if feats:
-        carrying = sum(1 for _, _, b in feats if RATHER_RE.search(b))
-        print(f"  {'':16s}   'rather than' is in {carrying} of {len(feats)} Features")
+    # The share of Features carrying the trailing clause is the figure PR #41
+    # reported and the one a later run is comparable with, so it is printed
+    # while that tell is in the list.
+    feats = features(locs)
+    rather = next((t for t in tells if t.key == RATHER_KEY), None)
+    if feats and rather:
+        carrying = sum(1 for _, _, b in feats if tell_fires(rather, b))
+        print(f"  {'':16s}   {RATHER_KEY!r} is in {carrying} of {len(feats)} Features")
     print()
 
 

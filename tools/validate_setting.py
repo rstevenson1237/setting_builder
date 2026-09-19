@@ -18,7 +18,8 @@ to run against a build in progress, not just a finished one. Errors are
 reserved for content that exists but is wrong (malformed, inconsistent with
 something else that exists, or an unresolved/malformed citation).
 
-Usage: python3 tools/validate_setting.py [--pending [REGION] | --read-set [STEP]]
+Usage: python3 tools/validate_setting.py [--pending [REGION] | --read-set [STEP] |
+                                          --fixtures]
 Exits 1 if any error is found, 0 otherwise (warnings never fail the run).
 """
 from __future__ import annotations
@@ -935,6 +936,22 @@ def check_location_file(diag, path, region_code, num, stub, rating, all_location
 EXEMPLARS = ROOT / "style" / "exemplars"
 
 
+def check_standalone_entry(diag: Diagnostics, path: Path, conditions) -> bool:
+    """A location entry with no region under it - an exemplar or a tell fixture."""
+    text = path.read_text()
+    lines = text.splitlines()
+    if not lines or not lines[0].strip():
+        diag.error(path, "file is empty or missing its header line")
+        return False
+    if not LOC_HEADER_RE.match(lines[0].strip()):
+        diag.error(path, f"header line does not match Location.md format: {lines[0]!r}")
+        return False
+    check_treasure_citation_prose(diag, path, text)
+    check_forced_damage(diag, path, text, conditions)
+    parse_location_body(diag, path, lines[1:])
+    return True
+
+
 def check_exemplars(diag: Diagnostics):
     loc_dir = EXEMPLARS / "location"
     if not loc_dir.exists():
@@ -946,17 +963,228 @@ def check_exemplars(diag: Diagnostics):
         return
     conditions = procedures_conditions()
     for path in paths:
-        text = path.read_text()
-        lines = text.splitlines()
-        if not lines or not lines[0].strip():
-            diag.error(path, "file is empty or missing its header line")
+        check_standalone_entry(diag, path, conditions)
+
+
+# ---------------------------------------------------------------------------
+# style/tells.txt and fixtures/ - the tells, and what holds each one honest
+#
+# A tell is a candidate to read and never an error, per STYLE.md, so no count
+# taken here is checked against a threshold: tools/metrics.py does the counting
+# and reports it. What has a pass and a fail is the pair every key in
+# style/tells.txt owes - the known-bad entry it fires on, and the near-miss
+# entry, where one is written, that it must not - and the exemplars, which are
+# the good corpus for every tell at once. Both halves of fixtures/ are location
+# entries and are read by the same body parse the exemplars are, so a fixture is
+# bad in its prose and sound in its shape.
+#
+# style/tells.txt is the authority on the file's own grammar and on what each
+# tell is checking. Nothing about either is restated here.
+# ---------------------------------------------------------------------------
+
+TELLS_FILE = ROOT / "style" / "tells.txt"
+FIXTURES = ROOT / "fixtures"
+TELL_UNITS = ("line", "sentence", "feature-opening")
+FRAGMENT_RE = re.compile(r'\{([a-z][a-z-]*)\}')
+
+
+class Tell:
+    """One key from style/tells.txt: its rule, its signatures, and its hits."""
+
+    def __init__(self, key: str, rule: str):
+        self.key, self.rule = key, rule
+        self.signatures: list[tuple[str, list[re.Pattern]]] = []
+        self.hits: list[tuple[Path, int, str]] = []
+        self._seen: set = set()
+
+    @property
+    def slug(self) -> str:
+        return self.key.replace(" ", "-")
+
+    def hit(self, path: Path, lineno: int, quote: str, where):
+        # One unit matching two of a key's signatures is one hit, so a key's
+        # count does not move with the number of lines stating it.
+        mark = (path, lineno, where)
+        if mark in self._seen:
+            return
+        self._seen.add(mark)
+        self.hits.append((path, lineno, quote))
+
+    def __len__(self):
+        return len(self.hits)
+
+
+def expand_fragments(pattern: str, fragments: dict) -> tuple[list[str], list[str]]:
+    """A pattern's `{name}` vocabulary substituted, then split on ' && '."""
+    missing = sorted({m.group(1) for m in FRAGMENT_RE.finditer(pattern)} - set(fragments))
+    if missing:
+        return [], missing
+    text = FRAGMENT_RE.sub(lambda m: fragments[m.group(1)], pattern)
+    return [p for p in text.split(" && ") if p], []
+
+
+def load_tells(diag: Diagnostics | None = None) -> list[Tell]:
+    """style/tells.txt, in file order, with the signatures under one key merged."""
+    if not TELLS_FILE.exists():
+        if diag:
+            diag.warn(TELLS_FILE, "missing - the tell list is not written yet, so nothing "
+                                  "holds the patterns tools/metrics.py reports")
+        return []
+    fragments: dict[str, str] = {}
+    tells: dict[str, Tell] = {}
+    order: list[str] = []
+    for lineno, raw in enumerate(TELLS_FILE.read_text().splitlines(), 1):
+        line = raw.strip()
+        if not line or line.startswith("#"):
             continue
-        if not LOC_HEADER_RE.match(lines[0].strip()):
-            diag.error(path, f"header line does not match Location.md format: {lines[0]!r}")
+
+        def err(msg: str, lineno=lineno):
+            if diag:
+                diag.error(TELLS_FILE, f"line {lineno}: {msg}")
+
+        if line.startswith("= "):
+            name, sep, pattern = line[2:].partition(" | ")
+            name, pattern = name.strip(), pattern.strip()
+            if not sep or not name or not pattern:
+                err("a vocabulary line is '= name | pattern'")
+            else:
+                fragments[name] = pattern
             continue
-        check_treasure_citation_prose(diag, path, text)
-        check_forced_damage(diag, path, text, conditions)
-        parse_location_body(diag, path, lines[1:])
+        parts = [p.strip() for p in line.split(" | ", 3)]
+        if len(parts) != 4 or not all(parts):
+            err("a tell line is 'key | unit | rule | pattern'")
+            continue
+        key, unit, rule, pattern = parts
+        if unit not in TELL_UNITS:
+            err(f"unit {unit!r} is not one of {', '.join(TELL_UNITS)}")
+            continue
+        expanded, missing = expand_fragments(pattern, fragments)
+        if missing:
+            err(f"pattern draws vocabulary {', '.join(missing)} with no '= ' line above it")
+            continue
+        try:
+            compiled = [re.compile(p, re.I) for p in expanded]
+        except re.error as exc:
+            err(f"pattern does not compile: {exc}")
+            continue
+        tell = tells.get(key)
+        if tell is None:
+            tell = tells[key] = Tell(key, rule)
+            order.append(key)
+        elif tell.rule != rule:
+            err(f"tell {key!r} states a different rule here than on its first line - "
+                f"one key is one rule")
+        tell.signatures.append((unit, compiled))
+    return [tells[k] for k in order]
+
+
+def count_tells(paths: list[Path], tells: list[Tell] | None = None) -> list[Tell]:
+    """Every tell over any markdown - a location entry, a control arm, a fixture.
+
+    A `line` unit is the line with its citations stripped and every match a hit;
+    a `sentence` unit is one hit per sentence; `feature-opening` is a Feature's
+    opening clause, and hits only where that clause also echoes a significant
+    word of its own label, which is the shape a gloss takes.
+    """
+    tells = load_tells() if tells is None else tells
+    for path in paths:
+        for lineno, raw in enumerate(path.read_text().splitlines(), 1):
+            line = raw.strip()
+            if not line:
+                continue
+            prose = CITATION_RE.sub("", line)
+            sentences = SENT_SPLIT_RE.split(prose)
+            label, opening = None, ""
+            fm = FEATURE_RE.match(line)
+            if fm and fm.group(1).strip() != "Exits":
+                label = fm.group(1).strip()
+                sents = feature_sentences(fm.group(2).strip())
+                # A comma or a '->' ends the opening clause.
+                opening = re.split(r',|->', sents[0])[0].strip() if sents else ""
+            for tell in tells:
+                for unit, parts in tell.signatures:
+                    if unit == "line":
+                        for m in parts[0].finditer(prose):
+                            if all(p.search(prose) for p in parts[1:]):
+                                quote = prose[max(0, m.start() - 40):m.end() + 40].strip()
+                                tell.hit(path, lineno, quote, m.start())
+                    elif unit == "sentence":
+                        for i, sentence in enumerate(sentences):
+                            if all(p.search(sentence) for p in parts):
+                                tell.hit(path, lineno, sentence.strip(), i)
+                    elif unit == "feature-opening" and opening:
+                        first = re.sub(r"'s\b", "", opening.lower())
+                        if all(p.search(first) for p in parts) and any(
+                                re.search(r'\b' + re.escape(t), first)
+                                for t in _summary_tokens(label)):
+                            tell.hit(path, lineno, f"{label} -> {opening}", label)
+    return tells
+
+
+def tell_fires(tell: Tell, text: str) -> bool:
+    """Whether any one of a tell's signatures matches a passage whole.
+
+    A coarser reading than count_tells - no units and no hits - for the one
+    question a share is asked of: does this Feature carry the tell at all.
+    """
+    return any(all(p.search(text) for p in parts) for _unit, parts in tell.signatures)
+
+
+def fixture_hits(path: Path) -> dict[str, Tell]:
+    """Every tell counted over one fixture, keyed by tell key."""
+    return {t.key: t for t in count_tells([path])}
+
+
+def check_tell_fixtures(diag: Diagnostics):
+    tells = load_tells(diag)
+    if not tells:
+        return
+    slugs = {t.slug for t in tells}
+    for half in ("bad", "good"):
+        hdir = FIXTURES / half
+        if not hdir.exists():
+            if half == "bad":
+                diag.error(hdir, f"missing - every key in {rel(TELLS_FILE)} owes a known-bad "
+                                 f"entry, and a tell with none is a pattern nothing keeps honest")
+            continue
+        for path in sorted(hdir.glob("*.md")):
+            if path.stem not in slugs:
+                diag.warn(path, f"names no key in {rel(TELLS_FILE)} - a fixture is named for "
+                                f"the tell it holds, hyphenated")
+    conditions = procedures_conditions()
+    for tell in tells:
+        for half in ("bad", "good"):
+            path = FIXTURES / half / f"{tell.slug}.md"
+            if not path.exists():
+                if half == "bad":
+                    diag.error(FIXTURES / half, f"no {tell.slug}.md - tell '{tell.key}' has no "
+                                                f"known-bad entry to fire on")
+                continue
+            if not check_standalone_entry(diag, path, conditions):
+                continue
+            hits = fixture_hits(path)
+            own = hits[tell.key]
+            if half == "bad" and not len(own):
+                diag.error(path, f"tell '{tell.key}' does not fire here - a known-bad entry the "
+                                 f"tell misses measures nothing, so either the entry or the "
+                                 f"pattern in {rel(TELLS_FILE)} is wrong")
+            if half == "good" and len(own):
+                diag.error(path, f"tell '{tell.key}' fires here ({own.hits[0][2]!r}) - a "
+                                 f"near-miss entry carries the vocabulary legitimately, and a "
+                                 f"tell that fires on it is over-reporting")
+            for other in tells:
+                if other.key == tell.key or not len(hits[other.key]):
+                    continue
+                diag.warn(path, f"tell '{other.key}' also fires here "
+                                f"({hits[other.key].hits[0][2]!r}) - a fixture that trips two "
+                                f"tells isolates neither signature")
+    exemplars = [p for sub in ("location", "region")
+                 for p in sorted((EXEMPLARS / sub).glob("*.md"))]
+    for tell in count_tells(exemplars) if exemplars else []:
+        for path, lineno, quote in tell.hits:
+            diag.error(path, f"line {lineno}: tell '{tell.key}' fires on an exemplar "
+                             f"({quote!r}) - the exemplars are the endorsed register, so a "
+                             f"pattern that fires here is measuring the wrong thing")
 
 
 # ---------------------------------------------------------------------------
@@ -1663,6 +1891,39 @@ def report_pending(region_filter: str | None) -> int:
     return 0
 
 
+def report_fixtures() -> int:
+    """Every tell in style/tells.txt with the fixtures that hold it, and the checks.
+
+    The default run makes the same checks; this prints what each tell fires on,
+    which is what a reader looks at when a fixture stops firing.
+    """
+    tells = load_tells()
+    print(f"{rel(TELLS_FILE)}: {len(tells)} tell(s)\n")
+    for tell in tells:
+        units = ", ".join(u for u, _ in tell.signatures)
+        print(f"{tell.key} - {tell.rule}")
+        print(f"  {'signatures':6s} : {len(tell.signatures)} ({units})")
+        for half in ("bad", "good"):
+            path = FIXTURES / half / f"{tell.slug}.md"
+            if not path.exists():
+                print(f"  {half:10s} : (none)")
+                continue
+            own = fixture_hits(path)[tell.key]
+            print(f"  {half:10s} : {rel(path)}, {len(own)} hit(s)")
+            for _p, lineno, quote in own.hits:
+                print(f"               line {lineno}  {quote}")
+        print()
+
+    diag = Diagnostics()
+    check_tell_fixtures(diag)
+    for w in diag.warnings:
+        print(f"WARNING: {w}")
+    for e in diag.errors:
+        print(f"ERROR: {e}")
+    print(f"\n{len(diag.errors)} error(s), {len(diag.warnings)} warning(s)")
+    return 1 if diag.errors else 0
+
+
 def main() -> int:
     diag = Diagnostics()
     check_pattern_files(diag)
@@ -1670,6 +1931,7 @@ def main() -> int:
     check_read_set_graph(diag)
     check_repeated_prose(diag)
     check_exemplars(diag)
+    check_tell_fixtures(diag)
 
     if is_fresh_start():
         seeded = sorted(n for n in SEED_FILES if (SETTING / n).exists())
@@ -1809,4 +2071,6 @@ if __name__ == "__main__":
         sys.exit(report_pending(sys.argv[2] if len(sys.argv) > 2 else None))
     if len(sys.argv) > 1 and sys.argv[1] == "--read-set":
         sys.exit(report_read_set(sys.argv[2] if len(sys.argv) > 2 else None))
+    if len(sys.argv) > 1 and sys.argv[1] == "--fixtures":
+        sys.exit(report_fixtures())
     sys.exit(main())

@@ -506,7 +506,7 @@ style/
   exemplars/                                      six golden entries, read at 4c (P1.2)
   tells.txt                                       the tell list the validator reads (P2.2)
 fixtures/
-  bad/  good/                                     known-bad entries per tell; the exemplars (P2.2)
+  bad/  good/                                     the entry each tell fires on, and the near miss (P2.2)
   briefs/drakenhold.md                            the campaign-scale brief, committed (P0.2)
   control/                                        the three control arms and their outputs (P0.2)
 tools/                                            as now, plus draw.py, context.py, map.py, metrics.py, --status
@@ -767,7 +767,33 @@ Original task, kept for what it specifies:
 - Acceptance: the user approves the routes; the last three PRs' rule additions are
   retro-classified as a worked example, and most land on R2.
 
-**P2.2 Make the tells data, with fixtures.**
+~~**P2.2 Make the tells data, with fixtures.**~~ Landed. `style/tells.txt` is the list, one
+signature per line, and the engine moved into `validate_setting.py` so `metrics.py` carries
+no pattern of its own. Every calibration figure in **Baseline metrics** reproduces exactly -
+47/8/0/20 over the keyed locations, 69/26/4/20 over `setting/region` whole, 3/4/11/4 over
+the baseline module - which is what says the list is the same four tells and not four new
+ones. A tell now has a pass and a fail: `fixtures/bad/<key>.md` is an entry it must fire on,
+the optional `fixtures/good/<key>.md` is one it must not, and both are checked on every run,
+generated setting or not. Telar is unchanged at 0 errors and 154 warnings, and the site
+builds at 83 pages.
+
+Three things the task text did not anticipate. **`fixtures/good/` is not the exemplars.**
+Copying them under `fixtures/` would have made a second copy nothing keeps current, so the
+exemplars are read where they live and are the good corpus for **every** tell at once, held
+at zero as an error: a pattern that fires on the endorsed register is measuring the wrong
+thing. What `good/` holds instead is the near miss - the lines carrying a loose tell's
+vocabulary legitimately, which it must not fire on. That is the half of a signature no
+comment could hold: the absence claim's local negative and bare `elsewhere`, and the
+determiner-opened Feature that names its object without glossing it. `rather than` is exact
+and has no near miss, which is why `good/` is optional.
+
+Both halves are **location entries, checked by the same body parse the exemplars are**, so a
+fixture is bad in its prose and sound in its shape - a tell fires on a page that the
+structural checks pass, which is the whole claim a tell makes. And the four tells' rationale
+comments left `metrics.py` for `tells.txt`'s header, where the file's grammar and each
+tell's rule now live; the calibration history stays in **Baseline metrics** and nowhere else.
+
+Original task, kept for what it specifies:
 - Files: new `style/tells.txt`, `fixtures/bad/`, `fixtures/good/` (the exemplars);
   `validate_setting.py --fixtures`; CI.
 - Acceptance: CI green; adding a tell is one line plus one fixture.

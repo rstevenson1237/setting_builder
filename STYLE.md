@@ -88,7 +88,8 @@ One Feature and one Player Summary from the same entry, to shape:
 ## The tells
 
 A tell is the signature of a class of failure - a candidate to read, not an error.
-`style/tells.txt` is the list, and `python3 tools/metrics.py --tells [PATH]` reports it over
-any markdown; until it exists, the four in force are the ones `tools/metrics.py`
-carries. **Clear a tell by rewriting the line.** Swapping a word or dropping in a comma to
+`style/tells.txt` is the list and the authority on what each one checks; `python3
+tools/metrics.py --tells [PATH]` reports it over any markdown, and `python3
+tools/validate_setting.py --fixtures` reports the entries that hold each line honest.
+**Clear a tell by rewriting the line.** Swapping a word or dropping in a comma to
 satisfy the pattern leaves the failure in place and costs the measurement too.

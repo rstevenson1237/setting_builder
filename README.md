@@ -47,6 +47,11 @@ Read these rather than a description of them.
   Overview sits beside it at `setting/region/[Code].md`.
 - `style/` - what the register looks like on a finished page. `exemplars/` holds one per
   class, read beside the template at generation and checked by the validator on every run.
+  `tells.txt` is the tell list, and the authority on its own grammar and on what each tell
+  checks.
+- `fixtures/` - neither framework nor setting. `bad/` and `good/` hold the entry each tell
+  fires on and the near miss it must not, per `style/tells.txt`; `control/` holds the P0.2
+  control arms and `briefs/` the campaign-scale brief.
 - `checks/` - output of the judgement checks (STEPS.md step 5): non-mechanical review
   passes `tools/validate_setting.py` can't do, following the checklist format in the
   matching `templates/*_Judgement_Check.md`.
@@ -65,6 +70,7 @@ Read these rather than a description of them.
 python3 tools/validate_setting.py           # structural lint
 python3 tools/validate_setting.py --pending [REGION]    # edges owed to unwritten blocks
 python3 tools/validate_setting.py --read-set [STEP]     # what a step reads, per the graph
+python3 tools/validate_setting.py --fixtures           # each tell with the entries holding it
 python3 tools/metrics.py                    # corpus, tells, budget and read-set report
 python3 tools/metrics.py --tells [PATH]     # every tell hit, listed, over any markdown
 python3 tools/build_site.py --out _site     # static site, including patterns.html
