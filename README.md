@@ -19,7 +19,9 @@ Read these rather than a description of them.
   across every genre, never reauthored. The tests outrank every template.
 - `STEPS.md` - the authoritative, sequential build log. Every artifact created follows a
   numbered step here (e.g. `4c`) naming its template and pattern file. Step ids grow by
-  suffix and are never renumbered.
+  suffix and are never renumbered without explicit user request - `templates/` cite step
+  ids and `tools/validate_setting.py` resolves those citations against this file (including
+  its compile-list regex), so a renumber means updating both alongside every prose citation.
 - `patterns/SPEC.md` - the full field spec for pattern files.
 - `setting/Procedures.md` - the authority on dice, scaling, time and resolution.
 - `CLAUDE.md` - always loaded as system context; the rules needing active re-checking on
