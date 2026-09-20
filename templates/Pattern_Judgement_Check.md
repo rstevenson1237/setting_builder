@@ -1,7 +1,7 @@
 # Pattern_Judgement_Check.md
 
 ## Purpose
-A non-mechanical review pass over `patterns/` - confirming, by human or model judgement, that the pattern library is internally consistent, produces content worth putting in front of players, and actually covers what the setting needs. Saved as `checks/PatternJudgementCheck.md`.
+A non-mechanical review pass over `patterns/` - confirming, by human or model judgement, that the pattern library is internally consistent, produces content worth putting in front of players, and actually covers what the setting needs. Saved as `setting/checks/PatternJudgementCheck.md`.
 
 ## Context
 Consult when running this check:

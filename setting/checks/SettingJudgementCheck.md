@@ -24,7 +24,7 @@ expected soft flags on genuinely secret exits, discussed under Open Items.
   it explicitly as the same turn already seen at Daghash, cut into chamber thresholds rather
   than lintels. `Stone Ward` (D.18, now also E.24 x6), `Barrow Wight` and `Barrow-Kin` (B.3,
   now also E.5/E.9), and `Threshold-Bane` (D.7, now also E.1) all recur rather than each
-  region inventing its own one-off guardian - `checks/SettingJudgementCheck.md`'s own prior
+  region inventing its own one-off guardian - `setting/checks/SettingJudgementCheck.md`'s own prior
   Room to Grow flagged Threshold-Bane and Grave-Mould as appearing only once; both now
   appear a second time (E.1, E.17). `setting/Keys.md` grew from 3 entries to 5,
   `setting/Quests.md` from 2 to 3, `setting/Lore.md` from 5 to 8, `setting/NamedCreatures.md`
@@ -72,7 +72,7 @@ expected soft flags on genuinely secret exits, discussed under Open Items.
   against the 30/50/rest spec exactly. Two blocks (Barrow Field, Dying; Sanctum, Believing)
   at 12 locations each - the first region built in two blocks, and the cross-block
   discipline held: the two vertical edges (E.2->E.13, E.3->E.13) are declared identically in
-  both `Barrow Field.mmd` and `Sanctum.mmd`, closing the gap `checks/SettingJudgementCheck.md`
+  both `Barrow Field.mmd` and `Sanctum.mmd`, closing the gap `setting/checks/SettingJudgementCheck.md`
   previously flagged as untested. Doors carry open, secret, vertical, and gated kinds; the
   region's die (d8) is the setting baseline rather than an outlier, matching the brief's
   explicit instruction rather than the harsher d6 Daghash uses - the region's tension comes

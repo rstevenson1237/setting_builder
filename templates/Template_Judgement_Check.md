@@ -1,7 +1,7 @@
 # Template_Judgement_Check.md
 
 ## Purpose
-A non-mechanical review pass over `templates/` - confirming, by human or model judgement, things `tools/validate_setting.py` structurally cannot: that each template pulls the right patterns in the right order, and that it still encodes the edge cases this project has previously flagged as failure modes. Saved as `checks/TemplateJudgementCheck.md`.
+A non-mechanical review pass over `templates/` - confirming, by human or model judgement, things `tools/validate_setting.py` structurally cannot: that each template pulls the right patterns in the right order, and that it still encodes the edge cases this project has previously flagged as failure modes. Saved as `setting/checks/TemplateJudgementCheck.md`.
 
 ## Context
 Consult when running this check:
@@ -17,7 +17,7 @@ For each file in `templates/`, confirm the following. Record each as Confirmed /
 - **No context creep** - does the template stick to the narrow Context list CLAUDE.md specifies for it, rather than pulling in setting files wholesale "just in case"? (`templates/Location.md`'s Context is the strictest example - other setting files are for looking up a name already referenced, never more.)
 - **Pattern chosen at generation time, not earlier** - for `templates/Location.md`, does it still make clear the pattern is picked now, from the matching `patterns/` file, rather than pinned in the gazetteer stub?
 - **Two-phase registries respected** - do templates that can introduce a Lore/Key/Named Creature/Unique Treasure entry (chiefly `templates/Location.md`) still correctly separate step 4c (stub: name and location only, no content) from step 4d (full entry, written later)?
-- **Format edge cases preserved** - read `templates/Location.md` (the most format-sensitive template) against the locations actually generated from it, and against the findings in the previous `checks/TemplateJudgementCheck.md`. Is every format rule it states still unambiguous, and has any rule a past pass had to call out gone missing or gone vague? Check it against the template, never against a list kept here - a copy of those rules in this file would drift out of step with the template it is meant to be auditing.
+- **Format edge cases preserved** - read `templates/Location.md` (the most format-sensitive template) against the locations actually generated from it, and against the findings in the previous `setting/checks/TemplateJudgementCheck.md`. Is every format rule it states still unambiguous, and has any rule a past pass had to call out gone missing or gone vague? Check it against the template, never against a list kept here - a copy of those rules in this file would drift out of step with the template it is meant to be auditing.
 - **Genre drift guardrails** - does the template's Instructions section actively discourage the genre's main failure mode (an authored plot creeping in, magic becoming commonplace, an implied central authority) wherever that template is the kind of place it could creep in (History, Factions, Location Features)?
 - **Consistency across templates** - do two templates that touch the same concept (e.g. weight, region rating, units) describe it the same way, rather than drifting into contradictory wording?
 

@@ -1439,7 +1439,7 @@ def check_top_level_files(diag: Diagnostics):
 # format and relaxed on content and ratios, and graph shape is a design decision
 # rather than a rule - SAFE wants a shallow hub, WILD a forest of trees,
 # DANGEROUS a dense graph with loops and at least one divide. Reporting the shape
-# gives checks/SettingJudgementCheck.md something factual to judge against.
+# gives setting/checks/SettingJudgementCheck.md something factual to judge against.
 # ---------------------------------------------------------------------------
 
 def report_topology(regions: dict, region_locs: dict, region_edges: dict) -> list[str]:

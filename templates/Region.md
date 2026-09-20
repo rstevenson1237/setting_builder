@@ -16,7 +16,7 @@ Fill every field below - the Tables field is authored now, not deferred. Five fi
 
 **Every field names things, not qualities.** A Region Overview is read once by the referee and then mined for the rest of the campaign, so each field earns its space by giving them something to hand the players: a named object, a named person, a specific number, a stated cost. Per GENRE.md, a field with no handle in it is scenery - and a region field is the easiest place in the framework to write four sentences of atmosphere that no location ever cashes out.
 
-**A claim made here is a promise the locations have to keep.** If this file says the region leans on a treasure table, a creature lives in a particular part of it, or a motif repeats throughout, then at 4c the locations must actually carry it - a motif stated here and mentioned by a third of the rooms it applies to has been asserted rather than built. `checks/SettingJudgementCheck.md` audits exactly this; write the field knowing it will be checked against the rooms.
+**A claim made here is a promise the locations have to keep.** If this file says the region leans on a treasure table, a creature lives in a particular part of it, or a motif repeats throughout, then at 4c the locations must actually carry it - a motif stated here and mentioned by a third of the rooms it applies to has been asserted rather than built. `setting/checks/SettingJudgementCheck.md` audits exactly this; write the field knowing it will be checked against the rooms.
 
 - **Overview**: **Three sentences, hard.** Why a party comes here, what it costs them, and the one thing true of this region that is not true of the others. Together with the tags, this is the Referee's "how do I find this" and "how do I run this" at a glance.
 

@@ -281,10 +281,11 @@ def report_budget() -> None:
         n, w = tree_words(paths)
         framework += w
         print(f"  {name:14s} : {n:4d} files, {w:7,} words")
-    setting_md = sorted((ROOT / "setting").rglob("*.md"))
+    setting_md = sorted(p for p in (ROOT / "setting").rglob("*.md")
+                         if "checks" not in p.relative_to(ROOT / "setting").parts)
     n_set, w_set = tree_words(setting_md)
     print(f"  {'setting/':14s} : {n_set:4d} files, {w_set:7,} words")
-    for name, glob in (("checks/", "*.md"), ("fixtures/", "**/*.md")):
+    for name, glob in (("setting/checks/", "*.md"), ("fixtures/", "**/*.md")):
         paths = sorted((ROOT / name.rstrip("/")).glob(glob))
         if paths:
             n, w = tree_words(paths)
