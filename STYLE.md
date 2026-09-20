@@ -1,84 +1,110 @@
 # Style
 
-The positive target: what a line in this repository should *read* like. `GENRE.md`'s three
-tests outrank this file and decide whether a line lives at all; this file decides how the
-surviving line is written. `templates/` owns the shape a referee sees - the header, the
-label form, the tables, the citation forms - and this file owns the sentences inside it.
-Open an artifact's template for the shape and this file for the sentences.
+## What a line has to earn
 
-**Re-read this at every generation step, beside `GENRE.md`.**
+Two tiers, both fixed across every genre and reproduced verbatim, never reauthored. The
+**three tests** judge a line. The **standing consequences** under them are what those tests
+have already settled in the situations that recur, written down so they are not re-derived
+every time. Where a consequence and a test disagree, the test wins.
 
-## The four sources
+**They outrank the templates.** A line that fails them is cut even where a template asks for
+it, and a template that keeps producing lines that fail them is the wrong template and should
+be changed. Good content is the point; the templates exist to serve it, and content that is
+good with the template discarded has still succeeded.
 
-Three published modules and one endorsed output, each a shape and never its wording.
+### The three tests
 
-- **The Hole in the Oak** - the branch form. A bold label, then each branch as its own short
-  sentence, carried on the `->` the templates already use for trigger to effect: `Pried ->
-  the grate lifts free. Struck -> the frame splits and the shaft floods.` Two branches are
-  two sentences, never one comma-welded clause.
-- **Arden Vul** - the cross-reference. An entry names another location by its code and a
-  registry entry by its name, and stops. What a thing means, what it opens and what it is
-  worth sit where they are defined, so the room stays a container.
-- **B4 The Lost City** - the referee's voice on the page. Room name, a line of dimensions and
-  fixtures, what is obvious in a sentence or two, mechanics where they are needed, and a plain
-  aside to the referee about running the room.
-- **`fixtures/control/arm1b-output.md`** - the register itself. The user endorsed it, and
-  `style/exemplars/` matches it. Read a page before writing a location.
+- **Every word is translated.** A fact travels page → referee → players, and only the part
+  that survives both hops was worth writing. A *setting fact* must reach the players as
+  something they can see, hear, be told, pick up, or decide about. A *referee instruction*
+  must change how the referee runs something. A line that is neither is mood, and mood
+  spends the referee's attention, which is the scarcest thing at a table.
 
-All four share the form the templates have, and none bans the full stop.
+- **Setting that is not actionable cannot be played.** Every fact names its handle: what a
+  party can *do* about it, and where. A truth with no handle is a tag. An event with no
+  handle is backstory. A region field with no handle is scenery. Name the object, the place,
+  or the person — or cut the line.
 
-## One register: the referee's
+- **Never make the player's decision for them.** State what is true and what is visible.
+  Do not state what the party will realise, what the encounter is really about, what the
+  correct play is, or what skill the place rewards. Writing the conclusion down is how a
+  situation quietly turns into a plot, and it robs the players of the only thing the game
+  was going to give them.
 
-Almost every line is written to a referee reading the page mid-session. Plain nouns,
-dimensions, materials, and the verbs of making and decay. A specialist term stands unglossed; the referee is
-looking at the word.
+**In short: translated, not merely written; actionable, not ideas; the solution is never
+written into the problem.** One line for a pattern file to point back to instead of
+re-deriving the three, in their order - a fact that does not reach the players, a fact they
+cannot act on, and a fact that hands them the answer.
 
-The **Player Summary** is the one line spoken aloud. One to three sentences of what a party
-perceives on arriving, in words a referee can say without stumbling. Every bolded noun is a
-promise that the thing appears as a Feature below. It says what is there, never what it means.
+### The standing consequences
 
-## Which referee asides stay
+- **Say a fact once, at the highest level where it is true, and deliver it at the lowest
+  level where it is touched.** A restated fact is not actionable, it did not survive
+  translation, and it usually arrives with the conclusion the reader was supposed to draw for
+  themselves. When a region overview and a location say the same thing, the region overview is
+  the one that is wrong. This governs facts, not motifs - an object recurring across locations
+  is the rule below, and the two never conflict, because a motif carries no statement to
+  restate.
 
-An aside addressed to the referee *about running the room* stays: `Do not prompt them.`
-`Let them argue about it.` `Roll this where they can see it.` It changes a ruling, so it
-earns its place.
+- **Give situations, not stories.** Every generation step produces something to react to, not
+  a scene someone has already decided how to play: a pressure, a danger, a want, a rule -
+  never a plot with a beginning the party is expected to find and an end the referee has
+  already written. A story is a decision about how events resolve, made in advance, on the
+  party's behalf.
 
-Two go, wherever they appear:
+- **Be specific, not generic.** A tag, a name, a threat, or a rule earns its place by ruling
+  things out - by making some later choices easy and others wrong. *Dark, mysterious,
+  dangerous* could describe half the settings in the genre and directs nothing; anything this
+  generic, at any level, was not worth writing. Specificity is also what makes the three tests
+  checkable at all, since a generic line can't be tested against anything.
 
-- **What the players will feel, conclude, or remember.** The facts are the page's business;
-  the reading is theirs.
-- **A claim nobody at the table could witness** - reach across time or space, exclusivity,
-  what has or has not happened elsewhere. State the observable and stop.
+- **A clue announces a secret; it must not also be its answer.** What says something is here
+  is local and plainly visible - a seam, a draft, a floor worn toward a blank face. What
+  *opens* it is met outside this location: a name learned three regions back, a rite watched in
+  public, a mark a waystone taught. A secret whose presence and whose
+  answer both sit entirely inside itself is a search roll wearing a costume.
 
-## The sentence budget
+- **A secret is opened by an act, not a roll.** Standing somewhere, clearing something,
+  speaking a name, looking back. If a player can look at the thing and reason about it, the
+  reasoning is the mechanic and a roll takes it away from them.
 
-Measured off the endorsed baseline, at about fourteen words to the sentence.
+- **Every gate has an answer that is not the gate, and the answer is priced.** Not a second
+  door - a longer road, a worse road, a road that arrives in the wrong place. Both branches
+  cost something, and which is the mistake is never written down. Where the way round is
+  cheaper in time it is still priced, as what the party arrives *without* - unpractised,
+  unmet, burning light they will want later.
 
-- A **Feature** is one to four sentences of about fifteen words each. Past twenty words a
-  sentence is long; past four sentences it is two Features, or it is carrying content a
-  registry owns.
-- A **Player Summary** is one to three sentences, same lengths.
-- **Referee Notes** are the same sentences, with no separate allowance.
-- **Full stops are free.** Length is the constraint, not punctuation. Where a fact wants a
-  second sentence it gets one.
-- **No trailing explanatory clause.** A clause hung off the end to say why the thing is there,
-  what it used to be for, or what it shows is cut rather than shortened. Its usual joints are
-  `rather than`, `which is why`, and `meaning that`.
+- **A guardian is a condition unless the location's own rates say otherwise.** A thing that
+  will not touch anyone wearing the right mark; a thing that escalates through three refusals
+  before it strikes; a toll-taker who bans rather than kills. Where a guardian does answer with
+  violence, its condition is still stated - what it lets past is the handle, and a guardian
+  with none is a fight with a costume on.
 
-One Feature and one Player Summary from the same entry, to shape:
+- **Repetition before explanation.** Show the same stone four times across two regions before
+  anything names it. Recognition is worth more than information and costs less. A motif repeats
+  as an object a party meets again, never as a sentence repeated about it - the moment it
+  carries a statement, the rule above governs and it is said once.
 
-> A bare stone room, fifteen feet square, holding nothing but its own **floor** - one slab of
-> it, wall to wall, without a seam. Something beneath it creaks as the first boot lands.
+- **Withholding is content.** At least one genuinely rich-looking room per region contains
+  nothing. A question the setting declines to answer is an answer where nothing elsewhere
+  answers it either; the same question answered in the next region is an omission, not a
+  refusal.
 
-> **Weighted Floor:** One slab spans the room, pivoting on an iron rod set east wall to west.
-> Weight past the centre -> it tips, and everything on it slides into the pit below (Test of
-> Fate, Condition). Crossed from both sides at once -> it holds level. The pit is ten feet
-> deep, and a pole set on the slab draws its creak first.
+- **Trope is free structure; defiance is funded by convention held elsewhere.** Naming a trope
+  imports a whole shape for three words, and the budget saved buys the detail that could only
+  be this instance. A setting that subverts constantly teaches players that nothing means what
+  it looks like, and then every clue placed anywhere goes unread.
 
-## The tells
+- **Nothing is asserted that no one at the table could witness.** *In living memory*, *nobody
+  has moved it in years*, *the only one of its kind anywhere*, *matching nothing else here* -
+  each is a claim about absence across time or space, which no party can check and no referee
+  can adjudicate. State the observable and leave the inference unwritten: *unworn under thick
+  dust*; *the same line, on every token*. An unverifiable claim is a conclusion with its
+  working thrown away, and the players are left unable to reach either half.
 
-A tell is the signature of a class of failure - a candidate to read, not an error.
-`style/tells.txt` is the list, and `python3 tools/metrics.py --tells [PATH]` reports it over
-any markdown; until it exists, the four in force are the ones `tools/metrics.py`
-carries. **Clear a tell by rewriting the line.** Swapping a word or dropping in a comma to
-satisfy the pattern leaves the failure in place and costs the measurement too.
+- **State the nil.** A field that resolves to nothing says so. An omitted field is ambiguous -
+  did the writer decide, or forget? - and a written *none* is a decision on the page.
+
+- **Every bolded noun in a Player Summary appears below it as a Feature.** The summary is a
+  promise about what the room contains, and an unkept one sends the referee improvising the
+  thing the entry was supposed to hand them.

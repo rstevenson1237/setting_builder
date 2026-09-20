@@ -29,8 +29,6 @@ GENRE
         elaboration, drawn from the chosen reference and Q2
   1     A short paragraph stating what player characters are here, stated the way GENRE.md's
         B/X-Conan default states it - not heroes, not the resolution of anything
-  1     The fixed "What a line has to earn" section - both tiers - reproduced verbatim from
-        `templates/Genre.md` - never reauthored per genre
   1     A naming-convention line, settled by Q2 rather than assumed
 ```
 
@@ -227,9 +225,6 @@ of a Mythic Underworld looks like, what its magic costs) and fold in whichever Q
 user dialed away from the reference's own defaults. State each as a constraint the way the
 current Low Magic / Points of Light / Mythic Underworld bullets constrain, never as mood.
 
-**What a line has to earn** is copied from `templates/Genre.md` verbatim, regardless of
-which reference was chosen.
-
 **The location-name exception is fixed regardless of naming convention.** Whichever of Q2's
 three naming options is chosen - constructed-language-heavy, a disclosed real-world
 inspiration, or sparse/utilitarian - a location's own name is still plain and descriptive,
@@ -246,10 +241,10 @@ chaos made manifest, is the constant across references; its dressing is not.
 
 **Pushing past the Seed pool.** Nothing above requires picking from the list in this file -
 it is a menu, not a ceiling, and a user naming their own reference outside it is answered on
-its own terms once it clears the eligibility test above. What doesn't move regardless of
-reference chosen is the fixed three-test section and the container/data, stub-before-file,
-and cash-out mechanics the rest of this framework is built from - those are the load-bearing
-parts, not the genre dressing.
+its own terms once it clears the eligibility test above. `STYLE.md`'s fixed three-test
+section and the container/data, stub-before-file, and cash-out mechanics the rest of this
+framework is built from don't move regardless of reference chosen - those are the
+load-bearing parts, not the genre dressing.
 
 `patterns/setting/Tags.md` owns tag-building - what a tag is, the intentionality test,
 the pool shape - read at step 1b, right after this one. What stays here is everything

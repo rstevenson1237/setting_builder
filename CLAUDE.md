@@ -7,20 +7,17 @@ the build log, `patterns/SPEC.md` is the field spec.
 
 ## The three tests outrank everything
 
-Every line of every artifact, at every level, must pass GENRE.md's three tests under
+Every line of every artifact, at every level, must pass STYLE.md's three tests under
 **What a line has to earn**: every word is translated (a setting fact must reach players as
 something they can see, hear, be told, pick up, or decide about, or it's cut); setting that
 is not actionable cannot be played (every fact names its Handle - a truth with no Handle is
 a tag, an event with no Left mark is backstory); never make the player's decision for them
 (state what's true and visible, never what they'll conclude). A line that fails these is
 cut even where a template asks for it, and a template that keeps producing such lines is
-the wrong template. **Re-read GENRE.md and `STYLE.md` at every generation step - don't rely
-on having read them once.** `GENRE.md` decides whether a line lives; `STYLE.md` is how the
-surviving line is written - the sources, the one register, which referee asides are allowed,
-the sentence budget, and the tells. Two failure modes to watch: genre drift (an authored
-plot creeping in, magic becoming common, an implied central authority), and inert prose
-(mood in place of a handle, a fact restated downward from the level where it was already
-true).
+the wrong template. **Re-read GENRE.md and STYLE.md at every generation step - don't rely
+on having read them once.** Two failure modes to watch: genre drift (an authored plot
+creeping in, magic becoming common, an implied central authority), and inert prose (mood in
+place of a handle, a fact restated downward from the level where it was already true).
 
 ## STEPS.md is the authority
 
