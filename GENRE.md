@@ -34,6 +34,6 @@ template.
 Naming draws on an invented phoneme-and-root system rather than a disclosed real-world
 culture's texture: proper nouns across this setting are built from a constructed language -
 its phoneme inventory, syllable shapes, affixes, and root list seeded in `setting/Language.md`
-at step 1d - rather than echoing a real-world people outright. A location's own name is
+at step 1c - rather than echoing a real-world people outright. A location's own name is
 still plain and descriptive, drawn from the common tongue, not freshly coined, though it may
 carry a name coined elsewhere and glossed for the referee.

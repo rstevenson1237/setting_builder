@@ -1,6 +1,6 @@
 Tongues of Telar
 
-*(Seeded generic at step 1d; tailored and first drawn on for real coinage at step 2a
+*(Seeded generic at step 1c; tailored and first drawn on for real coinage at step 2a
 onward.)*
 
 ## Marchspeech

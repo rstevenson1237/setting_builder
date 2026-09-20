@@ -11,12 +11,10 @@ three tags fresh.
 ```
 TAGS
   25    Tags, each one or two words, each with a one-line gloss
-  1     Every tag traces to the chosen reference's own concrete iconography, or a Q2
-        answer that mattered - the same intentionality test patterns/setting/Genre.md's
-        own tag bank already uses
+  1     Every tag traces to GENRE.md's chosen reference and its own concrete iconography,
+        or one of its axis bullets - never a theme word introduced for its own sake
   1     Flat - no rating split. Rating-specific texture is the compiled tier-2 pattern
-        files' job now (see patterns/setting/Genre.md's own Kind-related files), not the
-        tag pool's
+        files' job now, not the tag pool's
 ```
 
 **This replaces `GENRE.md`'s old Safe/Wild/Dangerous/People/Creatures tag bank outright.**
@@ -26,8 +24,7 @@ regardless of whether it was used. This file's pools stay pure color; the struct
 of that old job now belongs to the compiled tier-2 pattern files (demeanor and personality
 examples in `dangerous/Creature.md`, `wild/Creature.md`, `safe/People.md`).
 
-**What makes a good tag** - the same test `patterns/setting/Genre.md` already uses for its
-own tag-building: it represents a theme (compresses something already true of the chosen
+**What makes a good tag**: it represents a theme (compresses something already true of the chosen
 reference down to a word or two, rather than introducing a new idea of its own); it acts
 as an index (scannable, findable again by a step that doesn't already know it's there); it
 constrains the material (rules something out, per "Be specific, not generic" - a tag

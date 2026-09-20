@@ -2,7 +2,7 @@
 
 ## Provides
 The setting's name and the referee-facing outline every other artifact builds on. Tags
-are decided separately, by `patterns/setting/Tags.md` at step 1b - this file only points
+are decided separately, by `patterns/setting/Tags.md` at step 1a - this file only points
 to them.
 
 ## Spec
