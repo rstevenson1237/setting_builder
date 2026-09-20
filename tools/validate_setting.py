@@ -618,11 +618,6 @@ ROMAN_TABLES = {"I", "II", "III", "IV", "V"}
 # Feature explains itself, dates itself, or writes down the party's conclusion.
 # Removing the slot is cheaper than judging what fills it, and unlike the prose
 # heuristics elsewhere in this file it is decidable, so separators are errors.
-#
-# Length is not. Eight words to a segment and four segments (six with a "->")
-# are the target, but a legal sentence one word over is a judgement call about
-# phrasing, so those warn. A citation is outside the grammar - it is machinery,
-# not prose - and is stripped before anything is counted.
 # ---------------------------------------------------------------------------
 
 # Every parenthesised group is stripped before the grammar is applied: a
@@ -632,10 +627,9 @@ ROMAN_TABLES = {"I", "II", "III", "IV", "V"}
 # behind the machinery.
 CITATION_RE = re.compile(r'\s*\([^()]*\)')
 BANNED_SEP_RE = re.compile(r'(;|(?<!\*):(?!\*)|\s[-\u2013\u2014]\s|\.\s+\S)')
+# feature_segments() below is still used by tools/metrics.py's corpus report;
+# the validator itself no longer caps segment count or length.
 SEG_SPLIT_RE = re.compile(r'\s*(?:,|->)\s*')
-SEG_MAX_WORDS = 8
-SEG_MAX_COUNT = 4
-SEG_MAX_COUNT_ARROW = 6
 LIST_ITEM_WORDS = 3
 
 
@@ -727,22 +721,9 @@ def check_feature_grammar(diag: Diagnostics, path: Path, label: str, body: str):
         diag.error(path, f"Feature '{label}' uses {what} - per instruction 5 of "
                          f"templates/Location.md a Feature is one sentence separated "
                          f"only by ',' and '->'")
-        # Segments are meaningless across an illegal separator, and the line is
-        # being rewritten regardless - a length warning on top is just noise.
         return
     if stripped and not body.rstrip().endswith((".", ")")):
         diag.error(path, f"Feature '{label}' does not end in a period")
-
-    segs = feature_segments(body)
-    cap = SEG_MAX_COUNT_ARROW if "->" in stripped else SEG_MAX_COUNT
-    if len(segs) > cap:
-        diag.warn(path, f"Feature '{label}' runs {len(segs)} segments against a cap of "
-                        f"{cap} - mechanics buy length, prose does not")
-    for seg in segs:
-        n = len(seg.split())
-        if n > SEG_MAX_WORDS:
-            diag.warn(path, f"Feature '{label}' has a {n}-word segment "
-                            f"(cap {SEG_MAX_WORDS}): {seg!r}")
 
 
 def check_location_file(diag, path, region_code, num, stub, rating, all_locations,
