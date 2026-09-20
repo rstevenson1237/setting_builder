@@ -108,9 +108,6 @@ A classifier may cite a file that is itself a classifier - `Encounter` drawing
 category earns a middle level instead of being a rename. A middle file is worth adding only
 when the kind beneath it is a real choice of two or more.
 
-`patterns/setting/Genre.md` carries extra sections beyond the skeleton. It is an
-interactive elicitation procedure and those sections are that procedure.
-
 ## The blocks a classifier's Spec is grouped into
 
 A classifier states its lines under named blocks, and the blocks answer the same four

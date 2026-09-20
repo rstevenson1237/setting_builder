@@ -150,9 +150,6 @@ def check_pattern_files(diag: Diagnostics):
 #
 # "## Design patterns" stays optional: it is the per-build compiled content
 # (STEPS.md step 1b), and most files legitimately have none.
-#
-# patterns/setting/Genre.md carries extra sections - it is an interactive
-# elicitation procedure and those sections are the procedure.
 # ---------------------------------------------------------------------------
 
 
@@ -300,8 +297,11 @@ def check_read_set_graph(diag: Diagnostics):
     if not PATTERNS.exists() or not STEPS_MD.exists():
         return
     g = read_set_graph()
+    bodies = step_bodies()
     for sid, names in sorted(g["step_templates"].items()):
         if not names:
+            if bodies.get(sid, "").strip().lower().startswith("retired"):
+                continue
             diag.warn(STEPS_MD, f"step {sid} names no template - a step's template is what "
                                 f"names the pattern files the step reads")
         for name in sorted(names):
