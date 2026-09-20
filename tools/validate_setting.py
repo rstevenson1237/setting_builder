@@ -701,11 +701,11 @@ def feature_segments(body: str) -> list[str]:
 
 
 # ---------------------------------------------------------------------------
-# GENRE.md - every bolded noun in a Player Summary appears below it as a Feature
+# STYLE.md - every bolded noun in a Player Summary appears below it as a Feature
 #
 # The summary is a promise about what the room contains, and an unkept one sends
 # the referee improvising the thing the entry was supposed to hand them. The rule
-# is absolute in GENRE.md, but matching a summary's phrasing to a Feature is not:
+# is absolute in STYLE.md, but matching a summary's phrasing to a Feature is not:
 # a summary bolding "the pale residue" is kept by a Feature named "Warded
 # Shelving" whose line describes that residue. So this warns rather than errors,
 # and matches generously - against whole Feature lines rather than their labels
@@ -736,7 +736,7 @@ def _summary_tokens(phrase: str) -> set[str]:
 
 
 def check_summary_promises(diag: Diagnostics, path: Path, summary: str, lines: list[str]):
-    """Per GENRE.md, a bolded noun in the Player Summary is a Feature below it."""
+    """Per STYLE.md, a bolded noun in the Player Summary is a Feature below it."""
     joined = re.sub(r"'s\b", "", " ".join(lines).lower())
     for raw in BOLD_RE.findall(summary):
         phrase = raw.strip()
@@ -746,7 +746,7 @@ def check_summary_promises(diag: Diagnostics, path: Path, summary: str, lines: l
         if any(tok in joined for tok in tokens):
             continue
         diag.warn(path, f"Player Summary promises **{phrase}** but no Feature below it "
-                        f"carries that name - per GENRE.md the summary is a promise about "
+                        f"carries that name - per STYLE.md the summary is a promise about "
                         f"what the room contains, and the referee improvises an unkept one")
 
 

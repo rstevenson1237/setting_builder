@@ -13,8 +13,10 @@ current by construction, and any summary of them here would not be.
 Read these rather than a description of them.
 
 - `GENRE.md` - this build's thematic spine (era, tone, magic level, structure), customized
-  at STEPS.md step 1a, plus the fixed **What a line has to earn** section: the three tests
-  every line at every level must pass. The tests outrank every template.
+  at STEPS.md step 1a.
+- `STYLE.md` - the fixed **What a line has to earn** section: the three tests every line at
+  every level must pass, and the standing consequences already settled from them. Fixed
+  across every genre, never reauthored. The tests outrank every template.
 - `STEPS.md` - the authoritative, sequential build log. Every artifact created follows a
   numbered step here (e.g. `4c`) naming its template and pattern file. Step ids grow by
   suffix and are never renumbered.
