@@ -149,7 +149,7 @@ def check_pattern_files(diag: Diagnostics):
 # side of the neutral/compiled split, so it was folded back in.
 #
 # "## Design patterns" stays optional: it is the per-build compiled content
-# (STEPS.md step 1b), and most files legitimately have none.
+# (STEPS.md step 1a), and most files legitimately have none.
 # ---------------------------------------------------------------------------
 
 
@@ -410,9 +410,9 @@ def check_repeated_prose(diag: Diagnostics):
 
 
 # ---------------------------------------------------------------------------
-# STEPS.md step 1b's compile list vs. the tree
+# STEPS.md step 1a's compile list vs. the tree
 #
-# Step 1b rewrites the "## Design patterns" section of every pattern file
+# Step 1a rewrites the "## Design patterns" section of every pattern file
 # that carries one - that section is the per-build compiled content, and a
 # Spec is never rewritten. So the compile list and the set of files carrying
 # the section are the same set, stated twice, and they drift apart silently:
@@ -424,7 +424,7 @@ def check_repeated_prose(diag: Diagnostics):
 # answer once that decision is made.
 # ---------------------------------------------------------------------------
 
-COMPILE_LIST_RE = re.compile(r'^\s*-\s+1b\..*?\*\*Compile list\*\*(.*)$', re.M)
+COMPILE_LIST_RE = re.compile(r'^\s*-\s+1a\..*?\*\*Compile list\*\*(.*)$', re.M)
 
 
 def check_compile_list(diag: Diagnostics):
@@ -432,7 +432,7 @@ def check_compile_list(diag: Diagnostics):
         return
     m = COMPILE_LIST_RE.search(STEPS_MD.read_text())
     if not m:
-        diag.warn(STEPS_MD, "step 1b names no '**Compile list**' - step 1b's compiled "
+        diag.warn(STEPS_MD, "step 1a names no '**Compile list**' - step 1a's compiled "
                              "files cannot be checked against the tree without one")
         return
     listed = {f"{folder}/{fname}"
@@ -441,12 +441,12 @@ def check_compile_list(diag: Diagnostics):
                 for p in sorted(PATTERNS.glob("*/*.md"))
                 if "\n## Design patterns\n" in p.read_text()}
     for rel in sorted(listed - carrying):
-        diag.error(STEPS_MD, f"step 1b's compile list names {rel}, which carries no "
-                              f"'## Design patterns' section - step 1b would have "
+        diag.error(STEPS_MD, f"step 1a's compile list names {rel}, which carries no "
+                              f"'## Design patterns' section - step 1a would have "
                               f"nothing to compile into it")
     for rel in sorted(carrying - listed):
         diag.error(STEPS_MD, f"patterns/{rel} carries '## Design patterns' but is not on "
-                              f"step 1b's compile list - its examples would never be "
+                              f"step 1a's compile list - its examples would never be "
                               f"recompiled for a new setting")
 
 
@@ -1550,7 +1550,7 @@ def report_topology(regions: dict, region_locs: dict, region_edges: dict) -> lis
 # Main
 # ---------------------------------------------------------------------------
 
-# Seeded at STEPS.md 1b/1c, before any setting content exists. Their presence does
+# Seeded at STEPS.md 1a/1b/1c, before any setting content exists. Their presence does
 # not mean a setting has been generated.
 SEED_FILES = {"Procedures.md", "Language.md", "Tags.md"}
 

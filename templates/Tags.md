@@ -3,7 +3,7 @@
 ## Purpose
 A flat, genre-derived pool of thematic tags, each with a one-line gloss - pure seed/color
 material. Two instances exist per setting, same shape: `setting/Tags.md` (setting-wide,
-~25 tags, generated at step 1b) and one `setting/region/[Code]/Tags.md` per region
+~25 tags, generated at step 1a) and one `setting/region/[Code]/Tags.md` per region
 (region-specific, ~25 more, generated alongside that region's Overview at step 3).
 `Setting.md` and every Region Overview point to the matching pool with a single tag-line
 instead of embedding tags inline, and a location's gazetteer stub draws exactly two tags -

@@ -67,7 +67,7 @@ So, when writing or editing any of them:
   second copy of an edge something upstream owns. `## Provides` carries the boundary against
   a sibling file and a pointer to the authority for anything adjacent; nothing else.
 - **`## Design patterns` is compiled content**, carried only by the files on STEPS.md step
-  1b's compile list. Check that list before adding or removing the section.
+  1a's compile list. Check that list before adding or removing the section.
 
 ## Pattern citation format
 

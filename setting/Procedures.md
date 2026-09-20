@@ -1,6 +1,6 @@
 Procedures of Telar
 
-*(Seeded generic at step 1c; tailored to this setting's own Truths and treasure at step 2h,
+*(Seeded generic at step 1b; tailored to this setting's own Truths and treasure at step 2h,
 and this heading is not touched again then - tailoring changes numbers and adds
 resolutions, never the shape below.)*
 

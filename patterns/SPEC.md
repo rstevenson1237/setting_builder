@@ -10,7 +10,7 @@ Two things are true of a pattern file's content, and they are independent:
 
 - **Neutral and permanent** - true of this framework in any setting, any genre. Written
   once, never rewritten by a build.
-- **Specific and compiled** - true of *this* setting only. Rewritten at STEPS.md step 1b
+- **Specific and compiled** - true of *this* setting only. Rewritten at STEPS.md step 1a
   from the chosen genre reference.
 
 Almost every rule below follows from keeping those two apart. The generator answers
@@ -64,7 +64,7 @@ ends know about it. If a line requires another pattern file, the parentheses go 
 line.
 
 `1` is mandatory; a percentage is the rate at which a feature carrying that content
-appears. Neutral and permanent - step 1b never rewrites a Spec.
+appears. Neutral and permanent - step 1a never rewrites a Spec.
 
 That two-way rule is what makes the library a single tree. A file whose Spec has outgoing
 edges is a classifier; a file whose Spec is all questions is a leaf. Neither is declared
@@ -79,10 +79,10 @@ five baseline lines are constant, so they are Dressing's.) This is the same test
 
 ### `## Design patterns` *(optional, and budgeted)*
 The deliberate injection of highly specific content that keeps generated output from
-reading flat. **Specific and compiled** - rewritten at step 1b from the chosen genre
+reading flat. **Specific and compiled** - rewritten at step 1a from the chosen genre
 reference. A section here is a claim that this file's output would be too generic without
 it; which files can make that claim is settled by what the file's output is, in "Which
-files earn patterns" below. The files that carry one are exactly STEPS.md step 1b's compile list -
+files earn patterns" below. The files that carry one are exactly STEPS.md step 1a's compile list -
 the two sets are checked against each other by `tools/validate_setting.py`.
 
 ### `## Constraints`
@@ -189,7 +189,7 @@ already is: its demand end is moving out. Prefer splitting to carrying both.
 **What the file's output is** answers this, and mode does not. A file that fills a
 location's body - its Dressing, its Kind, an ingredient drawn into it, a hook hanging off
 it - is where flat output would show, so that is where specific content is spent: those
-files carry `## Design patterns`, and they are step 1b's compile list. A file that supplies
+files carry `## Design patterns`, and they are step 1a's compile list. A file that supplies
 a *shape applied to* a location carries none, because a shape reads the same whatever
 reference was chosen. One thing is a shape: `Naming`, a procedure.
 
@@ -204,7 +204,7 @@ A **middle-tier** classifier is decided by body-versus-shape like anything else,
 split both ways: one whose output is the dispatch, with the Kind beneath filling the body,
 carries none; one that names what a hoard actually holds is filling the body itself, and
 carries patterns. Being a classifier is not by itself the test. This is the library's most persistent drift: an option
-menu reads like content, and filing it as compiled content licenses step 1b to rewrite it
+menu reads like content, and filing it as compiled content licenses step 1a to rewrite it
 for the next setting - an *edge* included.
 
 ## What a spec line owes

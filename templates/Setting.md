@@ -2,7 +2,7 @@
 
 ## Purpose
 Defines the setting's name and a short referee-facing outline - the foundation every other
-document builds on. Thematic tags live in `setting/Tags.md`, not here - see step 1b.
+document builds on. Thematic tags live in `setting/Tags.md`, not here - see step 1a.
 
 ## Context
 Read first:
