@@ -10,8 +10,7 @@ Two things are true of a pattern file's content, and they are independent:
 
 - **Neutral and permanent** - true of this framework in any setting, any genre. Written
   once, never rewritten by a build.
-- **Specific and compiled** - true of *this* setting only. Rewritten at STEPS.md step 1a
-  from the chosen genre reference.
+- **Specific and compiled** - true of *this* setting only.
 
 Almost every rule below follows from keeping those two apart. The generator answers
 neutral questions; the specific content exists to stop those answers coming out flat. A
@@ -79,11 +78,9 @@ five baseline lines are constant, so they are Dressing's.) This is the same test
 
 ### `## Design patterns` *(optional, and budgeted)*
 The deliberate injection of highly specific content that keeps generated output from
-reading flat. **Specific and compiled** - rewritten at step 1a from the chosen genre
-reference. A section here is a claim that this file's output would be too generic without
-it; which files can make that claim is settled by what the file's output is, in "Which
-files earn patterns" below. The files that carry one are exactly STEPS.md step 1a's compile list -
-the two sets are checked against each other by `tools/validate_setting.py`.
+reading flat. **Specific and compiled.** A section here is a claim that this file's output
+would be too generic without it; which files can make that claim is settled by what the
+file's output is, in "Which files earn patterns" below.
 
 ### `## Constraints`
 Every prohibition: what belongs in another file, what this file must never do, a named
@@ -189,7 +186,7 @@ already is: its demand end is moving out. Prefer splitting to carrying both.
 **What the file's output is** answers this, and mode does not. A file that fills a
 location's body - its Dressing, its Kind, an ingredient drawn into it, a hook hanging off
 it - is where flat output would show, so that is where specific content is spent: those
-files carry `## Design patterns`, and they are step 1a's compile list. A file that supplies
+files carry `## Design patterns`. A file that supplies
 a *shape applied to* a location carries none, because a shape reads the same whatever
 reference was chosen. One thing is a shape: `Naming`, a procedure.
 
@@ -204,8 +201,8 @@ A **middle-tier** classifier is decided by body-versus-shape like anything else,
 split both ways: one whose output is the dispatch, with the Kind beneath filling the body,
 carries none; one that names what a hoard actually holds is filling the body itself, and
 carries patterns. Being a classifier is not by itself the test. This is the library's most persistent drift: an option
-menu reads like content, and filing it as compiled content licenses step 1a to rewrite it
-for the next setting - an *edge* included.
+menu reads like content, and filing it as compiled content miscategorizes it - an *edge*
+included.
 
 ## What a spec line owes
 
@@ -265,10 +262,6 @@ name rather than the pattern that produces it.
 
 Run `python3 tools/validate_setting.py` to see it; the script is the list. This section
 states only what the checks *mean*, which is not readable off them.
-
-The compile-list check holds STEPS.md and the tree to the same answer; it does not decide
-the answer. Whether a given file *earns* patterns is the body-versus-shape judgement above
-and stays a human call.
 
 **Reachability is checked, and it is the one graph question worth a machine.** The
 validator walks STEPS.md to `templates/` to each template's named pattern files and out
