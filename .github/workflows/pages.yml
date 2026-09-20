@@ -5,6 +5,10 @@ on:
     branches: [main]
     paths:
       - "setting/**"
+      # build_site.py never reads setting/checks/ - it renders the checklist
+      # page from templates/*_Judgement_Check.md instead - so a judgement
+      # check update alone shouldn't trigger a redeploy.
+      - "!setting/checks/**"
       # patterns.html is generated from patterns/*/*.md, so a pattern edit
       # has to redeploy the site or the published graph goes stale.
       - "patterns/**"
