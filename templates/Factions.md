@@ -5,26 +5,24 @@ The 3 factions present in the setting - the powers a party may treat with, oppos
 
 ## Context
 Read first:
-- `GENRE.md`, and `STYLE.md` for the register a setting-level line is written in.
-- `patterns/setting/Factions.md` - **how the three dice are set, what a faction may want,
-  what an identity is made of, and what makes each field below usable.** This template
-  states only the shape they sit in.
+- `GENRE.md`
+- `patterns/setting/Factions.md`
 - `setting/Setting.md`, `setting/History.md`, `setting/Truths.md`
 - `setting/Rumours.md`, `setting/Bestiary.md`
 
 ## Instructions
-Fill the block below per `patterns/setting/Factions.md`'s Spec, once per faction. The
-Action Dice pool resolves Faction Turns per `setting/Procedures.md`.
+List 3 factions present in the setting. Each carries an Action Dice pool used to resolve
+Faction Turns.
 
 ## Template
 ```
 Factions of [Setting Name]
 
 [Faction Name] - AD: Xd6
-- Resources: [...]
-- Knowledge: [...]
-- Tactics: [...]
-- Reactions: [..., at three intensities - noticed, crossed, injured]
-- Identity: [...]
-- Goals: [...]
+- Resources: [material assets, territory, coin, or manpower they can spend or leverage]
+- Knowledge: [what they know that others don't - secrets, locations, or rivals' intentions]
+- Tactics: [their characteristic move when contested - how they typically act on a Faction Turn]
+- Reactions: [how they respond when players or rival factions interfere with them, at three intensities - noticed, crossed, injured]
+- Identity: [what a party sees before anyone names the faction - a colour worn, a device on seals and crates, a way of tying a knot or marking a door, a phrase. Repeated identically everywhere this faction appears, so it can be recognised two regions apart]
+- Goals: [one or more concrete objectives currently driving their turns]
 ```

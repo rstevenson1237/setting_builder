@@ -40,39 +40,59 @@ WILD - LANDMARK
   1     Naming, after everything above                (patterns/setting/Naming.md)
 ```
 
-**A Landmark can be named, revisited, and connected to.** That is the test that separates
-one from terrain. A stretch of eroded slope, a brook, a field of flowers belong in the
-Region Overview's Terrain field; written as locations they waste a slot the region cannot
-spare.
+**A Landmark can be named, revisited, and connected to.** That is the test, and it is what
+separates a Landmark from terrain. A stretch of eroded slope, a brook, a field of flowers
+- these are what the region looks like, they belong in the Region Overview's Terrain
+field, and writing them as locations wastes a slot the region cannot spare.
 
-**The deeper the tier, the more the entry pays.** The rated lines here come to about 0.6 of
-a Feature, Hidden's to 0.8, Secret's to 1.0. Access is what the gradient is priced against.
+**The deeper the tier, the more the entry pays.** The rated lines here come to about
+0.6 of a Feature, Hidden's to 0.8, Secret's to 1.0. Access is what the gradient is priced
+against: a Landmark costs nothing to reach, so most of them are allowed to be a place and
+nothing more, while a location a party spent an action looking for and a clue acting on
+owes them something for it.
 
-**Which children a Landmark carries is read off the graph, not rolled here.** The region's
-`Connections.mmd`, written at 4b, already says which Landmarks have children and by which
-edge, so the lead lines are mandatory per child and absent otherwise. A Hidden child whose
-parent never stated the detail leading to it is unreachable.
+**Which children a Landmark carries is read off the graph, not rolled here.** Per
+`region/Wild.md` the region's `Connections.mmd`, written at 4b, already says which
+Landmarks have children and by which edge - a normal edge to a Hidden child, a hidden
+(`-.-`) edge to a Secret one. So the lead lines are mandatory *per child the graph gives
+this Landmark* and absent otherwise; they are not a rate, the same way
+`dangerous/Low.md`'s concealment rates follow from edges the graph already drew. A Hidden child
+whose parent never stated the detail leading to it is unreachable.
 
-**Outdoors a clue is weather and time, not construction**: a hollow that has slumped; a
-covering rotted through; a plant growing where the ground was disturbed; frost melting in a
-shape; water draining where it should pool; growth younger than the growth around it; a path
-worn to nowhere; a mark cut above standing height.
+**Naming comes last because a place is named for what turned out to be there.** It is the
+one pass that gets cheaper by running after everything else is decided.
 
-**A party can walk past a whole hillside.** A room has four walls and a party will look at
-all of them; a Landmark has a horizon. State the clue against the reason the party stopped
-here, so it sits where they are already standing.
+**Position is Dressing's, not this file's.** `wild/Dressing.md` already states a bearing
+from the region's entry or another named Landmark for every WILD location that has one;
+the line was written twice and is answered there.
+
+**Outdoors a clue is weather and time, not construction.** Nothing here was built to
+conceal anything; the country covered it. A hollow that has slumped; a covering rotted
+through; a plant growing where the ground was disturbed; frost or dew melting in a shape;
+snow lying differently; water draining where it should pool; a stone moved and settled
+wrong; growth younger than the growth around it; a path worn to nowhere; a mark cut above
+standing height; a cairn that is a marker rather than a grave.
+
+**A party can walk past a whole hillside**, which is the way an outdoor clue fails that an
+underground one does not. A room has four walls and a party in it will look at all of
+them; a Landmark has a horizon. State the clue against the reason the party stopped here,
+so it sits where they are already standing rather than somewhere they had no cause to go.
 
 ## Constraints
 
 - **A Crossing is chosen for what it costs to go around, not for who built or lives
-  there.** Its physical form can be a Ruin's, a Natural Feature's, or held like a Lair -
-  Kind is exactly one, so pick Crossing when the location's point is that the region's own
-  shape forces the party through it.
+  there.** Its physical form can be a Ruin's (a bridge, a causeway), a Natural Feature's
+  (a ford, a pass), or held like a Lair - Kind is exactly one, so pick Crossing when the
+  location's point is that the region's own shape forces the party through it; pick Ruin
+  or Natural Feature instead when the same object's point is its history or its
+  strangeness and the route through it is incidental.
 
-- **Crossing is a Landmark kind only**, which is why `wild/Hidden.md` and `wild/Secret.md`
-  draw three kinds and this file four. A crossing nobody can find is not doing the only job
-  the kind has.
+- **Crossing is a Landmark kind only**, which is why `wild/Hidden.md` and
+  `wild/Secret.md` draw three kinds and this file four. A crossing exists because going
+  around it is expensive, so the country itself advertises it; one nobody can find is
+  not doing the only job the kind has.
 
-- **A Landmark's concealed detail never pays out a route.** Ways onward are its child-lead
-  lines, one per child the graph actually hangs here. A Payload that is a way through
-  invents an edge the graph does not carry.
+- **A Landmark's concealed detail never pays out a route.** Ways onward from a Landmark are
+  its child-lead lines, one per Hidden or Secret child the region's `Connections.mmd`
+  actually hangs here. A Payload that is a way through invents an edge the graph does not
+  carry, and the two then disagree about what this place connects to.

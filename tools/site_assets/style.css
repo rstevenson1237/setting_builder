@@ -577,10 +577,6 @@ code {
   padding: 0.5rem;
 }
 .pattern-chip-row { display: flex; flex-wrap: wrap; gap: 0.3rem; }
-.pattern-list { margin: 0 0 0.3rem; border-left: 2px solid var(--line); padding-left: 0.5rem; }
-.pattern-list summary { cursor: pointer; font-size: 0.8rem; font-weight: 600; }
-.pattern-list ol { margin: 0.3rem 0 0; padding-left: 1.4rem; font-size: 0.78rem; line-height: 1.45; }
-.pattern-list .hint { margin: 0.2rem 0 0; font-size: 0.74rem; }
 .pattern-chip {
   font-family: ui-monospace, monospace;
   font-size: 0.68rem;
@@ -601,9 +597,3 @@ code {
 .block-meta { color: var(--ink-soft); font-size: 0.85rem; margin: 0 0 0.6rem; text-transform: capitalize; }
 
 .data-table td.settled { color: var(--ink-soft); font-size: 0.85rem; }
-
-.draw-record { margin-top: 2rem; color: var(--ink-soft); font-size: 0.85rem; }
-.draw-record summary { cursor: pointer; }
-.draw-record ul { list-style: none; padding: 0; margin: 0.6rem 0 0; }
-.draw-record li { margin-bottom: 0.3rem; }
-.draw-record code { font-size: 0.8rem; margin-right: 0.4rem; }

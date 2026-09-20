@@ -506,7 +506,7 @@ style/
   exemplars/                                      six golden entries, read at 4c (P1.2)
   tells.txt                                       the tell list the validator reads (P2.2)
 fixtures/
-  bad/  good/                                     the entry each tell fires on, and the near miss (P2.2)
+  bad/  good/                                     known-bad entries per tell; the exemplars (P2.2)
   briefs/drakenhold.md                            the campaign-scale brief, committed (P0.2)
   control/                                        the three control arms and their outputs (P0.2)
 tools/                                            as now, plus draw.py, context.py, map.py, metrics.py, --status
@@ -559,24 +559,39 @@ Pro-plan sitting for an Opus agent.
 report and **Baseline metrics** below is its output, naming the two figures in Part one
 it does not reproduce and the one push that section still owes.
 
-~~**P0.2 Run the control, three arms, on the user's twelve-room map.**~~ Landed.
-`fixtures/control/COMPARISON.md` is the acceptance table, item by item and arm by arm, with
-the arm outputs beside it: `arm0-prompt.md`/`arm0-output.md`, `arm1-output.md`, and
-`arm2-prompt.md`/`arm2-brief.md`/`arm2/`. Three results bind later phases and are recorded
-there rather than restated here: the framework wins the four registry-shaped items and
-loses "short descriptive sentences" and "B/X stat lines" to the eighty-word prompt;
-`templates/Region.md`'s Overview field mandates an absence claim `GENRE.md` forbids, and
-`templates/Location.md`'s one-sentence Feature rule produces 27.9 words per sentence
-against the endorsed baseline's 13.8, both of which P1 has to settle; and arm 1 ran without
-its Notes, which the comparison's Methodology section prices.
+**P0.2 Run the control, three arms, on the user's twelve-room map.**
+- Files: `fixtures/control/arm1-prompt.md` (committed: the user's real prompt and map,
+  verbatim); the Notes supplied at run time from out of tree; each arm's output
+  committed beside it; a comparison note in the commit body.
+- Steps: the baseline that reliably produces a playable one-shot turned out to be
+  about 80 words of prompt, the Design Notes as context, and a numbered room list with
+  dimensions, fixtures and `->` exits. All three arms build that same twelve-room
+  dungeon so the comparison is like for like:
+  - **Arm 0, no prompt**: the map and "write a one-page dungeon for it", nothing else.
+  - **Arm 1, the short prompt**: `arm1-prompt.md` with the Notes attached, exactly as
+    the user runs it.
+  - **Arm 2, the framework**: the map converted to `Locations.md` and a block diagram
+    (by hand until `tools/map.py` exists, P4.3), then 3c and 4c as `STEPS.md` stands
+    today, as one DANGEROUS region of one block, with a two-line brief.
+  A second example prompt, `fixtures/control/arm1b-prompt.md`, is conversational: no
+  map, no rules, "start with a proposed idea, pause for feedback, iterate until
+  finished", one safe site and one adventure site. Its output is committed beside it
+  (`arm1b-output.md` and its map) and is already read in Part two; arm 1b is therefore
+  a reading, not a generation, and it is the reference register for Phase 1. Its real
+  value is as evidence that the baseline is a feedback loop and not a prompt, which is
+  what `STEPS.md`'s per-region close (P5.2) and the brief (P5.1) formalise.
+  Judge all arms with `templates/Setting_Judgement_Check.md`'s items, `metrics.py`'s
+  tells, and one more question per arm: could a referee run it tonight?
+- Acceptance: a table in the commit body, item by item and arm by arm, and one
+  sentence per item naming which framework artefact produced the difference, or that
+  nothing did. This decides how hard Phases 3 and 6 cut. The user's prompt also names
+  three things the framework claims to supply and the control gets for free: tags,
+  short descriptive sentences, and B/X stat lines. Whether arm 2 does any of the three
+  better is the sharpest reading of this table.
 
 ### Phase 1: the house style (four to six sessions)
 
-~~**P1.1 Write `STYLE.md`.**~~ Landed. `STYLE.md` is the positive target and `CLAUDE.md`
-names it beside `GENRE.md` as re-read at every generation step. The branch form is the
-template's `->`, not a colon, at the user's call.
-
-Original task, kept for what it specifies:
+**P1.1 Write `STYLE.md`.**
 - Files: new `STYLE.md`; `CLAUDE.md` names it beside `GENRE.md` as re-read at every
   generation step.
 - Steps: under 800 words, in this order: the three published sources and what is taken
@@ -593,24 +608,7 @@ Original task, kept for what it specifies:
 - Acceptance: a reader who has never seen the repository writes one Feature and one
   Summary from `STYLE.md` alone. The user approves before P1.2.
 
-~~**P1.2 Write the exemplars.**~~ Landed. `style/exemplars/` holds the six, its README
-naming each one's class file and the three cases a single exemplar per class would not show.
-The validator's new `check_exemplars` runs the location checks over
-`style/exemplars/location/` on every invocation, generated setting or not, which is what
-makes them a floor; `parse_location_body` was split out of `check_location_file` so a
-standalone exemplar and a generated location are read by the same code. `metrics.py`'s
-fixed context now carries `STYLE.md` and the exemplar, which P1.1 had left it understating.
-Six files, 0 errors, 0 warnings, 0 tells; 18 Features at 3.2 sentences and 14.9 words per
-sentence against the endorsed baseline's 13.8.
-
-Two things the task text did not anticipate. The measured density sits at the top of
-`STYLE.md`'s one-to-four budget because every rate-`1` line the class draws has to be
-visibly present, which is the acceptance's own requirement; the thinner target P1.6 set for
-Telar is not reachable by an exemplar that shows a full draw. And `templates/Region.md` has
-no exemplar check behind it - the validator reads no Region Overview fields at all - so
-`region/DANGEROUS.md` is a target P1.4 writes to and nothing mechanical holds it there.
-
-Original task, kept for what it specifies:
+**P1.2 Write the exemplars.**
 - Files: new `style/exemplars/`: one SAFE working location, one WILD landmark with a
   hidden child, DANGEROUS high, medium and low, one DANGEROUS region overview. Codes
   `X.n`, no Telar nouns.
@@ -625,28 +623,11 @@ Original task, kept for what it specifies:
 - Acceptance: the user approves all six; they pass the location checks with zero
   warnings; they are the regression floor for every later grammar change.
 
-~~**P1.3 Replace the punctuation ban with a sentence budget.**~~ Landed. Instruction 5 now
-carries the line's shape only and cites `STYLE.md` for every sentence-level rule;
-`check_feature_grammar` errors on the dash-hung clause and on prose after a citation, and
-warns on a fifth sentence, a sentence past twenty words, and the two comma artifacts of the
-grammar it replaces. Telar: 0 errors, 154 warnings, and `metrics.py` reports sentences where
-it reported segments, with all four tell counts unchanged against the baseline.
-
-Three things the task text did not anticipate, each settled in the commit body: "a citation
-sits last" was only coherent while a Feature was one sentence and is now "a citation closes
-its sentence"; checking parentheses against the documented citation forms surfaced 11 in
-Telar that match none of them, including four `(Faction: Name)` that no template defines and
-`build_site.py` does not link, left as warnings because adding the form would change
-rendering, which this task's acceptance forbids; and the tell warnings are not wired in,
-since the tells live in `metrics.py` and P2.2 owns `style/tells.txt` as the one list. The
-Player Summary's one-to-three sentences are stated in the template and not yet checked.
-
-Original task, kept for what it specifies:
+**P1.3 Replace the punctuation ban with a sentence budget.**
 - Files: `templates/Location.md` instruction 5; `check_feature_grammar`.
-- Steps: the sentence budget is `STYLE.md`'s, and instruction 5 cites it rather than
-  restating a second number; branches are sentences joined by `->`, which still means
-  trigger to effect; a citation sits last; no trailing ` - ` clause and no non-citation
-  parenthesis. Delete
+- Steps: a Feature is one to three sentences, each about twenty words or fewer;
+  `Label: outcome.` branches are sentences; `->` still means trigger to effect; a
+  citation sits last; no trailing ` - ` clause and no non-citation parenthesis. Delete
   the eight-word segment and comma-only rules. The check errors on the trailing clause
   and stray parenthesis, warns on a fourth sentence or a long one, warns on each tell,
   and warns on a comma inside a phrase (`, the ` or `, a ` after a preposition).
@@ -654,58 +635,13 @@ Original task, kept for what it specifies:
   cleared by P1.6. The rendered shape of a location (site and PDF) is unchanged: this
   task touches sentences, not the format.
 
-~~**P1.4 Bring the Region Overview under the same style.**~~ Landed. `templates/Region.md` is
-59 lines, down from 113: its per-field descriptions are gone, because
-`patterns/region/Safe.md`, `Wild.md` and `Dangerous.md` each already carried a complete
-rating-specific list of the same fields, and the template's generic copy had begun to
-disagree with all three. What survives is the shape - the field order `site_common.py`
-parses, the five rating marks, the table - plus the two cross-field rules that live nowhere
-else. `STYLE.md` gains the region field's budget, measured off the exemplar rather than
-guessed: three to four sentences at seventeen words, longer than a Feature because the
-overview is read once and then mined.
-
-The step the task did not anticipate is that it closes P0.2's sharpest finding. The Overview
-field demanded "the one thing true of this region that is not true of the others", which is
-an absence claim across space and `GENRE.md` forbids it; the field now asks what stands in
-the way now. Two of the three rationale paragraphs went nowhere rather than to `STYLE.md`:
-"a field with no handle is scenery" and "say it once at the highest level" are both
-`GENRE.md` verbatim, which is why the file had grown to 113 lines. The Layout field's
-"distances in yards (short) or miles (long), per `setting/Procedures.md`" cited a rule
-`Procedures.md` does not carry - only `patterns/region/Wild.md` states units, and only for
-WILD. Nothing in `setting/` is edited, the 83-page site builds unchanged, and
-`templates/` drops 1,220 words.
-
-Still open, and P1.2 flagged it: the validator reads no Region Overview fields, so the
-region exemplar is a target with nothing mechanical holding it there.
-
-Original task, kept for what it specifies:
+**P1.4 Bring the Region Overview under the same style.** Parallel with P1.5.
 - Files: `templates/Region.md`; `STYLE.md` region section.
 - Steps: field descriptions cut to one line each pointing at the region exemplar;
   rationale paragraphs moved to `STYLE.md` where they are style, cut where history.
 - Acceptance: `templates/Region.md` under 60 lines.
 
-~~**P1.5 Bring the setting-level artifacts under the same style.**~~ Landed. The five
-templates now carry Purpose, the read set, the phase their pointer column is filled in, and
-the block's shape - nothing about what a field contains. The acceptance held on the first
-pass and was not the binding constraint: the budgets these templates restated are owned by
-`patterns/setting/*.md`'s Spec, not by `STYLE.md`, and the same is true of every field
-description they carried. `templates/Rumours.md`'s three Instructions paragraphs were a
-second copy of that file's Spec and all four of its Constraints;
-`templates/Bestiary.md` promised in one paragraph that modifier and MA scaling lived in the
-pattern file and restated both fractions in the next.
-
-`STYLE.md` gains the two things it does own and was missing. Its one-register section claimed
-the Player Summary was the only line spoken aloud, which a rumour has always contradicted.
-And the setting-level line now has a budget bullet that points at each artifact's
-`patterns/setting/*.md` Spec for the count rather than carrying a third copy of it.
-
-The step the task did not anticipate: `templates/History.md` and `templates/Truths.md` both
-said their pointer lines fill at `4d`, and so did `patterns/setting/History.md` and
-`patterns/setting/Truths.md`. STEPS.md 4d is the five registries only; 5c is where Left
-lines, Handles and the Settled-at column are filled, and STEPS.md wins. All four now read
-5c. `templates/Rumours.md` had it right and is where the discrepancy showed.
-
-Original task, kept for what it specifies:
+**P1.5 Bring the setting-level artifacts under the same style.**
 - Files: `templates/History.md`, `Truths.md`, `Rumours.md`, `Bestiary.md`, `Factions.md`.
 - Steps: state each budget once in `STYLE.md` and cite it.
 - Acceptance: no template restates a rule `STYLE.md` owns.
@@ -723,29 +659,7 @@ Original task, kept for its measurements:
 
 ### Phase 2: feedback intake and the rule ladder (two sessions)
 
-~~**P2.1 Write `FEEDBACK.md`.**~~ Landed. `FEEDBACK.md` carries the eight routes, the toll
-on a rule, and the log; `CLAUDE.md` gains the one line routing feedback through it, and
-`README.md` lists it as an authority. Two things the task did not anticipate, both from the
-retro-classification the acceptance asks for.
-
-Fourteen of `d15f10e`'s twenty-one Constraints state a boundary against a sibling file and
-never came through the feedback door at all, so the file needs a section saying what is not
-an item: `patterns/SPEC.md` already decides where a boundary lives, and routing one through
-the log would fill it with entries no output produced. That is also why the acceptance's
-prediction is reported against the twelve items that *are* feedback, where six land on R2,
-rather than against every prohibition the three pull requests added.
-
-The other is the toll. Of those twelve, two rule additions named the judgement-check item
-that would read them back, and both are in `ae492fa`, the last of the three - the ladder was
-being climbed already, one pull request before the plan was written. P2.3's cut list gains
-one entry the classification turned up: `dangerous/Mystery.md`'s "never write what the
-fixture is for above the details it is reasoned from" is `GENRE.md`'s third test restated
-one file down.
-
-Still owed: the user has not read the routes. Approving them is the half of the acceptance
-a session cannot close.
-
-Original task, kept for what it specifies:
+**P2.1 Write `FEEDBACK.md`.**
 - Files: new `FEEDBACK.md`; one `CLAUDE.md` line: feedback on generated content is
   routed through it before any file changes.
 - Steps: the routes, in the order they are tried:
@@ -767,97 +681,12 @@ Original task, kept for what it specifies:
 - Acceptance: the user approves the routes; the last three PRs' rule additions are
   retro-classified as a worked example, and most land on R2.
 
-~~**P2.2 Make the tells data, with fixtures.**~~ Landed. `style/tells.txt` is the list, one
-signature per line, and the engine moved into `validate_setting.py` so `metrics.py` carries
-no pattern of its own. Every calibration figure in **Baseline metrics** reproduces exactly -
-47/8/0/20 over the keyed locations, 69/26/4/20 over `setting/region` whole, 3/4/11/4 over
-the baseline module - which is what says the list is the same four tells and not four new
-ones. A tell now has a pass and a fail: `fixtures/bad/<key>.md` is an entry it must fire on,
-the optional `fixtures/good/<key>.md` is one it must not, and both are checked on every run,
-generated setting or not. Telar is unchanged at 0 errors and 154 warnings, and the site
-builds at 83 pages.
-
-Three things the task text did not anticipate. **`fixtures/good/` is not the exemplars.**
-Copying them under `fixtures/` would have made a second copy nothing keeps current, so the
-exemplars are read where they live and are the good corpus for **every** tell at once, held
-at zero as an error: a pattern that fires on the endorsed register is measuring the wrong
-thing. What `good/` holds instead is the near miss - the lines carrying a loose tell's
-vocabulary legitimately, which it must not fire on. That is the half of a signature no
-comment could hold: the absence claim's local negative and bare `elsewhere`, and the
-determiner-opened Feature that names its object without glossing it. `rather than` is exact
-and has no near miss, which is why `good/` is optional.
-
-Both halves are **location entries, checked by the same body parse the exemplars are**, so a
-fixture is bad in its prose and sound in its shape - a tell fires on a page that the
-structural checks pass, which is the whole claim a tell makes. And the four tells' rationale
-comments left `metrics.py` for `tells.txt`'s header, where the file's grammar and each
-tell's rule now live; the calibration history stays in **Baseline metrics** and nowhere else.
-
-Original task, kept for what it specifies:
+**P2.2 Make the tells data, with fixtures.**
 - Files: new `style/tells.txt`, `fixtures/bad/`, `fixtures/good/` (the exemplars);
   `validate_setting.py --fixtures`; CI.
 - Acceptance: CI green; adding a tell is one line plus one fixture.
 
-~~**P2.3 Audit the Constraints and consequences.**~~ Landed. The standing consequences are
-ten, from thirteen, and the Constraints are 66 across 39 files, from 76. The cap has room
-under it rather than a queue at it.
-
-**Two merges, and both were pairs that spent four lines pointing at each other.** *Say a
-fact once* and *Repetition before explanation* each closed by naming the other as the case
-it did not govern; one consequence now states the difference itself - a statement is said
-once, an object is shown again, and a motif that starts carrying a statement has become a
-fact. *A clue announces a secret* and *A secret is opened by an act* are the two halves of
-one chain, what says the thing is here and what opens it, and neither half is readable
-without the other.
-
-**Two cuts, and both are rules `STYLE.md` already owns.** The unwitnessable claim and the
-Player Summary's bolded nouns were in `GENRE.md`, in `STYLE.md`, and - for the second - in
-`templates/Location.md`'s own summary line and in the validator. `GENRE.md` decides whether
-a line lives and `STYLE.md` how the surviving line is written, and both of these are the
-second question: the fact stays, the phrasing changes. Their readbacks moved with them, so
-`style/tells.txt`'s `absence claim` and the validator's summary check now cite `STYLE.md`,
-and `FEEDBACK.md`'s worked example records where each rule went rather than leaving
-`ae492fa`'s row pointing at a consequence that is gone.
-
-**The baseline column answered a question the task did not ask.** Exactly one consequence is
-broken by `fixtures/control/arm1b-output.md` - the unwitnessable claim, four times, opening
-with *Several parties have entered in living memory* - and it is one of the two cut. The
-sharper result is on the other side of the column. Three of the rules the baseline appears
-to honour unprompted are in its seventy-word prompt: *Do not tell a story* is the situations
-consequence, *give details for the players to interact with* is the second test, and *enough
-information for the referee to make rulings* is the first. The baseline is not evidence that
-a model reaches those without being told; it is evidence that being told is enough, and what
-arm 0 did without being told is in `fixtures/control/COMPARISON.md` rows 6 and 4. So the
-diagnostic-not-generative reading applies to fewer rules than the column suggests, and
-nothing moved to the checks on it alone.
-
-**The new consequence is F7, and it pays R5's toll.** *One fact per region points past the
-edge of the map*, with a per-region row of the same name in
-`templates/Setting_Judgement_Check.md` that reads it back, and the item logged in
-`FEEDBACK.md` naming R2 and R3 as what was tried first.
-
-**Six Constraints went, and four of them `FEEDBACK.md` had already classified.** The average
-door, the blank container, the countable swarm and the region-scale terrain each landed in
-`d15f10e` as a list *and* a prohibition against the average that list had just made
-unlikely; three are cut outright and the swarm's rule moved onto `dangerous/Creature.md`'s
-Number Spec line, where it is neutral and permanent instead of sitting in compiled content.
-Two more were `GENRE.md`'s third test restated one file down - `dangerous/Mystery.md`'s
-fixture-with-a-password, which `FEEDBACK.md` had already named a cut candidate for this
-task, and `dangerous/Door.md`'s *Never state what an exit means*. Three entries merged:
-`dangerous/Door.md`'s two on telling exits apart, `patterns/setting/Rumours.md`'s two on the
-third test, and the ward rate, which `Door.md` and `Mystery.md` each capped at one per
-region independently, so a region could draw two wards and break neither entry. `Door.md`
-also lost *Never reclassify an edge here*, which its own Spec prose states two paragraphs
-above. `wild/Dressing.md` gave up the half of its length entry that the `rather than` tell
-and `STYLE.md`'s no-trailing-clause rule already carry.
-
-**One finding this task does not act on.** Prohibitions are living in Spec prose where
-`patterns/SPEC.md` says Constraints is where every prohibition lives - `dangerous/Treasure.md`'s
-*Never name or describe the contents of a table roll* is the clearest. Sweeping that
-direction would add entries to the sections this task was cutting, and it is prose placement
-rather than rule content, so it belongs with P6.1.
-
-Original task, kept for what it specifies:
+**P2.3 Audit the Constraints and consequences.**
 - Files: every Constraints section; `GENRE.md` and `templates/Genre.md`.
 - Steps: table each entry as keep, list (move to a `genre/` list, cut here), tell,
   exemplar, merge, or cut. One more column: **does the baseline break it?** Read each
@@ -870,45 +699,7 @@ Original task, kept for what it specifies:
 - Acceptance: consequences at or under twelve; no Constraint a list or tell already
   covers; the fixed block byte-identical in both files.
 
-~~**P2.4 The motif-saturation tell.**~~ Landed. All four figures reproduce without the
-words being named: tally in 6 rooms across A, C, D, E; toll in 8 across A, B, C, D; cairn
-in 5 across B, D, E; sealed in 17 across A, D, E - and at the setting level toll 54,
-Essath 48, sealed 38, bound 24. Telar goes from 154 warnings to 219, which is 46 spread
-motifs and 19 seeded ones, and stays at 0 errors.
-
-**It counts a word, not a noun.** Two of the four the task names - sealed, bound - are
-participles, and nothing in the standard library decides a part of speech. So the unit is
-the content word left after the exclusions, and the exclusions are what carry the weight.
-
-**The tokenizer is half the result.** The setting-level figures do not reproduce until a
-hyphen splits and a possessive drops: toll reaches 54 only where *toll-master* is two
-words, Essath 48 only where *Essath's* is one of them. Both are how the corpus actually
-writes these words, so the count follows the corpus.
-
-**The exclusion has three sources and only one of them is in `tells.txt`.** The
-validator's own stopword list and its structural constants - the Bestiary types, the WILD
-classifications, the DANGEROUS weights - already hold their half and are read where they
-live; the setting's names are read from `Bestiary.md`, `Factions.md` and `Language.md`.
-What `tells.txt` gains is what nothing else holds: the citation machinery, the measures,
-the bearings, the room's own furniture, the condition words the lists supply, and the
-general language the stopword list does not reach.
-
-**A name of one word is excluded and a name of several is not.** Taking the words of
-*Bound Dead*, *The Serpent Cult* and *Sunk-Temple Horror* would have taken bound, cult,
-serpent, sunk and temple with them - and bound is one of the four figures the seed signal
-is asked to reproduce. A one-word name is Brekar, Nirguk, Tolkar, and its recurrence is a
-proper noun doing its job.
-
-**Three things the task text did not anticipate.** The seed signal needs a threshold of
-its own, so `motif | seed | N` is a third setting and sits at 24, where the list ends on
-the lowest figure the task quotes. `tells.txt` gains a third line form, which costs
-`motif` as a tell key, and the rule that a vocabulary named again extends it - the ignore
-vocabulary is some three hundred words and would otherwise be one line nobody can read.
-And `STYLE.md` is a fourth file, outside the task's list: it defined a tell as the
-signature of a class of failure, the motif has no signature, and leaving that would have
-put `tells.txt` in contradiction with the authority it cites for what a tell is.
-
-Original task, kept for what it specifies:
+**P2.4 The motif-saturation tell.**
 - Files: `tools/metrics.py`; `tools/validate_setting.py`; `style/tells.txt` gains a
   section for it.
 - Steps: measured on Telar while writing this task, the user's named motifs are not
@@ -929,55 +720,41 @@ Original task, kept for what it specifies:
 
 ### Phase 3: the four trees (five sessions)
 
-~~**P3.1 Reduce `patterns/` to contracts and create `genre/`.**~~ Landed. All 37 compile-list
-files' `## Design patterns` sections are 115 numbered lists under `genre/bx-1981/lists/`
-(11,117 words), reached by `(genre: name)` on the Spec line that draws them; the skeleton is
-three sections; `STEPS.md` 1b selects a pack instead of compiling; the validator replaces the
-compile-list check with the two list checks and `--read-set` prints the cited lists; the
-pattern page renders each cited list beside the Spec citing it.
+**P3.1 Reduce `patterns/` to contracts and create `genre/`.**
+- Files: all `patterns/*/*.md`; new `genre/bx-1981/`; `SPEC.md`; `STEPS.md` 1b; the
+  validator's compile-list and read-set checks; the site's pattern page.
+- Steps: for each of the 37 files on the compile list, move the `## Design patterns`
+  section into `genre/bx-1981/lists/`, split by what it lists: the menus become one file
+  per list (`doors.md`, `door-condition.md`, `containers.md`, `purposes.md`,
+  `clues-underground.md`, `clues-outdoors.md`, `clues-social.md`, `demeanours.md`,
+  `dispositions.md`, `mechanisms-nuisance.md`, and so on), one entry per line, numbered.
+  The neutral file keeps Provides, Spec and Constraints, and every Spec line that was a
+  menu or a "what it is" question now cites its list: `1 Type (genre: doors)`. Prose
+  beneath the block is cut to what changes a generator's output; expect two thirds to
+  go. `SPEC.md`'s skeleton becomes three sections and gains the list-citation form.
+  The validator checks every `(genre: name)` resolves to a list in the selected pack
+  and every list is cited by at least one line; `--read-set` adds the cited lists.
+- Acceptance: zero errors; no `## Design patterns` under `patterns/`; `patterns/` at
+  or under 12,000 words; the site renders contract and lists side by side.
 
-**One acceptance figure was not met, and the estimate was wrong rather than the work.**
-`patterns/` came out at 25,497 words against the stated 12,000. The floor is arithmetic: the
-fenced contracts are 8,549 words, `SPEC.md` is 2,614, and `setting/Genre.md`'s elicitation
-procedure is 2,085 and cannot move to a pack because it is what *chooses* the pack - 13,200
-before a single `## Provides` or `## Constraints`, and `CLAUDE.md` makes Constraints
-mandatory. Reaching 12,000 would have meant deleting prohibitions to hit a number. What the
-cut actually bought is the figure P3.2 is aimed at: a DANGEROUS LOW location's pattern read
-set falls from 15,126 words to 6,730, and `patterns/` plus `genre/` together are 36,614
-against the baseline's 45,774. Re-state the target against those numbers if it is worth
-keeping.
-
-~~**P3.2 Make the draw arithmetic, and assemble the context.**~~ Landed. `tools/draw.py`
-draws a list entry and settles a rated line from a blake2b of the location's code, with
-`--reroll` stepping a list and reseeding a rate; `tools/context.py 4c CODE` walks the class
-file and prints the resolved stream. 4c and `templates/Location.md` now say to run it and
-write to what it printed; the site carries the draw record as a collapsed note, recomputed
-rather than stored, and the PDF does not.
-
-**Four things the generator used to decide are now arithmetic, and three of them were not
-in the task.** The rate and the draw were. What the word target turned out to need was the
-other two, and both are read off the line's own shape rather than off a list in the tool:
-an alternation pairing one file per alternative is a Kind, so one branch is in context
-instead of all of them; a line conditional on something already drawn - `Guarded:`, `where
-the challenge is an encounter` - is dropped where the block drew otherwise. A dimension
-settled in one file is inherited by the next rather than drawn twice, and a line naming a
-classifier and one of its own kinds (`mechanism fixed to trap`) settles that kind before
-the file is read. Every one of them fails toward printing more: an alternation that does
-not pair one-to-one, or a condition naming nothing the block drew, is left whole.
-`patterns/SPEC.md` now states the four shapes a Spec line owes, since a pattern file
-written another way resolves silently wrong.
-
-**The figure is met at the median and not at the tail.** A DANGEROUS medium location's
-stream runs 5,315-6,826 words, median 5,784, against the 17,172 that class read before;
-over the whole corpus, 4,441-7,434, median 5,637, and 21 of 64 locations sit above 6,000 -
-all of them HIGH weight, or in the two regions whose Overview is itself 1,000 words. The
-remaining arithmetic is in the open: the fixed half is the template (1,296), the region
-overview (687-1,002), `Truths.md` (399) and the exemplar (306), all named by this task; the
-contract half is the resolved blocks plus the Spec prose (936 at the median for a medium)
-and the Constraints (799). Dropping either of those last two clears 6,000 for every class,
-and both were kept for the reason P3.1 gave for not reaching 12,000 by deleting
-prohibitions. `tools/metrics.py` now measures the stream itself rather than the file list
-`templates/Location.md` used to carry, so the number moves when the framework does.
+**P3.2 Make the draw arithmetic, and assemble the context.**
+- Files: new `tools/draw.py`, new `tools/context.py`; `templates/Location.md`
+  instructions; `STEPS.md` 4c.
+- Steps: `draw.py <location-code> <list-name>...` returns, per list, an index and the
+  entry, derived from a hash of the code and the list name, with `--reroll N` to move
+  on. Rated lines (`40%`) resolve the same way against a fixed threshold.
+  `context.py 4c <location-code>` then prints, in one stream and nothing else: the
+  class contract, the drawn entries (not the lists), the region brief, the region
+  overview, this location's stub and its edges from the diagram with the far ends'
+  names only, `setting/Truths.md`, the exemplar for this rating and weight, the
+  template, and the citation grammar. It never prints a sibling location, and it
+  prints a registry only as the names a citation may use. 4c's instruction becomes:
+  run `context.py`, write to what it printed. The site's location page may show the
+  draw record as a collapsed note for the user's review; the PDF never.
+- Acceptance: criterion 7 in Part five; the user rerolls one draw on one exemplar and
+  the entry changes without a rule changing; `context.py 4c` for a DANGEROUS medium
+  location prints under 6,000 words, which is where the Pro-plan budget is actually
+  won.
 
 **P3.3 Build the B/X 1981 baseline pack.**
 - Files: `genre/bx-1981/PACK.md`, `Tags.md`, `Vocabulary.md`, `Bestiary.md`; the

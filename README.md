@@ -15,14 +15,9 @@ Read these rather than a description of them.
 - `GENRE.md` - this build's thematic spine (era, tone, magic level, structure), customized
   at STEPS.md step 1a, plus the fixed **What a line has to earn** section: the three tests
   every line at every level must pass. The tests outrank every template.
-- `STYLE.md` - the positive prose target, re-read beside `GENRE.md` at every generation
-  step: what the sources contribute, the one register and how a spoken Player Summary differs
-  from it, which referee asides are allowed, the sentence budget, and the tells.
 - `STEPS.md` - the authoritative, sequential build log. Every artifact created follows a
   numbered step here (e.g. `4c`) naming its template and pattern file. Step ids grow by
   suffix and are never renumbered.
-- `FEEDBACK.md` - the routes a reaction to generated content is classified against before
-  any file changes, and the log of what each item landed as.
 - `patterns/SPEC.md` - the full field spec for pattern files.
 - `setting/Procedures.md` - the authority on dice, scaling, time and resolution.
 - `CLAUDE.md` - always loaded as system context; the rules needing active re-checking on
@@ -33,13 +28,10 @@ Read these rather than a description of them.
 - `templates/` - one template per artifact type, each structured **Purpose / Context /
   Instructions / Template**. A template's own Context section lists exactly which files to
   read before drafting; don't pull in more than it names.
-- `patterns/` - the contracts, in five folders matching the five levels of generation:
+- `patterns/` - pattern guidance, in five folders matching the five levels of generation:
   `setting/`, `region/`, `safe/`, `wild/`, `dangerous/`. A generation step reads only the
   folder matching what it is building. Every file shares one skeleton, specified in
-  `patterns/SPEC.md`, and carries nothing specific to a setting.
-- `genre/` - one directory per genre pack, each holding `lists/` - the numbered draw lists
-  a Spec line reaches with `(genre: name)`. This is where a build's specific content lives;
-  which pack a build draws from is settled at STEPS.md step 1b.
+  `patterns/SPEC.md`.
 - `setting/` - the generated setting, mirroring the template set in the order STEPS.md lays
   out: setting-level artifacts, Treasure Tables I-V, the two living artifacts
   (`Procedures.md`, `Language.md`), the five registries (`Lore.md`, `Keys.md`, `Quests.md`,
@@ -48,23 +40,12 @@ Read these rather than a description of them.
 - `setting/region/[Code]/` - one region: its own `Tags.md` pool, its `Locations.md`
   gazetteer, its connection diagrams, and one `[LocationCode].md` per location. The Region
   Overview sits beside it at `setting/region/[Code].md`.
-- `style/` - what the register looks like on a finished page. `exemplars/` holds one per
-  class, read beside the template at generation and checked by the validator on every run.
-  `tells.txt` is the tell list, and the authority on its own grammar and on what each tell
-  checks.
-- `fixtures/` - neither framework nor setting. `bad/` and `good/` hold the entry each tell
-  fires on and the near miss it must not, per `style/tells.txt`; `control/` holds the P0.2
-  control arms and `briefs/` the campaign-scale brief.
 - `checks/` - output of the judgement checks (STEPS.md step 5): non-mechanical review
   passes `tools/validate_setting.py` can't do, following the checklist format in the
   matching `templates/*_Judgement_Check.md`.
 - `tools/` - exactly what content generation needs and nothing else. Stdlib-only Python, no
   package manager, no test framework beyond running these against the content.
   - `validate_setting.py` - structural linter, run in CI on every pull request.
-  - `draw.py` - which entry a genre list gives a location, and whether a rated Spec line
-    fires there, both derived from the location's code.
-  - `context.py` - the whole read set for one location at step 4c, resolved by `draw.py`
-    and printed as one stream. It is what a 4c session opens.
   - `build_site.py` / `build_pdf.py` - render `setting/` into a website and a PDF, with no
     separate copy to keep in sync.
   - `site_common.py` - parsing helpers shared by the two builders.
@@ -74,12 +55,9 @@ Read these rather than a description of them.
 ## Commands
 
 ```sh
-python3 tools/context.py 4c D.5             # everything step 4c reads, for one location
-python3 tools/draw.py D.5 doors --reroll 1  # move one draw on
 python3 tools/validate_setting.py           # structural lint
 python3 tools/validate_setting.py --pending [REGION]    # edges owed to unwritten blocks
 python3 tools/validate_setting.py --read-set [STEP]     # what a step reads, per the graph
-python3 tools/validate_setting.py --fixtures           # each tell with the entries holding it
 python3 tools/metrics.py                    # corpus, tells, budget and read-set report
 python3 tools/metrics.py --tells [PATH]     # every tell hit, listed, over any markdown
 python3 tools/build_site.py --out _site     # static site, including patterns.html

@@ -1,9 +1,12 @@
 # Dangerous - Encounter
 
 ## Provides
-Which kind of thing the party meets in a DANGEROUS location; the kind file supplies what
-fills it. Distinct from `dangerous/Hazard.md`: an encounter has something that can act on
-its own account, a hazard only reacts.
+What the party meets in a DANGEROUS location, what it is doing, and what reaches them
+before it does.
+
+Which *kind* of encounter is decided here; the kind file supplies what fills it.
+Distinct from `dangerous/Hazard.md`: an encounter has something that can act on its own
+account, a hazard only reacts.
 
 ## Spec
 
@@ -12,16 +15,21 @@ ENCOUNTER
   1     Kind    {creature | named creature | faction}
                         (dangerous/Creature.md, patterns/setting/NamedCreatures.md,
                          dangerous/Faction.md)
-  1     What it is doing when the party arrives - not waiting  (genre: creature-activity)
+  1     What it is doing when the party arrives - not waiting
   1     Number, and scale - stated by the kind file that was drawn
-  1     A sign of it readable before the encounter itself is met  (genre: creature-sign)
-  30%   Something it wants that is not a fight                   (genre: creature-wants)
+  1     A sign of it readable before the encounter itself is met
+  30%   Something it wants that is not a fight
   25%   Absent when the party arrives - its signs, and where it is instead
 ```
 
-**The sign is the line that makes an encounter survivable.** Per `GENRE.md`'s lethality
-framing the region is not sized to the party, so something they cannot beat announces
-itself a room early.
+**The sign is the line that makes an encounter survivable.** A party that meets a thing
+with no warning has had a choice taken from them. Per `GENRE.md`'s lethality framing the
+region is not sized to the party, so something a party cannot beat has to announce itself
+a room early - and the sign line is where that happens, whichever kind was drawn.
+
+**Presence is decided apart from description.** A location's occupant is not always at
+home. A room written as a den, found empty, with the thing that lives in it somewhere
+behind the party, is worth more than the same room with the thing standing in it.
 
 ## Constraints
 

@@ -93,12 +93,9 @@ CHECKLIST_SOURCES = [
 # whole file, because citation format applies everywhere, not just in Spec.
 # ---------------------------------------------------------------------------
 
-import context as ctx  # noqa: E402
 import validate_setting as vs
-from draw import DrawError  # noqa: E402
 
 PATTERNS_ROOT = ROOT / "patterns"
-GENRE_ROOT = ROOT / "genre"
 PATTERN_FOLDERS = ("setting", "region", "safe", "wild", "dangerous")
 PATTERN_CITE_RE = re.compile(
     r'(?<!/)\b(patterns/)?(' + '|'.join(PATTERN_FOLDERS) + r')/([A-Za-z]+\.md)\b'
@@ -114,35 +111,6 @@ def pattern_section(text: str, name: str) -> str:
         SECTION_RE_CACHE[name] = pat
     m = pat.search(text)
     return m.group(1).strip() if m else ""
-
-
-def parse_genre_lists() -> dict[str, dict]:
-    """The selected pack's lists, keyed by the name a Spec line cites.
-
-    A contract and the content it draws are two halves of one thing, so the
-    page carries both: the pack is read here and the inspector renders each
-    cited list beside the Spec that cites it. Which pack is selected is
-    validate_setting's answer, not a second one - a copy of that rule here is
-    a copy that drifts.
-    """
-    pack = vs.selected_pack()
-    if pack is None:
-        return {}
-    out: dict[str, dict] = {}
-    for path in sorted((pack / "lists").glob("*.md")):
-        text = path.read_text(encoding="utf-8")
-        lines = text.split("\n")
-        gloss = ""
-        entries: list[str] = []
-        for line in lines[1:]:
-            m = re.match(r'^\s*\d+\.\s+(.*)$', line)
-            if m:
-                entries.append(m.group(1).strip())
-            elif line.strip() and not gloss:
-                gloss = line.strip()
-        out[path.stem] = dict(name=path.stem, gloss=gloss, entries=entries,
-                              pack=pack.name)
-    return out
 
 
 def parse_pattern_files() -> tuple[dict[str, dict], list[str]]:
@@ -208,8 +176,8 @@ def parse_pattern_files() -> tuple[dict[str, dict], list[str]]:
             rel=rel, folder=rel.split("/")[0], filename=path.name, title=title,
             provides=pattern_section(text, "Provides"),
             spec=pattern_section(text, "Spec"),
+            design_patterns=pattern_section(text, "Design patterns"),
             constraints=pattern_section(text, "Constraints"),
-            lists=sorted(vs.spec_list_citations(text)),
             out=draws, mentions=mentions,
             incoming=[], issues=issues,
         )
@@ -666,7 +634,6 @@ def build_patterns(setting: sc.Setting, out: Path) -> None:
     """
     page = "patterns.html"
     nodes, all_issues = parse_pattern_files()
-    genre_lists = parse_genre_lists()
     import json as _json
 
     folder_order = ["setting", "region", "safe", "wild", "dangerous"]
@@ -681,8 +648,6 @@ def build_patterns(setting: sc.Setting, out: Path) -> None:
         "folder_order": folder_order,
         "folder_nodes": folder_nodes,
         "nodes": nodes,
-        "lists": genre_lists,
-        "pack": next(iter(genre_lists.values()))["pack"] if genre_lists else "",
     }
     data_json = _json.dumps(payload, ensure_ascii=False).replace("</", "<\\/")
 
@@ -701,7 +666,7 @@ def build_patterns(setting: sc.Setting, out: Path) -> None:
             f'Every citation among the {len(nodes)} files below resolves, and every file carries its '
             'Constraints heading. Checked fresh on every build. This audit is a subset of '
             'CI - <code>tools/validate_setting.py</code> also checks section presence, '
-            'read-set reachability and the genre lists in both directions.'
+            'read-set reachability and the compile list.'
             '</div>'
         )
 
@@ -713,8 +678,7 @@ def build_patterns(setting: sc.Setting, out: Path) -> None:
         'hand. A citation that is not a draw is listed separately as a mention. This is the framework\'s own '
         'authoring instructions, not the setting itself: useful while evaluating the setting, and a '
         'standing check that the instructions stay legible to a mechanical reader, not just a careful '
-        'one. Click any file below to see its contract, the genre lists its Spec draws from, and '
-        'its citations traced live.</p>',
+        'one. Click any file below to see what it provides and trace its citations.</p>',
         issues_html,
         '<div class="pattern-workspace">'
         '<div class="pattern-diagram-scroll"><div class="pattern-diagram-inner" id="pattern-diagram-inner">'
@@ -728,9 +692,8 @@ def build_patterns(setting: sc.Setting, out: Path) -> None:
 
     write_page(out, page, page_shell(
         setting, page, "Pattern Reference", "\n".join(body),
-        description=f"A live, generated draw tree of all {len(nodes)} patterns/*/*.md files, "
-                    f"the {total_edges} edges between them, and the {len(genre_lists)} genre "
-                    f"lists their Spec lines draw from.",
+        description=f"A live, generated draw tree of all {len(nodes)} patterns/*/*.md files "
+                    f"and the {total_edges} edges between them.",
         extra_scripts=["assets/patterns.js"],
         main_class="page page-wide",
     ))
@@ -883,31 +846,7 @@ def build_location(setting: sc.Setting, out: Path, code: str, num: int) -> None:
     else:
         body.append(section("Exits", '<p class="hint">None.</p>'))
 
-    body.append(draw_record(loc.code))
     write_page(out, page, page_shell(setting, page, loc.code + " " + loc.name, "\n".join(body)))
-
-
-# ---------------------------------------------------------------------------
-# The draw record
-#
-# What this location's contract drew at 4c, recomputed rather than stored: the
-# draw is arithmetic from the code, per tools/draw.py, so it is the same answer
-# a session got however long ago. It is authoring scaffolding, so it is folded
-# shut and it is on the site only - tools/build_pdf.py renders the setting a
-# referee reads at the table, and nothing here is for that reader.
-# ---------------------------------------------------------------------------
-
-def draw_record(code: str) -> str:
-    try:
-        rows = ctx.draw_record(code)
-    except (ctx.ContextError, DrawError, OSError):
-        return ""
-    if not rows:
-        return ""
-    items = "".join(f'<li><code>{html.escape(key)}</code> {html.escape(text)}</li>'
-                    for key, text in rows)
-    return ('<details class="draw-record"><summary>What this location drew</summary>'
-            f'<ul>{items}</ul></details>')
 
 
 # ---------------------------------------------------------------------------

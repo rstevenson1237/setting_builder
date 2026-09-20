@@ -23,8 +23,8 @@ Generate ~25 tags, each one or two words, each with a one-line gloss that constr
 rather than decorates - the same three-job test `patterns/setting/Genre.md` already uses
 for its own tag bank: a tag represents a theme, acts as an index, and constrains the
 material by ruling something out. Flat, not split by rating - a genre's texture applies
-regardless of where a location sits; rating-specific content is the genre pack's lists,
-not the tag pool's. Draw every tag from the chosen reference's own
+regardless of where a location sits; rating-specific content is the compiled tier-2
+pattern files' job now, not the tag pool's. Draw every tag from the chosen reference's own
 concrete iconography first, and only reach past it to fill a real gap.
 
 At region level, add texture specific to this region - don't re-derive the setting-level

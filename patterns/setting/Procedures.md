@@ -19,27 +19,31 @@ PROCEDURES
 ```
 
 **A rule belongs here if it does not change between SAFE, WILD and DANGEROUS.** If it does
-change, it is pattern content and belongs in that rating's folder.
+change, it is pattern content and belongs in that rating's folder. That test is what keeps
+this file from becoming a second rulebook.
 
-**What the seed must already answer** - exposure to something lethal; what a hazard forces
-at each of its three tiers, and in what notation; what a character who fails carries
-afterwards; what searching costs and finds without a roll; how long an action takes in each
-rating; how the three Action Dice scales relate, and that they do not; what a region die
-means and what it does not.
+**Rulings over subsystems.** Per `GENRE.md`, a procedure that needs its own bookkeeping is
+the wrong procedure for this genre. Everything here should be resolvable in one roll or no
+roll at all.
 
-**What a setting adds at 2h** - a resolution its Truths require; a currency or wage, where
+**What the seed must already answer** - what happens when a character is exposed to
+something lethal; what a hazard forces at each of its three tiers, and in what notation;
+what a character who fails carries afterwards; what searching costs and what it finds
+without a roll; how long an action takes in each rating; how the three Action Dice scales
+relate, and that they do not; what a region die means and what it does not.
+
+**What a setting adds at 2h** - a resolution its Truths require; a currency or a wage, if
 `setting/Treasure.md` needs an anchor; a travel or supply rule its geography demands; a
-condition that recurs here specifically.
+condition that recurs here specifically - cold, bad air, a sickness, a debt.
 
 ## Constraints
 
-- **Rulings over subsystems.** Per `GENRE.md`, a procedure needing its own bookkeeping is
-  the wrong procedure for this genre. Everything here resolves in one roll or none.
-
 - **What never goes here** - anything that varies by rating; anything about one place;
-  character creation; a combat system. This file exists so pattern files can cite one rule
-  instead of restating it, and it stops being able to do that the moment it holds content.
+  character creation; a combat system. This file exists so that pattern files
+  can cite one rule instead of restating it, and it stops being able to do that the
+  moment it starts holding content.
 
-- **Tailoring is adjustment, not replacement.** Step 2h changes numbers and adds resolutions
-  the setting's Truths demand; a setting that rewrites Procedures wholesale has probably put
-  pattern content in it.
+- **Tailoring is adjustment, not replacement.** The seed is generic and working. Step 2h
+  changes numbers and adds resolutions the setting's Truths demand; it does not
+  restructure the file, and a setting that rewrites Procedures wholesale has probably
+  put pattern content in it.

@@ -18,8 +18,7 @@ to run against a build in progress, not just a finished one. Errors are
 reserved for content that exists but is wrong (malformed, inconsistent with
 something else that exists, or an unresolved/malformed citation).
 
-Usage: python3 tools/validate_setting.py [--pending [REGION] | --read-set [STEP] |
-                                          --fixtures]
+Usage: python3 tools/validate_setting.py [--pending [REGION] | --read-set [STEP]]
 Exits 1 if any error is found, 0 otherwise (warnings never fail the run).
 """
 from __future__ import annotations
@@ -31,7 +30,6 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 SETTING = ROOT / "setting"
 PATTERNS = ROOT / "patterns"
-GENRE = ROOT / "genre"
 STEPS_MD = ROOT / "STEPS.md"
 
 ARTICLES = ("the ", "a ", "an ")
@@ -141,13 +139,17 @@ def check_pattern_files(diag: Diagnostics):
 # ---------------------------------------------------------------------------
 # patterns/*/*.md - section structure
 #
-# One skeleton, no declared tiers: Provides / Spec / Constraints. A Spec
-# line points to another pattern file, cites a genre list, or states a
-# question the generator answers - which makes the library one tree, since a
-# file with outgoing edges is a classifier and a file without them is a leaf,
-# read off the citations rather than asserted anywhere. "Design questions"
-# and "Design patterns" were both folded away: the first was the same grammar
-# as a Spec, and the second was per-build content that now lives in the pack.
+# One skeleton, no declared tiers: Provides / Read at / Spec / Design
+# patterns / Constraints. A Spec line either points to another pattern file
+# or states a question the generator answers, which makes the library one
+# tree - a file with outgoing citations is a classifier and a file without
+# them is a leaf, and that is read off the citations rather than asserted
+# anywhere. "Design questions" used to be a separate heading for a leaf
+# file's own contract; it was the same grammar as a Spec and on the same
+# side of the neutral/compiled split, so it was folded back in.
+#
+# "## Design patterns" stays optional: it is the per-build compiled content
+# (STEPS.md step 1b), and most files legitimately have none.
 #
 # patterns/setting/Genre.md carries extra sections - it is an interactive
 # elicitation procedure and those sections are the procedure.
@@ -162,12 +164,7 @@ def check_pattern_sections(diag: Diagnostics, path, text: str):
                               f"file carries one")
     if has("Design questions"):
         diag.error(path, "carries a '## Design questions' section, which was folded into "
-                          "'## Spec' - a Spec line cites a file, cites a genre list, or "
-                          "states a question")
-    if has("Design patterns"):
-        diag.error(path, "carries a '## Design patterns' section - per-build specific "
-                          "content is a numbered list in the genre pack, reached by a "
-                          "'(genre: name)' citation on the Spec line that draws it")
+                          "'## Spec' - a Spec line either cites a file or states a question")
 
 
 
@@ -176,65 +173,31 @@ def check_pattern_sections(diag: Diagnostics, path, text: str):
 # routinely wraps onto them. Grouping physically would split every wrapped draw
 # away from the rate that governs it.
 SPEC_RATE_RE = re.compile(r'^ {2}(1|\d+%|liner note|working|central)\s')
-# A block's own group heading - `-- challenge: what opposes the party` - which
-# belongs to the block rather than to the line above it.
-SPEC_GROUP_RE = re.compile(r'^\s*--\s')
-
-
-def spec_fenced_blocks(text: str) -> list[str]:
-    """This file's Spec fenced blocks, in order. Its contract, and nothing else."""
-    m = re.search(r'\n## Spec\n(.*?)(?=\n## Constraints\n|\Z)', text, re.S)
-    if not m:
-        return []
-    return re.findall(r'```(.*?)```', m.group(1), re.S)
-
-
-def spec_logical_lines(fenced: str) -> list[tuple[str | None, list[str]]]:
-    """A block's lines grouped as (rate, physical lines).
-
-    A rate of None is a line the block opens with or a heading between its
-    groups - kept in order, since a resolved block is read as a block.
-    """
-    out: list[tuple[str | None, list[str]]] = []
-    cur: list[str] | None = None
-    for phys in fenced.splitlines():
-        m = SPEC_RATE_RE.match(phys)
-        if m:
-            cur = [phys]
-            out.append((m.group(1), cur))
-        elif SPEC_GROUP_RE.match(phys):
-            cur = None
-            out.append((None, [phys]))
-        elif cur is not None:
-            cur.append(phys)
-        else:
-            out.append((None, [phys]))
-    return out
-
-
-def line_pattern_cites(line: str, rel: str) -> list:
-    """Pattern files one Spec line names, in the order it names them.
-
-    Order carries meaning where a line pairs an alternation with one file per
-    alternative - `{trap | environmental | residual}` and its three citations -
-    so this is a list, and a caller wanting membership takes the set of it.
-    """
-    out = []
-    for prefixed, folder, fname in PATTERN_CITE_RE.findall(line):
-        target = f"{folder}/{fname}"
-        if target == rel or (folder == "setting" and not prefixed) or target in out:
-            continue
-        out.append(target)
-    return out
 
 
 def spec_edges(text: str, rel: str):
     """Pattern files this file's Spec fenced blocks draw."""
+    m = re.search(r'\n## Spec\n(.*?)(?=\n## (?:Design patterns|Constraints)\n)', text, re.S)
+    if not m:
+        return set()
     out = set()
-    for fenced in spec_fenced_blocks(text):
-        for rate, chunk in spec_logical_lines(fenced):
-            if rate is not None:
-                out.update(line_pattern_cites("\n".join(chunk), rel))
+    for fenced in re.findall(r'```(.*?)```', m.group(1), re.S):
+        logical, cur = [], None
+        for phys in fenced.splitlines():
+            if SPEC_RATE_RE.match(phys):
+                if cur:
+                    logical.append(cur)
+                cur = [phys]
+            elif cur is not None:
+                cur.append(phys)
+        if cur:
+            logical.append(cur)
+        for chunk in logical:
+            line = "\n".join(chunk)
+            out |= {f"{folder}/{fname}"
+                    for prefixed, folder, fname in PATTERN_CITE_RE.findall(line)
+                    if f"{folder}/{fname}" != rel
+                    and not (folder == "setting" and not prefixed)}
     return out
 
 
@@ -385,10 +348,6 @@ def report_read_set(step_filter: str | None) -> int:
         print(f"  entries   : {', '.join(sorted(entries)) or '(none)'}")
         expanded = sorted(closure - entries)
         print(f"  expanded  : {', '.join(expanded) if expanded else '(none)'}")
-        lists: set = set()
-        for rel in sorted(closure):
-            lists |= spec_list_citations((PATTERNS / rel).read_text())
-        print(f"  lists     : {', '.join(sorted(lists)) if lists else '(none)'}")
         print()
     print(f"{len(g['reach'])}/{len(g['pattern_files'])} pattern files reachable from "
           f"generation templates; {len(g['orphans'])} orphan(s)")
@@ -411,8 +370,8 @@ def report_read_set(step_filter: str | None) -> int:
 # This is a warning, not an error: the judgement of whether a given repetition
 # is parallel structure stays human. Run against the tree before the sweep that
 # introduced it, it found 47 copies across 13 sentences - the Spec preamble in
-# twelve files, the edge/question rule in seven, and the compiled-content
-# note in five.
+# twelve files, the edge/question rule in seven, the compiled-content note in
+# five.
 # ---------------------------------------------------------------------------
 
 DUP_MIN_WORDS = 9
@@ -451,128 +410,44 @@ def check_repeated_prose(diag: Diagnostics):
 
 
 # ---------------------------------------------------------------------------
-# Genre lists: patterns/ contracts vs. the selected pack
+# STEPS.md step 1b's compile list vs. the tree
 #
-# A pattern file is a neutral contract; everything specific to a setting is a
-# numbered list in the selected pack under genre/, reached by a "(genre: name)"
-# citation on a Spec line. That splits one fact - which content this line
-# draws - across two trees, so it is checked in both directions:
-#
-#   - a citation naming no list in the pack is a draw the generator cannot
-#     make, and errors;
-#   - a list no Spec line cites is content the build will never reach, and
-#     errors too. A one-way check catches neither end reliably, because each
-#     failure is invisible from the other side.
-#
-# Which pack is selected: genre/ normally holds exactly one, and that is it.
-# Where it holds more, GENRE.md names the chosen one on a "Pack" line (per
-# STEPS.md step 1b) and an unnamed selection is an error, since every citation
-# in the tree would otherwise resolve against an arbitrary pack.
-#
-# Citations are read from the Spec's fenced blocks only, the same rule
-# spec_edges applies to pattern edges - a list named in the prose under a
-# block is not a draw, and counting it would let dead content stay cited.
+# Step 1b rewrites the "## Design patterns" section of every pattern file
+# that carries one - that section is the per-build compiled content, and a
+# Spec is never rewritten. So the compile list and the set of files carrying
+# the section are the same set, stated twice, and they drift apart silently:
+# the list once named 18 files while saying "every other tier-2 element
+# file", leaving fifteen carrying patterns nobody compiled and two
+# (Environmental, Residual) carrying none at all. This checks both
+# directions. Which files earn patterns is a reach-mode judgement and stays
+# a human decision - this only holds STEPS.md and the tree to the same
+# answer once that decision is made.
 # ---------------------------------------------------------------------------
 
-GENRE_CITE_RE = re.compile(r'\(genre:\s*([^)]*)\)')
-GENRE_PACK_LINE_RE = re.compile(r'^\s*[-*]?\s*\**Pack\**\s*[-:]\s*([A-Za-z0-9._-]+)\s*$', re.M)
-LIST_ENTRY_RE = re.compile(r'^\s*(\d+)\.\s+\S', re.M)
+COMPILE_LIST_RE = re.compile(r'^\s*-\s+1b\..*?\*\*Compile list\*\*(.*)$', re.M)
 
 
-def selected_pack() -> Path | None:
-    """The genre pack this build draws from, or None where there is none."""
-    if not GENRE.exists():
-        return None
-    packs = sorted(d for d in GENRE.iterdir() if d.is_dir() and (d / "lists").is_dir())
-    if not packs:
-        return None
-    if len(packs) == 1:
-        return packs[0]
-    genre_md = ROOT / "GENRE.md"
-    if genre_md.exists():
-        m = GENRE_PACK_LINE_RE.search(genre_md.read_text())
-        if m:
-            named = GENRE / m.group(1)
-            if named in packs:
-                return named
-    return None
-
-
-def pack_lists(pack: Path | None) -> set:
-    if pack is None:
-        return set()
-    return {p.stem for p in (pack / "lists").glob("*.md")}
-
-
-def list_cites(line: str) -> set:
-    """Genre lists one Spec line draws from."""
-    out = set()
-    for group in GENRE_CITE_RE.findall(line):
-        out |= {name.strip() for name in group.split(",") if name.strip()}
-    return out
-
-
-def spec_list_citations(text: str) -> set:
-    """Genre lists this file's Spec fenced blocks draw from."""
-    out = set()
-    for fenced in spec_fenced_blocks(text):
-        out |= list_cites(fenced)
-    return out
-
-
-def check_genre_lists(diag: Diagnostics):
-    if not PATTERNS.exists():
+def check_compile_list(diag: Diagnostics):
+    if not STEPS_MD.exists() or not PATTERNS.exists():
         return
-    pattern_files = sorted(p for p in PATTERNS.glob("*/*.md") if p.name != ".gitkeep")
-    cited_anywhere: set = set()
-    cited: dict = {}
-    for path in pattern_files:
-        text = path.read_text()
-        names = spec_list_citations(text)
-        cited[path] = names
-        cited_anywhere |= names
-        # A citation anywhere but inside a Spec fenced block is not a draw, and
-        # saying so where one appears is cheaper than letting it do nothing.
-        everywhere: set = set()
-        for group in GENRE_CITE_RE.findall(text):
-            everywhere |= {n.strip() for n in group.split(",") if n.strip()}
-        for name in sorted(everywhere - names):
-            diag.error(path, f"cites (genre: {name}) outside its Spec fenced block - a list "
-                             f"citation is a draw, and draws are read from the block only")
-
-    pack = selected_pack()
-    if pack is None:
-        if cited_anywhere:
-            diag.error(ROOT / "GENRE.md",
-                       f"{len(cited_anywhere)} '(genre: ...)' citation(s) in patterns/ resolve "
-                       f"against no pack - genre/ holds no pack with a lists/ directory, or "
-                       f"holds several and GENRE.md names none. See STEPS.md step 1b")
+    m = COMPILE_LIST_RE.search(STEPS_MD.read_text())
+    if not m:
+        diag.warn(STEPS_MD, "step 1b names no '**Compile list**' - step 1b's compiled "
+                             "files cannot be checked against the tree without one")
         return
-
-    known = pack_lists(pack)
-    rel_pack = pack.relative_to(ROOT).as_posix()
-    for path, names in cited.items():
-        for name in sorted(names - known):
-            diag.error(path, f"cites (genre: {name}), which is not a list in the selected pack "
-                             f"{rel_pack} - the generator has nothing to draw from")
-    for name in sorted(known - cited_anywhere):
-        diag.error(pack / "lists" / f"{name}.md",
-                   "no Spec line cites this list - nothing draws it, so the content it holds "
-                   "never reaches a build. Cite it or remove it")
-
-    # A list the draw cannot index is as broken as a missing one.
-    for path in sorted((pack / "lists").glob("*.md")):
-        text = path.read_text()
-        entries = [int(n) for n in LIST_ENTRY_RE.findall(text)]
-        if not entries:
-            diag.error(path, "holds no numbered entries - a list is one entry per line, "
-                             "numbered from 1")
-        elif entries != list(range(1, len(entries) + 1)):
-            diag.error(path, f"entries are not numbered 1..{len(entries)} in order - a draw "
-                             f"indexes them by position")
-        if not re.match(r'^#\s+' + re.escape(path.stem) + r'\s*$', text.split("\n")[0]):
-            diag.error(path, f"its first line is not '# {path.stem}' - a list is titled by the "
-                             f"name Spec lines cite it as")
+    listed = {f"{folder}/{fname}"
+              for _, folder, fname in PATTERN_CITE_RE.findall(m.group(1))}
+    carrying = {p.relative_to(PATTERNS).as_posix()
+                for p in sorted(PATTERNS.glob("*/*.md"))
+                if "\n## Design patterns\n" in p.read_text()}
+    for rel in sorted(listed - carrying):
+        diag.error(STEPS_MD, f"step 1b's compile list names {rel}, which carries no "
+                              f"'## Design patterns' section - step 1b would have "
+                              f"nothing to compile into it")
+    for rel in sorted(carrying - listed):
+        diag.error(STEPS_MD, f"patterns/{rel} carries '## Design patterns' but is not on "
+                              f"step 1b's compile list - its examples would never be "
+                              f"recompiled for a new setting")
 
 
 # ---------------------------------------------------------------------------
@@ -778,52 +653,59 @@ ROMAN_TABLES = {"I", "II", "III", "IV", "V"}
 # ---------------------------------------------------------------------------
 # The Feature grammar - templates/Location.md instruction 5
 #
-# The sentences are STYLE.md's budget and are warned on, since a line one word
-# over is a judgement call about phrasing. What errors here is the shape the
-# template owns and the validator can decide: where a citation sits, what a
-# parenthesis may hold, and the dash a trailing clause hangs off.
+# A Feature is one sentence whose only separators are "," and "->". The banned
+# punctuation is the whole point: a dash, a semicolon or a second sentence is
+# the slot a trailing clause hangs in, and the trailing clause is where a
+# Feature explains itself, dates itself, or writes down the party's conclusion.
+# Removing the slot is cheaper than judging what fills it, and unlike the prose
+# heuristics elsewhere in this file it is decidable, so separators are errors.
+#
+# Length is not. Eight words to a segment and four segments (six with a "->")
+# are the target, but a legal sentence one word over is a judgement call about
+# phrasing, so those warn. A citation is outside the grammar - it is machinery,
+# not prose - and is stripped before anything is counted.
 # ---------------------------------------------------------------------------
 
-# The citation forms templates/Location.md's Citations section lists. A
-# parenthesis in a Feature holds one of these and nothing else - a parenthetical
-# aside is the slot a trailing clause hides in.
-CITATION_FORM_RE = re.compile(
-    r'\((?:Lore|Keys|Quest|Named Creature|Unique Treasure):\s*[^()]+\)'
-    r'|\(Treasure\s+[IVX]+,\s*d20\)'
-    r'|\(Test of [A-Za-z]+,[^()]+\)'
-    r'|\([^(),]+,\s*[^(),]+,\s*Bestiary\s*:[^()]+\)'
-)
-# Any parenthesised group, stripped before prose is counted: a citation is
-# machinery, not prose, and its own commas are not the sentence's.
+# Every parenthesised group is stripped before the grammar is applied: a
+# citation is machinery, not prose, and its own commas and colons are not the
+# sentence's. Where it sits is checked separately, since instruction 5 puts it
+# last and a Feature that carries prose after one has hidden a second clause
+# behind the machinery.
 CITATION_RE = re.compile(r'\s*\([^()]*\)')
-SENT_SPLIT_RE = re.compile(r'(?<=[.!?])\s+')
-SENT_MAX = 4          # STYLE.md: a Feature is one to four sentences
-SENT_MAX_WORDS = 20   # STYLE.md: past twenty words a sentence is long
-TRAILING_DASH_RE = re.compile(r'\s[-\u2013\u2014]\s')
-# A determiner is never followed by a comma in English, so this fires only on
-# the artifact: "counting double against the, Danger track".
-COMMA_AFTER_DET_RE = re.compile(r'\b(?:the|a|an)\s*,', re.I)
-# A comma between a noun and its own prepositional phrase: "a timber bar
-# seated, in stone sockets". Phrasal particles are excluded, since "goes over,
-# and takes" is a legitimate comma.
-_PREPS = (r'in|on|at|with|under|into|from|through|against|beside|'
-          r'below|above|by|for|of')
-COMMA_IN_PHRASE_RE = re.compile(r',\s+(?:' + _PREPS + r')\b\s+\S+', re.I)
+BANNED_SEP_RE = re.compile(r'(;|(?<!\*):(?!\*)|\s[-\u2013\u2014]\s|\.\s+\S)')
+SEG_SPLIT_RE = re.compile(r'\s*(?:,|->)\s*')
+SEG_MAX_WORDS = 8
+SEG_MAX_COUNT = 4
+SEG_MAX_COUNT_ARROW = 6
+LIST_ITEM_WORDS = 3
 
 
-def feature_sentences(body: str) -> list[str]:
-    """The Feature's prose split into sentences, with its citation removed."""
-    text = CITATION_RE.sub("", body).strip()
-    return [s.strip() for s in SENT_SPLIT_RE.split(text) if s.strip()]
+def feature_segments(body: str) -> list[str]:
+    """Body split per instruction 5, with a short-item list collapsed to one segment."""
+    text = CITATION_RE.sub("", body).strip().rstrip(".")
+    merged: list[str] = []
+    run: list[str] = []
+    for seg in (s.strip() for s in SEG_SPLIT_RE.split(text)):
+        if not seg:
+            continue
+        if len(seg.split()) <= LIST_ITEM_WORDS:
+            run.append(seg)
+            continue
+        if run:
+            merged.append(" ".join(run))
+            run = []
+        merged.append(seg)
+    if run:
+        merged.append(" ".join(run))
+    return merged
 
 
 # ---------------------------------------------------------------------------
-# STYLE.md - every bolded noun in a Player Summary appears below it as a Feature
+# GENRE.md - every bolded noun in a Player Summary appears below it as a Feature
 #
 # The summary is a promise about what the room contains, and an unkept one sends
 # the referee improvising the thing the entry was supposed to hand them. The rule
-# is absolute in STYLE.md and in templates/Location.md's own Player Summary line,
-# but matching a summary's phrasing to a Feature is not:
+# is absolute in GENRE.md, but matching a summary's phrasing to a Feature is not:
 # a summary bolding "the pale residue" is kept by a Feature named "Warded
 # Shelving" whose line describes that residue. So this warns rather than errors,
 # and matches generously - against whole Feature lines rather than their labels
@@ -854,7 +736,7 @@ def _summary_tokens(phrase: str) -> set[str]:
 
 
 def check_summary_promises(diag: Diagnostics, path: Path, summary: str, lines: list[str]):
-    """Per STYLE.md, a bolded noun in the Player Summary is a Feature below it."""
+    """Per GENRE.md, a bolded noun in the Player Summary is a Feature below it."""
     joined = re.sub(r"'s\b", "", " ".join(lines).lower())
     for raw in BOLD_RE.findall(summary):
         phrase = raw.strip()
@@ -864,63 +746,80 @@ def check_summary_promises(diag: Diagnostics, path: Path, summary: str, lines: l
         if any(tok in joined for tok in tokens):
             continue
         diag.warn(path, f"Player Summary promises **{phrase}** but no Feature below it "
-                        f"carries that name - per STYLE.md the summary is a promise about "
+                        f"carries that name - per GENRE.md the summary is a promise about "
                         f"what the room contains, and the referee improvises an unkept one")
 
 
 def check_feature_grammar(diag: Diagnostics, path: Path, label: str, body: str):
-    for sent in SENT_SPLIT_RE.split(body):
-        last = None
-        for m in CITATION_RE.finditer(sent):
-            last = m
-        if last and sent[last.end():].strip(" ."):
-            diag.error(path, f"Feature '{label}' carries prose after its citation "
-                             f"{last.group(0).strip()!r} - per instruction 5 of "
-                             f"templates/Location.md a citation closes its sentence")
+    last = None
+    for m in CITATION_RE.finditer(body):
+        last = m
+    if last and body[last.end():].strip(" ."):
+        diag.error(path, f"Feature '{label}' carries prose after its citation "
+                         f"{last.group(0).strip()!r} - per instruction 5 of "
+                         f"templates/Location.md a citation sits last")
 
     stripped = CITATION_RE.sub("", body).strip()
-    if TRAILING_DASH_RE.search(stripped):
-        diag.error(path, f"Feature '{label}' hangs a clause off a dash - per STYLE.md a "
-                         f"trailing explanatory clause is cut rather than shortened")
-    for stray in re.finditer(r'\([^()]*\)', body):
-        if not CITATION_FORM_RE.fullmatch(stray.group(0)):
-            diag.warn(path, f"Feature '{label}' carries {stray.group(0)!r}, which matches no "
-                            f"form in templates/Location.md's Citations section - per that "
-                            f"section it renders as plain, unlinked text")
+    sep = BANNED_SEP_RE.search(stripped)
+    if sep:
+        found = sep.group(0)
+        what = ("a second sentence" if found.startswith(".")
+                else f"{found.strip()!r}")
+        diag.error(path, f"Feature '{label}' uses {what} - per instruction 5 of "
+                         f"templates/Location.md a Feature is one sentence separated "
+                         f"only by ',' and '->'")
+        # Segments are meaningless across an illegal separator, and the line is
+        # being rewritten regardless - a length warning on top is just noise.
+        return
     if stripped and not body.rstrip().endswith((".", ")")):
         diag.error(path, f"Feature '{label}' does not end in a period")
 
-    sents = feature_sentences(body)
-    if len(sents) > SENT_MAX:
-        diag.warn(path, f"Feature '{label}' runs {len(sents)} sentences against STYLE.md's "
-                        f"budget of {SENT_MAX} - past that it is two Features, or it is "
-                        f"carrying content a registry owns")
-    for s in sents:
-        n = len(re.findall(r"[\w'-]+", s))
-        if n > SENT_MAX_WORDS:
-            diag.warn(path, f"Feature '{label}' has a {n}-word sentence against STYLE.md's "
-                            f"{SENT_MAX_WORDS}: {s!r}")
-    if COMMA_AFTER_DET_RE.search(stripped):
-        diag.warn(path, f"Feature '{label}' puts a comma straight after a determiner - a "
-                        f"comma dropped mid-phrase to satisfy a counter, not to be read")
-    if COMMA_IN_PHRASE_RE.search(stripped):
-        diag.warn(path, f"Feature '{label}' splits a phrase from its preposition with a "
-                        f"comma - read the line aloud and place the comma where it lands")
+    segs = feature_segments(body)
+    cap = SEG_MAX_COUNT_ARROW if "->" in stripped else SEG_MAX_COUNT
+    if len(segs) > cap:
+        diag.warn(path, f"Feature '{label}' runs {len(segs)} segments against a cap of "
+                        f"{cap} - mechanics buy length, prose does not")
+    for seg in segs:
+        n = len(seg.split())
+        if n > SEG_MAX_WORDS:
+            diag.warn(path, f"Feature '{label}' has a {n}-word segment "
+                            f"(cap {SEG_MAX_WORDS}): {seg!r}")
 
 
-def parse_location_body(diag: Diagnostics, path: Path, body: list[str]):
-    """Everything below a location's header line: Summary, Notes, Features, Exits.
+def check_location_file(diag, path, region_code, num, stub, rating, all_locations,
+                         mundane_edges, hidden_edges, citations, conditions=None):
+    text = path.read_text()
+    lines = text.splitlines()
+    if not lines or not lines[0].strip():
+        diag.error(path, "file is empty or missing its header line")
+        return
 
-    The shape templates/Location.md owns, and the only part of a location file
-    that is legible without a region around it. Returned so both a generated
-    location and a standalone exemplar are read by the same code.
-    """
+    m = LOC_HEADER_RE.match(lines[0].strip())
+    if not m:
+        diag.error(path, f"header line does not match Location.md format: {lines[0]!r}")
+        return
+    check_treasure_citation_prose(diag, path, text)
+    check_forced_damage(diag, path, text, conditions)
+    hcode, hnum_s, hname, hweight, htags = m.groups()
+    if hcode != region_code or int(hnum_s) != num:
+        diag.error(path, f"header code {hcode}.{hnum_s} does not match this file's location {region_code}.{num}")
+    if not names_match(hname, stub["name"]):
+        diag.error(path, f"header name {hname!r} does not match its Locations.md stub name {stub['name']!r}")
+    if rating in ("DANGEROUS", "WILD"):
+        if hweight != stub["weight"]:
+            diag.error(path, f"header weight/classification {hweight!r} does not match Locations.md stub {stub['weight']!r}")
+    elif hweight:
+        diag.error(path, f"{rating} region location should not carry a weight/classification tag in its header")
+    if len([t for t in htags.split(",") if t.strip()]) != 2:
+        diag.warn(path, f"header carries {htags.strip()!r} - expected exactly two tags, one from setting/Tags.md and one from the region's own Tags.md")
+
+    body = [l for l in lines[1:]]
     idx = 0
     while idx < len(body) and not body[idx].strip():
         idx += 1
     if idx >= len(body):
         diag.error(path, "missing Player Summary")
-        return None
+        return
     summary = body[idx].strip()
     if summary.startswith("*") and not summary.startswith("**"):
         diag.error(path, "Player Summary appears to be wrapped in italics - it should be plain text")
@@ -930,7 +829,7 @@ def parse_location_body(diag: Diagnostics, path: Path, body: list[str]):
         idx += 1
     if idx >= len(body):
         diag.error(path, "missing Referee Notes")
-        return None
+        return
     notes = body[idx].strip()
     if not (notes.startswith("*") and not notes.startswith("**") and notes.endswith("*") and not notes.endswith("**")):
         diag.error(path, "Referee Notes line is not wrapped in single-asterisk italics")
@@ -962,42 +861,7 @@ def parse_location_body(diag: Diagnostics, path: Path, body: list[str]):
         diag.error(path, "no Feature lines found (expected at least one **Name:** line)")
     if exits_line is None:
         diag.error(path, "missing **Exits:** line")
-    return {"summary": summary, "notes": notes, "features": features,
-            "feature_lines": feature_lines, "exits_line": exits_line}
-
-
-def check_location_file(diag, path, region_code, num, stub, rating, all_locations,
-                         mundane_edges, hidden_edges, citations, conditions=None):
-    text = path.read_text()
-    lines = text.splitlines()
-    if not lines or not lines[0].strip():
-        diag.error(path, "file is empty or missing its header line")
-        return
-
-    m = LOC_HEADER_RE.match(lines[0].strip())
-    if not m:
-        diag.error(path, f"header line does not match Location.md format: {lines[0]!r}")
-        return
-    check_treasure_citation_prose(diag, path, text)
-    check_forced_damage(diag, path, text, conditions)
-    hcode, hnum_s, hname, hweight, htags = m.groups()
-    if hcode != region_code or int(hnum_s) != num:
-        diag.error(path, f"header code {hcode}.{hnum_s} does not match this file's location {region_code}.{num}")
-    if not names_match(hname, stub["name"]):
-        diag.error(path, f"header name {hname!r} does not match its Locations.md stub name {stub['name']!r}")
-    if rating in ("DANGEROUS", "WILD"):
-        if hweight != stub["weight"]:
-            diag.error(path, f"header weight/classification {hweight!r} does not match Locations.md stub {stub['weight']!r}")
-    elif hweight:
-        diag.error(path, f"{rating} region location should not carry a weight/classification tag in its header")
-    if len([t for t in htags.split(",") if t.strip()]) != 2:
-        diag.warn(path, f"header carries {htags.strip()!r} - expected exactly two tags, one from setting/Tags.md and one from the region's own Tags.md")
-
-    parsed = parse_location_body(diag, path, lines[1:])
-    if parsed is None:
-        return
-    exits_line = parsed["exits_line"]
-    if exits_line is not None:
+    else:
         src = f"{region_code}.{num}"
         body = exits_line[len("**Exits:**"):].strip()
         descs = [d.strip(" ,") for d in EXIT_DEST_RE.split(body)]
@@ -1042,446 +906,6 @@ def check_location_file(diag, path, region_code, num, stub, rating, all_location
     for roman in TREASURE_CITE_RE.findall(text):
         if roman not in ROMAN_TABLES:
             diag.error(path, f"Treasure citation uses unrecognized numeral {roman!r} (expected I-V)")
-
-
-# ---------------------------------------------------------------------------
-# style/exemplars/location/*.md - the regression floor for the Feature grammar
-#
-# An exemplar is a location entry with no region under it: its codes are the
-# placeholder X.n, and the locations, registry rows and edges it cites do not
-# exist. So everything cross-file is skipped here and what is checked is the
-# part templates/Location.md owns on its own - the header, the three-part body,
-# the Feature grammar, and the forced-damage and treasure-citation forms.
-#
-# This runs on every invocation, setting/ generated or not. Per INTROSPECTIVE.md
-# P1.2 the exemplars are what a later grammar change is measured against, which
-# only holds while they are checked whether or not a setting is present.
-# ---------------------------------------------------------------------------
-
-EXEMPLARS = ROOT / "style" / "exemplars"
-
-
-def check_standalone_entry(diag: Diagnostics, path: Path, conditions) -> bool:
-    """A location entry with no region under it - an exemplar or a tell fixture."""
-    text = path.read_text()
-    lines = text.splitlines()
-    if not lines or not lines[0].strip():
-        diag.error(path, "file is empty or missing its header line")
-        return False
-    if not LOC_HEADER_RE.match(lines[0].strip()):
-        diag.error(path, f"header line does not match Location.md format: {lines[0]!r}")
-        return False
-    check_treasure_citation_prose(diag, path, text)
-    check_forced_damage(diag, path, text, conditions)
-    parse_location_body(diag, path, lines[1:])
-    return True
-
-
-def check_exemplars(diag: Diagnostics):
-    loc_dir = EXEMPLARS / "location"
-    if not loc_dir.exists():
-        diag.warn(loc_dir, "missing - the location exemplars are not written yet")
-        return
-    paths = sorted(loc_dir.glob("*.md"))
-    if not paths:
-        diag.warn(loc_dir, "holds no exemplars - nothing for a grammar change to regress against")
-        return
-    conditions = procedures_conditions()
-    for path in paths:
-        check_standalone_entry(diag, path, conditions)
-
-
-# ---------------------------------------------------------------------------
-# style/tells.txt and fixtures/ - the tells, and what holds each one honest
-#
-# A tell is a candidate to read and never an error, per STYLE.md, so no count
-# taken here is checked against a threshold: tools/metrics.py does the counting
-# and reports it. What has a pass and a fail is the pair every key in
-# style/tells.txt owes - the known-bad entry it fires on, and the near-miss
-# entry, where one is written, that it must not - and the exemplars, which are
-# the good corpus for every tell at once. Both halves of fixtures/ are location
-# entries and are read by the same body parse the exemplars are, so a fixture is
-# bad in its prose and sound in its shape.
-#
-# style/tells.txt is the authority on the file's own grammar and on what each
-# tell is checking. Nothing about either is restated here.
-# ---------------------------------------------------------------------------
-
-TELLS_FILE = ROOT / "style" / "tells.txt"
-FIXTURES = ROOT / "fixtures"
-TELL_UNITS = ("line", "sentence", "feature-opening")
-FRAGMENT_RE = re.compile(r'\{([a-z][a-z-]*)\}')
-
-
-class Tell:
-    """One key from style/tells.txt: its rule, its signatures, and its hits."""
-
-    def __init__(self, key: str, rule: str):
-        self.key, self.rule = key, rule
-        self.signatures: list[tuple[str, list[re.Pattern]]] = []
-        self.hits: list[tuple[Path, int, str]] = []
-        self._seen: set = set()
-
-    @property
-    def slug(self) -> str:
-        return self.key.replace(" ", "-")
-
-    def hit(self, path: Path, lineno: int, quote: str, where):
-        # One unit matching two of a key's signatures is one hit, so a key's
-        # count does not move with the number of lines stating it.
-        mark = (path, lineno, where)
-        if mark in self._seen:
-            return
-        self._seen.add(mark)
-        self.hits.append((path, lineno, quote))
-
-    def __len__(self):
-        return len(self.hits)
-
-
-def expand_fragments(pattern: str, fragments: dict) -> tuple[list[str], list[str]]:
-    """A pattern's `{name}` vocabulary substituted, then split on ' && '."""
-    missing = sorted({m.group(1) for m in FRAGMENT_RE.finditer(pattern)} - set(fragments))
-    if missing:
-        return [], missing
-    text = FRAGMENT_RE.sub(lambda m: fragments[m.group(1)], pattern)
-    return [p for p in text.split(" && ") if p], []
-
-
-MOTIF_LINE = "motif"
-MOTIF_SETTINGS = ("regions", "rooms", "seed", "ignore")
-
-
-class Motif:
-    """The motif tell's settings, as style/tells.txt states them."""
-
-    def __init__(self):
-        self.regions = 0
-        self.rooms = 0
-        self.seed = 0
-        self.ignore: re.Pattern | None = None
-
-    @property
-    def configured(self) -> bool:
-        return bool(self.regions and self.rooms)
-
-
-def read_motif_line(motif: Motif, line: str, fragments: dict, err) -> None:
-    """One `motif | setting | value` line onto the settings."""
-    parts = [p.strip() for p in line.split(" | ", 2)]
-    if len(parts) != 3 or not all(parts):
-        err(f"a motif line is 'motif | setting | value', one of "
-            f"{', '.join(MOTIF_SETTINGS)}")
-        return
-    _, setting, value = parts
-    if setting == "ignore":
-        expanded, missing = expand_fragments(value, fragments)
-        if missing:
-            err(f"pattern draws vocabulary {', '.join(missing)} with no '= ' line above it")
-            return
-        if len(expanded) != 1:
-            err("a motif ignore pattern is matched against one word whole, so it takes "
-                "no ' && ' parts")
-            return
-        try:
-            motif.ignore = re.compile(expanded[0], re.I)
-        except re.error as exc:
-            err(f"pattern does not compile: {exc}")
-        return
-    if setting not in MOTIF_SETTINGS:
-        err(f"motif setting {setting!r} is not one of {', '.join(MOTIF_SETTINGS)}")
-        return
-    if not value.isdigit() or int(value) < 1:
-        err(f"motif {setting} is a threshold and takes a whole number of one or more")
-        return
-    setattr(motif, setting, int(value))
-
-
-def parse_tells_file(diag: Diagnostics | None = None) -> tuple[list[Tell], Motif]:
-    """style/tells.txt whole: the tells in file order, and the motif settings.
-
-    The signatures under one key are merged, and a vocabulary named again
-    extends the one above it rather than replacing it.
-    """
-    motif = Motif()
-    if not TELLS_FILE.exists():
-        if diag:
-            diag.warn(TELLS_FILE, "missing - the tell list is not written yet, so nothing "
-                                  "holds the patterns tools/metrics.py reports")
-        return [], motif
-    fragments: dict[str, str] = {}
-    tells: dict[str, Tell] = {}
-    order: list[str] = []
-    for lineno, raw in enumerate(TELLS_FILE.read_text().splitlines(), 1):
-        line = raw.strip()
-        if not line or line.startswith("#"):
-            continue
-
-        def err(msg: str, lineno=lineno):
-            if diag:
-                diag.error(TELLS_FILE, f"line {lineno}: {msg}")
-
-        if line.startswith("= "):
-            name, sep, pattern = line[2:].partition(" | ")
-            name, pattern = name.strip(), pattern.strip()
-            if not sep or not name or not pattern:
-                err("a vocabulary line is '= name | pattern'")
-            elif name in fragments:
-                fragments[name] = f"{fragments[name]}|{pattern}"
-            else:
-                fragments[name] = pattern
-            continue
-        if line.split(" | ", 1)[0].strip() == MOTIF_LINE:
-            read_motif_line(motif, line, fragments, err)
-            continue
-        parts = [p.strip() for p in line.split(" | ", 3)]
-        if len(parts) != 4 or not all(parts):
-            err("a tell line is 'key | unit | rule | pattern'")
-            continue
-        key, unit, rule, pattern = parts
-        if unit not in TELL_UNITS:
-            err(f"unit {unit!r} is not one of {', '.join(TELL_UNITS)}")
-            continue
-        expanded, missing = expand_fragments(pattern, fragments)
-        if missing:
-            err(f"pattern draws vocabulary {', '.join(missing)} with no '= ' line above it")
-            continue
-        try:
-            compiled = [re.compile(p, re.I) for p in expanded]
-        except re.error as exc:
-            err(f"pattern does not compile: {exc}")
-            continue
-        tell = tells.get(key)
-        if tell is None:
-            tell = tells[key] = Tell(key, rule)
-            order.append(key)
-        elif tell.rule != rule:
-            err(f"tell {key!r} states a different rule here than on its first line - "
-                f"one key is one rule")
-        tell.signatures.append((unit, compiled))
-    return [tells[k] for k in order], motif
-
-
-def load_tells(diag: Diagnostics | None = None) -> list[Tell]:
-    """The tells alone, for the callers that have no use for the motif settings."""
-    return parse_tells_file(diag)[0]
-
-
-def count_tells(paths: list[Path], tells: list[Tell] | None = None) -> list[Tell]:
-    """Every tell over any markdown - a location entry, a control arm, a fixture.
-
-    A `line` unit is the line with its citations stripped and every match a hit;
-    a `sentence` unit is one hit per sentence; `feature-opening` is a Feature's
-    opening clause, and hits only where that clause also echoes a significant
-    word of its own label, which is the shape a gloss takes.
-    """
-    tells = load_tells() if tells is None else tells
-    for path in paths:
-        for lineno, raw in enumerate(path.read_text().splitlines(), 1):
-            line = raw.strip()
-            if not line:
-                continue
-            prose = CITATION_RE.sub("", line)
-            sentences = SENT_SPLIT_RE.split(prose)
-            label, opening = None, ""
-            fm = FEATURE_RE.match(line)
-            if fm and fm.group(1).strip() != "Exits":
-                label = fm.group(1).strip()
-                sents = feature_sentences(fm.group(2).strip())
-                # A comma or a '->' ends the opening clause.
-                opening = re.split(r',|->', sents[0])[0].strip() if sents else ""
-            for tell in tells:
-                for unit, parts in tell.signatures:
-                    if unit == "line":
-                        for m in parts[0].finditer(prose):
-                            if all(p.search(prose) for p in parts[1:]):
-                                quote = prose[max(0, m.start() - 40):m.end() + 40].strip()
-                                tell.hit(path, lineno, quote, m.start())
-                    elif unit == "sentence":
-                        for i, sentence in enumerate(sentences):
-                            if all(p.search(sentence) for p in parts):
-                                tell.hit(path, lineno, sentence.strip(), i)
-                    elif unit == "feature-opening" and opening:
-                        first = re.sub(r"'s\b", "", opening.lower())
-                        if all(p.search(first) for p in parts) and any(
-                                re.search(r'\b' + re.escape(t), first)
-                                for t in _summary_tokens(label)):
-                            tell.hit(path, lineno, f"{label} -> {opening}", label)
-    return tells
-
-
-def tell_fires(tell: Tell, text: str) -> bool:
-    """Whether any one of a tell's signatures matches a passage whole.
-
-    A coarser reading than count_tells - no units and no hits - for the one
-    question a share is asked of: does this Feature carry the tell at all.
-    """
-    return any(all(p.search(text) for p in parts) for _unit, parts in tell.signatures)
-
-
-def fixture_hits(path: Path) -> dict[str, Tell]:
-    """Every tell counted over one fixture, keyed by tell key."""
-    return {t.key: t for t in count_tells([path])}
-
-
-def check_tell_fixtures(diag: Diagnostics, tells: list[Tell]):
-    if not tells:
-        return
-    slugs = {t.slug for t in tells}
-    for half in ("bad", "good"):
-        hdir = FIXTURES / half
-        if not hdir.exists():
-            if half == "bad":
-                diag.error(hdir, f"missing - every key in {rel(TELLS_FILE)} owes a known-bad "
-                                 f"entry, and a tell with none is a pattern nothing keeps honest")
-            continue
-        for path in sorted(hdir.glob("*.md")):
-            if path.stem not in slugs:
-                diag.warn(path, f"names no key in {rel(TELLS_FILE)} - a fixture is named for "
-                                f"the tell it holds, hyphenated")
-    conditions = procedures_conditions()
-    for tell in tells:
-        for half in ("bad", "good"):
-            path = FIXTURES / half / f"{tell.slug}.md"
-            if not path.exists():
-                if half == "bad":
-                    diag.error(FIXTURES / half, f"no {tell.slug}.md - tell '{tell.key}' has no "
-                                                f"known-bad entry to fire on")
-                continue
-            if not check_standalone_entry(diag, path, conditions):
-                continue
-            hits = fixture_hits(path)
-            own = hits[tell.key]
-            if half == "bad" and not len(own):
-                diag.error(path, f"tell '{tell.key}' does not fire here - a known-bad entry the "
-                                 f"tell misses measures nothing, so either the entry or the "
-                                 f"pattern in {rel(TELLS_FILE)} is wrong")
-            if half == "good" and len(own):
-                diag.error(path, f"tell '{tell.key}' fires here ({own.hits[0][2]!r}) - a "
-                                 f"near-miss entry carries the vocabulary legitimately, and a "
-                                 f"tell that fires on it is over-reporting")
-            for other in tells:
-                if other.key == tell.key or not len(hits[other.key]):
-                    continue
-                diag.warn(path, f"tell '{other.key}' also fires here "
-                                f"({hits[other.key].hits[0][2]!r}) - a fixture that trips two "
-                                f"tells isolates neither signature")
-    exemplars = [p for sub in ("location", "region")
-                 for p in sorted((EXEMPLARS / sub).glob("*.md"))]
-    for tell in count_tells(exemplars) if exemplars else []:
-        for path, lineno, quote in tell.hits:
-            diag.error(path, f"line {lineno}: tell '{tell.key}' fires on an exemplar "
-                             f"({quote!r}) - the exemplars are the endorsed register, so a "
-                             f"pattern that fires here is measuring the wrong thing")
-
-
-# ---------------------------------------------------------------------------
-# The motif tell - style/tells.txt's `motif` lines
-#
-# The one tell counted over the corpus rather than matched against a unit, so
-# it has no signature and no fixture. style/tells.txt is the authority on what
-# it counts and on both thresholds; what lives here is the arithmetic.
-#
-# The two corpora are the keyed locations, where a word is counted by the rooms
-# and regions it reaches, and the setting-level files with the region overviews,
-# where it is counted by occurrence - the seed a generator is handed before a
-# room is written. Neither is an error: a recurring object is how a setting
-# holds together, and only a reader can say which a hit is.
-# ---------------------------------------------------------------------------
-
-MOTIF_WORD_RE = re.compile(r"[a-z]+(?:'[a-z]+)?")
-MOTIF_MIN_LETTERS = 3
-LOCATION_GLOB = "*/[0-9]*.md"
-# "Brekar - AD: 5d6", per templates/Factions.md. A Bestiary header carries a
-# (Type) before the dash and is read by parse_statblocks instead.
-FACTION_HEADER_RE = re.compile(r'^([^(\n]+?)\s*-\s*AD:\s*\d+d\d+\s*$', re.M)
-# A root or a coinage in setting/Language.md: "- tolk - toll, a due paid or
-# owed", "- Tolkar = tolk (toll) + ar (place)".
-LANGUAGE_NAME_RE = re.compile(r"^- ([A-Za-z][A-Za-z'-]*)\s*[-=]\s", re.M)
-
-
-def motif_words(text: str) -> list[str]:
-    """The lowercased words of a passage, possessives dropped."""
-    return [re.sub(r"'s$", "", w) for w in MOTIF_WORD_RE.findall(text.lower())]
-
-
-def setting_names() -> set[str]:
-    """The one-word names the setting has coined, which are never motifs.
-
-    A name of several words is not here: its words are vocabulary the setting
-    uses elsewhere too, and dropping them would hide a real motif.
-    """
-    names: set[str] = set()
-    for path in (SETTING / "Bestiary.md", SETTING / "NamedCreatures.md"):
-        if path.exists():
-            names.update(s["name"] for s in parse_statblocks(path.read_text()))
-    factions = SETTING / "Factions.md"
-    if factions.exists():
-        names.update(m.group(1) for m in FACTION_HEADER_RE.finditer(factions.read_text()))
-    language = SETTING / "Language.md"
-    if language.exists():
-        names.update(m.group(1) for m in LANGUAGE_NAME_RE.finditer(language.read_text()))
-    return {motif_words(n)[0] for n in names if len(motif_words(n)) == 1}
-
-
-def motif_excluded() -> frozenset:
-    """Every word a motif count drops before the thresholds are applied.
-
-    The setting's own one-word names, and the vocabulary this file already
-    knows as structure rather than as prose - a header's weight or
-    classification, and a creature's type in every citation that names one.
-    Both are read from what already holds them rather than restated in
-    style/tells.txt, which carries only what nothing else does.
-    """
-    structural = {w for term in (BESTIARY_TYPES | WILD_CLASSIFICATIONS | DANGEROUS_WEIGHTS)
-                  for w in term.split()}
-    return frozenset(setting_names() | structural | SUMMARY_STOPWORDS)
-
-
-def is_motif_word(word: str, motif: Motif, excluded: frozenset) -> bool:
-    return (len(word) >= MOTIF_MIN_LETTERS
-            and word not in excluded
-            and not (motif.ignore and motif.ignore.fullmatch(word)))
-
-
-def motif_spread(motif: Motif, excluded: frozenset | None = None):
-    """Every content word over both thresholds: its rooms, and their regions."""
-    excluded = motif_excluded() if excluded is None else excluded
-    rooms: dict[str, list] = {}
-    regions: dict[str, set] = {}
-    for path in sorted((SETTING / "region").glob(LOCATION_GLOB)):
-        for word in set(motif_words(path.read_text())):
-            if not is_motif_word(word, motif, excluded):
-                continue
-            rooms.setdefault(word, []).append(path)
-            regions.setdefault(word, set()).add(path.parent.name)
-    out = [(w, rooms[w], sorted(regions[w])) for w in rooms
-           if len(regions[w]) >= motif.regions and len(rooms[w]) >= motif.rooms]
-    return sorted(out, key=lambda r: (-len(r[1]), r[0]))
-
-
-def motif_seed(motif: Motif, excluded: frozenset | None = None):
-    """Every content word of the setting-level files at or over the seed count."""
-    excluded = motif_excluded() if excluded is None else excluded
-    counts: dict[str, int] = {}
-    paths = sorted(SETTING.glob("*.md")) + sorted((SETTING / "region").glob("[A-Z].md"))
-    for path in paths:
-        for word in motif_words(path.read_text()):
-            if is_motif_word(word, motif, excluded):
-                counts[word] = counts.get(word, 0) + 1
-    return sorted(((w, n) for w, n in counts.items() if n >= motif.seed),
-                  key=lambda r: (-r[1], r[0]))
-
-
-def check_motifs(diag: Diagnostics, motif: Motif) -> None:
-    if not motif.configured:
-        return
-    excluded = motif_excluded()
-    for word, rooms, regions in motif_spread(motif, excluded):
-        diag.warn(SETTING / "region",
-                  f"motif {word!r} in {len(rooms)} rooms across {', '.join(regions)}")
-    for word, count in motif_seed(motif, excluded):
-        diag.warn(SETTING, f"seeded motif {word!r}, {count} times before a room is written")
 
 
 # ---------------------------------------------------------------------------
@@ -2188,52 +1612,12 @@ def report_pending(region_filter: str | None) -> int:
     return 0
 
 
-def report_fixtures() -> int:
-    """Every tell in style/tells.txt with the fixtures that hold it, and the checks.
-
-    The default run makes the same checks; this prints what each tell fires on,
-    which is what a reader looks at when a fixture stops firing.
-    """
-    diag = Diagnostics()
-    tells, motif = parse_tells_file(diag)
-    print(f"{rel(TELLS_FILE)}: {len(tells)} tell(s)\n")
-    for tell in tells:
-        units = ", ".join(u for u, _ in tell.signatures)
-        print(f"{tell.key} - {tell.rule}")
-        print(f"  {'signatures':6s} : {len(tell.signatures)} ({units})")
-        for half in ("bad", "good"):
-            path = FIXTURES / half / f"{tell.slug}.md"
-            if not path.exists():
-                print(f"  {half:10s} : (none)")
-                continue
-            own = fixture_hits(path)[tell.key]
-            print(f"  {half:10s} : {rel(path)}, {len(own)} hit(s)")
-            for _p, lineno, quote in own.hits:
-                print(f"               line {lineno}  {quote}")
-        print()
-
-    if motif.configured:
-        print(f"motif - counted, not matched: {motif.regions} regions and "
-              f"{motif.rooms} rooms, seeded at {motif.seed}\n")
-
-    check_tell_fixtures(diag, tells)
-    for w in diag.warnings:
-        print(f"WARNING: {w}")
-    for e in diag.errors:
-        print(f"ERROR: {e}")
-    print(f"\n{len(diag.errors)} error(s), {len(diag.warnings)} warning(s)")
-    return 1 if diag.errors else 0
-
-
 def main() -> int:
     diag = Diagnostics()
     check_pattern_files(diag)
-    check_genre_lists(diag)
+    check_compile_list(diag)
     check_read_set_graph(diag)
     check_repeated_prose(diag)
-    check_exemplars(diag)
-    tells, motif = parse_tells_file(diag)
-    check_tell_fixtures(diag, tells)
 
     if is_fresh_start():
         seeded = sorted(n for n in SEED_FILES if (SETTING / n).exists())
@@ -2353,7 +1737,6 @@ def main() -> int:
     check_registry_floors(diag, registries, build_complete)
     check_rumour_settling(diag, build_complete)
     check_tags_file(diag, SETTING / "Tags.md")
-    check_motifs(diag, motif)
 
     for line in report_topology(regions, region_locs, region_edges):
         print(f"TOPOLOGY: {line}")
@@ -2374,6 +1757,4 @@ if __name__ == "__main__":
         sys.exit(report_pending(sys.argv[2] if len(sys.argv) > 2 else None))
     if len(sys.argv) > 1 and sys.argv[1] == "--read-set":
         sys.exit(report_read_set(sys.argv[2] if len(sys.argv) > 2 else None))
-    if len(sys.argv) > 1 and sys.argv[1] == "--fixtures":
-        sys.exit(report_fixtures())
     sys.exit(main())

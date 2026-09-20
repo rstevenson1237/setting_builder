@@ -1,8 +1,11 @@
 # Setting - Genre
 
-**This file is an elicitation procedure, and carries sections the skeleton does not.** Every
-other `patterns/*/*.md` file generates content from a choice already made; only this one
-makes the choice, and the extra sections below are how.
+**This file is an elicitation procedure, and carries sections the skeleton does not.** It
+runs a conversation with the user before any artifact exists, so alongside the standard
+skeleton it holds the Seed pool, the eligibility test, the three narrowing rounds, the Q2
+axes, and how GENRE.md is built from the answers. Those extra sections are the procedure itself, not a file left unconverted -
+every other `patterns/*/*.md` file generates content from a choice already made, and only
+this one makes the choice.
 
 ## Provides
 The seed-and-narrow flow that produces GENRE.md's customizable spine: a pool of specific
@@ -31,18 +34,23 @@ GENRE
   1     A naming-convention line, settled by Q2 rather than assumed
 ```
 
-**This is the one place seeding is intentional.** The Seed pool below exists to be carried
-forward into `setting/Setting.md`, `setting/Tags.md`, and the pack's lists beyond. A named,
-specific reference gives every later step real material - a body of work with its own
-creatures, factions, objects and texture - instead of a family label that has to be invented
-from nothing at every step that touches it.
+**This is the one place seeding is intentional.** Every other artifact's worked examples in
+this library are illustrations to be varied from; the Seed pool below is the opposite - it
+exists specifically to be carried forward into `setting/Setting.md`, `setting/Tags.md`
+(step 1b), and the compiled tier-2 pattern files beyond, the same way a Region Overview's
+claims are meant to be cashed out by its locations. A named, specific reference gives every
+later step real material - an actual body of work with its own creatures, factions,
+objects, and texture - instead of an abstract family label that has to be invented from
+nothing at every step that touches it.
 
 ## Seed - 20-30 specific references
 
-Not a family, not a mood - a **named, real thing**: an author's body of work, a single book
-or series, or a specific tabletop RPG's own genre. The pool below is a menu, not a ceiling,
-spanning enough different corners of fantasy that Round 1 has real distance to work with. A
-user's own reference, named freehand and passing the eligibility test below, is always valid.
+Not a family, not a mood - a **named, real thing**: a specific author's body of work, a
+single book or series, or a specific tabletop RPG's own genre. The pool below is a starting
+menu, kept in this file and refreshed as taste and availability change, spanning enough
+different corners of fantasy that Round 1 has real distance to work with. A user's own
+reference, named freehand and passing the eligibility test below, is always valid - the
+pool is a menu, not a ceiling.
 
 **Authors** (the reference is their body of work, not one title):
 
@@ -113,21 +121,24 @@ user's own reference, named freehand and passing the eligibility test below, is 
 
 ## What makes a reference eligible
 
-**It must point to a body of work broader than the sentence that names it here.** An
+**It must point to a body of work more broad than the sentence that names it here.** An
 author's whole career, a multi-book series, or an actively developed TTRPG line all clear
-this bar. A single short story, a lone one-shot module, or an isolated image with no world
-behind it does not, however evocative - there is nothing left to draw on past the sentence
-describing it.
+this bar - each has more texture in it than any one summary can hold, which is exactly what
+gives later steps real material instead of an exhausted one-liner. A single short story, a
+lone one-shot module, or an isolated image with no world behind it does not clear it,
+however evocative - there's nothing left to draw on past the sentence describing it.
 
-**It is stated as both things, never one alone.** The specific reference, a name a person
-could look up, and the general trope cluster it fulfills, which is what it would still be if
-that name meant nothing to whoever is reading GENRE.md. Naming only the specific assumes
-everyone at the table has read it; naming only the general throws away the texture the
-specific was chosen for.
+**It is stated as both things, never one alone.** The specific reference (a name a person
+could look up) and the general trope cluster it fulfills (what it would still be if that
+specific name meant nothing to whoever's reading GENRE.md). Naming only the specific thing
+assumes everyone at the table has read it; naming only the general trope throws away the
+texture the specific thing was chosen for. Both halves of the pool entries above model this
+- keep the same shape when the user names their own reference freehand.
 
-**Well-chosen** - two referees given only the reference name would build recognizably
-similar settings from it, and it survives being stated in one sentence per half without
-needing either half explained.
+**What makes a reference well-chosen** - it names a concrete body of work (an author, a
+series, a TTRPG line), not a mood; two referees given only the reference name would build
+recognizably similar settings from it; it survives being stated in one sentence per half
+(specific, then general) without needing to explain either half to be understood.
 
 ## Three rounds of narrowing
 
@@ -146,19 +157,24 @@ references (if Round 1's pick wasn't already a single reference) alongside one o
 distinguishing dial questions - tone, scale, era, protagonist relationship to power. Narrow
 to one or two finalists.
 
-**Round 3 - confirm the one.** State the finalist as both halves and confirm before moving
-to Q2. A user who wants a different finalist gets one more pass through Round 2's remaining
-candidates, not a restart from Round 1.
+**Round 3 - confirm the one.** State the finalist as both the specific thing and the
+general tropes it fulfills, per the eligibility test above, and confirm before moving to
+Q2. A user who wants a different finalist gets one more pass through Round 2's remaining
+candidate, not a restart from Round 1.
 
-**A user's own reference short-circuits all three rounds.** The rounds exist to help someone
-find a reference, not to gatekeep one already in hand.
+**A user's own reference short-circuits all three rounds.** If they already know what they
+want, confirm it clears the eligibility test above and skip straight to Q2 - the rounds
+exist to help someone find a reference, not to gatekeep one already in hand.
 
 ## Q2 - Binary/dial axes
 
-Answer each as a dial rather than a hard binary. **Default each axis to what the chosen
-reference actually does**, and dial it elsewhere only where the user wants this setting to
-diverge - Q2 is where deliberate divergence happens, not a from-scratch questionnaire.
-Suggested axes; add more where the chosen reference calls for one not listed:
+Answer each as a dial, not necessarily a hard binary - "mostly X, leaning Y" is a valid
+answer, and "same as always" is a valid answer too, though an axis answered that way for
+every question was probably not worth asking. **Default each axis to what the chosen
+reference actually does**, and only dial it elsewhere when the user wants this setting to
+diverge from its touchstone - Q2 is where that deliberate divergence happens, not a
+from-scratch questionnaire. Suggested axes - add more where the chosen reference calls for
+one not listed here:
 
 - **Lethality** - high (death is common and cheap) vs low (survivable, forgiving).
 - **Population density** - well-populated (settlements close together) vs scarce (true
@@ -194,17 +210,22 @@ Suggested axes; add more where the chosen reference calls for one not listed:
   empires in living contact.
 
 Answer the axes that actually distinguish this setting from a straight instance of the
-chosen reference. The list grows rather than being exhaustive.
+chosen reference - an axis answered exactly as the reference would answer it was probably
+not worth asking aloud. This list keeps growing rather than being exhaustive.
 
 ## Building GENRE.md from the chosen reference
 
-**The identity paragraph states both halves, in that order**: the specific reference named
-plainly, then the general trope cluster it fulfills, then the one-sentence situation this
-puts a party into, in two or three sentences total.
+**The identity paragraph states both halves, in that order.** The specific reference first
+(named plainly - "Modeled on Glen Cook's The Black Company"), then the general trope
+cluster it fulfills, then the one-sentence situation this puts a party into. All three in
+two or three sentences total; this is the same dual statement the Seed pool entries model,
+now anchored to one chosen reference instead of illustrating the whole pool.
 
-**Axis bullets come from the reference and Q2 together.** Three to five constraints the
-reference actually enforces, plus whichever Q2 axes the user dialed away from its defaults.
-State each as a constraint, never as mood.
+**Axis bullets come from the reference and Q2 together.** Pull three to five constraints
+that the reference actually enforces (what Points of Light means for it, what its version
+of a Mythic Underworld looks like, what its magic costs) and fold in whichever Q2 axes the
+user dialed away from the reference's own defaults. State each as a constraint the way the
+current Low Magic / Points of Light / Mythic Underworld bullets constrain, never as mood.
 
 **What a line has to earn** is copied from `templates/Genre.md` verbatim, regardless of
 which reference was chosen.
@@ -223,8 +244,16 @@ drowned city, a post-apocalyptic reference's a buried machine, an urban referenc
 sewers under the one city that exists) - the *function*, a physical place that is ruin and
 chaos made manifest, is the constant across references; its dressing is not.
 
-**What does not move, whichever reference is chosen**: the fixed three-test section, and the
-container/data, stub-before-file and cash-out mechanics the rest of the framework is built
-from. Those are load-bearing, not genre dressing.
+**Pushing past the Seed pool.** Nothing above requires picking from the list in this file -
+it is a menu, not a ceiling, and a user naming their own reference outside it is answered on
+its own terms once it clears the eligibility test above. What doesn't move regardless of
+reference chosen is the fixed three-test section and the container/data, stub-before-file,
+and cash-out mechanics the rest of this framework is built from - those are the load-bearing
+parts, not the genre dressing.
+
+`patterns/setting/Tags.md` owns tag-building - what a tag is, the intentionality test,
+the pool shape - read at step 1b, right after this one. What stays here is everything
+about *choosing and stating the reference itself*; the tag bank is downstream of that
+choice, not part of making it.
 
 ## Constraints
