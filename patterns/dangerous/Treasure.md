@@ -13,7 +13,7 @@ something elsewhere, is drawn by the weight file's own registry lines instead.
 
 ```
 TREASURE
-  1     Disposition   {guarded | hidden | discarded}
+  1     Disposition   {guarded | hidden | discarded} - see Patterns
   1     What it is - exactly one, drawn at these rates rather than freely chosen
         {table roll 55% | key 20% | lore 20% | unique treasure 5%}
                         (patterns/setting/Treasure.md,
@@ -88,6 +88,11 @@ attached to a chest.
 **Concealment** - under a floor, behind a course of stone, inside something else, in
 water, in a corpse, in plain sight and unrecognisable, held by something that will not
 let go, in a container whose lock is elsewhere in the region.
+
+**Discarded** - dropped where it fell and left; spilled from a container that gave out;
+abandoned in a retreat with no time to gather it; lying in plain sight because nothing
+that has passed through since had a reason to want it; indistinguishable from debris
+until somebody looks twice.
 
 **Containers** - a chest with its lock on the inside; a coffer banded and too heavy to
 carry whole; a jar sealed under pitch; a niche plugged with a single dressed stone; a
