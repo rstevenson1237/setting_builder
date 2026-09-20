@@ -9,11 +9,11 @@ Six readings, printed in one report:
   MOTIFS    the words that have spread across regions, and the ones the
             setting-level files seed before a room is written
   BUDGET    framework words against setting words
-  READ SET  words in context per step 4c entry point
+  READ SET  words in context per step 4c location, per tools/context.py
 
 Nothing here judges. A tell is a candidate a reader looks at, the read-set
-figure is an arithmetic sum of what templates/Location.md's Context section
-names, and neither carries a threshold - `tools/validate_setting.py` is where
+figure is the length of the stream tools/context.py prints, and neither carries
+a threshold - `tools/validate_setting.py` is where
 a rule with a pass and a fail lives. This file exists so a change to the
 framework can be shown to have moved something, rather than asserted to have.
 
@@ -37,6 +37,9 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
+import context as ctx  # noqa: E402
+import site_common as sc  # noqa: E402
+from draw import DrawError  # noqa: E402
 from validate_setting import (  # noqa: E402
     CITATION_RE,
     FEATURE_RE,
@@ -115,6 +118,23 @@ def features(paths: list[Path]) -> list[tuple[Path, str, str]]:
 def mean(xs) -> float:
     xs = list(xs)
     return sum(xs) / len(xs) if xs else 0.0
+
+
+def median(xs) -> float:
+    xs = sorted(xs)
+    if not xs:
+        return 0.0
+    mid = len(xs) // 2
+    return xs[mid] if len(xs) % 2 else (xs[mid - 1] + xs[mid]) / 2
+
+
+def location_stubs() -> dict[str, str]:
+    """Every location code on disk, with its weight - the 4c work that exists."""
+    out = {}
+    for code in sc.parse_regions_gazetteer():
+        for num, stub in sc.parse_locations_gazetteer(code).items():
+            out[f"{code}.{num}"] = stub.get("weight") or ""
+    return out
 
 
 def report_corpus(locs: list[Path]) -> None:
@@ -248,62 +268,67 @@ def report_budget() -> None:
 # ---------------------------------------------------------------------------
 # The read set
 #
-# What one location costs to generate: the fixed context every 4c entry carries
-# plus the closure of pattern files its class file reaches. The fixed half is
-# templates/Location.md's own Context section, which is the authority on what a
-# drafting session opens - README.md is in it because the session hook injects
-# it. The variable half is walked with the graph tools/validate_setting.py
-# --read-set walks, from the same entry points.
+# What one location costs to generate is what tools/context.py prints for it,
+# since STEPS.md 4c opens that stream and nothing else. It is measured over the
+# locations that exist rather than estimated, because the stream is resolved
+# per location - a room whose treasure was not drawn never carries the treasure
+# contract - so one number would be right for no location.
 #
-# The region overview and the exemplar are both per-entry - one region of five,
-# one class file of six - so each is reported as its own range rather than
-# folded into one number that would be right for no location.
+# The two authorities CLAUDE.md requires re-read at every generation step are
+# counted beside it: context.py leaves them out precisely because they are
+# already open, and a cost figure that dropped them would be wrong.
+#
+# With no setting on disk there is nothing to resolve, so the report falls back
+# to the pattern closure per 4c entry point, which is the same walk
+# tools/validate_setting.py --read-set prints.
 # ---------------------------------------------------------------------------
 
-FIXED_CONTEXT = ("CLAUDE.md", "README.md", "GENRE.md", "STYLE.md",
-                 "templates/Location.md", "setting/Truths.md",
-                 "setting/Procedures.md", "setting/Language.md")
+ALWAYS_OPEN = ("CLAUDE.md", "GENRE.md", "STYLE.md")
 
 
 def report_read_set(step: str = "4c") -> None:
     print(f"READ SET (step {step})")
-    g = read_set_graph()
-    present = [(n, ROOT / n) for n in FIXED_CONTEXT if (ROOT / n).exists()]
-    fixed = sum(file_words(p) for _, p in present)
+    present = [(n, ROOT / n) for n in ALWAYS_OPEN if (ROOT / n).exists()]
     for n, p in present:
-        print(f"  {n:24s} : {file_words(p):6,}")
-    overviews = {p.stem: file_words(p) for p in sorted(REGION.glob("[A-Z].md"))} \
-        if REGION.exists() else {}
-    if overviews:
-        lo, hi = min(overviews.values()), max(overviews.values())
-        avg = round(mean(overviews.values()))
-        print(f"  {'region overview':24s} : {lo:6,}-{hi:,} across "
-              f"{len(overviews)} regions, mean {avg:,}")
-    else:
-        avg = 0
-    exemplars = [file_words(p) for p in sorted(EXEMPLARS.glob("*.md"))] \
-        if EXEMPLARS.exists() else []
-    if exemplars:
-        ex_avg = round(mean(exemplars))
-        print(f"  {'exemplar':24s} : {min(exemplars):6,}-{max(exemplars):,} across "
-              f"{len(exemplars)} classes, mean {ex_avg:,}")
-    else:
-        ex_avg = 0
-    print(f"  {'fixed context':24s} : {fixed + avg + ex_avg:6,} "
-          f"(with the mean region overview and exemplar)")
+        print(f"  {n:24s} : {file_words(p):6,}   (open already, per CLAUDE.md)")
+    print(f"  {'always open':24s} : {sum(file_words(p) for _, p in present):6,}")
     print()
 
+    streams: dict[str, list[int]] = {}
+    for code, weight in sorted(location_stubs().items()):
+        try:
+            stub = ctx.Stub(code)
+            words_here = words(ctx.render(stub, {}))
+        except (ctx.ContextError, DrawError, OSError):
+            continue
+        streams.setdefault(f"{stub.rating}{'-' + weight if weight else ''}", []) \
+            .append(words_here)
+    if streams:
+        print(f"  {'context.py 4c, by class':24s} {'locs':>5s} {'least':>7s} "
+              f"{'median':>7s} {'most':>7s}")
+        for name in sorted(streams):
+            xs = sorted(streams[name])
+            print(f"  {name:24s} {len(xs):5d} {xs[0]:7,} "
+                  f"{round(median(xs)):7,} {xs[-1]:7,}")
+        allx = sorted(n for xs in streams.values() for n in xs)
+        print(f"  {'all':24s} {len(allx):5d} {allx[0]:7,} "
+              f"{round(median(allx)):7,} {allx[-1]:7,}")
+        print()
+        return
+
+    g = read_set_graph()
     entries: set = set()
     for name in g["step_templates"].get(step, set()):
         entries |= g["template_roots"].get(name, set())
     if not entries:
         print(f"  step {step} names no pattern entry point\n")
         return
-    print(f"  {'entry point':24s} {'files':>5s} {'pattern':>8s} {'in context':>11s}")
+    print("  no locations on disk - the pattern closure per entry point instead")
+    print(f"  {'entry point':24s} {'files':>5s} {'pattern':>8s}")
     for e in sorted(entries):
         closure = spec_closure({e}, g["pattern_files"])
-        w = sum(file_words(PATTERNS / f) for f in closure)
-        print(f"  {e:24s} {len(closure):5d} {w:8,} {fixed + avg + w:11,}")
+        print(f"  {e:24s} {len(closure):5d} "
+              f"{sum(file_words(PATTERNS / f) for f in closure):8,}")
     print()
 
 

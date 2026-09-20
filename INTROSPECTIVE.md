@@ -947,24 +947,37 @@ set falls from 15,126 words to 6,730, and `patterns/` plus `genre/` together are
 against the baseline's 45,774. Re-state the target against those numbers if it is worth
 keeping.
 
-**P3.2 Make the draw arithmetic, and assemble the context.**
-- Files: new `tools/draw.py`, new `tools/context.py`; `templates/Location.md`
-  instructions; `STEPS.md` 4c.
-- Steps: `draw.py <location-code> <list-name>...` returns, per list, an index and the
-  entry, derived from a hash of the code and the list name, with `--reroll N` to move
-  on. Rated lines (`40%`) resolve the same way against a fixed threshold.
-  `context.py 4c <location-code>` then prints, in one stream and nothing else: the
-  class contract, the drawn entries (not the lists), the region brief, the region
-  overview, this location's stub and its edges from the diagram with the far ends'
-  names only, `setting/Truths.md`, the exemplar for this rating and weight, the
-  template, and the citation grammar. It never prints a sibling location, and it
-  prints a registry only as the names a citation may use. 4c's instruction becomes:
-  run `context.py`, write to what it printed. The site's location page may show the
-  draw record as a collapsed note for the user's review; the PDF never.
-- Acceptance: criterion 7 in Part five; the user rerolls one draw on one exemplar and
-  the entry changes without a rule changing; `context.py 4c` for a DANGEROUS medium
-  location prints under 6,000 words, which is where the Pro-plan budget is actually
-  won.
+~~**P3.2 Make the draw arithmetic, and assemble the context.**~~ Landed. `tools/draw.py`
+draws a list entry and settles a rated line from a blake2b of the location's code, with
+`--reroll` stepping a list and reseeding a rate; `tools/context.py 4c CODE` walks the class
+file and prints the resolved stream. 4c and `templates/Location.md` now say to run it and
+write to what it printed; the site carries the draw record as a collapsed note, recomputed
+rather than stored, and the PDF does not.
+
+**Four things the generator used to decide are now arithmetic, and three of them were not
+in the task.** The rate and the draw were. What the word target turned out to need was the
+other two, and both are read off the line's own shape rather than off a list in the tool:
+an alternation pairing one file per alternative is a Kind, so one branch is in context
+instead of all of them; a line conditional on something already drawn - `Guarded:`, `where
+the challenge is an encounter` - is dropped where the block drew otherwise. A dimension
+settled in one file is inherited by the next rather than drawn twice, and a line naming a
+classifier and one of its own kinds (`mechanism fixed to trap`) settles that kind before
+the file is read. Every one of them fails toward printing more: an alternation that does
+not pair one-to-one, or a condition naming nothing the block drew, is left whole.
+`patterns/SPEC.md` now states the four shapes a Spec line owes, since a pattern file
+written another way resolves silently wrong.
+
+**The figure is met at the median and not at the tail.** A DANGEROUS medium location's
+stream runs 5,315-6,826 words, median 5,784, against the 17,172 that class read before;
+over the whole corpus, 4,441-7,434, median 5,637, and 21 of 64 locations sit above 6,000 -
+all of them HIGH weight, or in the two regions whose Overview is itself 1,000 words. The
+remaining arithmetic is in the open: the fixed half is the template (1,296), the region
+overview (687-1,002), `Truths.md` (399) and the exemplar (306), all named by this task; the
+contract half is the resolved blocks plus the Spec prose (936 at the median for a medium)
+and the Constraints (799). Dropping either of those last two clears 6,000 for every class,
+and both were kept for the reason P3.1 gave for not reaching 12,000 by deleting
+prohibitions. `tools/metrics.py` now measures the stream itself rather than the file list
+`templates/Location.md` used to carry, so the number moves when the framework does.
 
 **P3.3 Build the B/X 1981 baseline pack.**
 - Files: `genre/bx-1981/PACK.md`, `Tags.md`, `Vocabulary.md`, `Bestiary.md`; the

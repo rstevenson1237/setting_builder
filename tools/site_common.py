@@ -450,6 +450,8 @@ REGION_RE = re.compile(r'^([A-Z]+) (.+?) - (SAFE|WILD|DANGEROUS), (d\d+)\s*$')
 
 def parse_regions_gazetteer() -> dict[str, dict]:
     path = SETTING / "region" / "Regions.md"
+    if not path.exists():
+        return {}
     lines = path.read_text().splitlines()
     out: dict[str, dict] = {}
     order: list[str] = []
@@ -542,6 +544,8 @@ LOC_GAZ_RE = re.compile(r'^([A-Z]+)\.(\d+) (.+?)(?: \((low|medium|high|landmark|
 def parse_locations_gazetteer(region_code: str) -> dict[int, dict]:
     path = SETTING / "region" / region_code / "Locations.md"
     out: dict[int, dict] = {}
+    if not path.exists():
+        return out
     for raw in path.read_text().splitlines():
         s = raw.strip()
         if not s or s.lower().startswith("locations of"):

@@ -601,3 +601,9 @@ code {
 .block-meta { color: var(--ink-soft); font-size: 0.85rem; margin: 0 0 0.6rem; text-transform: capitalize; }
 
 .data-table td.settled { color: var(--ink-soft); font-size: 0.85rem; }
+
+.draw-record { margin-top: 2rem; color: var(--ink-soft); font-size: 0.85rem; }
+.draw-record summary { cursor: pointer; }
+.draw-record ul { list-style: none; padding: 0; margin: 0.6rem 0 0; }
+.draw-record li { margin-bottom: 0.3rem; }
+.draw-record code { font-size: 0.8rem; margin-right: 0.4rem; }
