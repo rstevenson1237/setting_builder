@@ -93,7 +93,9 @@ CHECKLIST_SOURCES = [
 # whole file, because citation format applies everywhere, not just in Spec.
 # ---------------------------------------------------------------------------
 
+import context as ctx  # noqa: E402
 import validate_setting as vs
+from draw import DrawError  # noqa: E402
 
 PATTERNS_ROOT = ROOT / "patterns"
 GENRE_ROOT = ROOT / "genre"
@@ -881,7 +883,31 @@ def build_location(setting: sc.Setting, out: Path, code: str, num: int) -> None:
     else:
         body.append(section("Exits", '<p class="hint">None.</p>'))
 
+    body.append(draw_record(loc.code))
     write_page(out, page, page_shell(setting, page, loc.code + " " + loc.name, "\n".join(body)))
+
+
+# ---------------------------------------------------------------------------
+# The draw record
+#
+# What this location's contract drew at 4c, recomputed rather than stored: the
+# draw is arithmetic from the code, per tools/draw.py, so it is the same answer
+# a session got however long ago. It is authoring scaffolding, so it is folded
+# shut and it is on the site only - tools/build_pdf.py renders the setting a
+# referee reads at the table, and nothing here is for that reader.
+# ---------------------------------------------------------------------------
+
+def draw_record(code: str) -> str:
+    try:
+        rows = ctx.draw_record(code)
+    except (ctx.ContextError, DrawError, OSError):
+        return ""
+    if not rows:
+        return ""
+    items = "".join(f'<li><code>{html.escape(key)}</code> {html.escape(text)}</li>'
+                    for key, text in rows)
+    return ('<details class="draw-record"><summary>What this location drew</summary>'
+            f'<ul>{items}</ul></details>')
 
 
 # ---------------------------------------------------------------------------

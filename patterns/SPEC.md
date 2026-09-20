@@ -77,6 +77,18 @@ because HIGH announces itself, so that line is HIGH's; `dangerous/Dressing.md`'s
 lines are constant, so they are Dressing's.) This is the same test `setting/Procedures.md`
 applies one level up.
 
+**What `tools/context.py` settles, it settles off the line's own shape**, so four things a
+Spec line writes are load-bearing rather than cosmetic. The tool is the authority on how
+each is resolved; what a pattern file owes is writing them the same way:
+
+- a rate, which it resolves rather than leaving to the generator;
+- an alternation, `{a | b | c}`, one alternative per citation and in the same order,
+  optionally rated inside the braces (`{a 55% | b 45%}`);
+- a line opening `Label:`, which is read as conditional on `label` - an alternative of an
+  alternation above it in the same block, or the facet of an entry drawn above it;
+- a block header scoping the block, `DOOR - every exit`, which is resolved once per one
+  of those.
+
 ### `## Constraints`
 Every prohibition: what belongs in another file, what this file must never do, a named
 failure mode. Blank when a file is created. Fills as the patterns are refined and negative
@@ -89,9 +101,9 @@ a prohibition and stays where it is.
 ## Genre lists
 
 A list lives at `genre/<pack>/lists/<name>.md`: an `# name` heading, a one-line gloss, and
-one numbered entry per line. A Spec line citing it draws one entry; `tools/draw.py` will do
-that arithmetically at P3.2. Until then the generator picks, and the citation is what tells
-it where to pick from.
+one numbered entry per line. A Spec line citing it draws one entry, and `tools/draw.py`
+decides which by arithmetic on the drawing location's code - which is why a list is
+numbered from 1 with no gaps, and why an entry's position in it matters.
 
 Two rules hold the pack and the tree together, and `tools/validate_setting.py` enforces both:
 every `(genre: name)` resolves to a list in the selected pack, and every list in the pack is

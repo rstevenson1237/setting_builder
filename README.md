@@ -61,6 +61,10 @@ Read these rather than a description of them.
 - `tools/` - exactly what content generation needs and nothing else. Stdlib-only Python, no
   package manager, no test framework beyond running these against the content.
   - `validate_setting.py` - structural linter, run in CI on every pull request.
+  - `draw.py` - which entry a genre list gives a location, and whether a rated Spec line
+    fires there, both derived from the location's code.
+  - `context.py` - the whole read set for one location at step 4c, resolved by `draw.py`
+    and printed as one stream. It is what a 4c session opens.
   - `build_site.py` / `build_pdf.py` - render `setting/` into a website and a PDF, with no
     separate copy to keep in sync.
   - `site_common.py` - parsing helpers shared by the two builders.
@@ -70,6 +74,8 @@ Read these rather than a description of them.
 ## Commands
 
 ```sh
+python3 tools/context.py 4c D.5             # everything step 4c reads, for one location
+python3 tools/draw.py D.5 doors --reroll 1  # move one draw on
 python3 tools/validate_setting.py           # structural lint
 python3 tools/validate_setting.py --pending [REGION]    # edges owed to unwritten blocks
 python3 tools/validate_setting.py --read-set [STEP]     # what a step reads, per the graph

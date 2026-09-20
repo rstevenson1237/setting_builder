@@ -176,31 +176,65 @@ def check_pattern_sections(diag: Diagnostics, path, text: str):
 # routinely wraps onto them. Grouping physically would split every wrapped draw
 # away from the rate that governs it.
 SPEC_RATE_RE = re.compile(r'^ {2}(1|\d+%|liner note|working|central)\s')
+# A block's own group heading - `-- challenge: what opposes the party` - which
+# belongs to the block rather than to the line above it.
+SPEC_GROUP_RE = re.compile(r'^\s*--\s')
+
+
+def spec_fenced_blocks(text: str) -> list[str]:
+    """This file's Spec fenced blocks, in order. Its contract, and nothing else."""
+    m = re.search(r'\n## Spec\n(.*?)(?=\n## Constraints\n|\Z)', text, re.S)
+    if not m:
+        return []
+    return re.findall(r'```(.*?)```', m.group(1), re.S)
+
+
+def spec_logical_lines(fenced: str) -> list[tuple[str | None, list[str]]]:
+    """A block's lines grouped as (rate, physical lines).
+
+    A rate of None is a line the block opens with or a heading between its
+    groups - kept in order, since a resolved block is read as a block.
+    """
+    out: list[tuple[str | None, list[str]]] = []
+    cur: list[str] | None = None
+    for phys in fenced.splitlines():
+        m = SPEC_RATE_RE.match(phys)
+        if m:
+            cur = [phys]
+            out.append((m.group(1), cur))
+        elif SPEC_GROUP_RE.match(phys):
+            cur = None
+            out.append((None, [phys]))
+        elif cur is not None:
+            cur.append(phys)
+        else:
+            out.append((None, [phys]))
+    return out
+
+
+def line_pattern_cites(line: str, rel: str) -> list:
+    """Pattern files one Spec line names, in the order it names them.
+
+    Order carries meaning where a line pairs an alternation with one file per
+    alternative - `{trap | environmental | residual}` and its three citations -
+    so this is a list, and a caller wanting membership takes the set of it.
+    """
+    out = []
+    for prefixed, folder, fname in PATTERN_CITE_RE.findall(line):
+        target = f"{folder}/{fname}"
+        if target == rel or (folder == "setting" and not prefixed) or target in out:
+            continue
+        out.append(target)
+    return out
 
 
 def spec_edges(text: str, rel: str):
     """Pattern files this file's Spec fenced blocks draw."""
-    m = re.search(r'\n## Spec\n(.*?)(?=\n## Constraints\n|\Z)', text, re.S)
-    if not m:
-        return set()
     out = set()
-    for fenced in re.findall(r'```(.*?)```', m.group(1), re.S):
-        logical, cur = [], None
-        for phys in fenced.splitlines():
-            if SPEC_RATE_RE.match(phys):
-                if cur:
-                    logical.append(cur)
-                cur = [phys]
-            elif cur is not None:
-                cur.append(phys)
-        if cur:
-            logical.append(cur)
-        for chunk in logical:
-            line = "\n".join(chunk)
-            out |= {f"{folder}/{fname}"
-                    for prefixed, folder, fname in PATTERN_CITE_RE.findall(line)
-                    if f"{folder}/{fname}" != rel
-                    and not (folder == "setting" and not prefixed)}
+    for fenced in spec_fenced_blocks(text):
+        for rate, chunk in spec_logical_lines(fenced):
+            if rate is not None:
+                out.update(line_pattern_cites("\n".join(chunk), rel))
     return out
 
 
@@ -470,15 +504,19 @@ def pack_lists(pack: Path | None) -> set:
     return {p.stem for p in (pack / "lists").glob("*.md")}
 
 
+def list_cites(line: str) -> set:
+    """Genre lists one Spec line draws from."""
+    out = set()
+    for group in GENRE_CITE_RE.findall(line):
+        out |= {name.strip() for name in group.split(",") if name.strip()}
+    return out
+
+
 def spec_list_citations(text: str) -> set:
     """Genre lists this file's Spec fenced blocks draw from."""
-    m = re.search(r'\n## Spec\n(.*?)(?=\n## Constraints\n|\Z)', text, re.S)
-    if not m:
-        return set()
     out = set()
-    for fenced in re.findall(r'```(.*?)```', m.group(1), re.S):
-        for group in GENRE_CITE_RE.findall(fenced):
-            out |= {name.strip() for name in group.split(",") if name.strip()}
+    for fenced in spec_fenced_blocks(text):
+        out |= list_cites(fenced)
     return out
 
 
