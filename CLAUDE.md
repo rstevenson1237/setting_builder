@@ -49,8 +49,10 @@ So, when writing or editing any of them:
 
 `patterns/SPEC.md` is the full spec. The rules that get broken without it open:
 
-- **One skeleton, every file**: **Provides / Spec / Design patterns / Constraints**. There
-  is no `## Read at` and no `## Design questions` heading.
+- **One skeleton, every file**: **Provides / Spec / Constraints**. There is no `## Read at`
+  and no `## Design questions` heading, and no `## Design patterns` heading - every field
+  is a neutral, permanent question or edge; a field that reads flat gets a sharper
+  question, never a list of examples to draw from.
 - **Every Spec line is an edge or a question.** An edge names another pattern file in
   parentheses and belongs in the fenced block, never in the prose under it. A question
   cites nothing. A citation is an edge only where the generator must go and read that file;

@@ -10,7 +10,8 @@ file decides when to reach for one here.
 
 ```
 LORE
-  1     Physical form - it is an object, not a thing someone knows
+  1     Physical form - it is an object, not a thing someone knows: written, marked,
+        or recorded by hand, its own condition part of what it tells
   1     Why it survived where it did
   1     Whose voice it is in, and what they were wrong about
   50%   A detail that only makes sense once another location is seen
@@ -24,21 +25,13 @@ document that explains or complicates it.
 Record a stub row in `setting/Lore.md` now: name and this location only. The content is
 written at 4d, with every location that cites it in view.
 
-## Design patterns
+**A useful find does one concrete thing.** It names a place the party has not found,
+explains a feature they have already seen and misread, connects an event in
+`setting/History.md` to something physical here, contradicts a rumour they arrived with,
+or gives a name to an effect they have only seen - never several at once.
 
-**Forms** - a ledger or tally; a work roster; a letter never sent, or never delivered; a
-journal that stops; an inventory that does not match what is here; a map that is wrong, or
-was right; an inscription cut by someone who expected to be read; a marker or grave good;
-a tally scratched by someone counting days; a legal instrument - a deed, a writ, a
-manumission; a receipt; a warning left for the next people through.
-
-**What it does** - names a place the party has not found; explains a feature they have
-already seen and misread; connects an event in `setting/History.md` to something physical
-here; contradicts a rumour they arrived with; establishes that the current occupants are
-not the first; gives a name to something they have only seen the effects of.
-
-**Whose voice** - lore is written by someone in the setting, so it is partial, biased,
-mistaken, or self-interested. A document that knows everything is a briefing, not a find.
-The most useful lore is written by someone who did not know what they were describing.
+**Lore is written by someone in the setting, so it is partial, biased, mistaken, or
+self-interested.** A document that knows everything is a briefing, not a find. The most
+useful lore is written by someone who did not know what they were describing.
 
 ## Constraints

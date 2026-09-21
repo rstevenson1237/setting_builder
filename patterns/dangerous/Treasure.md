@@ -13,14 +13,17 @@ something elsewhere, is drawn by the weight file's own registry lines instead.
 
 ```
 TREASURE
-  1     Disposition   {guarded | hidden | discarded} - see Patterns
+  1     Disposition {guarded | hidden | discarded}: guarded is drawn on the Guarded
+        line below; hidden is in, under, or behind something, with a search or
+        trigger that reaches it; discarded is in the open, unclaimed rather than
+        unseen
   1     What it is - exactly one, drawn at these rates rather than freely chosen
         {table roll 55% | key 20% | lore 20% | unique treasure 5%}
                         (patterns/setting/Treasure.md,
                          dangerous/Key.md, dangerous/Lore.md,
                          patterns/setting/UniqueTreasures.md)
-  1     Container - what it is in, under, or behind, its own condition, and the search or
-        trigger that reaches it
+  1     Container - what it is in, under, or behind, whether it is sealed, breached,
+        reclosed, or fused in place, and the search or trigger that reaches it
   1     Guarded: what guards it, drawn as an Encounter or a Hazard
                         (dangerous/Encounter.md, dangerous/Hazard.md)
   25%   A lesser thing living on or in the container - small, no match for the party, and
@@ -28,7 +31,9 @@ TREASURE
   25%   Something set on the container itself, whatever the disposition - mechanism fixed
         to trap         (dangerous/Hazard.md, dangerous/Trap.md)
   30%   Something already tried for it and failed
-  20%   A reason it was left rather than taken
+  20%   A reason it was left rather than taken - too heavy, its owner never
+        returned, or worthless to whoever holds this now and valuable only to the
+        party
 ```
 
 **This is the reward end of the location - what is here to be taken.** A key found here is
@@ -69,50 +74,9 @@ line does not read off the disposition. Its clue is the cache itself, per
 **A guard is drawn, not invented.** Where the disposition is `guarded`, the thing guarding
 it comes from `dangerous/Encounter.md` or `dangerous/Hazard.md` like any other - which is
 what keeps a guardian a real encounter with a sign and a want, rather than a sentence
-attached to a chest.
-
-## Design patterns
-
-**Which table**
-- **I - Scavenged Loot** - debris that rewards looking without demanding action. Low
-  weight, and the default where a find should be a small mercy rather than a payoff.
-- **II - Equipment and Armaments** - tied to a person or creature: what a guard carries,
-  what a corpse still has, what a work party left behind.
-- **III - Gems and Jewelry** - a cache with no owner present. Medium-weight hidden
-  treasure, and anything walled up or buried.
-- **IV - Luxury and Trade Goods** - bulk with a function. Stores, a cargo, a faction's
-  supply, something that was being moved when the region stopped working.
-- **V - Treasure Cache** - the payoff. High weight, and the room the rest of the region is
-  arranged around.
-
-**Concealment** - under a floor, behind a course of stone, inside something else, in
-water, in a corpse, in plain sight and unrecognisable, held by something that will not
-let go, in a container whose lock is elsewhere in the region.
-
-**Discarded** - dropped where it fell and left; spilled from a container that gave out;
-abandoned in a retreat with no time to gather it; lying in plain sight because nothing
-that has passed through since had a reason to want it; indistinguishable from debris
-until somebody looks twice.
-
-**Containers** - a chest with its lock on the inside; a coffer banded and too heavy to
-carry whole; a jar sealed under pitch; a niche plugged with a single dressed stone; a
-course of masonry laid over it; a body, still wearing it; a sack gone to fibre that will
-not lift; a cistern, and the water is still in it; a floor void under a flagstone; a beam
-hollowed and capped; an animal's cache, sorted the way an animal sorts; something built
-around it that would have to come down first.
-
-**A container's own condition** - swollen shut and needing the hinges rather than the lid;
-burst already, and the contents spread; opened once and closed again by somebody who left;
-fused to the floor by what has grown over it; sound, and that is the strange part in a room
-where nothing else is.
-
-**Why it is still here** - whoever hid it died before returning; it is too heavy; it is
-guarded; it is cursed and known to be; it is worthless to the current occupants and
-valuable to the party; nobody has been this deep since.
-
-**Guard relationships** - a creature that has nested on it without knowing what it is; an
-occupant who knows exactly what it is; a trap set by someone long dead; a mystery that
-must be answered first; something that will follow whoever takes it.
+attached to a chest. How it relates to what it guards is part of the draw too - nested on
+it without knowing what it is, set by someone long dead, or bound to follow whoever takes
+it, rather than a fight with a costume on.
 
 ## Constraints
 

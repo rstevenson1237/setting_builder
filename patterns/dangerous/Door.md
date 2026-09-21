@@ -51,50 +51,22 @@ already have, that object is a key: record a `setting/Keys.md` row for it here, 
 `dangerous/Key.md`'s demand end, rather than leaving a socket in the wall that nothing in
 the setting fills.
 
-## Design patterns
+**Kind is made visible by what a party can see standing here** - whether the opening still
+holds a leaf, drops rather than continues, hides its own edge, or runs vertical rather than
+through - never by naming the kind word itself. Where it is not a door at all, Type states
+what actually stands in the opening instead.
 
-**Material and construction.** Real materials named as materials, and real joinery: banded
-oak, bronze-shod, iron-strapped, a slab of dressed limestone pivoting on a socket, a lintel
-of a single stone, a curtain of hide over a hacked opening, mud brick gone soft at the
-bottom course, a bronze grille green with age, plank-and-batten pinned with wooden trenails,
-a cast bronze leaf too heavy for its own hinges, iron banding over a core that has rotted
-out from behind it, a hurdle of withies, a hide stretched on a frame.
+**Type earns its line by naming what the material and the making are, not what they look
+like** - the substance, the joinery, and how far Condition has carried them, stated as
+facts a party could test by hand rather than described in mood.
 
-**What is actually in the opening**, where it is not a door at all: a plug of piled rubble;
-a portcullis down and silted in; a hatch in a floor with a ring pulled off it; a bulkhead
-laid flat over a stair; a hanging heavy enough to stop light; a screen of stacked stone
-built dry; nothing, and a drop; nothing, and the opening is the wrong shape for anything
-that walks.
+**A gate is stated as what opens it, in mechanical terms** - what the mechanism wants: a
+key, a fitted object, weight, power, or a ward - never as the bare fact that the way is
+shut.
 
-**Condition**, following the room's own Condition: hinges seized, the leaf sprung and
-never closed since, a bar socket cut out of the jamb by somebody in a hurry, scorching
-around the frame, a threshold worn into a trough, a door taken off and used for something
-else, fresh timber in an old opening.
-
-**Kind, made visible.** *Open* - an arch, a breach, a doorway whose leaf is long gone.
-*One-way* - a drop, a chute, a leaf barred from the far side, a slope that cannot be
-climbed back up. *Secret* - a pivot seam in dressed stone, a counterweighted slab, a
-passage behind a fitting nobody would move. *Vertical* - a shaft with staples, a ladder
-well, a stair spiralling in a chimney, a hole broken through a floor.
-
-**Gates**, where one is drawn: a lock wanting a key held elsewhere, a socket wanting a
-fitted object, a mechanism wanting power the level does not currently have, a weight no
-single person shifts.
-
-*Barred* - a bar seated from the far side; a brace jammed under the leaf; wedges driven at
-the sill; spikes through the jamb, set by somebody keeping something out, or in. *Stuck* -
-timber swollen with damp; hinges seized solid; a lintel settled onto the leaf; silt or
-spoil banked against the far face; the leaf sprung in its frame and binding at one corner.
-*Warded* - a mark cut across the threshold and kept clean when nothing else here is; a
-line of fittings buried at the sill; a name cut into the lintel in a tongue from
-`setting/Language.md`; an opening that takes some things through and stops others.
-*Trapped* - the mechanism comes from `dangerous/Trap.md`, and the tell that it is there
-from the frame, the threshold, or what is lying short of it.
-
-**Vocabulary.** An opening's parts already have names, and the name costs less than the
-description: jamb, reveal, soffit, threshold-stone, pintle, gudgeon, strap-hinge, hasp,
-staple, drawbar, bar-socket, wicket, postern. Where something sits on a door is given in
-these rather than in left and right.
+**Name the part rather than describe it.** An opening's parts already have names, and each
+one is cheaper than the phrase describing it. Where something sits on a door, it is given
+by the part it sits on rather than by left and right.
 
 ## Constraints
 
@@ -102,10 +74,10 @@ these rather than in left and right.
   Kind comes from the diagram and material usually comes from the region's Architecture, so
   neither is free to vary - in a single-material region most exits will honestly read "open
   archway - basalt", and demanding otherwise would ask a file to contradict the region above
-  it. What has to vary is the rest of the line: the construction and the condition, which
-  this file's Design patterns stock for exactly that reason. A block whose exits are mostly
-  one repeated phrase has written the diagram out in words rather than described anything,
-  and the rule below cannot be met by compass direction alone.
+  it. What has to vary is the rest of the line: the construction and the condition, which is
+  exactly what naming the part rather than describing it buys room for. A block whose exits
+  are mostly one repeated phrase has written the diagram out in words rather than described
+  anything, and the rule below cannot be met by compass direction alone.
 
 - **Two exits of the same kind are told apart by their type and their position, and this is
   not housekeeping.** It is what makes a choice a decision rather than a coin flip. A party

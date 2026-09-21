@@ -47,52 +47,16 @@ only where the place is holding something back. Sanity is rarely this file's - a
 with no author is grim, not maddening, and per `dangerous/Residual.md` what breaks a mind
 usually had one behind it.
 
-## Design patterns
+**Each kind is drawn from what the room's own Dressing already established, and stated as
+a physical fact specific enough that a party could test it by hand** - where water or
+footing fails to hold weight, where air stops carrying breath or flame, where temperature
+has an edge that can be touched, where dark or sound removes a sense, where collapse is a
+load visibly carried on too little, where growth has closed or is closing a way through.
+State the fact and its edge, never the mood of the room.
 
-**Water and footing** - standing water that never drained; a floor slick with what grows
-on it; silt that takes a boot and keeps it; ice where a draught crosses water; stone worn
-smooth by whatever has been dragged down it; a surface that holds a person and not a
-person carrying something.
-
-**Air** - air that will not carry a flame; a heaviness that settles into the lowest part
-of the room; dust that hangs where something dropped it; a smell strong enough to be a
-fact rather than dressing; what grows on the walls, breathed.
-
-**Temperature** - a cold that comes up through the floor rather than through the air; heat
-still in stone long after whatever made it is gone; a draught that takes warmth faster
-than still air at the same reading; damp, which makes every other condition here worse.
-
-**Heat at the top of the scale** - stone too hot to put a hand on and getting hotter with
-depth; a crust over molten rock that carries a person and not a person running; a vent
-that breathes on an interval somebody could have timed; steam where water reaches it, and
-the water is coming from somewhere; air that dries a throat faster than it burns anything;
-metal in the room that has slumped, which says what this place does at its worst.
-
-**Light, dark, and sound** - dark that swallows a light source's useful radius; glare off
-water or pale stone that hides what is under it; a room that carries every sound made in
-it somewhere else; a room that carries none, so nothing can be heard coming.
-
-**Collapse, and what is holding** - a ceiling carrying its load on one prop, one pillar, or
-one beam, and the party can see which; a fall already down to the waist of a corridor with
-a gap over it; a floor eaten thin from below; a fresh fall where the dust has not settled;
-a roof that drops grit whenever something heavy moves; a shaft whose collar has gone; a
-wall out of plumb far enough to read from the doorway; a working propped by whoever cut it,
-in timber that has since been eaten.
-
-**Growth** - a root mass that has opened a wall and is holding what it opened; thorn grown
-across the only way through, thick enough to be a job rather than a step; a stand that
-closes behind whatever passes through it; something that grips what touches it and does not
-choose to; a bloom or a spore bed that answers to being disturbed; a mat over standing water
-that reads as floor.
-
-**What the place has become** - growth that has taken the walls and is load-bearing now; a
-colony or a nest old enough to be terrain rather than a creature; a room whose original
-shape can no longer be made out from inside it.
-
-**Vocabulary.** Mining and quarrying supply most of what an underground condition is
-properly called: chokedamp, firedamp, sough, adit, winze, stope, stull, lagging, shoring,
-out of plumb, camber, flowstone, seep, sump, weep. *Chokedamp* is one word for air that will
-not carry a flame, which is the entire case for keeping this list.
+**Name the technical term for a condition rather than describing it.** Mining and
+quarrying supply most of what an underground condition is properly called, and a named
+condition is one a referee can rule on without inventing how it works.
 
 ## Constraints
 

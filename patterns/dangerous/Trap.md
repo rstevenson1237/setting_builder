@@ -11,8 +11,9 @@ somebody, and still does that job.
 
 ```
 TRAP
-  1     Mechanism - what physically does it, from the list below for the tier
-        `dangerous/Hazard.md` rolled
+  1     Mechanism - what physically does it, sized to the tier `dangerous/Hazard.md`
+        rolled: bare at nuisance, the same idea deepened or armed at damaging, and
+        armed to kill at lethal
   1     Trigger - the action that springs it
   1     Damage - the expression the tier allows, per setting/Procedures.md
   1     Who set it, and whether anyone is still here to maintain it
@@ -50,32 +51,13 @@ and not a Feature of its own.
 The arrow makes it visible at a glance when a trap has been written with no way to detect
 it; the expression does the same for one written with no stated cost.
 
-## Design patterns
-
-**Nuisance mechanisms** - an alarm, bell, or released creature that alerts something
-elsewhere; a marking trap - dye, scent, residue - that draws attention later; a snare or
-net; a trap that ruins a resource rather than a person; a lid weighted to hold something
-shut from the inside; a container that destroys its contents when opened wrong; a
-mechanism so rusted it half-works and is worse for it.
-
-**Damaging mechanisms** - a covered pit, shallow; a dart or needle from a wall; a spear
-trap at chest height; a hanging weight on a trip line; choking gas, spores or dust; a
-chest that gasses, sprays, or fouls what it holds; a fixture whose ornament is wired to
-its base; a turning trapdoor mounted on an axis.
-
-**Lethal mechanisms** - a spiked pit, deep, with a beam across it; a deadfall or
-collapsing floor; a floor that gives onto something living below; a swinging blade, scythe
-or pendulum; a small catapult loaded with a ball-and-chain; a flooding chamber; a
-rockslide or cave-in; boiling oil from a heated cauldron; walls that close.
-
 **The same mechanism can sit a tier lower** - a pit is the plain case: shallow and empty
-it is damaging, deep and spiked it is lethal. Where a tier's list is thin for the region's
-materials, drop a mechanism from the tier above and take out what makes it worse, rather
-than reaching up for one the tier cannot afford.
+it is damaging, deep and spiked it is lethal. Where the region's own materials cannot
+support a tier's mechanism, drop a mechanism from the tier above and take out what makes
+it worse, rather than reaching up for one the tier cannot afford.
 
-**Vocabulary.** Name the working parts instead of describing them: springe, gin, deadfall,
-treadle, detent, sear, tumbler, counterweight, trip-line, quarrel, scythe-beam, pitfall lid.
-A mechanism with a name is a mechanism a referee can rule on without inventing how it works.
+**Name the working parts instead of describing them.** A mechanism with a name is a
+mechanism a referee can rule on without inventing how it works.
 
 ## Constraints
 
