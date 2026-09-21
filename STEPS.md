@@ -8,7 +8,7 @@ in `patterns/`, in five folders - `setting/`, `region/`, `safe/`, `wild/`, `dang
 a step reads only the folder that matches what it is building.
 
 1. Establish framework
-   - 1a. Generate `setting/Tags.md` (~25 flat, genre-derived thematic tags, each with a one-line gloss), following `templates/Tags.md`. Replaces `GENRE.md`'s old Safe/Wild/Dangerous/People/Creatures tag bank outright.
+   - 1a. Generate `setting/Tags.md` (~25 flat, genre-derived thematic tags, each with a one-line gloss), following `templates/Tags.md`.
    - 1b. Seed `setting/Procedures.md` with working default mechanics - tests and consequences, forced damage and hazard tiers, wounds and madness, conditions, searching, time by rating, the three Action Dice scales, and the Difficulty roll - following `templates/Procedures.md`. Generic by design; tailored at 2h.
    - 1c. Seed `setting/Language.md` with three tongues - a common tongue, an older tongue for ruins and the dead, and one non-human tongue - each with phoneme inventories, a syllable shape, affixes, and a starter root list, following `templates/Language.md`. Seeding here rather than later is what makes names generative from 2b onward rather than systematized after the fact.
 2. Build the setting
