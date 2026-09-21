@@ -1,0 +1,27 @@
+Tags of Kordath
+
+- **Reaver Coast** - low black ships take from the shore and are gone before a garrison can muster.
+- **Slave Column** - captives walk a fixed route to market, chained to a factor's ledger, not to any one owner.
+- **Serpent Rite** - a priesthood answers to a god shaped like a snake, and admits no outsider to its rites.
+- **Black Lotus** - a flower grown in one place only, sought by sorcerers for what it shows and by addicts for what it silences.
+- **Sunken Court** - a palace the sea or the sand swallowed still holds its throne, empty and intact, beneath.
+- **Ape-Kin Ruin** - stonework older than any people now living, cut by hands not quite human.
+- **Usurper's Crown** - the new king took the throne by killing the last one, and the court that crowned him remembers whose knife it was.
+- **Debt-Bond** - a contract in ink and blood ties a debtor to a lender until the sum or the debtor is spent.
+- **Horse Clan** - riders who own no walls follow a chief chosen by combat, never by birth.
+- **Idol Cult** - a stone god still receives blood offerings from villagers a temple abandoned generations ago.
+- **Corsair Isle** - an island answers to no crown, only to whichever captain currently holds its harbor.
+- **Ash Road** - a trade route crosses a burned country, and travelling it means passing whatever burned it.
+- **Moon Rite** - a cult times every rite to the moon's dark, and will not meet under any other sky.
+- **Iron Levy** - a warlord taxes passage in ore or arms, and the toll buys only his men moving on.
+- **Old Blood** - a bloodline claims descent from something older than the current kingdoms, and is watched for it.
+- **Buried King** - a dead ruler was sealed underground with grave-goods a living kingdom still misses.
+- **Thieves' Compact** - a guild of cutpurses answers to its own council, not the city's law, and enforces both.
+- **Witch-Doctor** - a lone practitioner trades cures and curses for coin, feared and needed in the same breath.
+- **Border Toll** - a warlord taxes a pass or ford, and paying is cheaper than the alternative.
+- **Living Idol** - a statue moves, bleeds, or speaks under conditions nobody now living fully understands.
+- **Plague Ward** - a district was walled off during a sickness and never fully reopened.
+- **Mercenary Pact** - a company of swords sells its service to whoever pays, and remembers who paid last.
+- **Salt Waste** - a dried sea leaves ground no plant will grow in, crossed only by those who know the safe path.
+- **Blood Price** - sorcery here costs something living, paid at the casting, not after.
+- **Forgotten Garrison** - a fort built to hold a border that moved still stands, undermanned, on a border nobody defends anymore.
