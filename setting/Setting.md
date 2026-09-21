@@ -1,7 +1,5 @@
 Kordath
 
-Tags: see setting/Tags.md
-
 *Kordath's crown broke three generations back; no throne holds the land as one anymore, and
 every warlord, priesthood, and captain rules only as far as their own swords reach, while the
 old royal road that once crossed it whole now sits unheld - tolls climbing at fords that used
