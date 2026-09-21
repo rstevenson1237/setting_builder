@@ -1,9 +1,10 @@
 Kordath
 
-*Kordath's crown broke three generations back; no throne holds the land as one anymore, and
-every warlord, priesthood, and captain rules only as far as their own swords reach, while the
-old royal road that once crossed it whole now sits unheld - tolls climbing at fords that used
-to be free, whole stretches gone unpatrolled. Parties arrive for work no settled crown would
-touch - a toll nobody's chartered to collect, a debt outrun from somewhere worse, a ruin whose
-hoard is still just a rumor. Every claimant since the breaking has taken the old crown's title
-for their own - kor - certain the word itself carries the land, and none yet has made it true.*
+*Kordath is a coastline and its hinterland where no single crown has held the ports in a
+generation - corsair captains, garrison lords, and inland chieftains each take what their own
+men can hold, and a harbor changes hands as fast as its captain dies. Parties come ashore for
+pay no chartered company would put its name to: guarding a caravan through country nobody has
+mapped since the wars, hunting down a debt someone carried out to sea, working a ruin before a
+rival crew strips it bare. Something is already moving wrong along that coast - a raiding sail
+sighted twice this season where none has come in years - and every apothecary and sorcerer here
+pays in silver, not questions, for the black lotus that grows nowhere else alive.*
