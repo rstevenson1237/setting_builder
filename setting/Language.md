@@ -1,154 +1,99 @@
-Tongues of Telar
+Tongues of Kordath
 
-*(Seeded generic at step 1c; tailored and first drawn on for real coinage at step 2a
-onward.)*
-
-## Marchspeech
-Spoken by: the living - garrisons, caravaneers, mercenary companies, and every settlement
-along the border kingdoms and their roads. A young trade tongue, nobody's cradle speech
-alone, built to be said fast and understood by strangers.
-Consonants: p b t d k g m n s z r l w y
+## Varic
+Spoken by: every living people of Kordath's kingdoms, city-states, and roads - traders,
+soldiers, sellswords, and priests speaking to their own laity. What a party hears in every
+market and every guardhouse.
+Consonants: p b t d k g m n l r s h w y
 Vowels: a e i o u
-Syllable: (C)V(C) - open-leaning; a word can end on a vowel and often does
-Affixes: -ar (place, holding, or settlement); -eth (diminutive - small, young, lesser);
--ka (plural or collective); -om (possession, belonging to); -dun (old, former, no longer
-what it was)
+Syllable: (C)V(C), leaning open - most syllables end on a vowel; a closing consonant appears
+only where a root demands it.
+Affixes: -ar (place of, a holding); -en (water, or whatever it feeds); -il (diminutive,
+smaller or younger); -eth (plural or collective); do- (old, former, no longer true); kel-
+(toward, facing)
 
 Roots:
-- gar - stone, rock
-- dun - hill, high ground
-- mar - water, river
-- sel - spring, well
-- tor - tree, wood
-- kesh - grain, a field crop
-- brel - iron, worked metal
-- nir - fire
-- fen - marsh, wet ground
-- rask - cold, frost
-- kol - black
-- vash - red
-- lume - light
-- shad - shadow, dark
-- tem - dead, death
-- korr - bone
-- pel - skin, flesh
-- dael - to build, to make
-- brek - to break, to ruin
-- tak - to take
-- gev - to give
-- osk - one
-- dral - many
-- arn - toward, in the direction of
-- tel - road, way
-- tolk - toll, a due paid or owed
-- sarn - oath, a sworn word
-- vel - coin, minted metal
-
-*(tel was already spent on this setting's own name at step 2a and should have been listed
-here from the start; tolk, sarn, and vel are added at step 2h now that toll, oath, and
-coin have turned out to be load-bearing concepts this build keeps needing to name.)*
+- kor - crown, to rule
+- dath - land, realm
+- mel - stone, worked or raw
+- sar - water, still
+- ren - water, moving
+- lith - tree, or any growing wood
+- var - wind, weather
+- tos - cold
+- kal - fire, heat
+- bel - white, pale
+- dur - black, dark
+- han - hand, to hold
+- vor - to break, to ruin
+- pel - to give, an offering
+- shan - light, to shine
+- morg - the dead, a grave
+- tir - one
+- dun - two
+- gar - many, a great number
+- sel - outward, away
+- nar - road, path
 
 Coined here:
-- Telar = tel (road) + ar (place, holding) - the setting's own name, in `setting/Setting.md`
-- Brekar = brek (break, ruin) + ar (place, holding) - the reaver band holding the Sunk
-  Bridge's own name for itself, in `setting/Factions.md`
-- Tolkar = tolk (toll, a due paid or owed) + ar (place, holding) - the western garrison
-  region's name, in `setting/region/Regions.md`
-- Marfen = mar (water, river) + fen (marsh, wet ground) - the ford region's name, in
-  `setting/region/Regions.md`
-- Velar = vel (coin, minted metal) + ar (place, holding) - the eastern market region's
-  name, in `setting/region/Regions.md`
+- Kordath = kor (crown, to rule) + dath (land, realm) - the setting's own name, "the crowned
+  land," in `GENRE.md` and `setting/Setting.md`
 
-## Essath
-Spoken by: the dead. The priest-kings who cut the black ziggurats and drowned temples are
-centuries gone; what is left of Essath survives in inscriptions one word short, in the
-mouths of an undying sorcerer or two who never stopped speaking it, and in cultists who
-learned it wrong from copying what they could not read. Essath itself means "death-word" -
-essa (death) + ith (word, utterance) - which is the tongue's own claim about what it is for.
-Consonants: k q t d s z sh gh r n m l
-Vowels: a u i
-Syllable: CVC, strictly closed - no word ends on an open vowel, and consonant clusters form
-freely where roots are joined
-Affixes: -ash (place of power, temple, seat); -uk (lord, master, priest-king); -zar (blood,
-blood-bound, paid for in blood); -nakh (tomb, the buried dead); -eq (binding, oath, curse)
+## Ossuun
+Spoken by: the builders who raised what is now ruin across Kordath, gone before any living
+kingdom's grandfather was born. Nobody speaks it now; it survives cut into stone, and in the
+mouths of priests who learned it by rote without knowing what most of it means.
+Consonants: k q t d s z gh
+Vowels: a i u
+Syllable: (C)VC, strictly closed - no word in Ossuun ends on a bare vowel.
+Affixes: -aq (old, first, before all others); -uz (belonging to, of); iz- (negation,
+without); -oth (a title, one who holds a rite or office); -ka (of the grave, the dead)
 
 Roots:
-- qorth - cut stone, masonry
-- dagh - pit, abyss
-- zulk - the deep water, the sea
-- xash - sacred fire
-- nirg - serpent
-- vorn - blood
-- tul - bone
-- skar - ash, char
-- ghol - shadow, the unseen
-- mekh - light, specifically old or sacred light
-- druk - graven image, idol
-- essa - death, the dead
-- thok - to break, to shatter
-- vaal - to bind, to seal
-- griss - to take by force, to seize
-- amur - king, ruler
-- senn - one
-- dorrum - many, a multitude
-- kaash - below, beneath
-- ith - word, name, utterance
+- zut - stone, cut or dressed
+- vaq - bone
+- dis - death, an ending
+- kaz - silence
+- tur - to seal, to close
+- shiz - a name, to name
+- gath - throne, a seat of rule
+- muz - depth, below
+- riq - blood
+- vosh - serpent
+- kul - to bind
+- dazh - ash
+- ur - fire, a sacred flame
+- niq - held water, a cistern
+- sut - to guard, to ward
 
-Coined here:
-- Nirguk = nirg (serpent) + uk (lord, master) - the Serpent-kin's own name for themselves,
-  in `setting/Bestiary.md`
-- Daghash = dagh (pit, abyss) + ash (place of power, temple, seat) - the black ziggurat
-  region's name, in `setting/region/Regions.md`
-- Nirgash = nirg (serpent) + ash (place of power, temple, seat) - the priest-kings' own name
-  for the Chamber of the Coiled Serpent, in `setting/region/D/13.md`
-- Vaalsenn = vaal (to bind, to seal) + senn (one) - the name-tablet that performs an Essath
-  binding once, in `setting/UniqueTreasures.md` and `setting/region/D/13.md`
-- Vaaluk = vaal (to bind, to seal) + uk (lord, master) - the Nirguk enclave eldest at
-  D.15 Nirguk Warren, in `setting/NamedCreatures.md`; the one of them that reads the
-  bindings rather than living under them
-- Nakhash = nakh (tomb, the buried dead) + ash (place of power, temple, seat) - the
-  Serpent Cult's own burial-ground region's name, in `setting/region/Regions.md`
-- Vornuk = vorn (blood) + uk (lord, master, priest-king) - Nakhash's First Hall master, in
-  `setting/region/E/13.md` and `setting/Lore.md`
-- Skaruk = skar (ash, char) + uk (lord, master, priest-king) - Nakhash's Second Hall
-  master, in `setting/region/E/18.md` and `setting/Lore.md`
-- Gholuk = ghol (shadow, the unseen) + uk (lord, master, priest-king) - Nakhash's Third
-  Hall master, in `setting/region/E/22.md` and `setting/Lore.md`
+Coined here: none yet.
 
-## Uhgum
-Spoken by: the Man-Apes, in numbers nobody has counted. Living, not dead - the one non-human
-tongue this setting seeds, spoken by a people neither wholly human nor wholly beast who hold
-ground humans do not. Uhgum means "our voice" - uhg (voice, sound, speech) + um (great,
-elder, chief) - and it names only itself; the Man-Apes have no word in it for what humans
-call them.
-Consonants: g k h m n r w
+## Khaggur
+Spoken by: the ape-kin who cut Kordath's oldest stonework, hands not quite human at the
+work. A scattering of their descendants still climb the deepest ruins; most who hear this
+tongue now hear it from something already dead.
+Consonants: k g kh gh r rr h
 Vowels: a u
-Syllable: CV(C), and reduplication of a whole root is grammatical, not accidental - gur-gur
-is not "rock" said twice, it is "rockslide, many stones together"
-Affixes: reduplication (repeat the root - marks plural, or "many/much" of it); -um (big,
-elder, chief - the same root standing alone as "great"); -ik (small, young); ka- (prefix -
-danger, a warning); -oh (place, den, home)
+Syllable: (C)(C)VC(C) - a cluster is permitted at onset or coda, and the tongue is closed
+throughout.
+Affixes: -gur (a troop, a group); -akh (possession, belonging to one); kra- (place, a
+holding); ugh- (negation, cannot)
 
 Roots:
-- gur - rock, stone
-- mun - water
-- wak - tree, thicket
-- hrak - storm, thunder
-- korn - cold
-- nagh - black, dark
-- rowa - red, the colour of blood
-- uhg - voice, sound, speech
-- kror - troop, pack, many together
-- whan - eye, seeing
-- grah - hand, grip
-- mok - to break, to crush
-- taka - to take, to seize
-- gowa - to give, to share
-- vum - light, day
-- ngol - night
-- dem - dead, gone
-- bok - bone
-- oka - one
+- grukk - stone, raw rock
+- khagh - hand, claw
+- rusk - to climb, height
+- harr - to warn, a cry
+- vukk - a hoard, kept things
+- ghar - an elder, first-born
+- krug - dark, below ground
+- akhur - eye, to watch
+- ruggh - to break, to tear
+- vak - young, small
+- thakk - many, a great number
+- ghrus - a path, a way through
+- hurk - fear
+- akra - hunger
+- grath - to bind, to hold fast
 
-Coined here: none yet - the Man-Apes' own dens and the individuals among them get their
-Uhgum names wherever `setting/Bestiary.md` or a WILD/DANGEROUS location first needs one.
+Coined here: none yet.

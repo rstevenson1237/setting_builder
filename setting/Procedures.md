@@ -1,193 +1,120 @@
-Procedures of Telar
-
-*(Seeded generic at step 1b; tailored to this setting's own Truths and treasure at step 2h,
-and this heading is not touched again then - tailoring changes numbers and adds
-resolutions, never the shape below.)*
+Procedures of Kordath
 
 ## Tests and Consequences
+A Test is a single roll, made only where success and failure would each change what happens
+next. Every Test names the attribute at stake: **Constitution** (the body), **Sanity** (the
+mind), or **Fate** (nothing about the character, pure chance). Roll 1d20. A Test of
+Constitution or Sanity succeeds on a result equal to or under that attribute's score; a Test
+of Fate has no score to roll under, and succeeds on 11 or higher.
 
-**A Test is one roll, and the referee names the stakes before it is rolled - never after.**
-Call for one only where the fiction has not already answered the question and a bad result
-would be interesting; anything else is a ruling, not a roll. Where a player carries a die
-suited to what they are attempting, that die is rolled; where nothing they carry fits, a
-flat d6 stands in. Every Test reads on the same three-step ladder the Difficulty roll below
-also uses:
-
-- **1 - the named consequence lands in full.** Not a softened version of it.
-- **2-3 - a complication.** The character is still in it, but worse off than a moment ago:
-  hurt, marked, slowed, short of something, or noticed.
-- **4+ - clear.** Whatever was risked is avoided.
-
-**Three Tests are named, and whatever forces one says which.** A **Test of Constitution**
-is what the body is put to - poison, a fall, drowning, fire, a blade in the dark. A **Test
-of Sanity** is what the mind is put to. A **Test of Fate** is what neither answers for,
-where what is at stake is the character's luck and nothing they carry bears on it. Which
-die is rolled is the rule above: whichever of the character's own dice the fiction says
-fits, a flat d6 where none does. A Test of Fate is always the flat d6, since by definition
-nothing fits it.
-
-**Forced damage is written `Xd`, and X is how many Tests must be passed to take nothing.**
-A Test is passed on 4+; each is rolled on the ladder above, and the first one not passed
-ends it - the rest are never rolled. On a 1 the wound or the madness lands in full; on 2-3
-it lands at the complication grade, marked rather than maimed, shaken rather than mad. `1d`
-is survivable by anyone; `2d` wants a character with dice worth spending; `3d` is lethal to
-all but the strongest, per `GENRE.md`'s high lethality, and a region writing `3d` more than
-once or twice has stopped meaning it. Nothing here grants a re-roll, and a result already
-rolled is not earned back.
-
-**Cost of sorcery, per `setting/Truths.md`.** No Test decides whether a working succeeds -
-that is the referee's ruling, same as anything else. What is rolled is the toll: one year
-off the caster's own life for a working scaled to a single person or a single room, or 1d6
-years, rolled openly at the table, for anything reshaping more than that at once. The years
-are never given back, and the referee states which physical toll they bought before moving
-on - per `setting/Truths.md`, the cost always shows.
+A failed Test of Constitution or Sanity forces the Xd the hazard states - see Hazards below
+for what Xd means and what each tier allows. A failed Test of Fate forces no Xd at all: it
+applies a Condition (see Conditions) or an Impact - ground the character has to reach, or
+time they have to spend, before whatever is forcing the Test stops applying to them.
 
 ## Hazards
+Every hazard rolls one of three tiers, fixed by the rating's own pattern file (a rate that
+varies by rating belongs there, not here):
 
-Every hazard states what it forces in one of three expressions, written into the Feature
-line itself where the effect is stated:
+- **nuisance** forces no Test. It costs something stated outright - time spent, ground
+  given up, noise made, position lost, or a piece of gear spoiled - and nothing more.
+- **damaging** forces the Test its Feature line names. A failed Test of Constitution or
+  Sanity costs 1d. A failed Test of Fate costs a Condition or an Impact instead.
+- **lethal** forces the same Tests, at a higher cost: a failed Test of Constitution or
+  Sanity costs 2d or 3d. A failed Test of Fate still costs only a Condition or an Impact -
+  Fate is never scaled by Xd, whatever the tier.
 
-- `(Test of Constitution, Xd, Type)` - Type is **Piercing**, **Crushing**, **Poison**,
-  **Fire**, **Frost** or **Blast**
-- `(Test of Sanity, Xd)`
-- `(Test of Fate, Condition)` or `(Test of Fate, Impact)`
-
-A **Condition** is one of the named entries below, written by its name and nothing more. An
-**Impact** is what the character has to do to get out of the hazard, stated on the line
-itself - a turn spent loosening a snare, no heavy exertion for a turn until the gas clears.
-
-Which expressions a hazard may use is decided by the tier it rolled, listed by
-mechanism in `dangerous/Trap.md`, `dangerous/Environmental.md`, `dangerous/Residual.md` and
-`wild/Hazard.md`:
-
-- **Nuisance** - `(Test of Fate, Impact)`, or a Condition costing no wound. It costs time,
-  noise, a resource, or the party's position; never blood.
-- **Damaging** - `(Test of Fate, Condition)`, `(Test of Constitution, 1d, Type)`, or
-  `(Test of Sanity, 1d)`.
-- **Lethal** - a Test of Constitution or of Sanity above 1d.
+**Xd is a count, not a die size.** Every d is the same six-sided die, rolled and summed: 1d
+is 1d6, 2d is 2d6, 3d is 3d6. A Test of Constitution's Xd is lost as damage of the Feature's
+stated Type, taken straight off current HP; the Type is one of six - Piercing, Crushing,
+Poison, Fire, Frost, Blast - and a hazard draws only the one its own mechanism could actually
+produce. A Test of Sanity's Xd is lost off current Sanity the same way, and carries no Type.
+Xd never exceeds 3d; anything that would force more is an encounter, not a hazard, and
+belongs in a Creature file instead.
 
 ## Wounds and Madness
+A character reduced to 0 HP by a **damaging** hazard does not die: they carry a **Wound**
+instead. The referee names it concretely - a scar, a limp, a broken finger - and it imposes
+whatever penalty that injury would plainly cause until treated. A character reduced to 0 HP
+by a **lethal** hazard dies outright; there is no Wound to carry.
 
-**A wound is a state, not a count.** Nothing is tracked between wounds and there is no
-track to fill; a character carrying one states it and plays it, and a second of the same
-kind is what kills or breaks them. What each does:
+Wounds accumulate. A character already carrying three dies the next time anything reduces
+them to 0, whatever tier caused it.
 
-- **Piercing** - it bleeds and keeps bleeding until it is bound, and binding it costs an
-  action somebody has to spend.
-- **Crushing** - something is broken. No load carried, no moving at speed, until it is set
-  and given the week it needs.
-- **Poison** - it works while the character does. Every action taken before it runs its
-  course makes it worse.
-- **Fire** - what the burn touched is no longer reliable: the hand grips badly, the gear is
-  gone, the face cannot be shown.
-- **Frost** - the extremity goes first, the character loses the use of it before they feel
-  it go, and it does not come back.
-- **Blast** - thrown, deafened and prone: no order heard, no warning heard, and a turn
-  spent finding their feet.
-- **Madness** - what was seen now sits between the character and what is in front of them.
-  Name the one thing they will not now do, or will now do, and it holds until something
-  undoes it.
+Sanity works the same way, one level up. A character reduced to 0 Sanity carries a
+**Madness** instead of losing the character: a compulsion, a fixation, or a fear, named
+concretely and acted on whenever it applies, until treated. A character already carrying
+three Madnesses is lost to play the moment a fourth would apply - the referee takes the
+character from here, and the player brings someone new to the table.
 
-What heals a wound and what undoes a madness are rulings, not rolls, and take the time the
-fiction gives them.
+HP and Sanity refill with rest and treatment. Wounds and Madnesses do not: only time, a
+healer, or the specific thing that would plausibly mend that one removes it.
 
 ## Conditions
-
-Every Condition carries a name, an effect and a duration. A hazard naming one writes only
-the name; a hazard needing a condition not listed here adds it here rather than describing
-it in place.
-
-- **Blinded** - cannot see, and acts on what can be heard. Until the eyes are washed out,
-  or until the light is back.
-- **Choking** - cannot speak, and cannot take an action needing breath. Until out of the
-  air that caused it, and one turn beyond.
-- **Snared** - held where they stand. Until a turn is spent getting free, by the character
-  or by somebody reaching them.
-- **Slowed** - moves at half, and goes last wherever order matters. One turn.
-- **Deafened** - hears nothing, including what is coming. One turn.
-- **Burned** - whatever was gripped or worn on the burned side is dropped or ruined. Until
-  it is replaced.
-- **Frozen** - the fingers will not do fine work: no knot, no lock, no catch. Until warmed.
-- **Marked** - carries a stain, a scent or a residue anybody looking for it will find, and
-  cannot pass for somebody who was never there. Weeks, not days.
-- **Poisoned** - every Test rolls the flat d6, whatever dice the character carries. Until
-  the dose runs its course.
-- **Shaken** - will not voluntarily approach what caused it. Until the party leaves the
-  location, or somebody talks them round.
+- **Poisoned** - every Test rolls at a -2 penalty while a toxin works through the body,
+  until treated or a full day passes.
+- **Bleeding** - 1 HP is lost at the start of every turn spent moving or fighting, until the
+  wound is bound.
+- **Prone** - the character is on the ground: an easy target, and can only crawl until an
+  action is spent standing up.
+- **Restrained** - held, tangled, or pinned: the character cannot move, and acts at
+  disadvantage until freed.
+- **Blinded** - the character cannot see, treats everything as unseen, and acts at
+  disadvantage until sight returns.
+- **Frightened** - the character cannot willingly approach whatever caused this, and acts at
+  disadvantage while it is in sight, until the fear passes or is faced down.
+- **Exhausted** - what the character can carry or force their body through is halved, until
+  a full rest is taken.
+- **Stunned** - the character takes no actions and cannot resist being acted on, usually for
+  one round.
 
 ## Searching
-
-**A stated detail investigated is a detail found - no roll.** Everything already written
-into a location's Dressing and Features is there to be found by spending the time to look,
-automatically, the moment a player states they are looking for it. Searching a location
-costs one action (see Time, below) wherever actions are tracked - nothing more is owed for
-finding what was never hidden.
-
-**A Secret is never found this way.** Per `GENRE.md`, a concealed detail
-is undone by a stated act on a visible Clue - standing somewhere, clearing something,
-speaking a name - not by a search roll against it. There is no generic search roll anywhere
-in this framework; a lucky roll never substitutes for the Clue/Trigger/Payload chain, and a
-procedure that hands a hidden detail over on one is the wrong procedure.
+Searching is never a Test. A stated detail, once investigated, is found; whatever chance
+mattered was already resolved when the Feature was written. What a search costs is time: a
+glance folds into whatever the character is already doing, but going through a container, a
+body, or a room's own dressing costs one action (see Time) and finds only what that space's
+own Feature or Dressing already states.
 
 ## Time
+Each rating is tracked at the grain it actually needs:
 
-**An action is the shared unit**, whatever it buys locally, and the region's own Difficulty
-roll (below) is checked once per action. Length and meaning default by rating and are
-stated again in each Region Overview's own Layout field, per `patterns/region/Safe.md`,
-`Wild.md`, and `Dangerous.md`:
-
-- **SAFE is not time-bound.** Nothing here is tracked in hours; its own d6 table is rolled
-  on arrival and again each week, not per action.
-- **WILD runs four hours per action** - a move between neighbouring Landmarks, a search of
-  one Landmark, a forage, a tracking attempt, or making camp.
-- **DANGEROUS runs on the Danger countdown instead of the clock.** An action is entering,
-  searching, or acting within one location; there is no hourly count to track alongside it.
+- **SAFE** - ordinary time. A scene runs as long as it runs; nothing here is gated by a
+  roll. What moves on its own clock is the settlement's Situation and its Events table (see
+  Region Dice).
+- **WILD** - the action. One action is four hours and buys exactly one of: a move between
+  neighbouring Landmarks, a search of one Landmark, a forage, a tracking attempt, or making
+  camp. Every action rolls one Difficulty roll (see Region Dice).
+- **DANGEROUS** - the Danger countdown, not hours. Each meaningful action - a room searched,
+  a fight finished, a door forced - rolls one Difficulty roll (see Region Dice), and the
+  Danger track is what counts it down.
 
 ## Scaling
+Three scales use dice, and none of them is the others:
 
-**Three Action Dice scales exist, and they are never converted into one another** - a
-creature is never "worth" some number of Player dice, and a faction's count is never read
-against either:
+- **Creature Action Dice (AD)** - d6 only, 1 to 18, an absolute measure of what a creature
+  *is*. Fixed in `setting/Bestiary.md`.
+- **Faction dice** - d6 only, no bonus, meaningful only measured against the other two
+  factions' own dice. Fixed in `setting/Factions.md`.
+- **The region die** - d4 to d12, a difficulty die fixed per region in
+  `setting/region/Regions.md`, sized to how tense that region's own Difficulty roll should
+  feel. It says nothing about what lives there.
 
-- **Players** carry 1-6 dice, individually sized d4 through d12 (d6 the average size). Which
-  die is rolled for a given Test is whichever one the fiction says fits, per Tests and
-  Consequences above - there is no fixed mapping from a die's size to a fixed use.
-- **Creatures** carry Action Dice as a d6 count only, from 1 to 18, read roughly like
-  classic Hit Dice - tougher means more d6s or a bonus (-2 to +6, written `4d6+2`), never a
-  larger die. What a given count means in absolute terms is the AD ladder in
-  `setting/Bestiary.md`. The bonus averages a third of AD rounded up, and **MA** - how many
-  targets the creature can engage at once, from speed, size, or multiple attacks - averages
-  a quarter of AD rounded up. Both are stated on every creature, and it is the distance
-  from the average, in either direction, that tells the referee how lethal the thing is.
-- **Factions** carry a d6 count with no bonus at all, and that count means something only
-  next to another faction's - two factions at 4 and 8 tells the referee who wins a
-  contest between them; a faction's count alone says nothing.
+Never read one scale against another: a d12 region is not weaker than a d4 one, a 3-die
+faction is not a 3 AD creature, and a region's die says nothing about the creatures inside
+it.
 
 ## Region Dice
+Every region carries one die, d4 to d12, fixed at 3a per Scaling above. Every WILD or
+DANGEROUS action rolls that die once - the **Difficulty roll** - and a result of 1 fails it:
 
-**A region's die is a difficulty die, not a power level, and it is not an Action Dice
-scale** - it never sizes a creature or a Test. Rolled once per action (see Time, above),
-it reads:
+- **WILD** - a failed Difficulty roll triggers the region's own d6 Encounter table.
+- **DANGEROUS** - a failed Difficulty roll ticks the region's own d6 Danger table down one
+  step, counting down from 6. Reaching 1 means the place is no longer merely noticing - it
+  is acting.
+- **SAFE** - carries no Difficulty roll. Its d6 Events table is rolled once on arrival and
+  again each week the party stays.
 
-- **1 - failure.** Roll the region's own d6 table - Events (SAFE), Encounter (WILD), or
-  Danger (DANGEROUS, counting down from 6) - per that rating's own Region pattern file.
-- **2-3 - a complication.** Something costs more than expected - time, ground, noise, or
-  position - but nothing is drawn from the table.
-- **4+ - a clean pass.**
-
-A **smaller die is harder**: d8 is this setting's baseline, d6 a tougher region, d10 an
-easier one, d4 and d12 deliberate outliers reserved for a region that means to stand out.
-
-**What a region's location count derives from is this same probability, not convention.**
-Sizing a region so that a full traverse lands a predictable number of failures is the point
-of the count - not a fixed multiplier chosen for its own sake. The exact ratio differs by
-rating (a WILD region's count against a one-encounter expectation, a DANGEROUS region's
-count against the Danger track's six steps) and is stated where it is applied, in
-`patterns/region/Wild.md` and `patterns/region/Dangerous.md`.
-
-**Currency, tailored at step 2h.** The standard coin is the Telar crown-mark (cn), struck to
-the same weight and accepted interchangeably by all three kingdoms regardless of which of
-their mints struck it - the one piece of standing agreement left between them, per
-`setting/History.md`. Essath coin and grave-silver are valued for their metal alone and are
-never accepted at face - per `setting/Treasure.md`, that is a find and a problem at once. A
-laborer's ordinary wage runs 2 cn a day, 12 cn a week, per `setting/Treasure1.md`.
+A region's die size sets how many locations it holds, not how tough they are: about as many
+WILD Landmarks as the die has faces, and about 3x the die in a DANGEROUS collection's
+location count, both fixed at the region level per `patterns/region/Wild.md` and
+`patterns/region/Dangerous.md`. This file states only the roll both of them depend on.

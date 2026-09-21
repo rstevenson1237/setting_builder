@@ -17,13 +17,6 @@ TAGS
         files' job now, not the tag pool's
 ```
 
-**This replaces `GENRE.md`'s old Safe/Wild/Dangerous/People/Creatures tag bank outright.**
-That bank tried to do two jobs at once - flavor color and rating-specific structural
-content - and lived at the wrong altitude for a value read at nearly every generation step
-regardless of whether it was used. This file's pools stay pure color; the structural half
-of that old job now belongs to the compiled tier-2 pattern files (demeanor and personality
-examples in `dangerous/Creature.md`, `wild/Creature.md`, `safe/People.md`).
-
 **What makes a good tag**: it represents a theme (compresses something already true of the chosen
 reference down to a word or two, rather than introducing a new idea of its own); it acts
 as an index (scannable, findable again by a step that doesn't already know it's there); it
