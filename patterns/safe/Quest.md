@@ -12,11 +12,16 @@ the registry is `setting/Quests.md`.
 ```
 QUEST - giver end
   1     Who asks, drawn from the region's People roster
-  1     Why they will not go themselves - and it must be a real reason
-  1     What specifically, and which location holds it, by code and name
+  1     Why they will not go themselves - and it must be a real reason: a
+        limitation, a watcher, a standing need here, or a past attempt they
+        cannot admit to
+  1     What specifically - retrieved, found, delivered, destroyed, verified, or
+        collected - and which location holds it, by code and name
   1     The terms, stated in the giver's own words
   1     A stub row or an addition to an existing row in setting/Quests.md
-  40%   Something they have not mentioned, and know they have not
+  40%   Something they have not mentioned, and know they have not - a previous
+        attempt, a rival want, a right they do not have, or a payment that is not
+        really theirs to give
   30%   A deadline, and what happens after it
   20%   Somebody else has been asked already
 ```
@@ -34,29 +39,7 @@ share, the *fair* one is taking half - and it costs nothing to write it that way
 adventure. The giver who does not mention that the last two people did not come back is
 more useful than any amount of description.
 
-## Design patterns
-
-**Why they will not go** - too old, too fat, too known there; last time nearly killed them;
-they are watched and cannot leave; it would be admitting something; they are needed here;
-they went and turned back and cannot say so; the person who used to go for them is gone.
-
-**What is wanted** - something retrieved; someone found, or confirmed dead; something
-delivered where the giver cannot go; something destroyed; something *verified* - is it
-still standing, is she still alive, is the way open; something taken from a person; a debt
-collected; a body brought back for burial; a message carried to somebody who will not
-receive the giver.
-
-**Terms** - a flat fee, and half up front or not; a share, stated as a share; payment in
-goods, favour, standing, or a debt forgiven; the loan of something for the duration; a
-promise that will be honoured; a price that is generous because the giver expects not to
-pay it.
-
-**Omissions** - the previous party; who else wants it; that the thing is occupied; that the
-giver has no right to it; that the giver knows exactly what is there; that the payment
-depends on somebody else; that the description is a guess; that they will deny asking.
-
-**A deadline** - a barge, a season, a court date, a death, somebody else's arrival, a thaw,
-a debt falling due. Deadlines are what make a party choose between two hooks, which is the
-point of having more than one.
+**A deadline is what makes a party choose between two hooks**, which is the point of
+having more than one - so state what happens after it passes, not only the date.
 
 ## Constraints

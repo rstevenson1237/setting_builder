@@ -15,10 +15,13 @@ WEALTH
   1     Contents                   {Treasure | Lore | Both}
                         (patterns/setting/Treasure.md,
                          patterns/setting/UniqueTreasures.md, safe/Lore.md)
-  1     Who it belongs to, or belonged to - and whether they know it is still here
-  1     Protection, exactly one    {hidden | gated | guarded | trapped} - see Patterns
+  1     Who it belongs to, or belonged to - an authority's reserve, a family's or
+        temple's kept wealth, a guild's common fund, or the settlement's own,
+        held in common - and whether they know it is still here
+  1     Protection, exactly one    {hidden | gated | guarded | trapped}
           hidden: guaranteed by this line, and states
-            Clue    - legible in the building itself to somebody paying attention
+            Clue    - what the building gets wrong about itself, legible to
+                      somebody paying attention
             Trigger - a stated act on the clue
             Payload - the cache, and who notices it has been found
   30%   A second protection, of a different kind than the first
@@ -60,39 +63,6 @@ that seriously. Write it in the same line format every Feature uses:
 means it is safe from the wilderness, not that everything inside it is accounted for or
 under anyone's real control - a Wealth location is where that gap becomes something a party
 can act on.
-
-## Design patterns
-
-**What it holds** - coin and plate too heavy to move casually; a founder's or a family's
-kept wealth; tithes or tolls banked rather than spent; something taken and never returned;
-a temple's or guild's reserve; an item in an older or dead tongue nobody here can read; the
-one thing in this settlement everyone has heard of and nobody has seen.
-
-**Whose it is or was** - the authority, banked against a bad season; a temple, as a relic or
-a reserve; a family, three generations back; a guild's common fund; somebody dead whose
-heirs do not know it exists; the settlement itself, held in common and guarded by custom
-rather than a person.
-
-**Hidden** - a wall thinner than it should be; a floor that does not match the joists below
-it; a chest bricked into a foundation; a compartment behind an altar or a hearth; a stair
-with one step too many; a room smaller inside than out. The Clue is what the building gets
-wrong about itself, and per `GENRE.md` it is legible before anyone knows there is anything
-to find.
-
-**Gated** - a phrase known only to a family or an order; a password changed every season; a
-condition tied to a date or event - a saint's day, a full granary, market day; a permission
-that must come from one specific living person, not an office; a price only a founder's line
-can pay; proof of a claim rather than a key.
-
-**Guarded** - a temple's kept beast; something that came with the vault and was never
-removed because nobody living knows how; a creature already a standing problem elsewhere in
-the region's Overview, reframed here as the reason nobody has cleared this out - dealing
-with it has always cost more than the wealth is worth.
-
-**Trapped** - an alarm bell or released animal that alerts a specific person; a marking dye
-or scent that gives a thief away later; a lock that takes a finger rather than a life; a lid
-weighted to hold shut from the inside; a mechanism old enough to half-work, and worse for
-it.
 
 **A second protection layer compounds rather than repeats** - hidden and trapped means
 finding it is not the same as surviving opening it; gated and guarded means knowing the

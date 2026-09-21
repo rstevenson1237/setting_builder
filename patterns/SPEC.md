@@ -4,26 +4,22 @@ What every file in `patterns/*/*.md` is made of, and why. `README.md` says what 
 patterns are *for* within the build; this file says what one looks like and how to tell a
 correct one from a broken one. `CLAUDE.md` carries the short version.
 
-## The governing distinction
+## The governing rule
 
-Two things are true of a pattern file's content, and they are independent:
+Everything in a pattern file is **neutral and permanent** - true of this framework in any
+setting, any genre, written once and never rewritten by a build. There is no second,
+compiled channel for specificity: a field that would otherwise read flat earns its
+precision from how the question itself is written, not from a worked example attached to
+it.
 
-- **Neutral and permanent** - true of this framework in any setting, any genre. Written
-  once, never rewritten by a build.
-- **Specific and compiled** - true of *this* setting only. Rewritten at STEPS.md step 1a
-  from the chosen genre reference.
+**A question earns the line by naming the axis an answer has to move along, not just the
+topic.** "Condition" alone invites a generic answer; `Condition - active use, or former
+use: abandoned, decayed, ruined, destroyed` states five points on one line instead, and
+the words are as true of any setting as "size and shape" is - which is what keeps them a
+question rather than an example. Where a field still reads thin once its axis is named,
+the fix is a sharper question, never a list of instances to draw from.
 
-Almost every rule below follows from keeping those two apart. The generator answers
-neutral questions; the specific content exists to stop those answers coming out flat. A
-file that blurs the two cannot be recompiled for a new setting without hand-editing, which
-is the failure this separation prevents.
-
-**Prefer a question to a pattern wherever the verbiage can carry it.** Patterns are an
-intentional, budgeted insertion of highly specific content, not the default home for
-anything that happens to be a list. A question that can be stated neutrally belongs in the
-Spec even when it reads like a menu.
-
-## The four fields
+## The three fields
 
 Every file carries these, in this order. Nothing else is a section.
 
@@ -64,7 +60,7 @@ ends know about it. If a line requires another pattern file, the parentheses go 
 line.
 
 `1` is mandatory; a percentage is the rate at which a feature carrying that content
-appears. Neutral and permanent - step 1a never rewrites a Spec.
+appears. Neutral and permanent.
 
 That two-way rule is what makes the library a single tree. A file whose Spec has outgoing
 edges is a classifier; a file whose Spec is all questions is a leaf. Neither is declared
@@ -76,14 +72,6 @@ all of them belongs in the file it cites. (`dangerous/High.md` requires an archi
 detail because HIGH announces itself, so that line is HIGH's; `dangerous/Dressing.md`'s
 five baseline lines are constant, so they are Dressing's.) This is the same test
 `setting/Procedures.md` applies one level up.
-
-### `## Design patterns` *(optional, and budgeted)*
-The deliberate injection of highly specific content that keeps generated output from
-reading flat. **Specific and compiled** - rewritten at step 1a from the chosen genre
-reference. A section here is a claim that this file's output would be too generic without
-it; which files can make that claim is settled by what the file's output is, in "Which
-files earn patterns" below. The files that carry one are exactly STEPS.md step 1a's compile list -
-the two sets are checked against each other by `tools/validate_setting.py`.
 
 ### `## Constraints`
 Every prohibition: what belongs in another file, what this file must never do, a named
@@ -184,29 +172,6 @@ in every SAFE location's gate block; and `dangerous/Key.md`, drawn as a Kind und
 the lock a key elsewhere opens. Each is a candidate for being two files, and the second
 already is: its demand end is moving out. Prefer splitting to carrying both.
 
-### Which files earn patterns
-
-**What the file's output is** answers this, and mode does not. A file that fills a
-location's body - its Dressing, its Kind, an ingredient drawn into it, a hook hanging off
-it - is where flat output would show, so that is where specific content is spent: those
-files carry `## Design patterns`, and they are step 1a's compile list. A file that supplies
-a *shape applied to* a location carries none, because a shape reads the same whatever
-reference was chosen. One thing is a shape: `Naming`, a procedure.
-
-**How a file is reached does not decide this**, and reasoning from it gets `Dressing` and
-the four SAFE hooks wrong.
-
-A rating classifier's own content is neutral by definition, so **no rating classifier
-carries `## Design patterns`**, and neither does a `setting/` or `region/` file. Their
-option menus answer a question rather than inject specificity, so they are Spec lines.
-
-A **middle-tier** classifier is decided by body-versus-shape like anything else, and they
-split both ways: one whose output is the dispatch, with the Kind beneath filling the body,
-carries none; one that names what a hoard actually holds is filling the body itself, and
-carries patterns. Being a classifier is not by itself the test. This is the library's most persistent drift: an option
-menu reads like content, and filing it as compiled content licenses step 1a to rewrite it
-for the next setting - an *edge* included.
-
 ## What a spec line owes
 
 A spec line says which feature appears and at what rate. What it does **not** say, and
@@ -265,10 +230,6 @@ name rather than the pattern that produces it.
 
 Run `python3 tools/validate_setting.py` to see it; the script is the list. This section
 states only what the checks *mean*, which is not readable off them.
-
-The compile-list check holds STEPS.md and the tree to the same answer; it does not decide
-the answer. Whether a given file *earns* patterns is the body-versus-shape judgement above
-and stays a human call.
 
 **Reachability is checked, and it is the one graph question worth a machine.** The
 validator walks STEPS.md to `templates/` to each template's named pattern files and out

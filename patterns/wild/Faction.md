@@ -15,9 +15,11 @@ presence implies purpose and consequence reaching beyond this one Landmark.
 FACTION PRESENCE
   1     Which faction, and what this Landmark is for - a position, a route, a resource, a
         watch
-  1     Something visible that identifies them without naming them
-  1     How far its claim actually reaches from this Landmark, and how that reach is
-        patrolled or enforced
+  1     Something visible that identifies them without naming them - repeated on
+        gear, work, or markers, rather than stated
+  1     How far its claim actually reaches from this Landmark, and how that reach
+        is patrolled or enforced - a set path, a toll, a guard, or a signal back
+        to a position held more securely elsewhere
   40%   A standing order or purpose the party can read or overhear
   30%   Friction - with another faction, with the country itself, or within the group
   20%   Someone here who would rather be somewhere else
@@ -32,45 +34,5 @@ enforcement is what a party actually meets before they meet the faction itself.
 **Identity is visual and repeated**, the same as anywhere else a faction appears. A party
 should recognise the same power two regions apart from its marks alone, before anyone
 names it.
-
-**What a position is for** - watching a crossing or approach; holding a route open or shut;
-working a resource out of the ground, the water, or the herd that passes through; a forward
-camp for something the faction holds more securely elsewhere; a foothold in country they do
-not yet hold outright.
-
-**Identification without naming** - a colour worn or flown; a device, blazon, or mark
-repeated on gear, carts, or markers; a way of cutting, tying, or piling; a shared weapon or
-armour tradition; a cairn or post at the edge of their claim; a tongue they speak among
-themselves, from `setting/Language.md`.
-
-**How the claim is enforced** - a patrol on a set path, and how regularly it passes; a toll
-taken at the one crossing or ford; livestock, workers, or goods moved under guard; a beacon
-or signal line back to a position held more securely elsewhere; a marker warning off
-whoever finds it.
-
-**Friction** - orders that don't fit country this far out; a rival testing the edge of the
-claim; the country itself pushing back - weather, distance, a creature that doesn't
-recognise the claim; somebody here who would rather be posted anywhere else.
-
-## Design patterns
-
-**What a position is for** - watching a crossing or approach; holding a route open or shut;
-working a resource out of the ground, the water, or the herd that passes through; a forward
-camp for something the faction holds more securely elsewhere; a foothold in country they do
-not yet hold outright.
-
-**Identification without naming** - a colour worn or flown; a device, blazon, or mark
-repeated on gear, carts, or markers; a way of cutting, tying, or piling; a shared weapon or
-armour tradition; a cairn or post at the edge of their claim; a tongue they speak among
-themselves, from `setting/Language.md`.
-
-**How the claim is enforced** - a patrol on a set path, and how regularly it passes; a toll
-taken at the one crossing or ford; livestock, workers, or goods moved under guard; a beacon
-or signal line back to a position held more securely elsewhere; a marker warning off
-whoever finds it.
-
-**Friction** - orders that don't fit country this far out; a rival testing the edge of the
-claim; the country itself pushing back - weather, distance, a creature that doesn't
-recognise the claim; somebody here who would rather be posted anywhere else.
 
 ## Constraints

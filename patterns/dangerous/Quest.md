@@ -9,10 +9,14 @@ Criteria are in `patterns/setting/Quests.md`; the registry is `setting/Quests.md
 
 ```
 QUEST - target end
-  1     What this location can supply that someone elsewhere wants
-  1     What stands in the way of taking it
+  1     What this location can supply that someone elsewhere wants - a substance, a
+        body or proof of one, an object, a name or word recorded nowhere else, a
+        person, or a confirmation that something is true
+  1     What stands in the way of taking it - it lives, it is guarded, taking it
+        breaks it, taking it is noticed, or someone else is already here for it
   1     A stub row in setting/Quests.md naming this location as target
-  30%   Evidence that someone has already tried and failed
+  30%   Evidence that someone has already tried and failed - what they left behind,
+        still findable
 ```
 
 DANGEROUS locations are where quests **end**, not where they are offered. A quest giver in
@@ -25,22 +29,5 @@ Quest stub now, even if no giver exists yet. Givers are drafted from what has be
 registered. Every location's stub exists before any location file is written, so a giver
 in another region can name this one by code and name at 4c; what it is actually taking is
 written at 4d.
-
-## Design patterns
-
-**What a dangerous place can supply** - a substance only found in a living thing here; a
-body, or proof of one; an object taken from somewhere else and brought here; a name, a
-word, or a phrase recorded here and nowhere else; a person, alive or otherwise; a thing
-that must be destroyed rather than retrieved; a measurement, a reading, a confirmation
-that something is true.
-
-**What stands in the way** - it is inside something living; it is guarded by something
-that will not negotiate; taking it breaks it; taking it is noticed by something else;
-another party is already here for it; it is not where the giver said it would be; the
-giver's description is wrong in a way that matters and they know it.
-
-**Evidence of a previous attempt** - a body with the right equipment and the wrong plan;
-a rope still fixed; a camp; a partial map; a warning scratched on the way in by someone
-who did not come out.
 
 ## Constraints

@@ -10,11 +10,13 @@ Criteria for what earns a row are in `patterns/setting/Keys.md`.
 
 ```
 KEY - supply, a key lying here
-  1     The object, and what it physically is
+  1     The object, and what it physically is - shaped, cut, or marked to fit one
+        specific lock and nothing else, not simply a valuable thing
   1     How it is held here - carried, fitted, buried, mounted, owed
   1     A stub row in setting/Keys.md naming this location and the location it
         opens - the second is the obligation
-  40%   A clue connecting object to lock, where the connection is not obvious
+  40%   A clue connecting object to lock, where the connection is not obvious -
+        shared in the making, never stated outright
   20%   Evidence it has been used before
 
 KEY - demand, a lock an obligation named here
@@ -39,21 +41,9 @@ is no longer a draw to honour it. Reinforcement, not an obligation, is how a con
 finished ground gets made. Nothing is owed at the close of 4c: an unconsumed obligation is a
 dangling thread by definition.
 
-## Design patterns
-
-**Forms** - an actual key, and the lock it fits is nothing like a door; a rod, pin, or bar
-cut to a profile; a stone, gem, or disc fitted to a socket; a seal, signet, or stamp; a
-token given as proof; a specific bone; a phrase or name recorded on something portable; a
-measured length of something; a piece broken off a larger thing, still here.
-
-**How it is held** - carried by something that will not give it up; fitted into a fixture
-where it is doing another job; buried with whoever last used it; set into a wall as
-decoration; owed - somebody here has it and will trade; split, and this is one part.
-
-**Connections that are not obvious** - the object and its lock share a maker's mark, a
-material, a tongue from `setting/Language.md`, or a measurement. The connection is itself
-a discovery, and where the drawing class conceals it, that class's own concealment line
-states the Clue, Trigger and Payload.
+**Where the drawing class conceals the connection**, that class's own concealment line
+states the Clue, Trigger and Payload - the connection is itself a discovery, not a second
+fact stated alongside the first.
 
 ## Constraints
 

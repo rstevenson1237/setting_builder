@@ -24,7 +24,7 @@ DANGEROUS - HIGH
   30%   Mystery, where it was not already drawn as a challenge  (dangerous/Mystery.md)
 
   -- reward: what is here to take
-  1     Treasure           {guarded | hidden | discarded}   (dangerous/Treasure.md)
+  1     Treasure                                            (dangerous/Treasure.md)
   40%   Second treasure, of a different disposition         (dangerous/Treasure.md)
 
   -- registry: what elsewhere points at this room

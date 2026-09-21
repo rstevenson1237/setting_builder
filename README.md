@@ -44,9 +44,11 @@ Read these rather than a description of them.
 - `setting/region/[Code]/` - one region: its own `Tags.md` pool, its `Locations.md`
   gazetteer, its connection diagrams, and one `[LocationCode].md` per location. The Region
   Overview sits beside it at `setting/region/[Code].md`.
-- `checks/` - output of the judgement checks (STEPS.md step 5): non-mechanical review
-  passes `tools/validate_setting.py` can't do, following the checklist format in the
-  matching `templates/*_Judgement_Check.md`.
+- `setting/checks/` - output of the judgement checks (STEPS.md step 5): non-mechanical
+  review passes `tools/validate_setting.py` can't do, following the checklist format in
+  the matching `templates/*_Judgement_Check.md`. Nested under `setting/` so wiping the
+  setting for a new build takes its judgement checks with it, rather than leaving them
+  behind to bias the next one.
 - `tools/` - exactly what content generation needs and nothing else. Stdlib-only Python, no
   package manager, no test framework beyond running these against the content.
   - `validate_setting.py` - structural linter, run in CI on every pull request.

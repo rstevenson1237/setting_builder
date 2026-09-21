@@ -40,6 +40,9 @@ same Bestiary row met two entirely different ways, and only one of them is a fig
 room. Draw the shape against what the location is - a patrol wants somewhere to patrol
 between, a sentry wants a thing worth standing on, searchers want something in the region
 worth being after - and against what the Bestiary entry says the creature actually does.
+**A shape is read off what reaches the party before the species does** - a sound or smell
+with no front, a spacing pattern, a beaten route, a held position - never a description
+of the creature itself.
 
 **Rivals are drawn against the region's own reward.** What they are after is something a
 location here holds, so the party can get there first, buy them off, follow them, or let
@@ -49,50 +52,26 @@ supposed to lose.
 **Presence is rolled apart from description.** A location's occupant is not always at
 home. A room written as a den, found empty, with the thing that lives in it somewhere
 behind the party, is worth more than the same room with the thing standing in it - and it
-is what makes a wandering-monster result mean something.
+is what makes a wandering-monster result mean something. Where it is drawn absent, what a
+party notices is its passage, not its presence - what it left rather than what it is.
 
 A creature named directly in its Feature line needs no citation syntax. If no Bestiary
-entry fits, describe the creature inline - the Bestiary holds only what recurs.
+entry fits, describe the creature inline - the Bestiary holds only what recurs. A Demeanor
+word for the Bestiary citation format names how it carries itself before a fight starts or
+doesn't - a posture read at a glance, distinct from what the species is capable of.
 
 **High weight does not mean beatable.** Some of what a region holds is not meant to be
 fought, and the region is not sized to the party. Where a location's creature is one of
 those, its Bestiary **Sign** and **Disposition** carry the warning - and they must reach
 the party a room early, so the choice to withdraw is a judgement they got to make.
 
-## Design patterns
-
-**Demeanor flavor** - a one-word behavior for how something met here carries itself
-before a fight starts or doesn't, compiled for this build: Predatory, Territorial,
-Cunning, Ravenous, Skulking, Frenzied, Wary, Ancient, Venomous, Relentless.
-
-**What it is doing** - eating; sleeping; working at something; moving something heavy;
-arguing; grooming or being groomed; tending young; watching a thing that is not the door;
-repairing what the last intruders broke; already wounded from something else in the region.
-
-**Household** - a region with living occupants has the logistics of living in it, and they
-are worth a location each: where the food is; where the water comes from; where the waste
-goes; where the young are; where the dead go. These are the questions that turn a dungeon
-into somewhere something lives, and they hand players non-combat leverage - the well, the
-stores, the nursery.
-
-**Shapes, made visible.** *Swarm* - it arrives as a sound, a surface that is moving, or a
-smell; it does not have a front. *Pack* - spread out, one of them seen first and the rest
-where the first one is looking. *Lone hunter* - the kills found before the thing is, and no
-second set of tracks anywhere. *Patrol* - a beaten route, a turn-around point, something
-carried the same way every time, and a gap in the interval. *Sentry* - it is between the
-party and a thing, it does not follow far, and it goes back. *Part of the terrain* - a
-growth, a mound, a slick of stone, a hanging thing that has been in the room the whole
-time. *Searchers* - spoil turned over, a room already taken apart, marks left to say which
-rooms are done. *Rivals* - a camp, a rope already fixed, a body of theirs, a door already
-opened.
-
-**Relations** - what it eats and what eats it; what it will not go near, and why; what it
-tolerates that the party would not expect; who it answers to elsewhere in the region; what
-it would trade for.
-
-**Presence without encounter** - tracks, spoor, a kill, a shed skin, a territorial mark, a
-smell that arrives before the thing does, a sound heard two rooms away. A creature's
-signs should reach the party before the creature does, at least once per region.
+**A region with living occupants has the logistics of living in it**, and they are worth a
+location each: where the food is, where the water comes from, where the waste goes, where
+the young are, where the dead go. These are the questions that turn a dungeon into
+somewhere something lives, and they hand players non-combat leverage - a household's own
+wants and relations, drawn against what it eats, what eats it, what it will not go near,
+and who it answers to elsewhere in the region, are what make it native to this room rather
+than any other.
 
 ## Constraints
 

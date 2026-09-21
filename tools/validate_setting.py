@@ -139,17 +139,21 @@ def check_pattern_files(diag: Diagnostics):
 # ---------------------------------------------------------------------------
 # patterns/*/*.md - section structure
 #
-# One skeleton, no declared tiers: Provides / Read at / Spec / Design
-# patterns / Constraints. A Spec line either points to another pattern file
-# or states a question the generator answers, which makes the library one
-# tree - a file with outgoing citations is a classifier and a file without
-# them is a leaf, and that is read off the citations rather than asserted
-# anywhere. "Design questions" used to be a separate heading for a leaf
-# file's own contract; it was the same grammar as a Spec and on the same
-# side of the neutral/compiled split, so it was folded back in.
+# One skeleton, no declared tiers: Provides / Spec / Constraints. A Spec line
+# either points to another pattern file or states a question the generator
+# answers, which makes the library one tree - a file with outgoing citations
+# is a classifier and a file without them is a leaf, and that is read off the
+# citations rather than asserted anywhere. "Design questions" used to be a
+# separate heading for a leaf file's own contract; it was the same grammar as
+# a Spec, so it was folded back in.
 #
-# "## Design patterns" stays optional: it is the per-build compiled content
-# (STEPS.md step 1a), and most files legitimately have none.
+# "## Design patterns" was a fourth, optional field for per-build compiled
+# content - specific worked examples, kept apart from the neutral, permanent
+# Spec. It is gone: a field that would have leaned on one now earns its
+# precision from how the Spec question itself is phrased instead, per
+# patterns/SPEC.md's governing rule. The heading is checked for and rejected
+# the same way "Design questions" is, so a reintroduction is caught here
+# rather than drifting back in unnoticed.
 # ---------------------------------------------------------------------------
 
 
@@ -162,6 +166,11 @@ def check_pattern_sections(diag: Diagnostics, path, text: str):
     if has("Design questions"):
         diag.error(path, "carries a '## Design questions' section, which was folded into "
                           "'## Spec' - a Spec line either cites a file or states a question")
+    if has("Design patterns"):
+        diag.error(path, "carries a '## Design patterns' section - per patterns/SPEC.md's "
+                          "governing rule, a field that reads flat earns its precision from "
+                          "how the Spec question is phrased, not from a worked example "
+                          "attached to it")
 
 
 
@@ -174,7 +183,7 @@ SPEC_RATE_RE = re.compile(r'^ {2}(1|\d+%|liner note|working|central)\s')
 
 def spec_edges(text: str, rel: str):
     """Pattern files this file's Spec fenced blocks draw."""
-    m = re.search(r'\n## Spec\n(.*?)(?=\n## (?:Design patterns|Constraints)\n)', text, re.S)
+    m = re.search(r'\n## Spec\n(.*?)(?=\n## Constraints\n)', text, re.S)
     if not m:
         return set()
     out = set()
@@ -410,47 +419,6 @@ def check_repeated_prose(diag: Diagnostics):
 
 
 # ---------------------------------------------------------------------------
-# STEPS.md step 1a's compile list vs. the tree
-#
-# Step 1a rewrites the "## Design patterns" section of every pattern file
-# that carries one - that section is the per-build compiled content, and a
-# Spec is never rewritten. So the compile list and the set of files carrying
-# the section are the same set, stated twice, and they drift apart silently:
-# the list once named 18 files while saying "every other tier-2 element
-# file", leaving fifteen carrying patterns nobody compiled and two
-# (Environmental, Residual) carrying none at all. This checks both
-# directions. Which files earn patterns is a reach-mode judgement and stays
-# a human decision - this only holds STEPS.md and the tree to the same
-# answer once that decision is made.
-# ---------------------------------------------------------------------------
-
-COMPILE_LIST_RE = re.compile(r'^\s*-\s+1a\..*?\*\*Compile list\*\*(.*)$', re.M)
-
-
-def check_compile_list(diag: Diagnostics):
-    if not STEPS_MD.exists() or not PATTERNS.exists():
-        return
-    m = COMPILE_LIST_RE.search(STEPS_MD.read_text())
-    if not m:
-        diag.warn(STEPS_MD, "step 1a names no '**Compile list**' - step 1a's compiled "
-                             "files cannot be checked against the tree without one")
-        return
-    listed = {f"{folder}/{fname}"
-              for _, folder, fname in PATTERN_CITE_RE.findall(m.group(1))}
-    carrying = {p.relative_to(PATTERNS).as_posix()
-                for p in sorted(PATTERNS.glob("*/*.md"))
-                if "\n## Design patterns\n" in p.read_text()}
-    for rel in sorted(listed - carrying):
-        diag.error(STEPS_MD, f"step 1a's compile list names {rel}, which carries no "
-                              f"'## Design patterns' section - step 1a would have "
-                              f"nothing to compile into it")
-    for rel in sorted(carrying - listed):
-        diag.error(STEPS_MD, f"patterns/{rel} carries '## Design patterns' but is not on "
-                              f"step 1a's compile list - its examples would never be "
-                              f"recompiled for a new setting")
-
-
-# ---------------------------------------------------------------------------
 # Regions.md / setting/region/Connections.mmd
 # ---------------------------------------------------------------------------
 
@@ -659,11 +627,6 @@ ROMAN_TABLES = {"I", "II", "III", "IV", "V"}
 # Feature explains itself, dates itself, or writes down the party's conclusion.
 # Removing the slot is cheaper than judging what fills it, and unlike the prose
 # heuristics elsewhere in this file it is decidable, so separators are errors.
-#
-# Length is not. Eight words to a segment and four segments (six with a "->")
-# are the target, but a legal sentence one word over is a judgement call about
-# phrasing, so those warn. A citation is outside the grammar - it is machinery,
-# not prose - and is stripped before anything is counted.
 # ---------------------------------------------------------------------------
 
 # Every parenthesised group is stripped before the grammar is applied: a
@@ -673,10 +636,9 @@ ROMAN_TABLES = {"I", "II", "III", "IV", "V"}
 # behind the machinery.
 CITATION_RE = re.compile(r'\s*\([^()]*\)')
 BANNED_SEP_RE = re.compile(r'(;|(?<!\*):(?!\*)|\s[-\u2013\u2014]\s|\.\s+\S)')
+# feature_segments() below is still used by tools/metrics.py's corpus report;
+# the validator itself no longer caps segment count or length.
 SEG_SPLIT_RE = re.compile(r'\s*(?:,|->)\s*')
-SEG_MAX_WORDS = 8
-SEG_MAX_COUNT = 4
-SEG_MAX_COUNT_ARROW = 6
 LIST_ITEM_WORDS = 3
 
 
@@ -768,22 +730,9 @@ def check_feature_grammar(diag: Diagnostics, path: Path, label: str, body: str):
         diag.error(path, f"Feature '{label}' uses {what} - per instruction 5 of "
                          f"templates/Location.md a Feature is one sentence separated "
                          f"only by ',' and '->'")
-        # Segments are meaningless across an illegal separator, and the line is
-        # being rewritten regardless - a length warning on top is just noise.
         return
     if stripped and not body.rstrip().endswith((".", ")")):
         diag.error(path, f"Feature '{label}' does not end in a period")
-
-    segs = feature_segments(body)
-    cap = SEG_MAX_COUNT_ARROW if "->" in stripped else SEG_MAX_COUNT
-    if len(segs) > cap:
-        diag.warn(path, f"Feature '{label}' runs {len(segs)} segments against a cap of "
-                        f"{cap} - mechanics buy length, prose does not")
-    for seg in segs:
-        n = len(seg.split())
-        if n > SEG_MAX_WORDS:
-            diag.warn(path, f"Feature '{label}' has a {n}-word segment "
-                            f"(cap {SEG_MAX_WORDS}): {seg!r}")
 
 
 def check_location_file(diag, path, region_code, num, stub, rating, all_locations,
@@ -1499,7 +1448,7 @@ def check_top_level_files(diag: Diagnostics):
 # format and relaxed on content and ratios, and graph shape is a design decision
 # rather than a rule - SAFE wants a shallow hub, WILD a forest of trees,
 # DANGEROUS a dense graph with loops and at least one divide. Reporting the shape
-# gives checks/SettingJudgementCheck.md something factual to judge against.
+# gives setting/checks/SettingJudgementCheck.md something factual to judge against.
 # ---------------------------------------------------------------------------
 
 def report_topology(regions: dict, region_locs: dict, region_edges: dict) -> list[str]:
@@ -1615,7 +1564,6 @@ def report_pending(region_filter: str | None) -> int:
 def main() -> int:
     diag = Diagnostics()
     check_pattern_files(diag)
-    check_compile_list(diag)
     check_read_set_graph(diag)
     check_repeated_prose(diag)
 

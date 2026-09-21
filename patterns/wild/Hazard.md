@@ -19,7 +19,9 @@ HAZARD
           15%   lethal    can kill outright, and the warning already said so
           45%   damaging  costs the party something they have to spend to get back
           1     nuisance  costs time, ground, a piece of gear, or the route they wanted
-  1     A warning available to somebody moving carefully
+  1     A warning available to somebody moving carefully - disturbed ground, a
+        path that goes around, older remains, a missing sign an animal would
+        leave, or something tied recently
   1     Trigger - what sets it off, or what crossing it costs
   1     Damage - the expression the tier allows, per setting/Procedures.md
   1     What it was for, and who set it - where the mechanism is `set`
@@ -52,26 +54,6 @@ action they spend on it.
 **Set hazards have owners.** Somebody put it here for something, and that somebody is a
 fact about the region - a trapline means a trapper, a deadfall on a trail means whoever
 uses the trail is not welcome.
-
-## Design patterns
-
-**Set by people** - a snare or spring-noose on a game trail; a pit with a covered mouth; a
-deadfall log or stone; a spiked pit at a gap in a wall; a line strung at ankle or throat
-height; an alarm - stones on string, a bell, a pile that falls; a poisoned water source; a
-gate or barrier rigged to fall; a bait pile with something waiting near it; a marked
-crossing that has been re-marked wrongly.
-
-**Conditions of the ground** - a bog or quaking ground; ice over water; a scree slope that
-runs; an undercut bank; a rotten log bridge; loose footing above a drop; a sinkhole under
-turf; a tide, flood, or seasonal channel; a cave with bad air; a hollow that pools cold.
-
-**Living hazards** - a plant that stings, blisters, or blinds; a plant easily mistaken for
-one worth gathering; a nest that defends itself; something that hunts by ambush from
-below; something that hunts by ambush from above.
-
-**Warnings** - disturbed ground; a path that goes around; older remains of previous
-victims; the absence of animal sign where there should be some; cut ends on vegetation;
-something tied, and recently; the way the water moves; a smell.
 
 ## Constraints
 

@@ -76,7 +76,6 @@
       fieldBlock("Provides", n.provides) +
       fieldBlock("Read at", n.read_at) +
       fieldBlock("Spec", n.spec, true) +
-      fieldBlock("Design patterns", n.design_patterns) +
       fieldBlock("Constraints", n.constraints) +
       chipRow("Draws", n.out) +
       chipRow("Drawn by", n.incoming) +

@@ -17,7 +17,8 @@ MYSTERY
          | machinery}
   2     Physical details it can be reasoned from - the floor, not the target: one detail is
         guessed at, three is reasoned out
-  1     Trigger, stated explicitly
+  1     Trigger, stated explicitly - an act on the fixture itself: placed, spoken,
+        pressed, weighted, brought near, or given up
   1     What the correct trigger accomplishes
   1     What a genuinely wrong attempt costs
   40%   A third detail, where the trigger is more than one step
@@ -35,48 +36,6 @@ pick the details first and the fixture ends up a label on them.
 that stops short of a real attempt all cost nothing - this is what separates a Mystery from
 a Trap: a trap fires on contact or presence, a mystery fires only on a failed attempt to
 use it.
-
-## Design patterns
-
-**Fixtures** - a statue whose pose or gaze means something; an altar with a fitting, a
-channel, or a stain; a fountain, basin or cistern that still runs or conspicuously does
-not; a door with no handle and a made surface; a mechanism part-visible in a wall; a floor
-laid in a pattern that is not decoration; a mural that disagrees with the room it is in.
-
-**Machinery** - a mechanism whose linkage runs into the wall and out somewhere else in the
-region; a drum, capstan or windlass with its rope gone; a shaft that turns and does nothing
-visible; a counterweight hanging at the wrong height; a thing wanting power the region no
-longer produces; a fitting worn only on one side, which says which way it was worked; a
-housing with the part taken out of it, and the part is somewhere.
-
-**Wards** - a mark cut across a threshold and kept clean where nothing else here is; a line
-of fittings buried at a sill, one of them missing; a name cut into a lintel in a tongue from
-`setting/Language.md`; a ring of something laid down that has not been disturbed by anything
-that walks; a doorway that takes some things through and stops others; what is lying just
-short of the line, and how long it has been there.
-
-**Water** - a fountain still running where nothing else in the region does; a pool that
-takes what is dropped in it and does not give it back; a basin whose level does not answer
-to the weather; standing water clear over a floor that should have silted; a cistern with a
-channel cut to somewhere; water that is warm, or is not, and what that says about what it
-came through.
-
-**Illusions** - a wall a draught crosses; a floor that carries sound from further than it
-goes; a room that shows itself furnished in a region where nothing else has survived; a
-figure that does not turn; a way on that dust does not settle in; a thing that is only
-wrong from one side of the room.
-
-**Standing effects** - a space where a sense does not work; a cold that has a boundary; a
-sound with no source that changes with position; light that falls wrong; a thing that does
-not decay in a room where everything else has; water that will not mix.
-
-**Sealed ways** - a door held by something other than a lock; a way barred from the side
-the party is on; an opening that admits some things and not others; a threshold with a
-condition written on it in a tongue from `setting/Language.md`.
-
-**Triggers** - an object placed, fitted, or returned; a phrase spoken in the right tongue;
-a sequence pressed, turned, or lit; weight applied or removed; a specific person or thing
-brought near; something given up.
 
 ## Constraints
 

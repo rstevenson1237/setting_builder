@@ -11,7 +11,7 @@ About a century and a half ago, one warlord dynasty fought the road's scattered 
 into a single crown and named it Telar - the road's own holding, sworn to rather than
 merely obeyed.
 Left: the old crown seat, its lower courses cut from ziggurat stone hauled from the ruin -
-no location yet, and named under Room to Grow in checks/SettingJudgementCheck.md.
+no location yet, and named under Room to Grow in setting/checks/SettingJudgementCheck.md.
 
 Twenty-eight years ago, Telar's last unified king died with three children and no named
 heir; each seized a different stretch of the road, and the three kingdoms have disagreed
