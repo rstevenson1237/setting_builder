@@ -16,7 +16,8 @@ DRESSING - every SAFE location
   1     Purpose - per its Kind (Commerce, Authority, Social, People, or Wealth); not
         restated here
   1     Ambiance - smell and sound, attributable to Condition or Purpose
-  1     Every exit typed and positioned
+  1     Every exit typed and positioned, and in a settlement who may use it - access
+        here is social as often as physical
 ```
 
 Detail beyond that is what prominence buys, per `safe/Settlement.md`:
@@ -45,38 +46,25 @@ it once; a settlement building records what happens in it, daily, and that is wh
 read as lived in rather than staged. Whether it was built for what it does now or reused
 from something else, and the signs of use that prove it: worn thresholds, a chair that is
 somebody's, a floor swept in one place and not another, the shelf that gets reached for.
+State which it is, built for this or repurposed, before reaching for the signs of use.
 
-## Design patterns
+**Settlements reuse, and SAFE is the rating where buildings recur**, so a settlement needs
+a shared way of building, stated once in the Region Overview's own Ambiance field and
+honoured at every location rather than reinvented. Where a building departs from that
+shared way, the departure itself means something: older, foreign, richer, or built in a
+hurry.
 
-**Condition, and being reused.** Settlements reuse. A hall that was a barn; a shop in the
-front room of a house; a chapel with a beam from a ship; a gate rebuilt narrower than the
-one before it; a wall using dressed stone from somewhere older. Per `patterns/setting/Naming.md` and the
-Region Overview's own Ambiance field, that older stone came from somewhere the party may be
-going. State which it is - built for this, or repurposed - before reaching for signs of use.
+**Ambiance is attributable, never free-floating mood** - caused by Condition or by Purpose,
+and settlements are the noisiest and smelliest places in the setting, so this should be
+free. A fact equally true of the whole settlement belongs in the Region Overview's own
+Ambiance field, not here.
 
-**Vernacular.** SAFE is the rating where buildings recur, so a settlement needs a shared
-way of building - a roofing material, a wall construction, a window shape, a way of
-finishing a doorway - stated in the Region Overview's own Ambiance field and honoured here.
-Where a building departs from it, that departure means something: it is older, it is
-foreign, it is richer, or it was built in a hurry.
+**Integration is the last pass.** Everything here belongs to the same household, trade, or
+institution. Before the entry is done, check that its parts could plausibly share a
+building - and where one cannot, change it rather than explaining it.
 
-**Ambiance.** Smell and sound, minimum one, and both **attributable** - caused by Condition
-(what is worn, reused, or kept up) or by Purpose (the trade carried on here, what is stored,
-what is burned, how many people are in the room, what is on the other side of the wall).
-Settlements are the noisiest and smelliest places in the setting and this should be free. A
-fact equally true of the whole settlement belongs in the Region Overview's own Ambiance
-field, not here.
-
-**Exits.** Type and position, as everywhere. In a settlement, also state who may use them:
-a back door for the household, a yard gate barred at dusk, a stair to rooms the party has
-not paid for. Access is social here rather than physical, and that is worth a clause.
-
-**Integration.** Everything here belongs to the same household, trade, or institution.
-Before the entry is done, check that its parts could plausibly share a building - and where
-one cannot, change it rather than explaining it.
-
-**Vocabulary.** Real trades and their tools and leavings; real building terms - jetty,
-purlin, wattle, mullion, sill, byre; real goods named as goods.
+**Name real trades, real building terms, and real goods rather than describing them.** A
+part or a process with a name costs less than the sentence describing it.
 
 ## Constraints
 

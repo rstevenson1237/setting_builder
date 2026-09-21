@@ -9,11 +9,16 @@ get anything out of it.
 ```
 AUTHORITY
   1     Who holds it here, and by what claim - elected, inherited, seized, granted, assumed
-  1     What actually gets settled here, as opposed to what is claimed
+  1     What actually gets settled here, as opposed to what is claimed - a right, a
+        debt, a boundary, or who may do something, never the abstract fact of order
   1     The limit of the claim - where it stops being obeyed
+  1     What a stranger must do to get a hearing, this file's answer to
+        `safe/Settlement.md`'s gate line - a wait, a fee, a vouching, a written
+        approach, a subordinate's own price, or a favor owed first
   40%   A rival claim, and who backs it
-  30%   Something posted, current, and specific
-  20%   A custom a stranger will break without knowing
+  30%   Something posted, current, and specific, and naming who posted it
+  20%   A custom a stranger will break without knowing - a place, a word, a day, or
+        a debt whose rule is never stated to anyone who already knows it
 ```
 
 **Points of Light means no authority defaults to legitimacy.** Somebody is in charge here
@@ -22,33 +27,8 @@ listening. State the edge - it is the most useful fact in the entry, and it is w
 party's leverage lives.
 
 **What a stranger must do to get a hearing is `safe/Settlement.md`'s gate line**, answered
-once per location whatever its Kind. This file supplies the menu an Authority location
-draws that answer from - the "Getting a hearing" patterns below - and states only what is
-true of authority specifically: the claim, its basis, what it actually settles, and where
-it stops.
-
-## Design patterns
-
-**Basis of the claim** - a lord's grant, honoured or not; an inherited office nobody
-contests; election by householders; the person who owns the land everyone works; the person
-with the armed men; a guild's writ; a temple's; a company's factor; whoever was left after
-the last one died; a council that agrees on nothing.
-
-**What is actually settled** - land and boundaries; debt; theft; who may trade here;
-inheritance; water rights; grazing; whether a stranger may stay; who goes out when
-something has to be done; taxes, tolls, and who is exempt.
-
-**Getting a hearing** - wait for a day it is held; pay a fee; be vouched for by somebody
-local; bring the matter in writing to somebody who can read; go through a subordinate who
-has their own price; be useful first; be a problem first.
-
-**Posting places** - a board at the market or the gate; a stone or post where notices are
-nailed; the door of the hall; a crier, in a place big enough to afford one. What is posted
-now: a bounty, a summons, a debt called in, a warning, a hiring, a death, a list of who
-owes what. Name the poster.
-
-**Customs a stranger breaks** - where weapons may not go; who is greeted first; what is not
-said aloud; a day nothing is done; a threshold not crossed; a debt of hospitality that runs
-both ways; where the dead are and how they are passed.
+once per location whatever its Kind. This file states only what is true of authority
+specifically: the claim, its basis, what it actually settles, where it stops, and what
+getting a hearing costs.
 
 ## Constraints
