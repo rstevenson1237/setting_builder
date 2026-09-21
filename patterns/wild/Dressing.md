@@ -12,11 +12,13 @@ Units, the Exits syntax and the citation formats are in `templates/Location.md`.
 DRESSING - every WILD location
   1     Size and shape, in yards
   1     Position within the region - a bearing from the entry or a named Landmark
-  1     Condition - what weather, season, and time have done to it since
+  1     Condition - what weather, season, and time have done to it since: worked,
+        disturbed, reclaimed, or damaged by a past event
   1     Purpose - per its kind file (Ruin, Lair, Natural Feature, or Crossing); not
         restated here
   1     Ambiance - smell and sound, attributable to Condition or Purpose
-  1     Every exit typed and positioned
+  1     Every exit typed and positioned - a compass direction or a relation to
+        something already stated, never two exits reading identically
 ```
 
 There is no detail budget in WILD. Every location gets the full treatment, because none of
@@ -27,44 +29,32 @@ parents lighter than others.
 Hidden and Secret locations skip the position line: their position is defined by the
 parent they hang off.
 
-## Design patterns
+**Outdoor footprints are measured in yards**, because feet read as false precision once
+there are no walls to measure to. A vertical drop or climb stays in feet either way - that
+is a mechanical measurement, not an areal one. Distance between locations follows the same
+split: yards for a short hop, miles for a long trek.
 
-**Scale in yards.** Outdoor footprints are measured in yards, because feet read as false
-precision once there are no walls to measure to. A vertical drop or climb stays in feet
-either way - that is a mechanical measurement, not an areal one. Distance between
-locations follows the same split: yards for a short hop, miles for a long trek.
-
-**Position.** A cardinal bearing from the region's entry, or a distance and direction from
-another named Landmark. In a point crawl this is the only spatial information a party
+**Position is a cardinal bearing from the region's entry, or a distance and direction from
+another named Landmark.** In a point crawl this is the only spatial information a party
 gets, and it is what lets a referee say where they are when they are between things.
 
-**Condition.** A WILD location is exposed, and what weather, season, and time have done to
-it is stated before anything else physical: what it is like in rain, what it is like at
-night, what the season is doing to the footing and the cover, what has changed it since it
-was last what its kind file says it is - worked, disturbed, reclaimed, damaged by a past
-event. This is also where a location earns a second visit - the same place in different
-weather is genuinely different.
+**Condition is stated before anything else physical**, because a WILD location is exposed
+to it: what it is like in rain, what it is like at night, what the season is doing to the
+footing and the cover. This is also where a location earns a second visit - the same place
+in different weather is genuinely different.
 
-**Ambiance.** Smell and sound, minimum one, and both **attributable** - caused by Condition
-(what the weather, season, or an event have done here) or by Purpose (what grows, lives, or
-happens here). Outdoors the reliable registers are what the air smells of and what sound
-does across open ground or under canopy; temperature and footing are real but follow from
-Condition, and belong there or in a Feature when they matter enough to act on. A fact
-equally true of the whole region belongs in the Region Overview's own Ambiance field, not
-here.
+**Ambiance is attributable, never free-floating mood** - caused by Condition or by Purpose.
+Outdoors the reliable registers are what the air smells of and what sound does across open
+ground or under canopy; temperature and footing are real but follow from Condition, and
+belong there or in a Feature when they matter enough to act on. A fact equally true of the
+whole region belongs in the Region Overview's own Ambiance field, not here.
 
-**Exits.** Every exit gets a type and a position: what indicates the way, and which
-direction it leads. Outdoors, position is a compass direction or a relation to something
-stated - along the ridge, past the treeline, down the watercourse. Two exits reading
-identically is a failure here for the same reason it is underground: it turns a choice
-into a guess.
+**Integration is the last pass.** Everything here was shaped by the same ground, the same
+weather, and the same tenancy. Before the entry is done, check that its parts could
+plausibly share a place - and where one cannot, change it rather than explaining it.
 
-**Integration.** Everything here was shaped by the same ground, the same weather, and the
-same tenancy. Before the entry is done, check that its parts could plausibly share a place
-- and where one cannot, change it rather than explaining it.
-
-**Vocabulary.** Real terms for landform, watercourse, vegetation and weather - scree,
-corrie, holt, spinney, sike, hag, tor, brake. Name the species rather than "trees."
+**Name real terms for landform, watercourse, vegetation and weather rather than describing
+them**, and name the species rather than "trees."
 
 ## Constraints
 
