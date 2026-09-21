@@ -56,7 +56,7 @@ Consult `setting/Bestiary.md`, `setting/Factions.md`, `setting/History.md`, or `
 ## Citations
 Every citation below sits inside its own parentheses, exactly as written, so `tools/build_site.py` can find and link it. A citation that doesn't match one of these forms renders as plain, unlinked text.
 
-- **Bestiary** - `(Demeanor, Number appearing, Bestiary : Entry Name)`. Demeanor is one word from the demeanor examples compiled into `patterns/dangerous/Creature.md` or `patterns/wild/Creature.md` (whichever matches this location's rating); Number appearing is a count fitting the Bestiary entry's own Range; Entry Name must match a `setting/Bestiary.md` heading exactly. Example: `(Patient, 5, Bestiary : Road Toll Gang)`.
+- **Bestiary** - `(Demeanor, Number appearing, Bestiary : Entry Name)`. Demeanor is one word naming how it carries itself before a fight starts or doesn't, per `patterns/dangerous/Creature.md` or `patterns/wild/Creature.md` (whichever matches this location's rating); Number appearing is a count fitting the Bestiary entry's own Range; Entry Name must match a `setting/Bestiary.md` heading exactly. Example: `(Patient, 5, Bestiary : Road Toll Gang)`.
 - **Lore** - `(Lore: Title)`
 - **Keys** - `(Keys: Title)`
 - **Quest** - `(Quest: Title)`

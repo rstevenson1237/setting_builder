@@ -124,8 +124,8 @@ def parse_pattern_files() -> tuple[dict[str, dict], list[str]]:
 
     A node's "issues" list is a SUBSET of what CI errors on - citation format
     and a missing Constraints heading. The validator also checks section
-    presence, Read-at step ids, mode declarations, orphans and the compile
-    list; a clean audit here does not mean a clean CI run.
+    presence, Read-at step ids, mode declarations and orphans; a clean audit
+    here does not mean a clean CI run.
     """
     files = sorted(p for p in PATTERNS_ROOT.glob("*/*.md") if p.name != ".gitkeep")
     known = {p.relative_to(PATTERNS_ROOT).as_posix() for p in files}
@@ -176,7 +176,6 @@ def parse_pattern_files() -> tuple[dict[str, dict], list[str]]:
             rel=rel, folder=rel.split("/")[0], filename=path.name, title=title,
             provides=pattern_section(text, "Provides"),
             spec=pattern_section(text, "Spec"),
-            design_patterns=pattern_section(text, "Design patterns"),
             constraints=pattern_section(text, "Constraints"),
             out=draws, mentions=mentions,
             incoming=[], issues=issues,
@@ -665,8 +664,8 @@ def build_patterns(setting: sc.Setting, out: Path) -> None:
             '<div class="pattern-audit pattern-audit-ok">'
             f'Every citation among the {len(nodes)} files below resolves, and every file carries its '
             'Constraints heading. Checked fresh on every build. This audit is a subset of '
-            'CI - <code>tools/validate_setting.py</code> also checks section presence, '
-            'read-set reachability and the compile list.'
+            'CI - <code>tools/validate_setting.py</code> also checks section presence and '
+            'read-set reachability.'
             '</div>'
         )
 

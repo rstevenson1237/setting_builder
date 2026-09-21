@@ -139,17 +139,21 @@ def check_pattern_files(diag: Diagnostics):
 # ---------------------------------------------------------------------------
 # patterns/*/*.md - section structure
 #
-# One skeleton, no declared tiers: Provides / Read at / Spec / Design
-# patterns / Constraints. A Spec line either points to another pattern file
-# or states a question the generator answers, which makes the library one
-# tree - a file with outgoing citations is a classifier and a file without
-# them is a leaf, and that is read off the citations rather than asserted
-# anywhere. "Design questions" used to be a separate heading for a leaf
-# file's own contract; it was the same grammar as a Spec and on the same
-# side of the neutral/compiled split, so it was folded back in.
+# One skeleton, no declared tiers: Provides / Spec / Constraints. A Spec line
+# either points to another pattern file or states a question the generator
+# answers, which makes the library one tree - a file with outgoing citations
+# is a classifier and a file without them is a leaf, and that is read off the
+# citations rather than asserted anywhere. "Design questions" used to be a
+# separate heading for a leaf file's own contract; it was the same grammar as
+# a Spec, so it was folded back in.
 #
-# "## Design patterns" stays optional: it is the per-build compiled content
-# (STEPS.md step 1a), and most files legitimately have none.
+# "## Design patterns" was a fourth, optional field for per-build compiled
+# content - specific worked examples, kept apart from the neutral, permanent
+# Spec. It is gone: a field that would have leaned on one now earns its
+# precision from how the Spec question itself is phrased instead, per
+# patterns/SPEC.md's governing rule. The heading is checked for and rejected
+# the same way "Design questions" is, so a reintroduction is caught here
+# rather than drifting back in unnoticed.
 # ---------------------------------------------------------------------------
 
 
@@ -162,6 +166,11 @@ def check_pattern_sections(diag: Diagnostics, path, text: str):
     if has("Design questions"):
         diag.error(path, "carries a '## Design questions' section, which was folded into "
                           "'## Spec' - a Spec line either cites a file or states a question")
+    if has("Design patterns"):
+        diag.error(path, "carries a '## Design patterns' section - per patterns/SPEC.md's "
+                          "governing rule, a field that reads flat earns its precision from "
+                          "how the Spec question is phrased, not from a worked example "
+                          "attached to it")
 
 
 
@@ -174,7 +183,7 @@ SPEC_RATE_RE = re.compile(r'^ {2}(1|\d+%|liner note|working|central)\s')
 
 def spec_edges(text: str, rel: str):
     """Pattern files this file's Spec fenced blocks draw."""
-    m = re.search(r'\n## Spec\n(.*?)(?=\n## (?:Design patterns|Constraints)\n)', text, re.S)
+    m = re.search(r'\n## Spec\n(.*?)(?=\n## Constraints\n)', text, re.S)
     if not m:
         return set()
     out = set()
