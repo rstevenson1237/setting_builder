@@ -1,24 +1,22 @@
 # Setting - Bestiary
 
 ## Provides
-What creatures the setting holds - how they are distributed across type and power, and
-what each entry must state so the location patterns can use it without reinventing it.
-
-The Bestiary is written in one pass rather than grown, so it has to anticipate demands
-made several steps later.
+What one Bestiary entry must state - its type, its Action Dice and what they mean, and
+what a party can perceive of it before a fight starts. How many entries the Bestiary holds
+and how they divide across type and power is `templates/Bestiary.md`'s Instructions, not
+this file's.
 
 ## Spec
 
 ```
-TYPE MIX - about 20 entries
-  20%   Beast              - unusual combatants only, never the region's ordinary wildlife
-  10%   Man                - the rank and file a faction fields
-  15%   Humanoid           - non-human peoples with their own culture and society
-  15%   Undead             - death-tainted; the mythic underworld's own population
-  15%   Guardian           - made or bound to hold one thing, and does nothing else
-  10%   Hazard             - a living or persisting danger that is a fact of a place
-  15%   Everything else    - Fantasy Creature, Construct, Horror, Wyrm, Fey, Fiend, Giant,
-                             combined. Rarely more than two of these types in one setting
+BESTIARY ENTRY
+  1     A Type - Beast, Man, Humanoid, Undead, Guardian, Hazard, or one of Fantasy
+        Creature, Construct, Horror, Wyrm, Fey, Fiend, Giant
+  1     AD, written Xd6+N, read against the ladder below
+  1     A modifier, -2 to +6, averaging one third of AD (rounded up)
+  1     An MA, averaging one quarter of AD (rounded up)
+  1     A Description of 1-3 sentences
+  1     A Special where the AD band calls for one, or `none`
 ```
 
 ```
@@ -31,17 +29,6 @@ AD LADDER - what a count means, in absolute terms
   13-16   Mono-type: expects to be served by those around it, controls without
           question, and is tapped into powers beyond comprehension
   17-18   Gargantuan, the pinnacle, a titan
-```
-
-```
-AD SPREAD - anchored to what GENRE.md's lethality establishes the party can survive,
-NOT to the region dice
-  1     At least six entries at 1-3 AD    - people, numbers, the things underfoot
-  1     At least six entries at 4-8 AD    - the working middle of the setting
-  1     At least two entries at 9-12 AD
-  1     At least one entry at 13+
-  1     At least one entry the party is NOT meant to beat
-  1     No more than a third of entries sharing a single AD value
 ```
 
 **One stat block is one creature** - or one swarm of creatures that are not dangerous on
@@ -72,36 +59,31 @@ long, or many-limbed sits above it.
 one is making a claim the rest of its line has to support. State what the ability does in
 terms a referee can run, never as a name alone.
 
-**Entry fields, and which pattern demands each**
+**The Description is one field, not four.** Appearance, behaviour, range, population,
+diet, sign, and disposition are all optional points of inclusion - none is mandatory on
+every entry, and 1-3 sentences rarely holds all of them at once. Write whichever the
+entry actually needs; a Beast that ranges widely might spend its sentences on population
+and diet, a Guardian fixed at one threshold might spend them entirely on what it does when
+approached. Which downstream pattern wants which point is listed below, so a later
+generation step knows what to look for rather than expecting a labeled line:
 
-- **Description** - appearance and behaviour, 1-3 sentences. Every file.
-- **Range** - where it lives, how many the country supports, and what it eats.
-  Demanded by `wild/Creature.md` (populations, not individuals), `wild/Lair.md` (what it
-  eats and where that comes from), and `dangerous/Creature.md` (household logistics).
+- **Range** - where it lives, how many the country supports, and what it eats. Wanted by
+  `wild/Creature.md` (populations, not individuals), `wild/Lair.md` (what it eats and
+  where that comes from), and `dangerous/Creature.md` (household logistics).
 - **Sign** - what a party finds before they find the creature: marks or tracks left, a
-  sound, or a smell that can be detected before the creature itself is seen. Demanded by
-  both Creature files: a creature's signs should reach the party before the creature does,
-  at least once per region, and that only works if the signs are decided once here rather
+  sound, or a smell detectable before the creature itself is seen. Wanted by both
+  Creature files: a creature's signs should reach the party before the creature does, at
+  least once per region, and that only works if the signs are decided once here rather
   than improvised per location.
-- **Disposition** - what it does on being met, before anyone decides to fight. Demanded by
+- **Disposition** - what it does on being met, before anyone decides to fight. Wanted by
   `wild/Creature.md`: most things met in open country would rather not fight, and a party
   should be able to be wrong about that.
-- **Special** - what it can do that its Action Dice do not already say, where the AD band
-  calls for one. `none` where it has none, per GENRE.md's state-the-nil. Demanded by
-  `dangerous/Creature.md` and `dangerous/Encounter.md`: a guardian's condition, a hazard's
-  mechanism and a horror's reach are the whole of what makes them worth citing, and a
-  referee improvising them at the table is improvising the entry.
 
-**Coverage the location patterns will ask for**
-
-- Something that ranges rather than lairs, so a WILD region can meet the same thing twice.
-- Something that lairs and cannot leave - young, stores, or a thing it guards.
-- Something a party can talk to.
-- Something that will not fight and is a problem anyway.
-- Something small enough to be a nuisance in numbers.
-- Something that eats what a settlement produces, so a SAFE region has a standing grievance.
-- Something death-tainted that is a fact of the underworld rather than a villain.
-- Something that was made rather than born.
+**Special** - what it can do that its Action Dice do not already say, where the AD band
+calls for one. `none` where it has none, per GENRE.md's state-the-nil. Demanded by
+`dangerous/Creature.md` and `dangerous/Encounter.md`: a guardian's condition, a hazard's
+mechanism and a horror's reach are the whole of what makes them worth citing, and a
+referee improvising them at the table is improvising the entry.
 
 ## Constraints
 
