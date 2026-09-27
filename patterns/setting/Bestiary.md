@@ -85,14 +85,11 @@ long, or many-limbed sits above it.
 one is making a claim the rest of its line has to support. State what the ability does in
 terms a referee can run, never as a name alone.
 
-**The Description is one field, not four.** Appearance, behaviour, range, population,
-diet, sign, and disposition are all optional points of inclusion - none is mandatory on
-every entry, and 1-3 sentences rarely holds all of them at once. Write whichever the
+**Description.** Appearance, behaviour, range, population, diet, sign, and disposition are
+all optional points of inclusion - none is mandatory on every entry. Write whichever the
 entry actually needs; a Beast that ranges widely might spend its sentences on population
 and diet, an entry built as a guardian and fixed at one threshold might spend them
-entirely on what it does when approached. Which downstream pattern wants which point is
-listed below, so a later
-generation step knows what to look for rather than expecting a labeled line:
+entirely on what it does when approached. Which downstream pattern wants which point:
 
 - **Range** - where it lives, how many the country supports, and what it eats. Wanted by
   `wild/Creature.md` (populations, not individuals), `wild/Lair.md` (what it eats and
