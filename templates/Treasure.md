@@ -26,14 +26,16 @@ TABLE SHAPE - each of the five
   4-20  The remaining spread, in randomised order - never ascending or descending
 ```
 
-State what a week's ordinary wage is at the head of Table I, and point back to it from
-each of the others, so every number in every table has a scale.
+Head Table I with the setting's coins - each by name, and its ratio to the others - and
+what a week's ordinary wage is in them. Every value in every table is stated in those
+coins, and the others point back to Table I for the scale. The values below are in the
+standard coin.
 
 ```
 TABLES
   I     Scavenged Loot - everyday debris, minor coin, tools, scraps; average under
-        500 cn; mostly useful rather than valuable
-  II    Equipment and Armaments - weapons, armour, adventuring gear; normal 100 cn,
+        500 standard coins; mostly useful rather than valuable
+  II    Equipment and Armaments - weapons, armour, adventuring gear; normal 100 standard coins,
         fine 3-10x, masterwork 10-100x
   III   Gems and Jewelry - value-dense and weightless; the band where carrying
         capacity stops being a constraint
@@ -48,59 +50,59 @@ TABLES
 ```
 Treasure Table I - Scavenged Loot
 
-| # | Item | Value (cn) | Wt |
+| # | Item | Value | Wt |
 |---|------|-----------|----|
-| 1 | [item, well below average value] | [cn] | [wt] |
-| 2 | [item, below average value or ~2x average wt] | [cn] | [wt] |
-| 3 | [item, below average value or ~2x average wt] | [cn] | [wt] |
+| 1 | [item, well below average value] | [value] | [wt] |
+| 2 | [item, below average value or ~2x average wt] | [value] | [wt] |
+| 3 | [item, below average value or ~2x average wt] | [value] | [wt] |
 | ... | ... | ... | ... |
-| 20 | [item] | [cn] | [wt] |
+| 20 | [item] | [value] | [wt] |
 ```
 
 ```
 Treasure Table II - Equipment and Armaments
 
-| # | Item | Quality | Effect | Value (cn) | Wt |
+| # | Item | Quality | Effect | Value | Wt |
 |---|------|---------|--------|-----------|----|
-| 1 | [item, well below average value] | [quality] | [effect or -] | [cn] | [wt] |
-| 2 | [item, below average value or ~2x average wt] | [quality] | [effect or -] | [cn] | [wt] |
-| 3 | [item, below average value or ~2x average wt] | [quality] | [effect or -] | [cn] | [wt] |
+| 1 | [item, well below average value] | [quality] | [effect or -] | [value] | [wt] |
+| 2 | [item, below average value or ~2x average wt] | [quality] | [effect or -] | [value] | [wt] |
+| 3 | [item, below average value or ~2x average wt] | [quality] | [effect or -] | [value] | [wt] |
 | ... | ... | ... | ... | ... | ... |
-| 20 | [item] | [quality] | [effect or -] | [cn] | [wt] |
+| 20 | [item] | [quality] | [effect or -] | [value] | [wt] |
 ```
 
 ```
 Treasure Table III - Gems and Jewelry
 
-| # | Item | Value (cn) | Wt |
+| # | Item | Value | Wt |
 |---|------|-----------|----|
-| 1 | [item, well below average value] | [cn] | [wt] |
-| 2 | [item, below average value or ~2x average wt] | [cn] | [wt] |
-| 3 | [item, below average value or ~2x average wt] | [cn] | [wt] |
+| 1 | [item, well below average value] | [value] | [wt] |
+| 2 | [item, below average value or ~2x average wt] | [value] | [wt] |
+| 3 | [item, below average value or ~2x average wt] | [value] | [wt] |
 | ... | ... | ... | ... |
-| 20 | [item] | [cn] | [wt] |
+| 20 | [item] | [value] | [wt] |
 ```
 
 ```
 Treasure Table IV - Luxury and Trade Goods
 
-| # | Item | Value (cn) | Wt |
+| # | Item | Value | Wt |
 |---|------|-----------|----|
-| 1 | [item, well below average value] | [cn] | [wt] |
-| 2 | [item, below average value or ~2x average wt] | [cn] | [wt] |
-| 3 | [item, below average value or ~2x average wt] | [cn] | [wt] |
+| 1 | [item, well below average value] | [value] | [wt] |
+| 2 | [item, below average value or ~2x average wt] | [value] | [wt] |
+| 3 | [item, below average value or ~2x average wt] | [value] | [wt] |
 | ... | ... | ... | ... |
-| 20 | [item] | [cn] | [wt] |
+| 20 | [item] | [value] | [wt] |
 ```
 
 ```
 Treasure Table V - Treasure Cache
 
-| # | Item | Value (cn) | Wt |
+| # | Item | Value | Wt |
 |---|------|-----------|----|
-| 1 | [item, well below average value] | [cn] | [wt] |
-| 2 | [item, below average value or ~2x average wt] | [cn] | [wt] |
-| 3 | [item, below average value or ~2x average wt] | [cn] | [wt] |
+| 1 | [item, well below average value] | [value] | [wt] |
+| 2 | [item, below average value or ~2x average wt] | [value] | [wt] |
+| 3 | [item, below average value or ~2x average wt] | [value] | [wt] |
 | ... | ... | ... | ... |
-| 20 | [item] | [cn] | [wt] |
+| 20 | [item] | [value] | [wt] |
 ```

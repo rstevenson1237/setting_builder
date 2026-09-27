@@ -12,7 +12,7 @@ location's.
 TREASURE RESULT
   1     What it is - named as the thing itself, with no word on where it is stored,
         found or carried
-  1     Value, in the coin setting/Procedures.md anchors the tables in
+  1     Value, in the coins named at the head of Table I
   1     Weight - what it actually takes to move, however large that gets        {WT}
   1     Density - at about 100 coins' worth per wt, or an order of magnitude denser
         for a small valuable, or far below it for mundane bulk

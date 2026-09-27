@@ -27,7 +27,6 @@ PROCEDURES
 ```
 NEED - any, and only where the setting calls for it
   resolution   - a resolution setting/Truths.md requires
-  coin         - a currency or a wage, as the anchor the treasure tables are valued in
   travel       - a travel or supply rule the setting's geography demands
   condition    - a condition that recurs here specifically
 ```
