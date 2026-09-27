@@ -10,19 +10,9 @@ never read against a faction's or a region's dice, is `setting/Procedures.md`'s 
 
 ```
 BESTIARY ENTRY
-  1     Type, exactly one - Fantasy being whatever this setting has that fits none of
-        the others
-        {Men | Humanoid | Beast | Undead | Construct | Horror | Wyrm | Fey | Fiend |
-         Giant | Fantasy}
-  1     AD, written Xd6+N - the count taken from the band that says what the creature is
-          1       evenly matched for a normal man
-          2-3     a superior man-sized combatant
-          4-5     larger than man-sized, and highly dangerous
-          6-8     extremely large, carrying some level of supernatural danger
-          9-12    a gargantuan terror, often solo
-          13-16   mono-type - served by those around it, in control without question,
-                  and tapped into powers beyond comprehension
-          17-18   gargantuan - the pinnacle, a titan
+  1     Type                                                              {TYPE}
+  1     AD, written Xd6+N - the count, from the band that says what the creature is
+                                                                          {AD BAND}
   1     Modifier, -2 to +6, against an average of one third of AD rounded up - how much
         more or less lethal it is than its size says
   1     MA, against an average of one quarter of AD rounded up - how many targets it
@@ -35,6 +25,33 @@ BESTIARY ENTRY
   1     Special - what it can do that its dice do not already say, in terms a referee
         can run, or `none`: rare below 4 AD, expected at 4 and above, several at 8 and
         above
+```
+
+```
+TYPE - exactly one
+  Men         - human beings, of any people, trade or allegiance
+  Humanoid    - a people that is not human, walking upright, speaking, and making things
+  Beast       - an animal, of natural kind or grown past natural size
+  Undead      - a dead thing that has not stopped
+  Construct   - a made thing, set to a task and holding to it
+  Horror      - a thing of no natural kind, whose nature is itself the danger
+  Wyrm        - a great reptile of the dragon line
+  Fey         - a being of the wild places, bound by rules of its own rather than wants
+  Fiend       - a thing from outside the world, come or called into it
+  Giant       - a people of human shape at more than twice human size
+  Fantasy     - what this setting has that fits none of the above
+```
+
+```
+AD BAND - exactly one, then the count within it
+  1           evenly matched for a normal man
+  2-3         a superior man-sized combatant
+  4-5         larger than man-sized, and highly dangerous
+  6-8         extremely large, carrying some level of supernatural danger
+  9-12        a gargantuan terror, often solo
+  13-16       mono-type - served by those around it, in control without question, and
+              tapped into powers beyond comprehension
+  17-18       gargantuan - the pinnacle, a titan
 ```
 
 ## Constraints

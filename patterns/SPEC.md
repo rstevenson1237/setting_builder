@@ -1,8 +1,13 @@
 # The pattern file spec
 
-What every file in `patterns/` is made of, and why. `README.md` says what the
-patterns are *for* within the build; this file says what one looks like and how to tell a
-correct one from a broken one. `CLAUDE.md` carries the short version.
+What every file in `patterns/` is made of, and how to tell a correct one from a broken
+one. `CLAUDE.md` carries the short version.
+
+**This file is a standard, not an input.** No generation step reads it: a pattern file has
+to be followable on its own, from its own notation - rates in the left margin, `{…}` for a
+draw, `(folder/File.md)` for an edge, a block name in capitals for a block further down
+the same file. This file is what the library is tested against, by
+`tools/validate_setting.py` and at STEPS.md step 5b.
 
 ## The division of labour
 
@@ -36,12 +41,16 @@ the words are as true of any setting as "size and shape" is - which is what keep
 question rather than an example. Where a field still reads thin once its axis is named,
 the fix is a sharper question, never a list of instances to draw from.
 
+**Question or draw is a design decision, made per line.** A question produces the answer
+that best fits everything already in context - the average, done well. A draw forces the
+answer into a set chosen for being worth meeting, at the cost of fit. Reach for a draw
+where questions alone have been seen to produce the plain case every time.
+
 **A draw is not a list of instances.** A draw's items are the whole set of categories an
 answer may fall in, closed and exhaustive; a list of instances is a sample of answers,
-which the generator copies. An item may carry a **definition** - what the category is -
-where its name is a term that means nothing outside this framework. It never carries an
-**example** - a member of the category - because an example is an instance with a label
-on it.
+which the generator copies. An item may carry a **definition** - what the category is - or
+a **condition** - when it is the right pick. It never carries an **example** - a member of
+the category - because an example is an instance with a label on it.
 
 ## The three fields
 
@@ -69,11 +78,16 @@ What this file decides, as a fenced block. Every line is one of exactly three th
 - **an edge** - it points to another pattern file, named in parentheses, which is the only
   other file that line requires;
 - **a question** - it states something the generator must answer, and cites nothing; or
-- **a draw** - it names a closed set, `{a | b | c}`, and the generator selects from it:
-  exactly one unless the line says otherwise, at the rates the line gives where it gives
-  any. Where the items need definitions they sit one per line beneath it, `item - what it
-  is`. A draw cites nothing; a draw whose items each have a file of their own is an edge,
-  and the parentheses go on the line.
+- **a draw** - it names a closed set and the generator selects from it: exactly one
+  unless the line says otherwise, at the rates the line gives where it gives any. A short
+  set sits inline, `{a | b | c}`. A long one, or one whose items need definitions, is named
+  on the line in capitals, `{TYPE}`, and listed as its own fenced block of that name
+  further down the same Spec, one item per line: `item - definition or condition`.
+
+**A draw or an edge is decided by what the pick opens.** Where picking an item only sets
+a value - nothing else in the unit changes shape - it is a draw, and its items live in
+this file. Where picking an item opens lines of its own to answer, each item is a unit and
+gets a file, and the line is an edge: the parentheses go on the line, one file per item.
 
 There is no fourth form. A list trailing a line without braces is either meant to be
 exhaustive, and is a draw, or illustrates, and is cut in favour of a sharper question.

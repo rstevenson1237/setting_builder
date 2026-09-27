@@ -16,7 +16,7 @@ a tag, an event with no Left mark is backstory); never make the player's decisio
 cut even where a template asks for it, and a template that keeps producing such lines is
 the wrong template. **Re-read GENRE.md and STYLE.md at every generation step - don't rely
 on having read them once.** Two failure modes to watch: genre drift (an authored plot
-creeping in, magic becoming common, an implied central authority), and inert prose (mood in
+creeping in, or content answering one of GENRE.md's questions differently from GENRE.md), and inert prose (mood in
 place of a handle, a fact restated downward from the level where it was already true).
 
 ## STEPS.md is the authority

@@ -4,22 +4,22 @@
 The root of the pattern tree: the questions a genre has to answer before anything is
 generated, and one edge to every pattern file a build enters from. `GENRE.md` is the
 answer to this file's GENRE block, authored rather than generated; every other node is
-reached from here.
-
-What each node is made of is `patterns/SPEC.md`'s; the order the nodes are generated in is
-`STEPS.md`'s.
+reached from here. The order the nodes are generated in is `STEPS.md`'s.
 
 ## Spec
 
 ```
 GENRE - answered in GENRE.md
-  1     Reference - the fiction the genre is modelled on, and what it sets against what
+  1     Reference - the work the genre is modelled on, and what it sets against what
   1     Lethality - what one wrong roll costs a character
-  1     Magic level - how rare sorcery is, and what it costs whoever wields it
+  1     Magic level - who can work magic, how often, and what it costs them
   1     Authority - how far any one power's writ reaches
+  1     Allegiance - what sides the world divides into, if any, and how a stranger's side
+        is read
   1     Population density - how far apart the settled places sit, and what lies between
   1     Decay - how far past its peak a settled place stands
   1     Player characters - who they are, and what stands behind them
+  1     Reward - what the characters are after, and what having it does for them
   1     Naming - which tongue proper nouns are coined from, and which are left plain
 ```
 

@@ -5,7 +5,8 @@ A non-mechanical review pass over `patterns/` - confirming, by human or model ju
 
 ## Context
 Consult when running this check:
-- `GENRE.md` - the standard a pattern's content is measured against (specific, dangerous, low-magic, points-of-light - not generic fantasy dressing).
+- `patterns/SPEC.md` - the standard every pattern file's shape is tested against.
+- `GENRE.md` - the standard a pattern's content is measured against.
 - every file in `patterns/`.
 - `templates/Location.md` (and any other template that consumes a pattern) - to see how a pattern's output actually gets used, since a pattern can only be judged generic or specific, discoverable or not, by how it lands on the page.
 - prior conversation/requests from the user calling for specific content, to check against the "gaps" and "doesn't fit anywhere" items below.
@@ -20,8 +21,7 @@ For each pattern file, and for the set of pattern files as a whole, confirm the 
 - **Interactive** - does the pattern give players something to act on (examine, trigger, disarm, solve, take) rather than pure read-aloud flavor?
 - **Not overly generic** - could the pattern's output, as written, be dropped unchanged into any generic fantasy dungeon without a rewrite? If so, it needs sharper genre-specific hooks.
 - **Wiring** - is every pattern file actually reached? `tools/validate_setting.py` warns on
-  any file no generation template can reach, walking STEPS.md to `templates/` to each
-  template's named pattern files and out along Spec edges. An unreachable file is never
+  any file `patterns/Genre.md` or no generation template can reach. An unreachable file is never
   read, so the content it describes is never generated - which is silent under-generation
   rather than a broken file, and the judgement here is whether the file should be wired in
   or should go. Check the reverse too: a file reached at a rate so low it will not fire in a

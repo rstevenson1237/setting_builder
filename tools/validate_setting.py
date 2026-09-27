@@ -143,6 +143,7 @@ def check_pattern_files(diag: Diagnostics):
             diag.error(path, f"'-> {m.group(1)}' names a file with no folder - "
                               f"every citation states which patterns/ folder it points to")
         check_pattern_sections(diag, path, text)
+        check_block_draws(diag, path, text)
 
 
 # ---------------------------------------------------------------------------
@@ -164,6 +165,33 @@ def check_pattern_files(diag: Diagnostics):
 # the same way "Design questions" is, so a reintroduction is caught here
 # rather than drifting back in unnoticed.
 # ---------------------------------------------------------------------------
+
+
+# A draw names a closed set: inline, {a | b | c}, or - when long or defined -
+# by a block name in capitals, {TYPE}, listed as its own fenced block of that
+# name further down the same Spec. The name has to resolve, or the generator
+# is sent looking for a menu that is not there.
+BLOCK_DRAW_RE = re.compile(r'\{([A-Z][A-Z0-9 ]*)\}')
+
+
+def spec_blocks(text: str) -> dict[str, list[str]]:
+    """Every fenced block in a pattern file's Spec, keyed by its header's name."""
+    m = re.search(r'\n## Spec\n(.*?)(?=\n## Constraints\n|\Z)', text, re.S)
+    out: dict[str, list[str]] = {}
+    for fenced in re.findall(r'```\n?(.*?)```', m.group(1) if m else "", re.S):
+        lines = fenced.strip("\n").splitlines()
+        if lines:
+            out[lines[0].split(" - ")[0].strip()] = lines[1:]
+    return out
+
+
+def check_block_draws(diag: Diagnostics, path, text: str):
+    blocks = spec_blocks(text)
+    for body in blocks.values():
+        for name in BLOCK_DRAW_RE.findall("\n".join(body)):
+            if name not in blocks:
+                diag.error(path, f"draws {{{name}}}, but its Spec has no fenced block "
+                                 f"headed {name} to draw from")
 
 
 def check_pattern_sections(diag: Diagnostics, path, text: str):
@@ -1158,7 +1186,7 @@ def check_rumours(diag: Diagnostics):
 
 
 def bestiary_types() -> set[str]:
-    """The Type draw in patterns/setting/Bestiary.md's Spec, lower-cased.
+    """The TYPE draw block in patterns/setting/Bestiary.md's Spec, lower-cased.
 
     Read from the pattern rather than copied here, so the closed set has one
     owner and a rename there cannot leave a stale copy behind.
@@ -1166,8 +1194,8 @@ def bestiary_types() -> set[str]:
     path = PATTERNS / "setting" / "Bestiary.md"
     if not path.exists():
         return set()
-    m = re.search(r'^ {2}1\s+Type\b.*?\{(.*?)\}', path.read_text(), re.S | re.M)
-    return {s.strip().lower() for s in m.group(1).split("|")} if m else set()
+    items = spec_blocks(path.read_text()).get("TYPE", [])
+    return {ln.split(" - ")[0].strip().lower() for ln in items if ln.strip()}
 
 # "[Name] (Type) - AD: Xd6+N [MA: Y]" per templates/Bestiary.md. The bonus and
 # the MA bracket are optional in the pattern so a partially-written file still
@@ -1219,7 +1247,7 @@ def check_statblocks(diag: Diagnostics, path: Path, label: str, expect_special: 
     for b in blocks:
         if types and b["type"].lower() not in types:
             diag.error(path, f"{b['name']}: type {b['type']!r} is not in "
-                             f"patterns/setting/Bestiary.md's Type draw")
+                             f"patterns/setting/Bestiary.md's TYPE draw")
         if not 1 <= b["ad"] <= 18:
             diag.error(path, f"{b['name']}: AD {b['ad']} is outside the 1-18 range")
         if b["mod"] is None:
