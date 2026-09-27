@@ -2,63 +2,53 @@
 
 ## Provides
 What in a WILD location acts against the party, whether anybody set it, what warns of it,
-and what it costs.
-
-What a tier resolves to - what is rolled, and what it does - is
-`setting/Procedures.md`'s. Distinct from `wild/Mystery.md`, which is the neutral case: a
-mystery costs nothing until a genuinely wrong attempt is made, a hazard acts on contact
-or condition.
+and what it costs. What a tier resolves to is `setting/Procedures.md`'s. A mystery costs
+nothing until a genuinely wrong attempt; a hazard acts on contact or condition.
 
 ## Spec
 
 ```
 HAZARD
-  1     Mechanism   {set | condition of the ground | living} - decide first, they read
-        differently
-  1     Tier - the first of these that hits, and nothing below it:
-          15%   lethal    can kill outright, and the warning already said so
-          45%   damaging  costs the party something they have to spend to get back
-          1     nuisance  costs time, ground, a piece of gear, or the route they wanted
-  1     A warning available to somebody moving carefully - disturbed ground, a
-        path that goes around, older remains, a missing sign an animal would
-        leave, or something tied recently
+  1     Mechanism, decided first                                        {MECHANISM}
+  1     Tier                                                                 {TIER}
+  1     A warning available to somebody moving carefully - rarely concealed, and easy
+        to walk past                                                      {WARNING}
   1     Trigger - what sets it off, or what crossing it costs
-  1     Damage - the expression the tier allows, per setting/Procedures.md
-  1     What it was for, and who set it - where the mechanism is `set`
+  1     Damage - the expression the tier allows, per setting/Procedures.md, of a type
+        the mechanism can deliver
+  1     What it was for, and who set it - where the mechanism is set
   20%   Something already caught in it
 ```
 
-**The mechanism is a line here, not a file.** `dangerous/Hazard.md` splits its three
-mechanisms across `Trap`, `Environmental` and `Residual` because each carries a contract of
-its own - a maker still here, a condition with a cause in the Dressing, a maker gone. A
-WILD hazard's three answer the same two questions whichever is drawn, so the choice fits on
-one line and earns no middle level.
+```
+MECHANISM - exactly one
+  set          - something somebody placed, and delivers Piercing, Crushing or Poison
+  ground       - a condition of the ground itself, and delivers Crushing from a fall or
+                 slide, Frost from water and exposure, or Poison from bad air
+  living       - a living thing that acts on whatever passes, and delivers Poison or the
+                 Condition its sting or spore leaves
+```
 
-**Lethal sits lower here than at depth**, and so does what it forces: a WILD hazard that
-kills is one the party was told about and walked into anyway, so it rarely goes past 2d.
-Reaching 3d in the open means the warning was as loud as the country could make it.
+```
+TIER - the first of these that hits, and nothing below it
+  lethal       - 15%; can kill outright, the warning already said so, and rarely past 2d
+  damaging     - 45%; costs the party something they have to spend to get back
+  nuisance     - otherwise; costs time, ground, a piece of gear, or the route they wanted
+```
 
-**The mechanism picks the damage type.** A `set` hazard delivers what somebody
-could build in the open - Piercing, Crushing, Poison. A `condition of the ground` delivers
-what the country does: Crushing from a fall or a slide, Frost from water and exposure,
-Poison from bad air. A `living` hazard delivers Poison, or the Condition its sting or its
-spore leaves behind.
-
-**In the open, almost everything gives warning.** A dungeon can hide a pressure plate in a
-worked floor; broken ground announces itself to anyone reading it. So a WILD hazard's
-warning is rarely concealed - it is *available and easy to walk past*, which is a
-different failure and a better one. A party moving fast should be able to miss what a
-party moving carefully would catch, and the cost of moving carefully is the four-hour
-action they spend on it.
-
-**Set hazards have owners.** Somebody put it here for something, and that somebody is a
-fact about the region - a trapline means a trapper, a deadfall on a trail means whoever
-uses the trail is not welcome.
+```
+WARNING - at least one
+  disturbed    - ground disturbed
+  detour       - a path that goes around
+  remains      - older remains
+  absence      - a sign an animal would leave, missing
+  fresh        - something set or tied recently
+```
 
 ## Constraints
 
-- **A living hazard is not an encounter.** What makes it a hazard is that nothing chooses
-  to act on the party - the plant is where it is, the ambusher takes whatever passes.
-  Where the thing has a want, a reaction, or somewhere else it could be, it is a creature
-  and belongs in `wild/Creature.md`, which asks what it is doing and what avoiding it
-  costs.
+- **A living hazard is not an encounter.** Where the thing has a want, a reaction, or
+  somewhere else it could be, it is a creature and belongs in `wild/Creature.md`.
+
+- **Never a set hazard without an owner.** Somebody put it here for something, and that
+  somebody is a fact about the region.

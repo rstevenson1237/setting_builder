@@ -6,11 +6,22 @@ Records 1 or more major events that have shaped the setting, oldest to newest.
 ## Context
 Read first:
 - `GENRE.md`
+- `BRIEF.md` - this build's design requests, which replace this template's defaults where they speak
 - `patterns/setting/History.md`
 - `setting/Setting.md`
 
 ## Instructions
-List 3-7 major events that have influenced the setting, in order from oldest to newest.
+List 3-7 events, each following `patterns/setting/History.md`'s Spec, in order from
+oldest to newest. The collection as a whole must hold this shape:
+
+```
+HISTORY - 3-7 events
+  1     At least one outside living memory, whose evidence is physical only
+  1     At least one inside living memory, with people who disagree about it
+  1     At least one still resolving
+  1     At least one place carrying three occupancies across the events - who built it,
+        who took it, who holds it now
+```
 
 ## Template
 ```

@@ -1,49 +1,59 @@
 # Setting - Unique Treasures
 
 ## Provides
-What earns a row in `setting/UniqueTreasures.md` rather than a roll on a table.
-
-The per-rating decision of when a find is a table roll instead is in each folder's own
-`Treasure.md`.
+One treasure with a name and a history of its own, rather than a roll on a table. When a
+find is a table roll instead is its location rating's own `Treasure.md`.
 
 ## Spec
 
 ```
 UNIQUE TREASURE ENTRY
-  1     A name, coined from setting/Language.md
-  1     What it does, stated plainly enough to adjudicate
-  1     What it costs - a downside, a limit, or a complication
-  1     A tie to History, Truths, a Faction, or a Named Creature
+  1     A name, per GENRE.md's Naming answer
+  1     What it does, stated plainly enough to adjudicate                    {DOES}
+  1     What it costs, at what GENRE.md's Magic level says power costs      {COST}
+  1     Where it came from - an entry in setting/History.md, setting/Truths.md,
+        setting/Factions.md or setting/NamedCreatures.md that accounts for it
+                                                                          {ORIGIN}
   1     The location it is found at
 ```
 
-**Low Magic means the price is the entry.** Per `GENRE.md`, power is rare, mysterious, and
-carries a cost. An artifact with no downside, limit, or complication is a table roll with a
-proper noun, and it makes the setting's magic routine - which is the specific drift this
-framework exists to prevent.
+```
+DOES - exactly one
+  once         - it works once
+  class        - it works on one class of thing
+  adjacent     - it does something next to what a party wants
+  solution     - it makes one specific problem soluble that otherwise is not
+  knowledge    - it grants knowledge rather than force
+  passage      - it opens or closes
+  ward         - it protects against one named thing
+```
 
-**Tie it to something established.** An artifact with an invented origin is disconnected
-from the setting by construction. If nothing in `History.md`, `Truths.md`, `Factions.md` or
-`NamedCreatures.md` can account for it, it probably should not exist.
+```
+COST - at least one, or none where GENRE.md's Magic level lets power be free
+  toll         - it takes something from the bearer each time it is used
+  noticed      - it works, and something notices
+  bound        - it cannot be put down
+  desperate    - it works better the worse the bearer's situation
+  foreign      - it was made for someone else, and knows it
+  sought       - somebody is looking for it
+  forbidden    - using it is something the setting's Truths punish
+```
 
-**The location names and cites it only.** What it does and what it costs are written here at
-4d, not in the location entry.
-
-**What one does** - it works once; it works on one class of thing; it does something adjacent
-to what a party wants; it makes a specific problem soluble that otherwise is not; it grants
-knowledge rather than force; it opens or closes; it protects against one named thing.
-
-**What it costs** - it takes something each use - time, blood, memory, a possession, a year;
-it works and is noticed by something; it cannot be put down; it works better the worse the
-bearer's situation; it was made for someone else and knows it; somebody is looking for it;
-using it is a thing the setting's Truths punish.
-
-**Where it came from** - made for an event in `History.md`; a consequence of a Truth; a
-faction's property, lost; a Named Creature's, and they want it back; grave goods; made by
-somebody who should not have been able to; not made at all.
+```
+ORIGIN - exactly one
+  event        - made for an event in setting/History.md
+  truth        - a consequence of a truth in setting/Truths.md
+  lost         - a faction's property, lost
+  reclaimed    - a Named Creature's, and they want it back
+  grave        - grave goods
+  unlikely     - made by somebody who should not have been able to
+  unmade       - not made at all
+```
 
 ## Constraints
 
-- **Restraint.** A setting supports very few of these. Most high-weight locations are
-  better served by a Table V citation - a Unique Treasure should be the reason a party
-  remembers a whole region.
+- **Never an invented origin.** An artifact nothing established can account for is
+  disconnected from the setting by construction, and should not exist.
+
+- **The location names and cites it only.** What it does and what it costs are written
+  here, never in the location entry.

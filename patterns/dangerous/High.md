@@ -1,7 +1,8 @@
 # Dangerous - High
 
 ## Provides
-What a high-weight location guarantees.
+One high-weight DANGEROUS location: a room that announces itself, holds a challenge, and
+pays out.
 
 ## Spec
 
@@ -10,7 +11,8 @@ DANGEROUS - HIGH
 
   -- substrate: what this room is
   1     Dressing - what it is now, and what it was      (dangerous/Dressing.md)
-  1     An architecture detail unique to this location
+  1     An architecture detail unique to this location - what makes it look like
+        somewhere that matters before anyone knows what is in it
   50%   An ambiance detail unique to this location
   -- no concealed detail: what a HIGH room hides is already carried by a Treasure
      whose disposition is hidden, or by a Hazard's or a Mystery's own clue
@@ -33,19 +35,15 @@ DANGEROUS - HIGH
                                                      (dangerous/Quest.md)
 
   1     Naming, after everything above           (patterns/setting/Naming.md)
+  30%   A second name, from a different mouth than the first
+                                                 (patterns/setting/Naming.md)
 ```
-
-High weight means the location **announces itself**. The architecture line is mandatory
-because that is what does the announcing: before a party knows what is in the room, the
-room has to look like somewhere that matters. It is a question rather than an edge because
-it is HIGH's own requirement - `dangerous/Dressing.md` supplies the baseline every location
-gets, and MEDIUM and LOW do not demand this on top of it.
-
-**Treasure is mandatory at HIGH.** A high-weight location the party clears and leaves
-empty-handed has spent the region's scarcest slot on nothing.
 
 ## Constraints
 
-- **Never add a discovery structure to a HIGH room.** What it hides is already carried by
-  a Treasure whose disposition is hidden, or by a Hazard's or a Mystery's own clue. A
-  separate one on top is a third thing to search in the region's most searched room.
+- **Never add a discovery structure to a HIGH room.** What it hides is already carried
+  by a hidden Treasure or a Hazard's or Mystery's clue; a separate one is a third thing to
+  search in the region's most searched room.
+
+- **Never leave a HIGH room empty-handed.** A cleared high-weight room with nothing to take
+  has spent the region's scarcest slot on nothing.

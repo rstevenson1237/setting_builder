@@ -6,6 +6,7 @@ The full write-up for a single location, saved as `[Location Code].md` inside it
 ## Context
 Consult when drafting - and only this, deliberately narrow so the entry stays shaped by its stub and region rather than washed out by the full setting:
 - `GENRE.md` - a Feature is something to react to on the spot, not a beat in a larger scripted arc.
+- `BRIEF.md` - this build's design requests, which replace this template's defaults where they speak
 - this location's class file, named by its rating and its stub's weight/classification. It is
   the **entry point for everything the pattern library contributes here**: every other pattern
   file is reached from its Spec, and none is pulled in directly.
@@ -38,7 +39,7 @@ Consult `setting/Bestiary.md`, `setting/Factions.md`, `setting/History.md`, or `
 6. **Every entry displays information at three tiers, and each tier's way in sits in the tier above it.**
    - **Obvious** - what a party perceives on arriving, having done nothing: the Player Summary, the Referee Notes, and every Feature and Exit that states itself plainly.
    - **Trigger** - what acting on something obvious yields: a Feature line naming an action and its effect, a container opened, a stated detail investigated. Per `setting/Procedures.md` a stated detail investigated is a detail found, and no roll stands in for the looking.
-   - **Secret** - what the class file's own concealment line drew: its Clue sits in the obvious tier, its Trigger is a stated act on that Clue, and its Payload is what the act produces. Per `GENRE.md` a secret is opened by an act, never by a roll.
+   - **Secret** - what the class file's own concealment line drew: its Clue sits in the obvious tier, its Trigger is a stated act on that Clue, and its Payload is what the act produces. Per `STYLE.md` a secret is opened by an act, never by a roll.
 
    The chain is the rule, not the count. A location need not carry all three - the class file's rates decide that - but where a tier is present, what leads into it is stated in the tier above: a concealed detail whose Clue appears nowhere obvious is content the referee knows and the players cannot reach, and a Feature whose action is anchored to nothing visible is a lever in an empty room. An entry sitting wholly in one tier has flattened - everything in the summary leaves nothing worth doing, everything behind a clue leaves a room that reads empty.
 7. Output the pattern generated exactly according to the template below

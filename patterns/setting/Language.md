@@ -1,19 +1,61 @@
 # Setting - Language
 
 ## Provides
-How a tongue is built, what a root is, and how the file grows without being rewritten.
-
-What a location is called, and in whose mouth, is `patterns/setting/Naming.md`.
+One tongue - who speaks it, its sounds, and the roots names are built from - and the two
+rules every artifact keeps when it coins or reuses a proper noun. How many tongues the
+setting holds is `templates/Language.md`'s; what a location is called, and in whose mouth,
+is `patterns/setting/Naming.md`'s.
 
 ## Spec
 
 ```
 TONGUE
-  1     Who speaks it, and whether any of them are alive
-  1     A consonant inventory, and a vowel inventory
-  1     A syllable shape
-  3-6   Affixes, each marking something specific
-  15+   Roots, each with a gloss
+  1     Who speaks it, and whether any of them are alive                 {SPEAKERS}
+  1     A consonant inventory and a vowel inventory, audibly unlike every other
+        tongue's in the setting
+  1     A syllable shape, open or closed unlike the others'
+  3-6   Affixes, each marking one thing                                    {AFFIX}
+  15+   Roots, each a morpheme with a gloss, together covering every item   {ROOTS}
+```
+
+```
+SPEAKERS - exactly one
+  present      - the people living here now
+  departed     - a people who were here, and are not
+  arrived      - a people never here, whose tongue came by trade or conquest
+  side         - everyone of one allegiance, whatever their people
+  non-people   - something that is not a people
+  jargon       - a trade's working tongue
+  liturgy      - a register nobody speaks conversationally
+```
+
+```
+AFFIX - each exactly one
+  place        - a place, holding or settlement
+  water        - water, and what kind
+  diminutive   - smallness
+  plural       - a plural or a collective
+  possession   - belonging
+  age          - old, first, or former
+  direction    - direction or position
+  negation     - negation
+  title        - a title
+```
+
+```
+ROOTS - every item
+  ground       - ground and stone
+  water        - water
+  growth       - growing things
+  weather      - weather and temperature
+  colour       - colour
+  body         - the body and its parts
+  making       - making and breaking
+  exchange     - taking and giving
+  light        - light and dark
+  dead         - the dead
+  number       - number
+  direction    - direction
 ```
 
 ```
@@ -32,42 +74,13 @@ REUSE - whenever any artifact reuses a proper noun coined elsewhere
         is named in the common tongue instead
 ```
 
-**A root is a morpheme with a gloss** - the raw material names are built from, not a name
-itself.
-
-**Three tongues is the default**: a common tongue for the living, an older tongue for ruins
-and the dead, and one non-human tongue. More only when the setting demands it, because a
-fourth inventory nobody uses is dead weight.
-
-**Make them sound unlike each other.** Two tongues sharing an inventory are one tongue with
-two names. The seeds differ deliberately - open running syllables against strict closed
-ones, five vowels against three - and that contrast is what lets a party hear which culture
-a name came from before anyone tells them.
-
-**Register and reuse are the two halves of the same rule**, and both are stated here
-rather than at whichever level happens to need them. Every step that coins registers; every
-artifact that reuses glosses. A step that coins without registering strands a name, and an
-artifact that reuses without glossing hands the referee a word it cannot translate.
-
-**This is the framework's one living artifact.** Every other file is written once and
-revisited at 4d. This one is appended to continuously, and it stops being useful the moment
-a step coins a name without recording it.
-
-**Who a tongue belongs to** - the people currently here; a people who were here and are not;
-a people who were never here and whose language arrived by trade or conquest; something that
-is not a people; a trade jargon; a liturgical register nobody speaks conversationally.
-
-**What affixes mark** - place, holding, or settlement; water, and what kind; a diminutive; a
-plural or a collective; possession or belonging; age - old, first, former; direction or
-position; negation; a title.
-
-**What roots should cover** - ground and stone; water; growing things; weather and
-temperature; colour; body and body parts; making and breaking; taking and giving; light and
-dark; the dead; number; direction. A root list weighted toward abstractions cannot name a
-hill.
-
-**Loan words are information.** A settlement using a dead tongue's word for one thing - a
-well, a road, a boundary, a burial - has told the party what it inherited rather than built,
-without any exposition at all.
-
 ## Constraints
+
+- **Never two tongues on one inventory.** Two tongues sharing their sounds are one tongue
+  with two names, and a party can no longer hear which culture a name came from.
+
+- **Never a root list weighted toward abstractions.** It cannot name a hill.
+
+- **Never coin without registering, never reuse without glossing.** A coinage left out of
+  this file is stranded; a reuse with no gloss hands the referee a word it cannot
+  translate.

@@ -8,27 +8,31 @@ get anything out of it.
 
 ```
 AUTHORITY
-  1     Who holds it here, and by what claim - elected, inherited, seized, granted, assumed
-  1     What actually gets settled here, as opposed to what is claimed - a right, a
-        debt, a boundary, or who may do something, never the abstract fact of order
-  1     The limit of the claim - where it stops being obeyed
-  1     What a stranger must do to get a hearing, this file's answer to
-        `safe/Settlement.md`'s gate line - a wait, a fee, a vouching, a written
-        approach, a subordinate's own price, or a favor owed first
+  1     Who holds it here, and by what claim   {elected | inherited | seized | granted |
+                                                 assumed}
+  1     What actually gets settled here, as opposed to what is claimed - never the
+        abstract fact of order                {a right | a debt | a boundary | who may}
+  1     The limit of the claim - where it stops being obeyed, however far GENRE.md's
+        Authority answer says a writ reaches
+  1     What a stranger must do to get a hearing - this file's answer to
+        safe/Settlement.md's gate line                                    {HEARING}
   40%   A rival claim, and who backs it
-  30%   Something posted, current, and specific, and naming who posted it
-  20%   A custom a stranger will break without knowing - a place, a word, a day, or
-        a debt whose rule is never stated to anyone who already knows it
+  30%   Something posted, current and specific, naming who posted it
+  20%   A custom a stranger will break without knowing, never stated to anyone who
+        already knows it                            {a place | a word | a day | a debt}
 ```
 
-**Points of Light means no authority defaults to legitimacy.** Somebody is in charge here
-because of a specific arrangement, and that arrangement has an edge past which nobody is
-listening. State the edge - it is the most useful fact in the entry, and it is where a
-party's leverage lives.
-
-**What a stranger must do to get a hearing is `safe/Settlement.md`'s gate line**, answered
-once per location whatever its Kind. This file states only what is true of authority
-specifically: the claim, its basis, what it actually settles, where it stops, and what
-getting a hearing costs.
+```
+HEARING - exactly one
+  wait         - a wait, and who decides how long
+  fee          - a fee, stated
+  vouching     - somebody known here speaks for them
+  writing      - an approach made in writing, in the proper form
+  subordinate  - a subordinate's own price for passing it on
+  favour       - a favour owed first
+```
 
 ## Constraints
+
+- **No authority defaults to legitimacy.** Somebody holds it by a specific arrangement,
+  and an entry with no limit stated has left out the fact a party's leverage lives in.

@@ -1,58 +1,58 @@
 # Setting - Factions
 
 ## Provides
-The three powers a party may treat with, oppose, or ignore, and how each is recognised
-before it is named.
+One power a party may treat with, oppose, or ignore, and how it is recognised before it is
+named. How many factions the setting holds, and how they relate to each other, is
+`templates/Factions.md`'s; what a faction dice pool resolves is `setting/Procedures.md`'s.
 
 ## Spec
 
 ```
-FACTIONS - three
-  1     Each carries AD in d6 only, NO bonus, set purely relative to the other two
-  1     Each carries a visual identity - colour, device, mark, or manner - repeated wherever
-        it appears, so a party recognises it two regions apart before anyone names it
-  1     Each wants something concrete enough to be interfered with
-  1     At least one pair that does not know the other exists
-  1     At least one faction a party can plausibly work for
-  1     None of the three is the region's government, unless the setting is about that
+FACTION
+  1     AD, in d6 only with no bonus - set against the other factions' dice and nothing
+        else
+  1     What it wants, concrete enough to be interfered with                  {WANT}
+  1     Identity - repeated identically wherever it appears, so a party knows it two
+        regions apart before anyone names it                              {IDENTITY}
+  1     Resources - what it can actually spend
+  1     Knowledge - what it knows that others do not, which is what makes it worth
+        dealing with rather than only fighting
+  1     Tactics - its characteristic move when contested, concrete enough to predict
+        once it has been seen
+  1     Reactions - what it does when interfered with: noticed, crossed, and injured
+  1     Goals - what drives its turns now, each a standing condition it acts on
+  1     What it fields in a fight - a setting/Bestiary.md entry by name, or `none`
 ```
 
-**Ignorance is its own relation, and discovery should be worth something.** Factions need
-not know one another exist. A party that learns two powers are working the same ground, and
-that neither knows, is holding the most valuable thing in the setting.
+```
+WANT - exactly one
+  route        - a way through, kept open or shut
+  resource     - a supply, and exclusive access to it
+  person       - one particular person
+  cleared      - a place emptied of what is in it
+  sealed       - a place kept shut
+  legitimacy   - a claim acknowledged
+  debt         - an obligation honoured
+  rival        - a rival gone
+  knowing      - something found out
+  hiding       - something kept from being known
+```
 
-**Visual identity is required, not optional.** Resources and Goals describe
-what a faction does; the mark is how a party knows it is looking at one. Without it, faction
-presence can only be communicated by narration, and every appearance starts from nothing.
-
-**What a faction wants** - a route; a resource, and exclusive access to it; a person; a
-place cleared; a place kept sealed; legitimacy; a debt honoured; a rival gone; to know
-something; to stop something being known.
-
-**Identity, and repeat it everywhere** - a colour worn, hung, or painted; a device on seals,
-crates, coin, and boots; a way of writing a number, tying a knot, or stacking a load; a
-weapon or armour tradition; a mark left on doors they have called at; a phrase; a tongue
-used among themselves, per `setting/Language.md`.
-
-**Fields, and what makes each usable**
-- **Resources** - what they can actually spend. Coin, ground, people, goods, obligation.
-- **Knowledge** - what they know that others do not. This is what makes them worth dealing
-  with rather than just fighting.
-- **Tactics** - their characteristic move when contested, stated concretely enough to be
-  predicted after it has been seen once.
-- **Reactions** - what they do when interfered with, at three intensities: noticed, crossed,
-  and injured.
-- **Goals** - concrete objectives driving their turns now. A goal is a standing condition
-  they act on, never a countdown to a climax.
-
-**Creatures that are also powers** carry both a Faction entry and a Bestiary entry. The
-Faction pool measures what they accomplish in the world; the Bestiary pool measures what
-they are to fight.
+```
+IDENTITY - at least two
+  colour       - worn, hung or painted
+  device       - an emblem put on what they own and carry
+  habit        - a way of doing an ordinary task that only they do
+  arms         - a weapon or armour tradition
+  mark         - a sign left where they have been
+  phrase       - a word or saying used among them
+  tongue       - a tongue from setting/Language.md used among themselves
+```
 
 ## Constraints
 
-- **Faction dice are relative and nothing else.** Per `setting/Procedures.md` they
-  resolve Faction Turns against each other and have no absolute meaning. Do not pitch
-  them against creature or party dice. A small faction may be a terrible creature - the
-  two numbers are unrelated, and a power that is weak in the world may still kill
-  everyone in a room.
+- **Faction dice are relative and nothing else.** Never pitch them against creature or
+  party dice: a power that is weak in the world may still kill everyone in a room.
+
+- **A goal is never a countdown to a climax.** It is a condition the faction acts on turn
+  after turn, whether or not the party is present.

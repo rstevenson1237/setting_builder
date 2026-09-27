@@ -2,11 +2,8 @@
 
 ## Provides
 What the party meets in a DANGEROUS location, what it is doing, and what reaches them
-before it does.
-
-Which *kind* of encounter is decided here; the kind file supplies what fills it.
-Distinct from `dangerous/Hazard.md`: an encounter has something that can act on its own
-account, a hazard only reacts.
+before it does. Which kind is decided here; the kind file supplies what fills it. An
+encounter can act on its own account, where `dangerous/Hazard.md` only reacts.
 
 ## Spec
 
@@ -15,24 +12,18 @@ ENCOUNTER
   1     Kind    {creature | named creature | faction}
                         (dangerous/Creature.md, patterns/setting/NamedCreatures.md,
                          dangerous/Faction.md)
-  1     What it is doing when the party arrives - not waiting
+  1     What it is doing when the party arrives - never waiting
   1     Number, and scale - stated by the kind file that was drawn
-  1     A sign of it readable before the encounter itself is met
+  1     A sign of it readable before the encounter itself is met - a room early where
+        GENRE.md's Lethality answer means it could kill them
   30%   Something it wants that is not a fight
   25%   Absent when the party arrives - its signs, and where it is instead
 ```
 
-**The sign is the line that makes an encounter survivable.** A party that meets a thing
-with no warning has had a choice taken from them. Per `GENRE.md`'s lethality framing the
-region is not sized to the party, so something a party cannot beat has to announce itself
-a room early - and the sign line is where that happens, whichever kind was drawn.
-
-**Presence is decided apart from description.** A location's occupant is not always at
-home. A room written as a den, found empty, with the thing that lives in it somewhere
-behind the party, is worth more than the same room with the thing standing in it.
-
 ## Constraints
 
-- **Kind is exactly one.** A faction picket that is also a named creature is a faction
-  encounter whose leader carries a `setting/NamedCreatures.md` row, not two encounters
-  stacked in one Feature.
+- **Kind is exactly one.** A faction picket led by a named creature is a faction encounter
+  whose leader carries a `setting/NamedCreatures.md` row, not two encounters.
+
+- **Never an encounter met with no warning.** A party that meets a thing without a sign
+  has had a choice taken from them.

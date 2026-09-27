@@ -1,66 +1,40 @@
 # Dangerous - Trap
 
 ## Provides
-Which mechanism a built hazard uses, what springs it, what it forces, and who set it.
-
-What an expression resolves to is not here - it is in `setting/Procedures.md`. Distinct from
-`dangerous/Environmental.md` and `dangerous/Residual.md`: a trap was built for this, by
-somebody, and still does that job.
+A hazard somebody built for this, which still does that job: what physically does it, what
+springs it, what it forces, and who set it. The clue and the tier are
+`dangerous/Hazard.md`'s; what an expression resolves to is `setting/Procedures.md`'s.
 
 ## Spec
 
 ```
 TRAP
-  1     Mechanism - what physically does it, sized to the tier `dangerous/Hazard.md`
-        rolled: bare at nuisance, the same idea deepened or armed at damaging, and
-        armed to kill at lethal
-  1     Trigger - the action that springs it
-  1     Damage - the expression the tier allows, per setting/Procedures.md
+  1     Mechanism - what physically does it, named by its working parts, sized to the
+        tier: bare at nuisance, deepened or armed at damaging, armed to kill at lethal -
+        drawn from what the region is built from and its occupants can keep working
+  1     Trigger - the discrete act on the thing itself that springs it
+  1     Damage - the expression the tier allows, of a type the mechanism can deliver
+                                                                          {DAMAGE}
   1     Who set it, and whether anyone is still here to maintain it
 ```
 
-**The clue and the tier are Hazard's; everything else a trap owes is here.** A trap is the
-mechanism whose defining fact is that **somebody built it for this**, and its trigger
-follows from that: a built trap has a deliberate one, a discrete act on the thing itself,
-which is what `dangerous/Environmental.md` and `dangerous/Residual.md` do not have and why
-the trigger is drawn at this level rather than up. The same goes for the maker -
-`dangerous/Environmental.md` has none and `dangerous/Residual.md`'s is gone. Mechanisms
-below are sorted by the tier already rolled, so the selection cannot quietly outrun it.
-
-**A mechanism has to be maintainable by whoever is here.** Mechanisms are drawn from what
-the region is built from and what its occupants can keep working - a trap needing a
-machinist has a machinist somewhere in the region, or it does not work. This is the line
-that keeps trap selection tied to the region instead of to a list.
-
-**A trap's damage type is whatever the mechanism can actually deliver**, and the mechanism
-is picked first: Piercing from a dart, needle, spear or spike; Crushing from a deadfall, a
-weight, a fall, or walls; Poison from a coated edge or a released gas; Fire from oil or a
-flame kept lit; Blast from anything stored under pressure. A Test of Sanity is a trap's only
-where what springing it exposes is itself the harm. Picking the type before the mechanism is
-how a region ends up with a frost trap nobody could have built.
-
-Write every trap in one format:
-
-`**Name:** tell; tell -> effect (expression)`
-
-The colon goes **inside** the bold, per `templates/Location.md`'s Feature label format - a
-trap is a Feature line like any other, and `tools/validate_setting.py` will not recognise
-one written `**Name**:`. The tell is the clue `dangerous/Hazard.md` drew, on this same line
-and not a Feature of its own.
-
-The arrow makes it visible at a glance when a trap has been written with no way to detect
-it; the expression does the same for one written with no stated cost.
-
-**The same mechanism can sit a tier lower** - a pit is the plain case: shallow and empty
-it is damaging, deep and spiked it is lethal. Where the region's own materials cannot
-support a tier's mechanism, drop a mechanism from the tier above and take out what makes
-it worse, rather than reaching up for one the tier cannot afford.
-
-**Name the working parts instead of describing them.** A mechanism with a name is a
-mechanism a referee can rule on without inventing how it works.
+```
+DAMAGE - whatever the mechanism delivers
+  Piercing     - anything that drives a point
+  Crushing     - weight, a fall, or closing walls
+  Poison       - a coated edge or a released gas
+  Fire         - oil, or a flame kept lit
+  Blast        - anything stored under pressure
+  Sanity       - only where what springing it exposes is itself the harm
+```
 
 ## Constraints
 
-- **Never pick a damage type the mechanism cannot produce.** The type follows the thing that
-  does it. A type chosen first drags in a mechanism the region has no way to build or
-  maintain, which is the same failure as a mechanism needing a machinist who is not here.
+- **Never pick a damage type the mechanism cannot produce.** A type chosen first drags in
+  a mechanism the region cannot build or maintain.
+
+- **Never reach up a tier for a mechanism the region cannot support.** Take one from the
+  tier above and remove what makes it worse.
+
+- **A trap is one Feature**, its tell and its effect on one line per
+  `templates/Location.md`, with its forced damage cited last.

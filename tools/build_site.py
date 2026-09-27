@@ -521,7 +521,7 @@ def build_treasure(setting: sc.Setting, out: Path) -> None:
         table = (
             f'<div class="table-scroll"><table class="data-table">'
             f'<thead><tr><th>#</th><th>Item</th>'
-            f'<th>Value (cn)</th><th>Wt</th></tr></thead><tbody>{rows}</tbody></table></div>'
+            f'<th>Value</th><th>Wt</th></tr></thead><tbody>{rows}</tbody></table></div>'
         )
         sections.append(section(sc.TREASURE_TITLES[roman], table, anchor=f"treasure-{roman}"))
     body = f'<h1>Treasure Tables</h1>{"".join(sections)}'

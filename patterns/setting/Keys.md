@@ -1,42 +1,60 @@
 # Setting - Keys
 
 ## Provides
-What earns a row in `setting/Keys.md`.
-
-The per-rating decision of when to reach for a key is in each folder's own `Key.md`.
+One key entry: a portable object, the lock it opens elsewhere, and why the two are apart.
+When a location reaches for a key is its rating's own `Key.md`; a key found before it is
+used is distinct from a quest, which is asked before it is fulfilled.
 
 ## Spec
 
 ```
 KEY ENTRY
-  1     A physical, portable object
-  1     Exactly what it unlocks, and where - a specific feature at a specific location
+  1     Form                                                              {FORM}
+  1     Exactly what it unlocks - a specific feature at a specific location
   1     Where it is found, by location
-  1     Why the two are apart
+  1     Why the two are apart                                             {APART}
+  1     What connects it to its lock, where the connection is not obvious - itself a
+        discoverable secret                                          {CONNECTION}
 ```
 
-**A key need not look like its lock**, and the connection between them can itself be a
-discoverable Secret when it is not obvious.
+```
+FORM - exactly one
+  key          - a key, cut for one lock
+  profile      - a rod, pin or bar cut to a profile
+  fitting      - a stone or disc fitted to a socket
+  seal         - a seal or signet
+  token        - a token carried as proof
+  bone         - a part of a specific creature
+  word         - a phrase or name recorded on something portable
+  measure      - a measured length
+  fragment     - a piece broken off the lock itself
+```
 
-**Forms** - an actual key; a rod, pin, or bar cut to a profile; a stone or disc fitted to a
-socket; a seal or signet; a token; a specific creature's bone; a phrase or name recorded on
-something portable; a measured length; a piece broken off the lock itself.
+```
+APART - exactly one
+  deliberate   - keeping them together defeated the point
+  transit      - its holder died carrying it
+  loot         - it was taken as plunder
+  burial       - it went into the ground with someone
+  trust        - it was left for safekeeping and never reclaimed
+  later        - the lock was built afterwards, around a thing that already existed
+```
 
-**Why they are apart** - deliberately, because keeping them together defeated the point; the
-holder died in transit; it was taken as loot; it was buried with someone; it was given for
-safekeeping and the giver never returned; the lock was built later, around a thing that
-already existed.
-
-**Connecting clues** - a shared maker's mark, material, measurement, or tongue; matching wear;
-an inscription naming the lock but not the key; a record in `setting/Lore.md`.
+```
+CONNECTION - at least one
+  maker        - a shared maker's mark
+  material     - the same material
+  measure      - a matching measurement
+  tongue       - the same tongue
+  wear         - matching wear
+  inscription  - an inscription naming the lock but not the key
+  record       - an entry in setting/Lore.md
+```
 
 ## Constraints
 
-- **A key that opens nothing is treasure.** If there is no lock, it belongs on a
+- **A key that opens nothing is treasure.** Without a lock it belongs on a
   `setting/Treasure[I-V].md` roll or in `setting/UniqueTreasures.md`.
 
-- **A key gates something elsewhere, never a single room's own contents.** Gating a room
-  from inside itself is a Hazard's or a Mystery's job. Keys exist to connect locations,
-  most usefully across regions - they are the mechanism that turns a set of regions into
-  a network and gives a party a concrete reason to go back somewhere or press toward
-  somewhere new.
+- **A key never gates a single room's own contents.** Gating a room from inside itself is
+  a Hazard's or a Mystery's job; a key connects locations.

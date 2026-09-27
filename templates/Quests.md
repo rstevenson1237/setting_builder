@@ -7,6 +7,7 @@ stands in the way. Stubbed at 4c as each end is written, filled at 4d.
 ## Context
 Read first:
 - `GENRE.md`
+- `BRIEF.md` - this build's design requests, which replace this template's defaults where they speak
 - `patterns/setting/Quests.md`
 - At 4d: every location file the stub points to, both giver and target.
 

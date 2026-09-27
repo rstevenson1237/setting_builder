@@ -1,7 +1,8 @@
 # Wild - Secret
 
 ## Provides
-What a Secret-tier location guarantees, and the trigger that reveals it.
+One Secret-tier WILD location, and the trigger at its parent that reveals it. It is the
+end of a chain: its parent is the region's `Connections.mmd`'s, and it carries no child.
 
 ## Spec
 
@@ -14,16 +15,18 @@ WILD - SECRET
                                                      wild/NaturalFeature.md)
   20%   A concealed detail inside this location - a second triple, not the access one
         below:
-          Clue    - in this location's own Dressing, never the parent's
+          Clue    - {growth | ground | weather | wear}, in this location's own Dressing,
+                    never the parent's
           Trigger - a stated act here
-          Payload - never another location: a cache, a piece of Lore, a Key, or why this
-                    place was worth concealing
+          Payload - never another location
+                    {a cache | a piece of Lore | a Key | why this place was worth concealing}
 
   -- access: how the party comes to be standing here
   1     Parent location, named
   1     Clue    - already visible in the parent's own Features
   1     Trigger - the specific action at the parent that reveals the way
-  1     Payload - the connection to this whole location
+  1     Payload - an Exit to this whole location, marked hidden (-.-) in the region's
+        Connections.mmd
   1     A reason it was worth concealing
 
   -- challenge: what opposes the party
@@ -37,30 +40,15 @@ WILD - SECRET
   20%   This location's carrying role in a quest given elsewhere     (wild/Quest.md)
 
   1     Naming, after everything above                (patterns/setting/Naming.md)
+  20%   A second name, from a different mouth than the first
+                                                       (patterns/setting/Naming.md)
 ```
-
-**This file carries two Clue/Trigger/Payload triples and they do different work.** The
-access triple is the location itself: its Clue sits in the *parent's* Features, and its
-Payload is an Exit to this whole place rather than a detail inside one. Mark that edge
-hidden (`-.-`) in the region's `Connections.mmd`. The rated triple in the substrate block
-is an ordinary concealed detail, wholly inside this location, and both of its ends are
-here. Writing one where the other belongs is how a Secret location ends up either
-unreachable or reached twice.
-
-Unlike a feature-level Secret, this is **mandatory, not rated** - a Secret-tier location
-without a stated Clue at its parent is unreachable, and unreachable content is content
-that does not exist.
-
-Its rated lines come to one Feature against a Hidden location's 0.8 and a Landmark's 0.6,
-and the reward rate is the highest of the three. A place a party had to notice a clue and
-act on it to reach is the tier's last chance to pay them for that, and nothing below it
-will.
 
 ## Constraints
 
-- **A Secret-tier location is the end of a chain, not a link in one.** It carries no
-  child of its own, which is why it has no lead line where `wild/Landmark.md` and
-  `wild/Hidden.md` have one. Depth in a WILD region runs Landmark to Hidden to Secret and
-  stops - a clue at a parent that itself has to be found by acting on a clue is two
-  triggers deep and will not be reached. `region/Wild.md`'s topology states the same rule
-  on the graph side, where it is enforceable.
+- **Never write one triple where the other belongs.** The access triple's Clue sits in the
+  parent and pays out this whole place; the inner one is wholly inside it. Swapped, the
+  location is unreachable or reached twice.
+
+- **A Secret location carries no child.** A clue at a parent that itself has to be found
+  by acting on a clue is two triggers deep and will not be reached.

@@ -1,50 +1,66 @@
 # Setting - Quests
 
 ## Provides
-What earns a row in `setting/Quests.md`, and what a finished entry must state.
-
-The per-rating decision of when to reach for a quest is in each folder's own `Quest.md`.
+One quest: who asks, for what, at which location, what stands in the way, and on what
+terms. A quest is asked before it is fulfilled, where a key is found before it is used; a
+quest object that also opens something carries a Keys row as well. When a location gives
+or holds a quest is its rating's own `Quest.md`.
 
 ## Spec
 
 ```
 QUEST ENTRY
-  1     Who wants it, and why they will not go themselves
+  1     The ask                                                             {ASK}
+  1     Who wants it, and why they will not go themselves             {RELUCTANCE}
   1     What specifically, and which location holds it
-  1     What stands in the way
-  1     The terms, in the giver's own words
-  1     Both ends named by location code - a quest with one end is not a quest
+  1     What stands in the way, stated at the target end              {OBSTACLE}
+  1     The terms, in the giver's own words                               {TERMS}
+  1     Both ends named by location code
 ```
 
-**A quest is two-ended, and both ends must exist.** Every location in the setting exists as
-a gazetteer stub before any location file is written, so both ends can be named at 4c and
-resolved at 4d with both files in view.
+```
+ASK - exactly one
+  retrieve     - bring something back
+  find         - find someone or something, or confirm it dead
+  deliver      - take something where the giver cannot go
+  destroy      - end something
+  verify       - learn whether something is still so
+  take         - take something from a person
+  collect      - collect a debt
+  recover      - bring a body back
+  message      - carry word to someone who will not receive the giver
+```
 
-**A quest needs a middle.** Two ends make a delivery. What stands in the way is what makes
-it an adventure, and it is stated at the target end, where it lives.
+```
+RELUCTANCE - exactly one
+  unable       - something about them bars them from going
+  burned       - it nearly killed them
+  shamed       - going would admit something
+  needed       - they are needed here
+  turned back  - they went, turned back, and cannot say so
+```
 
-**Supply is registered by targets, not requested by givers.** A location holding something
-somebody would want records it as a Quest stub when it is written, whether or not a giver
-exists yet. Givers are drafted from what has been registered - which is how a quest comes to
-point at a real place rather than an invented one.
+```
+OBSTACLE - exactly one
+  living       - it is inside something living
+  guarded      - something that will not negotiate holds it
+  fragile      - taking it breaks it
+  watched      - taking it is noticed
+  contested    - somebody else is already there for it
+  misplaced    - it is not where the giver said
+  misdescribed - the giver's description is wrong in a way that matters, and they know
+```
 
-**Kinds of ask** - retrieve; find, or confirm dead; deliver where the giver cannot go;
-destroy; verify - is it standing, is she alive, is the way open; take from a person; collect
-a debt; bring a body back; carry a message to someone who will not receive the giver.
-
-**Why they will not go** - too old, too known there, too watched; it nearly killed them; it
-would admit something; they are needed here; they went and turned back and cannot say so.
-
-**Obstacles** - it is inside something living; guarded by something that will not negotiate;
-taking it breaks it; taking it is noticed; somebody else is already there for it; it is not
-where the giver said; the giver's description is wrong in a way that matters, and they know.
-
-**Terms** - a fee, half up front or not; a stated share; goods, favour, standing, or a debt
-forgiven; the loan of something; a price that is generous because the giver expects not to
-pay it.
-
-**Distinguishing a Quest from a Key.** Same shape, opposite ends: a Quest is asked first and
-fulfilled later; a Key is found first and used later. A quest object that also opens
-something carries both rows.
+```
+TERMS - exactly one
+  fee          - coin, half up front or not
+  share        - a stated share of what is found
+  favour       - goods, standing, or a debt forgiven
+  loan         - the use of something the giver owns
+  bait         - generous, because the giver expects not to pay
+```
 
 ## Constraints
+
+- **A quest with one end is not a quest.** Both ends are real locations, named by code;
+  two ends without an obstacle are a delivery.

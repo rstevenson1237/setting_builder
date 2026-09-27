@@ -6,12 +6,20 @@ Establishes 1 or more unique truths that separate this setting from a generic in
 ## Context
 Read first:
 - `GENRE.md`
+- `BRIEF.md` - this build's design requests, which replace this template's defaults where they speak
 - `patterns/setting/Truths.md`
 - `setting/Setting.md`
 - `setting/History.md`
 
 ## Instructions
-List 3-6 unique truths that separate this content and make it unique.
+List 3-6 truths, each following `patterns/setting/Truths.md`'s Spec. The collection as
+a whole must hold this shape:
+
+```
+TRUTHS - 3-6
+  1     At least one a party learns only by acting and seeing what happens
+  1     No two of the same Kind
+```
 
 ## Template
 ```

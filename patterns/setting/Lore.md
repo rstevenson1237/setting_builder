@@ -1,43 +1,47 @@
 # Setting - Lore
 
 ## Provides
-What earns a row in `setting/Lore.md`, and what a finished entry must do.
-
-The per-rating decision of when to reach for lore is in each folder's own `Lore.md`.
+One piece of lore: a made thing, whose voice it is in, and what it does. When a location
+reaches for lore is its rating's own `Lore.md`; what a person says aloud is a rumour, not
+lore.
 
 ## Spec
 
 ```
 LORE ENTRY
-  1     A physical, made thing - written, cut, woven, drawn, or arranged
-  1     Whose voice, and what they were wrong or partial about
-  1     At least one of: reveals a purpose, connects two established things, or plants a hook
-  1     The location it belongs to
+  1     Form - a made thing                                    {written | cut | woven |
+                                                                drawn | arranged}
+  1     Whose voice, and how they are wrong or partial                    {WRONG}
+  1     What it does                                                      {DOES}
+  1     The one location that owns it - later locations may reference it
+  1     Its length - enough to be read aloud in under a minute
 ```
 
-**One location owns it**, and later locations may reference an entry that already exists.
+```
+WRONG - exactly one
+  unknowing    - the author did not know what they were describing
+  lying        - they were lying to a specific reader
+  secondhand   - they were repeating what they were told
+  late         - they wrote it long after
+  interested   - they had a stake in one version
+  unfinished   - they stopped partway, and why is findable
+```
 
-**What a piece of lore does** - reveals part of a region or the setting's purpose; connects
-an event in `setting/History.md` to an entry in `setting/Truths.md`, or two events, or two
-truths; plants a hook a party may choose to chase; names something the party has only seen
-the effects of; dates something; contradicts a rumour they arrived with.
-
-**Being wrong usefully** - the author did not know what they were describing; they were
-lying to a specific reader; they were repeating what they were told; they wrote it long
-after; they had a stake in one version; they stopped writing partway and the reason is
-findable.
+```
+DOES - at least one
+  purpose      - reveals part of a region's or the setting's purpose
+  connection   - connects an event in setting/History.md to an entry in
+                 setting/Truths.md, or two events, or two truths
+  hook         - plants a lead a party may choose to chase
+  naming       - names something the party has only seen the effects of
+  dating       - dates something
+  contradiction - contradicts a rumour they arrived with
+```
 
 ## Constraints
 
-- **Lore is an object, never spoken exposition.** What a person tells the party is a
-  rumour. What a creature happens to know is a creature. Lore is a thing that can be
-  picked up, carried, lost, sold, and read by the wrong people.
+- **Lore is an object, never spoken exposition.** It can be picked up, carried, lost,
+  sold, and read by the wrong people.
 
-- **It is a primary source, not a briefing.** Written by somebody inside the setting,
-  with their own reasons, so it is partial, biased, mistaken, or self-interested.
-  `Rumours.md` covers the outright unreliable; Lore skews toward a document that is
-  honest and still wrong. An omniscient account has no author and therefore no place it
-  could have come from.
-
-- **Length.** Enough to be read aloud in under a minute. A document a referee will
-  paraphrase has failed at the one thing this artifact is for.
+- **Never an omniscient account.** Lore is written by somebody inside the setting with
+  their own reasons; an account with no author has no place it could have come from.

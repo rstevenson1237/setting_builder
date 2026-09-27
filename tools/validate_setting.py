@@ -92,6 +92,10 @@ def index_to_code(i: int) -> str:
 # ---------------------------------------------------------------------------
 
 PATTERN_FOLDERS = ("setting", "region", "safe", "wild", "dangerous")
+# The one pattern file outside the five folders: the tree's root, per
+# patterns/SPEC.md's "The root".
+PATTERN_ROOT_KEY = "Genre.md"
+PATTERN_ROOT = PATTERNS / PATTERN_ROOT_KEY
 # The lookbehind keeps this from misreading the tail of a longer, correct
 # content path like "setting/region/Regions.md" as a bare two-segment
 # "region/Regions.md" pattern citation - a real bug caught in this check's
@@ -107,6 +111,11 @@ def check_pattern_files(diag: Diagnostics):
         return
     pattern_files = sorted(p for p in PATTERNS.glob("*/*.md") if p.name != ".gitkeep")
     known = {p.relative_to(PATTERNS).as_posix() for p in pattern_files}
+    if PATTERN_ROOT.exists():
+        pattern_files.append(PATTERN_ROOT)
+    else:
+        diag.warn(PATTERN_ROOT, "missing - the pattern tree has no root, so reachability is "
+                                "walked from the generation templates alone")
     for path in pattern_files:
         text = path.read_text()
         rel_key = path.relative_to(PATTERNS).as_posix()
@@ -134,6 +143,7 @@ def check_pattern_files(diag: Diagnostics):
             diag.error(path, f"'-> {m.group(1)}' names a file with no folder - "
                               f"every citation states which patterns/ folder it points to")
         check_pattern_sections(diag, path, text)
+        check_block_draws(diag, path, text)
 
 
 # ---------------------------------------------------------------------------
@@ -155,6 +165,33 @@ def check_pattern_files(diag: Diagnostics):
 # the same way "Design questions" is, so a reintroduction is caught here
 # rather than drifting back in unnoticed.
 # ---------------------------------------------------------------------------
+
+
+# A draw names a closed set: inline, {a | b | c}, or - when long or defined -
+# by a block name in capitals, {TYPE}, listed as its own fenced block of that
+# name further down the same Spec. The name has to resolve, or the generator
+# is sent looking for a menu that is not there.
+BLOCK_DRAW_RE = re.compile(r'\{([A-Z][A-Z0-9 ]*)\}')
+
+
+def spec_blocks(text: str) -> dict[str, list[str]]:
+    """Every fenced block in a pattern file's Spec, keyed by its header's name."""
+    m = re.search(r'\n## Spec\n(.*?)(?=\n## Constraints\n|\Z)', text, re.S)
+    out: dict[str, list[str]] = {}
+    for fenced in re.findall(r'```\n?(.*?)```', m.group(1) if m else "", re.S):
+        lines = fenced.strip("\n").splitlines()
+        if lines:
+            out[lines[0].split(" - ")[0].strip()] = lines[1:]
+    return out
+
+
+def check_block_draws(diag: Diagnostics, path, text: str):
+    blocks = spec_blocks(text)
+    for body in blocks.values():
+        for name in BLOCK_DRAW_RE.findall("\n".join(body)):
+            if name not in blocks:
+                diag.error(path, f"draws {{{name}}}, but its Spec has no fenced block "
+                                 f"headed {name} to draw from")
 
 
 def check_pattern_sections(diag: Diagnostics, path, text: str):
@@ -297,9 +334,14 @@ def read_set_graph():
             roots |= template_roots.get(name, set())
 
     reach = spec_closure(roots, pattern_files)
+    # The tree's own root reaches what a build is *meant* to generate; the
+    # templates reach what it actually enters. A file missing from the first
+    # is outside the tree, one missing from the second is never generated.
+    tree = (spec_closure({PATTERN_ROOT_KEY}, pattern_files | {PATTERN_ROOT_KEY})
+            - {PATTERN_ROOT_KEY}) if PATTERN_ROOT.exists() else set(pattern_files)
     return dict(step_templates=step_templates, template_roots=template_roots,
                 pattern_files=pattern_files, roots=roots, reach=reach,
-                orphans=pattern_files - reach)
+                orphans=pattern_files - reach, outside_tree=pattern_files - tree)
 
 
 def check_read_set_graph(diag: Diagnostics):
@@ -333,6 +375,10 @@ def check_read_set_graph(diag: Diagnostics):
             continue
         for sid in sorted(set(TEMPLATE_STEP_CITE_RE.findall(path.read_text())) - known):
             diag.error(path, f"cites step {sid}, which STEPS.md does not define")
+    for stray in sorted(g["outside_tree"]):
+        diag.warn(PATTERNS / stray, "patterns/Genre.md cannot reach this file - it is outside "
+                                    "the tree, whatever a template says about it. Judged at "
+                                    "STEPS.md step 5b")
     for orphan in sorted(g["orphans"]):
         diag.warn(PATTERNS / orphan, "no generation template reaches this file - nothing reads "
                                      "it, so the content it describes is never generated. "
@@ -359,7 +405,8 @@ def report_read_set(step_filter: str | None) -> int:
         print(f"  expanded  : {', '.join(expanded) if expanded else '(none)'}")
         print()
     print(f"{len(g['reach'])}/{len(g['pattern_files'])} pattern files reachable from "
-          f"generation templates; {len(g['orphans'])} orphan(s)")
+          f"generation templates; {len(g['orphans'])} orphan(s); "
+          f"{len(g['outside_tree'])} outside patterns/Genre.md's tree")
     return 0
 
 
@@ -862,9 +909,18 @@ def check_location_file(diag, path, region_code, num, stub, rating, all_location
 # ---------------------------------------------------------------------------
 
 BLOCK_NODE_RE = re.compile(r'(\w+)\["([^".]+)"\]')
-BLOCK_HEADER_RE = re.compile(r'^(Block|Purpose|Region|Rooms|Locations):\s*(.+?)\s*$', re.M)
-PURPOSE_FAMILIES = {"keeping", "working", "living", "holding",
-                    "meeting", "believing", "dying", "moving"}
+BLOCK_HEADER_RE = re.compile(r'^(Block|Basis|Purpose|Region|Rooms|Locations):\s*(.+?)\s*$', re.M)
+
+
+def purpose_families() -> set[str]:
+    """The FAMILY draw block in patterns/dangerous/Block.md's Spec, lower-cased."""
+    path = PATTERNS / "dangerous" / "Block.md"
+    if not path.exists():
+        return set()
+    items = spec_blocks(path.read_text()).get("FAMILY", [])
+    return {ln.split(" - ")[0].strip().lower() for ln in items if ln.strip()}
+
+
 
 
 def parse_block_files(diag: Diagnostics, region_code: str, rdir: Path, all_locations: dict):
@@ -880,12 +936,31 @@ def parse_block_files(diag: Diagnostics, region_code: str, rdir: Path, all_locat
         name = head.get("Block") or path.stem
         if "Block" not in head:
             diag.error(path, "block diagram has no 'Block:' header line")
-        purpose = (head.get("Purpose") or "").strip().lower()
-        if purpose and purpose not in PURPOSE_FAMILIES:
-            diag.error(path, f"Purpose {head.get('Purpose')!r} is not one of "
-                             f"dangerous/Dressing.md's families: {', '.join(sorted(PURPOSE_FAMILIES))}")
-        elif not purpose:
-            diag.warn(path, "block diagram has no 'Purpose:' header line - a block is a functional quarter")
+        # "Basis: purpose - [family]" or "Basis: household - [occupant]", per
+        # patterns/dangerous/Block.md; a bare "Purpose: [family]" is read as the first.
+        basis = (head.get("Basis") or "").strip()
+        if not basis and head.get("Purpose"):
+            basis = f"purpose - {head['Purpose']}"
+        kind, _, what = (s.strip() for s in basis.partition(" - "))
+        kind, what = kind.lower(), what.lower()
+        families = purpose_families()
+        purpose = ""
+        if not basis:
+            diag.warn(path, "block diagram has no 'Basis:' header line - per "
+                            "patterns/dangerous/Block.md a block is held together by a "
+                            "purpose or a household")
+        elif kind == "purpose":
+            if families and what not in families:
+                diag.error(path, f"Basis purpose {what!r} is not one of dangerous/Block.md's "
+                                 f"families: {', '.join(sorted(families))}")
+            purpose = f"purpose:{what}"
+        elif kind == "household":
+            if not what:
+                diag.error(path, "Basis household names no occupant")
+            purpose = f"household:{what}"
+        else:
+            diag.error(path, f"Basis {basis!r} is neither 'purpose - [family]' nor "
+                             f"'household - [occupant]'")
         id_to_code, edges, unresolved = parse_mmd_edges(text, LOC_NODE_RE)
         for u in sorted(unresolved):
             diag.error(path, f"edge references node id {u!r} with no bracketed definition")
@@ -916,9 +991,9 @@ def check_block_purposes(diag: Diagnostics, region_code: str, blocks: dict):
         if not b["purpose"]:
             continue
         if b["purpose"] in seen:
-            diag.warn(b["path"], f"purpose family {b['purpose']!r} is already used by block "
+            diag.warn(b["path"], f"basis {b['purpose']!r} is already used by block "
                                  f"{seen[b['purpose']]!r} in region {region_code} - per "
-                                 f"patterns/region/Dangerous.md no two blocks share a family")
+                                 f"patterns/dangerous/Block.md no two blocks share one")
         else:
             seen[b["purpose"]] = name
 
@@ -978,7 +1053,7 @@ def check_block_connectivity(diag: Diagnostics, blocks: dict):
 
 
 def check_low_shape_mix(diag: Diagnostics, region_code: str, region_locs: dict, edges: list, path):
-    """patterns/region/Dangerous.md's LOW SHAPE MIX, measured on the assembled graph."""
+    """templates/Block_Connections.mmd's LOW SHAPE MIX, measured on the assembled graph."""
     lows = {f"{region_code}.{n}" for n, l in region_locs.items() if l.get("weight") == "low"}
     # LOW is the residue of the class mix rather than its largest class, so a
     # normal region now has three or four LOW rooms. The 60% rule still reads at
@@ -1138,8 +1213,17 @@ def check_rumours(diag: Diagnostics):
         diag.warn(path, "not every rumour row carries a T/P/F mark")
 
 
-BESTIARY_TYPES = {"beast", "man", "humanoid", "undead", "guardian", "hazard",
-                  "fantasy creature", "construct", "horror", "wyrm", "fey", "fiend", "giant"}
+def bestiary_types() -> set[str]:
+    """The TYPE draw block in patterns/setting/Bestiary.md's Spec, lower-cased.
+
+    Read from the pattern rather than copied here, so the closed set has one
+    owner and a rename there cannot leave a stale copy behind.
+    """
+    path = PATTERNS / "setting" / "Bestiary.md"
+    if not path.exists():
+        return set()
+    items = spec_blocks(path.read_text()).get("TYPE", [])
+    return {ln.split(" - ")[0].strip().lower() for ln in items if ln.strip()}
 
 # "[Name] (Type) - AD: Xd6+N [MA: Y]" per templates/Bestiary.md. The bonus and
 # the MA bracket are optional in the pattern so a partially-written file still
@@ -1187,10 +1271,11 @@ def check_statblocks(diag: Diagnostics, path: Path, label: str, expect_special: 
         return
     no_mod = no_ma = no_special = 0
     entries = [b for b in text.split("\n\n") if b.strip()]
+    types = bestiary_types()
     for b in blocks:
-        if b["type"].lower() not in BESTIARY_TYPES:
-            diag.error(path, f"{b['name']}: type {b['type']!r} is not one of "
-                             f"patterns/setting/Bestiary.md's TYPE MIX")
+        if types and b["type"].lower() not in types:
+            diag.error(path, f"{b['name']}: type {b['type']!r} is not in "
+                             f"patterns/setting/Bestiary.md's TYPE draw")
         if not 1 <= b["ad"] <= 18:
             diag.error(path, f"{b['name']}: AD {b['ad']} is outside the 1-18 range")
         if b["mod"] is None:
@@ -1236,7 +1321,7 @@ def check_statblocks(diag: Diagnostics, path: Path, label: str, expect_special: 
 
 
 def check_class_mix(diag: Diagnostics, region_code: str, rating: str, locs: dict):
-    """patterns/region/Dangerous.md's CLASS MIX: 30% HIGH, 50% MEDIUM, rest LOW.
+    """templates/Location_Gazetteer.md's DANGEROUS mix: 30% HIGH, 50% MEDIUM, rest LOW.
 
     A warning, and deliberately loose - the mix is a shape, not an arithmetic
     target, and a region a room either side of it has not failed anything. What
@@ -1256,7 +1341,7 @@ def check_class_mix(diag: Diagnostics, region_code: str, rating: str, locs: dict
         if abs(got - want) > slack:
             diag.warn(SETTING / "region" / region_code,
                       f"region {region_code}: {counts[weight]}/{n} locations are {weight.upper()} "
-                      f"({got:.0%}); patterns/region/Dangerous.md wants about {want:.0%}")
+                      f"({got:.0%}); templates/Location_Gazetteer.md's default is about {want:.0%}")
     if counts["low"] / n > 0.35:
         diag.warn(SETTING / "region" / region_code,
                   f"region {region_code}: {counts['low']}/{n} locations are LOW "
