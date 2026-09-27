@@ -14,7 +14,8 @@ Build about 20 entries, each one following `patterns/setting/Bestiary.md`'s Spec
 single entry. The collection as a whole must hold this shape:
 
 ```
-TYPE MIX - about 20 entries, drawn only from patterns/setting/Bestiary.md's TYPES list
+TYPE MIX - about 20 entries, drawn only from the Types patterns/setting/Bestiary.md's
+Spec names
   30%   Beast + Men          - specialized combatants that reinforce this setting specifically
   30%   Humanoid + Fantasy   - non-human peoples and setting-flavor creatures, for diversity
   30%   Undead               - what a DANGEROUS region is built around; some of these

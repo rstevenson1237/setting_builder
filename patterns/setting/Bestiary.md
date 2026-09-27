@@ -10,9 +10,9 @@ this file's.
 
 ```
 BESTIARY ENTRY
-  1     A Type - Men, Humanoid, Beast, Fantasy, Undead, Construct, Horror, Wyrm, Fey,
-        Fiend, or Giant. No other Type exists; a creature that does not fit one of these
-        is a sign the roster, not the taxonomy, needs to change.
+  1     A Type - Men, Humanoid, Beast, Undead, Construct, Horror, Wyrm, Fey, Fiend,
+        Giant, or Fantasy (setting-flavor creatures that fit none of the others). No
+        other Type exists.
   1     AD, written Xd6+N, read against the ladder below
   1     A modifier, -2 to +6, averaging one third of AD (rounded up)
   1     An MA, averaging one quarter of AD (rounded up)
@@ -20,30 +20,8 @@ BESTIARY ENTRY
   1     A Special where the AD band calls for one, or `none`
 ```
 
-```
-TYPES
-  Men         - ordinary mortal humans: bandits, soldiers, cultists, mundane human threats
-  Humanoid    - non-human, human-shaped peoples with their own culture and society
-              (goblins, orcs)
-  Beast       - natural animals, however large or dangerous, with no magical or
-              supernatural nature (wolves, giant spiders, bears)
-  Fantasy     - catch-all for setting-flavor creatures that aren't natural animals and
-              don't fit a sharper category below (griffons, will-o'-wisps)
-  Undead      - anything animated by death-tainted or necrotic energy (skeletons,
-              ghosts, wraiths)
-  Construct   - artificial, non-living bodies, usually magically animated (golems,
-              animated armor)
-  Horror      - alien or sanity-bending things that sit outside normal nature and magic
-              entirely
-  Wyrm        - dragons and their draconic kin specifically
-  Fey         - otherworldly, fae-touched beings bound by strange rules or bargains
-  Fiend       - extraplanar, malevolent entities of infernal or abyssal origin
-  Giant       - oversized humanoid-adjacent brutes: giants, ogres, trolls
-```
-
-**Guardian and hazard are roles, not Types.** Neither appears in the TYPES list above.
-Any Type can be built to fill either role through its Special - see Constraints below for
-what each role requires.
+**Guardian and hazard are roles, not Types.** Any Type can be built to fill either role
+through its Special - see Constraints below for what each role requires.
 
 ```
 AD LADDER - what a count means, in absolute terms
