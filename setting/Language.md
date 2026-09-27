@@ -111,3 +111,9 @@ Roots:
 Coined here:
 - Grozzgur = grozz (to hunt, run down prey) + -gur (a troop, together) - what this
   tongue's own speakers call it, "the hunting pack's speech," in this file's own heading
+- Khughik = khugh (the body, a hand or claw) + -ik (diminutive) - the ravine's smallest
+  and most numerous tribe, setting/Bestiary.md
+- Gorzgur = gorz (colour, red) + -gur (a troop, together) - the ravine's organised,
+  red-painted tribe, setting/Bestiary.md and setting/Factions.md
+- Hukkgur = hukk (fear, to make afraid) + -gur (a troop, together) - the ravine's
+  largest and fewest-numbered tribe, setting/Bestiary.md
