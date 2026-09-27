@@ -35,10 +35,11 @@ precision from how the question itself is written, not from a worked example att
 it.
 
 **A question earns the line by naming the axis an answer has to move along, not just the
-topic.** "Condition" alone invites a generic answer; `Condition - active use, or former
-use: abandoned, decayed, ruined, destroyed` states five points on one line instead, and
-the words are as true of any setting as "size and shape" is - which is what keeps them a
-question rather than an example. Where a field still reads thin once its axis is named,
+topic.** "Condition" alone invites a generic answer; `Condition, stated before Purpose -
+how far the room sits from still in use to gone` names the axis, and the draw beside it,
+`{active | abandoned | decayed | ruined | destroyed}`, marks five points on it. Both are as
+true of any setting as "size and shape" is - which is what keeps them a question and a
+draw rather than an example. Where a field still reads thin once its axis is named,
 the fix is a sharper question, never a list of instances to draw from.
 
 **Question or draw is a design decision, made per line.** A question produces the answer

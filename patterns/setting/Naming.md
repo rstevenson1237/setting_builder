@@ -12,7 +12,7 @@ NAMING - after everything else in the location is decided
   1     A name, per GENRE.md's Naming answer, for what turned out to be here
   1     Whose name it is, and whether they are still around                 {MOUTH}
   1     Its shape                                                          {SHAPE}
-  20%   A second name, from a different mouth than the first   (DANGEROUS: 30%)
+  1     Where the drawing class calls for a second name: from a different mouth
 ```
 
 ```

@@ -19,8 +19,8 @@ BESTIARY ENTRY
         threatens at once, from speed, reach, or more than one attack
   1     Description - what a party sees when it comes into view
   1     Range - where it lives, how many of it the country supports, and what it eats
-  1     Sign - what reaches a party before the creature does: a mark, a track, a sound,
-        or a smell
+  1     Sign - what reaches a party before the creature does
+                                        {a mark | a track | a sound | a smell}
   1     Disposition - what it does on being met, before anyone decides to fight
   1     Special - what it can do that its dice do not already say, in terms a referee
         can run, or `none`: rare below 4 AD, expected at 4 and above, several at 8 and

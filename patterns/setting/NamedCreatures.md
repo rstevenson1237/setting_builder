@@ -13,8 +13,8 @@ NAMED CREATURE ENTRY
   1     Why it earns a row                                                {ROLE}
   1     Motivation - pursued whether or not the party ever shows up      {MOTIVE}
   1     Every location it appears at
-  1     How it reaches a party before it is met - a rumour, a piece of lore, or a
-        survivor
+  1     How it reaches a party before it is met    {a rumour | a piece of lore |
+                                                  a survivor}
   1     What it remembers of those it meets                               {MEMORY}
   1     Something it wants
 ```

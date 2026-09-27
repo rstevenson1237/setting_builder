@@ -1,7 +1,8 @@
 # Wild - Hidden
 
 ## Provides
-What a Hidden-tier location guarantees, and how it hangs off its parent.
+One Hidden-tier WILD location: found by stopping at its parent and looking, not by
+roaming. Its parent is the region's `Connections.mmd`'s.
 
 ## Spec
 
@@ -13,10 +14,13 @@ WILD - HIDDEN
   1     Kind   {ruin | lair | natural feature}      (wild/Ruin.md, wild/Lair.md,
                                                      wild/NaturalFeature.md)
   20%   A concealed detail, stated as:
-          Clue    - in this location's own ground and growth, not the parent's
+          Clue    - {growth | ground | weather | wear}, in this location's own ground,
+                    not the parent's, and free to sit closer to the edge of notice since
+                    the party arrived already looking
           Trigger - a stated act at a stated spot
-          Payload - never a way onward: a cache, a piece of Lore, a Key, or what the
-                    parent only implied, carried one step further
+          Payload - never a way onward
+                    {a cache | a piece of Lore | a Key |
+                     what the parent only implied, carried one step further}
 
   -- access: how the party comes to be standing here
   1     Parent Landmark, named
@@ -36,34 +40,17 @@ WILD - HIDDEN
   15%   This location's carrying role in a quest given elsewhere     (wild/Quest.md)
 
   1     Naming, after everything above                (patterns/setting/Naming.md)
+  20%   A second name, from a different mouth than the first
+                                                       (patterns/setting/Naming.md)
 ```
-
-A Hidden location is not found by roaming. It is found by **stopping at a Landmark and
-actually looking** - going behind, under, past, or into something the parent's entry
-already described. No trigger, no roll: per `setting/Procedures.md`, a stated detail
-investigated is a detail found.
-
-The distinction from a Secret is the whole tier: a Hidden way in is *visible and easy to
-miss*; a Secret way in is *concealed until acted on*.
-
-**A Hidden location draws a Kind like any other**, and skips only the position line - per
-`wild/Dressing.md`, its position is the parent it hangs off. What it is physically has to
-be answered somewhere, and the kind files are where that answer lives.
-
-Its rated lines come to about 0.8 of a Feature against a Landmark's 0.6, and its child
-leads are read off the region's `Connections.mmd` the same way - mandatory per child the
-graph gives it, absent otherwise. A party that stopped and looked has already paid
-something to be standing here, and the rates are where that is paid back.
-
-**A party standing in a Hidden location is already looking.** They followed a visible
-detail from the parent to get here, so they arrived expecting the place to repay
-attention - which lets a clue here sit closer to the edge of notice than a Landmark's can.
-What it still cannot do is need a lead of its own to find: a clue reached only by acting on
-another clue is two triggers deep, and `templates/Region_Connections.mmd`'s depth rule exists because that
-second one never gets reached.
 
 ## Constraints
 
-- **A Hidden location's concealed detail never pays out a route.** Ways onward are its
-  Secret-child Clue lines, one per child the region's `Connections.mmd` hangs here. A
-  Payload that is a way through puts an edge in the prose that the graph does not carry.
+- **A Hidden way in is visible and easy to miss; a Secret way in is concealed until acted
+  on.** Writing one as the other moves the location to the wrong tier.
+
+- **Never a clue reached only by acting on another clue.** That is two triggers deep, and
+  the second is never reached.
+
+- **A concealed detail never pays out a route.** Ways onward are its Secret-child Clue
+  lines, one per child the graph hangs here.

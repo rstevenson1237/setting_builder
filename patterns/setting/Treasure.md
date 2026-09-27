@@ -19,8 +19,8 @@ TREASURE RESULT
   1     Quality, on Table II only                                           {QUALITY}
   1     What it is made of, or struck in - from setting/History.md and
         setting/Truths.md: who made or minted it, and whether it is still accepted
-  20%   A provenance a party could trace - a device, a maker, an owner - worth more
-        to the right buyer and dangerous to sell to the wrong one
+  20%   A provenance a party could trace, worth more to the right buyer and dangerous to
+        sell to the wrong one                     {a device | a maker | an owner}
 ```
 
 ```
