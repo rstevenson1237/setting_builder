@@ -14,15 +14,17 @@ Build about 20 entries, each one following `patterns/setting/Bestiary.md`'s Spec
 single entry. The collection as a whole must hold this shape:
 
 ```
-TYPE MIX - about 20 entries
-  20%   Beast              - unusual combatants only, never the region's ordinary wildlife
-  10%   Man                - the rank and file a faction fields
-  15%   Humanoid           - non-human peoples with their own culture and society
-  15%   Undead             - death-tainted; the mythic underworld's own population
-  15%   Guardian           - made or bound to hold one thing, and does nothing else
-  10%   Hazard             - a living or persisting danger that is a fact of a place
-  15%   Everything else    - Fantasy Creature, Construct, Horror, Wyrm, Fey, Fiend, Giant,
-                             combined. Rarely more than two of these types in one setting
+TYPE MIX - about 20 entries, drawn only from patterns/setting/Bestiary.md's TYPES list
+  30%   Beast + Men          - specialized combatants that reinforce this setting specifically
+  30%   Humanoid + Fantasy   - non-human peoples and setting-flavor creatures, for diversity
+  30%   Undead               - what a DANGEROUS region is built around; some of these
+                               entries should be built as a guardian (holds one thing,
+                               does nothing else) or a hazard (a recurring danger, not
+                               one room's trap) - both are roles any Type can carry, per
+                               patterns/setting/Bestiary.md's Constraints
+  10%   Everything else      - whatever remains of Construct, Horror, Wyrm, Fey, Fiend,
+                               Giant, each a unique challenge in its own right. Rarely
+                               more than two of these types in one setting
 ```
 
 ```

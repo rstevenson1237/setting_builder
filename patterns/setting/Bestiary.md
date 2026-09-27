@@ -10,14 +10,40 @@ this file's.
 
 ```
 BESTIARY ENTRY
-  1     A Type - Beast, Man, Humanoid, Undead, Guardian, Hazard, or one of Fantasy
-        Creature, Construct, Horror, Wyrm, Fey, Fiend, Giant
+  1     A Type - Men, Humanoid, Beast, Fantasy, Undead, Construct, Horror, Wyrm, Fey,
+        Fiend, or Giant. No other Type exists; a creature that does not fit one of these
+        is a sign the roster, not the taxonomy, needs to change.
   1     AD, written Xd6+N, read against the ladder below
   1     A modifier, -2 to +6, averaging one third of AD (rounded up)
   1     An MA, averaging one quarter of AD (rounded up)
   1     A Description of 1-3 sentences
   1     A Special where the AD band calls for one, or `none`
 ```
+
+```
+TYPES
+  Men         - ordinary mortal humans: bandits, soldiers, cultists, mundane human threats
+  Humanoid    - non-human, human-shaped peoples with their own culture and society
+              (goblins, orcs)
+  Beast       - natural animals, however large or dangerous, with no magical or
+              supernatural nature (wolves, giant spiders, bears)
+  Fantasy     - catch-all for setting-flavor creatures that aren't natural animals and
+              don't fit a sharper category below (griffons, will-o'-wisps)
+  Undead      - anything animated by death-tainted or necrotic energy (skeletons,
+              ghosts, wraiths)
+  Construct   - artificial, non-living bodies, usually magically animated (golems,
+              animated armor)
+  Horror      - alien or sanity-bending things that sit outside normal nature and magic
+              entirely
+  Wyrm        - dragons and their draconic kin specifically
+  Fey         - otherworldly, fae-touched beings bound by strange rules or bargains
+  Fiend       - extraplanar, malevolent entities of infernal or abyssal origin
+  Giant       - oversized humanoid-adjacent brutes: giants, ogres, trolls
+```
+
+**Guardian and hazard are roles, not Types.** Neither appears in the TYPES list above.
+Any Type can be built to fill either role through its Special - see Constraints below for
+what each role requires.
 
 ```
 AD LADDER - what a count means, in absolute terms
@@ -63,8 +89,9 @@ terms a referee can run, never as a name alone.
 diet, sign, and disposition are all optional points of inclusion - none is mandatory on
 every entry, and 1-3 sentences rarely holds all of them at once. Write whichever the
 entry actually needs; a Beast that ranges widely might spend its sentences on population
-and diet, a Guardian fixed at one threshold might spend them entirely on what it does when
-approached. Which downstream pattern wants which point is listed below, so a later
+and diet, an entry built as a guardian and fixed at one threshold might spend them
+entirely on what it does when approached. Which downstream pattern wants which point is
+listed below, so a later
 generation step knows what to look for rather than expecting a labeled line:
 
 - **Range** - where it lives, how many the country supports, and what it eats. Wanted by
@@ -103,22 +130,23 @@ scenery, and leaves the referee looking for the dangerous things among the sparr
 
 **Mundane human threats are a faction's, not a type's.** Who opposes the party and why is
 `setting/Factions.md`'s question, and a human worth naming is `setting/NamedCreatures.md`'s.
-What remains for `Man` is the rank and file a faction fields - the line a party actually
+What remains for `Men` is the rank and file a faction fields - the line a party actually
 fights - and one or two templates cover every faction in a setting. A separate entry per
 human occupation is a roster with no faction behind it.
 
-**A Guardian type does not contradict "a guardian is more often a condition than a
-monster."** Per GENRE.md the condition is still the default, and most guardians in a
-setting should never need a stat line at all. This type is for the recurring condition
-that *is* tested - a thing that will not touch anyone wearing the right mark, until
-somebody arrives without one. What makes it a Guardian rather than a Beast or an Undead is
-that it holds one thing and does nothing else: it does not range, does not forage, does
-not want anything, and its **Special** states the condition it acts on.
+**A guardian is a role any Type can carry, not a Type of its own.** Per GENRE.md a
+guardian is more often a condition than a monster, and most guardians in a setting should
+never need a stat line at all. Where one does, build it from whichever Type actually fits
+- an Undead bound to a tomb, a Construct set at a threshold, even a Beast that is
+territorial rather than hungry - and let its **Special** carry the role: it holds one
+thing and does nothing else, does not range, does not forage, does not want anything
+beyond that, and states the condition it acts on rather than naming it a guardian.
 
-**A `Hazard` entry is not `dangerous/Hazard.md`.** That file is the per-location
-mechanism - trap, environmental, residual - and it owns the clue, the trigger, and what is
-forced, for the one place it is drawn into. A Hazard-type Bestiary entry is a recurring living or
-persisting danger with a stat line, cited by name from wherever it turns up rather than
-reinvented per room. If it has a want, a reaction, or somewhere else to be, it is a
-creature and not a hazard; if it exists in one place only, it belongs inline at that
-location.
+**A hazard is a role any Type can carry, not a Type of its own, and it is not
+`dangerous/Hazard.md`.** That file is the per-location mechanism - trap, environmental,
+residual - and it owns the clue, the trigger, and what is forced, for the one place it is
+drawn into. An entry built as a hazard is a recurring living or persisting danger with a
+stat line, cited by name from wherever it turns up rather than reinvented per room - most
+naturally a Horror, a Beast, or an Undead. If it has a want, a reaction, or somewhere else
+to be, it is an ordinary creature of its Type and not a hazard; if it exists in one place
+only, it belongs inline at that location, not here.
