@@ -1,49 +1,44 @@
 # Setting - Procedures
 
 ## Provides
-What belongs in `setting/Procedures.md` and what does not.
+The shared mechanics every level cites rather than restates. A rule belongs here if it
+does not change between SAFE, WILD and DANGEROUS; one that does is pattern content in that
+rating's folder.
 
 ## Spec
 
 ```
 PROCEDURES
-  1     Tests and consequences
+  1     Tests and consequences - what happens when a character is exposed to something
+        lethal
   1     Forced damage - the expressions a hazard writes, and what Xd means
-  1     Hazard tiers, and which expressions each may use
-  1     Wounds and madness - what carrying one does
+  1     Hazard tiers - what each of the three may force, and in what notation
+  1     Wounds and madness - what a character who fails carries afterwards
   1     Conditions - each with a name, an effect and a duration
-  1     Searching - what it costs and what it finds
-  1     Time, by region rating
-  1     Scaling - the three Action Dice scales, kept separate
-  1     Region dice - the Difficulty roll and what the counts derive from
+  1     Searching - what it costs, and what it finds without a roll
+  1     Time - how long an action takes, by region rating
+  1     Scaling - the creature, faction and region dice, and that none is read against
+        another
+  1     Region dice - what the Difficulty roll is, and what a region die does and does
+        not mean
+  1     At tailoring: what this setting needs that the seed lacks            {NEED}
 ```
 
-**A rule belongs here if it does not change between SAFE, WILD and DANGEROUS.** If it does
-change, it is pattern content and belongs in that rating's folder. That test is what keeps
-this file from becoming a second rulebook.
-
-**Rulings over subsystems.** A procedure that needs its own bookkeeping is the wrong
-procedure. Everything here should be resolvable in one roll or no
-roll at all.
-
-**What the seed must already answer** - what happens when a character is exposed to
-something lethal; what a hazard forces at each of its three tiers, and in what notation;
-what a character who fails carries afterwards; what searching costs and what it finds
-without a roll; how long an action takes in each rating; how the three Action Dice scales
-relate, and that they do not; what a region die means and what it does not.
-
-**What a setting adds at 2h** - a resolution its Truths require; a currency or a wage, if
-`setting/Treasure.md` needs an anchor; a travel or supply rule its geography demands; a
-condition that recurs here specifically - cold, bad air, a sickness, a debt.
+```
+NEED - any, and only where the setting calls for it
+  resolution   - a resolution setting/Truths.md requires
+  coin         - a currency or a wage, as the anchor the treasure tables are valued in
+  travel       - a travel or supply rule the setting's geography demands
+  condition    - a condition that recurs here specifically
+```
 
 ## Constraints
 
-- **What never goes here** - anything that varies by rating; anything about one place;
-  character creation; a combat system. This file exists so that pattern files
-  can cite one rule instead of restating it, and it stops being able to do that the
-  moment it starts holding content.
+- **Never a procedure that needs its own bookkeeping.** Everything here resolves in one
+  roll or none.
 
-- **Tailoring is adjustment, not replacement.** The seed is generic and working. Step 2h
-  changes numbers and adds resolutions the setting's Truths demand; it does not
-  restructure the file, and a setting that rewrites Procedures wholesale has probably
-  put pattern content in it.
+- **What never goes here** - anything that varies by rating; anything about one place;
+  character creation; a combat system.
+
+- **Tailoring adjusts, it never replaces.** It changes numbers and adds what the setting
+  needs; a setting that rewrites this file wholesale has put pattern content in it.

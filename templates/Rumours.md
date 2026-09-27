@@ -11,8 +11,18 @@ Read first:
 - `setting/Setting.md`, `setting/History.md`, `setting/Truths.md`
 
 ## Instructions
-Create a table numbered 1-20 of rumours, each marked T (true), P (partially true), or F
-(false), and each carrying a **Settled at** column.
+Create a table numbered 1-20 of rumours, each following `patterns/setting/Rumours.md`'s
+Spec. The collection as a whole must hold this shape:
+
+```
+RUMOURS - a d20 table
+  ~40%  True
+  ~40%  Partially true
+  ~20%  False
+  1     At least three pointing at a region, not a detail
+  1     At least two that are true and sound false
+  1     At least one that is false and sounds unmistakably true
+```
 
 **Settled at** names where a party finds out - the Location Code, or codes, holding what
 confirms, denies, or corrects this rumour. It is written in two phases like every other

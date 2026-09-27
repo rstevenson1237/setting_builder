@@ -12,22 +12,19 @@ one from the setting pool, one from its own region's - instead of inventing thre
 ## Context
 Read first:
 - `GENRE.md` - the sole real input. Every tag traces back to its chosen reference's own
+  concrete iconography or one of its answers.
 - `BRIEF.md` - this build's design requests, which replace this template's defaults where they speak
-  concrete iconography or one of its axis bullets.
 - At region level only: `setting/Tags.md` itself, to avoid duplicating its entries, and
   this region's own line in `setting/region/Regions.md` (rating, die, name) for texture.
 - `patterns/setting/Tags.md`
 
 ## Instructions
-Generate ~25 tags, each one or two words, each with a one-line gloss that constrains
-rather than decorates - a three-job test: a tag represents a theme, acts as an index, and
-constrains the material by ruling something out. Flat, not split by rating - a genre's texture applies
-regardless of where a location sits; rating-specific content is the compiled tier-2
-pattern files' job now, not the tag pool's. Draw every tag from the chosen reference's own
-concrete iconography first, and only reach past it to fill a real gap.
+Generate ~25 tags, each following `patterns/setting/Tags.md`'s Spec. The pool is flat, not
+split by rating. Draw from the reference's own concrete iconography first, and reach past
+it only to fill a real gap.
 
-At region level, add texture specific to this region - don't re-derive the setting-level
-pool's own entries.
+At region level, the pool is a corner of the setting-level one - what is true of this
+region and not of the setting generally - and never re-derives the setting pool's entries.
 
 ## Template
 ```

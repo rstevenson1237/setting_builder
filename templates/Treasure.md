@@ -15,11 +15,34 @@ Do not consult location, region, or faction files - these tables are setting-lev
 
 ## Instructions
 One file per table: `setting/Treasure1.md` through `setting/Treasure5.md`, corresponding
-to Treasure Tables I-V in order. Each table is a d20 list, numbered 1-20, of item name,
-valuation in standard silver coins (cn), and weight (wt) - 1 wt is one hand or about 100
-coins, 2 wt is both hands, 3+ wt needs more than one person. Table shape, quality/effect
-distribution, the value-to-weight relationship, and what each of the five tables holds are
-all in `patterns/setting/Treasure.md`.
+to Treasure Tables I-V in order. Each is a d20 list of results, each following
+`patterns/setting/Treasure.md`'s Spec. Every table holds this shape:
+
+```
+TABLE SHAPE - each of the five
+  1     Result 1 significantly below the table's average value
+  2-3   Each either slightly below average, or about double the average weight for its
+        value
+  4-20  The remaining spread, in randomised order - never ascending or descending
+```
+
+State what a week's ordinary wage is at the head of Table I, and point back to it from
+each of the others, so every number in every table has a scale.
+
+```
+TABLES
+  I     Scavenged Loot - everyday debris, minor coin, tools, scraps; average under
+        500 cn; mostly useful rather than valuable
+  II    Equipment and Armaments - weapons, armour, adventuring gear; normal 100 cn,
+        fine 3-10x, masterwork 10-100x
+  III   Gems and Jewelry - value-dense and weightless; the band where carrying
+        capacity stops being a constraint
+  IV    Luxury and Trade Goods - bulk with a function; the band where weight is the
+        whole problem
+  V     Treasure Cache - mixed coinage, including foreign or old issues, plate, and a
+        hoard's worth of one thing; the only table where one result changes a party's
+        plans, and usually more than a party can carry out in one trip
+```
 
 ## Template
 ```

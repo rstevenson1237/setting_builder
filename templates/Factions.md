@@ -12,8 +12,15 @@ Read first:
 - `setting/Rumours.md`, `setting/Bestiary.md`
 
 ## Instructions
-List 3 factions present in the setting. Each carries an Action Dice pool used to resolve
-Faction Turns.
+List 3 factions, each following `patterns/setting/Factions.md`'s Spec. The collection as
+a whole must hold this shape:
+
+```
+FACTIONS - three
+  1     At least one pair that does not know the other exists
+  1     At least one a party can plausibly work for
+  1     None of the three is the government of a region, unless the setting is about that
+```
 
 ## Template
 ```

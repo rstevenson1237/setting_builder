@@ -1,47 +1,59 @@
 # Setting - Named Creatures
 
 ## Provides
-What earns a row in `setting/NamedCreatures.md` rather than staying a Bestiary template.
-
-The reusable templates it is distinct from are in `patterns/setting/Bestiary.md`.
+One named individual the setting keeps consistent across every appearance. A creature met
+once, however memorable, is a Bestiary entry named in its Feature line instead.
 
 ## Spec
 
 ```
 NAMED CREATURE ENTRY
-  1     A name, coined from setting/Language.md
-  1     AD, per patterns/setting/Bestiary.md - the same scale as any creature
-  1     A motivation it acts on regardless of the party
+  1     A name, per GENRE.md's Naming answer
+  1     A stat line, on the same scale as any creature    (patterns/setting/Bestiary.md)
+  1     Why it earns a row                                                {ROLE}
+  1     Motivation - pursued whether or not the party ever shows up      {MOTIVE}
   1     Every location it appears at
-  1     Something it remembers, and something it wants
+  1     How it reaches a party before it is met - a rumour, a piece of lore, or a
+        survivor
+  1     What it remembers of those it meets                               {MEMORY}
+  1     Something it wants
 ```
 
-**A slot here is earned by recurrence.** An individual that appears once is a Bestiary
-creature with a name in its Feature line. This file is for something the setting benefits
-from keeping consistent across appearances - what it wants, how it reacts, what it
-remembers of the party.
+```
+ROLE - exactly one
+  set piece    - a region's defining threat
+  ranging      - it moves across more than one region
+  situation    - a settlement's Situation turns on it
+  survivor     - it will live through an encounter and remember it
+  leader       - its faction will outlast it
+  unkillable   - the party is likely to fail to kill it
+```
 
-**Heard of before met.** The best use of this file is a name that reaches a party through a
-rumour, a piece of lore, or a survivor before they ever see the thing. That is only possible
-if the entry is consistent, which is the entire reason it is not written inline.
+```
+MOTIVE - exactly one
+  feeding      - it is feeding something
+  holding      - it is holding a boundary
+  searching    - it is looking for something it lost
+  collecting   - it is owed, and collecting
+  protecting   - it is protecting young
+  expanding    - it is taking ground it did not hold last season
+  waiting      - it is waiting for a condition to be met
+```
 
-**Who earns a row** - a region's set-piece threat; something that ranges across more than one
-region; a person a settlement's Situation revolves around; a creature that will survive an
-encounter and remember it; a leader whose faction outlives them; something the party is
-likely to fail to kill.
-
-**Motivations** - it is feeding something; it is holding a boundary; it is looking for
-something it lost; it is owed and collecting; it is protecting young; it is expanding into
-ground it did not hold last season; it is waiting for a condition to be met.
-
-**What it remembers** - who hurt it; who fed it; who ran; a smell; a name; a promise. A named
-creature that reacts identically on a second meeting has wasted its row.
-
-**People count.** Most Named Creatures in a SAFE region are Men at 1-2 AD, and they earn the
-row for exactly the same reason a monster does - the party will meet them again.
+```
+MEMORY - at least one
+  hurt         - who hurt it
+  fed          - who fed it
+  fled         - who ran
+  scent        - a smell
+  name         - a name
+  promise      - a promise
+```
 
 ## Constraints
 
-- **A motivation is a standing goal, not a scripted arc.** Per `STYLE.md` it is
-  something the creature is pursuing whether or not the party ever shows up, and it
-  should be possible to state without mentioning them.
+- **A motivation is a standing goal, not a scripted arc.** It can be stated without
+  mentioning the party.
+
+- **Never let a second meeting play like the first.** What it remembers is the reason it
+  has a row.

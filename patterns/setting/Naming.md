@@ -1,53 +1,52 @@
 # Setting - Naming
 
 ## Provides
-What a location is called, and in whose mouth.
-
-Coining and glossing are not here: both are `patterns/setting/Language.md`'s REGISTER
-and REUSE blocks, which apply to every artifact rather than to locations alone.
+What a location is called, and in whose mouth. Coining and glossing are
+`patterns/setting/Language.md`'s REGISTER and REUSE blocks, which apply to every artifact
+rather than to locations alone.
 
 ## Spec
 
 ```
-NAMING
-  1     A name, plain and descriptive, in the common tongue
-  1     Whose name it is, and whether they are still around
+NAMING - after everything else in the location is decided
+  1     A name, per GENRE.md's Naming answer, for what turned out to be here
+  1     Whose name it is, and whether they are still around                 {MOUTH}
+  1     Its shape                                                          {SHAPE}
   20%   A second name, from a different mouth than the first   (DANGEROUS: 30%)
 ```
 
-**Naming comes last because a place is named for what turned out to be in it.**
+```
+MOUTH - exactly one
+  residents    - the people living here, current and contested; SAFE only, since a
+                 settlement is the one rating whose namers are present
+  border       - those who pass through, from the settlements bordering the region:
+                 usually right about danger and wrong about cause; the default for a
+                 WILD or DANGEROUS location
+  departed     - those who are gone, in an older or dead tongue, cut into the place
+  occupants    - those here now, by a name setting/Bestiary.md or setting/Factions.md
+                 already gives them, blunt and functional
+```
 
-**Whose mouth the name is in is the whole of this file**, and it is what the ratings
-differ on - not the procedure, which is the same everywhere. Three registers; a region
-should carry more than one, and the gap between them is free characterisation:
-
-- **The people living here** - available in SAFE only, because a settlement is the one
-  rating whose namers are present. Names are current and contested, which is why SAFE's
-  second name is the unofficial one: what is on the sign against what people actually say.
-  Trade names, a proprietor, a saint, a founder, a grant.
-- **The border register** - what people who pass through call it, from the settlements
-  that border the region. Plain common-tongue names by what a place is for, what it costs,
-  or what happened to somebody there. This is the default register for a WILD or DANGEROUS
-  location's own name, and the one a party arrives with: usually accurate about danger and
-  wrong about cause.
-- **Those who are gone, and those who are here now** - a name in an older or dead tongue,
-  cut into the place and outlasting whoever left it; or what the current occupants call it,
-  using a name already established for them in `setting/Bestiary.md` or
-  `setting/Factions.md`. Blunt and functional: the wet, the deep den, the taking-place.
-  A room the builders called *the place where light is kept* and the occupants call *the
-  wet* has told its history without a word of exposition.
-
-**Name shapes** - a function, or what it is good for; an event, or who died there; a
-person, current or long dead; a physical feature; a position, relative to somewhere that
-matters; a warning; a distance or direction; a sign recognisable by people who cannot
-read; a number or ordinal, where the builders were systematic; a euphemism; a joke that
-stuck.
+```
+SHAPE - exactly one
+  function     - what it is for, or good for
+  event        - what happened there, or who died there
+  person       - a person, current or long dead
+  feature      - a physical feature
+  position     - where it sits relative to somewhere that matters
+  warning      - a warning
+  distance     - a distance or direction
+  sign         - a sign readable by people who cannot read
+  ordinal      - a number or ordinal, where the builders were systematic
+  euphemism    - a euphemism
+  joke         - a joke that stuck
+```
 
 ## Constraints
 
-- **Name what will be referred to again**, and nothing else. Entrances, set pieces, and
-  anywhere a Quest, Key or piece of Lore points. Elsewhere a descriptive label beats a
-  name: it is *the hollow behind the fall*, and naming that separately from the fall
-  weakens both. Density follows from location count rather than from any rule here - a
-  region of eight will name most of them, a dungeon of forty that names every room has
-  diluted all forty.
+- **Name only what will be referred to again** - entrances, set pieces, and anywhere a
+  Quest, Key or piece of Lore points. Elsewhere a descriptive label beats a name, and
+  naming a part separately from its whole weakens both.
+
+- **Never let a region's names share one mouth.** The gap between registers is free
+  characterisation; a region named entirely by one voice has thrown it away.
