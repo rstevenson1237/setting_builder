@@ -6,6 +6,7 @@ The 3 factions present in the setting - the powers a party may treat with, oppos
 ## Context
 Read first:
 - `GENRE.md`
+- `BRIEF.md` - this build's design requests, which replace this template's defaults where they speak
 - `patterns/setting/Factions.md`
 - `setting/Setting.md`, `setting/History.md`, `setting/Truths.md`
 - `setting/Rumours.md`, `setting/Bestiary.md`

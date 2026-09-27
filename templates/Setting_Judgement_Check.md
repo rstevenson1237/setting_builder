@@ -6,6 +6,7 @@ A non-mechanical review pass over the generated `setting/` content - confirming,
 ## Context
 Consult when running this check - deliberately broader than any single generation step, since cross-level coherence is the thing being judged:
 - `GENRE.md` - the throughline every level should still be expressing.
+- `BRIEF.md` - this build's design requests, which replace this template's defaults where they speak
 - `STYLE.md` - the three tests judged against below.
 - `setting/Setting.md`, `setting/History.md`, `setting/Truths.md` - what every region should be reinforcing.
 - `setting/region/Regions.md` and each region's `setting/region/[Code].md` overview - what every location in that region should be reinforcing.

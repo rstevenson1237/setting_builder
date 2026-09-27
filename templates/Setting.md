@@ -7,6 +7,7 @@ document builds on. Thematic tags live in `setting/Tags.md`, not here - see step
 ## Context
 Read first:
 - `GENRE.md`
+- `BRIEF.md` - this build's design requests, which replace this template's defaults where they speak
 - `patterns/setting/Setting.md`
 
 ## Instructions

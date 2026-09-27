@@ -6,6 +6,7 @@ Lists the explorable locations within a single region - a lightweight target lis
 ## Context
 Read first:
 - `GENRE.md`
+- `BRIEF.md` - this build's design requests, which replace this template's defaults where they speak
 - `setting/region/[Region Code].md`
 
 ## Instructions

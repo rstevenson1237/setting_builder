@@ -6,6 +6,7 @@ Five reusable random treasure tables (Treasure Tables I-V), each a d20 table of 
 ## Context
 Read first:
 - `GENRE.md`
+- `BRIEF.md` - this build's design requests, which replace this template's defaults where they speak
 - `patterns/setting/Treasure.md`
 - `setting/Bestiary.md`
 - `setting/Setting.md`, `setting/History.md`, `setting/Truths.md`

@@ -8,6 +8,7 @@ if generated content turned out to need something the seed did not cover.
 ## Context
 Read first:
 - `GENRE.md`
+- `BRIEF.md` - this build's design requests, which replace this template's defaults where they speak
 - `patterns/setting/Procedures.md`
 - At 2h only: `setting/Setting.md`, `setting/Truths.md`
 

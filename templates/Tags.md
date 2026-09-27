@@ -12,6 +12,7 @@ one from the setting pool, one from its own region's - instead of inventing thre
 ## Context
 Read first:
 - `GENRE.md` - the sole real input. Every tag traces back to its chosen reference's own
+- `BRIEF.md` - this build's design requests, which replace this template's defaults where they speak
   concrete iconography or one of its axis bullets.
 - At region level only: `setting/Tags.md` itself, to avoid duplicating its entries, and
   this region's own line in `setting/region/Regions.md` (rating, die, name) for texture.

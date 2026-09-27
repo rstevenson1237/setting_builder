@@ -6,6 +6,7 @@ A full Region Overview for a single region - the referee's "how do I find this" 
 ## Context
 Read first:
 - `GENRE.md`
+- `BRIEF.md` - this build's design requests, which replace this template's defaults where they speak
 - `setting/Setting.md`, `setting/History.md`, `setting/Truths.md`, `setting/Rumours.md`, `setting/Bestiary.md`, `setting/Factions.md`
 - `setting/region/Regions.md`
 - `patterns/region/Safe.md`, `patterns/region/Wild.md`, or `patterns/region/Dangerous.md` - read only the one that matches this region's rating.

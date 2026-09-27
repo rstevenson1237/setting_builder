@@ -6,6 +6,7 @@ An overview listing of all regions within the setting - the Regional Gazetteer.
 ## Context
 Read first:
 - `GENRE.md`
+- `BRIEF.md` - this build's design requests, which replace this template's defaults where they speak
 - `setting/Setting.md`
 - `setting/Language.md`
 

@@ -6,6 +6,7 @@ A non-mechanical review pass over `templates/` - confirming, by human or model j
 ## Context
 Consult when running this check:
 - `GENRE.md` - the standard every template's Context section should be sharpening, not drifting from.
+- `BRIEF.md` - this build's design requests, which replace this template's defaults where they speak
 - `CLAUDE.md` - the source of truth for how templates, patterns, and setting files relate, and for edge cases already called out explicitly (genre drift, pattern timing, narrow-context rules, and the like).
 - `STEPS.md` - the declared build order; a template's Context list should match the artifacts that actually exist by the step it's used in.
 - every file in `templates/` and every file in `patterns/` - a template can only be judged against the patterns it claims to use.

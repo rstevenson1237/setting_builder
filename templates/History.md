@@ -6,6 +6,7 @@ Records 1 or more major events that have shaped the setting, oldest to newest.
 ## Context
 Read first:
 - `GENRE.md`
+- `BRIEF.md` - this build's design requests, which replace this template's defaults where they speak
 - `patterns/setting/History.md`
 - `setting/Setting.md`
 

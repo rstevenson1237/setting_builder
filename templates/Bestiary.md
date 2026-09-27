@@ -6,6 +6,7 @@ Reusable, system-neutral creature templates for the setting.
 ## Context
 Read first:
 - `GENRE.md`
+- `BRIEF.md` - this build's design requests, which replace this template's defaults where they speak
 - `patterns/setting/Bestiary.md`
 - `setting/Setting.md`, `setting/History.md`, `setting/Truths.md`
 

@@ -6,6 +6,7 @@ A referee-facing table of 20 rumours of varying truth that serve as adventure ho
 ## Context
 Read first:
 - `GENRE.md`
+- `BRIEF.md` - this build's design requests, which replace this template's defaults where they speak
 - `patterns/setting/Rumours.md`
 - `setting/Setting.md`, `setting/History.md`, `setting/Truths.md`
 
