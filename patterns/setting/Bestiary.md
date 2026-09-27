@@ -1,127 +1,70 @@
 # Setting - Bestiary
 
 ## Provides
-What one Bestiary entry must state - its type, its Action Dice and what they mean, and
-what a party can perceive of it before a fight starts. How many entries the Bestiary holds
-and how they divide across type and power is `templates/Bestiary.md`'s Instructions, not
-this file's.
+What one Bestiary entry states: what kind of thing it is, how dangerous it is, and what a
+party can perceive of it before a fight starts. How many entries the Bestiary holds and how
+they divide across type and power is `templates/Bestiary.md`'s. What AD is, and that it is
+never read against a faction's or a region's dice, is `setting/Procedures.md`'s Scaling.
 
 ## Spec
 
 ```
 BESTIARY ENTRY
-  1     A Type - Men, Humanoid, Beast, Undead, Construct, Horror, Wyrm, Fey, Fiend,
-        Giant, or Fantasy (setting-flavor creatures that fit none of the others). No
-        other Type exists.
-  1     AD, written Xd6+N, read against the ladder below
-  1     A modifier, -2 to +6, averaging one third of AD (rounded up)
-  1     An MA, averaging one quarter of AD (rounded up)
-  1     A Description of 1-3 sentences
-  1     A Special where the AD band calls for one, or `none`
+  1     Type, exactly one - Fantasy being whatever this setting has that fits none of
+        the others
+        {Men | Humanoid | Beast | Undead | Construct | Horror | Wyrm | Fey | Fiend |
+         Giant | Fantasy}
+  1     AD, written Xd6+N - the count taken from the band that says what the creature is
+          1       evenly matched for a normal man
+          2-3     a superior man-sized combatant
+          4-5     larger than man-sized, and highly dangerous
+          6-8     extremely large, carrying some level of supernatural danger
+          9-12    a gargantuan terror, often solo
+          13-16   mono-type - served by those around it, in control without question,
+                  and tapped into powers beyond comprehension
+          17-18   gargantuan - the pinnacle, a titan
+  1     Modifier, -2 to +6, against an average of one third of AD rounded up - how much
+        more or less lethal it is than its size says
+  1     MA, against an average of one quarter of AD rounded up - how many targets it
+        threatens at once, from speed, reach, or more than one attack
+  1     Description - what a party sees when it comes into view
+  1     Range - where it lives, how many of it the country supports, and what it eats
+  1     Sign - what reaches a party before the creature does: a mark, a track, a sound,
+        or a smell
+  1     Disposition - what it does on being met, before anyone decides to fight
+  1     Special - what it can do that its dice do not already say, in terms a referee
+        can run, or `none`: rare below 4 AD, expected at 4 and above, several at 8 and
+        above
 ```
-
-**Guardian and hazard are roles, not Types.** Any Type can be built to fill either role
-through its Special - see Constraints below for what each role requires.
-
-```
-AD LADDER - what a count means, in absolute terms
-  1       Evenly matched for a normal man
-  2-3     A superior man-sized combatant
-  4-5     Larger than man-sized, and highly dangerous
-  6-8     Extremely large, carrying some level of supernatural danger
-  9-12    A gargantuan terror - often solo, and still a fight rarely worth taking
-  13-16   Mono-type: expects to be served by those around it, controls without
-          question, and is tapped into powers beyond comprehension
-  17-18   Gargantuan, the pinnacle, a titan
-```
-
-**One stat block is one creature** - or one swarm of creatures that are not dangerous on
-their own, counted and fought as a single thing. A stat block is never a group rate for
-something that is individually a threat: two of those are two stat blocks' worth of
-trouble, and the referee needs to be able to say so.
-
-**AD.** Action Dice are d6 only, counted 1 to 18, and never sized up or down the way a
-player's dice are: a tougher creature gets more d6s or a bigger bonus, never a d8. Read
-the count against the ladder above, which is absolute - what the creature *is* - and not
-against the region's die, which is a difficulty die and says nothing about power.
-
-**The modifier carries the information the count cannot.** It runs `-2` to `+6` and is
-written after the dice count (`4d6+2`). **Its average is one third of AD, rounded up** -
-so a 4 AD creature averages `+2`, a 9 AD creature `+3`, an 18 AD creature `+6`. Write it
-on every entry. The point is the deviation: a creature above its average is more lethal
-than its size suggests, one below is less, and a referee reads that difference straight
-off the line. An entry that sits on the average every time has thrown the field away.
-
-**MA is the ability to attack multiple targets at once** - from speed, from size, from
-having more than one attack to make. **Its average is one quarter of AD, rounded up**, and
-it reads the same way the modifier does: deviation is the information. A thing with one
-mouth and no reach sits below its average however large it is; a thing that is fast, or
-long, or many-limbed sits above it.
-
-**A creature may have a special ability.** More often at 4 AD and above, and an entry at
-8 AD and above is expected to carry several. Below 4 it is rare, and a 1 AD creature with
-one is making a claim the rest of its line has to support. State what the ability does in
-terms a referee can run, never as a name alone.
-
-**Description.** Appearance, behaviour, range, population, diet, sign, and disposition are
-all optional points of inclusion - none is mandatory on every entry. Write whichever the
-entry actually needs; a Beast that ranges widely might spend its sentences on population
-and diet, an entry built as a guardian and fixed at one threshold might spend them
-entirely on what it does when approached. Which downstream pattern wants which point:
-
-- **Range** - where it lives, how many the country supports, and what it eats. Wanted by
-  `wild/Creature.md` (populations, not individuals), `wild/Lair.md` (what it eats and
-  where that comes from), and `dangerous/Creature.md` (household logistics).
-- **Sign** - what a party finds before they find the creature: marks or tracks left, a
-  sound, or a smell detectable before the creature itself is seen. Wanted by both
-  Creature files: a creature's signs should reach the party before the creature does, at
-  least once per region, and that only works if the signs are decided once here rather
-  than improvised per location.
-- **Disposition** - what it does on being met, before anyone decides to fight. Wanted by
-  `wild/Creature.md`: most things met in open country would rather not fight, and a party
-  should be able to be wrong about that.
-
-**Special** - what it can do that its Action Dice do not already say, where the AD band
-calls for one. `none` where it has none, per GENRE.md's state-the-nil. Demanded by
-`dangerous/Creature.md` and `dangerous/Encounter.md`: a guardian's condition, a hazard's
-mechanism and a horror's reach are the whole of what makes them worth citing, and a
-referee improvising them at the table is improvising the entry.
 
 ## Constraints
 
-**What does not go here.** Unique individuals belong in `setting/NamedCreatures.md`; a
-creature that is also a power in the world carries a `setting/Factions.md` entry as well.
-A one-off variant is described inline at its location. The Bestiary holds only what
-recurs - if an entry will be used once, it is not a template. A proper name on a Bestiary
-entry is the surest sign the entry is in the wrong file.
+- **One stat block is one creature** - or one swarm of things not dangerous on their own,
+  counted and fought as a single thing. Never a group rate for something individually a
+  threat: two of those are two stat blocks' worth of trouble.
 
-**Ordinary wildlife is region texture, not a Bestiary entry.** What a country typically
-holds - the game a party can hunt, the birds overhead, the snake underfoot - belongs to a
-WILD region's **Foraging** and **Creatures** fields, which already demand real named
-animals. A Beast earns a template here only by being an *unusual* combatant: something a
-location will actually draw and a party will actually have to deal with. Filling the type
-with the fauna a region would have anyway spends the setting's smallest artifact on
-scenery, and leaves the referee looking for the dangerous things among the sparrows.
+- **Never size a creature's dice up or down.** Action Dice are d6 only; a tougher creature
+  gets more of them or a bigger modifier, never a d8.
 
-**Mundane human threats are a faction's, not a type's.** Who opposes the party and why is
-`setting/Factions.md`'s question, and a human worth naming is `setting/NamedCreatures.md`'s.
-What remains for `Men` is the rank and file a faction fields - the line a party actually
-fights - and one or two templates cover every faction in a setting. A separate entry per
-human occupation is a roster with no faction behind it.
+- **What does not go here.** Unique individuals belong in `setting/NamedCreatures.md`; a
+  creature that is also a power in the world carries a `setting/Factions.md` entry as well.
+  A one-off variant is described inline at its location. The Bestiary holds only what
+  recurs - a proper name on a Bestiary entry is the surest sign it is in the wrong file.
 
-**A guardian is a role any Type can carry, not a Type of its own.** Per GENRE.md a
-guardian is more often a condition than a monster, and most guardians in a setting should
-never need a stat line at all. Where one does, build it from whichever Type actually fits
-- an Undead bound to a tomb, a Construct set at a threshold, even a Beast that is
-territorial rather than hungry - and let its **Special** carry the role: it holds one
-thing and does nothing else, does not range, does not forage, does not want anything
-beyond that, and states the condition it acts on rather than naming it a guardian.
+- **Ordinary wildlife is region texture, not a Bestiary entry.** What a country typically
+  holds - game, birds, the snake underfoot - belongs to a WILD region's Foraging and
+  Creatures fields. A Beast earns an entry here only by being an unusual combatant a
+  location will actually draw.
 
-**A hazard is a role any Type can carry, not a Type of its own, and it is not
-`dangerous/Hazard.md`.** That file is the per-location mechanism - trap, environmental,
-residual - and it owns the clue, the trigger, and what is forced, for the one place it is
-drawn into. An entry built as a hazard is a recurring living or persisting danger with a
-stat line, cited by name from wherever it turns up rather than reinvented per room - most
-naturally a Horror, a Beast, or an Undead. If it has a want, a reaction, or somewhere else
-to be, it is an ordinary creature of its Type and not a hazard; if it exists in one place
-only, it belongs inline at that location, not here.
+- **Mundane human threats are a faction's, not a type's.** Who opposes the party and why
+  is `setting/Factions.md`'s question, and a human worth naming is
+  `setting/NamedCreatures.md`'s. What remains for `Men` is the rank and file a faction
+  fields; a separate entry per human occupation is a roster with no faction behind it.
+
+- **Guardian and hazard are roles, never Types.** Either is built from whichever Type
+  actually fits, and its Special carries the role. A guardian holds one thing, does not
+  range or forage, and states the condition it acts on rather than naming itself a
+  guardian. A hazard is a recurring danger with a stat line, cited by name wherever it
+  turns up - and not `dangerous/Hazard.md`, which is one location's mechanism. Anything
+  with a want, a reaction, or somewhere else to be is an ordinary creature of its Type;
+  anything that exists in one place only belongs inline at that location.

@@ -51,12 +51,15 @@ So, when writing or editing any of them:
 
 - **One skeleton, every file**: **Provides / Spec / Constraints**. There is no `## Read at`
   and no `## Design questions` heading, and no `## Design patterns` heading - every field
-  is a neutral, permanent question or edge; a field that reads flat gets a sharper
+  is a neutral, permanent edge, question or draw; a field that reads flat gets a sharper
   question, never a list of examples to draw from.
-- **Every Spec line is an edge or a question.** An edge names another pattern file in
-  parentheses and belongs in the fenced block, never in the prose under it. A question
-  cites nothing. A citation is an edge only where the generator must go and read that file;
-  anything already in context is stated as part of the question.
+- **Every Spec line is an edge, a question, or a draw.** An edge names another pattern
+  file in parentheses and belongs in the fenced block, never in the prose under it. A
+  question cites nothing. A draw is a closed `{a | b | c}` set; its items may be defined,
+  never exemplified. A citation is an edge only where the generator must go and read that
+  file; anything already in context is stated as part of the question.
+- **A pattern specifies one unit; its template owns how many and in what mix.** The tree
+  is rooted at `patterns/Genre.md`, whose GENRE block `GENRE.md` answers.
 - **A line that varies between the classes drawing it belongs in the drawing class's Spec;
   a line that is the same for all of them belongs in the file it cites.** Same test
   `setting/Procedures.md` applies one level up.

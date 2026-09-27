@@ -1,8 +1,25 @@
 # The pattern file spec
 
-What every file in `patterns/*/*.md` is made of, and why. `README.md` says what the
+What every file in `patterns/` is made of, and why. `README.md` says what the
 patterns are *for* within the build; this file says what one looks like and how to tell a
 correct one from a broken one. `CLAUDE.md` carries the short version.
+
+## The division of labour
+
+A **pattern** generates. A **template** frames: it names what is read before generating
+(its Context), how many units the artifact holds and how they are spread (its
+Instructions), and the exact shape the output is cut down to (its Template block).
+
+So a pattern file specifies **one unit** - one entry, one event, one location - and never
+how many of them a file holds or in what mix. A count, a distribution or a coverage list
+in a pattern file is the template's; per-unit content in a template is the pattern's.
+
+## The root
+
+The library is one tree, rooted at `patterns/Genre.md`. Its GENRE block is the set of
+questions `GENRE.md` answers; its other blocks are edges to every file a build enters
+from. A template names the node its step expands, and that node must be reachable from the
+root.
 
 ## The governing rule
 
@@ -18,6 +35,13 @@ use: abandoned, decayed, ruined, destroyed` states five points on one line inste
 the words are as true of any setting as "size and shape" is - which is what keeps them a
 question rather than an example. Where a field still reads thin once its axis is named,
 the fix is a sharper question, never a list of instances to draw from.
+
+**A draw is not a list of instances.** A draw's items are the whole set of categories an
+answer may fall in, closed and exhaustive; a list of instances is a sample of answers,
+which the generator copies. An item may carry a **definition** - what the category is -
+where its name is a term that means nothing outside this framework. It never carries an
+**example** - a member of the category - because an example is an instance with a label
+on it.
 
 ## The three fields
 
@@ -40,11 +64,19 @@ it sits in that graph is a second copy of an edge something upstream already own
 second copy is what drifts.
 
 ### `## Spec`
-What this file decides, as a fenced block. Every line is one of exactly two things:
+What this file decides, as a fenced block. Every line is one of exactly three things:
 
 - **an edge** - it points to another pattern file, named in parentheses, which is the only
-  other file that line requires; or
-- **a question** - it states something the generator must answer, and cites nothing.
+  other file that line requires;
+- **a question** - it states something the generator must answer, and cites nothing; or
+- **a draw** - it names a closed set, `{a | b | c}`, and the generator selects from it:
+  exactly one unless the line says otherwise, at the rates the line gives where it gives
+  any. Where the items need definitions they sit one per line beneath it, `item - what it
+  is`. A draw cites nothing; a draw whose items each have a file of their own is an edge,
+  and the parentheses go on the line.
+
+There is no fourth form. A list trailing a line without braces is either meant to be
+exhaustive, and is a draw, or illustrates, and is cut in favour of a sharper question.
 
 **What makes a citation an edge is that the generator must go and read that file.**
 Anything already in context at this step is not an edge and takes no parentheses: state it
@@ -63,7 +95,7 @@ line.
 appears. Neutral and permanent.
 
 That two-way rule is what makes the library a single tree. A file whose Spec has outgoing
-edges is a classifier; a file whose Spec is all questions is a leaf. Neither is declared
+edges is a classifier; a file whose Spec is all questions and draws is a leaf. Neither is declared
 anywhere - it is read off the citations, so it cannot fall out of step with itself.
 
 **Where a line lives** follows from whether it varies: a line that differs between the
@@ -85,7 +117,7 @@ not a prohibition and stays where it is.
 ## Classifiers and leaves
 
 A file's Spec says which it is, without asserting anything: outgoing edges make it a
-**classifier**, an all-questions Spec makes it a **leaf**. Depth is a fact about the tree,
+**classifier**, a Spec of questions and draws only makes it a **leaf**. Depth is a fact about the tree,
 not a property a file declares.
 
 A contract lives in the file it describes. A classifier names a Kind or draws a feature and
@@ -162,8 +194,7 @@ already turned out to be.
 
 **Every element file is reached by a classifier.** One reachable only from inside another
 element file is orphaned: nothing draws it, so nothing reads it, and the content it
-describes is never generated. `tools/validate_setting.py` warns on any file no generation
-template reaches, and step 5b judges it.
+describes is never generated. `tools/validate_setting.py` warns on it, and step 5b judges it.
 
 **A file drawn two genuinely different ways is a signal, not a feature.** Two are:
 `safe/People.md`, both a Kind where the location *is* a household and the mandatory person
@@ -232,10 +263,10 @@ Run `python3 tools/validate_setting.py` to see it; the script is the list. This 
 states only what the checks *mean*, which is not readable off them.
 
 **Reachability is checked, and it is the one graph question worth a machine.** The
-validator walks STEPS.md to `templates/` to each template's named pattern files and out
-along Spec edges, and warns on anything it cannot reach. A phase-5 template is excluded
-from the root set: a review pass cites pattern files as examples, and counting those would
-let an orphan hide behind a mention in a judgement check. It warns rather than errors
+validator walks Spec edges out from `patterns/Genre.md` and warns on anything the root
+cannot reach, and separately on anything no generation template enters. A phase-5 template
+is not a generation template: a review pass cites pattern files as examples, and counting
+those would let an orphan hide behind a mention in a judgement check. It warns rather than errors
 because unreachable content cannot corrupt a build - it means content expected to be
 generated silently is not, which is a thinness judgement and belongs to step 5b.
 

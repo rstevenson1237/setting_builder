@@ -14,18 +14,14 @@ Build about 20 entries, each one following `patterns/setting/Bestiary.md`'s Spec
 single entry. The collection as a whole must hold this shape:
 
 ```
-TYPE MIX - about 20 entries, drawn only from the Types patterns/setting/Bestiary.md's
-Spec names
+TYPE MIX - about 20 entries
   30%   Beast + Men          - specialized combatants that reinforce this setting specifically
   30%   Humanoid + Fantasy   - non-human peoples and setting-flavor creatures, for diversity
   30%   Undead               - what a DANGEROUS region is built around; some of these
-                               entries should be built as a guardian (holds one thing,
-                               does nothing else) or a hazard (a recurring danger, not
-                               one room's trap) - both are roles any Type can carry, per
-                               patterns/setting/Bestiary.md's Constraints
-  10%   Everything else      - whatever remains of Construct, Horror, Wyrm, Fey, Fiend,
-                               Giant, each a unique challenge in its own right. Rarely
-                               more than two of these types in one setting
+                               built as a guardian or a hazard
+  10%   Everything else      - Construct, Horror, Wyrm, Fey, Fiend, Giant, each a unique
+                               challenge in its own right. Rarely more than two of these
+                               types in one setting
 ```
 
 ```
@@ -37,6 +33,8 @@ NOT to the region dice
   1     At least one entry at 13+
   1     At least one entry the party is NOT meant to beat
   1     No more than a third of entries sharing a single AD value
+  1     Modifiers and MAs spread above and below their averages - a collection sitting
+        on its averages has thrown both fields away
 ```
 
 **Coverage the collection needs**, spread across the roughly 20 entries: something that
@@ -47,16 +45,17 @@ nuisance in numbers; something that eats what a settlement produces, so a SAFE r
 standing grievance; something death-tainted that is a fact of the underworld rather than a
 villain; something that was made rather than born.
 
-Every entry states its modifier and its MA - both are written on every line, because both
-carry their meaning in how far they sit from their average (one third of AD and one quarter
-of AD respectively, each rounded up), and an omitted field says nothing at all.
+Cut any field that does not fit the template block below, and any entry the collection
+shape above does not call for.
 
 ## Template
 ```
 Bestiary of [Setting Name]
 
 [Creature Name] (Type) - AD: Xd6+N [MA: Y]
-Description: [1-3 sentences - whichever of appearance, behaviour, range, sign, or
-disposition this entry actually needs; none of these is mandatory on every entry]
-Special: [what it can do that its Action Dice do not already say, or `none`]
+Description: [...]
+Range: [...]
+Sign: [...]
+Disposition: [...]
+Special: [... or `none`]
 ```

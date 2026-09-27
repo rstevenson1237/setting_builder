@@ -37,7 +37,7 @@ ground it did not hold last season; it is waiting for a condition to be met.
 **What it remembers** - who hurt it; who fed it; who ran; a smell; a name; a promise. A named
 creature that reacts identically on a second meeting has wasted its row.
 
-**People count.** Most Named Creatures in a SAFE region are Man at 1-2 AD, and they earn the
+**People count.** Most Named Creatures in a SAFE region are Men at 1-2 AD, and they earn the
 row for exactly the same reason a monster does - the party will meet them again.
 
 ## Constraints

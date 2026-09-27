@@ -35,7 +35,8 @@ Read these rather than a description of them.
 - `patterns/` - pattern guidance, in five folders matching the five levels of generation:
   `setting/`, `region/`, `safe/`, `wild/`, `dangerous/`. A generation step reads only the
   folder matching what it is building. Every file shares one skeleton, specified in
-  `patterns/SPEC.md`.
+  `patterns/SPEC.md`. `patterns/Genre.md` is the root of the tree: the questions
+  `GENRE.md` answers, and an edge to every file a build enters from.
 - `setting/` - the generated setting, mirroring the template set in the order STEPS.md lays
   out: setting-level artifacts, Treasure Tables I-V, the two living artifacts
   (`Procedures.md`, `Language.md`), the five registries (`Lore.md`, `Keys.md`, `Quests.md`,

@@ -62,7 +62,7 @@ The Region Overview's fields, for a SAFE region.
   where outsiders are allowed.
 - **Dangers** - a SAFE region is safe from the wilderness, not from its own people. Debt,
   law, feud, faction interest, being noticed, being remembered.
-- **Creatures** - Man, overwhelmingly, and going about business. Anything else here is
+- **Creatures** - Men, overwhelmingly, and going about business. Anything else here is
   either working, penned, or a problem.
 - **Factions** - whether any of the three hold ground here, and how much. A settlement is
   traded with, not usually occupied outright (per `safe/Faction.md`), so "control" more

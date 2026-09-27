@@ -92,6 +92,10 @@ def index_to_code(i: int) -> str:
 # ---------------------------------------------------------------------------
 
 PATTERN_FOLDERS = ("setting", "region", "safe", "wild", "dangerous")
+# The one pattern file outside the five folders: the tree's root, per
+# patterns/SPEC.md's "The root".
+PATTERN_ROOT_KEY = "Genre.md"
+PATTERN_ROOT = PATTERNS / PATTERN_ROOT_KEY
 # The lookbehind keeps this from misreading the tail of a longer, correct
 # content path like "setting/region/Regions.md" as a bare two-segment
 # "region/Regions.md" pattern citation - a real bug caught in this check's
@@ -107,6 +111,11 @@ def check_pattern_files(diag: Diagnostics):
         return
     pattern_files = sorted(p for p in PATTERNS.glob("*/*.md") if p.name != ".gitkeep")
     known = {p.relative_to(PATTERNS).as_posix() for p in pattern_files}
+    if PATTERN_ROOT.exists():
+        pattern_files.append(PATTERN_ROOT)
+    else:
+        diag.warn(PATTERN_ROOT, "missing - the pattern tree has no root, so reachability is "
+                                "walked from the generation templates alone")
     for path in pattern_files:
         text = path.read_text()
         rel_key = path.relative_to(PATTERNS).as_posix()
@@ -297,9 +306,14 @@ def read_set_graph():
             roots |= template_roots.get(name, set())
 
     reach = spec_closure(roots, pattern_files)
+    # The tree's own root reaches what a build is *meant* to generate; the
+    # templates reach what it actually enters. A file missing from the first
+    # is outside the tree, one missing from the second is never generated.
+    tree = (spec_closure({PATTERN_ROOT_KEY}, pattern_files | {PATTERN_ROOT_KEY})
+            - {PATTERN_ROOT_KEY}) if PATTERN_ROOT.exists() else set(pattern_files)
     return dict(step_templates=step_templates, template_roots=template_roots,
                 pattern_files=pattern_files, roots=roots, reach=reach,
-                orphans=pattern_files - reach)
+                orphans=pattern_files - reach, outside_tree=pattern_files - tree)
 
 
 def check_read_set_graph(diag: Diagnostics):
@@ -333,6 +347,10 @@ def check_read_set_graph(diag: Diagnostics):
             continue
         for sid in sorted(set(TEMPLATE_STEP_CITE_RE.findall(path.read_text())) - known):
             diag.error(path, f"cites step {sid}, which STEPS.md does not define")
+    for stray in sorted(g["outside_tree"]):
+        diag.warn(PATTERNS / stray, "patterns/Genre.md cannot reach this file - it is outside "
+                                    "the tree, whatever a template says about it. Judged at "
+                                    "STEPS.md step 5b")
     for orphan in sorted(g["orphans"]):
         diag.warn(PATTERNS / orphan, "no generation template reaches this file - nothing reads "
                                      "it, so the content it describes is never generated. "
@@ -359,7 +377,8 @@ def report_read_set(step_filter: str | None) -> int:
         print(f"  expanded  : {', '.join(expanded) if expanded else '(none)'}")
         print()
     print(f"{len(g['reach'])}/{len(g['pattern_files'])} pattern files reachable from "
-          f"generation templates; {len(g['orphans'])} orphan(s)")
+          f"generation templates; {len(g['orphans'])} orphan(s); "
+          f"{len(g['outside_tree'])} outside patterns/Genre.md's tree")
     return 0
 
 
@@ -1138,8 +1157,17 @@ def check_rumours(diag: Diagnostics):
         diag.warn(path, "not every rumour row carries a T/P/F mark")
 
 
-BESTIARY_TYPES = {"beast", "man", "humanoid", "undead", "guardian", "hazard",
-                  "fantasy creature", "construct", "horror", "wyrm", "fey", "fiend", "giant"}
+def bestiary_types() -> set[str]:
+    """The Type draw in patterns/setting/Bestiary.md's Spec, lower-cased.
+
+    Read from the pattern rather than copied here, so the closed set has one
+    owner and a rename there cannot leave a stale copy behind.
+    """
+    path = PATTERNS / "setting" / "Bestiary.md"
+    if not path.exists():
+        return set()
+    m = re.search(r'^ {2}1\s+Type\b.*?\{(.*?)\}', path.read_text(), re.S | re.M)
+    return {s.strip().lower() for s in m.group(1).split("|")} if m else set()
 
 # "[Name] (Type) - AD: Xd6+N [MA: Y]" per templates/Bestiary.md. The bonus and
 # the MA bracket are optional in the pattern so a partially-written file still
@@ -1187,10 +1215,11 @@ def check_statblocks(diag: Diagnostics, path: Path, label: str, expect_special: 
         return
     no_mod = no_ma = no_special = 0
     entries = [b for b in text.split("\n\n") if b.strip()]
+    types = bestiary_types()
     for b in blocks:
-        if b["type"].lower() not in BESTIARY_TYPES:
-            diag.error(path, f"{b['name']}: type {b['type']!r} is not one of "
-                             f"patterns/setting/Bestiary.md's TYPE MIX")
+        if types and b["type"].lower() not in types:
+            diag.error(path, f"{b['name']}: type {b['type']!r} is not in "
+                             f"patterns/setting/Bestiary.md's Type draw")
         if not 1 <= b["ad"] <= 18:
             diag.error(path, f"{b['name']}: AD {b['ad']} is outside the 1-18 range")
         if b["mod"] is None:
