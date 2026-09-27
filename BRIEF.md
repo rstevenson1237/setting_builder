@@ -41,12 +41,18 @@ built fresh by the framework, not transcribed from the module.
 
 - Three regions: the keep (SAFE), the borderland wilderness around it (WILD), and the
   ravine of caves (DANGEROUS).
-- The keep is a working fortress rather than a town: an outer bailey of trade, lodging and
-  worship open to travellers, and an inner bailey closed to them. About thirty keyed
-  places, most of them liner notes.
-- The wilderness holds a handful of sites off the road - a lair, a camp, a hermit, a mound
-  in a fen, and one site deliberately left for the referee to fill.
-- The ravine holds about ten cave complexes opening onto it. Each complex is one
-  occupant's household - one tribe, one lair, one shrine - and is its own block. Complexes
-  connect to each other in only a few places, and those connections matter to who can
-  reach whom.
+- The keep is a hold: an outer bailey of trade, lodging and worship open to travellers,
+  and an inner bailey closed to them. About thirty locations, most of them liner notes,
+  with the garrison's gate, walls and towers among them.
+- The wilderness holds about six Landmarks off the road - a lair, a raiders' camp, a
+  hermit, a mound in a fen - with one or two carrying a Hidden child and none a Secret.
+- One of those Landmarks is left for the referee to stock: it is generated with its
+  Dressing, its Kind, its reason to stop and its name, and every rated line comes out
+  `none`. Its entry says it is unstocked, so the gap reads as a decision rather than a
+  draw that never fired.
+- The ravine is a collection of about sixty locations in about ten blocks. Every block is
+  a household - one tribe, one lair, or one shrine - of between four and fifteen
+  locations, sized to what that household needs rather than to a set count.
+- Each block opens onto the ravine by its own entrance, so the region has about ten
+  entrances rather than two or three. Blocks connect to each other in only a few places,
+  and those connections decide who can reach whom; the shrine lies deepest.
