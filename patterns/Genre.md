@@ -48,6 +48,11 @@ REGION - each region's overview, exactly one by its rating
 ```
 
 ```
+BLOCK - each block of a DANGEROUS region
+  1     The quarter its rooms share                                (dangerous/Block.md)
+```
+
+```
 LOCATION - each gazetteer stub, exactly one by its region's rating and its own class
   1     {safe | wild landmark | wild hidden | wild secret | dangerous high |
          dangerous medium | dangerous low}

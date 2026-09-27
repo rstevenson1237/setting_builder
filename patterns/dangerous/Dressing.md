@@ -12,8 +12,8 @@ Units, the Exits line syntax, and the citation formats are in `templates/Locatio
 DRESSING - every location
   1     Size and shape
   1     Condition - active use, or former use: abandoned, decayed, ruined, destroyed
-  1     Purpose - what it was for: keeping, working, living, holding, meeting,
-        believing, dying, or moving something through
+  1     Purpose - what it was for: its family, then the room's own use within it
+                                                                 (dangerous/Block.md)
   1     Ambiance - smell and sound, attributable to Condition or Purpose
   1     Every exit typed and positioned                 (dangerous/Door.md)
 ```
@@ -52,7 +52,7 @@ them.** A part or a process with a name costs less than the sentence describing 
   overview level and carried by only a handful of the region's locations exists nowhere a
   party can touch it.
 
-- **Do not reuse a purpose already used in this region.** A region with three storerooms
+- **Do not reuse a purpose already used in this block.** A block with three storerooms
   has told the party that rooms do not matter, whatever category each one answers to. A
   room whose Condition is destroyed enough that Purpose reads as illegible still states
   what it was - state that, then let Condition explain why it no longer shows.

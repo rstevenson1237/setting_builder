@@ -909,9 +909,18 @@ def check_location_file(diag, path, region_code, num, stub, rating, all_location
 # ---------------------------------------------------------------------------
 
 BLOCK_NODE_RE = re.compile(r'(\w+)\["([^".]+)"\]')
-BLOCK_HEADER_RE = re.compile(r'^(Block|Purpose|Region|Rooms|Locations):\s*(.+?)\s*$', re.M)
-PURPOSE_FAMILIES = {"keeping", "working", "living", "holding",
-                    "meeting", "believing", "dying", "moving"}
+BLOCK_HEADER_RE = re.compile(r'^(Block|Basis|Purpose|Region|Rooms|Locations):\s*(.+?)\s*$', re.M)
+
+
+def purpose_families() -> set[str]:
+    """The FAMILY draw block in patterns/dangerous/Block.md's Spec, lower-cased."""
+    path = PATTERNS / "dangerous" / "Block.md"
+    if not path.exists():
+        return set()
+    items = spec_blocks(path.read_text()).get("FAMILY", [])
+    return {ln.split(" - ")[0].strip().lower() for ln in items if ln.strip()}
+
+
 
 
 def parse_block_files(diag: Diagnostics, region_code: str, rdir: Path, all_locations: dict):
@@ -927,12 +936,31 @@ def parse_block_files(diag: Diagnostics, region_code: str, rdir: Path, all_locat
         name = head.get("Block") or path.stem
         if "Block" not in head:
             diag.error(path, "block diagram has no 'Block:' header line")
-        purpose = (head.get("Purpose") or "").strip().lower()
-        if purpose and purpose not in PURPOSE_FAMILIES:
-            diag.error(path, f"Purpose {head.get('Purpose')!r} is not one of "
-                             f"dangerous/Dressing.md's families: {', '.join(sorted(PURPOSE_FAMILIES))}")
-        elif not purpose:
-            diag.warn(path, "block diagram has no 'Purpose:' header line - a block is a functional quarter")
+        # "Basis: purpose - [family]" or "Basis: household - [occupant]", per
+        # patterns/dangerous/Block.md; a bare "Purpose: [family]" is read as the first.
+        basis = (head.get("Basis") or "").strip()
+        if not basis and head.get("Purpose"):
+            basis = f"purpose - {head['Purpose']}"
+        kind, _, what = (s.strip() for s in basis.partition(" - "))
+        kind, what = kind.lower(), what.lower()
+        families = purpose_families()
+        purpose = ""
+        if not basis:
+            diag.warn(path, "block diagram has no 'Basis:' header line - per "
+                            "patterns/dangerous/Block.md a block is held together by a "
+                            "purpose or a household")
+        elif kind == "purpose":
+            if families and what not in families:
+                diag.error(path, f"Basis purpose {what!r} is not one of dangerous/Block.md's "
+                                 f"families: {', '.join(sorted(families))}")
+            purpose = f"purpose:{what}"
+        elif kind == "household":
+            if not what:
+                diag.error(path, "Basis household names no occupant")
+            purpose = f"household:{what}"
+        else:
+            diag.error(path, f"Basis {basis!r} is neither 'purpose - [family]' nor "
+                             f"'household - [occupant]'")
         id_to_code, edges, unresolved = parse_mmd_edges(text, LOC_NODE_RE)
         for u in sorted(unresolved):
             diag.error(path, f"edge references node id {u!r} with no bracketed definition")
@@ -963,9 +991,9 @@ def check_block_purposes(diag: Diagnostics, region_code: str, blocks: dict):
         if not b["purpose"]:
             continue
         if b["purpose"] in seen:
-            diag.warn(b["path"], f"purpose family {b['purpose']!r} is already used by block "
+            diag.warn(b["path"], f"basis {b['purpose']!r} is already used by block "
                                  f"{seen[b['purpose']]!r} in region {region_code} - per "
-                                 f"patterns/region/Dangerous.md no two blocks share a family")
+                                 f"patterns/dangerous/Block.md no two blocks share one")
         else:
             seen[b["purpose"]] = name
 
@@ -1025,7 +1053,7 @@ def check_block_connectivity(diag: Diagnostics, blocks: dict):
 
 
 def check_low_shape_mix(diag: Diagnostics, region_code: str, region_locs: dict, edges: list, path):
-    """patterns/region/Dangerous.md's LOW SHAPE MIX, measured on the assembled graph."""
+    """templates/Block_Connections.mmd's LOW SHAPE MIX, measured on the assembled graph."""
     lows = {f"{region_code}.{n}" for n, l in region_locs.items() if l.get("weight") == "low"}
     # LOW is the residue of the class mix rather than its largest class, so a
     # normal region now has three or four LOW rooms. The 60% rule still reads at
@@ -1293,7 +1321,7 @@ def check_statblocks(diag: Diagnostics, path: Path, label: str, expect_special: 
 
 
 def check_class_mix(diag: Diagnostics, region_code: str, rating: str, locs: dict):
-    """patterns/region/Dangerous.md's CLASS MIX: 30% HIGH, 50% MEDIUM, rest LOW.
+    """templates/Location_Gazetteer.md's DANGEROUS mix: 30% HIGH, 50% MEDIUM, rest LOW.
 
     A warning, and deliberately loose - the mix is a shape, not an arithmetic
     target, and a region a room either side of it has not failed anything. What
@@ -1313,7 +1341,7 @@ def check_class_mix(diag: Diagnostics, region_code: str, rating: str, locs: dict
         if abs(got - want) > slack:
             diag.warn(SETTING / "region" / region_code,
                       f"region {region_code}: {counts[weight]}/{n} locations are {weight.upper()} "
-                      f"({got:.0%}); patterns/region/Dangerous.md wants about {want:.0%}")
+                      f"({got:.0%}); templates/Location_Gazetteer.md's default is about {want:.0%}")
     if counts["low"] / n > 0.35:
         diag.warn(SETTING / "region" / region_code,
                   f"region {region_code}: {counts['low']}/{n} locations are LOW "

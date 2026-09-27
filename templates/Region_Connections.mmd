@@ -11,14 +11,33 @@ Read first:
 - `GENRE.md`
 - `BRIEF.md` - this build's design requests, which replace this template's defaults where they speak
 - this region's `Locations.md`
-- this region's own pattern file - `patterns/region/Safe.md`, `patterns/region/Wild.md`, or
-  `patterns/region/Dangerous.md` - which states the topology this diagram has to realize
+- this region's Overview, `setting/region/[Code].md`
 
 ## Instructions
 
 **SAFE and WILD - the typed location graph.** These regions carry no blocks, so this diagram
 is the location tier and carries type. It may be directional and should indicate connection
-types where they matter to how a party moves through the region.
+types where they matter to how a party moves through the region. Its shape, by default:
+
+```
+SAFE - a shallow hub
+  1     Every location reachable from the settlement itself, independently
+  1     No location gated behind another
+  20%   One location outside the walls or past the edge of settlement
+
+WILD - a forest of trees
+  1     Every landmark reachable from the region's entry, independently of the others;
+        landmarks do not interconnect
+  1     At least two landmarks carrying children
+  1     Hidden children connect to their parent with a normal edge
+  1     Secret children connect to their parent with a hidden (-.-) edge
+  1     Depth stops at three - a secret carries no children of its own
+  20%   A landmark connecting onward to a neighbouring region
+```
+
+Which parents carry children decides how much of a WILD region sits behind something: a
+parent states a lead for each child the graph gives it, so a child whose parent states
+nothing is unreachable.
 
 Connection type reference:
 - `A --- B` normal - an open, two-way passage or path

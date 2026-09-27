@@ -51,8 +51,8 @@ against: a Landmark costs nothing to reach, so most of them are allowed to be a 
 nothing more, while a location a party spent an action looking for and a clue acting on
 owes them something for it.
 
-**Which children a Landmark carries is read off the graph, not rolled here.** Per
-`region/Wild.md` the region's `Connections.mmd`, written at 4b, already says which
+**Which children a Landmark carries is read off the graph, not rolled here.** The
+region's `Connections.mmd`, written at 4b, already says which
 Landmarks have children and by which edge - a normal edge to a Hidden child, a hidden
 (`-.-`) edge to a Secret one. So the lead lines are mandatory *per child the graph gives
 this Landmark* and absent otherwise; they are not a rate, the same way

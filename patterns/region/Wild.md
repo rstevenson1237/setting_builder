@@ -1,90 +1,58 @@
 # Region - Wild
 
 ## Provides
-What a WILD Region Overview says, how many locations it holds and in what mix of
-classifications, and what shape its connection graph takes.
+One WILD Region Overview: the stretch of country as a whole, which its Landmarks sit in.
+How many locations it holds, in what classification mix, and how they connect is
+`templates/Location_Gazetteer.md`'s and `templates/Region_Connections.mmd`'s; what one
+location holds is its classification's own file.
 
 ## Spec
 
 ```
-LOCATION COUNT
-  About as many as the die type. A d10 region holds about ten.
-  This is the pressure mechanism, not a rule of thumb: N locations at a 1/N failure rate
-  means a full traverse expects exactly ONE encounter, at every die, with about a 65%
-  chance of at least one. See setting/Procedures.md.
-  The die therefore sets texture, not difficulty. A d4 region is four locations that bite
-  a quarter of the time - short and spiky. A d12 is twelve at 8.3% - long and smooth.
-
-CLASSIFICATION MIX
-  50-60%   Landmark   - freely discoverable anywhere in the region
-  30-40%   Hidden     - reached from a specific parent Landmark's visible detail
-  10-20%   Secret     - reached only through a Clue/Trigger/Payload at a parent
+WILD REGION
+  1     Overview - three sentences: what this stretch of country is, who uses it and for
+        what, and why it stays as empty as GENRE.md's Population density answer has it
+  1     Ambiance - what it looks, sounds and smells like across the whole region, how
+        weather and season change it, and how anything built here recurs
+  1     Terrain - the ground, and how hard it is to move through beyond what Layout's
+        distances say: the texture the referee narrates between any two points
+                                                                          {TERRAIN}
+  1     Foraging - plants, game and geological goods findable here, whether rare or
+        abundant, and what they are called locally; any healing or magical value held to
+        GENRE.md's Magic level
+  1     Layout - its shape and extent, the distances between Landmarks in yards or miles,
+        where its notable Features and Dangers sit, and what one action buys here, per
+        setting/Procedures.md's Time
+  1     Features - what a party meets across the region rather than at one point:
+        crossings, weather, footing, what high ground shows, what the region does at night
+  1     Dangers - whether the country is indifferent and merely lethal, or watched
+  1     Creatures - what lives here, by setting/Bestiary.md name, its range, and how it
+        meets a party                    {hunting | watching | avoiding | following}
+  1     Factions - which of setting/Factions.md claim ground here - a Landmark held, a
+        route kept, a stretch worked - or `none`
+  1     Secrets - what the region hides and roughly where, enough for every Secret-tier
+        location to have somewhere to come from
+  1     Treasure - what rewards exploration here, and which tables it leans on
+  1     Tables - a d6 Encounter table, rolled on each failed Difficulty roll
 ```
 
-Depth is how a WILD region carries weight. Every Landmark sits at the same baseline; a
-Landmark that matters more does not get written heavier, it gets **children**. A region
-where every Landmark is a bare leaf is flat no matter how well each one is written.
-
-Connection graph:
-
 ```
-TOPOLOGY - a forest of trees
-  1     Every Landmark reachable from the region's entry, independently of the others
-  1     At least two Landmarks carrying children
-  1     Hidden children connect to their parent with a normal edge
-  1     Secret children connect to their parent with a hidden (-.-) edge
-  1     Depth stops at three - a Secret carries no children of its own
-  20%   A Landmark that connects onward to a neighbouring region
+TERRAIN - one, or two in combination
+  hills        - rolling high ground, cut by valleys
+  mountains    - high ground that has to be climbed or gone around
+  plains       - open, level ground with little cover
+  forest       - ground under trees
+  swamp        - standing water and ground that will not bear weight
+  desert       - ground without water
+  jungle       - ground under growth too dense to see through
+  coast        - ground at the edge of the sea
 ```
-
-Landmarks do not interconnect. A party roams the region and finds them; depth happens
-below a Landmark, not between them.
-
-**This graph is what the parents' lead lines answer to.** Per `wild/Landmark.md` and
-`wild/Hidden.md`, a parent states a visible detail for each Hidden child and a Clue for
-each Secret child that the graph hangs off it - mandatory per child, not a rate. Deciding
-here which parents carry children is therefore deciding how much of the region's content
-sits behind something, and a child whose parent states nothing is unreachable.
-
-The Region Overview's fields, for a WILD region.
-
-- **Overview** - what this stretch of country is, who uses it and for what, and why it has
-  not been settled or cleared - the reason it stays as empty as `GENRE.md`'s Population
-  density answer has it.
-- **Ambiance** - what the place looks, sounds and smells like across the whole region, and
-  how weather and season change it. Architectural style and materials where anything built
-  recurs here.
-- **Terrain** - the ground itself: a single descriptor or a specific combination. How hard
-  it actually is to move through, beyond what Layout's distances imply. **This field
-  carries the connective texture the referee narrates between points** - it is doing more
-  work than its length suggests, because in a point crawl everything between two landmarks
-  comes from here.
-- **Foraging** - plants, huntable wildlife, and geological goods findable here; whether they
-  are rare or abundant; what they are called locally. Game and fish are Foraging's fauna;
-  anything dangerous enough to be an encounter belongs in Creatures instead, cited from the
-  Bestiary by name where the two overlap. Any healing or magical value is held to
-  `GENRE.md`'s Magic level.
-- **Layout** - this region has no separate type field; Terrain above already carries that
-  role. State the region's overall shape and extent, distances between Landmarks in yards
-  or miles, and roughly where its most notable Features or Dangers (below) actually sit, so
-  a referee can place them, not just know they exist. State that an action costs four
-  hours, and what one action buys: a move between neighbouring Landmarks, a search of one
-  Landmark, a forage, a tracking attempt, or making camp.
-- **Features** - what a party interacts with across the region rather than at one point:
-  crossings, weather, footing, what can be seen from high ground, what the region does at
-  night.
-- **Dangers** - how the region answers intrusion. Some country is indifferent and merely
-  lethal; some is watched.
-- **Creatures** - what lives here, its range, and how it meets a party - hunting, watching,
-  avoiding, following. Reference the Bestiary by name and add what is specific to this
-  population.
-- **Factions** - whether any of the three claim ground here, and how much of the region: a
-  held Landmark used as a position, a route kept open or shut, a stretch worked for what it
-  yields. Name which Landmarks or stretches, if any; state none if the region is genuinely
-  unclaimed.
-- **Secrets** - what the region hides, and roughly where. Enough that the Secret-tier
-  locations have somewhere to come from.
-- **Treasure** - what rewards exploration here, and which tables the region leans on.
-- **Tables** - a d6 Encounter table, rolled on each failed Difficulty roll.
 
 ## Constraints
+
+- **Game is Foraging's, danger is Creatures'.** Anything dangerous enough to be an
+  encounter is cited from the Bestiary under Creatures, never listed as game.
+
+- **Never write terrain as a location.** A slope, a brook, a field is what the region looks
+  like, and belongs in Terrain; a location is somewhere that can be named, revisited and
+  connected to.

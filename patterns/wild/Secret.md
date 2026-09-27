@@ -62,5 +62,5 @@ will.
   child of its own, which is why it has no lead line where `wild/Landmark.md` and
   `wild/Hidden.md` have one. Depth in a WILD region runs Landmark to Hidden to Secret and
   stops - a clue at a parent that itself has to be found by acting on a clue is two
-  triggers deep and will not be reached. `region/Wild.md`'s topology states the same rule
+  triggers deep and will not be reached. `templates/Region_Connections.mmd`'s WILD topology states the same rule
   on the graph side, where it is enforceable.

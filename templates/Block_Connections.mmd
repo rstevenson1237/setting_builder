@@ -11,12 +11,41 @@ Read first:
 - `BRIEF.md` - this build's design requests, which replace this template's defaults where they speak
 - this region's `Locations.md` and its block-existence diagram (`setting/region/[Code]/Connections.mmd`)
 - every block diagram already written for this region, for edges declared into this block
-- `patterns/region/Dangerous.md` - block membership, the purpose-family rule, and the room
-  budget this file's header states
+- `patterns/dangerous/Block.md` - what holds this block together
 
 ## Instructions
 One file per block, `setting/region/[Region Code]/[Block Name].mmd`. DANGEROUS regions only;
 SAFE and WILD regions carry a single region diagram instead, per `templates/Region_Connections.mmd`.
+
+The region's shape, by default - measured across all its blocks once assembled:
+
+```
+BLOCKS
+  1     Every location belongs to exactly one block
+  12-20 locations per block; a region of 12 or fewer, or a single holding, is one block
+
+TOPOLOGY - dense, few entrances
+  1     Every location reachable from an entrance
+  1     At least one loop of 3+ locations - a path that returns without backtracking
+  1     At least one divide - a choice that does not reconverge
+  1     At least one branch per 12 locations - a choice of three or more exits
+  60%   A dead end, per 12 locations
+  40%   Of those dead ends: a hidden (-.-) edge is the real exit
+
+EDGE KIND MIX - over the region's location edges
+  60%   open        (---)
+  15%   secret      (-.-)
+  15%   vertical    (---|vertical|)
+  10%   one-way     (-->)
+
+LOW SHAPE MIX - of the region's low-weight locations
+  60%+  A degree other than 2 - not a plain through-connection
+  1     No single degree class - 1, 2, 3, 4+ - more than a third
+```
+
+The edge mix is decided here because left to per-edge judgement every edge comes out open.
+The LOW shape is where the graph has to show up: a region whose dead ends and branches all
+land on high and medium rooms has met the counts and still left every low room a corridor.
 
 **Membership is stated, not inferred.** The `Locations:` header names every location this
 block owns. It has to be explicit: a cross-block edge puts the far location's node in this
@@ -46,8 +75,7 @@ a fifth kind.
 ## Template
 ```
 Block: [Block Name]
-Purpose: [purpose family, per patterns/dangerous/Dressing.md - Keeping, Working, Living,
-Holding, Meeting, Believing, Dying, or Moving]
+Basis: [purpose - its family | household - its occupant]
 Region: [Region Code] [Region Name]
 Rooms: [room budget]
 Locations: [every location code belonging to this block, comma separated]

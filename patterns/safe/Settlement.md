@@ -8,8 +8,7 @@ one - how much it matters.
 
 ```
 SETTLEMENT TYPE
-  {steading | thorp | village | town | seat} - read from the Region Overview's Layout
-  field, stated once for the whole region. Do not re-decide it per location.
+  1     The settlement's type, from the Region Overview - never re-decided per location
 ```
 
 ```

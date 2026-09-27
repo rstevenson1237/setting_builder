@@ -59,7 +59,7 @@ something to be standing here, and the rates are where that is paid back.
 detail from the parent to get here, so they arrived expecting the place to repay
 attention - which lets a clue here sit closer to the edge of notice than a Landmark's can.
 What it still cannot do is need a lead of its own to find: a clue reached only by acting on
-another clue is two triggers deep, and `region/Wild.md`'s depth rule exists because that
+another clue is two triggers deep, and `templates/Region_Connections.mmd`'s depth rule exists because that
 second one never gets reached.
 
 ## Constraints
