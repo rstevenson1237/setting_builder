@@ -14,8 +14,7 @@ KIND: NATURAL FEATURE
         ground, or a weather effect that has outlasted its cause
   1     Why a party would stop - shelter, water, vantage, materials, or a crossing
   1     One way it is not like the country around it
-  30%   Something mysterious about it, priced or dangerous to use, per GENRE.md -
-        rare, never routine, and never free
+  30%   Something mysterious about it, held to `GENRE.md`'s Magic level
   30%   A resource findable here, tied to the region's Foraging field
   20%   A hazard that is simply part of the place
   15%   The resource is worked by one of the three factions, whose claim reaches

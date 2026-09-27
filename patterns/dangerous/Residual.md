@@ -41,8 +41,8 @@ something to stay outside of.
 
 **Sanity is this file's own type**, where the others rarely touch it: what a rite or a death
 left is the case where the harm is to the mind rather than the body. Poison is its other -
-what a working left in the water or the ground. Per `GENRE.md`'s Low Magic, a region where
-several rooms force a Test of Sanity has made the extraordinary routine.
+what a working left in the water or the ground. A region where several rooms force a Test of
+Sanity has made it more common than `GENRE.md`'s Magic level allows.
 
 **Name what decay and working leave behind technically, never atmospherically.** A process
 named correctly carries its own deposit with it, which is what makes one worth a Feature at
@@ -50,6 +50,5 @@ all.
 
 ## Constraints
 
-- **Low Magic is a constraint here too.** Per `GENRE.md` a residual hazard is rare,
-  mysterious, and costly. A region where several rooms carry lingering effects has made the
+- **A residual hazard is held to `GENRE.md`'s Magic level.** A region where several rooms carry lingering effects has made the
   extraordinary routine, which is the drift this category is most likely to cause.

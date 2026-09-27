@@ -21,12 +21,11 @@ List an overview of all regions within the setting. This file is a Regional Gaze
 
 Codes follow a plain A-Z progression with no differentiation between types (A, B, C, ...). For a complex setting with more than 26 regions, continue with double letters (AA, AB, AC, ...).
 
-A region's name is coined from `setting/Language.md`'s roots, per GENRE.md's constructed
-language over real-world borrowing - unlike a location's own name, this is a place fresh
-coinage is fine. Record it back into `setting/Language.md`'s "Coined here" list. But a
-referee reads this gazetteer without cracking open Language.md mid-session, so **gloss
-every region name inline**, in parentheses right after it: state what it means, in a
-clause, the same as any other loan word.
+A region's name follows `GENRE.md`'s Naming answer. Where that answer calls for a
+coinage, it is built from `setting/Language.md`'s roots, recorded back into its "Coined
+here" list, and **glossed inline**, in parentheses right after it: what it means, in a
+clause, the same as any other loan word - a referee reads this gazetteer without opening
+Language.md mid-session.
 
 Tags are not embedded here. Each region gets its own 25-tag pool,
 `setting/region/[Code]/Tags.md`, generated alongside its Region Overview at step 3 - name

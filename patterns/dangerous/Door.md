@@ -100,10 +100,10 @@ by the part it sits on rather than by left and right.
   only that the block diagram drew an edge here, which the diagram already said, and it
   hands the party nothing to look at, lever, burn, or listen through.
 
-- **A ward is sorcery, and `GENRE.md` prices it.** A region carries at most one warded way,
+- **A ward is sorcery, held to `GENRE.md`'s Magic level.** A region carries at most one warded way,
   it has a maker somewhere in `setting/History.md`, and forcing it costs. Warding the
-  ordinary locked doors of a region is the fastest way to make sorcery routine, which is the
-  drift this genre is least able to absorb.
+  ordinary locked doors of a region is the fastest way to make sorcery routine, past what that answer
+  allows.
 
 - **Never state what an exit means.** Where it goes and what it looks like are facts; that
   it is the way on, the safe route, or the mistake is the party's to find out.

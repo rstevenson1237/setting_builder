@@ -57,7 +57,7 @@ can be; an inscription one word short.
 **A trigger here is worked, not spoken.** Pressing, turning, lifting, prising or sliding a
 stated fixture; weight applied or removed; digging at a stated spot; fitting an object
 carried in from elsewhere; opening in a stated order; lighting or putting out. What the
-room hands a party is something to do with their hands, and per `GENRE.md` the act is the
+room hands a party is something to do with their hands, and per `STYLE.md` the act is the
 mechanic - there is no search roll standing in for it.
 
 **The Secret is LOW's whole load**, and it is the reason the DANGEROUS concealment rate lives

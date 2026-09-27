@@ -35,8 +35,8 @@ with it, d10 a place where little happens.
 The Region Overview's fields, for a SAFE region.
 
 - **Overview** - what this settlement is for, why it is here rather than a mile away, and
-  what it lives on. Points of Light: it exists in spite of the country around it, and what
-  it trades away for that is worth stating.
+  what it lives on, and what it trades away to stand where `GENRE.md`'s Population density
+  answer puts it.
 - **Ambiance** - what it looks, sounds and smells like. Architectural style and materials,
   since SAFE is the rating where buildings recur and a shared vernacular is what makes a
   settlement read as one place.
@@ -50,7 +50,7 @@ The Region Overview's fields, for a SAFE region.
   disputed inheritance, a shortage, somebody missing. State **who is responsible, who is
   affected, which rung of the ladder it is on now, and what the next rung looks like.** It
   is true whether or not the party engages, and it moves on its own. This is not a plot; it
-  is a condition, per GENRE.md.
+  is a condition, per `STYLE.md`.
 - **Layout** - state the settlement's **type** first (steading/thorp/village/town/seat, per
   `safe/Settlement.md`) - decided once, here, not re-decided per location. Then its
   shape, its approaches, its defences if any, and where the locations sit relative to each

@@ -42,6 +42,6 @@ row for exactly the same reason a monster does - the party will meet them again.
 
 ## Constraints
 
-- **A motivation is a standing goal, not a scripted arc.** Per `GENRE.md` it is
+- **A motivation is a standing goal, not a scripted arc.** Per `STYLE.md` it is
   something the creature is pursuing whether or not the party ever shows up, and it
   should be possible to state without mentioning them.

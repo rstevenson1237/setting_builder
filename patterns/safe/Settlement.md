@@ -75,7 +75,7 @@ thing obtainable here and not at the last location* is what stops ten locations 
 shops - it is the reason a party goes to this door rather than that one, and it has to be
 nameable. *What this place cannot do, and where it sends them instead* is what turns a
 settlement from a menu into a map: a smith with no steel until the barge comes has told the
-party where to go next and given them a reason to care about the barge. Per `GENRE.md`,
+party where to go next and given them a reason to care about the barge. Per `STYLE.md`,
 both are handles; a SAFE location without them is a description of a building.
 
 **The hooks are registry because of what they do, not how they are got.** A quest, a piece

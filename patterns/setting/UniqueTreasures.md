@@ -17,10 +17,9 @@ UNIQUE TREASURE ENTRY
   1     The location it is found at
 ```
 
-**Low Magic means the price is the entry.** Per `GENRE.md`, power is rare, mysterious, and
-carries a cost. An artifact with no downside, limit, or complication is a table roll with a
-proper noun, and it makes the setting's magic routine - which is the specific drift this
-framework exists to prevent.
+**The price is the entry.** What power costs is `GENRE.md`'s Magic level answer. An
+artifact whose downside, limit, or complication falls short of it is a table roll with a
+proper noun, and it makes the setting's magic more routine than the genre allows.
 
 **Tie it to something established.** An artifact with an invented origin is disconnected
 from the setting by construction. If nothing in `History.md`, `Truths.md`, `Factions.md` or

@@ -39,7 +39,7 @@ use it.
 
 ## Constraints
 
-- **Ward and illusion are sorcery, and `GENRE.md` prices it.** Each has a maker traceable
+- **Ward and illusion are sorcery, held to `GENRE.md`'s Magic level.** Each has a maker traceable
   to an event in `setting/History.md`, and a region carries at most one of them. The other
   four fixtures are things people built, and a region that reaches for the two rare ones
   twice has made sorcery the ordinary case.

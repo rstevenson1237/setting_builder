@@ -21,7 +21,7 @@ also names **which half is false**, in a clause, because "partially true" withou
 a mark the referee cannot act on.
 
 A rumour that points off the map says so - `Settled at: nowhere on this map` - which per
-GENRE.md's state-the-nil is a decision on the page. Without it, a deliberate lead beyond
+STYLE.md's state-the-nil is a decision on the page. Without it, a deliberate lead beyond
 the edge of the setting and a dangling reference to something nobody ever wrote read
 exactly alike.
 

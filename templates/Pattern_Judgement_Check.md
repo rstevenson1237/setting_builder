@@ -49,7 +49,7 @@ what a trigger is, and what a payload may be are written for what *that* class c
 construction underground, weather and time outdoors, people and mismatches in a settlement.
 Two of those triples that have converged on the same wording are a finding here, exactly as
 two Hazard files would be: either differentiate them, or establish that the shared part is
-a *mechanic* and belongs in `setting/Procedures.md`, or a *rule* and belongs in `GENRE.md`,
+a *mechanic* and belongs in `setting/Procedures.md`, or a *rule* and belongs in `STYLE.md`,
 which already owns the two that are genuinely constant.
 
 ## Template

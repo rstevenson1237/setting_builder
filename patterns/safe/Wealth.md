@@ -59,9 +59,8 @@ that seriously. Write it in the same line format every Feature uses:
 
 `**Name:** tell; tell → effect; effect`
 
-**Nominal Authority does not stop at the wall.** Per `GENRE.md`, a settlement being SAFE
-means it is safe from the wilderness, not that everything inside it is accounted for or
-under anyone's real control - a Wealth location is where that gap becomes something a party
+**Safe from the wilderness is not accounted for.** However far `GENRE.md`'s Authority
+answer carries a writ, it does not carry it into everything inside the wall - a Wealth location is where that gap becomes something a party
 can act on.
 
 **A second protection layer compounds rather than repeats** - hidden and trapped means

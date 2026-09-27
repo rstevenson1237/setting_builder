@@ -32,9 +32,9 @@ contents.
 
 **Anchor value to party altitude.** A find is interesting because of what it buys these
 characters. State what a week's ordinary wage is at the head of Table I, and point back to
-it from each of the others, so every number in every table has a scale - treasure hunters
-barely above commoners, per `GENRE.md`, means most finds should be *useful*, and a
-table-topping result should change what the party can attempt next.
+it from each of the others, so every number in every table has a scale, read against `GENRE.md`'s Player characters
+and Reward answers - a table-topping result should change what the party can attempt
+next.
 
 **What one wt is.** `wt` is bulk and weight together - what it takes to move the thing,
 not what it weighs on a scale:

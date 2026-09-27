@@ -21,8 +21,9 @@ AUTHORITY
         a debt whose rule is never stated to anyone who already knows it
 ```
 
-**Points of Light means no authority defaults to legitimacy.** Somebody is in charge here
-because of a specific arrangement, and that arrangement has an edge past which nobody is
+**No authority defaults to legitimacy.** Somebody is in charge here because of a
+specific arrangement, and however far `GENRE.md`'s Authority answer reaches, that
+arrangement has an edge past which nobody is
 listening. State the edge - it is the most useful fact in the entry, and it is where a
 party's leverage lives.
 

@@ -34,6 +34,6 @@ the one before it - not a restatement of the same fact at higher volume.
 ## Constraints
 
 - **A situation is a condition, not a plot.** It is true whether or not the party
-  engages, and it moves on its own. Per GENRE.md the party are treasure hunters, not a
-  resolution mechanism, and the entry should read as something they walked into rather
+  engages, and it moves on its own. Per `STYLE.md` it is a situation, not a story - the
+  party are not its resolution mechanism - and the entry should read as something they walked into rather
   than something waiting for them.

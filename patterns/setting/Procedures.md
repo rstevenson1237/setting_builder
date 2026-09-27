@@ -22,8 +22,8 @@ PROCEDURES
 change, it is pattern content and belongs in that rating's folder. That test is what keeps
 this file from becoming a second rulebook.
 
-**Rulings over subsystems.** Per `GENRE.md`, a procedure that needs its own bookkeeping is
-the wrong procedure for this genre. Everything here should be resolvable in one roll or no
+**Rulings over subsystems.** A procedure that needs its own bookkeeping is the wrong
+procedure. Everything here should be resolvable in one roll or no
 roll at all.
 
 **What the seed must already answer** - what happens when a character is exposed to

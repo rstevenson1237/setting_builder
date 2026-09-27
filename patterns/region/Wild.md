@@ -49,8 +49,8 @@ sits behind something, and a child whose parent states nothing is unreachable.
 The Region Overview's fields, for a WILD region.
 
 - **Overview** - what this stretch of country is, who uses it and for what, and why it has
-  not been settled or cleared. Points of Light: unoccupied is the default, and a reason it
-  stays that way is worth stating.
+  not been settled or cleared - the reason it stays as empty as `GENRE.md`'s Population
+  density answer has it.
 - **Ambiance** - what the place looks, sounds and smells like across the whole region, and
   how weather and season change it. Architectural style and materials where anything built
   recurs here.
@@ -62,8 +62,8 @@ The Region Overview's fields, for a WILD region.
 - **Foraging** - plants, huntable wildlife, and geological goods findable here; whether they
   are rare or abundant; what they are called locally. Game and fish are Foraging's fauna;
   anything dangerous enough to be an encounter belongs in Creatures instead, cited from the
-  Bestiary by name where the two overlap. Any purported healing or magical value stays rare
-  and priced, per GENRE.md.
+  Bestiary by name where the two overlap. Any healing or magical value is held to
+  `GENRE.md`'s Magic level.
 - **Layout** - this region has no separate type field; Terrain above already carries that
   role. State the region's overall shape and extent, distances between Landmarks in yards
   or miles, and roughly where its most notable Features or Dangers (below) actually sit, so

@@ -17,8 +17,7 @@ MYSTERY
         taken, timed to a tide or season, spoken, or walked as a course
   1     What the correct trigger accomplishes
   1     What a genuinely wrong attempt costs
-  1     Its price, per GENRE.md - power is never free and never routine: a thing
-        carried, a memory, a name, time, or blood, and never given back
+  1     Its price, at what `GENRE.md`'s Magic level says power costs
 ```
 
 Left alone, a mystery is neutral. Looking, theorising, and a wrong guess that stops short

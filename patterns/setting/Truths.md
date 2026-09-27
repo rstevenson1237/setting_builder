@@ -17,7 +17,7 @@ TRUTHS
 ```
 
 **The Handle is the whole test, and it is why this file is not a mood board.** Per
-`GENRE.md`, a truth that cannot name what a party does about it and where is a tag, and
+`STYLE.md`, a truth that cannot name what a party does about it and where is a tag, and
 tags belong in `setting/Setting.md`. Write the Handle as an action a referee could
 adjudicate: *deface an old-tongue stone and whatever it was holding is no longer held* is a
 handle; *the old letters carry a weight nobody can explain* is the same idea with nothing
@@ -59,6 +59,6 @@ because this is how the world works here, and what do they do about it?
   what wild country does, and what a ruin's builders guarded against should all be able to
   show the same one.
 
-- **A Truth must sharpen the genre, never override it.** Low Magic, Points of Light and
-  the Mythic Underworld are constraints, and a Truth that makes magic common or
-  authority central has broken the setting rather than distinguished it.
+- **A Truth must sharpen the genre, never override it.** A Truth that answers one of
+  `GENRE.md`'s questions differently from `GENRE.md` - more magic, a nearer authority, a
+  fuller map - has broken the setting rather than distinguished it.

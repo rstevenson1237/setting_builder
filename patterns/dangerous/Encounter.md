@@ -23,7 +23,7 @@ ENCOUNTER
 ```
 
 **The sign is the line that makes an encounter survivable.** A party that meets a thing
-with no warning has had a choice taken from them. Per `GENRE.md`'s lethality framing the
+with no warning has had a choice taken from them. Per `GENRE.md`'s Lethality answer the
 region is not sized to the party, so something a party cannot beat has to announce itself
 a room early - and the sign line is where that happens, whichever kind was drawn.
 

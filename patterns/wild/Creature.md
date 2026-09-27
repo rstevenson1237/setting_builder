@@ -31,7 +31,7 @@ CREATURE
 **A WILD creature is usually avoidable, and that is the point.** In a dungeon a creature
 in the room is a problem to solve; in open country it is a fact to be navigated. State the
 limit and stop: where a thing will not go is a fact about the thing, and what going around
-costs is the party's to find out. Per `GENRE.md`, a line saying the way around is free,
+costs is the party's to find out. Per `STYLE.md`, a line saying the way around is free,
 or worth taking, has made their decision for them.
 
 **A WILD region holds a population, not an individual** - a range, a season, and a food

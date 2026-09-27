@@ -46,7 +46,7 @@ them.** A part or a process with a name costs less than the sentence describing 
 ## Constraints
 
 - **Details already included in the region description are not included here.** Per
-  `GENRE.md`, say a thing once, at the highest level where it is true: a location's
+  `STYLE.md`, say a thing once, at the highest level where it is true: a location's
   Dressing states what is specific to it, not what the Region Overview already covers for
   the whole region. The inverse is the failure to watch for - a motif claimed at the
   overview level and carried by only a handful of the region's locations exists nowhere a
