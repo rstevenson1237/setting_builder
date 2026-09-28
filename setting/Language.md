@@ -137,3 +137,7 @@ Coined here:
   setting/NamedCreatures.md, C.40
 - Kraurgh = kra- (a den claimed) + urgh (fire) - "fire den," the Old Cistern nest, C.40
 - Zoghikakh = Zoghik + -akh (claimed by one) - "Zoghik's," the Old Cistern store, C.41
+- Rroghik = rrogh (to bind, a chain) + -ik (runt) - "chain-runt," the Gorzgur jailer,
+  setting/NamedCreatures.md, C.16
+- Hozakh = hoz (dead flesh) + -akh (claimed by one) - "the kill's own," the Grave-Ghast at
+  the broken grave, setting/NamedCreatures.md, C.21
