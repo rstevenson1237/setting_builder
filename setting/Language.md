@@ -74,7 +74,9 @@ Roots:
 - kuz - depth, what lies beneath
 - kaz - silence
 
-Coined here: none yet.
+Coined here:
+- Kutuz = kut (to bind, to seal shut) + -uz (place, a holding sealed or built) - the
+  sealed rod set into the deepest chamber, setting/UniqueTreasures.md
 
 ## Grozzgur
 Spoken by: side - every tribe holding a stretch of the ravine, whatever their own people
