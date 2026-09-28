@@ -14,7 +14,7 @@ DRESSING - every location
                                 {active | abandoned | decayed | ruined | destroyed}
   1     Purpose - what it was for: its family, then the room's own use within it, and
         what that use left in the fabric of the room, drawn from the region's
-        Architecture and its occupants' needs
+        Conditions and its occupants' needs
                                                                  (dangerous/Block.md)
   1     Ambiance - smell and sound, caused by Condition or Purpose; temperature and
         footing follow from Condition

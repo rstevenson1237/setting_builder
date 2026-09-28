@@ -1319,6 +1319,64 @@ def check_statblocks(diag: Diagnostics, path: Path, label: str, expect_special: 
                             f"is not")
 
 
+# ---------------------------------------------------------------------------
+# setting/region/[Code].md - the Region Overview's field set, per rating
+#
+# The field set is patterns/region/*.md's; the order and the two tables are
+# templates/Region.md's. A field from another rating's set, or one retired, is
+# an error because the site renders only the labels it knows and would drop it.
+# ---------------------------------------------------------------------------
+
+REGION_FIELDS = {
+    "SAFE": ["Overview", "Approach", "People", "Services", "Law", "Places", "Situation",
+             "Secrets", "Tables"],
+    "WILD": ["Overview", "Approach", "Terrain", "Inhabitants", "Places", "Situation",
+             "Loot", "Secrets", "Tables"],
+    "DANGEROUS": ["Overview", "Approach", "Conditions", "Inhabitants", "Alarm", "Places",
+                  "Situation", "Loot", "Secrets", "Tables"],
+}
+REGION_LABEL_RE = re.compile(r'^([A-Z][a-z]+):(?:\s|$)')
+
+
+def check_region_overview(diag: Diagnostics, code: str, rating: str):
+    path = SETTING / "region" / f"{code}.md"
+    if not path.exists():
+        diag.warn(path, "missing - not built yet")
+        return
+    lines = path.read_text().splitlines()
+    labels = [m.group(1) for m in map(REGION_LABEL_RE.match, lines[1:]) if m]
+    expected = REGION_FIELDS[rating]
+    for label in labels:
+        if label not in expected:
+            diag.error(path, f"field {label!r} is not in a {rating} overview's set "
+                             f"({', '.join(expected)}), per patterns/region/")
+    missing = [f for f in expected if f not in labels]
+    if missing:
+        diag.error(path, f"missing field(s): {', '.join(missing)}")
+    present = [l for l in labels if l in expected]
+    if present != [f for f in expected if f in present]:
+        diag.warn(path, f"fields out of templates/Region.md's order: {', '.join(present)}")
+    if "Tables" in labels:
+        start = next(i for i, l in enumerate(lines) if l.startswith("Tables:"))
+        tables, rows = 0, []
+        for raw in lines[start + 1:]:
+            line = raw.strip()
+            if re.match(r'^d\d+\s', line) and not re.match(r'^\d+[.)]', line):
+                if tables:
+                    rows.append(count)
+                tables, count = tables + 1, 0
+            elif re.match(r'^\d+[.)]\s', line) and tables:
+                count += 1
+        if tables:
+            rows.append(count)
+        if tables != 2:
+            diag.error(path, f"Tables holds {tables} table(s) opened by a `d6 ...` line - "
+                             f"templates/Region.md asks for two")
+        for i, n in enumerate(rows, 1):
+            if n != 6:
+                diag.error(path, f"table {i} has {n} rows - a d6 table has six")
+
+
 def check_class_mix(diag: Diagnostics, region_code: str, rating: str, locs: dict):
     """templates/Location_Gazetteer.md's DANGEROUS mix: 30% HIGH, 50% MEDIUM, rest LOW.
 
@@ -1755,6 +1813,8 @@ def main() -> int:
     check_statblocks(diag, SETTING / "NamedCreatures.md", "Named Creature", expect_special=True)
     for region_code, locs in region_locs.items():
         check_class_mix(diag, region_code, regions[region_code]["rating"], locs)
+    for region_code, info in regions.items():
+        check_region_overview(diag, region_code, info["rating"])
     check_registry_floors(diag, registries, build_complete)
     check_rumour_settling(diag, build_complete)
 

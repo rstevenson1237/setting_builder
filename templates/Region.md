@@ -1,7 +1,9 @@
 # Region.md
 
 ## Purpose
-A full Region Overview for a single region - the referee's "how do I find this" and "how do I run this" at a glance.
+A full Region Overview for a single region - a run sheet. A referee holding only this
+page can run an excursion into the region: getting in, who is there and how they answer a
+stranger, what is worth taking, and what happens next.
 
 ## Context
 Read first:
@@ -14,20 +16,24 @@ Read first:
 
 ## Instructions
 Write one Region Overview following the Spec of this region's rating file, every field
-filled - the Tables field is authored now, not deferred. Rating-specific fields apply to
-their rating only: **People** and **Situation** (SAFE), **Terrain** and **Foraging**
-(WILD), **Architecture** (DANGEROUS); drop the others from the Template block below.
+filled - the Tables are authored now, not deferred. Each rating has its own field set,
+shown below; write only this region's.
 
-**A claim made here is a promise the locations have to keep.** A table the region leans
-on, a creature placed somewhere, a motif said to repeat - each is audited against the rooms
-at STEPS.md step 5c.
+Defaults, where `BRIEF.md` is silent: People names five to eight; Inhabitants names every
+occupant a party can meet; Places lists every location, or for a collection every block;
+each Tables entry holds two d6 tables.
+
+A field that holds several things - people, occupants, places, secrets - writes each as
+its own `- ` line under the field's label. Every other field is prose, and short.
+
+**A claim made here is a promise the locations have to keep.** A person placed at a
+location, an occupant given rooms, a block's way in, a prize said to lie somewhere - each
+is audited against the rooms at STEPS.md step 5c.
 
 Cut, before finishing:
-- anything the Overview repeats from `setting/region/Regions.md`,
-  `setting/History.md`, or this file's own Secrets field;
+- anything the Overview repeats from `setting/region/Regions.md` or `setting/History.md`;
 - any sentence stating what the referee should conclude or the players should do;
-- any field sentence that names a quality rather than a thing - an object, a person, a
-  number, a cost.
+- any sentence that carries no name, number, price, place, ruling or consequence.
 
 ## Template
 ```
@@ -35,33 +41,43 @@ Cut, before finishing:
 
 Overview: [...]
 
-Ambiance: [...]
+Approach: [...]
 
-Architecture: [DANGEROUS only - omit for SAFE/WILD]
+People: [SAFE]
+- [Name], [role] - [where found]; [wants]; [gives or sells]
 
-People: [SAFE only - omit for WILD/DANGEROUS]
+Services: [SAFE]
 
-Situation: [SAFE only - omit for WILD/DANGEROUS]
+Law: [SAFE]
 
-Terrain: [WILD only - omit for SAFE/DANGEROUS]
+Terrain: [WILD]
 
-Foraging: [WILD only - omit for SAFE/DANGEROUS]
+Conditions: [DANGEROUS]
 
-Layout: [...]
+Inhabitants: [WILD, DANGEROUS]
+- [Bestiary or Factions name], [how many] - [where]; [doing]; [wants]; [on meeting a party]
 
-Features: [...]
+Alarm: [DANGEROUS]
 
-Dangers: [...]
+Places:
+- [Code or codes] [Name] - [...]
 
-Creatures: [...]
+Situation: [...]
 
-Factions: [...]
+Loot: [WILD, DANGEROUS]
 
-Secrets: [...]
+Secrets:
+- [the fact] - [who knows it]; [what brings it out]
 
-Treasure: [...]
-
-Tables: [d6 Events/Encounter/Danger Table]
+Tables:
+d6 [Events / Encounter / Danger], [when it is rolled]
+1. [...]
+2. [...]
+3. [...]
+4. [...]
+5. [...]
+6. [...]
+d6 [what is met where nothing is keyed]
 1. [...]
 2. [...]
 3. [...]

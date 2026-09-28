@@ -1,38 +1,44 @@
 # Region - Dangerous
 
 ## Provides
-One DANGEROUS Region Overview: the complex as a whole, which its blocks and rooms sit in.
-How many locations it holds, in what weight mix, and how they connect is
-`templates/Location_Gazetteer.md`'s and the connection templates'; what one block holds is
-`dangerous/Block.md`'s, and what one room holds is its weight's own file.
+One DANGEROUS Region Overview: the complex as a referee runs an excursion into it without
+opening a room - its ways in, what every room shares, who lives where and how they answer
+an intruder, and where the prize lies. How many locations it holds, in what weight mix,
+and how they connect is `templates/Location_Gazetteer.md`'s and the connection templates';
+what one block holds is `dangerous/Block.md`'s, and what one room holds is its weight's
+own file.
 
 ## Spec
 
 ```
 DANGEROUS REGION
-  1     Kind - decided once, here, and stated first in Layout                 {KIND}
-  1     Overview - three sentences: who built it, who took it and who holds it now; what
-        a party comes for and what it costs; and the one thing true here and nowhere else
-  1     Ambiance - sensory only, and true throughout: smell, sound carrying through the
-        whole place, temperature, humidity
-  1     Architecture - what it is built from and how well; one motif repeating through
-        every room and tying them together as one work; the typical ceiling height and
-        passage width every room defaults to
-  1     Layout - its kind, its shape, its entrances, how deep it runs, and where its
-        notable Features and Dangers sit; time runs on the Danger countdown, not hours
-  1     Features - the facts that hold throughout: water, air, light, footing, what
-        carries sound, what a fire does here
-  1     Dangers - whether the place sleeps or is awake to intrusion, and what wakes it
-  1     Creatures - who lives here, by setting/Bestiary.md name, and what living here
-        takes: what they eat, where their water comes from, where their waste goes,
-        where their young are, and what they guard, carry or know
-  1     Factions - which of setting/Factions.md hold part of it as a position, and which
-        sections, or `none`
-  1     Secrets - what may be revealed about the setting's past, and what hidden ways
-        exist, where
-  1     Treasure - which of the five tables it leans on
-  1     Tables - a d6 Danger table counting down from 6 with each failed Difficulty roll:
-        entry 6 is the place noticing, entry 1 is the place acting
+  1     Kind - decided once, here, and named in the Overview's first sentence   {KIND}
+  1     Overview - what a party sees at the way in, and what it comes for
+  1     Approach - every entrance: where it opens from, which block or room it leads
+        into, and who or what watches it
+  1     Conditions - what every room is unless its own entry says otherwise: what it is
+        built or cut from, ceiling height and passage width, light, what carries sound
+        and what deadens it, footing, air, and what a lit fire does
+  1     Inhabitants - each occupant by setting/Bestiary.md or setting/Factions.md name:
+        how many, which block or rooms, what they are doing now, what they want, and
+        what they do on meeting a party
+                      {fight | parley | flee | raise the alarm | ignore}
+  1     Alarm - what raises it, who hears it first, and who comes - how many, from
+        where, and how many turns later - in the order they arrive
+  1     Places - for a collection, every block: its rooms by code, its occupant, its way
+        in, what it holds worth the trip, and who it is at odds with; for a single
+        holding, the same for its notable rooms
+  1     Situation - what is changing inside, and the next two rungs: what each is, and
+        what sets it off
+  1     Loot - where the largest prize lies and what stands over it; what an ordinary
+        find is and which treasure tables it draws on; and who outside will buy it, or
+        want it back
+  1     Secrets - each a fact the referee holds as true, and the act or place that
+        brings it out
+  1     Tables - a d6 Danger table counting down from 6 with each failed Difficulty
+        roll, entry 6 the place noticing and entry 1 the place acting; and a d6 table of
+        rooms for anywhere a party goes that no location keys - what the room is, and
+        one thing in it
 ```
 
 ```
@@ -45,9 +51,17 @@ KIND - exactly one
 
 ## Constraints
 
+- **Every field sentence carries something usable at the table** - a name, a count, a
+  room code, a distance, a ruling. A sentence about who built the place and why, or how
+  it feels, is History's or nobody's, and is cut.
+
+- **Never a secret without its answer.** The referee holds the truth even where the
+  players never learn it.
+
 - **A single holding gets no tension from the countdown.** Its handful of rooms barely
-  moves the Danger track, so its Overview names what supplies the pressure instead - a
+  moves the Danger track, so its Situation names what supplies the pressure instead - a
   thing that cannot be fought, a way in that is not a way out, something that wakes.
 
-- **Never a fact of the Overview restated in a room.** Ambiance, Architecture and
-  Features are what every room shares, and a room states only what is its own.
+- **Never a fact of the Overview restated in a room.** Conditions are what every room
+  shares, and a room states only what is its own; Places is an index, and what a room
+  holds is its own entry's.

@@ -729,15 +729,15 @@ def build_region(setting: sc.Setting, out: Path, code: str) -> None:
     ]
 
     for label, text in region.fields:
-        body.append(section(label, f'<p>{render_inline(text, setting, page)}</p>'))
+        body.append(section(label, sc.field_html(text, lambda t: render_inline(t, setting, page))))
 
-    if region.table_rows:
+    for table_label, table_rows in region.tables:
         rows = "".join(
             f'<tr><td class="num">{n}</td><td>{render_inline(text, setting, page)}</td></tr>'
-            for n, text in region.table_rows
+            for n, text in table_rows
         )
         table = f'<div class="table-scroll"><table class="data-table"><tbody>{rows}</tbody></table></div>'
-        body.append(section(region.table_label, table))
+        body.append(section(table_label, table))
 
     def loc_row(num: int) -> str:
         loc = region.locations[num]

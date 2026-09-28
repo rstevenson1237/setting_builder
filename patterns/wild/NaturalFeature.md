@@ -14,7 +14,7 @@ KIND: NATURAL FEATURE
   1     Why a party would stop     {shelter | water | vantage | materials | a crossing}
   1     One way it is not like the country around it
   30%   Something mysterious about it, held to GENRE.md's Magic level
-  30%   A resource findable here, tied to the region's Foraging field
+  30%   A resource findable here, tied to the region's Loot field
   20%   A hazard that is simply part of the place
   15%   The resource is worked by a faction from setting/Factions.md, whose claim
         reaches past this place                                   (wild/Faction.md)

@@ -188,12 +188,13 @@ def build_document(setting: sc.Setting) -> str:
         region = setting.regions[code]
         r_anchor = sc.anchor_id("region", code)
         field_html = "".join(
-            f'<h3>{html.escape(label)}</h3><p>{ri(text, setting)}</p>' for label, text in region.fields
+            f'<h3>{html.escape(label)}</h3>' + sc.field_html(text, lambda t: ri(t, setting))
+            for label, text in region.fields
         )
         table_html = ""
-        if region.table_rows:
-            trows = "".join(f'<tr><td class="num">{n}</td><td>{ri(t, setting)}</td></tr>' for n, t in region.table_rows)
-            table_html = f'<h3>{html.escape(region.table_label)}</h3><table class="data-table"><tbody>{trows}</tbody></table>'
+        for table_label, table_rows in region.tables:
+            trows = "".join(f'<tr><td class="num">{n}</td><td>{ri(t, setting)}</td></tr>' for n, t in table_rows)
+            table_html += f'<h3>{html.escape(table_label)}</h3><table class="data-table"><tbody>{trows}</tbody></table>'
 
         # A DANGEROUS region's Connections.mmd asserts block existence only -
         # its typed location edges live one file per block, per STEPS.md 4b -
