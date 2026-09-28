@@ -153,3 +153,88 @@ Handles, Left lines and Settled-at columns are pending. Every finding names its 
 - Khughik cloning and draw collapse. (pattern: Block.md; no roll)
 - Contradictions at C.1, A.1, Rumour 3. (generator)
 - Withholding. (pattern: High.md vs STYLE.md)
+
+## Addendum 2026-09-28 - C, three blocks regenerated through context.py
+
+Run on the 22 rooms of Gorzgur Household (C.11-C.22), Khughik of the Silt Hollow
+(C.30-C.34) and Khughik of the Old Cistern (C.39-C.43), each block written by one fresh
+context from `python3 tools/context.py 4c CODE` alone. Four items only, these three blocks
+only; nothing found here was fixed. Findings the generator traced to the stream are sourced
+to `tools/context.py`.
+
+- Rooms are distinct: Needs Attention - no Feature sentence repeats (the four
+  repeated-sentence warnings touching C.32, C.33, C.34, C.41 and C.43 are gone), but the
+  near-repeats a string match can't see are:
+  - One hazard shape, six times: a floor or roof that worsens the longer anyone stays or
+    the faster they move, with one exempt spot as its clue - C.15 (last stall), C.18
+    (dressed half), C.20 (swept lamp niche), C.16, C.17, C.33. Source: patterns/dangerous/
+    Hazard.md, whose clue line reads the same in every room that draws it.
+  - Treasure stuck to the room, five times: C.14 (flowstone), C.15 (rusted to the rack),
+    C.21 (dried clay), C.32 (fused ash), C.41 (limescale). Source: generator.
+  - Pitch-sealed containers four times (C.31, C.33, C.34, C.40); alarm cords three times
+    (C.14 pot string, C.32 rattle cord, C.42 bone rattles). Source: generator.
+  - The two Khughik blocks differ in dressing, not in skeleton: in each, the nest holds a
+    slick floor band where anyone moving faster than a creep goes down loud and a torch goes
+    out (C.31 grey film, C.40 weeping floor), the store holds a fused container, and the
+    bolt-hole holds a lone lookout who flees through a concealed way (C.34 Zurkik, C.43
+    watcher). Source: patterns/dangerous/Block.md (no bar on reusing a shape across blocks)
+    and the gazetteer tags, which fix Lookout and Watcher on both bolt-holes.
+  - `(Test of Fate, Condition)` is written literally in C.11, C.12, C.13, C.15 and C.39 -
+    the citation form's placeholder copied, not a Condition named. Source: templates/
+    Location.md's Citations list, as printed in the stream.
+- Draws realized at their rates: Needs Attention - rate asked, rate realized:
+  - Gates on exits: 40% asked, 21 of 49 exit-ends drawn (43%), all written. Warded: 1 in 6
+    gates asked, 7 of 21 drawn and written (C.11, C.12 twice, C.15, C.32, C.39, C.43) - seven
+    sorcerous doors in 22 rooms against GENRE.md's scarce magic. Source: patterns/dangerous/
+    Door.md, whose GATE draw weights warded like a lock, and each end of an edge drawn
+    independently.
+  - Treasure: 12 of 19 treasure citations a table roll (63%), 5 lore (26%), against the 55%
+    and 20% the last run recorded. Near rate.
+  - Concealed detail (Medium, 40%): drawn in 4 of 11 (C.19, C.22, C.34, C.42), all four
+    realized.
+  - Second name (30%): drawn in 7 rooms. Realized in C.34, C.39, C.40, C.41 and, as an
+    inscription, C.32. Not realized in C.18 or C.20. Written without a draw in C.30.
+    Source: generator.
+  - Challenge: of 19 rooms drawing one, 3 drew an encounter (C.14, C.21, C.34), 13 a
+    hazard, 3 a mystery. The result is that the Silt Hollow block cites one Khughik (Zurkik,
+    C.34) against C.md's "about ten", and the Old Cistern block cites two against "about
+    nine". The nest (C.31) is written abandoned. Source: the draw. C.md's household headcount
+    is in every stream's prefix, but no contract line draws against it.
+  - Encounter absent (25%): fired at C.21, a Medium room whose class file says "never drawn
+    absent". Written present, in the class file's favour. Source: tools/context.py resolves
+    Encounter.md's line without Medium.md's override.
+  - Block FAMILY: drawn for all 22 rooms, though the line applies only to a purpose block and
+    all three blocks are households. Every generator set it aside. Source: tools/context.py.
+- Said once: Needs Attention -
+  - C.21's Ghast "paying no heed to anyone who leaves it to its meal and coming out of the
+    niche at whoever pulls a body away" transcribes the Grave-Ghast's Disposition and
+    C.md's "ignore, unless driven from the body". Source: generator.
+  - C.12's referee note "the warband sits here until a horn from the Sentry Gate sends it
+    out" restates C.md's Alarm. C.22's "now wrecked and empty since the watch fell back to
+    the Muster Yard" turns C.md's conditional fall-back into a thing already done. Source:
+    generator.
+  - C.39 (Rat Door, "the escaped captive's scratched rat"), C.41 (Wat's Drink, "a captive
+    who got out... and told of a man who drank here and died") and C.34 ("Keep delvers who
+    have mapped this far call it the Second Squint") state what Greywatch calls these rooms
+    and why, in rooms the keep never sees. No A location delivers it. Source: generator.
+    patterns/setting/Naming.md's second name from a different mouth, with the mouth at the
+    keep.
+  - Confirmed elsewhere: creature Features no longer restate the Khughik Disposition word
+    for word, as every Khughik room did before.
+- Tells, read: Needs Attention - hits over the 22 rooms went from rather than 49,
+  absence 2, conclusion 0, gloss 14 before to 0, 1, 1, 30 after:
+  - Absence (C.13, "the only sound when the patrol is gone is a slow drip"): not the
+    failure. It is observable inside the room.
+  - Conclusion (C.11, the warded band "without speaking the word Gorzgur"): not a conclusion
+    for the players - it is the ward's rule, on the referee's side of the exit line. It does
+    put the ward's answer in the same room as its clue. Whether the tribe's name counts as
+    met outside the room is the referee's to judge. Source: patterns/dangerous/Door.md.
+  - Gloss: 30 hits, mostly a Feature opening by re-describing its own name ("Pitch-Sealed
+    Jar: A waist-high clay jar...") - a restatement, not a definition. True glosses are C.40
+    Corbelled Vault ("steps inward in corbelled courses") and C.30's "The Khughik call it
+    Krazurkik". The rest are the tell's false positives.
+  - Not a tell, but read alongside: the 22 rooms went from 3,129 words to 10,603, and from
+    43 Features to 91. The longest Feature (C.39 Bronze Bar) runs 173 words in one sentence
+    of `,` and `->` clauses. It is inside the punctuation rule and outside anything a
+    referee can read aloud. Source: templates/Location.md's one-sentence rule, which caps
+    punctuation and not length.

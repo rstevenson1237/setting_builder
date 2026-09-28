@@ -178,7 +178,9 @@ class Stub:
             text = path.read_text()
             _, edges, _ = parse_mmd_edges(text, LOC_NODE_RE)
             touching = [e for e in edges if self.code in (e[0], e[3])]
-            if touching and path.parent == rdir and path.stem != "Connections":
+            members = re.search(r'^Locations:\s*(.+?)\s*$', text, re.M)
+            if (path.parent == rdir and path.stem != "Connections" and members
+                    and self.code in re.split(r'\s*,\s*', members.group(1))):
                 header = dict(re.findall(r'^(Block|Basis):\s*(.+?)\s*$', text, re.M))
                 self.block = header.get("Block")
                 self.basis = (header.get("Basis", "").split(" - ")[0].strip().lower()
@@ -713,7 +715,10 @@ def render_suffix(stub: Stub, rerolls: dict, settled: dict) -> str:
     w("")
     if stub.exits:
         for ex in stub.exits:
-            w(f"  {ex['kind']:9s} -> {ex['far']} {ex['name']}{ex['note']}")
+            arrow = "<-" if ex["note"].startswith(" (one-way, in)") else "->"
+            w(f"  {ex['kind']:9s} {arrow} {ex['far']} {ex['name']}{ex['note']}")
+        if any(ex["note"].startswith(" (one-way, in)") for ex in stub.exits):
+            w("  `<-` arrives here and is no exit from this room - it is not listed under Exits")
     else:
         w("  (none drawn at 4b)")
     w("")
@@ -900,6 +905,11 @@ def main(argv: list[str]) -> int:
             return 1
         stub = Stub(args[1])
         prefix, suffix = render_prefix(stub.region), render_suffix(stub, rerolls, settled)
+        unknown = [k for k in rerolls if f"[{k}]" not in suffix]
+        if unknown:
+            raise ContextError(f"--reroll names no draw in {stub.code}'s stream: "
+                               f"{', '.join(unknown)} - use the key exactly as printed "
+                               "in brackets")
         if words_only:
             print(f"prefix {len(prefix.split()):,} words / {tokens(prefix):,} tok; "
                   f"suffix {len(suffix.split()):,} words / {tokens(suffix):,} tok")
