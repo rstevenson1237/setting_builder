@@ -73,11 +73,10 @@ def build_document(setting: sc.Setting) -> str:
     toc: list[str] = []
 
     # ---- cover ----
-    tags = " · ".join(t.strip() for t in setting.tags.split(","))
     parts.append(f"""
 <section class="cover">
   <h1 class="cover-title">{html.escape(setting.name)}</h1>
-  <p class="cover-tags">{html.escape(tags)}</p>
+  <p class="cover-tags">{html.escape(setting.tagline)}</p>
   <p class="cover-outline">{ri(setting.outline, setting)}</p>
 </section>
 """)

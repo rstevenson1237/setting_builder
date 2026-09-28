@@ -23,8 +23,8 @@ on, a creature placed somewhere, a motif said to repeat - each is audited agains
 at STEPS.md step 5c.
 
 Cut, before finishing:
-- anything the Overview repeats from `setting/region/Regions.md`, this region's
-  `Tags.md`, `setting/History.md`, or this file's own Secrets field;
+- anything the Overview repeats from `setting/region/Regions.md`,
+  `setting/History.md`, or this file's own Secrets field;
 - any sentence stating what the referee should conclude or the players should do;
 - any field sentence that names a quality rather than a thing - an object, a person, a
   number, a cost.

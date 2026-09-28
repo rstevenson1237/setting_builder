@@ -47,19 +47,20 @@ WILD classification, in the proportions above:
 - **hidden** - directly discoverable from a specific Landmark, through a visible feature that connects to it - not found by roaming the region generally. See `patterns/wild/Hidden.md`.
 - **secret** - discoverable only through a trigger at a Landmark or Hidden location that reveals the connection. See `patterns/wild/Secret.md`.
 
-Keep entries to a name, weight/classification, and two tags only - no Pattern and no
+Keep entries to a name, weight/classification, and three tags only - no Pattern and no
 descriptive sentence. This file is a map skeleton, feeding the region's Connections
 diagram; pattern selection and content happen later, per location, in
 `templates/Location.md`.
 
-Each location draws exactly **two** tags, not three and not freely invented: one from
-`setting/Tags.md`, one from this region's own `setting/region/[Code]/Tags.md`. Draw, don't
-invent - a tag repeated across several locations in the same region is fine and expected,
-since the pool is meant to be drawn from more than once.
+Each location gets exactly **three** tags, one or two words each, written for it alone
+against the setting's and this region's tag lines, the Region Overview and `BRIEF.md`.
+They are the spark the location is later written to, so they push it away from the
+region's average room: never the location's own name, never a fact every location in the
+region shares, and no two locations in one region carrying the same three.
 
 ## Template
 ```
 Locations of [Region Code] [Region Name]
 
-[Region Code].1 [Location Name] [(high/medium/low) for DANGEROUS, (landmark/hidden/secret) for WILD] - [tag from setting/Tags.md], [tag from region Tags.md]
+[Region Code].1 [Location Name] [(high/medium/low) for DANGEROUS, (landmark/hidden/secret) for WILD] - *[tag], [tag], [tag]*
 ```

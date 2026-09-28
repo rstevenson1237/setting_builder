@@ -16,7 +16,7 @@ Consult when drafting - and only this, deliberately narrow so the entry stays sh
   - DANGEROUS - `patterns/dangerous/High.md`, `patterns/dangerous/Medium.md`, or
     `patterns/dangerous/Low.md`
 - this location's parent Region Overview (`setting/region/[Region Code].md`).
-- this location's own gazetteer stub (name, weight/classification, its two tags) from `setting/region/[Region Code]/Locations.md`. The two tags were drawn, not invented - one from `setting/Tags.md`, one from this region's own `setting/region/[Region Code]/Tags.md` - and are read here only for color; they name no Kind and carry no inclusion math.
+- this location's own gazetteer stub (name, weight/classification, its three tags) from `setting/region/[Region Code]/Locations.md`. The tags are the spark the entry is written to - each should be recognisable in what it holds - but they name no Kind and carry no inclusion math.
 - `setting/Truths.md` - read at every location, whatever its rating or weight. Availability is not a quota: where this location touches a truth it is an **instance** of it, in this room's own terms, never a restatement of it. A truth surfacing in every room is wallpaper.
 - `setting/Procedures.md` - the shared mechanics the pattern files cite rather than restate: trap resolution, searching, time, and scaling.
 - `setting/Language.md` - roots for any proper noun coined here, and where every coinage is recorded back; it is the one artifact that grows as generation proceeds.
@@ -46,7 +46,7 @@ Consult `setting/Bestiary.md`, `setting/Factions.md`, `setting/History.md`, or `
 
 ## Template
 ```
-[Region Code].[Location Code] **[Location Name]** [(high/medium/low) for DANGEROUS, (landmark/hidden/secret) for WILD] - *[tag from setting/Tags.md], [tag from region Tags.md]*
+[Region Code].[Location Code] **[Location Name]** [(high/medium/low) for DANGEROUS, (landmark/hidden/secret) for WILD] - *[tag], [tag], [tag]*
 [Player Summary - two sentences maximum, that can be spoken aloud to the players or paraphrased. Include any details that would be obvious glancing at the location. **Bold** any features mentioned in the summary]
 *[Referee Notes - free to carry a specialist term unglossed. Important details the Referee will need to adjudicate player efforts to explore the location: size (feet indoors, yards outdoors), shape, former/current purpose. Include a sound or smell only when it points at a specific feature within the location - never as ambience alone]*
 **[Feature Name, most prominent first]:** [Interactive or explorable detail for this one feature and nothing else, including where within the room it sits (a wall, a corner, the center) and, when spatially significant, its own dimension; if a specific action triggers something specify both the action and the effect. A hidden object that can be acted on is its own Feature, and its line states how it is reached; a hidden **exit**, or any exit needing a trigger to reveal or access, stays nested within an obvious feature's line along with how to access it. Written to instruction 5's constraints]

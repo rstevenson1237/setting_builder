@@ -1,32 +1,32 @@
 Locations of A Greywatch
 
-A.1 Outer Gate - *Frontier Levy, Gate Hours*
-A.2 Gate Tower North - *New Keep, Watch Bell*
-A.3 Gate Tower South - *Spoken Side, Signal Fire*
-A.4 Trade Row - *No Market, Trade Row*
-A.5 Bonded Traders' Lodging - *Bare Purse, Merchant's Bond*
-A.6 Camp Followers' Row - *Carried Home, Camp Followers*
-A.7 Stable Block - *New Keep, Stable Block*
-A.8 Feed Store - *Carried Home, Grain Count*
-A.9 Chapel of Law - *Spoken Side, Law's Register*
-A.10 Retainer's Board - *Retainer's Share, Retainer's Board*
-A.11 Healer's Tent - *Killing Roll, Healer's Tent*
-A.12 Riverside Well - *Bare Purse, Riverside Well*
-A.13 The Forge - *Carried Home, Forge Debt*
-A.14 Toll House - *Carried Home, Toll Ledger*
-A.15 Outer Wall Walk - *Frontier Levy, Outer Bailey*
-A.16 Gate Watch Post - *Frontier Levy, Gate Watch Roster*
-A.17 Outer Bailey Midden - *Plain Naming, Outer Bailey*
-A.18 Well Square - *No Market, Outer Bailey*
-A.19 Storage Sheds - *No Rescue, Trade Row*
-A.20 Second Gate - *Frontier Levy, Second Gate*
-A.21 Commander's Tower - *No Rescue, Commander's Tower*
-A.22 Granary - *Bare Purse, Grain Count*
-A.23 Armoury - *New Keep, Inner Bailey*
-A.24 Prisoner's Cage - *Killing Roll, Prisoner's Cage*
-A.25 Garrison Barracks - *Frontier Levy, Old Timers*
-A.26 Quartermaster's Store - *Plain Naming, Quartermaster's Store*
-A.27 Inner Wall Walk - *Frontier Levy, Inner Bailey*
-A.28 Watch Log Archive - *Planted Agent, Watch Log*
-A.29 Inner Cistern - *New Keep, Inner Bailey*
-A.30 Training Yard - *Retainer's Share, Old Timers*
+A.1 Outer Gate - *Roster, Dusk Bar, Iron-Bound*
+A.2 Gate Tower North - *Bell, Short-Handed, Sharp Stone*
+A.3 Gate Tower South - *Signal, Soot, First Word*
+A.4 Trade Row - *Market Day, Odd Lots, Eavesdropper*
+A.5 Bonded Traders' Lodging - *Bond, Missing Cart, Tallow*
+A.6 Camp Followers' Row - *Mending, Gossip, Rosterless*
+A.7 Stable Block - *Hire, Fresh Straw, Roster-Bound*
+A.8 Feed Store - *Rooted, Nightly, Torn Sacks*
+A.9 Chapel of Law - *Courtesy, Register, Limits*
+A.10 Retainer's Board - *Postings, Wages, Hire*
+A.11 Healer's Tent - *Vinegar, Stretched, Poison*
+A.12 Riverside Well - *Rationed, Rope, Free Water*
+A.13 The Forge - *Debt, Refusal, Ringing Stone*
+A.14 Toll House - *Weighing, Missing Pages, Old Coin*
+A.15 Outer Wall Walk - *Treeline, Challenge, Parapet*
+A.16 Gate Watch Post - *Reshuffled, Struck Names, Bench*
+A.17 Outer Bailey Midden - *Refuse, Stench, Nothing*
+A.18 Well Square - *Crossroads, First Word, Mud*
+A.19 Storage Sheds - *Padlocks, Forfeit, Rent*
+A.20 Second Gate - *Escort, Barred, Thick Wall*
+A.21 Commander's Tower - *Hearing, Worn Mark, Unsent*
+A.22 Granary - *Skimmed, Tally, Strongroom*
+A.23 Armoury - *Issue, Oiled, Logged*
+A.24 Prisoner's Cage - *Bargain, Old Lock, Tally Marks*
+A.25 Garrison Barracks - *Shifts, Old Hands, Grumbling*
+A.26 Quartermaster's Store - *Ledger, Unclaimed, Labels*
+A.27 Inner Wall Walk - *Inward Eye, Narrow, Reyne's Own*
+A.28 Watch Log Archive - *Corrections, Rekeyed, Ear Chart*
+A.29 Inner Cistern - *Lidded, Rationed, Privilege*
+A.30 Training Yard - *Drill, Blunted, Terms*

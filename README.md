@@ -45,7 +45,7 @@ Read these rather than a description of them.
   (`Procedures.md`, `Language.md`), the five registries (`Lore.md`, `Keys.md`, `Quests.md`,
   `NamedCreatures.md`, `UniqueTreasures.md`), and `region/`, holding the Regional Gazetteer
   and one folder per region.
-- `setting/region/[Code]/` - one region: its own `Tags.md` pool, its `Locations.md`
+- `setting/region/[Code]/` - one region: its `Locations.md`
   gazetteer, its connection diagrams, and one `[LocationCode].md` per location. The Region
   Overview sits beside it at `setting/region/[Code].md`.
 - `setting/checks/` - output of the judgement checks (STEPS.md step 5): non-mechanical

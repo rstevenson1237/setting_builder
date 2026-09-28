@@ -470,7 +470,6 @@ def check_repeated_prose(diag: Diagnostics):
 # ---------------------------------------------------------------------------
 
 REGION_RE = re.compile(r'^([A-Z]+) (.+?) - (SAFE|WILD|DANGEROUS), (d\d+)\s*$')
-REGION_TAGS_LINE_RE = re.compile(r'^Tags: see (setting/region/[A-Z]+/Tags\.md)\s*$')
 
 
 def parse_regions(diag: Diagnostics):
@@ -502,17 +501,14 @@ def parse_regions(diag: Diagnostics):
         regions[code] = {"name": name.strip(), "rating": rating, "die": die}
         order.append(code)
         i += 1
-        if REGION_TAGS_LINE_RE.match(lines[i].strip() if i < n else ""):
-            tags_path = SETTING / "region" / code / "Tags.md"
-            if not tags_path.exists():
-                diag.warn(path, f"region {code}: setting/region/{code}/Tags.md referenced but missing - not built yet")
+        if i < n and lines[i].strip().lower().startswith("tags:"):
+            diag.error(path, f"region {code}: carries a 'Tags:' line - tag pools are retired, "
+                             f"and the entry's own line is its tag line")
             i += 1
+        if i < n and lines[i].strip() and not REGION_RE.match(lines[i].strip()):
+            i += 1  # the tag line; presence is enough
         else:
-            diag.error(path, f"region {code}: missing 'Tags: see setting/region/{code}/Tags.md' line")
-        if i < n and lines[i].strip():
-            i += 1  # the one-sentence overview line; presence is enough
-        else:
-            diag.error(path, f"region {code}: missing one-sentence overview line")
+            diag.error(path, f"region {code}: missing its tag line")
 
     expected = [index_to_code(idx) for idx in range(len(order))]
     if order != expected:
@@ -806,8 +802,11 @@ def check_location_file(diag, path, region_code, num, stub, rating, all_location
             diag.error(path, f"header weight/classification {hweight!r} does not match Locations.md stub {stub['weight']!r}")
     elif hweight:
         diag.error(path, f"{rating} region location should not carry a weight/classification tag in its header")
-    if len([t for t in htags.split(",") if t.strip()]) != 2:
-        diag.warn(path, f"header carries {htags.strip()!r} - expected exactly two tags, one from setting/Tags.md and one from the region's own Tags.md")
+    if len([t for t in htags.split(",") if t.strip()]) != 3:
+        diag.warn(path, f"header carries {htags.strip()!r} - expected exactly three tags")
+    elif htags.strip().strip("*") != stub.get("tags", "").strip().strip("*"):
+        diag.warn(path, f"header tags {htags.strip()!r} do not match its Locations.md stub's "
+                        f"{stub.get('tags', '').strip()!r}")
 
     body = [l for l in lines[1:]]
     idx = 0
@@ -1459,16 +1458,6 @@ def check_treasure_citation_prose(diag: Diagnostics, path: Path, text: str):
                             f"contents, and naming them contradicts whatever comes up")
 
 
-def check_tags_file(diag: Diagnostics, path: Path):
-    if not path.exists():
-        diag.warn(path, "missing - not built yet")
-        return
-    text = path.read_text()
-    count = len(re.findall(r"^- \*\*.+\*\* - ", text, re.M))
-    if count < 15:
-        diag.warn(path, f"only {count} tags found - the pool is meant to hold ~25")
-
-
 def check_registry_floors(diag: Diagnostics, registries: dict, build_complete: bool):
     """A setting with no keys and no named creatures passes every other check.
 
@@ -1584,9 +1573,9 @@ def report_topology(regions: dict, region_locs: dict, region_edges: dict) -> lis
 # Main
 # ---------------------------------------------------------------------------
 
-# Seeded at STEPS.md 1a/1b/1c, before any setting content exists. Their presence does
+# Seeded at STEPS.md 1b/1c, before any setting content exists. Their presence does
 # not mean a setting has been generated.
-SEED_FILES = {"Procedures.md", "Language.md", "Tags.md"}
+SEED_FILES = {"Procedures.md", "Language.md"}
 
 
 def is_fresh_start() -> bool:
@@ -1675,7 +1664,6 @@ def main() -> int:
 
     region_locs: dict[str, dict] = {}
     for region_code, info in regions.items():
-        check_tags_file(diag, SETTING / "region" / region_code / "Tags.md")
         gaz_path = SETTING / "region" / region_code / "Locations.md"
         region_locs[region_code] = parse_locations_gazetteer(diag, region_code, info["rating"], gaz_path)
 
@@ -1734,7 +1722,7 @@ def main() -> int:
 
     citations: dict[str, dict] = {kind: {} for kind, _, _ in REGISTRY_KINDS}
 
-    NON_LOCATION_FILES = {"Locations.md", "Tags.md"}
+    NON_LOCATION_FILES = {"Locations.md"}
     conditions = procedures_conditions()
     for region_code, locs in region_locs.items():
         rdir = SETTING / "region" / region_code
@@ -1769,7 +1757,6 @@ def main() -> int:
         check_class_mix(diag, region_code, regions[region_code]["rating"], locs)
     check_registry_floors(diag, registries, build_complete)
     check_rumour_settling(diag, build_complete)
-    check_tags_file(diag, SETTING / "Tags.md")
 
     for line in report_topology(regions, region_locs, region_edges):
         print(f"TOPOLOGY: {line}")

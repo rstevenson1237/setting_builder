@@ -72,7 +72,6 @@ class Region:
     table_label: str
     table_rows: list[tuple[int, str]]
     locations: dict[int, Location] = field(default_factory=dict)
-    tags_pool: list[tuple[str, str]] = field(default_factory=list)  # (tag, gloss), this region's own Tags.md
 
 
 @dataclass
@@ -86,7 +85,7 @@ class RegistryEntry:
 @dataclass
 class Setting:
     name: str = ""
-    tags: str = ""
+    tagline: str = ""
     outline: str = ""
     history: list[tuple[str, str, str]] = field(default_factory=list)
     truths: list[str] = field(default_factory=list)
@@ -103,7 +102,6 @@ class Setting:
     regions: dict[str, Region] = field(default_factory=dict)
     region_order: list[str] = field(default_factory=list)
     top_connections: str = ""
-    tags_pool: list[tuple[str, str]] = field(default_factory=list)  # (tag, gloss), setting/Tags.md
 
     # lookup helpers, filled in after parsing
     all_locations: dict[str, Location] = field(default_factory=dict)
@@ -124,7 +122,6 @@ TREASURE_FILES = {"I": 1, "II": 2, "III": 3, "IV": 4, "V": 5}
 # Parsers
 # ---------------------------------------------------------------------------
 
-TAGS_ENTRY_RE = re.compile(r"^-\s*\*\*(.+?)\*\*\s*-\s*(.+)$")
 
 
 def join_wrapped(lines: list[str]) -> list[str]:
@@ -153,32 +150,18 @@ _STARTS_LOGICAL_RE = re.compile(
 )
 
 
-def parse_tags_file(path: Path) -> list[tuple[str, str]]:
-    """Parse a Tags.md file (setting- or region-level) into (tag, gloss) pairs.
-
-    Glosses wrap across physical lines; join them before matching, or every
-    entry renders truncated mid-sentence.
-    """
-    if not path.exists():
-        return []
-    out = []
-    for line in join_wrapped(path.read_text().splitlines()):
-        m = TAGS_ENTRY_RE.match(line)
-        if m:
-            out.append((m.group(1).strip(), m.group(2).strip()))
-    return out
-
 
 def parse_setting() -> tuple[str, str, str]:
     text = (SETTING / "Setting.md").read_text()
     lines = [l for l in text.splitlines() if l.strip()]
     name = lines[0].strip()
     rest = lines[1:]
-    if rest and rest[0].strip().lower().startswith("tags:"):
-        rest = rest[1:]
+    tagline = ""
+    if rest and not rest[0].strip().startswith("*"):
+        tagline, rest = rest[0].strip(), rest[1:]
     outline = " ".join(l.strip() for l in rest).strip()
     outline = outline.strip("*").strip()
-    return name, "", outline
+    return name, tagline, outline
 
 
 # A History entry opens with a dating phrase, per templates/History.md's
@@ -528,11 +511,9 @@ def parse_region_overview(code: str, gaz: dict) -> Region:
                 i += 1
             fields.append((label, " ".join(parts).strip()))
     info = gaz[code]
-    tags_pool = parse_tags_file(SETTING / "region" / code / "Tags.md")
     return Region(
         code=code, name=info["name"], rating=info["rating"], die=info["die"], tags=info["tags"],
         gazetteer_blurb=info["blurb"], fields=fields, table_label=table_label, table_rows=table_rows,
-        tags_pool=tags_pool,
     )
 
 
@@ -710,8 +691,7 @@ def mmd_edges_by_code(text: str) -> list[tuple[str, str, str, str]]:
 
 def load_setting() -> Setting:
     s = Setting()
-    s.name, s.tags, s.outline = parse_setting()
-    s.tags_pool = parse_tags_file(SETTING / "Tags.md")
+    s.name, s.tagline, s.outline = parse_setting()
     s.history = parse_history()
     s.truths = parse_truths()
     s.rumours = parse_rumours()

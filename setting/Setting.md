@@ -1,6 +1,7 @@
 Greywatch
+The realm's last keep, where the road gives out at a ravine full of Chaos.
 
-*Tags: see setting/Tags.md. Greywatch is the realm's last keep before the road gives out at
+*Greywatch is the realm's last keep before the road gives out at
 a ravine of caves; adventurers arrive at its gate with nothing but nerve, and what they
 carry back out of the ravine is weighed and paid at that same gate, not anywhere behind it.
 Chaos is gathering in the caves faster than the garrison can account for it, and the raids

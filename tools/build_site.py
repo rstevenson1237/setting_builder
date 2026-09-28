@@ -333,16 +333,6 @@ def section(title: str, body: str, anchor: str | None = None) -> str:
     return f'<section class="doc-section"{id_attr}><h2>{html.escape(title)}</h2>{body}</section>'
 
 
-def tags_box(tags_pool: list[tuple[str, str]]) -> str:
-    """A boxed panel listing a Tags.md pool (tag, gloss) - pure seed/color, no links."""
-    if not tags_pool:
-        return ""
-    rows = "".join(
-        f'<dt>{html.escape(tag)}</dt><dd>{html.escape(gloss)}</dd>'
-        for tag, gloss in tags_pool
-    )
-    return f'<div class="tag-box"><h3>Tags</h3><dl>{rows}</dl></div>'
-
 
 MERMAID_FENCE_RE = re.compile(r"```mermaid\s*\n(.*?)```", re.DOTALL)
 
@@ -387,8 +377,9 @@ def top_graph_clicks(mmd_text: str, current_page: str) -> list[str]:
 def build_index(setting: sc.Setting, out: Path) -> None:
     page = "index.html"
     body = [f'<h1>{html.escape(setting.name)}</h1>']
+    if setting.tagline:
+        body.append(f'<p class="tagline">{html.escape(setting.tagline)}</p>')
     body.append(f'<p class="outline">{render_inline(setting.outline, setting, page)}</p>')
-    body.append(tags_box(setting.tags_pool))
 
     cards = []
     for href, label in NAV_LINKS[1:]:
@@ -734,7 +725,7 @@ def build_region(setting: sc.Setting, out: Path, code: str) -> None:
         f'<p class="breadcrumb"><a href="{rel_asset(page, "index.html")}">Home</a> / Regions / {code}</p>',
         f'<h1>{code} {html.escape(region.name)} '
         f'<span class="badge badge-{region.rating.lower()}">{region.rating} {region.die}</span></h1>',
-        tags_box(region.tags_pool),
+        f'<p class="tagline">{render_inline(region.gazetteer_blurb, setting, page, no_links=True)}</p>',
     ]
 
     for label, text in region.fields:
