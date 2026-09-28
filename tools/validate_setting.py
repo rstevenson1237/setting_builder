@@ -144,6 +144,7 @@ def check_pattern_files(diag: Diagnostics):
                               f"every citation states which patterns/ folder it points to")
         check_pattern_sections(diag, path, text)
         check_block_draws(diag, path, text)
+        check_rate_notation(diag, path, text)
 
 
 # ---------------------------------------------------------------------------
@@ -183,6 +184,27 @@ def spec_blocks(text: str) -> dict[str, list[str]]:
         if lines:
             out[lines[0].split(" - ")[0].strip()] = lines[1:]
     return out
+
+
+# A Spec line's rate is `1` or a percentage, per patterns/SPEC.md. Anything
+# else in the rate column - `2`, `3-6`, `15+` - is read by this validator and
+# by tools/context.py as a continuation of the line above, so the line it
+# opens silently merges into its neighbour.
+ODD_RATE_RE = re.compile(r'^ {2}(\d+(?:-\d+|\+)?)\s{2,}\S')
+
+
+def check_rate_notation(diag: Diagnostics, path, text: str):
+    blocks = spec_blocks(text)
+    drawn = {n for body in blocks.values() for n in BLOCK_DRAW_RE.findall("\n".join(body))}
+    for name, body in blocks.items():
+        if name in drawn:
+            continue    # a draw block's items are values, not rated lines
+        for line in body:
+            m = ODD_RATE_RE.match(line)
+            if m and m.group(1) != "1":
+                diag.warn(path, f"Spec line rated {m.group(1)!r} - patterns/SPEC.md allows `1` "
+                                f"or a percentage, and the tools read this line as a "
+                                f"continuation of the one above it: {line.strip()[:60]!r}")
 
 
 def check_block_draws(diag: Diagnostics, path, text: str):

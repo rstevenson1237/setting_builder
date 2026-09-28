@@ -6,35 +6,50 @@ A non-mechanical review pass over `patterns/` - confirming, by human or model ju
 ## Context
 Consult when running this check:
 - `patterns/SPEC.md` - the standard every pattern file's shape is tested against.
-- `GENRE.md` - the standard a pattern's content is measured against.
+- `GENRE.md` and `STYLE.md` - the standards a pattern's content is measured against; `STYLE.md` outranks every pattern.
 - every file in `patterns/`.
-- `templates/Location.md` (and any other template that consumes a pattern) - to see how a pattern's output actually gets used, since a pattern can only be judged generic or specific, discoverable or not, by how it lands on the page.
-- `STYLE.md` - which outranks every pattern.
-- `python3 tools/context.py 4c CODE` over a sample of locations, to see what a class file's rates and draws actually resolve to.
-- the most recent `setting/checks/SettingJudgementCheck.md`, whose findings traced to a pattern are this pass's evidence.
-- prior conversation/requests from the user calling for specific content, to check against the "gaps" and "doesn't fit anywhere" items below.
+- `templates/Location.md` (and any other template that consumes a pattern) - to see how a pattern's output actually lands on the page.
+- `python3 tools/context.py 4c CODE` over a sample of locations - at least one per class file - to see what a class file's rates and draws actually resolve to.
+- where a build exists, this pass's `setting/checks/SettingJudgementCheck.md`: run this check after it, and start from its findings traced to a pattern, which are this pass's best evidence.
+- `BRIEF.md`, and the user's requests in the session or pull request that asked for this pass - for the unhoused-content item.
 
 ## Instructions
-For each pattern file, and for the set of pattern files as a whole, confirm the following. Record each as Confirmed / Needs Attention, with a note.
+Record **findings only**, each as Needs Attention with the file, the item and a note. A
+file with no finding is covered by the Confirmed line; do not write a block per file.
 
-- **No overlap or contradiction** - does one pattern's instructions duplicate or conflict with another's (e.g. two patterns both claiming the same trigger-and-effect shape, or giving incompatible guidance for the same situation)? Where two patterns legitimately share a boundary (e.g. `Hazard.md` vs. `Mystery.md`, `patterns/wild/Secret.md`'s location-level Clue/Trigger/Payload vs. the feature-level concealed detail its own substrate block also draws), is the distinction stated clearly enough that a generator won't blur them?
-- **The three tiers are supplied, and each drawing class states its own triple** - per `templates/Location.md` a location displays information at three tiers, and the pattern library is what fills them. For each class file, does its Spec draw something **obvious** (Dressing, a visible challenge, a reason to stop), something at the **trigger** tier that rewards acting on what is obvious, and - at whatever rate it sets - a **secret**: a concealed detail whose Clue, Trigger and Payload that file states itself? A class drawing a concealed detail without stating its own triple has lost the customization the distribution was for, and a class whose Spec reaches only one tier will produce flat entries however sharply its questions are phrased. Check the element files against the same three: a file supplying only read-aloud sits at one tier and is the **Interactive** finding below.
-- **Specific** - does the pattern push toward named, particular content (a specific mechanism, a specific creature, a specific object) rather than a reskinnable placeholder?
-- **Discoverable** - does using the pattern require the players to notice, investigate, or search for something, rather than handing content to them automatically?
-- **Interactive** - does the pattern give players something to act on (examine, trigger, disarm, solve, take) rather than pure read-aloud flavor?
-- **Not overly generic** - could the pattern's output, as written, be dropped unchanged into any generic fantasy dungeon without a rewrite? If so, it needs sharper genre-specific hooks.
-- **Wiring** - is every pattern file actually reached? `tools/validate_setting.py` warns on
-  any file `patterns/Genre.md` or no generation template can reach. An unreachable file is never
-  read, so the content it describes is never generated - which is silent under-generation
-  rather than a broken file, and the judgement here is whether the file should be wired in
-  or should go. Check the reverse too: a file reached at a rate so low it will not fire in a
-  setting of this size is wired but not funded.
-- **Gaps** - is there a location type, weight, or region rating with no pattern coverage, or a pattern file that's thin relative to how often it'll be drawn on?
-- **Missing relevant features** - within an existing pattern, is there a feature type clearly relevant to that pattern's scope that isn't currently included (e.g. a common DANGEROUS-location situation the low/medium/high files don't address)?
-- **Rates compound sensibly** - resolve a sample of locations with `tools/context.py` and read the rates together rather than line by line: a per-exit rate that gates nearly every room with several exits, a pair of rates that between them fire in almost every room, a rate so low a region of this size never meets it. Record the rate and what it compounds to.
-- **Nothing contradicts STYLE.md** - does any pattern line require what a standing consequence forbids, or forbid what one requires (a room class that may never be empty against the rule that withholding is content; a guardian written as a fight with no condition)? `STYLE.md` wins; the pattern is the finding.
-- **Neutral and permanent** - does any Spec line, draw item or Constraint carry one genre's assumptions (a creature type as what a region is built around, a mechanic only one reference has) rather than a question `GENRE.md` answers?
-- **Unhoused content** - has the user asked for specific content (a mechanic, a theme, a recurring element) that doesn't fit into any current pattern file? Flag it explicitly rather than force-fitting it into an unrelated pattern, so it can become a new pattern file or an addition to an existing one.
+Across the library:
+- **No overlap or contradiction** - does one pattern duplicate or conflict with another?
+  Where two share a boundary (`Hazard.md` and `Mystery.md`; a Secret location's access
+  triple and its inner one), is the distinction stated where a generator will see it?
+- **The three tiers are supplied, and each drawing class states its own triple** - per
+  `templates/Location.md`'s three tiers, does each class file draw something obvious,
+  something at the trigger tier, and - at its own rate - a concealed detail whose Clue,
+  Trigger and Payload that file states itself?
+- **Rates compound sensibly** - read the sampled resolutions together: a per-exit rate
+  that gates nearly every room, rates that between them fire in almost every room, a rate
+  so low a region this size never meets it. Record the rate and what it compounds to.
+- **Nothing contradicts STYLE.md** - does any line require what a standing consequence
+  forbids, or forbid what one requires?
+- **Neutral and permanent** - does any Spec line, draw item or Constraint carry one
+  genre's assumptions rather than a question `GENRE.md` answers?
+- **Wiring** - `tools/validate_setting.py` warns on any file the root or no template
+  reaches; judge whether each should be wired in or go, and whether a reached file is
+  drawn at a rate this setting's size will ever meet.
+- **Gaps** - a location type, weight, rating, or a thing a region needs (the space its
+  entrances open onto, the ordinary finds `GENRE.md` names) that no pattern produces.
+- **Unhoused content** - anything the brief or the user asked for that fits no current
+  pattern. Flag it rather than force-fitting it.
+
+Per file, applied only to the class and element files a location draws (the files under
+`safe/`, `wild/` and `dangerous/`); a `setting/` or `region/` pattern is judged by the
+library items above and by what its artifact produced:
+- **Specific** - pushes toward named, particular content rather than a reskinnable
+  placeholder.
+- **Discoverable** - what it adds has to be noticed, investigated or searched for.
+- **Interactive** - it gives players something to act on, not read-aloud.
+- **Not overly generic** - its output could not be dropped unchanged into any fantasy
+  dungeon.
+- **Missing relevant features** - a feature clearly within its scope that it never draws.
 
 ## Deliberate restatement
 `patterns/` deliberately restates the same concept in each rating folder - a trap in SAFE is
@@ -62,26 +77,16 @@ which already owns the two that are genuinely constant.
 ```
 # Pattern Judgement Check - [Date or revision note]
 
-## Cross-pattern
-- No overlap or contradiction: [Confirmed / Needs Attention - note]
-- Three tiers supplied across the class files: [Confirmed / Needs Attention - note]
-- Concealment triples stated per class, and not converged: [Confirmed / Needs Attention - note]
-- Gaps in coverage: [Confirmed / Needs Attention - note]
-- Unhoused user-requested content: [Confirmed / Needs Attention - note]
-- Rates compound sensibly: [Confirmed / Needs Attention - rate, and what it compounds to]
-- Nothing contradicts STYLE.md: [Confirmed / Needs Attention - note]
-- Neutral and permanent: [Confirmed / Needs Attention - note]
+Evidence: [the Setting Judgement Check this pass started from, and the locations resolved]
 
-## [patterns/<folder>/File.md]
-- Tier coverage - obvious / trigger / secret: [Confirmed / Needs Attention - note]
-- Specific: [Confirmed / Needs Attention - note]
-- Discoverable: [Confirmed / Needs Attention - note]
-- Interactive: [Confirmed / Needs Attention - note]
-- Not overly generic: [Confirmed / Needs Attention - note]
-- Missing relevant features: [Confirmed / Needs Attention - note]
+Confirmed on every item: [every file not named below]
 
-[repeat per pattern file]
+## Across the library
+- [item]: [Needs Attention - note, naming the files]
+
+## Findings by file
+- [patterns/<folder>/File.md] - [item]: [note]
 
 ## Open Items
-- [Anything flagged Needs Attention, carried forward as an action item]
+- [Each finding, as an action, with its source: pattern line, rate, notation, or gap]
 ```
