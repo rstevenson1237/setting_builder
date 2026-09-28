@@ -10,6 +10,6 @@ Fetter Key (*key*) - found at C.13 Chieftain's Chamber, unlocks C.16 Prisoner Ho
 
 Water Nook Key (*key*) - found at C.31 The Chittering Nest, unlocks C.33 Water Nook
 
-Bolt-Hole Key (*key*) - found at C.31 The Chittering Nest, unlocks C.34 Bolt-Hole
+Bolt-Hole Key (*key*) - found at C.31 The Chittering Nest, unlocks C.34 Bolt-Hole, C.43 Bolt-Hole
 
 Silt Hollow Grille Key (*key*) - found at C.30 Silt Hollow Entrance, unlocks C.11 Sentry Gate
