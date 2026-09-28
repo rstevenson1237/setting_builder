@@ -47,17 +47,5 @@ SCALE - by the weight of the room drawing it
   ambusher drawn as a patrol has been picked for the room rather than read off the
   creature.
 
-- **Rivals belonging to something with a name elsewhere are a faction.** Draw them at
-  `dangerous/Faction.md`, so they stay consistent the next time.
-
-- **Terrain that only costs is not a creature.** What never acts on its own account and
-  wants nothing is `dangerous/Environmental.md`'s.
-
 - **Never give a swarm a countable number.** A figure turns a condition to get out of into
   a fight won by arithmetic.
-
-- **Never let an unbeatable creature be met before its Sign.** Its Bestiary Sign and
-  Disposition reach the party a room early, so withdrawing is a judgement they got to
-  make.
-
-- **Never name what rivals are after as the thing the party is supposed to lose.**

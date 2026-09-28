@@ -30,8 +30,5 @@ TIER - the first of these that hits, and nothing below it
 
 ## Constraints
 
-- **The whole hazard is one Feature, never two.** The clue is how the hazard is seen
-  before it acts, not a second object.
-
 - **Never raise a tier because the room feels important.** That is how a region ends up
   with no tiers, only a tax on entering rooms.

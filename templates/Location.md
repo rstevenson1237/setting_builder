@@ -38,6 +38,13 @@ Consult `setting/Bestiary.md`, `setting/Factions.md`, `setting/History.md`, or `
 
    The chain is the rule, not the count. A location need not carry all three - the class file's rates decide that - but where a tier is present, what leads into it is stated in the tier above: a concealed detail whose Clue appears nowhere obvious is content the referee knows and the players cannot reach, and a Feature whose action is anchored to nothing visible is a lever in an empty room. An entry sitting wholly in one tier has flattened - everything in the summary leaves nothing worth doing, everything behind a clue leaves a room that reads empty.
 7. Output the pattern generated exactly according to the template below
+8. **What holds for every entry, whatever its class:**
+   - One history per room - a part that could not share the room with the rest is changed, not explained.
+   - Name a thing that has a name - a term, trade, material, landform or species - rather than describing it.
+   - Never a bare noun for an exit or a container - its make and condition are what a party can test.
+   - A hazard or a trap is one Feature - its tell and its effect on one line, its forced damage cited last.
+   - A concealed detail never pays out a route the diagram did not draw.
+   - Never two triggers deep - no clue reached only by acting on another clue.
 
 ## Template
 ```
@@ -58,7 +65,7 @@ Every citation below sits inside its own parentheses, exactly as written, so `to
 - **Quest** - `(Quest: Title)`
 - **Named Creature** - `(Named Creature: Name)`
 - **Unique Treasure** - `(Unique Treasure: Name)`
-- **Treasure table** - `(Treasure [I-V], d20)`
+- **Treasure table** - `(Treasure [I-V], d20)` - a table roll is cited, never described, and each citation is one pull.
 - **Forced damage** - `(Test of Constitution, Xd, Type)`, `(Test of Sanity, Xd)`,
   `(Test of Fate, Condition)`, or `(Test of Fate, Impact)`, per `setting/Procedures.md`,
   which is where the Types, the Conditions and what `Xd` means are all defined. Every

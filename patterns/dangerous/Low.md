@@ -64,12 +64,3 @@ TRIGGER - exactly one
 ```
 
 ## Constraints
-
-- **Never let a room that simply ends pay out a route off the map.** A hidden way through
-  belongs to a room whose secret edge the block diagram drew, at 100%; if the room should
-  have the route, draw the edge at 4b and let the rate follow.
-
-- **A LOW room whose concealed detail has no stated Clue is an empty room.** Nothing else
-  carries the class, and players learn to walk through it.
-
-- **Never a search roll in place of the act.** Per `STYLE.md` the act is the mechanic.

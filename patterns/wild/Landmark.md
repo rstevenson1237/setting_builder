@@ -50,17 +50,3 @@ WILD - LANDMARK
 
 - **A Landmark can be named, revisited and connected to.** A slope, a brook, a field of
   flowers is what the region looks like, and belongs in its Terrain.
-
-- **Never roll for children.** The lead lines are mandatory per child the graph gives this
-  Landmark and absent otherwise; a Hidden child whose parent states no lead is
-  unreachable.
-
-- **A Crossing is chosen for what going around costs, never for who built or lives
-  there.** Where the same object's point is its history or its strangeness, it is a Ruin
-  or a Natural Feature and the route through it is incidental.
-
-- **Crossing is a Landmark kind only.** A crossing nobody can find is not doing the only
-  job the kind has.
-
-- **A concealed detail never pays out a route.** Ways onward are the child-lead lines; a
-  Payload that is a way through invents an edge the graph does not carry.

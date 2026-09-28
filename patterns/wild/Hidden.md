@@ -48,9 +48,3 @@ WILD - HIDDEN
 
 - **A Hidden way in is visible and easy to miss; a Secret way in is concealed until acted
   on.** Writing one as the other moves the location to the wrong tier.
-
-- **Never a clue reached only by acting on another clue.** That is two triggers deep, and
-  the second is never reached.
-
-- **A concealed detail never pays out a route.** Ways onward are its Secret-child Clue
-  lines, one per child the graph hangs here.

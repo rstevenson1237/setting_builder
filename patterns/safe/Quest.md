@@ -27,6 +27,3 @@ OMISSION - exactly one
 ```
 
 ## Constraints
-
-- **Never a target that is not a real location.** Every location exists as a gazetteer
-  stub before any is written, so a giver names one by code.

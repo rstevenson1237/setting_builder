@@ -40,10 +40,3 @@ DANGEROUS - HIGH
 ```
 
 ## Constraints
-
-- **Never add a discovery structure to a HIGH room.** What it hides is already carried
-  by a hidden Treasure or a Hazard's or Mystery's clue; a separate one is a third thing to
-  search in the region's most searched room.
-
-- **Never leave a HIGH room empty-handed.** A cleared high-weight room with nothing to take
-  has spent the region's scarcest slot on nothing.

@@ -37,8 +37,5 @@ DOING - exactly one
 
 ## Constraints
 
-- **Never state what going around costs, or that it is worth it.** Where a thing will not
-  go is a fact about the thing; the rest is the party's to find out.
-
 - **Never a lone individual in open country.** A single creature written as the only one
   of its kind belongs in a lair, not a landmark.

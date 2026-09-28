@@ -82,9 +82,6 @@ SAFE - LOCATION                        (parameterized by prominence)
   place whose premise is that something worth protecting sits behind it is working at
   least.
 
-- **The gate is one line, here, and never one per Kind.** What stays in a Kind file is the
-  answer that Kind gives it.
-
 - **Never conceal something in a settlement that nobody living put there.** A concealed
   detail here has an owner, an heir, or somebody quietly maintaining it; ownerless
   concealment is a DANGEROUS device.

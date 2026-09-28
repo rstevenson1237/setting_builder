@@ -115,6 +115,17 @@ the location writer now has in hand: the template's static reads (`GENRE.md`, `S
 `tools/context.py` sheet whose draws are already settled. Nothing here has been applied; each
 row is a proposal.
 
+**Applied 2026-09-28.** 61 entries cut; the seven generalized lines are
+`templates/Location.md` instruction 8 and its Treasure table citation; Door's two block-scale
+rules merged; three DRAW-TIME rules folded into menu item definitions (Environmental
+`collapse` and `growth`, WILD Hazard `living`), the rest cut. Two rows stay as they were:
+`safe/Wealth.md`'s hidden-Protection rule, since the concealed-detail rate resolves before
+the Protection is drawn and `context.py` cannot enforce it; and the `patterns/setting/`
+NOT-4C rows needed no change, since `context.py` never opens a file another step's template
+writes. The `warded` weighting is not applied: named menus are drawn unweighted, so it needs
+`tools/draw.py` support first. Cutting High.md's "never empty-handed" removes its conflict
+with `STYLE.md`'s Withholding. Median sheet after: A 2,969, B 1,009, C 1,969 tokens.
+
 | Verdict | Count | Meaning |
 |---|---|---|
 | KEEP | 43 | closes a pathway nothing else closes, at write time - stays |

@@ -43,8 +43,5 @@ FIXTURE - exactly one
 - **A fixture whose answer is elsewhere in the region is a lock.** It owes a
   `setting/Keys.md` row through `dangerous/Key.md`'s demand end.
 
-- **A fixture that costs on contact is a hazard.** Anything acting on entry, touch or
-  presence is drawn at `dangerous/Hazard.md`.
-
 - **Never write what the fixture is for above the details it is reasoned from.** That
   reverses the only work the players had to do.

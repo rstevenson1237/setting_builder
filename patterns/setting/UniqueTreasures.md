@@ -54,6 +54,3 @@ ORIGIN - exactly one
 
 - **Never an invented origin.** An artifact nothing established can account for is
   disconnected from the setting by construction, and should not exist.
-
-- **The location names and cites it only.** What it does and what it costs are written
-  here, never in the location entry.

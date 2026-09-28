@@ -24,18 +24,4 @@ DRESSING - every WILD location
 
 ## Constraints
 
-- **No detail budget is not a licence to explain.** Every WILD location gets its position,
-  Condition, Ambiance and full complement of Features; none of them is written at length.
-
-- **Never restate the Region Overview's Terrain.** The connective texture between points
-  is narrated from there.
-
 - **Never give a detail its causal history.** It is present, or it is not.
-
-- **Never leave a part that could not share this ground with the rest.** Change it rather
-  than explaining it.
-
-- **Never describe a landform, watercourse, plant or weather that has a name.** Name it,
-  and name the species rather than "trees".
-
-- **Purpose is supplied by the kind file.** Dressing never reopens what a place is for.

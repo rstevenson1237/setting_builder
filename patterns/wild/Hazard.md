@@ -25,8 +25,8 @@ MECHANISM - exactly one
   set          - something somebody placed, and delivers Piercing, Crushing or Poison
   ground       - a condition of the ground itself, and delivers Crushing from a fall or
                  slide, Frost from water and exposure, or Poison from bad air
-  living       - a living thing that acts on whatever passes, and delivers Poison or the
-                 Condition its sting or spore leaves
+  living       - a living thing that acts on whatever passes and wants nothing else, and
+                 delivers Poison or the Condition its sting or spore leaves
 ```
 
 ```
@@ -46,9 +46,6 @@ WARNING - at least one
 ```
 
 ## Constraints
-
-- **A living hazard is not an encounter.** Where the thing has a want, a reaction, or
-  somewhere else it could be, it is a creature and belongs in `wild/Creature.md`.
 
 - **Never a set hazard without an owner.** Somebody put it here for something, and that
   somebody is a fact about the region.
