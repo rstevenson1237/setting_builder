@@ -1,0 +1,27 @@
+Tags of A Greywatch
+
+- **Outer Bailey** - the yard nearest the gate holds every trade and lodging a traveller can pay for; nothing sworn to the garrison sleeps out here.
+- **Inner Bailey** - past the second gate, only the garrison's own quarters, its granary, and its armoury stand; no outsider is let through without an escort.
+- **Toll Ledger** - what a party carries out of the ravine is weighed and priced against this ledger at the gate, not against what it cost to get.
+- **Watch Bell** - a bell in the gate tower rings every change of watch, on a schedule the roster can't always keep to strength.
+- **Grain Count** - the granary's tally is checked weekly against what the garrison actually has stores for, and the difference is never announced.
+- **Forge Debt** - the keep's one smith works on credit against future finds, and calls in what's owed before anything new gets made.
+- **Gate Hours** - the outer gate stands open from first light to last, and closed after, with no exception made for anyone still on the road.
+- **Law's Register** - the keep's priest of Law keeps a written register of every rite performed and every ward laid, kept separately from the garrison's own rolls.
+- **Commander's Tower** - the tallest standing structure, where the garrison's commander keeps both the watch schedule and whoever's under confinement.
+- **Trade Row** - the outer bailey's own row of stalls, worked by whichever trader's paid the season's bond to set one up.
+- **Stable Block** - what few mounts the garrison keeps are stabled here, along with anything hired out to a party that can pay.
+- **Chapel of Law** - a small chapel past the inner gate, the only place in the keep where Law's own rites are spoken rather than just enforced.
+- **Quartermaster's Store** - keep-issue gear is drawn from here against a name on the roster, and nothing else moves through it unrecorded.
+- **Retainer's Board** - a board at the gate where a party can post for hire, or find who else is looking for one.
+- **Riverside Well** - the keep's one working well, its water rationed the moment the grain count drops.
+- **Signal Fire** - an unlit brazier atop the gate tower, kept ready to call the garrison to the wall on short notice.
+- **Prisoner's Cage** - a barred cell in the inner bailey, holding whoever the garrison hasn't yet decided what to do with.
+- **Old Timers** - a handful of soldiers who've served since the founding, and disagree with each other about why the keep was raised here at all.
+- **Camp Followers** - those who came with the garrison but answer to no roster, working whatever trade the bailey will bear.
+- **Healer's Tent** - a single field medic works out of a tent rather than a proper room, stretched thin against whatever a party carries back hurt.
+- **Gate Watch Roster** - names posted at the gate each morning, and struck off the moment they're not there to answer it.
+- **Merchant's Bond** - any trader who wants to sell inside the bailey posts a bond against short-changing a soldier, forfeit if they're caught at it.
+- **Ravine Coin** - old-tongue coin brought up from the ravine is only taken at the gate for a fraction of a common coin's worth.
+- **Watch Log** - a written log of every patrol's report, kept by the commander and read by no one else.
+- **Second Gate** - the barred gate between outer and inner bailey, manned day and night, the only crossing point between the two.
