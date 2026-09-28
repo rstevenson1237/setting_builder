@@ -777,7 +777,17 @@ def check_summary_promises(diag: Diagnostics, path: Path, summary: str, lines: l
                         f"what the room contains, and the referee improvises an unkept one")
 
 
+# templates/Location.md instruction 2 - the sheet is raw material, the entry a
+# few sentences. Warned rather than errored: length is judged, not parsed.
+FEATURE_MAX_WORDS = 30
+NOTES_MAX_SENTENCES = 3
+
+
 def check_feature_grammar(diag: Diagnostics, path: Path, label: str, body: str):
+    words = len(CITATION_RE.sub("", body).split())
+    if words > FEATURE_MAX_WORDS:
+        diag.warn(path, f"Feature '{label}' runs {words} words before its citation - "
+                        f"templates/Location.md instruction 2 allows {FEATURE_MAX_WORDS}")
     last = None
     for m in CITATION_RE.finditer(body):
         last = m
@@ -850,6 +860,10 @@ def check_location_file(diag, path, region_code, num, stub, rating, all_location
     notes = body[idx].strip()
     if not (notes.startswith("*") and not notes.startswith("**") and notes.endswith("*") and not notes.endswith("**")):
         diag.error(path, "Referee Notes line is not wrapped in single-asterisk italics")
+    sentences = len(re.findall(r'[.!?](?=\s|\*?$)', notes.strip("*").strip()))
+    if sentences > NOTES_MAX_SENTENCES:
+        diag.warn(path, f"Referee Notes run {sentences} sentences - templates/Location.md "
+                        f"instruction 2 allows {NOTES_MAX_SENTENCES}")
     idx += 1
 
     features = []

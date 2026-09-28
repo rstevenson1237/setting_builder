@@ -1,31 +1,31 @@
 #!/usr/bin/env python3
-"""The read set for one location, assembled and printed as one stream - and
-what writing a region that way costs, against writing it in one session.
+"""One location's 4c sheet - what its class contract drew, settled - and what
+writing a region costs under each strategy.
 
-A 4c session otherwise opens a dozen files and walks the pattern tree itself,
-carrying every branch it did not take and deciding every rate and draw by
-feel. This walks the tree once from the location's class file, settles what is
-arithmetic per `tools/draw.py` - whether each rated line fires, which item each
-draw gives, which one of a paired kind's files is followed - and prints what is
-left, with every line it did not take marked and not followed.
+This walks the pattern tree once from the location's class file and settles
+what is arithmetic per `tools/draw.py`: whether each rated line fires, which
+item each draw gives, which one of a paired kind's files is followed, and which
+conditional lines hold. It prints only the leaves - each drawn item and each
+open question that applies - with the Constraints of the files that gave them,
+minus any about an item not drawn. Rates, Spec blocks, Provides and undrawn
+menus are left out. The static reads come from templates/Location.md's
+Context, not from here.
 
-The stream is ordered for a prompt cache. Everything identical for every room
-of one region comes first (the prefix); what is this room's alone comes last
-(the suffix). Two things never appear: a sibling location, because a room
-written against its neighbours' prose converges on them, and a registry's
-content, because what a name means is 4d's.
+Two things never appear: a sibling location, because a room written against
+its neighbours' prose converges on them, and a registry's content, because what
+a name means is 4d's.
 
 Usage:
   python3 tools/context.py 4c CODE [--reroll KEY=N ...] [--set NAME=VALUE ...]
                                     [--words]
   python3 tools/context.py cost [REGION ...] [--harness TOKENS] [--turns K]
 
-  4c CODE     the stream for one location (`C.5`)
+  4c CODE     the sheet for one location (`C.5`)
   --reroll    move one draw on; the key is printed in brackets beside it
   --set       settle a draw by hand - `--set prominence=central` - where the
               template, not the unit, owns the decision (one central location
               per settlement)
-  --words     print the prefix/suffix word and token split instead of the stream
+  --words     print the static-read and sheet sizes instead of the sheet
   cost        the four-strategy cost model over every location already written
               in the named regions (all regions by default); see cost_report()
   --harness   tokens the host adds to every call before this stream - a system
@@ -79,7 +79,7 @@ BRACE_RE = re.compile(r'\{([^{}]*)\}', re.S)
 NAMED_RE = re.compile(r'^[A-Z][A-Z ]*$')
 BLOCK_HEAD_RE = re.compile(r'^([A-Z][A-Z -]*?)(?:\s+-\s+(.*?))?\s*(?:\(.*\))?\s*$')
 ITEM_RE = re.compile(r'^ {2}(\S[^-]*?)\s+-\s+(.*)$')
-LABEL_RE = re.compile(r'^(?:Where\s+)?([A-Z][a-z]+):\s')
+LABEL_RE = re.compile(r'^(?:Where\s+)?([A-Za-z][a-z-]+):\s')
 WHERE_RE = re.compile(r'\bwhere (?:the|a|an) ([a-z]+) (?:is|was) (?:an? |the )?'
                       r'([a-z][a-z ]*?)(?=\s{2,}|[,.\n]|$)', re.I)
 DRAWN_RE = re.compile(r'\bwhere an? ([a-z]+) was drawn\b', re.I)
@@ -292,10 +292,19 @@ class Resolution:
         self.seeds: dict[frozenset, str] = {}
         self.record: list[tuple[str, str]] = []
         self.drawn_by_file: dict[tuple[str, str], set] = {}
+        # `an encounter here is never drawn absent`: a class file's own line
+        # overrides a line of the same name in a file it opens.
+        self.forbidden: set[str] = set()
         if stub.basis:
             self.seeds[frozenset({"purpose", "household"})] = stub.basis
+        self._weights = {f"{stub.region}.{n}": (st.get("weight") or "").lower()
+                         for n, st in sc.parse_locations_gazetteer(stub.region).items()}
         self.lock_owed = any(
             stub.code in e.locations[1:] for e in _registry("keys"))
+
+
+    def children(self, weight: str) -> list[str]:
+        return [e["far"] for e in self.stub.exits if self._weights.get(e["far"]) == weight]
 
 
 class Instance:
@@ -347,6 +356,7 @@ class Out:
 
     def __init__(self, marker: str, physical: list[str], notes: list[str]):
         self.marker, self.physical, self.notes = marker, physical, notes
+        self.text, self.ordinal, self.far, self.followed = "", 0, None, False
 
 
 def exit_condition(text: str, exits: list[dict]) -> bool | None:
@@ -406,11 +416,14 @@ def fixed_kinds(line_cites: list[str]) -> tuple[list[str], dict[str, dict]]:
 
 
 def resolve_line(inst: Instance, key: str, rate: str, physical: list[str],
-                 named: dict[str, NamedBlock], exit_slot: dict | None
+                 named: dict[str, NamedBlock], exit_slot: dict | None,
+                 vocab: frozenset = frozenset()
                  ) -> tuple[Out, list[str], dict[str, dict]]:
     """One logical line: whether it applies, what it draws, and what it opens."""
     res, rel_path = inst.res, inst.rel
-    code, text = res.stub.code, "\n".join(physical)
+    # Both ends of an edge draw its door from the edge, so they agree.
+    code = exit_slot["edge"] if exit_slot else res.stub.code
+    text = "\n".join(physical)
     flat = " ".join(text.split())
     body = RATE_RE.sub("", physical[0], count=1).strip()
     notes: list[str] = []
@@ -433,6 +446,12 @@ def resolve_line(inst: Instance, key: str, rate: str, physical: list[str],
         if note:
             notes.append(note)
 
+    first = re.match(r'[A-Za-z]+', body)
+    if kept and first and first.group(0).lower() in res.forbidden:
+        drop(f"never drawn {first.group(0).lower()} in this class")
+    child = re.search(r'\beach (Hidden|Secret) child\b', flat)
+    if kept and child and not res.children(child.group(1).lower()):
+        drop(f"no {child.group(1).lower()} child hangs here")
     if kept and "lock obligation recorded against this room" in flat:
         if not res.lock_owed:
             drop("no setting/Keys.md row names this room as a lock")
@@ -448,9 +467,13 @@ def resolve_line(inst: Instance, key: str, rate: str, physical: list[str],
         drawn_m = DRAWN_RE.search(text)
         not_drawn = re.match(r'([A-Za-z]+), where it was not already drawn', body)
         if lab:
-            known, drawn = inst.value_of(lab.group(1))
-            if known and drawn != lab.group(1).lower():
-                drop(f"no {lab.group(1).lower()} here - {drawn} was drawn")
+            word = lab.group(1).lower()
+            known, drawn = inst.value_of(word)
+            if known and drawn != word:
+                drop(f"no {word} here - {drawn} was drawn")
+            elif (not known and body.lower().startswith("where ")
+                  and word in vocab and word not in inst.every):
+                drop(f"no {word} was drawn")
         elif not_drawn:
             if not_drawn.group(1).lower() in inst.every:
                 drop(f"{not_drawn.group(1).lower()} was already drawn")
@@ -464,6 +487,7 @@ def resolve_line(inst: Instance, key: str, rate: str, physical: list[str],
 
     if not kept:
         return Out(marker, physical[:1], notes), [], {}
+    res.forbidden |= {w.lower() for w in re.findall(r'never drawn (\w+)', flat)}
 
     # the draws on the line, in order
     line_cites = cites(text, rel_path)
@@ -546,6 +570,14 @@ def resolve_line(inst: Instance, key: str, rate: str, physical: list[str],
         fixed: dict[str, dict] = {}
     else:
         follow, fixed = fixed_kinds(line_cites)
+        if not braces and len(follow) > 1 and re.search(
+                r'\bdrawn as an? \w+ or an? \w+', flat, re.I):
+            okey = f"{key}.or"
+            kinds = [Path(f).stem.lower() for f in follow]
+            drawn = pick(code, okey, [(k, None) for k in kinds], res.rerolls.get(okey, 0))
+            follow = [follow[kinds.index(drawn)]]
+            notes.append(f"drew: {drawn}   [{okey}]")
+            res.record.append((okey, drawn))
     other = re.search(r'\b(?:of|from) a different ([a-z]+)', flat)
     if other:
         fixed = {f: dict(fixed.get(f, {}), __differ__=other.group(1).upper())
@@ -554,22 +586,42 @@ def resolve_line(inst: Instance, key: str, rate: str, physical: list[str],
 
 
 class ResolvedFile:
-    def __init__(self, inst: Instance):
-        self.rel, self.n = inst.rel, inst.n
+    def __init__(self, inst: Instance, via: str = ""):
+        self.rel, self.n, self.via = inst.rel, inst.n, via
         self.blocks: list[tuple[str, list[Out]]] = []
         self.named: dict[str, NamedBlock] = {}
         self.prose = self.constraints = ""
+        self.vocab: frozenset = frozenset()
 
 
-def resolve_file(inst: Instance) -> tuple[ResolvedFile, list[tuple[str, dict]]]:
+def file_vocab(text: str, named: dict[str, NamedBlock]) -> frozenset:
+    """Every item a file's draws can give, lowercased."""
+    out = {i.lower() for b in named.values() for i in b.values()}
+    m = re.search(r'\n## Spec\n(.*?)(?=\n## Constraints\n|\Z)', text, re.S)
+    for bm in BRACE_RE.finditer(m.group(1) if m else ""):
+        inner = " ".join(bm.group(1).split())
+        if not NAMED_RE.match(inner):
+            out |= {i.lower() for i, _ in items_of(inner)}
+    return frozenset(out)
+
+
+def edge_id(a: str, b: str) -> str:
+    def k(c: str):
+        m = re.match(r'([A-Z]+)\.(\d+)', c)
+        return (m.group(1), int(m.group(2))) if m else (c, 0)
+    return "-".join(sorted((a, b), key=k))
+
+
+def resolve_file(inst: Instance, via: str = "") -> tuple[ResolvedFile, list[tuple[str, dict, str]]]:
     """One reading of one file: its unit blocks resolved, per exit where a block
     says `every exit`, and what its kept lines open."""
     res = inst.res
     text = (PATTERNS / inst.rel).read_text()
     units, named = spec_blocks(text)
-    rf = ResolvedFile(inst)
+    rf = ResolvedFile(inst, via)
     rf.named, rf.prose, rf.constraints = named, spec_prose(text), constraints(text)
-    opened: list[tuple[str, dict]] = []
+    rf.vocab = file_vocab(text, named)
+    opened: list[tuple[str, dict, str]] = []
     ordinal = 0
     for head, lines in units:
         per_exit = "every exit" in head.lower()
@@ -580,21 +632,26 @@ def resolve_file(inst: Instance) -> tuple[ResolvedFile, list[tuple[str, dict]]]:
             ordinal = start
             if slot is not None:
                 inst.domains = {}
+                slot = dict(slot, edge=edge_id(res.stub.code, slot["far"]))
             for rate, physical in logical_lines(lines):
                 if rate is None:
                     if si == 0:
                         outs.append(Out(" ", physical, []))
                     continue
                 ordinal += 1
-                key = inst.key(ordinal) + (f"@{slot['far']}" if slot else "")
-                out, follow, fixed = resolve_line(inst, key, rate, physical, named, slot)
+                key = inst.key(ordinal) + (f"@{slot['edge']}" if slot else "")
+                out, follow, fixed = resolve_line(inst, key, rate, physical, named, slot,
+                                                  rf.vocab)
+                out.text, out.ordinal = "\n".join(physical), ordinal
+                out.far = slot["far"] if slot else None
+                out.followed = bool(follow)
                 if slot is not None:
                     out.notes = [f"{slot['far']}: {n}" for n in out.notes] or \
                         ([f"{slot['far']}: not here"] if out.marker == "-" else [])
                     if si > 0:
                         out.physical = []
                 outs.append(out)
-                opened += [(f, fixed.get(f, {})) for f in follow]
+                opened += [(f, fixed.get(f, {}), leaf_text(out.text)) for f in follow]
         rf.blocks.append((head, outs))
     return rf, opened
 
@@ -609,9 +666,9 @@ def resolve(stub: Stub, rerolls: dict, settled: dict) -> tuple[list[ResolvedFile
     order: list[ResolvedFile] = []
     readings: dict[str, int] = {}
     elsewhere = written_elsewhere()
-    queue: list[tuple[str, dict]] = [(stub.entry_file, {})]
+    queue: list[tuple[str, dict, str]] = [(stub.entry_file, {}, "")]
     while queue:
-        rel_path, fixed = queue.pop(0)
+        rel_path, fixed, via = queue.pop(0)
         if rel_path in elsewhere or not (PATTERNS / rel_path).exists():
             continue
         readings[rel_path] = readings.get(rel_path, 0) + 1
@@ -620,7 +677,7 @@ def resolve(stub: Stub, rerolls: dict, settled: dict) -> tuple[list[ResolvedFile
         fixed = dict(fixed)
         differ_on = fixed.pop("__differ__", None)
         inst = Instance(res, rel_path, readings[rel_path], fixed, differ_on)
-        rf, opened = resolve_file(inst)
+        rf, opened = resolve_file(inst, via)
         order.append(rf)
         queue.extend(opened)
     return order, res
@@ -688,88 +745,151 @@ def prefix_files(region: str) -> list[Path]:
 
 
 def render_prefix(region: str) -> str:
-    out = [f"# Step 4c context - region {region}", "",
-           "Everything above the line `## This location` is identical for every room "
-           "of this region. Write the location from this stream and nothing else.", ""]
+    out = [f"# Step 4c static reads - region {region}", ""]
     for path in prefix_files(region):
         out += [f"## {rel(path)}", "", path.read_text().strip(), ""]
     out += [f"## The format ({rel(TEMPLATES / 'Location.md')})", "", template_body(), ""]
     return "\n".join(out)
 
 
+CITE_PAREN_RE = re.compile(r'\((?:[^()]*\.md[^()]*)\)')
+
+
+def leaf_text(text: str) -> str:
+    """A Spec line as the question it asks: rate, draw sets and citations cut."""
+    t = RATE_RE.sub("", text.split("\n")[0], count=1) + " " + " ".join(
+        l.strip() for l in text.split("\n")[1:])
+    t = CITE_PAREN_RE.sub("", BRACE_RE.sub("", t))
+    return " ".join(t.split()).rstrip(" -,:")
+
+
+NOTE_KEY_RE = re.compile(r'\s*\[([^\]]+)\]\s*$')
+
+
+def leaf_answers(o: Out) -> list[tuple[str | None, str]]:
+    """(exit or None, answer) for each draw a kept line made."""
+    out = []
+    for n in o.notes:
+        far = None
+        m = re.match(r'([A-Z]+\.\d+): (.*)', n)
+        if m and o.far:
+            far, n = m.group(1), m.group(2)
+        if "(the diagram's edge)" in n or n == "not here":
+            continue
+        n = n.replace("   (settled earlier)", "").replace("drew: ", "")
+        n = re.sub(r'^[A-Z][A-Z ]*: ', '', n)
+        key = NOTE_KEY_RE.search(n)
+        body = NOTE_KEY_RE.sub("", n).strip()
+        out.append((far, body + (f"  [{key.group(1)}]" if key else "")))
+    return out
+
+
+def constraint_entries(text: str) -> list[str]:
+    return [e.strip() for e in re.split(r'\n(?=- \*\*)', "\n" + text) if e.strip()]
+
+
+def mentions(title: str, vocab: frozenset) -> set[str]:
+    """The draw items a Constraint's bold title is about, matched on a stem."""
+    low, hit = title.lower(), set()
+    for item in vocab:
+        stem = re.sub(r'(ed|s)$', '', item) if len(item) > 5 else item
+        if len(stem) >= 4 and re.search(rf'\b{re.escape(stem)}', low):
+            hit.add(item)
+    return hit
+
+
 def render_suffix(stub: Stub, rerolls: dict, settled: dict) -> str:
+    """This room's sheet: what it is, where it leads, and the leaves its contract
+    drew - each drawn item and each open question that applies. Everything the
+    contract did not take, and every rate and Spec block, is left out."""
     out: list[str] = []
     w = out.append
-    w(f"## This location - {stub.code} {stub.name}")
-    w("")
-    w(f"Write `setting/region/{stub.region}/{stub.num}.md`.")
+    w(f"## {stub.code} {stub.name} - write `setting/region/{stub.region}/{stub.num}.md`")
     w("")
     w(f"{stub.code} **{stub.name}**" + (f" ({stub.weight})" if stub.weight else "")
       + f" - *{stub.tags}*")
-    w(f"Region: {stub.region} {stub.region_name} - {stub.rating}"
-      + (f", {stub.die}" if stub.die else ""))
     if stub.block:
         w(f"Block: {stub.block}" + (f" ({stub.basis})" if stub.basis else ""))
     w("")
-    w("### Exits, as the diagrams drew them")
-    w("")
+    w("Exits:")
     if stub.exits:
         for ex in stub.exits:
             arrow = "<-" if ex["note"].startswith(" (one-way, in)") else "->"
             w(f"  {ex['kind']:9s} {arrow} {ex['far']} {ex['name']}{ex['note']}")
         if any(ex["note"].startswith(" (one-way, in)") for ex in stub.exits):
-            w("  `<-` arrives here and is no exit from this room - it is not listed under Exits")
+            w("  (`<-` arrives here and is no exit from this room)")
     else:
-        w("  (none drawn at 4b)")
+        w("  none")
     w("")
     names = registry_names()
     if names:
-        w("### Names a citation may use")
-        w("")
+        w("Names a citation may use:")
         for label, entries in names:
             w(f"  {label}: {', '.join(entries)}")
         owed = recorded_against(stub.code)
         if owed:
-            w("")
-            w("Already recorded against this room by a location written earlier:")
+            w("Already recorded against this room:")
             for line in owed:
                 w(f"  {line}")
         w("")
-    w("### The contract, resolved")
-    w("")
-    w("A rated or conditional line is marked `+` where it applies here and `-` where "
-      "it does not; a `-` line was not followed into the files it cites. `->` is what "
-      "a draw gave this room. To move one on: `--reroll KEY=1`, the key in brackets.")
-    w("")
-    files, _ = resolve(stub, rerolls, settled)
+    files, res = resolve(stub, rerolls, settled)
+    drawn = {v.strip().lower() for _, rec in res.record for v in
+             re.split(r',\s*', rec.split(": ", 1)[-1])}
+    drawn |= set(res.seeds.values())
+    w("Drawn - write each; move one that cannot fit with `--reroll KEY=1`, "
+      "the key in brackets:")
+    contributing: list[ResolvedFile] = []
     for rf in files:
-        w(f"#### {rf.rel}" + (f" (reading {rf.n})" if rf.n > 1 else ""))
-        w("")
-        for head, outs in rf.blocks:
-            w("```")
-            if head:
-                w(head)
+        lines: list[str] = []
+        for _, outs in rf.blocks:
+            per_line: dict[int, list[Out]] = {}
             for o in outs:
-                for i, phys in enumerate(o.physical):
-                    w(f"{o.marker if i == 0 else ' '}{phys}")
-                for n in o.notes:
-                    w(f"        -> {n}")
-            w("```")
-            w("")
+                if o.ordinal:
+                    per_line.setdefault(o.ordinal, []).append(o)
+            for ordinal, group in per_line.items():
+                kept = [o for o in group if o.marker != "-"]
+                if not kept:
+                    continue
+                if all(n.endswith("(the diagram's edge)") or n.endswith(": not here")
+                       for o in kept for n in o.notes) and any(o.notes for o in kept):
+                    continue
+                q = leaf_text(kept[0].text)
+                answers = [a for o in kept for a in leaf_answers(o)]
+                if answers:
+                    for far, a in answers:
+                        lines.append(f"  - {far + ': ' if far else ''}{q} -> {a}")
+                elif not any(o.followed for o in kept):
+                    fars = [o.far for o in kept if o.far]
+                    scope = ("" if not fars or len(fars) == len(group)
+                             else ", ".join(fars) + ": ")
+                    lines.append(f"  - {scope}{q}")
         for name, block in rf.named.items():
             if block.mode == "decided":
-                w(f"{name} - {block.qualifier}")
-                for item, definition in block.items:
-                    w(f"  {item} - {definition}")
-                w("")
-        if rf.prose:
-            w(rf.prose)
-            w("")
-        if rf.constraints:
-            w("Constraints:")
-            w("")
-            w(rf.constraints)
-            w("")
+                lines.append(f"  - {name}, {block.qualifier}: "
+                             + " | ".join(f"{i} ({d})" for i, d in block.items))
+        if lines:
+            head = rf.via or "This room"
+            w(f"* {head}" + (f" (again)" if rf.n > 1 else ""))
+            out.extend(lines)
+            contributing.append(rf)
+    w("")
+    kept_cons: list[str] = []
+    seen: set[str] = set()
+    for rf in contributing:
+        if rf.rel in seen or not rf.constraints:
+            continue
+        seen.add(rf.rel)
+        for e in constraint_entries(rf.constraints):
+            title = re.match(r'- \*\*(.*?)\*\*', e, re.S)
+            about = mentions(title.group(1), rf.vocab) if title else set()
+            if about and not about & drawn:
+                continue
+            kept_cons.append(e)
+    if kept_cons:
+        w("Constraints that apply:")
+        w("")
+        out.extend(kept_cons)
+        w("")
     return "\n".join(out)
 
 
@@ -911,10 +1031,10 @@ def main(argv: list[str]) -> int:
                                f"{', '.join(unknown)} - use the key exactly as printed "
                                "in brackets")
         if words_only:
-            print(f"prefix {len(prefix.split()):,} words / {tokens(prefix):,} tok; "
-                  f"suffix {len(suffix.split()):,} words / {tokens(suffix):,} tok")
+            print(f"static reads {len(prefix.split()):,} words / {tokens(prefix):,} tok; "
+                  f"sheet {len(suffix.split()):,} words / {tokens(suffix):,} tok")
         else:
-            print(prefix + "\n" + suffix)
+            print(suffix)
     except ContextError as e:
         print(f"context.py: {e}")
         return 1

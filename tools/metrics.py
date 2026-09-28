@@ -350,7 +350,8 @@ def report_budget() -> None:
 # than folded into one number that would be right for no region.
 # ---------------------------------------------------------------------------
 
-FIXED_CONTEXT = ("CLAUDE.md", "README.md", "GENRE.md", "templates/Location.md",
+FIXED_CONTEXT = ("CLAUDE.md", "README.md", "GENRE.md", "STYLE.md", "BRIEF.md",
+                 "templates/Location.md",
                  "setting/Truths.md", "setting/Procedures.md", "setting/Language.md")
 
 

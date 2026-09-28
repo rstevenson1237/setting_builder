@@ -4,25 +4,17 @@
 The full write-up for a single location, saved as `[Location Code].md` inside its region's folder (e.g. `setting/region/A/1.md`).
 
 ## Context
-`python3 tools/context.py 4c [Location Code]` prints everything below, assembled, with the
-class file's rates and draws already settled; where it is used, open nothing else.
-
-Consult when drafting - and only this, deliberately narrow so the entry stays shaped by its stub and region rather than washed out by the full setting:
+Read first - the same for every location in a region, so read once per session:
 - `GENRE.md` - a Feature is something to react to on the spot, not a beat in a larger scripted arc.
-- `BRIEF.md` - this build's design requests, which replace this template's defaults where they speak
-- this location's class file, named by its rating and its stub's weight/classification. It is
-  the **entry point for everything the pattern library contributes here**: every other pattern
-  file is reached from its Spec, and none is pulled in directly.
-  - SAFE - `patterns/safe/Settlement.md`
-  - WILD - `patterns/wild/Landmark.md`, `patterns/wild/Hidden.md`, or
-    `patterns/wild/Secret.md`
-  - DANGEROUS - `patterns/dangerous/High.md`, `patterns/dangerous/Medium.md`, or
-    `patterns/dangerous/Low.md`
-- this location's parent Region Overview (`setting/region/[Region Code].md`).
-- this location's own gazetteer stub (name, weight/classification, its three tags) from `setting/region/[Region Code]/Locations.md`. The tags are the spark the entry is written to - each should be recognisable in what it holds - but they name no Kind and carry no inclusion math.
-- `setting/Truths.md` - read at every location, whatever its rating or weight. Availability is not a quota: where this location touches a truth it is an **instance** of it, in this room's own terms, never a restatement of it. A truth surfacing in every room is wallpaper.
-- `setting/Procedures.md` - the shared mechanics the pattern files cite rather than restate: trap resolution, searching, time, and scaling.
-- `setting/Language.md` - roots for any proper noun coined here, and where every coinage is recorded back; it is the one artifact that grows as generation proceeds.
+- `STYLE.md` - the three tests, which outrank everything below.
+- `BRIEF.md` - this build's design requests, which replace this template's defaults where they speak.
+- `setting/Truths.md` - where this location touches a truth it is an **instance** of it, in this room's own terms, never a restatement of it. A truth surfacing in every room is wallpaper.
+- `setting/Procedures.md` - the shared mechanics a Feature cites rather than restates.
+- `setting/Language.md` - roots for any proper noun coined here, and where every coinage is recorded back.
+- this location's parent Region Overview, `setting/region/[Region Code].md`.
+
+Then, per location, run `python3 tools/context.py 4c [Location Code]` and write from its sheet: the gazetteer stub (its three tags are the spark the entry is written to), the exits as the diagrams drew them, the names a citation may use, every line this location's class file drew - already settled, with nothing it did not draw - and the Constraints those lines carry. The sheet is walked from the class file named by the stub's rating and weight or classification: SAFE `patterns/safe/Settlement.md`; WILD `patterns/wild/Landmark.md`, `patterns/wild/Hidden.md` or `patterns/wild/Secret.md`; DANGEROUS `patterns/dangerous/High.md`, `patterns/dangerous/Medium.md` or `patterns/dangerous/Low.md`. Open no pattern file and no sibling location.
+
 - For a WILD Hidden or Secret location, its parent must already be generated, since its connection is written into the parent's own Exits or Features - generate WILD locations Landmark tier first, then Hidden, then Secret.
 - If a Feature calls for a piece of Lore, a Key, a Quest, a Named Creature, or a Unique Treasure, record only a **stub** (name and this location) in the matching `setting/` file now. Its full content is written later, in step 4d. This is the container/data split: the location cites, the registry holds.
 
@@ -30,8 +22,8 @@ Consult `setting/Bestiary.md`, `setting/Factions.md`, `setting/History.md`, or `
 
 ## Instructions
 
-1. Read the assigned class file for this location in patterns/
-2. This pattern determines the minimum percentage that a feature or detail occurs in this location, consider '1' a mandatory entry
+1. Every line the sheet drew is written, and nothing it did not draw is added. A drawn line that cannot fit the room is moved with `--reroll`, never overridden by hand
+2. **The sheet is raw material and the entry is a few sentences.** Each drawn line reaches the page in the fewest words that still let a party see, take or decide something - most lines are a clause on another thing's Feature, not a Feature of their own. A Feature runs at most 30 words before its citation, the Referee Notes at most three sentences
 3. Sort the Features the pattern produced by prominence, most important first, and write them in that order - this is a per-Feature ordering within one entry, distinct from a SAFE location's own liner note/working/central Prominence
 4. Give each thing the players can address its own Feature line. Where a line the pattern drew names something that can be looked at, acted on, taken, fought, or opened **as its own object**, it is its own Feature - treasure hidden in a pillar and guarded by a beast is three Features, not one complex one. A drawn line that only qualifies another thing - its condition, its position, how it is reached - stays on that thing's line. An entry is as long as the number of Features the pattern drew, which is the classifier's decision, not this line's. Where a Feature carries a registry citation it states only what is present and perceptible - what the thing means, what it was for, and what it opens is the registry entry's, written at 4d, per **A note on completeness** below
 5. **A Feature is one sentence, and its punctuation is closed:**
