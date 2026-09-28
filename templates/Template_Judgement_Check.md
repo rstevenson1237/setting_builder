@@ -20,6 +20,9 @@ For each file in `templates/`, confirm the following. Record each as Confirmed /
 - **Two-phase registries respected** - do templates that can introduce a Lore/Key/Named Creature/Unique Treasure entry (chiefly `templates/Location.md`) still correctly separate step 4c (stub: name and location only, no content) from step 4d (full entry, written later)?
 - **Format edge cases preserved** - read `templates/Location.md` (the most format-sensitive template) against the locations actually generated from it, and against the findings in the previous `setting/checks/TemplateJudgementCheck.md`. Is every format rule it states still unambiguous, and has any rule a past pass had to call out gone missing or gone vague? Check it against the template, never against a list kept here - a copy of those rules in this file would drift out of step with the template it is meant to be auditing.
 - **Genre drift guardrails** - does the template's Instructions section actively discourage the genre's main failure mode (an authored plot creeping in, magic becoming commonplace, an implied central authority) wherever that template is the kind of place it could creep in (History, Factions, Location Features)?
+- **Defaults yield to the brief** - is every count, mix and coverage rule in the template stated as a default that `BRIEF.md` replaces where it speaks? Check it against the last build: where the brief asked for something the default contradicts, which did the artifact follow? A default that won against the brief is a finding here, whatever the brief's wording.
+- **Defaults are neutral** - does any default carry one genre's assumptions (a type share justified by what one kind of region is built around, a mechanic only one reference has) that belongs in a `GENRE.md` answer or a `BRIEF.md` line instead?
+- **Every field is used** - does every field the template asks for get read by a later step, rolled at the table, or used by a referee running the artifact? A field that is only written, and read by nothing, produces planning prose.
 - **Consistency across templates** - do two templates that touch the same concept (e.g. weight, region rating, units) describe it the same way, rather than drifting into contradictory wording?
 
 ## Template
@@ -33,6 +36,9 @@ For each file in `templates/`, confirm the following. Record each as Confirmed /
 - Two-phase registries respected: [Confirmed / Needs Fix - note, or N/A]
 - Format edge cases preserved: [Confirmed / Needs Fix - note, or N/A]
 - Genre drift guardrails: [Confirmed / Needs Fix - note]
+- Defaults yield to the brief: [Confirmed / Needs Fix - note]
+- Defaults are neutral: [Confirmed / Needs Fix - note]
+- Every field is used: [Confirmed / Needs Fix - note]
 - Consistency across templates: [Confirmed / Needs Fix - note]
 
 [repeat per template file]

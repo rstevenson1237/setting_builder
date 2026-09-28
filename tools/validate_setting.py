@@ -1377,6 +1377,30 @@ def check_region_overview(diag: Diagnostics, code: str, rating: str):
                 diag.error(path, f"table {i} has {n} rows - a d6 table has six")
 
 
+def check_repeated_features(diag: Diagnostics, region_code: str):
+    """The same Feature sentence in two rooms of one region.
+
+    A room written with its siblings in view converges on them, and the first
+    sign is a sentence copied whole. Judged at STEPS.md step 5c, which also
+    reads for the near-repeats a string match cannot see.
+    """
+    rdir = SETTING / "region" / region_code
+    seen: dict[str, list[str]] = {}
+    for path in sorted(rdir.glob("[0-9]*.md"), key=lambda p: int(p.stem)):
+        for line in path.read_text().splitlines():
+            m = FEATURE_RE.match(line.strip())
+            if not m or m.group(1).strip() == "Exits":
+                continue
+            body = " ".join(m.group(2).split())
+            if len(body.split()) >= 8:
+                seen.setdefault(body, []).append(f"{region_code}.{path.stem}")
+    for body, codes in seen.items():
+        if len(codes) > 1:
+            diag.warn(rdir, f"the same Feature sentence in {len(codes)} rooms "
+                            f"({', '.join(codes)}): {body[:70]!r}... - a room written "
+                            f"from its siblings; judged at STEPS.md step 5c")
+
+
 def check_class_mix(diag: Diagnostics, region_code: str, rating: str, locs: dict):
     """templates/Location_Gazetteer.md's DANGEROUS mix: 30% HIGH, 50% MEDIUM, rest LOW.
 
@@ -1815,6 +1839,7 @@ def main() -> int:
         check_class_mix(diag, region_code, regions[region_code]["rating"], locs)
     for region_code, info in regions.items():
         check_region_overview(diag, region_code, info["rating"])
+        check_repeated_features(diag, region_code)
     check_registry_floors(diag, registries, build_complete)
     check_rumour_settling(diag, build_complete)
 

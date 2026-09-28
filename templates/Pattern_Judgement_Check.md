@@ -9,6 +9,9 @@ Consult when running this check:
 - `GENRE.md` - the standard a pattern's content is measured against.
 - every file in `patterns/`.
 - `templates/Location.md` (and any other template that consumes a pattern) - to see how a pattern's output actually gets used, since a pattern can only be judged generic or specific, discoverable or not, by how it lands on the page.
+- `STYLE.md` - which outranks every pattern.
+- `python3 tools/context.py 4c CODE` over a sample of locations, to see what a class file's rates and draws actually resolve to.
+- the most recent `setting/checks/SettingJudgementCheck.md`, whose findings traced to a pattern are this pass's evidence.
 - prior conversation/requests from the user calling for specific content, to check against the "gaps" and "doesn't fit anywhere" items below.
 
 ## Instructions
@@ -28,6 +31,9 @@ For each pattern file, and for the set of pattern files as a whole, confirm the 
   setting of this size is wired but not funded.
 - **Gaps** - is there a location type, weight, or region rating with no pattern coverage, or a pattern file that's thin relative to how often it'll be drawn on?
 - **Missing relevant features** - within an existing pattern, is there a feature type clearly relevant to that pattern's scope that isn't currently included (e.g. a common DANGEROUS-location situation the low/medium/high files don't address)?
+- **Rates compound sensibly** - resolve a sample of locations with `tools/context.py` and read the rates together rather than line by line: a per-exit rate that gates nearly every room with several exits, a pair of rates that between them fire in almost every room, a rate so low a region of this size never meets it. Record the rate and what it compounds to.
+- **Nothing contradicts STYLE.md** - does any pattern line require what a standing consequence forbids, or forbid what one requires (a room class that may never be empty against the rule that withholding is content; a guardian written as a fight with no condition)? `STYLE.md` wins; the pattern is the finding.
+- **Neutral and permanent** - does any Spec line, draw item or Constraint carry one genre's assumptions (a creature type as what a region is built around, a mechanic only one reference has) rather than a question `GENRE.md` answers?
 - **Unhoused content** - has the user asked for specific content (a mechanic, a theme, a recurring element) that doesn't fit into any current pattern file? Flag it explicitly rather than force-fitting it into an unrelated pattern, so it can become a new pattern file or an addition to an existing one.
 
 ## Deliberate restatement
@@ -62,6 +68,9 @@ which already owns the two that are genuinely constant.
 - Concealment triples stated per class, and not converged: [Confirmed / Needs Attention - note]
 - Gaps in coverage: [Confirmed / Needs Attention - note]
 - Unhoused user-requested content: [Confirmed / Needs Attention - note]
+- Rates compound sensibly: [Confirmed / Needs Attention - rate, and what it compounds to]
+- Nothing contradicts STYLE.md: [Confirmed / Needs Attention - note]
+- Neutral and permanent: [Confirmed / Needs Attention - note]
 
 ## [patterns/<folder>/File.md]
 - Tier coverage - obvious / trigger / secret: [Confirmed / Needs Attention - note]
