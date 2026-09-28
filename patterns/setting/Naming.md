@@ -47,6 +47,3 @@ SHAPE - exactly one
 - **Name only what will be referred to again** - entrances, set pieces, and anywhere a
   Quest, Key or piece of Lore points. Elsewhere a descriptive label beats a name, and
   naming a part separately from its whole weakens both.
-
-- **Never let a region's names share one mouth.** The gap between registers is free
-  characterisation; a region named entirely by one voice has thrown it away.

@@ -35,6 +35,3 @@ DAMAGE - whatever the mechanism delivers
 
 - **Never reach up a tier for a mechanism the region cannot support.** Take one from the
   tier above and remove what makes it worse.
-
-- **A trap is one Feature**, its tell and its effect on one line per
-  `templates/Location.md`, with its forced damage cited last.

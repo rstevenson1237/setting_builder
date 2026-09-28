@@ -333,16 +333,6 @@ def section(title: str, body: str, anchor: str | None = None) -> str:
     return f'<section class="doc-section"{id_attr}><h2>{html.escape(title)}</h2>{body}</section>'
 
 
-def tags_box(tags_pool: list[tuple[str, str]]) -> str:
-    """A boxed panel listing a Tags.md pool (tag, gloss) - pure seed/color, no links."""
-    if not tags_pool:
-        return ""
-    rows = "".join(
-        f'<dt>{html.escape(tag)}</dt><dd>{html.escape(gloss)}</dd>'
-        for tag, gloss in tags_pool
-    )
-    return f'<div class="tag-box"><h3>Tags</h3><dl>{rows}</dl></div>'
-
 
 MERMAID_FENCE_RE = re.compile(r"```mermaid\s*\n(.*?)```", re.DOTALL)
 
@@ -387,8 +377,9 @@ def top_graph_clicks(mmd_text: str, current_page: str) -> list[str]:
 def build_index(setting: sc.Setting, out: Path) -> None:
     page = "index.html"
     body = [f'<h1>{html.escape(setting.name)}</h1>']
+    if setting.tagline:
+        body.append(f'<p class="tagline">{html.escape(setting.tagline)}</p>')
     body.append(f'<p class="outline">{render_inline(setting.outline, setting, page)}</p>')
-    body.append(tags_box(setting.tags_pool))
 
     cards = []
     for href, label in NAV_LINKS[1:]:
@@ -443,10 +434,10 @@ def build_truths(setting: sc.Setting, out: Path) -> None:
 def build_rumours(setting: sc.Setting, out: Path) -> None:
     page = "rumours.html"
     rows = []
-    label = {"T": "True", "P": "Partly true", "F": "False"}
+    label = {"T": "True", "P": "Partly true", "F": "False", "U": "Unverified"}
     any_settled = any(settled for _, _, _, settled in setting.rumours)
     for n, text, tpf, settled in setting.rumours:
-        cls = {"T": "tpf-true", "P": "tpf-partial", "F": "tpf-false"}.get(tpf, "")
+        cls = {"T": "tpf-true", "P": "tpf-partial", "F": "tpf-false", "U": "tpf-unverified"}.get(tpf, "")
         settled_cell = (
             f'<td class="settled">{render_inline(settled, setting, page)}</td>'
             if any_settled else ""
@@ -461,7 +452,7 @@ def build_rumours(setting: sc.Setting, out: Path) -> None:
         '<h1>Rumours</h1>'
         '<p class="hint">Referee reference — hover a mark for what it means. Players hear the rumour, not the mark.</p>'
         '<div class="table-scroll">'
-        f'<table class="data-table"><thead><tr><th>#</th><th>Rumour</th><th>T/P/F</th>{settled_head}</tr></thead>'
+        f'<table class="data-table"><thead><tr><th>#</th><th>Rumour</th><th>Truth</th>{settled_head}</tr></thead>'
         f'<tbody>{"".join(rows)}</tbody></table></div>'
     )
     write_page(out, page, page_shell(setting, page, "Rumours", body))
@@ -734,19 +725,19 @@ def build_region(setting: sc.Setting, out: Path, code: str) -> None:
         f'<p class="breadcrumb"><a href="{rel_asset(page, "index.html")}">Home</a> / Regions / {code}</p>',
         f'<h1>{code} {html.escape(region.name)} '
         f'<span class="badge badge-{region.rating.lower()}">{region.rating} {region.die}</span></h1>',
-        tags_box(region.tags_pool),
+        f'<p class="tagline">{render_inline(region.gazetteer_blurb, setting, page, no_links=True)}</p>',
     ]
 
     for label, text in region.fields:
-        body.append(section(label, f'<p>{render_inline(text, setting, page)}</p>'))
+        body.append(section(label, sc.field_html(text, lambda t: render_inline(t, setting, page))))
 
-    if region.table_rows:
+    for table_label, table_rows in region.tables:
         rows = "".join(
             f'<tr><td class="num">{n}</td><td>{render_inline(text, setting, page)}</td></tr>'
-            for n, text in region.table_rows
+            for n, text in table_rows
         )
         table = f'<div class="table-scroll"><table class="data-table"><tbody>{rows}</tbody></table></div>'
-        body.append(section(region.table_label, table))
+        body.append(section(table_label, table))
 
     def loc_row(num: int) -> str:
         loc = region.locations[num]

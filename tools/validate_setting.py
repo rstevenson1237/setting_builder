@@ -144,6 +144,7 @@ def check_pattern_files(diag: Diagnostics):
                               f"every citation states which patterns/ folder it points to")
         check_pattern_sections(diag, path, text)
         check_block_draws(diag, path, text)
+        check_rate_notation(diag, path, text)
 
 
 # ---------------------------------------------------------------------------
@@ -183,6 +184,27 @@ def spec_blocks(text: str) -> dict[str, list[str]]:
         if lines:
             out[lines[0].split(" - ")[0].strip()] = lines[1:]
     return out
+
+
+# A Spec line's rate is `1` or a percentage, per patterns/SPEC.md. Anything
+# else in the rate column - `2`, `3-6`, `15+` - is read by this validator and
+# by tools/context.py as a continuation of the line above, so the line it
+# opens silently merges into its neighbour.
+ODD_RATE_RE = re.compile(r'^ {2}(\d+(?:-\d+|\+)?)\s{2,}\S')
+
+
+def check_rate_notation(diag: Diagnostics, path, text: str):
+    blocks = spec_blocks(text)
+    drawn = {n for body in blocks.values() for n in BLOCK_DRAW_RE.findall("\n".join(body))}
+    for name, body in blocks.items():
+        if name in drawn:
+            continue    # a draw block's items are values, not rated lines
+        for line in body:
+            m = ODD_RATE_RE.match(line)
+            if m and m.group(1) != "1":
+                diag.warn(path, f"Spec line rated {m.group(1)!r} - patterns/SPEC.md allows `1` "
+                                f"or a percentage, and the tools read this line as a "
+                                f"continuation of the one above it: {line.strip()[:60]!r}")
 
 
 def check_block_draws(diag: Diagnostics, path, text: str):
@@ -470,7 +492,6 @@ def check_repeated_prose(diag: Diagnostics):
 # ---------------------------------------------------------------------------
 
 REGION_RE = re.compile(r'^([A-Z]+) (.+?) - (SAFE|WILD|DANGEROUS), (d\d+)\s*$')
-REGION_TAGS_LINE_RE = re.compile(r'^Tags: see (setting/region/[A-Z]+/Tags\.md)\s*$')
 
 
 def parse_regions(diag: Diagnostics):
@@ -502,17 +523,14 @@ def parse_regions(diag: Diagnostics):
         regions[code] = {"name": name.strip(), "rating": rating, "die": die}
         order.append(code)
         i += 1
-        if REGION_TAGS_LINE_RE.match(lines[i].strip() if i < n else ""):
-            tags_path = SETTING / "region" / code / "Tags.md"
-            if not tags_path.exists():
-                diag.warn(path, f"region {code}: setting/region/{code}/Tags.md referenced but missing - not built yet")
+        if i < n and lines[i].strip().lower().startswith("tags:"):
+            diag.error(path, f"region {code}: carries a 'Tags:' line - tag pools are retired, "
+                             f"and the entry's own line is its tag line")
             i += 1
+        if i < n and lines[i].strip() and not REGION_RE.match(lines[i].strip()):
+            i += 1  # the tag line; presence is enough
         else:
-            diag.error(path, f"region {code}: missing 'Tags: see setting/region/{code}/Tags.md' line")
-        if i < n and lines[i].strip():
-            i += 1  # the one-sentence overview line; presence is enough
-        else:
-            diag.error(path, f"region {code}: missing one-sentence overview line")
+            diag.error(path, f"region {code}: missing its tag line")
 
     expected = [index_to_code(idx) for idx in range(len(order))]
     if order != expected:
@@ -759,7 +777,17 @@ def check_summary_promises(diag: Diagnostics, path: Path, summary: str, lines: l
                         f"what the room contains, and the referee improvises an unkept one")
 
 
+# templates/Location.md instruction 2 - the sheet is raw material, the entry a
+# few sentences. Warned rather than errored: length is judged, not parsed.
+FEATURE_MAX_WORDS = 30
+NOTES_MAX_SENTENCES = 3
+
+
 def check_feature_grammar(diag: Diagnostics, path: Path, label: str, body: str):
+    words = len(CITATION_RE.sub("", body).split())
+    if words > FEATURE_MAX_WORDS:
+        diag.warn(path, f"Feature '{label}' runs {words} words before its citation - "
+                        f"templates/Location.md instruction 2 allows {FEATURE_MAX_WORDS}")
     last = None
     for m in CITATION_RE.finditer(body):
         last = m
@@ -806,8 +834,11 @@ def check_location_file(diag, path, region_code, num, stub, rating, all_location
             diag.error(path, f"header weight/classification {hweight!r} does not match Locations.md stub {stub['weight']!r}")
     elif hweight:
         diag.error(path, f"{rating} region location should not carry a weight/classification tag in its header")
-    if len([t for t in htags.split(",") if t.strip()]) != 2:
-        diag.warn(path, f"header carries {htags.strip()!r} - expected exactly two tags, one from setting/Tags.md and one from the region's own Tags.md")
+    if len([t for t in htags.split(",") if t.strip()]) != 3:
+        diag.warn(path, f"header carries {htags.strip()!r} - expected exactly three tags")
+    elif htags.strip().strip("*") != stub.get("tags", "").strip().strip("*"):
+        diag.warn(path, f"header tags {htags.strip()!r} do not match its Locations.md stub's "
+                        f"{stub.get('tags', '').strip()!r}")
 
     body = [l for l in lines[1:]]
     idx = 0
@@ -829,6 +860,10 @@ def check_location_file(diag, path, region_code, num, stub, rating, all_location
     notes = body[idx].strip()
     if not (notes.startswith("*") and not notes.startswith("**") and notes.endswith("*") and not notes.endswith("**")):
         diag.error(path, "Referee Notes line is not wrapped in single-asterisk italics")
+    sentences = len(re.findall(r'[.!?](?=\s|\*?$)', notes.strip("*").strip()))
+    if sentences > NOTES_MAX_SENTENCES:
+        diag.warn(path, f"Referee Notes run {sentences} sentences - templates/Location.md "
+                        f"instruction 2 allows {NOTES_MAX_SENTENCES}")
     idx += 1
 
     features = []
@@ -1208,9 +1243,9 @@ def check_rumours(diag: Diagnostics):
     # templates/Rumours.md puts Settled at after the mark, so T/P/F is no longer
     # the last cell - match it as its own cell wherever it sits in the row.
     tpf = [l for l in text.splitlines()
-           if re.match(r"^\|\s*\d+\s*\|", l) and re.search(r"\|\s*[TPF]\s*\|", l)]
+           if re.match(r"^\|\s*\d+\s*\|", l) and re.search(r"\|\s*[TPFU]\s*\|", l)]
     if len(tpf) != len(rownums):
-        diag.warn(path, "not every rumour row carries a T/P/F mark")
+        diag.warn(path, "not every rumour row carries a T/P/F/U mark")
 
 
 def bestiary_types() -> set[str]:
@@ -1318,6 +1353,88 @@ def check_statblocks(diag: Diagnostics, path: Path, label: str, expect_special: 
                             f"special ability is expected more often at 4 AD and above, "
                             f"and several at 8 and above; `none` is a decision, silence "
                             f"is not")
+
+
+# ---------------------------------------------------------------------------
+# setting/region/[Code].md - the Region Overview's field set, per rating
+#
+# The field set is patterns/region/*.md's; the order and the two tables are
+# templates/Region.md's. A field from another rating's set, or one retired, is
+# an error because the site renders only the labels it knows and would drop it.
+# ---------------------------------------------------------------------------
+
+REGION_FIELDS = {
+    "SAFE": ["Overview", "Approach", "People", "Services", "Law", "Places", "Situation",
+             "Secrets", "Tables"],
+    "WILD": ["Overview", "Approach", "Terrain", "Inhabitants", "Places", "Situation",
+             "Loot", "Secrets", "Tables"],
+    "DANGEROUS": ["Overview", "Approach", "Conditions", "Inhabitants", "Alarm", "Places",
+                  "Situation", "Loot", "Secrets", "Tables"],
+}
+REGION_LABEL_RE = re.compile(r'^([A-Z][a-z]+):(?:\s|$)')
+
+
+def check_region_overview(diag: Diagnostics, code: str, rating: str):
+    path = SETTING / "region" / f"{code}.md"
+    if not path.exists():
+        diag.warn(path, "missing - not built yet")
+        return
+    lines = path.read_text().splitlines()
+    labels = [m.group(1) for m in map(REGION_LABEL_RE.match, lines[1:]) if m]
+    expected = REGION_FIELDS[rating]
+    for label in labels:
+        if label not in expected:
+            diag.error(path, f"field {label!r} is not in a {rating} overview's set "
+                             f"({', '.join(expected)}), per patterns/region/")
+    missing = [f for f in expected if f not in labels]
+    if missing:
+        diag.error(path, f"missing field(s): {', '.join(missing)}")
+    present = [l for l in labels if l in expected]
+    if present != [f for f in expected if f in present]:
+        diag.warn(path, f"fields out of templates/Region.md's order: {', '.join(present)}")
+    if "Tables" in labels:
+        start = next(i for i, l in enumerate(lines) if l.startswith("Tables:"))
+        tables, rows = 0, []
+        for raw in lines[start + 1:]:
+            line = raw.strip()
+            if re.match(r'^d\d+\s', line) and not re.match(r'^\d+[.)]', line):
+                if tables:
+                    rows.append(count)
+                tables, count = tables + 1, 0
+            elif re.match(r'^\d+[.)]\s', line) and tables:
+                count += 1
+        if tables:
+            rows.append(count)
+        if tables != 2:
+            diag.error(path, f"Tables holds {tables} table(s) opened by a `d6 ...` line - "
+                             f"templates/Region.md asks for two")
+        for i, n in enumerate(rows, 1):
+            if n != 6:
+                diag.error(path, f"table {i} has {n} rows - a d6 table has six")
+
+
+def check_repeated_features(diag: Diagnostics, region_code: str):
+    """The same Feature sentence in two rooms of one region.
+
+    A room written with its siblings in view converges on them, and the first
+    sign is a sentence copied whole. Judged at STEPS.md step 5c, which also
+    reads for the near-repeats a string match cannot see.
+    """
+    rdir = SETTING / "region" / region_code
+    seen: dict[str, list[str]] = {}
+    for path in sorted(rdir.glob("[0-9]*.md"), key=lambda p: int(p.stem)):
+        for line in path.read_text().splitlines():
+            m = FEATURE_RE.match(line.strip())
+            if not m or m.group(1).strip() == "Exits":
+                continue
+            body = " ".join(m.group(2).split())
+            if len(body.split()) >= 8:
+                seen.setdefault(body, []).append(f"{region_code}.{path.stem}")
+    for body, codes in seen.items():
+        if len(codes) > 1:
+            diag.warn(rdir, f"the same Feature sentence in {len(codes)} rooms "
+                            f"({', '.join(codes)}): {body[:70]!r}... - a room written "
+                            f"from its siblings; judged at STEPS.md step 5c")
 
 
 def check_class_mix(diag: Diagnostics, region_code: str, rating: str, locs: dict):
@@ -1459,16 +1576,6 @@ def check_treasure_citation_prose(diag: Diagnostics, path: Path, text: str):
                             f"contents, and naming them contradicts whatever comes up")
 
 
-def check_tags_file(diag: Diagnostics, path: Path):
-    if not path.exists():
-        diag.warn(path, "missing - not built yet")
-        return
-    text = path.read_text()
-    count = len(re.findall(r"^- \*\*.+\*\* - ", text, re.M))
-    if count < 15:
-        diag.warn(path, f"only {count} tags found - the pool is meant to hold ~25")
-
-
 def check_registry_floors(diag: Diagnostics, registries: dict, build_complete: bool):
     """A setting with no keys and no named creatures passes every other check.
 
@@ -1584,9 +1691,9 @@ def report_topology(regions: dict, region_locs: dict, region_edges: dict) -> lis
 # Main
 # ---------------------------------------------------------------------------
 
-# Seeded at STEPS.md 1a/1b/1c, before any setting content exists. Their presence does
+# Seeded at STEPS.md 1b/1c, before any setting content exists. Their presence does
 # not mean a setting has been generated.
-SEED_FILES = {"Procedures.md", "Language.md", "Tags.md"}
+SEED_FILES = {"Procedures.md", "Language.md"}
 
 
 def is_fresh_start() -> bool:
@@ -1675,7 +1782,6 @@ def main() -> int:
 
     region_locs: dict[str, dict] = {}
     for region_code, info in regions.items():
-        check_tags_file(diag, SETTING / "region" / region_code / "Tags.md")
         gaz_path = SETTING / "region" / region_code / "Locations.md"
         region_locs[region_code] = parse_locations_gazetteer(diag, region_code, info["rating"], gaz_path)
 
@@ -1734,7 +1840,7 @@ def main() -> int:
 
     citations: dict[str, dict] = {kind: {} for kind, _, _ in REGISTRY_KINDS}
 
-    NON_LOCATION_FILES = {"Locations.md", "Tags.md"}
+    NON_LOCATION_FILES = {"Locations.md"}
     conditions = procedures_conditions()
     for region_code, locs in region_locs.items():
         rdir = SETTING / "region" / region_code
@@ -1767,9 +1873,11 @@ def main() -> int:
     check_statblocks(diag, SETTING / "NamedCreatures.md", "Named Creature", expect_special=True)
     for region_code, locs in region_locs.items():
         check_class_mix(diag, region_code, regions[region_code]["rating"], locs)
+    for region_code, info in regions.items():
+        check_region_overview(diag, region_code, info["rating"])
+        check_repeated_features(diag, region_code)
     check_registry_floors(diag, registries, build_complete)
     check_rumour_settling(diag, build_complete)
-    check_tags_file(diag, SETTING / "Tags.md")
 
     for line in report_topology(regions, region_locs, region_edges):
         print(f"TOPOLOGY: {line}")

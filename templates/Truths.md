@@ -12,14 +12,18 @@ Read first:
 - `setting/History.md`
 
 ## Instructions
-List 3-6 truths, each following `patterns/setting/Truths.md`'s Spec. The collection as
-a whole must hold this shape:
+By default the file is created empty - its header line and nothing else. Where
+`BRIEF.md` or the user's prompt asks for truths, list 3-6, each following
+`patterns/setting/Truths.md`'s Spec, and the collection as a whole holds this shape:
 
 ```
 TRUTHS - 3-6
   1     At least one a party learns only by acting and seeing what happens
   1     No two of the same Kind
 ```
+
+A standing mystery or a gap left for the referee may be listed here whether or not the
+file is otherwise asked for; it is the place such a decision is written down.
 
 ## Template
 ```

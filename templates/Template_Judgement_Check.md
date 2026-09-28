@@ -1,42 +1,64 @@
 # Template_Judgement_Check.md
 
 ## Purpose
-A non-mechanical review pass over `templates/` - confirming, by human or model judgement, things `tools/validate_setting.py` structurally cannot: that each template pulls the right patterns in the right order, and that it still encodes the edge cases this project has previously flagged as failure modes. Saved as `setting/checks/TemplateJudgementCheck.md`.
+A non-mechanical review pass over `templates/` - confirming, by human or model judgement, things `tools/validate_setting.py` structurally cannot: that each template enters the right pattern files and reads no more than it needs, that its defaults yield to the brief, and that it still encodes the edge cases this project has previously flagged as failure modes. Saved as `setting/checks/TemplateJudgementCheck.md`.
 
 ## Context
 Consult when running this check:
-- `GENRE.md` - the standard every template's Context section should be sharpening, not drifting from.
-- `BRIEF.md` - this build's design requests, which replace this template's defaults where they speak
-- `CLAUDE.md` - the source of truth for how templates, patterns, and setting files relate, and for edge cases already called out explicitly (genre drift, pattern timing, narrow-context rules, and the like).
-- `STEPS.md` - the declared build order; a template's Context list should match the artifacts that actually exist by the step it's used in.
-- every file in `templates/` and every file in `patterns/` - a template can only be judged against the patterns it claims to use.
+- `GENRE.md`, `BRIEF.md` and `STYLE.md` - the standards a template's Instructions should be sharpening, not drifting from.
+- `STEPS.md` - the declared build order and phase bookkeeping; a template's Context and its pending markers should match the step it is used in.
+- every generation template in `templates/` - the three `*_Judgement_Check.md` files are not in scope; they are reviewed by being run.
+- `python3 tools/validate_setting.py --read-set` - which pattern files each template's step enters and reaches, in place of reading all of `patterns/`.
+- `python3 tools/context.py 4c CODE` for one location of each rating - what `templates/Location.md`'s Context actually assembles to.
+- the last build's `setting/` and its `setting/checks/SettingJudgementCheck.md` - a template is judged by what it produced, and a default is judged by whether it won against the brief.
 
 ## Instructions
-For each file in `templates/`, confirm the following. Record each as Confirmed / Needs Fix, with a note on what's wrong if not confirmed.
+Read each generation template against the items below. Record **findings only**: each as
+Needs Fix, with the template, the item, what is wrong, and - where the last build shows
+it - what it produced. A template with no finding is named once, in the Confirmed line.
 
-- **Correct patterns, correct order** - does the template's Context section list every pattern file actually relevant to that artifact, in the order they'd be consulted at generation time (e.g. `GENRE.md` first; unconditional patterns like `Dressing.md` before the rating/weight-specific pattern; element files like `Treasure.md`/`Creature.md`/`Hazard.md`/`Mystery.md` only after a chosen spec line calls for them)? Does it name only files that exist **in the rating folder it is describing** - the three folders do not hold the same set, and `patterns/safe/` in particular is thinner than the others?
-- **No context creep** - does the template stick to the narrow Context list CLAUDE.md specifies for it, rather than pulling in setting files wholesale "just in case"? (`templates/Location.md`'s Context is the strictest example - other setting files are for looking up a name already referenced, never more.)
-- **Pattern chosen at generation time, not earlier** - for `templates/Location.md`, does it still make clear the pattern is picked now, from the matching `patterns/` file, rather than pinned in the gazetteer stub?
-- **Two-phase registries respected** - do templates that can introduce a Lore/Key/Named Creature/Unique Treasure entry (chiefly `templates/Location.md`) still correctly separate step 4c (stub: name and location only, no content) from step 4d (full entry, written later)?
-- **Format edge cases preserved** - read `templates/Location.md` (the most format-sensitive template) against the locations actually generated from it, and against the findings in the previous `setting/checks/TemplateJudgementCheck.md`. Is every format rule it states still unambiguous, and has any rule a past pass had to call out gone missing or gone vague? Check it against the template, never against a list kept here - a copy of those rules in this file would drift out of step with the template it is meant to be auditing.
-- **Genre drift guardrails** - does the template's Instructions section actively discourage the genre's main failure mode (an authored plot creeping in, magic becoming commonplace, an implied central authority) wherever that template is the kind of place it could creep in (History, Factions, Location Features)?
-- **Consistency across templates** - do two templates that touch the same concept (e.g. weight, region rating, units) describe it the same way, rather than drifting into contradictory wording?
+Every template:
+- **Entry points, not the tree** - does its Context name every pattern file its artifact
+  enters from, in the rating folder it describes, and nothing reached only through a Spec
+  edge? `--read-set` shows the entries and what they reach.
+- **No context creep** - does it read only what its artifact needs? A whole setting file
+  read for one name or one column is creep.
+- **Consistent with STEPS.md and with the other templates** - does it describe weight,
+  rating, units, counts and phases the way STEPS.md and every other template do? A pending
+  marker naming the wrong step is a finding here.
+- **Genre drift guardrails** - where an authored plot, commonplace magic or a nearer
+  authority could creep in (History, Factions, Treasure, Location Features), do its
+  Instructions push against it?
+- **Defaults yield to the brief** - is every count, mix and coverage rule stated as a
+  default `BRIEF.md` replaces, and does its Context read `BRIEF.md`? Where the last build's
+  brief contradicted a default, which did the artifact follow?
+- **Defaults are neutral** - does any default carry one genre's assumptions (a type share
+  justified by what one kind of region is built around, a mechanic one reference has) that
+  belongs in a `GENRE.md` answer or a `BRIEF.md` line instead?
+- **Every field is used** - is every field it asks for read by a later step, rolled at the
+  table, or used by a referee running the artifact?
+
+Only where the item names it:
+- **Pattern chosen at generation time** (`templates/Location_Gazetteer.md`,
+  `templates/Location.md`) - no stub pins a pattern.
+- **Two-phase registries** (`templates/Location.md` and the five registry templates) -
+  a stub at 4c carries name and location only; content is 4d's.
+- **Format edge cases preserved** (`templates/Location.md`, `templates/Region.md`) - every
+  format rule still unambiguous against the entries generated from it, and against the
+  previous pass's findings.
+- **Assembled context matches** (`templates/Location.md`) - does what `tools/context.py 4c`
+  prints match the template's Context, file for file? A file one reads and the other does
+  not is a finding, whichever side it is on.
 
 ## Template
 ```
 # Template Judgement Check - [Date or revision note]
 
-## [templates/File.md]
-- Correct patterns, correct order: [Confirmed / Needs Fix - note]
-- No context creep: [Confirmed / Needs Fix - note]
-- Pattern chosen at generation time, not earlier: [Confirmed / Needs Fix - note, or N/A]
-- Two-phase registries respected: [Confirmed / Needs Fix - note, or N/A]
-- Format edge cases preserved: [Confirmed / Needs Fix - note, or N/A]
-- Genre drift guardrails: [Confirmed / Needs Fix - note]
-- Consistency across templates: [Confirmed / Needs Fix - note]
+Confirmed on every item: [templates/..., templates/...]
 
-[repeat per template file]
+## Findings
+- [templates/File.md] - [item]: [what is wrong] - [what the last build shows, if it shows it]
 
 ## Open Items
-- [Anything flagged Needs Fix, carried forward as an action item]
+- [Each finding, as an action, with its source: template, template default, or STEPS.md]
 ```

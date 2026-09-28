@@ -73,11 +73,10 @@ def build_document(setting: sc.Setting) -> str:
     toc: list[str] = []
 
     # ---- cover ----
-    tags = " · ".join(t.strip() for t in setting.tags.split(","))
     parts.append(f"""
 <section class="cover">
   <h1 class="cover-title">{html.escape(setting.name)}</h1>
-  <p class="cover-tags">{html.escape(tags)}</p>
+  <p class="cover-tags">{html.escape(setting.tagline)}</p>
   <p class="cover-outline">{ri(setting.outline, setting)}</p>
 </section>
 """)
@@ -108,7 +107,7 @@ def build_document(setting: sc.Setting) -> str:
     settled_head = "<th>Settled at</th>" if any_settled else ""
     parts.append(
         '<section class="doc" id="rumours"><h1>Rumours</h1>'
-        f'<table class="data-table"><thead><tr><th>#</th><th>Rumour</th><th>T/P/F</th>{settled_head}</tr></thead>'
+        f'<table class="data-table"><thead><tr><th>#</th><th>Rumour</th><th>Truth</th>{settled_head}</tr></thead>'
         f'<tbody>{rrows}</tbody></table></section>'
     )
     toc.append(toc_entry("Rumours", "rumours"))
@@ -189,12 +188,13 @@ def build_document(setting: sc.Setting) -> str:
         region = setting.regions[code]
         r_anchor = sc.anchor_id("region", code)
         field_html = "".join(
-            f'<h3>{html.escape(label)}</h3><p>{ri(text, setting)}</p>' for label, text in region.fields
+            f'<h3>{html.escape(label)}</h3>' + sc.field_html(text, lambda t: ri(t, setting))
+            for label, text in region.fields
         )
         table_html = ""
-        if region.table_rows:
-            trows = "".join(f'<tr><td class="num">{n}</td><td>{ri(t, setting)}</td></tr>' for n, t in region.table_rows)
-            table_html = f'<h3>{html.escape(region.table_label)}</h3><table class="data-table"><tbody>{trows}</tbody></table>'
+        for table_label, table_rows in region.tables:
+            trows = "".join(f'<tr><td class="num">{n}</td><td>{ri(t, setting)}</td></tr>' for n, t in table_rows)
+            table_html += f'<h3>{html.escape(table_label)}</h3><table class="data-table"><tbody>{trows}</tbody></table>'
 
         # A DANGEROUS region's Connections.mmd asserts block existence only -
         # its typed location edges live one file per block, per STEPS.md 4b -

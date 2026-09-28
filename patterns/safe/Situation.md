@@ -26,7 +26,3 @@ WORSE - exactly one
 ```
 
 ## Constraints
-
-- **A situation is a condition, not a plot.** Per `STYLE.md` it is a situation, not a
-  story: true whether or not the party engages, moving on its own, walked into rather than
-  waiting for them.

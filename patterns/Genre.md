@@ -25,7 +25,6 @@ GENRE - answered in GENRE.md
 
 ```
 SETTING - one of each
-  1     Tags                                           (patterns/setting/Tags.md)
   1     Procedures                                     (patterns/setting/Procedures.md)
   1     Language                                       (patterns/setting/Language.md)
   1     Setting                                        (patterns/setting/Setting.md)

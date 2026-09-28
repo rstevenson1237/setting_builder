@@ -69,8 +69,8 @@ AD BAND - exactly one, then the count within it
   recurs - a proper name on a Bestiary entry is the surest sign it is in the wrong file.
 
 - **Ordinary wildlife is region texture, not a Bestiary entry.** What a country typically
-  holds - game, birds, the snake underfoot - belongs to a WILD region's Foraging and
-  Creatures fields. A Beast earns an entry here only by being an unusual combatant a
+  holds - game, birds, the snake underfoot - belongs to a WILD region's Loot and
+  Inhabitants fields. A Beast earns an entry here only by being an unusual combatant a
   location will actually draw.
 
 - **Mundane human threats are a faction's, not a type's.** Who opposes the party and why

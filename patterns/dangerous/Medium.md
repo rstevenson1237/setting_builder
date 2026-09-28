@@ -46,11 +46,5 @@ DANGEROUS - MEDIUM
 
 ## Constraints
 
-- **A challenge the party cannot see is not a MEDIUM challenge.** A room built on a
-  concealed trap presents as empty, and belongs at LOW.
-
-- **Mystery is not a MEDIUM challenge.** It costs nothing until a wrong attempt, so it is
-  something to work out rather than one thing to deal with.
-
 - **The Payload is not a second treasure draw.** Where it pays out, it is the treasure
   this room already drew, moved behind the clue.

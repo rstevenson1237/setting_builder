@@ -10,13 +10,14 @@ who repeats a rumour, and how, is the location's that delivers it.
 ```
 RUMOUR
   1     Points at                                                       {TARGET}
-  1     Truth   {T | P | F}
+  1     Truth   {T | P | F | U}
   1     The substance, as it would be repeated - with no speaker and no framing
   1     Where P: which half is false - the false half is the interesting half
                                                                         {FALSEHOOD}
   1     Where the table calls for its sound to run against its truth: why {MISMATCH}
   1     Settled at - the location(s) holding what confirms, denies or corrects it, or
-        `nowhere on this map` for a lead that points past the edge
+        `nowhere on this map` for a lead that points past the edge; where U, `the
+        referee's`, and the place a party would go to try it
 ```
 
 ```
@@ -66,5 +67,9 @@ MISMATCH - exactly one
   instruction; so is its Settled-at line, which names where the truth sits and never what
   the party should conclude on finding it.
 
-- **T/P/F and Settled at are the referee's, and never shared.** Mark against the truth of
+- **U is unverified by design, not undecided by accident.** The setting holds no answer
+  to it and says so; the referee settles it when a party goes looking, and the place they
+  would look is still named.
+
+- **T/P/F/U and Settled at are the referee's, and never shared.** Mark against the truth of
   the substance, not of the framing.

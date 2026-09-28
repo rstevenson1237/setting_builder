@@ -20,8 +20,5 @@ SOCIAL
 
 ## Constraints
 
-- **A Kind never draws a hook.** The hook layer is `safe/Settlement.md`'s registry block;
-  a Kind adding its own rate for one is a second path to something already counted.
-
 - **A rumour is repeated, never delivered.** Whoever says it has their own reason, is
   probably wrong about part of it, and will not mark it true or false.

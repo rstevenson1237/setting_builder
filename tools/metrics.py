@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
 """Corpus metrics: what the framework costs, what it has produced, and how it reads.
 
-Five readings, printed in one report:
+Six readings, printed in one report:
 
   CORPUS    locations and words in setting/region/*/[0-9]*.md
   FEATURES  words, segments and sentences per Feature line
   TELLS     the four prose tells, counted
+  MIX       per region, the edge kinds its diagrams drew and the kinds of
+            treasure its rooms cite - what STEPS.md 5c reads draw rates against
   BUDGET    framework words against setting words
   READ SET  words in context per step 4c entry point
 
@@ -52,8 +54,7 @@ SENTENCE_SPLIT_RE = re.compile(r'(?<=[.!?])\s+')
 
 
 def words(text: str) -> int:
-    """Whitespace tokens, which is what `wc -w` counts and what Part one of
-    INTROSPECTIVE.md was measured with."""
+    """Whitespace tokens, which is what `wc -w` counts."""
     return len(text.split())
 
 
@@ -69,7 +70,6 @@ def tree_words(paths) -> tuple[int, int]:
 # ---------------------------------------------------------------------------
 # The four tells
 #
-# Hard-coded here until style/tells.txt exists, per INTROSPECTIVE.md P0.1.
 # Each is a shape with a documented history in this repository, and each is
 # stated as the rule it is checking rather than as a bare pattern, because a
 # tell whose rule is not written down drifts into a preference.
@@ -77,9 +77,8 @@ def tree_words(paths) -> tuple[int, int]:
 # Precision is uneven and deliberately so. "rather than" is exact. The other
 # three over-report: they flag the shape a failure takes, and whether a given
 # hit is that failure is a reading. Calibration is the number each returned on
-# the corpus before PR #41 rewrote it against the number it returns now, which
-# is recorded at the foot of INTROSPECTIVE.md - a tell that did not move across
-# a rewrite aimed at it is measuring the wrong thing.
+# the corpus before PR #41 rewrote it against the number it returns now - a tell
+# that did not move across a rewrite aimed at it is measuring the wrong thing.
 # ---------------------------------------------------------------------------
 
 # 1. The trailing-clause tell. PR #41 found "rather than" in 61 of 206 Features
@@ -149,8 +148,8 @@ def rel(p: Path) -> str:
 def count_tells(paths: list[Path]) -> list[Tell]:
     """The four tells over any markdown - a location file, an arm's output, a brief."""
     rather = Tell("rather than", "the trailing clause, per PR #41")
-    absence = Tell("absence claim", "absence across time or space, per GENRE.md")
-    conclusion = Tell("conclusion tell", "the players' conclusion written down, per GENRE.md")
+    absence = Tell("absence claim", "absence across time or space, per STYLE.md")
+    conclusion = Tell("conclusion tell", "the players' conclusion written down, per STYLE.md")
     gloss = Tell("gloss", "a term carrying its own definition, per Location.md")
 
     for path in paths:
@@ -267,6 +266,42 @@ def report_tells(locs: list[Path]) -> None:
     print()
 
 
+TREASURE_KIND_RE = re.compile(
+    r'\((Treasure [IVX]+), d20\)|\((Keys|Lore|Unique Treasure):')
+
+
+def report_mix() -> None:
+    """Realized mixes a judgement pass compares against the Spec's rates.
+
+    A cross-block edge is declared in both block files, so edges are counted
+    once by their two ends and kind.
+    """
+    from validate_setting import EDGE_KINDS, LOC_NODE_RE, parse_mmd_edges
+    print("MIX")
+    for rdir in sorted(p for p in REGION.iterdir() if p.is_dir()):
+        seen, kinds = set(), {}
+        for mmd in rdir.glob("*.mmd"):
+            _, edges, _ = parse_mmd_edges(mmd.read_text(), LOC_NODE_RE)
+            for a, typ, label, b in edges:
+                key = (tuple(sorted((a, b))), typ, label)
+                if key in seen:
+                    continue
+                seen.add(key)
+                kind = "vertical" if "vertical" in label else EDGE_KINDS.get(typ, "open")
+                kinds[kind] = kinds.get(kind, 0) + 1
+        treasure = {}
+        for loc in sorted(rdir.glob("[0-9]*.md")):
+            for m in TREASURE_KIND_RE.finditer(loc.read_text()):
+                k = "table roll" if m.group(1) else m.group(2).lower()
+                treasure[k] = treasure.get(k, 0) + 1
+        total_e, total_t = sum(kinds.values()), sum(treasure.values())
+        fmt = lambda d, t: ", ".join(f"{k} {v} ({100 * v // t}%)" for k, v in
+                                     sorted(d.items(), key=lambda x: -x[1])) if t else "none"
+        print(f"  {rdir.name}: edges {total_e} - {fmt(kinds, total_e)}")
+        print(f"     treasure {total_t} - {fmt(treasure, total_t)}")
+    print()
+
+
 def report_budget() -> None:
     print("BUDGET")
     authorities = [ROOT / n for n in ("CLAUDE.md", "README.md", "GENRE.md", "STEPS.md")]
@@ -315,7 +350,8 @@ def report_budget() -> None:
 # than folded into one number that would be right for no region.
 # ---------------------------------------------------------------------------
 
-FIXED_CONTEXT = ("CLAUDE.md", "README.md", "GENRE.md", "templates/Location.md",
+FIXED_CONTEXT = ("CLAUDE.md", "README.md", "GENRE.md", "STYLE.md", "BRIEF.md",
+                 "templates/Location.md",
                  "setting/Truths.md", "setting/Procedures.md", "setting/Language.md")
 
 
@@ -363,8 +399,11 @@ def main(argv: list[str]) -> int:
             if not target.exists():
                 print(f"{target}: no such file or directory")
                 return 1
+            # setting/checks/ is review output, not content, and quotes the
+            # tells it reports.
             paths = [target] if target.is_file() else sorted(
-                p for p in target.rglob("*.md") if p.is_file())
+                p for p in target.rglob("*.md")
+                if p.is_file() and "checks" not in p.relative_to(target).parts)
         else:
             target, paths = REGION, location_files()
         if not paths:
@@ -386,6 +425,7 @@ def main(argv: list[str]) -> int:
     report_corpus(locs)
     report_features(locs)
     report_tells(locs)
+    report_mix()
     report_budget()
     report_read_set()
     return 0

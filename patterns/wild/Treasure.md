@@ -25,7 +25,4 @@ TREASURE
 
 ## Constraints
 
-- **Never name or describe a table roll's contents.** The roll decides them. A key, a
-  piece of lore or a unique treasure is named, because each is a registry row.
-
 - **Never a pristine find in open country without a reason.** It has been rained on.

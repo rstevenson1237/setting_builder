@@ -16,9 +16,10 @@ Spec. The collection as a whole must hold this shape:
 
 ```
 RUMOURS - a d20 table
-  ~40%  True
-  ~40%  Partially true
+  ~35%  True
+  ~35%  Partially true
   ~20%  False
+  ~10%  Unverified - no answer held; the referee's to settle
   1     At least three pointing at a region, not a detail
   1     At least two that are true and sound false
   1     At least one that is false and sounds unmistakably true
@@ -36,7 +37,7 @@ STYLE.md's state-the-nil is a decision on the page. Without it, a deliberate lea
 the edge of the setting and a dangling reference to something nobody ever wrote read
 exactly alike.
 
-This column is referee-side, exactly as the T/P/F mark is, and is never shared. It records
+This column is referee-side, exactly as the truth mark is, and is never shared. It records
 where the truth is, not what the party should do about it - per
 `patterns/setting/Rumours.md`, a rumour is a lead and not an instruction.
 
@@ -44,10 +45,10 @@ where the truth is, not what the party should do about it - per
 ```
 Rumours of [Setting Name]
 
-| # | Rumour | T/P/F | Settled at |
+| # | Rumour | T/P/F/U | Settled at |
 |---|--------|-------|------------|
-| 1 | [A rumour the players might encounter] | [T/P/F] | [Location Code(s), and for P which half is false] |
-| 2 | [A rumour the players might encounter] | [T/P/F] | [...] |
+| 1 | [A rumour the players might encounter] | [T/P/F/U] | [Location Code(s), and for P which half is false; for U, the referee's, and where a party would look] |
+| 2 | [A rumour the players might encounter] | [T/P/F/U] | [...] |
 | ... | ... | ... | ... |
-| 20 | [A rumour the players might encounter] | [T/P/F] | [...] |
+| 20 | [A rumour the players might encounter] | [T/P/F/U] | [...] |
 ```

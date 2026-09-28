@@ -21,9 +21,3 @@ ENCOUNTER
 ```
 
 ## Constraints
-
-- **Kind is exactly one.** A faction picket led by a named creature is a faction encounter
-  whose leader carries a `setting/NamedCreatures.md` row, not two encounters.
-
-- **Never an encounter met with no warning.** A party that meets a thing without a sign
-  has had a choice taken from them.

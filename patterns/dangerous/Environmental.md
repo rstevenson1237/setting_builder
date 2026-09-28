@@ -24,27 +24,19 @@ ENVIRONMENTAL
 
 ```
 KIND - exactly one
-  collapse     - a load visibly carried on too little; Crushing
+  collapse     - a load visibly carried on too little and still able to fall; Crushing
   air          - air that stops carrying breath or flame; Poison
   water        - water that fails to hold weight, or rises; Frost or Crushing
   footing      - ground that fails to hold weight; Crushing
   heat         - a temperature edge that can be touched; Fire
   cold         - a temperature edge that can be touched; Frost
-  growth       - growth that has closed or is closing a way through
+  growth       - growth that has closed or is closing a way through, and does not act
+                 on its own account
   dark         - dark or sound that removes a sense
   pressure     - the place holding something back; Blast
 ```
 
 ## Constraints
-
-- **A fall that has finished is Dressing, not a hazard.** Only a condition still able to
-  act is drawn here.
-
-- **Growth that acts on its own account is a creature.** It belongs at
-  `dangerous/Creature.md` as terrain.
-
-- **A condition the Dressing does not account for has an owner.** It belongs at
-  `dangerous/Trap.md` or `dangerous/Residual.md`.
 
 - **Never invent region-scale terrain for one location.** A location may reach one; it may
   not be the only room in the region that has one.

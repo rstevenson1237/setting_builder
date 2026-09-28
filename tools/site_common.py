@@ -68,11 +68,9 @@ class Region:
     die: str
     tags: str
     gazetteer_blurb: str
-    fields: list[tuple[str, str]]  # Overview/Ambiance/Layout/Features/Dangers/Creatures/Secrets/Treasure
-    table_label: str
-    table_rows: list[tuple[int, str]]
+    fields: list[tuple[str, str]]  # per patterns/region/*.md; `- ` items one per line
+    tables: list[tuple[str, list[tuple[int, str]]]]
     locations: dict[int, Location] = field(default_factory=dict)
-    tags_pool: list[tuple[str, str]] = field(default_factory=list)  # (tag, gloss), this region's own Tags.md
 
 
 @dataclass
@@ -86,7 +84,7 @@ class RegistryEntry:
 @dataclass
 class Setting:
     name: str = ""
-    tags: str = ""
+    tagline: str = ""
     outline: str = ""
     history: list[tuple[str, str, str]] = field(default_factory=list)
     truths: list[str] = field(default_factory=list)
@@ -103,7 +101,6 @@ class Setting:
     regions: dict[str, Region] = field(default_factory=dict)
     region_order: list[str] = field(default_factory=list)
     top_connections: str = ""
-    tags_pool: list[tuple[str, str]] = field(default_factory=list)  # (tag, gloss), setting/Tags.md
 
     # lookup helpers, filled in after parsing
     all_locations: dict[str, Location] = field(default_factory=dict)
@@ -124,7 +121,6 @@ TREASURE_FILES = {"I": 1, "II": 2, "III": 3, "IV": 4, "V": 5}
 # Parsers
 # ---------------------------------------------------------------------------
 
-TAGS_ENTRY_RE = re.compile(r"^-\s*\*\*(.+?)\*\*\s*-\s*(.+)$")
 
 
 def join_wrapped(lines: list[str]) -> list[str]:
@@ -153,32 +149,18 @@ _STARTS_LOGICAL_RE = re.compile(
 )
 
 
-def parse_tags_file(path: Path) -> list[tuple[str, str]]:
-    """Parse a Tags.md file (setting- or region-level) into (tag, gloss) pairs.
-
-    Glosses wrap across physical lines; join them before matching, or every
-    entry renders truncated mid-sentence.
-    """
-    if not path.exists():
-        return []
-    out = []
-    for line in join_wrapped(path.read_text().splitlines()):
-        m = TAGS_ENTRY_RE.match(line)
-        if m:
-            out.append((m.group(1).strip(), m.group(2).strip()))
-    return out
-
 
 def parse_setting() -> tuple[str, str, str]:
     text = (SETTING / "Setting.md").read_text()
     lines = [l for l in text.splitlines() if l.strip()]
     name = lines[0].strip()
     rest = lines[1:]
-    if rest and rest[0].strip().lower().startswith("tags:"):
-        rest = rest[1:]
+    tagline = ""
+    if rest and not rest[0].strip().startswith("*"):
+        tagline, rest = rest[0].strip(), rest[1:]
     outline = " ".join(l.strip() for l in rest).strip()
     outline = outline.strip("*").strip()
-    return name, "", outline
+    return name, tagline, outline
 
 
 # A History entry opens with a dating phrase, per templates/History.md's
@@ -484,56 +466,79 @@ def parse_regions_gazetteer() -> dict[str, dict]:
 # were being parsed into nothing, so the rating-specific half of every Region
 # Overview never reached the web view or the PDF.
 REGION_FIELD_LABELS = [
-    "Overview", "Ambiance", "Architecture", "People", "Situation", "Terrain",
-    "Foraging", "Layout", "Features", "Dangers", "Creatures", "Factions",
-    "Secrets", "Treasure",
+    "Overview", "Approach", "People", "Services", "Law", "Terrain", "Conditions",
+    "Inhabitants", "Alarm", "Places", "Situation", "Loot", "Secrets",
 ]
+TABLE_HEAD_RE = re.compile(r"^d\d+\s+\S")
+
+
+def _field_text(block: list[str]) -> str:
+    """A field's lines, rejoined: `- ` items stay one per line, prose is one line."""
+    items: list[str] = []
+    prose: list[str] = []
+    for raw in block:
+        line = raw.strip()
+        if line.startswith("- "):
+            items.append(line)
+        elif items:
+            items[-1] += " " + line
+        else:
+            prose.append(line)
+    return "\n".join(([" ".join(prose)] if prose else []) + items).strip()
 
 
 def parse_region_overview(code: str, gaz: dict) -> Region:
     path = SETTING / "region" / f"{code}.md"
-    text = path.read_text()
-    lines = text.splitlines()
+    lines = path.read_text().splitlines()
     fields: list[tuple[str, str]] = []
-    table_label = ""
-    table_rows: list[tuple[int, str]] = []
-    i = 1
-    n = len(lines)
+    tables: list[tuple[str, list[tuple[int, str]]]] = []
+    i, n = 1, len(lines)
     while i < n:
         line = lines[i].strip()
         i += 1
-        if not line:
-            continue
-        m = re.match(r"^([A-Za-z]+):\s*(.*)$", line)
+        m = re.match(r"^([A-Za-z]+):\s*(.*)$", line) if line else None
         if not m:
             continue
         label, val = m.group(1), m.group(2)
+        block = [val] if val.strip() else []
+        while i < n and lines[i].strip() and not re.match(r"^[A-Z][a-z]+:\s", lines[i]):
+            block.append(lines[i])
+            i += 1
         if label == "Tables":
-            table_label = val.strip()
-            # Rows wrap like every other field, so collect the block first and
-            # rejoin it - matching the numbered-row regex against each physical
-            # line drops every continuation and truncates the row mid-sentence.
-            block: list[str] = []
-            while i < n and lines[i].strip():
-                block.append(lines[i])
-                i += 1
-            for row in join_wrapped(block):
+            # Rows wrap like every other field, so rejoin before matching; a
+            # `d6 ...` line opens the next table.
+            rows: list[str] = []
+            for raw in block:
+                raw = raw.strip()
+                if not rows or re.match(r"^\d+[.)]\s", raw) or TABLE_HEAD_RE.match(raw):
+                    rows.append(raw)
+                else:
+                    rows[-1] += " " + raw
+            for row in rows:
                 rm = re.match(r"^(\d+)[.)]\s*(.+)$", row)
-                if rm:
-                    table_rows.append((int(rm.group(1)), rm.group(2).strip()))
+                if TABLE_HEAD_RE.match(row) and not rm:
+                    tables.append((row, []))
+                elif rm:
+                    if not tables:
+                        tables.append(("", []))
+                    tables[-1][1].append((int(rm.group(1)), rm.group(2).strip()))
         elif label in REGION_FIELD_LABELS:
-            parts = [val.strip()]
-            while i < n and lines[i].strip():
-                parts.append(lines[i].strip())
-                i += 1
-            fields.append((label, " ".join(parts).strip()))
+            fields.append((label, _field_text(block)))
     info = gaz[code]
-    tags_pool = parse_tags_file(SETTING / "region" / code / "Tags.md")
     return Region(
         code=code, name=info["name"], rating=info["rating"], die=info["die"], tags=info["tags"],
-        gazetteer_blurb=info["blurb"], fields=fields, table_label=table_label, table_rows=table_rows,
-        tags_pool=tags_pool,
+        gazetteer_blurb=info["blurb"], fields=fields, tables=tables,
     )
+
+
+def field_html(text: str, render) -> str:
+    """A region field: its prose as a paragraph, its `- ` items as a list."""
+    prose = [l for l in text.split("\n") if l and not l.startswith("- ")]
+    items = [l[2:] for l in text.split("\n") if l.startswith("- ")]
+    out = "".join(f"<p>{render(p)}</p>" for p in prose)
+    if items:
+        out += "<ul>" + "".join(f"<li>{render(i)}</li>" for i in items) + "</ul>"
+    return out
 
 
 LOC_GAZ_RE = re.compile(r'^([A-Z]+)\.(\d+) (.+?)(?: \((low|medium|high|landmark|hidden|secret)\))? - \*(.+)\*\s*$')
@@ -710,8 +715,7 @@ def mmd_edges_by_code(text: str) -> list[tuple[str, str, str, str]]:
 
 def load_setting() -> Setting:
     s = Setting()
-    s.name, s.tags, s.outline = parse_setting()
-    s.tags_pool = parse_tags_file(SETTING / "Tags.md")
+    s.name, s.tagline, s.outline = parse_setting()
     s.history = parse_history()
     s.truths = parse_truths()
     s.rumours = parse_rumours()

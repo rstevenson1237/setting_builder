@@ -39,9 +39,10 @@ Roots:
 - ward - to guard, a place kept watched over
 - trod - a trodden way, a road
 
-Coined here: none yet - GENRE.md's Naming answer keeps nearly everything plain and
-descriptive instead of freshly coined; Greywatch's own name is one of those, not a
-Common-tongue coinage.
+Coined here:
+- Wat - a man's name, the Greywatch drinker who died at the Old Cistern store's basin, C.41
+- Wat's Drink - the keep's plain name for that store nook, after him, C.41
+- Rat Door - the keep's plain name for the Old Cistern entrance, from a scratched rat mark, C.39
 
 ## The Old Tongue
 Spoken by: departed - whoever cut and shaped the ravine's tunnels before any tribe now
@@ -77,6 +78,15 @@ Roots:
 Coined here:
 - Kutuz = kut (to bind, to seal shut) + -uz (place, a holding sealed or built) - the
   sealed rod set into the deepest chamber, setting/UniqueTreasures.md
+- Qazuz = qaz (an offering left and not reclaimed) + -uz (place) - "the offering place," C.15
+- Qatkut = qat- (below) + kut (to seal shut) - "sealed below," a warning cut at C.18
+- Qathghus = qath (below) + ghus (a kept flame) - "fire below," cut on the leaf frame, C.32
+- Kutsiq = kut (to seal shut) + siq (a cistern) - "keep the water sealed," on the cistern plug, C.33
+- Sutuz = sut (to guard) + -uz (place) - "a guardian is set here," on the loose slab, C.34
+- Ghusuz = ghus (a kept flame) + -uz (place) - "place of the kept flame," cut on the altar, C.40
+- Tathsiq = tath (cold) + siq (a cistern) - "cold cistern," cut on the parapet, C.42
+- Qathsiq = qath (below) + siq (a cistern) - "below the cistern," on the effigy's plinth, C.43
+- Kutsut = kut (to seal shut) + sut (to guard) - "sealed, guarded," cut over the breach, C.39
 
 ## Grozzgur
 Spoken by: side - every tribe holding a stretch of the ravine, whatever their own people
@@ -119,3 +129,11 @@ Coined here:
   red-painted tribe, setting/Bestiary.md and setting/Factions.md
 - Hukkgur = hukk (fear, to make afraid) + -gur (a troop, together) - the ravine's
   largest and fewest-numbered tribe, setting/Bestiary.md
+- Zurkik = zurk (down, into a hole) + -ik (runt) - "little down-hole," the Silt Hollow
+  lookout, setting/NamedCreatures.md, C.34
+- Krazurkik = kra- (a den claimed) + Zurkik - "Zurkik's den," the Khughik's name for
+  their entrance, C.30
+- Zoghik = zogh (mould) + -ik (runt) - "mould-runt," the Old Cistern matriarch,
+  setting/NamedCreatures.md, C.40
+- Kraurgh = kra- (a den claimed) + urgh (fire) - "fire den," the Old Cistern nest, C.40
+- Zoghikakh = Zoghik + -akh (claimed by one) - "Zoghik's," the Old Cistern store, C.41

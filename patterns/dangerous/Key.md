@@ -26,8 +26,4 @@ KEY - demand, a lock an obligation named here
 
 ## Constraints
 
-- **A key is drawn from two places at two rates, and that is not a duplication.** The
-  object here is treasure; the lock here is registry. Where one location holds both, they
-  are two different keys.
-
 - **Nothing is owed at the close of 4c.** An unconsumed obligation is a dangling thread.

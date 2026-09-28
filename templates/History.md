@@ -11,8 +11,11 @@ Read first:
 - `setting/Setting.md`
 
 ## Instructions
-List 3-7 events, each following `patterns/setting/History.md`'s Spec, in order from
-oldest to newest. The collection as a whole must hold this shape:
+By default the file is created empty - its header line and nothing else - and events
+are added only where a later step needs one to account for something it wrote. Where
+`BRIEF.md` or the user's prompt asks for a history, list 3-7 events, each following
+`patterns/setting/History.md`'s Spec, in order from oldest to newest, and the collection
+as a whole holds this shape:
 
 ```
 HISTORY - 3-7 events

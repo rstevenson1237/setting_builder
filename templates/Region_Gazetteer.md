@@ -18,7 +18,7 @@ to resupply, somewhere to cross, and somewhere to go, and three regions is the s
 version of that. More is a choice; fewer is missing a leg. A second SAFE region is worth
 adding where the setting is about somewhere being contested.
 
-List an overview of all regions within the setting. This file is a Regional Gazetteer - further entries can be added by appending to or changing this file. Each region is rated SAFE, WILD, or DANGEROUS and given a die size (d4-d12), per `setting/Procedures.md`. Start every region at **d8** and move off it only for a reason. A DANGEROUS region such as a dungeon may sit within a WILD region, and this should be noted in its overview. Each entry includes a 1 sentence overview of the region.
+List an overview of all regions within the setting. This file is a Regional Gazetteer - further entries can be added by appending to or changing this file. Each region is rated SAFE, WILD, or DANGEROUS and given a die size (d4-d12), per `setting/Procedures.md`. Start every region at **d8** and move off it only for a reason. A DANGEROUS region such as a dungeon may sit within a WILD region, and this should be noted in its overview. Each entry carries a tag line: one phrase defining the region one step past its name.
 
 Codes follow a plain A-Z progression with no differentiation between types (A, B, C, ...). For a complex setting with more than 26 regions, continue with double letters (AA, AB, AC, ...).
 
@@ -28,16 +28,10 @@ here" list, and **glossed inline**, in parentheses right after it: what it means
 clause, the same as any other loan word - a referee reads this gazetteer without opening
 Language.md mid-session.
 
-Tags are not embedded here. Each region gets its own 25-tag pool,
-`setting/region/[Code]/Tags.md`, generated alongside its Region Overview at step 3 - name
-it here as a forward reference (the file itself doesn't exist yet at 3a) rather than
-inventing tags on the spot.
-
 ## Template
 ```
 Regional Gazetteer of [Setting Name]
 
 [Code] [Region Name] ([gloss - what the name means]) - [SAFE/WILD/DANGEROUS], [d4-d12]
-Tags: see setting/region/[Code]/Tags.md
-[1 sentence overview of the region]
+[Tag line - one phrase, the region one step past its name]
 ```

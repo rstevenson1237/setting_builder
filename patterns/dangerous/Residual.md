@@ -26,10 +26,3 @@ RESIDUAL
 
 - **Never a residual hazard with no event behind it.** One invented without a History
   entry is a trap with atmosphere.
-
-- **It cannot be reasoned with.** Whatever set it going has no further say.
-
-- **A residual hazard is held to `GENRE.md`'s Magic level.** A region where several rooms
-  carry lingering effects, or force a Test of Sanity, has made the extraordinary routine.
-
-- **Never atmospheric.** What decay and working leave behind is named technically.

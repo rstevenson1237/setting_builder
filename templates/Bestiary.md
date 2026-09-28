@@ -11,15 +11,21 @@ Read first:
 - `setting/Setting.md`, `setting/History.md`, `setting/Truths.md`
 
 ## Instructions
-Build about 20 entries, each one following `patterns/setting/Bestiary.md`'s Spec for a
-single entry. The collection as a whole must hold this shape:
+Each entry follows `patterns/setting/Bestiary.md`'s Spec for a single entry.
+
+By default the Bestiary is barebones: only the entries `BRIEF.md` or the user's prompt
+names, and it grows as the build needs it - a location or Region Overview that needs a
+creature the Bestiary lacks adds its entry here first, then cites it. The collection
+shape below applies only where `BRIEF.md` or the prompt asks for a full Bestiary, and
+wherever the brief states its own mix, the brief's mix replaces this one.
 
 ```
 TYPE MIX - about 20 entries
   30%   Beast + Men          - specialized combatants that reinforce this setting specifically
   30%   Humanoid + Fantasy   - non-human peoples and setting-flavor creatures, for diversity
-  30%   Undead               - what a DANGEROUS region is built around; some of these
-                               built as a guardian or a hazard
+  30%   Anchors              - unique creatures a DANGEROUS region can be built around: the
+                               undead, a guardian of a place, a creature that is itself a
+                               hazard. Undead is one Type among these, never the whole share
   10%   Everything else      - Construct, Horror, Wyrm, Fey, Fiend, Giant, each a unique
                                challenge in its own right. Rarely more than two of these
                                types in one setting
@@ -38,7 +44,7 @@ NOT to the region dice
         on its averages has thrown both fields away
 ```
 
-**Coverage the collection needs**, spread across the roughly 20 entries: something that
+**Coverage a full collection needs**, spread across the roughly 20 entries: something that
 ranges rather than lairs, so a WILD region can meet the same thing twice; something that
 lairs and cannot leave - young, stores, or a thing it guards; something a party can talk
 to; something that will not fight and is a problem anyway; something small enough to be a

@@ -31,18 +31,5 @@ DETAIL BUDGET - by the prominence safe/Settlement.md decided
 
 ## Constraints
 
-- **Never explain a fixture's significance.** An entry saying a fixture is the Situation
-  made visible, rather than letting it be, has spent words on commentary.
-
 - **Never describe the place instead of the transaction.** Prices, stock, what a name gets
   you, who will talk - those are the words worth spending.
-
-- **Never a fact of the whole settlement.** A smell or style true everywhere belongs in
-  the Region Overview.
-
-- **Never leave a part that could not share a building with the rest.** Change it rather
-  than explaining it.
-
-- **Never describe a trade, a building part or a good that has a name.** Name it.
-
-- **Purpose is supplied by the Kind.** Dressing never reopens what the place is for.

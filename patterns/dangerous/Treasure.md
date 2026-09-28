@@ -43,16 +43,8 @@ DISPOSITION - exactly one
 
 ## Constraints
 
-- **Never name or describe a table roll's contents.** The roll decides them; a key, a
-  piece of lore or a unique treasure is named, because each is a registry row.
-
-- **One pull per citation.** A location wanting more takes a second citation.
-
 - **A region's stated table-lean is a draw, not a claim.** A lean no room cashes out is a
   fact that reaches no player, and is settled at 5c.
-
-- **A container is never a blank noun.** "A chest" states only that there is treasure
-  here.
 
 - **Never write a lesser guard the party must fight.** The moment it is a threat it is the
   location's encounter, and the cache has two guards where the room was scoped for one.

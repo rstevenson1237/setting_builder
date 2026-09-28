@@ -55,26 +55,8 @@ GATE - exactly one
 ## Constraints
 
 - **No written exit description repeats across more than a third of a block's exits.**
-  Kind and usually material are fixed from above; what varies is the construction and
-  condition, and a block of one repeated phrase has written the diagram out in words.
-
-- **Two exits of the same kind are told apart by their opening, their make and their
-  position.** That is what makes a choice a decision rather than a coin flip.
-
-- **Never reclassify an edge.** An exit open at one end and secret at the other is the
-  same map contradicting itself.
-
-- **Where an exit commits the party, the room says so.** A consequence the players cannot
-  see coming makes their decision for them.
-
-- **Never write a bare "a door".** It states only that the diagram drew an edge, and hands
-  the party nothing to look at, lever, burn, or listen through.
+  Kind and usually material are fixed from above; two exits of the same kind are told
+  apart by their opening, their make and their position.
 
 - **Never move a gate into a Feature.** Written apart from its exit, the exit reads as
   unobstructed and the gate as decoration.
-
-- **A ward is sorcery, held to `GENRE.md`'s Magic level.** Warding a region's ordinary
-  locked doors is the fastest way to make sorcery routine.
-
-- **Never state what an exit means.** That it is the way on, the safe route, or the mistake
-  is the party's to find out.
