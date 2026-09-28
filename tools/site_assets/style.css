@@ -356,6 +356,7 @@ code {
 .tpf-true { color: var(--safe); }
 .tpf-partial { color: var(--wild); }
 .tpf-false { color: var(--dangerous); }
+.tpf-unverified { color: var(--ink-soft); font-style: italic; }
 
 .stat-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 0.8rem; }
 .stat-card, .faction-card, .registry-card {

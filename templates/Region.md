@@ -30,6 +30,9 @@ its own `- ` line under the field's label. Every other field is prose, and short
 location, an occupant given rooms, a block's way in, a prize said to lie somewhere - each
 is audited against the rooms at STEPS.md step 5c.
 
+A question `setting/Truths.md` holds open as a mystery, or a gap it leaves to the
+referee, is cited there from Secrets or Places, never answered here.
+
 Cut, before finishing:
 - anything the Overview repeats from `setting/region/Regions.md` or `setting/History.md`;
 - any sentence stating what the referee should conclude or the players should do;

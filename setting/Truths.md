@@ -48,3 +48,12 @@ Truths of Greywatch
   stretch of ground stays put no matter what Law tries against it, and travelers simply
   route around it; in the ravine, a block's wards are Grozzgur-laid, so only a captured or
   allied speaker of it can lift one.
+
+- **Open - Waystone Cairn (B.6) is left unstocked on purpose: what it is for, and what its
+  mortared cavity holds, are the referee's to decide.**
+  Costs: whoever expects the setting to have an answer - there is none written down.
+  Learned: by going there; nobody at Greywatch agrees on what the cairn is for.
+  Handle: open the mortared cavity at the cairn's base with the strongbox key from the
+  Quartermaster's Store (A.26), and find whatever the referee has put there - B.6
+  Shows: at Greywatch, a key that fits no lock in the keep; in the wilderness, a cairn
+  added to by every traveller who passes safely.

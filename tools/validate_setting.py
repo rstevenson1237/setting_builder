@@ -1207,9 +1207,9 @@ def check_rumours(diag: Diagnostics):
     # templates/Rumours.md puts Settled at after the mark, so T/P/F is no longer
     # the last cell - match it as its own cell wherever it sits in the row.
     tpf = [l for l in text.splitlines()
-           if re.match(r"^\|\s*\d+\s*\|", l) and re.search(r"\|\s*[TPF]\s*\|", l)]
+           if re.match(r"^\|\s*\d+\s*\|", l) and re.search(r"\|\s*[TPFU]\s*\|", l)]
     if len(tpf) != len(rownums):
-        diag.warn(path, "not every rumour row carries a T/P/F mark")
+        diag.warn(path, "not every rumour row carries a T/P/F/U mark")
 
 
 def bestiary_types() -> set[str]:

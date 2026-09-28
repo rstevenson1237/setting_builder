@@ -22,6 +22,9 @@ TRUTHS - 3-6
   1     No two of the same Kind
 ```
 
+A standing mystery or a gap left for the referee may be listed here whether or not the
+file is otherwise asked for; it is the place such a decision is written down.
+
 ## Template
 ```
 Truths of [Setting Name]

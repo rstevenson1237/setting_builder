@@ -52,8 +52,7 @@ SENTENCE_SPLIT_RE = re.compile(r'(?<=[.!?])\s+')
 
 
 def words(text: str) -> int:
-    """Whitespace tokens, which is what `wc -w` counts and what Part one of
-    INTROSPECTIVE.md was measured with."""
+    """Whitespace tokens, which is what `wc -w` counts."""
     return len(text.split())
 
 
@@ -69,7 +68,6 @@ def tree_words(paths) -> tuple[int, int]:
 # ---------------------------------------------------------------------------
 # The four tells
 #
-# Hard-coded here until style/tells.txt exists, per INTROSPECTIVE.md P0.1.
 # Each is a shape with a documented history in this repository, and each is
 # stated as the rule it is checking rather than as a bare pattern, because a
 # tell whose rule is not written down drifts into a preference.
@@ -77,9 +75,8 @@ def tree_words(paths) -> tuple[int, int]:
 # Precision is uneven and deliberately so. "rather than" is exact. The other
 # three over-report: they flag the shape a failure takes, and whether a given
 # hit is that failure is a reading. Calibration is the number each returned on
-# the corpus before PR #41 rewrote it against the number it returns now, which
-# is recorded at the foot of INTROSPECTIVE.md - a tell that did not move across
-# a rewrite aimed at it is measuring the wrong thing.
+# the corpus before PR #41 rewrote it against the number it returns now - a tell
+# that did not move across a rewrite aimed at it is measuring the wrong thing.
 # ---------------------------------------------------------------------------
 
 # 1. The trailing-clause tell. PR #41 found "rather than" in 61 of 206 Features

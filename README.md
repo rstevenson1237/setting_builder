@@ -17,8 +17,7 @@ Read these rather than a description of them.
 - `BRIEF.md` - this build's design requests for this one setting, read by the templates
   alongside `GENRE.md`; where it speaks it replaces a template's defaults, and it never
   overrides a pattern or `STYLE.md`. Edited directly by the user; a request in the user's
-  own prompt carries the same weight. Where neither asks for History, Truths or a full
-  Bestiary, those start empty or barebones.
+  own prompt carries the same weight.
 - `STYLE.md` - the fixed **What a line has to earn** section: the three tests every line at
   every level must pass, and the standing consequences already settled from them. Fixed
   across every genre, never reauthored. The tests outrank every template.

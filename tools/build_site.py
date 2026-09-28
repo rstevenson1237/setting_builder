@@ -434,10 +434,10 @@ def build_truths(setting: sc.Setting, out: Path) -> None:
 def build_rumours(setting: sc.Setting, out: Path) -> None:
     page = "rumours.html"
     rows = []
-    label = {"T": "True", "P": "Partly true", "F": "False"}
+    label = {"T": "True", "P": "Partly true", "F": "False", "U": "Unverified"}
     any_settled = any(settled for _, _, _, settled in setting.rumours)
     for n, text, tpf, settled in setting.rumours:
-        cls = {"T": "tpf-true", "P": "tpf-partial", "F": "tpf-false"}.get(tpf, "")
+        cls = {"T": "tpf-true", "P": "tpf-partial", "F": "tpf-false", "U": "tpf-unverified"}.get(tpf, "")
         settled_cell = (
             f'<td class="settled">{render_inline(settled, setting, page)}</td>'
             if any_settled else ""
@@ -452,7 +452,7 @@ def build_rumours(setting: sc.Setting, out: Path) -> None:
         '<h1>Rumours</h1>'
         '<p class="hint">Referee reference — hover a mark for what it means. Players hear the rumour, not the mark.</p>'
         '<div class="table-scroll">'
-        f'<table class="data-table"><thead><tr><th>#</th><th>Rumour</th><th>T/P/F</th>{settled_head}</tr></thead>'
+        f'<table class="data-table"><thead><tr><th>#</th><th>Rumour</th><th>Truth</th>{settled_head}</tr></thead>'
         f'<tbody>{"".join(rows)}</tbody></table></div>'
     )
     write_page(out, page, page_shell(setting, page, "Rumours", body))

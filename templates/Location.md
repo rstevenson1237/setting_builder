@@ -4,6 +4,9 @@
 The full write-up for a single location, saved as `[Location Code].md` inside its region's folder (e.g. `setting/region/A/1.md`).
 
 ## Context
+`python3 tools/context.py 4c [Location Code]` prints everything below, assembled, with the
+class file's rates and draws already settled; where it is used, open nothing else.
+
 Consult when drafting - and only this, deliberately narrow so the entry stays shaped by its stub and region rather than washed out by the full setting:
 - `GENRE.md` - a Feature is something to react to on the spot, not a beat in a larger scripted arc.
 - `BRIEF.md` - this build's design requests, which replace this template's defaults where they speak

@@ -107,7 +107,7 @@ def build_document(setting: sc.Setting) -> str:
     settled_head = "<th>Settled at</th>" if any_settled else ""
     parts.append(
         '<section class="doc" id="rumours"><h1>Rumours</h1>'
-        f'<table class="data-table"><thead><tr><th>#</th><th>Rumour</th><th>T/P/F</th>{settled_head}</tr></thead>'
+        f'<table class="data-table"><thead><tr><th>#</th><th>Rumour</th><th>Truth</th>{settled_head}</tr></thead>'
         f'<tbody>{rrows}</tbody></table></section>'
     )
     toc.append(toc_entry("Rumours", "rumours"))

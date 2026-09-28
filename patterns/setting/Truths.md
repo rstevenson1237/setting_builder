@@ -29,9 +29,18 @@ KIND - exactly one
   border       - a boundary that is real rather than agreed
   the dead     - something the dead do here that they do not do elsewhere
   idea         - a political or religious idea, held as a rule
+  mystery      - a question the setting holds open on purpose: what can be seen of it
+                 and where, with its answer left to the referee
+  open         - a gap left on purpose for the referee to fill - a site unstocked, a
+                 name unassigned - stated so it reads as a decision, not an omission
 ```
 
 ## Constraints
+
+- **A mystery or an open Truth says it is one.** Its rule line states that the answer, or
+  the content, is the referee's by design; everything else it carries - what can be seen,
+  where, what acting on it costs - is written as for any Truth. It is the one place an
+  unanswered question is a decision rather than a gap.
 
 - **A Truth is a class, not an instance.** One cursed book is an object, and belongs in
   `setting/UniqueTreasures.md`; a rule that makes a whole class of book behave one way is
