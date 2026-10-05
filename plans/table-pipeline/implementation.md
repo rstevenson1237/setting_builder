@@ -1,12 +1,11 @@
 # Implementation - table-driven location generation
 
-Task plan for `spec.md`. Phases are in dependency order. Each task names the files it
-touches and what "done" means. Task ids are cited by `spec.md` (T1.3) and by commit
-messages. Phase 4 (A2, allocation only) is a working milestone that can ship and be
-piloted on its own before phases 5-6 exist.
+Task plan for `spec.md`. **Hand first, tools after** (D8): phases 1-3 build and run the new
+pipeline with no `draw.py` and no `context.py`. Phase 4 writes the analysis. Phase 5
+rebuilds only the tools the analysis calls for. Task ids are cited by commit messages.
 
-Every task that changes framework files ends with `python3 tools/validate_setting.py`
-clean against an empty `setting/`, and commits on its own.
+The validator runs unchanged throughout phases 1-3. Every framework change ends with
+`python3 tools/validate_setting.py` clean, and commits on its own.
 
 ---
 
@@ -14,117 +13,114 @@ clean against an empty `setting/`, and commits on its own.
 
 | Task | What | Done when |
 |---|---|---|
-| T0.1 | Get the user's answers to D1-D6 (`spec.md` section 5). D1 needs an explicit yes under `README.md`'s renumbering rule | Each answer recorded in `spec.md` section 5, in place of "Recommended" |
-| T0.2 | If any answer differs from the recommendation, update the affected sections of `spec.md` and the tasks below before starting phase 1 | `spec.md` and this file agree with the decisions |
+| T0.1 | Get the user's answers to D1-D8 (`spec.md` section 5). D1 needs an explicit yes under `README.md`'s renumbering rule | Each answer recorded in `spec.md` section 5 |
+| T0.2 | Where an answer differs from the recommendation, update `spec.md` and the tasks below | The two files agree with the decisions |
 
-Everything below assumes the recommended answers. The tasks a different answer changes
-are marked **[D#]**.
+Tasks a different answer would change are marked **[D#]**.
 
 ---
 
-## Phase 1 - Foundations
+## Phase 1 - Framework text for a hand-run pipeline
+
+Everything a hand-run pilot needs, and nothing tool-side. T1.9 (`STEPS.md`) lands last, in
+the same commit as the templates it names, so the validator never sees a step whose
+template doesn't exist yet.
 
 | Task | What | Files | Done when |
 |---|---|---|---|
-| T1.1 | Fix E5's resolution bugs: Encounter's 25% absent line must yield to MEDIUM's "never drawn absent"; FAMILY must resolve only where the block's basis is purpose | `tools/context.py` | Both cases have regression checks (a `--selftest` flag or a fixture run by the validator) that fail on the old code and pass on the new |
-| T1.2 | Write the table test into `patterns/SPEC.md` as a section beside "A draw or an edge is decided by what the pick opens"; cut the `dangerous/Key.md` "two files" paragraph back to a pointer at the test; add one line to `CLAUDE.md`'s Pattern file rules pointing at it | `patterns/SPEC.md`, `CLAUDE.md` | The test reads as in `spec.md` section 6, with no examples beyond the two `SPEC.md` already uses; `CLAUDE.md` gains one line only |
-| T1.3 | Produce the table inventory mechanically: a `tables.py inventory` command that walks every Spec line, applies the test's two conditions (opens lines = edge or nested sub-lines; not exactly one = rate under `1`, a condition, a count over 1, or a shared unit), and prints table / column group per unit per rating | `tools/tables.py` (new) | The output matches `spec.md` section 7, or the differences are resolved in `spec.md` (the test wins over the hand list) |
-| T1.4 | Specify the record format (`spec.md` 8.1) as a parser, with round-trip writing, shared by every tool | `tools/site_common.py` (parse) and `tools/tables.py` (write) | Parse → write → parse is identity on fixture tables; today's gazetteer lines parse unchanged **[D5]** |
+| T1.1 | Write the table test into `patterns/SPEC.md` beside "A draw or an edge is decided by what the pick opens"; cut the `dangerous/Key.md` "two files" paragraph back to a pointer; add one line to `CLAUDE.md`'s Pattern file rules | `patterns/SPEC.md`, `CLAUDE.md` | The test reads as in `spec.md` section 6; `CLAUDE.md` gains one line only |
+| T1.2 | Apply the test by hand to every Spec line in `patterns/`, and record the inventory: table or column group, per unit, per rating | `plans/table-pipeline/inventory.md` (new) | Every pattern file appears once; `spec.md` section 7 is corrected where the test disagrees with it (the test wins) |
+| T1.3 | New `patterns/setting/Compositions.md`: a leaf whose Spec is the composition row's lines and proof items (`spec.md` 8.7), with Constraints for F16 and F17. Add its edge to `patterns/Genre.md`'s SETTING block **[D7]** | `patterns/setting/Compositions.md`, `patterns/Genre.md` | Reachable from the root; the validator's pattern checks pass |
+| T1.4 | `templates/Location_Gazetteer.md` loses weight; its Purpose says the file is the location table, whose first line is the stub. New `templates/Location_Weights.md` takes the weight mix (moved, not copied) and SAFE prominence | both templates | No weight left in the gazetteer's Template block; the mix lives in exactly one file |
+| T1.5 | New `templates/Allocation.md` (4d, by hand): walk each room's class file across the whole region; one stub per decided line; one `Exits` stub per edge with its gate decided once; count against Inhabitants and against each rate before moving on; log every rated decision. Restates no rate | `templates/Allocation.md` | A reader can allocate a region from it plus the class files |
+| T1.6 | New `templates/Composition.md` (4e): design the build, claim stubs first, author exceptions with reasons, write every part and the composition row in one pass, run the proof, and on retrofit, list the rooms and recompile per `templates/Location.md`'s targeted rule **[D7]** | `templates/Composition.md` | Names `patterns/setting/Compositions.md` as its entry |
+| T1.7 | New `templates/Table_[Name].md`, one per table in `inventory.md`. Context = `spec.md` 8.4's read set for that table, and nothing more; Instructions = the distinctness rules this table's rows are checked against, "fill only unclaimed stubs", "never re-decide an allocated value"; Template = the record shape (`spec.md` 8.1). Columns are not listed; they are the pattern's Spec **[D2, D5]** | `templates/Table_*.md` | Each names exactly one pattern entry; none copies a Spec line |
+| T1.8 | `templates/Location.md` becomes compile: Context reads every row naming this location; Instructions gain "every row realized, nothing without a row, no fact added or dropped, record `Realized:`" and the targeted recompile rule (`spec.md` 9.2). Template block and Citations unchanged. The five registry templates: stubs at 4d/4e, full entries at 4h, with Context reading the placing rows **[D4]** | `templates/Location.md`, five registry templates | The output format is unchanged; no `context.py` reference is left in these files |
+| T1.9 | Rewrite phase 4 of `STEPS.md` per `spec.md` 8.2, and move every phase-4 step-id citation to its new id **[D1, D6]** | `STEPS.md`, `templates/*`, `patterns/SPEC.md`, `patterns/dangerous/Key.md`, `patterns/dangerous/Lore.md`, `patterns/wild/Lore.md`, `README.md` | The validator raises no unknown-step citation and no missing-template warning |
+| T1.10 | Add the three judgement items (`spec.md` section 10) to the setting check | `templates/Setting_Judgement_Check.md` | Three items added, nothing else rewritten |
+| T1.11 | `README.md`: map `tables/` and `setting/Compositions.md` | `README.md` | Points only |
+
+**Note on the tools during phases 1-3.** `README.md` and `templates/Location.md` stop
+pointing at `context.py 4c` (T1.8). The tools stay in the tree untouched, still runnable,
+and are retired or rebuilt in phase 5. `context.py`'s parsing of `Locations.md` may break
+once weight moves out of the gazetteer line. That's acceptable while nothing reads it,
+and T5.0 settles it.
 
 ---
 
-## Phase 2 - Steps and templates (framework text)
-
-T2.1 lands last in this phase, in the same commit as T2.3-T2.8. Otherwise the validator
-errors on steps that name templates which don't exist yet. Phases 2 and 3 merge together,
-before any build is attempted, so `STEPS.md` never names a tool that isn't there.
-
-| Task | What | Files | Done when |
-|---|---|---|---|
-| T2.1 | Rewrite phase 4 of `STEPS.md` per `spec.md` 8.2. Each step names its template and adds only what the template can't know (build order, gating, stub bookkeeping) **[D1, D6]** | `STEPS.md` | The validator's step regex parses every id; `--read-set 4f` resolves |
-| T2.2 | Move every phase-4 step-id citation to its new id | `templates/*.md`, `templates/*.mmd`, `patterns/SPEC.md`, `patterns/dangerous/Key.md`, `patterns/dangerous/Lore.md`, `patterns/wild/Lore.md`, `README.md`, `tools/*.py` comments | `grep` for the old ids finds only intentional ones; the validator raises no "cites step X, which STEPS.md does not define" |
-| T2.3 | `templates/Location_Gazetteer.md`: take weight out; rewrite Purpose to say the file is the location table whose first line is the stub; keep counts and tag rules | `templates/Location_Gazetteer.md` | No weight in its Template block; Purpose no longer calls it "not a place for content" |
-| T2.4 | New `templates/Location_Weights.md`: DANGEROUS weight mix, WILD classification mix, SAFE prominence (one central per settlement, which is the template's to own, as `--set prominence` admits today); Context reads the Overview and the gazetteer | `templates/Location_Weights.md` | Validator-recognised as 4b's template; the weight mix moved here, not copied |
-| T2.5 | New `templates/Allocation.md`: Purpose, the command, how to read the allocation report, when to reroll, and what is never hand-edited | `templates/Allocation.md` | Names `tools/tables.py allocate`; restates no rate |
-| T2.6 | New `templates/Table_[Name].md`, one per table in `spec.md` section 7, each Purpose / Context / Instructions / Template. Context = 8.4's read set; Instructions = batching threshold, distinctness rules this table enforces across its rows, the rule that drawn values are never re-decided; Template = the record shape. Columns are **not** listed: they are read off the pattern **[D2]** | `templates/Table_*.md` | Each names exactly one pattern entry; `--read-set` reaches it; no Spec line is copied in |
-| T2.7 | `templates/Location.md` becomes compile: Context runs `tables.py sheet [Code]`; Instructions gain "every row realized, nothing without a row, no fact added or dropped, record `Realized:`"; Template block and Citations unchanged **[D4]** | `templates/Location.md` | The output format is byte-for-byte the same shape; the `context.py 4c` reference is gone |
-| T2.8 | The five registry templates: stub at 4d (allocation, by tool), full entry at 4h; Context at 4h reads the table rows that place the entry instead of the location files | `templates/Keys.md`, `Lore.md`, `Quests.md`, `NamedCreatures.md`, `UniqueTreasures.md` | Each one's 4c instruction is gone; the Template block is unchanged |
-| T2.9 | Judgement checks: add "rows written in one pass read as a form" and "rooms read as one room" to the setting check; "draws realized" answered from the allocation report | `templates/Setting_Judgement_Check.md` | Two items added; nothing else rewritten |
-| T2.10 | `README.md`: map `tables/` and `tools/tables.py`; add the commands | `README.md` | Points only, per `CLAUDE.md`; no description of how the pipeline works |
-
----
-
-## Phase 3 - Allocation tool (A2 core)
-
-| Task | What | Files | Done when |
-|---|---|---|---|
-| T3.1 | Extract `context.py`'s resolution walk (`resolve`, `resolve_file`, `resolve_line`) so it can emit units rather than a sheet; keep `context.py 4c` working on top of it until T6.4 | `tools/context.py`, `tools/tables.py` | The `4c` sheet for a fixture location is unchanged before and after |
-| T3.2 | Apply the table test to the resolved units: each unit becomes a row in its table or a column group on its drawer's row; foreign keys to drawer and referents | `tools/tables.py` | A fixture DANGEROUS region allocates into `Locations`, `Exits`, `Encounters`, `Creatures`, `Hazards`, `Mysteries`, `Treasures` and `Secrets` with no orphan keys |
-| T3.3 | Seed by row id for row-owned draws; one `Exits` row per diagram edge, its gate drawn once per edge (E3); WILD access as an `Exits` column group from the diagram's hidden/secret edges | `tools/tables.py`, `tools/draw.py` (seed helper only) | The fixture's gate count across edges sits near Door.md's rate; no edge has two gate draws |
-| T3.4 | Registry stubs written at allocation: Keys naming both ends, Quests naming the target, Lore / Named Creature / Unique Treasure naming the placing row | `tools/tables.py` | Every registry foreign key in the tables has its stub; `check_key_obligations` passes at the close of 4d |
-| T3.5 | Idempotent re-run and rerolls: `allocate` rewrites stubs only; `--reroll ROWID.KEY=N` refuses when it would orphan a filled row and prints the dependents (F12) | `tools/tables.py` | Re-running on an untouched region is a no-op diff; a refused reroll names its dependents |
-| T3.6 | Allocation report: per table, rate asked against realized across the region; Creatures headcount against the Overview's Inhabitants (E2, E4) | `tools/tables.py` | Printed at the end of every `allocate`; tolerance read from the template, not hard-coded in two places |
-| T3.7 | `tables.py sheet [Code] [Table]` (a table pass's read set, 8.4) and `tables.py sheet [Code]` (one location's rows, for compile) | `tools/tables.py` | Neither prints a location file, a sibling location's unreferenced rows, or registry content |
-| T3.8 | `tables.py columns [pattern]`: a pattern's Spec lines as the column list a table owes, with the file's Constraints **[D2]** | `tools/tables.py` | Used by `sheet`; no template copies its output |
-
----
-
-## Phase 4 - Milestone A2: allocation with the old writer
+## Phase 2 - Pilot log
 
 | Task | What | Done when |
 |---|---|---|
-| T4.1 | Validator: parse tables; errors and warnings for format, keys, the Exits/diagram match, and unfilled stubs (`spec.md` section 10, excluding `Realized:`) | Clean on the fixture; each rule has a failing fixture |
-| T4.2 | `--pending` reports stubs owed per step, including connected stubs waiting on another region | Lists the fixture's cross-region exit as owed to 4h |
-| T4.3 | A2 pilot: build steps 1-3 for `BRIEF.md`, then 4a-4d for one DANGEROUS cave, then write its locations with the **existing** 4c writer, fed by `tables.py sheet [Code]` over stubs | The cave's allocation report is in tolerance, its gates are per edge, its headcount reconciles; record findings in `setting/checks/` |
+| T2.1 | Create `plans/table-pipeline/pilot-log.md` with one section per pass: pass id and step; files read, with sizes; rows written; every rated decision as `rate asked -> taken / not taken`; rows compile sent back, with the reason; composition exceptions; the hand checklist (`spec.md` section 10) ticked per pass; time spent | The template sections exist before the first pass runs |
 
-This is a checkpoint. If A2 alone fixes enough of E1-E8, the user can stop here. Phases
-5-6 are the A3 half.
+The log is the analysis's evidence. A pass that isn't logged didn't happen, as far as
+phase 4 is concerned.
 
 ---
 
-## Phase 5 - Fill passes and compile (A3)
+## Phase 3 - Hand-run pilot
 
-| Task | What | Files | Done when |
+No `draw.py` and no `context.py`. Read sets are assembled by opening the files the
+template names.
+
+| Task | What | Done when |
+|---|---|---|
+| T3.1 | Build steps 1-3 from `BRIEF.md` under the existing templates (unchanged by this plan) | Validator clean through step 3 |
+| T3.2 | 4a-4c for the keep (SAFE), the borderland (WILD), the ravine (WILD), and two caves (DANGEROUS), chosen so that one edge crosses regions | Gazetteers, weights and diagrams exist; validator clean |
+| T3.3 | 4d allocation for those five regions, region by region, each in one pass | Every allocated row exists as a stub; counts reconcile with Inhabitants; rated decisions logged |
+| T3.4 | 4e: at least one composition spanning three or more rooms in one cave, written in one pass and proven by hand (all eight items) | The composition row and every part row exist; the proof is ticked in the log |
+| T3.5 | 4f table passes in `spec.md` 8.3's order. The creatures pass is run strictly from 8.4's read set (Inhabitants, the named Bestiary/Factions entries, and its stubs), as the test of standalone rows | Every unclaimed stub filled; distinctness checklist ticked per table |
+| T3.6 | 4g naming and name sync, by hand | Diagram labels and registry lines match `Locations.md` |
+| T3.7 | 4h connected fill: the cross-region exit, then every registry's full entry | No stub left |
+| T3.8 | 4i compile for every pilot location | Every row realized exactly once; the validator's location checks pass |
+| T3.9 | **Retrofit**: a second composition into the other cave (or across the ravine and a cave), touching at least two already-compiled rooms, followed by targeted recompile | Only the lines `spec.md` 9.2 allows changed, visible in the diff; proof ticked |
+| T3.10 | 4j coinage and mechanics; then 5c on the pilot regions | `setting/checks/SettingJudgementCheck.md` written, including the three new items |
+
+Commit per pass, so each pass's diff can be read on its own.
+
+---
+
+## Phase 4 - Analysis
+
+| Task | What | Done when |
+|---|---|---|
+| T4.1 | Write `plans/table-pipeline/analysis.md` answering every question in `spec.md` section 11 from the pilot log and the 5c check, each answer with its decision: keep as is, rebuild a tool, change a template, or revisit a D# | Every question has evidence and a decision |
+| T4.2 | Compare the 5c findings with the second-run addendum at commit 9c1354b, item by item for "rooms are distinct" and "draws realized" | The comparison table is in `analysis.md` |
+| T4.3 | Walk `spec.md` section 13's acceptance list | All nine met, or each miss has a named follow-up the user accepts |
+| T4.4 | Plan phase 5 from the analysis: keep only the tasks below that it calls for, and add any it finds | Phase 5 of this file is trimmed to match `analysis.md` |
+
+This is a checkpoint with the user before any tool work starts.
+
+---
+
+## Phase 5 - Wire back the tools, where called for
+
+Each task runs only if `analysis.md` calls for it. The table names the finding that
+triggers it.
+
+| Task | Triggered by | What | Files |
 |---|---|---|---|
-| T5.1 | Substrate pass (4e) end to end: `Table_Locations.md` over a real region; fill `Locations.md` column groups | template from T2.6 | Every location row's substrate is filled; the purpose-per-block check passes |
-| T5.2 | Feature passes (4f) in `spec.md` 8.3's order, one fresh context per table per region (per block above the template's threshold) | templates from T2.6 | Each table is filled; the distinctness warnings are clear or judged deliberate |
-| T5.3 | Naming pass (4g) and `tables.py sync-names`: rewrites `.mmd` node labels and registry `found at` lines from `Locations.md` (F10) | `tools/tables.py` | After a rename, the validator's name-match checks pass with no hand edits |
-| T5.4 | Connected fill (4h): remaining connected stubs, then the full registry entries from their placing rows | registry templates | `--pending` is empty for the region |
-| T5.5 | Compile (4i) per location with the T2.7 template; `Realized:` written back to each row | `templates/Location.md` | Every row is realized exactly once; the validator's location checks pass unchanged |
-| T5.6 | Validator: the `Realized:` checks, plus the heuristic "Feature with no row" warning | `tools/validate_setting.py` | Each has a failing fixture |
-| T5.7 | `metrics.py`: per-table rows, fill state, asked against realized, words per cell; `context.py cost` gains the table strategy (F8) | `tools/metrics.py`, `tools/context.py` | Both print for the pilot regions |
+| T5.0 | always | Make `site_common`'s gazetteer parsing read the new `Locations.md` record (first line plus indented columns), and confirm `build_site` / `build_pdf` ignore `tables/` | `tools/site_common.py` |
+| T5.1 | always, if T5.2 or T5.3 runs | Fix E5's resolution bugs (MEDIUM never absent; FAMILY only on purpose blocks), with regression checks, before reusing the walk | `tools/context.py` |
+| T5.2 | rates collapsed under hand allocation | `allocate [Code]`: the class-file walk emitting stub rows, seeded per row id (one gate per edge), plus the allocation report (asked against realized; headcount against Inhabitants); idempotent, and refuses to change a filled row | `tools/tables.py` (new), `tools/draw.py` (seed helper) |
+| T5.3 | assembling read sets was the costly part | `sheet [Code] [Table]` printing exactly 8.4's read set, and `sheet [Code]` printing one location's rows for compile; then retire `context.py 4c` | `tools/tables.py`, `tools/context.py` |
+| T5.4 | checklist items were tedious or missed | Validator: table parsing; format and key errors; one `Exits` row per edge matching its diagram; unfilled-stub and unrealized-row warnings; the distinctness rules; the mechanical composition proof items (8.7, ⚙); `--pending` for connected stubs | `tools/validate_setting.py` |
+| T5.5 | name sync was error-prone | `sync-names`: rewrite `.mmd` labels and registry lines from `Locations.md` | `tools/tables.py` |
+| T5.6 | the cost question stays open | `metrics.py` per-table counts and asked against realized; `context.py cost` gains the table strategy, calibrated against the pilot log | `tools/metrics.py`, `tools/context.py` |
+| T5.7 | after any of the above | `README.md` command list matches the tools; cut any prose that restated the old 4c route back to a pointer | `README.md`, templates |
 
 ---
 
-## Phase 6 - Retire the old route
+## Risks to watch
 
-| Task | What | Done when |
-|---|---|---|
-| T6.1 | `site_common` / `build_site` / `build_pdf`: confirm `tables/` is ignored and nothing renders it (F13). No change is expected; fix only what breaks | Site and PDF build from the pilot unchanged in shape |
-| T6.2 | Validator: drop any check made redundant by a table rule (for example, per-file repeated-feature heuristics that the table distinctness rules now cover exactly) | No check exists twice |
-| T6.3 | Cut documentation that restated the old 4c route back to pointers (`CLAUDE.md` rule: never refresh a stale passage) | `grep` for "sheet", "4c", "sibling" in framework prose finds only current meaning |
-| T6.4 | Remove `context.py 4c` once compile reads `tables.py sheet`; keep `cost` | `README.md` command list matches the tools |
-
----
-
-## Phase 7 - Pilot and acceptance
-
-| Task | What | Done when |
-|---|---|---|
-| T7.1 | Full pilot from `BRIEF.md`: the keep (SAFE), the borderland (WILD), and at least two caves (DANGEROUS, chosen so one cross-region connected stub exists), through 4a-4j | Every location file compiled |
-| T7.2 | Run 5c on the pilot, comparing its "Rooms are distinct" and "Draws realized" findings with the second-run addendum at commit 9c1354b | Findings recorded under `setting/checks/` |
-| T7.3 | Walk `spec.md` section 12's acceptance list item by item; open a follow-up for every item that fails, with its source (tool, template, pattern, generator) | All eight are met, or each miss has a named follow-up the user accepts |
-| T7.4 | 5a and 5b: the template and pattern judgement checks over the new templates and the changed `SPEC.md` | No restatement of a pattern found in a `Table_*.md` template |
-
----
-
-## Risks to watch during the work
-
-- **A table template drifting into a pattern copy (F4).** T2.6 and T7.4 both check for it.
-  The fastest symptom is a template listing columns.
-- **Formulaic rows (F2).** If T5.2's tables read as a form, the remedy is more per-row
-  draws in the pattern, never longer instructions in the template.
-- **Compile adding facts (F7).** T5.5's realized-trace makes it visible. If it keeps
-  happening, the cells are too thin, which is a pattern question and not a compile one.
-- **Cost (F8).** If T5.7 shows the table strategy unaffordable, A2 (phase 4) remains a
-  complete, shippable improvement.
+- **A table template drifting into a pattern copy (F4).** The fastest symptom is a
+  template listing columns. Checked at T1.7 and by 5b.
+- **Standalone rows that don't fit their room (F1).** Measured at T3.8 by rows sent back.
+  The remedy is the narrowest added input, never a whole room.
+- **Compositions fighting the weights (F17).** Measured by the exception count. If it runs
+  high, compositions move before 4b for the rooms they claim.
+- **Hand allocation collapsing to the average (F19).** This is the experiment. The log
+  makes it measurable, and T5.2 is the fix if it happens.
+- **Retrofit sprawl (F18).** A retrofit diff touching lines outside 9.2's rule is a
+  compile failure, not a style choice.

@@ -35,6 +35,31 @@ the ones that need sign-off as Decisions.
 | "a firm test for ... a field in the table versus its own table" | One decidable rule that can be applied to every Spec line in `patterns/`, stated in `patterns/SPEC.md`, with no case left to taste. |
 | "start with analysis and identification of alternates or friction points" | `spec.md` opens with them, and the design that follows answers them. |
 
+## Follow-up, verbatim
+
+> my thoughts are an additional consideration, iterative writing. The author can think of a
+> coordinated puzzle feature, write in clues, triggers, objects and multiple pieces of
+> interactive features throughout multiple rooms and then write the entire coordinated
+> build in one pass, all validated and proven correct and this works even when
+> retrofitting on locations that have already been written. It also works in the opposite
+> direction, if I"m writing creatures into a region I want to know what creatures inhabit
+> that region and which rooms have a weight that calls for a potential creature but I
+> don't really need any further context, the line of "there is an orc here. Its name is x,
+> it reacts y and wants z" can exist on its own. I would do the work completely without
+> our existing tools first, then do an analysis and wire back up the random chance
+> generator and the context collector if still called for.
+
+### How the follow-up is read
+
+| Clause | Read as |
+|---|---|
+| "a coordinated puzzle feature ... throughout multiple rooms ... in one pass" | A unit of work that writes rows into several tables across several rooms at once. Storage stays one file per feature type, but a writing pass is no longer tied to one table. The coordinating record is itself a table row (`spec.md` 8.7). |
+| "all validated and proven correct" | A composition has checkable invariants: every part exists as a row, the chain can be solved from the region's entrance, no clue sits in the same room as its answer, and each part fits its room's class. They are checked by hand in the pilot and automated later if called for. |
+| "works even when retrofitting on locations that have already been written" | Adding rows to a compiled room triggers a targeted recompile of that room, driven by each row's `Realized:` trace. Nothing else in the room is rewritten (`spec.md` 9.2). |
+| "the opposite direction ... the line ... can exist on its own" | A row is a standalone fact about one thing at one code. A table pass reads only its own stubs plus the region-level roster it draws from: no room substrate, no other tables. Making the room hang together is compile's job. This replaces the first draft's answer to F1. |
+| "which rooms have a weight that calls for a potential creature" | The stubs that allocation writes into each table, by hand from the class files, are exactly that list. |
+| "completely without our existing tools first ... then wire back up ... if still called for" | The pilot runs with no `draw.py` and no `context.py`. The author makes every rated decision by hand, against the template's mix, and logs it. An analysis then decides which tools come back. The validator keeps running as it is, since it is a format lint and not a generator. |
+
 ## State of the repository at intake
 
 - `setting/` is empty: the Greywatch build was removed in commit bf4ea1c. There is no
@@ -48,6 +73,9 @@ the ones that need sign-off as Decisions.
 - `intake.md` - this file.
 - `spec.md` - analysis, alternatives, friction points, the table test, and the design.
 - `implementation.md` - the task plan.
+
+After the follow-up, `spec.md` and `implementation.md` were revised in place. The tool-built
+allocation milestone became a hand-run pilot followed by an analysis.
 
 Nothing in `STEPS.md`, `templates/`, `patterns/` or `tools/` changes under this intake.
 That work is `implementation.md`'s, and it starts once the Decisions in `spec.md` are
