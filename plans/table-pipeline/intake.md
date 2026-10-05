@@ -96,6 +96,22 @@ the ones that need sign-off as Decisions.
 | D7 | No `Compositions` table. A coordinated build is an entry in a new Region Overview field. Its parts are ordinary rows, and the entry names them. |
 | D8 | Hand first, as planned. |
 
+## Second follow-up, verbatim
+
+> split templates into folders similar to patterns/.
+>
+> What is our recommendation for where to draw the lines on the tables (for example, 1
+> table for hazards, 3 tables in 1 file for each type of hazard or 3 files total; extended
+> out to all of the patterns, unacceptable complexity is a deal breaker)
+
+### How it is read
+
+| Clause | Read as |
+|---|---|
+| "split templates into folders similar to patterns/" | Decision D9. `templates/` gets `setting/`, `region/`, `safe/`, `wild/`, `dangerous/` and `checks/`. It is planned as the first framework task (`implementation.md` T1.1) rather than done now: phase 1 rewrites every phase-4 citation anyway, so moving templates in the same pass avoids updating every citation twice. |
+| "where to draw the lines on the tables ... extended out to all of the patterns" | One placement rule for every line, pattern and table (`spec.md` section 7), with the hazards case answered explicitly (7.2) and the result counted per rating (7.5). |
+| "unacceptable complexity is a deal breaker" | The rule caps files at five per region and adds no table the pattern library doesn't already imply. Its complexity is accounted for in 7.5, and the one lever left (folding kind files) is given a test (7.3). |
+
 ## State of the repository at intake
 
 - `setting/` is empty: the Greywatch build was removed in commit bf4ea1c. There is no
