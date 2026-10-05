@@ -6,7 +6,7 @@ A registry of physical objects that trigger something elsewhere - an actual key,
 ## Context
 Read first:
 - Step 2h (stubbing the file): no context needed.
-- Step 4c (recording a stub): `GENRE.md`, `templates/Location.md`.
+- Step 4c (recording a stub): `GENRE.md`, `templates/region/Location.md`.
 - Step 4d (writing the full entry): `GENRE.md`, `setting/Setting.md`, `patterns/setting/Keys.md`, the location file the stub points to, and (if it already exists) the location file it unlocks.
 
 ## Instructions

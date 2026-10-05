@@ -34,7 +34,8 @@ Read these rather than a description of them.
 ## Directories
 
 - `templates/` - one template per artifact type, each structured **Purpose / Context /
-  Instructions / Template**. A template's own Context section lists exactly which files to
+  Instructions / Template**, in folders mirroring `patterns/` plus `checks/` for the
+  judgement checks. A template is cited by its path, folder included. A template's own Context section lists exactly which files to
   read before drafting; don't pull in more than it names.
 - `patterns/` - pattern guidance, in five folders matching the five levels of generation:
   `setting/`, `region/`, `safe/`, `wild/`, `dangerous/`. A generation step reads only the
@@ -51,7 +52,7 @@ Read these rather than a description of them.
   Overview sits beside it at `setting/region/[Code].md`.
 - `setting/checks/` - output of the judgement checks (STEPS.md step 5): non-mechanical
   review passes `tools/validate_setting.py` can't do, following the checklist format in
-  the matching `templates/*_Judgement_Check.md`. Nested under `setting/` so wiping the
+  the matching `templates/checks/*_Judgement_Check.md`. Nested under `setting/` so wiping the
   setting for a new build takes its judgement checks with it, rather than leaving them
   behind to bias the next one.
 - `plans/` - proposals for framework changes not yet made: one folder per change, holding
@@ -65,7 +66,7 @@ Read these rather than a description of them.
   - `metrics.py` - what the framework costs and how the corpus reads, counted. Judges
     nothing; the thresholds are the validator's.
   - `draw.py` / `context.py` - settle a location's rates and draws from its code;
-    `context.py 4c` prints them as the sheet `templates/Location.md` writes from, and
+    `context.py 4c` prints them as the sheet `templates/region/Location.md` writes from, and
     `context.py cost` models what writing a region costs.
 
 ## Commands

@@ -8,7 +8,7 @@ item each draw gives, which one of a paired kind's files is followed, and which
 conditional lines hold. It prints only the leaves - each drawn item and each
 open question that applies - with the Constraints of the files that gave them,
 minus any about an item not drawn. Rates, Spec blocks, Provides and undrawn
-menus are left out. The static reads come from templates/Location.md's
+menus are left out. The static reads come from templates/region/Location.md's
 Context, not from here.
 
 Two things never appear: a sibling location, because a room written against
@@ -730,7 +730,7 @@ def recorded_against(code: str) -> list[str]:
 
 
 def template_body() -> str:
-    text = (TEMPLATES / "Location.md").read_text()
+    text = (TEMPLATES / "region" / "Location.md").read_text()
     m = re.search(r'\n## Instructions\n.*', text, re.S)
     return ("## Instructions" + m.group(0).split("## Instructions", 1)[1]).strip() \
         if m else text.strip()
@@ -748,7 +748,7 @@ def render_prefix(region: str) -> str:
     out = [f"# Step 4c static reads - region {region}", ""]
     for path in prefix_files(region):
         out += [f"## {rel(path)}", "", path.read_text().strip(), ""]
-    out += [f"## The format ({rel(TEMPLATES / 'Location.md')})", "", template_body(), ""]
+    out += [f"## The format ({rel(TEMPLATES / 'region' / 'Location.md')})", "", template_body(), ""]
     return "\n".join(out)
 
 

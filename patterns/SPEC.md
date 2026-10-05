@@ -65,7 +65,7 @@ for. Neutral and permanent.
 It also carries the **boundary** against any sibling file that could be confused for this
 one, and a pointer to the authority for anything adjacent that this file does not decide -
 a rate that belongs to the drawing line, a resolution that belongs to
-`setting/Procedures.md`, a citation format that belongs to `templates/Location.md`.
+`setting/Procedures.md`, a citation format that belongs to `templates/region/Location.md`.
 
 **It never says when or by what the file is reached.** That is the read-set graph's, and
 the graph runs one way: a STEPS.md step names its template, a template names the pattern

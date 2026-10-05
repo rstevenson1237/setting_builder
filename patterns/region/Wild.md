@@ -4,8 +4,8 @@
 One WILD Region Overview: the stretch of country as a referee runs a crossing of it
 without opening a location - how it is entered, what moving through it costs, who is out
 here, and what is worth carrying home. How many locations it holds, in what
-classification mix, and how they connect is `templates/Location_Gazetteer.md`'s and
-`templates/Region_Connections.mmd`'s; what one location holds is its classification's own
+classification mix, and how they connect is `templates/region/Location_Gazetteer.md`'s and
+`templates/region/Region_Connections.mmd`'s; what one location holds is its classification's own
 file.
 
 ## Spec

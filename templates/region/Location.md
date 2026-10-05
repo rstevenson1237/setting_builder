@@ -18,7 +18,7 @@ Then, per location, run `python3 tools/context.py 4c [Location Code]` and write 
 - For a WILD Hidden or Secret location, its parent must already be generated, since its connection is written into the parent's own Exits or Features - generate WILD locations Landmark tier first, then Hidden, then Secret.
 - If a Feature calls for a piece of Lore, a Key, a Quest, a Named Creature, or a Unique Treasure, record only a **stub** (name and this location) in the matching `setting/` file now. Its full content is written later, in step 4d. This is the container/data split: the location cites, the registry holds.
 
-Consult `setting/Bestiary.md`, `setting/Factions.md`, `setting/History.md`, or `setting/Rumours.md` only to look up a name the stub or region overview already references - never to pull in new material wholesale. A creature this location needs that the Bestiary lacks gets its entry added there first, per `templates/Bestiary.md`, and is then cited.
+Consult `setting/Bestiary.md`, `setting/Factions.md`, `setting/History.md`, or `setting/Rumours.md` only to look up a name the stub or region overview already references - never to pull in new material wholesale. A creature this location needs that the Bestiary lacks gets its entry added there first, per `templates/setting/Bestiary.md`, and is then cited.
 
 ## Instructions
 

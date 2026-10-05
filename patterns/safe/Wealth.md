@@ -42,7 +42,7 @@ PROTECTION - exactly one
 
 - **A lethal trap here is rare and deliberate** - reserved for a cache the region's
   Situation already justifies treating that seriously. A trap is written as one Feature,
-  per `templates/Location.md`.
+  per `templates/region/Location.md`.
 
 - **Its lore has no living holder.** Unlike `safe/Lore.md`'s kept records, nobody holds a
   cache's documents or the holder does not know they are here, so its Protection stands

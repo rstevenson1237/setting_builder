@@ -2,7 +2,7 @@
 
 ## Provides
 One event in the setting's past: what happened, when, and the mark it left that a party
-can find now. How many events and how they spread across time is `templates/History.md`'s.
+can find now. How many events and how they spread across time is `templates/setting/History.md`'s.
 
 ## Spec
 

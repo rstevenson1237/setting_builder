@@ -164,12 +164,12 @@ twice.
 | D2 | What "supersede the patterns" means | **A pattern specifies one row; the table template owns the table** |
 | D3 | Where tables live | **`setting/region/[Code]/`**, next to `Locations.md` |
 | D4 | What a cell holds | **A tag** (1-2 words) **or a gloss** (at most 6 words) |
-| D5 | Table format | **Recommended, awaiting confirmation: two shapes, each with one generic parser**: pipe tables where every field fits one sentence, record files otherwise (section 6); region tables placed by section 7 |
+| D5 | Table format | **Two shapes, each with one generic parser**: pipe tables where every field fits one sentence, record files otherwise (section 6); region tables placed by section 7 |
 | D6 | Connected stubs | **Their own pass (4h)**; every unfilled cell is a validator warning |
 | D7 | Coordinated builds | **A `Compositions` field in the Region Overview** |
 | D8 | Hand first | **Yes** |
 | D9 | Template layout | **Folders mirroring `patterns/`** (section 8) |
-| D10 | Migrate existing table files | **Recommended, awaiting confirmation: yes, by the format test** (6.4), in phase 1, while `setting/` is empty |
+| D10 | Migrate existing table files | **Yes, by the format test** (6.4), in phase 1, while `setting/` is empty |
 
 ---
 

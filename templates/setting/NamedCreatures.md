@@ -6,7 +6,7 @@ A registry of specific, named creatures that may appear in multiple locations an
 ## Context
 Read first:
 - Step 2h (stubbing the file): no context needed.
-- Step 4c (recording a stub): `GENRE.md`, `templates/Location.md`.
+- Step 4c (recording a stub): `GENRE.md`, `templates/region/Location.md`.
 - Step 4d (writing the full entry): `GENRE.md`, `setting/Setting.md`, `setting/History.md`, `setting/Truths.md`, `setting/Bestiary.md`, `setting/Factions.md`, `patterns/setting/NamedCreatures.md`, and every location file that stubs this creature.
 
 ## Instructions

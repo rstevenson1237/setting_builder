@@ -6,7 +6,7 @@ A registry of written works discoverable within the setting - books, scrolls, ta
 ## Context
 Read first:
 - Step 2h (stubbing the file): no context needed.
-- Step 4c (recording a stub): `GENRE.md`, `templates/Location.md`.
+- Step 4c (recording a stub): `GENRE.md`, `templates/region/Location.md`.
 - Step 4d (writing the full entry): `GENRE.md`, `setting/Setting.md`, `setting/History.md`, `setting/Truths.md`, `patterns/setting/Lore.md`, and the location file the stub points to.
 
 ## Instructions

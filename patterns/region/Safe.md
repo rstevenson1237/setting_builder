@@ -4,7 +4,7 @@
 One SAFE Region Overview: the settlement as a referee runs it without opening a location -
 who is here, what can be had and for what, what gets a stranger thrown out, and what is
 moving. How many locations it holds and how they connect is
-`templates/Location_Gazetteer.md`'s and `templates/Region_Connections.mmd`'s; what one
+`templates/region/Location_Gazetteer.md`'s and `templates/region/Region_Connections.mmd`'s; what one
 location holds is `safe/Settlement.md`'s.
 
 ## Spec

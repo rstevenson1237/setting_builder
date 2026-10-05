@@ -12,7 +12,7 @@ Six readings, printed in one report:
   READ SET  words in context per step 4c entry point
 
 Nothing here judges. A tell is a candidate a reader looks at, the read-set
-figure is an arithmetic sum of what templates/Location.md's Context section
+figure is an arithmetic sum of what templates/region/Location.md's Context section
 names, and neither carries a threshold - `tools/validate_setting.py` is where
 a rule with a pass and a fail lives. This file exists so a change to the
 framework can be shown to have moved something, rather than asserted to have.
@@ -113,7 +113,7 @@ CONCLUSION_RE = re.compile(
     r'enough to tell|tells anyone|anyone can tell|the clue that|'
     r'so that anyone|is how anyone)', re.I)
 
-# 4. The gloss. templates/Location.md instruction 5: a precise term replaces its
+# 4. The gloss. templates/region/Location.md instruction 5: a precise term replaces its
 #    definition and never carries one. Its shape is the label naming a thing and
 #    the line's opening segment naming it again to define it - D.18's
 #    "**Corbelled Ceiling:** The ceiling steps inward in courses rather than
@@ -307,7 +307,7 @@ def report_budget() -> None:
     authorities = [ROOT / n for n in ("CLAUDE.md", "README.md", "GENRE.md", "STEPS.md")]
     layers = [
         ("authorities", [p for p in authorities if p.exists()]),
-        ("templates/", sorted((ROOT / "templates").glob("*.md"))),
+        ("templates/", sorted((ROOT / "templates").glob("*/*.md"))),
         ("patterns/", sorted((ROOT / "patterns").glob("SPEC.md"))
                       + sorted((ROOT / "patterns").glob("*/*.md"))),
     ]
@@ -341,7 +341,7 @@ def report_budget() -> None:
 #
 # What one location costs to generate: the fixed context every 4c entry carries
 # plus the closure of pattern files its class file reaches. The fixed half is
-# templates/Location.md's own Context section, which is the authority on what a
+# templates/region/Location.md's own Context section, which is the authority on what a
 # drafting session opens - README.md is in it because the session hook injects
 # it. The variable half is walked with the graph tools/validate_setting.py
 # --read-set walks, from the same entry points.
@@ -351,7 +351,7 @@ def report_budget() -> None:
 # ---------------------------------------------------------------------------
 
 FIXED_CONTEXT = ("CLAUDE.md", "README.md", "GENRE.md", "STYLE.md", "BRIEF.md",
-                 "templates/Location.md",
+                 "templates/region/Location.md",
                  "setting/Truths.md", "setting/Procedures.md", "setting/Language.md")
 
 

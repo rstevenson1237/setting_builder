@@ -279,7 +279,7 @@ def spec_edges(text: str, rel: str):
 # Reachability is what this buys: a pattern file no generation template can
 # reach is never read, so the content it describes is never generated. That
 # is silent under-generation rather than a malformed file, so it warns here
-# and is judged at STEPS.md step 5b, per templates/Pattern_Judgement_Check.md.
+# and is judged at STEPS.md step 5b, per templates/checks/Pattern_Judgement_Check.md.
 #
 # A phase-5 template is a review pass, and the pattern files it names are
 # examples of what to review rather than inputs to a generation. They are
@@ -288,7 +288,9 @@ def spec_edges(text: str, rel: str):
 # ---------------------------------------------------------------------------
 
 TEMPLATES = ROOT / "templates"
-TEMPLATE_CITE_RE = re.compile(r'\btemplates/([A-Za-z_]+\.(?:md|mmd))\b')
+# A template is cited by its path under templates/, folder included
+# (templates/region/Location.md), mirroring the folders of patterns/.
+TEMPLATE_CITE_RE = re.compile(r'\btemplates/((?:[a-z]+/)?[A-Za-z_]+\.(?:md|mmd))\b')
 # A template's pattern citations are always fully qualified - "patterns/" plus
 # folder plus file. The elided form ("patterns/region/Safe.md, Wild.md") reads
 # fine but hides an edge, so the graph requires the long form and the orphan
@@ -684,7 +686,7 @@ ROMAN_TABLES = {"I", "II", "III", "IV", "V"}
 
 
 # ---------------------------------------------------------------------------
-# The Feature grammar - templates/Location.md instruction 5
+# The Feature grammar - templates/region/Location.md instruction 5
 #
 # A Feature is one sentence whose only separators are "," and "->". The banned
 # punctuation is the whole point: a dash, a semicolon or a second sentence is
@@ -777,7 +779,7 @@ def check_summary_promises(diag: Diagnostics, path: Path, summary: str, lines: l
                         f"what the room contains, and the referee improvises an unkept one")
 
 
-# templates/Location.md instruction 2 - the sheet is raw material, the entry a
+# templates/region/Location.md instruction 2 - the sheet is raw material, the entry a
 # few sentences. Warned rather than errored: length is judged, not parsed.
 FEATURE_MAX_WORDS = 30
 NOTES_MAX_SENTENCES = 3
@@ -787,14 +789,14 @@ def check_feature_grammar(diag: Diagnostics, path: Path, label: str, body: str):
     words = len(CITATION_RE.sub("", body).split())
     if words > FEATURE_MAX_WORDS:
         diag.warn(path, f"Feature '{label}' runs {words} words before its citation - "
-                        f"templates/Location.md instruction 2 allows {FEATURE_MAX_WORDS}")
+                        f"templates/region/Location.md instruction 2 allows {FEATURE_MAX_WORDS}")
     last = None
     for m in CITATION_RE.finditer(body):
         last = m
     if last and body[last.end():].strip(" ."):
         diag.error(path, f"Feature '{label}' carries prose after its citation "
                          f"{last.group(0).strip()!r} - per instruction 5 of "
-                         f"templates/Location.md a citation sits last")
+                         f"templates/region/Location.md a citation sits last")
 
     stripped = CITATION_RE.sub("", body).strip()
     sep = BANNED_SEP_RE.search(stripped)
@@ -803,7 +805,7 @@ def check_feature_grammar(diag: Diagnostics, path: Path, label: str, body: str):
         what = ("a second sentence" if found.startswith(".")
                 else f"{found.strip()!r}")
         diag.error(path, f"Feature '{label}' uses {what} - per instruction 5 of "
-                         f"templates/Location.md a Feature is one sentence separated "
+                         f"templates/region/Location.md a Feature is one sentence separated "
                          f"only by ',' and '->'")
         return
     if stripped and not body.rstrip().endswith((".", ")")):
@@ -862,7 +864,7 @@ def check_location_file(diag, path, region_code, num, stub, rating, all_location
         diag.error(path, "Referee Notes line is not wrapped in single-asterisk italics")
     sentences = len(re.findall(r'[.!?](?=\s|\*?$)', notes.strip("*").strip()))
     if sentences > NOTES_MAX_SENTENCES:
-        diag.warn(path, f"Referee Notes run {sentences} sentences - templates/Location.md "
+        diag.warn(path, f"Referee Notes run {sentences} sentences - templates/region/Location.md "
                         f"instruction 2 allows {NOTES_MAX_SENTENCES}")
     idx += 1
 
@@ -1088,7 +1090,7 @@ def check_block_connectivity(diag: Diagnostics, blocks: dict):
 
 
 def check_low_shape_mix(diag: Diagnostics, region_code: str, region_locs: dict, edges: list, path):
-    """templates/Block_Connections.mmd's LOW SHAPE MIX, measured on the assembled graph."""
+    """templates/region/Block_Connections.mmd's LOW SHAPE MIX, measured on the assembled graph."""
     lows = {f"{region_code}.{n}" for n, l in region_locs.items() if l.get("weight") == "low"}
     # LOW is the residue of the class mix rather than its largest class, so a
     # normal region now has three or four LOW rooms. The 60% rule still reads at
@@ -1124,7 +1126,7 @@ def check_low_shape_mix(diag: Diagnostics, region_code: str, region_locs: dict, 
 
 def check_region_edge_realization(diag: Diagnostics, top_path, top_edges: list,
                                   all_loc_edges: list, all_locations: dict):
-    """Both directions of the claim templates/Connections.mmd makes at 3b."""
+    """Both directions of the claim templates/region/Connections.mmd makes at 3b."""
     crossings = set()
     for a, _typ, _l, b in all_loc_edges:
         ra = all_locations.get(a, {}).get("region")
@@ -1240,7 +1242,7 @@ def check_rumours(diag: Diagnostics):
     rownums = [int(x) for x in re.findall(r"^\|\s*(\d+)\s*\|", text, re.M)]
     if rownums != list(range(1, 21)):
         diag.error(path, f"expected 20 rows numbered 1-20, found {rownums}")
-    # templates/Rumours.md puts Settled at after the mark, so T/P/F is no longer
+    # templates/setting/Rumours.md puts Settled at after the mark, so T/P/F is no longer
     # the last cell - match it as its own cell wherever it sits in the row.
     tpf = [l for l in text.splitlines()
            if re.match(r"^\|\s*\d+\s*\|", l) and re.search(r"\|\s*[TPFU]\s*\|", l)]
@@ -1260,7 +1262,7 @@ def bestiary_types() -> set[str]:
     items = spec_blocks(path.read_text()).get("TYPE", [])
     return {ln.split(" - ")[0].strip().lower() for ln in items if ln.strip()}
 
-# "[Name] (Type) - AD: Xd6+N [MA: Y]" per templates/Bestiary.md. The bonus and
+# "[Name] (Type) - AD: Xd6+N [MA: Y]" per templates/setting/Bestiary.md. The bonus and
 # the MA bracket are optional in the pattern so a partially-written file still
 # parses; both are reported as findings rather than as parse failures.
 STATBLOCK_RE = re.compile(
@@ -1359,7 +1361,7 @@ def check_statblocks(diag: Diagnostics, path: Path, label: str, expect_special: 
 # setting/region/[Code].md - the Region Overview's field set, per rating
 #
 # The field set is patterns/region/*.md's; the order and the two tables are
-# templates/Region.md's. A field from another rating's set, or one retired, is
+# templates/region/Region.md's. A field from another rating's set, or one retired, is
 # an error because the site renders only the labels it knows and would drop it.
 # ---------------------------------------------------------------------------
 
@@ -1391,7 +1393,7 @@ def check_region_overview(diag: Diagnostics, code: str, rating: str):
         diag.error(path, f"missing field(s): {', '.join(missing)}")
     present = [l for l in labels if l in expected]
     if present != [f for f in expected if f in present]:
-        diag.warn(path, f"fields out of templates/Region.md's order: {', '.join(present)}")
+        diag.warn(path, f"fields out of templates/region/Region.md's order: {', '.join(present)}")
     if "Tables" in labels:
         start = next(i for i, l in enumerate(lines) if l.startswith("Tables:"))
         tables, rows = 0, []
@@ -1407,7 +1409,7 @@ def check_region_overview(diag: Diagnostics, code: str, rating: str):
             rows.append(count)
         if tables != 2:
             diag.error(path, f"Tables holds {tables} table(s) opened by a `d6 ...` line - "
-                             f"templates/Region.md asks for two")
+                             f"templates/region/Region.md asks for two")
         for i, n in enumerate(rows, 1):
             if n != 6:
                 diag.error(path, f"table {i} has {n} rows - a d6 table has six")
@@ -1438,7 +1440,7 @@ def check_repeated_features(diag: Diagnostics, region_code: str):
 
 
 def check_class_mix(diag: Diagnostics, region_code: str, rating: str, locs: dict):
-    """templates/Location_Gazetteer.md's DANGEROUS mix: 30% HIGH, 50% MEDIUM, rest LOW.
+    """templates/region/Location_Gazetteer.md's DANGEROUS mix: 30% HIGH, 50% MEDIUM, rest LOW.
 
     A warning, and deliberately loose - the mix is a shape, not an arithmetic
     target, and a region a room either side of it has not failed anything. What
@@ -1458,7 +1460,7 @@ def check_class_mix(diag: Diagnostics, region_code: str, rating: str, locs: dict
         if abs(got - want) > slack:
             diag.warn(SETTING / "region" / region_code,
                       f"region {region_code}: {counts[weight]}/{n} locations are {weight.upper()} "
-                      f"({got:.0%}); templates/Location_Gazetteer.md's default is about {want:.0%}")
+                      f"({got:.0%}); templates/region/Location_Gazetteer.md's default is about {want:.0%}")
     if counts["low"] / n > 0.35:
         diag.warn(SETTING / "region" / region_code,
                   f"region {region_code}: {counts['low']}/{n} locations are LOW "
@@ -1484,7 +1486,7 @@ TREASURE_TELL_RE = re.compile(
 
 
 # A hazard states what it forces in one of three expressions, per
-# setting/Procedures.md and templates/Location.md's Citations section. The
+# setting/Procedures.md and templates/region/Location.md's Citations section. The
 # grammar is fixed, so a malformed one is a format error like any other
 # citation. Which Conditions exist is content and varies per setting, so an
 # unrecognised Condition name only warns - Procedures.md is where a missing one
@@ -1495,7 +1497,7 @@ TREASURE_TELL_RE = re.compile(
 # exits all carry the same trigger arrow - so the only available test would
 # guess from the prose, and a warning that fires on every legitimate secret is
 # a warning nobody reads. A hazard written with no stated cost is caught at
-# STEPS.md step 5, per templates/Setting_Judgement_Check.md.
+# STEPS.md step 5, per templates/checks/Setting_Judgement_Check.md.
 DAMAGE_TYPES = ("Piercing", "Crushing", "Poison", "Fire", "Frost", "Blast")
 ANY_TEST_CITE_RE = re.compile(r'\(Test of [^)]*\)?')
 TEST_CITE_RE = re.compile(r'\(Test of (Constitution|Sanity|Fate),\s*([^()]+)\)')
@@ -1521,7 +1523,7 @@ def check_forced_damage(diag: Diagnostics, path: Path, text: str, conditions):
             m = TEST_CITE_RE.match(cite)
             if not m:
                 diag.error(path, f"{cite!r} is not a forced-damage expression - "
-                                 f"templates/Location.md allows only "
+                                 f"templates/region/Location.md allows only "
                                  f"(Test of Constitution, Xd, Type), (Test of Sanity, Xd), "
                                  f"(Test of Fate, Condition) and (Test of Fate, Impact)")
                 continue
@@ -1596,7 +1598,7 @@ def check_registry_floors(diag: Diagnostics, registries: dict, build_complete: b
 
 
 def check_rumour_settling(diag: Diagnostics, build_complete: bool):
-    """templates/Rumours.md's Settled at column, filled at 5c.
+    """templates/setting/Rumours.md's Settled at column, filled at 5c.
 
     Before the build is complete a pending marker is the correct state, so this
     only reports once every location exists.
@@ -1611,7 +1613,7 @@ def check_rumour_settling(diag: Diagnostics, build_complete: bool):
         return
     if not re.search(r"\|\s*Settled at\s*\|", text, re.I):
         diag.warn(path, "no 'Settled at' column - every rumour records where it is "
-                        "confirmed, denied or corrected, per templates/Rumours.md")
+                        "confirmed, denied or corrected, per templates/setting/Rumours.md")
         return
     if not build_complete:
         return

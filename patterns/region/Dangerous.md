@@ -4,7 +4,7 @@
 One DANGEROUS Region Overview: the complex as a referee runs an excursion into it without
 opening a room - its ways in, what every room shares, who lives where and how they answer
 an intruder, and where the prize lies. How many locations it holds, in what weight mix,
-and how they connect is `templates/Location_Gazetteer.md`'s and the connection templates';
+and how they connect is `templates/region/Location_Gazetteer.md`'s and the connection templates';
 what one block holds is `dangerous/Block.md`'s, and what one room holds is its weight's
 own file.
 

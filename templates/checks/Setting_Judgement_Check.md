@@ -1,7 +1,7 @@
 # Setting_Judgement_Check.md
 
 ## Purpose
-A non-mechanical review pass over the generated `setting/` content - confirming, by human or model judgement, that the setting holds together thematically and structurally from location up through region up through the top-level setting, and that it's built from things a player can actually find rather than mood alone. Saved as `setting/checks/SettingJudgementCheck.md`. Unlike `templates/Location.md`'s deliberately narrow generation-time Context, this check is the one place a full read across levels is appropriate, since coherence between levels is exactly what's being judged.
+A non-mechanical review pass over the generated `setting/` content - confirming, by human or model judgement, that the setting holds together thematically and structurally from location up through region up through the top-level setting, and that it's built from things a player can actually find rather than mood alone. Saved as `setting/checks/SettingJudgementCheck.md`. Unlike `templates/region/Location.md`'s deliberately narrow generation-time Context, this check is the one place a full read across levels is appropriate, since coherence between levels is exactly what's being judged.
 
 ## Context
 Consult when running this check - deliberately broader than any single generation step, since cross-level coherence is the thing being judged:
@@ -12,7 +12,7 @@ Consult when running this check - deliberately broader than any single generatio
 - `setting/region/Regions.md` and each region's `setting/region/[Code].md` overview - what every location in that region should be reinforcing.
 - each region's `setting/region/[Code]/Locations.md` and its location files.
 - `setting/Bestiary.md`, `setting/Factions.md`, `setting/Lore.md`, `setting/Keys.md`, `setting/NamedCreatures.md`, `setting/UniqueTreasures.md` - recurring elements that should be tying levels together rather than sitting isolated.
-- `templates/Location.md` - the three tiers an entry displays information at, which the tiering item below is judged against.
+- `templates/region/Location.md` - the three tiers an entry displays information at, which the tiering item below is judged against.
 - the output of `python3 tools/metrics.py` (its MIX section), `python3 tools/metrics.py --tells setting/`, and `python3 tools/context.py 4c CODE` for any location whose draws are in question.
 
 ## Instructions
@@ -24,7 +24,7 @@ block lists the same items in the same order.
 diagnosis of the framework as much as of the setting: every Needs Attention names its
 likely source - a pattern line, a template default, a `BRIEF.md` line, or the generator
 alone - so a defect an edit later hides has already been traced to what produced it. Its
-findings are the evidence `templates/Pattern_Judgement_Check.md` starts from.
+findings are the evidence `templates/checks/Pattern_Judgement_Check.md` starts from.
 
 ### Setting-level, once per pass
 
@@ -40,8 +40,8 @@ findings are the evidence `templates/Pattern_Judgement_Check.md` starts from.
 ### Per region
 
 - **Regions reinforce the setting** - does each Region Overview visibly connect back to `setting/Setting.md`/`History.md`/`Truths.md` (a named historical event, a faction's presence, a unique truth playing out), rather than feeling like an unrelated pocket bolted onto the setting?
-- **Locations reinforce their region** - does each location's dressing and Features reflect the parent Region Overview's Conditions, Inhabitants and Places, rather than reading as a location that could belong to any region? Are its three tags recognisable in what it holds? For a WILD region, does its landmark/hidden/secret split roughly track `templates/Location_Gazetteer.md`, and does every hidden or secret location's connection trace back to a stated detail or Feature at its parent?
-- **Information is tiered, and the chain holds** - per `templates/Location.md`'s three tiers, does each location present something at more than one of obvious / trigger / secret, and does every tier's way in actually sit in the tier above it? Three failures to look for, in rising order of cost: an entry whose Player Summary hands over everything, so nothing rewards acting on the room; an entry that reads empty because all of it sits behind a clue; and the one that matters most, a concealed detail whose Clue is stated nowhere in the obvious tier, which is content the referee knows and the players can never reach. Check the region as a whole too, since the secret tier is rationed rather than universal: a region where every room hides something teaches players to search every room, and one where no room does teaches them to stop - `patterns/dangerous/Low.md`'s split rates exist to hold that line, so a region that has drifted off them is the finding.
+- **Locations reinforce their region** - does each location's dressing and Features reflect the parent Region Overview's Conditions, Inhabitants and Places, rather than reading as a location that could belong to any region? Are its three tags recognisable in what it holds? For a WILD region, does its landmark/hidden/secret split roughly track `templates/region/Location_Gazetteer.md`, and does every hidden or secret location's connection trace back to a stated detail or Feature at its parent?
+- **Information is tiered, and the chain holds** - per `templates/region/Location.md`'s three tiers, does each location present something at more than one of obvious / trigger / secret, and does every tier's way in actually sit in the tier above it? Three failures to look for, in rising order of cost: an entry whose Player Summary hands over everything, so nothing rewards acting on the room; an entry that reads empty because all of it sits behind a clue; and the one that matters most, a concealed detail whose Clue is stated nowhere in the obvious tier, which is content the referee knows and the players can never reach. Check the region as a whole too, since the secret tier is rationed rather than universal: a region where every room hides something teaches players to search every room, and one where no room does teaches them to stop - `patterns/dangerous/Low.md`'s split rates exist to hold that line, so a region that has drifted off them is the finding.
 - **Rooms are distinct** - within the region, do two rooms share a Feature sentence, a room shape, or the same set of Features under different names? Where one occupant holds several blocks, does each block differ in more than its name? `tools/validate_setting.py` warns on a repeated Feature sentence; this item judges the near-repeats a string match cannot see.
 - **Draws were realized at their rates** - do the region's realized mixes sit near what its class files and connection templates ask for? `python3 tools/metrics.py`'s MIX section counts edge kinds and treasure kinds; `python3 tools/context.py 4c CODE` shows what a room's contract drew, to hold beside what it holds. Second names, concealed details and absent encounters are counted by reading. A mix collapsed to one answer is recorded with the rate it should have held.
 - **Said once** - does any location restate, near-verbatim, a sentence from its Region Overview, a Truth's Shows line, a Bestiary entry's Disposition, or another location? Per `STYLE.md` the higher level is the one that is wrong where a fact is merely repeated; where a room only transcribes the Bestiary, the room has said nothing of its own.

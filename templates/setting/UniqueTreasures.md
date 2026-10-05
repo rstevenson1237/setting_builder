@@ -6,7 +6,7 @@ A registry of powerful, one-of-a-kind artifacts and other magical or unique trea
 ## Context
 Read first:
 - Step 2h (stubbing the file): no context needed.
-- Step 4c (recording a stub): `GENRE.md`, `templates/Location.md`.
+- Step 4c (recording a stub): `GENRE.md`, `templates/region/Location.md`.
 - Step 4d (writing the full entry): `GENRE.md`, `setting/Setting.md`, `setting/History.md`, `setting/Truths.md`, `setting/Factions.md`, `setting/NamedCreatures.md`, `patterns/setting/UniqueTreasures.md`, and the location file the stub points to.
 
 ## Instructions

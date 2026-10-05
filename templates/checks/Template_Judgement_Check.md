@@ -9,7 +9,7 @@ Consult when running this check:
 - `STEPS.md` - the declared build order and phase bookkeeping; a template's Context and its pending markers should match the step it is used in.
 - every generation template in `templates/` - the three `*_Judgement_Check.md` files are not in scope; they are reviewed by being run.
 - `python3 tools/validate_setting.py --read-set` - which pattern files each template's step enters and reaches, in place of reading all of `patterns/`.
-- `python3 tools/context.py 4c CODE` for one location of each rating - what `templates/Location.md`'s Context actually assembles to.
+- `python3 tools/context.py 4c CODE` for one location of each rating - what `templates/region/Location.md`'s Context actually assembles to.
 - the last build's `setting/` and its `setting/checks/SettingJudgementCheck.md` - a template is judged by what it produced, and a default is judged by whether it won against the brief.
 
 ## Instructions
@@ -39,14 +39,14 @@ Every template:
   table, or used by a referee running the artifact?
 
 Only where the item names it:
-- **Pattern chosen at generation time** (`templates/Location_Gazetteer.md`,
-  `templates/Location.md`) - no stub pins a pattern.
-- **Two-phase registries** (`templates/Location.md` and the five registry templates) -
+- **Pattern chosen at generation time** (`templates/region/Location_Gazetteer.md`,
+  `templates/region/Location.md`) - no stub pins a pattern.
+- **Two-phase registries** (`templates/region/Location.md` and the five registry templates) -
   a stub at 4c carries name and location only; content is 4d's.
-- **Format edge cases preserved** (`templates/Location.md`, `templates/Region.md`) - every
+- **Format edge cases preserved** (`templates/region/Location.md`, `templates/region/Region.md`) - every
   format rule still unambiguous against the entries generated from it, and against the
   previous pass's findings.
-- **Assembled context matches** (`templates/Location.md`) - does what `tools/context.py 4c`
+- **Assembled context matches** (`templates/region/Location.md`) - does what `tools/context.py 4c`
   prints match the template's Context, file for file? A file one reads and the other does
   not is a finding, whichever side it is on.
 
@@ -57,7 +57,7 @@ Only where the item names it:
 Confirmed on every item: [templates/..., templates/...]
 
 ## Findings
-- [templates/File.md] - [item]: [what is wrong] - [what the last build shows, if it shows it]
+- [templates/[folder]/File.md] - [item]: [what is wrong] - [what the last build shows, if it shows it]
 
 ## Open Items
 - [Each finding, as an action, with its source: template, template default, or STEPS.md]

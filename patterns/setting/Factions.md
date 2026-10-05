@@ -3,7 +3,7 @@
 ## Provides
 One power a party may treat with, oppose, or ignore, and how it is recognised before it is
 named. How many factions the setting holds, and how they relate to each other, is
-`templates/Factions.md`'s; what a faction dice pool resolves is `setting/Procedures.md`'s.
+`templates/setting/Factions.md`'s; what a faction dice pool resolves is `setting/Procedures.md`'s.
 
 ## Spec
 

@@ -2,7 +2,7 @@
 
 ## Provides
 One lead a party can pick up: what it points at, how true it is, and where it is settled.
-How many rumours the table holds and how they divide by truth is `templates/Rumours.md`'s;
+How many rumours the table holds and how they divide by truth is `templates/setting/Rumours.md`'s;
 who repeats a rumour, and how, is the location's that delivers it.
 
 ## Spec

@@ -3,7 +3,7 @@
 ## Provides
 The physical reality of a SAFE location, how much of it its prominence earns, and how its
 parts read as one place. Units, the Exits syntax and the citation formats are
-`templates/Location.md`'s.
+`templates/region/Location.md`'s.
 
 ## Spec
 

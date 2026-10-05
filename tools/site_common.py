@@ -163,7 +163,7 @@ def parse_setting() -> tuple[str, str, str]:
     return name, tagline, outline
 
 
-# A History entry opens with a dating phrase, per templates/History.md's
+# A History entry opens with a dating phrase, per templates/setting/History.md's
 # "[x] years ago - [what happened]". The phrase is what the timeline shows as
 # the entry's marker, and it is only ever the leading clause: splitting on the
 # first " - " instead turns a whole sentence into a heading wherever the first
@@ -257,7 +257,7 @@ def parse_table_rows(path: Path) -> list[list[str]]:
 def parse_rumours() -> list[tuple[int, str, str, str]]:
     """Returns (number, rumour, mark, settled).
 
-    `settled` is templates/Rumours.md's Settled at column - where a party finds
+    `settled` is templates/setting/Rumours.md's Settled at column - where a party finds
     what confirms, denies or corrects the lead, and for a partial entry which
     half is false. It is referee-side exactly as the mark is, and empty for a
     table written before the column existed.
@@ -460,7 +460,7 @@ def parse_regions_gazetteer() -> dict[str, dict]:
     return out
 
 
-# Follows templates/Region.md's own field order. Five of these are
+# Follows templates/region/Region.md's own field order. Five of these are
 # rating-specific - Architecture (DANGEROUS), People and Situation (SAFE),
 # Terrain and Foraging (WILD) - and Factions is asked of every rating. All six
 # were being parsed into nothing, so the rating-specific half of every Region

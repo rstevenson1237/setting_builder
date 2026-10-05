@@ -15,7 +15,7 @@ its own.
 | Task | What | Done when |
 |---|---|---|
 | T0.1 | D1-D4 and D6-D9 settled (`spec.md` section 5) | Done |
-| T0.2 | Confirm D5 (two shapes, each read by one generic parser, sorted by the format test, `spec.md` 6.3; region tables placed by section 7) and D10 (migrate the existing table files per 6.4) | The user confirms, or picks otherwise and `spec.md` and the tasks below are revised first |
+| T0.2 | D5 and D10 confirmed | Done |
 
 ---
 

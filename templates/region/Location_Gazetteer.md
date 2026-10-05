@@ -50,7 +50,7 @@ WILD classification, in the proportions above:
 Keep entries to a name, weight/classification, and three tags only - no Pattern and no
 descriptive sentence. This file is a map skeleton, feeding the region's Connections
 diagram; pattern selection and content happen later, per location, in
-`templates/Location.md`.
+`templates/region/Location.md`.
 
 Each location gets exactly **three** tags, one or two words each, written for it alone
 against the setting's and this region's tag lines, the Region Overview and `BRIEF.md`.

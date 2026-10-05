@@ -2,7 +2,7 @@
 
 ## Provides
 One rule this setting keeps that a generic setting of its genre does not. How many truths
-the setting holds is `templates/Truths.md`'s; what the genre itself keeps is `GENRE.md`'s.
+the setting holds is `templates/setting/Truths.md`'s; what the genre itself keeps is `GENRE.md`'s.
 
 ## Spec
 

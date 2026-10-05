@@ -3,7 +3,7 @@
 ## Provides
 What one Bestiary entry states: what kind of thing it is, how dangerous it is, and what a
 party can perceive of it before a fight starts. How many entries the Bestiary holds and how
-they divide across type and power is `templates/Bestiary.md`'s. What AD is, and that it is
+they divide across type and power is `templates/setting/Bestiary.md`'s. What AD is, and that it is
 never read against a faction's or a region's dice, is `setting/Procedures.md`'s Scaling.
 
 ## Spec

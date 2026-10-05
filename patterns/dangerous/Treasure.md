@@ -3,7 +3,7 @@
 ## Provides
 What a DANGEROUS location holds to be taken, what conceals it, and what stands between the
 party and it. The tables are `setting/Treasure1.md`-`5.md`; the citation format is
-`templates/Location.md`'s; a lock or quest target this room holds for somewhere else is its
+`templates/region/Location.md`'s; a lock or quest target this room holds for somewhere else is its
 weight file's registry.
 
 ## Spec

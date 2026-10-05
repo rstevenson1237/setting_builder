@@ -3,7 +3,7 @@
 ## Provides
 What an exit physically is: its kind, what stands in the opening, where it sits, and where
 it goes. Which locations connect, and by what kind of edge, is the block diagram's; the
-Exits line syntax and units are `templates/Location.md`'s.
+Exits line syntax and units are `templates/region/Location.md`'s.
 
 ## Spec
 
