@@ -9,21 +9,22 @@ living thing with nowhere else to be and nothing it wants is `wild/Hazard.md`'s.
 
 ```
 CREATURE
-  1     Bestiary entry, or an inline description where none fits
+  1     Entry - a setting/Bestiary.md entry, or an inline description where none fits
   1     Number - how many the country supports, from the entry's Range, and where the
         rest are when they are not here
-  1     Scale, against what GENRE.md's Lethality and Player characters answers say the
-        party can survive - never the region die: usually something to handle or
-        avoid, occasionally something that must be read and left
-  1     What it is doing, and whether it has noticed the party first        {DOING}
-  1     Reaction on being met, before anyone decides to fight - most things in the
+  1     Scale - against what GENRE.md's Lethality and Player characters answers say the
+        party can survive, never the region die: usually something to handle or avoid,
+        occasionally something that must be read and left
+  1     Doing - what it is doing                                            {DOING}
+  1     Noticed - whether it has noticed the party first                {yes | no}
+  1     Reaction - on being met, before anyone decides to fight: most things in the
         open would rather not, and a party that assumes otherwise can be wrong
-  1     Its limit - what it will not cross, marked by a warning or display before it
-        commits                                   {ground | depth | light | distance}
+  1     Limit kind - what it will not cross        {ground | depth | light | distance}
+  1     Limit - that limit, marked by a warning or display before it commits
   1     Demeanour - one word for how it carries itself before a fight starts or
         doesn't, for its citation
   40%   Range - it is not only here, and the party may meet it elsewhere in the region
-  30%   Absent, with signs of it, and elsewhere in the region right now
+  30%   Absent - absent, with signs of it, and elsewhere in the region right now
 ```
 
 ```

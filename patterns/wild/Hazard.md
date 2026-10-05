@@ -9,15 +9,15 @@ nothing until a genuinely wrong attempt; a hazard acts on contact or condition.
 
 ```
 HAZARD
-  1     Mechanism, decided first                                        {MECHANISM}
+  1     Mechanism - decided first                                       {MECHANISM}
   1     Tier                                                                 {TIER}
-  1     A warning available to somebody moving carefully - rarely concealed, and easy
-        to walk past                                                      {WARNING}
+  1     Warning kind - available to somebody moving carefully           {WARNING}
+  1     Warning - that warning as it shows: rarely concealed, and easy to walk past
   1     Trigger - what sets it off, or what crossing it costs
   1     Damage - the expression the tier allows, per setting/Procedures.md, of a type
         the mechanism can deliver
-  1     What it was for, and who set it - where the mechanism is set
-  20%   Something already caught in it
+  1     Set for - where the mechanism is set: what it was for, and who set it
+  20%   Caught - something already caught in it
 ```
 
 ```

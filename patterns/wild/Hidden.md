@@ -13,19 +13,23 @@ WILD - HIDDEN
   1     Dressing - what it is, and what weather has done to it       (wild/Dressing.md)
   1     Kind   {ruin | lair | natural feature}      (wild/Ruin.md, wild/Lair.md,
                                                      wild/NaturalFeature.md)
-  20%   A concealed detail, stated as:
-          Clue    - {growth | ground | weather | wear}, in this location's own ground,
-                    not the parent's, and free to sit closer to the edge of notice since
-                    the party arrived already looking
-          Trigger - a stated act at a stated spot
-          Payload - never a way onward
-                    {a cache | a piece of Lore | a Key |
-                     what the parent only implied, carried one step further}
+  20%   Concealed detail, stated as:
+          Clue kind   - {growth | ground | weather | wear}
+          Clue        - in this location's own ground, not the parent's, and free to sit
+                        closer to the edge of notice since the party arrived already
+                        looking
+          Trigger     - a stated act at a stated spot
+          Payload     - never a way onward
+                        {a cache | a piece of Lore | a Key |
+                         what the parent only implied, carried one step further}
+          Payload row - where a cache, a piece of Lore or a Key: the treasure row it is,
+                        its disposition hidden
 
   -- access: how the party comes to be standing here
-  1     Parent Landmark, named
-  1     The visible detail at the parent that leads here - a mundane Exit, no trigger
-  1     Something the parent only implied, now made concrete
+  1     Parent - the parent Landmark, by code
+  1     Lead - the visible detail at the parent that leads here: a mundane Exit, no
+        trigger, written into the parent's own entry
+  1     Implied - something the parent only implied, now made concrete
 
   -- challenge: what opposes the party
   40%   Challenge   {creature | hazard | mystery}    (wild/Creature.md, wild/Hazard.md,
@@ -35,12 +39,10 @@ WILD - HIDDEN
   25%   Treasure                                                     (wild/Treasure.md)
 
   -- registry: what ties this place to somewhere else
-  1     A Clue for each Secret child the region's Connections.mmd hangs off this
-        location - one per child, and none where it has none         (wild/Secret.md)
-  15%   This location's carrying role in a quest given elsewhere     (wild/Quest.md)
+  15%   Quest - this location's carrying role in a quest given elsewhere (wild/Quest.md)
 
   1     Naming, after everything above                (patterns/setting/Naming.md)
-  20%   A second name, from a different mouth than the first
+  20%   Second name - from a different mouth than the first
                                                        (patterns/setting/Naming.md)
 ```
 

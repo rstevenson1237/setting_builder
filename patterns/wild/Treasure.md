@@ -9,16 +9,18 @@ for somewhere else is its classifier's registry.
 
 ```
 TREASURE
-  1     What it is - exactly one, drawn at these rates rather than freely chosen, so the
-        key the open country exists to separate is not lost to the cheapest option
+  1     What - exactly one, drawn at these rates rather than freely chosen, so the key
+        the open country exists to separate is not lost to the cheapest option
         {table roll 45% | key 30% | lore 20% | unique treasure 5%}
                         (patterns/setting/Treasure.md,
                          wild/Key.md, wild/Lore.md,
                          patterns/setting/UniqueTreasures.md)
-  1     Why it is still here after weathering
+  1     Table - where a table roll: which of setting/Treasure1.md-5.md
+  1     Unique - where a unique treasure: its setting/UniqueTreasures.md name
+  1     Why here - why it is still here after weathering
                            {buried | sealed | submerged | sheltered | recently left}
-  1     What reaching it costs                  {climb | dig | wade | carry | wait}
-  30%   Something that has a claim on it
+  1     Reach - what reaching it costs          {climb | dig | wade | carry | wait}
+  30%   Claim - something that has a claim on it
                         {an animal nested in it | whoever buried it |
                          a faction that holds this country | whoever is coming back}
 ```
