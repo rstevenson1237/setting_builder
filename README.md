@@ -54,6 +54,8 @@ Read these rather than a description of them.
   the matching `templates/*_Judgement_Check.md`. Nested under `setting/` so wiping the
   setting for a new build takes its judgement checks with it, rather than leaving them
   behind to bias the next one.
+- `plans/` - proposals for framework changes not yet made: one folder per change, holding
+  its `intake.md`, `spec.md` and `implementation.md`. Read by no step.
 - `tools/` - exactly what content generation needs and nothing else. Stdlib-only Python, no
   package manager, no test framework beyond running these against the content.
   - `validate_setting.py` - structural linter, run in CI on every pull request.
