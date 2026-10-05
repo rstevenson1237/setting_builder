@@ -238,3 +238,116 @@ to `tools/context.py`.
     of `,` and `->` clauses. It is inside the punctuation rule and outside anything a
     referee can read aloud. Source: templates/Location.md's one-sentence rule, which caps
     punctuation and not length.
+
+## Addendum 2026-09-28, second run - the same three blocks, through templates/Location.md
+
+Run on the same 22 rooms, rewritten by three fresh subagents in sequence. Each block was
+written from `templates/Location.md`'s static reads plus `python3 tools/context.py 4c CODE`,
+taking HIGH, then MEDIUM, then LOW. The same four items are checked, on these blocks only,
+and each finding is set against the addendum above. Nothing found here was fixed.
+
+- Rooms are distinct: Needs Attention - no Feature sentence repeats, as before. The
+  near-repeats changed:
+  - The worsening-floor shape fell from six rooms to three: C.15, C.18 and C.20. All three
+    close on the same clause: "the doorway end / the dug half / the breach end stands clear".
+    Source: patterns/dangerous/Environmental.md, whose clue line reads the same wherever it
+    is drawn.
+  - Treasure stuck to the room is now a draw rather than the generator's habit. Fused in
+    place was drawn for 9 of 17 treasures, from a four-item set.
+  - Pitch-sealed containers still appear four times (C.12, C.31, C.34, C.40). Cords as
+    nuisance traps appear seven times in five rooms (C.12, C.14 twice, C.17, C.22 twice,
+    C.42). Dead vermin as a trap's tell appear seven times in four Gorzgur rooms (C.13,
+    C.14, C.17, C.20). Source: generator.
+  - The two Khughik blocks now differ in their nests: C.31 is abandoned, with a heap of dead
+    and rot-mould, while C.40 is lived in and has Zoghik and a slick floor. The skeleton
+    holds elsewhere:
+    - The two stores drew identical lines (discarded, table roll, fused in place, worthless)
+      and hold a clinker lump (C.32) and a coin lump (C.41).
+    - Both bolt-holes hold a lone lookout who flees toward a concealed way (C.34 Zurkik,
+      C.43 watcher).
+    Source: the draw, and the gazetteer tags, as before.
+  - New: these rooms were not written independently of the run they replace.
+    `setting/Language.md`, a static read, carries the last run's per-room coinages with
+    their codes and glosses. The Silt Hollow and Old Cistern generators reused every one:
+    Kutsiq, Qathghus, Sutuz, Kutsut, Ghusuz, Tathsiq, Qathsiq, Krazurkik, Kraurgh,
+    Zoghikakh, and Wat's Drink. With the words came the content they gloss:
+    - C.41's basin again holds a dead Greywatch drinker and his horn.
+    - C.39 again has a scratched rat on the jamb.
+    Source: templates/Location.md's static read of `setting/Language.md`, whose Coined-here
+    entries record room content, not only roots.
+  - `(Test of Fate, Condition)` is no longer written literally anywhere. C.13 names Held.
+- Draws realized at their rates: Needs Attention - rate asked, rate realized:
+  - Gates on exits: 40% asked, 23 of 49 exit-ends drawn (47%). All 23 were written, and both
+    ends of every gated edge now agree, since the gate is keyed per edge. Warded: 0 drawn,
+    against 7 of 21 last run. The sorcerous-door excess is gone.
+  - Treasure: 17 drawn - 12 table roll (71%), 3 lore (18%), 1 key, 1 unique. Last run
+    recorded 63% table roll and 26% lore. 16 of 17 were realized:
+    - C.42 drew a guarded, fused table roll. It holds only the Cistern Tablet (Lore) under
+      the guarding trap, so the roll is unwritten.
+    - C.17 holds a Treasure V hoard it did not draw, copied from C.md's Loot line.
+    - Every table roll cites Treasure III. The tier is not on the sheet, and the generator
+      took it from the Loot line's "an ordinary find".
+  - Keys: the sheets drew a key lying at C.11 (carried), C.13 (fitted), C.16 (buried), C.33
+    (carried), C.34 (owed) and C.43 (mounted). Only C.13's Fetter Key is written.
+    - The Silt Hollow generator instead named three keys for its locks, found at C.30 and
+      C.31, where no key was drawn and no Feature holds the object. The rows in
+      `setting/Keys.md` follow its report.
+    - C.43 then cited the Silt Hollow block's Bolt-Hole Key for its own padlock. That row
+      was added between blocks, and the sheet lists every registry name a citation may use,
+      so one block's key leaked into the next. Source: tools/context.py's name list; the
+      between-block registry update; generator.
+  - Concealed detail (Medium, 40%): 4 of 11 drawn (C.19, C.22, C.34, C.42), all 4
+    realized. Unchanged.
+  - Second name (30%): drawn in the same 7 rooms as last run.
+    - Fully realized in C.20, C.39, C.40 and C.41.
+    - C.18, C.32 and C.34 each carry the departed-tongue warning but not the border name
+      drawn beside it.
+    - Last run missed C.18 and C.20 outright.
+  - Challenge: unchanged at 3 encounter, 3 mystery, 13 hazard of 19. The draw is
+    deterministic per code.
+    - The Silt Hollow block still cites one living Khughik (Zurkik) and nine dead, against
+      C.md's "about ten".
+    - The Old Cistern block cites six (Zoghik, four on patrol, one watcher), against "about
+      nine".
+  - Encounters written without a draw: C.11's sentry, C.14's six Gorzgur, C.16's five
+    Khughik, C.17's guard and C.18's six sleepers. The Gorzgur generator reported that it
+    took them from C.md's Alarm and Loot lines. Source: C.md carries per-room occupants
+    that no sheet draws; generator.
+  - The last run's two stream faults are gone. C.21's encounter is no longer drawn absent,
+    and no sheet draws Block FAMILY.
+  - `--reroll dangerous/Creature.md#4.0` at C.40 did not move the line, whatever the
+    count. Scale is set by the room's weight, not drawn, yet the sheet prints a reroll key
+    beside it and accepts the reroll silently. Source: tools/context.py.
+- Said once: Needs Attention -
+  - C.11's horn "brings the six from C.14 in one action" is C.md's Alarm nearly word for
+    word. C.12's foot-plate restates the same line with the sleepers added. C.22 no longer
+    restates the fall-back. Source: generator; C.md.
+  - C.18's Seam ("dressed floor stops at a straight seam and rough digging begins, a
+    rival's mark scratched out on both sides") transcribes C.md's d6 Rooms entry 6. That
+    table is for "anywhere no location keys". Source: generator; the gazetteer tag Tribe
+    Line.
+  - C.17's hoard and lone guard transcribe C.md's Loot line, as above.
+  - C.41 still states what the keep calls the room ("the keep's drinkers call Wat's
+    Drink"), in a room the keep never sees. C.34 and C.39 no longer do. Source:
+    `setting/Language.md`, as above.
+  - Confirmed: no creature Feature restates its Bestiary Disposition. C.21's Ghast no
+    longer transcribes the Grave-Ghast's.
+- Tells, read: Needs Attention - these 22 rooms scored rather than 0, absence 3,
+  conclusion 0 and gloss 37, against 0, 1, 1 and 30 last run.
+  - Absence (C.31, C.32, C.33): each is "the only sound is ..." in the Referee Notes. None
+    is the failure, since each sound is observable in its own room. The three are one
+    sentence frame in three consecutive rooms of one block, and that is a near-repeat.
+    Source: generator.
+  - Conclusion: none. C.11's ward and its spoken word are gone with the warded gate.
+  - Gloss: all 37 are a Feature opening by re-describing its own name ("Horn: A war-horn
+    hangs..."), the tell's false positive, as last run. Last run's two true glosses were
+    C.40's corbelling and C.30's Krazurkik. The corbelling is gone, and Krazurkik now sits
+    in the Referee Notes, where the tell does not reach.
+  - Not a tell, but read alongside:
+    - Length: 6,383 words against 10,603, and 106 Features against 95 by metrics.py's
+      count. The last addendum gave 91.
+    - Longest Feature: 54 words with its citation, against 173.
+    - Validator warnings on these rooms: 0 Features over 30 words and 0 Referee Notes over
+      three sentences, against 89 and 5.
+    - C.16 has no exit out. The sheet gives it only the one-way climb in, and the room
+      says so on its Exits line.
