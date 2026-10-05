@@ -9,9 +9,9 @@ named. How many factions the setting holds, and how they relate to each other, i
 
 ```
 FACTION
-  1     AD, in d6 only with no bonus - set against the other factions' dice and nothing
+  1     AD - in d6 only with no bonus - set against the other factions' dice and nothing
         else
-  1     What it wants, concrete enough to be interfered with                  {WANT}
+  1     Want - concrete enough to be interfered with                          {WANT}
   1     Identity - repeated identically wherever it appears, so a party knows it two
         regions apart before anyone names it                              {IDENTITY}
   1     Resources - what it can actually spend
@@ -21,7 +21,7 @@ FACTION
         once it has been seen
   1     Reactions - what it does when interfered with: noticed, crossed, and injured
   1     Goals - what drives its turns now, each a standing condition it acts on
-  1     What it fields in a fight - a setting/Bestiary.md entry by name, or `none`
+  1     Fields - what it fields in a fight: a setting/Bestiary.md entry by name, or `none`
 ```
 
 ```

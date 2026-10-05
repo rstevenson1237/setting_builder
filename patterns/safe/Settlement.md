@@ -2,15 +2,10 @@
 
 ## Provides
 One SAFE location: which Kind of place it is, how much it matters, who stands between the
-party and what it has, and what the party can get there. The settlement as a whole is its
-Region Overview's.
+party and what it has, and what the party can get there. The settlement as a whole, and its
+type, are the Region Overview's, never re-decided per location.
 
 ## Spec
-
-```
-SETTLEMENT TYPE
-  1     The settlement's type, from the Region Overview - never re-decided per location
-```
 
 ```
 PROMINENCE - decided per location, before anything is written
@@ -30,26 +25,32 @@ SAFE - LOCATION                        (parameterized by prominence)
   1     Kind   {commerce | authority | social | people | wealth | garrison}
                         (safe/Commerce.md, safe/Authority.md, safe/Social.md,
                          safe/People.md, safe/Wealth.md, safe/Garrison.md)
-  10%   A concealed detail, stated as:
-          Clue    - {mismatch | behaviour}: the building or its stock disagreeing with
-                    itself, or somebody acting wrongly around an ordinary question
-          Trigger - as often social as physical
-                    {asking | being trusted | being absent | buying | settling a debt |
-                     handling}
-          Payload - what is concealed, AND who finds out the party knows, how soon, and
-                    what they do about it
+  10%   Concealed detail, stated as:
+          Clue kind    - {mismatch | behaviour}
+          Clue         - the building or its stock disagreeing with itself, or somebody
+                         acting wrongly around an ordinary question
+          Trigger kind - as often social as physical
+                         {asking | being trusted | being absent | buying | settling a
+                          debt | handling}
+          Trigger      - that act, stated
+          Payload      - what is concealed
+          Finds out    - who finds out the party knows
+          How soon     - how soon they find out
+          Response     - what they do about it
 
   -- gate: who stands between the party and what this place has
-  1     A person, drawn from the region's People roster - never invented here
+  1     Person - drawn from the region's People roster, never invented here
                                                                      (safe/People.md)
-  1     What it takes to get anything out of them, stated as terms rather than a mood
-        (A Wealth location may instead be gated by its Protection, its owner absent,
-         dead, or unaware the place is here)
+  -- terms: what it takes to get anything out of them is the Kind file's gate line,
+     stated as terms rather than a mood; a Wealth location may instead be gated by its
+     Protection, its owner absent, dead, or unaware the place is here
 
   -- transaction: what the party can get here
-  1     One thing obtainable here and not at the last location
+  1     Obtainable - one thing obtainable here and not at the last location
                         {good | service | name | permission | place to stand}
-  1     What this place cannot do, and where it sends them instead
+  1     Thing - that thing, named
+  1     Cannot - what this place cannot do
+  1     Sends to - where it sends them instead, by code
 
   -- registry: what ties this place to the rest of the settlement and beyond
   liner note    nothing beyond the above. It does what a place like this does, and no more
@@ -57,13 +58,13 @@ SAFE - LOCATION                        (parameterized by prominence)
                                                               safe/Key.md, safe/Faction.md)
   central       TWO hooks  {quest | lore | key | faction}, and this is the location where
                 the region's Situation is most visible        (safe/Situation.md)
-  40%   The region's Situation visible in passing, at any prominence
+  40%   Situation - the region's Situation visible in passing, at any prominence
                                                               (safe/Situation.md)
-  30%   A Named Creature, where the person will recur or be heard of first
+  30%   Named - a Named Creature, where the person will recur or be heard of first
                                                    (patterns/setting/NamedCreatures.md)
 
   1     Naming, after everything above                 (patterns/setting/Naming.md)
-  20%   A second name, from a different mouth than the first
+  20%   Second name - from a different mouth than the first
                                                        (patterns/setting/Naming.md)
 ```
 

@@ -11,10 +11,11 @@ EVENT
   1     Kind                                                              {KIND}
   1     When - years before now, vaguer the older it is, unless setting/Truths.md fixes a
         calendar
-  1     What happened, in one or two sentences - the event stated, never narrated
-  1     Whether it is inside living memory, and if so, how the accounts of it differ
-  1     Whether it is still resolving - what of it is arriving now
-  1     Left - the physical mark findable now, and the Location Code(s) holding it
+  1     Event - what happened, in one or two sentences: stated, never narrated
+  1     Memory - whether it is inside living memory, and if so, how the accounts differ
+  1     Resolving - whether it is still resolving: what of it is arriving now
+  1     Left - the physical mark findable now
+  1     Codes - the Location Code(s) holding it
 ```
 
 ```

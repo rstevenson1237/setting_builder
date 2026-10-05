@@ -8,14 +8,16 @@ out. What earns a Quests row is `patterns/setting/Quests.md`'s.
 
 ```
 QUEST - giver end
-  1     Who asks, drawn from the region's People roster
-  1     Why they will not go themselves - a real reason, never convenience
-  1     What specifically, and which location holds it, by code and name
-  1     The terms, in the giver's own words - the payment and the payer in one line
-  1     A stub row, or an addition to an existing row, in setting/Quests.md
-  40%   Something they have not mentioned, and know they have not           {OMISSION}
-  30%   A deadline, and what happens after it
-  20%   Somebody else has been asked already
+  1     Giver - who asks, drawn from the region's People roster
+  1     Reluctance - why they will not go themselves: a real reason, never convenience
+  1     Object - what specifically they want
+  1     Target - which location holds it, by code
+  1     Terms - in the giver's own words: the payment and the payer in one line
+  1     Quests row - a stub row, or an addition to an existing row, in setting/Quests.md
+  40%   Omission - something they have not mentioned, and know they have not
+                                                                        {OMISSION}
+  30%   Deadline - a deadline, and what happens after it
+  20%   Asked already - somebody else has been asked already
 ```
 
 ```

@@ -9,14 +9,17 @@ in the same place.
 
 ```
 GARRISON
-  1     What it defends and from where                                     {POST}
-  1     Who stands watch, drawn from the region's People roster, and how many
-  1     What they watch for, and what they do on seeing it - the order they follow
-  1     What they let through, and on what terms - this file's answer to
-        safe/Settlement.md's gate line      {name | toll | arms given up | sponsor | none}
-  1     What they are short of              {men | arms | pay | rest | faith in the order}
-  30%   Something they take that is not theirs to take, and look away from for a price
-  20%   Somebody posted here as punishment
+  1     Post - what it defends and from where                              {POST}
+  1     Watch - who stands watch, drawn from the region's People roster
+  1     Count - how many
+  1     Watches for - what they watch for
+  1     Order - what they do on seeing it: the order they follow
+  1     Lets through - what they let through, and on what terms: this Kind's answer to
+        safe/Settlement.md's gate           {name | toll | arms given up | sponsor | none}
+  1     Short of                            {men | arms | pay | rest | faith in the order}
+  30%   Graft - something they take that is not theirs to take, and look away from for
+        a price
+  20%   Punished - somebody posted here as punishment
 ```
 
 ```

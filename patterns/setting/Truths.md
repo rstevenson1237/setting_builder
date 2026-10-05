@@ -9,12 +9,12 @@ the setting holds is `templates/setting/Truths.md`'s; what the genre itself keep
 ```
 TRUTH
   1     Kind                                                              {KIND}
-  1     The rule, in one sentence - the rule, not the feeling of the rule
-  1     Who it costs, and what they do about it
-  1     How it is learned - by being told, or only by acting and seeing what happens
-  1     Handle - what a party does about it, as an act a referee could adjudicate, and
-        the Location Code(s)
-  1     How it shows at each rating - what a settlement builds because of it, what open
+  1     Truth - the rule, in one sentence: the rule, not the feeling of the rule
+  1     Costs - who it costs, and what they do about it
+  1     Learned - by being told, or only by acting and seeing what happens
+  1     Handle - what a party does about it, as an act a referee could adjudicate
+  1     Codes - the Location Code(s) where it can be done
+  1     Shows - at each rating: what a settlement builds because of it, what open
         country does because of it, what a dungeon's builders guarded against
 ```
 

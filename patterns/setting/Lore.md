@@ -11,10 +11,10 @@ lore.
 LORE ENTRY
   1     Form - a made thing                                    {written | cut | woven |
                                                                 drawn | arranged}
-  1     Whose voice, and how they are wrong or partial                    {WRONG}
-  1     What it does                                                      {DOES}
-  1     The one location that owns it - later locations may reference it
-  1     Its length - enough to be read aloud in under a minute
+  1     Voice - whose voice, and how they are wrong or partial            {WRONG}
+  1     Does                                                              {DOES}
+  1     Found at - the one location that owns it; later locations may reference it
+  1     Text - the entry itself, short enough to be read aloud in under a minute
 ```
 
 ```

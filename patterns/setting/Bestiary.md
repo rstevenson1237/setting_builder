@@ -11,11 +11,11 @@ never read against a faction's or a region's dice, is `setting/Procedures.md`'s 
 ```
 BESTIARY ENTRY
   1     Type                                                              {TYPE}
-  1     AD, written Xd6+N - the count, from the band that says what the creature is
+  1     AD - written Xd6+N - the count, from the band that says what the creature is
                                                                           {AD BAND}
-  1     Modifier, -2 to +6, against an average of one third of AD rounded up - how much
+  1     Modifier - -2 to +6, against an average of one third of AD rounded up - how much
         more or less lethal it is than its size says
-  1     MA, against an average of one quarter of AD rounded up - how many targets it
+  1     MA - against an average of one quarter of AD rounded up - how many targets it
         threatens at once, from speed, reach, or more than one attack
   1     Description - what a party sees when it comes into view
   1     Range - where it lives, how many of it the country supports, and what it eats

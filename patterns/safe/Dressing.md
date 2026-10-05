@@ -2,23 +2,24 @@
 
 ## Provides
 The physical reality of a SAFE location, how much of it its prominence earns, and how its
-parts read as one place. Units, the Exits syntax and the citation formats are
+parts read as one place. Purpose is the Kind file's. Units, the Exits syntax and the citation formats are
 `templates/region/Location.md`'s.
 
 ## Spec
 
 ```
 DRESSING - every SAFE location
-  1     Size and shape - feet indoors, yards for a yard, green, or market ground
-  1     Condition, stated first, and the signs of use that prove it: who has been here,
-        and how often                                   {built for this | repurposed}
-  1     Purpose - per its Kind; never restated here
-  1     Ambiance - smell and sound, caused by Condition or Purpose
-  1     How it departs from the settlement's shared way of building, if it does
+  1     Size - feet indoors, yards for a yard, green, or market ground
+  1     Shape
+  1     Condition - stated first                        {built for this | repurposed}
+  1     Signs of use - the signs that prove its condition: who has been here, and how
+        often
+  1     Smell - caused by Condition or Purpose
+  1     Sound - caused by Condition or Purpose
+  1     Departs - how it departs from the settlement's shared way of building, if it does
                                       {none | older | foreign | richer | hurried}
-  1     Every exit typed and positioned, and who may use it - access here is social as
-        often as physical
-  1     Detail beyond that, as its prominence buys                   {DETAIL BUDGET}
+  1     Exits - every exit typed and positioned                     (safe/Exit.md)
+  1     Details - beyond that, as its prominence buys               {DETAIL BUDGET}
 ```
 
 ```
