@@ -113,7 +113,9 @@ counts them.
 decision is logged.
 
 **F20 - Labels and compound lines.** Every Spec line opens with a column label unique
-within its file. A line no tag or gloss can answer is several lines, and splits.
+within its table and the tables it joins. A line no tag or gloss can answer is several
+lines, and splits; a rule line with nothing to answer leaves the Spec. `inventory.md`
+places every line.
 
 **F21 - The Overview grows after 3c** (D7). The `Compositions` field is written at 4e and
 audited at 5c, as every Overview claim already is.

@@ -196,10 +196,14 @@ puts it - the shallowest, then the topmost line of the class file - and every ot
 names its row. A file drawn from two homes at once is two files, or one of its draws is
 really a value and becomes a line.
 
-**Every line opens with its column label**: a word or two before ` - `, unique within the
-table file its pattern lands in. **A line answered by more than one value is more than one
-line**: where a single draw item or a short phrase cannot answer it, it is asking several
-things, and splits.
+**Every line opens with its column label**: a word or two before ` - `, unique within its
+table and among the tables its rows join - a kind's table and its classifier's, or any
+table keyed by the same location. **A line answered by more than one value is more than
+one line**: where a single draw item or a short phrase cannot answer it, it is asking
+several things, and splits - most often a draw that also asks for the thing it
+categorises, which is a tag column and a gloss column. **A line with nothing to answer is
+not a Spec line**: a rule about another line belongs on that line, in Constraints, or in
+Provides.
 
 **Kinds fold into their classifier only when they answer the same lines.** Kind files
 become one table - items of a draw on the classifier - when the union of their lines
