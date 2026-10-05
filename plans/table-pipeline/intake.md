@@ -112,6 +112,19 @@ the ones that need sign-off as Decisions.
 | "where to draw the lines on the tables ... extended out to all of the patterns" | One placement rule for every line, pattern and table (`spec.md` section 7), with the hazards case answered explicitly (7.2) and the result counted per rating (7.5). |
 | "unacceptable complexity is a deal breaker" | The rule caps files at five per region and adds no table the pattern library doesn't already imply. Its complexity is accounted for in 7.5, and the one lever left (folding kind files) is given a test (7.3). |
 
+## Third follow-up, verbatim
+
+> whats the recommendation on the pipe tables vs one line per entry? I think base off of
+> what we can write a script around and if we should migrate our existing table files
+> (keys.md etc) to match the new format
+
+### How it is read
+
+| Clause | Read as |
+|---|---|
+| "pipe tables vs one line per entry ... base off of what we can write a script around" | D5 is decided by parseability: which shapes one generic parser can read, check against the pattern, and detect stubs in. `spec.md` 6.1-6.3. |
+| "if we should migrate our existing table files (keys.md etc)" | Decision D10. Every existing table-like file in `setting/` is sorted by the same format test (6.4). |
+
 ## State of the repository at intake
 
 - `setting/` is empty: the Greywatch build was removed in commit bf4ea1c. There is no

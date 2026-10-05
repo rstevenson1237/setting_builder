@@ -94,9 +94,10 @@ in a region folder. Its glob narrows to `[0-9]*.md` in phase 1.
 so they are columns of their class tables (7.1). The Landmark → Hidden → Secret write
 order falls away, because every table exists as stubs from allocation.
 
-**F15 - `Locations.md` changes format.** The validator and `site_common` parse it line by
-line today. Both move to reading § Location in phase 1. This is a lint change, not a
-generator rewire.
+**F15 - Existing files change format** (D10). The validator and `site_common` parse ten
+files with bespoke regexes today. Both move to the two generic parsers in phase 1. This
+is a lint and site change, not a generator rewire, and `setting/` is empty, so no content
+converts.
 
 **F16 - Coordinated builds against "never two triggers deep".** The rule stays per room.
 Each link's clue is obvious in its own room, or one trigger from obvious there. What
@@ -144,13 +145,13 @@ twice.
 - One firm rule places every line as a column, every pattern file as a table, and every
   table in one of at most five files.
 - Templates are foldered like `patterns/`.
+- Every table-like file is one of two shapes, each read by one generic parser (6.3).
 
 **Non-goals**
 - Changing phases 1-3, `STYLE.md`, `GENRE.md` or `BRIEF.md`, except the Overview's
   `Compositions` field.
 - Changing what patterns ask, beyond labels, splits and the five pathway simplifications
   in 7.4.
-- Reformatting the setting registries.
 - Rendering tables on the site.
 
 ---
@@ -163,36 +164,97 @@ twice.
 | D2 | What "supersede the patterns" means | **A pattern specifies one row; the table template owns the table** |
 | D3 | Where tables live | **`setting/region/[Code]/`**, next to `Locations.md` |
 | D4 | What a cell holds | **A tag** (1-2 words) **or a gloss** (at most 6 words) |
-| D5 | Table format | **Recommended, awaiting confirmation: strict pipe tables** (section 6), **placed by the rule in section 7** |
+| D5 | Table format | **Recommended, awaiting confirmation: two shapes, each with one generic parser**: pipe tables where every field fits one sentence, record files otherwise (section 6); region tables placed by section 7 |
 | D6 | Connected stubs | **Their own pass (4h)**; every unfilled cell is a validator warning |
 | D7 | Coordinated builds | **A `Compositions` field in the Region Overview** |
 | D8 | Hand first | **Yes** |
 | D9 | Template layout | **Folders mirroring `patterns/`** (section 8) |
+| D10 | Migrate existing table files | **Recommended, awaiting confirmation: yes, by the format test** (6.4), in phase 1, while `setting/` is empty |
 
 ---
 
-## 6. D5 - strict pipe tables
+## 6. D5 - pipe tables, judged by what a script can be written around
 
-At six words a cell (D4), pipe tables are compact and show as grids on GitHub. Strict
-columns give the two things this change exists for:
+### 6.1 The evidence in the repository
 
-- **Completeness without judgement.** A cell is filled, `none` (an optional line not
-  taken), or empty (owed). There is no n/a cell, because a column that doesn't apply to a
-  row lives in a table that row isn't in (7.1). D6's warning is simply "this cell is
-  empty".
-- **Distinctness at a glance.** One column holds every clue in the region.
+The framework already uses three shapes for table-like files, and the tools show what
+each costs:
 
-The alternatives each lose something. One wide table per family loses readability and
-mixes several patterns into one row. Flexible `Field: value` records lose both of the
-benefits above. Each table is a `## [Pattern]` heading with a pipe table under it; a
-file holds one or more tables.
+| Shape | Files using it today | How the tools read it |
+|---|---|---|
+| **Pipe table** | `Rumours.md`, `Treasure1-5.md` | one generic reader, `site_common.parse_table_rows`; the header row names the columns |
+| **Record block**: a header line, then `Field: value` lines | `Bestiary.md`, `NamedCreatures.md`, `UniqueTreasures.md`, `Lore.md`, `Factions.md` (as `- Field:`), `Quests.md` (as `- Field:`) | a generic field reader, `site_common.parse_field_lines`, **plus** a bespoke regex per file for the header line (`BESTIARY_HEADER_RE`, `FACTION_HEADER_RE`, the registries' `- found at` split, the Named Creature title split) |
+| **Bespoke one-liner**: one line per entry whose punctuation is the schema | `Regions.md`, `Locations.md`, `History.md`, `Truths.md` | one regex per file, each written twice (`REGION_RE` and `LOC_GAZ_RE` exist in both the validator and `site_common`) |
 
-Mechanics that follow:
-- **Columns exist from creation.** Allocation creates every table with every column, and
-  later passes only fill cells, so no pass rewrites another pass's lines.
-- **Several values in one cell.** A draw saying "at least one" gets a comma-separated tag
-  list. A line rated `2` gets numbered columns (`Detail 1`, `Detail 2`).
-- **`|` never appears in a cell.**
+"One line per entry" covers two things here. A pipe row *is* one line per entry, with the
+schema written in the header row. A bespoke one-liner is one line per entry with the
+schema written only in a regex somewhere in `tools/`. The second kind is what has cost a
+parser per file.
+
+### 6.2 What a script needs, by shape
+
+| A script needs to... | Pipe table | Record block | Bespoke one-liner |
+|---|---|---|---|
+| parse any file of this shape with one function | **yes** | **yes**, once the header line is also fields | no: a regex per file |
+| know the columns without being told | **yes**: the header row | no: needs a field list from elsewhere | no |
+| detect a stub or missing value (D6) | **yes**: an empty cell | yes: a missing or empty field, against a field list | no: a missing value breaks the regex |
+| check columns against the pattern (D2) | **yes**: header labels against the pattern's Spec labels | yes: field names against the same labels | no |
+| hold prose (several sentences) | no: cells become unreadable | **yes** | no |
+| give a clean diff per entry | **yes**: one line | a few lines | one line |
+
+### 6.3 Recommendation
+
+**Two shapes, each read by one generic parser. Bespoke one-liners retire.**
+
+> **The format test.** A file is a **pipe table** when every entry has the same fields and
+> no field runs past one sentence. Otherwise it is a **record file**: one record per
+> entry, `### [Name]` and then `Field: value` lines, with field names taken from the
+> pattern's Spec labels. Documents that are neither (Region Overviews, `Procedures.md`,
+> `Setting.md`, location files, checks) keep their own templates.
+
+- **Region tables are pipe tables** (D4's tags and glosses are far inside one sentence).
+  Strict columns give D6's to-do list as "this cell is empty", and put every clue in one
+  column.
+- **Setting-level files sort by the same test** (6.4). Cells there may run to one sentence,
+  since they are read directly. D4's six-word limit is for region tables, which are notes
+  for compile.
+- **The pattern link is mechanical in both shapes.** A pipe header and a record's field
+  names are both the pattern's Spec labels (F20), so a script can check a file against its
+  pattern. This replaces the hand-maintained regexes.
+- **Pipe mechanics:** each table is a `## [Pattern]` heading over its pipe table, and a
+  file may hold several; columns exist from creation (allocation creates every table with
+  every column, and later passes only fill cells); a draw saying "at least one" takes a
+  comma-separated tag list; a line rated `2` takes numbered columns; `|` never appears in
+  a cell.
+
+### 6.4 Migrating the existing files (D10)
+
+`setting/` is empty, so migration changes templates and parsers only. There is no content
+to convert. It is the cheapest it will ever be.
+
+| File | Today | Becomes | Why |
+|---|---|---|---|
+| `Rumours.md`, `Treasure1-5.md` | pipe table | **unchanged** | already passes the test |
+| `region/Regions.md` | bespoke one-liner (+ tag line) | **pipe table**: Code, Name, Gloss, Rating, Die, Tag line | every field is a tag or a phrase |
+| `region/[Code]/Locations.md` | bespoke one-liner | **pipe tables** (section 7) | planned already |
+| `Keys.md` | record (header split on `- found at`) | **pipe table**: Name, Form, Found at, Opens (location), Opens (feature), Apart, Connection | every field in `patterns/setting/Keys.md` is a draw or a phrase; its stub state (empty Opens columns) becomes a D6 warning instead of `check_key_obligations`' special case |
+| `Quests.md` | record (`- Field:`) | **pipe table**: Name, Given at, Resolved at, Ask, Reluctance, Object, Obstacle, Terms | every field is a draw or one sentence; Terms is one quoted line |
+| `Truths.md` | bespoke (bold bullet + `Handle:`) | **pipe table**: Truth, Handle, Codes | each field is one sentence |
+| `Bestiary.md` | record + header regex | **record**, header facts as fields (`Type:`, `AD:`, `MA:`) | Description is prose |
+| `NamedCreatures.md`, `UniqueTreasures.md`, `Lore.md` | record + header split | **record**, `Found at:` / `Appears at:` as a field | entries carry prose; stubs detected as records missing their prose fields |
+| `Factions.md` | record as `- Field:` bullets + header regex | **record**, `AD:` as a field | fields run past one sentence |
+| `History.md` | bespoke (`[x] years ago -` + `Left:`) | **record**: `When:`, `Event:`, `Left:`, `Codes:` | an event may be two sentences |
+| `Language.md` | sections with lists | **unchanged** in this change | a document with lists; its Roots and Coined lists would pass the test, but nothing in the pipeline depends on them. The pilot can propose it |
+
+**Result:** about ten per-file parsers (counted in 6.1, several of them duplicated across
+the validator and `site_common`) become two generic ones. The value-level grammars that
+check meaning rather than shape (`AD: Xd6+N`, forced-damage citations, location codes)
+stay, now applied to a field or a cell instead of to a whole line.
+
+**Cost:** the templates of the ten migrated files change their Template block, and
+`site_common` and `build_site` read the generic shapes. This lands in phase 1 because the
+D6 stub warnings need the registries readable generically anyway: Lore, Named Creature and
+Unique Treasure stubs are written at 4d and must show up on the to-do list.
 
 ---
 
@@ -483,9 +545,11 @@ every other line stays as it was.
 ## 12. Validation
 
 **Phase 1** (the lint kept working, plus D6): the region-folder glob narrows to
-`[0-9]*.md`; the gazetteer parsers read § Location; template paths with folders resolve in
-the read-set graph; generic pipe-table parsing raises errors for a cell count that differs
-from its header, an unknown id or code, or a duplicate id, and **warns per stub row**.
+`[0-9]*.md`; template paths with folders resolve in the read-set graph; the two generic
+parsers (6.3) replace the per-file ones in the validator and `site_common`. The pipe
+parser errors on a cell count that differs from the header, an unknown id or code, or a
+duplicate id. The record parser errors on an unknown field. Both **warn per stub**: an
+empty cell, or a record missing a field its pattern requires.
 
 **Pilot, by hand**: kind-to-table pairing; one Exits row per diagram edge; the composition
 proof; the distinctness rules the columns expose (a purpose repeated in a block, one exit
@@ -526,7 +590,8 @@ Written to `plans/table-pipeline/analysis.md`:
 - Pattern files: labels, splits, P1-P5 (`dangerous/Key.md` split; `dangerous/Lock.md`,
   `wild/Exit.md`, `safe/Exit.md` new), step citations moved.
 - `patterns/region/*.md` and `templates/region/Region.md`: the `Compositions` field.
-- `templates/`: moved into folders (section 8). The new and rewritten templates are listed
+- `templates/`: moved into folders (section 8); the ten migrated files' Template blocks
+  rewritten to their new shape (6.4). The new and rewritten templates are listed
   in `implementation.md`.
 - `CLAUDE.md`: one line pointing at the placement rule. `README.md`: the `templates/`
   entry names its folders, and the region-folder entry names its five files.
