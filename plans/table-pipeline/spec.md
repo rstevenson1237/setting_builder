@@ -1,576 +1,580 @@
 # Spec - table-driven location generation
 
-The request and its follow-up are in `intake.md`. This file gives the analysis first (what
-the current pipeline does, what has gone wrong with it, the alternatives, and the friction
-points), then the design that follows from it. Decisions that need the user's sign-off are
-collected in section 5. Everywhere else, the design states its recommended answer and goes
-ahead with it.
+The request, its follow-up and the user's decisions are in `intake.md`. This file gives
+the analysis (sections 1-3), records the decisions (section 5), works through the table
+format (section 6, the one decision still open), and then sets out the design that
+follows.
 
-Two ideas from the follow-up run through the whole design:
+Three ideas run through the whole design:
 
-- **Storage and passes are separate.** Tables are storage: one file per feature type. A
-  pass is a unit of work, defined by what it reads and which rows it writes. A pass can
-  fill one table (every creature in a region) or cut across several (one coordinated
-  puzzle spanning five rooms). Both are first-class.
-- **Hand first, tools after.** The pilot runs without `draw.py` or `context.py`. What comes
-  back is decided by an analysis of the pilot (section 11).
+- **Patterns specify rows; templates own tables** (D2). A pattern file says what one row
+  holds. A table template (`templates/Table_Creatures.md`) says which locations get a row, how
+  many and in what mix, and it holds the region's table.
+- **Storage and passes are separate.** One file per table is the storage. A pass is a unit
+  of work: it can fill one table (every creature in a region) or cut across several (one
+  coordinated build across five rooms).
+- **Hand first, tools after** (D8). The pilot runs without `draw.py` or `context.py`. An
+  analysis decides what comes back. The validator stays, because it is the lint.
 
 ---
 
 ## 1. Analysis - the pipeline today
 
-Phase 4 today, per `STEPS.md`:
+Phase 4 today: 4a gazetteer, 4b diagrams, 4c one location at a time from
+`context.py 4c`'s sheet with registry stubs added as Features call for them, and 4d
+registry entries. The doctrine is "write each location from those alone, never from its
+sibling rooms".
 
-| Step | Writes | Unit of work |
-|---|---|---|
-| 4a | `Locations.md` per region: name, weight/classification, three tags | region |
-| 4b | connection diagrams (`Connections.mmd`, one `[Block].mmd` per DANGEROUS block) | region / block |
-| 4c | one `[N].md` per location, from `tools/context.py 4c CODE`. Registry stubs are created as Features call for them | location (DANGEROUS: one block per context) |
-| 4d | full registry entries (`Lore`, `Keys`, `Quests`, `NamedCreatures`, `UniqueTreasures`) | setting |
-
-At 4c, everything about a location is decided and written in one pass, from a sheet that
-`context.py` settles out of the class file. The doctrine is "write each location from
-those alone, never from its sibling rooms".
-
-### What the last two validation runs found
-
-From commit 9c1354b, in its `SettingJudgementCheck.md` and the two addenda:
+What the last two validation runs found (commit 9c1354b, `SettingJudgementCheck.md` and
+its two addenda):
 
 | # | Finding | Why the current shape produces it |
 |---|---|---|
-| E1 | Near-repeats that no single writer can see: one hazard shape six times, then three; pitch-sealed containers four times; alarm cords seven times; dead vermin as a tell seven times | Each location is written blind to its siblings, so there is no point at which all of a region's hazards are in view together |
-| E2 | Rates not realized at region scale: no second name in 30 rooms against 20%; edges about 94% open against 60%; 29 of 34 treasures a table roll against 55% | The rate is settled per location, and nothing ever looks at the region-level total |
-| E3 | Gates on 43% of exit-ends, and 7 warded doors in 22 rooms | Each end of an edge draws its own gate independently, because an exit belongs to two locations and gets resolved twice |
-| E4 | A household of "about ten" shows up as one creature across the whole block | No contract line draws against the Overview's Inhabitants headcount. The creatures are scattered across sheets that are never summed |
-| E5 | MEDIUM "encounter never absent" overridden; household blocks drawing a purpose FAMILY | Bugs in `context.py`'s resolution. They are invisible because no sheet is ever compared to another |
-| E6 | Key, Lore and Quest obligations tracked by hand ("nothing is owed at the close of 4c") | Connected content is discovered while writing, not allocated up front |
-| E7 | A 173-word Feature; 22 rooms growing from 3,129 to 10,603 words | The sheet hands the writer raw material and the decisions together, and the writer pours everything in |
-| E8 | Two Khughik blocks differing in dressing but not in skeleton | Block-level distinctness has no artifact where it could be checked |
-| E9 | No multi-room puzzle exists anywhere: every concealed detail resolves inside its own room or one exit away, and the clue/answer rule in `STYLE.md` ("what opens it is met outside this location") is met only by Keys | A location-at-a-time writer cannot place the far half of anything. The only cross-room device is a registry row, discovered mid-write |
+| E1 | Near-repeats no single writer can see: one hazard shape six times, then three; pitch-sealed containers four times; alarm cords seven times | Each location is written blind to its siblings |
+| E2 | Rates not realized at region scale: no second name in 30 rooms against 20%; edges about 94% open against 60%; 29 of 34 treasures a table roll against 55% | Rates are settled per location; nothing reads the region total |
+| E3 | Gates on 43% of exit-ends; 7 warded doors in 22 rooms | Each end of an edge draws its own gate |
+| E4 | A household of "about ten" shows up as one creature in its block | Nothing sums creatures against the Overview's Inhabitants |
+| E5 | MEDIUM "never absent" overridden; household blocks drawing a FAMILY | `context.py` resolution bugs, invisible because no sheet is compared to another |
+| E6 | Key, Lore and Quest obligations tracked by hand | Connected content is discovered while writing |
+| E7 | A 173-word Feature; 22 rooms growing from 3,129 to 10,603 words | The writer is handed raw material and decisions together, and pours it all in |
+| E8 | Two blocks differing in dressing but not in skeleton | Block-level distinctness has nowhere to be checked |
+| E9 | No multi-room puzzle anywhere; `STYLE.md`'s "what opens it is met outside this location" is met only by Keys | A location-at-a-time writer cannot place the far half of anything |
 
-E1-E4, E6, E8 and E9 are distribution or coordination problems: a property of many rows
-or many rooms at once, invisible from inside any one of them.
+Every finding except E5 and E7 is about many rows or many rooms at once.
 
 ---
 
-## 2. Alternatives considered
+## 2. Alternatives (settled)
 
-| | Alternative | Gets | Misses | Cost |
-|---|---|---|---|---|
-| A1 | **Status quo plus checks**: keep 4c and add region-level validator and metrics checks | Detection of E1-E3 after the fact | Prevention, and E9 entirely | Low |
-| A2 | **Allocation tables only**: every row is stubbed with its draws settled; locations are still written one at a time | E2-E6 by construction | E1, E8, E9 | Medium |
-| A3 | **Full table pipeline**: stubs, then passes that fill rows, by table or by composition, then compile | E1-E9 | Room coherence, which compile has to carry (F1) | High |
-| A4 | **Tables as the product**: no compile step; pages rendered from tables | No second writing pass | Summary and Notes must become columns; contradicts the request; every reader of `[N].md` breaks | High |
-
-**Recommendation: A3, run by hand first.** The first draft of this spec planned to reach
-A3 by building A2 as a tool. Following the user's follow-up, the order is now: run A3
-completely by hand on a pilot, analyse the result, then build only the tools the analysis
-calls for. This tests the shape before any code commits to it, and gives a measured answer
-to whether the random draws and the context sheet still earn their place (F19, section 11).
+A1 (status quo plus checks), A2 (allocation tables only), A3 (full table pipeline) and A4
+(tables as the product, no compile) were weighed in the first draft. **A3, run by hand
+first**, is the chosen route (D8). A2 stays available as a fallback, if the analysis finds
+the fill passes not worth their cost.
 
 ---
 
 ## 3. Friction points
 
-Each is stated with its resolution in this design. F1, F2, F4, F16 and F18 are the ones
-that could sink the change.
+Each is stated with its resolution in this design. Points that the decisions settled
+outright are listed only by their resolution.
 
-**F1 - Room coherence.** `templates/Location.md` requires "one history per room". If rows
-are written standalone, a hazard can end up in a room whose other rows it cannot share.
-*Resolution (revised by the follow-up):* rows are deliberately standalone. A table pass
-reads only its own stubs and the region-level roster it draws from (8.4), because "there
-is an orc here, named x, reacts y, wants z" is complete without the room. Coherence is
-compile's job: compile reads every row for one room, may adjust wording to make them one
-room, and may not add or drop a fact. A row that cannot share its room goes back to its
-pass, the same rule as a reroll today. *Watch:* if compile sends rows back too often in
-the pilot, passes need a little more context. Measuring exactly how much is one of the
-analysis questions (11).
+**F1 - Room coherence with standalone rows.** Rows are written without the room around
+them ("there is an orc here, named x, reacts y, wants z"). *Resolution:* compile reads all
+of a room's rows and makes them one room. It may not add or drop a fact, and a row that
+cannot share the room goes back to its pass. The pilot measures how often this happens.
 
-**F2 - The sibling doctrine is reversed.** 4c says "never from its sibling rooms" because
-writing against siblings converges. A table pass is built to show every sibling of one
-type.
-*Resolution:* the doctrine is narrowed rather than dropped. Compile still writes each
-location from its own rows only. Inside a table pass, seeing every sibling is the
-mechanism for E1 and E8: the writer is told to make rows distinct, and can see whether
-they are. The 5c check gains an item for passes that read as a form.
+**F2 - The sibling doctrine is reversed.** A table pass shows every sibling of one type.
+*Resolution:* compile still writes each room from its own rows only. Inside a table pass,
+seeing every sibling is how E1 and E8 are prevented. Under D5, all of a table's clues sit
+in one column, so a repeat is visible at a glance. 5c gains an item for passes that read
+as a form.
 
-**F3 - Step renumbering.** `README.md` says step ids are "never renumbered without explicit
-user request"; the validator allows one letter suffix.
-*Resolution:* Decision D1.
+**F3 - Step renumbering.** *Resolved by D1:* phase 4 is renumbered.
 
-**F4 - "Supersede the patterns" against single authority.** A table spec that copies a
-pattern's Spec lines is a second copy, and the copy is the one that drifts.
-*Resolution:* Decision D2. Whichever way it goes, there is exactly one copy.
+**F4 - Single authority.** *Resolved by D2:* the pattern is the row spec, and the table
+template never lists columns. Under D5 the columns are the pattern's Spec lines, one each
+(section 7).
 
-**F5 - Weight fails the table test.** Exactly one per location, opening no lines, so it is
-a field.
-*Resolution:* a step is not a table, and a pass is not a table either. Weighting fills a
-column of `Locations.md`.
+**F5 - Weight fails the table test.** It is a value. *Resolution:* it is a column of
+`Locations.md`'s `Location` section, created empty at 4a and filled at 4b.
 
-**F6 - Region tables against setting registries.** A key's two ends can sit in different
-regions.
-*Resolution:* anything with an identity beyond one placement keeps its setting registry
-as its table. The region row holds the placement columns plus a foreign key to the
-registry. This also settles the split `patterns/SPEC.md` already flags for
-`dangerous/Key.md`.
+**F6 - Region tables against setting registries.** *Resolution:* the setting registries
+stay the table for anything with an identity beyond one placement. A region row holds the
+placement and a foreign key to the registry.
 
-**F7 - Compile writes facts twice.** If cells are prose and compile rewrites them, the two
-copies drift.
-*Resolution:* Decision D4. Cells are terse facts, compile owns the prose, and each row
-records the Feature that realized it.
+**F7 - Compile writes facts twice.** *Resolved by D4:* cells are tags and glosses, and
+there is no prose to copy. Compile writes the sentences.
 
-**F8 - Cost.** More passes per region.
-*Resolution:* the pilot logs every pass's read set and size, and the analysis costs the
-strategy against the old one before any tool is built.
+**F8 - Cost.** *Resolution:* the pilot log records every pass's read set and size; the
+analysis costs it.
 
-**F9 - Cross-references between tables.** A treasure guarded by an encounter, a trap on a
-gate, a Payload that changes what a challenge is worth.
-*Resolution:* references are foreign keys, written at allocation where the class file
-already decides them, and by the composition pass where it is the composition that
-decides. A pass reads the rows its rows reference, and nothing more.
+**F9 - Cross-references.** *Resolution:* references are foreign-key cells. A pass reads
+the rows its rows name.
 
-**F10 - Naming comes last, but names are used early.**
-*Resolution:* tables key everything by code. Naming is a late column pass, and every
-downstream mention of the name is synced from `Locations.md`. By hand in the pilot,
-by tool later if called for.
+**F10 - Naming last, names used early.** *Resolution:* tables key by code. The naming pass
+updates `Locations.md`, and the name sync updates diagram labels and registry lines.
 
-**F11 - Tool bugs at scale.** E5's resolution bugs would be written into every table by an
-allocation tool.
-*Resolution:* deferred, because the pilot uses no tool. E5 is fixed, with regression
-checks, before `context.py`'s walk is reused for anything (implementation phase 4).
+**F11 - Tool bugs at scale.** *Resolution:* deferred. E5 is fixed before `context.py`'s
+walk is reused for anything.
 
-**F12 - Changes ripple.** Changing a filled row (a treasure turning into a key) creates
-obligations elsewhere and can strand content that references it.
-*Resolution:* a filled row is changed only by a pass that lists every row referencing it,
-and each referencing row is re-read in the same pass. Retrofit (9.2) is the same rule
-seen from the room's side.
+**F12 - Changes ripple.** *Resolution:* a pass that changes a filled row re-reads every
+row naming it. Retrofit (10.2) is the same rule seen from the room.
 
-**F13 - Existing consumers of the region folder.** The validator treats every `*.md` in a
-region folder except `Locations.md` as a location.
-*Resolution:* tables live in `setting/region/[Code]/tables/` (D3).
+**F13 - Tables in the region folder** (D3). The validator treats every `*.md` in a region
+folder except `Locations.md` as a location file, and errors on extras. *Resolution:* its
+glob narrows to `[0-9]*.md`, a one-line change made in phase 1. `metrics.py` and
+`context.py` already glob that way. Table names must never collide with a block's
+`.mmd` name, which can't happen since the extensions differ.
 
-**F14 - SAFE and WILD access fit unevenly.**
-*Resolution:* the test handles both. WILD access is a column group on the parent→child
-`Exits` row, stubbed from the diagram, which retires the Landmark → Hidden → Secret write
-order. SAFE simply has fewer tables.
+**F14 - SAFE and WILD access.** *Resolution:* WILD access is a section of `Exits.md`
+holding only the hidden and secret parent→child edges (section 6), which retires the
+Landmark → Hidden → Secret write order.
 
-**F15 - Gazetteer purpose changes.** Under the test, `Locations.md` is the location table.
-*Resolution:* each row's first line stays exactly as today, and column groups go on
-indented lines under it.
+**F15 - `Locations.md` changes format.** Under D5 it becomes pipe tables. Today the
+validator and `site_common` parse it line by line, and the validator errors on any line
+that isn't a gazetteer line. *Resolution:* both parsers read the `Location` section
+instead. It is a small, mechanical change in phase 1, keeping the lint and the site
+builder working, and it is not a generator rewire.
 
-**F16 - A coordinated puzzle against "never two triggers deep".** `templates/Location.md`
-bars a clue reached only by acting on another clue. A multi-room chain is a sequence of
-acts.
-*Resolution:* the rule stays per room. Each link of a composition puts its clue in the
-obvious tier of its own room, or one trigger from obvious in that room. What carries the
-chain from room to room is something the party holds (an object taken, a name read, a
-sequence watched), never a concealment nested inside another. This is what `STYLE.md`'s
-clue/answer rule already asks for ("what opens it is met outside this location"), so
-compositions are the device that rule was waiting for (E9).
+**F16 - Coordinated builds against "never two triggers deep".** *Resolution:* the rule
+stays per room. Each link's clue is obvious in its own room, or one trigger from obvious
+there. What carries the chain between rooms is something the party holds or knows, which
+is exactly what `STYLE.md`'s clue/answer rule asks for (E9).
 
-**F17 - A composition against a room's class contract.** A composition that drops a hazard
-into a LOW room turns it into a MEDIUM; one that adds a third treasure to a HIGH room
-spends a budget the class never allocated.
-*Resolution:* a composition part fills a stub the room's class already allocated
-(a LOW room's concealed detail or treasure, a MEDIUM room's challenge) wherever one fits.
-A part that exceeds the room's contract is allowed only as a named exception on the
-composition row, with its reason. The exception count is an analysis measure: many
-exceptions mean the composition is fighting the weights, and the weights should have
-been set with it in mind.
+**F17 - A coordinated build against room classes.** A part in a LOW room can turn it
+MEDIUM. *Resolution:* parts fill stubs the room's class allocated. A part beyond that is a
+named exception in the composition entry, with its reason, and the pilot counts them.
 
-**F18 - Retrofit against an authored compile.** If compile writes each room fresh as
-prose, retrofitting a composition into five compiled rooms rewrites five rooms, including
-prose already accepted.
-*Resolution:* targeted recompile (9.2). The `Realized:` trace says which Feature line
-each row became, so a retrofit adds lines for new rows and rewrites only the lines whose
-rows changed. Summary and Notes are touched only when a new row is obvious-tier.
+**F18 - Retrofit against an authored compile.** *Resolution:* targeted recompile from the
+`Realized` column (10.2).
 
-**F19 - Hand allocation and rate collapse.** E2 showed that judgement drifts toward the
-average: rated lines fire when a room "feels thin". With no draw tool, the pilot's author
-decides every rated line.
-*Resolution:* accepted as the experiment. Every rated decision is logged with the rate it
-answers, so the analysis can measure asked against realized at region scale. If hand
-allocation collapses the way E2 did, `draw.py` comes back for allocation only. If the
-table view lets the author hold the mix, it doesn't.
+**F19 - Hand allocation and rate collapse.** *Resolution:* accepted as the experiment.
+Every rated decision is logged, and `draw.py` returns for allocation only if the analysis
+shows the collapse E2 showed.
+
+**F20 - Spec lines need column labels, and some ask several things** (from D4 and D5). A
+gloss holds at most six words, and a pipe column needs a label. Many Spec lines already
+open with one (`Clue -`, `Tier -`, `Trigger -`), some don't ("What it is doing when the
+party arrives"), and some ask two or three things at once. For example, Treasure's
+Container line asks what it is in, what that is made of, whether it moves, and what
+reaches it. *Resolution:* `patterns/SPEC.md` gains two rules. Every Spec line opens with
+a short column label, unique within the file its section lands in. A line that cannot be
+answered in one tag or one gloss is several lines, and splits. This is the "pathways
+change, content largely resembles" migration D2 anticipates. It is listed per file in
+implementation T1.3.
+
+**F21 - The Region Overview grows after 3c** (from D7). Compositions are designed at 4e,
+but the Overview is written at 3c. *Resolution:* the new field is written at 4e (and
+again on any retrofit). `templates/Region.md` already treats Overview claims as promises
+audited at 5c, so a field filled later is checked the same way. "Never a fact of the
+Overview restated in a room" holds, because the entry states the chain (which part
+unlocks which, by row id) and the rooms state the parts.
 
 ---
 
 ## 4. Goals and non-goals
 
 **Goals**
-- Every unit a location contains exists as a row in a per-type table before prose is
-  written, with every cross-reference set.
-- A pass can fill one table with every row of that type in view (E1, E8), or write a
-  coordinated build across rooms and tables in one go (E9), and both are validated.
-- Rows are standalone: a table pass reads only its stubs and the roster it draws from.
-- Retrofit is cheap: new rows land in already-compiled rooms by targeted recompile.
+- Every unit a location contains exists as a row, before any prose, with every reference
+  set.
+- A pass can fill one table with every row in view (E1, E8), or write a coordinated build
+  across rooms in one go (E9), and both are validated.
+- A table pass reads only its stubs and the roster it draws from.
+- The to-do list is mechanical: an unfilled cell is a warning naming the step it is owed
+  to (D6).
+- Retrofit is a targeted diff.
 - Location files keep `templates/Location.md`'s output shape.
-- One firm, decidable test sorts every pattern into a field or its own table.
-- Tools are rebuilt only where a hand-run pilot shows they are needed.
+- One firm, decidable test places every Spec line as a column, a section or a file.
+- Tools are rebuilt only where the pilot shows the need.
 
 **Non-goals**
-- Changing phases 1-3, `STYLE.md`, `GENRE.md` or `BRIEF.md`.
-- Changing what any pattern file asks, except moving citations to retired step ids.
+- Changing phases 1-3, `STYLE.md`, `GENRE.md` or `BRIEF.md`, except the one new Overview
+  field (D7).
+- Changing what patterns ask, beyond labelling and splitting lines (F20) and moving step
+  citations.
+- Reformatting the setting registries, whose full entries are prose. They keep today's
+  format.
 - Rendering tables on the site.
 
 ---
 
-## 5. Decisions needing sign-off
+## 5. Decisions
 
-| # | Decision | Recommended | Alternative |
-|---|---|---|---|
-| D1 | Step ids for the new phase 4 | **Renumber phase 4** (8.2). `README.md` requires the user's explicit request | Retire 4a-4d in place and append the new steps as 4e-4n |
-| D2 | What "supersede the patterns" means | **Patterns stay the row spec.** A table template names its pattern, and its columns are that pattern's Spec lines, never copied. Tables supersede the class-file walk and the 4c sheet | Rewrite each table-bearing pattern file into table form. Still one copy, but every pattern file changes shape |
-| D3 | Where tables live | **`setting/region/[Code]/tables/`**; a composition spanning regions goes in `setting/Compositions.md` | In the region folder, with every consumer's glob tightened |
-| D4 | What a cell holds, and what compile does | **Cells are terse facts; compile writes the prose**, may not add or drop a fact, records `Realized:`, and recompiles in a targeted way on retrofit | Cells hold finished Feature sentences and compile assembles them. Retrofit is trivial, but coherence can no longer be fixed at compile |
-| D5 | Row format | **Record blocks**: a first line matching today's gazetteer and registry style, then `Field: value` lines | Markdown pipe tables |
-| D6 | Build order across regions | **Per region through the table passes; a connected stub is filled once every location it names has its rows** | Strict layer by layer |
-| D7 | How a coordinated build is recorded | **As a row in a `Compositions` table** that owns the chain, with each part a row in its own type table carrying `Part of:`. This follows from the table test (it opens lines and is shared by several rows) | As a pass with no record: parts only. Cheaper, but the chain can no longer be validated or retrofitted as one thing |
-| D8 | Hand first | **Yes**: the pilot runs with no `draw.py` and no `context.py`, every rated decision is logged, and section 11's analysis decides what comes back | Build the allocation tool first, as the first draft planned |
+| # | Decision | Settled as |
+|---|---|---|
+| D1 | Step ids | **Renumber phase 4**, explicitly authorised |
+| D2 | What "supersede the patterns" means | **A pattern specifies one row; the table template owns the table**: which locations, how many, in what mix. Pattern content largely stays; pathways change |
+| D3 | Where tables live | **`setting/region/[Code]/`**, next to `Locations.md` |
+| D4 | What a cell holds | **A tag** (1-2 categorizing words) **or a gloss** (at most 6 terse words). Compile writes the prose, records `Realized`, and recompiles in a targeted way on retrofit |
+| D5 | Table format | **Recommended, awaiting confirmation: strict pipe tables, one section per pattern file** (section 6) |
+| D6 | Connected stubs | **Filled in their own pass (4h)**, as 4d is today; every unfilled cell is a validator warning naming its step |
+| D7 | Coordinated builds | **No table; a `Compositions` field in the Region Overview** whose entries name their part rows |
+| D8 | Hand first | **Yes** |
 
 ---
 
-## 6. The table test
+## 6. D5 - table format, and the test it settles
 
-This goes into `patterns/SPEC.md`, beside "A draw or an edge is decided by what the pick
-opens", which it extends, and into `CLAUDE.md`'s pattern rules as one line pointing there.
+### 6.1 The question
 
-> **A unit gets its own table when, for at least one Spec line or pass that draws it,
-> both hold:**
->
-> 1. **It opens lines.** Picking it leaves lines of its own to answer, either a file
->    reached by an edge or sub-lines nested under the drawing line. A value (a question's
->    answer, an item of a `{draw}`) never gets a table.
-> 2. **It is not exactly one per drawing row.** The drawing line can yield none of it
->    (any rate under `1`, or a condition), more than one, or one instance shared by two or
->    more rows.
->
-> **Otherwise it is a column group on the table of the row that draws it.**
+The user's framing: one `Hazards.md` where each line decides whether it carries trap,
+environmental or residual detail, or a table per mechanism, possibly in the same file.
+Behind it sits the general question, strict columns against flexible entries, and the
+answer decides the shape of every table in the pipeline.
 
-Corollaries, each forced by the two conditions rather than added to them:
+What the three mechanism files actually ask (`dangerous/Trap.md`, `Environmental.md`,
+`Residual.md`): each has four to seven lines. Two labels recur in all three (Trigger,
+Damage), but with different draws and qualifiers. The rest are their own (a Trap's setter,
+an Environmental's course and threshold, a Residual's maker and what it protects). Every
+hazard shares one set of lines (`dangerous/Hazard.md`: mechanism, clue, tier, already
+caught), and each has exactly one of three different sets on top.
 
-- **One unit, one table.** If any drawer makes a unit a table, every drawer references
-  that table's rows.
-- **Shared means connected.** A unit shared by rows in two locations is stubbed naming
-  every row it joins, and filled once those rows exist. A column naming another location
-  (a foreshadowing detail, a lock) is connected in the same sense.
-- **Parents are already tables.** The Region Overview and the block header each serve
-  many locations.
-- **A step or a pass is not a table.** Either may fill columns of an existing table.
-- **The setting-level twin wins.** Where a unit has a placement pattern and a registry
-  pattern, each is tested separately (F6).
-- **A coordinated build is a table** (D7). It opens lines (its chain) and is shared by
-  every row that is one of its parts. So it is a row in `Compositions`, and its parts are
-  rows in their own tables.
+### 6.2 Options
 
-### The test applied to the hard cases
+| | Option | Shape |
+|---|---|---|
+| a | One wide pipe table | Every hazard row carries Hazard's columns plus the union of all three mechanisms' columns; the ones that don't apply are marked n/a |
+| **b** | **One file, one strict pipe table per pattern file** | `Hazards.md` holds a `## Hazard` section (every hazard) and `## Trap`, `## Environmental`, `## Residual` sections, each holding only the hazards whose mechanism picked it, keyed by the same row id |
+| c | One file per mechanism | `Traps.md`, `Environmentals.md`, `Residuals.md`, plus a `Hazards.md` for the shared lines or with them repeated |
+| d | Flexible records | One entry per hazard, carrying whichever fields its mechanism needs, in `Field: value` lines |
 
-| Unit | Drawn by | Opens lines? | Exactly one per drawer? | Result |
+### 6.3 Criteria
+
+| Criterion | a | **b** | c | d |
 |---|---|---|---|---|
-| Weight / classification / prominence | location | no | yes | column of `Locations` |
-| `dangerous/Dressing.md` | every class file, at `1` | yes | yes | column group of `Locations` |
-| HIGH's architecture detail, 50% ambiance | `dangerous/High.md` | no | - | columns of `Locations`, `none` when not taken |
-| Concealed detail (Clue/Trigger/Payload) | class files, rated | yes (nested) | no | table `Secrets` |
-| `dangerous/Door.md` | every exit | yes | no (two locations) | table `Exits`, one row per edge |
-| WILD access | parent→child edge | yes | yes, per edge | column group of `Exits` |
-| `dangerous/Encounter.md` | challenge, treasure guard | yes | no | table `Encounters` |
-| `dangerous/Creature.md` | encounter (1), treasure (25%) | yes | no, via treasure | table `Creatures` |
-| `dangerous/Faction.md` | encounter kind | yes | yes | column group of `Encounters` |
-| `dangerous/Hazard.md` | challenge, treasure, gate | yes | no | table `Hazards` |
-| `Trap.md` / `Environmental.md` / `Residual.md` | hazard mechanism | yes | yes | column groups of `Hazards` |
-| `dangerous/Mystery.md` | challenge, HIGH 30%, ward | yes | no | table `Mysteries` |
-| `dangerous/Treasure.md` | class files | yes | no | table `Treasures` |
-| `dangerous/Lore.md`, `Key.md` supply, `Quest.md` | treasure kind, payload | yes | yes | columns of the drawing row, plus a registry key |
-| `dangerous/Key.md` demand | lock obligation | yes | yes, per gated row | columns of the gated `Exits` / `Mysteries` row |
-| Setting registries | placements | yes | no (shared) | existing `setting/*.md` registries |
-| Foreshadowing detail | MEDIUM 25%, LOW 10% | no | - | column of `Locations`, connected |
-| Naming, second name | class files | yes / no | yes / - | column group / column of `Locations` |
-| `safe/People.md` as gate | every SAFE location | yes | no (one person, several places) | the Overview's People roster is the table; per-visit lines are columns |
-| A coordinated puzzle | a composition pass | yes (its chain) | no (shared by its parts) | table `Compositions` |
+| **Completeness is mechanical**: every cell filled, `none`, or visibly owed | partly: n/a muddies `none` | **yes**: no n/a cell can exist | yes | no: a missing field and a field not needed look the same |
+| **Distinctness is visible** (E1): all clues in one column | yes | **yes**: the `Hazard` section has every clue in one column | no: clues are split across files | no: scattered through records |
+| **One pattern file maps to one place** (D2) | no: three patterns folded into one row | **yes**: one pattern, one section | yes | no |
+| **Readable under D4** (cells of 6 words or fewer) | no: about 25 columns wide | **yes**: 5-8 columns per section | yes | yes |
+| **Progressive building and retrofit diffs** | adding a row touches one line | **adding a row touches one line per section it enters** | the same, across files | adding a row adds several lines |
+| **Parse and validate** | trivial | **trivial**: header defines the columns, and every row must match | trivial | needs a per-pattern field schema |
+| **Rendering on GitHub** | an unreadable grid | **readable grids** | readable grids | text |
 
-The full inventory is this table completed over every Spec line in `patterns/`, by hand
-in implementation T1.2.
+**Recommendation: (b).** The first draft preferred flexible records because cells were
+going to be long. D4 removed that objection: at six words a cell, pipe tables are compact
+and render as grids. Strictness then buys the two things this change exists for:
+**completeness without judgement** (D6's warnings become "this cell is empty") and
+**distinctness at a glance** (one column holds every clue in the region). Option (a)
+gets the strictness but loses one-pattern-one-place and readability. Option (c) loses the
+all-hazards view that E1 needs. Option (d) loses both strictness payoffs.
+
+**The answer to the user's question: one `Hazards.md`, holding a table per pattern file.**
+Every hazard has a row in `## Hazard`, and exactly one row in whichever mechanism section
+its `Mechanism` cell names.
+
+### 6.4 Worked example
+
+Content here is illustrative, to show the shape; it is not a pattern.
+
+```
+# Hazards of C The Ravine
+
+## Hazard
+| ID  | Location | Mechanism     | Tier      | Clue                        | Searcher's clue      | Caught         | Realized        |
+|-----|----------|---------------|-----------|-----------------------------|----------------------|----------------|-----------------|
+| HZ1 | C.14     | trap          | damaging  | slack wire across threshold | oil at the hinge     | none           | Threshold Wire  |
+| HZ2 | C.18     | environmental | nuisance  | dark sheen on flags         | none                 | rat mid-band   | Silt Floor      |
+| HZ3 | C.31     | residual      | lethal    |                             |                      |                |                 |
+
+## Trap
+| ID  | Parts               | Trigger     | Damage      | Set by              |
+|-----|---------------------|-------------|-------------|---------------------|
+| HZ1 | weighted spear rack | wire pulled | 2d Piercing | Gorzgur, maintained |
+
+## Environmental
+| ID  | Kind    | Condition              | Cause       | Course    | Threshold      | Damage      | Untouched spot |
+|-----|---------|------------------------|-------------|-----------|----------------|-------------|----------------|
+| HZ2 | footing | silt film over flags   | sluice seep | worsening | moving quickly | 1d Crushing | none           |
+
+## Residual
+| ID  | Maker | Doing | Course | Edge | Damage | Protects |
+|-----|-------|-------|--------|------|--------|----------|
+| HZ3 |       |       |        |      |        |          |
+```
+
+What the example shows:
+- **Three cell states, and no fourth.** A filled cell; `none`, where a rated line was not
+  taken (HZ1's Caught, HZ2's Untouched spot); and empty, meaning owed. HZ3 is a stub: its
+  location and mechanism were decided at allocation (4d), and everything else is owed to
+  4f. There is no n/a, because a column that doesn't apply to a row lives in a section that
+  row isn't in.
+- **The compound line splits** (F20). `dangerous/Hazard.md`'s Clue line ("one anyone
+  entering would notice, and where it can, a second only a searcher finds") is two
+  columns.
+- **Labels are unique per file.** Trap's own "Mechanism" line becomes `Parts`, so it
+  doesn't collide with Hazard's `Mechanism`.
+- **The pairing is checkable.** Every `## Hazard` row has exactly one row in the section
+  its Mechanism names, and every mechanism-section row has its `## Hazard` row.
+
+### 6.5 The table test, three-way
+
+D5 sharpens the two-condition test into a rule that places every Spec line in exactly one
+of three homes. It goes into `patterns/SPEC.md` beside "A draw or an edge is decided by
+what the pick opens", which it extends.
+
+> **For each unit and each line that draws it:**
+>
+> 1. **Opens no lines** (a question, or a `{draw}` item) → a **column** of the drawing
+>    row's section. A question's cell is a gloss; a draw's cell is a tag. A rated line's
+>    cell may be `none`.
+> 2. **Opens lines, exactly one per drawing row** → a **section** in the drawing row's
+>    file, rows keyed by the drawing row's id. Where a kind draw picks among several such
+>    units, each gets its own section, holding only the rows that picked it.
+> 3. **Opens lines, and not exactly one per drawing row** (can be absent, can be several,
+>    or one shared by several rows) → its **own file**, whose rows carry a foreign-key
+>    column naming the drawing row or rows.
+>
+> **One unit, one home**: if any drawer sends a unit to rule 3, every drawer references
+> that file. **One pattern file, one section**, always: a file's first section is its own
+> unit's pattern, and its other sections are the patterns rule 2 brought into it.
+
+Corollaries:
+- **Shared means connected.** A rule-3 unit shared by two locations is a connected stub,
+  filled at 4h (D6). So is a column naming another location.
+- **A step or a pass is not a table.** Either may fill columns or sections that already
+  exist.
+- **Columns exist from creation.** A table is created with every column its sections owe,
+  with the cells empty. Later passes fill cells and never add a column, so no pass
+  rewrites another pass's lines.
+- **Many values in one cell.** A draw saying "at least one" gets a comma-separated tag
+  list in one cell. A line rated `2` gets numbered columns (`Detail 1`, `Detail 2`).
+
+### 6.6 The test applied
+
+| Unit | Drawn by | Rule | Home |
+|---|---|---|---|
+| Weight / classification / prominence | location | 1 | column of `Locations.md` § Location |
+| `dangerous/Dressing.md` | every class file, at `1` | 2 | `Locations.md` § Dressing |
+| Class file's own lines (HIGH's architecture, 50% ambiance) | location | 2, by weight | `Locations.md` § High / § Medium / § Low |
+| WILD / SAFE kind files (`wild/Ruin.md`, `safe/Commerce.md`, ...) | class file's Kind | 2, kind | `Locations.md` § per kind |
+| Naming | every class file | 2 | `Locations.md` § Naming |
+| Concealed detail (Clue / Trigger / Payload) | class files, rated | 3 | `Secrets.md` |
+| `dangerous/Door.md` | every exit | 3 (two locations) | `Exits.md` § Door, one row per edge |
+| WILD access | hidden / secret parent→child edge | 2, kind | `Exits.md` § Access |
+| Key demand (lock) | a gated exit or mystery | 2 | § Lock in `Exits.md` / `Mysteries.md` |
+| `dangerous/Encounter.md` | challenge, treasure guard | 3 | `Encounters.md` § Encounter |
+| `dangerous/Faction.md` | encounter kind | 2, kind | `Encounters.md` § Faction |
+| `dangerous/Creature.md` | encounter (1), treasure (25%) | 3, via treasure | `Creatures.md`; encounters hold a foreign key |
+| `dangerous/Hazard.md` | challenge, treasure, gate | 3 | `Hazards.md` § Hazard |
+| `Trap.md` / `Environmental.md` / `Residual.md` | hazard mechanism | 2, kind | `Hazards.md` § Trap / § Environmental / § Residual |
+| `dangerous/Mystery.md` | challenge, HIGH 30%, ward | 3 | `Mysteries.md` |
+| `dangerous/Treasure.md` | class files | 3 | `Treasures.md` § Treasure |
+| `dangerous/Lore.md`, `Key.md` supply, `Quest.md` | treasure kind, payload | 2, kind | § Lore / § Key / § Quest in the drawing file, plus a registry foreign key |
+| Setting registries | placements | 3 (shared) | existing `setting/*.md`, format unchanged |
+| Foreshadowing detail | MEDIUM 25%, LOW 10% | 1, connected | column of `Locations.md` § Medium / § Low, plus a target column |
+| `safe/People.md` as gate | every SAFE location | 3 (one person, several places) | the Overview's People roster; per-visit lines as columns of § Settlement |
+| Coordinated build | a composition pass | (D7) | the Overview's `Compositions` field |
+
+Implementation T1.2 completes this over every Spec line in `patterns/`, by hand.
 
 ---
 
-## 7. Table inventory, by rating
+## 7. From Spec line to column
 
-Region tables, in `setting/region/[Code]/tables/`, except `Locations.md`, which stays where
-it is.
+Under D2 and D5, a pattern's Spec block *is* the column list. The table template never
+repeats it. The mapping is mechanical:
 
-| Table | Pattern (row spec) | DANGEROUS | WILD | SAFE |
+| Spec line | Becomes |
+|---|---|
+| a question | a gloss column, named by the line's label |
+| a `{draw}` | a tag column, named by the line's label; the cell is one item, or a list where the line says "at least one" |
+| a rated line (under `1`) | its column, whose cell may be `none` |
+| an edge, rule 2 | a section in this file (plus, for a kind draw, the tag column that picks it) |
+| an edge, rule 3 | a foreign-key column naming rows in the other file; the other file's rows are created by allocation |
+| a `{NAMED}` draw block | no column of its own; it is the vocabulary of the column whose line names it |
+
+Every section also carries `ID` first (or `Code`, in `Locations.md`) and, where it is a
+file's first section, `Location` (or the two location columns, in `Exits.md`) and
+`Realized` last.
+
+---
+
+## 8. Inventory, by rating
+
+Files sit in `setting/region/[Code]/` (D3). Sections per 6.6.
+
+| File | First section's pattern | DANGEROUS | WILD | SAFE |
 |---|---|:-:|:-:|:-:|
-| `Locations.md` (existing, grows columns) | class file + `Dressing.md` + `patterns/setting/Naming.md` (+ kind files as column groups) | ✓ | ✓ | ✓ |
-| `Exits.md` | `dangerous/Door.md`; WILD/SAFE `Dressing.md` exit line; WILD access | ✓ | ✓ | ✓ |
-| `Secrets.md` | concealed-detail lines of the class files | ✓ | ✓ | ✓ |
-| `Encounters.md` | `dangerous/Encounter.md` (+ `Faction.md` columns) | ✓ | | |
-| `Creatures.md` | `dangerous/Creature.md` / `wild/Creature.md` | ✓ | ✓ | |
-| `Hazards.md` | `*/Hazard.md` (+ mechanism columns) | ✓ | ✓ | |
+| `Locations.md` | the gazetteer row (code, name, tags, weight, block) | ✓ | ✓ | ✓ |
+| `Exits.md` | `dangerous/Door.md`, or the `Dressing.md` exit line | ✓ | ✓ | ✓ |
+| `Secrets.md` | the class files' concealed-detail lines | ✓ | ✓ | ✓ |
+| `Encounters.md` | `dangerous/Encounter.md` | ✓ | | |
+| `Creatures.md` | `*/Creature.md` | ✓ | ✓ | |
+| `Hazards.md` | `*/Hazard.md` | ✓ | ✓ | |
 | `Mysteries.md` | `*/Mystery.md` | ✓ | ✓ | |
-| `Treasures.md` | `*/Treasure.md` (+ placement columns) | ✓ | ✓ | |
+| `Treasures.md` | `*/Treasure.md` | ✓ | ✓ | |
 | `Factions.md` | `wild/Faction.md`, `safe/Faction.md` | | ✓ | ✓ |
 | `Situations.md` | `safe/Situation.md` | | | ✓ |
-| `Compositions.md` | the composition contract (8.7) | ✓ | ✓ | ✓ |
 
-Setting files: the five registries keep their roles, with stubs written at allocation or
-by a composition pass instead of 4c. `setting/Compositions.md` holds any composition whose
-parts span regions.
-
-The composition contract needs a home in the pattern tree. Recommended: a new
-`patterns/setting/Compositions.md`, a leaf whose Spec is the chain's lines (8.7), reached
-from `patterns/Genre.md`'s SETTING block. It is setting-level because a composition's
-parts can sit in any rating.
+The connection diagrams stay as they are. `Exits.md` adds what an edge physically is, and
+must agree with its diagram edge.
 
 ---
 
-## 8. The pipeline
+## 9. The pipeline
 
-### 8.1 Table format (D5)
+### 9.1 Steps (D1)
 
-One record per row, blank line between records.
-
-```
-[Row ID] [Location Code(s)] - [what allocation decided]
-  [Column]: [value]
-  Part of: [Composition row id, where it is one]
-  Realized: [Feature label in the location file, written at compile]
-```
-
-- **Row ID**: `[TABLE PREFIX][n]`, scoped to the region (`HZ3`, `TR12`, `EX7`, `CP2`),
-  stable, never reused. In `Locations.md` the location code is the row id, and the first
-  line stays today's gazetteer line.
-- **Foreign key**: a cell naming another row by id, or a location by code. A registry key
-  uses its existing citation form (`Keys: Title`).
-- **Stub**: a first line plus foreign keys. **Filled**: every column its pattern requires
-  answered, with nil written as `none`.
-- **Provenance**: a row is either allocated (from a class file's line) or authored (by a
-  composition pass, or as a named exception, per F17). The first line says which.
-
-### 8.2 Steps (D1, recommended numbering)
-
-| New id | Was | Step | Template | Writes |
+| Id | Was | Step | Template | Writes |
 |---|---|---|---|---|
-| 4a | 4a | **Gazetteer**: names and tags | `Location_Gazetteer.md` (weight removed) | `Locations.md` first lines |
-| 4b | (in 4a) | **Weights**: DANGEROUS weight, WILD classification, SAFE prominence, in the template's mix | `Location_Weights.md` (new) | `Locations.md` weight column |
-| 4c | 4b | **Connections**: diagrams, unchanged | `Region_Connections.mmd`, `Block_Connections.mmd` | `*.mmd` |
-| 4d | (in 4c) | **Allocation**: one pass over `Locations.md` and the class files. Every line the class file decides becomes a stub row in its table (a MEDIUM's challenge as an `Encounters` or `Hazards` stub, an edge as an `Exits` stub). Registry stubs where a line requires both ends. *Every allocated row in the region exists as a stub after this step.* By hand in the pilot, with every rated decision logged | `Allocation.md` (new) | all tables, as stubs; registry stubs |
-| 4e | (new) | **Compositions**: optional and repeatable. Each pass designs one coordinated build, fills existing stubs where they fit, authors named exceptions where they don't, and writes the composition row. Can also run after 4i, as a retrofit | `Composition.md` (new) | `Compositions.md`; part rows in any table; registries |
-| 4f | (in 4c) | **Table passes**: one pass per table, filling every stub not already claimed by a composition. Read set per 8.4 | `Table_[Name].md` (new, one per table) | each table |
-| 4g | (in 4c) | **Naming**: the naming column pass, then the name sync | `Table_Locations.md` naming section | `Locations.md`; `.mmd` labels; registry lines |
-| 4h | 4d | **Connected fill**: remaining connected stubs, then every registry's full entry | registry templates | remaining stubs; registries |
-| 4i | (in 4c) | **Compile**: one `[N].md` per location from its rows (9) | `Location.md` (Context rewritten) | `[N].md`; each row's `Realized:` |
-| 4j | 4d (tail) | **Coinage and mechanics**: as today | `Language.md`, `Procedures.md` | as today |
+| 4a | 4a | **Gazetteer**: names and tags | `Location_Gazetteer.md` | `Locations.md` § Location, Weight column empty |
+| 4b | (in 4a) | **Weights**: DANGEROUS weight, WILD classification, SAFE prominence | `Location_Weights.md` (new) | the Weight column |
+| 4c | 4b | **Connections**: unchanged | `Region_Connections.mmd`, `Block_Connections.mmd` | `*.mmd` |
+| 4d | (in 4c) | **Allocation**: every file and section created with its columns. Every row the class files decide is created as a stub, carrying its location and its allocated tags (a MEDIUM's challenge as an `Encounters` or `Hazards` row; a hazard's mechanism, with its empty mechanism-section row). One `Exits` row per edge, gate decided once. Registry stubs where a line requires both ends. By hand in the pilot, every rated decision logged. *Every allocated row exists after this step* | `Allocation.md` (new) | every table, as stubs |
+| 4e | (new) | **Compositions**: optional and repeatable; claims stubs first, authors exceptions, writes its parts, and writes its Overview entry. After 4i, it is a retrofit | `Composition.md` (new) | part rows; the Overview's `Compositions` field |
+| 4f | (in 4c) | **Table passes**: one per file, filling every unclaimed, unconnected row | `Table_[File].md`, one per file (new) | each table |
+| 4g | (in 4c) | **Naming**: § Naming, then the name sync | `Location_Gazetteer.md`, naming section | `Locations.md`; `.mmd` labels; registry lines |
+| 4h | 4d | **Connected fill** (D6): every connected stub (exits, locks, foreshadowing), then every registry's full entry | `Table_Exits.md`; registry templates | the rest |
+| 4i | (in 4c) | **Compile**: one `[N].md` per location | `Location.md` | `[N].md`; `Realized` cells |
+| 4j | 4d (tail) | **Coinage and mechanics** | `Language.md`, `Procedures.md` | as today |
 
-Compositions run before the table passes so they get first claim on the region's stubs.
-The puzzle shapes the rooms; the rooms don't get bent around the puzzle afterward. Run
-after compile, the same pass is a retrofit (9.2).
+Table templates are named `templates/Table_[File].md` (`templates/Table_Creatures.md`
+holds the region's `Creatures.md`). The prefix keeps them together, and keeps them clear
+of setting-level templates with near names (`templates/Treasure.md`,
+`templates/Factions.md`). `Locations.md` keeps `templates/Location_Gazetteer.md`, which
+grows its section list.
 
-Phase 5 is unchanged except for step-id citations and the check items in section 10.
+### 9.2 Order within 4f
 
-### 8.3 Order within the table passes
+A row is filled after the rows it names: `Creatures` → `Encounters` → (`Hazards`,
+`Mysteries`) → `Treasures` (which name their guards) → `Secrets` (whose Payload may name a
+treasure). `Locations.md` § Dressing can come any time before compile.
 
-Rows are standalone, so the order only has to respect foreign keys: a row is filled after
-the rows it references.
-
-```
-Creatures -> Encounters   (an encounter names its creature)
-Encounters, Hazards -> Treasures   (a treasure names its guard)
-Exits -> Hazards, Mysteries   (a trap on a gate, a ward)
-Treasures, Exits -> Secrets   (a Payload may name either)
-Locations substrate: any time before compile
-```
-
-### 8.4 Read set of a table pass (standalone rows)
-
-The follow-up's rule: a pass knows the region-level facts it draws from and which rooms
-call for its unit, and nothing else.
+### 9.3 Read set of a table pass (standalone rows)
 
 | Pass | Reads, besides `GENRE.md`, `STYLE.md`, `BRIEF.md` and its pattern |
 |---|---|
-| Creatures / Encounters | the Overview's Inhabitants; the `Bestiary.md` and `Factions.md` entries those name; this table's stubs (code, name, weight, tags) |
-| Hazards / Mysteries | the Overview's Conditions; `Procedures.md` for forced damage; this table's stubs; the `Exits` rows its stubs name |
-| Treasures | the Overview's Loot; the Treasure tables' headings; this table's stubs; the guard rows they name |
-| Secrets | this table's stubs; the rows a Payload names |
-| Exits | the diagrams; this table's stubs |
-| Locations substrate | the Overview's Conditions and Places; `Locations.md` first lines |
+| Creatures / Encounters | the Overview's Inhabitants; the `Bestiary.md` and `Factions.md` entries they name; this file's stub rows |
+| Hazards / Mysteries | the Overview's Conditions; `Procedures.md` for damage; this file's stubs; the `Exits.md` rows they name |
+| Treasures | the Overview's Loot; the Treasure tables' headings; this file's stubs; the guard rows they name |
+| Secrets | this file's stubs; the rows a Payload names |
+| Dressing | the Overview's Conditions and Places; `Locations.md` § Location |
 
-No pass reads a location file or a table it doesn't reference. In the pilot the author
-assembles these by hand. Whether a collector earns its way back is an analysis question.
+A stub row carries its location code, and § Location gives that location's name, weight
+and tags. That is the user's "which rooms have a weight that calls for a creature", and it
+is all a pass sees of a room.
 
-### 8.5 Allocation (4d), by hand
+### 9.4 Connected stubs and the to-do list (D6)
 
-Allocation turns weights into stubs, using the class file of each room. That is the list
-the follow-up asks for ("which rooms have a weight that calls for a potential creature"):
-after 4d, the `Encounters` and `Creatures` stubs *are* that list. The author:
+A stub is a row with empty cells. The validator warns once per row, naming its file, its
+id, its empty columns, and the step they are owed to (read off which section and file
+they sit in). A feature pass that creates a stub in another file (a treasure pass turning
+up a key, which owes a Keys stub and a § Lock row on some exit) adds those rows, and they
+appear in the warnings immediately. `--pending [REGION]` prints the same list grouped by
+step. The to-do list is never kept by hand.
 
-- walks each room's class file and writes one stub per line it decides, choosing for each
-  rated line and each `{draw}` against its rate, across the whole region at once;
-- writes one `Exits` stub per diagram edge, with its gate decided once per edge (E3);
-- counts what the region now holds against the Overview's Inhabitants (E4) and against
-  each rated line (E2), and corrects before moving on;
-- logs every rated decision as `rate asked → taken / not taken`, for the analysis.
+### 9.5 Compositions (D7)
 
-### 8.6 Connected features
-
-"Connected" means a row or column whose content depends on another location.
-
-| Connected unit | Stub names | Filled at |
-|---|---|---|
-| Exit (every edge) | both locations, kind from the diagram, opening and gate | 4f `Exits`, or 4h when the far end is in another region not yet at 4f |
-| WILD access | parent and child | 4f `Exits` |
-| Lock (Key demand) | the gated row, the Keys stub | with the gated row |
-| Foreshadowing detail | the room and the HIGH it points at | substrate pass, or 4h |
-| Keys / Quests | both locations | placement at 4f; registry entry at 4h |
-| Lore / Named Creature / Unique Treasure | every placing row | registry entry at 4h |
-| Composition | every part row | in its own pass (4e), all at once |
-
-### 8.7 Compositions (4e)
-
-A composition is a coordinated build across rooms: clues, triggers, objects and
-interactive features in several rooms, designed together and written in one pass. Its
-row in `Compositions.md`:
+A new field in each `patterns/region/*.md` Spec and in `templates/Region.md`, written at
+4e:
 
 ```
-CP[n] [every Location Code it touches] - [what it is, in a few words]
-  Parts: [row ids, in the order a party meets them]
-  Chain: [link by link: what the party holds or knows -> where it is used -> what it
-          yields; every link names its part rows]
-  Way round: [the answer that is not the gate, and its price]
-  Exceptions: [parts beyond their room's contract, each with its reason, or none]
-  Retrofit: [compiled rooms this pass changed, or none]
+Compositions:
+- [Name] - [row ids, in the order met]; [chain: what is held or known -> where it is
+  used -> what it yields, link by link]; way round: [the answer that is not the gate,
+  and its price]; exceptions: [part ids beyond their room's class, with reasons, or none]
 ```
 
-**Proven correct** means every one of these holds, checked by hand in the pilot and by
-the validator later where it can be mechanized (marked ⚙):
+A build spanning regions is entered once, in the Overview of the region holding its last
+link. Others don't repeat it ("say a fact once").
 
-1. ⚙ Every part is a row in its own table, carrying `Part of:`, and every row id in
-   `Parts` and `Chain` exists.
-2. ⚙ **Solvable from the entrance.** Walking the region's diagrams from its entrance,
-   every link's inputs can be reached using only what earlier links yield. No part sits
-   behind the gate it opens, and the dependency graph has no cycle.
-3. Every link's clue is obvious-tier in its own room, or one trigger from obvious in that
-   room. Never two triggers deep inside one room (F16).
-4. ⚙ No link's clue and its answer sit in the same room (`STYLE.md`'s clue/answer rule).
-5. ⚙ Every part fills a stub its room's class allocated, or is listed in `Exceptions`
+**Proven correct** means every one of these holds, checked by hand in the pilot and by the
+validator later where mechanical (⚙):
+
+1. ⚙ Every id the entry names exists as a filled row.
+2. ⚙ **Solvable from the entrance**: walking the diagrams from the region's entrance, each
+   link's inputs are reachable using only what earlier links yield. No part sits behind
+   the gate it opens, and the chain has no cycle.
+3. Every link's clue is obvious in its own room, or one trigger from obvious there (F16).
+4. ⚙ No link's clue and its answer share a room.
+5. ⚙ Every part fills a stub its room's class allocated, or is listed under exceptions
    (F17).
-6. The gate the composition builds has a `Way round` that is priced (`STYLE.md`'s gate
-   rule).
+6. The way round exists and is priced.
 7. ⚙ Every part that is a key, lore, quest object, named creature or unique treasure has
-   its registry stub.
-8. ⚙ Every room listed in `Retrofit` has been recompiled, and every new part row has a
-   `Realized:` label present in that room's file.
-
-A Keys registry row is the smallest composition there is: two parts, one link. Keys keep
-their registry. A composition may include them as parts.
+   its registry row.
+8. ⚙ After a retrofit, every part has a `Realized` cell present in its room's file.
 
 ---
 
-## 9. Compile (4i)
+## 10. Compile (4i)
 
-### 9.1 First compile
+### 10.1 First compile
 
 `templates/Location.md` keeps its Template block, its Citations and its Feature grammar.
-Its Context changes from "run `context.py 4c` and write from the sheet" to "read every
-row naming this location" (assembled by hand in the pilot).
+Its Context becomes: every row naming this location, across every file in the region
+(assembled by hand in the pilot).
 
-- **Every row is realized; nothing without a row is written.** Each row's `Realized:`
-  cell gets the Feature label (or `Exits`, `Summary`, `Notes`) that carries it.
-- **No fact added or dropped.** Compile chooses words, order, prominence, the Player
-  Summary and the Referee Notes. A row that cannot share the room goes back to its pass.
-- **One location, its own rows only.** The sibling doctrine holds here unchanged.
-- Instruction 2's 30-word Feature ceiling holds. Cells are already terse facts, so the
-  bloat seen in E7 has no raw material to come from.
+- **Every row is realized; nothing without a row is written.** The row's `Realized` cell
+  gets the Feature label (or `Exits`, `Summary`, `Notes`) that carries it.
+- **Cells become sentences.** Tags and glosses are notes, never copied verbatim as a
+  Feature. Compile writes each Feature in the template's grammar from its cells, and adds
+  no fact. A row that won't fit the room goes back to its pass.
+- **One location, its own rows only.**
+- The 30-word Feature ceiling holds. At six words a cell, E7's bloat has no material to
+  come from.
 
-### 9.2 Targeted recompile (retrofit)
+### 10.2 Targeted recompile (retrofit)
 
-When rows are added to or changed in a room that is already compiled (a composition run
-after 4i, or any edit to a filled row):
-
-- each **new** row gets a new Feature line, placed by prominence, and its `Realized:`;
-- each **changed** row's realized line is rewritten, and only that line;
-- the Player Summary and the Referee Notes are revisited only when a new or changed row is
-  obvious-tier, and every bolded noun still has its Feature (`STYLE.md`);
-- every other line is left exactly as it was.
-
-Written this way, a retrofit is a diff on a handful of lines, which a reviewer can read.
+When rows are added to or changed in a compiled room: each new row gets a new Feature line,
+placed by prominence; each changed row's realized line is rewritten, and only that line;
+the Player Summary and the Referee Notes are revisited only when a new or changed row is
+obvious; every other line stays exactly as it was.
 
 ---
 
-## 10. Validation and checks
+## 11. Validation
 
-**In the pilot (hand)**: the validator runs unchanged. It is a format lint, it already
-tolerates partial work, and with D3 it won't see `tables/`. Everything table-specific is
-checked by hand against a checklist kept in the pilot log: record format, foreign keys,
-one `Exits` row per edge, stubs filled, `Realized:` present, the composition proof (8.7),
-and the distinctness rules tables make visible (a purpose repeated within a block, one
-exit description across more than a third of a block's exits, two hazards in a block
-sharing mechanism and clue category).
+**In phase 1** (the lint, kept working; D8 does not cover it):
+- the region-folder glob narrows to `[0-9]*.md` (F13);
+- the gazetteer parsers (validator and `site_common`) read `Locations.md` § Location
+  (F15);
+- generic pipe-table parsing for every table file: an error where a row's cell count
+  differs from its section header, or an id or code is unknown, and **a warning per stub
+  row** (9.4). That is D6's test.
 
-**After the analysis (tool, where called for)**: the checklist items marked mechanical
-move into `tools/validate_setting.py` (errors for format and keys, warnings for unfilled
-stubs, unrealized rows and the distinctness rules), `--pending` learns connected stubs,
-and `metrics.py` learns per-table counts and asked against realized.
+**In the pilot**, by hand from a checklist in the pilot log: pairing between a kind cell
+and its section, one `Exits` row per diagram edge, the composition proof, and the
+distinctness rules the column view makes visible (a purpose repeated in a block; one exit
+description across more than a third of a block's exits; two hazards in a block sharing
+mechanism and clue).
 
-**Judgement checks**: `templates/Setting_Judgement_Check.md` gains *rows written in one
-pass read as a form* (F2), *rooms read as one room* (F1) and *each composition is
-solvable and priced* (8.7, items 3 and 6).
+**After the analysis**, where called for: the checklist's mechanical items become
+validator checks; `metrics.py` learns per-table counts and asked against realized.
 
----
-
-## 11. Analysis after the pilot
-
-The pilot log records, per pass: what was read and how large it was, what was written,
-every hand decision on a rated line, every row compile sent back, and every composition
-exception. The analysis answers these, each with a decision attached:
-
-| Question | Evidence | If yes |
-|---|---|---|
-| Did hand allocation hold the rates at region scale? | asked against realized, per rated line, against E2's figures | no tool needed for allocation; if not, `draw.py` returns for 4d only |
-| Did the standalone read sets carry enough context? | how often compile sent rows back, and why | keep 8.4 as is; if not, add the narrowest missing input to the pass that needed it |
-| Was assembling read sets by hand the expensive part? | pilot time and tokens per pass | if so, rebuild `context.py` as a collector for 8.4's read sets and compile's rows |
-| Which checklist items were tedious or missed? | checklist misses found later | each becomes a validator check |
-| Did compositions stay inside the weights? | exception count per composition | if not, compositions run before weighting for the rooms they claim |
-| Did retrofit stay targeted? | lines changed per retrofit against lines in the room | if not, revisit D4 |
-| Did table passes beat E1/E8? | the 5c "rooms are distinct" item against 9c1354b | the core claim of this change |
-
-The analysis is written to `plans/table-pipeline/analysis.md`, and tool work is planned
-from it rather than from this spec.
+**Judgement checks**: the setting check gains *rows written in one pass read as a form*
+(F2), *rooms read as one room* (F1), and *each composition is solvable and priced*.
 
 ---
 
-## 12. Documentation changes, by the rules in `CLAUDE.md`
+## 12. Analysis after the pilot
 
-- `STEPS.md`: phase 4 replaced per 8.2, first, since it is the authority.
-- `patterns/SPEC.md`: the table test as a new section; the `dangerous/Key.md` paragraph
-  cut back to a pointer.
-- `patterns/setting/Compositions.md` (new) and an edge to it from `patterns/Genre.md`.
-- `CLAUDE.md`: one line under Pattern file rules pointing at the test.
-- `README.md`: `tables/` in the map. Tool lines change only when the tools do.
-- Pattern files: only step-id citations move.
-- Templates: new `Location_Weights.md`, `Allocation.md`, `Composition.md`, and one
-  `Table_[Name].md` per table; rewritten Context for `Location_Gazetteer.md`,
-  `Location.md` and the five registry templates.
-- No passage is refreshed to describe the new pipeline. A passage that restated the old
+Written to `plans/table-pipeline/analysis.md`, from the pilot log and 5c:
+
+| Question | If the answer is no |
+|---|---|
+| Did hand allocation hold the rates at region scale (against E2's figures)? | `draw.py` returns for 4d |
+| Did the standalone read sets carry enough? (rows compile sent back, and why) | add the narrowest missing input to that pass |
+| Was assembling read sets by hand cheap enough? | rebuild `context.py` as a collector for 9.3 and compile |
+| Were the hand checklist items reliable? | each missed item becomes a validator check |
+| Did compositions stay inside the weights? (exception count) | compositions move before 4b for the rooms they claim |
+| Did retrofits stay targeted? (lines changed per retrofit) | revisit D4 |
+| Did six-word cells hold every line? (lines that wouldn't fit) | split the line further, never widen the cell |
+| Did table passes beat E1 / E8? (5c against 9c1354b) | the core claim fails: fall back to A2 |
+
+---
+
+## 13. Documentation changes, by the rules in `CLAUDE.md`
+
+- `STEPS.md`: phase 4 replaced per 9.1, first.
+- `patterns/SPEC.md`: the three-way test (6.5), the line-to-column mapping (7), the label
+  and split rules (F20); the `dangerous/Key.md` paragraph cut back to a pointer.
+- Pattern files: labels added and compound lines split (F20); step citations moved.
+- `patterns/region/*.md` and `templates/Region.md`: the `Compositions` field (D7).
+- `CLAUDE.md`: one line under Pattern file rules, pointing at the test.
+- `README.md`: the region folder's entry names its table files; tool lines change only
+  when the tools do.
+- Templates: `Location_Weights.md`, `Allocation.md`, `Composition.md`, one `Table_[File].md`
+  per file; rewritten Context for `Location_Gazetteer.md`, `Location.md`, the registry
+  templates.
+- No passage is refreshed to describe the new pipeline; a passage that restated the old
   one is cut back to a pointer.
 
 ---
 
-## 13. Acceptance
+## 14. Acceptance
 
-A pilot build (the keep, the borderland and at least two caves from `BRIEF.md`) runs
-through 4a-4j and 5c by hand, and:
+A pilot build (the keep, the borderland, the ravine and at least two caves from
+`BRIEF.md`) runs through 4a-4j and 5c by hand, and:
 
-1. The validator reports no errors.
+1. The validator reports no errors, and no stub warnings at the end.
 2. Every rated line is within the template's tolerance at region scale, or the log names
-   the deliberate choice that moved it (E2).
-3. Every edge has exactly one `Exits` row and one gate decision (E3).
+   the deliberate choice (E2).
+3. Every edge has one `Exits` row and one gate decision (E3).
 4. The creature count reconciles with each Overview's Inhabitants (E4).
-5. Every row is realized in exactly one location file, and no Feature lacks a row.
-6. At least one composition spanning three or more rooms passes all eight proof items, and
-   at least one is applied as a retrofit to rooms already compiled, changing only the
-   lines 9.2 allows.
-7. At least one table pass (creatures) is run from 8.4's read set alone, without compile
-   sending more than an occasional row back.
-8. The 5c "rooms are distinct" item finds fewer near-repeats than the second-run addendum
-   at 9c1354b on comparable blocks, and "rooms read as one room" is Confirmed.
-9. `analysis.md` exists and answers every question in section 11.
+5. Every row is realized in exactly one location file; no Feature lacks a row.
+6. A composition spanning three or more rooms passes all eight proof items, and a second
+   is applied as a retrofit, changing only the lines 10.2 allows.
+7. The creatures pass runs from 9.3's read set alone.
+8. 5c's "rooms are distinct" finds fewer near-repeats than at 9c1354b on comparable blocks,
+   and "rooms read as one room" is Confirmed.
+9. `analysis.md` answers every question in section 12.

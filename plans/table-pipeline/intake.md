@@ -60,6 +60,42 @@ the ones that need sign-off as Decisions.
 | "which rooms have a weight that calls for a potential creature" | The stubs that allocation writes into each table, by hand from the class files, are exactly that list. |
 | "completely without our existing tools first ... then wire back up ... if still called for" | The pilot runs with no `draw.py` and no `context.py`. The author makes every rated decision by hand, against the template's mix, and logs it. An analysis then decides which tools come back. The validator keeps running as it is, since it is a format lint and not a generator. |
 
+## Decisions, verbatim
+
+> decisions:
+> d1 - yes
+> d2 - content will largely resemble for former work, however its pathways will change.
+> For example a creature pattern will specify row content that feeds into the template for
+> creatures.md that holds the table assigning all creature locations throughout the region
+> d3 - we already write setting/region/b/Locations.md, it would make sense to continue this
+> d4 - cells should be tags (1-2 categorizing words) or gloss (up to 6 terse descriptive
+> words)
+> d5 - should look at the pipe tables if the strictness of format is needed (every entry
+> must have the same columns) vs the generalness of the proposed format (one line per entry
+> d6 - I would do the filling out of connected stubs as a separate pass similar to how we
+> are now, if features are adding stubs that is easy to write a test and issue a warning so
+> our to-do list is always clear
+> d7 - I would skip the compositions table but I would consider adding as a field (or part
+> of the layout field) within the region overview
+> d8 - yes
+>
+> I think d5 is the most important as it decides if we have one hazards.md (with each line
+> deciding if it includes the detail for a trap, environmental or residual or if we need a
+> table for each (perhaps in the same file?)
+
+### How the decisions are read
+
+| Decision | Read as |
+|---|---|
+| D1 | Explicit authorisation, under `README.md`'s rule, to renumber phase 4. |
+| D2 | A pattern file specifies one row. The table template (`templates/Creatures.md`) owns the table: which locations get a row, how many, in what mix. Pattern content stays close to today's; what changes is where it flows. |
+| D3 | Tables sit in `setting/region/[Code]/` next to `Locations.md`, not in a subfolder. The validator's region-folder glob has to narrow to numbered files. |
+| D4 | A cell holds a tag (1-2 words naming a category, usually a draw item) or a gloss (at most 6 terse words). Compile turns cells into sentences. A Spec line that can't be answered in a gloss is asking more than one thing, and splits. |
+| D5 | Open; the user asks for the analysis. It becomes `spec.md` section 6, with a recommendation. |
+| D6 | Connected stubs are filled in their own pass, as 4d is today. A stub is visible as unfilled cells, and the validator warns on each one, so the to-do list is always mechanical. |
+| D7 | No `Compositions` table. A coordinated build is an entry in a new Region Overview field. Its parts are ordinary rows, and the entry names them. |
+| D8 | Hand first, as planned. |
+
 ## State of the repository at intake
 
 - `setting/` is empty: the Greywatch build was removed in commit bf4ea1c. There is no
@@ -75,7 +111,8 @@ the ones that need sign-off as Decisions.
 - `implementation.md` - the task plan.
 
 After the follow-up, `spec.md` and `implementation.md` were revised in place. The tool-built
-allocation milestone became a hand-run pilot followed by an analysis.
+allocation milestone became a hand-run pilot followed by an analysis. After the
+decisions, both were revised again: D5's analysis is `spec.md` section 6.
 
 Nothing in `STEPS.md`, `templates/`, `patterns/` or `tools/` changes under this intake.
 That work is `implementation.md`'s, and it starts once the Decisions in `spec.md` are
