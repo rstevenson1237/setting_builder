@@ -39,20 +39,23 @@ built fresh by the framework, not transcribed from the module.
 
 ## Regions
 
-- Three regions: the keep (SAFE), the borderland wilderness around it (WILD), and the
-  ravine of caves (DANGEROUS).
+- The keep (SAFE), the borderland wilderness around it (WILD), the ravine (WILD), and one
+  DANGEROUS region per cave complex: about ten of them, each opening off the ravine.
 - The keep is a hold: an outer bailey of trade, lodging and worship open to travellers,
-  and an inner bailey closed to them. About thirty locations, most of them liner notes,
-  with the garrison's gate, walls and towers among them.
+  and an inner bailey closed to them. About twelve locations, each one a place a party
+  would stop or be turned away from, with the garrison's gate and walls folded into the
+  locations they guard rather than counted apart.
 - The wilderness holds about six Landmarks off the road - a lair, a raiders' camp, a
   hermit, a mound in a fen - with one or two carrying a Hidden child and none a Secret.
 - One of those Landmarks is left for the referee to stock: it is generated with its
   Dressing, its Kind, its reason to stop and its name, and every rated line comes out
   `none`. Its entry says it is unstocked, so the gap reads as a decision rather than a
   draw that never fired.
-- The ravine is a collection of about sixty locations in about ten blocks. Every block is
-  a household - one tribe, one lair, or one shrine - of between four and fifteen
-  locations, sized to what that household needs rather than to a set count.
-- Each block opens onto the ravine by its own entrance, so the region has about ten
-  entrances rather than two or three. Blocks connect to each other in only a few places,
-  and those connections decide who can reach whom; the shrine lies deepest.
+- The ravine is the walk between the caves: about ten Landmarks, one per cave mouth, plus
+  a few Hidden children for what lies along the ledges and floor. No Secrets. Each cave
+  mouth Landmark is the only way into its cave's region.
+- Each cave is a household - one tribe, one lair, or one shrine - and a DANGEROUS region
+  of between four and fifteen locations, sized to what that household needs rather than to
+  a set count. A cave has one entrance, the ravine's Landmark for it.
+- Caves connect to each other in only a few places, and those connections decide who can
+  reach whom; the shrine's cave lies deepest.
