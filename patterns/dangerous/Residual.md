@@ -10,16 +10,17 @@ is `dangerous/Trap.md`'s; what the place does on its own account is
 
 ```
 RESIDUAL
-  1     What made it - an event in setting/History.md - and that the maker is gone
+  1     Maker - what made it, and that the maker is gone
                                    {a death | a working | a rite | an inhabitant}
-  1     What it is still doing, and to what
-  1     Whether it is spreading, holding, or fading - fading dates itself: its edge
-        closer in than old marks say it reached       {spreading | holding | fading}
-  1     Trigger - an edge, not a mechanism: reaching the ground it still holds, or
+  1     Event - the event in setting/History.md that made it
+  1     Doing - what it is still doing, and to what
+  1     Course - whether it is spreading, holding, or fading: fading dates itself, its
+        edge closer in than old marks say it reached  {spreading | holding | fading}
+  1     Edge - an edge, not a mechanism: reaching the ground it still holds, or
         handling the thing it is still in
   1     Damage - the expression the tier allows, per setting/Procedures.md: Sanity where
         a rite or a death left it, Poison where a working left it in water or ground
-  30%   What it was meant to protect, and whether that is still there
+  30%   Protects - what it was meant to protect, and whether that is still there
 ```
 
 ## Constraints

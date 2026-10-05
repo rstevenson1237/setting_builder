@@ -245,12 +245,8 @@ already turned out to be.
 element file is orphaned: nothing draws it, so nothing reads it, and the content it
 describes is never generated. `tools/validate_setting.py` warns on it, and step 5b judges it.
 
-**A file drawn two genuinely different ways is a signal, not a feature.** Two are:
-`safe/People.md`, both a Kind where the location *is* a household and the mandatory person
-in every SAFE location's gate block; and `dangerous/Key.md`, drawn as a Kind under
-`dangerous/Treasure.md` for the key lying here and as a rated line on each weight file for
-the lock a key elsewhere opens. Each is a candidate for being two files, and the second
-already is: its demand end is moving out. Prefer splitting to carrying both.
+**A file drawn two genuinely different ways is a signal, not a feature.** Prefer
+splitting it to carrying both, by **How a Spec becomes tables**' one-home rule.
 
 ## What a spec line owes
 

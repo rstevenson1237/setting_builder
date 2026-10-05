@@ -10,14 +10,14 @@ file.
 
 ```
 BLOCK
-  1     What holds it together                                              {BASIS}
-  1     Where purpose: the family its rooms serve - each room takes whichever use serves
-        the family, never one answering another block's question         {FAMILY}
-  1     Where household: whose home it is - an occupant from setting/Bestiary.md or
-        setting/Factions.md - and the rooms any home of theirs needs: where they sleep,
-        eat, keep their stores, stand guard, and put their dead
-  1     How it meets the blocks around it - which ways in it keeps, and who or what
-        watches them
+  1     Basis - what holds it together                                        {BASIS}
+  1     Family - where purpose: the family its rooms serve; each room takes whichever
+        use serves the family, never one answering another block's question  {FAMILY}
+  1     Household - where household: whose home it is, an occupant from
+        setting/Bestiary.md or setting/Factions.md, and the rooms any home of theirs
+        needs: where they sleep, eat, keep their stores, stand guard, and put their dead
+  1     Ways in - how it meets the blocks around it: which ways in it keeps, and who or
+        what watches them
 ```
 
 ```

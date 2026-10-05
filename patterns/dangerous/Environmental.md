@@ -11,15 +11,17 @@ behind is `dangerous/Residual.md`'s.
 ENVIRONMENTAL
   1     Kind - drawn against what the region is cut into and what water and air do there,
         and chosen between by this room's own Dressing                       {KIND}
-  1     What the place is doing - the physical condition, named by its technical term,
-        specific enough to test by hand, with the edge where it stops
-  1     What it is a consequence of, in this location's own Dressing
-  1     Whether it holds, or worsens while the party is in it   {constant | worsening}
-  1     Trigger - the threshold: being in it at all, or the one thing it will not take
+  1     Condition - what the place is doing: the physical condition, named by its
+        technical term, specific enough to test by hand, with the edge where it stops
+  1     Cause - what it is a consequence of, in this location's own Dressing
+  1     Course - whether it holds, or worsens while the party is in it
+                                                             {constant | worsening}
+  1     Threshold - being in it at all, or the one thing it will not take
                         {moving quickly | a full load | a struck light | staying too long}
   1     Damage - the expression the tier allows, per setting/Procedures.md, of a type
         the kind produces
-  30%   Somewhere in this location it does not reach, and why - where an Impact is paid
+  30%   Spared spot - somewhere in this location it does not reach, and why: where an
+        Impact is paid
 ```
 
 ```

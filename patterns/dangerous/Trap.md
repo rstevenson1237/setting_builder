@@ -9,13 +9,13 @@ springs it, what it forces, and who set it. The clue and the tier are
 
 ```
 TRAP
-  1     Mechanism - what physically does it, named by its working parts, sized to the
+  1     Parts - what physically does it, named by its working parts, sized to the
         tier: bare at nuisance, deepened or armed at damaging, armed to kill at lethal -
         drawn from what the region is built from and its occupants can keep working
   1     Trigger - the discrete act on the thing itself that springs it
   1     Damage - the expression the tier allows, of a type the mechanism can deliver
                                                                           {DAMAGE}
-  1     Who set it, and whether anyone is still here to maintain it
+  1     Set by - who set it, and whether anyone is still here to maintain it
 ```
 
 ```

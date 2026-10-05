@@ -9,13 +9,14 @@ is only killed. What lives in a room on its own account is `dangerous/Creature.m
 
 ```
 FACTION PRESENCE
-  1     Which faction, and what this position is for                        {POSITION}
-  1     Something visible that identifies them without naming them - its Identity from
-        setting/Factions.md, repeated on gear, dress or work
-  1     What happens elsewhere if this position is lost or alarmed
-  50%   A standing order they are following, which the party can read or overhear
+  1     Faction - which faction, from setting/Factions.md
+  1     Position - what this position is for                               {POSITION}
+  1     Identity - something visible that identifies them without naming them: its
+        Identity from setting/Factions.md, repeated on gear, dress or work
+  1     If lost - what happens elsewhere if this position is lost or alarmed
+  50%   Order - a standing order they are following, which the party can read or overhear
   30%   Friction                  {with another faction | with the region | within}
-  20%   Someone here who would rather be somewhere else
+  20%   Unwilling - someone here who would rather be somewhere else
 ```
 
 ```

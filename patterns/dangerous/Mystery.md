@@ -9,15 +9,16 @@ contact; it may stand in plain sight, where a concealed detail by definition doe
 
 ```
 MYSTERY
-  1     Fixture, built or placed with purpose, never found debris - picked before its
+  1     Fixture - built or placed with purpose, never found debris: picked before its
         details, which it decides                                          {FIXTURE}
-  2     Physical details it can be reasoned from - the floor, not the target: one
-        detail is guessed at, three is reasoned out
-  1     Trigger, stated explicitly - an act on the fixture itself
+  1     Detail 1 - a physical detail it can be reasoned from: the floor, not the target
+  1     Detail 2 - a second: one detail is guessed at, three is reasoned out
+  40%   Detail 3 - a third, where the trigger is more than one step
+  1     Trigger kind - an act on the fixture itself
                         {placed | spoken | pressed | weighted | brought near | given up}
-  1     What the correct trigger accomplishes
-  1     What a genuinely wrong attempt costs
-  40%   A third detail, where the trigger is more than one step
+  1     Trigger - that act, stated explicitly
+  1     Correct - what the correct trigger accomplishes
+  1     Wrong - what a genuinely wrong attempt costs
 ```
 
 ```
@@ -41,7 +42,7 @@ FIXTURE - exactly one
   answer has made sorcery the ordinary case.
 
 - **A fixture whose answer is elsewhere in the region is a lock.** It owes a
-  `setting/Keys.md` row through `dangerous/Key.md`'s demand end.
+  `setting/Keys.md` row, and the room's lock sits on it per `dangerous/Lock.md`.
 
 - **Never write what the fixture is for above the details it is reasoned from.** That
   reverses the only work the players had to do.

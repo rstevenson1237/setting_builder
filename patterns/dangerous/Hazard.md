@@ -14,11 +14,11 @@ HAZARD
                         (dangerous/Trap.md, dangerous/Environmental.md,
                          dangerous/Residual.md)
   1     Clue - perceivable before the hazard acts, and not itself the hazard: one anyone
-        entering would notice, and where it can, a second only a searcher finds; a
-        hazard guarding treasure takes the treasure as its clue
-  1     Tier, rolled before going down - it fixes what the mechanism file may pick and
+        entering would notice; a hazard guarding treasure takes the treasure as its clue
+  1     Searcher's clue - where it can, a second clue only a searcher finds
+  1     Tier - rolled before going down: it fixes what the mechanism file may pick and
         what the hazard may force                                            {TIER}
-  20%   Something already caught in it
+  20%   Caught - something already caught in it
 ```
 
 ```
