@@ -176,6 +176,36 @@ and the classifier says why in the prose under its Spec. A rating *dropping* one
 different matter: `dangerous/Low.md` carries a challenge block that says "none", and the
 reason, rather than omitting the heading, because the absence is the class's defining fact.
 
+## How a Spec becomes tables
+
+A region's content is held as tables before it is written as locations, and the tables are
+read off the Spec, never designed beside it. Three rules place everything:
+
+1. **A line that is not an edge is a column** - a question, a draw, or a sub-line nested
+   under another line - of the table of the file it is written in. A draw's cell is the
+   item drawn; a question's is the answer; a rated line not taken is `none`.
+2. **A pattern file is exactly one table**, in exactly one file, holding a row for each
+   unit that drew it. A file drawn as a kind holds rows only for the units that picked it.
+3. **A table's file is the block of the class-file line it descends from**: substrate,
+   gate and transaction go to the location table; challenge, reward and registry each to
+   their own file; and anything on an edge, being shared by two locations, to the exits
+   file. The file names and their columns' shape are the templates'.
+
+**One unit, one home.** A file reached from more than one line lives where its first draw
+puts it - the shallowest, then the topmost line of the class file - and every other drawer
+names its row. A file drawn from two homes at once is two files, or one of its draws is
+really a value and becomes a line.
+
+**Every line opens with its column label**: a word or two before ` - `, unique within the
+table file its pattern lands in. **A line answered by more than one value is more than one
+line**: where a single draw item or a short phrase cannot answer it, it is asking several
+things, and splits.
+
+**Kinds fold into their classifier only when they answer the same lines.** Kind files
+become one table - items of a draw on the classifier - when the union of their lines
+leaves no kind with a column it never asks. A `none` from a rate is fine; a `none` because
+a kind has no such question means the kinds are different units and stay separate files.
+
 ## How a file is reached
 
 Read off the graph, never declared. Five shapes recur often enough to be worth naming, and

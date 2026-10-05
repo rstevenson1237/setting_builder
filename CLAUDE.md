@@ -63,6 +63,9 @@ So, when writing or editing any of them:
 - **A line that varies between the classes drawing it belongs in the drawing class's Spec;
   a line that is the same for all of them belongs in the file it cites.** Same test
   `setting/Procedures.md` applies one level up.
+- **A Spec is read as tables**: a non-edge line is a column, a pattern file is one table,
+  and a table's file is its class-file line's block. `patterns/SPEC.md`'s **How a Spec
+  becomes tables** is the rule.
 - **Constraints is where every prohibition lives** - anything that closes a pathway. Write
   entries generalized rather than tied to whichever setting produced them. A positive rule
   phrased contrastively is not a prohibition and stays where it is.
