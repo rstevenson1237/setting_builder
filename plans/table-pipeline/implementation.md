@@ -49,6 +49,31 @@ that's acceptable while nothing reads it. Phase 5 settles them.
 
 ---
 
+### Phase 1 status: done
+
+Landed in commits dc243e8 (T1.1) through 9d891b6 (T1.8-T1.14). Where the work departed
+from the table above:
+
+- **No separate weights template.** Each `templates/[rating]/Locations.md` owns its
+  rating's count, mix, tags and weights (`spec.md` section 8), so steps 4a, 4b, 4f and 4g
+  all name it.
+- **`To` is a key column, not a Spec line.** `dangerous/Door.md`, `wild/Exit.md` and
+  `safe/Exit.md` lost their "where it goes" line. Allocation also writes a row for each way
+  off the map that the Overview's Approach names.
+- **`Realized` is owed only once its location file exists**, so the to-do list does not
+  carry one line per row before compile.
+- **`check_key_obligations` survives only as the build-complete error.** The open case is
+  an ordinary stub (an empty Opens cell).
+- **Rule lines became `--` comment lines** inside the Spec block where they carry a rule
+  about other lines (Settlement's gate terms, Secret's access payload). Other rule lines
+  moved to Constraints or Provides, per `inventory.md`.
+- **Pre-existing, not changed:** `build_site.py` fails on an empty `setting/` (it reads
+  `setting/Setting.md` unconditionally), and `patterns/setting/Language.md` carries two
+  rate-notation warnings. Both predate this change.
+- **Proven on a fixture setting** (in the scratchpad, not committed). Every planted fault
+  was caught (short row, duplicate ID, unknown location, dangling id reference, unknown
+  record field), stubs were listed by step, and the site, metrics and `context.py` all ran.
+
 ## Phase 2 - Pilot log
 
 | Task | What | Done when |
