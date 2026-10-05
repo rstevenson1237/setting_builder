@@ -2,19 +2,20 @@
 
 ## Purpose
 The registry of errands running between locations - who wants what, where it is, and what
-stands in the way. Stubbed at 4c as each end is written, filled at 4d.
+stands in the way. Stubbed when a region is allocated (step 4d) or a composition is
+written (step 4e), filled once every row placing it exists (step 4h).
 
 ## Context
 Read first:
 - `GENRE.md`
 - `BRIEF.md` - this build's design requests, which replace this template's defaults where they speak
 - `patterns/setting/Quests.md`
-- At 4d: every location file the stub points to, both giver and target.
+- At 4h: the table rows at both ends, giver and target.
 
 ## Instructions
 A Quest is **two-ended**: a giver location and a target location, both named by code. At
-4c a stub row fills Name, Given at and Resolved at and leaves every other cell empty; at
-4d write the rest, with both location files in view.
+4d or 4e a stub row fills Name, Given at and Resolved at and leaves every other cell
+empty; at 4h write the rest, with the rows at both ends in view.
 
 ## Template
 ```

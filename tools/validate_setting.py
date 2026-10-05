@@ -1274,6 +1274,8 @@ def region_owed_step(fname: str, table: str, column: str) -> str:
     if fname == "Locations.md":
         if column == "Weight":
             return "4b"
+        if column == "Block":
+            return "4c"
         if table == "Naming":
             return "4g"
         return "4f"
@@ -1543,11 +1545,11 @@ def check_statblocks(diag: Diagnostics, path: Path, label: str, expect_special: 
 
 REGION_FIELDS = {
     "SAFE": ["Overview", "Approach", "People", "Services", "Law", "Places", "Situation",
-             "Secrets", "Tables"],
+             "Secrets", "Compositions", "Tables"],
     "WILD": ["Overview", "Approach", "Terrain", "Inhabitants", "Places", "Situation",
-             "Loot", "Secrets", "Tables"],
+             "Loot", "Secrets", "Compositions", "Tables"],
     "DANGEROUS": ["Overview", "Approach", "Conditions", "Inhabitants", "Alarm", "Places",
-                  "Situation", "Loot", "Secrets", "Tables"],
+                  "Situation", "Loot", "Secrets", "Compositions", "Tables"],
 }
 REGION_LABEL_RE = re.compile(r'^([A-Z][a-z]+):(?:\s|$)')
 
@@ -1616,7 +1618,7 @@ def check_repeated_features(diag: Diagnostics, region_code: str):
 
 
 def check_class_mix(diag: Diagnostics, region_code: str, rating: str, locs: dict):
-    """templates/region/Location_Gazetteer.md's DANGEROUS mix: 30% HIGH, 50% MEDIUM, rest LOW.
+    """templates/dangerous/Locations.md's mix: 30% HIGH, 50% MEDIUM, rest LOW.
 
     A warning, and deliberately loose - the mix is a shape, not an arithmetic
     target, and a region a room either side of it has not failed anything. What
@@ -1636,7 +1638,7 @@ def check_class_mix(diag: Diagnostics, region_code: str, rating: str, locs: dict
         if abs(got - want) > slack:
             diag.warn(SETTING / "region" / region_code,
                       f"region {region_code}: {counts[weight]}/{n} locations are {weight.upper()} "
-                      f"({got:.0%}); templates/region/Location_Gazetteer.md's default is about {want:.0%}")
+                      f"({got:.0%}); templates/dangerous/Locations.md's default is about {want:.0%}")
     if counts["low"] / n > 0.35:
         diag.warn(SETTING / "region" / region_code,
                   f"region {region_code}: {counts['low']}/{n} locations are LOW "

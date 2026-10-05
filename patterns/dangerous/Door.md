@@ -1,8 +1,8 @@
 # Dangerous - Door
 
 ## Provides
-What an exit physically is: its kind, what stands in the opening, where it sits, and where
-it goes. Which locations connect, and by what kind of edge, is the block diagram's; the
+What an exit physically is: its kind, what stands in the opening, and where it sits at each
+end. Which locations connect, and by what kind of edge, is the block diagram's; the
 Exits line syntax and units are `templates/region/Location.md`'s.
 
 ## Spec
@@ -19,7 +19,6 @@ DOOR - every exit
   1     Position from - which wall, corner, or direction it opens from at this end,
         given by the part a thing sits on rather than by left and right
   1     Position to - the same, at the far end
-  1     To - where it goes: the location code, or plain terms for an exit leaving the map
   40%   Gate - a gate on passage, written on the exit line itself           {GATE}
   1     Opens with - where gated: what opens it
   1     Ward - where warded: what the ward refuses, and what forcing it costs

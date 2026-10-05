@@ -164,7 +164,7 @@ Each rating fills the four its own way, and one adds a fifth:
 - **DANGEROUS** is the plain case: challenge is what opposes the party, reward what is in
   the room.
 - **WILD** adds **access**, between substrate and challenge. At depth, how a room is
-  reached is the connection graph, written at 4b and needing no words in the entry; out in
+  reached is the connection graph, written at 4c and needing no words in the entry; out in
   the country it is content, written into the parent's Features, and it is the whole
   distinction between Landmark, Hidden and Secret.
 - **SAFE** has no challenge - a settlement opposes nobody - and a **gate** in the same

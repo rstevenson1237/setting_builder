@@ -1,18 +1,18 @@
 # NamedCreatures.md
 
 ## Purpose
-A registry of specific, named creatures that may appear in multiple locations and act on their own motivation, distinct from the reusable templates in `setting/Bestiary.md`. Generated in two phases: stubbed empty at step 2h, a stub row added per entry during location generation (step 4c), and the full entry written afterward (step 4d).
+A registry of specific, named creatures that may appear in multiple locations and act on their own motivation, distinct from the reusable templates in `setting/Bestiary.md`. Generated in two phases: stubbed empty at step 2h, a stub row added per entry when a region is allocated (step 4d) or a composition is written (step 4e), and the full entry written once every row placing it exists (step 4h).
 
 ## Context
 Read first:
 - Step 2h (stubbing the file): no context needed.
-- Step 4c (recording a stub): `GENRE.md`, `templates/region/Location.md`.
-- Step 4d (writing the full entry): `GENRE.md`, `setting/Setting.md`, `setting/History.md`, `setting/Truths.md`, `setting/Bestiary.md`, `setting/Factions.md`, `patterns/setting/NamedCreatures.md`, and every location file that stubs this creature.
+- Steps 4d and 4e (recording a stub): `GENRE.md`, `templates/region/Allocation.md`.
+- Step 4h (writing the full entry): `GENRE.md`, `setting/Setting.md`, `setting/History.md`, `setting/Truths.md`, `setting/Bestiary.md`, `setting/Factions.md`, `patterns/setting/NamedCreatures.md`, and every table row that places this creature.
 
 ## Instructions
 - **2h**: create the file with only its title line.
-- **4c**: append a stub record - its heading and Appears at only - when a location's Feature calls for a Named Creature (or when this creature is stubbed again at a second location, add that location to its existing Appears at rather than duplicating it), and cite it in that Feature.
-- **4d**: fill each stub record's remaining fields per `patterns/setting/NamedCreatures.md`.
+- **4d, 4e**: append a stub record - its heading and Appears at only - when a table row names a Named Creature (or when this creature is stubbed again at a second location, add that location to its existing Appears at rather than duplicating it), and write its title into that row's cell.
+- **4h**: fill each stub record's remaining fields per `patterns/setting/NamedCreatures.md`.
 
 ## Template
 ```

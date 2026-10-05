@@ -459,7 +459,7 @@ def parse_regions_gazetteer() -> dict[str, dict]:
 # Overview never reached the web view or the PDF.
 REGION_FIELD_LABELS = [
     "Overview", "Approach", "People", "Services", "Law", "Terrain", "Conditions",
-    "Inhabitants", "Alarm", "Places", "Situation", "Loot", "Secrets",
+    "Inhabitants", "Alarm", "Places", "Situation", "Loot", "Secrets", "Compositions",
 ]
 TABLE_HEAD_RE = re.compile(r"^d\d+\s+\S")
 

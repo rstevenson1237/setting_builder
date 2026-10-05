@@ -16,7 +16,6 @@ EXIT - every exit
   1     Position from - a compass direction or a relation to something already stated,
         at this end
   1     Position to - the same, at the far end
-  1     To - where it goes: the location code, or plain terms for an exit leaving the map
 ```
 
 ## Constraints
