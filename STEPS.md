@@ -13,11 +13,11 @@ a step reads only the folder that matches what it is building.
    - 1c. Seed `setting/Language.md` with three tongues - a common tongue, an older tongue for ruins and the dead, and one non-human tongue - each with phoneme inventories, a syllable shape, affixes, and a starter root list, following `templates/setting/Language.md`. Seeding here rather than later is what makes names generative from 2b onward rather than systematized after the fact.
 2. Build the setting
    - 2a. Create `setting/Setting.md` (name, a tag line, referee outline), following `templates/setting/Setting.md`.
-   - 2b. Create `setting/History.md` (major events, oldest to newest, each leaving something findable), following `templates/setting/History.md` - empty unless `BRIEF.md` or the prompt asks for a history.
-   - 2c. Create `setting/Truths.md` (rules, classes, or ideas unique to this setting), following `templates/setting/Truths.md` - empty unless `BRIEF.md` or the prompt asks for truths.
+   - 2b. Create `setting/History.md` (major events, oldest to newest, each leaving something findable), following `templates/setting/History.md`.
+   - 2c. Create `setting/Truths.md` (rules, classes, or ideas unique to this setting), following `templates/setting/Truths.md`.
    - 2d. Create `setting/Rumours.md` (a d20 table of leads, marked T/P/F), following `templates/setting/Rumours.md`.
-   - 2e. Create `setting/Bestiary.md` (reusable creature templates, each with Description, Range, Sign and Disposition), following `templates/setting/Bestiary.md` - barebones unless `BRIEF.md` or the prompt asks for a full one, and grown at 3c and 4c as a region or location needs an entry.
-   - 2f. Create `setting/Factions.md` (3 factions, each with a visual identity), following `templates/setting/Factions.md`.
+   - 2e. Create `setting/Bestiary.md` (reusable creature templates), following `templates/setting/Bestiary.md`.
+   - 2f. Create `setting/Factions.md` (the powers a party may treat with, oppose, or ignore), following `templates/setting/Factions.md`.
    - 2g. Create `setting/Treasure1.md` through `setting/Treasure5.md` (Treasure Tables I-V), following `templates/setting/Treasure.md`.
    - 2h. Tailor `setting/Procedures.md` and `setting/Language.md` to this setting, following `templates/setting/Procedures.md` and `templates/setting/Language.md`, and create `setting/Lore.md`, `setting/Keys.md`, `setting/Quests.md`, `setting/NamedCreatures.md`, and `setting/UniqueTreasures.md` as empty stub tables, following `templates/setting/Lore.md`, `templates/setting/Keys.md`, `templates/setting/Quests.md`, `templates/setting/NamedCreatures.md`, and `templates/setting/UniqueTreasures.md`. These five fill in two phases: a stub (name and location) at 4d or 4e, and the full entry at 4h.
 3. Build the region
