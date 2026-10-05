@@ -11,13 +11,17 @@ Read first:
 
 ## Instructions
 - **2h**: create the file with only its title line.
-- **4c**: append a stub row - Title and Location only - when a location's Feature calls for a piece of Lore, and cite it in that Feature.
-- **4d**: replace each stub row with its full entry per `patterns/setting/Lore.md`.
+- **4c**: append a stub record - its heading and Found at only - when a location's Feature calls for a piece of Lore, and cite it in that Feature.
+- **4d**: fill each stub record's remaining fields per `patterns/setting/Lore.md`.
 
 ## Template
 ```
 Lore of [Setting Name]
 
-[Title] (*form - book, scroll, tapestry, note, letter, map, etc.*) - found at [Location Code] [Location Name]
-[Full content, written in step 4d: what it reveals, how it connects to History/Truths, what hook it offers]
+### [Title]
+Form: [FORM - written, cut, woven, drawn or arranged]
+Found at: [Location Code] [Location Name]
+Voice: [whose voice, and how they are wrong or partial]
+Does: [DOES]
+Text: [the entry itself: what it reveals, how it connects to History or Truths, what hook it offers - short enough to read aloud in under a minute]
 ```

@@ -26,11 +26,14 @@ FACTIONS - three
 ```
 Factions of [Setting Name]
 
-[Faction Name] - AD: Xd6
-- Resources: [material assets, territory, coin, or manpower they can spend or leverage]
-- Knowledge: [what they know that others don't - secrets, locations, or rivals' intentions]
-- Tactics: [their characteristic move when contested - how they typically act on a Faction Turn]
-- Reactions: [how they respond when players or rival factions interfere with them, at three intensities - noticed, crossed, injured]
-- Identity: [what a party sees before anyone names the faction - a colour worn, a device on seals and crates, a way of tying a knot or marking a door, a phrase. Repeated identically everywhere this faction appears, so it can be recognised two regions apart]
-- Goals: [one or more concrete objectives currently driving their turns]
+### [Faction Name]
+AD: [Xd6]
+Want: [WANT]
+Identity: [what a party sees before anyone names the faction - a colour worn, a device on seals and crates, a way of tying a knot or marking a door, a phrase. Repeated identically everywhere this faction appears, so it can be recognised two regions apart]
+Resources: [material assets, territory, coin, or manpower they can spend or leverage]
+Knowledge: [what they know that others don't - secrets, locations, or rivals' intentions]
+Tactics: [their characteristic move when contested - how they typically act on a Faction Turn]
+Reactions: [how they respond when players or rival factions interfere with them, at three intensities - noticed, crossed, injured]
+Goals: [one or more concrete objectives currently driving their turns]
+Fields: [a setting/Bestiary.md entry by name, or `none`]
 ```

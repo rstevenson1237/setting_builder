@@ -11,13 +11,14 @@ Read first:
 
 ## Instructions
 - **2h**: create the file with only its title line.
-- **4c**: append a stub row when a location's Feature calls for a Key, and cite it in that Feature. The row names **both locations**: where the key is found, and the location it opens. The second is the obligation - the location it names draws the lock at rate `1` when it is generated, per `patterns/dangerous/Key.md` - so it is written now, by code. Which **feature** the lock sits on is not, because that feature does not exist yet.
-- **4d**: replace each stub row with its full entry per `patterns/setting/Keys.md`.
+- **4c**: append a stub row when a location's Feature calls for a Key, and cite it in that Feature. The row fills Name, Found at and Opens: **both locations**. The second is the obligation - the location it names draws the lock when it is generated, per `patterns/dangerous/Lock.md` - so it is written now, by code. Feature and the rest stay empty, because that feature does not exist yet.
+- **4d**: fill each stub row's empty cells per `patterns/setting/Keys.md`.
 
 ## Template
 ```
 Keys of [Setting Name]
 
-[Object Name] (*form - key, rod, gemstone, seal, token, etc.*) - found at [Location Code] [Location Name]
-Unlocks: [Location Code] [Location Name] - [which Feature, and what it does, written in step 4d]
+| Name | Form | Found at | Opens | Feature | Apart | Connection |
+|---|---|---|---|---|---|---|
+| [Object Name] | [FORM] | [Location Code] | [Location Code] | [which Feature, and what it does] | [APART] | [CONNECTION] |
 ```

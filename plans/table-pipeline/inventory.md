@@ -402,7 +402,7 @@ outputs. Template blocks are rewritten at T1.7.
 |---|---|---|
 | `region/Regions.md` | table | Code, Name, Gloss, Rating, Die, Tag line |
 | `Keys.md` | table | Name, Form, Found at, Opens, Feature, Apart, Connection |
-| `Quests.md` | table | Name, Given at, Resolved at, Ask, Reluctance, Object, Obstacle, Terms |
+| `Quests.md` | table | Name, Given at, Resolved at, Ask, Giver, Reluctance, Object, Obstacle, Terms |
 | `Truths.md` | table | Truth, Kind, Handle, Codes |
 | `Bestiary.md` | record | Type, AD, MA, Description, Range, Sign, Disposition, Special |
 | `NamedCreatures.md` | record | Type, AD, MA, Appears at, Role, Motivation, Reaches by, Remembers, Wants, Description, Special |

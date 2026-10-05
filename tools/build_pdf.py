@@ -164,7 +164,7 @@ def build_document(setting: sc.Setting) -> str:
                 for c in e.locations if c in setting.all_locations
             )
             typetag = f' <span class="typetag">({ri(e.typetag, setting)})</span>' if e.typetag else ""
-            if kind == "quests":
+            if sc.parse_field_lines(e.body):
                 rows = "".join(
                     f'<tr><th>{html.escape(label)}</th><td>{ri(text, setting)}</td></tr>'
                     for label, text in sc.parse_field_lines(e.body)

@@ -11,8 +11,8 @@ Read first:
 
 ## Instructions
 - **2h**: create the file with only its title line.
-- **4c**: append a stub row - Name and Location only - when a location's Feature calls for a Unique Treasure, and cite it in that Feature.
-- **4d**: replace each stub row with its full entry per `patterns/setting/UniqueTreasures.md`.
+- **4c**: append a stub record - its heading and Found at only - when a location's Feature calls for a Unique Treasure, and cite it in that Feature.
+- **4d**: fill each stub record's remaining fields per `patterns/setting/UniqueTreasures.md`.
 
 A setting supports very few of these: a Unique Treasure is the reason a party remembers a
 whole region, and most high-value finds are better served by a Table V roll.
@@ -21,6 +21,10 @@ whole region, and most high-value finds are better served by a Table V roll.
 ```
 Unique Treasures of [Setting Name]
 
-[Item Name] - found at [Location Code] [Location Name]
-Description: [what it is, what it does, and what it costs, written in step 4d]
+### [Item Name]
+Found at: [Location Code] [Location Name]
+Does: [DOES]
+Cost: [COST]
+Origin: [ORIGIN, and the entry that accounts for it]
+Description: [what it is, what it does, and what it costs, in a referee's words]
 ```

@@ -150,6 +150,101 @@ _STARTS_LOGICAL_RE = re.compile(
 
 
 
+# ---------------------------------------------------------------------------
+# The two generic shapes every table-like file takes (patterns/SPEC.md's How a
+# Spec becomes tables). A table file is `## [Name]` headings over pipe tables;
+# a record file is `### [Name]` headings over `Field: value` lines. Every
+# parser below reads one of these two shapes rather than a format of its own.
+# ---------------------------------------------------------------------------
+
+@dataclass
+class Table:
+    name: str                 # the `## ` heading above it, or "" for none
+    header: list[str]
+    rows: list[list[str]]
+    lines: list[int]          # 1-based source line of each row
+    header_line: int
+
+    def dicts(self) -> list[dict[str, str]]:
+        return [dict(zip(self.header, r)) for r in self.rows]
+
+
+_SEP_CELL_RE = re.compile(r"^:?-{2,}:?$")
+
+
+def split_row(line: str) -> list[str]:
+    return [c.strip() for c in line.strip().strip("|").split("|")]
+
+
+def read_tables(path: Path) -> list[Table]:
+    """Every pipe table in a file, each under the nearest `## ` heading above it."""
+    tables: list[Table] = []
+    name, cur = "", None
+    for i, raw in enumerate(path.read_text().splitlines(), 1):
+        s = raw.strip()
+        if s.startswith("## "):
+            name, cur = s[3:].strip(), None
+            continue
+        if not s.startswith("|"):
+            cur = None
+            continue
+        cells = split_row(s)
+        if cur is None:
+            cur = Table(name, cells, [], [], i)
+            tables.append(cur)
+        elif all(_SEP_CELL_RE.match(c) for c in cells if c):
+            continue
+        else:
+            cur.rows.append(cells)
+            cur.lines.append(i)
+    return tables
+
+
+def table_named(path: Path, name: str) -> Table | None:
+    return next((t for t in read_tables(path) if t.name == name), None)
+
+
+@dataclass
+class Record:
+    name: str
+    fields: list[tuple[str, str]]
+    line: int
+
+    def get(self, label: str, default: str = "") -> str:
+        return next((v for k, v in self.fields if k == label), default)
+
+    def labels(self) -> list[str]:
+        return [k for k, _ in self.fields]
+
+
+_FIELD_RE = re.compile(r"^([A-Z][A-Za-z' ]{0,30}):\s*(.*)$")
+
+
+def read_records(path: Path) -> list[Record]:
+    """Every `### [Name]` record in a file; a line that opens no field continues
+    the field above it, since every setting/ file is hard-wrapped."""
+    out: list[Record] = []
+    cur = None
+    for i, raw in enumerate(path.read_text().splitlines(), 1):
+        s = raw.strip()
+        if s.startswith("### "):
+            cur = Record(s[4:].strip(), [], i)
+            out.append(cur)
+            continue
+        if not s or s.startswith("#") or cur is None:
+            continue
+        m = _FIELD_RE.match(s)
+        if m:
+            cur.fields.append((m.group(1).strip(), m.group(2).strip()))
+        elif cur.fields:
+            label, val = cur.fields[-1]
+            cur.fields[-1] = (label, (val + " " + s).strip())
+    return out
+
+
+LOC_CODE_TOKEN_RE = re.compile(r"\b[A-Z]+\.\d+\b")
+
+
 def parse_setting() -> tuple[str, str, str]:
     text = (SETTING / "Setting.md").read_text()
     lines = [l for l in text.splitlines() if l.strip()]
@@ -163,80 +258,39 @@ def parse_setting() -> tuple[str, str, str]:
     return name, tagline, outline
 
 
-# A History entry opens with a dating phrase, per templates/setting/History.md's
-# "[x] years ago - [what happened]". The phrase is what the timeline shows as
-# the entry's marker, and it is only ever the leading clause: splitting on the
-# first " - " instead turns a whole sentence into a heading wherever the first
-# hyphen arrives late, which is what it does for most real entries.
-HISTORY_WHEN_RE = re.compile(
-    r"""^(
-        [A-Za-z0-9][^,.;:]{0,60}?\s+ago
-        |within\s+living\s+memory
-        |in\s+the\s+[A-Za-z' ]{1,30}\s+reign
-    )\b""",
-    re.IGNORECASE | re.VERBOSE,
-)
-
 # Authoring markers that step 5c is meant to replace. They are not content and
 # must not reach a reader; a build that still shows them is showing the build's
 # own TODO list.
 PENDING_MARKER_RE = re.compile(r"\s*[-\u2013\u2014]?\s*\[pending\s+\w+\]", re.IGNORECASE)
 
 
-def parse_history() -> list[tuple[str, str, str]]:
-    """Each entry is a blank-line-separated block: a wrapped prose paragraph
-    opening with a dating phrase, then a wrapped "Left: ..." line naming what
-    the event left behind that a party can find.
+def _unpend(text: str) -> str:
+    return PENDING_MARKER_RE.sub("", text).strip().rstrip("-\u2013\u2014 ").strip()
 
-    Returns (when, event, left). `when` is the leading dating phrase and is
-    empty where the entry does not open with one - better no marker than a
-    sentence rendered as a heading. `left` is returned separately rather than
-    concatenated onto the event, because it is a different kind of statement:
-    the event is history, the Left line is a handle in the present.
-    """
-    text = (SETTING / "History.md").read_text()
-    blocks = re.split(r"\n\s*\n", text.strip())
+
+def parse_history() -> list[tuple[str, str, str]]:
+    """Returns (when, event, left) per record. `left` carries its codes, since
+    the Left line is a handle in the present rather than part of the event."""
     entries = []
-    for block in blocks[1:]:
-        lines = [l.strip() for l in block.splitlines() if l.strip()]
-        if not lines:
-            continue
-        left_idx = next((i for i, l in enumerate(lines) if l.startswith("Left:")), len(lines))
-        event = " ".join(lines[:left_idx]).strip()
-        left = " ".join(lines[left_idx:]).strip()
-        left = PENDING_MARKER_RE.sub("", left).strip().rstrip("-\u2013\u2014 ").strip()
-        if left[:5].lower() == "left:":
-            left = left[5:].strip()
-        when = ""
-        m = HISTORY_WHEN_RE.match(event)
-        if m:
-            when = m.group(1).strip()
-            # Drop the dating phrase and any separator left dangling behind it,
-            # so the event reads as its own sentence under the marker.
-            event = event[m.end():].lstrip()
-            event = re.sub(r"^[\s,\u2013\u2014-]+", "", event)
-            if event[:1].islower():
-                event = event[0].upper() + event[1:]
-        event = PENDING_MARKER_RE.sub("", event).strip()
-        entries.append((when, event, left))
+    for r in read_records(SETTING / "History.md"):
+        left = _unpend(r.get("Left"))
+        codes = _unpend(r.get("Codes"))
+        if left and codes:
+            left = f"{left} - {codes}"
+        entries.append((r.get("When"), _unpend(r.get("Event")), left))
     return entries
 
 
 def parse_truths() -> list[str]:
-    """Each entry is a blank-line-separated block: a wrapped, bolded truth
-    statement, then a wrapped "Handle: ..." line - join the wrapped lines
-    before returning, rather than only the statement's first physical line."""
-    text = (SETTING / "Truths.md").read_text()
-    blocks = re.split(r"\n\s*\n", text.strip())
+    """One string per Truths.md row: the truth in bold, then its handle and codes."""
+    t = table_named(SETTING / "Truths.md", "") or next(iter(read_tables(SETTING / "Truths.md")), None)
     out = []
-    for block in blocks[1:]:
-        joined = " ".join(l.strip() for l in block.splitlines() if l.strip())
-        # Same authoring marker History carries, and the same reason to drop it:
-        # step 5c replaces it with a real Location Code, and until it does the
-        # build's own TODO is not content a reader should be shown.
-        joined = PENDING_MARKER_RE.sub("", joined).strip().rstrip("-\u2013\u2014 ").strip()
-        if joined:
-            out.append(joined.lstrip("- ").strip())
+    for d in (t.dicts() if t else []):
+        line = f"**{d.get('Truth', '').strip()}**"
+        handle, codes = _unpend(d.get("Handle", "")), _unpend(d.get("Codes", ""))
+        if handle:
+            line += f" Handle: {handle}" + (f" - {codes}" if codes else "")
+        out.append(line)
     return out
 
 
@@ -290,7 +344,6 @@ def parse_treasure(roman: str) -> list[tuple[int, str, str, str]]:
     return out
 
 
-BESTIARY_HEADER_RE = re.compile(r"^(.+?)\s+\((.+?)\)\s*-\s*AD:\s*(.+)$")
 # An entry may carry more than one Special line - several are expected at 8 AD
 # and above - and each becomes its own field, so they render as separate
 # abilities rather than one run-on paragraph.
@@ -298,87 +351,28 @@ BESTIARY_SUBFIELD_LABELS = ["Description", "Range", "Sign", "Disposition", "Spec
 
 
 def parse_bestiary() -> list[dict]:
-    text = (SETTING / "Bestiary.md").read_text()
-    blocks = re.split(r"\n\s*\n", text.strip())
     out = []
-    for block in blocks[1:]:
-        lines = [l.strip() for l in block.splitlines() if l.strip()]
-        if not lines:
-            continue
-        m = BESTIARY_HEADER_RE.match(lines[0])
-        if not m:
-            continue
-        name, kind, ad = m.groups()
-        fields: list[tuple[str, str]] = []
-        cur_label = None
-        cur_parts: list[str] = []
-        for l in lines[1:]:
-            lm = re.match(r"^([A-Za-z]+):\s*(.*)$", l)
-            if lm and lm.group(1) in BESTIARY_SUBFIELD_LABELS:
-                if cur_label is not None:
-                    fields.append((cur_label, " ".join(cur_parts).strip()))
-                cur_label, cur_parts = lm.group(1), [lm.group(2).strip()]
-                continue
-            if cur_label is not None:
-                cur_parts.append(l)
-        if cur_label is not None:
-            fields.append((cur_label, " ".join(cur_parts).strip()))
-        description = next((v for k, v in fields if k == "Description"), "")
+    for r in read_records(SETTING / "Bestiary.md"):
+        ma = r.get("MA")
         out.append({
-            "name": name.strip(), "kind": kind.strip(), "ad": ad.strip(),
-            "description": description, "fields": fields,
+            "name": r.name, "kind": r.get("Type"),
+            "ad": r.get("AD") + (f" [MA: {ma}]" if ma else ""),
+            "description": r.get("Description"),
+            "fields": [(k, v) for k, v in r.fields if k in BESTIARY_SUBFIELD_LABELS],
         })
     return out
 
 
-FACTION_HEADER_RE = re.compile(r"^(.+?)\s*-\s*AD:\s*(\d+d\d+)\s*$")
-
-
 def parse_factions() -> tuple[list[dict], list[str]]:
-    """Parse Factions.md into (factions, notes).
-
-    Only blocks whose first line matches "Name - AD: Xd6" are faction
-    entries; any other block (e.g. a closing note on how two factions
-    relate) is not a faction and is returned separately as a note rather
-    than being mistaken for a malformed entry.
-    """
-    text = (SETTING / "Factions.md").read_text()
-    blocks = re.split(r"\n\s*\n", text.strip())
+    """Factions.md's records. A note on how factions relate is not a record and
+    has no place in the file, so the notes list is always empty."""
     out = []
-    notes = []
-    for block in blocks[1:]:
-        lines = [l.strip() for l in block.splitlines() if l.strip()]
-        if not lines:
-            continue
-        m = FACTION_HEADER_RE.match(lines[0])
-        if not m:
-            notes.append(" ".join(lines))
-            continue
-        name, ad = m.group(1).strip(), m.group(2).strip()
-        fields: list[tuple[str, str]] = []
-        cur_label = None
-        cur_parts: list[str] = []
-        for l in lines[1:]:
-            fm = re.match(r"^-\s*([^:]+):\s*(.+)$", l)
-            if fm:
-                if cur_label is not None:
-                    fields.append((cur_label, " ".join(cur_parts).strip()))
-                cur_label, cur_parts = fm.group(1).strip(), [fm.group(2).strip()]
-            elif cur_label is not None:
-                cur_parts.append(l)
-        if cur_label is not None:
-            fields.append((cur_label, " ".join(cur_parts).strip()))
-        out.append({"name": name, "ad": ad, "fields": fields})
-    return out, notes
+    for r in read_records(SETTING / "Factions.md"):
+        out.append({"name": r.name, "ad": r.get("AD"),
+                    "fields": [(k, v) for k, v in r.fields if k != "AD"]})
+    return out, []
 
 
-REGISTRY_MARKERS = {
-    "lore": "found at",
-    "keys": "found at",
-    "named_creatures": "appears at",
-    "unique_treasures": "found at",
-    "quests": "given at",
-}
 REGISTRY_FILES = {
     "lore": "Lore.md",
     "keys": "Keys.md",
@@ -386,12 +380,23 @@ REGISTRY_FILES = {
     "unique_treasures": "UniqueTreasures.md",
     "quests": "Quests.md",
 }
+# The pipe-table registries; the rest are record files. Per kind: the column or
+# field giving the entry's type tag, and those naming its locations.
+REGISTRY_TABLES = {"keys", "quests"}
+REGISTRY_TYPETAG = {"lore": "Form", "keys": "Form", "named_creatures": "Type",
+                    "unique_treasures": "", "quests": "Ask"}
+REGISTRY_PLACES = {
+    "lore": ("Found at",),
+    "keys": ("Found at", "Opens"),
+    "named_creatures": ("Appears at",),
+    "unique_treasures": ("Found at",),
+    "quests": ("Given at", "Resolved at"),
+}
 
 
 def parse_field_lines(text: str) -> list[tuple[str, str]]:
-    """Parse "- Label: value" lines - a Quest's Wants/Object/Obstacle/Terms,
-    same shape as a Bestiary or Faction entry's own fields - into ordered
-    (label, value) pairs."""
+    """Parse "- Label: value" lines - an entry's body as parse_registry writes
+    it - into ordered (label, value) pairs."""
     fields = []
     for l in text.splitlines():
         m = re.match(r"^-\s*([^:]+):\s*(.+)$", l.strip())
@@ -400,63 +405,50 @@ def parse_field_lines(text: str) -> list[tuple[str, str]]:
     return fields
 
 
-def parse_registry(kind: str) -> list[RegistryEntry]:
+def registry_entries(kind: str) -> list[tuple[str, list[tuple[str, str]], int]]:
+    """(title, ordered fields, source line) per entry, from either shape."""
     path = SETTING / REGISTRY_FILES[kind]
-    marker = REGISTRY_MARKERS[kind]
-    full_marker = f" - {marker} "
-    text = path.read_text()
-    blocks = re.split(r"\n\s*\n", text.strip())
+    if kind in REGISTRY_TABLES:
+        tables = read_tables(path)
+        if not tables:
+            return []
+        t = tables[0]
+        out = []
+        for row, line in zip(t.rows, t.lines):
+            pairs = list(zip(t.header, row))
+            title = pairs[0][1] if pairs else ""
+            out.append((title, pairs[1:], line))
+        return out
+    return [(r.name, r.fields, r.line) for r in read_records(path)]
+
+
+def parse_registry(kind: str) -> list[RegistryEntry]:
     out = []
-    for block in blocks[1:]:
-        lines = [l for l in block.splitlines() if l.strip()]
-        if not lines:
-            continue
-        head_line = lines[0].strip()
-        if full_marker not in head_line:
-            continue
-        head, rest = head_line.split(full_marker, 1)
-        tm = re.search(r"\(([^)]*)\)\s*$", head)
-        typetag = tm.group(1) if tm else ""
-        if kind == "named_creatures":
-            title = head.split(" (")[0].strip()
-        else:
-            title = re.sub(r"\s*\(.*?\)\s*$", "", head).strip()
-        codes = re.findall(r"[A-Z]+\.\d+", rest)
-        body = "\n".join(l.strip() for l in lines[1:]).strip()
+    tag_label = REGISTRY_TYPETAG[kind]
+    places = REGISTRY_PLACES[kind]
+    for title, fields, _line in registry_entries(kind):
+        typetag = next((v for k, v in fields if k == tag_label), "") if tag_label else ""
+        codes: list[str] = []
+        for k, v in fields:
+            if k in places:
+                codes += [c for c in LOC_CODE_TOKEN_RE.findall(v) if c not in codes]
+        body = "\n".join(f"- {k}: {v}" for k, v in fields
+                         if k != tag_label and k not in places and v)
         out.append(RegistryEntry(title=title, typetag=typetag, body=body, locations=codes))
     return out
 
 
-REGION_RE = re.compile(r'^([A-Z]+) (.+?) - (SAFE|WILD|DANGEROUS), (d\d+)\s*$')
-
-
 def parse_regions_gazetteer() -> dict[str, dict]:
     path = SETTING / "region" / "Regions.md"
-    lines = path.read_text().splitlines()
+    tables = read_tables(path)
     out: dict[str, dict] = {}
-    order: list[str] = []
-    i, n = 0, len(lines)
-    while i < n and not lines[i].strip():
-        i += 1
-    if i < n and lines[i].strip().lower().startswith("regional gazetteer"):
-        i += 1
-    while i < n:
-        line = lines[i].strip()
-        if not line:
-            i += 1
+    for d in (tables[0].dicts() if tables else []):
+        code = d.get("Code", "").strip()
+        if not code:
             continue
-        m = REGION_RE.match(line)
-        if m:
-            code, name, rating, die = m.groups()
-            i += 1
-            if i < n and lines[i].strip().lower().startswith("tags:"):
-                i += 1
-            blurb = ""
-            if i < n and lines[i].strip():
-                blurb = lines[i].strip()
-            out[code] = {"name": name.strip(), "rating": rating, "die": die, "tags": "", "blurb": blurb}
-            order.append(code)
-        i += 1
+        out[code] = {"name": d.get("Name", "").strip(), "rating": d.get("Rating", "").strip(),
+                     "die": d.get("Die", "").strip(), "tags": "",
+                     "gloss": d.get("Gloss", "").strip(), "blurb": d.get("Tag line", "").strip()}
     return out
 
 
@@ -541,21 +533,18 @@ def field_html(text: str, render) -> str:
     return out
 
 
-LOC_GAZ_RE = re.compile(r'^([A-Z]+)\.(\d+) (.+?)(?: \((low|medium|high|landmark|hidden|secret)\))? - \*(.+)\*\s*$')
-
-
 def parse_locations_gazetteer(region_code: str) -> dict[int, dict]:
-    path = SETTING / "region" / region_code / "Locations.md"
+    """`Locations.md`'s `## Location` table, keyed by location number."""
+    t = table_named(SETTING / "region" / region_code / "Locations.md", "Location")
     out: dict[int, dict] = {}
-    for raw in path.read_text().splitlines():
-        s = raw.strip()
-        if not s or s.lower().startswith("locations of"):
-            continue
-        m = LOC_GAZ_RE.match(s)
+    for d in (t.dicts() if t else []):
+        m = re.fullmatch(r"([A-Z]+)\.(\d+)", d.get("Code", "").strip())
         if not m:
             continue
-        rcode, num_s, name, weight, tags = m.groups()
-        out[int(num_s)] = {"name": name.strip(), "weight": weight, "tags": tags.strip()}
+        out[int(m.group(2))] = {"name": d.get("Name", "").strip(),
+                                "weight": d.get("Weight", "").strip() or None,
+                                "tags": d.get("Tags", "").strip(),
+                                "block": d.get("Block", "").strip()}
     return out
 
 

@@ -62,5 +62,8 @@ region shares, and no two locations in one region carrying the same three.
 ```
 Locations of [Region Code] [Region Name]
 
-[Region Code].1 [Location Name] [(high/medium/low) for DANGEROUS, (landmark/hidden/secret) for WILD] - *[tag], [tag], [tag]*
+## Location
+| Code | Name | Tags | Weight | Block |
+|---|---|---|---|---|
+| [Region Code].1 | [Location Name] | [tag], [tag], [tag] | [high/medium/low for DANGEROUS, landmark/hidden/secret for WILD, liner note/working/central for SAFE] | [its block, DANGEROUS only] |
 ```

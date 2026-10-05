@@ -533,7 +533,7 @@ def build_registry(setting: sc.Setting, out: Path, kind: str) -> None:
         marker = REGISTRY_MARKER_LABELS[kind]
         typetag = render_inline(e.typetag, setting, page) if e.typetag else ""
         typetag_html = f'<span class="typetag">({typetag})</span>' if typetag else ""
-        if kind == "quests":
+        if sc.parse_field_lines(e.body):
             rows = "".join(
                 f'<tr><th>{html.escape(label)}</th><td>{render_inline(text, setting, page)}</td></tr>'
                 for label, text in sc.parse_field_lines(e.body)

@@ -13,16 +13,14 @@ Read first:
 
 ## Instructions
 A Quest is **two-ended**: a giver location and a target location, both named by code. At
-4c record only the name and the two location codes; at 4d write the rest, with both
-location files in view.
+4c a stub row fills Name, Given at and Resolved at and leaves every other cell empty; at
+4d write the rest, with both location files in view.
 
 ## Template
 ```
 Quests of [Setting Name]
 
-[Quest Name] - given at [Code].[N], resolved at [Code].[N]
-- Wants: [who, and why they will not go themselves]
-- Object: [what specifically, and where in the target location]
-- Obstacle: [what stands in the way]
-- Terms: ["stated in the giver's own words"]
+| Name | Given at | Resolved at | Ask | Giver | Reluctance | Object | Obstacle | Terms |
+|---|---|---|---|---|---|---|---|---|
+| [Quest Name] | [Code].[N] | [Code].[N] | [ASK] | [who wants it] | [why they will not go themselves] | [what specifically, and where in the target location] | [what stands in the way] | ["stated in the giver's own words"] |
 ```
