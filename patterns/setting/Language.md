@@ -3,7 +3,7 @@
 ## Provides
 One tongue - who speaks it, its sounds, and the roots names are built from - and the two
 rules every artifact keeps when it coins or reuses a proper noun. How many tongues the
-setting holds is `templates/Language.md`'s; what a location is called, and in whose mouth,
+setting holds is `templates/setting/Language.md`'s; what a location is called, and in whose mouth,
 is `patterns/setting/Naming.md`'s.
 
 ## Spec

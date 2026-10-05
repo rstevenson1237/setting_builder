@@ -6,7 +6,7 @@ on:
     paths:
       - "setting/**"
       # build_site.py never reads setting/checks/ - it renders the checklist
-      # page from templates/*_Judgement_Check.md instead - so a judgement
+      # page from templates/checks/*_Judgement_Check.md instead - so a judgement
       # check update alone shouldn't trigger a redeploy.
       - "!setting/checks/**"
       # patterns.html is generated from patterns/*/*.md, so a pattern edit

@@ -34,7 +34,8 @@ Read these rather than a description of them.
 ## Directories
 
 - `templates/` - one template per artifact type, each structured **Purpose / Context /
-  Instructions / Template**. A template's own Context section lists exactly which files to
+  Instructions / Template**, in folders mirroring `patterns/` plus `checks/` for the
+  judgement checks. A template is cited by its path, folder included. A template's own Context section lists exactly which files to
   read before drafting; don't pull in more than it names.
 - `patterns/` - pattern guidance, in five folders matching the five levels of generation:
   `setting/`, `region/`, `safe/`, `wild/`, `dangerous/`. A generation step reads only the
@@ -46,14 +47,17 @@ Read these rather than a description of them.
   (`Procedures.md`, `Language.md`), the five registries (`Lore.md`, `Keys.md`, `Quests.md`,
   `NamedCreatures.md`, `UniqueTreasures.md`), and `region/`, holding the Regional Gazetteer
   and one folder per region.
-- `setting/region/[Code]/` - one region: its `Locations.md`
-  gazetteer, its connection diagrams, and one `[LocationCode].md` per location. The Region
+- `setting/region/[Code]/` - one region: its table files (`Locations.md` and `Exits.md`,
+  and by rating `Challenges.md`, `Treasures.md` and `Links.md`), its connection diagrams,
+  and one `[LocationCode].md` per location, written from the tables. The Region
   Overview sits beside it at `setting/region/[Code].md`.
 - `setting/checks/` - output of the judgement checks (STEPS.md step 5): non-mechanical
   review passes `tools/validate_setting.py` can't do, following the checklist format in
-  the matching `templates/*_Judgement_Check.md`. Nested under `setting/` so wiping the
+  the matching `templates/checks/*_Judgement_Check.md`. Nested under `setting/` so wiping the
   setting for a new build takes its judgement checks with it, rather than leaving them
   behind to bias the next one.
+- `plans/` - proposals for framework changes not yet made: one folder per change, holding
+  its `intake.md`, `spec.md` and `implementation.md`. Read by no step.
 - `tools/` - exactly what content generation needs and nothing else. Stdlib-only Python, no
   package manager, no test framework beyond running these against the content.
   - `validate_setting.py` - structural linter, run in CI on every pull request.
@@ -62,19 +66,19 @@ Read these rather than a description of them.
   - `site_common.py` - parsing helpers shared by the two builders.
   - `metrics.py` - what the framework costs and how the corpus reads, counted. Judges
     nothing; the thresholds are the validator's.
-  - `draw.py` / `context.py` - settle a location's rates and draws from its code;
-    `context.py 4c` prints them as the sheet `templates/Location.md` writes from, and
-    `context.py cost` models what writing a region costs.
+  - `draw.py` / `context.py` - settle a location's rates and draws from its code, and
+    model what writing a region costs. Outside the current pipeline until
+    `plans/table-pipeline/`'s analysis decides whether they return.
 
 ## Commands
 
 ```sh
 python3 tools/validate_setting.py           # structural lint
-python3 tools/validate_setting.py --pending [REGION]    # edges owed to unwritten blocks
+python3 tools/validate_setting.py --pending [REGION]    # what each step still owes
 python3 tools/validate_setting.py --read-set [STEP]     # what a step reads, per the graph
 python3 tools/metrics.py                    # corpus, tells, budget and read-set report
 python3 tools/metrics.py --tells [PATH]     # every tell hit, listed, over any markdown
-python3 tools/context.py 4c CODE            # one location's 4c sheet
+python3 tools/context.py 4c CODE            # one location's draws, settled
 python3 tools/context.py cost [REGION]      # writing strategies, costed
 python3 tools/build_site.py --out _site     # static site, including patterns.html
 python3 -m http.server -d _site             # preview it locally

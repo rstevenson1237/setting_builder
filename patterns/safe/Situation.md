@@ -8,14 +8,16 @@ like from here. The Situation itself is the Region Overview's.
 
 ```
 SITUATION - as seen from this location
-  1     What is visibly different here because of it
-  1     Who here is worse off, by name
-  1     Which rung it is on, from the region's Situation field, and what the next rung
-        looks like from here if nobody does anything
-  40%   Somebody here who benefits, and would rather it continued
+  1     Visible - what is visibly different here because of it
+  1     Worse off - who here is worse off, by name
+  1     Rung - which rung it is on, from the region's Situation field
+  1     Next - what the next rung looks like from here if nobody does anything
+  40%   Benefits - somebody here who benefits, and would rather it continued
                                                      {profit | cover | a rival's loss}
-  30%   What this location's people are doing about it, which is usually not enough
-  20%   A way the party makes it worse by helping                          {WORSE}
+  1     Beneficiary - where somebody benefits: who, by name
+  30%   Doing about - what this location's people are doing about it, which is usually
+        not enough
+  20%   Worse - a way the party makes it worse by helping                    {WORSE}
 ```
 
 ```

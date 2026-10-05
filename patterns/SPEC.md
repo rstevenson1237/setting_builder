@@ -65,7 +65,7 @@ for. Neutral and permanent.
 It also carries the **boundary** against any sibling file that could be confused for this
 one, and a pointer to the authority for anything adjacent that this file does not decide -
 a rate that belongs to the drawing line, a resolution that belongs to
-`setting/Procedures.md`, a citation format that belongs to `templates/Location.md`.
+`setting/Procedures.md`, a citation format that belongs to `templates/region/Location.md`.
 
 **It never says when or by what the file is reached.** That is the read-set graph's, and
 the graph runs one way: a STEPS.md step names its template, a template names the pattern
@@ -164,7 +164,7 @@ Each rating fills the four its own way, and one adds a fifth:
 - **DANGEROUS** is the plain case: challenge is what opposes the party, reward what is in
   the room.
 - **WILD** adds **access**, between substrate and challenge. At depth, how a room is
-  reached is the connection graph, written at 4b and needing no words in the entry; out in
+  reached is the connection graph, written at 4c and needing no words in the entry; out in
   the country it is content, written into the parent's Features, and it is the whole
   distinction between Landmark, Hidden and Secret.
 - **SAFE** has no challenge - a settlement opposes nobody - and a **gate** in the same
@@ -175,6 +175,40 @@ A rating renaming or adding a block is a claim that the rating genuinely works d
 and the classifier says why in the prose under its Spec. A rating *dropping* one is a
 different matter: `dangerous/Low.md` carries a challenge block that says "none", and the
 reason, rather than omitting the heading, because the absence is the class's defining fact.
+
+## How a Spec becomes tables
+
+A region's content is held as tables before it is written as locations, and the tables are
+read off the Spec, never designed beside it. Three rules place everything:
+
+1. **A line that is not an edge is a column** - a question, a draw, or a sub-line nested
+   under another line - of the table of the file it is written in. A draw's cell is the
+   item drawn; a question's is the answer; a rated line not taken is `none`.
+2. **A pattern file is exactly one table**, in exactly one file, holding a row for each
+   unit that drew it. A file drawn as a kind holds rows only for the units that picked it.
+3. **A table's file is the block of the class-file line it descends from**: substrate,
+   gate and transaction go to the location table; challenge, reward and registry each to
+   their own file; and anything on an edge, being shared by two locations, to the exits
+   file. The file names and their columns' shape are the templates'.
+
+**One unit, one home.** A file reached from more than one line lives where its first draw
+puts it - the shallowest, then the topmost line of the class file - and every other drawer
+names its row. A file drawn from two homes at once is two files, or one of its draws is
+really a value and becomes a line.
+
+**Every line opens with its column label**: a word or two before ` - `, unique within its
+table and among the tables its rows join - a kind's table and its classifier's, or any
+table keyed by the same location. **A line answered by more than one value is more than
+one line**: where a single draw item or a short phrase cannot answer it, it is asking
+several things, and splits - most often a draw that also asks for the thing it
+categorises, which is a tag column and a gloss column. **A line with nothing to answer is
+not a Spec line**: a rule about another line belongs on that line, in Constraints, or in
+Provides.
+
+**Kinds fold into their classifier only when they answer the same lines.** Kind files
+become one table - items of a draw on the classifier - when the union of their lines
+leaves no kind with a column it never asks. A `none` from a rate is fine; a `none` because
+a kind has no such question means the kinds are different units and stay separate files.
 
 ## How a file is reached
 
@@ -211,12 +245,8 @@ already turned out to be.
 element file is orphaned: nothing draws it, so nothing reads it, and the content it
 describes is never generated. `tools/validate_setting.py` warns on it, and step 5b judges it.
 
-**A file drawn two genuinely different ways is a signal, not a feature.** Two are:
-`safe/People.md`, both a Kind where the location *is* a household and the mandatory person
-in every SAFE location's gate block; and `dangerous/Key.md`, drawn as a Kind under
-`dangerous/Treasure.md` for the key lying here and as a rated line on each weight file for
-the lock a key elsewhere opens. Each is a candidate for being two files, and the second
-already is: its demand end is moving out. Prefer splitting to carrying both.
+**A file drawn two genuinely different ways is a signal, not a feature.** Prefer
+splitting it to carrying both, by **How a Spec becomes tables**' one-home rule.
 
 ## What a spec line owes
 

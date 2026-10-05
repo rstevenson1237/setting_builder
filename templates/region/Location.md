@@ -13,19 +13,16 @@ Read first - the same for every location in a region, so read once per session:
 - `setting/Language.md` - roots for any proper noun coined here, and where every coinage is recorded back.
 - this location's parent Region Overview, `setting/region/[Region Code].md`.
 
-Then, per location, run `python3 tools/context.py 4c [Location Code]` and write from its sheet: the gazetteer stub (its three tags are the spark the entry is written to), the exits as the diagrams drew them, the names a citation may use, every line this location's class file drew - already settled, with nothing it did not draw - and the Constraints those lines carry. The sheet is walked from the class file named by the stub's rating and weight or classification: SAFE `patterns/safe/Settlement.md`; WILD `patterns/wild/Landmark.md`, `patterns/wild/Hidden.md` or `patterns/wild/Secret.md`; DANGEROUS `patterns/dangerous/High.md`, `patterns/dangerous/Medium.md` or `patterns/dangerous/Low.md`. Open no pattern file and no sibling location.
+Then, per location, read **every row naming it** across the region's table files - its row in each `Locations.md` table it has one in, keyed by its code; every row in `Exits.md`, `Challenges.md`, `Treasures.md` and `Links.md` whose `Location`, `From` or `To` is this code; every WILD Hidden or Secret row whose Parent is this code, since a child's lead or access clue is shown in its parent's entry - and the rows those rows name by id. Its § Location row's three tags are the spark the entry is written to. Open no pattern file and no sibling location file: the rows are already settled, and what a registry entry means is the registry's.
 
-- For a WILD Hidden or Secret location, its parent must already be generated, since its connection is written into the parent's own Exits or Features - generate WILD locations Landmark tier first, then Hidden, then Secret.
-- If a Feature calls for a piece of Lore, a Key, a Quest, a Named Creature, or a Unique Treasure, record only a **stub** (name and this location) in the matching `setting/` file now. Its full content is written later, in step 4d. This is the container/data split: the location cites, the registry holds.
-
-Consult `setting/Bestiary.md`, `setting/Factions.md`, `setting/History.md`, or `setting/Rumours.md` only to look up a name the stub or region overview already references - never to pull in new material wholesale. A creature this location needs that the Bestiary lacks gets its entry added there first, per `templates/Bestiary.md`, and is then cited.
+Consult `setting/Bestiary.md`, `setting/Factions.md`, `setting/History.md`, or `setting/Rumours.md` only to look up a name a row or the region overview already references - never to pull in new material wholesale.
 
 ## Instructions
 
-1. Every line the sheet drew is written, and nothing it did not draw is added. A drawn line that cannot fit the room is moved with `--reroll`, never overridden by hand
-2. **The sheet is raw material and the entry is a few sentences.** Each drawn line reaches the page in the fewest words that still let a party see, take or decide something - most lines are a clause on another thing's Feature, not a Feature of their own. A Feature runs at most 30 words before its citation, the Referee Notes at most three sentences
-3. Sort the Features the pattern produced by prominence, most important first, and write them in that order - this is a per-Feature ordering within one entry, distinct from a SAFE location's own liner note/working/central Prominence
-4. Give each thing the players can address its own Feature line. Where a line the pattern drew names something that can be looked at, acted on, taken, fought, or opened **as its own object**, it is its own Feature - treasure hidden in a pillar and guarded by a beast is three Features, not one complex one. A drawn line that only qualifies another thing - its condition, its position, how it is reached - stays on that thing's line. An entry is as long as the number of Features the pattern drew, which is the classifier's decision, not this line's. Where a Feature carries a registry citation it states only what is present and perceptible - what the thing means, what it was for, and what it opens is the registry entry's, written at 4d, per **A note on completeness** below
+1. **Every row is realized, and nothing without a row is written.** Each row's `Realized` cell gets the Feature label - or `Exits`, `Summary` or `Notes` - that carries it. Cells are notes, never copied as text: write each Feature from its cells in the grammar below, adding no fact and dropping none. A row that cannot share the room goes back to the pass that wrote it, never quietly left out
+2. **The rows are raw material and the entry is a few sentences.** Each row's facts reach the page in the fewest words that still let a party see, take or decide something - most lines are a clause on another thing's Feature, not a Feature of their own. A Feature runs at most 30 words before its citation, the Referee Notes at most three sentences
+3. Sort the Features by prominence, most important first, and write them in that order - this is a per-Feature ordering within one entry, distinct from a SAFE location's own liner note/working/central Prominence
+4. Give each thing the players can address its own Feature line. Where a row or a cell names something that can be looked at, acted on, taken, fought, or opened **as its own object**, it is its own Feature - treasure hidden in a pillar and guarded by a beast is three Features, not one complex one. A cell that only qualifies another thing - its condition, its position, how it is reached - stays on that thing's line. An entry is as long as the number of Features its rows hold, which allocation decided, not this line. Where a Feature carries a registry citation it states only what is present and perceptible - what the thing means, what it was for, and what it opens is the registry entry's, per **A note on completeness** below
 5. **A Feature is one sentence, and its punctuation is closed:**
    - Only `,` and `->` separate clauses.
    - No semicolon, no colon, no dash, no second sentence.
@@ -34,10 +31,10 @@ Consult `setting/Bestiary.md`, `setting/Factions.md`, `setting/History.md`, or `
 6. **Every entry displays information at three tiers, and each tier's way in sits in the tier above it.**
    - **Obvious** - what a party perceives on arriving, having done nothing: the Player Summary, the Referee Notes, and every Feature and Exit that states itself plainly.
    - **Trigger** - what acting on something obvious yields: a Feature line naming an action and its effect, a container opened, a stated detail investigated. Per `setting/Procedures.md` a stated detail investigated is a detail found, and no roll stands in for the looking.
-   - **Secret** - what the class file's own concealment line drew: its Clue sits in the obvious tier, its Trigger is a stated act on that Clue, and its Payload is what the act produces. Per `STYLE.md` a secret is opened by an act, never by a roll.
+   - **Secret** - what its class table's concealed-detail cells hold: its Clue sits in the obvious tier, its Trigger is a stated act on that Clue, and its Payload is what the act produces. Per `STYLE.md` a secret is opened by an act, never by a roll.
 
-   The chain is the rule, not the count. A location need not carry all three - the class file's rates decide that - but where a tier is present, what leads into it is stated in the tier above: a concealed detail whose Clue appears nowhere obvious is content the referee knows and the players cannot reach, and a Feature whose action is anchored to nothing visible is a lever in an empty room. An entry sitting wholly in one tier has flattened - everything in the summary leaves nothing worth doing, everything behind a clue leaves a room that reads empty.
-7. Output the pattern generated exactly according to the template below
+   The chain is the rule, not the count. A location need not carry all three - allocation decided that - but where a tier is present, what leads into it is stated in the tier above: a concealed detail whose Clue appears nowhere obvious is content the referee knows and the players cannot reach, and a Feature whose action is anchored to nothing visible is a lever in an empty room. An entry sitting wholly in one tier has flattened - everything in the summary leaves nothing worth doing, everything behind a clue leaves a room that reads empty.
+7. Output the entry exactly according to the template below
 8. **What holds for every entry, whatever its class:**
    - One history per room - a part that could not share the room with the rest is changed, not explained.
    - Name a thing that has a name - a term, trade, material, landform or species - rather than describing it.
@@ -45,6 +42,8 @@ Consult `setting/Bestiary.md`, `setting/Factions.md`, `setting/History.md`, or `
    - A hazard or a trap is one Feature - its tell and its effect on one line, its forced damage cited last.
    - A concealed detail never pays out a route the diagram did not draw.
    - Never two triggers deep - no clue reached only by acting on another clue.
+
+9. **Retrofit is targeted.** When rows are added to or changed in a room already written - a composition run after compile, or any edit to a filled row - each new row gets a new Feature line, placed by prominence; each changed row's line is rewritten, and only that line; the Player Summary and the Referee Notes are revisited only when a new or changed row is obvious, and every bolded noun still has its Feature. Every other line stays exactly as it was.
 
 ## Template
 ```
@@ -76,9 +75,8 @@ Every citation below sits inside its own parentheses, exactly as written, so `to
 A location code mentioned in running text (`A.3`, `C.15`) is linked automatically wherever it already names a real location; nothing special is needed to write one.
 
 ## A note on completeness
-A location file is a **container**, and it is finished at 4c only in that sense. What its
-citations point at - what a piece of Lore says, what a Key opens, what a Named Creature
-wants, what a Unique Treasure costs - is written at 4d, with every location that references
-it in view. That gap is by design: it is what lets a registry entry be consistent across
-the several locations that cite it, which is something no single location file could
-achieve on its own.
+A location file is a **container**. What its citations point at - what a piece of Lore
+says, what a Key opens, what a Named Creature wants, what a Unique Treasure costs - is the
+registry entry's, written with every row that places it in view. That split is by design:
+it is what lets a registry entry be consistent across the several locations that cite it,
+which no single location file could achieve on its own.

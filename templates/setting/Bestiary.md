@@ -11,7 +11,7 @@ Read first:
 - `setting/Setting.md`, `setting/History.md`, `setting/Truths.md`
 
 ## Instructions
-Each entry follows `patterns/setting/Bestiary.md`'s Spec for a single entry.
+Each entry is one record following `patterns/setting/Bestiary.md`'s Spec for a single entry.
 
 By default the Bestiary is barebones: only the entries `BRIEF.md` or the user's prompt
 names, and it grows as the build needs it - a location or Region Overview that needs a
@@ -59,10 +59,13 @@ shape above does not call for.
 ```
 Bestiary of [Setting Name]
 
-[Creature Name] (Type) - AD: Xd6+N [MA: Y]
+### [Creature Name]
+Type: [Type]
+AD: [Xd6+N]
+MA: [Y]
 Description: [...]
 Range: [...]
 Sign: [...]
 Disposition: [...]
-Special: [... or `none`]
+Special: [... or `none` - one Special line per ability]
 ```

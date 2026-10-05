@@ -8,14 +8,17 @@ read. What earns a Lore row is `patterns/setting/Lore.md`'s.
 
 ```
 LORE
-  1     Physical form - a kept document, made or kept for an administrative reason
+  1     Form - a kept document, made or kept for an administrative reason
                         {ledger | register | charter | correspondence | survey}
-  1     Who holds it, and why they have it                                  {HOLDER}
-  1     What it takes to be allowed to read it
+  1     Holder - who holds it                                                {HOLDER}
+  1     Why held - why they have it
+  1     Access - what it takes to be allowed to read it
                         {a fee | a vouching | a service | reading it under watch}
-  1     Whose voice, and what they were wrong about
-  1     The one thing it does                                                 {DOES}
-  30%   It is incomplete, and the holder knows where the rest went
+  1     Voice - whose voice
+  1     Wrong about - what they were wrong about
+  1     Does - the one thing it does                                          {DOES}
+  1     Lore row - a stub row in setting/Lore.md; its content is the registry entry's
+  30%   Incomplete - it is incomplete, and the holder knows where the rest went
 ```
 
 ```

@@ -8,15 +8,16 @@ once, however memorable, is a Bestiary entry named in its Feature line instead.
 
 ```
 NAMED CREATURE ENTRY
-  1     A name, per GENRE.md's Naming answer
-  1     A stat line, on the same scale as any creature    (patterns/setting/Bestiary.md)
-  1     Why it earns a row                                                {ROLE}
+  1     Name - per GENRE.md's Naming answer
+  1     Stats - a stat line, on the same scale as any creature
+                                                  (patterns/setting/Bestiary.md)
+  1     Role - why it earns a row                                         {ROLE}
   1     Motivation - pursued whether or not the party ever shows up      {MOTIVE}
-  1     Every location it appears at
-  1     How it reaches a party before it is met    {a rumour | a piece of lore |
+  1     Appears at - every location it appears at
+  1     Reaches by - how it reaches a party before it is met    {a rumour | a piece of lore |
                                                   a survivor}
-  1     What it remembers of those it meets                               {MEMORY}
-  1     Something it wants
+  1     Remembers - what it remembers of those it meets                   {MEMORY}
+  1     Wants - something it wants
 ```
 
 ```

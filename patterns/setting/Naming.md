@@ -9,10 +9,11 @@ rather than to locations alone.
 
 ```
 NAMING - after everything else in the location is decided
-  1     A name, per GENRE.md's Naming answer, for what turned out to be here
-  1     Whose name it is, and whether they are still around                 {MOUTH}
-  1     Its shape                                                          {SHAPE}
-  1     Where the drawing class calls for a second name: from a different mouth
+  1     Name - per GENRE.md's Naming answer, for what turned out to be here
+  1     Mouth - whose name it is, and whether they are still around         {MOUTH}
+  1     Name shape                                                         {SHAPE}
+  1     Second name - where the drawing class calls for one
+  1     Second mouth - where a second name was drawn: a different mouth from the first
 ```
 
 ```

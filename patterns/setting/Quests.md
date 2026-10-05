@@ -10,12 +10,14 @@ or holds a quest is its rating's own `Quest.md`.
 
 ```
 QUEST ENTRY
-  1     The ask                                                             {ASK}
-  1     Who wants it, and why they will not go themselves             {RELUCTANCE}
-  1     What specifically, and which location holds it
-  1     What stands in the way, stated at the target end              {OBSTACLE}
-  1     The terms, in the giver's own words                               {TERMS}
-  1     Both ends named by location code
+  1     Ask                                                                 {ASK}
+  1     Giver - who wants it
+  1     Reluctance - why they will not go themselves                  {RELUCTANCE}
+  1     Object - what specifically
+  1     Target - which location holds it
+  1     Obstacle - what stands in the way, stated at the target end  {OBSTACLE}
+  1     Terms - in the giver's own words                                  {TERMS}
+  1     Given at - the giver's location, by code
 ```
 
 ```

@@ -8,18 +8,22 @@ get anything out of it.
 
 ```
 AUTHORITY
-  1     Who holds it here, and by what claim   {elected | inherited | seized | granted |
-                                                 assumed}
-  1     What actually gets settled here, as opposed to what is claimed - never the
-        abstract fact of order                {a right | a debt | a boundary | who may}
-  1     The limit of the claim - where it stops being obeyed, however far GENRE.md's
-        Authority answer says a writ reaches
-  1     What a stranger must do to get a hearing - this file's answer to
-        safe/Settlement.md's gate line                                    {HEARING}
-  40%   A rival claim, and who backs it
-  30%   Something posted, current and specific, naming who posted it
-  20%   A custom a stranger will break without knowing, never stated to anyone who
-        already knows it                            {a place | a word | a day | a debt}
+  1     Claim - by what claim it is held here
+                                   {elected | inherited | seized | granted | assumed}
+  1     Holder - who holds it, from the region's People roster
+  1     Settles kind - what actually gets settled here, as opposed to what is claimed
+                                              {a right | a debt | a boundary | who may}
+  1     Settles - that matter, never the abstract fact of order
+  1     Limit - the limit of the claim: where it stops being obeyed, however far
+        GENRE.md's Authority answer says a writ reaches
+  1     Hearing - what a stranger must do to get a hearing: this Kind's answer to
+        safe/Settlement.md's gate                                         {HEARING}
+  40%   Rival - a rival claim, and who backs it
+  30%   Posted - something posted, current and specific, naming who posted it
+  20%   Custom kind - a custom a stranger will break without knowing
+                                                  {a place | a word | a day | a debt}
+  1     Custom - where a custom was drawn: that custom, never stated to anyone who
+        already knows it
 ```
 
 ```

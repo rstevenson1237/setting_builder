@@ -9,15 +9,17 @@ structure and does not.
 
 ```
 MYSTERY
-  1     The thing                  {placed | grown | a property of the place itself}
-  2     Physical details it can be reasoned from - including what weather and earlier
-        visitors have left on it
-  1     Trigger, stated explicitly - an act on the thing itself
+  1     Thing                      {placed | grown | a property of the place itself}
+  1     Detail 1 - a physical detail it can be reasoned from, including what weather and
+        earlier visitors have left on it
+  1     Detail 2 - a second
+  1     Trigger kind - an act on the thing itself
                         {left rather than taken | timed to a tide or season | spoken |
                          walked as a course}
-  1     What the correct trigger accomplishes
-  1     What a genuinely wrong attempt costs
-  1     Its price, at what GENRE.md's Magic level says power costs
+  1     Trigger - that act, stated explicitly
+  1     Correct - what the correct trigger accomplishes
+  1     Wrong - what a genuinely wrong attempt costs
+  1     Price - at what GENRE.md's Magic level says power costs
 ```
 
 ## Constraints

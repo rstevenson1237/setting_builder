@@ -4,7 +4,7 @@
 One DANGEROUS Region Overview: the complex as a referee runs an excursion into it without
 opening a room - its ways in, what every room shares, who lives where and how they answer
 an intruder, and where the prize lies. How many locations it holds, in what weight mix,
-and how they connect is `templates/Location_Gazetteer.md`'s and the connection templates';
+and how they connect is `templates/dangerous/Locations.md`'s and the connection templates';
 what one block holds is `dangerous/Block.md`'s, and what one room holds is its weight's
 own file.
 
@@ -35,6 +35,9 @@ DANGEROUS REGION
         want it back
   1     Secrets - each a fact the referee holds as true, and the act or place that
         brings it out
+  1     Compositions - each coordinated build across this region's rooms: its part rows in
+        the order met, its chain link by link, its way round and that way's price, and any
+        part beyond its room's class; none where the region has none
   1     Tables - a d6 Danger table counting down from 6 with each failed Difficulty
         roll, entry 6 the place noticing and entry 1 the place acting; and a d6 table of
         rooms for anywhere a party goes that no location keys - what the room is, and

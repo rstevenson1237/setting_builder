@@ -8,8 +8,8 @@ Consult when running this check:
 - `patterns/SPEC.md` - the standard every pattern file's shape is tested against.
 - `GENRE.md` and `STYLE.md` - the standards a pattern's content is measured against; `STYLE.md` outranks every pattern.
 - every file in `patterns/`.
-- `templates/Location.md` (and any other template that consumes a pattern) - to see how a pattern's output actually lands on the page.
-- `python3 tools/context.py 4c CODE` over a sample of locations - at least one per class file - to see what a class file's rates and draws actually resolve to.
+- `templates/region/Location.md` (and any other template that consumes a pattern) - to see how a pattern's output actually lands on the page.
+- where a build exists, the table files of a sample of regions - at least one per rating - to see what a class file's rates and draws actually allocated.
 - where a build exists, this pass's `setting/checks/SettingJudgementCheck.md`: run this check after it, and start from its findings traced to a pattern, which are this pass's best evidence.
 - `BRIEF.md`, and the user's requests in the session or pull request that asked for this pass - for the unhoused-content item.
 
@@ -22,7 +22,7 @@ Across the library:
   Where two share a boundary (`Hazard.md` and `Mystery.md`; a Secret location's access
   triple and its inner one), is the distinction stated where a generator will see it?
 - **The three tiers are supplied, and each drawing class states its own triple** - per
-  `templates/Location.md`'s three tiers, does each class file draw something obvious,
+  `templates/region/Location.md`'s three tiers, does each class file draw something obvious,
   something at the trigger tier, and - at its own rate - a concealed detail whose Clue,
   Trigger and Payload that file states itself?
 - **Rates compound sensibly** - read the sampled resolutions together: a per-exit rate

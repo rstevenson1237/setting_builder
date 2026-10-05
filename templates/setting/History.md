@@ -14,7 +14,7 @@ Read first:
 By default the file is created empty - its header line and nothing else - and events
 are added only where a later step needs one to account for something it wrote. Where
 `BRIEF.md` or the user's prompt asks for a history, list 3-7 events, each following
-`patterns/setting/History.md`'s Spec, in order from oldest to newest, and the collection
+`patterns/setting/History.md`'s Spec, in order from oldest to newest, one record each, and the collection
 as a whole holds this shape:
 
 ```
@@ -30,6 +30,10 @@ HISTORY - 3-7 events
 ```
 History of [Setting Name]
 
-[x] years ago - [What happened, in one or two sentences]
-Left: [the physical thing findable now] - [Location Code(s), or `[pending 4d]` before locations exist]
+### [A short name for the event]
+When: [x years ago]
+Kind: [Kind]
+Event: [what happened, in one or two sentences]
+Left: [the physical thing findable now]
+Codes: [Location Code(s); left empty until locations exist]
 ```

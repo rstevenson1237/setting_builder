@@ -10,10 +10,10 @@ used is distinct from a quest, which is asked before it is fulfilled.
 ```
 KEY ENTRY
   1     Form                                                              {FORM}
-  1     Exactly what it unlocks - a specific feature at a specific location
-  1     Where it is found, by location
-  1     Why the two are apart                                             {APART}
-  1     What connects it to its lock, where the connection is not obvious - itself a
+  1     Unlocks - exactly what it unlocks: a specific feature at a specific location
+  1     Found at - where it is found, by location
+  1     Apart - why the two are apart                                     {APART}
+  1     Connection - what connects it to its lock, where the connection is not obvious - itself a
         discoverable secret                                          {CONNECTION}
 ```
 

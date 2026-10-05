@@ -8,13 +8,13 @@ find is a table roll instead is its location rating's own `Treasure.md`.
 
 ```
 UNIQUE TREASURE ENTRY
-  1     A name, per GENRE.md's Naming answer
-  1     What it does, stated plainly enough to adjudicate                    {DOES}
-  1     What it costs, at what GENRE.md's Magic level says power costs      {COST}
-  1     Where it came from - an entry in setting/History.md, setting/Truths.md,
+  1     Name - per GENRE.md's Naming answer
+  1     Does - stated plainly enough to adjudicate                           {DOES}
+  1     Cost - at what GENRE.md's Magic level says power costs              {COST}
+  1     Origin - where it came from: an entry in setting/History.md, setting/Truths.md,
         setting/Factions.md or setting/NamedCreatures.md that accounts for it
                                                                           {ORIGIN}
-  1     The location it is found at
+  1     Found at - the location it is found at
 ```
 
 ```

@@ -9,16 +9,16 @@ Which creature fits a DANGEROUS location, how it is here, and at what scale. Sca
 
 ```
 CREATURE
-  1     Bestiary entry, or an inline description where none fits
+  1     Entry - a setting/Bestiary.md entry, or an inline description where none fits
   1     Shape - how it is here, read off what reaches the party before the species
         does, and off what the Bestiary entry says it does                   {SHAPE}
   1     Number - how many, which the shape has largely already answered; for a swarm,
         what it covers, how fast it spreads, or how long it takes to pass
-  1     Scale, against what GENRE.md's Lethality and Player characters answers say the
-        party can survive - never against the region die                    {SCALE}
+  1     Scale - against what GENRE.md's Lethality and Player characters answers say the
+        party can survive, never against the region die                     {SCALE}
   1     Demeanour - one word for how it carries itself before a fight starts or
         doesn't, for its citation
-  25%   A Named Creature, at high weight
+  25%   Named - a Named Creature, at high weight
 ```
 
 ```

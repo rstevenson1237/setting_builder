@@ -29,6 +29,7 @@ file is otherwise asked for; it is the place such a decision is written down.
 ```
 Truths of [Setting Name]
 
-- **[The truth, in one sentence - the rule, not the mood]**
-  Handle: [what a party does about it, in the specific] - [Location Code(s), or `[pending 4d]` before locations exist]
+| Truth | Kind | Handle | Codes |
+|---|---|---|---|
+| [the rule, in one sentence - the rule, not the mood] | [Kind] | [what a party does about it, in the specific] | [Location Code(s); left empty until locations exist] |
 ```

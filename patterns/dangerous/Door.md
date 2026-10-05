@@ -1,28 +1,30 @@
 # Dangerous - Door
 
 ## Provides
-What an exit physically is: its kind, what stands in the opening, where it sits, and where
-it goes. Which locations connect, and by what kind of edge, is the block diagram's; the
-Exits line syntax and units are `templates/Location.md`'s.
+What an exit physically is: its kind, what stands in the opening, and where it sits at each
+end. Which locations connect, and by what kind of edge, is the block diagram's; the
+Exits line syntax and units are `templates/region/Location.md`'s.
 
 ## Spec
 
 ```
 DOOR - every exit
-  1     Kind, read off the edge the block diagram already drew - never chosen here, and
+  1     Kind - read off the edge the block diagram already drew, never chosen here, and
         made visible by what a party sees rather than by the word
                                          {open | one-way | secret | vertical}
-  1     What stands in the opening                                         {OPENING}
-  1     Its material, its construction and its condition - named by its parts, as facts
-        a party could test by hand
-  1     Position - which wall, corner, or direction it opens from, given by the part a
-        thing sits on rather than by left and right
-  1     Where it goes - the location code, or plain terms for an exit leaving the map
-  40%   A gate on passage, stated as what opens it, on the exit line itself    {GATE}
-  1     Where warded: what the ward refuses, and what forcing it costs
+  1     Opening - what stands in the opening                               {OPENING}
+  1     Material - named by its parts, as a fact a party could test by hand
+  1     Make - how it was constructed
+  1     Wear - its condition
+  1     Position from - which wall, corner, or direction it opens from at this end,
+        given by the part a thing sits on rather than by left and right
+  1     Position to - the same, at the far end
+  40%   Gate - a gate on passage, written on the exit line itself           {GATE}
+  1     Opens with - where gated: what opens it
+  1     Ward - where warded: what the ward refuses, and what forcing it costs
                         (dangerous/Mystery.md)
-  15%   Where a gate was drawn, something set on the way through as well - mechanism
-        fixed to trap   (dangerous/Hazard.md, dangerous/Trap.md)
+  15%   Gate trap - where a gate was drawn, something set on the way through as well -
+        mechanism fixed to trap   (dangerous/Hazard.md, dangerous/Trap.md)
 ```
 
 ```
@@ -47,7 +49,7 @@ GATE - exactly one
   stuck        - held by the building rather than by anyone: opened by time, force or a
                  tool, never an answer, and owing setting/Keys.md no row
   fitted       - wanting a fitted object the party does not have: a key, owing a
-                 setting/Keys.md row per dangerous/Key.md's demand end
+                 setting/Keys.md row and a lock, per dangerous/Lock.md
   weight       - wanting weight, power or numbers
   warded       - sorcery, with a maker in setting/History.md
 ```

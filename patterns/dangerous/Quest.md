@@ -8,17 +8,17 @@ wants. What earns a Quests row is `patterns/setting/Quests.md`'s.
 
 ```
 QUEST - target end
-  1     What this location can supply that someone elsewhere wants
+  1     Supplies - what this location can supply that someone elsewhere wants
                         {a substance | a body, or proof of one | an object |
                          a name or word recorded nowhere else | a person |
                          a confirmation that something is true}
-  1     What stands in the way of taking it
+  1     Obstacle - what stands in the way of taking it
                         {it lives | it is guarded | taking it breaks it |
                          taking it is noticed | someone else is already here for it}
-  1     A stub row in setting/Quests.md naming this location as target, whether or not
-        a giver exists yet
-  30%   Evidence that someone has already tried and failed - what they left behind,
-        still findable
+  1     Quests row - a stub row in setting/Quests.md naming this location as target,
+        whether or not a giver exists yet
+  30%   Tried - evidence that someone has already tried and failed: what they left
+        behind, still findable
 ```
 
 ## Constraints

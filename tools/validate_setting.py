@@ -28,6 +28,10 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(ROOT / "tools"))
+
+import site_common as sc  # noqa: E402  - the two generic readers live there
+
 SETTING = ROOT / "setting"
 PATTERNS = ROOT / "patterns"
 STEPS_MD = ROOT / "STEPS.md"
@@ -279,7 +283,7 @@ def spec_edges(text: str, rel: str):
 # Reachability is what this buys: a pattern file no generation template can
 # reach is never read, so the content it describes is never generated. That
 # is silent under-generation rather than a malformed file, so it warns here
-# and is judged at STEPS.md step 5b, per templates/Pattern_Judgement_Check.md.
+# and is judged at STEPS.md step 5b, per templates/checks/Pattern_Judgement_Check.md.
 #
 # A phase-5 template is a review pass, and the pattern files it names are
 # examples of what to review rather than inputs to a generation. They are
@@ -288,7 +292,9 @@ def spec_edges(text: str, rel: str):
 # ---------------------------------------------------------------------------
 
 TEMPLATES = ROOT / "templates"
-TEMPLATE_CITE_RE = re.compile(r'\btemplates/([A-Za-z_]+\.(?:md|mmd))\b')
+# A template is cited by its path under templates/, folder included
+# (templates/region/Location.md), mirroring the folders of patterns/.
+TEMPLATE_CITE_RE = re.compile(r'\btemplates/((?:[a-z]+/)?[A-Za-z_]+\.(?:md|mmd))\b')
 # A template's pattern citations are always fully qualified - "patterns/" plus
 # folder plus file. The elided form ("patterns/region/Safe.md, Wild.md") reads
 # fine but hides an edge, so the graph requires the long form and the orphan
@@ -494,44 +500,35 @@ def check_repeated_prose(diag: Diagnostics):
 REGION_RE = re.compile(r'^([A-Z]+) (.+?) - (SAFE|WILD|DANGEROUS), (d\d+)\s*$')
 
 
+REGION_COLUMNS = ["Code", "Name", "Gloss", "Rating", "Die", "Tag line"]
+RATINGS = {"SAFE", "WILD", "DANGEROUS"}
+
+
 def parse_regions(diag: Diagnostics):
     path = SETTING / "region" / "Regions.md"
     if not path.exists():
         diag.warn(path, "missing - not built yet")
         return {}
-    lines = path.read_text().splitlines()
+    tables = sc.read_tables(path)
+    if not tables:
+        diag.error(path, "holds no table - templates/region/Region_Gazetteer.md writes one pipe table")
+        return {}
+    t = tables[0]
+    missing = [c for c in REGION_COLUMNS if c not in t.header]
+    if missing:
+        diag.error(path, f"table lacks column(s) {', '.join(missing)}")
     regions: dict[str, dict] = {}
     order: list[str] = []
-    i, n = 0, len(lines)
-    while i < n and not lines[i].strip():
-        i += 1
-    if i < n and lines[i].strip().lower().startswith("regional gazetteer"):
-        i += 1
-    while i < n:
-        line = lines[i].strip()
-        if not line:
-            i += 1
-            continue
-        m = REGION_RE.match(line)
-        if not m:
-            diag.error(path, f"line {i + 1}: expected a region header line (Code Name - RATING, dN), got {line!r}")
-            i += 1
-            continue
-        code, name, rating, die = m.groups()
+    for d, line in zip(t.dicts(), t.lines):
+        code, rating, die = d.get("Code", ""), d.get("Rating", ""), d.get("Die", "")
         if code in regions:
-            diag.error(path, f"line {i + 1}: duplicate region code {code}")
-        regions[code] = {"name": name.strip(), "rating": rating, "die": die}
+            diag.error(path, f"line {line}: duplicate region code {code}")
+        if rating not in RATINGS:
+            diag.error(path, f"line {line}: region {code} has rating {rating!r} - expected SAFE, WILD or DANGEROUS")
+        if die and not re.fullmatch(r"d\d+", die):
+            diag.error(path, f"line {line}: region {code} has die {die!r} - expected dN")
+        regions[code] = {"name": d.get("Name", ""), "rating": rating, "die": die}
         order.append(code)
-        i += 1
-        if i < n and lines[i].strip().lower().startswith("tags:"):
-            diag.error(path, f"region {code}: carries a 'Tags:' line - tag pools are retired, "
-                             f"and the entry's own line is its tag line")
-            i += 1
-        if i < n and lines[i].strip() and not REGION_RE.match(lines[i].strip()):
-            i += 1  # the tag line; presence is enough
-        else:
-            diag.error(path, f"region {code}: missing its tag line")
-
     expected = [index_to_code(idx) for idx in range(len(order))]
     if order != expected:
         diag.error(path, f"region codes not a plain A-Z progression: found {order}, expected {expected}")
@@ -594,51 +591,53 @@ def check_top_connections(diag: Diagnostics, regions: dict):
 # Per-region Locations.md + Connections.mmd
 # ---------------------------------------------------------------------------
 
-LOC_GAZ_RE = re.compile(r'^([A-Z]+)\.(\d+) (.+?)(?: \((low|medium|high|landmark|hidden|secret)\))? - \*(.+)\*\s*$')
-
 DANGEROUS_WEIGHTS = {"low", "medium", "high"}
 WILD_CLASSIFICATIONS = {"landmark", "hidden", "secret"}
+SAFE_PROMINENCES = {"liner note", "working", "central"}
 
 
 def check_weight_tag(diag: Diagnostics, path, lineno_or_none, rating: str, code: str, weight):
+    """An empty Weight is a stub owed to its step, reported with every other stub."""
     label = f"line {lineno_or_none}: " if lineno_or_none is not None else ""
-    if rating == "DANGEROUS":
-        if not weight:
-            diag.error(path, f"{label}DANGEROUS region location {code} is missing a (low/medium/high) weight")
-        elif weight not in DANGEROUS_WEIGHTS:
-            diag.error(path, f"{label}DANGEROUS region location {code} has {weight!r}, but DANGEROUS regions use low/medium/high")
-    elif rating == "WILD":
-        if not weight:
-            diag.error(path, f"{label}WILD region location {code} is missing a (landmark/hidden/secret) classification")
-        elif weight not in WILD_CLASSIFICATIONS:
-            diag.error(path, f"{label}WILD region location {code} has {weight!r}, but WILD regions use landmark/hidden/secret")
-    elif weight:
-        diag.error(path, f"{label}{rating} region location {code} should not carry a weight/classification tag")
+    allowed = {"DANGEROUS": DANGEROUS_WEIGHTS, "WILD": WILD_CLASSIFICATIONS,
+               "SAFE": SAFE_PROMINENCES}.get(rating, set())
+    if weight and weight not in allowed:
+        diag.error(path, f"{label}{rating} region location {code} has weight {weight!r} - "
+                         f"{rating} uses {', '.join(sorted(allowed))}")
+
+
+LOCATION_COLUMNS = ["Code", "Name", "Tags", "Weight"]
 
 
 def parse_locations_gazetteer(diag: Diagnostics, region_code: str, rating: str, path: Path):
     if not path.exists():
         diag.warn(path, "missing Locations.md - not built yet")
         return {}
-    lines = path.read_text().splitlines()
+    t = sc.table_named(path, "Location")
+    if t is None:
+        diag.error(path, "has no '## Location' table - its first table is the gazetteer")
+        return {}
+    missing = [c for c in LOCATION_COLUMNS if c not in t.header]
+    if missing:
+        diag.error(path, f"'## Location' lacks column(s) {', '.join(missing)}")
     locs: dict[int, dict] = {}
     order: list[int] = []
-    for lineno, raw in enumerate(lines, 1):
-        s = raw.strip()
-        if not s or s.lower().startswith("locations of"):
-            continue
-        m = LOC_GAZ_RE.match(s)
+    for d, lineno in zip(t.dicts(), t.lines):
+        m = re.fullmatch(r"([A-Z]+)\.(\d+)", d.get("Code", "").strip())
         if not m:
-            diag.error(path, f"line {lineno}: does not match Location_Gazetteer.md format: {s!r}")
+            diag.error(path, f"line {lineno}: Code {d.get('Code', '')!r} is not a location code")
             continue
-        rcode, num_s, name, weight, tags = m.groups()
-        num = int(num_s)
+        rcode, num = m.group(1), int(m.group(2))
         if rcode != region_code:
             diag.error(path, f"line {lineno}: entry code {rcode} does not match region folder {region_code}")
+        weight = d.get("Weight", "").strip() or None
         check_weight_tag(diag, path, lineno, rating, f"{rcode}.{num}", weight)
         if num in locs:
             diag.error(path, f"line {lineno}: duplicate location number {num}")
-        locs[num] = {"name": name.strip(), "weight": weight, "tags": tags.strip()}
+        tags = d.get("Tags", "").strip()
+        if tags and len([x for x in tags.split(",") if x.strip()]) != 3:
+            diag.warn(path, f"line {lineno}: {rcode}.{num} carries {tags!r} - expected exactly three tags")
+        locs[num] = {"name": d.get("Name", "").strip(), "weight": weight, "tags": tags}
         order.append(num)
     expected = list(range(1, len(order) + 1))
     if sorted(order) != expected:
@@ -684,7 +683,7 @@ ROMAN_TABLES = {"I", "II", "III", "IV", "V"}
 
 
 # ---------------------------------------------------------------------------
-# The Feature grammar - templates/Location.md instruction 5
+# The Feature grammar - templates/region/Location.md instruction 5
 #
 # A Feature is one sentence whose only separators are "," and "->". The banned
 # punctuation is the whole point: a dash, a semicolon or a second sentence is
@@ -777,7 +776,7 @@ def check_summary_promises(diag: Diagnostics, path: Path, summary: str, lines: l
                         f"what the room contains, and the referee improvises an unkept one")
 
 
-# templates/Location.md instruction 2 - the sheet is raw material, the entry a
+# templates/region/Location.md instruction 2 - the sheet is raw material, the entry a
 # few sentences. Warned rather than errored: length is judged, not parsed.
 FEATURE_MAX_WORDS = 30
 NOTES_MAX_SENTENCES = 3
@@ -787,14 +786,14 @@ def check_feature_grammar(diag: Diagnostics, path: Path, label: str, body: str):
     words = len(CITATION_RE.sub("", body).split())
     if words > FEATURE_MAX_WORDS:
         diag.warn(path, f"Feature '{label}' runs {words} words before its citation - "
-                        f"templates/Location.md instruction 2 allows {FEATURE_MAX_WORDS}")
+                        f"templates/region/Location.md instruction 2 allows {FEATURE_MAX_WORDS}")
     last = None
     for m in CITATION_RE.finditer(body):
         last = m
     if last and body[last.end():].strip(" ."):
         diag.error(path, f"Feature '{label}' carries prose after its citation "
                          f"{last.group(0).strip()!r} - per instruction 5 of "
-                         f"templates/Location.md a citation sits last")
+                         f"templates/region/Location.md a citation sits last")
 
     stripped = CITATION_RE.sub("", body).strip()
     sep = BANNED_SEP_RE.search(stripped)
@@ -803,7 +802,7 @@ def check_feature_grammar(diag: Diagnostics, path: Path, label: str, body: str):
         what = ("a second sentence" if found.startswith(".")
                 else f"{found.strip()!r}")
         diag.error(path, f"Feature '{label}' uses {what} - per instruction 5 of "
-                         f"templates/Location.md a Feature is one sentence separated "
+                         f"templates/region/Location.md a Feature is one sentence separated "
                          f"only by ',' and '->'")
         return
     if stripped and not body.rstrip().endswith((".", ")")):
@@ -862,7 +861,7 @@ def check_location_file(diag, path, region_code, num, stub, rating, all_location
         diag.error(path, "Referee Notes line is not wrapped in single-asterisk italics")
     sentences = len(re.findall(r'[.!?](?=\s|\*?$)', notes.strip("*").strip()))
     if sentences > NOTES_MAX_SENTENCES:
-        diag.warn(path, f"Referee Notes run {sentences} sentences - templates/Location.md "
+        diag.warn(path, f"Referee Notes run {sentences} sentences - templates/region/Location.md "
                         f"instruction 2 allows {NOTES_MAX_SENTENCES}")
     idx += 1
 
@@ -1088,7 +1087,7 @@ def check_block_connectivity(diag: Diagnostics, blocks: dict):
 
 
 def check_low_shape_mix(diag: Diagnostics, region_code: str, region_locs: dict, edges: list, path):
-    """templates/Block_Connections.mmd's LOW SHAPE MIX, measured on the assembled graph."""
+    """templates/region/Block_Connections.mmd's LOW SHAPE MIX, measured on the assembled graph."""
     lows = {f"{region_code}.{n}" for n, l in region_locs.items() if l.get("weight") == "low"}
     # LOW is the residue of the class mix rather than its largest class, so a
     # normal region now has three or four LOW rooms. The 60% rule still reads at
@@ -1124,7 +1123,7 @@ def check_low_shape_mix(diag: Diagnostics, region_code: str, region_locs: dict, 
 
 def check_region_edge_realization(diag: Diagnostics, top_path, top_edges: list,
                                   all_loc_edges: list, all_locations: dict):
-    """Both directions of the claim templates/Connections.mmd makes at 3b."""
+    """Both directions of the claim templates/region/Connections.mmd makes at 3b."""
     crossings = set()
     for a, _typ, _l, b in all_loc_edges:
         ra = all_locations.get(a, {}).get("region")
@@ -1146,11 +1145,11 @@ def check_region_edge_realization(diag: Diagnostics, top_path, top_edges: list,
 # ---------------------------------------------------------------------------
 
 REGISTRY_KINDS = [
-    ("Lore", SETTING / "Lore.md", "found at"),
-    ("Keys", SETTING / "Keys.md", "found at"),
-    ("Quest", SETTING / "Quests.md", "given at"),
-    ("NamedCreature", SETTING / "NamedCreatures.md", "appears at"),
-    ("UniqueTreasure", SETTING / "UniqueTreasures.md", "found at"),
+    ("Lore", SETTING / "Lore.md", "lore"),
+    ("Keys", SETTING / "Keys.md", "keys"),
+    ("Quest", SETTING / "Quests.md", "quests"),
+    ("NamedCreature", SETTING / "NamedCreatures.md", "named_creatures"),
+    ("UniqueTreasure", SETTING / "UniqueTreasures.md", "unique_treasures"),
 ]
 
 # A Quest is two-ended by definition: a giver location and a target location.
@@ -1158,28 +1157,21 @@ REGISTRY_KINDS = [
 TWO_ENDED_KINDS = {"Quest"}
 
 
-def parse_registry(diag: Diagnostics, kind: str, path: Path, marker: str, all_locations: dict):
+def parse_registry(diag: Diagnostics, kind: str, path: Path, sc_kind: str, all_locations: dict):
     if not path.exists():
         diag.warn(path, "missing - not built yet")
         return {}
     entries: dict[str, set] = {}
-    full_marker = f" - {marker} "
-    for lineno, raw in enumerate(path.read_text().splitlines(), 1):
-        s = raw.strip()
-        if not s or full_marker not in s:
-            continue
-        head, rest = s.split(full_marker, 1)
-        if kind == "NamedCreature":
-            title = head.split(" (")[0].strip()
-        else:
-            title = re.sub(r"\s*\(.*?\)\s*$", "", head).strip()
-        codes = set(re.findall(r"[A-Z]+\.\d+", rest))
-        if not codes:
-            diag.error(path, f"line {lineno}: no location code found after '{marker}'")
-        for c in codes:
+    places = sc.REGISTRY_PLACES[sc_kind]
+    for title, fields, lineno in sc.registry_entries(sc_kind):
+        codes = set()
+        for k, v in fields:
+            if k in places:
+                codes |= set(sc.LOC_CODE_TOKEN_RE.findall(v))
+        for c in sorted(codes):
             if c not in all_locations:
                 diag.error(path, f"line {lineno}: references unknown location code {c}")
-        if kind in TWO_ENDED_KINDS and len(codes) < 2:
+        if kind in TWO_ENDED_KINDS and len(codes) == 1:
             diag.warn(path, f"line {lineno}: {title!r} names only one location - a Quest is two-ended "
                             f"(a giver and a target), so confirm this is deliberate")
         if title in entries:
@@ -1189,17 +1181,15 @@ def parse_registry(diag: Diagnostics, kind: str, path: Path, marker: str, all_lo
 
 
 def check_key_obligations(diag: Diagnostics, path: Path, registry: dict, build_complete: bool):
-    """A Keys row names where the key is found and where it opens. The second is the
-    obligation; unconsumed at the close of 4c it is a dangling thread by definition."""
+    """A Keys row names where the key is found and where it opens. Until the build is
+    complete an empty Opens cell is a stub like any other; after it, it is a dangling
+    thread that will never be honoured."""
+    if not build_complete:
+        return
     for title, codes in sorted(registry.items()):
-        if len(codes) >= 2:
-            continue
-        msg = (f"key {title!r} names only where it is found - the location it opens is the "
-               f"obligation, and nothing draws a lock without it")
-        if build_complete:
-            diag.error(path, msg + " (every location is written, so this will never be honoured)")
-        else:
-            diag.warn(path, msg)
+        if len(codes) < 2:
+            diag.error(path, f"key {title!r} names only where it is found - every location is "
+                             f"written, so the lock it owes will never be drawn")
 
 
 def cross_check_registry(diag: Diagnostics, kind: str, path: Path, registry: dict, cited: dict):
@@ -1213,6 +1203,204 @@ def cross_check_registry(diag: Diagnostics, kind: str, path: Path, registry: dic
     for title in registry:
         if title not in cited:
             diag.warn(path, f"stub '{title}' has no citing Feature found in any location file")
+
+
+# ---------------------------------------------------------------------------
+# Table and record files - the to-do list
+#
+# Every table-like file is a pipe table or a record file (patterns/SPEC.md's How
+# a Spec becomes tables), so one pair of checks covers all of them. A malformed
+# row or an unknown reference is an error. A stub - an empty cell, or a record
+# missing a field its template writes - is the build's own to-do list, so it is
+# a warning naming the step the gap is owed to.
+# ---------------------------------------------------------------------------
+
+TEMPLATES_DIR = ROOT / "templates"
+REGION_TABLE_FILES = ("Locations.md", "Exits.md", "Challenges.md", "Treasures.md", "Links.md")
+# Columns whose cells name locations, and columns whose cells name rows by id.
+LOCATION_REF_COLUMNS = {"Code", "Location", "From", "To", "Parent", "Foreshadows",
+                        "Sends to", "Seen at", "Opens", "Target"}
+ROW_REF_COLUMNS = {"Who", "Guard", "Set on", "Ward", "Gate trap", "Payload row", "On",
+                   "Contents row"}
+ROW_ID_RE = re.compile(r"\b[A-Z]{1,3}\d+\b")
+# The setting-level files and the step each one's gaps are owed to; the template that
+# writes each is named so a record's expected fields can be read from it.
+SETTING_TABLE_FILES = {
+    "Keys.md": ("setting/Keys.md", "4h"),
+    "Quests.md": ("setting/Quests.md", "4h"),
+    "Truths.md": ("setting/Truths.md", "5c"),
+}
+SETTING_RECORD_FILES = {
+    "Bestiary.md": ("setting/Bestiary.md", "2e"),
+    "Factions.md": ("setting/Factions.md", "2f"),
+    "History.md": ("setting/History.md", "5c"),
+    "Lore.md": ("setting/Lore.md", "4h"),
+    "NamedCreatures.md": ("setting/NamedCreatures.md", "4h"),
+    "UniqueTreasures.md": ("setting/UniqueTreasures.md", "4h"),
+}
+
+
+def template_block(rel: str) -> str:
+    path = TEMPLATES_DIR / rel
+    if not path.exists():
+        return ""
+    text = path.read_text()
+    i = text.find("## Template")
+    m = re.search(r"```[^\n]*\n(.*?)```", text[i:], re.S) if i >= 0 else None
+    return m.group(1) if m else ""
+
+
+def template_header(rel: str) -> list[str]:
+    for line in template_block(rel).splitlines():
+        if line.strip().startswith("|"):
+            return sc.split_row(line)
+    return []
+
+
+def template_fields(rel: str) -> list[str]:
+    out = []
+    for line in template_block(rel).splitlines():
+        m = re.match(r"^([A-Z][A-Za-z' ]{0,30}):\s", line.strip())
+        if m and m.group(1) not in out:
+            out.append(m.group(1))
+    return out
+
+
+def region_owed_step(fname: str, table: str, column: str) -> str:
+    """Per STEPS.md phase 4: weights at 4b, table passes at 4f, naming at 4g,
+    connected rows at 4h, compile's Realized trace at 4i."""
+    if column == "Realized":
+        return "4i"
+    if fname == "Locations.md":
+        if column == "Weight":
+            return "4b"
+        if column == "Block":
+            return "4c"
+        if table == "Naming":
+            return "4g"
+        return "4f"
+    return {"Exits.md": "4h", "Links.md": "4h"}.get(fname, "4f")
+
+
+def compiled(row: dict) -> bool:
+    """Whether the location a row belongs to has its file yet - until it does, an
+    empty Realized cell is not owed, since compile is what fills it."""
+    for col in ("Location", "Code", "From"):
+        m = re.fullmatch(r"([A-Z]+)\.(\d+)", row.get(col, "").strip())
+        if m:
+            return (SETTING / "region" / m.group(1) / f"{m.group(2)}.md").exists()
+    return False
+
+
+def table_stubs(path: Path, tables, owed) -> list[tuple[str, Path, int, str]]:
+    out = []
+    for t in tables:
+        for row, line in zip(t.rows, t.lines):
+            empty = [h for h, c in zip(t.header, row) if not c.strip()]
+            empty += t.header[len(row):]
+            if "Realized" in empty and not compiled(dict(zip(t.header, row))):
+                empty.remove("Realized")
+            if not empty:
+                continue
+            key = row[0] if row else "?"
+            by_step: dict[str, list] = {}
+            for col in empty:
+                by_step.setdefault(owed(t.name, col), []).append(col)
+            for step, cols in sorted(by_step.items()):
+                where = f"{t.name} " if t.name else ""
+                out.append((step, path, line, f"{where}{key}: {', '.join(cols)}"))
+    return out
+
+
+def check_table_shape(diag: Diagnostics, path: Path, tables):
+    for t in tables:
+        seen: set = set()
+        for row, line in zip(t.rows, t.lines):
+            if len(row) != len(t.header):
+                diag.error(path, f"line {line}: {len(row)} cells under a {len(t.header)}-column "
+                                 f"header{f' ({t.name})' if t.name else ''}")
+            if "ID" in t.header:
+                rid = row[t.header.index("ID")] if len(row) > t.header.index("ID") else ""
+                if rid and rid in seen:
+                    diag.error(path, f"line {line}: duplicate ID {rid} in {t.name or 'its table'}")
+                seen.add(rid)
+
+
+def collect_stubs(region_locs: dict) -> list[tuple[str, Path, int, str]]:
+    """Every stub in the setting, as (owed step, file, line, what is missing)."""
+    stubs = []
+    for fname, (tmpl, step) in SETTING_TABLE_FILES.items():
+        path = SETTING / fname
+        if path.exists():
+            stubs += table_stubs(path, sc.read_tables(path), lambda _t, _c, s=step: s)
+    for fname, (tmpl, step) in SETTING_RECORD_FILES.items():
+        path = SETTING / fname
+        if not path.exists():
+            continue
+        fields = template_fields(tmpl)
+        for r in sc.read_records(path):
+            have = {k for k, v in r.fields if v.strip()}
+            missing = [f for f in fields if f not in have]
+            if missing:
+                stubs.append((step, path, r.line, f"{r.name}: {', '.join(missing)}"))
+    for region_code in region_locs:
+        rdir = SETTING / "region" / region_code
+        for fname in REGION_TABLE_FILES:
+            path = rdir / fname
+            if path.exists():
+                stubs += table_stubs(path, sc.read_tables(path),
+                                     lambda t, c, f=fname: region_owed_step(f, t, c))
+    return stubs
+
+
+def check_tables(diag: Diagnostics, region_locs: dict, all_locations: dict):
+    for fname, (tmpl, _step) in SETTING_TABLE_FILES.items():
+        path = SETTING / fname
+        if not path.exists():
+            continue
+        tables = sc.read_tables(path)
+        check_table_shape(diag, path, tables)
+        want = template_header(tmpl)
+        if tables and want and tables[0].header != want:
+            diag.error(path, f"columns {tables[0].header} differ from templates/{tmpl}'s {want}")
+    for fname, (tmpl, _step) in SETTING_RECORD_FILES.items():
+        path = SETTING / fname
+        if not path.exists():
+            continue
+        fields = set(template_fields(tmpl))
+        for r in sc.read_records(path):
+            for k in r.labels():
+                if fields and k not in fields:
+                    diag.error(path, f"line {r.line}: {r.name} carries field {k!r}, which "
+                                     f"templates/{tmpl} does not write")
+    for region_code in region_locs:
+        rdir = SETTING / "region" / region_code
+        for path in sorted(rdir.glob("*.md")):
+            if path.stem.isdigit():
+                continue
+            if path.name not in REGION_TABLE_FILES:
+                diag.error(path, f"is neither a location file nor one of the region's table "
+                                 f"files ({', '.join(REGION_TABLE_FILES)})")
+        files = {f: sc.read_tables(rdir / f) for f in REGION_TABLE_FILES if (rdir / f).exists()}
+        ids = {row[t.header.index("ID")] for ts in files.values() for t in ts if "ID" in t.header
+               for row in t.rows if len(row) > t.header.index("ID")}
+        for fname, tables in files.items():
+            path = rdir / fname
+            check_table_shape(diag, path, tables)
+            for t in tables:
+                for d, line in zip(t.dicts(), t.lines):
+                    for col, val in d.items():
+                        if col in LOCATION_REF_COLUMNS:
+                            for c in sc.LOC_CODE_TOKEN_RE.findall(val):
+                                if c not in all_locations:
+                                    diag.error(path, f"line {line}: {col} names unknown location {c}")
+                        if col in ROW_REF_COLUMNS:
+                            for rid in ROW_ID_RE.findall(val):
+                                if rid not in ids:
+                                    diag.error(path, f"line {line}: {col} names row {rid}, which "
+                                                     f"no table in this region holds")
+    for step, path, line, what in collect_stubs(region_locs):
+        diag.warn(path, f"line {line}: stub owed to step {step} - {what}")
 
 
 # ---------------------------------------------------------------------------
@@ -1240,7 +1428,7 @@ def check_rumours(diag: Diagnostics):
     rownums = [int(x) for x in re.findall(r"^\|\s*(\d+)\s*\|", text, re.M)]
     if rownums != list(range(1, 21)):
         diag.error(path, f"expected 20 rows numbered 1-20, found {rownums}")
-    # templates/Rumours.md puts Settled at after the mark, so T/P/F is no longer
+    # templates/setting/Rumours.md puts Settled at after the mark, so T/P/F is no longer
     # the last cell - match it as its own cell wherever it sits in the row.
     tpf = [l for l in text.splitlines()
            if re.match(r"^\|\s*\d+\s*\|", l) and re.search(r"\|\s*[TPFU]\s*\|", l)]
@@ -1260,27 +1448,26 @@ def bestiary_types() -> set[str]:
     items = spec_blocks(path.read_text()).get("TYPE", [])
     return {ln.split(" - ")[0].strip().lower() for ln in items if ln.strip()}
 
-# "[Name] (Type) - AD: Xd6+N [MA: Y]" per templates/Bestiary.md. The bonus and
-# the MA bracket are optional in the pattern so a partially-written file still
-# parses; both are reported as findings rather than as parse failures.
-STATBLOCK_RE = re.compile(
-    r"^(?P<name>.+?)\s*\((?P<type>[^)]+)\)\s*-\s*AD:\s*(?P<ad>\d+)d6\s*(?P<mod>[+-]\s*\d+)?"
-    r"(?:\s*\[MA:\s*(?P<ma>\d+)\s*\])?",
-    re.M,
-)
+# A stat line's AD field is "Xd6+N" per patterns/setting/Bestiary.md; its Type and MA
+# are fields of their own. The bonus and MA are optional here so a partially written
+# file still parses; both are reported as findings rather than as parse failures.
+AD_RE = re.compile(r"^(?P<ad>\d+)d6\s*(?P<mod>[+-]\s*\d+)?$")
 
 
-def parse_statblocks(text: str):
-    """Every creature header line in a Bestiary or NamedCreatures file."""
+def parse_statblocks(path: Path):
+    """Every creature record in a Bestiary or NamedCreatures file."""
     out = []
-    for m in STATBLOCK_RE.finditer(text):
-        mod = m.group("mod")
+    for r in sc.read_records(path):
+        ad_raw = r.get("AD").strip()
+        m = AD_RE.match(ad_raw)
+        ma = r.get("MA").strip()
+        mod = m.group("mod") if m else None
         out.append({
-            "name": m.group("name").strip().lstrip("-").strip(),
-            "type": m.group("type").strip(),
-            "ad": int(m.group("ad")),
+            "name": r.name, "type": r.get("Type").strip(), "ad_raw": ad_raw,
+            "ad": int(m.group("ad")) if m else None,
             "mod": int(mod.replace(" ", "")) if mod else None,
-            "ma": int(m.group("ma")) if m.group("ma") else None,
+            "ma": int(ma) if ma.isdigit() else None,
+            "special": "Special" in r.labels(),
         })
     return out
 
@@ -1297,18 +1484,17 @@ def check_statblocks(diag: Diagnostics, path: Path, label: str, expect_special: 
     if not path.exists():
         diag.warn(path, "missing - not built yet")
         return
-    text = path.read_text()
-    blocks = parse_statblocks(text)
-    if not blocks:
-        if text.strip().count("\n") > 1:
-            diag.warn(path, f"no {label} stat lines parsed - expected "
-                            f"'[Name] (Type) - AD: Xd6+N [MA: Y]'")
-        return
-    no_mod = no_ma = no_special = 0
-    entries = [b for b in text.split("\n\n") if b.strip()]
+    blocks = parse_statblocks(path)
     types = bestiary_types()
     for b in blocks:
-        if types and b["type"].lower() not in types:
+        if b["ad_raw"] and b["ad"] is None:
+            diag.error(path, f"{b['name']}: AD {b['ad_raw']!r} is not written Xd6+N")
+    blocks = [b for b in blocks if b["ad"] is not None]
+    if not blocks:
+        return
+    no_mod = no_ma = no_special = 0
+    for b in blocks:
+        if types and b["type"] and b["type"].lower() not in types:
             diag.error(path, f"{b['name']}: type {b['type']!r} is not in "
                              f"patterns/setting/Bestiary.md's TYPE draw")
         if not 1 <= b["ad"] <= 18:
@@ -1321,6 +1507,8 @@ def check_statblocks(diag: Diagnostics, path: Path, label: str, expect_special: 
             no_ma += 1
         elif not 1 <= b["ma"] <= 6:
             diag.error(path, f"{b['name']}: MA {b['ma']} is outside the 1-6 range")
+        if expect_special and b["ad"] >= 4 and not b["special"]:
+            no_special += 1
     n = len(blocks)
     if no_mod:
         diag.warn(path, f"{no_mod}/{n} entries state no modifier - it is written on every "
@@ -1340,36 +1528,28 @@ def check_statblocks(diag: Diagnostics, path: Path, label: str, expect_special: 
     if len(rated) >= 4 and all(b["ma"] == -(-b["ad"] // 4) for b in rated):
         diag.warn(path, "every MA sits exactly on its average - deviation is the "
                         "information the field carries")
-    if expect_special:
-        for entry in entries:
-            m = STATBLOCK_RE.search(entry)
-            if not m:
-                continue
-            ad = int(m.group("ad"))
-            if ad >= 4 and not re.search(r"^Special:", entry, re.M):
-                no_special += 1
-        if no_special:
-            diag.warn(path, f"{no_special} entries at 4+ AD carry no Special: line - a "
-                            f"special ability is expected more often at 4 AD and above, "
-                            f"and several at 8 and above; `none` is a decision, silence "
-                            f"is not")
+    if no_special:
+        diag.warn(path, f"{no_special} entries at 4+ AD carry no Special: line - a "
+                        f"special ability is expected more often at 4 AD and above, "
+                        f"and several at 8 and above; `none` is a decision, silence "
+                        f"is not")
 
 
 # ---------------------------------------------------------------------------
 # setting/region/[Code].md - the Region Overview's field set, per rating
 #
 # The field set is patterns/region/*.md's; the order and the two tables are
-# templates/Region.md's. A field from another rating's set, or one retired, is
+# templates/region/Region.md's. A field from another rating's set, or one retired, is
 # an error because the site renders only the labels it knows and would drop it.
 # ---------------------------------------------------------------------------
 
 REGION_FIELDS = {
     "SAFE": ["Overview", "Approach", "People", "Services", "Law", "Places", "Situation",
-             "Secrets", "Tables"],
+             "Secrets", "Compositions", "Tables"],
     "WILD": ["Overview", "Approach", "Terrain", "Inhabitants", "Places", "Situation",
-             "Loot", "Secrets", "Tables"],
+             "Loot", "Secrets", "Compositions", "Tables"],
     "DANGEROUS": ["Overview", "Approach", "Conditions", "Inhabitants", "Alarm", "Places",
-                  "Situation", "Loot", "Secrets", "Tables"],
+                  "Situation", "Loot", "Secrets", "Compositions", "Tables"],
 }
 REGION_LABEL_RE = re.compile(r'^([A-Z][a-z]+):(?:\s|$)')
 
@@ -1391,7 +1571,7 @@ def check_region_overview(diag: Diagnostics, code: str, rating: str):
         diag.error(path, f"missing field(s): {', '.join(missing)}")
     present = [l for l in labels if l in expected]
     if present != [f for f in expected if f in present]:
-        diag.warn(path, f"fields out of templates/Region.md's order: {', '.join(present)}")
+        diag.warn(path, f"fields out of templates/region/Region.md's order: {', '.join(present)}")
     if "Tables" in labels:
         start = next(i for i, l in enumerate(lines) if l.startswith("Tables:"))
         tables, rows = 0, []
@@ -1407,7 +1587,7 @@ def check_region_overview(diag: Diagnostics, code: str, rating: str):
             rows.append(count)
         if tables != 2:
             diag.error(path, f"Tables holds {tables} table(s) opened by a `d6 ...` line - "
-                             f"templates/Region.md asks for two")
+                             f"templates/region/Region.md asks for two")
         for i, n in enumerate(rows, 1):
             if n != 6:
                 diag.error(path, f"table {i} has {n} rows - a d6 table has six")
@@ -1438,7 +1618,7 @@ def check_repeated_features(diag: Diagnostics, region_code: str):
 
 
 def check_class_mix(diag: Diagnostics, region_code: str, rating: str, locs: dict):
-    """templates/Location_Gazetteer.md's DANGEROUS mix: 30% HIGH, 50% MEDIUM, rest LOW.
+    """templates/dangerous/Locations.md's mix: 30% HIGH, 50% MEDIUM, rest LOW.
 
     A warning, and deliberately loose - the mix is a shape, not an arithmetic
     target, and a region a room either side of it has not failed anything. What
@@ -1458,7 +1638,7 @@ def check_class_mix(diag: Diagnostics, region_code: str, rating: str, locs: dict
         if abs(got - want) > slack:
             diag.warn(SETTING / "region" / region_code,
                       f"region {region_code}: {counts[weight]}/{n} locations are {weight.upper()} "
-                      f"({got:.0%}); templates/Location_Gazetteer.md's default is about {want:.0%}")
+                      f"({got:.0%}); templates/dangerous/Locations.md's default is about {want:.0%}")
     if counts["low"] / n > 0.35:
         diag.warn(SETTING / "region" / region_code,
                   f"region {region_code}: {counts['low']}/{n} locations are LOW "
@@ -1484,7 +1664,7 @@ TREASURE_TELL_RE = re.compile(
 
 
 # A hazard states what it forces in one of three expressions, per
-# setting/Procedures.md and templates/Location.md's Citations section. The
+# setting/Procedures.md and templates/region/Location.md's Citations section. The
 # grammar is fixed, so a malformed one is a format error like any other
 # citation. Which Conditions exist is content and varies per setting, so an
 # unrecognised Condition name only warns - Procedures.md is where a missing one
@@ -1495,7 +1675,7 @@ TREASURE_TELL_RE = re.compile(
 # exits all carry the same trigger arrow - so the only available test would
 # guess from the prose, and a warning that fires on every legitimate secret is
 # a warning nobody reads. A hazard written with no stated cost is caught at
-# STEPS.md step 5, per templates/Setting_Judgement_Check.md.
+# STEPS.md step 5, per templates/checks/Setting_Judgement_Check.md.
 DAMAGE_TYPES = ("Piercing", "Crushing", "Poison", "Fire", "Frost", "Blast")
 ANY_TEST_CITE_RE = re.compile(r'\(Test of [^)]*\)?')
 TEST_CITE_RE = re.compile(r'\(Test of (Constitution|Sanity|Fate),\s*([^()]+)\)')
@@ -1521,7 +1701,7 @@ def check_forced_damage(diag: Diagnostics, path: Path, text: str, conditions):
             m = TEST_CITE_RE.match(cite)
             if not m:
                 diag.error(path, f"{cite!r} is not a forced-damage expression - "
-                                 f"templates/Location.md allows only "
+                                 f"templates/region/Location.md allows only "
                                  f"(Test of Constitution, Xd, Type), (Test of Sanity, Xd), "
                                  f"(Test of Fate, Condition) and (Test of Fate, Impact)")
                 continue
@@ -1596,7 +1776,7 @@ def check_registry_floors(diag: Diagnostics, registries: dict, build_complete: b
 
 
 def check_rumour_settling(diag: Diagnostics, build_complete: bool):
-    """templates/Rumours.md's Settled at column, filled at 5c.
+    """templates/setting/Rumours.md's Settled at column, filled at 5c.
 
     Before the build is complete a pending marker is the correct state, so this
     only reports once every location exists.
@@ -1611,7 +1791,7 @@ def check_rumour_settling(diag: Diagnostics, build_complete: bool):
         return
     if not re.search(r"\|\s*Settled at\s*\|", text, re.I):
         diag.warn(path, "no 'Settled at' column - every rumour records where it is "
-                        "confirmed, denied or corrected, per templates/Rumours.md")
+                        "confirmed, denied or corrected, per templates/setting/Rumours.md")
         return
     if not build_complete:
         return
@@ -1707,7 +1887,7 @@ def is_fresh_start() -> bool:
 
 
 def report_pending(region_filter: str | None) -> int:
-    """Inbound edges owed to blocks not yet written.
+    """Inbound edges owed to blocks not yet written, then every stub by its owed step.
 
     A block's membership is the file its nodes are declared in, so a block that does not
     exist yet owns no locations and cannot be named. What is answerable - and what is
@@ -1748,8 +1928,23 @@ def report_pending(region_filter: str | None) -> int:
         if unplaced:
             print(f"  locations in no block yet: {', '.join(unplaced)}")
         print()
+    region_locs = {rc: parse_locations_gazetteer(Diagnostics(), rc, info["rating"],
+                                                 SETTING / "region" / rc / "Locations.md")
+                   for rc, info in regions.items()}
+    stubs = collect_stubs(region_locs)
+    if region_filter:
+        stubs = [x for x in stubs if (SETTING / "region" / region_filter) in x[1].parents]
+    if stubs:
+        any_out = True
+        print("Stubs, by the step they are owed to:")
+        for step in sorted({x[0] for x in stubs}):
+            print(f"  {step}")
+            for _s, path, line, what in sorted(x for x in stubs if x[0] == step):
+                print(f"    {rel(path)}:{line}  {what}")
+        print()
     if not any_out:
-        print("Nothing pending: every location sits in a block and no edge points outside one.")
+        print("Nothing pending: every location sits in a block, no edge points outside one, "
+              "and no table or record holds a stub.")
     return 0
 
 
@@ -1840,11 +2035,11 @@ def main() -> int:
 
     citations: dict[str, dict] = {kind: {} for kind, _, _ in REGISTRY_KINDS}
 
-    NON_LOCATION_FILES = {"Locations.md"}
     conditions = procedures_conditions()
     for region_code, locs in region_locs.items():
         rdir = SETTING / "region" / region_code
-        existing_files = {p.stem for p in rdir.glob("*.md") if p.name not in NON_LOCATION_FILES}
+        # A location file is numbered; the region's table files sit beside them.
+        existing_files = {p.stem for p in rdir.glob("[0-9]*.md")}
         expected_files = {str(num) for num in locs}
         for missing in sorted(expected_files - existing_files, key=lambda x: int(x)):
             diag.warn(rdir, f"missing location file {missing}.md for gazetteer entry {region_code}.{missing} - not written yet")
@@ -1866,6 +2061,7 @@ def main() -> int:
     for kind, path, _marker in REGISTRY_KINDS:
         cross_check_registry(diag, kind, path, registries[kind], citations[kind])
 
+    check_tables(diag, region_locs, all_locations)
     check_treasure_tables(diag)
     check_rumours(diag)
     check_top_level_files(diag)

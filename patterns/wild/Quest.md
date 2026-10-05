@@ -8,9 +8,9 @@ somebody living rough. What earns a Quests row is `patterns/setting/Quests.md`'s
 
 ```
 QUEST - carrying end
-  1     Its role                                                             {ROLE}
-  1     A stub row, or an addition to an existing row, in setting/Quests.md
-  30%   Evidence of somebody else on the same errand, ahead or behind
+  1     Role                                                                 {ROLE}
+  1     Quests row - a stub row, or an addition to an existing row, in setting/Quests.md
+  30%   Others - evidence of somebody else on the same errand, ahead or behind
                                         {a camp | a marker cut twice | a party}
 ```
 

@@ -64,11 +64,11 @@ NAV_LINKS = [
 
 # The judgement-check checklists rendered on checklists.html are parsed straight out of
 # these templates' own Instructions sections, so the site never carries a second copy of
-# wording that could drift from templates/*_Judgement_Check.md.
+# wording that could drift from templates/checks/*_Judgement_Check.md.
 CHECKLIST_SOURCES = [
-    ("templates/Template_Judgement_Check.md", "Template Judgement Check", "template"),
-    ("templates/Pattern_Judgement_Check.md", "Pattern Judgement Check", "pattern"),
-    ("templates/Setting_Judgement_Check.md", "Setting Judgement Check", "setting"),
+    ("templates/checks/Template_Judgement_Check.md", "Template Judgement Check", "template"),
+    ("templates/checks/Pattern_Judgement_Check.md", "Pattern Judgement Check", "pattern"),
+    ("templates/checks/Setting_Judgement_Check.md", "Setting Judgement Check", "setting"),
 ]
 
 
@@ -533,7 +533,7 @@ def build_registry(setting: sc.Setting, out: Path, kind: str) -> None:
         marker = REGISTRY_MARKER_LABELS[kind]
         typetag = render_inline(e.typetag, setting, page) if e.typetag else ""
         typetag_html = f'<span class="typetag">({typetag})</span>' if typetag else ""
-        if kind == "quests":
+        if sc.parse_field_lines(e.body):
             rows = "".join(
                 f'<tr><th>{html.escape(label)}</th><td>{render_inline(text, setting, page)}</td></tr>'
                 for label, text in sc.parse_field_lines(e.body)
@@ -563,7 +563,7 @@ def render_static_inline(text: str) -> str:
 
 def parse_checklist_source(rel_path: str) -> dict:
     """Pull the Purpose blurb and the Instructions checklist bullets out of a
-    templates/*_Judgement_Check.md file - the bullets are the checklist itself,
+    templates/checks/*_Judgement_Check.md file - the bullets are the checklist itself,
     each written as "- **Title** - description"."""
     text = (ROOT / rel_path).read_text(encoding="utf-8")
     purpose = re.search(r"## Purpose\n(.*?)\n##", text, re.S).group(1).strip()

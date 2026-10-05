@@ -4,7 +4,7 @@
 One SAFE Region Overview: the settlement as a referee runs it without opening a location -
 who is here, what can be had and for what, what gets a stranger thrown out, and what is
 moving. How many locations it holds and how they connect is
-`templates/Location_Gazetteer.md`'s and `templates/Region_Connections.mmd`'s; what one
+`templates/safe/Locations.md`'s and `templates/region/Region_Connections.mmd`'s; what one
 location holds is `safe/Settlement.md`'s.
 
 ## Spec
@@ -29,6 +29,9 @@ SAFE REGION
         and the next two rungs: what each is, and what sets it off
   1     Secrets - each a fact the referee holds as true, who knows it, and the act or
         place that brings it out
+  1     Compositions - each coordinated build across this region's rooms: its part rows in
+        the order met, its chain link by link, its way round and that way's price, and any
+        part beyond its room's class; none where the region has none
   1     Tables - a d6 Events table, rolled on arrival and each week after; and a d6
         table of people and trouble, for anywhere in the settlement no location keys
 ```

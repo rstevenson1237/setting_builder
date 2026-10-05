@@ -72,6 +72,9 @@ Loot: [WILD, DANGEROUS]
 Secrets:
 - [the fact] - [who knows it]; [what brings it out]
 
+Compositions: [written at step 4e, per templates/region/Composition.md; `none` until then]
+- [Name] - [part row ids, in the order met]; [chain: what is held or known -> where it is used -> what it yields]; way round: [the answer that is not the gate, and its price]; exceptions: [part ids beyond their room's class, with reasons, or none]
+
 Tables:
 d6 [Events / Encounter / Danger], [when it is rolled]
 1. [...]

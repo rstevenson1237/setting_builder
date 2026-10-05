@@ -12,12 +12,17 @@ WEALTH
   1     Contents                   {Treasure | Lore | Both}
                         (patterns/setting/Treasure.md,
                          patterns/setting/UniqueTreasures.md, safe/Lore.md)
-  1     Who it belongs to, or belonged to, and whether they know it is still here
+  1     Contents row - the treasure table, the Unique Treasure, or the lore row the
+        contents are
+  1     Owner - who it belongs to, or belonged to
                         {an authority's reserve | a household's | a temple's |
                          a guild's common fund | the settlement's own}
-  1     Protection, chosen for the cache rather than rolled                {PROTECTION}
-  30%   A second protection, of a different kind - compounding rather than repeating
-  20%   Somebody else wants it, and is closer to getting it than the party
+  1     Knows - whether they know it is still here                       {yes | no}
+  1     Protection - chosen for the cache rather than rolled              {PROTECTION}
+  1     Protection detail - what the protection drew asks for, stated
+  30%   Second protection - of a different kind, compounding rather than repeating
+                                                                       {PROTECTION}
+  20%   Rival - somebody else wants it, and is closer to getting it than the party
 ```
 
 ```
@@ -42,7 +47,7 @@ PROTECTION - exactly one
 
 - **A lethal trap here is rare and deliberate** - reserved for a cache the region's
   Situation already justifies treating that seriously. A trap is written as one Feature,
-  per `templates/Location.md`.
+  per `templates/region/Location.md`.
 
 - **Its lore has no living holder.** Unlike `safe/Lore.md`'s kept records, nobody holds a
   cache's documents or the holder does not know they are here, so its Protection stands

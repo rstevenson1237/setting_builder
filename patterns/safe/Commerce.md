@@ -8,16 +8,18 @@ terms beyond price.
 
 ```
 COMMERCE
-  1     What it deals in, and who runs it, from the region's People roster     {TRADE}
-  1     What is in stock, stated concretely                                    {STOCK}
-  1     Prices, in the setting's coins, for the two or three things a party will
-        actually ask for - this Kind's answer to safe/Settlement.md's gate line
-  1     Where hospitality: what a night and a meal cost, whether the food is any good,
-        and what the place is known for. Where market: which day it runs, who may set
-        up, and what a stranger pays over a local
-  40%   Something unusual in stock, and why it is here
-  30%   A condition on trade beyond price      {credit | membership | grudge | shortage}
-  20%   Something the proprietor wants that money will not buy
+  1     Trade - what it deals in                                               {TRADE}
+  1     Proprietor - who runs it, from the region's People roster
+  1     Stock kind - what is in stock                                          {STOCK}
+  1     Stock - that stock, stated concretely
+  1     Prices - in the setting's coins, for the two or three things a party will
+        actually ask for: this Kind's answer to safe/Settlement.md's gate
+  1     Terms - where hospitality: what a night and a meal cost, whether the food is any
+        good, and what the place is known for. Where market: which day it runs, who may
+        set up, and what a stranger pays over a local
+  40%   Unusual - something unusual in stock, and why it is here
+  30%   Condition - on trade, beyond price      {credit | membership | grudge | shortage}
+  20%   Wants - something the proprietor wants that money will not buy
 ```
 
 ```

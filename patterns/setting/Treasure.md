@@ -3,7 +3,7 @@
 ## Provides
 One result on a treasure table: what it is, what it is worth, and what it costs to carry.
 How many tables there are, what each holds, and how value spreads within one is
-`templates/Treasure.md`'s; what holds a find, and what it takes to reach, is the
+`templates/setting/Treasure.md`'s; what holds a find, and what it takes to reach, is the
 location's.
 
 ## Spec
