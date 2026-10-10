@@ -40,5 +40,5 @@ The answers to `patterns/Genre.md`'s GENRE block, one per question, in its order
   seeded in `setting/Language.md`, belong to the old - ruins, tombs, what the builders
   called their works - and to the non-human, what a tribe calls itself.
 
-`STYLE.md` carries the three tests every line at every level must pass; it outranks this
+`STYLE.md` carries the tests every line at every level must pass; it outranks this
 file and every template.

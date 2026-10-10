@@ -148,7 +148,7 @@ def rel(p: Path) -> str:
 def count_tells(paths: list[Path]) -> list[Tell]:
     """The four tells over any markdown - a location file, an arm's output, a brief."""
     rather = Tell("rather than", "the trailing clause, per PR #41")
-    absence = Tell("absence claim", "absence across time or space, per STYLE.md")
+    absence = Tell("absence claim", "absence across time or space")
     conclusion = Tell("conclusion tell", "the players' conclusion written down, per STYLE.md")
     gloss = Tell("gloss", "a term carrying its own definition, per Location.md")
 

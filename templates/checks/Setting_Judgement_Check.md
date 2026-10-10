@@ -7,7 +7,7 @@ A non-mechanical review pass over the generated `setting/` content - confirming,
 Consult when running this check - deliberately broader than any single generation step, since cross-level coherence is the thing being judged:
 - `GENRE.md` - the throughline every level should still be expressing.
 - `BRIEF.md` - this build's design requests, which replace this template's defaults where they speak
-- `STYLE.md` - the three tests judged against below.
+- `STYLE.md` - the tests judged against below.
 - `setting/Setting.md`, `setting/History.md`, `setting/Truths.md` - what every region should be reinforcing.
 - `setting/region/Regions.md` and each region's `setting/region/[Code].md` overview - what every location in that region should be reinforcing.
 - each region's `setting/region/[Code]/Locations.md` and its location files.
@@ -30,8 +30,8 @@ findings are the evidence `templates/checks/Pattern_Judgement_Check.md` starts f
 
 - **The brief was delivered** - take `BRIEF.md` line by line. For each request, name where the setting delivers it, or record that it does not. A count asked for is counted; a shape asked for (entrances per block, a gap left for the referee, a mix of peoples) is checked against the graph and the rooms, not the Region Overview's claim about them. Where a template default and the brief spoke to the same thing, record which one the content followed.
 - **Genre held across levels** - take `GENRE.md`'s answers one by one and name where the setting delivers each: the Magic level answer in what the Treasure tables actually hold, the Lethality answer in what a hazard or creature can do, the Reward answer in what a party can carry home and sell, the Naming answer in the names on the map. Record any answer given differently at a lower level - a mechanic the reference does not have, a kind of creature it does not lean on, a history deeper than it wants - and any authored plot where a situation should be.
-- **The three tests, hardest at the top** - open `STYLE.md` to **What a line has to earn** and apply its three tests, as written there, to every sentence of the setting-level files and each Region Overview, line by line. They fail most often above the location level, because a location has to be run at a table and a Region Overview does not.
-- **Discrete and discoverable, not vague** - is content built from concrete, specific, discoverable details (a named object, a specific trigger, a specific creature or faction presence) that a player can find and act on, rather than an atmospheric motif repeated without ever cashing out into something discoverable? Per each rating's `Dressing.md` Position guidance, this includes whether Features and Exits actually state where in the room they sit and, when spatially significant, their own dimension - a Referee shouldn't have to improvise where something is, or find two same-type exits in one room indistinguishable.
+- **The tests, hardest at the top** - apply `STYLE.md`'s tests, as written there, to every sentence of the setting-level files and each Region Overview, line by line. They fail most often above the location level, because a location has to be run at a table and a Region Overview does not.
+- **Discrete and discoverable, not vague** - is content built from concrete, specific, discoverable details (a named object, a specific trigger, a specific creature or faction presence) that a player can find and act on, rather than an atmospheric motif repeated without ever cashing out into something discoverable?
 - **Every secret has its answer** - does every secret, mystery and undecided question in the setting-level files, the Region Overviews and the registries carry the fact the referee holds as true, or stand in `setting/Truths.md` as a mystery or an open gap held on purpose? A question the players may never answer is fine; one the referee cannot answer, and that nothing marks as deliberate, is a decision handed to whoever improvises first.
 - **Nothing contradicts** - does any fact in one file disagree with another: a place said not to exist beside the location that is it, a building placed in two baileys, a person alive in one region and gone in another?
 - **Everything recurs, nothing is orphaned** - is every Bestiary entry, faction, Named Creature, Lore, Key, Unique Treasure and coined name met in at least one location, and do the ones met in several stay consistent and build on each other? Is everything a Region Overview offers (a person, an occupant, a prize) somewhere a party can reach?
@@ -53,7 +53,6 @@ findings are the evidence `templates/checks/Pattern_Judgement_Check.md` starts f
   that names entries rather than a place, is the finding, traced to the entry that would not fit.
 - **Said once** - does any location restate, near-verbatim, a sentence from its Region Overview, a Truth's Shows line, a Bestiary entry's Disposition, or another location? Per `STYLE.md` the higher level is the one that is wrong where a fact is merely repeated; where a room only transcribes the Bestiary, the room has said nothing of its own.
 - **Tells, read** - for each of this region's hits in `python3 tools/metrics.py --tells setting/`, judge whether it is the failure its tell names: an absence claimed across time or space, a conclusion written for the players, a term glossed, a contrast doing a Feature's work.
-- **Withholding is present** - per `STYLE.md`, does the region hold at least one rich-looking room with nothing in it, or has every rich-looking room paid out?
 
 ### Room to Grow
 
@@ -75,7 +74,7 @@ nothing delivers stays under Room to Grow.
 ## Setting-level
 - The brief was delivered: [Confirmed / Needs Attention - per line, and its source]
 - Genre held across levels: [Confirmed / Needs Attention - per answer, and its source]
-- The three tests, hardest at the top: [Confirmed / Needs Attention - note]
+- The tests, hardest at the top: [Confirmed / Needs Attention - note]
 - Discrete and discoverable, not vague: [Confirmed / Needs Attention - note]
 - Every secret has its answer: [Confirmed / Needs Attention - note]
 - Nothing contradicts: [Confirmed / Needs Attention - note]
@@ -90,7 +89,6 @@ nothing delivers stays under Room to Grow.
 - Draws realized at their rates: [Confirmed / Needs Attention - rate asked, rate realized]
 - Said once: [Confirmed / Needs Attention - note]
 - Tells, read: [Confirmed / Needs Attention - note]
-- Withholding present: [Confirmed / Needs Attention - note]
 
 [repeat per region]
 

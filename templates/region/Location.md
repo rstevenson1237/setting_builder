@@ -6,7 +6,7 @@ The full write-up for a single location, saved as `[Location Code].md` inside it
 ## Context
 Read first - the same for every location in a region, so read once per session:
 - `GENRE.md` - a Feature is something to react to on the spot, not a beat in a larger scripted arc.
-- `STYLE.md` - the three tests, which outrank everything below.
+- `STYLE.md`
 - `BRIEF.md` - this build's design requests, which replace this template's defaults where they speak.
 - `setting/Truths.md` - where this location touches a truth it is an **instance** of it, in this room's own terms, never a restatement of it. A truth surfacing in every room is wallpaper.
 - `setting/Procedures.md` - the shared mechanics a Feature cites rather than restates.

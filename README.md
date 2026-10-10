@@ -18,9 +18,7 @@ Read these rather than a description of them.
   alongside `GENRE.md`; where it speaks it replaces a template's defaults, and it never
   overrides a pattern or `STYLE.md`. Edited directly by the user; a request in the user's
   own prompt carries the same weight.
-- `STYLE.md` - the fixed **What a line has to earn** section: the three tests every line at
-  every level must pass, and the standing consequences already settled from them. Fixed
-  across every genre, never reauthored. The tests outrank every template.
+- `STYLE.md` - the tests every line at every level must pass.
 - `STEPS.md` - the authoritative, sequential build log. Every artifact created follows a
   numbered step here (e.g. `4c`) naming its template and pattern file. Step ids grow by
   suffix and are never renumbered without explicit user request - `templates/` cite step
