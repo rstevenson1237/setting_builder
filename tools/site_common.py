@@ -153,8 +153,7 @@ _STARTS_LOGICAL_RE = re.compile(
 
 
 # ---------------------------------------------------------------------------
-# The two generic shapes every table-like file takes (patterns/SPEC.md's How a
-# Spec becomes tables). A table file is `## [Name]` headings over pipe tables;
+# The two generic shapes every setting-level table-like file takes. A table file is `## [Name]` headings over pipe tables;
 # a record file is `### [Name]` headings over `Field: value` lines. Every
 # parser below reads one of these two shapes rather than a format of its own.
 # ---------------------------------------------------------------------------

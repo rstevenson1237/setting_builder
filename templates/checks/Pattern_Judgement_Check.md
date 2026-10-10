@@ -30,8 +30,6 @@ Across the library:
   so low a region this size never meets it. Record the rate and what it compounds to.
 - **Nothing contradicts STYLE.md** - does any line require what a standing consequence
   forbids, or forbid what one requires?
-- **Neutral and permanent** - does any Spec line, draw item or Constraint carry one
-  genre's assumptions rather than a question `GENRE.md` answers?
 - **Wiring** - `tools/validate_setting.py` warns on any file the root or no template
   reaches; judge whether each should be wired in or go, and whether a reached file is
   drawn at a rate this setting's size will ever meet.

@@ -98,8 +98,7 @@ def index_to_code(i: int) -> str:
 # ---------------------------------------------------------------------------
 
 PATTERN_FOLDERS = ("setting", "region", "safe", "wild", "dangerous")
-# The one pattern file outside the five folders: the tree's root, per
-# patterns/SPEC.md's "The root".
+# The one pattern file outside the folders: the tree's root.
 PATTERN_ROOT_KEY = "Genre.md"
 PATTERN_ROOT = PATTERNS / PATTERN_ROOT_KEY
 # The lookbehind keeps this from misreading the tail of a longer, correct
@@ -154,23 +153,7 @@ def check_pattern_files(diag: Diagnostics):
 
 
 # ---------------------------------------------------------------------------
-# patterns/*/*.md - section structure
-#
-# One skeleton, no declared tiers: Provides / Spec / Constraints. A Spec line
-# either points to another pattern file or states a question the generator
-# answers, which makes the library one tree - a file with outgoing citations
-# is a classifier and a file without them is a leaf, and that is read off the
-# citations rather than asserted anywhere. "Design questions" used to be a
-# separate heading for a leaf file's own contract; it was the same grammar as
-# a Spec, so it was folded back in.
-#
-# "## Design patterns" was a fourth, optional field for per-build compiled
-# content - specific worked examples, kept apart from the neutral, permanent
-# Spec. It is gone: a field that would have leaned on one now earns its
-# precision from how the Spec question itself is phrased instead, per
-# patterns/SPEC.md's governing rule. The heading is checked for and rejected
-# the same way "Design questions" is, so a reintroduction is caught here
-# rather than drifting back in unnoticed.
+# patterns/*/*.md - section structure, per patterns/SPEC.md
 # ---------------------------------------------------------------------------
 
 
@@ -228,14 +211,6 @@ def check_pattern_sections(diag: Diagnostics, path, text: str):
         if not has(required):
             diag.error(path, f"missing a '## {required}' section - every patterns/*/*.md "
                               f"file carries one")
-    if has("Design questions"):
-        diag.error(path, "carries a '## Design questions' section, which was folded into "
-                          "'## Spec' - a Spec line either cites a file or states a question")
-    if has("Design patterns"):
-        diag.error(path, "carries a '## Design patterns' section - per patterns/SPEC.md's "
-                          "governing rule, a field that reads flat earns its precision from "
-                          "how the Spec question is phrased, not from a worked example "
-                          "attached to it")
 
 
 # A logical Spec line opens with its rate in the left margin and runs until the
@@ -440,23 +415,8 @@ def report_read_set(step_filter: str | None) -> int:
 
 
 # ---------------------------------------------------------------------------
-# patterns/*/*.md - the same sentence in three or more files
-#
-# Prose points to where something is; it never restates what is there, because
-# every copy drifts from its original and the copy is the one a reader trusts.
-# See "What prose owes" in patterns/SPEC.md.
-#
-# Two files saying the same thing is usually deliberate - restatement across
-# the three rating folders is how a trap in SAFE gets differentiated from a
-# trap in DANGEROUS, and parallel files carry parallel pointers. Three or more
-# is the band where it stops being parallel structure and starts being a rule
-# restated, which is why the threshold sits there rather than at two.
-#
-# This is a warning, not an error: the judgement of whether a given repetition
-# is parallel structure stays human. Run against the tree before the sweep that
-# introduced it, it found 47 copies across 13 sentences - the Spec preamble in
-# twelve files, the edge/question rule in seven, the compiled-content note in
-# five.
+# patterns/*/*.md - the same sentence in three or more files: a rule restated
+# rather than cited. A warning, since parallel structure is judged by a person.
 # ---------------------------------------------------------------------------
 
 DUP_MIN_WORDS = 9
@@ -491,7 +451,7 @@ def check_repeated_prose(diag: Diagnostics):
             diag.warn(PATTERNS, f"the same sentence appears in {len(files)} files "
                                 f"({', '.join(sorted(files))}): {original[key][:90]!r} - "
                                 f"prose points to where a rule lives rather than "
-                                f"restating it; see 'What prose owes' in patterns/SPEC.md")
+                                f"restating it")
 
 
 # ---------------------------------------------------------------------------
@@ -963,8 +923,7 @@ def cross_check_registry(diag: Diagnostics, kind: str, path: Path, registry: dic
 # ---------------------------------------------------------------------------
 # Table and record files - the to-do list
 #
-# Every table-like file is a pipe table or a record file (patterns/SPEC.md's How
-# a Spec becomes tables), so one pair of checks covers all of them. A malformed
+# Every setting-level table-like file is a pipe table or a record file, so one pair of checks covers all of them. A malformed
 # row or an unknown reference is an error. A stub - an empty cell, or a record
 # missing a field its template writes - is the build's own to-do list, so it is
 # a warning naming the step the gap is owed to.
