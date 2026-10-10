@@ -64,7 +64,9 @@ Every citation below sits inside its own parentheses, exactly as written, so `to
 - **Quest** - `(Quest: Title)`
 - **Named Creature** - `(Named Creature: Name)`
 - **Unique Treasure** - `(Unique Treasure: Name)`
-- **Treasure table** - `(Treasure [I-V], d20)` - a table roll is cited, never described, and each citation is one pull.
+- **Magical Tome** - `(Magical Tome: Title)`
+- **Hoard** - `(Hoard: Name)`
+- **Treasure table** - `(Treasure [I-V], d20)` or `(Magic, d6)` - a table roll is cited, never described, and each citation is one pull.
 - **Forced damage** - `(Test of Constitution, Xd, Type)`, `(Test of Sanity, Xd)`,
   `(Test of Fate, Condition)`, or `(Test of Fate, Impact)`, per `setting/Procedures.md`,
   which is where the Types, the Conditions and what `Xd` means are all defined. Every

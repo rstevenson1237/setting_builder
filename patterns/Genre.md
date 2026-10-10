@@ -35,11 +35,14 @@ SETTING - one of each
   1     Bestiary                                       (patterns/setting/Bestiary.md)
   1     Factions                                       (patterns/setting/Factions.md)
   1     Treasure                                       (patterns/setting/Treasure.md)
+  1     Magic                                          (patterns/setting/Magic.md)
   1     Lore                                           (patterns/setting/Lore.md)
   1     Keys                                           (patterns/setting/Keys.md)
   1     Quests                                         (patterns/setting/Quests.md)
   1     Named Creatures                        (patterns/setting/NamedCreatures.md)
   1     Unique Treasures                     (patterns/setting/UniqueTreasures.md)
+  1     Magical Tomes                           (patterns/setting/MagicalTomes.md)
+  1     Hoards                                         (patterns/setting/Hoards.md)
 ```
 
 ```

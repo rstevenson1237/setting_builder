@@ -381,18 +381,23 @@ REGISTRY_FILES = {
     "named_creatures": "NamedCreatures.md",
     "unique_treasures": "UniqueTreasures.md",
     "quests": "Quests.md",
+    "magical_tomes": "MagicalTomes.md",
+    "hoards": "Hoards.md",
 }
 # The pipe-table registries; the rest are record files. Per kind: the column or
 # field giving the entry's type tag, and those naming its locations.
 REGISTRY_TABLES = {"keys", "quests"}
 REGISTRY_TYPETAG = {"lore": "Form", "keys": "Form", "named_creatures": "Type",
-                    "unique_treasures": "", "quests": "Ask"}
+                    "unique_treasures": "", "quests": "Ask", "magical_tomes": "",
+                    "hoards": ""}
 REGISTRY_PLACES = {
     "lore": ("Found at",),
     "keys": ("Found at", "Opens"),
     "named_creatures": ("Appears at",),
     "unique_treasures": ("Found at",),
     "quests": ("Given at", "Resolved at"),
+    "magical_tomes": ("Found at",),
+    "hoards": ("Found at",),
 }
 
 

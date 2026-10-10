@@ -18,7 +18,8 @@ Then, by table:
 - **Every other table**: this region's `Locations.md`, `Connections.mmd` and `Purpose.md`, and the setting files `patterns/Schema.md` names for this table's values.
 
 ## Instructions
-- **Locations** - count and mix, against the region die:
+- **Locations** - count and mix, against the region die - defaults, which `BRIEF.md` or
+  the user's own request replaces:
   ```
   count   3x the die
   mix     20% High, 50% Medium, Low the rest

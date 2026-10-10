@@ -606,6 +606,8 @@ KEYS_CITE_RE = re.compile(r'\(Keys:\s*([^)]+)\)')
 QUEST_CITE_RE = re.compile(r'\(Quest:\s*([^)]+)\)')
 NAMED_CITE_RE = re.compile(r'\(Named Creature:\s*([^)]+)\)')
 UNIQUE_CITE_RE = re.compile(r'\(Unique Treasure:\s*([^)]+)\)')
+TOME_CITE_RE = re.compile(r'\(Magical Tome:\s*([^)]+)\)')
+HOARD_CITE_RE = re.compile(r'\(Hoard:\s*([^)]+)\)')
 TREASURE_CITE_RE = re.compile(r'\(Treasure\s+([IVX]+),\s*d20\)')
 ROMAN_TABLES = {"I", "II", "III", "IV", "V"}
 
@@ -861,6 +863,10 @@ def check_location_file(diag, path, region_code, num, stub, rating, all_location
         citations["NamedCreature"].setdefault(title.strip(), set()).add(f"{region_code}.{num}")
     for title in UNIQUE_CITE_RE.findall(text):
         citations["UniqueTreasure"].setdefault(title.strip(), set()).add(f"{region_code}.{num}")
+    for title in TOME_CITE_RE.findall(text):
+        citations["MagicalTome"].setdefault(title.strip(), set()).add(f"{region_code}.{num}")
+    for title in HOARD_CITE_RE.findall(text):
+        citations["Hoard"].setdefault(title.strip(), set()).add(f"{region_code}.{num}")
     for roman in TREASURE_CITE_RE.findall(text):
         if roman not in ROMAN_TABLES:
             diag.error(path, f"Treasure citation uses unrecognized numeral {roman!r} (expected I-V)")
@@ -900,6 +906,8 @@ REGISTRY_KINDS = [
     ("Quest", SETTING / "Quests.md", "quests"),
     ("NamedCreature", SETTING / "NamedCreatures.md", "named_creatures"),
     ("UniqueTreasure", SETTING / "UniqueTreasures.md", "unique_treasures"),
+    ("MagicalTome", SETTING / "MagicalTomes.md", "magical_tomes"),
+    ("Hoard", SETTING / "Hoards.md", "hoards"),
 ]
 
 # A Quest is two-ended by definition: a giver location and a target location.
@@ -969,17 +977,19 @@ TEMPLATES_DIR = ROOT / "templates"
 # The setting-level files and the step each one's gaps are owed to; the template that
 # writes each is named so a record's expected fields can be read from it.
 SETTING_TABLE_FILES = {
-    "Keys.md": ("setting/Keys.md", "4h"),
-    "Quests.md": ("setting/Quests.md", "4h"),
+    "Keys.md": ("setting/Keys.md", "4e"),
+    "Quests.md": ("setting/Quests.md", "4e"),
     "Truths.md": ("setting/Truths.md", "5c"),
 }
 SETTING_RECORD_FILES = {
     "Bestiary.md": ("setting/Bestiary.md", "2e"),
     "Factions.md": ("setting/Factions.md", "2f"),
     "History.md": ("setting/History.md", "5c"),
-    "Lore.md": ("setting/Lore.md", "4h"),
-    "NamedCreatures.md": ("setting/NamedCreatures.md", "4h"),
-    "UniqueTreasures.md": ("setting/UniqueTreasures.md", "4h"),
+    "Lore.md": ("setting/Lore.md", "4e"),
+    "NamedCreatures.md": ("setting/NamedCreatures.md", "4e"),
+    "UniqueTreasures.md": ("setting/UniqueTreasures.md", "4e"),
+    "MagicalTomes.md": ("setting/MagicalTomes.md", "4e"),
+    "Hoards.md": ("setting/Hoards.md", "4e"),
 }
 
 
@@ -1095,6 +1105,13 @@ def check_treasure_tables(diag: Diagnostics):
         rownums = [int(x) for x in re.findall(r"^\|\s*(\d+)\s*\|", text, re.M)]
         if rownums != list(range(1, 21)):
             diag.error(path, f"expected 20 rows numbered 1-20, found {rownums}")
+    path = SETTING / "Magic.md"
+    if not path.exists():
+        diag.warn(path, "missing - not built yet")
+    else:
+        rownums = [int(x) for x in re.findall(r"^\|\s*(\d+)\s*\|", path.read_text(), re.M)]
+        if rownums != list(range(1, 7)):
+            diag.error(path, f"expected 6 rows numbered 1-6, found {rownums}")
 
 
 def check_rumours(diag: Diagnostics):

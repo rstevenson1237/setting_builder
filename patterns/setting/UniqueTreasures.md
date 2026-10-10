@@ -1,8 +1,8 @@
 # Setting - Unique Treasures
 
 ## Provides
-One treasure with a name and a history of its own, rather than a roll on a table. When a
-find is a table roll instead is its location rating's own `Treasure.md`.
+One treasure with a name and a history of its own, rather than a roll on a table. A find that
+is a table roll is `patterns/setting/Treasure.md`'s.
 
 ## Spec
 
