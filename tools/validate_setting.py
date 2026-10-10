@@ -843,9 +843,9 @@ def check_location_file(diag, path, region_code, num, stub, rating, all_location
                 # secret (a broken seal, a sprung passage) reads as a plain
                 # opening even though the graph marks the connection hidden.
                 # Worth a human glance, not an automatic failure.
-                diag.warn(path, f"Exits lists {src} -> {code} as mundane, but the region Connections.mmd marks it hidden (-.-) - confirm this is the far side of an already-triggered secret, not a template violation")
+                diag.warn(path, f"Exits lists {src} -> {code} as mundane, but its Connection entry carries a Secret - confirm this is the far side of an already-triggered secret, not a template violation")
             elif not in_mundane:
-                diag.error(path, f"Exits lists {src} -> {code}, but no matching edge exists in any region's Connections.mmd")
+                diag.error(path, f"Exits lists {src} -> {code}, but no Connection entry runs that way")
             key = desc.lower()
             if key:
                 if key in seen_desc and seen_desc[key] != code:
@@ -872,9 +872,6 @@ def check_location_file(diag, path, region_code, num, stub, rating, all_location
             diag.error(path, f"Treasure citation uses unrecognized numeral {roman!r} (expected I-V)")
 
 
-# ---------------------------------------------------------------------------
-# Blocks - a DANGEROUS region's generation batches (STEPS.md 4b/4c)
-# ---------------------------------------------------------------------------
 
 
 def check_region_edge_realization(diag: Diagnostics, top_path, top_edges: list,
@@ -1561,6 +1558,11 @@ def report_pending(region_filter: str | None) -> int:
     for sev, path, msg in setting.check():
         if sev == "warning" and (Path(path) == scope or scope in Path(path).parents):
             owed.setdefault(rel(path), []).append(msg)
+    for r in setting.regions.values():
+        for code in r.locations():
+            path = r.dir / f"{code.split('.')[1]}.md"
+            if (Path(path) == scope or scope in Path(path).parents) and not path.exists():
+                owed.setdefault(rel(r.dir), []).append(f"{code} has no write-up yet")
     for step, path, line, what in ([] if region_filter else collect_stubs()):
         owed.setdefault(rel(path), []).append(f"line {line}: stub owed to step {step} - {what}")
     for path in sorted(owed):
@@ -1628,14 +1630,17 @@ def main() -> int:
         for code, n in r.locations().items():
             m = tables.CODE_RE.fullmatch(code)
             if m and m.group(1) == region_code:
-                stub = {"name": n.props.get("name", ""),
+                stub = {"name": n.props.get("name", ""), "tags": n.props.get("tags", ""),
                         "weight": str(n.props.get("type", "")).lower() or None}
                 region_locs[region_code][int(m.group(2))] = stub
                 all_locations[code] = {**stub, "region": region_code}
     region_edges = {rc: [(a, "---", "", b) for a, b in r.edges] for rc, r in setting.regions.items()}
     all_loc_edges = [e for edges in region_edges.values() for e in edges]
-    mundane_edges = {(a, b) for a, _t, _l, b in all_loc_edges} | {(b, a) for a, _t, _l, b in all_loc_edges}
-    hidden_edges: set[tuple[str, str]] = set()
+    sides = [n for r in setting.regions.values() for n in r.files.get("Connections", [])
+             if n.args and "to" in n.props]
+    hidden_edges = {(n.args[0], n.props["to"]) for n in sides
+                    if any(c.name == "Secret" for c in n.children)}
+    mundane_edges = {(n.args[0], n.props["to"]) for n in sides} - hidden_edges
 
     check_region_edge_realization(diag, top_path, top_edges, all_loc_edges, all_locations)
 
