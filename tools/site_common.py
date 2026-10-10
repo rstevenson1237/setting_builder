@@ -16,6 +16,8 @@ import re
 from dataclasses import dataclass, field
 from pathlib import Path
 
+import kdl
+
 ROOT = Path(__file__).resolve().parent.parent
 SETTING = ROOT / "setting"
 
@@ -534,17 +536,19 @@ def field_html(text: str, render) -> str:
 
 
 def parse_locations_gazetteer(region_code: str) -> dict[int, dict]:
-    """`Locations.md`'s `## Location` table, keyed by location number."""
-    t = table_named(SETTING / "region" / region_code / "Locations.md", "Location")
+    """`Locations.md`'s Location entries, keyed by location number."""
+    path = SETTING / "region" / region_code / "Locations.md"
+    try:
+        entries = kdl.fenced(path.read_text()) if path.exists() else []
+    except SyntaxError:
+        entries = []
     out: dict[int, dict] = {}
-    for d in (t.dicts() if t else []):
-        m = re.fullmatch(r"([A-Z]+)\.(\d+)", d.get("Code", "").strip())
-        if not m:
-            continue
-        out[int(m.group(2))] = {"name": d.get("Name", "").strip(),
-                                "weight": d.get("Weight", "").strip() or None,
-                                "tags": d.get("Tags", "").strip(),
-                                "block": d.get("Block", "").strip()}
+    for n in entries:
+        m = re.fullmatch(r"([A-Z]+)\.(\d+)", str(n.args[0])) if n.args else None
+        if n.name == "Location" and m:
+            out[int(m.group(2))] = {"name": n.props.get("name", ""),
+                                    "weight": str(n.props.get("type", "")).lower() or None,
+                                    "tags": n.props.get("tags", "")}
     return out
 
 

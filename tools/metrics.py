@@ -271,24 +271,18 @@ TREASURE_KIND_RE = re.compile(
 
 
 def report_mix() -> None:
-    """Realized mixes a judgement pass compares against the Spec's rates.
-
-    A cross-block edge is declared in both block files, so edges are counted
-    once by their two ends and kind.
-    """
-    from validate_setting import EDGE_KINDS, LOC_NODE_RE, parse_mmd_edges
+    """Realized mixes a judgement pass compares against the schema's rates."""
+    import kdl
     print("MIX")
     for rdir in sorted(p for p in REGION.iterdir() if p.is_dir()):
-        seen, kinds = set(), {}
-        for mmd in rdir.glob("*.mmd"):
-            _, edges, _ = parse_mmd_edges(mmd.read_text(), LOC_NODE_RE)
-            for a, typ, label, b in edges:
-                key = (tuple(sorted((a, b))), typ, label)
-                if key in seen:
-                    continue
-                seen.add(key)
-                kind = "vertical" if "vertical" in label else EDGE_KINDS.get(typ, "open")
-                kinds[kind] = kinds.get(kind, 0) + 1
+        kinds = {}
+        conn = rdir / "Connections.md"
+        try:
+            entries = kdl.fenced(conn.read_text()) if conn.exists() else []
+        except SyntaxError:
+            entries = []
+        for n in entries:
+            kinds[n.props.get("type", "?")] = kinds.get(n.props.get("type", "?"), 0) + 1
         treasure = {}
         for loc in sorted(rdir.glob("[0-9]*.md")):
             for m in TREASURE_KIND_RE.finditer(loc.read_text()):
@@ -297,7 +291,7 @@ def report_mix() -> None:
         total_e, total_t = sum(kinds.values()), sum(treasure.values())
         fmt = lambda d, t: ", ".join(f"{k} {v} ({100 * v // t}%)" for k, v in
                                      sorted(d.items(), key=lambda x: -x[1])) if t else "none"
-        print(f"  {rdir.name}: edges {total_e} - {fmt(kinds, total_e)}")
+        print(f"  {rdir.name}: connections {total_e} - {fmt(kinds, total_e)}")
         print(f"     treasure {total_t} - {fmt(treasure, total_t)}")
     print()
 

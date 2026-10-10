@@ -9,6 +9,7 @@ value tag words=2
 value number                  // N, or a range N-M
 value percent                 // N%
 value location                // a location code
+value kind                    // an item of the folder's type enum
 value entry                   // a title on the table the member names
 value pull                    // a roll table's name, or "Table: Title" for an entry table
 
@@ -28,6 +29,8 @@ table "Magical Tomes" entry file="setting/MagicalTomes.md"
 table Hoards entry file="setting/Hoards.md"
 
 enum Dangerous_Type High Medium Low
+enum Safe_Type Inn Merchant Bank Market Authority
+enum Wild_Type Landmark Route Hidden Secret
 enum Connection_Type Open Archway Broken Crude Wooden Banded Stone Iron
 enum Damage_Type Nuisance Damaging Lethal
 enum Mystery_Type Altar Statue Fountain Fresco Tapestry Throne "Button/Lever/Switch/Keyhole" Mirror Flooring
@@ -41,7 +44,7 @@ enum Contents_Type "Treasure I" "Treasure II" "Treasure III" "Treasure IV" "Trea
 node Location {
   name string
   tags tag list n=3
-  type Dangerous_Type
+  type kind
 }
 node Purpose {
   unique string opt
@@ -106,7 +109,7 @@ node Lock {
   key entry Keys
 }
 
-folder Dangerous {
+folder Dangerous type=Dangerous_Type {
   Locations Location
   Purpose Purpose
   Dressing Dressing
@@ -116,5 +119,11 @@ folder Dangerous {
   rate High Purpose=1 Dressing=1 Challenges="1-2" Rewards="1-2"
   rate Medium Dressing=1 Challenges=1 Rewards="50%"
   rate Low Dressing=1 Rewards="25%"
+}
+folder Safe type=Safe_Type {
+  Locations Location
+}
+folder Wild type=Wild_Type {
+  Locations Location
 }
 ```
