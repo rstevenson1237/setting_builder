@@ -8,7 +8,7 @@ file per table `patterns/Schema.md`'s Dangerous folder names, each holding entri
 Read first, for every table:
 - `GENRE.md`
 - `STYLE.md`
-- `BRIEF.md` - this build's design requests, which replace this template's defaults where they speak
+- `BRIEF.md`
 - `patterns/Schema.md`
 - this region's Overview, `setting/region/[Region Code].md`
 
@@ -24,14 +24,11 @@ Then, by table:
   count   3x the die
   mix     20% High, 50% Medium, Low the rest
   ```
-  Each room's three tags push it away from the region's average room: never its own name,
-  never a fact every room in the region shares, and no two rooms carrying the same three.
-- **Purpose** - every other table's entries at a High room are written toward it, and a
-  room its `signs` names carries that sign in its own Dressing or Challenges.
-- **Every other table** - each room gets the entries its type's `rate` line gives. A
-  percentage is rolled per room, never chosen.
-- **Connections** - one entry per side of every edge in `Connections.mmd`; the two sides of
-  one edge share a type.
+- **Purpose** - a room's other entries are written toward its Purpose, and a room its
+  `signs` names carries a sign of it.
+- **Every other table** - each room gets the entries its type's `rate` line gives; a
+  percentage is rolled per room.
+- **Connections** - one entry per side of every edge in `Connections.mmd`.
 
 ## Template
 ````
