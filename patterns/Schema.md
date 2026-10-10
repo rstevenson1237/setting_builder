@@ -40,12 +40,13 @@ enum Contents_Type "Treasure I" "Treasure II" "Treasure III" "Treasure IV" "Trea
 
 node Location {
   name string
-  tags tag n=3
+  tags tag list n=3
   type Dangerous_Type
 }
 node Purpose {
   unique string opt
-  ties string opt
+  pressure string opt
+  signs location list opt
 }
 node Dressing {
   obvious string
@@ -112,5 +113,8 @@ folder Dangerous {
   Challenges Encounter Hazard Mystery
   Rewards Reward
   Connections Connection
+  rate High Purpose=1 Dressing=1 Challenges="1-2" Rewards="1-2"
+  rate Medium Dressing=1 Challenges=1 Rewards="50%"
+  rate Low Dressing=1 Rewards="25%"
 }
 ```
