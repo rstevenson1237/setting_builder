@@ -1,8 +1,8 @@
 # The pattern file spec
 
 What every pattern file in `patterns/` is made of, and how to tell a correct one from a
-broken one. `CLAUDE.md` carries the short version. `patterns/Schema.md` is not a pattern
-file: it is what every location table is checked against, and nothing here governs it.
+broken one. `patterns/Schema.md` is not a pattern file: it is what every location table is
+checked against, and nothing here governs it.
 
 **This file is a standard, not an input.** No generation step reads it: a pattern file has
 to be followable on its own, from its own notation - rates in the left margin, `{…}` for a

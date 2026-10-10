@@ -1479,8 +1479,8 @@ def check_top_level_files(diag: Diagnostics):
 # ---------------------------------------------------------------------------
 # Topology report
 #
-# Not a check. Per CLAUDE.md's validation posture the validator stays strict on
-# format and relaxed on content and ratios, and graph shape is a design decision
+# Not a check. The validator stays strict on format and relaxed on content and
+# ratios, and graph shape is a design decision
 # rather than a rule - SAFE wants a shallow hub, WILD a forest of trees,
 # DANGEROUS a dense graph with loops and at least one divide. Reporting the shape
 # gives setting/checks/SettingJudgementCheck.md something factual to judge against.
