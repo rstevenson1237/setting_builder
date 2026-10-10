@@ -18,7 +18,6 @@ table "Treasure III" roll file="setting/Treasure3.md"
 table "Treasure IV" roll file="setting/Treasure4.md"
 table "Treasure V" roll file="setting/Treasure5.md"
 table Magic roll file="setting/Magic.md"
-table Hoards roll file="setting/Hoards.md"
 table Bestiary entry file="setting/Bestiary.md"
 table Factions entry file="setting/Factions.md"
 table "Named Creatures" entry file="setting/NamedCreatures.md"
@@ -26,6 +25,7 @@ table Lore entry file="setting/Lore.md"
 table Keys entry file="setting/Keys.md"
 table "Unique Treasures" entry file="setting/UniqueTreasures.md"
 table "Magical Tomes" entry file="setting/MagicalTomes.md"
+table Hoards entry file="setting/Hoards.md"
 
 enum Dangerous_Type High Medium Low
 enum Connection_Type Open Archway Broken Crude Wooden Banded Stone Iron
