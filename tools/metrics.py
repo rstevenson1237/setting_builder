@@ -113,8 +113,7 @@ CONCLUSION_RE = re.compile(
     r'enough to tell|tells anyone|anyone can tell|the clue that|'
     r'so that anyone|is how anyone)', re.I)
 
-# 4. The gloss. templates/region/Location.md instruction 5: a precise term replaces its
-#    definition and never carries one. Its shape is the label naming a thing and
+# 4. The gloss: a term carrying its own definition. Its shape is the label naming a thing and
 #    the line's opening segment naming it again to define it - D.18's
 #    "**Corbelled Ceiling:** The ceiling steps inward in courses rather than
 #    arching", the word in the label and then nine words glossing it. Detected as
@@ -150,7 +149,7 @@ def count_tells(paths: list[Path]) -> list[Tell]:
     rather = Tell("rather than", "the trailing clause, per PR #41")
     absence = Tell("absence claim", "absence across time or space")
     conclusion = Tell("conclusion tell", "the players' conclusion written down, per STYLE.md")
-    gloss = Tell("gloss", "a term carrying its own definition, per Location.md")
+    gloss = Tell("gloss", "a term carrying its own definition")
 
     for path in paths:
         for lineno, raw in enumerate(path.read_text().splitlines(), 1):
@@ -190,7 +189,7 @@ def count_tells(paths: list[Path]) -> list[Tell]:
 # Two word counts, because two are in use. The headline counts the Feature body
 # with its citation, which is the figure PR #41 reported (22.3 against 42.8) and
 # the one a later run has to be comparable with. The prose figure strips the
-# citation, which is what the grammar in instruction 5 actually budgets - a
+# citation, leaving the prose alone - a
 # citation is machinery, and feature_segments() drops it before counting.
 # ---------------------------------------------------------------------------
 

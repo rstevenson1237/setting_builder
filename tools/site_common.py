@@ -556,7 +556,7 @@ def parse_locations_gazetteer(region_code: str) -> dict[int, dict]:
     return out
 
 
-LOC_HEADER_RE = re.compile(r'^([A-Z]+)\.(\d+) \*\*(.+?)\*\*(?: \((low|medium|high|landmark|hidden|secret)\))? - \*(.+)\*\s*$')
+LOC_HEADER_RE = re.compile(r'^([A-Z]+)\.(\d+) \*\*(.+?)\*\*(?: \(([^)]+)\))? - \*(.+)\*\s*$')
 FEATURE_RE = re.compile(r'^\*\*([^*]+):\*\*\s*(.*)$')
 EXIT_DEST_RE = re.compile(r'^\s*([A-Z]+\.\d+)\s+(.*)$')
 

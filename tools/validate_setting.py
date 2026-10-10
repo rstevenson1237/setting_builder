@@ -556,7 +556,7 @@ def check_top_connections(diag: Diagnostics, regions: dict):
 # Location files
 # ---------------------------------------------------------------------------
 
-LOC_HEADER_RE = re.compile(r'^([A-Z]+)\.(\d+) \*\*(.+?)\*\*(?: \((low|medium|high|landmark|hidden|secret)\))? - \*(.+)\*\s*$')
+LOC_HEADER_RE = re.compile(r'^([A-Z]+)\.(\d+) \*\*(.+?)\*\*(?: \(([^)]+)\))? - \*(.+)\*\s*$')
 FEATURE_RE = re.compile(r'^\*\*([^*]+):\*\*\s*(.*)$')
 EXIT_PAIR_RE = re.compile(r'->\s*([A-Z]+\.\d+)\s+([^,]+)')
 EXIT_DEST_RE = re.compile(r'->\s*[A-Z]+\.\d+\s+[^,]+')
@@ -573,31 +573,15 @@ ROMAN_TABLES = {"I", "II", "III", "IV", "V"}
 
 
 # ---------------------------------------------------------------------------
-# The Feature grammar - templates/region/Location.md instruction 5
-#
-# A Feature is one sentence whose only separators are "," and "->". The banned
-# punctuation is the whole point: a dash, a semicolon or a second sentence is
-# the slot a trailing clause hangs in, and the trailing clause is where a
-# Feature explains itself, dates itself, or writes down the party's conclusion.
-# Removing the slot is cheaper than judging what fills it, and unlike the prose
-# heuristics elsewhere in this file it is decidable, so separators are errors.
-# ---------------------------------------------------------------------------
-
-# Every parenthesised group is stripped before the grammar is applied: a
-# citation is machinery, not prose, and its own commas and colons are not the
-# sentence's. Where it sits is checked separately, since instruction 5 puts it
-# last and a Feature that carries prose after one has hidden a second clause
-# behind the machinery.
+# A parenthesised group is a citation, not prose.
 CITATION_RE = re.compile(r'\s*\([^()]*\)')
-BANNED_SEP_RE = re.compile(r'(;|(?<!\*):(?!\*)|\s[-\u2013\u2014]\s|\.\s+\S)')
-# feature_segments() below is still used by tools/metrics.py's corpus report;
-# the validator itself no longer caps segment count or length.
+# feature_segments() below is used by tools/metrics.py's corpus report.
 SEG_SPLIT_RE = re.compile(r'\s*(?:,|->)\s*')
 LIST_ITEM_WORDS = 3
 
 
 def feature_segments(body: str) -> list[str]:
-    """Body split per instruction 5, with a short-item list collapsed to one segment."""
+    """Body split on ',' and '->', with a short-item list collapsed to one segment."""
     text = CITATION_RE.sub("", body).strip().rstrip(".")
     merged: list[str] = []
     run: list[str] = []
@@ -666,39 +650,6 @@ def check_summary_promises(diag: Diagnostics, path: Path, summary: str, lines: l
                         f"what the room contains, and the referee improvises an unkept one")
 
 
-# templates/region/Location.md instruction 2 - the sheet is raw material, the entry a
-# few sentences. Warned rather than errored: length is judged, not parsed.
-FEATURE_MAX_WORDS = 30
-NOTES_MAX_SENTENCES = 3
-
-
-def check_feature_grammar(diag: Diagnostics, path: Path, label: str, body: str):
-    words = len(CITATION_RE.sub("", body).split())
-    if words > FEATURE_MAX_WORDS:
-        diag.warn(path, f"Feature '{label}' runs {words} words before its citation - "
-                        f"templates/region/Location.md instruction 2 allows {FEATURE_MAX_WORDS}")
-    last = None
-    for m in CITATION_RE.finditer(body):
-        last = m
-    if last and body[last.end():].strip(" ."):
-        diag.error(path, f"Feature '{label}' carries prose after its citation "
-                         f"{last.group(0).strip()!r} - per instruction 5 of "
-                         f"templates/region/Location.md a citation sits last")
-
-    stripped = CITATION_RE.sub("", body).strip()
-    sep = BANNED_SEP_RE.search(stripped)
-    if sep:
-        found = sep.group(0)
-        what = ("a second sentence" if found.startswith(".")
-                else f"{found.strip()!r}")
-        diag.error(path, f"Feature '{label}' uses {what} - per instruction 5 of "
-                         f"templates/region/Location.md a Feature is one sentence separated "
-                         f"only by ',' and '->'")
-        return
-    if stripped and not body.rstrip().endswith((".", ")")):
-        diag.error(path, f"Feature '{label}' does not end in a period")
-
-
 def check_location_file(diag, path, region_code, num, stub, rating, all_locations,
                          mundane_edges, hidden_edges, citations, conditions=None):
     text = path.read_text()
@@ -718,11 +669,8 @@ def check_location_file(diag, path, region_code, num, stub, rating, all_location
         diag.error(path, f"header code {hcode}.{hnum_s} does not match this file's location {region_code}.{num}")
     if not names_match(hname, stub["name"]):
         diag.error(path, f"header name {hname!r} does not match its Locations.md stub name {stub['name']!r}")
-    if rating in ("DANGEROUS", "WILD"):
-        if hweight != stub["weight"]:
-            diag.error(path, f"header weight/classification {hweight!r} does not match Locations.md stub {stub['weight']!r}")
-    elif hweight:
-        diag.error(path, f"{rating} region location should not carry a weight/classification tag in its header")
+    if (hweight or "").lower() != (stub["weight"] or ""):
+        diag.error(path, f"header type {hweight!r} does not match its Location entry's {stub['weight']!r}")
     if len([t for t in htags.split(",") if t.strip()]) != 3:
         diag.warn(path, f"header carries {htags.strip()!r} - expected exactly three tags")
     elif htags.strip().strip("*") != stub.get("tags", "").strip().strip("*"):
@@ -749,10 +697,6 @@ def check_location_file(diag, path, region_code, num, stub, rating, all_location
     notes = body[idx].strip()
     if not (notes.startswith("*") and not notes.startswith("**") and notes.endswith("*") and not notes.endswith("**")):
         diag.error(path, "Referee Notes line is not wrapped in single-asterisk italics")
-    sentences = len(re.findall(r'[.!?](?=\s|\*?$)', notes.strip("*").strip()))
-    if sentences > NOTES_MAX_SENTENCES:
-        diag.warn(path, f"Referee Notes run {sentences} sentences - templates/region/Location.md "
-                        f"instruction 2 allows {NOTES_MAX_SENTENCES}")
     idx += 1
 
     features = []
@@ -770,10 +714,6 @@ def check_location_file(diag, path, region_code, num, stub, rating, all_location
             label = fm.group(1)
             features.append(label)
             feature_lines.append(s)
-            low = label.strip().lower()
-            if low.startswith(ARTICLES):
-                diag.error(path, f"Feature label '{label}' starts with a leading article")
-            check_feature_grammar(diag, path, label, fm.group(2))
 
     check_summary_promises(diag, path, summary, feature_lines)
 

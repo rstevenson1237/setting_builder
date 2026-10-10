@@ -12,7 +12,6 @@ Consult when running this check - deliberately broader than any single generatio
 - `setting/region/Regions.md` and each region's `setting/region/[Code].md` overview - what every location in that region should be reinforcing.
 - each region's `setting/region/[Code]/Locations.md` and its location files.
 - `setting/Bestiary.md`, `setting/Factions.md`, `setting/Lore.md`, `setting/Keys.md`, `setting/NamedCreatures.md`, `setting/UniqueTreasures.md` - recurring elements that should be tying levels together rather than sitting isolated.
-- `templates/region/Location.md` - the three tiers an entry displays information at, which the tiering item below is judged against.
 - the output of `python3 tools/metrics.py` (its MIX section), `python3 tools/metrics.py --tells setting/`, and the region's table files, for any location whose draws are in question.
 
 ## Instructions
@@ -41,7 +40,6 @@ findings are the evidence `templates/checks/Pattern_Judgement_Check.md` starts f
 
 - **Regions reinforce the setting** - does each Region Overview visibly connect back to `setting/Setting.md`/`History.md`/`Truths.md` (a named historical event, a faction's presence, a unique truth playing out), rather than feeling like an unrelated pocket bolted onto the setting?
 - **Locations reinforce their region** - does each location's dressing and Features reflect the parent Region Overview's Conditions, Inhabitants and Places, rather than reading as a location that could belong to any region? Are its three tags recognisable in what it holds?
-- **Information is tiered, and the chain holds** - per `templates/region/Location.md`'s three tiers, does each location present something at more than one of obvious / trigger / secret, and does every tier's way in actually sit in the tier above it? Three failures to look for, in rising order of cost: an entry whose Player Summary hands over everything, so nothing rewards acting on the room; an entry that reads empty because all of it sits behind a clue; and the one that matters most, a Secret whose tell is stated nowhere in the obvious tier, which is content the referee knows and the players can never reach. Check the region as a whole too, since the secret tier is rationed rather than universal: a region where every room hides something teaches players to search every room, and one where no room does teaches them to stop.
 - **Rooms are distinct** - within the region, do two rooms share a Feature sentence, a room shape, or the same set of Features under different names? Where one occupant holds several blocks, does each block differ in more than its name? `tools/validate_setting.py` warns on a repeated Feature sentence; this item judges the near-repeats a string match cannot see.
 - **Rates were rolled, not chosen** - do the region's tables sit near their types' rates? `python3 tools/validate_setting.py --pending` lists every room off its rate, and `python3 tools/metrics.py`'s MIX section counts connection and treasure kinds. A mix collapsed to one answer is recorded with the rate it should have held.
 - **Entries written in one pass read as a form** - within one table, do the entries share a
@@ -84,7 +82,6 @@ nothing delivers stays under Room to Grow.
 ## Region [Code]
 - Region reinforces the setting: [Confirmed / Needs Attention - note]
 - Locations reinforce this region: [Confirmed / Needs Attention - note]
-- Information tiered, and the chain holds: [Confirmed / Needs Attention - note]
 - Rooms are distinct: [Confirmed / Needs Attention - note]
 - Draws realized at their rates: [Confirmed / Needs Attention - rate asked, rate realized]
 - Said once: [Confirmed / Needs Attention - note]

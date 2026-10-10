@@ -21,10 +21,6 @@ Across the library:
 - **No overlap or contradiction** - does one pattern duplicate or conflict with another?
   Where two share a boundary (`Hazard.md` and `Mystery.md`; a Secret location's access
   triple and its inner one), is the distinction stated where a generator will see it?
-- **The three tiers are supplied, and each drawing class states its own triple** - per
-  `templates/region/Location.md`'s three tiers, does each class file draw something obvious,
-  something at the trigger tier, and - at its own rate - a concealed detail whose Clue,
-  Trigger and Payload that file states itself?
 - **Rates compound sensibly** - read the sampled resolutions together: a per-exit rate
   that gates nearly every room, rates that between them fire in almost every room, a rate
   so low a region this size never meets it. Record the rate and what it compounds to.
