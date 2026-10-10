@@ -4,7 +4,8 @@
 The root of the pattern tree: the questions a genre has to answer before anything is
 generated, and one edge to every pattern file a build enters from. `GENRE.md` is the
 answer to this file's GENRE block, authored rather than generated; every other node is
-reached from here. The order the nodes are generated in is `STEPS.md`'s.
+reached from here. The order the nodes are generated in is `STEPS.md`'s, and what a
+location holds is `patterns/Schema.md`'s.
 
 ## Spec
 
@@ -47,17 +48,8 @@ REGION - each region's overview, exactly one by its rating
 ```
 
 ```
-BLOCK - each block of a DANGEROUS region
-  1     The quarter its rooms share                                (dangerous/Block.md)
-```
-
-```
-LOCATION - each gazetteer stub, exactly one by its region's rating and its own class
-  1     {safe | wild landmark | wild hidden | wild secret | dangerous high |
-         dangerous medium | dangerous low}
-                        (safe/Settlement.md, wild/Landmark.md, wild/Hidden.md,
-                         wild/Secret.md, dangerous/High.md, dangerous/Medium.md,
-                         dangerous/Low.md)
+LOCATION - each location
+  1     Name                                           (patterns/setting/Naming.md)
 ```
 
 ## Constraints

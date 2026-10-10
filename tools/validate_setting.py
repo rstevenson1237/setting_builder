@@ -1223,11 +1223,11 @@ def check_statblocks(diag: Diagnostics, path: Path, label: str, expect_special: 
 
 REGION_FIELDS = {
     "SAFE": ["Overview", "Approach", "People", "Services", "Law", "Places", "Situation",
-             "Secrets", "Compositions", "Tables"],
+             "Secrets", "Tables"],
     "WILD": ["Overview", "Approach", "Terrain", "Inhabitants", "Places", "Situation",
-             "Loot", "Secrets", "Compositions", "Tables"],
+             "Loot", "Secrets", "Tables"],
     "DANGEROUS": ["Overview", "Approach", "Conditions", "Inhabitants", "Alarm", "Places",
-                  "Situation", "Loot", "Secrets", "Compositions", "Tables"],
+                  "Situation", "Loot", "Secrets", "Tables"],
 }
 REGION_LABEL_RE = re.compile(r'^([A-Z][a-z]+):(?:\s|$)')
 
@@ -1296,7 +1296,7 @@ def check_repeated_features(diag: Diagnostics, region_code: str):
 
 
 # A Feature citing a treasure table must not also say what comes up on it.
-# patterns/dangerous/Treasure.md and wild/Treasure.md both state this outright;
+# templates/region/Location.md states this outright;
 # it is a prose rule, so this is a heuristic and a warning - it flags a stated
 # price, a stated count, or a value judgement sitting in the same Feature as
 # the citation, and a human decides.
@@ -1421,7 +1421,7 @@ def check_registry_floors(diag: Diagnostics, registries: dict, build_complete: b
             path = SETTING / filename
             diag.warn(path, f"no {kind} rows at the close of the build - check this is a "
                             f"decision and not a draw that never fired, per "
-                            f"patterns/dangerous/Treasure.md's rates")
+                            f"patterns/Schema.md's rates")
 
 
 def check_rumour_settling(diag: Diagnostics, build_complete: bool):

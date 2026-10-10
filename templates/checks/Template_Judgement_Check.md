@@ -39,16 +39,12 @@ Every template:
   table, or used by a referee running the artifact?
 
 Only where the item names it:
-- **Pattern chosen by weight alone** (`templates/safe/Locations.md`, `templates/wild/Locations.md`,
-  `templates/dangerous/Locations.md`) - no gazetteer row pins a pattern beyond its Weight.
-- **Two-phase registries** (`templates/region/Allocation.md` and the five registry templates) -
-  a stub at 4d carries name and location only; content is 4h's.
 - **Format edge cases preserved** (`templates/region/Location.md`, `templates/region/Region.md`) - every
   format rule still unambiguous against the entries generated from it, and against the
   previous pass's findings.
-- **Rows match** (`templates/region/Location.md`) - does compile read every row naming its
-  location and nothing else? A row no location file realizes, or a Feature no row carries,
-  is a finding.
+- **Entries match** (`templates/region/Location.md`) - does each write-up carry every entry
+  `--location` prints for it and nothing else? An entry no Feature carries, or a Feature no
+  entry carries, is a finding.
 
 ## Template
 ```

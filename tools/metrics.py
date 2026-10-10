@@ -9,7 +9,7 @@ Six readings, printed in one report:
   MIX       per region, the edge kinds its diagrams drew and the kinds of
             treasure its rooms cite - what STEPS.md 5c reads draw rates against
   BUDGET    framework words against setting words
-  READ SET  words in context per step 4c entry point
+  READ SET  words in context per step 4f write-up
 
 Nothing here judges. A tell is a candidate a reader looks at, the read-set
 figure is an arithmetic sum of what templates/region/Location.md's Context section
@@ -333,8 +333,8 @@ def report_budget() -> None:
 # ---------------------------------------------------------------------------
 # The read set
 #
-# What one location costs to generate: the fixed context every 4c entry carries
-# plus the closure of pattern files its class file reaches. The fixed half is
+# What one location costs to write up: the fixed context every 4f write-up
+# carries, beside its own entries from --location. The fixed half is
 # templates/region/Location.md's own Context section, which is the authority on what a
 # drafting session opens - README.md is in it because the session hook injects
 # it. The variable half is walked with the graph tools/validate_setting.py
@@ -349,7 +349,7 @@ FIXED_CONTEXT = ("CLAUDE.md", "README.md", "GENRE.md", "STYLE.md", "BRIEF.md",
                  "setting/Truths.md", "setting/Procedures.md", "setting/Language.md")
 
 
-def report_read_set(step: str = "4c") -> None:
+def report_read_set(step: str = "4f") -> None:
     print(f"READ SET (step {step})")
     g = read_set_graph()
     present = [(n, ROOT / n) for n in FIXED_CONTEXT if (ROOT / n).exists()]

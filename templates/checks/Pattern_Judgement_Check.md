@@ -40,9 +40,8 @@ Across the library:
 - **Unhoused content** - anything the brief or the user asked for that fits no current
   pattern. Flag it rather than force-fitting it.
 
-Per file, applied only to the class and element files a location draws (the files under
-`safe/`, `wild/` and `dangerous/`); a `setting/` or `region/` pattern is judged by the
-library items above and by what its artifact produced:
+Per node of `patterns/Schema.md`, which is what a location draws; a `setting/` or
+`region/` pattern is judged by the library items above and by what its artifact produced:
 - **Specific** - pushes toward named, particular content rather than a reskinnable
   placeholder.
 - **Discoverable** - what it adds has to be noticed, investigated or searched for.
@@ -50,28 +49,6 @@ library items above and by what its artifact produced:
 - **Not overly generic** - its output could not be dropped unchanged into any fantasy
   dungeon.
 - **Missing relevant features** - a feature clearly within its scope that it never draws.
-
-## Deliberate restatement
-`patterns/` deliberately restates the same concept in each rating folder - a trap in SAFE is
-a swindle, in WILD a snare, in DANGEROUS a deadfall - so that each is written for its own
-context with no cross-rating branching in view. That trade buys sharpness and costs drift.
-
-**So the duplication check is inverted here: two restatements that read the same are a
-finding, not a convenience.** Where `patterns/wild/Hazard.md` and `patterns/dangerous/Hazard.md`
-converge on the same guidance, either differentiate them or establish that the shared part
-is a *mechanic* and move it to `setting/Procedures.md`, or *format* and move it to
-`templates/`. The pairs most at risk are the hook files, which exist in all three folders:
-`Quest.md`, `Key.md` and `Lore.md`, plus each folder's version against its
-`patterns/setting/` counterpart, which holds criteria rather than selection.
-
-**The concealment triples are the same trade, and the same risk.** Each class that draws a
-concealed detail states its own Clue, Trigger and Payload, so that what a clue is made of,
-what a trigger is, and what a payload may be are written for what *that* class conceals -
-construction underground, weather and time outdoors, people and mismatches in a settlement.
-Two of those triples that have converged on the same wording are a finding here, exactly as
-two Hazard files would be: either differentiate them, or establish that the shared part is
-a *mechanic* and belongs in `setting/Procedures.md`, or a *rule* and belongs in `STYLE.md`,
-which already owns the two that are genuinely constant.
 
 ## Template
 ```

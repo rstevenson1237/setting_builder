@@ -3,10 +3,7 @@
 ## Provides
 One WILD Region Overview: the stretch of country as a referee runs a crossing of it
 without opening a location - how it is entered, what moving through it costs, who is out
-here, and what is worth carrying home. How many locations it holds, in what
-classification mix, and how they connect is `templates/wild/Locations.md`'s and
-`templates/region/Region_Connections.mmd`'s; what one location holds is its classification's own
-file.
+here, and what is worth carrying home. What one location holds is `patterns/Schema.md`'s.
 
 ## Spec
 
@@ -32,9 +29,6 @@ WILD REGION
         nearest SAFE region pays for each; and which treasure tables a find here draws on
   1     Secrets - each a fact the referee holds as true, and the act or place that
         brings it out
-  1     Compositions - each coordinated build across this region's rooms: its part rows in
-        the order met, its chain link by link, its way round and that way's price, and any
-        part beyond its room's class; none where the region has none
   1     Tables - a d6 Encounter table, rolled on each failed Difficulty roll; and a d6
         table of things met between Landmarks, each something a party can stop for
 ```

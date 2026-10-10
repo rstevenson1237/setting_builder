@@ -1,18 +1,16 @@
 # UniqueTreasures.md
 
 ## Purpose
-A registry of powerful, one-of-a-kind artifacts and other magical or unique treasures, each with its own purpose and description, distinct from the random rolls on `setting/Treasure[I-V].md`. Generated in two phases: stubbed empty at step 2h, a stub row added per entry when a region is allocated (step 4d) or a composition is written (step 4e), and the full entry written once every row placing it exists (step 4h).
+A registry of powerful, one-of-a-kind artifacts and other magical or unique treasures, each with its own purpose and description, distinct from the random rolls on `setting/Treasure[I-V].md`. Created empty at step 2h; each entry is written at step 4e, from the table entries naming it.
 
 ## Context
 Read first:
-- Step 2h (stubbing the file): no context needed.
-- Steps 4d and 4e (recording a stub): `GENRE.md`, `templates/region/Allocation.md`.
-- Step 4h (writing the full entry): `GENRE.md`, `setting/Setting.md`, `setting/History.md`, `setting/Truths.md`, `setting/Factions.md`, `setting/NamedCreatures.md`, `patterns/setting/UniqueTreasures.md`, and the table rows that place it.
+- Step 2h (creating the file): no context needed.
+- Step 4e (writing an entry): `GENRE.md`, `setting/Setting.md`, `setting/History.md`, `setting/Truths.md`, `setting/Factions.md`, `setting/NamedCreatures.md`, `patterns/setting/UniqueTreasures.md`, and every table entry naming it.
 
 ## Instructions
 - **2h**: create the file with only its title line.
-- **4d, 4e**: append a stub record - its heading and Found at only - when a table row names a Unique Treasure, and write its title into that row's cell.
-- **4h**: fill each stub record's remaining fields per `patterns/setting/UniqueTreasures.md`.
+- **4e**: write each entry a table names and this file lacks, per `patterns/setting/UniqueTreasures.md`, with its Found at the locations naming it.
 
 A setting supports very few of these: a Unique Treasure is the reason a party remembers a
 whole region, and most high-value finds are better served by a Table V roll.

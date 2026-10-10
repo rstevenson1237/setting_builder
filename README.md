@@ -37,25 +37,24 @@ Read these rather than a description of them.
   Instructions / Template**, in folders mirroring `patterns/` plus `checks/` for the
   judgement checks. A template is cited by its path, folder included. A template's own Context section lists exactly which files to
   read before drafting; don't pull in more than it names.
-- `patterns/` - pattern guidance, in five folders matching the five levels of generation:
-  `setting/`, `region/`, `safe/`, `wild/`, `dangerous/`. A generation step reads only the
-  folder matching what it is building. Every file shares one skeleton, specified in
-  `patterns/SPEC.md`. `patterns/Genre.md` is the root of the tree: the questions
-  `GENRE.md` answers, and an edge to every file a build enters from.
+- `patterns/` - pattern guidance: `setting/` and `region/` pattern files, sharing one
+  skeleton specified in `patterns/SPEC.md`, rooted at `patterns/Genre.md`; and
+  `patterns/Schema.md`, the KDL schema every location table is checked against.
 - `setting/` - the generated setting, mirroring the template set in the order STEPS.md lays
   out: setting-level artifacts, Treasure Tables I-V, the two living artifacts
   (`Procedures.md`, `Language.md`), the five registries (`Lore.md`, `Keys.md`, `Quests.md`,
   `NamedCreatures.md`, `UniqueTreasures.md`), and `region/`, holding the Regional Gazetteer
   and one folder per region.
-- `setting/region/[Code]/` - one region: its table files (`Locations.md` and `Exits.md`,
-  and by rating `Challenges.md`, `Treasures.md` and `Links.md`), its connection diagrams,
-  and one `[LocationCode].md` per location, written from the tables. The Region
-  Overview sits beside it at `setting/region/[Code].md`.
+- `setting/region/[Code]/` - one region: the table files `patterns/Schema.md` names for its
+  rating, its `Connections.mmd`, and one `[LocationCode].md` per location, written from the
+  tables. The Region Overview sits beside it at `setting/region/[Code].md`.
 - `setting/checks/` - output of the judgement checks (STEPS.md step 5): non-mechanical
   review passes `tools/validate_setting.py` can't do, following the checklist format in
   the matching `templates/checks/*_Judgement_Check.md`. Nested under `setting/` so wiping the
   setting for a new build takes its judgement checks with it, rather than leaving them
   behind to bias the next one.
+- `archive/` - the previous location-level patterns, templates and tools, held for review
+  against this build. Read by no step.
 - `plans/` - proposals for framework changes not yet made: one folder per change, holding
   its `intake.md`, `spec.md` and `implementation.md`. Read by no step.
 - `tools/` - exactly what content generation needs and nothing else. Stdlib-only Python, no

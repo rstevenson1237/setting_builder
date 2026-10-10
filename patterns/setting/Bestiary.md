@@ -82,6 +82,6 @@ AD BAND - exactly one, then the count within it
   actually fits, and its Special carries the role. A guardian holds one thing, does not
   range or forage, and states the condition it acts on rather than naming itself a
   guardian. A hazard is a recurring danger with a stat line, cited by name wherever it
-  turns up - and not `dangerous/Hazard.md`, which is one location's mechanism. Anything
+  turns up - and not a location's Hazard entry, which is one location's mechanism. Anything
   with a want, a reaction, or somewhere else to be is an ordinary creature of its Type;
   anything that exists in one place only belongs inline at that location.

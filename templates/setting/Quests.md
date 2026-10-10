@@ -2,20 +2,17 @@
 
 ## Purpose
 The registry of errands running between locations - who wants what, where it is, and what
-stands in the way. Stubbed when a region is allocated (step 4d) or a composition is
-written (step 4e), filled once every row placing it exists (step 4h).
+stands in the way. Created empty at step 2h.
 
 ## Context
 Read first:
 - `GENRE.md`
 - `BRIEF.md` - this build's design requests, which replace this template's defaults where they speak
 - `patterns/setting/Quests.md`
-- At 4h: the table rows at both ends, giver and target.
+- the entries at both ends, giver and target
 
 ## Instructions
-A Quest is **two-ended**: a giver location and a target location, both named by code. At
-4d or 4e a stub row fills Name, Given at and Resolved at and leaves every other cell
-empty; at 4h write the rest, with the rows at both ends in view.
+A Quest is **two-ended**: a giver location and a target location, both named by code.
 
 ## Template
 ```

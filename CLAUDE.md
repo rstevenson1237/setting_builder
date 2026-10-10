@@ -63,9 +63,6 @@ So, when writing or editing any of them:
 - **A line that varies between the classes drawing it belongs in the drawing class's Spec;
   a line that is the same for all of them belongs in the file it cites.** Same test
   `setting/Procedures.md` applies one level up.
-- **A Spec is read as tables**: a non-edge line is a column, a pattern file is one table,
-  and a table's file is its class-file line's block. `patterns/SPEC.md`'s **How a Spec
-  becomes tables** is the rule.
 - **Constraints is where every prohibition lives** - anything that closes a pathway. Write
   entries generalized rather than tied to whichever setting produced them. A positive rule
   phrased contrastively is not a prohibition and stays where it is.
@@ -74,6 +71,11 @@ So, when writing or editing any of them:
   requires, a Spec line names what it draws - and a file restating its own position is a
   second copy of an edge something upstream owns. `## Provides` carries the boundary against
   a sibling file and a pointer to the authority for anything adjacent; nothing else.
+
+## Location tables
+
+`patterns/Schema.md` is the only authority on what a location table entry holds; it is
+not a pattern file, and the rules above do not govern it.
 
 ## Pattern citation format
 

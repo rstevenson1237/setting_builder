@@ -1,0 +1,30 @@
+# Connections.mmd - DANGEROUS
+
+## Purpose
+One DANGEROUS region's location graph, `setting/region/[Region Code]/Connections.mmd`:
+which rooms connect, grouped into blocks.
+
+## Context
+Read first:
+- `GENRE.md`
+- `BRIEF.md` - this build's design requests, which replace this template's defaults where they speak
+- this region's Overview, `setting/region/[Region Code].md` - its Approach and Places
+- this region's `Locations.md`
+- `setting/region/Connections.mmd` - the region edges a room here carries
+
+## Instructions
+- Every room is a node, and sits in exactly one block: a subgraph named for the quarter
+  its rooms share, one per block the Overview's Places names.
+- An edge states only that two rooms connect. What the way is belongs to `Connections.md`.
+- Every room is reachable from an entrance the Overview's Approach names.
+- A room in another region, reached by a region edge, is a node outside every block.
+
+## Template
+```mermaid
+graph LR
+  subgraph [Block Name]
+    A1["[Location Code] [Location Name]"]
+    A2["[Location Code] [Location Name]"]
+  end
+  A1 --- A2
+```

@@ -1,7 +1,8 @@
 # The pattern file spec
 
-What every file in `patterns/` is made of, and how to tell a correct one from a broken
-one. `CLAUDE.md` carries the short version.
+What every pattern file in `patterns/` is made of, and how to tell a correct one from a
+broken one. `CLAUDE.md` carries the short version. `patterns/Schema.md` is not a pattern
+file: it is what every location table is checked against, and nothing here governs it.
 
 **This file is a standard, not an input.** No generation step reads it: a pattern file has
 to be followable on its own, from its own notation - rates in the left margin, `{…}` for a
@@ -15,7 +16,7 @@ A **pattern** generates. A **template** frames: it names what is read before gen
 (its Context), how many units the artifact holds and how they are spread (its
 Instructions), and the exact shape the output is cut down to (its Template block).
 
-So a pattern file specifies **one unit** - one entry, one event, one location - and never
+So a pattern file specifies **one unit** - one entry, one event - and never
 how many of them a file holds or in what mix. A count, a distribution or a coverage list
 in a pattern file is the template's; per-unit content in a template is the pattern's.
 
@@ -35,12 +36,8 @@ precision from how the question itself is written, not from a worked example att
 it.
 
 **A question earns the line by naming the axis an answer has to move along, not just the
-topic.** "Condition" alone invites a generic answer; `Condition, stated before Purpose -
-how far the room sits from still in use to gone` names the axis, and the draw beside it,
-`{active | abandoned | decayed | ruined | destroyed}`, marks five points on it. Both are as
-true of any setting as "size and shape" is - which is what keeps them a question and a
-draw rather than an example. Where a field still reads thin once its axis is named,
-the fix is a sharper question, never a list of instances to draw from.
+topic.** Where a field still reads thin once its axis is named, the fix is a sharper
+question, never a list of instances to draw from.
 
 **Question or draw is a design decision, made per line.** A question produces the answer
 that best fits everything already in context - the average, done well. A draw forces the
@@ -115,10 +112,7 @@ anywhere - it is read off the citations, so it cannot fall out of step with itse
 
 **Where a line lives** follows from whether it varies: a line that differs between the
 classes that draw it belongs in the drawing class's Spec, and a line that is the same for
-all of them belongs in the file it cites. (`dangerous/High.md` requires an architecture
-detail because HIGH announces itself, so that line is HIGH's; `dangerous/Dressing.md`'s
-five baseline lines are constant, so they are Dressing's.) This is the same test
-`setting/Procedures.md` applies one level up.
+all of them belongs in the file it cites.
 
 ### `## Constraints`
 Every prohibition: what belongs in another file, what this file must never do, a named
@@ -138,148 +132,9 @@ not a property a file declares.
 A contract lives in the file it describes. A classifier names a Kind or draws a feature and
 cites the file; it does not carry that file's contract inline.
 
-A classifier may cite a file that is itself a classifier - `Encounter` drawing
-`{creature | named creature | faction}`, `Hazard` drawing a mechanism - which is how a
-category earns a middle level instead of being a rename. A middle file is worth adding only
+A classifier may cite a file that is itself a classifier, which is how a category earns a
+middle level instead of being a rename. A middle file is worth adding only
 when the kind beneath it is a real choice of two or more.
-
-## The blocks a classifier's Spec is grouped into
-
-A classifier states its lines under named blocks, and the blocks answer the same four
-questions in every rating:
-
-| block | asks |
-|---|---|
-| **substrate** | what this place is |
-| **challenge** | what stands between the party and what they want |
-| **reward** | what is here to take |
-| **registry** | what ties this place to somewhere else, in either direction |
-
-The point of the blocks is that a line failing to belong to any of them is almost always a
-line belonging to a different class - which is a test that runs while the Spec is being
-written, not afterwards.
-
-Each rating fills the four its own way, and one adds a fifth:
-
-- **DANGEROUS** is the plain case: challenge is what opposes the party, reward what is in
-  the room.
-- **WILD** adds **access**, between substrate and challenge. At depth, how a room is
-  reached is the connection graph, written at 4c and needing no words in the entry; out in
-  the country it is content, written into the parent's Features, and it is the whole
-  distinction between Landmark, Hidden and Secret.
-- **SAFE** has no challenge - a settlement opposes nobody - and a **gate** in the same
-  slot: the person standing between the party and what this place has, and their terms.
-  Its reward block is a **transaction**: what is obtainable here and what is not.
-
-A rating renaming or adding a block is a claim that the rating genuinely works differently,
-and the classifier says why in the prose under its Spec. A rating *dropping* one is a
-different matter: `dangerous/Low.md` carries a challenge block that says "none", and the
-reason, rather than omitting the heading, because the absence is the class's defining fact.
-
-## How a Spec becomes tables
-
-A region's content is held as tables before it is written as locations, and the tables are
-read off the Spec, never designed beside it. Three rules place everything:
-
-1. **A line that is not an edge is a column** - a question, a draw, or a sub-line nested
-   under another line - of the table of the file it is written in. A draw's cell is the
-   item drawn; a question's is the answer; a rated line not taken is `none`.
-2. **A pattern file is exactly one table**, in exactly one file, holding a row for each
-   unit that drew it. A file drawn as a kind holds rows only for the units that picked it.
-3. **A table's file is the block of the class-file line it descends from**: substrate,
-   gate and transaction go to the location table; challenge, reward and registry each to
-   their own file; and anything on an edge, being shared by two locations, to the exits
-   file. The file names and their columns' shape are the templates'.
-
-**One unit, one home.** A file reached from more than one line lives where its first draw
-puts it - the shallowest, then the topmost line of the class file - and every other drawer
-names its row. A file drawn from two homes at once is two files, or one of its draws is
-really a value and becomes a line.
-
-**Every line opens with its column label**: a word or two before ` - `, unique within its
-table and among the tables its rows join - a kind's table and its classifier's, or any
-table keyed by the same location. **A line answered by more than one value is more than
-one line**: where a single draw item or a short phrase cannot answer it, it is asking
-several things, and splits - most often a draw that also asks for the thing it
-categorises, which is a tag column and a gloss column. **A line with nothing to answer is
-not a Spec line**: a rule about another line belongs on that line, in Constraints, or in
-Provides.
-
-**Kinds fold into their classifier only when they answer the same lines.** Kind files
-become one table - items of a draw on the classifier - when the union of their lines
-leaves no kind with a column it never asks. A `none` from a rate is fine; a `none` because
-a kind has no such question means the kinds are different units and stay separate files.
-
-## How a file is reached
-
-Read off the graph, never declared. Five shapes recur often enough to be worth naming, and
-the names are a way of talking about a file rather than anything a file states about
-itself:
-
-| shape | reached |
-|---|---|
-| **entry** | named by a template, so a STEPS.md step reads it directly |
-| **second pass** | every output, unconditionally, after the fact |
-| **kind** | exactly one of N, mutually exclusive |
-| **ingredient** | drawn at a stated rate |
-| **conditional** | triggered by content already generated |
-
-Nothing validates these, because nothing can: `kind` and `ingredient` are not separable by
-line shape. `wild/Hidden.md` draws `1 Kind {ruin | lair | natural feature}` and
-`dangerous/High.md` draws `1 Challenge {encounter | hazard | mystery}` - identical shape,
-three alternatives, three citations - and the first draws three kinds while the second
-draws three ingredients. The difference is that a Kind decides what the location *is* and a
-challenge is something *in* it, which is semantic and not on the line. Any check would be
-checking a label against itself, and the generator branches on the drawing Spec line
-regardless.
-
-`Faction` is the one name that means a different mode in each rating, and must not be read
-as one thing: `safe/Faction.md` is one of four hooks in
-`safe/Settlement.md`'s registry line, so it is an ingredient exactly like its three
-siblings; `dangerous/Faction.md` is a Kind of `dangerous/Encounter.md`; only
-`wild/Faction.md` is conditional, drawn from inside each of the four WILD kind files at a
-rate the Kind sets, because whether a faction is possible here depends on what the place
-already turned out to be.
-
-**Every element file is reached by a classifier.** One reachable only from inside another
-element file is orphaned: nothing draws it, so nothing reads it, and the content it
-describes is never generated. `tools/validate_setting.py` warns on it, and step 5b judges it.
-
-**A file drawn two genuinely different ways is a signal, not a feature.** Prefer
-splitting it to carrying both, by **How a Spec becomes tables**' one-home rule.
-
-## What a spec line owes
-
-A spec line says which feature appears and at what rate. What it does **not** say, and
-must not, is how many words the generated feature gets.
-
-**The unit of generated content is the Feature, not the word.** A drawn element's contract
-is satisfied across as many Features as it takes: where a contract line names something the
-players can address as its own object - looked at, acted on, taken, fought, opened - that
-line becomes its own Feature. Treasure hidden in a pillar and guarded by a beast is three
-Features, not one complex one. A contract line that only *qualifies* another thing - its
-condition, its position, how it is reached - stays on that thing's line.
-
-This is what keeps entries terse without a cap. One Feature states one thing, so it is
-naturally short; the generator never has to compress a complex feature into a word count
-that cannot hold it, and never has connective prose to write, because Features are listed
-rather than joined. An entry's length is therefore the number of Features the classifier
-drew - a decision already made, in the Spec - and not a budget anyone sets afterwards.
-
-Corollaries:
-
-- **Never fill a gap with prose.** Every clause traces to a drawn contract line. A clause
-  with no line behind it is cut, which is a structural test rather than a stylistic one.
-- **Complexity decomposes, it does not expand.** A feature that will not fit a short line
-  is usually several features.
-- **Word counts are diagnostic at most.** An over-long Feature means something is being
-  explained rather than stated; an over-long entry means too many Features were drawn,
-  which is the classifier's problem and not the line's.
-
-**No hard word ceiling, anywhere.** A per-Feature cap measures prominence, while the
-thing that actually varies is complexity - contracts run from two mandatory lines
-(`wild/Quest.md`) to six (`wild/Mystery.md`). Decomposition does the work a cap would be
-standing in for.
 
 ## What prose owes
 

@@ -12,7 +12,7 @@ Read first:
 - `BRIEF.md` - this build's design requests, which replace this template's defaults where they speak
 - `patterns/setting/Language.md`
 - At 2h: every setting artifact written so far.
-- At 4j: every location, region and registry file.
+- At 4g: every location, region and registry file.
 
 ## Instructions
 Each tongue states who speaks it, its consonants and vowels, its syllable shape, its
