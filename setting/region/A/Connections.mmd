@@ -1,0 +1,18 @@
+graph LR
+  subgraph Mouth
+    A1["A.1 The Smoke Hole"]
+    A2["A.2 The Midden"]
+    A3["A.3 Wolf Pens"]
+  end
+  subgraph Hold
+    A4["A.4 Bell Hall"]
+    A5["A.5 Old Shaft"]
+    A6["A.6 Tally Room"]
+  end
+  A1 --- A2
+  A1 --- A3
+  A1 --- A4
+  A4 --- A5
+  A4 --- A6
+  A5 --- A6
+  A2 --- A5

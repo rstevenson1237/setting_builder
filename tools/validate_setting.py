@@ -18,7 +18,7 @@ to run against a build in progress, not just a finished one. Errors are
 reserved for content that exists but is wrong (malformed, inconsistent with
 something else that exists, or an unresolved/malformed citation).
 
-Usage: python3 tools/validate_setting.py [--pending [REGION] | --read-set [STEP]]
+Usage: python3 tools/validate_setting.py [--pending [REGION] | --location CODE | --read-set [STEP]]
 Exits 1 if any error is found, 0 otherwise (warnings never fail the run).
 """
 from __future__ import annotations
@@ -30,7 +30,9 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "tools"))
 
+import kdl  # noqa: E402
 import site_common as sc  # noqa: E402  - the two generic readers live there
+import tables  # noqa: E402
 
 SETTING = ROOT / "setting"
 PATTERNS = ROOT / "patterns"
@@ -96,8 +98,7 @@ def index_to_code(i: int) -> str:
 # ---------------------------------------------------------------------------
 
 PATTERN_FOLDERS = ("setting", "region", "safe", "wild", "dangerous")
-# The one pattern file outside the five folders: the tree's root, per
-# patterns/SPEC.md's "The root".
+# The one pattern file outside the folders: the tree's root.
 PATTERN_ROOT_KEY = "Genre.md"
 PATTERN_ROOT = PATTERNS / PATTERN_ROOT_KEY
 # The lookbehind keeps this from misreading the tail of a longer, correct
@@ -152,23 +153,7 @@ def check_pattern_files(diag: Diagnostics):
 
 
 # ---------------------------------------------------------------------------
-# patterns/*/*.md - section structure
-#
-# One skeleton, no declared tiers: Provides / Spec / Constraints. A Spec line
-# either points to another pattern file or states a question the generator
-# answers, which makes the library one tree - a file with outgoing citations
-# is a classifier and a file without them is a leaf, and that is read off the
-# citations rather than asserted anywhere. "Design questions" used to be a
-# separate heading for a leaf file's own contract; it was the same grammar as
-# a Spec, so it was folded back in.
-#
-# "## Design patterns" was a fourth, optional field for per-build compiled
-# content - specific worked examples, kept apart from the neutral, permanent
-# Spec. It is gone: a field that would have leaned on one now earns its
-# precision from how the Spec question itself is phrased instead, per
-# patterns/SPEC.md's governing rule. The heading is checked for and rejected
-# the same way "Design questions" is, so a reintroduction is caught here
-# rather than drifting back in unnoticed.
+# patterns/*/*.md - section structure, per patterns/SPEC.md
 # ---------------------------------------------------------------------------
 
 
@@ -191,8 +176,8 @@ def spec_blocks(text: str) -> dict[str, list[str]]:
 
 
 # A Spec line's rate is `1` or a percentage, per patterns/SPEC.md. Anything
-# else in the rate column - `2`, `3-6`, `15+` - is read by this validator and
-# by tools/context.py as a continuation of the line above, so the line it
+# else in the rate column - `2`, `3-6`, `15+` - is read by this validator as a
+# continuation of the line above, so the line it
 # opens silently merges into its neighbour.
 ODD_RATE_RE = re.compile(r'^ {2}(\d+(?:-\d+|\+)?)\s{2,}\S')
 
@@ -226,15 +211,6 @@ def check_pattern_sections(diag: Diagnostics, path, text: str):
         if not has(required):
             diag.error(path, f"missing a '## {required}' section - every patterns/*/*.md "
                               f"file carries one")
-    if has("Design questions"):
-        diag.error(path, "carries a '## Design questions' section, which was folded into "
-                          "'## Spec' - a Spec line either cites a file or states a question")
-    if has("Design patterns"):
-        diag.error(path, "carries a '## Design patterns' section - per patterns/SPEC.md's "
-                          "governing rule, a field that reads flat earns its precision from "
-                          "how the Spec question is phrased, not from a worked example "
-                          "attached to it")
-
 
 
 # A logical Spec line opens with its rate in the left margin and runs until the
@@ -439,23 +415,8 @@ def report_read_set(step_filter: str | None) -> int:
 
 
 # ---------------------------------------------------------------------------
-# patterns/*/*.md - the same sentence in three or more files
-#
-# Prose points to where something is; it never restates what is there, because
-# every copy drifts from its original and the copy is the one a reader trusts.
-# See "What prose owes" in patterns/SPEC.md.
-#
-# Two files saying the same thing is usually deliberate - restatement across
-# the three rating folders is how a trap in SAFE gets differentiated from a
-# trap in DANGEROUS, and parallel files carry parallel pointers. Three or more
-# is the band where it stops being parallel structure and starts being a rule
-# restated, which is why the threshold sits there rather than at two.
-#
-# This is a warning, not an error: the judgement of whether a given repetition
-# is parallel structure stays human. Run against the tree before the sweep that
-# introduced it, it found 47 copies across 13 sentences - the Spec preamble in
-# twelve files, the edge/question rule in seven, the compiled-content note in
-# five.
+# patterns/*/*.md - the same sentence in three or more files: a rule restated
+# rather than cited. A warning, since parallel structure is judged by a person.
 # ---------------------------------------------------------------------------
 
 DUP_MIN_WORDS = 9
@@ -490,7 +451,7 @@ def check_repeated_prose(diag: Diagnostics):
             diag.warn(PATTERNS, f"the same sentence appears in {len(files)} files "
                                 f"({', '.join(sorted(files))}): {original[key][:90]!r} - "
                                 f"prose points to where a rule lives rather than "
-                                f"restating it; see 'What prose owes' in patterns/SPEC.md")
+                                f"restating it")
 
 
 # ---------------------------------------------------------------------------
@@ -536,7 +497,6 @@ def parse_regions(diag: Diagnostics):
 
 
 TOP_NODE_RE = re.compile(r'(\w+)\["([A-Z]+) - (.*?)"\]')
-LOC_NODE_RE = re.compile(r'(\w+)\["([A-Z]+\.\d+) (.*?)"\]')
 EDGE_RE = re.compile(
     r'(\w+)(?:\[[^\]]*\])?\s*(---|-\.-|-->)(?:\|([^|]*)\|)?\s*(\w+)(?:\[[^\]]*\])?')
 EDGE_KINDS = {"---": "open", "-->": "one-way", "-.-": "secret"}
@@ -591,84 +551,12 @@ def check_top_connections(diag: Diagnostics, regions: dict):
 # Per-region Locations.md + Connections.mmd
 # ---------------------------------------------------------------------------
 
-DANGEROUS_WEIGHTS = {"low", "medium", "high"}
-WILD_CLASSIFICATIONS = {"landmark", "hidden", "secret"}
-SAFE_PROMINENCES = {"liner note", "working", "central"}
-
-
-def check_weight_tag(diag: Diagnostics, path, lineno_or_none, rating: str, code: str, weight):
-    """An empty Weight is a stub owed to its step, reported with every other stub."""
-    label = f"line {lineno_or_none}: " if lineno_or_none is not None else ""
-    allowed = {"DANGEROUS": DANGEROUS_WEIGHTS, "WILD": WILD_CLASSIFICATIONS,
-               "SAFE": SAFE_PROMINENCES}.get(rating, set())
-    if weight and weight not in allowed:
-        diag.error(path, f"{label}{rating} region location {code} has weight {weight!r} - "
-                         f"{rating} uses {', '.join(sorted(allowed))}")
-
-
-LOCATION_COLUMNS = ["Code", "Name", "Tags", "Weight"]
-
-
-def parse_locations_gazetteer(diag: Diagnostics, region_code: str, rating: str, path: Path):
-    if not path.exists():
-        diag.warn(path, "missing Locations.md - not built yet")
-        return {}
-    t = sc.table_named(path, "Location")
-    if t is None:
-        diag.error(path, "has no '## Location' table - its first table is the gazetteer")
-        return {}
-    missing = [c for c in LOCATION_COLUMNS if c not in t.header]
-    if missing:
-        diag.error(path, f"'## Location' lacks column(s) {', '.join(missing)}")
-    locs: dict[int, dict] = {}
-    order: list[int] = []
-    for d, lineno in zip(t.dicts(), t.lines):
-        m = re.fullmatch(r"([A-Z]+)\.(\d+)", d.get("Code", "").strip())
-        if not m:
-            diag.error(path, f"line {lineno}: Code {d.get('Code', '')!r} is not a location code")
-            continue
-        rcode, num = m.group(1), int(m.group(2))
-        if rcode != region_code:
-            diag.error(path, f"line {lineno}: entry code {rcode} does not match region folder {region_code}")
-        weight = d.get("Weight", "").strip() or None
-        check_weight_tag(diag, path, lineno, rating, f"{rcode}.{num}", weight)
-        if num in locs:
-            diag.error(path, f"line {lineno}: duplicate location number {num}")
-        tags = d.get("Tags", "").strip()
-        if tags and len([x for x in tags.split(",") if x.strip()]) != 3:
-            diag.warn(path, f"line {lineno}: {rcode}.{num} carries {tags!r} - expected exactly three tags")
-        locs[num] = {"name": d.get("Name", "").strip(), "weight": weight, "tags": tags}
-        order.append(num)
-    expected = list(range(1, len(order) + 1))
-    if sorted(order) != expected:
-        diag.error(path, f"location numbers are not a clean 1..N sequence: found {sorted(order)}, expected {expected}")
-    return locs
-
-
-def check_region_connections(diag: Diagnostics, region_code: str, region_locs: dict, all_locations: dict, path: Path):
-    if not path.exists():
-        diag.warn(path, "missing Connections.mmd - not built yet")
-        return []
-    text = path.read_text()
-    id_to_code, edges, unresolved = parse_mmd_edges(text, LOC_NODE_RE)
-    for u in sorted(unresolved):
-        diag.error(path, f"edge references node id {u!r} with no bracketed definition")
-    codes_in_graph = set(id_to_code.values())
-    for num in region_locs:
-        code = f"{region_code}.{num}"
-        if code not in codes_in_graph:
-            diag.warn(path, f"location {code} has no node in this region's Connections graph yet")
-    for code in codes_in_graph:
-        if code not in all_locations:
-            diag.error(path, f"node references unknown location code {code}")
-    return edges
-
 
 # ---------------------------------------------------------------------------
 # Location files
 # ---------------------------------------------------------------------------
 
-LOC_HEADER_RE = re.compile(r'^([A-Z]+)\.(\d+) \*\*(.+?)\*\*(?: \((low|medium|high|landmark|hidden|secret)\))? - \*(.+)\*\s*$')
+LOC_HEADER_RE = re.compile(r'^([A-Z]+)\.(\d+) \*\*(.+?)\*\*(?: \(([^)]+)\))? - \*(.+)\*\s*$')
 FEATURE_RE = re.compile(r'^\*\*([^*]+):\*\*\s*(.*)$')
 EXIT_PAIR_RE = re.compile(r'->\s*([A-Z]+\.\d+)\s+([^,]+)')
 EXIT_DEST_RE = re.compile(r'->\s*[A-Z]+\.\d+\s+[^,]+')
@@ -678,36 +566,22 @@ KEYS_CITE_RE = re.compile(r'\(Keys:\s*([^)]+)\)')
 QUEST_CITE_RE = re.compile(r'\(Quest:\s*([^)]+)\)')
 NAMED_CITE_RE = re.compile(r'\(Named Creature:\s*([^)]+)\)')
 UNIQUE_CITE_RE = re.compile(r'\(Unique Treasure:\s*([^)]+)\)')
+TOME_CITE_RE = re.compile(r'\(Magical Tome:\s*([^)]+)\)')
+HOARD_CITE_RE = re.compile(r'\(Hoard:\s*([^)]+)\)')
 TREASURE_CITE_RE = re.compile(r'\(Treasure\s+([IVX]+),\s*d20\)')
 ROMAN_TABLES = {"I", "II", "III", "IV", "V"}
 
 
 # ---------------------------------------------------------------------------
-# The Feature grammar - templates/region/Location.md instruction 5
-#
-# A Feature is one sentence whose only separators are "," and "->". The banned
-# punctuation is the whole point: a dash, a semicolon or a second sentence is
-# the slot a trailing clause hangs in, and the trailing clause is where a
-# Feature explains itself, dates itself, or writes down the party's conclusion.
-# Removing the slot is cheaper than judging what fills it, and unlike the prose
-# heuristics elsewhere in this file it is decidable, so separators are errors.
-# ---------------------------------------------------------------------------
-
-# Every parenthesised group is stripped before the grammar is applied: a
-# citation is machinery, not prose, and its own commas and colons are not the
-# sentence's. Where it sits is checked separately, since instruction 5 puts it
-# last and a Feature that carries prose after one has hidden a second clause
-# behind the machinery.
+# A parenthesised group is a citation, not prose.
 CITATION_RE = re.compile(r'\s*\([^()]*\)')
-BANNED_SEP_RE = re.compile(r'(;|(?<!\*):(?!\*)|\s[-\u2013\u2014]\s|\.\s+\S)')
-# feature_segments() below is still used by tools/metrics.py's corpus report;
-# the validator itself no longer caps segment count or length.
+# feature_segments() below is used by tools/metrics.py's corpus report.
 SEG_SPLIT_RE = re.compile(r'\s*(?:,|->)\s*')
 LIST_ITEM_WORDS = 3
 
 
 def feature_segments(body: str) -> list[str]:
-    """Body split per instruction 5, with a short-item list collapsed to one segment."""
+    """Body split on ',' and '->', with a short-item list collapsed to one segment."""
     text = CITATION_RE.sub("", body).strip().rstrip(".")
     merged: list[str] = []
     run: list[str] = []
@@ -727,11 +601,11 @@ def feature_segments(body: str) -> list[str]:
 
 
 # ---------------------------------------------------------------------------
-# STYLE.md - every bolded noun in a Player Summary appears below it as a Feature
+# templates/region/Location.md - every bolded noun in a Player Summary appears below it
+# as a Feature
 #
 # The summary is a promise about what the room contains, and an unkept one sends
-# the referee improvising the thing the entry was supposed to hand them. The rule
-# is absolute in STYLE.md, but matching a summary's phrasing to a Feature is not:
+# the referee improvising the thing the entry was supposed to hand them. Matching a summary's phrasing to a Feature is not:
 # a summary bolding "the pale residue" is kept by a Feature named "Warded
 # Shelving" whose line describes that residue. So this warns rather than errors,
 # and matches generously - against whole Feature lines rather than their labels
@@ -762,7 +636,7 @@ def _summary_tokens(phrase: str) -> set[str]:
 
 
 def check_summary_promises(diag: Diagnostics, path: Path, summary: str, lines: list[str]):
-    """Per STYLE.md, a bolded noun in the Player Summary is a Feature below it."""
+    """A bolded noun in the Player Summary is a Feature below it."""
     joined = re.sub(r"'s\b", "", " ".join(lines).lower())
     for raw in BOLD_RE.findall(summary):
         phrase = raw.strip()
@@ -772,41 +646,8 @@ def check_summary_promises(diag: Diagnostics, path: Path, summary: str, lines: l
         if any(tok in joined for tok in tokens):
             continue
         diag.warn(path, f"Player Summary promises **{phrase}** but no Feature below it "
-                        f"carries that name - per STYLE.md the summary is a promise about "
+                        f"carries that name - the summary is a promise about "
                         f"what the room contains, and the referee improvises an unkept one")
-
-
-# templates/region/Location.md instruction 2 - the sheet is raw material, the entry a
-# few sentences. Warned rather than errored: length is judged, not parsed.
-FEATURE_MAX_WORDS = 30
-NOTES_MAX_SENTENCES = 3
-
-
-def check_feature_grammar(diag: Diagnostics, path: Path, label: str, body: str):
-    words = len(CITATION_RE.sub("", body).split())
-    if words > FEATURE_MAX_WORDS:
-        diag.warn(path, f"Feature '{label}' runs {words} words before its citation - "
-                        f"templates/region/Location.md instruction 2 allows {FEATURE_MAX_WORDS}")
-    last = None
-    for m in CITATION_RE.finditer(body):
-        last = m
-    if last and body[last.end():].strip(" ."):
-        diag.error(path, f"Feature '{label}' carries prose after its citation "
-                         f"{last.group(0).strip()!r} - per instruction 5 of "
-                         f"templates/region/Location.md a citation sits last")
-
-    stripped = CITATION_RE.sub("", body).strip()
-    sep = BANNED_SEP_RE.search(stripped)
-    if sep:
-        found = sep.group(0)
-        what = ("a second sentence" if found.startswith(".")
-                else f"{found.strip()!r}")
-        diag.error(path, f"Feature '{label}' uses {what} - per instruction 5 of "
-                         f"templates/region/Location.md a Feature is one sentence separated "
-                         f"only by ',' and '->'")
-        return
-    if stripped and not body.rstrip().endswith((".", ")")):
-        diag.error(path, f"Feature '{label}' does not end in a period")
 
 
 def check_location_file(diag, path, region_code, num, stub, rating, all_locations,
@@ -828,11 +669,8 @@ def check_location_file(diag, path, region_code, num, stub, rating, all_location
         diag.error(path, f"header code {hcode}.{hnum_s} does not match this file's location {region_code}.{num}")
     if not names_match(hname, stub["name"]):
         diag.error(path, f"header name {hname!r} does not match its Locations.md stub name {stub['name']!r}")
-    if rating in ("DANGEROUS", "WILD"):
-        if hweight != stub["weight"]:
-            diag.error(path, f"header weight/classification {hweight!r} does not match Locations.md stub {stub['weight']!r}")
-    elif hweight:
-        diag.error(path, f"{rating} region location should not carry a weight/classification tag in its header")
+    if (hweight or "").lower() != (stub["weight"] or ""):
+        diag.error(path, f"header type {hweight!r} does not match its Location entry's {stub['weight']!r}")
     if len([t for t in htags.split(",") if t.strip()]) != 3:
         diag.warn(path, f"header carries {htags.strip()!r} - expected exactly three tags")
     elif htags.strip().strip("*") != stub.get("tags", "").strip().strip("*"):
@@ -859,10 +697,6 @@ def check_location_file(diag, path, region_code, num, stub, rating, all_location
     notes = body[idx].strip()
     if not (notes.startswith("*") and not notes.startswith("**") and notes.endswith("*") and not notes.endswith("**")):
         diag.error(path, "Referee Notes line is not wrapped in single-asterisk italics")
-    sentences = len(re.findall(r'[.!?](?=\s|\*?$)', notes.strip("*").strip()))
-    if sentences > NOTES_MAX_SENTENCES:
-        diag.warn(path, f"Referee Notes run {sentences} sentences - templates/region/Location.md "
-                        f"instruction 2 allows {NOTES_MAX_SENTENCES}")
     idx += 1
 
     features = []
@@ -880,10 +714,6 @@ def check_location_file(diag, path, region_code, num, stub, rating, all_location
             label = fm.group(1)
             features.append(label)
             feature_lines.append(s)
-            low = label.strip().lower()
-            if low.startswith(ARTICLES):
-                diag.error(path, f"Feature label '{label}' starts with a leading article")
-            check_feature_grammar(diag, path, label, fm.group(2))
 
     check_summary_promises(diag, path, summary, feature_lines)
 
@@ -913,9 +743,9 @@ def check_location_file(diag, path, region_code, num, stub, rating, all_location
                 # secret (a broken seal, a sprung passage) reads as a plain
                 # opening even though the graph marks the connection hidden.
                 # Worth a human glance, not an automatic failure.
-                diag.warn(path, f"Exits lists {src} -> {code} as mundane, but the region Connections.mmd marks it hidden (-.-) - confirm this is the far side of an already-triggered secret, not a template violation")
+                diag.warn(path, f"Exits lists {src} -> {code} as mundane, but its Connection entry carries a Secret - confirm this is the far side of an already-triggered secret, not a template violation")
             elif not in_mundane:
-                diag.error(path, f"Exits lists {src} -> {code}, but no matching edge exists in any region's Connections.mmd")
+                diag.error(path, f"Exits lists {src} -> {code}, but no Connection entry runs that way")
             key = desc.lower()
             if key:
                 if key in seen_desc and seen_desc[key] != code:
@@ -933,192 +763,15 @@ def check_location_file(diag, path, region_code, num, stub, rating, all_location
         citations["NamedCreature"].setdefault(title.strip(), set()).add(f"{region_code}.{num}")
     for title in UNIQUE_CITE_RE.findall(text):
         citations["UniqueTreasure"].setdefault(title.strip(), set()).add(f"{region_code}.{num}")
+    for title in TOME_CITE_RE.findall(text):
+        citations["MagicalTome"].setdefault(title.strip(), set()).add(f"{region_code}.{num}")
+    for title in HOARD_CITE_RE.findall(text):
+        citations["Hoard"].setdefault(title.strip(), set()).add(f"{region_code}.{num}")
     for roman in TREASURE_CITE_RE.findall(text):
         if roman not in ROMAN_TABLES:
             diag.error(path, f"Treasure citation uses unrecognized numeral {roman!r} (expected I-V)")
 
 
-# ---------------------------------------------------------------------------
-# Blocks - a DANGEROUS region's generation batches (STEPS.md 4b/4c)
-# ---------------------------------------------------------------------------
-
-BLOCK_NODE_RE = re.compile(r'(\w+)\["([^".]+)"\]')
-BLOCK_HEADER_RE = re.compile(r'^(Block|Basis|Purpose|Region|Rooms|Locations):\s*(.+?)\s*$', re.M)
-
-
-def purpose_families() -> set[str]:
-    """The FAMILY draw block in patterns/dangerous/Block.md's Spec, lower-cased."""
-    path = PATTERNS / "dangerous" / "Block.md"
-    if not path.exists():
-        return set()
-    items = spec_blocks(path.read_text()).get("FAMILY", [])
-    return {ln.split(" - ")[0].strip().lower() for ln in items if ln.strip()}
-
-
-
-
-def parse_block_files(diag: Diagnostics, region_code: str, rdir: Path, all_locations: dict):
-    """Every [Block Name].mmd in a region folder: header, nodes and typed edges."""
-    blocks: dict[str, dict] = {}
-    if not rdir.is_dir():
-        return blocks
-    for path in sorted(rdir.glob("*.mmd")):
-        if path.name == "Connections.mmd":
-            continue
-        text = path.read_text()
-        head = {k: v for k, v in BLOCK_HEADER_RE.findall(text)}
-        name = head.get("Block") or path.stem
-        if "Block" not in head:
-            diag.error(path, "block diagram has no 'Block:' header line")
-        # "Basis: purpose - [family]" or "Basis: household - [occupant]", per
-        # patterns/dangerous/Block.md; a bare "Purpose: [family]" is read as the first.
-        basis = (head.get("Basis") or "").strip()
-        if not basis and head.get("Purpose"):
-            basis = f"purpose - {head['Purpose']}"
-        kind, _, what = (s.strip() for s in basis.partition(" - "))
-        kind, what = kind.lower(), what.lower()
-        families = purpose_families()
-        purpose = ""
-        if not basis:
-            diag.warn(path, "block diagram has no 'Basis:' header line - per "
-                            "patterns/dangerous/Block.md a block is held together by a "
-                            "purpose or a household")
-        elif kind == "purpose":
-            if families and what not in families:
-                diag.error(path, f"Basis purpose {what!r} is not one of dangerous/Block.md's "
-                                 f"families: {', '.join(sorted(families))}")
-            purpose = f"purpose:{what}"
-        elif kind == "household":
-            if not what:
-                diag.error(path, "Basis household names no occupant")
-            purpose = f"household:{what}"
-        else:
-            diag.error(path, f"Basis {basis!r} is neither 'purpose - [family]' nor "
-                             f"'household - [occupant]'")
-        id_to_code, edges, unresolved = parse_mmd_edges(text, LOC_NODE_RE)
-        for u in sorted(unresolved):
-            diag.error(path, f"edge references node id {u!r} with no bracketed definition")
-        for code in id_to_code.values():
-            if code not in all_locations:
-                diag.error(path, f"node references unknown location code {code}")
-        for m in TOP_NODE_RE.finditer(text):
-            diag.error(path, f"node {m.group(2)!r} is a region, not a location - "
-                             f"a location never connects to a region")
-        members = set(re.findall(r'[A-Z]+\.\d+', head.get("Locations", "")))
-        if not members:
-            diag.error(path, "block diagram has no 'Locations:' header line - membership must be "
-                             "explicit, because a cross-block edge puts the far location's node in "
-                             "this file too and appearance alone cannot say which block owns it")
-        for code in sorted(members - set(id_to_code.values())):
-            diag.error(path, f"Locations names {code}, which has no node in this diagram")
-        for code in sorted(members):
-            if code not in all_locations:
-                diag.error(path, f"Locations names unknown location code {code}")
-        blocks[name] = {"path": path, "purpose": purpose, "members": members,
-                        "codes": set(id_to_code.values()), "edges": edges}
-    return blocks
-
-
-def check_block_purposes(diag: Diagnostics, region_code: str, blocks: dict):
-    seen: dict[str, str] = {}
-    for name, b in blocks.items():
-        if not b["purpose"]:
-            continue
-        if b["purpose"] in seen:
-            diag.warn(b["path"], f"basis {b['purpose']!r} is already used by block "
-                                 f"{seen[b['purpose']]!r} in region {region_code} - per "
-                                 f"patterns/dangerous/Block.md no two blocks share one")
-        else:
-            seen[b["purpose"]] = name
-
-
-def check_block_symmetry(diag: Diagnostics, region_code: str, blocks: dict):
-    """A cross-block edge is declared in both block files, identically."""
-    owner: dict[str, str] = {}
-    for name, b in blocks.items():
-        for code in b["members"]:
-            if code in owner:
-                diag.error(b["path"], f"location {code} is claimed by block {owner[code]!r} as well - "
-                                      f"a location belongs to exactly one block")
-            else:
-                owner[code] = name
-    declared: dict[tuple, set] = {}
-    for name, b in blocks.items():
-        for a, typ, label, c in b["edges"]:
-            declared.setdefault(edge_key(a, typ, label, c), set()).add(name)
-    reported = set()
-    for name, b in blocks.items():
-        for a, typ, label, c in b["edges"]:
-            ba, bc = owner.get(a), owner.get(c)
-            if ba is None or bc is None or ba == bc:
-                continue
-            key = edge_key(a, typ, label, c)
-            here = declared.get(key, set())
-            for other in (ba, bc):
-                if other in blocks and other not in here and (key, other) not in reported:
-                    reported.add((key, other))
-                    diag.error(blocks[other]["path"],
-                               f"cross-block edge {a} {typ}"
-                               + (f"|{label}|" if label else "")
-                               + f" {c} is declared in block {name!r} but not here - both ends "
-                                 f"declare it, identically in existence, type and direction")
-
-
-def check_block_connectivity(diag: Diagnostics, blocks: dict):
-    for name, b in blocks.items():
-        nodes = set(b["members"]) or set(b["codes"])
-        if len(nodes) < 2:
-            continue
-        adj = {n: set() for n in nodes}
-        for a, _typ, _l, c in b["edges"]:
-            if a in nodes and c in nodes:
-                adj[a].add(c)
-                adj[c].add(a)
-        seen, stack = set(), [next(iter(nodes))]
-        while stack:
-            cur = stack.pop()
-            if cur in seen:
-                continue
-            seen.add(cur)
-            stack.extend(adj[cur] - seen)
-        if seen != nodes:
-            diag.warn(b["path"], f"block {name!r} is not internally connected - "
-                                 f"{len(nodes - seen)} location(s) reachable only through another block")
-
-
-def check_low_shape_mix(diag: Diagnostics, region_code: str, region_locs: dict, edges: list, path):
-    """templates/region/Block_Connections.mmd's LOW SHAPE MIX, measured on the assembled graph."""
-    lows = {f"{region_code}.{n}" for n, l in region_locs.items() if l.get("weight") == "low"}
-    # LOW is the residue of the class mix rather than its largest class, so a
-    # normal region now has three or four LOW rooms. The 60% rule still reads at
-    # four; the no-class-over-a-third rule does not, because four rooms across
-    # four degree classes puts any pair at half by arithmetic alone.
-    if len(lows) < 4:
-        return
-    undirected = {frozenset((a, b)) for a, _typ, _l, b in edges if a != b}
-    deg: dict[str, int] = {}
-    for e in undirected:
-        for n in e:
-            deg[n] = deg.get(n, 0) + 1
-
-    def cls(n):
-        d = deg.get(n, 0)
-        return d if d <= 3 else 4
-
-    classes = [cls(n) for n in lows]
-    non_through = sum(1 for c in classes if c != 2)
-    if non_through / len(lows) < 0.60:
-        diag.warn(path, f"region {region_code}: {non_through}/{len(lows)} LOW locations have a degree "
-                        f"other than 2 (want 60%+). Degree is coarse - a location on a loop is degree 2 "
-                        f"and reads here as a corridor, so check this against the map before acting")
-    names = {0: "isolated", 1: "dead end", 2: "through-connection", 3: "branch", 4: "branch (many)"}
-    if len(lows) < 6:
-        return
-    for c in sorted(set(classes)):
-        share = classes.count(c) / len(lows)
-        if share > 1 / 3:
-            diag.warn(path, f"region {region_code}: {names[c]} accounts for {share:.0%} of LOW "
-                            f"locations (want no single class over a third)")
 
 
 def check_region_edge_realization(diag: Diagnostics, top_path, top_edges: list,
@@ -1150,6 +803,8 @@ REGISTRY_KINDS = [
     ("Quest", SETTING / "Quests.md", "quests"),
     ("NamedCreature", SETTING / "NamedCreatures.md", "named_creatures"),
     ("UniqueTreasure", SETTING / "UniqueTreasures.md", "unique_treasures"),
+    ("MagicalTome", SETTING / "MagicalTomes.md", "magical_tomes"),
+    ("Hoard", SETTING / "Hoards.md", "hoards"),
 ]
 
 # A Quest is two-ended by definition: a giver location and a target location.
@@ -1208,35 +863,29 @@ def cross_check_registry(diag: Diagnostics, kind: str, path: Path, registry: dic
 # ---------------------------------------------------------------------------
 # Table and record files - the to-do list
 #
-# Every table-like file is a pipe table or a record file (patterns/SPEC.md's How
-# a Spec becomes tables), so one pair of checks covers all of them. A malformed
+# Every setting-level table-like file is a pipe table or a record file, so one pair of checks covers all of them. A malformed
 # row or an unknown reference is an error. A stub - an empty cell, or a record
 # missing a field its template writes - is the build's own to-do list, so it is
 # a warning naming the step the gap is owed to.
 # ---------------------------------------------------------------------------
 
 TEMPLATES_DIR = ROOT / "templates"
-REGION_TABLE_FILES = ("Locations.md", "Exits.md", "Challenges.md", "Treasures.md", "Links.md")
-# Columns whose cells name locations, and columns whose cells name rows by id.
-LOCATION_REF_COLUMNS = {"Code", "Location", "From", "To", "Parent", "Foreshadows",
-                        "Sends to", "Seen at", "Opens", "Target"}
-ROW_REF_COLUMNS = {"Who", "Guard", "Set on", "Ward", "Gate trap", "Payload row", "On",
-                   "Contents row"}
-ROW_ID_RE = re.compile(r"\b[A-Z]{1,3}\d+\b")
 # The setting-level files and the step each one's gaps are owed to; the template that
 # writes each is named so a record's expected fields can be read from it.
 SETTING_TABLE_FILES = {
-    "Keys.md": ("setting/Keys.md", "4h"),
-    "Quests.md": ("setting/Quests.md", "4h"),
+    "Keys.md": ("setting/Keys.md", "4e"),
+    "Quests.md": ("setting/Quests.md", "4e"),
     "Truths.md": ("setting/Truths.md", "5c"),
 }
 SETTING_RECORD_FILES = {
     "Bestiary.md": ("setting/Bestiary.md", "2e"),
     "Factions.md": ("setting/Factions.md", "2f"),
     "History.md": ("setting/History.md", "5c"),
-    "Lore.md": ("setting/Lore.md", "4h"),
-    "NamedCreatures.md": ("setting/NamedCreatures.md", "4h"),
-    "UniqueTreasures.md": ("setting/UniqueTreasures.md", "4h"),
+    "Lore.md": ("setting/Lore.md", "4e"),
+    "NamedCreatures.md": ("setting/NamedCreatures.md", "4e"),
+    "UniqueTreasures.md": ("setting/UniqueTreasures.md", "4e"),
+    "MagicalTomes.md": ("setting/MagicalTomes.md", "4e"),
+    "Hoards.md": ("setting/Hoards.md", "4e"),
 }
 
 
@@ -1266,49 +915,17 @@ def template_fields(rel: str) -> list[str]:
     return out
 
 
-def region_owed_step(fname: str, table: str, column: str) -> str:
-    """Per STEPS.md phase 4: weights at 4b, table passes at 4f, naming at 4g,
-    connected rows at 4h, compile's Realized trace at 4i."""
-    if column == "Realized":
-        return "4i"
-    if fname == "Locations.md":
-        if column == "Weight":
-            return "4b"
-        if column == "Block":
-            return "4c"
-        if table == "Naming":
-            return "4g"
-        return "4f"
-    return {"Exits.md": "4h", "Links.md": "4h"}.get(fname, "4f")
-
-
-def compiled(row: dict) -> bool:
-    """Whether the location a row belongs to has its file yet - until it does, an
-    empty Realized cell is not owed, since compile is what fills it."""
-    for col in ("Location", "Code", "From"):
-        m = re.fullmatch(r"([A-Z]+)\.(\d+)", row.get(col, "").strip())
-        if m:
-            return (SETTING / "region" / m.group(1) / f"{m.group(2)}.md").exists()
-    return False
-
-
-def table_stubs(path: Path, tables, owed) -> list[tuple[str, Path, int, str]]:
+def table_stubs(path: Path, tables, step: str) -> list[tuple[str, Path, int, str]]:
     out = []
     for t in tables:
         for row, line in zip(t.rows, t.lines):
             empty = [h for h, c in zip(t.header, row) if not c.strip()]
             empty += t.header[len(row):]
-            if "Realized" in empty and not compiled(dict(zip(t.header, row))):
-                empty.remove("Realized")
             if not empty:
                 continue
             key = row[0] if row else "?"
-            by_step: dict[str, list] = {}
-            for col in empty:
-                by_step.setdefault(owed(t.name, col), []).append(col)
-            for step, cols in sorted(by_step.items()):
-                where = f"{t.name} " if t.name else ""
-                out.append((step, path, line, f"{where}{key}: {', '.join(cols)}"))
+            where = f"{t.name} " if t.name else ""
+            out.append((step, path, line, f"{where}{key}: {', '.join(empty)}"))
     return out
 
 
@@ -1326,13 +943,13 @@ def check_table_shape(diag: Diagnostics, path: Path, tables):
                 seen.add(rid)
 
 
-def collect_stubs(region_locs: dict) -> list[tuple[str, Path, int, str]]:
-    """Every stub in the setting, as (owed step, file, line, what is missing)."""
+def collect_stubs() -> list[tuple[str, Path, int, str]]:
+    """Every setting-level stub, as (owed step, file, line, what is missing)."""
     stubs = []
     for fname, (tmpl, step) in SETTING_TABLE_FILES.items():
         path = SETTING / fname
         if path.exists():
-            stubs += table_stubs(path, sc.read_tables(path), lambda _t, _c, s=step: s)
+            stubs += table_stubs(path, sc.read_tables(path), step)
     for fname, (tmpl, step) in SETTING_RECORD_FILES.items():
         path = SETTING / fname
         if not path.exists():
@@ -1343,17 +960,10 @@ def collect_stubs(region_locs: dict) -> list[tuple[str, Path, int, str]]:
             missing = [f for f in fields if f not in have]
             if missing:
                 stubs.append((step, path, r.line, f"{r.name}: {', '.join(missing)}"))
-    for region_code in region_locs:
-        rdir = SETTING / "region" / region_code
-        for fname in REGION_TABLE_FILES:
-            path = rdir / fname
-            if path.exists():
-                stubs += table_stubs(path, sc.read_tables(path),
-                                     lambda t, c, f=fname: region_owed_step(f, t, c))
     return stubs
 
 
-def check_tables(diag: Diagnostics, region_locs: dict, all_locations: dict):
+def check_tables(diag: Diagnostics):
     for fname, (tmpl, _step) in SETTING_TABLE_FILES.items():
         path = SETTING / fname
         if not path.exists():
@@ -1373,33 +983,7 @@ def check_tables(diag: Diagnostics, region_locs: dict, all_locations: dict):
                 if fields and k not in fields:
                     diag.error(path, f"line {r.line}: {r.name} carries field {k!r}, which "
                                      f"templates/{tmpl} does not write")
-    for region_code in region_locs:
-        rdir = SETTING / "region" / region_code
-        for path in sorted(rdir.glob("*.md")):
-            if path.stem.isdigit():
-                continue
-            if path.name not in REGION_TABLE_FILES:
-                diag.error(path, f"is neither a location file nor one of the region's table "
-                                 f"files ({', '.join(REGION_TABLE_FILES)})")
-        files = {f: sc.read_tables(rdir / f) for f in REGION_TABLE_FILES if (rdir / f).exists()}
-        ids = {row[t.header.index("ID")] for ts in files.values() for t in ts if "ID" in t.header
-               for row in t.rows if len(row) > t.header.index("ID")}
-        for fname, tables in files.items():
-            path = rdir / fname
-            check_table_shape(diag, path, tables)
-            for t in tables:
-                for d, line in zip(t.dicts(), t.lines):
-                    for col, val in d.items():
-                        if col in LOCATION_REF_COLUMNS:
-                            for c in sc.LOC_CODE_TOKEN_RE.findall(val):
-                                if c not in all_locations:
-                                    diag.error(path, f"line {line}: {col} names unknown location {c}")
-                        if col in ROW_REF_COLUMNS:
-                            for rid in ROW_ID_RE.findall(val):
-                                if rid not in ids:
-                                    diag.error(path, f"line {line}: {col} names row {rid}, which "
-                                                     f"no table in this region holds")
-    for step, path, line, what in collect_stubs(region_locs):
+    for step, path, line, what in collect_stubs():
         diag.warn(path, f"line {line}: stub owed to step {step} - {what}")
 
 
@@ -1417,6 +1001,13 @@ def check_treasure_tables(diag: Diagnostics):
         rownums = [int(x) for x in re.findall(r"^\|\s*(\d+)\s*\|", text, re.M)]
         if rownums != list(range(1, 21)):
             diag.error(path, f"expected 20 rows numbered 1-20, found {rownums}")
+    path = SETTING / "Magic.md"
+    if not path.exists():
+        diag.warn(path, "missing - not built yet")
+    else:
+        rownums = [int(x) for x in re.findall(r"^\|\s*(\d+)\s*\|", path.read_text(), re.M)]
+        if rownums != list(range(1, 7)):
+            diag.error(path, f"expected 6 rows numbered 1-6, found {rownums}")
 
 
 def check_rumours(diag: Diagnostics):
@@ -1545,11 +1136,11 @@ def check_statblocks(diag: Diagnostics, path: Path, label: str, expect_special: 
 
 REGION_FIELDS = {
     "SAFE": ["Overview", "Approach", "People", "Services", "Law", "Places", "Situation",
-             "Secrets", "Compositions", "Tables"],
+             "Secrets", "Tables"],
     "WILD": ["Overview", "Approach", "Terrain", "Inhabitants", "Places", "Situation",
-             "Loot", "Secrets", "Compositions", "Tables"],
+             "Loot", "Secrets", "Tables"],
     "DANGEROUS": ["Overview", "Approach", "Conditions", "Inhabitants", "Alarm", "Places",
-                  "Situation", "Loot", "Secrets", "Compositions", "Tables"],
+                  "Situation", "Loot", "Secrets", "Tables"],
 }
 REGION_LABEL_RE = re.compile(r'^([A-Z][a-z]+):(?:\s|$)')
 
@@ -1617,37 +1208,8 @@ def check_repeated_features(diag: Diagnostics, region_code: str):
                             f"from its siblings; judged at STEPS.md step 5c")
 
 
-def check_class_mix(diag: Diagnostics, region_code: str, rating: str, locs: dict):
-    """templates/dangerous/Locations.md's mix: 30% HIGH, 50% MEDIUM, rest LOW.
-
-    A warning, and deliberately loose - the mix is a shape, not an arithmetic
-    target, and a region a room either side of it has not failed anything. What
-    it catches is the drift the mix exists to prevent: a region that is mostly
-    LOW is mostly rooms with no challenge in them, since dangerous/Low.md draws
-    none by definition.
-    """
-    if rating != "DANGEROUS" or not locs:
-        return
-    n = len(locs)
-    counts = {w: 0 for w in ("high", "medium", "low")}
-    for l in locs.values():
-        if l.get("weight") in counts:
-            counts[l["weight"]] += 1
-    for weight, want, slack in (("high", 0.30, 0.10), ("medium", 0.50, 0.12)):
-        got = counts[weight] / n
-        if abs(got - want) > slack:
-            diag.warn(SETTING / "region" / region_code,
-                      f"region {region_code}: {counts[weight]}/{n} locations are {weight.upper()} "
-                      f"({got:.0%}); templates/dangerous/Locations.md's default is about {want:.0%}")
-    if counts["low"] / n > 0.35:
-        diag.warn(SETTING / "region" / region_code,
-                  f"region {region_code}: {counts['low']}/{n} locations are LOW "
-                  f"({counts['low'] / n:.0%}) - LOW is the residue of the mix, not its "
-                  f"largest class, and it draws no challenge at all")
-
-
 # A Feature citing a treasure table must not also say what comes up on it.
-# patterns/dangerous/Treasure.md and wild/Treasure.md both state this outright;
+# templates/region/Location.md states this outright;
 # it is a prose rule, so this is a heuristic and a warning - it flags a stated
 # price, a stated count, or a value judgement sitting in the same Feature as
 # the citation, and a human decides.
@@ -1772,7 +1334,7 @@ def check_registry_floors(diag: Diagnostics, registries: dict, build_complete: b
             path = SETTING / filename
             diag.warn(path, f"no {kind} rows at the close of the build - check this is a "
                             f"decision and not a draw that never fired, per "
-                            f"patterns/dangerous/Treasure.md's rates")
+                            f"patterns/Schema.md's rates")
 
 
 def check_rumour_settling(diag: Diagnostics, build_complete: bool):
@@ -1816,8 +1378,8 @@ def check_top_level_files(diag: Diagnostics):
 # ---------------------------------------------------------------------------
 # Topology report
 #
-# Not a check. Per CLAUDE.md's validation posture the validator stays strict on
-# format and relaxed on content and ratios, and graph shape is a design decision
+# Not a check. The validator stays strict on format and relaxed on content and
+# ratios, and graph shape is a design decision
 # rather than a rule - SAFE wants a shallow hub, WILD a forest of trees,
 # DANGEROUS a dense graph with loops and at least one divide. Reporting the shape
 # gives setting/checks/SettingJudgementCheck.md something factual to judge against.
@@ -1887,64 +1449,44 @@ def is_fresh_start() -> bool:
 
 
 def report_pending(region_filter: str | None) -> int:
-    """Inbound edges owed to blocks not yet written, then every stub by its owed step.
+    """Every gap still owed: each region's table warnings, then every setting-level stub."""
+    regions = parse_regions(Diagnostics())
+    setting = tables.Setting({c: i["rating"] for c, i in regions.items()})
+    scope = SETTING / "region" / region_filter if region_filter else SETTING
+    owed: dict[str, list[str]] = {}
+    for sev, path, msg in setting.check():
+        if sev == "warning" and (Path(path) == scope or scope in Path(path).parents):
+            owed.setdefault(rel(path), []).append(msg)
+    for r in setting.regions.values():
+        for code in r.locations():
+            path = r.dir / f"{code.split('.')[1]}.md"
+            if (Path(path) == scope or scope in Path(path).parents) and not path.exists():
+                owed.setdefault(rel(r.dir), []).append(f"{code} has no write-up yet")
+    for step, path, line, what in ([] if region_filter else collect_stubs()):
+        owed.setdefault(rel(path), []).append(f"line {line}: stub owed to step {step} - {what}")
+    for path in sorted(owed):
+        print(path)
+        for msg in owed[path]:
+            print(f"  {msg}")
+    if not owed:
+        print("Nothing pending.")
+    return 0
 
-    A block's membership is the file its nodes are declared in, so a block that does not
-    exist yet owns no locations and cannot be named. What is answerable - and what is
-    actually needed before writing one - is which already-declared edges point at locations
-    no block file has claimed.
-    """
-    diag = Diagnostics()
-    regions = parse_regions(diag)
-    any_out = False
-    for region_code, info in regions.items():
-        if region_filter and region_code != region_filter:
-            continue
-        if info["rating"] != "DANGEROUS":
-            continue
-        rdir = SETTING / "region" / region_code
-        locs = parse_locations_gazetteer(diag, region_code, info["rating"], rdir / "Locations.md")
-        all_locations = {f"{region_code}.{n}": {"region": region_code} for n in locs}
-        blocks = parse_block_files(Diagnostics(), region_code, rdir, all_locations)
-        placed = {c for b in blocks.values() for c in b["members"]}
-        inbound: dict[str, list] = {}
-        for name, b in blocks.items():
-            for a, typ, label, c in b["edges"]:
-                for near, far in ((a, c), (c, a)):
-                    if near in b["members"] and far not in placed:
-                        inbound.setdefault(far, []).append(
-                            f"{near} {typ}" + (f"|{label}|" if label else "") + f" {far}  (from block {name!r})")
-        unplaced = sorted(f"{region_code}.{n}" for n in locs if f"{region_code}.{n}" not in placed)
-        if not inbound and not unplaced:
-            continue
-        any_out = True
-        print(f"{region_code} {info['name']}")
-        print(f"  blocks written: {', '.join(sorted(blocks)) or '(none)'}")
-        if inbound:
-            print("  edges owed to locations no block has claimed:")
-            for far in sorted(inbound):
-                for line in inbound[far]:
-                    print(f"    {line}")
-        if unplaced:
-            print(f"  locations in no block yet: {', '.join(unplaced)}")
-        print()
-    region_locs = {rc: parse_locations_gazetteer(Diagnostics(), rc, info["rating"],
-                                                 SETTING / "region" / rc / "Locations.md")
-                   for rc, info in regions.items()}
-    stubs = collect_stubs(region_locs)
-    if region_filter:
-        stubs = [x for x in stubs if (SETTING / "region" / region_filter) in x[1].parents]
-    if stubs:
-        any_out = True
-        print("Stubs, by the step they are owed to:")
-        for step in sorted({x[0] for x in stubs}):
-            print(f"  {step}")
-            for _s, path, line, what in sorted(x for x in stubs if x[0] == step):
-                print(f"    {rel(path)}:{line}  {what}")
-        print()
-    if not any_out:
-        print("Nothing pending: every location sits in a block, no edge points outside one, "
-              "and no table or record holds a stub.")
+
+def report_location(code: str) -> int:
+    """Every entry the location holds, then every entry naming it."""
+    regions = parse_regions(Diagnostics())
+    setting = tables.Setting({c: i["rating"] for c, i in regions.items()})
+    if code not in setting.codes:
+        print(f"{code} is not a location")
+        return 1
+    own, named = setting.entries_at(code)
+    for where, n in own:
+        print(f"{where}: {kdl.dump(n)}")
+    if named:
+        print("\nNamed by:")
+        for where, n in named:
+            print(f"{where}: {kdl.dump(n)}")
     return 0
 
 
@@ -1953,6 +1495,8 @@ def main() -> int:
     check_pattern_files(diag)
     check_read_set_graph(diag)
     check_repeated_prose(diag)
+    for problem in tables.Schema().problems:
+        diag.error(tables.SCHEMA, problem)
 
     if is_fresh_start():
         seeded = sorted(n for n in SEED_FILES if (SETTING / n).exists())
@@ -1975,55 +1519,27 @@ def main() -> int:
     top_path = SETTING / "region" / "Connections.mmd"
     top_edges = check_top_connections(diag, regions)
 
+    setting = tables.Setting({c: i["rating"] for c, i in regions.items()})
+    for sev, path, msg in setting.check():
+        (diag.error if sev == "error" else diag.warn)(path, msg)
     region_locs: dict[str, dict] = {}
-    for region_code, info in regions.items():
-        gaz_path = SETTING / "region" / region_code / "Locations.md"
-        region_locs[region_code] = parse_locations_gazetteer(diag, region_code, info["rating"], gaz_path)
-
     all_locations: dict[str, dict] = {}
-    for region_code, locs in region_locs.items():
-        for num, l in locs.items():
-            all_locations[f"{region_code}.{num}"] = {"name": l["name"], "weight": l["weight"], "region": region_code}
-
-    mundane_edges: set[tuple[str, str]] = set()
-    hidden_edges: set[tuple[str, str]] = set()
-    region_edges: dict[str, list] = {}
-    all_loc_edges: list = []
-    for region_code, info in regions.items():
-        rdir = SETTING / "region" / region_code
-        cpath = rdir / "Connections.mmd"
-        if info["rating"] == "DANGEROUS":
-            # Connections.mmd is the block-existence tier; the typed location edges
-            # live one file per block.
-            blocks = parse_block_files(diag, region_code, rdir, all_locations)
-            check_block_purposes(diag, region_code, blocks)
-            check_block_symmetry(diag, region_code, blocks)
-            check_block_connectivity(diag, blocks)
-            edges = []
-            for b in blocks.values():
-                edges.extend(b["edges"])
-            if not blocks:
-                diag.warn(rdir, "DANGEROUS region has no block diagrams yet")
-            placed = {c for b in blocks.values() for c in b["members"]}
-            for num in region_locs[region_code]:
-                code = f"{region_code}.{num}"
-                if code not in placed:
-                    diag.warn(rdir, f"location {code} appears in no block diagram yet")
-            check_low_shape_mix(diag, region_code, region_locs[region_code], edges, rdir)
-        else:
-            edges = check_region_connections(diag, region_code, region_locs[region_code],
-                                             all_locations, cpath)
-        region_edges[region_code] = edges
-        all_loc_edges.extend(edges)
-        for a, typ, _lbl, b in edges:
-            if typ == "---":
-                mundane_edges.add((a, b))
-                mundane_edges.add((b, a))
-            elif typ == "-->":
-                mundane_edges.add((a, b))
-            elif typ == "-.-":
-                hidden_edges.add((a, b))
-                hidden_edges.add((b, a))
+    for region_code, r in setting.regions.items():
+        region_locs[region_code] = {}
+        for code, n in r.locations().items():
+            m = tables.CODE_RE.fullmatch(code)
+            if m and m.group(1) == region_code:
+                stub = {"name": n.props.get("name", ""), "tags": n.props.get("tags", ""),
+                        "weight": str(n.props.get("type", "")).lower() or None}
+                region_locs[region_code][int(m.group(2))] = stub
+                all_locations[code] = {**stub, "region": region_code}
+    region_edges = {rc: [(a, "---", "", b) for a, b in r.edges] for rc, r in setting.regions.items()}
+    all_loc_edges = [e for edges in region_edges.values() for e in edges]
+    sides = [n for r in setting.regions.values() for n in r.files.get("Connections", [])
+             if n.args and "to" in n.props]
+    hidden_edges = {(n.args[0], n.props["to"]) for n in sides
+                    if any(c.name == "Secret" for c in n.children)}
+    mundane_edges = {(n.args[0], n.props["to"]) for n in sides} - hidden_edges
 
     check_region_edge_realization(diag, top_path, top_edges, all_loc_edges, all_locations)
 
@@ -2061,14 +1577,12 @@ def main() -> int:
     for kind, path, _marker in REGISTRY_KINDS:
         cross_check_registry(diag, kind, path, registries[kind], citations[kind])
 
-    check_tables(diag, region_locs, all_locations)
+    check_tables(diag)
     check_treasure_tables(diag)
     check_rumours(diag)
     check_top_level_files(diag)
     check_statblocks(diag, SETTING / "Bestiary.md", "Bestiary", expect_special=True)
     check_statblocks(diag, SETTING / "NamedCreatures.md", "Named Creature", expect_special=True)
-    for region_code, locs in region_locs.items():
-        check_class_mix(diag, region_code, regions[region_code]["rating"], locs)
     for region_code, info in regions.items():
         check_region_overview(diag, region_code, info["rating"])
         check_repeated_features(diag, region_code)
@@ -2092,6 +1606,8 @@ def main() -> int:
 if __name__ == "__main__":
     if len(sys.argv) > 1 and sys.argv[1] == "--pending":
         sys.exit(report_pending(sys.argv[2] if len(sys.argv) > 2 else None))
+    if len(sys.argv) > 2 and sys.argv[1] == "--location":
+        sys.exit(report_location(sys.argv[2]))
     if len(sys.argv) > 1 and sys.argv[1] == "--read-set":
         sys.exit(report_read_set(sys.argv[2] if len(sys.argv) > 2 else None))
     sys.exit(main())

@@ -32,8 +32,8 @@ exists yet, and filled at step 5c against the locations actually built. For a `P
 also names **which half is false**, in a clause, because "partially true" without that is
 a mark the referee cannot act on.
 
-A rumour that points off the map says so - `Settled at: nowhere on this map` - which per
-STYLE.md's state-the-nil is a decision on the page. Without it, a deliberate lead beyond
+A rumour that points off the map says so - `Settled at: nowhere on this map` - a decision on
+the page. Without it, a deliberate lead beyond
 the edge of the setting and a dangling reference to something nobody ever wrote read
 exactly alike.
 

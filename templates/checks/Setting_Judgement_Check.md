@@ -7,12 +7,11 @@ A non-mechanical review pass over the generated `setting/` content - confirming,
 Consult when running this check - deliberately broader than any single generation step, since cross-level coherence is the thing being judged:
 - `GENRE.md` - the throughline every level should still be expressing.
 - `BRIEF.md` - this build's design requests, which replace this template's defaults where they speak
-- `STYLE.md` - the three tests judged against below.
+- `STYLE.md` - the tests judged against below.
 - `setting/Setting.md`, `setting/History.md`, `setting/Truths.md` - what every region should be reinforcing.
 - `setting/region/Regions.md` and each region's `setting/region/[Code].md` overview - what every location in that region should be reinforcing.
 - each region's `setting/region/[Code]/Locations.md` and its location files.
 - `setting/Bestiary.md`, `setting/Factions.md`, `setting/Lore.md`, `setting/Keys.md`, `setting/NamedCreatures.md`, `setting/UniqueTreasures.md` - recurring elements that should be tying levels together rather than sitting isolated.
-- `templates/region/Location.md` - the three tiers an entry displays information at, which the tiering item below is judged against.
 - the output of `python3 tools/metrics.py` (its MIX section), `python3 tools/metrics.py --tells setting/`, and the region's table files, for any location whose draws are in question.
 
 ## Instructions
@@ -30,8 +29,8 @@ findings are the evidence `templates/checks/Pattern_Judgement_Check.md` starts f
 
 - **The brief was delivered** - take `BRIEF.md` line by line. For each request, name where the setting delivers it, or record that it does not. A count asked for is counted; a shape asked for (entrances per block, a gap left for the referee, a mix of peoples) is checked against the graph and the rooms, not the Region Overview's claim about them. Where a template default and the brief spoke to the same thing, record which one the content followed.
 - **Genre held across levels** - take `GENRE.md`'s answers one by one and name where the setting delivers each: the Magic level answer in what the Treasure tables actually hold, the Lethality answer in what a hazard or creature can do, the Reward answer in what a party can carry home and sell, the Naming answer in the names on the map. Record any answer given differently at a lower level - a mechanic the reference does not have, a kind of creature it does not lean on, a history deeper than it wants - and any authored plot where a situation should be.
-- **The three tests, hardest at the top** - open `STYLE.md` to **What a line has to earn** and apply its three tests, as written there, to every sentence of the setting-level files and each Region Overview, line by line. They fail most often above the location level, because a location has to be run at a table and a Region Overview does not.
-- **Discrete and discoverable, not vague** - is content built from concrete, specific, discoverable details (a named object, a specific trigger, a specific creature or faction presence) that a player can find and act on, rather than an atmospheric motif repeated without ever cashing out into something discoverable? Per each rating's `Dressing.md` Position guidance, this includes whether Features and Exits actually state where in the room they sit and, when spatially significant, their own dimension - a Referee shouldn't have to improvise where something is, or find two same-type exits in one room indistinguishable.
+- **The tests, hardest at the top** - apply `STYLE.md`'s tests, as written there, to every sentence of the setting-level files and each Region Overview, line by line. They fail most often above the location level, because a location has to be run at a table and a Region Overview does not.
+- **Discrete and discoverable, not vague** - is content built from concrete, specific, discoverable details (a named object, a specific trigger, a specific creature or faction presence) that a player can find and act on, rather than an atmospheric motif repeated without ever cashing out into something discoverable?
 - **Every secret has its answer** - does every secret, mystery and undecided question in the setting-level files, the Region Overviews and the registries carry the fact the referee holds as true, or stand in `setting/Truths.md` as a mystery or an open gap held on purpose? A question the players may never answer is fine; one the referee cannot answer, and that nothing marks as deliberate, is a decision handed to whoever improvises first.
 - **Nothing contradicts** - does any fact in one file disagree with another: a place said not to exist beside the location that is it, a building placed in two baileys, a person alive in one region and gone in another?
 - **Everything recurs, nothing is orphaned** - is every Bestiary entry, faction, Named Creature, Lore, Key, Unique Treasure and coined name met in at least one location, and do the ones met in several stay consistent and build on each other? Is everything a Region Overview offers (a person, an occupant, a prize) somewhere a party can reach?
@@ -40,24 +39,18 @@ findings are the evidence `templates/checks/Pattern_Judgement_Check.md` starts f
 ### Per region
 
 - **Regions reinforce the setting** - does each Region Overview visibly connect back to `setting/Setting.md`/`History.md`/`Truths.md` (a named historical event, a faction's presence, a unique truth playing out), rather than feeling like an unrelated pocket bolted onto the setting?
-- **Locations reinforce their region** - does each location's dressing and Features reflect the parent Region Overview's Conditions, Inhabitants and Places, rather than reading as a location that could belong to any region? Are its three tags recognisable in what it holds? For a WILD region, does its landmark/hidden/secret split roughly track `templates/wild/Locations.md`, and does every hidden or secret location's connection trace back to a stated detail or Feature at its parent?
-- **Information is tiered, and the chain holds** - per `templates/region/Location.md`'s three tiers, does each location present something at more than one of obvious / trigger / secret, and does every tier's way in actually sit in the tier above it? Three failures to look for, in rising order of cost: an entry whose Player Summary hands over everything, so nothing rewards acting on the room; an entry that reads empty because all of it sits behind a clue; and the one that matters most, a concealed detail whose Clue is stated nowhere in the obvious tier, which is content the referee knows and the players can never reach. Check the region as a whole too, since the secret tier is rationed rather than universal: a region where every room hides something teaches players to search every room, and one where no room does teaches them to stop - `patterns/dangerous/Low.md`'s split rates exist to hold that line, so a region that has drifted off them is the finding.
+- **Locations reinforce their region** - does each location's dressing and Features reflect the parent Region Overview's Conditions, Inhabitants and Places, rather than reading as a location that could belong to any region? Are its three tags recognisable in what it holds?
 - **Rooms are distinct** - within the region, do two rooms share a Feature sentence, a room shape, or the same set of Features under different names? Where one occupant holds several blocks, does each block differ in more than its name? `tools/validate_setting.py` warns on a repeated Feature sentence; this item judges the near-repeats a string match cannot see.
-- **Draws were realized at their rates** - do the region's realized mixes sit near what its class files and connection templates ask for? `python3 tools/metrics.py`'s MIX section counts edge kinds and treasure kinds; the region's table files show what allocation decided for each room, to hold beside what its entry holds. Second names, concealed details and absent encounters are counted by reading. A mix collapsed to one answer is recorded with the rate it should have held.
-- **Rows written in one pass read as a form** - within one table, do the rows share a
+- **Rates were rolled, not chosen** - do the region's tables sit near their types' rates? `python3 tools/validate_setting.py --pending` lists every room off its rate, and `python3 tools/metrics.py`'s MIX section counts connection and treasure kinds. A mix collapsed to one answer is recorded with the rate it should have held.
+- **Entries written in one pass read as a form** - within one table, do the entries share a
   sentence shape, an opening word, or the same few glosses in rotation? A pass that sees
   every sibling exists to make them differ; a table that reads like a filled-in form has
   converged anyway.
-- **Rooms read as one room** - does each location file read as one place, or as its rows
+- **Rooms read as one room** - does each location file read as one place, or as its entries
   laid side by side? A Feature that could not share the room with the others, or a Summary
-  that names rows rather than a place, is the finding, traced to the row that would not fit.
-- **Compositions are solvable and priced** - for each entry in the Region Overview's
-  Compositions field, walk the chain from the region's entrance: is every link's clue
-  obvious in its own room, and does the gate it builds have a way round that costs
-  something? `templates/region/Composition.md` holds the full proof.
+  that names entries rather than a place, is the finding, traced to the entry that would not fit.
 - **Said once** - does any location restate, near-verbatim, a sentence from its Region Overview, a Truth's Shows line, a Bestiary entry's Disposition, or another location? Per `STYLE.md` the higher level is the one that is wrong where a fact is merely repeated; where a room only transcribes the Bestiary, the room has said nothing of its own.
 - **Tells, read** - for each of this region's hits in `python3 tools/metrics.py --tells setting/`, judge whether it is the failure its tell names: an absence claimed across time or space, a conclusion written for the players, a term glossed, a contrast doing a Feature's work.
-- **Withholding is present** - per `STYLE.md`, does the region hold at least one rich-looking room with nothing in it, or has every rich-looking room paid out?
 
 ### Room to Grow
 
@@ -79,7 +72,7 @@ nothing delivers stays under Room to Grow.
 ## Setting-level
 - The brief was delivered: [Confirmed / Needs Attention - per line, and its source]
 - Genre held across levels: [Confirmed / Needs Attention - per answer, and its source]
-- The three tests, hardest at the top: [Confirmed / Needs Attention - note]
+- The tests, hardest at the top: [Confirmed / Needs Attention - note]
 - Discrete and discoverable, not vague: [Confirmed / Needs Attention - note]
 - Every secret has its answer: [Confirmed / Needs Attention - note]
 - Nothing contradicts: [Confirmed / Needs Attention - note]
@@ -89,12 +82,10 @@ nothing delivers stays under Room to Grow.
 ## Region [Code]
 - Region reinforces the setting: [Confirmed / Needs Attention - note]
 - Locations reinforce this region: [Confirmed / Needs Attention - note]
-- Information tiered, and the chain holds: [Confirmed / Needs Attention - note]
 - Rooms are distinct: [Confirmed / Needs Attention - note]
 - Draws realized at their rates: [Confirmed / Needs Attention - rate asked, rate realized]
 - Said once: [Confirmed / Needs Attention - note]
 - Tells, read: [Confirmed / Needs Attention - note]
-- Withholding present: [Confirmed / Needs Attention - note]
 
 [repeat per region]
 

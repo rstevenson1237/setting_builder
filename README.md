@@ -18,9 +18,7 @@ Read these rather than a description of them.
   alongside `GENRE.md`; where it speaks it replaces a template's defaults, and it never
   overrides a pattern or `STYLE.md`. Edited directly by the user; a request in the user's
   own prompt carries the same weight.
-- `STYLE.md` - the fixed **What a line has to earn** section: the three tests every line at
-  every level must pass, and the standing consequences already settled from them. Fixed
-  across every genre, never reauthored. The tests outrank every template.
+- `STYLE.md` - the tests every line at every level must pass.
 - `STEPS.md` - the authoritative, sequential build log. Every artifact created follows a
   numbered step here (e.g. `4c`) naming its template and pattern file. Step ids grow by
   suffix and are never renumbered without explicit user request - `templates/` cite step
@@ -37,25 +35,24 @@ Read these rather than a description of them.
   Instructions / Template**, in folders mirroring `patterns/` plus `checks/` for the
   judgement checks. A template is cited by its path, folder included. A template's own Context section lists exactly which files to
   read before drafting; don't pull in more than it names.
-- `patterns/` - pattern guidance, in five folders matching the five levels of generation:
-  `setting/`, `region/`, `safe/`, `wild/`, `dangerous/`. A generation step reads only the
-  folder matching what it is building. Every file shares one skeleton, specified in
-  `patterns/SPEC.md`. `patterns/Genre.md` is the root of the tree: the questions
-  `GENRE.md` answers, and an edge to every file a build enters from.
+- `patterns/` - pattern guidance: `setting/` and `region/` pattern files, sharing one
+  skeleton specified in `patterns/SPEC.md`, rooted at `patterns/Genre.md`; and
+  `patterns/Schema.md`, the KDL schema every location table is checked against.
 - `setting/` - the generated setting, mirroring the template set in the order STEPS.md lays
   out: setting-level artifacts, Treasure Tables I-V, the two living artifacts
   (`Procedures.md`, `Language.md`), the five registries (`Lore.md`, `Keys.md`, `Quests.md`,
   `NamedCreatures.md`, `UniqueTreasures.md`), and `region/`, holding the Regional Gazetteer
   and one folder per region.
-- `setting/region/[Code]/` - one region: its table files (`Locations.md` and `Exits.md`,
-  and by rating `Challenges.md`, `Treasures.md` and `Links.md`), its connection diagrams,
-  and one `[LocationCode].md` per location, written from the tables. The Region
-  Overview sits beside it at `setting/region/[Code].md`.
+- `setting/region/[Code]/` - one region: the table files `patterns/Schema.md` names for its
+  rating, its `Connections.mmd`, and one `[LocationCode].md` per location, written from the
+  tables. The Region Overview sits beside it at `setting/region/[Code].md`.
 - `setting/checks/` - output of the judgement checks (STEPS.md step 5): non-mechanical
   review passes `tools/validate_setting.py` can't do, following the checklist format in
   the matching `templates/checks/*_Judgement_Check.md`. Nested under `setting/` so wiping the
   setting for a new build takes its judgement checks with it, rather than leaving them
   behind to bias the next one.
+- `archive/` - the previous location-level patterns, templates and tools, held for review
+  against this build. Read by no step.
 - `plans/` - proposals for framework changes not yet made: one folder per change, holding
   its `intake.md`, `spec.md` and `implementation.md`. Read by no step.
 - `tools/` - exactly what content generation needs and nothing else. Stdlib-only Python, no
@@ -66,20 +63,18 @@ Read these rather than a description of them.
   - `site_common.py` - parsing helpers shared by the two builders.
   - `metrics.py` - what the framework costs and how the corpus reads, counted. Judges
     nothing; the thresholds are the validator's.
-  - `draw.py` / `context.py` - settle a location's rates and draws from its code, and
-    model what writing a region costs. Outside the current pipeline until
-    `plans/table-pipeline/`'s analysis decides whether they return.
+  - `kdl.py` - the KDL subset the location tables are written in.
+  - `tables.py` - reads every region's tables and checks them against `patterns/Schema.md`.
 
 ## Commands
 
 ```sh
 python3 tools/validate_setting.py           # structural lint
 python3 tools/validate_setting.py --pending [REGION]    # what each step still owes
+python3 tools/validate_setting.py --location CODE       # one location's entries, and those naming it
 python3 tools/validate_setting.py --read-set [STEP]     # what a step reads, per the graph
 python3 tools/metrics.py                    # corpus, tells, budget and read-set report
 python3 tools/metrics.py --tells [PATH]     # every tell hit, listed, over any markdown
-python3 tools/context.py 4c CODE            # one location's draws, settled
-python3 tools/context.py cost [REGION]      # writing strategies, costed
 python3 tools/build_site.py --out _site     # static site, including patterns.html
 python3 -m http.server -d _site             # preview it locally
 pip install -r tools/requirements-pdf.txt   # WeasyPrint, for the PDF only

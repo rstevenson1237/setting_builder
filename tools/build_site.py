@@ -79,14 +79,8 @@ CHECKLIST_SOURCES = [
 # authoring instructions, not the generated setting, so patterns.html builds
 # the same way whether setting/ is empty, partial, or complete.
 #
-# The graph this page draws is the DRAW TREE, and it is read from
-# tools/validate_setting.py rather than reimplemented. That import is the
-# point: the edge rules used to be duplicated here, and the copies drifted -
-# this page counted every citation anywhere in a file, including the prose
-# under a Spec block, which patterns/SPEC.md names explicitly as the thing
-# that "would make half the leaves in the library read as classifiers". It
-# did: 258 edges drawn against 102 real ones, and all 39 leaves rendered as
-# classifiers. One definition, imported, cannot drift again.
+# The graph this page draws is the DRAW TREE, read from tools/validate_setting.py
+# rather than reimplemented, so the two cannot drift.
 #
 # A citation that is not a draw is still worth seeing, so it is kept and
 # shown separately as a mention. Only the format audit below still reads the

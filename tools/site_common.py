@@ -16,6 +16,8 @@ import re
 from dataclasses import dataclass, field
 from pathlib import Path
 
+import kdl
+
 ROOT = Path(__file__).resolve().parent.parent
 SETTING = ROOT / "setting"
 
@@ -151,8 +153,7 @@ _STARTS_LOGICAL_RE = re.compile(
 
 
 # ---------------------------------------------------------------------------
-# The two generic shapes every table-like file takes (patterns/SPEC.md's How a
-# Spec becomes tables). A table file is `## [Name]` headings over pipe tables;
+# The two generic shapes every setting-level table-like file takes. A table file is `## [Name]` headings over pipe tables;
 # a record file is `### [Name]` headings over `Field: value` lines. Every
 # parser below reads one of these two shapes rather than a format of its own.
 # ---------------------------------------------------------------------------
@@ -379,18 +380,23 @@ REGISTRY_FILES = {
     "named_creatures": "NamedCreatures.md",
     "unique_treasures": "UniqueTreasures.md",
     "quests": "Quests.md",
+    "magical_tomes": "MagicalTomes.md",
+    "hoards": "Hoards.md",
 }
 # The pipe-table registries; the rest are record files. Per kind: the column or
 # field giving the entry's type tag, and those naming its locations.
 REGISTRY_TABLES = {"keys", "quests"}
 REGISTRY_TYPETAG = {"lore": "Form", "keys": "Form", "named_creatures": "Type",
-                    "unique_treasures": "", "quests": "Ask"}
+                    "unique_treasures": "", "quests": "Ask", "magical_tomes": "",
+                    "hoards": ""}
 REGISTRY_PLACES = {
     "lore": ("Found at",),
     "keys": ("Found at", "Opens"),
     "named_creatures": ("Appears at",),
     "unique_treasures": ("Found at",),
     "quests": ("Given at", "Resolved at"),
+    "magical_tomes": ("Found at",),
+    "hoards": ("Found at",),
 }
 
 
@@ -459,7 +465,7 @@ def parse_regions_gazetteer() -> dict[str, dict]:
 # Overview never reached the web view or the PDF.
 REGION_FIELD_LABELS = [
     "Overview", "Approach", "People", "Services", "Law", "Terrain", "Conditions",
-    "Inhabitants", "Alarm", "Places", "Situation", "Loot", "Secrets", "Compositions",
+    "Inhabitants", "Alarm", "Places", "Situation", "Loot", "Secrets",
 ]
 TABLE_HEAD_RE = re.compile(r"^d\d+\s+\S")
 
@@ -534,21 +540,23 @@ def field_html(text: str, render) -> str:
 
 
 def parse_locations_gazetteer(region_code: str) -> dict[int, dict]:
-    """`Locations.md`'s `## Location` table, keyed by location number."""
-    t = table_named(SETTING / "region" / region_code / "Locations.md", "Location")
+    """`Locations.md`'s Location entries, keyed by location number."""
+    path = SETTING / "region" / region_code / "Locations.md"
+    try:
+        entries = kdl.fenced(path.read_text()) if path.exists() else []
+    except SyntaxError:
+        entries = []
     out: dict[int, dict] = {}
-    for d in (t.dicts() if t else []):
-        m = re.fullmatch(r"([A-Z]+)\.(\d+)", d.get("Code", "").strip())
-        if not m:
-            continue
-        out[int(m.group(2))] = {"name": d.get("Name", "").strip(),
-                                "weight": d.get("Weight", "").strip() or None,
-                                "tags": d.get("Tags", "").strip(),
-                                "block": d.get("Block", "").strip()}
+    for n in entries:
+        m = re.fullmatch(r"([A-Z]+)\.(\d+)", str(n.args[0])) if n.args else None
+        if n.name == "Location" and m:
+            out[int(m.group(2))] = {"name": n.props.get("name", ""),
+                                    "weight": str(n.props.get("type", "")).lower() or None,
+                                    "tags": n.props.get("tags", "")}
     return out
 
 
-LOC_HEADER_RE = re.compile(r'^([A-Z]+)\.(\d+) \*\*(.+?)\*\*(?: \((low|medium|high|landmark|hidden|secret)\))? - \*(.+)\*\s*$')
+LOC_HEADER_RE = re.compile(r'^([A-Z]+)\.(\d+) \*\*(.+?)\*\*(?: \(([^)]+)\))? - \*(.+)\*\s*$')
 FEATURE_RE = re.compile(r'^\*\*([^*]+):\*\*\s*(.*)$')
 EXIT_DEST_RE = re.compile(r'^\s*([A-Z]+\.\d+)\s+(.*)$')
 
