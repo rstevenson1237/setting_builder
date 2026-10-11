@@ -295,6 +295,28 @@ def report_mix() -> None:
     print()
 
 
+def report_targets() -> None:
+    """Each BRIEF.md target against what each region's tables hold. A share off by more
+    than one entry is marked; whether that matters is the 5c review's."""
+    import tables
+    from validate_setting import Diagnostics, parse_regions
+    regions = parse_regions(Diagnostics())
+    setting = tables.Setting({c: i["rating"] for c, i in regions.items()})
+    print("TARGETS")
+    for code, rows in tables.Targets(setting.schema).realized(setting).items():
+        for t, label, wanted, got, of in rows:
+            if of is None:
+                lo, hi = tables.bounds(wanted)
+                mark = "" if lo <= got <= hi else "  <- off"
+                print(f"  {code}: {t.path} count {wanted} -> {got}{mark}")
+                continue
+            want = round(wanted * of / 100)
+            mark = "  <- off" if abs(got - want) > 1 else ""
+            pct = f"{100 * got // of}%" if of else "-"
+            print(f"  {code}: {t.path} {label} {wanted}% -> {pct} ({got} of {of}){mark}")
+    print()
+
+
 def report_budget() -> None:
     print("BUDGET")
     authorities = [ROOT / n for n in ("CLAUDE.md", "README.md", "GENRE.md", "STEPS.md")]
@@ -419,6 +441,7 @@ def main(argv: list[str]) -> int:
     report_features(locs)
     report_tells(locs)
     report_mix()
+    report_targets()
     report_budget()
     report_read_set()
     return 0

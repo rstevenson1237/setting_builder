@@ -1503,8 +1503,11 @@ def main() -> int:
     check_pattern_files(diag)
     check_read_set_graph(diag)
     check_repeated_prose(diag)
-    for problem in tables.Schema().problems:
+    schema = tables.Schema()
+    for problem in schema.problems:
         diag.error(tables.SCHEMA, problem)
+    for problem in tables.Targets(schema).problems:
+        diag.error(tables.BRIEF, problem)
 
     if is_fresh_start():
         seeded = sorted(n for n in SEED_FILES if (SETTING / n).exists())

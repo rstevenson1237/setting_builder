@@ -12,14 +12,11 @@ Read first:
 
 ## Instructions
 Create a table numbered 1-20 of rumours, each following `patterns/setting/Rumours.md`'s
-Spec. The collection as a whole must hold this shape:
+Spec, marked T, P, F or U in the shares `BRIEF.md` asks for. The collection as a whole
+holds this shape:
 
 ```
 RUMOURS - a d20 table
-  ~35%  True
-  ~35%  Partially true
-  ~20%  False
-  ~10%  Unverified - no answer held; the referee's to settle
   1     At least three pointing at a region, not a detail
   1     At least two that are true and sound false
   1     At least one that is false and sounds unmistakably true

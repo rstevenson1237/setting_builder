@@ -374,3 +374,143 @@ class Setting:
                              for node in kdl.walk([n]) for v in node.props.values()):
                         named.append((f"{r.code}/{stem}", n))
         return own, named
+
+
+# -- BRIEF.md's targets --------------------------------------------------------
+#
+#   target Node.member Value="N%" ...   share of Node entries whose member is each Value
+#   target Node.Child "N%"              share of Node entries holding that one-of child
+#   target Node [of=Type] "N%"          share of locations (of that type) holding a Node
+#   target Node count=N                 how many Node entries
+#
+# each scoped by rating= and region=, the narrowest applying to a region winning.
+
+BRIEF = ROOT / "BRIEF.md"
+
+
+@dataclass
+class Target:
+    node: kdl.Node
+    path: str
+    form: str                      # "values", "child", "presence" or "count"
+    shares: dict[str, int]
+    rating: str | None
+    region: str | None
+
+    def key(self):
+        return (self.path, self.form, self.node.props.get("of"))
+
+    def applies(self, r: Region) -> int:
+        """-1 where it does not apply to this region, else its narrowness."""
+        if self.region and self.region != r.code:
+            return -1
+        if self.rating and self.rating.lower() != r.rating.lower():
+            return -1
+        return 2 if self.region else 1 if self.rating else 0
+
+
+class Targets:
+    def __init__(self, schema: Schema, path: Path = BRIEF):
+        self.schema, self.path, self.problems, self.targets = schema, path, [], []
+        try:
+            nodes = kdl.fenced(path.read_text()) if path.exists() else []
+        except SyntaxError as e:
+            self.problems.append(str(e))
+            return
+        for n in nodes:
+            if n.name != "target":
+                self.problems.append(f"line {n.line}: {n.name!r} is not a target")
+            elif t := self._read(n):
+                self.targets.append(t)
+
+    def _read(self, n: kdl.Node) -> Target | None:
+        p = lambda msg: self.problems.append(f"line {n.line}: {msg}") or None
+        if not n.args:
+            return p("a target names a Node or Node.member")
+        path, *rest = [str(a) for a in n.args]
+        node, _, member = path.partition(".")
+        if node not in self.schema.nodes:
+            return p(f"{node!r} is not a node of patterns/Schema.md")
+        rating, region = n.props.get("rating"), n.props.get("region")
+        if rating and rating not in self.schema.folders:
+            return p(f"rating={rating!r} is not a folder of patterns/Schema.md")
+        values = {k: v for k, v in n.props.items() if k not in ("rating", "region", "of", "count")}
+        members = {m.name: m for m in self.schema.nodes[node] if m.name != "one-of"}
+        children = {c for m in self.schema.nodes[node] for c in m.nodes}
+        if "count" in n.props:
+            if member or values or rest or bounds(n.props["count"]) is None:
+                return p("count= takes a bare Node and a count or range")
+            return Target(n, path, "count", {}, rating, region)
+        if member in members:
+            if rest or not values:
+                return p(f"{path} takes Value=\"N%\" shares")
+            allowed = self._allowed(members[member], rating)
+            bad = [v for v in values if allowed is not None and v not in allowed]
+            if bad:
+                return p(f"{', '.join(map(repr, bad))} not a value of {path}")
+            form = "values"
+        elif member in children or not member:
+            if values or len(rest) != 1:
+                return p(f"{path} takes one \"N%\" share")
+            values, form = {"": rest[0]}, "child" if member else "presence"
+            if member and "of" in n.props:
+                return p("of= applies to a bare Node")
+            of = n.props.get("of")
+            if of and not any(of in self.schema.enums.get(f.type, {})
+                              for f in self.schema.folders.values()):
+                return p(f"of={of!r} is not a location type")
+        else:
+            return p(f"{member!r} is neither a member nor a child of {node}")
+        shares = {}
+        for v, s in values.items():
+            m = PERCENT_RE.fullmatch(str(s))
+            if not m:
+                return p(f"{s!r} is not a percentage")
+            shares[v] = int(m.group(1))
+        if sum(shares.values()) > 100:
+            return p(f"shares total {sum(shares.values())}%")
+        return Target(n, path, form, shares, rating, region)
+
+    def _allowed(self, m: Member, rating: str | None) -> set | None:
+        if m.type == "kind":
+            folders = [self.schema.folders[rating]] if rating else self.schema.folders.values()
+            return {v for f in folders for v in self.schema.enums.get(f.type, {})}
+        if m.type in self.schema.enums:
+            return set(self.schema.enums[m.type])
+        if m.type == "pull":
+            return set(self.schema.enums.get(m.arg, {}))
+        return None
+
+    def realized(self, setting: Setting):
+        """Per region, (target, label, wanted, got, of) for every target applying to it."""
+        out = {}
+        for r in setting.regions.values():
+            best = {}
+            for t in self.targets:
+                rank = t.applies(r)
+                if rank >= 0 and rank >= best.get(t.key(), (None, -1))[1]:
+                    best[t.key()] = (t, rank)
+            rows = []
+            for t, _ in best.values():
+                rows += self._measure(t, r)
+            out[r.code] = rows
+        return out
+
+    def _measure(self, t: Target, r: Region):
+        node, _, member = t.path.partition(".")
+        entries = [n for ns in r.files.values() for top in ns for n in kdl.walk([top])
+                   if n.name == node]
+        if t.form == "count":
+            return [(t, "count", str(t.node.props["count"]), len(entries), None)]
+        if t.form == "values":
+            got = [str(n.props.get(member, "")).split(":")[0] for n in entries
+                   if member in n.props]
+            return [(t, v, s, sum(1 for g in got if g == v), len(got)) for v, s in t.shares.items()]
+        if t.form == "child":
+            got = sum(1 for n in entries if any(c.name == member for c in n.children))
+            return [(t, member, t.shares[""], got, len(entries))]
+        of = t.node.props.get("of")
+        locs = [c for c, l in r.locations().items() if not of or l.props.get("type") == of]
+        held = {n.args[0] for n in entries if n.args}
+        return [(t, f"of {of}" if of else "of all", t.shares[""],
+                 sum(1 for c in locs if c in held), len(locs))]

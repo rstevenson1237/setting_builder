@@ -59,3 +59,18 @@ built fresh by the framework, not transcribed from the module.
   a set count. A cave has one entrance, the ravine's Landmark for it.
 - Caves connect to each other in only a few places, and those connections decide who can
   reach whom; the shrine's cave lies deepest.
+
+## Rumours
+
+- About a third true, a third partly true, a fifth false, and the rest unverified - the
+  referee's to settle.
+
+## Targets
+
+Shares the tables are placed and filled toward, in the forms `tools/tables.py` reads.
+
+```kdl
+target Location.type High="20%" Medium="50%" Low="30%" rating=Dangerous
+target Hazard.damage Lethal="20%" Damaging="40%" Nuisance="40%"
+target Reward.contents Keys="20%" Lore="20%"
+```
