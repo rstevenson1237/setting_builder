@@ -12,10 +12,11 @@ Consult when running this check - deliberately broader than any single generatio
 - `setting/region/Regions.md` and each region's seed, `setting/region/[Code].md`, and brief, `setting/region/[Code]/Brief.md` - what every location in that region should be reinforcing.
 - each region's `setting/region/[Code]/Locations.md` and its location files.
 - `setting/Bestiary.md`, `setting/Factions.md`, `setting/Lore.md`, `setting/Keys.md`, `setting/NamedCreatures.md`, `setting/UniqueTreasures.md` - recurring elements that should be tying levels together rather than sitting isolated.
-- the output of `python3 tools/metrics.py` (its MIX section), `python3 tools/metrics.py --tells setting/`, and the region's table files, for any location whose draws are in question.
+- the output of `python3 tools/metrics.py`, and `setting/checks/Review.md`.
 
 ## Instructions
-Run this once a region's locations are complete (or at the end of a full build). Record
+Run this once the loop has exited and the briefs are written. Each location write-up has
+already been reviewed at 5c; this check reads across levels. Record
 each item as Confirmed or Needs Attention, with a note, in the order below; the Template
 block lists the same items in the same order.
 
@@ -40,16 +41,6 @@ findings are the evidence `templates/checks/Pattern_Judgement_Check.md` starts f
 
 - **Regions reinforce the setting** - does each region's seed visibly connect back to `setting/Setting.md`/`History.md`/`Truths.md` (a named historical event, a faction's presence, a unique truth playing out), rather than feeling like an unrelated pocket bolted onto the setting?
 - **Locations reinforce their region** - does each location's dressing and Features reflect its region's Conditions, Inhabitants and Places, rather than reading as a location that could belong to any region? Are its three tags recognisable in what it holds?
-- **Rooms are distinct** - within the region, do two rooms share a Feature sentence, a room shape, or the same set of Features under different names? Where one occupant holds several blocks, does each block differ in more than its name? `tools/validate_setting.py` warns on a repeated Feature sentence; this item judges the near-repeats a string match cannot see.
-- **Entries written in one pass read as a form** - within one table, do the entries share a
-  sentence shape, an opening word, or the same few glosses in rotation? A pass that sees
-  every sibling exists to make them differ; a table that reads like a filled-in form has
-  converged anyway.
-- **Rooms read as one room** - does each location file read as one place, or as its entries
-  laid side by side? A Feature that could not share the room with the others, or a Summary
-  that names entries rather than a place, is the finding, traced to the entry that would not fit.
-- **Said once** - does any location restate, near-verbatim, a sentence from its region's seed or brief, a Truth's Shows line, a Bestiary entry's Disposition, or another location? Per `STYLE.md` the higher level is the one that is wrong where a fact is merely repeated; where a room only transcribes the Bestiary, the room has said nothing of its own.
-- **Tells, read** - for each of this region's hits in `python3 tools/metrics.py --tells setting/`, judge whether it is the failure its tell names: an absence claimed across time or space, a conclusion written for the players, a term glossed, a contrast doing a Feature's work.
 
 ### Room to Grow
 
@@ -74,9 +65,6 @@ findings are the evidence `templates/checks/Pattern_Judgement_Check.md` starts f
 ## Region [Code]
 - Region reinforces the setting: [Confirmed / Needs Attention - note]
 - Locations reinforce this region: [Confirmed / Needs Attention - note]
-- Rooms are distinct: [Confirmed / Needs Attention - note]
-- Said once: [Confirmed / Needs Attention - note]
-- Tells, read: [Confirmed / Needs Attention - note]
 
 [repeat per region]
 

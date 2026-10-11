@@ -10,7 +10,7 @@ Consult when running this check:
 - every file in `patterns/`.
 - `templates/region/Location.md` (and any other template that consumes a pattern) - to see how a pattern's output actually lands on the page.
 - where a build exists, the table files of a sample of regions - at least one per rating - to see what the schema's nodes actually hold.
-- where a build exists, this pass's `setting/checks/SettingJudgementCheck.md`: run this check after it, and start from its findings traced to a pattern, which are this pass's best evidence.
+- where a build exists, this pass's `setting/checks/SettingJudgementCheck.md` and the findings `setting/checks/Review.md` sent to the framework: run this check after both, and start from their findings traced to a pattern, which are this pass's best evidence.
 - `BRIEF.md`, and the user's requests in the session or pull request that asked for this pass - for the unhoused-content item.
 
 ## Instructions

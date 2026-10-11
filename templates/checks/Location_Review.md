@@ -7,9 +7,10 @@ to `setting/checks/Review.md`, one section per pass.
 
 ## Context
 - `GENRE.md`, `STYLE.md`
-- the output of `python3 tools/validate_setting.py`, `python3 tools/validate_setting.py --pending` and `python3 tools/metrics.py`
+- the output of `python3 tools/validate_setting.py`, `python3 tools/validate_setting.py --pending`, `python3 tools/metrics.py` and `python3 tools/metrics.py --tells setting/`
 - the last section of `setting/checks/Review.md`
 - each region's seed, `setting/region/[Region Code].md`
+- each table file this pass filled
 - each write-up this pass wrote, with its entries from `python3 tools/validate_setting.py --location [Location Code]`
 - the header and Player Summary of every other write-up in the same block
 
@@ -21,7 +22,10 @@ to `setting/checks/Review.md`, one section per pass.
   - **one room** - it reads as one place, not its entries side by side;
   - **distinct** - it shares no Feature, shape or sentence frame with its block;
   - **said once** - nothing restated from the seed, a setting entry or another room;
-  - **the tests** - each line passes `STYLE.md`.
+  - **the tests** - each line passes `STYLE.md`, and each tell metrics lists in it is
+    read for whether it is the failure the tell names.
+- Judge each table this pass filled: its entries share no sentence shape, opening word or
+  rotation of the same few glosses.
 - Each finding names its fix: an entry (5a), a write-up (5b), a placement (5d), or the
   framework (`plans/`). A finding raised on the last pass and not fixed is carried, not
   repeated.
