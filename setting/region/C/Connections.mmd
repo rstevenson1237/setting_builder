@@ -1,0 +1,19 @@
+graph LR
+  B3["B.3 The Cave Mouth"]
+  subgraph The Goblin Warrens
+    C1["C.1 The Watch Passage"]
+    C2["C.2 The Warren"]
+    C4["C.4 The Spoil Hall"]
+    C5["C.5 The Chief's Hall"]
+  end
+  subgraph The Old Workings
+    C3["C.3 The Mushroom Pits"]
+    C6["C.6 Vimono"]
+  end
+  B3 --- C1
+  C1 --- C2
+  C1 --- C3
+  C2 --- C4
+  C2 --- C5
+  C4 --- C5
+  C3 --- C6
