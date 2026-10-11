@@ -1,255 +1,154 @@
 # Spec - the content loop
 
-Each proposal has an id and a box: tick, strike or amend it. **Depends on** means the
-proposal stands only if that one does too.
-
----
+The request and its decisions are in `intake.md`.
 
 ## 1. What the evidence says
 
 Every judgement check run so far has found the same failures. Each comes from content
-being decided **before** what it depends on exists, or being **rolled** where it should
-be placed.
+decided **before** what it depends on exists, or **rolled** where it should be placed.
 
-| # | Finding (source) | What produced it |
-|---|---|---|
-| E2 | Rates never realized at region scale: no second name in 30 rooms against 20%; 94% open edges against 60%; treasure 29 of 34 a table roll against 55% (Greywatch 5c, both addenda) | A percentage rolled per room, or not rolled at all. Nothing reads the region total |
-| E4 | A household of "about ten" appears as one Khughik; encounters written with no draw, copied from the Overview's Alarm and Loot lines (addendum 2) | The Overview stated per-room occupants before any room existed. The rooms then either missed them or transcribed them |
-| E6 | Keys drawn and never written; three keys named for locks at rooms where no key was drawn; one block's key leaking into the next (addendum 2) | Keys and locks discovered while writing, not placed |
-| -- | Rumour 3 contradicts B.md and History; every Rumour's Settled-at pending until 5c (Greywatch 5c) | Rumours written at 2d, before any location existed |
-| -- | Said once: C.17's hoard and guard transcribe C.md's Loot; C.11 and C.12 transcribe C.md's Alarm; C.18 transcribes the d6 unkeyed-rooms table (addendum 2) | The Overview held room facts, so it was written once above and again below |
-| -- | Region A today: `A.md` names the pay chest's room (A.4), its key's room (A.6), the alarm's travel time, and two Secrets that `Rewards.md` and `Connections.md` also hold | The same: 3c is asked for Places, Loot, Alarm and Secrets before 4a has made a room |
-| -- | Region A today: `metrics.py` MIX counts 3 treasures (2 keys) from the write-ups, where `Rewards.md` holds 5 (1 key); READ SET still names step 4f and "no pattern entry point" | metrics reads the write-ups, not the tables, so unwritten rooms are invisible to it |
-| -- | Region A today: an entry with no members is an error ("is empty"), so the only to-do list is missing files; three write-ups exist with nothing to say whether their entries have moved since | No stub, and no record of what a write-up was written from |
-| E1, E8 | Near-repeats a single writer cannot see; two blocks differing in dressing, not skeleton (both addenda) | Review happens once, at the end, and nothing between passes reads siblings |
-
-The loop answers each of these in the same way:
-
-- write the structure first;
-- fill it;
-- review what was written, from outside;
-- place the setting's threads against what now exists;
-- describe the region last.
-
----
+| Finding (source) | What produced it |
+|---|---|
+| Rates never realized at region scale: no second name in 30 rooms against 20%; 94% open edges against 60%; treasure 29 of 34 a table roll against 55% (Greywatch 5c, both addenda) | A percentage rolled per room, or not rolled at all. Nothing reads the region total |
+| A household of "about ten" appears as one Khughik; encounters copied from the Overview's Alarm and Loot lines (addendum 2) | The Overview stated per-room occupants before any room existed |
+| Keys drawn and never written; keys named for locks with no key drawn; one block's key leaking into the next (addendum 2) | Keys and locks discovered while writing, not placed |
+| Rumour 3 contradicts B.md and History; every Settled-at pending until 5c (Greywatch 5c) | Rumours written at 2d, before any location existed |
+| C.17, C.11, C.12 and C.18 transcribe C.md's Loot, Alarm and d6 table (addendum 2); `A.md` today names the prize's room, the key's room and the alarm timing, and two of its Secrets are also held in `Rewards.md` and `Connections.md` | The Overview holds room facts, so they are written once above and again below |
+| `metrics.py` MIX counts 3 treasures from region A's write-ups where `Rewards.md` holds 5; READ SET names a step that no longer reads patterns | metrics reads write-ups, not tables |
+| An entry with no members is an error, so the only to-do list is missing files; nothing says whether a write-up's entries have moved since it was written | No stub, and no staleness check |
 
 ## 2. The pipeline
 
-Proposed `STEPS.md`, phases 2-6. Phase 1 is unchanged.
-
 ```
-2. Build the setting            unchanged, except 2d retired (Rumours move to 5d)
-3. Build the region
-   3a  Regional Gazetteer                                      unchanged
-   3b  Region graph                                            unchanged
-   3c  Region seed - the Overview's seed fields only (L1)
-4. Lay out locations - structure, no content
-   4a  Locations.md - code, name, tags, type                   unchanged
-   4b  Connections.mmd                                         unchanged
-   4c  Stub tables - every entry each location will hold, placed to its type's rate
-       targets, each a bare stub (L5, L6)
-5. Content loop - 5a-5d repeat until a pass changes nothing; then 5e
-   5a  Seed - fill every stub, Purpose first, one fresh context per table file; write
-       every setting entry a table names (old 4c-4e)
-   5b  Write - write or rewrite every location whose entries changed (L8); record
-       coinages (old 4f-4g)
-   5c  Review - validate and metrics; a fresh context judges this pass's write-ups (L9, L10)
-   5d  Place - Rumours, Quests, Keys, Lore, Truths' Handles, History's Left lines, set
-       against the locations that exist, adding the region entries each needs (L11-L15)
-   5e  Brief - each Region Overview's brief fields, from the finished region (L16)
-6. Judgement checks - the old step 5, trimmed (L19)
+1. Establish framework       1a Procedures seed, 1b Language seed
+2. Build the setting         2a Setting ... 2g tailoring and empty registries
+                             (Rumours leave phase 2 for 5d)
+3. Build the region          3a gazetteer, 3b region graph, 3c region seed
+4. Lay out locations         4a Locations.md, 4b Connections.mmd, 4c stub tables
+5. Content loop              5a seed, 5b write, 5c review, 5d place - repeated;
+                             then 5e region brief
+6. Judgement checks          6a template, 6b pattern, 6c setting
 ```
 
-A pass is 5a → 5b → 5c → 5d. The next pass starts at 5a whenever the last one left any
-of these:
+A pass of the loop is 5a → 5b → 5c → 5d. The loop exits when a pass leaves no stub, no
+stale write-up and no open review finding, and placement added nothing.
 
-- a stub, from 5d's new entries or 5c's findings;
-- a stale write-up;
-- an open review finding.
+- **3c Region seed** - the Overview's fields a table is written from: Kind, Settlement or
+  Terrain, Overview, Approach, Conditions, Inhabitants or People as a roster, Services,
+  Law, and the Situation with its rungs.
+- **4c Stub tables** - every entry each location will hold, as a bare stub
+  (`Encounter A.3`). They are placed within the schema's counts and ranges, and toward
+  `BRIEF.md`'s targets.
+- **5a Seed** - fill every stub, Purpose first, one fresh context per table file with the
+  whole file in view; write every setting entry a table names.
+- **5b Write** - write every location whose write-up is missing or stale, and record
+  coinages.
+- **5c Review** - run the validator and metrics; then a fresh context judges this pass's
+  write-ups against `templates/checks/Location_Review.md`. Each finding names where it
+  goes: an entry (5a), a write-up (5b), a placement (5d), or the framework (`plans/`).
+- **5d Place** - write the setting's threads against what exists: the Rumours table, each
+  rumour from a location holding its answer; Quests, giver and target; locks where the
+  design wants them, then keys for existing locks on the next placement; Lore, Truths'
+  Handles and History's Left lines. A new region entry it needs is written with the
+  placed member set, and the locations it touches go stale.
+- **5e Region brief** - the Overview's remaining fields, from the finished region: Places,
+  Inhabitants with counts summed from Encounters, Alarm, Loot, Secrets, the rumours and
+  quests pointing here, and the d6 tables. It indexes and never restates.
+- **6c** keeps the cross-level items. The per-room items move to the Location review, and
+  the bookkeeping moves to 5d.
 
-The loop exits when a pass's validate run shows no stubs and no stale write-ups, its
-review raises nothing new, and its placement added nothing.
+## 3. Percentages
 
----
+**The schema holds what a type is; `BRIEF.md` holds how much of it a build wants.**
+The schema's `rate` lines become counts and ranges only: High holds 1-2 challenges, Medium
+holds one, Low holds none, and a Medium or Low room holds 0-1 rewards. A one-of says which
+kinds may fill a slot. Neither says how often.
 
-## 3. Proposals
+Is any percentage true at the framework level? A percentage belongs in the framework only
+if every setting built with it needs that share to work, so that a build moving it would
+break something mechanical rather than just change in taste. I checked each one the
+framework holds today against that test:
 
-### Steps
+| Percentage | Where it is now | Framework-level? |
+|---|---|---|
+| Medium Rewards 50%, Low Rewards 25% | `patterns/Schema.md` | No. It is taste. The type is defined by its challenge slot, and the reward is a range of 0-1. |
+| High 20% / Medium 50% / Low the rest | `templates/dangerous/Tables.md` | No. A region of all-Medium rooms runs fine; it only reads flat. |
+| T 35% / P 35% / F 20% / U 10% rumours | `templates/setting/Rumours.md` | No. The structural minima that matter ("two true that sound false") are counts, and stay in the template. |
+| Location count 3x the die | `templates/dangerous/Tables.md` | **Yes, but it is a multiplier, not a share.** A full clear of a collection burns about half the d6 Danger track at every die size, so the count is tied to a mechanic in `setting/Procedures.md`. It stays as a framework default, which `BRIEF.md` can override. |
 
-- [ ] **L1. 3c writes a Region seed; the rest of the Overview is the brief.** Each field
-  of `patterns/region/*.md` is marked as either seed or brief.
-  - **Seed** is what a table is written from: Kind/Settlement/Terrain, Overview, Approach,
-    Conditions, Inhabitants or People (as a roster: who, how many, what they want),
-    Services, Law, and the Situation with its rungs.
-  - **Brief** is what can only be said once the rooms exist: Places, Alarm, Loot,
-    Secrets, Tables, and what L16 adds.
+So no percentage stays in the framework. A build with no targets in `BRIEF.md` gets only
+the schema's ranges, and 5c reports the shares it realized without judging them.
 
-  `templates/region/Region.md` writes the seed fields at 3c and the brief fields at 5e.
-  The validator owes the brief fields to 5e. This is one file and one template, written
-  in two passes.
+### `BRIEF.md`'s targets
 
-- [ ] **L2. Step 4 ends at stubs (4a-4c).** The current 4c-4g move into 5a and 5b.
-  **Depends on L5.**
+The prose requests stay prose. Targets are fenced KDL blocks under any heading, read by
+the tools, as granular as wanted. One node per target:
 
-- [ ] **L3. Step 5 is the loop (5a-5e), with the exit rule above.** **Depends on L2.**
+```kdl
+// share of a member's values, among entries in scope
+target Location.type High="20%" Medium="50%"
+target Reward.contents "Treasure I"="40%" Keys="20%" Lore="20%"
+target Hazard.damage Lethal="20%" Damaging="40%" rating=Dangerous
+// share of locations of a type that hold a node
+target Reward of=Medium "50%"
+// share of a node's entries holding a one-of child
+target Connection.Lock "10%" region=C
+// a count
+target Location count=12 region=A
+```
 
-- [ ] **L4. Renumbering.** The current step 5 becomes step 6, 2d is retired, and the
-  current 4c-4g are retired into 5a and 5b. Every step-id citation in `templates/`, the
-  validator's step regex and `README.md` moves with them. This is authorised by the
-  request, under `README.md`'s rule. **Depends on L3.**
+- **Scope** is `rating=` and `region=`, and the narrowest target wins.
+- **The validator** errors on a path the schema doesn't hold, and on shares in one target
+  totalling over 100%.
+- **Metrics** prints realized against target. A miss of more than one entry is a review
+  finding at 5c, not a validator warning, because a target is the build's own taste.
+- **Layering:** 4c places stubs toward targets, 5a fills them, and 5d adds where a target
+  is under-met. The underspecified area is always visible as a line of metrics output.
 
-### Stubs, and rates as targets
+## 4. Change tracking
 
-- [ ] **L5. A stub is an entry with its code and no members**, for example
-  `Encounter A.3`. The validator warns that it is owed to 5a, instead of raising "is
-  empty". `--pending` lists stubs by file. A stub's one-of children are left out until
-  5a, unless placement fixed them (L15).
+### Your suggestion against the digest
 
-- [ ] **L6. Percentages are region targets, placed rather than rolled.** At 4c, a type's
-  `rate` line is met across the region:
-  - `Rewards="50%"` means half that type's locations carry a Reward, and 4c chooses
-    which half for a reason the tags or Purpose give;
-  - a count or range (`Challenges="1-2"`) still bounds each location.
+| | Commit history (yours) | Digest in the write-up (mine) |
+|---|---|---|
+| Bookkeeping | None. Git already records it | A marker line in every write-up, and a `--stamp` step after each write |
+| Content | Untouched | A comment the site and PDF must strip |
+| Granularity | Per file. Region tables are one file per kind, so any change to `Challenges.md` stales every room in the region | Per entry, exact |
+| A change reverted to the same text | Reads stale | Reads fresh |
+| Uncommitted edits | Need handling (see below) | Seen directly |
+| Squash merges | `main` is squash-merged, so every file in a PR shares one commit time. An entry changed in a PR with its write-up never rewritten reads fresh after merge | Unaffected |
 
-  The validator warns when a region's share is off its target by more than one location.
-  `plans/location-schema`'s D3 (damage mix) and D4 (contents mix) keep their numbers, but
-  as targets that metrics reports and the review reads, not rolls.
+Both answer "has anything this write-up was written from changed since?". The
+difference is where the answer is stored.
 
-### Change tracking
+**Adopted: yours, at entry grain.** Instead of a file's last commit, the tool takes
+`git blame` of the lines holding the location's entries, plus the entries naming it and
+the setting entries they name. A write-up is stale when the newest of those lines is
+newer than the write-up's last commit. This keeps zero bookkeeping and no marker, and it
+fixes the file-grain problem. Lines not yet committed count as now, so they are stale
+until committed with their rewrite. The squash caveat is bounded: the loop runs within one
+branch and exits before merge, so history is intact for as long as staleness matters.
 
-- [ ] **L7. `metrics.py` reads the tables.**
-  - MIX counts entries in the tables (connection types, contents, hazard damage,
-    challenge kinds) per region, each against its target.
-  - READ SET names 5b's context.
-  - A new STUBS line counts stubs and stale write-ups.
+**On determinism.** Neither scheme needs it, but it is what makes the loop cheap. If an
+unchanged location rewrites almost identically, a false stale costs nothing but a no-op
+diff. 5c can test it: on the pilot, rewrite one location that is not stale and read the
+diff. A rewrite that moves more than wording is a finding against `templates/region/Location.md`.
 
-- [ ] **L8. A write-up records what it was written from.** Its last line is
-  `<!-- entries: [8 hex] -->`, a digest of the entries `--location` prints for it.
-  - `validate_setting.py --stamp CODE` writes it.
-  - `--pending` lists a write-up as stale when the digest no longer matches.
-  - The site and PDF builders drop the comment.
+## 5. Pulled in from `archive/plans/location-schema`
 
-  5b is then "every stale or missing write-up", and nothing else is rewritten.
+Only what the loop needs:
 
-### Review
+- **Quest pathway.** `table Quests entry file="setting/Quests.md"`; `Quests` joins
+  `Contents_Type`; `Encounter` gains `asks entry Quests opt`.
+- **Keys pair.** Each `Lock` names a key that some `Reward` pulls as `Keys:`, and each
+  such pull names a key some `Lock` holds. While one end is missing this is a warning;
+  once the loop exits it is an error.
+- **A key is never behind its own lock.** The key's location is reachable from the
+  region's entrance without passing the Connection that key unlocks. This is an error.
 
-- [ ] **L9. New `templates/checks/Location_Review.md`, run at 5c by a fresh context.**
-  - **It reads:** `STYLE.md`, `GENRE.md`, the region seed, each write-up this pass
-    changed with its `--location` entries, and the names and Player Summaries of its
-    block's other write-ups, for distinctness.
-  - **It judges:**
-    - entries match: each entry is carried, and nothing is added beyond them;
-    - the room reads as one room;
-    - it is distinct from its siblings;
-    - it says each thing once;
-    - its tells, read;
-    - it is actionable at the table.
-  - **Every finding names its target:** an entry (back to 5a), a write-up (back to 5b),
-    a placement (back to 5d), or the framework (to `plans/`).
-  - **Output:** `setting/checks/Review.md`, one section per pass. It writes no content.
+SAFE and WILD are written piece by piece as the pilot reaches them.
 
-  These items leave the Setting Judgement Check, which keeps the cross-level ones (L19).
+## 6. Order of work
 
-- [ ] **L10. Every pass opens its Review section with the tool readings.**
-  - from validate: errors, warnings, stubs, stale write-ups;
-  - from metrics: tells, and MIX against its targets.
-  - what moved since the last pass, as a delta.
-
-  A pass whose readings and findings match the last one's is the loop's exit, and the
-  section says so. **Depends on L7, L9.**
-
-### Placement
-
-- [ ] **L11. Rumours are built at 5d, not 2d.** Each rumour is written from a location
-  that holds its answer, so Settled at is filled when it is written, never left pending.
-  The d20 shape (T/P/F/U shares, three pointing at a region, and so on) stands. A later
-  pass replaces a rumour only for a reason the review names.
-
-- [ ] **L12. Quests are placed at 5d.** Both the giver and the target are real codes. The
-  giver end is an `Encounter` with `asks`, and the target is a `Reward` pulling `Quests:`.
-  **Depends on location-schema D2.**
-
-- [ ] **L13. Keys are placed for locks at 5d.** Every `Lock` gets a Key, as a `Reward`
-  pulling `Keys:`, at a location reached by a separate trip and never behind the lock it
-  opens. **Depends on location-schema D8, D9**, which become the checks that hold this.
-
-- [ ] **L14. Old 5c bookkeeping moves to 5d.** Truths' Handles, History's Left lines and
-  Lore's Found at are filled as each is placed. Step 6 then reads them as done, and a
-  claim nothing delivers is a finding there, not pending.
-
-- [ ] **L15. Placement writes the region entries it needs.** A Lock on a Connection, an
-  `asks` on an Encounter, a Reward or a whole Encounter are written as stubs with the
-  placed member set (`Reward A.6 contents="Keys: Tally Key"`). The locations touched go
-  stale, and the next pass fills and rewrites them. Placement is the one step allowed to
-  add entries to a location after 4c.
-
-### Brief
-
-- [ ] **L16. 5e writes each Region Overview's brief fields from the finished region.**
-  - **Places:** the index, by code.
-  - **Inhabitants:** as placed, with counts summed from the region's Encounters, which
-    ends E4 by construction.
-  - **Alarm**, and **Loot:** where the largest prize lies, as the Rewards hold it.
-  - **Secrets:** each by the entry that holds it.
-  - **Rumours pointing here**, by number, and **Quests that begin or end here.**
-  - **The d6 tables.**
-
-  The brief indexes and never restates: every fact it names is held by an entry, and the
-  validator checks every code it cites. **Depends on L1.**
-
-### Checks
-
-- [ ] **L17. A table entry's text is never copied from the seed.** The Location review
-  and the 6c check both flag a write-up or entry restating the seed or brief, as before.
-  What is new is that 5a's template says so outright, since the seed is now in its
-  Context.
-
-- [ ] **L18. 5a reads siblings.** Each table file is filled in one context, with the
-  whole file in view (as now), and with the region's Purpose and every other table's
-  stub list. A table fill is the one place E1/E8 near-repeats are prevented, rather than
-  only caught. This confirms the doctrine in place (table-pipeline F2) and puts it in 5a's
-  template.
-
-- [ ] **L19. Step 6 is trimmed.** `Setting_Judgement_Check.md` loses:
-  - "Rates were rolled, not chosen", replaced by L6's target check;
-  - its per-region write-up items: distinct, reads as a form, reads as one room, said
-    once, tells. These move to L9.
-  - its bookkeeping section, moved to L14.
-
-  It keeps the brief, the genre, the tests at the top, secrets, contradictions,
-  orphans, vocabulary, and the claims checked upward. The Pattern and Template checks
-  change only their step ids.
-
-### Order of work
-
-- [ ] **L20. Prove it on region A before SAFE and WILD.** Region A is DANGEROUS and
-  already built. Re-run it under the new steps: 4c stubs from its current entries, then
-  passes until it exits, with 5d placing at least one quest and the rumour table. Its
-  Review sections are the evidence for the step 6 check. The SAFE and WILD build-outs
-  (location-schema S and W) then plug into 4c and 5a unchanged.
-
----
-
-## 4. Effect on `plans/location-schema`
-
-| Item | Under the loop |
-|---|---|
-| D2 (quests pathway) | Required by L12 |
-| D3, D4 (damage and contents mixes) | Kept as targets per L6, not rolls |
-| D5 (connection children per edge) | Unchanged; 4c places them per edge |
-| D6, D7 (lethal signs; distinct rooms) | Unchanged; L9's review reads them |
-| D8, D9 (key pairing; key not behind own lock) | Required by L13 |
-| S8 (Purpose placed, not rolled) | Already the L6 rule; it reads as a case of it |
-| S7, W5 (counts) | 4c defaults |
-
----
-
-## 5. Not proposed
-
-- **An iteration cap.** The exit rule ends the loop. A pass that keeps raising the same
-  finding is a framework finding for `plans/`, not one more pass.
-- **Restoring `draw.py` or `context.py`.** Placement is decided, not rolled, and
-  `--location` already assembles 5b's context.
-- **Keeping `Language.md`'s per-room "where it appears" out of 5b.** In a loop, a
-  rewritten room should keep its coined names. The cross-build leak addendum 2 found came
-  from rebuilding over an old `Language.md`, which wiping `setting/` prevents.
+The framework comes first, then the pilot on region A, then SAFE and WILD. See
+`implementation.md`.
