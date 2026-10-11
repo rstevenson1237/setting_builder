@@ -9,11 +9,14 @@ Read first:
 - `BRIEF.md`
 - `patterns/setting/History.md`
 - `setting/Setting.md`
+- At 5d: the location entries and write-ups that hold each event's Left mark
 
 ## Instructions
 List the events `BRIEF.md` asks for, each following `patterns/setting/History.md`'s Spec,
 oldest to newest, one record each. A later step adds an event only where it needs one to
 account for something it wrote. With none asked for, the file is its header line.
+
+At 5d, fill each event's Codes with the locations that now hold its Left mark.
 
 ## Template
 ```
@@ -24,5 +27,5 @@ When: [x years ago]
 Kind: [Kind]
 Event: [what happened, in one or two sentences]
 Left: [the physical thing findable now]
-Codes: [Location Code(s); left empty until locations exist]
+Codes: [Location Code(s), filled at 5d]
 ```

@@ -9,6 +9,8 @@ Read first:
 - `BRIEF.md`
 - `patterns/setting/Rumours.md`
 - `setting/Setting.md`, `setting/History.md`, `setting/Truths.md`
+- each region's seed, `setting/region/[Region Code].md`
+- the location entries and write-ups each rumour is settled at
 
 ## Instructions
 Create a table of rumours, numbered to the die `BRIEF.md` sets, each following
