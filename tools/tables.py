@@ -39,8 +39,6 @@ class Folder:
 
 def bounds(rate) -> tuple[int, int] | None:
     s = str(rate)
-    if m := PERCENT_RE.fullmatch(s):
-        return (0, 1) if int(m.group(1)) <= 100 else None
     if m := RANGE_RE.fullmatch(s):
         lo, hi = int(m.group(1)), int(m.group(2) or m.group(1))
         return (lo, hi) if lo <= hi else None
@@ -117,7 +115,7 @@ class Schema:
                     p(f"folder {name}: rate for {item!r}, which {f.type} does not hold")
                 for stem, b in rates.items():
                     if stem not in f.files or b is None:
-                        p(f"folder {name}: rate {item} {stem} is not a file and a count, range or percent")
+                        p(f"folder {name}: rate {item} {stem} is not a file and a count or range")
 
 
 def titles(path: Path) -> set[str] | None:
@@ -243,12 +241,17 @@ class Setting:
             yield "error", f"{n.name} opens with {n.args} - an entry opens with one {r.code} location code"
         elif stem != "Locations" and code not in r.locations():
             yield "error", f"{n.name} names {code}, which Locations.md does not hold"
-        yield from self._check_node(r, n)
+        missing = list(self._check_node(r, n))
+        owed = [m for m in missing if isinstance(m, str)]
+        yield from (m for m in missing if not isinstance(m, str))
+        if owed:
+            step = "4a" if stem == "Locations" else "5a"
+            yield "warning", f"{n.name} {n.args[0] if n.args else ''} is a stub owed to step {step} - lacks {', '.join(owed)}"
 
-    def _check_node(self, r: Region, n: kdl.Node):
+    def _check_node(self, r: Region, n: kdl.Node, within: str = ""):
+        """Yield (severity, message) for every fault, and the name of every member not yet
+        written - a bare entry is a stub, placed at 4c and filled at 5a."""
         members = self.schema.nodes[n.name]
-        if not n.props and not n.children:
-            yield "error", f"{n.name} is empty"
         known = {m.name for m in members}
         for k in n.props:
             if k not in known:
@@ -259,12 +262,12 @@ class Setting:
                 if len(got) > 1:
                     yield "error", f"{n.name} holds {len(got)} of {' | '.join(m.nodes)} - at most one"
                 elif not got and not m.opt:
-                    yield "warning", f"{n.name} lacks {' | '.join(m.nodes)}"
+                    yield within + " | ".join(m.nodes)
             elif m.name in n.props:
                 for msg in self._check_value(r, m, n.props[m.name]):
                     yield msg[0], f"{n.name} {m.name}: {msg[1]}"
             elif not m.opt:
-                yield "warning", f"{n.name} lacks {m.name}"
+                yield within + m.name
         allowed = {c for m in members for c in m.nodes}
         for c in n.children:
             if c.name not in allowed:
@@ -272,7 +275,7 @@ class Setting:
             elif c.args:
                 yield "error", f"{c.name} inside {n.name} takes no arguments"
             else:
-                yield from self._check_node(r, c)
+                yield from self._check_node(r, c, f"{within}{c.name}.")
 
     def _check_value(self, r: Region, m: Member, v):
         items = [x.strip() for x in str(v).split(",")] if m.is_list else [v]
@@ -287,7 +290,7 @@ class Setting:
                     yield "error", f"{len(s.split())} words in {s!r} - a {m.type} is at most {self.schema.words[m.type]}"
             elif m.type == "number":
                 b = bounds(s)
-                if b is None or "%" in s:
+                if b is None:
                     yield "error", f"{s!r} is not N or N-M"
             elif m.type == "percent":
                 if not PERCENT_RE.fullmatch(s) or int(s[:-1]) > 100:

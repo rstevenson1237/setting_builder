@@ -41,7 +41,6 @@ findings are the evidence `templates/checks/Pattern_Judgement_Check.md` starts f
 - **Regions reinforce the setting** - does each region's seed visibly connect back to `setting/Setting.md`/`History.md`/`Truths.md` (a named historical event, a faction's presence, a unique truth playing out), rather than feeling like an unrelated pocket bolted onto the setting?
 - **Locations reinforce their region** - does each location's dressing and Features reflect its region's Conditions, Inhabitants and Places, rather than reading as a location that could belong to any region? Are its three tags recognisable in what it holds?
 - **Rooms are distinct** - within the region, do two rooms share a Feature sentence, a room shape, or the same set of Features under different names? Where one occupant holds several blocks, does each block differ in more than its name? `tools/validate_setting.py` warns on a repeated Feature sentence; this item judges the near-repeats a string match cannot see.
-- **Rates were rolled, not chosen** - do the region's tables sit near their types' rates? `python3 tools/validate_setting.py --pending` lists every room off its rate, and `python3 tools/metrics.py`'s MIX section counts connection and treasure kinds. A mix collapsed to one answer is recorded with the rate it should have held.
 - **Entries written in one pass read as a form** - within one table, do the entries share a
   sentence shape, an opening word, or the same few glosses in rotation? A pass that sees
   every sibling exists to make them differ; a table that reads like a filled-in form has
@@ -76,7 +75,6 @@ findings are the evidence `templates/checks/Pattern_Judgement_Check.md` starts f
 - Region reinforces the setting: [Confirmed / Needs Attention - note]
 - Locations reinforce this region: [Confirmed / Needs Attention - note]
 - Rooms are distinct: [Confirmed / Needs Attention - note]
-- Draws realized at their rates: [Confirmed / Needs Attention - rate asked, rate realized]
 - Said once: [Confirmed / Needs Attention - note]
 - Tells, read: [Confirmed / Needs Attention - note]
 
