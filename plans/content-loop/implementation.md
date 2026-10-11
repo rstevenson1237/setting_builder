@@ -12,7 +12,7 @@ review from `CLAUDE.md` run on every file it wrote. Task ids are cited in commit
 | T3 | Stubs: a bare entry is a warning owed to 5a, and `--pending` lists stubs; the schema's percentage rates become ranges; `templates/dangerous/Tables.md` 4c (stubs) and 5a (fill) | `patterns/Schema.md`, `tools/tables.py`, `templates/dangerous/Tables.md` |
 | T4 | `BRIEF.md` targets: format, validator checks on paths and totals, metrics realized-against-target; the template mixes move into `BRIEF.md` | `BRIEF.md`, `tools/tables.py`, `tools/metrics.py`, `templates/**` |
 | T5 | Staleness from `git blame` at entry grain, listed by `--pending`; metrics reads tables for MIX and names 5b in READ SET | `tools/validate_setting.py`, `tools/tables.py`, `tools/metrics.py` |
-| T6 | Quest pathway, key pairing, key not behind its own lock | `patterns/Schema.md`, `tools/tables.py` |
+| T6 | Quests point one way, written at 5d; key pairing; key not behind its own lock | `patterns/setting/Quests.md`, `templates/setting/Quests.md`, `tools/tables.py` |
 | T7 | `templates/checks/Location_Review.md` (5c); trim `Setting_Judgement_Check.md` to the cross-level items | `templates/checks/` |
 | T8 | 5d placement: Rumours (from 2d), Quests, locks then keys, the setting registries' write steps | `templates/setting/Rumours.md`, `Quests.md`, `Keys.md`, `Lore.md`, `Truths.md`, `History.md` |
 

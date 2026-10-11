@@ -47,7 +47,7 @@ stale write-up and no open review finding, and placement added nothing.
   write-ups against `templates/checks/Location_Review.md`. Each finding names where it
   goes: an entry (5a), a write-up (5b), a placement (5d), or the framework (`plans/`).
 - **5d Place** - write the setting's threads against what exists: the Rumours table, each
-  rumour from a location holding its answer; Quests, giver and target; locks where the
+  rumour from a location holding its answer; Quests, each pointing at its object; locks where the
   design wants them, then keys for existing locks on the next placement; Lore, Truths'
   Handles and History's Left lines. A new region entry it needs is written with the
   placed member set, and the locations it touches go stale.
@@ -138,8 +138,9 @@ diff. A rewrite that moves more than wording is a finding against `templates/reg
 
 Only what the loop needs:
 
-- **Quest pathway.** `table Quests entry file="setting/Quests.md"`; `Quests` joins
-  `Contents_Type`; `Encounter` gains `asks entry Quests opt`.
+- **Quests point one way.** A quest is a lead with a reward, written at 5d like a rumour:
+  its Points to names the location or setting entry holding its object, or nowhere on
+  this map. No schema node; a location may cite a quest without being named by it.
 - **Keys pair.** Each `Lock` names a key that some `Reward` pulls as `Keys:`, and each
   such pull names a key some `Lock` holds. While one end is missing this is a warning;
   once the loop exits it is an error.

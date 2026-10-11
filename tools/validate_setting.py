@@ -309,6 +309,10 @@ def spec_closure(entries: set, pattern_files: set) -> set:
     return reach
 
 
+def is_review(sid: str) -> bool:
+    return sid == "5c" or sid[0] == "6"
+
+
 def read_set_graph():
     """STEPS.md -> templates -> pattern entry points -> Spec closure.
 
@@ -332,7 +336,7 @@ def read_set_graph():
     # Roots come from generation steps only - 5c and phase 6 are review.
     roots: set = set()
     for sid, names in step_templates.items():
-        if sid == "5c" or sid[0] == "6":
+        if is_review(sid):
             continue
         for name in names:
             roots |= template_roots.get(name, set())
@@ -402,7 +406,7 @@ def report_read_set(step_filter: str | None) -> int:
         for name in names:
             entries |= g["template_roots"].get(name, set())
         closure = spec_closure(entries, g["pattern_files"])
-        print(f"{sid}{'  (review pass)' if sid[0] == '5' else ''}")
+        print(f"{sid}{'  (review pass)' if is_review(sid) else ''}")
         print(f"  templates : {', '.join(sorted(names)) or '(none)'}")
         print(f"  entries   : {', '.join(sorted(entries)) or '(none)'}")
         expanded = sorted(closure - entries)
@@ -807,11 +811,6 @@ REGISTRY_KINDS = [
     ("Hoard", SETTING / "Hoards.md", "hoards"),
 ]
 
-# A Quest is two-ended by definition: a giver location and a target location.
-# Anything less is a delivery with one end missing.
-TWO_ENDED_KINDS = {"Quest"}
-
-
 def parse_registry(diag: Diagnostics, kind: str, path: Path, sc_kind: str, all_locations: dict):
     if not path.exists():
         diag.warn(path, "missing - not built yet")
@@ -826,9 +825,6 @@ def parse_registry(diag: Diagnostics, kind: str, path: Path, sc_kind: str, all_l
         for c in sorted(codes):
             if c not in all_locations:
                 diag.error(path, f"line {lineno}: references unknown location code {c}")
-        if kind in TWO_ENDED_KINDS and len(codes) == 1:
-            diag.warn(path, f"line {lineno}: {title!r} names only one location - a Quest is two-ended "
-                            f"(a giver and a target), so confirm this is deliberate")
         if title in entries:
             diag.error(path, f"line {lineno}: duplicate title {title!r}")
         entries[title] = codes
@@ -848,15 +844,19 @@ def check_key_obligations(diag: Diagnostics, path: Path, registry: dict, build_c
 
 
 def cross_check_registry(diag: Diagnostics, kind: str, path: Path, registry: dict, cited: dict):
+    """Every citation has its entry, and every place an entry names cites it back. A
+    quest points one way, so a location may cite one without being named by it."""
     for title, codes in cited.items():
         if title not in registry:
             diag.error(path, f"a location cites ({kind}: {title}) but there is no stub row for it here")
+            continue
+        if kind == "Quest":
             continue
         missing = codes - registry[title]
         if missing:
             diag.error(path, f"'{title}' is cited from {sorted(missing)} but its stub row's location(s) don't list them")
     for title in registry:
-        if title not in cited:
+        if title not in cited and kind != "Quest":
             diag.warn(path, f"stub '{title}' has no citing Feature found in any location file")
 
 
@@ -874,7 +874,7 @@ TEMPLATES_DIR = ROOT / "templates"
 # writes each is named so a record's expected fields can be read from it.
 SETTING_TABLE_FILES = {
     "Keys.md": ("setting/Keys.md", "5a"),
-    "Quests.md": ("setting/Quests.md", "5a"),
+    "Quests.md": ("setting/Quests.md", "5d"),
     "Truths.md": ("setting/Truths.md", "5d"),
 }
 SETTING_RECORD_FILES = {

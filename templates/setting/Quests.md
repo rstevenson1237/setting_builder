@@ -1,24 +1,27 @@
 # Quests.md
 
 ## Purpose
-The registry of errands running between locations - who wants what, where it is, and what
-stands in the way. Created empty at step 2g.
+The registry of quests - leads with a reward, each pointing at where its object lies or at
+nothing on this map. Written at step 5d, against what the build holds.
 
 ## Context
 Read first:
 - `GENRE.md`
 - `BRIEF.md`
 - `patterns/setting/Quests.md`
-- the entries at both ends, giver and target
+- `setting/Rumours.md`
+- each region's seed, `setting/region/[Region Code].md`
+- the location entries or setting entries a quest points to
 
 ## Instructions
-A Quest is **two-ended**: a giver location and a target location, both named by code.
+Write the quests `BRIEF.md` asks for, each following `patterns/setting/Quests.md`'s Spec.
+A quest whose object lies at a location is written from what that location holds.
 
 ## Template
 ```
 Quests of [Setting Name]
 
-| Name | Given at | Resolved at | Ask | Giver | Reluctance | Object | Obstacle | Terms |
-|---|---|---|---|---|---|---|---|---|
-| [Quest Name] | [Code].[N] | [Code].[N] | [ASK] | [who wants it] | [why they will not go themselves] | [what specifically, and where in the target location] | [what stands in the way] | ["stated in the giver's own words"] |
+| Name | Ask | Giver | Reluctance | Object | Obstacle | Terms | Points to |
+|---|---|---|---|---|---|---|---|
+| [Quest Name] | [ASK] | [who wants it, and how a party hears of it] | [RELUCTANCE] | [what specifically] | [OBSTACLE] | ["stated in the giver's own words"] | [Location Code, Table: Title, or nowhere on this map] |
 ```

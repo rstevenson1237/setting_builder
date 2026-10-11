@@ -394,7 +394,7 @@ REGISTRY_PLACES = {
     "keys": ("Found at", "Opens"),
     "named_creatures": ("Appears at",),
     "unique_treasures": ("Found at",),
-    "quests": ("Given at", "Resolved at"),
+    "quests": ("Points to",),
     "magical_tomes": ("Found at",),
     "hoards": ("Found at",),
 }
