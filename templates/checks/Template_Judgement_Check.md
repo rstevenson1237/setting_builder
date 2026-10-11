@@ -1,7 +1,7 @@
 # Template_Judgement_Check.md
 
 ## Purpose
-A non-mechanical review pass over `templates/` - confirming, by human or model judgement, things `tools/validate_setting.py` structurally cannot: that each template enters the right pattern files and reads no more than it needs, that its defaults yield to the brief, and that it still encodes the edge cases this project has previously flagged as failure modes. Saved as `setting/checks/TemplateJudgementCheck.md`.
+A non-mechanical review pass over `templates/` - confirming, by human or model judgement, things `tools/validate_setting.py` structurally cannot: that each template enters the right pattern files and reads no more than it needs, that it leaves every count, mix and rate to the brief, and that it still encodes the edge cases this project has previously flagged as failure modes. Saved as `setting/checks/TemplateJudgementCheck.md`.
 
 ## Context
 Consult when running this check:
@@ -10,7 +10,7 @@ Consult when running this check:
 - every generation template in `templates/` - the three `*_Judgement_Check.md` files are not in scope; they are reviewed by being run.
 - `python3 tools/validate_setting.py --read-set` - which pattern files each template's step enters and reaches, in place of reading all of `patterns/`.
 - where a build exists, the table rows naming one location of each rating - what `templates/region/Location.md`'s Context actually assembles to.
-- the last build's `setting/` and its `setting/checks/SettingJudgementCheck.md` - a template is judged by what it produced, and a default is judged by whether it won against the brief.
+- the last build's `setting/`, its `setting/checks/SettingJudgementCheck.md`, and the findings its `setting/checks/Review.md` sent to the framework - a template is judged by what it produced.
 
 ## Instructions
 Read each generation template against the items below. Record **findings only**: each as
@@ -29,12 +29,8 @@ Every template:
 - **Genre drift guardrails** - where an authored plot, commonplace magic or a nearer
   authority could creep in (History, Factions, Treasure, Location Features), do its
   Instructions push against it?
-- **Defaults yield to the brief** - is every count, mix and coverage rule stated as a
-  default `BRIEF.md` replaces, and does its Context read `BRIEF.md`? Where the last build's
-  brief contradicted a default, which did the artifact follow?
-- **Defaults are neutral** - does any default carry one genre's assumptions (a type share
-  justified by what one kind of region is built around, a mechanic one reference has) that
-  belongs in a `GENRE.md` answer or a `BRIEF.md` line instead?
+- **No defaults** - does it state a count, mix or rate itself, or fall back on one where
+  `BRIEF.md` is silent? Each belongs in `BRIEF.md`, which the template reads.
 - **Every field is used** - is every field it asks for read by a later step, rolled at the
   table, or used by a referee running the artifact?
 
@@ -56,5 +52,5 @@ Confirmed on every item: [templates/..., templates/...]
 - [templates/[folder]/File.md] - [item]: [what is wrong] - [what the last build shows, if it shows it]
 
 ## Open Items
-- [Each finding, as an action, with its source: template, template default, or STEPS.md]
+- [Each finding, as an action, with its source: template or STEPS.md]
 ```

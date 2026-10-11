@@ -6,19 +6,14 @@ An overview listing of all regions within the setting - the Regional Gazetteer.
 ## Context
 Read first:
 - `GENRE.md`
-- `BRIEF.md` - this build's design requests, which replace this template's defaults where they speak
+- `BRIEF.md`
 - `setting/Setting.md`
 - `setting/Language.md`
 
 ## Instructions
-Fix the region count and rating mix first - the shape of the setting, decided here rather
-than earlier, since nothing before this step needed it. The shortest complete loop a party
-can actually run is one SAFE, one WILD, and one DANGEROUS region: a setting needs somewhere
-to resupply, somewhere to cross, and somewhere to go, and three regions is the smallest
-version of that. More is a choice; fewer is missing a leg. A second SAFE region is worth
-adding where the setting is about somewhere being contested.
+List the regions `BRIEF.md` names.
 
-List an overview of all regions within the setting. This file is a Regional Gazetteer - further entries can be added by appending to or changing this file. Each region is rated SAFE, WILD, or DANGEROUS and given a die size (d4-d12), per `setting/Procedures.md`. Start every region at **d8** and move off it only for a reason. A DANGEROUS region such as a dungeon may sit within a WILD region, and this should be noted in its overview. Each row carries a tag line: one phrase defining the region one step past its name.
+List an overview of all regions within the setting. This file is a Regional Gazetteer - further entries can be added by appending to or changing this file. Each region is rated SAFE, WILD, or DANGEROUS and given the die `BRIEF.md` sets (d4-d12), per `setting/Procedures.md`. A DANGEROUS region such as a dungeon may sit within a WILD region, and this should be noted in its overview. Each row carries a tag line: one phrase defining the region one step past its name.
 
 Codes follow a plain A-Z progression with no differentiation between types (A, B, C, ...). For a complex setting with more than 26 regions, continue with double letters (AA, AB, AC, ...).
 

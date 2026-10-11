@@ -39,8 +39,6 @@ class Folder:
 
 def bounds(rate) -> tuple[int, int] | None:
     s = str(rate)
-    if m := PERCENT_RE.fullmatch(s):
-        return (0, 1) if int(m.group(1)) <= 100 else None
     if m := RANGE_RE.fullmatch(s):
         lo, hi = int(m.group(1)), int(m.group(2) or m.group(1))
         return (lo, hi) if lo <= hi else None
@@ -117,7 +115,7 @@ class Schema:
                     p(f"folder {name}: rate for {item!r}, which {f.type} does not hold")
                 for stem, b in rates.items():
                     if stem not in f.files or b is None:
-                        p(f"folder {name}: rate {item} {stem} is not a file and a count, range or percent")
+                        p(f"folder {name}: rate {item} {stem} is not a file and a count or range")
 
 
 def titles(path: Path) -> set[str] | None:
@@ -193,9 +191,71 @@ class Setting:
     # -- checks -------------------------------------------------------------
 
     def check(self):
-        """Yield (severity, path, message) for every region."""
+        """Yield (severity, path, message) for every region, then for the keys between them."""
         for r in self.regions.values():
             yield from self._check_region(r)
+        yield from self._check_keys()
+
+    def _check_keys(self):
+        """Every lock has its key placed, every key its lock, and no key lies behind the lock
+        it opens. Locks are placed first and keys for them after, so a lock waiting on its
+        key is owed to 5d, and a key with no lock is an error."""
+        locks, keys = {}, {}
+        for r in self.regions.values():
+            for stem, entries in r.files.items():
+                for n in entries:
+                    for c in n.children:
+                        if c.name == "Lock" and "key" in c.props:
+                            locks.setdefault(c.props["key"], []).append((r, stem, n))
+                    table, _, title = str(n.props.get("contents", "")).partition(": ")
+                    if n.name == "Reward" and table == "Keys" and title:
+                        keys.setdefault(title, []).append((r, stem, n))
+        for title, held in sorted(keys.items()):
+            for r, stem, n in held:
+                path = r.dir / f"{stem}.md"
+                if title not in locks:
+                    yield "error", path, (f"line {n.line}: {title!r} is placed, but no Lock names it - "
+                                          f"a key is placed only for a lock already placed")
+                elif any(m is n for _, _, m in locks[title]):
+                    yield "error", path, f"line {n.line}: {title!r} is locked inside itself"
+        for title, placed in sorted(locks.items()):
+            if title not in keys:
+                r, stem, n = placed[0]
+                yield "warning", r.dir / f"{stem}.md", (f"line {n.line}: Lock {title!r} has no key "
+                                                       f"placed yet - owed to step 5d")
+                continue
+            for r, stem, n in keys[title]:
+                if self._behind(r, title, n.args[0] if n.args else None):
+                    yield "error", r.dir / f"{stem}.md", (
+                        f"line {n.line}: {title!r} lies behind the lock it opens - it cannot be "
+                        f"reached from {', '.join(self._entrances(r))} without it")
+
+    def _entrances(self, r: Region) -> list[str]:
+        """The region's rooms touching another region, or else its first room."""
+        own = set(r.locations())
+        outside = {c for a, b in r.edges for c in (a, b) if c not in own}
+        ways_in = sorted({c for a, b in r.edges for c in (a, b)
+                          if c in own and ({a, b} & outside)})
+        return ways_in or sorted(own, key=lambda c: int(c.split(".")[1]))[:1]
+
+    def _behind(self, r: Region, title: str, code: str | None) -> bool:
+        if code is None or code not in r.locations():
+            return False
+        locked = {frozenset((n.args[0], n.props.get("to"))) for n in r.files.get("Connections", [])
+                  if n.args and any(c.name == "Lock" and c.props.get("key") == title
+                                    for c in n.children)}
+        adj: dict[str, set] = {}
+        for a, b in r.edges:
+            if frozenset((a, b)) not in locked:
+                adj.setdefault(a, set()).add(b)
+                adj.setdefault(b, set()).add(a)
+        seen, todo = set(self._entrances(r)), list(self._entrances(r))
+        while todo:
+            for nxt in adj.get(todo.pop(), ()):
+                if nxt not in seen:
+                    seen.add(nxt)
+                    todo.append(nxt)
+        return code not in seen
 
     def _check_region(self, r: Region):
         for path, msg in r.syntax:
@@ -204,8 +264,9 @@ class Setting:
             yield "warning", r.dir, f"{r.rating} has no folder in {self.schema.path.name}"
             return
         for path in sorted(r.dir.glob("*.md")):
-            if not path.stem.isdigit() and path.stem not in r.folder.files:
-                yield "error", path, f"is neither a location file nor one of {', '.join(r.folder.files)}"
+            if not path.stem.isdigit() and path.stem not in r.folder.files and path.stem != "Brief":
+                yield "error", path, (f"is neither a location file, Brief.md, nor one of "
+                                      f"{', '.join(r.folder.files)}")
         for stem in r.folder.files:
             path = r.dir / f"{stem}.md"
             if not path.exists():
@@ -242,12 +303,17 @@ class Setting:
             yield "error", f"{n.name} opens with {n.args} - an entry opens with one {r.code} location code"
         elif stem != "Locations" and code not in r.locations():
             yield "error", f"{n.name} names {code}, which Locations.md does not hold"
-        yield from self._check_node(r, n)
+        missing = list(self._check_node(r, n))
+        owed = [m for m in missing if isinstance(m, str)]
+        yield from (m for m in missing if not isinstance(m, str))
+        if owed:
+            step = "4a" if stem == "Locations" else "5a"
+            yield "warning", f"{n.name} {n.args[0] if n.args else ''} is a stub owed to step {step} - lacks {', '.join(owed)}"
 
-    def _check_node(self, r: Region, n: kdl.Node):
+    def _check_node(self, r: Region, n: kdl.Node, within: str = ""):
+        """Yield (severity, message) for every fault, and the name of every member not yet
+        written - a bare entry is a stub, placed at 4c and filled at 5a."""
         members = self.schema.nodes[n.name]
-        if not n.props and not n.children:
-            yield "error", f"{n.name} is empty"
         known = {m.name for m in members}
         for k in n.props:
             if k not in known:
@@ -258,12 +324,12 @@ class Setting:
                 if len(got) > 1:
                     yield "error", f"{n.name} holds {len(got)} of {' | '.join(m.nodes)} - at most one"
                 elif not got and not m.opt:
-                    yield "warning", f"{n.name} lacks {' | '.join(m.nodes)}"
+                    yield within + " | ".join(m.nodes)
             elif m.name in n.props:
                 for msg in self._check_value(r, m, n.props[m.name]):
                     yield msg[0], f"{n.name} {m.name}: {msg[1]}"
             elif not m.opt:
-                yield "warning", f"{n.name} lacks {m.name}"
+                yield within + m.name
         allowed = {c for m in members for c in m.nodes}
         for c in n.children:
             if c.name not in allowed:
@@ -271,7 +337,7 @@ class Setting:
             elif c.args:
                 yield "error", f"{c.name} inside {n.name} takes no arguments"
             else:
-                yield from self._check_node(r, c)
+                yield from self._check_node(r, c, f"{within}{c.name}.")
 
     def _check_value(self, r: Region, m: Member, v):
         items = [x.strip() for x in str(v).split(",")] if m.is_list else [v]
@@ -286,7 +352,7 @@ class Setting:
                     yield "error", f"{len(s.split())} words in {s!r} - a {m.type} is at most {self.schema.words[m.type]}"
             elif m.type == "number":
                 b = bounds(s)
-                if b is None or "%" in s:
+                if b is None:
                     yield "error", f"{s!r} is not N or N-M"
             elif m.type == "percent":
                 if not PERCENT_RE.fullmatch(s) or int(s[:-1]) > 100:
@@ -370,3 +436,235 @@ class Setting:
                              for node in kdl.walk([n]) for v in node.props.values()):
                         named.append((f"{r.code}/{stem}", n))
         return own, named
+
+
+# -- BRIEF.md's targets --------------------------------------------------------
+#
+#   target Node.member Value="N%" ...   share of Node entries whose member is each Value
+#   target Node.Child "N%"              share of Node entries holding that one-of child
+#   target Node [of=Type] "N%"          share of locations (of that type) holding a Node
+#   target Node count=N                 how many Node entries
+#
+# each scoped by rating= and region=, the narrowest applying to a region winning.
+
+BRIEF = ROOT / "BRIEF.md"
+
+
+@dataclass
+class Target:
+    node: kdl.Node
+    path: str
+    form: str                      # "values", "child", "presence" or "count"
+    shares: dict[str, int]
+    rating: str | None
+    region: str | None
+
+    def key(self):
+        return (self.path, self.form, self.node.props.get("of"))
+
+    def applies(self, r: Region) -> int:
+        """-1 where it does not apply to this region, else its narrowness."""
+        if self.region and self.region != r.code:
+            return -1
+        if self.rating and self.rating.lower() != r.rating.lower():
+            return -1
+        return 2 if self.region else 1 if self.rating else 0
+
+
+class Targets:
+    def __init__(self, schema: Schema, path: Path = BRIEF):
+        self.schema, self.path, self.problems, self.targets = schema, path, [], []
+        try:
+            nodes = kdl.fenced(path.read_text()) if path.exists() else []
+        except SyntaxError as e:
+            self.problems.append(str(e))
+            return
+        for n in nodes:
+            if n.name != "target":
+                self.problems.append(f"line {n.line}: {n.name!r} is not a target")
+            elif t := self._read(n):
+                self.targets.append(t)
+
+    def _read(self, n: kdl.Node) -> Target | None:
+        p = lambda msg: self.problems.append(f"line {n.line}: {msg}") or None
+        if not n.args:
+            return p("a target names a Node or Node.member")
+        path, *rest = [str(a) for a in n.args]
+        node, _, member = path.partition(".")
+        if node not in self.schema.nodes:
+            return p(f"{node!r} is not a node of patterns/Schema.md")
+        rating, region = n.props.get("rating"), n.props.get("region")
+        if rating and rating not in self.schema.folders:
+            return p(f"rating={rating!r} is not a folder of patterns/Schema.md")
+        values = {k: v for k, v in n.props.items() if k not in ("rating", "region", "of", "count")}
+        members = {m.name: m for m in self.schema.nodes[node] if m.name != "one-of"}
+        children = {c for m in self.schema.nodes[node] for c in m.nodes}
+        if "count" in n.props:
+            if member or values or rest or bounds(n.props["count"]) is None:
+                return p("count= takes a bare Node and a count or range")
+            return Target(n, path, "count", {}, rating, region)
+        if member in members:
+            if rest or not values:
+                return p(f"{path} takes Value=\"N%\" shares")
+            allowed = self._allowed(members[member], rating)
+            bad = [v for v in values if allowed is not None and v not in allowed]
+            if bad:
+                return p(f"{', '.join(map(repr, bad))} not a value of {path}")
+            form = "values"
+        elif member in children or not member:
+            if values or len(rest) != 1:
+                return p(f"{path} takes one \"N%\" share")
+            values, form = {"": rest[0]}, "child" if member else "presence"
+            if member and "of" in n.props:
+                return p("of= applies to a bare Node")
+            of = n.props.get("of")
+            if of and not any(of in self.schema.enums.get(f.type, {})
+                              for f in self.schema.folders.values()):
+                return p(f"of={of!r} is not a location type")
+        else:
+            return p(f"{member!r} is neither a member nor a child of {node}")
+        shares = {}
+        for v, s in values.items():
+            m = PERCENT_RE.fullmatch(str(s))
+            if not m:
+                return p(f"{s!r} is not a percentage")
+            shares[v] = int(m.group(1))
+        if sum(shares.values()) > 100:
+            return p(f"shares total {sum(shares.values())}%")
+        return Target(n, path, form, shares, rating, region)
+
+    def _allowed(self, m: Member, rating: str | None) -> set | None:
+        if m.type == "kind":
+            folders = [self.schema.folders[rating]] if rating else self.schema.folders.values()
+            return {v for f in folders for v in self.schema.enums.get(f.type, {})}
+        if m.type in self.schema.enums:
+            return set(self.schema.enums[m.type])
+        if m.type == "pull":
+            return set(self.schema.enums.get(m.arg, {}))
+        return None
+
+    def realized(self, setting: Setting):
+        """Per region, (target, label, wanted, got, of) for every target applying to it."""
+        out = {}
+        for r in setting.regions.values():
+            best = {}
+            for t in self.targets:
+                rank = t.applies(r)
+                if rank >= 0 and rank >= best.get(t.key(), (None, -1))[1]:
+                    best[t.key()] = (t, rank)
+            rows = []
+            for t, _ in best.values():
+                rows += self._measure(t, r)
+            out[r.code] = rows
+        return out
+
+    def _measure(self, t: Target, r: Region):
+        node, _, member = t.path.partition(".")
+        entries = [n for ns in r.files.values() for top in ns for n in kdl.walk([top])
+                   if n.name == node]
+        if t.form == "count":
+            return [(t, "count", str(t.node.props["count"]), len(entries), None)]
+        if t.form == "values":
+            got = [str(n.props.get(member, "")).split(":")[0] for n in entries
+                   if member in n.props]
+            return [(t, v, s, sum(1 for g in got if g == v), len(got)) for v, s in t.shares.items()]
+        if t.form == "child":
+            got = sum(1 for n in entries if any(c.name == member for c in n.children))
+            return [(t, member, t.shares[""], got, len(entries))]
+        of = t.node.props.get("of")
+        locs = [c for c, l in r.locations().items() if not of or l.props.get("type") == of]
+        held = {n.args[0] for n in entries if n.args}
+        return [(t, f"of {of}" if of else "of all", t.shares[""],
+                 sum(1 for c in locs if c in held), len(locs))]
+
+
+# -- staleness ------------------------------------------------------------------
+#
+# A write-up is stale when a line it was written from - its own entries, the entries
+# naming it, the setting entries those name, or its region's seed - changed after the
+# write-up last did. A line's time is its last commit's, read by `git blame`, or its
+# file's modified time while the line is uncommitted. Without git, nothing is stale.
+
+import os
+import subprocess
+
+
+class History:
+    def __init__(self):
+        self._blame: dict[Path, list[float] | None] = {}
+
+    def _git(self, *args) -> str | None:
+        try:
+            return subprocess.run(["git", "-C", str(ROOT), *args], capture_output=True,
+                                  text=True, check=True).stdout
+        except (OSError, subprocess.CalledProcessError):
+            return None
+
+    def line_times(self, path: Path) -> list[float] | None:
+        if path not in self._blame:
+            out = self._git("blame", "--line-porcelain", "--", str(path.relative_to(ROOT)))
+            times, uncommitted = [], False
+            for line in (out or "").splitlines():
+                if re.match(r"[0-9a-f]{40} ", line):
+                    uncommitted = line.startswith("0" * 40)
+                elif line.startswith("committer-time "):
+                    times.append(path.stat().st_mtime if uncommitted else float(line.split()[1]))
+            self._blame[path] = times if out is not None else None
+        return self._blame[path]
+
+    def file_time(self, path: Path) -> float | None:
+        dirty = self._git("status", "--porcelain", "--", str(path.relative_to(ROOT)))
+        if dirty is None:
+            return None
+        if dirty.strip():
+            return path.stat().st_mtime
+        out = self._git("log", "-1", "--format=%ct", "--", str(path.relative_to(ROOT)))
+        return float(out) if out and out.strip() else path.stat().st_mtime
+
+
+def record_lines(path: Path, title: str) -> range:
+    """The lines of one setting entry: its table row, or its heading through to the next."""
+    lines = path.read_text().splitlines()
+    for i, line in enumerate(lines):
+        if title in line:
+            if not line.startswith("#"):
+                return range(i, i + 1)
+            depth = len(line) - len(line.lstrip("#"))
+            end = next((j for j in range(i + 1, len(lines))
+                        if lines[j].startswith("#") and len(lines[j]) - len(lines[j].lstrip("#")) <= depth),
+                       len(lines))
+            return range(i, end)
+    return range(0)
+
+
+def stale(setting: Setting, code: str, history: History) -> list[str]:
+    """What changed since this location's write-up, or [] if it is fresh or unwritten."""
+    region = setting.regions[code.split(".")[0]]
+    writeup = region.dir / f"{code.split('.')[1]}.md"
+    if not writeup.exists() or (written := history.file_time(writeup)) is None:
+        return []
+    deps: list[tuple[Path, range, str]] = []
+    own, named = setting.entries_at(code)
+    for where, n in own + named:
+        rcode, stem = where.split("/")
+        deps.append((setting.regions[rcode].dir / f"{stem}.md", range(n.line - 1, n.line),
+                     f"{stem} {n.name} {n.args[0] if n.args else ''}".strip()))
+        for node in kdl.walk([n]):
+            for m in setting.schema.nodes.get(node.name, []):
+                v = node.props.get(m.name)
+                if v is None or m.type not in ("entry", "pull"):
+                    continue
+                table, _, title = str(v).partition(": ") if m.type == "pull" else (m.arg, "", str(v))
+                if title and table in setting.schema.tables:
+                    path = ROOT / setting.schema.tables[table][1]
+                    if path.exists():
+                        deps.append((path, record_lines(path, title), f"{table}: {title}"))
+    seed = SETTING / "region" / f"{region.code}.md"
+    if seed.exists():
+        deps.append((seed, range(0, 10 ** 6), "the region's seed"))
+    changed = []
+    for path, lines, what in deps:
+        times = history.line_times(path)
+        if times and any(times[i] > written for i in lines if i < len(times)):
+            changed.append(what)
+    return sorted(set(changed))

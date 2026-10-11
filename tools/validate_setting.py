@@ -175,11 +175,11 @@ def spec_blocks(text: str) -> dict[str, list[str]]:
     return out
 
 
-# A Spec line's rate is `1` or a percentage, per patterns/SPEC.md. Anything
-# else in the rate column - `2`, `3-6`, `15+` - is read by this validator as a
+# A Spec line's rate is `1` or `*`, per patterns/SPEC.md. Anything else in
+# the rate column - `2`, `3-6`, `15+`, `20%` - is read by this validator as a
 # continuation of the line above, so the line it
 # opens silently merges into its neighbour.
-ODD_RATE_RE = re.compile(r'^ {2}(\d+(?:-\d+|\+)?)\s{2,}\S')
+ODD_RATE_RE = re.compile(r'^ {2}(\d+(?:-\d+|\+|%)?)\s{2,}\S')
 
 
 def check_rate_notation(diag: Diagnostics, path, text: str):
@@ -192,7 +192,7 @@ def check_rate_notation(diag: Diagnostics, path, text: str):
             m = ODD_RATE_RE.match(line)
             if m and m.group(1) != "1":
                 diag.warn(path, f"Spec line rated {m.group(1)!r} - patterns/SPEC.md allows `1` "
-                                f"or a percentage, and the tools read this line as a "
+                                f"or `*`, and the tools read this line as a "
                                 f"continuation of the one above it: {line.strip()[:60]!r}")
 
 
@@ -217,7 +217,7 @@ def check_pattern_sections(diag: Diagnostics, path, text: str):
 # next one does - continuation lines are indented further, and a citation list
 # routinely wraps onto them. Grouping physically would split every wrapped draw
 # away from the rate that governs it.
-SPEC_RATE_RE = re.compile(r'^ {2}(1|\d+%|liner note|working|central)\s')
+SPEC_RATE_RE = re.compile(r'^ {2}(1|\*)\s')
 
 
 def spec_edges(text: str, rel: str):
@@ -259,9 +259,9 @@ def spec_edges(text: str, rel: str):
 # Reachability is what this buys: a pattern file no generation template can
 # reach is never read, so the content it describes is never generated. That
 # is silent under-generation rather than a malformed file, so it warns here
-# and is judged at STEPS.md step 5b, per templates/checks/Pattern_Judgement_Check.md.
+# and is judged at STEPS.md step 6b, per templates/checks/Pattern_Judgement_Check.md.
 #
-# A phase-5 template is a review pass, and the pattern files it names are
+# A review template (5c and phase 6) is a review pass, and the pattern files it names are
 # examples of what to review rather than inputs to a generation. They are
 # excluded from the root set so an orphan cannot be masked by being cited as
 # an example.
@@ -309,6 +309,10 @@ def spec_closure(entries: set, pattern_files: set) -> set:
     return reach
 
 
+def is_review(sid: str) -> bool:
+    return sid == "5c" or sid[0] == "6"
+
+
 def read_set_graph():
     """STEPS.md -> templates -> pattern entry points -> Spec closure.
 
@@ -329,10 +333,10 @@ def read_set_graph():
                                 for folder, fname in TEMPLATE_PATTERN_CITE_RE.findall(path.read_text())
                                 if f"{folder}/{fname}" in pattern_files}
 
-    # Roots come from generation steps only - phase 5 is review.
+    # Roots come from generation steps only - 5c and phase 6 are review.
     roots: set = set()
     for sid, names in step_templates.items():
-        if sid[0] == "5":
+        if is_review(sid):
             continue
         for name in names:
             roots |= template_roots.get(name, set())
@@ -382,11 +386,11 @@ def check_read_set_graph(diag: Diagnostics):
     for stray in sorted(g["outside_tree"]):
         diag.warn(PATTERNS / stray, "patterns/Genre.md cannot reach this file - it is outside "
                                     "the tree, whatever a template says about it. Judged at "
-                                    "STEPS.md step 5b")
+                                    "STEPS.md step 6b")
     for orphan in sorted(g["orphans"]):
         diag.warn(PATTERNS / orphan, "no generation template reaches this file - nothing reads "
                                      "it, so the content it describes is never generated. "
-                                     "Judged at STEPS.md step 5b")
+                                     "Judged at STEPS.md step 6b")
 
 
 def report_read_set(step_filter: str | None) -> int:
@@ -402,7 +406,7 @@ def report_read_set(step_filter: str | None) -> int:
         for name in names:
             entries |= g["template_roots"].get(name, set())
         closure = spec_closure(entries, g["pattern_files"])
-        print(f"{sid}{'  (review pass)' if sid[0] == '5' else ''}")
+        print(f"{sid}{'  (review pass)' if is_review(sid) else ''}")
         print(f"  templates : {', '.join(sorted(names)) or '(none)'}")
         print(f"  entries   : {', '.join(sorted(entries)) or '(none)'}")
         expanded = sorted(closure - entries)
@@ -807,11 +811,6 @@ REGISTRY_KINDS = [
     ("Hoard", SETTING / "Hoards.md", "hoards"),
 ]
 
-# A Quest is two-ended by definition: a giver location and a target location.
-# Anything less is a delivery with one end missing.
-TWO_ENDED_KINDS = {"Quest"}
-
-
 def parse_registry(diag: Diagnostics, kind: str, path: Path, sc_kind: str, all_locations: dict):
     if not path.exists():
         diag.warn(path, "missing - not built yet")
@@ -826,9 +825,6 @@ def parse_registry(diag: Diagnostics, kind: str, path: Path, sc_kind: str, all_l
         for c in sorted(codes):
             if c not in all_locations:
                 diag.error(path, f"line {lineno}: references unknown location code {c}")
-        if kind in TWO_ENDED_KINDS and len(codes) == 1:
-            diag.warn(path, f"line {lineno}: {title!r} names only one location - a Quest is two-ended "
-                            f"(a giver and a target), so confirm this is deliberate")
         if title in entries:
             diag.error(path, f"line {lineno}: duplicate title {title!r}")
         entries[title] = codes
@@ -848,15 +844,19 @@ def check_key_obligations(diag: Diagnostics, path: Path, registry: dict, build_c
 
 
 def cross_check_registry(diag: Diagnostics, kind: str, path: Path, registry: dict, cited: dict):
+    """Every citation has its entry, and every place an entry names cites it back. A
+    quest points one way, so a location may cite one without being named by it."""
     for title, codes in cited.items():
         if title not in registry:
             diag.error(path, f"a location cites ({kind}: {title}) but there is no stub row for it here")
+            continue
+        if kind == "Quest":
             continue
         missing = codes - registry[title]
         if missing:
             diag.error(path, f"'{title}' is cited from {sorted(missing)} but its stub row's location(s) don't list them")
     for title in registry:
-        if title not in cited:
+        if title not in cited and kind != "Quest":
             diag.warn(path, f"stub '{title}' has no citing Feature found in any location file")
 
 
@@ -873,19 +873,19 @@ TEMPLATES_DIR = ROOT / "templates"
 # The setting-level files and the step each one's gaps are owed to; the template that
 # writes each is named so a record's expected fields can be read from it.
 SETTING_TABLE_FILES = {
-    "Keys.md": ("setting/Keys.md", "4e"),
-    "Quests.md": ("setting/Quests.md", "4e"),
-    "Truths.md": ("setting/Truths.md", "5c"),
+    "Keys.md": ("setting/Keys.md", "5a"),
+    "Quests.md": ("setting/Quests.md", "5d"),
+    "Truths.md": ("setting/Truths.md", "5d"),
 }
 SETTING_RECORD_FILES = {
-    "Bestiary.md": ("setting/Bestiary.md", "2e"),
-    "Factions.md": ("setting/Factions.md", "2f"),
-    "History.md": ("setting/History.md", "5c"),
-    "Lore.md": ("setting/Lore.md", "4e"),
-    "NamedCreatures.md": ("setting/NamedCreatures.md", "4e"),
-    "UniqueTreasures.md": ("setting/UniqueTreasures.md", "4e"),
-    "MagicalTomes.md": ("setting/MagicalTomes.md", "4e"),
-    "Hoards.md": ("setting/Hoards.md", "4e"),
+    "Bestiary.md": ("setting/Bestiary.md", "2d"),
+    "Factions.md": ("setting/Factions.md", "2e"),
+    "History.md": ("setting/History.md", "5d"),
+    "Lore.md": ("setting/Lore.md", "5a"),
+    "NamedCreatures.md": ("setting/NamedCreatures.md", "5a"),
+    "UniqueTreasures.md": ("setting/UniqueTreasures.md", "5a"),
+    "MagicalTomes.md": ("setting/MagicalTomes.md", "5a"),
+    "Hoards.md": ("setting/Hoards.md", "5a"),
 }
 
 
@@ -1017,8 +1017,8 @@ def check_rumours(diag: Diagnostics):
         return
     text = path.read_text()
     rownums = [int(x) for x in re.findall(r"^\|\s*(\d+)\s*\|", text, re.M)]
-    if rownums != list(range(1, 21)):
-        diag.error(path, f"expected 20 rows numbered 1-20, found {rownums}")
+    if rownums != list(range(1, len(rownums) + 1)):
+        diag.error(path, f"rows are not numbered 1-{len(rownums)}: {rownums}")
     # templates/setting/Rumours.md puts Settled at after the mark, so T/P/F is no longer
     # the last cell - match it as its own cell wherever it sits in the row.
     tpf = [l for l in text.splitlines()
@@ -1098,7 +1098,7 @@ def check_statblocks(diag: Diagnostics, path: Path, label: str, expect_special: 
             no_ma += 1
         elif not 1 <= b["ma"] <= 6:
             diag.error(path, f"{b['name']}: MA {b['ma']} is outside the 1-6 range")
-        if expect_special and b["ad"] >= 4 and not b["special"]:
+        if expect_special and not b["special"]:
             no_special += 1
     n = len(blocks)
     if no_mod:
@@ -1120,49 +1120,60 @@ def check_statblocks(diag: Diagnostics, path: Path, label: str, expect_special: 
         diag.warn(path, "every MA sits exactly on its average - deviation is the "
                         "information the field carries")
     if no_special:
-        diag.warn(path, f"{no_special} entries at 4+ AD carry no Special: line - a "
-                        f"special ability is expected more often at 4 AD and above, "
-                        f"and several at 8 and above; `none` is a decision, silence "
-                        f"is not")
+        diag.warn(path, f"{no_special} entries carry no Special: line - `none` is a "
+                        f"decision, silence is not")
 
 
 # ---------------------------------------------------------------------------
-# setting/region/[Code].md - the Region Overview's field set, per rating
+# A region's seed, setting/region/[Code].md, and its brief, setting/region/[Code]/Brief.md
 #
-# The field set is patterns/region/*.md's; the order and the two tables are
-# templates/region/Region.md's. A field from another rating's set, or one retired, is
-# an error because the site renders only the labels it knows and would drop it.
+# Each field set is patterns/region/*.md's SEED or BRIEF block; the order is the
+# template's. A field from the other part, another rating's set, or one retired, is an
+# error because the site renders only the labels it knows and would drop it.
 # ---------------------------------------------------------------------------
 
 REGION_FIELDS = {
-    "SAFE": ["Overview", "Approach", "People", "Services", "Law", "Places", "Situation",
-             "Secrets", "Tables"],
-    "WILD": ["Overview", "Approach", "Terrain", "Inhabitants", "Places", "Situation",
-             "Loot", "Secrets", "Tables"],
-    "DANGEROUS": ["Overview", "Approach", "Conditions", "Inhabitants", "Alarm", "Places",
-                  "Situation", "Loot", "Secrets", "Tables"],
+    "SAFE": ["Overview", "Approach", "People", "Services", "Law", "Situation"],
+    "WILD": ["Overview", "Approach", "Terrain", "Inhabitants", "Situation"],
+    "DANGEROUS": ["Overview", "Approach", "Conditions", "Inhabitants", "Situation"],
+}
+BRIEF_FIELDS = {
+    "SAFE": ["Places", "Secrets", "Leads", "Tables"],
+    "WILD": ["Places", "Loot", "Secrets", "Leads", "Tables"],
+    "DANGEROUS": ["Places", "Alarm", "Loot", "Secrets", "Leads", "Tables"],
 }
 REGION_LABEL_RE = re.compile(r'^([A-Z][a-z]+):(?:\s|$)')
 
 
 def check_region_overview(diag: Diagnostics, code: str, rating: str):
-    path = SETTING / "region" / f"{code}.md"
+    seed = SETTING / "region" / f"{code}.md"
+    check_region_fields(diag, seed, REGION_FIELDS[rating], rating, "templates/region/Region.md", 1)
+    if seed.exists():
+        codes = sorted(set(re.findall(rf"\b{code}\.\d+\b", seed.read_text())))
+        if codes:
+            diag.warn(seed, f"names {', '.join(codes)} - a seed is written before any location "
+                            f"exists, and where a thing lies is the tables' and the brief's")
+    brief = SETTING / "region" / code / "Brief.md"
+    check_region_fields(diag, brief, BRIEF_FIELDS[rating], rating, "templates/region/Brief.md", 0)
+
+
+def check_region_fields(diag: Diagnostics, path: Path, expected: list, rating: str,
+                        template: str, skip: int):
     if not path.exists():
         diag.warn(path, "missing - not built yet")
         return
     lines = path.read_text().splitlines()
-    labels = [m.group(1) for m in map(REGION_LABEL_RE.match, lines[1:]) if m]
-    expected = REGION_FIELDS[rating]
+    labels = [m.group(1) for m in map(REGION_LABEL_RE.match, lines[skip:]) if m]
     for label in labels:
         if label not in expected:
-            diag.error(path, f"field {label!r} is not in a {rating} overview's set "
+            diag.error(path, f"field {label!r} is not in this {rating} file's set "
                              f"({', '.join(expected)}), per patterns/region/")
     missing = [f for f in expected if f not in labels]
     if missing:
         diag.error(path, f"missing field(s): {', '.join(missing)}")
     present = [l for l in labels if l in expected]
     if present != [f for f in expected if f in present]:
-        diag.warn(path, f"fields out of templates/region/Region.md's order: {', '.join(present)}")
+        diag.warn(path, f"fields out of {template}'s order: {', '.join(present)}")
     if "Tables" in labels:
         start = next(i for i, l in enumerate(lines) if l.startswith("Tables:"))
         tables, rows = 0, []
@@ -1178,7 +1189,7 @@ def check_region_overview(diag: Diagnostics, code: str, rating: str):
             rows.append(count)
         if tables != 2:
             diag.error(path, f"Tables holds {tables} table(s) opened by a `d6 ...` line - "
-                             f"templates/region/Region.md asks for two")
+                             f"{template} asks for two")
         for i, n in enumerate(rows, 1):
             if n != 6:
                 diag.error(path, f"table {i} has {n} rows - a d6 table has six")
@@ -1237,7 +1248,7 @@ TREASURE_TELL_RE = re.compile(
 # exits all carry the same trigger arrow - so the only available test would
 # guess from the prose, and a warning that fires on every legitimate secret is
 # a warning nobody reads. A hazard written with no stated cost is caught at
-# STEPS.md step 5, per templates/checks/Setting_Judgement_Check.md.
+# STEPS.md step 5c, per templates/checks/Location_Review.md.
 DAMAGE_TYPES = ("Piercing", "Crushing", "Poison", "Fire", "Frost", "Blast")
 ANY_TEST_CITE_RE = re.compile(r'\(Test of [^)]*\)?')
 TEST_CITE_RE = re.compile(r'\(Test of (Constitution|Sanity|Fate),\s*([^()]+)\)')
@@ -1318,31 +1329,9 @@ def check_treasure_citation_prose(diag: Diagnostics, path: Path, text: str):
                             f"contents, and naming them contradicts whatever comes up")
 
 
-def check_registry_floors(diag: Diagnostics, registries: dict, build_complete: bool):
-    """A setting with no keys and no named creatures passes every other check.
-
-    Nothing requires either registry to hold anything, so a run that quietly
-    never drew one produces an empty file and no finding. Both are the
-    mechanisms that make a set of regions a network rather than a list, so an
-    empty one at the close of the build is a result worth seeing.
-    """
-    if not build_complete:
-        return
-    # Keys of REGISTRY_KINDS, not filenames - "NamedCreature" is singular there.
-    for kind, filename in (("Keys", "Keys.md"), ("NamedCreature", "NamedCreatures.md")):
-        if not registries.get(kind):
-            path = SETTING / filename
-            diag.warn(path, f"no {kind} rows at the close of the build - check this is a "
-                            f"decision and not a draw that never fired, per "
-                            f"patterns/Schema.md's rates")
-
-
-def check_rumour_settling(diag: Diagnostics, build_complete: bool):
-    """templates/setting/Rumours.md's Settled at column, filled at 5c.
-
-    Before the build is complete a pending marker is the correct state, so this
-    only reports once every location exists.
-    """
+def check_rumour_settling(diag: Diagnostics):
+    """templates/setting/Rumours.md's Settled at column, filled as each rumour is
+    written at 5d."""
     path = SETTING / "Rumours.md"
     if not path.exists():
         return
@@ -1355,14 +1344,12 @@ def check_rumour_settling(diag: Diagnostics, build_complete: bool):
         diag.warn(path, "no 'Settled at' column - every rumour records where it is "
                         "confirmed, denied or corrected, per templates/setting/Rumours.md")
         return
-    if not build_complete:
-        return
     unsettled = [l for l in rows if re.search(r"pending", l, re.I)
                  or l.rstrip().endswith("||") or re.search(r"\|\s*\|\s*$", l)]
     if unsettled:
-        diag.warn(path, f"{len(unsettled)}/{len(rows)} rumours are still unsettled - step "
-                        f"5c fills the column against the locations actually built, and a "
-                        f"rumour pointing off the map says so rather than being left blank")
+        diag.warn(path, f"{len(unsettled)}/{len(rows)} rumours are unsettled - each is written "
+                        f"at 5d from the location settling it, and a rumour pointing off "
+                        f"the map says so rather than being left blank")
 
 
 def check_top_level_files(diag: Diagnostics):
@@ -1433,7 +1420,7 @@ def report_topology(regions: dict, region_locs: dict, region_edges: dict) -> lis
 # Main
 # ---------------------------------------------------------------------------
 
-# Seeded at STEPS.md 1b/1c, before any setting content exists. Their presence does
+# Seeded at STEPS.md 1a/1b, before any setting content exists. Their presence does
 # not mean a setting has been generated.
 SEED_FILES = {"Procedures.md", "Language.md"}
 
@@ -1457,11 +1444,17 @@ def report_pending(region_filter: str | None) -> int:
     for sev, path, msg in setting.check():
         if sev == "warning" and (Path(path) == scope or scope in Path(path).parents):
             owed.setdefault(rel(path), []).append(msg)
+    history = tables.History()
     for r in setting.regions.values():
         for code in r.locations():
             path = r.dir / f"{code.split('.')[1]}.md"
-            if (Path(path) == scope or scope in Path(path).parents) and not path.exists():
+            if not (Path(path) == scope or scope in Path(path).parents):
+                continue
+            if not path.exists():
                 owed.setdefault(rel(r.dir), []).append(f"{code} has no write-up yet")
+            elif changed := tables.stale(setting, code, history):
+                owed.setdefault(rel(r.dir), []).append(
+                    f"{code}'s write-up is stale, owed to step 5b - changed since: {'; '.join(changed)}")
     for step, path, line, what in ([] if region_filter else collect_stubs()):
         owed.setdefault(rel(path), []).append(f"line {line}: stub owed to step {step} - {what}")
     for path in sorted(owed):
@@ -1495,8 +1488,11 @@ def main() -> int:
     check_pattern_files(diag)
     check_read_set_graph(diag)
     check_repeated_prose(diag)
-    for problem in tables.Schema().problems:
+    schema = tables.Schema()
+    for problem in schema.problems:
         diag.error(tables.SCHEMA, problem)
+    for problem in tables.Targets(schema).problems:
+        diag.error(tables.BRIEF, problem)
 
     if is_fresh_start():
         seeded = sorted(n for n in SEED_FILES if (SETTING / n).exists())
@@ -1586,8 +1582,7 @@ def main() -> int:
     for region_code, info in regions.items():
         check_region_overview(diag, region_code, info["rating"])
         check_repeated_features(diag, region_code)
-    check_registry_floors(diag, registries, build_complete)
-    check_rumour_settling(diag, build_complete)
+    check_rumour_settling(diag)
 
     for line in report_topology(regions, region_locs, region_edges):
         print(f"TOPOLOGY: {line}")

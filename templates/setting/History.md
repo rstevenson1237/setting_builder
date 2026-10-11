@@ -6,25 +6,17 @@ Records 1 or more major events that have shaped the setting, oldest to newest.
 ## Context
 Read first:
 - `GENRE.md`
-- `BRIEF.md` - this build's design requests, which replace this template's defaults where they speak
+- `BRIEF.md`
 - `patterns/setting/History.md`
 - `setting/Setting.md`
+- At 5d: the location entries and write-ups that hold each event's Left mark
 
 ## Instructions
-By default the file is created empty - its header line and nothing else - and events
-are added only where a later step needs one to account for something it wrote. Where
-`BRIEF.md` or the user's prompt asks for a history, list 3-7 events, each following
-`patterns/setting/History.md`'s Spec, in order from oldest to newest, one record each, and the collection
-as a whole holds this shape:
+List the events `BRIEF.md` asks for, each following `patterns/setting/History.md`'s Spec,
+oldest to newest, one record each. A later step adds an event only where it needs one to
+account for something it wrote. With none asked for, the file is its header line.
 
-```
-HISTORY - 3-7 events
-  1     At least one outside living memory, whose evidence is physical only
-  1     At least one inside living memory, with people who disagree about it
-  1     At least one still resolving
-  1     At least one place carrying three occupancies across the events - who built it,
-        who took it, who holds it now
-```
+At 5d, fill each event's Codes with the locations that now hold its Left mark.
 
 ## Template
 ```
@@ -35,5 +27,5 @@ When: [x years ago]
 Kind: [Kind]
 Event: [what happened, in one or two sentences]
 Left: [the physical thing findable now]
-Codes: [Location Code(s); left empty until locations exist]
+Codes: [Location Code(s), filled at 5d]
 ```

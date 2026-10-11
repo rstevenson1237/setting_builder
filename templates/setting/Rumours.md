@@ -1,34 +1,24 @@
 # Rumours.md
 
 ## Purpose
-A referee-facing table of 20 rumours of varying truth that serve as adventure hooks into the setting.
+A referee-facing table of rumours of varying truth that serve as adventure hooks into the setting.
 
 ## Context
 Read first:
 - `GENRE.md`
-- `BRIEF.md` - this build's design requests, which replace this template's defaults where they speak
+- `BRIEF.md`
 - `patterns/setting/Rumours.md`
 - `setting/Setting.md`, `setting/History.md`, `setting/Truths.md`
+- each region's seed, `setting/region/[Region Code].md`
+- the location entries and write-ups each rumour is settled at
 
 ## Instructions
-Create a table numbered 1-20 of rumours, each following `patterns/setting/Rumours.md`'s
-Spec. The collection as a whole must hold this shape:
-
-```
-RUMOURS - a d20 table
-  ~35%  True
-  ~35%  Partially true
-  ~20%  False
-  ~10%  Unverified - no answer held; the referee's to settle
-  1     At least three pointing at a region, not a detail
-  1     At least two that are true and sound false
-  1     At least one that is false and sounds unmistakably true
-```
+Create a table of rumours, numbered to the die `BRIEF.md` sets, each following
+`patterns/setting/Rumours.md`'s Spec, marked T, P, F or U in the shares `BRIEF.md` sets.
 
 **Settled at** names where a party finds out - the Location Code, or codes, holding what
-confirms, denies, or corrects this rumour. It is written in two phases like every other
-registry: left as `[pending 5c]` while the table is authored at 2d, since no location
-exists yet, and filled at step 5c against the locations actually built. For a `P` entry it
+confirms, denies, or corrects this rumour, filled as the rumour is written at step 5d
+from what that location holds. For a `P` entry it
 also names **which half is false**, in a clause, because "partially true" without that is
 a mark the referee cannot act on.
 

@@ -36,7 +36,7 @@ REGISTRY_MARKER = {
     "keys": "Found at",
     "named_creatures": "Appears at",
     "unique_treasures": "Found at",
-    "quests": "Given at",
+    "quests": "Points to",
 }
 
 

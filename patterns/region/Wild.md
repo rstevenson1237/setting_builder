@@ -1,14 +1,16 @@
 # Region - Wild
 
 ## Provides
-One WILD Region Overview: the stretch of country as a referee runs a crossing of it
-without opening a location - how it is entered, what moving through it costs, who is out
-here, and what is worth carrying home. What one location holds is `patterns/Schema.md`'s.
+One WILD region's overview, in two parts: the seed, the country as its locations are written
+from - how it is entered, what moving through it costs, who is out here and what is
+changing; and the brief, written once the locations exist, which indexes them for a
+referee running a crossing without opening a location. What one location holds is
+`patterns/Schema.md`'s.
 
 ## Spec
 
 ```
-WILD REGION
+WILD SEED
   1     Overview - what a party sees crossing into it, and what brings anyone out here
   1     Approach - where it is entered from, and how long a crossing takes by the best
         route and off it
@@ -21,14 +23,20 @@ WILD REGION
         setting/Factions.md name: how many, where it ranges, what it is doing, and what
         it does on meeting a party
                             {hunting | watching | avoiding | following | trading}
-  1     Places - every Landmark by code, one line each: what of it shows from a
-        distance, and what a party goes there for
   1     Situation - what is changing out here, and the next two rungs: what each is, and
         what sets it off
+```
+
+```
+WILD BRIEF
+  1     Places - every Landmark by code, one line each: what of it shows from a
+        distance, and what a party goes there for
   1     Loot - what is worth carrying home: forage and game by local name, with what the
         nearest SAFE region pays for each; and which treasure tables a find here draws on
-  1     Secrets - each a fact the referee holds as true, and the act or place that
-        brings it out
+  1     Secrets - each a fact the referee holds as true, and the entry that brings it
+        out
+  1     Leads - each rumour pointing here, by number, and each quest beginning or ending
+        here, by name
   1     Tables - a d6 Encounter table, rolled on each failed Difficulty roll; and a d6
         table of things met between Landmarks, each something a party can stop for
 ```

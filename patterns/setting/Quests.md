@@ -1,23 +1,22 @@
 # Setting - Quests
 
 ## Provides
-One quest: who asks, for what, at which location, what stands in the way, and on what
-terms. A quest is asked before it is fulfilled, where a key is found before it is used; a
-quest object that also opens something carries a Keys row as well. When a location gives
-or holds a quest is its rating's own `Quest.md`.
+One quest: a lead with a reward - who wants what, on what terms, and what stands in the
+way. It points one way, at where its object lies, or at nothing on this map; a quest
+object that also opens something carries a Keys row as well.
 
 ## Spec
 
 ```
 QUEST ENTRY
   1     Ask                                                                 {ASK}
-  1     Giver - who wants it
+  1     Giver - who wants it, and how a party comes to hear of it
   1     Reluctance - why they will not go themselves                  {RELUCTANCE}
   1     Object - what specifically
-  1     Target - which location holds it
-  1     Obstacle - what stands in the way, stated at the target end  {OBSTACLE}
+  1     Obstacle - what stands in the way                             {OBSTACLE}
   1     Terms - in the giver's own words                                  {TERMS}
-  1     Given at - the giver's location, by code
+  1     Points to - the location code or setting entry holding the object, or
+        nowhere on this map
 ```
 
 ```
@@ -64,5 +63,5 @@ TERMS - exactly one
 
 ## Constraints
 
-- **A quest with one end is not a quest.** Both ends are real locations, named by code;
-  two ends without an obstacle are a delivery.
+- **Points to is said, never left blank.** A quest pointing off the map says so, so a
+  deliberate lead beyond the edge reads differently from one nobody finished.

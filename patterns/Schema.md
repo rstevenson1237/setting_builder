@@ -117,8 +117,8 @@ folder Dangerous type=Dangerous_Type {
   Rewards Reward
   Connections Connection
   rate High Purpose=1 Dressing=1 Challenges="1-2" Rewards="1-2"
-  rate Medium Dressing=1 Challenges=1 Rewards="50%"
-  rate Low Dressing=1 Rewards="25%"
+  rate Medium Dressing=1 Challenges=1 Rewards="0-1"
+  rate Low Dressing=1 Rewards="0-1"
 }
 folder Safe type=Safe_Type {
   Locations Location

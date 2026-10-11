@@ -10,7 +10,7 @@ One location's write-up, `setting/region/[Region Code]/[Location Number].md`.
 - `setting/Truths.md`
 - `setting/Procedures.md` - the mechanics a Feature cites
 - `setting/Language.md` - roots for a coined name, and where it is recorded
-- the Region Overview, `setting/region/[Region Code].md`
+- the region's seed, `setting/region/[Region Code].md`
 - the location's entries, from `python3 tools/validate_setting.py --location [Location Code]`, and the setting entries they name
 
 ## Instructions

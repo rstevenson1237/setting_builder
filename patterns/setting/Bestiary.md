@@ -23,8 +23,7 @@ BESTIARY ENTRY
                                         {a mark | a track | a sound | a smell}
   1     Disposition - what it does on being met, before anyone decides to fight
   1     Special - what it can do that its dice do not already say, in terms a referee
-        can run, or `none`: rare below 4 AD, expected at 4 and above, several at 8 and
-        above
+        can run, or `none`
 ```
 
 ```
@@ -73,10 +72,6 @@ AD BAND - exactly one, then the count within it
   Inhabitants fields. A Beast earns an entry here only by being an unusual combatant a
   location will actually draw.
 
-- **Mundane human threats are a faction's, not a type's.** Who opposes the party and why
-  is `setting/Factions.md`'s question, and a human worth naming is
-  `setting/NamedCreatures.md`'s. What remains for `Men` is the rank and file a faction
-  fields; a separate entry per human occupation is a roster with no faction behind it.
 
 - **Guardian and hazard are roles, never Types.** Either is built from whichever Type
   actually fits, and its Special carries the role. A guardian holds one thing, does not
