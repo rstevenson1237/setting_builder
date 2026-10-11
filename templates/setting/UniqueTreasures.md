@@ -12,9 +12,6 @@ Read first:
 - **2g**: create the file with only its title line.
 - **5a**: write each entry a table names and this file lacks, per `patterns/setting/UniqueTreasures.md`, with its Found at the locations naming it.
 
-A setting supports very few of these: a Unique Treasure is the reason a party remembers a
-whole region, and most high-value finds are better served by a Table V roll.
-
 ## Template
 ```
 Unique Treasures of [Setting Name]

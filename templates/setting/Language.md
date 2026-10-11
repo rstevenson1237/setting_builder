@@ -9,16 +9,14 @@ every time a proper noun is coined.
 ## Context
 Read first:
 - `GENRE.md`
-- `BRIEF.md` - this build's design requests, which replace this template's defaults where they speak
+- `BRIEF.md`
 - `patterns/setting/Language.md`
 - At 2g: every setting artifact written so far.
 - At 5b: the write-ups this pass wrote.
 
 ## Instructions
 Each tongue states who speaks it, its consonants and vowels, its syllable shape, its
-affixes, and its roots. Three tongues is the default: a common tongue for the living, an
-older tongue for ruins and the dead, and one non-human tongue - add more only when the
-setting demands it.
+affixes, and its roots, for each tongue `BRIEF.md` names.
 
 ## Template
 ```

@@ -175,11 +175,11 @@ def spec_blocks(text: str) -> dict[str, list[str]]:
     return out
 
 
-# A Spec line's rate is `1` or a percentage, per patterns/SPEC.md. Anything
-# else in the rate column - `2`, `3-6`, `15+` - is read by this validator as a
+# A Spec line's rate is `1` or `*`, per patterns/SPEC.md. Anything else in
+# the rate column - `2`, `3-6`, `15+`, `20%` - is read by this validator as a
 # continuation of the line above, so the line it
 # opens silently merges into its neighbour.
-ODD_RATE_RE = re.compile(r'^ {2}(\d+(?:-\d+|\+)?)\s{2,}\S')
+ODD_RATE_RE = re.compile(r'^ {2}(\d+(?:-\d+|\+|%)?)\s{2,}\S')
 
 
 def check_rate_notation(diag: Diagnostics, path, text: str):
@@ -192,7 +192,7 @@ def check_rate_notation(diag: Diagnostics, path, text: str):
             m = ODD_RATE_RE.match(line)
             if m and m.group(1) != "1":
                 diag.warn(path, f"Spec line rated {m.group(1)!r} - patterns/SPEC.md allows `1` "
-                                f"or a percentage, and the tools read this line as a "
+                                f"or `*`, and the tools read this line as a "
                                 f"continuation of the one above it: {line.strip()[:60]!r}")
 
 
@@ -217,7 +217,7 @@ def check_pattern_sections(diag: Diagnostics, path, text: str):
 # next one does - continuation lines are indented further, and a citation list
 # routinely wraps onto them. Grouping physically would split every wrapped draw
 # away from the rate that governs it.
-SPEC_RATE_RE = re.compile(r'^ {2}(1|\d+%|liner note|working|central)\s')
+SPEC_RATE_RE = re.compile(r'^ {2}(1|\*)\s')
 
 
 def spec_edges(text: str, rel: str):

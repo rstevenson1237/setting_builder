@@ -18,8 +18,7 @@ Then, by step:
 - **5a**: this region's `Locations.md`, `Connections.mmd` and `Purpose.md`, the table being filled, and the setting files `patterns/Schema.md` names for its values.
 
 ## Instructions
-- **4a, Locations** - 3x the region die, unless `BRIEF.md` or the user's own request
-  sets a count; the type mix follows `BRIEF.md`'s targets.
+- **4a, Locations** - the count `BRIEF.md` sets for the region, in its targets' type mix.
 - **4c, the stubs** - every other table, its entries bare: `[Node] [Location Code]`.
   Each room gets the entries its type's `rate` line gives, choosing within a range for a
   reason its tags give, and toward `BRIEF.md`'s targets. Connections get one entry per side of every edge in

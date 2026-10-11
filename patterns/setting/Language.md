@@ -14,8 +14,8 @@ TONGUE
   1     A consonant inventory and a vowel inventory, audibly unlike every other
         tongue's in the setting
   1     A syllable shape, open or closed unlike the others'
-  3-6   Affixes, each marking one thing                                    {AFFIX}
-  15+   Roots, each a morpheme with a gloss, together covering every item   {ROOTS}
+  *     Affixes, each marking one thing                                    {AFFIX}
+  *     Roots, each a morpheme with a gloss, together covering every item   {ROOTS}
 ```
 
 ```

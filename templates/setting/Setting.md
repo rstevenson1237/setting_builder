@@ -7,7 +7,7 @@ foundation every other document builds on.
 ## Context
 Read first:
 - `GENRE.md`
-- `BRIEF.md` - this build's design requests, which replace this template's defaults where they speak
+- `BRIEF.md`
 - `patterns/setting/Setting.md`
 
 ## Instructions

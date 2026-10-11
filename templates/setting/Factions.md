@@ -6,20 +6,19 @@ The 3 factions present in the setting - the powers a party may treat with, oppos
 ## Context
 Read first:
 - `GENRE.md`
-- `BRIEF.md` - this build's design requests, which replace this template's defaults where they speak
+- `BRIEF.md`
 - `patterns/setting/Factions.md`
 - `setting/Setting.md`, `setting/History.md`, `setting/Truths.md`
 - `setting/Rumours.md`, `setting/Bestiary.md`
 
 ## Instructions
-List 3 factions, each following `patterns/setting/Factions.md`'s Spec. The collection as
-a whole must hold this shape:
+List the factions `BRIEF.md` names, each following `patterns/setting/Factions.md`'s Spec.
+The collection as a whole holds this shape:
 
 ```
-FACTIONS - three
+FACTIONS
   1     At least one pair that does not know the other exists
   1     At least one a party can plausibly work for
-  1     None of the three is the government of a region, unless the setting is about that
 ```
 
 ## Template

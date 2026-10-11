@@ -7,7 +7,7 @@ how a party gets in, who is there and how they answer a stranger, and what is ch
 ## Context
 Read first:
 - `GENRE.md`
-- `BRIEF.md` - this build's design requests, which replace this template's defaults where they speak
+- `BRIEF.md`
 - `setting/Setting.md`, `setting/History.md`, `setting/Truths.md`, `setting/Bestiary.md`, `setting/Factions.md`
 - `setting/region/Regions.md`
 - `patterns/region/Safe.md`, `patterns/region/Wild.md`, or `patterns/region/Dangerous.md` - read only the one that matches this region's rating.
@@ -17,8 +17,8 @@ Read first:
 Write the SEED block of this region's rating file, every field filled. Each rating has its
 own field set, shown below; write only this region's.
 
-Defaults, where `BRIEF.md` is silent: People names five to eight; Inhabitants names every
-occupant a party can meet.
+People names the roster `BRIEF.md` sizes; Inhabitants names every occupant a party can
+meet.
 
 A field that holds several things - people, occupants - writes each as its own `- ` line
 under the field's label. Every other field is prose, and short.

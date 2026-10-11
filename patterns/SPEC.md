@@ -13,7 +13,7 @@ Every file carries `## Provides`, `## Spec` and `## Constraints`, in that order.
 - **Provides** - what exists once the file is read, in a sentence, and where it ends
   against any sibling file.
 - **Spec** - a fenced block of lines, each opening with `1` where it is always answered or
-  a percentage where it is answered at that rate, and each one of:
+  `*` where `BRIEF.md` sets how often or how many, and each one of:
   - an **edge** - another pattern file, named in parentheses, that the generator reads;
   - a **question** - something the generator answers, which may carry suggestions: words
     and phrases in the register wanted, guiding the answer without limiting it;

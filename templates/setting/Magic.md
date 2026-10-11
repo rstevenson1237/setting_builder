@@ -7,7 +7,7 @@ when a location's contents call for Magic.
 ## Context
 Read first:
 - `GENRE.md`
-- `BRIEF.md` - this build's design requests, which replace this template's defaults where they speak
+- `BRIEF.md`
 - `patterns/setting/Magic.md`
 - `setting/Treasure1.md` - the coins and wt every value is stated in
 - `setting/Setting.md`, `setting/History.md`, `setting/Truths.md`

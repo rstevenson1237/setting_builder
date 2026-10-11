@@ -6,7 +6,7 @@ A non-mechanical review pass over the generated `setting/` content - confirming,
 ## Context
 Consult when running this check - deliberately broader than any single generation step, since cross-level coherence is the thing being judged:
 - `GENRE.md` - the throughline every level should still be expressing.
-- `BRIEF.md` - this build's design requests, which replace this template's defaults where they speak
+- `BRIEF.md`
 - `STYLE.md` - the tests judged against below.
 - `setting/Setting.md`, `setting/History.md`, `setting/Truths.md` - what every region should be reinforcing.
 - `setting/region/Regions.md` and each region's seed, `setting/region/[Code].md`, and brief, `setting/region/[Code]/Brief.md` - what every location in that region should be reinforcing.
@@ -21,13 +21,13 @@ block lists the same items in the same order.
 
 **Record against the content as generated, before anything is fixed.** This pass is a
 diagnosis of the framework as much as of the setting: every Needs Attention names its
-likely source - a pattern line, a template default, a `BRIEF.md` line, or the generator
+likely source - a pattern line, a template line, a `BRIEF.md` line, or the generator
 alone - so a defect an edit later hides has already been traced to what produced it. Its
 findings are the evidence `templates/checks/Pattern_Judgement_Check.md` starts from.
 
 ### Setting-level, once per pass
 
-- **The brief was delivered** - take `BRIEF.md` line by line. For each request, name where the setting delivers it, or record that it does not. A count asked for is counted; a shape asked for (entrances per block, a gap left for the referee, a mix of peoples) is checked against the graph and the rooms, not the brief's claim about them. Where a template default and the brief spoke to the same thing, record which one the content followed.
+- **The brief was delivered** - take `BRIEF.md` line by line. For each request, name where the setting delivers it, or record that it does not. A count asked for is counted; a shape asked for (entrances per block, a gap left for the referee, a mix of peoples) is checked against the graph and the rooms, not the brief's claim about them.
 - **Genre held across levels** - take `GENRE.md`'s answers one by one and name where the setting delivers each: the Magic level answer in what the Treasure tables actually hold, the Lethality answer in what a hazard or creature can do, the Reward answer in what a party can carry home and sell, the Naming answer in the names on the map. Record any answer given differently at a lower level - a mechanic the reference does not have, a kind of creature it does not lean on, a history deeper than it wants - and any authored plot where a situation should be.
 - **The tests, hardest at the top** - apply `STYLE.md`'s tests, as written there, to every sentence of the setting-level files and each region's seed and brief, line by line. They fail most often above the location level, because a location has to be run at a table and a seed does not.
 - **Discrete and discoverable, not vague** - is content built from concrete, specific, discoverable details (a named object, a specific trigger, a specific creature or faction presence) that a player can find and act on, rather than an atmospheric motif repeated without ever cashing out into something discoverable?
@@ -87,5 +87,5 @@ findings are the evidence `templates/checks/Pattern_Judgement_Check.md` starts f
 
 ## Open Items
 - [Anything flagged Needs Attention, carried forward as an action item, with its source:
-  pattern, template default, brief, or generator]
+  pattern, template, brief, or generator]
 ```

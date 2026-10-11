@@ -1,9 +1,9 @@
 # Brief
 
 This build's design requests: what this one setting should hold, as distinct from
-`GENRE.md`, which holds what any setting of its kind holds. Where a line here and a
-template's defaults disagree, this file wins; where this file is silent, the template's
-defaults stand. It never overrides a pattern file or `STYLE.md`.
+`GENRE.md`, which holds what any setting of its kind holds, and every count, mix and rate
+it is built to - the templates and patterns set none of their own. It never overrides a
+pattern's rules or `STYLE.md`.
 
 The test case: a setting whose shape a reader recognises as *Keep on the Borderlands* -
 built fresh by the framework, not transcribed from the module.
@@ -15,10 +15,19 @@ built fresh by the framework, not transcribed from the module.
 - The pressure is Chaos gathering in the caves and the raids it sends out along the road,
   not an invasion or a war. Nobody at the keep knows how many are out there.
 - History is shallow. What the land held before matters through what the caves' earlier
-  occupants left behind, not through a chronicle of kingdoms.
+  occupants left behind, not through a chronicle of kingdoms. No events up front.
+- No truths up front.
+
+## Language
+
+- Three tongues: a common tongue for the living, an older tongue for ruins and the dead,
+  and one non-human tongue. Each has three to six affixes and at least fifteen roots.
 
 ## Bestiary
 
+- Up front, only the entries named here; the rest are added as a region or location needs
+  them. By the end of the build the AD spread runs from people and numbers at 1-3 to at
+  least one entry at 13+, with no more than a third sharing one AD.
 - Humanoids are the heart of it: several distinct tribes of Chaos, each a different people,
   each able to hold a cave complex of its own - small and many, mid-sized and organised,
   large and brutal.
@@ -31,20 +40,28 @@ built fresh by the framework, not transcribed from the module.
 
 ## Factions
 
+Three:
 - The keep: its commander, its garrison, and the realm's claim they stand for.
 - The shrine at the head of the ravine: priests of Chaos drawing the tribes together, with
   a hidden agent inside the keep.
 - The tribes: rivals to one another before they are allies of anyone, each out for its own
   share of the ravine.
 
+## Treasure
+
+- Table II quality: poor 10%, normal 50%, fine 30% (a third of them carrying an effect),
+  masterwork 5%, cursed 5%.
+- One result in five carries a provenance.
+
 ## Regions
 
+- Every region's die is d8, unless a line below gives a reason to move it.
 - The keep (SAFE), the borderland wilderness around it (WILD), the ravine (WILD), and one
   DANGEROUS region per cave complex: about ten of them, each opening off the ravine.
 - The keep is a hold: an outer bailey of trade, lodging and worship open to travellers,
   and an inner bailey closed to them. About twelve locations, each one a place a party
   would stop or be turned away from, with the garrison's gate and walls folded into the
-  locations they guard rather than counted apart.
+  locations they guard rather than counted apart. Its People roster names five to eight.
 - The wilderness holds about six Landmarks off the road - a lair, a raiders' camp, a
   hermit, a mound in a fen - with one or two carrying a Hidden child and none a Secret.
 - One of those Landmarks is left for the referee to stock: it is generated with its
@@ -62,8 +79,8 @@ built fresh by the framework, not transcribed from the module.
 
 ## Rumours
 
-- About a third true, a third partly true, a fifth false, and the rest unverified - the
-  referee's to settle.
+- A d20 table: about a third true, a third partly true, a fifth false, and the rest
+  unverified - the referee's to settle.
 
 ## Targets
 
@@ -72,5 +89,5 @@ Shares the tables are placed and filled toward, in the forms `tools/tables.py` r
 ```kdl
 target Location.type High="20%" Medium="50%" Low="30%" rating=Dangerous
 target Hazard.damage Lethal="20%" Damaging="40%" Nuisance="40%"
-target Reward.contents Keys="20%" Lore="20%"
+target Reward.contents Keys="20%" Lore="20%" "Unique Treasures"="5%"
 ```

@@ -21,8 +21,7 @@ MOUTH - exactly one
   residents    - the people living here, current and contested; SAFE only, since a
                  settlement is the one rating whose namers are present
   border       - those who pass through, from the settlements bordering the region:
-                 usually right about danger and wrong about cause; the default for a
-                 WILD or DANGEROUS location
+                 usually right about danger and wrong about cause
   departed     - those who are gone, in an older or dead tongue, cut into the place
   occupants    - those here now, by a name setting/Bestiary.md or setting/Factions.md
                  already gives them, blunt and functional

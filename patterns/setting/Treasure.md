@@ -19,7 +19,7 @@ TREASURE RESULT
   1     Quality, on Table II only                                           {QUALITY}
   1     What it is made of, or struck in - from setting/History.md and
         setting/Truths.md: who made or minted it, and whether it is still accepted
-  20%   A provenance a party could trace, worth more to the right buyer and dangerous to
+  *     A provenance a party could trace, worth more to the right buyer and dangerous to
         sell to the wrong one                     {a device | a maker | an owner}
 ```
 
@@ -32,12 +32,12 @@ WT - exactly one
 ```
 
 ```
-QUALITY - at these rates
-  poor         - 10%
-  normal       - 50%
-  fine         - 30%, and 30% of these carry an effect
-  masterwork   - 5%, always carrying a positive effect
-  cursed       - 5%, always carrying a negative effect, presenting as fine or
+QUALITY - exactly one
+  poor
+  normal
+  fine         - some carrying an effect
+  masterwork   - always carrying a positive effect
+  cursed       - always carrying a negative effect, presenting as fine or
                  masterwork, and valued and described as what it presents as
 ```
 

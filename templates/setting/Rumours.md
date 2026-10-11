@@ -1,22 +1,22 @@
 # Rumours.md
 
 ## Purpose
-A referee-facing table of 20 rumours of varying truth that serve as adventure hooks into the setting.
+A referee-facing table of rumours of varying truth that serve as adventure hooks into the setting.
 
 ## Context
 Read first:
 - `GENRE.md`
-- `BRIEF.md` - this build's design requests, which replace this template's defaults where they speak
+- `BRIEF.md`
 - `patterns/setting/Rumours.md`
 - `setting/Setting.md`, `setting/History.md`, `setting/Truths.md`
 
 ## Instructions
-Create a table numbered 1-20 of rumours, each following `patterns/setting/Rumours.md`'s
-Spec, marked T, P, F or U in the shares `BRIEF.md` asks for. The collection as a whole
+Create a table of rumours, numbered to the die `BRIEF.md` sets, each following `patterns/setting/Rumours.md`'s
+Spec, marked T, P, F or U in the shares `BRIEF.md` sets. The collection as a whole
 holds this shape:
 
 ```
-RUMOURS - a d20 table
+RUMOURS
   1     At least three pointing at a region, not a detail
   1     At least two that are true and sound false
   1     At least one that is false and sounds unmistakably true

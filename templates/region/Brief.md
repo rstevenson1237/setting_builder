@@ -8,7 +8,7 @@ region without opening a location.
 ## Context
 Read first:
 - `GENRE.md`
-- `BRIEF.md` - this build's design requests, which replace this template's defaults where they speak
+- `BRIEF.md`
 - `patterns/region/Safe.md`, `patterns/region/Wild.md`, or `patterns/region/Dangerous.md` - read only the one that matches this region's rating.
 - this region's seed, `setting/region/[Region Code].md`
 - this region's table files and `Connections.mmd`

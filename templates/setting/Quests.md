@@ -7,7 +7,7 @@ stands in the way. Created empty at step 2g.
 ## Context
 Read first:
 - `GENRE.md`
-- `BRIEF.md` - this build's design requests, which replace this template's defaults where they speak
+- `BRIEF.md`
 - `patterns/setting/Quests.md`
 - the entries at both ends, giver and target
 
