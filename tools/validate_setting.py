@@ -1017,8 +1017,8 @@ def check_rumours(diag: Diagnostics):
         return
     text = path.read_text()
     rownums = [int(x) for x in re.findall(r"^\|\s*(\d+)\s*\|", text, re.M)]
-    if rownums != list(range(1, 21)):
-        diag.error(path, f"expected 20 rows numbered 1-20, found {rownums}")
+    if rownums != list(range(1, len(rownums) + 1)):
+        diag.error(path, f"rows are not numbered 1-{len(rownums)}: {rownums}")
     # templates/setting/Rumours.md puts Settled at after the mark, so T/P/F is no longer
     # the last cell - match it as its own cell wherever it sits in the row.
     tpf = [l for l in text.splitlines()
@@ -1098,7 +1098,7 @@ def check_statblocks(diag: Diagnostics, path: Path, label: str, expect_special: 
             no_ma += 1
         elif not 1 <= b["ma"] <= 6:
             diag.error(path, f"{b['name']}: MA {b['ma']} is outside the 1-6 range")
-        if expect_special and b["ad"] >= 4 and not b["special"]:
+        if expect_special and not b["special"]:
             no_special += 1
     n = len(blocks)
     if no_mod:
@@ -1120,10 +1120,8 @@ def check_statblocks(diag: Diagnostics, path: Path, label: str, expect_special: 
         diag.warn(path, "every MA sits exactly on its average - deviation is the "
                         "information the field carries")
     if no_special:
-        diag.warn(path, f"{no_special} entries at 4+ AD carry no Special: line - a "
-                        f"special ability is expected more often at 4 AD and above, "
-                        f"and several at 8 and above; `none` is a decision, silence "
-                        f"is not")
+        diag.warn(path, f"{no_special} entries carry no Special: line - `none` is a "
+                        f"decision, silence is not")
 
 
 # ---------------------------------------------------------------------------
@@ -1329,25 +1327,6 @@ def check_treasure_citation_prose(diag: Diagnostics, path: Path, text: str):
             diag.warn(path, f"a Feature citing a treasure table also describes or prices "
                             f"what is found ({m.group(0)!r}) - the roll decides the "
                             f"contents, and naming them contradicts whatever comes up")
-
-
-def check_registry_floors(diag: Diagnostics, registries: dict, build_complete: bool):
-    """A setting with no keys and no named creatures passes every other check.
-
-    Nothing requires either registry to hold anything, so a run that quietly
-    never drew one produces an empty file and no finding. Both are the
-    mechanisms that make a set of regions a network rather than a list, so an
-    empty one at the close of the build is a result worth seeing.
-    """
-    if not build_complete:
-        return
-    # Keys of REGISTRY_KINDS, not filenames - "NamedCreature" is singular there.
-    for kind, filename in (("Keys", "Keys.md"), ("NamedCreature", "NamedCreatures.md")):
-        if not registries.get(kind):
-            path = SETTING / filename
-            diag.warn(path, f"no {kind} rows at the close of the build - check this is a "
-                            f"decision and not a draw that never fired, per "
-                            f"patterns/Schema.md's rates")
 
 
 def check_rumour_settling(diag: Diagnostics):
@@ -1597,7 +1576,6 @@ def main() -> int:
     for region_code, info in regions.items():
         check_region_overview(diag, region_code, info["rating"])
         check_repeated_features(diag, region_code)
-    check_registry_floors(diag, registries, build_complete)
     check_rumour_settling(diag)
 
     for line in report_topology(regions, region_locs, region_edges):

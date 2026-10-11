@@ -12,15 +12,7 @@ Read first:
 - `setting/History.md`
 
 ## Instructions
-List the truths `BRIEF.md` asks for, each following `patterns/setting/Truths.md`'s Spec,
-the collection as a whole holding this shape:
-
-```
-TRUTHS
-  1     At least one a party learns only by acting and seeing what happens
-  1     No two of the same Kind
-```
-
+List the truths `BRIEF.md` asks for, each following `patterns/setting/Truths.md`'s Spec.
 With none asked for, the file is its header line.
 
 A standing mystery or a gap left for the referee may be listed here whether or not the

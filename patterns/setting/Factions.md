@@ -39,7 +39,7 @@ WANT - exactly one
 ```
 
 ```
-IDENTITY - at least two
+IDENTITY - at least one
   colour       - worn, hung or painted
   device       - an emblem put on what they own and carry
   habit        - a way of doing an ordinary task that only they do

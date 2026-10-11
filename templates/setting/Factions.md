@@ -13,13 +13,6 @@ Read first:
 
 ## Instructions
 List the factions `BRIEF.md` names, each following `patterns/setting/Factions.md`'s Spec.
-The collection as a whole holds this shape:
-
-```
-FACTIONS
-  1     At least one pair that does not know the other exists
-  1     At least one a party can plausibly work for
-```
 
 ## Template
 ```

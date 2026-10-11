@@ -16,15 +16,8 @@ Do not consult location, region, or faction files - these tables are setting-lev
 ## Instructions
 One file per table: `setting/Treasure1.md` through `setting/Treasure5.md`, corresponding
 to Treasure Tables I-V in order. Each is a d20 list of results, each following
-`patterns/setting/Treasure.md`'s Spec. Every table holds this shape:
-
-```
-TABLE SHAPE - each of the five
-  1     Result 1 significantly below the table's average value
-  2-3   Each either slightly below average, or about double the average weight for its
-        value
-  4-20  The remaining spread, in randomised order - never ascending or descending
-```
+`patterns/setting/Treasure.md`'s Spec. Results run in randomised order - never ascending or descending by value - spread as
+`BRIEF.md` sets.
 
 Head Table I with the setting's coins - each by name, and its ratio to the others - and
 what a week's ordinary wage is in them. Every value in every table is stated in those

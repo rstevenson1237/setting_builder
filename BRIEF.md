@@ -28,6 +28,8 @@ built fresh by the framework, not transcribed from the module.
 - Up front, only the entries named here; the rest are added as a region or location needs
   them. By the end of the build the AD spread runs from people and numbers at 1-3 to at
   least one entry at 13+, with no more than a third sharing one AD.
+- Specials are rare below 4 AD, expected at 4 and above, and several at 8 and above.
+- Men are the rank and file a faction fields, never one entry per human occupation.
 - Humanoids are the heart of it: several distinct tribes of Chaos, each a different people,
   each able to hold a cave complex of its own - small and many, mid-sized and organised,
   large and brutal.
@@ -40,7 +42,8 @@ built fresh by the framework, not transcribed from the module.
 
 ## Factions
 
-Three:
+Three, each showing at least two identity marks. At least one pair does not know the other
+exists, and at least one is a faction a party can plausibly work for:
 - The keep: its commander, its garrison, and the realm's claim they stand for.
 - The shrine at the head of the ravine: priests of Chaos drawing the tribes together, with
   a hidden agent inside the keep.
@@ -52,6 +55,10 @@ Three:
 - Table II quality: poor 10%, normal 50%, fine 30% (a third of them carrying an effect),
   masterwork 5%, cursed 5%.
 - One result in five carries a provenance.
+- In each table, result 1 sits well below the table's average value; results 2 and 3 are
+  each slightly below it, or about double the average weight for their value.
+- No result is worth more than a hundred times its table's average; anything greater is a
+  Unique Treasure.
 
 ## Regions
 
@@ -81,6 +88,8 @@ Three:
 
 - A d20 table: about a third true, a third partly true, a fifth false, and the rest
   unverified - the referee's to settle.
+- At least three point at a region rather than a detail, at least two are true and sound
+  false, and at least one is false and sounds unmistakably true.
 
 ## Targets
 

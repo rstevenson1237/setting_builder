@@ -11,8 +11,7 @@ Read first:
 - `setting/Language.md`
 
 ## Instructions
-List the regions `BRIEF.md` names. At least one is SAFE, one WILD and one DANGEROUS: a
-party needs somewhere to resupply, somewhere to cross, and somewhere to go.
+List the regions `BRIEF.md` names.
 
 List an overview of all regions within the setting. This file is a Regional Gazetteer - further entries can be added by appending to or changing this file. Each region is rated SAFE, WILD, or DANGEROUS and given the die `BRIEF.md` sets (d4-d12), per `setting/Procedures.md`. A DANGEROUS region such as a dungeon may sit within a WILD region, and this should be noted in its overview. Each row carries a tag line: one phrase defining the region one step past its name.
 

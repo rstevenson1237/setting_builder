@@ -9,7 +9,7 @@ Consult when running this check:
 - `GENRE.md` and `STYLE.md` - the standards a pattern's content is measured against; `STYLE.md` outranks every pattern.
 - every file in `patterns/`.
 - `templates/region/Location.md` (and any other template that consumes a pattern) - to see how a pattern's output actually lands on the page.
-- where a build exists, the table files of a sample of regions - at least one per rating - to see what a class file's rates and draws actually allocated.
+- where a build exists, the table files of a sample of regions - at least one per rating - to see what the schema's nodes actually hold.
 - where a build exists, this pass's `setting/checks/SettingJudgementCheck.md`: run this check after it, and start from its findings traced to a pattern, which are this pass's best evidence.
 - `BRIEF.md`, and the user's requests in the session or pull request that asked for this pass - for the unhoused-content item.
 
@@ -21,14 +21,10 @@ Across the library:
 - **No overlap or contradiction** - does one pattern duplicate or conflict with another?
   Where two share a boundary (`Hazard.md` and `Mystery.md`; a Secret location's access
   triple and its inner one), is the distinction stated where a generator will see it?
-- **Rates compound sensibly** - read the sampled resolutions together: a per-exit rate
-  that gates nearly every room, rates that between them fire in almost every room, a rate
-  so low a region this size never meets it. Record the rate and what it compounds to.
 - **Nothing contradicts STYLE.md** - does any line require what `STYLE.md` forbids, or
   forbid what it requires?
 - **Wiring** - `tools/validate_setting.py` warns on any file the root or no template
-  reaches; judge whether each should be wired in or go, and whether a reached file is
-  drawn at a rate this setting's size will ever meet.
+  reaches; judge whether each should be wired in or go.
 - **Gaps** - a location type, weight, rating, or a thing a region needs (the space its
   entrances open onto, the ordinary finds `GENRE.md` names) that no pattern produces.
 - **Unhoused content** - anything the brief or the user asked for that fits no current

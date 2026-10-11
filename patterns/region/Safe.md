@@ -65,5 +65,3 @@ SETTLEMENT - exactly one
 - **Places is an index, never a description.** It says what a party goes to a location
   for; what the location holds is its own entry's.
 
-- **Never a survey of every house and person.** The roster names who a party deals with,
-  and a location is a door a party goes to for something.

@@ -47,6 +47,3 @@ QUALITY - exactly one
 
 - **Never shrink a weight to keep a number tidy.** A hoard is heavy because it is worth
   something, and the wt it costs is the decision the find exists to force.
-
-- **Nothing past two orders of magnitude over the average is a table result.** It is a
-  `setting/UniqueTreasures.md` entry.
