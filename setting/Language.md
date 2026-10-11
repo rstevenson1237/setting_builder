@@ -1,4 +1,4 @@
-Tongues of [Setting Name]
+Tongues of Roadend
 
 ## Common
 Spoken by: present - the keep, the road behind it, and the realm the road comes from.
