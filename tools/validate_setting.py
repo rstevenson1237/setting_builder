@@ -259,9 +259,9 @@ def spec_edges(text: str, rel: str):
 # Reachability is what this buys: a pattern file no generation template can
 # reach is never read, so the content it describes is never generated. That
 # is silent under-generation rather than a malformed file, so it warns here
-# and is judged at STEPS.md step 5b, per templates/checks/Pattern_Judgement_Check.md.
+# and is judged at STEPS.md step 6b, per templates/checks/Pattern_Judgement_Check.md.
 #
-# A phase-5 template is a review pass, and the pattern files it names are
+# A review template (5c and phase 6) is a review pass, and the pattern files it names are
 # examples of what to review rather than inputs to a generation. They are
 # excluded from the root set so an orphan cannot be masked by being cited as
 # an example.
@@ -329,10 +329,10 @@ def read_set_graph():
                                 for folder, fname in TEMPLATE_PATTERN_CITE_RE.findall(path.read_text())
                                 if f"{folder}/{fname}" in pattern_files}
 
-    # Roots come from generation steps only - phase 5 is review.
+    # Roots come from generation steps only - 5c and phase 6 are review.
     roots: set = set()
     for sid, names in step_templates.items():
-        if sid[0] == "5":
+        if sid == "5c" or sid[0] == "6":
             continue
         for name in names:
             roots |= template_roots.get(name, set())
@@ -382,11 +382,11 @@ def check_read_set_graph(diag: Diagnostics):
     for stray in sorted(g["outside_tree"]):
         diag.warn(PATTERNS / stray, "patterns/Genre.md cannot reach this file - it is outside "
                                     "the tree, whatever a template says about it. Judged at "
-                                    "STEPS.md step 5b")
+                                    "STEPS.md step 6b")
     for orphan in sorted(g["orphans"]):
         diag.warn(PATTERNS / orphan, "no generation template reaches this file - nothing reads "
                                      "it, so the content it describes is never generated. "
-                                     "Judged at STEPS.md step 5b")
+                                     "Judged at STEPS.md step 6b")
 
 
 def report_read_set(step_filter: str | None) -> int:
@@ -873,19 +873,19 @@ TEMPLATES_DIR = ROOT / "templates"
 # The setting-level files and the step each one's gaps are owed to; the template that
 # writes each is named so a record's expected fields can be read from it.
 SETTING_TABLE_FILES = {
-    "Keys.md": ("setting/Keys.md", "4e"),
-    "Quests.md": ("setting/Quests.md", "4e"),
-    "Truths.md": ("setting/Truths.md", "5c"),
+    "Keys.md": ("setting/Keys.md", "5a"),
+    "Quests.md": ("setting/Quests.md", "5a"),
+    "Truths.md": ("setting/Truths.md", "5d"),
 }
 SETTING_RECORD_FILES = {
-    "Bestiary.md": ("setting/Bestiary.md", "2e"),
-    "Factions.md": ("setting/Factions.md", "2f"),
-    "History.md": ("setting/History.md", "5c"),
-    "Lore.md": ("setting/Lore.md", "4e"),
-    "NamedCreatures.md": ("setting/NamedCreatures.md", "4e"),
-    "UniqueTreasures.md": ("setting/UniqueTreasures.md", "4e"),
-    "MagicalTomes.md": ("setting/MagicalTomes.md", "4e"),
-    "Hoards.md": ("setting/Hoards.md", "4e"),
+    "Bestiary.md": ("setting/Bestiary.md", "2d"),
+    "Factions.md": ("setting/Factions.md", "2e"),
+    "History.md": ("setting/History.md", "5d"),
+    "Lore.md": ("setting/Lore.md", "5a"),
+    "NamedCreatures.md": ("setting/NamedCreatures.md", "5a"),
+    "UniqueTreasures.md": ("setting/UniqueTreasures.md", "5a"),
+    "MagicalTomes.md": ("setting/MagicalTomes.md", "5a"),
+    "Hoards.md": ("setting/Hoards.md", "5a"),
 }
 
 
@@ -1237,7 +1237,7 @@ TREASURE_TELL_RE = re.compile(
 # exits all carry the same trigger arrow - so the only available test would
 # guess from the prose, and a warning that fires on every legitimate secret is
 # a warning nobody reads. A hazard written with no stated cost is caught at
-# STEPS.md step 5, per templates/checks/Setting_Judgement_Check.md.
+# STEPS.md step 5c, per templates/checks/Location_Review.md.
 DAMAGE_TYPES = ("Piercing", "Crushing", "Poison", "Fire", "Frost", "Blast")
 ANY_TEST_CITE_RE = re.compile(r'\(Test of [^)]*\)?')
 TEST_CITE_RE = re.compile(r'\(Test of (Constitution|Sanity|Fate),\s*([^()]+)\)')
@@ -1337,12 +1337,9 @@ def check_registry_floors(diag: Diagnostics, registries: dict, build_complete: b
                             f"patterns/Schema.md's rates")
 
 
-def check_rumour_settling(diag: Diagnostics, build_complete: bool):
-    """templates/setting/Rumours.md's Settled at column, filled at 5c.
-
-    Before the build is complete a pending marker is the correct state, so this
-    only reports once every location exists.
-    """
+def check_rumour_settling(diag: Diagnostics):
+    """templates/setting/Rumours.md's Settled at column, filled as each rumour is
+    written at 5d."""
     path = SETTING / "Rumours.md"
     if not path.exists():
         return
@@ -1355,14 +1352,12 @@ def check_rumour_settling(diag: Diagnostics, build_complete: bool):
         diag.warn(path, "no 'Settled at' column - every rumour records where it is "
                         "confirmed, denied or corrected, per templates/setting/Rumours.md")
         return
-    if not build_complete:
-        return
     unsettled = [l for l in rows if re.search(r"pending", l, re.I)
                  or l.rstrip().endswith("||") or re.search(r"\|\s*\|\s*$", l)]
     if unsettled:
-        diag.warn(path, f"{len(unsettled)}/{len(rows)} rumours are still unsettled - step "
-                        f"5c fills the column against the locations actually built, and a "
-                        f"rumour pointing off the map says so rather than being left blank")
+        diag.warn(path, f"{len(unsettled)}/{len(rows)} rumours are unsettled - each is written "
+                        f"at 5d from the location settling it, and a rumour pointing off "
+                        f"the map says so rather than being left blank")
 
 
 def check_top_level_files(diag: Diagnostics):
@@ -1433,7 +1428,7 @@ def report_topology(regions: dict, region_locs: dict, region_edges: dict) -> lis
 # Main
 # ---------------------------------------------------------------------------
 
-# Seeded at STEPS.md 1b/1c, before any setting content exists. Their presence does
+# Seeded at STEPS.md 1a/1b, before any setting content exists. Their presence does
 # not mean a setting has been generated.
 SEED_FILES = {"Procedures.md", "Language.md"}
 
@@ -1587,7 +1582,7 @@ def main() -> int:
         check_region_overview(diag, region_code, info["rating"])
         check_repeated_features(diag, region_code)
     check_registry_floors(diag, registries, build_complete)
-    check_rumour_settling(diag, build_complete)
+    check_rumour_settling(diag)
 
     for line in report_topology(regions, region_locs, region_edges):
         print(f"TOPOLOGY: {line}")

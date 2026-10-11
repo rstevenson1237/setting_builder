@@ -26,9 +26,8 @@ RUMOURS - a d20 table
 ```
 
 **Settled at** names where a party finds out - the Location Code, or codes, holding what
-confirms, denies, or corrects this rumour. It is written in two phases like every other
-registry: left as `[pending 5c]` while the table is authored at 2d, since no location
-exists yet, and filled at step 5c against the locations actually built. For a `P` entry it
+confirms, denies, or corrects this rumour, filled as the rumour is written at step 5d
+from what that location holds. For a `P` entry it
 also names **which half is false**, in a clause, because "partially true" without that is
 a mark the referee cannot act on.
 

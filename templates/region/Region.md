@@ -28,7 +28,7 @@ its own `- ` line under the field's label. Every other field is prose, and short
 
 **A claim made here is a promise the locations have to keep.** A person placed at a
 location, an occupant given rooms, a block's way in, a prize said to lie somewhere - each
-is audited against the rooms at STEPS.md step 5c.
+is audited against the rooms at STEPS.md step 6c.
 
 A question `setting/Truths.md` holds open as a mystery, or a gap it leaves to the
 referee, is cited there from Secrets or Places, never answered here.

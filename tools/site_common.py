@@ -259,7 +259,7 @@ def parse_setting() -> tuple[str, str, str]:
     return name, tagline, outline
 
 
-# Authoring markers that step 5c is meant to replace. They are not content and
+# Authoring markers that step 5d is meant to replace. They are not content and
 # must not reach a reader; a build that still shows them is showing the build's
 # own TODO list.
 PENDING_MARKER_RE = re.compile(r"\s*[-\u2013\u2014]?\s*\[pending\s+\w+\]", re.IGNORECASE)

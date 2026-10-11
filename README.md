@@ -46,7 +46,7 @@ Read these rather than a description of them.
 - `setting/region/[Code]/` - one region: the table files `patterns/Schema.md` names for its
   rating, its `Connections.mmd`, and one `[LocationCode].md` per location, written from the
   tables. The Region Overview sits beside it at `setting/region/[Code].md`.
-- `setting/checks/` - output of the judgement checks (STEPS.md step 5): non-mechanical
+- `setting/checks/` - output of the judgement checks (STEPS.md step 6): non-mechanical
   review passes `tools/validate_setting.py` can't do, following the checklist format in
   the matching `templates/checks/*_Judgement_Check.md`. Nested under `setting/` so wiping the
   setting for a new build takes its judgement checks with it, rather than leaving them

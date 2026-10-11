@@ -3,7 +3,7 @@
 ## Purpose
 The setting's tongues - phoneme inventories, syllable shapes, affixes, and a growing root
 list - so that proper nouns coined weeks apart still sound like they come from the same
-world. The framework's one living artifact: seeded at 1c, tailored at 2h, and appended to
+world. The framework's one living artifact: seeded at 1b, tailored at 2g, and appended to
 every time a proper noun is coined.
 
 ## Context
@@ -11,8 +11,8 @@ Read first:
 - `GENRE.md`
 - `BRIEF.md` - this build's design requests, which replace this template's defaults where they speak
 - `patterns/setting/Language.md`
-- At 2h: every setting artifact written so far.
-- At 4g: every location, region and registry file.
+- At 2g: every setting artifact written so far.
+- At 5b: the write-ups this pass wrote.
 
 ## Instructions
 Each tongue states who speaks it, its consonants and vowels, its syllable shape, its

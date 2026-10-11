@@ -58,13 +58,6 @@ findings are the evidence `templates/checks/Pattern_Judgement_Check.md` starts f
 - **Reinforcement candidates are named, not acted on** - which elements are thin enough on the ground that a later pass could thicken them? An element cited in one location that the setting leans on, a motif shown once where recognition would pay, a name met in a single place. Name them under Room to Grow with where they already appear. **This check authors nothing**: acting on a candidate is a decision made outside the numbered build, and naming one here is a recommendation rather than a task.
 - **Coinage is tracked, not orphaned** - every proper noun `setting/Language.md` records as "coined here" is used somewhere in the setting, and every proper noun the setting actually coined is recorded there. A name invented once and never touched again is either placed (record it and cite it) or genuinely dropped - but a gap between the two is a Room to Grow item, not a silent loss.
 
-### Bookkeeping, after the findings are recorded
-
-Once every item above is recorded, fill what the build has earned: each `setting/Truths.md`
-Handle, `setting/History.md` Left line and `setting/Rumours.md` Settled-at column that a
-real location already delivers, per STEPS.md 5c. This is bookkeeping, not a fix; a claim
-nothing delivers stays under Room to Grow.
-
 ## Template
 ```
 # Setting Judgement Check - [Date or revision note]

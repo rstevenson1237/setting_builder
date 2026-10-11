@@ -2,7 +2,7 @@
 
 ## Purpose
 The setting's shared mechanics - the rules cited from every level rather than restated at
-each one. Seeded with working defaults at step 1b, tailored at 2h, and extended at 4g only
+each one. Seeded with working defaults at step 1a, tailored at 2g, and extended in step 5 only
 if generated content turned out to need something the seed did not cover.
 
 ## Context
@@ -10,7 +10,7 @@ Read first:
 - `GENRE.md`
 - `BRIEF.md` - this build's design requests, which replace this template's defaults where they speak
 - `patterns/setting/Procedures.md`
-- At 2h only: `setting/Setting.md`, `setting/Truths.md`
+- At 2g only: `setting/Setting.md`, `setting/Truths.md`
 
 ## Instructions
 Sections, in order: Tests and Consequences, Hazards, Wounds and Madness, Conditions,

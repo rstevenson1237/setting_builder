@@ -2,7 +2,7 @@
 
 ## Purpose
 The registry of errands running between locations - who wants what, where it is, and what
-stands in the way. Created empty at step 2h.
+stands in the way. Created empty at step 2g.
 
 ## Context
 Read first:
