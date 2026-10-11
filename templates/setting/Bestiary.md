@@ -14,7 +14,7 @@ Read first:
 Each entry is one record following `patterns/setting/Bestiary.md`'s Spec for a single entry.
 
 By default the Bestiary is barebones: only the entries `BRIEF.md` or the user's prompt
-names, and it grows as the build needs it - a location or Region Overview that needs a
+names, and it grows as the build needs it - a location or region seed that needs a
 creature the Bestiary lacks adds its entry here first, then cites it. The collection
 shape below applies only where `BRIEF.md` or the prompt asks for a full Bestiary, and
 wherever the brief states its own mix, the brief's mix replaces this one.

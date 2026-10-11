@@ -458,14 +458,10 @@ def parse_regions_gazetteer() -> dict[str, dict]:
     return out
 
 
-# Follows templates/region/Region.md's own field order. Five of these are
-# rating-specific - Architecture (DANGEROUS), People and Situation (SAFE),
-# Terrain and Foraging (WILD) - and Factions is asked of every rating. All six
-# were being parsed into nothing, so the rating-specific half of every Region
-# Overview never reached the web view or the PDF.
+# Every field of a region's seed and its brief, in the order they render.
 REGION_FIELD_LABELS = [
     "Overview", "Approach", "People", "Services", "Law", "Terrain", "Conditions",
-    "Inhabitants", "Alarm", "Places", "Situation", "Loot", "Secrets",
+    "Inhabitants", "Situation", "Places", "Alarm", "Loot", "Secrets", "Leads",
 ]
 TABLE_HEAD_RE = re.compile(r"^d\d+\s+\S")
 
@@ -486,11 +482,23 @@ def _field_text(block: list[str]) -> str:
 
 
 def parse_region_overview(code: str, gaz: dict) -> Region:
-    path = SETTING / "region" / f"{code}.md"
-    lines = path.read_text().splitlines()
+    """The region's seed, then its brief where it exists, as one run sheet."""
     fields: list[tuple[str, str]] = []
     tables: list[tuple[str, list[tuple[int, str]]]] = []
-    i, n = 1, len(lines)
+    seed = SETTING / "region" / f"{code}.md"
+    brief = SETTING / "region" / code / "Brief.md"
+    _parse_region_fields(seed.read_text().splitlines()[1:], fields, tables)
+    if brief.exists():
+        _parse_region_fields(brief.read_text().splitlines(), fields, tables)
+    info = gaz[code]
+    return Region(
+        code=code, name=info["name"], rating=info["rating"], die=info["die"], tags=info["tags"],
+        gazetteer_blurb=info["blurb"], fields=fields, tables=tables,
+    )
+
+
+def _parse_region_fields(lines: list[str], fields: list, tables: list) -> None:
+    i, n = 0, len(lines)
     while i < n:
         line = lines[i].strip()
         i += 1
@@ -522,11 +530,6 @@ def parse_region_overview(code: str, gaz: dict) -> Region:
                     tables[-1][1].append((int(rm.group(1)), rm.group(2).strip()))
         elif label in REGION_FIELD_LABELS:
             fields.append((label, _field_text(block)))
-    info = gaz[code]
-    return Region(
-        code=code, name=info["name"], rating=info["rating"], die=info["die"], tags=info["tags"],
-        gazetteer_blurb=info["blurb"], fields=fields, tables=tables,
-    )
 
 
 def field_html(text: str, render) -> str:

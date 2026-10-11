@@ -9,7 +9,7 @@ to `setting/checks/Review.md`, one section per pass.
 - `GENRE.md`, `STYLE.md`
 - the output of `python3 tools/validate_setting.py`, `python3 tools/validate_setting.py --pending` and `python3 tools/metrics.py`
 - the last section of `setting/checks/Review.md`
-- each region's Overview, `setting/region/[Region Code].md`
+- each region's seed, `setting/region/[Region Code].md`
 - each write-up this pass wrote, with its entries from `python3 tools/validate_setting.py --location [Location Code]`
 - the header and Player Summary of every other write-up in the same block
 
@@ -20,7 +20,7 @@ to `setting/checks/Review.md`, one section per pass.
   - **entries match** - every entry carried, nothing written without one;
   - **one room** - it reads as one place, not its entries side by side;
   - **distinct** - it shares no Feature, shape or sentence frame with its block;
-  - **said once** - nothing restated from the Overview, a setting entry or another room;
+  - **said once** - nothing restated from the seed, a setting entry or another room;
   - **the tests** - each line passes `STYLE.md`.
 - Each finding names its fix: an entry (5a), a write-up (5b), a placement (5d), or the
   framework (`plans/`). A finding raised on the last pass and not fixed is carried, not

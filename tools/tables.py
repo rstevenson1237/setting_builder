@@ -204,8 +204,9 @@ class Setting:
             yield "warning", r.dir, f"{r.rating} has no folder in {self.schema.path.name}"
             return
         for path in sorted(r.dir.glob("*.md")):
-            if not path.stem.isdigit() and path.stem not in r.folder.files:
-                yield "error", path, f"is neither a location file nor one of {', '.join(r.folder.files)}"
+            if not path.stem.isdigit() and path.stem not in r.folder.files and path.stem != "Brief":
+                yield "error", path, (f"is neither a location file, Brief.md, nor one of "
+                                      f"{', '.join(r.folder.files)}")
         for stem in r.folder.files:
             path = r.dir / f"{stem}.md"
             if not path.exists():

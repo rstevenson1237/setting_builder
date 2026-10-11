@@ -1127,42 +1127,55 @@ def check_statblocks(diag: Diagnostics, path: Path, label: str, expect_special: 
 
 
 # ---------------------------------------------------------------------------
-# setting/region/[Code].md - the Region Overview's field set, per rating
+# A region's seed, setting/region/[Code].md, and its brief, setting/region/[Code]/Brief.md
 #
-# The field set is patterns/region/*.md's; the order and the two tables are
-# templates/region/Region.md's. A field from another rating's set, or one retired, is
-# an error because the site renders only the labels it knows and would drop it.
+# Each field set is patterns/region/*.md's SEED or BRIEF block; the order is the
+# template's. A field from the other part, another rating's set, or one retired, is an
+# error because the site renders only the labels it knows and would drop it.
 # ---------------------------------------------------------------------------
 
 REGION_FIELDS = {
-    "SAFE": ["Overview", "Approach", "People", "Services", "Law", "Places", "Situation",
-             "Secrets", "Tables"],
-    "WILD": ["Overview", "Approach", "Terrain", "Inhabitants", "Places", "Situation",
-             "Loot", "Secrets", "Tables"],
-    "DANGEROUS": ["Overview", "Approach", "Conditions", "Inhabitants", "Alarm", "Places",
-                  "Situation", "Loot", "Secrets", "Tables"],
+    "SAFE": ["Overview", "Approach", "People", "Services", "Law", "Situation"],
+    "WILD": ["Overview", "Approach", "Terrain", "Inhabitants", "Situation"],
+    "DANGEROUS": ["Overview", "Approach", "Conditions", "Inhabitants", "Situation"],
+}
+BRIEF_FIELDS = {
+    "SAFE": ["Places", "Secrets", "Leads", "Tables"],
+    "WILD": ["Places", "Loot", "Secrets", "Leads", "Tables"],
+    "DANGEROUS": ["Places", "Alarm", "Loot", "Secrets", "Leads", "Tables"],
 }
 REGION_LABEL_RE = re.compile(r'^([A-Z][a-z]+):(?:\s|$)')
 
 
 def check_region_overview(diag: Diagnostics, code: str, rating: str):
-    path = SETTING / "region" / f"{code}.md"
+    seed = SETTING / "region" / f"{code}.md"
+    check_region_fields(diag, seed, REGION_FIELDS[rating], rating, "templates/region/Region.md", 1)
+    if seed.exists():
+        codes = sorted(set(re.findall(rf"\b{code}\.\d+\b", seed.read_text())))
+        if codes:
+            diag.warn(seed, f"names {', '.join(codes)} - a seed is written before any location "
+                            f"exists, and where a thing lies is the tables' and the brief's")
+    brief = SETTING / "region" / code / "Brief.md"
+    check_region_fields(diag, brief, BRIEF_FIELDS[rating], rating, "templates/region/Brief.md", 0)
+
+
+def check_region_fields(diag: Diagnostics, path: Path, expected: list, rating: str,
+                        template: str, skip: int):
     if not path.exists():
         diag.warn(path, "missing - not built yet")
         return
     lines = path.read_text().splitlines()
-    labels = [m.group(1) for m in map(REGION_LABEL_RE.match, lines[1:]) if m]
-    expected = REGION_FIELDS[rating]
+    labels = [m.group(1) for m in map(REGION_LABEL_RE.match, lines[skip:]) if m]
     for label in labels:
         if label not in expected:
-            diag.error(path, f"field {label!r} is not in a {rating} overview's set "
+            diag.error(path, f"field {label!r} is not in this {rating} file's set "
                              f"({', '.join(expected)}), per patterns/region/")
     missing = [f for f in expected if f not in labels]
     if missing:
         diag.error(path, f"missing field(s): {', '.join(missing)}")
     present = [l for l in labels if l in expected]
     if present != [f for f in expected if f in present]:
-        diag.warn(path, f"fields out of templates/region/Region.md's order: {', '.join(present)}")
+        diag.warn(path, f"fields out of {template}'s order: {', '.join(present)}")
     if "Tables" in labels:
         start = next(i for i, l in enumerate(lines) if l.startswith("Tables:"))
         tables, rows = 0, []
@@ -1178,7 +1191,7 @@ def check_region_overview(diag: Diagnostics, code: str, rating: str):
             rows.append(count)
         if tables != 2:
             diag.error(path, f"Tables holds {tables} table(s) opened by a `d6 ...` line - "
-                             f"templates/region/Region.md asks for two")
+                             f"{template} asks for two")
         for i, n in enumerate(rows, 1):
             if n != 6:
                 diag.error(path, f"table {i} has {n} rows - a d6 table has six")

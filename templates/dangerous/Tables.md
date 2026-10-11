@@ -10,7 +10,7 @@ Read first, for every table:
 - `STYLE.md`
 - `BRIEF.md`
 - `patterns/Schema.md`
-- this region's Overview, `setting/region/[Region Code].md`
+- this region's seed, `setting/region/[Region Code].md`
 
 Then, by table:
 - **Locations**: this region's die in `setting/region/Regions.md`, `patterns/setting/Naming.md` and `setting/Language.md`.

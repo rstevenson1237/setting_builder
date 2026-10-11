@@ -17,7 +17,7 @@ template's Context names what to read.
 3. Build the regions
    - 3a. Create `setting/region/Regions.md`, following `templates/region/Region_Gazetteer.md`.
    - 3b. Create `setting/region/Connections.mmd`, following `templates/region/Connections.mmd`.
-   - 3c. For each region, create its folder and its Region Overview's seed fields, following `templates/region/Region.md`.
+   - 3c. For each region, create its folder and its seed, `setting/region/[Code].md`, following `templates/region/Region.md`.
 4. Lay out the locations - structure, no content
    - 4a. Create each region's `Locations.md`, following `templates/dangerous/Tables.md`.
    - 4b. Create each region's `Connections.mmd`, following `templates/dangerous/Connections.mmd`.
@@ -27,7 +27,7 @@ template's Context names what to read.
    - 5b. Write: every location whose write-up is missing or stale, following `templates/region/Location.md`, recording coinages in `setting/Language.md`, following `templates/setting/Language.md`.
    - 5c. Review: run `python3 tools/validate_setting.py` and `python3 tools/metrics.py`, then review this pass's write-ups in a fresh context, following `templates/checks/Location_Review.md`.
    - 5d. Place: write `setting/Rumours.md`, following `templates/setting/Rumours.md`; place quests and locks, then keys for locks already placed, following `templates/setting/Quests.md`, `templates/setting/Keys.md` and `templates/dangerous/Tables.md`; and fill the Handles and Left lines the build now delivers, following `templates/setting/Truths.md` and `templates/setting/History.md`.
-   - 5e. Brief: write each Region Overview's brief fields, following `templates/region/Region.md`.
+   - 5e. Brief: write each region's `Brief.md`, following `templates/region/Brief.md`.
 6. Judge the build
    - 6a. Create or update `setting/checks/TemplateJudgementCheck.md`, following `templates/checks/Template_Judgement_Check.md`.
    - 6b. Create or update `setting/checks/PatternJudgementCheck.md`, following `templates/checks/Pattern_Judgement_Check.md`, after 6c, starting from 6c's findings traced to a pattern.
