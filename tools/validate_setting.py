@@ -1444,11 +1444,17 @@ def report_pending(region_filter: str | None) -> int:
     for sev, path, msg in setting.check():
         if sev == "warning" and (Path(path) == scope or scope in Path(path).parents):
             owed.setdefault(rel(path), []).append(msg)
+    history = tables.History()
     for r in setting.regions.values():
         for code in r.locations():
             path = r.dir / f"{code.split('.')[1]}.md"
-            if (Path(path) == scope or scope in Path(path).parents) and not path.exists():
+            if not (Path(path) == scope or scope in Path(path).parents):
+                continue
+            if not path.exists():
                 owed.setdefault(rel(r.dir), []).append(f"{code} has no write-up yet")
+            elif changed := tables.stale(setting, code, history):
+                owed.setdefault(rel(r.dir), []).append(
+                    f"{code}'s write-up is stale, owed to step 5b - changed since: {'; '.join(changed)}")
     for step, path, line, what in ([] if region_filter else collect_stubs()):
         owed.setdefault(rel(path), []).append(f"line {line}: stub owed to step {step} - {what}")
     for path in sorted(owed):

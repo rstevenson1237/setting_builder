@@ -514,3 +514,95 @@ class Targets:
         held = {n.args[0] for n in entries if n.args}
         return [(t, f"of {of}" if of else "of all", t.shares[""],
                  sum(1 for c in locs if c in held), len(locs))]
+
+
+# -- staleness ------------------------------------------------------------------
+#
+# A write-up is stale when a line it was written from - its own entries, the entries
+# naming it, the setting entries those name, or its region's seed - changed after the
+# write-up last did. A line's time is its last commit's, read by `git blame`, or its
+# file's modified time while the line is uncommitted. Without git, nothing is stale.
+
+import os
+import subprocess
+
+
+class History:
+    def __init__(self):
+        self._blame: dict[Path, list[float] | None] = {}
+
+    def _git(self, *args) -> str | None:
+        try:
+            return subprocess.run(["git", "-C", str(ROOT), *args], capture_output=True,
+                                  text=True, check=True).stdout
+        except (OSError, subprocess.CalledProcessError):
+            return None
+
+    def line_times(self, path: Path) -> list[float] | None:
+        if path not in self._blame:
+            out = self._git("blame", "--line-porcelain", "--", str(path.relative_to(ROOT)))
+            times, uncommitted = [], False
+            for line in (out or "").splitlines():
+                if re.match(r"[0-9a-f]{40} ", line):
+                    uncommitted = line.startswith("0" * 40)
+                elif line.startswith("committer-time "):
+                    times.append(path.stat().st_mtime if uncommitted else float(line.split()[1]))
+            self._blame[path] = times if out is not None else None
+        return self._blame[path]
+
+    def file_time(self, path: Path) -> float | None:
+        dirty = self._git("status", "--porcelain", "--", str(path.relative_to(ROOT)))
+        if dirty is None:
+            return None
+        if dirty.strip():
+            return path.stat().st_mtime
+        out = self._git("log", "-1", "--format=%ct", "--", str(path.relative_to(ROOT)))
+        return float(out) if out and out.strip() else path.stat().st_mtime
+
+
+def record_lines(path: Path, title: str) -> range:
+    """The lines of one setting entry: its table row, or its heading through to the next."""
+    lines = path.read_text().splitlines()
+    for i, line in enumerate(lines):
+        if title in line:
+            if not line.startswith("#"):
+                return range(i, i + 1)
+            depth = len(line) - len(line.lstrip("#"))
+            end = next((j for j in range(i + 1, len(lines))
+                        if lines[j].startswith("#") and len(lines[j]) - len(lines[j].lstrip("#")) <= depth),
+                       len(lines))
+            return range(i, end)
+    return range(0)
+
+
+def stale(setting: Setting, code: str, history: History) -> list[str]:
+    """What changed since this location's write-up, or [] if it is fresh or unwritten."""
+    region = setting.regions[code.split(".")[0]]
+    writeup = region.dir / f"{code.split('.')[1]}.md"
+    if not writeup.exists() or (written := history.file_time(writeup)) is None:
+        return []
+    deps: list[tuple[Path, range, str]] = []
+    own, named = setting.entries_at(code)
+    for where, n in own + named:
+        rcode, stem = where.split("/")
+        deps.append((setting.regions[rcode].dir / f"{stem}.md", range(n.line - 1, n.line),
+                     f"{stem} {n.name} {n.args[0] if n.args else ''}".strip()))
+        for node in kdl.walk([n]):
+            for m in setting.schema.nodes.get(node.name, []):
+                v = node.props.get(m.name)
+                if v is None or m.type not in ("entry", "pull"):
+                    continue
+                table, _, title = str(v).partition(": ") if m.type == "pull" else (m.arg, "", str(v))
+                if title and table in setting.schema.tables:
+                    path = ROOT / setting.schema.tables[table][1]
+                    if path.exists():
+                        deps.append((path, record_lines(path, title), f"{table}: {title}"))
+    seed = SETTING / "region" / f"{region.code}.md"
+    if seed.exists():
+        deps.append((seed, range(0, 10 ** 6), "the region's seed"))
+    changed = []
+    for path, lines, what in deps:
+        times = history.line_times(path)
+        if times and any(times[i] > written for i in lines if i < len(times)):
+            changed.append(what)
+    return sorted(set(changed))

@@ -6,8 +6,9 @@ Six readings, printed in one report:
   CORPUS    locations and words in setting/region/*/[0-9]*.md
   FEATURES  words, segments and sentences per Feature line
   TELLS     the four prose tells, counted
-  MIX       per region, the edge kinds its diagrams drew and the kinds of
-            treasure its rooms cite - what the 5c review reads mixes against
+  MIX       per region, what its tables hold by kind - connections, challenges,
+            hazard damage, reward contents - and its stubs, missing and stale
+            write-ups
   BUDGET    framework words against setting words
   READ SET  words in context per step 5b write-up
 
@@ -265,33 +266,42 @@ def report_tells(locs: list[Path]) -> None:
     print()
 
 
-TREASURE_KIND_RE = re.compile(
-    r'\((Treasure [IVX]+), d20\)|\((Keys|Lore|Unique Treasure):')
-
-
 def report_mix() -> None:
-    """Realized mixes a judgement pass compares against the schema's rates."""
-    import kdl
+    """Per region, what its tables hold, by kind, and what the loop still owes."""
+    import tables
+    from validate_setting import Diagnostics, parse_regions
+    regions = parse_regions(Diagnostics())
+    setting = tables.Setting({c: i["rating"] for c, i in regions.items()})
+    history = tables.History()
     print("MIX")
-    for rdir in sorted(p for p in REGION.iterdir() if p.is_dir()):
-        kinds = {}
-        conn = rdir / "Connections.md"
-        try:
-            entries = kdl.fenced(conn.read_text()) if conn.exists() else []
-        except SyntaxError:
-            entries = []
-        for n in entries:
-            kinds[n.props.get("type", "?")] = kinds.get(n.props.get("type", "?"), 0) + 1
-        treasure = {}
-        for loc in sorted(rdir.glob("[0-9]*.md")):
-            for m in TREASURE_KIND_RE.finditer(loc.read_text()):
-                k = "table roll" if m.group(1) else m.group(2).lower()
-                treasure[k] = treasure.get(k, 0) + 1
-        total_e, total_t = sum(kinds.values()), sum(treasure.values())
-        fmt = lambda d, t: ", ".join(f"{k} {v} ({100 * v // t}%)" for k, v in
-                                     sorted(d.items(), key=lambda x: -x[1])) if t else "none"
-        print(f"  {rdir.name}: connections {total_e} - {fmt(kinds, total_e)}")
-        print(f"     treasure {total_t} - {fmt(treasure, total_t)}")
+    for r in setting.regions.values():
+        counts = {"connections": {}, "challenges": {}, "hazard damage": {}, "rewards": {}}
+        for stem, entries in r.files.items():
+            for n in entries:
+                if n.name == "Connection":
+                    k = counts["connections"]; v = n.props.get("type", "?")
+                elif stem == "Challenges":
+                    k = counts["challenges"]; v = n.name
+                    if n.name == "Hazard":
+                        d = n.props.get("damage", "?")
+                        counts["hazard damage"][d] = counts["hazard damage"].get(d, 0) + 1
+                elif n.name == "Reward":
+                    k = counts["rewards"]; v = str(n.props.get("contents", "?")).split(":")[0]
+                else:
+                    continue
+                k[v] = k.get(v, 0) + 1
+        print(f"  {r.code}:")
+        for label, d in counts.items():
+            t = sum(d.values())
+            body = ", ".join(f"{k} {v} ({100 * v // t}%)" for k, v in
+                             sorted(d.items(), key=lambda x: -x[1])) if t else "none"
+            print(f"     {label:14s} {t:3d} - {body}")
+        stubs = sum(1 for sev, path, msg in setting.check()
+                    if sev == "warning" and "stub" in msg and r.dir in Path(path).parents)
+        codes = list(r.locations())
+        missing = sum(1 for c in codes if not (r.dir / f"{c.split('.')[1]}.md").exists())
+        stale = sum(1 for c in codes if tables.stale(setting, c, history))
+        print(f"     {'owed':14s} stubs {stubs}, write-ups missing {missing}, stale {stale}")
     print()
 
 
