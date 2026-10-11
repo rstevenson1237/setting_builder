@@ -6,7 +6,7 @@ Want: legitimacy - the realm's claim to the road and the land along it, acknowle
 Identity: a grey tower on a white field, painted on shields, wagon-boards and the post at every milestone; patrols hail with "Road open?" and expect "Road open" back; the garrison keeps its spears with the butt-spike painted white.
 Resources: the keep's walls and stores, a garrison of soldiers drawing pay from the realm, the toll-gate, and the commander's authority to grant a writ to travel.
 Knowledge: which wagons left and did not arrive, and on what days; the road's whole length, and every place along it a wagon can be taken. It does not know how many goblins there are.
-Tactics: tightens the gate and doubles the road patrols, and posts a bounty at the gate for proof - a tally of ears, a marked helm - rather than sending the garrison out of sight of its own walls.
+Tactics: tightens the gate and doubles the road patrols, and posts a bounty at the gate for proof - a count of ears, a marked helm - rather than sending the garrison out of sight of its own walls.
 Reactions: noticed - a soldier asks the party's business and its name; crossed - the gate is shut to them and the inn is told; injured - they are outlawed to the realm's writ, and any soldier on the road may arrest them.
 Goals: keep the road open to wagons; learn where the raiders sleep; hold the keep without calling for more men from the realm.
 Fields: Soldier
