@@ -16,7 +16,7 @@ fresh by the framework, not transcribed from the module.
 - The pressure is a goblin tribe in the cave raiding the road, not an invasion or a war.
   Nobody at the keep knows how many goblins there are.
 - History is shallow: what the land held before matters through what the cave's earlier
-  diggers left behind. No events up front.
+  makers left behind. No events up front.
 - No truths up front.
 
 ## Procedures
@@ -27,8 +27,8 @@ fresh by the framework, not transcribed from the module.
 ## Language
 
 - Three tongues: the common tongue of the keep and the realm; the goblins' tongue; and the
-  dead tongue of the diggers, met only cut into the cave. Each has three to five affixes
-  and fifteen to twenty roots.
+  dead tongue of the cave's makers, met only carved into its walls. Each has three to five
+  affixes and fifteen to twenty roots.
 
 ## Bestiary
 
@@ -60,8 +60,8 @@ Three, in this order:
   trader, and the commander's hall. Its People roster names four.
 - The ravine (WILD, d8): the walk from the keep to the cave. Three Landmarks, one of them
   the cave mouth, which is the only way into the cave.
-- The cave (DANGEROUS, d4): a single holding - the goblin tribe's home in an old dig. Six
-  locations, one entrance.
+- The cave (DANGEROUS, d4): a single holding - the goblin tribe's home, in workings older
+  than the tribe. Six locations, one entrance.
 
 ## Rumours
 

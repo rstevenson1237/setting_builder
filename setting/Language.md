@@ -55,8 +55,8 @@ Roots:
 
 Coined here:
 
-## Diggers' Speech
-Spoken by: departed - whoever cut the old dig the goblins live in. It survives only cut into
+## Carved Speech
+Spoken by: departed - whoever cut the cave the goblins live in. It survives only carved into
 the cave's walls; nobody living reads it.
 Consonants: t d m n l v th y
 Vowels: e i o
@@ -71,12 +71,12 @@ Roots:
 - thi - cold, the cold of deep ground
 - yo - white, pale
 - va - the hand, to hold
-- toli - to cut, to dig
+- toli - to cut stone
 - vimo - a wage, what is owed for work
 - ne - lamp-light, a flame kept lit
 - mothe - the dead, a body
 - eni - one
-- dovi - a tally, a count kept
+- dovi - a count, marks kept in a row
 - de - down, below
 - lithe - a seam, a vein of ore
 - tho - a shaft, a way down
