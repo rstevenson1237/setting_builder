@@ -191,9 +191,71 @@ class Setting:
     # -- checks -------------------------------------------------------------
 
     def check(self):
-        """Yield (severity, path, message) for every region."""
+        """Yield (severity, path, message) for every region, then for the keys between them."""
         for r in self.regions.values():
             yield from self._check_region(r)
+        yield from self._check_keys()
+
+    def _check_keys(self):
+        """Every lock has its key placed, every key its lock, and no key lies behind the lock
+        it opens. Locks are placed first and keys for them after, so a lock waiting on its
+        key is owed to 5d, and a key with no lock is an error."""
+        locks, keys = {}, {}
+        for r in self.regions.values():
+            for stem, entries in r.files.items():
+                for n in entries:
+                    for c in n.children:
+                        if c.name == "Lock" and "key" in c.props:
+                            locks.setdefault(c.props["key"], []).append((r, stem, n))
+                    table, _, title = str(n.props.get("contents", "")).partition(": ")
+                    if n.name == "Reward" and table == "Keys" and title:
+                        keys.setdefault(title, []).append((r, stem, n))
+        for title, held in sorted(keys.items()):
+            for r, stem, n in held:
+                path = r.dir / f"{stem}.md"
+                if title not in locks:
+                    yield "error", path, (f"line {n.line}: {title!r} is placed, but no Lock names it - "
+                                          f"a key is placed only for a lock already placed")
+                elif any(m is n for _, _, m in locks[title]):
+                    yield "error", path, f"line {n.line}: {title!r} is locked inside itself"
+        for title, placed in sorted(locks.items()):
+            if title not in keys:
+                r, stem, n = placed[0]
+                yield "warning", r.dir / f"{stem}.md", (f"line {n.line}: Lock {title!r} has no key "
+                                                       f"placed yet - owed to step 5d")
+                continue
+            for r, stem, n in keys[title]:
+                if self._behind(r, title, n.args[0] if n.args else None):
+                    yield "error", r.dir / f"{stem}.md", (
+                        f"line {n.line}: {title!r} lies behind the lock it opens - it cannot be "
+                        f"reached from {', '.join(self._entrances(r))} without it")
+
+    def _entrances(self, r: Region) -> list[str]:
+        """The region's rooms touching another region, or else its first room."""
+        own = set(r.locations())
+        outside = {c for a, b in r.edges for c in (a, b) if c not in own}
+        ways_in = sorted({c for a, b in r.edges for c in (a, b)
+                          if c in own and ({a, b} & outside)})
+        return ways_in or sorted(own, key=lambda c: int(c.split(".")[1]))[:1]
+
+    def _behind(self, r: Region, title: str, code: str | None) -> bool:
+        if code is None or code not in r.locations():
+            return False
+        locked = {frozenset((n.args[0], n.props.get("to"))) for n in r.files.get("Connections", [])
+                  if n.args and any(c.name == "Lock" and c.props.get("key") == title
+                                    for c in n.children)}
+        adj: dict[str, set] = {}
+        for a, b in r.edges:
+            if frozenset((a, b)) not in locked:
+                adj.setdefault(a, set()).add(b)
+                adj.setdefault(b, set()).add(a)
+        seen, todo = set(self._entrances(r)), list(self._entrances(r))
+        while todo:
+            for nxt in adj.get(todo.pop(), ()):
+                if nxt not in seen:
+                    seen.add(nxt)
+                    todo.append(nxt)
+        return code not in seen
 
     def _check_region(self, r: Region):
         for path, msg in r.syntax:

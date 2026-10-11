@@ -2,8 +2,8 @@
 
 ## Provides
 One key entry: a portable object, the lock it opens elsewhere, and why the two are apart.
-When a location reaches for a key is its rating's own `Key.md`; a key found before it is
-used is distinct from a quest, which is asked before it is fulfilled.
+Its lock is a `Lock` in a location table, placed first; the key is a `Reward` placed for it
+after, per `patterns/Schema.md`.
 
 ## Spec
 
