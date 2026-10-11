@@ -51,8 +51,8 @@ Read these rather than a description of them.
   the matching `templates/checks/*_Judgement_Check.md`. Nested under `setting/` so wiping the
   setting for a new build takes its judgement checks with it, rather than leaving them
   behind to bias the next one.
-- `archive/` - the previous location-level patterns, templates and tools, held for review
-  against this build. Read by no step.
+- `archive/` - the previous location-level patterns, templates and tools, and completed
+  `plans/`, held for review against this build. Read by no step.
 - `plans/` - proposals for framework changes not yet made: one folder per change, holding
   its `intake.md`, `spec.md` and `implementation.md`. Read by no step.
 - `tools/` - exactly what content generation needs and nothing else. Stdlib-only Python, no
