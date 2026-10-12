@@ -35,6 +35,7 @@ class Folder:
     type: str
     files: dict[str, list[str]]
     rates: dict[str, dict[str, tuple[int, int]]]
+    joins: dict[str, tuple[set[str], str | None]] = field(default_factory=dict)
 
 
 def bounds(rate) -> tuple[int, int] | None:
@@ -71,10 +72,12 @@ class Schema:
             elif n.name == "node":
                 self.nodes[name] = [self._member(c) for c in n.children]
             elif n.name == "folder":
-                files = {c.name: c.args for c in n.children if c.name != "rate"}
-                rates = {c.args[0]: {f: bounds(r) for f, r in c.props.items()}
-                         for c in n.children if c.name == "rate"}
-                self.folders[name] = Folder(n.props.get("type", ""), files, rates)
+                files = {c.name: c.args for c in n.children if c.name not in ("rate", "join")}
+                rates = {a: {f: bounds(r) for f, r in c.props.items()}
+                         for c in n.children if c.name == "rate" for a in c.args}
+                joins = {c.args[0]: (set(c.args[1:]), c.props.get("gate"))
+                         for c in n.children if c.name == "join" and c.args}
+                self.folders[name] = Folder(n.props.get("type", ""), files, rates, joins)
             else:
                 self.problems.append(f"line {n.line}: unknown schema node {n.name!r}")
         self._resolve()
@@ -116,6 +119,14 @@ class Schema:
                 for stem, b in rates.items():
                     if stem not in f.files or b is None:
                         p(f"folder {name}: rate {item} {stem} is not a file and a count or range")
+            for item, (to, gate) in f.joins.items():
+                for t in {item} | to:
+                    if t not in self.enums.get(f.type, {}):
+                        p(f"folder {name}: join names {t!r}, which {f.type} does not hold")
+                if gate and gate not in self.nodes:
+                    p(f"folder {name}: join gate {gate!r} is not a node")
+            if f.joins and "Connections" not in f.files:
+                p(f"folder {name}: join without a Connections file")
 
 
 def titles(path: Path) -> set[str] | None:
@@ -278,7 +289,9 @@ class Setting:
                 for sev, msg in self._check_entry(r, stem, n):
                     yield sev, path, f"line {n.line}: {msg}"
         yield from self._check_rates(r)
-        yield from self._check_diagram(r)
+        if "Connections" in r.folder.files:
+            yield from self._check_diagram(r)
+            yield from self._check_joins(r)
 
     def _check_locations(self, r: Region):
         path = r.dir / "Locations.md"
@@ -410,8 +423,6 @@ class Setting:
             yield "error", r.diagram, f"node {c} is not a location"
         for c in sorted(set(r.locations()) - set(r.nodes.values())):
             yield "warning", r.diagram, f"{c} has no node yet"
-        if "Connections" not in r.folder.files:
-            return
         path = r.dir / "Connections.md"
         for n in r.files.get("Connections", []):
             to = n.props.get("to")
@@ -420,7 +431,28 @@ class Setting:
         for a, b in r.edges:
             for near, far in ((a, b), (b, a)):
                 if near.startswith(r.code + ".") and (near, far) not in self.connections:
-                    yield "warning", path, f"{near} has no Connection to {far} yet"
+                    yield "warning", path, f"{near} has no entry to {far} yet"
+
+    def _check_joins(self, r: Region):
+        """Each edge within the region joins types its folder's join lines allow, and the
+        way into a gated type carries its gate."""
+        types = {c: n.props.get("type") for c, n in r.locations().items()}
+        ways = {(n.args[0], n.props.get("to")): n for n in r.files.get("Connections", []) if n.args}
+        for a, b in r.edges:
+            if a not in types or b not in types:
+                continue
+            for near, far in ((a, b), (b, a)):
+                to = r.folder.joins.get(types[near], (None, None))[0]
+                if to is not None and types[far] not in to:
+                    yield "error", r.diagram, (f"{near} ({types[near]}) connects to {far} ({types[far]}) - "
+                                               f"a {types[near]} connects only to {', '.join(sorted(to))}")
+                    break
+            for near, far in ((a, b), (b, a)):
+                gate = r.folder.joins.get(types[near], (None, None))[1]
+                way = ways.get((far, near))
+                if gate and way is not None and not any(c.name == gate for c in way.children):
+                    yield "error", r.dir / "Connections.md", (
+                        f"line {way.line}: the way from {far} into {near} ({types[near]}) carries no {gate}")
 
     # -- one location ---------------------------------------------------------
 

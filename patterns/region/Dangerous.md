@@ -5,7 +5,7 @@ One DANGEROUS region's overview, in two parts: the seed, the complex as its room
 from - its ways in, what every room shares, who lives there and what is changing; and the
 brief, written once the rooms exist, which indexes them for a referee running an excursion
 without opening a room. How many locations it holds, in what type mix, and how they
-connect is `templates/dangerous/Tables.md`'s and `templates/dangerous/Connections.mmd`'s;
+connect is `templates/region/Tables.md`'s and `templates/dangerous/Connections.mmd`'s;
 what one room holds is `patterns/Schema.md`'s.
 
 ## Spec

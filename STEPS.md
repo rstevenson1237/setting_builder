@@ -19,14 +19,14 @@ template's Context names what to read.
    - 3b. Create `setting/region/Connections.mmd`, following `templates/region/Connections.mmd`.
    - 3c. For each region, create its folder and its seed, `setting/region/[Code].md`, following `templates/region/Region.md`.
 4. Lay out the locations - structure, no content
-   - 4a. Create each region's `Locations.md`, following `templates/dangerous/Tables.md`.
-   - 4b. Create each region's `Connections.mmd`, following `templates/dangerous/Connections.mmd`.
-   - 4c. Create each region's other table files, every entry a stub, following `templates/dangerous/Tables.md`.
+   - 4a. Create each region's `Locations.md`, following `templates/region/Tables.md`.
+   - 4b. Create each DANGEROUS and WILD region's `Connections.mmd`, following `templates/dangerous/Connections.mmd` or `templates/wild/Connections.mmd`; a SAFE region has none, every location in it reached from the region itself.
+   - 4c. Create each region's other table files, every entry a stub, following `templates/region/Tables.md`.
 5. Layer the content - 5a to 5d repeat until a pass changes nothing; then 5e
-   - 5a. Seed: fill every stub, Purpose first, following `templates/dangerous/Tables.md`, and write every setting entry a table names, following `templates/setting/Bestiary.md`, `templates/setting/Factions.md`, `templates/setting/NamedCreatures.md`, `templates/setting/Lore.md`, `templates/setting/Keys.md`, `templates/setting/UniqueTreasures.md`, `templates/setting/MagicalTomes.md` and `templates/setting/Hoards.md`.
+   - 5a. Seed: fill every stub, Purpose first, following `templates/region/Tables.md`, and write every setting entry a table names, following `templates/setting/Bestiary.md`, `templates/setting/Factions.md`, `templates/setting/NamedCreatures.md`, `templates/setting/Lore.md`, `templates/setting/Keys.md`, `templates/setting/UniqueTreasures.md`, `templates/setting/MagicalTomes.md` and `templates/setting/Hoards.md`.
    - 5b. Write: every location whose write-up is missing or stale, following `templates/region/Location.md`, recording coinages in `setting/Language.md`, following `templates/setting/Language.md`.
    - 5c. Review: run `python3 tools/validate_setting.py` and `python3 tools/metrics.py`, then review this pass's write-ups in a fresh context, following `templates/checks/Location_Review.md`.
-   - 5d. Place: write `setting/Rumours.md` and `setting/Quests.md`, following `templates/setting/Rumours.md` and `templates/setting/Quests.md`; place locks, then keys for locks already placed, following `templates/dangerous/Tables.md`; and fill the Handles and Left lines the build now delivers, following `templates/setting/Truths.md` and `templates/setting/History.md`.
+   - 5d. Place: write `setting/Rumours.md` and `setting/Quests.md`, following `templates/setting/Rumours.md` and `templates/setting/Quests.md`; place locks, then keys for locks already placed, following `templates/region/Tables.md`; and fill the Handles and Left lines the build now delivers, following `templates/setting/Truths.md` and `templates/setting/History.md`.
    - 5e. Brief: write each region's `Brief.md`, following `templates/region/Brief.md`.
 6. Judge the build
    - 6a. Create or update `setting/checks/TemplateJudgementCheck.md`, following `templates/checks/Template_Judgement_Check.md`.

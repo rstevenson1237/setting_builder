@@ -101,6 +101,11 @@ node Connection {
   orientation gloss
   one-of Encounter Hazard Mystery Secret Lock opt
 }
+node Way {
+  to location
+  orientation gloss
+  one-of Secret opt
+}
 node Secret {
   trigger gloss
   tell gloss
@@ -122,8 +127,16 @@ folder Dangerous type=Dangerous_Type {
 }
 folder Safe type=Safe_Type {
   Locations Location
+  Dressing Dressing
+  rate Inn Merchant Bank Market Authority Dressing=1
 }
 folder Wild type=Wild_Type {
   Locations Location
+  Dressing Dressing
+  Connections Way
+  rate Landmark Route Hidden Secret Dressing=1
+  join Landmark Route Hidden Secret  // a type connects only to these within its region
+  join Hidden Landmark Route
+  join Secret Landmark Route gate=Secret  // and the Way into it carries a Secret
 }
 ```

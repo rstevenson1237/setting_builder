@@ -278,8 +278,8 @@ def report_mix() -> None:
         counts = {"connections": {}, "challenges": {}, "hazard damage": {}, "rewards": {}}
         for stem, entries in r.files.items():
             for n in entries:
-                if n.name == "Connection":
-                    k = counts["connections"]; v = n.props.get("type", "?")
+                if stem == "Connections":
+                    k = counts["connections"]; v = n.props.get("type", n.name)
                 elif stem == "Challenges":
                     k = counts["challenges"]; v = n.name
                     if n.name == "Hazard":

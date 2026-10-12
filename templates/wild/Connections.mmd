@@ -1,0 +1,30 @@
+# Connections.mmd - WILD
+
+## Purpose
+One WILD region's location graph, `setting/region/[Region Code]/Connections.mmd`: which
+locations connect, as trees grown from its Landmarks and Routes.
+
+## Context
+Read first:
+- `GENRE.md`
+- `BRIEF.md`
+- this region's seed, `setting/region/[Region Code].md` - its Approach and Terrain
+- this region's `Locations.md`
+- `setting/region/Connections.mmd` - the region edges a location here carries
+
+## Instructions
+- Every location is a node. A Landmark or a Route roots a tree; a Route may join any
+  number of locations, and Landmarks join one another only through a Route.
+- A Hidden or Secret location hangs from a Landmark or a Route. A Secret's way in is
+  gated, which `Connections.md` records.
+- An edge states only that two locations connect. What the way is belongs to
+  `Connections.md`.
+- A location in another region, reached by a region edge, is a node of its own.
+
+## Template
+```mermaid
+graph LR
+  A1["[Location Code] [Location Name]"]
+  A2["[Location Code] [Location Name]"]
+  A1 --- A2
+```

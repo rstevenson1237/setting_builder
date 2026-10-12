@@ -654,8 +654,9 @@ def check_summary_promises(diag: Diagnostics, path: Path, summary: str, lines: l
                         f"what the room contains, and the referee improvises an unkept one")
 
 
-def check_location_file(diag, path, region_code, num, stub, rating, all_locations,
+def check_location_file(diag, path, region_code, num, stub, connected, all_locations,
                          mundane_edges, hidden_edges, citations, conditions=None):
+    """connected: the region's folder holds Connections, so the write-up carries Exits."""
     text = path.read_text()
     lines = text.splitlines()
     if not lines or not lines[0].strip():
@@ -723,9 +724,12 @@ def check_location_file(diag, path, region_code, num, stub, rating, all_location
 
     if not features:
         diag.error(path, "no Feature lines found (expected at least one **Name:** line)")
-    if exits_line is None:
+    if exits_line is not None and not connected:
+        diag.error(path, "has an **Exits:** line, but its region has no Connections - every "
+                         "location is reached from the region itself")
+    elif exits_line is None and connected:
         diag.error(path, "missing **Exits:** line")
-    else:
+    elif exits_line is not None:
         src = f"{region_code}.{num}"
         body = exits_line[len("**Exits:**"):].strip()
         descs = [d.strip(" ,") for d in EXIT_DEST_RE.split(body)]
@@ -1560,7 +1564,9 @@ def main() -> int:
         for num, stub in locs.items():
             fpath = rdir / f"{num}.md"
             if fpath.exists():
-                check_location_file(diag, fpath, region_code, num, stub, regions[region_code]["rating"],
+                folder = setting.regions[region_code].folder
+                check_location_file(diag, fpath, region_code, num, stub,
+                                     folder is None or "Connections" in folder.files,
                                      all_locations, mundane_edges, hidden_edges, citations,
                                      conditions)
 
@@ -1584,7 +1590,9 @@ def main() -> int:
         check_repeated_features(diag, region_code)
     check_rumour_settling(diag)
 
-    for line in report_topology(regions, region_locs, region_edges):
+    connected = {c: i for c, i in regions.items()
+                 if (f := setting.regions[c].folder) is None or "Connections" in f.files}
+    for line in report_topology(connected, region_locs, region_edges):
         print(f"TOPOLOGY: {line}")
     if regions:
         print()
