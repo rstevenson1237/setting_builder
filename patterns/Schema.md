@@ -135,8 +135,8 @@ folder Wild type=Wild_Type {
   Dressing Dressing
   Connections Way
   rate Landmark Route Hidden Secret Dressing=1
-  join Landmark Route Hidden Secret  // a type connects only to these within its region
-  join Hidden Landmark Route
+  top Landmark Route  // reached from the region itself, so never joined to one another
+  join Hidden Landmark Route  // a type connects only to these within its region
   join Secret Landmark Route gate=Secret  // and the Way into it carries a Secret
 }
 ```

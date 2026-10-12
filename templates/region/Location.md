@@ -18,7 +18,7 @@ One location's write-up, `setting/region/[Region Code]/[Location Number].md`.
   elsewhere is written as what a party meets of it here.
 - Each thing a party can look at, act on, take, fight or open is its own Feature.
 - When entries change for a location already written, rewrite only the lines they touch.
-- A location in a region without Connections has no Exits line.
+- A location with no Connections entry has no Exits line.
 
 ## Template
 ```

@@ -1,8 +1,8 @@
 # Connections.mmd - WILD
 
 ## Purpose
-One WILD region's location graph, `setting/region/[Region Code]/Connections.mmd`: which
-locations connect, as trees grown from its Landmarks and Routes.
+One WILD region's location graph, `setting/region/[Region Code]/Connections.mmd`: the
+connections a party cannot reach from the region itself.
 
 ## Context
 Read first:
@@ -13,8 +13,8 @@ Read first:
 - `setting/region/Connections.mmd` - the region edges a location here carries
 
 ## Instructions
-- Every location is a node. A Landmark or a Route roots a tree; a Route may join any
-  number of locations, and Landmarks join one another only through a Route.
+- Every location is a node. Landmarks and Routes are reached from the region itself, so
+  no edge joins two of them.
 - A Hidden or Secret location hangs from a Landmark or a Route. A Secret's way in is
   gated, which `Connections.md` records.
 - An edge states only that two locations connect. What the way is belongs to

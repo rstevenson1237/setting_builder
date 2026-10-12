@@ -656,7 +656,7 @@ def check_summary_promises(diag: Diagnostics, path: Path, summary: str, lines: l
 
 def check_location_file(diag, path, region_code, num, stub, connected, all_locations,
                          mundane_edges, hidden_edges, citations, conditions=None):
-    """connected: the region's folder holds Connections, so the write-up carries Exits."""
+    """connected: the location has Connections entries, so its write-up carries Exits."""
     text = path.read_text()
     lines = text.splitlines()
     if not lines or not lines[0].strip():
@@ -725,8 +725,8 @@ def check_location_file(diag, path, region_code, num, stub, connected, all_locat
     if not features:
         diag.error(path, "no Feature lines found (expected at least one **Name:** line)")
     if exits_line is not None and not connected:
-        diag.error(path, "has an **Exits:** line, but its region has no Connections - every "
-                         "location is reached from the region itself")
+        diag.error(path, "has an **Exits:** line, but no Connections entry - it is reached "
+                         "from the region itself")
     elif exits_line is None and connected:
         diag.error(path, "missing **Exits:** line")
     elif exits_line is not None:
@@ -1376,11 +1376,13 @@ def check_top_level_files(diag: Diagnostics):
 # gives setting/checks/SettingJudgementCheck.md something factual to judge against.
 # ---------------------------------------------------------------------------
 
-def report_topology(regions: dict, region_locs: dict, region_edges: dict) -> list[str]:
+def report_topology(regions: dict, region_locs: dict, region_edges: dict, top: set) -> list[str]:
     out = []
     for code, info in regions.items():
         locs = region_locs.get(code, {})
         nodes = {f"{code}.{n}" for n in locs}
+        joined = {x for a, _t, _l, b in region_edges.get(code, []) if {a, b} <= nodes for x in (a, b)}
+        nodes -= top - joined
         if not nodes:
             continue
         adj = {n: set() for n in nodes}
@@ -1540,6 +1542,7 @@ def main() -> int:
     hidden_edges = {(n.args[0], n.props["to"]) for n in sides
                     if any(c.name == "Secret" for c in n.children)}
     mundane_edges = {(n.args[0], n.props["to"]) for n in sides} - hidden_edges
+    stated = {n.args[0] for n in sides}
 
     check_region_edge_realization(diag, top_path, top_edges, all_loc_edges, all_locations)
 
@@ -1564,9 +1567,8 @@ def main() -> int:
         for num, stub in locs.items():
             fpath = rdir / f"{num}.md"
             if fpath.exists():
-                folder = setting.regions[region_code].folder
                 check_location_file(diag, fpath, region_code, num, stub,
-                                     folder is None or "Connections" in folder.files,
+                                     f"{region_code}.{num}" in stated,
                                      all_locations, mundane_edges, hidden_edges, citations,
                                      conditions)
 
@@ -1590,9 +1592,11 @@ def main() -> int:
         check_repeated_features(diag, region_code)
     check_rumour_settling(diag)
 
-    connected = {c: i for c, i in regions.items()
-                 if (f := setting.regions[c].folder) is None or "Connections" in f.files}
-    for line in report_topology(connected, region_locs, region_edges):
+    # A location reached from the region itself is no part of the stated graph.
+    top = {c for r in setting.regions.values() for c, n in r.locations().items()
+           if r.folder is None or "Connections" not in r.folder.files
+           or n.props.get("type") in r.folder.top}
+    for line in report_topology(regions, region_locs, region_edges, top):
         print(f"TOPOLOGY: {line}")
     if regions:
         print()
