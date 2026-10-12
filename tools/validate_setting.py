@@ -1138,13 +1138,13 @@ def check_statblocks(diag: Diagnostics, path: Path, label: str, expect_special: 
 
 REGION_FIELDS = {
     "SAFE": ["Overview", "Approach", "People", "Services", "Law", "Situation"],
-    "WILD": ["Overview", "Approach", "Terrain", "Inhabitants", "Situation"],
-    "DANGEROUS": ["Overview", "Approach", "Conditions", "Inhabitants", "Situation"],
+    "WILD": ["Overview", "Approach", "Terrain", "Situation"],
+    "DANGEROUS": ["Overview", "Approach", "Conditions", "Situation"],
 }
 BRIEF_FIELDS = {
     "SAFE": ["Places", "Secrets", "Leads", "Tables"],
-    "WILD": ["Places", "Loot", "Secrets", "Leads", "Tables"],
-    "DANGEROUS": ["Places", "Alarm", "Loot", "Secrets", "Leads", "Tables"],
+    "WILD": ["Places", "Inhabitants", "Loot", "Secrets", "Leads", "Tables"],
+    "DANGEROUS": ["Places", "Inhabitants", "Alarm", "Loot", "Secrets", "Leads", "Tables"],
 }
 REGION_LABEL_RE = re.compile(r'^([A-Z][a-z]+):(?:\s|$)')
 
@@ -1159,6 +1159,24 @@ def check_region_overview(diag: Diagnostics, code: str, rating: str):
                             f"exists, and where a thing lies is the tables' and the brief's")
     brief = SETTING / "region" / code / "Brief.md"
     check_region_fields(diag, brief, BRIEF_FIELDS[rating], rating, "templates/region/Brief.md", 0)
+
+
+def check_inhabitants(diag: Diagnostics, setting):
+    """A brief's Inhabitants names every creature and faction its region's Encounters
+    hold. Matched loosely - a stem, so "wolves" keeps Wolf - and so a warning."""
+    for r in setting.regions.values():
+        brief = r.dir / "Brief.md"
+        if not brief.exists():
+            continue
+        m = re.search(r"^Inhabitants:(.*?)(?=^[A-Z][a-z]+:|\Z)", brief.read_text(), re.M | re.S)
+        if not m:
+            continue
+        text = m.group(1).lower()
+        names = {str(c.props[k]) for ns in r.files.values() for n in ns if n.name == "Encounter"
+                 for c in n.children for k in ("bestiary", "named", "faction") if k in c.props}
+        for name in sorted(names):
+            if name.lower()[:max(3, len(name) - 1)] not in text:
+                diag.warn(brief, f"Inhabitants does not name {name}, which an Encounter places here")
 
 
 def check_region_fields(diag: Diagnostics, path: Path, expected: list, rating: str,
@@ -1591,6 +1609,7 @@ def main() -> int:
         check_region_overview(diag, region_code, info["rating"])
         check_repeated_features(diag, region_code)
     check_rumour_settling(diag)
+    check_inhabitants(diag, setting)
 
     # A location reached from the region itself is no part of the stated graph.
     top = {c for r in setting.regions.values() for c, n in r.locations().items()

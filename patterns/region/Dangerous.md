@@ -13,24 +13,23 @@ what one room holds is `patterns/Schema.md`'s.
 ```
 DANGEROUS SEED
   1     Kind - decided once, here, and named in the Overview's first sentence   {KIND}
-  1     Overview - what a party sees at the way in, and what it comes for
+  1     Overview - what a party sees at the way in, who lives there, and what it
+        comes for
   1     Approach - every entrance: where it opens from, and who or what watches it
   1     Conditions - what every room is unless its own entry says otherwise: what it is
         built or cut from, ceiling height and passage width, light, what carries sound
         and what deadens it, footing, air, and what a lit fire does
-  1     Inhabitants - each occupant by setting/Bestiary.md or setting/Factions.md name:
-        how many, where in the complex, what they are doing now, what they want, and
-        what they do on meeting a party
-                      {fight | parley | flee | raise the alarm | ignore}
   1     Situation - what is changing inside, and the next two rungs: what each is, and
         what sets it off
 ```
 
 ```
 DANGEROUS BRIEF
-  1     Places - for a collection, every block: its rooms by code, its occupants as
-        placed and how many, its way in, what it holds worth the trip, and who it is at
-        odds with; for a single holding, the same for its notable rooms
+  1     Places - for a collection, every block: its rooms by code, its way in, what it
+        holds worth the trip, and who it is at odds with; for a single holding, the same
+        for its notable rooms
+  1     Inhabitants - one sentence: every creature and faction the Encounters hold,
+        how many, and where
   1     Alarm - what raises it, who hears it first, and who comes - how many, from
         which rooms, and how many turns later - in the order they arrive
   1     Loot - where the largest prize lies and what stands over it; which treasure

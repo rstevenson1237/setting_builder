@@ -17,10 +17,10 @@ Read first:
 Write the SEED block of this region's rating file, every field filled. Each rating has its
 own field set, shown below; write only this region's.
 
-People names the roster `BRIEF.md` sizes; Inhabitants names every occupant a party can
-meet.
+People names the roster `BRIEF.md` sizes. The Overview names who lives here, by
+`setting/Bestiary.md` or `setting/Factions.md` name; the tables place them.
 
-A field that holds several things - people, occupants - writes each as its own `- ` line
+A field that holds several things - people - writes each as its own `- ` line
 under the field's label. Every other field is prose, and short.
 
 No location exists yet: name no location code, and place nothing in a room.
@@ -51,9 +51,6 @@ Law: [SAFE]
 Terrain: [WILD]
 
 Conditions: [DANGEROUS]
-
-Inhabitants: [WILD, DANGEROUS]
-- [Bestiary or Factions name], [how many] - [where]; [doing]; [wants]; [on meeting a party]
 
 Situation: [...]
 ```

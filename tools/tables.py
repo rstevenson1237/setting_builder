@@ -111,6 +111,14 @@ class Schema:
         for name, f in self.folders.items():
             if f.type not in self.enums:
                 p(f"folder {name}: unknown type enum {f.type!r}")
+            # A group of the type enum names every item in it.
+            groups = {}
+            for item, g in self.enums.get(f.type, {}).items():
+                groups.setdefault(g, set()).add(item)
+            grow = lambda names: {x for n in names for x in groups.get(n, {n})}
+            f.rates = {i: r for item, r in f.rates.items() for i in grow([item])}
+            f.top = grow(f.top)
+            f.joins = {i: (grow(to), gate) for item, (to, gate) in f.joins.items() for i in grow([item])}
             for stem, nodes in f.files.items():
                 for n in nodes:
                     if n not in self.nodes:

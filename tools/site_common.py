@@ -461,7 +461,7 @@ def parse_regions_gazetteer() -> dict[str, dict]:
 # Every field of a region's seed and its brief, in the order they render.
 REGION_FIELD_LABELS = [
     "Overview", "Approach", "People", "Services", "Law", "Terrain", "Conditions",
-    "Inhabitants", "Situation", "Places", "Alarm", "Loot", "Secrets", "Leads",
+    "Situation", "Places", "Inhabitants", "Alarm", "Loot", "Secrets", "Leads",
 ]
 TABLE_HEAD_RE = re.compile(r"^d\d+\s+\S")
 

@@ -30,7 +30,9 @@ table Hoards entry file="setting/Hoards.md"
 
 enum Dangerous_Type High Medium Low
 enum Safe_Type Inn Merchant Bank Market Authority
-enum Wild_Type Landmark Route Hidden Secret
+enum Wild_Type Route Hidden Secret {
+  Landmark Lair Ruin Natural
+}
 enum Connection_Type Open Archway Broken Crude Wooden Banded Stone Iron
 enum Damage_Type Nuisance Damaging Lethal
 enum Mystery_Type Altar Statue Fountain Fresco Tapestry Throne "Button/Lever/Switch/Keyhole" Mirror Flooring
@@ -133,8 +135,10 @@ folder Safe type=Safe_Type {
 folder Wild type=Wild_Type {
   Locations Location
   Dressing Dressing
+  Challenges Encounter Hazard Mystery
   Connections Way
-  rate Landmark Route Hidden Secret Dressing=1
+  rate Lair Dressing=1 Challenges=1
+  rate Ruin Natural Route Hidden Secret Dressing=1 Challenges="0-1"
   top Landmark Route  // reached from the region itself, so never joined to one another
   join Hidden Landmark Route  // a type connects only to these within its region
   join Secret Landmark Route gate=Secret  // and the Way into it carries a Secret

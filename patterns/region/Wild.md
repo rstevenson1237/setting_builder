@@ -11,7 +11,8 @@ referee running a crossing without opening a location. What one location holds i
 
 ```
 WILD SEED
-  1     Overview - what a party sees crossing into it, and what brings anyone out here
+  1     Overview - what a party sees crossing into it, who is out here, and what brings
+        anyone out here
   1     Approach - where it is entered from, and how long a crossing takes by the best
         route and off it
   1     Terrain - the ground                                              {TERRAIN}
@@ -19,10 +20,6 @@ WILD SEED
         of it; what gets a party lost and what finds the way again; what weather,
         night and a lit fire each change - stated as rulings, per
         setting/Procedures.md's Time
-  1     Inhabitants - each beast, band or faction out here, by setting/Bestiary.md or
-        setting/Factions.md name: how many, where it ranges, what it is doing, and what
-        it does on meeting a party
-                            {hunting | watching | avoiding | following | trading}
   1     Situation - what is changing out here, and the next two rungs: what each is, and
         what sets it off
 ```
@@ -31,6 +28,8 @@ WILD SEED
 WILD BRIEF
   1     Places - every Landmark by code, one line each: what of it shows from a
         distance, and what a party goes there for
+  1     Inhabitants - one sentence: every creature and faction the Encounters hold,
+        how many, and where
   1     Loot - what is worth carrying home: forage and game by local name, with what the
         nearest SAFE region pays for each; and which treasure tables a find here draws on
   1     Secrets - each a fact the referee holds as true, and the entry that brings it
@@ -62,8 +61,8 @@ TERRAIN - one, or two in combination
 - **Never a secret without its answer.** The referee holds the truth even where the
   players never learn it.
 
-- **Game is Loot's, danger is Inhabitants'.** Anything dangerous enough to be an encounter
-  is cited from the Bestiary under Inhabitants, never listed as game.
+- **Game is Loot's, danger is an Encounter's.** Anything dangerous enough to be met is an
+  Encounter in the tables, never listed as game.
 
 - **Never write terrain as a location.** A slope, a brook, a field is what the region looks
   like, and belongs in Terrain; a location is somewhere that can be named, revisited and

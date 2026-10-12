@@ -69,7 +69,7 @@ AD BAND - exactly one, then the count within it
 
 - **Ordinary wildlife is region texture, not a Bestiary entry.** What a country typically
   holds - game, birds, the snake underfoot - belongs to a WILD region's Loot and
-  Inhabitants fields. A Beast earns an entry here only by being an unusual combatant a
+  Terrain fields. A Beast earns an entry here only by being an unusual combatant a
   location will actually draw.
 
 

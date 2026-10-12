@@ -19,7 +19,8 @@ Write the BRIEF block of this region's rating file, every field filled, from the
 alone. Each rating has its own field set, shown below; write only this region's.
 
 Every fact about a location names it by code; a count is summed from the
-entries. A fact no entry holds is a placement for step 5d, not a line here. Nothing the
+entries. Inhabitants is one sentence naming every creature and faction the region's
+Encounters hold, how many, and where. A fact no entry holds is a placement for step 5d, not a line here. Nothing the
 seed says is repeated.
 
 A field that holds several things - places, secrets, leads - writes each as its own `- `
@@ -30,6 +31,8 @@ holds two d6 tables.
 ```
 Places:
 - [Code or codes] [Name] - [...]
+
+Inhabitants: [WILD, DANGEROUS]
 
 Alarm: [DANGEROUS]
 
