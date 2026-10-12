@@ -1,4 +1,4 @@
-Tongues of [Setting Name]
+Tongues of Roadend
 
 ## Common
 Spoken by: present - the keep, the road behind it, and the realm the road comes from.
@@ -54,6 +54,8 @@ Roots:
 - bruz - iron, anything taken from the road
 
 Coined here:
+- Gronab = gro- + nab - the goblin chief, C.5
+- Bruzshub = bruz + shub - the chief's hoard, C.5
 
 ## Carved Speech
 Spoken by: departed - whoever cut the cave the goblins live in. It survives only carved into
@@ -82,3 +84,4 @@ Roots:
 - tho - a shaft, a way down
 
 Coined here:
+- Thono = tho + -no - the shaft-place, C.6
