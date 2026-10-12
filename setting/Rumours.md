@@ -2,7 +2,7 @@ Rumours of Roadend
 
 | # | Rumour | T/P/F/U | Settled at |
 |---|--------|-------|------------|
-| 1 | There are a hundred goblins in the cave. | P | C.2, C.5 - the count is the false half: there are about thirty |
+| 1 | There are a hundred goblins in the cave. | P | C.2, C.5 - the count is the false half: there are ten to fourteen and their chief |
 | 2 | The cave was cut long before the goblins, and its walls are covered with carvings. | T | C.6, C.2 |
 | 3 | Wolves strip the wagons, not goblins; the boards left on the road are gnawed. | F | C.4, B.2 - the boards are goblin-stripped and carried to the cave |
 | 4 | The goblins take a wagon to its last board and carry every piece into the cave. | T | C.4, C.1 |
