@@ -1,7 +1,15 @@
 # Region Schema
 
 The nodes every rating's tables share. Each rating's schema adds its own, and may define a
-node of the same name to mean what that rating needs.
+node of the same name to mean what that rating needs. Each rating's `folder` also holds its
+`seed`, `setting/region/[Code].md`, written before any location exists and naming none,
+and its `brief`, `setting/region/[Code]/Brief.md`, written from the tables alone.
+
+Every seed and brief sentence carries something usable at the table - a name, count,
+price, place, distance or ruling; why a place exists or how it feels is cut, and nothing
+is said twice. A secret always carries its answer. A Situation is true whether or not the
+party engages: what is changing, then two rungs, each with what sets it off. Places is an
+index, never a description. A list field writes each item as its own `- ` line.
 
 ```kdl
 node Location {

@@ -7,6 +7,7 @@ tracks.
 enum Wild_Type Route Hidden Secret {
   Landmark Lair Ruin Natural
 }
+enum Terrain hills mountains plains forest swamp desert jungle coast   // one, or two in combination
 enum Hazard_Type {
   Ground "Rockfall/Slide" "Bog/Quicksand" "Cliff/Climb" Thorns
   Water Ford Flood "Thin Ice"
@@ -44,5 +45,22 @@ folder Wild type=Wild_Type {
   top Landmark Route  // reached from the region itself, so never joined to one another
   join Hidden Landmark Route  // a type connects only to these within its region
   join Secret Landmark Route gate=Secret  // and the Way into it carries a Secret
+  seed {
+    Overview text           // what a party sees crossing in, who is out here, what brings anyone
+    Approach text           // where it is entered, and how long a crossing takes on the best route and off it
+    Terrain Terrain         // then rulings per setting/Procedures.md's Time: what an action buys on a road,
+                            // off it, through the worst; what loses a party and finds the way; weather,
+                            // night, a fire. Ground is never a location.
+    Situation text
+  }
+  brief {
+    Places text             // every Landmark: what shows from a distance, what a party goes for
+    Inhabitants text        // one sentence: every creature and faction the Encounters hold, how many, where
+    Loot text               // forage and game by local name, what the nearest SAFE region pays; treasure
+                            // tables. Anything dangerous enough to meet is an Encounter, never game.
+    Secrets text
+    Leads text
+    Tables text             // d6 Encounter per failed Difficulty roll; d6 things met between Landmarks
+  }
 }
 ```

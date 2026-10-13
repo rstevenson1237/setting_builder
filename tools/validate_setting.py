@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-"""Structural validator for patterns/*/*.md and setting/ content.
+"""Structural validator for the framework's read-set and setting/ content.
 
-Two independent checks: patterns/*/*.md's own citation format and Constraints
-heading (runs unconditionally, regardless of what setting/ holds), and
-generated content against the formats in templates/, the location graphs in
-Connections.mmd files, and the cross-file registry constraints described in
-STEPS.md (Lore/Keys/NamedCreatures/UniqueTreasures).
+Two independent checks: that every step, template and schema STEPS.md names
+resolves (runs unconditionally, regardless of what setting/ holds), and the
+generated content against patterns/*_Schema.md and the formats in templates/,
+the location graphs in Connections.mmd files, and the cross-file registry
+constraints (Lore/Keys/NamedCreatures/UniqueTreasures).
 
 This is a structural linter, not a genre/content reviewer - it cannot judge
 whether a Feature reads as "situations not authored plots" or whether magic
@@ -84,206 +84,17 @@ def index_to_code(i: int) -> str:
 
 
 # ---------------------------------------------------------------------------
-# patterns/*/*.md - citation format and Constraints heading
+# The read-set: STEPS.md -> templates/ -> patterns/*_Schema.md
 #
-# Independent of setting/ content: this runs unconditionally, even on a fresh
-# checkout with nothing generated yet. Citation grammar, decided when this
-# check was added: a reference to another patterns/ file inside region/,
-# safe/, wild/, or dangerous/ is always written bare as "folder/File.md" -
-# never with a "patterns/" prefix, never bare of its folder - since none of
-# those four folders share a filename with anything under setting/. "setting"
-# stays listed so a stale patterns/setting/ citation is caught; a bare
-# "setting/File.md" is the generated content file and is not checked here.
-# ---------------------------------------------------------------------------
-
-PATTERN_FOLDERS = ("setting", "region", "safe", "wild", "dangerous")
-# The one pattern file outside the folders: the tree's root.
-PATTERN_ROOT_KEY = "Genre.md"
-PATTERN_ROOT = PATTERNS / PATTERN_ROOT_KEY
-# The lookbehind keeps this from misreading the tail of a longer, correct
-# content path like "setting/region/Regions.md" as a bare two-segment
-# "region/Regions.md" pattern citation - a real bug caught in this check's
-# own first draft.
-PATTERN_CITE_RE = re.compile(
-    r'(?<!/)\b(patterns/)?(' + '|'.join(PATTERN_FOLDERS) + r')/([A-Za-z]+\.md)\b'
-)
-BARE_KIND_ARROW_RE = re.compile(r'->\s*([A-Z][A-Za-z]*\.md)\b')
-
-
-def check_pattern_files(diag: Diagnostics):
-    if not PATTERNS.exists():
-        return
-    pattern_files = sorted(p for p in PATTERNS.glob("*/*.md") if p.name != ".gitkeep")
-    known = {p.relative_to(PATTERNS).as_posix() for p in pattern_files}
-    if PATTERN_ROOT.exists():
-        pattern_files.append(PATTERN_ROOT)
-    else:
-        diag.warn(PATTERN_ROOT, "missing - the pattern tree has no root, so reachability is "
-                                "walked from the generation templates alone")
-    for path in pattern_files:
-        text = path.read_text()
-        rel_key = path.relative_to(PATTERNS).as_posix()
-        if "## Constraints" not in text:
-            diag.error(path, "missing a '## Constraints' section - every patterns/*/*.md "
-                              "file ends with one, even if its body is still empty")
-        for m in PATTERN_CITE_RE.finditer(text):
-            prefixed, folder, fname = m.groups()
-            target = f"{folder}/{fname}"
-            if target == rel_key:
-                continue
-            if folder == "setting":
-                if not prefixed:
-                    continue  # bare setting/X.md is a content reference, not a pattern citation
-                if target not in known:
-                    diag.error(path, f"cites patterns/{target}, which does not exist")
-            else:
-                if prefixed:
-                    diag.error(path, f"cites patterns/{target} - citations to {folder}/ pattern "
-                                      f"files are written bare, without the 'patterns/' prefix")
-                    continue
-                if target not in known:
-                    diag.error(path, f"cites {target}, which does not exist")
-        for m in BARE_KIND_ARROW_RE.finditer(text):
-            diag.error(path, f"'-> {m.group(1)}' names a file with no folder - "
-                              f"every citation states which patterns/ folder it points to")
-        check_pattern_sections(diag, path, text)
-        check_block_draws(diag, path, text)
-        check_rate_notation(diag, path, text)
-
-
-# ---------------------------------------------------------------------------
-# patterns/*/*.md - section structure, per templates/checks/Pattern_Judgement_Check.md
-# ---------------------------------------------------------------------------
-
-
-# A draw names a closed set: inline, {a | b | c}, or - when long or defined -
-# by a block name in capitals, {TYPE}, listed as its own fenced block of that
-# name further down the same Spec. The name has to resolve, or the generator
-# is sent looking for a menu that is not there.
-BLOCK_DRAW_RE = re.compile(r'\{([A-Z][A-Z0-9 ]*)\}')
-
-
-def spec_blocks(text: str) -> dict[str, list[str]]:
-    """Every fenced block in a pattern file's Spec, keyed by its header's name."""
-    m = re.search(r'\n## Spec\n(.*?)(?=\n## Constraints\n|\Z)', text, re.S)
-    out: dict[str, list[str]] = {}
-    for fenced in re.findall(r'```\n?(.*?)```', m.group(1) if m else "", re.S):
-        lines = fenced.strip("\n").splitlines()
-        if lines:
-            out[lines[0].split(" - ")[0].strip()] = lines[1:]
-    return out
-
-
-# A Spec line's rate is `1` or `*`. Anything else in
-# the rate column - `2`, `3-6`, `15+`, `20%` - is read by this validator as a
-# continuation of the line above, so the line it
-# opens silently merges into its neighbour.
-ODD_RATE_RE = re.compile(r'^ {2}(\d+(?:-\d+|\+|%)?)\s{2,}\S')
-
-
-def check_rate_notation(diag: Diagnostics, path, text: str):
-    blocks = spec_blocks(text)
-    drawn = {n for body in blocks.values() for n in BLOCK_DRAW_RE.findall("\n".join(body))}
-    for name, body in blocks.items():
-        if name in drawn:
-            continue    # a draw block's items are values, not rated lines
-        for line in body:
-            m = ODD_RATE_RE.match(line)
-            if m and m.group(1) != "1":
-                diag.warn(path, f"Spec line rated {m.group(1)!r} - a pattern Spec allows `1` "
-                                f"or `*`, and the tools read this line as a "
-                                f"continuation of the one above it: {line.strip()[:60]!r}")
-
-
-def check_block_draws(diag: Diagnostics, path, text: str):
-    blocks = spec_blocks(text)
-    for body in blocks.values():
-        for name in BLOCK_DRAW_RE.findall("\n".join(body)):
-            if name not in blocks:
-                diag.error(path, f"draws {{{name}}}, but its Spec has no fenced block "
-                                 f"headed {name} to draw from")
-
-
-def check_pattern_sections(diag: Diagnostics, path, text: str):
-    has = lambda h: f"\n## {h}\n" in text or text.startswith(f"## {h}\n")
-    for required in ("Provides", "Spec"):
-        if not has(required):
-            diag.error(path, f"missing a '## {required}' section - every patterns/*/*.md "
-                              f"file carries one")
-
-
-# A logical Spec line opens with its rate in the left margin and runs until the
-# next one does - continuation lines are indented further, and a citation list
-# routinely wraps onto them. Grouping physically would split every wrapped draw
-# away from the rate that governs it.
-SPEC_RATE_RE = re.compile(r'^ {2}(1|\*)\s')
-
-
-def spec_edges(text: str, rel: str):
-    """Pattern files this file's Spec fenced blocks draw."""
-    m = re.search(r'\n## Spec\n(.*?)(?=\n## Constraints\n)', text, re.S)
-    if not m:
-        return set()
-    out = set()
-    for fenced in re.findall(r'```(.*?)```', m.group(1), re.S):
-        logical, cur = [], None
-        for phys in fenced.splitlines():
-            if SPEC_RATE_RE.match(phys):
-                if cur:
-                    logical.append(cur)
-                cur = [phys]
-            elif cur is not None:
-                cur.append(phys)
-        if cur:
-            logical.append(cur)
-        for chunk in logical:
-            line = "\n".join(chunk)
-            out |= {f"{folder}/{fname}"
-                    for prefixed, folder, fname in PATTERN_CITE_RE.findall(line)
-                    if f"{folder}/{fname}" != rel
-                    and not (folder == "setting" and not prefixed)}
-    return out
-
-
-# ---------------------------------------------------------------------------
-# The read-set graph: STEPS.md -> templates/ -> patterns/
-#
-# One direction, no back-pointers. A STEPS.md step names its template(s); a
-# template names every pattern file a regeneration of its artifact requires;
-# a pattern file's Spec names what it draws. Every edge is recorded in
-# exactly one place, which is the property that keeps the graph in sync -
-# a pattern file declaring which step reads it is a second copy of an edge
-# the step and template already own, and a second copy is what drifts.
-#
-# Reachability is what this buys: a pattern file no generation template can
-# reach is never read, so the content it describes is never generated. That
-# is silent under-generation rather than a malformed file, so it warns here
-# and is judged at STEPS.md step 6b, per templates/checks/Pattern_Judgement_Check.md.
-#
-# A review template (5c and phase 6) is a review pass, and the pattern files it names are
-# examples of what to review rather than inputs to a generation. They are
-# excluded from the root set so an orphan cannot be masked by being cited as
-# an example.
+# A step names its template(s), and a template names the schemas and steps it
+# reads; each is recorded once, so every name must resolve. A review step (5c
+# and phase 6) reads what it judges rather than what it generates from.
 # ---------------------------------------------------------------------------
 
 TEMPLATES = ROOT / "templates"
-# A template is cited by its path under templates/, folder included
-# (templates/region/Location.md), mirroring the folders of patterns/.
+# A template is cited by its path under templates/, folder included.
 TEMPLATE_CITE_RE = re.compile(r'\btemplates/((?:[a-z]+/)?[A-Za-z_]+\.(?:md|mmd))\b')
-# A template's pattern citations are always fully qualified - "patterns/" plus
-# folder plus file. The elided form ("patterns/region/Safe.md, Wild.md") reads
-# fine but hides an edge, so the graph requires the long form and the orphan
-# warning is what surfaces an elision that dropped a file off the graph.
-TEMPLATE_PATTERN_CITE_RE = re.compile(
-    r'\bpatterns/(' + '|'.join(PATTERN_FOLDERS) + r')/([A-Za-z]+\.md)\b'
-)
-# The bare form is how one pattern file cites another (Pattern_Judgement_Check.md's
-# citation grammar) and it is wrong in a template, where it drops the edge off
-# the graph silently. "setting/" is excluded because a bare setting/X.md in a
-# template is a reference to the generated content file of that name.
-TEMPLATE_BARE_CITE_RE = re.compile(
-    r'(?<!/)\b(' + '|'.join(f for f in PATTERN_FOLDERS if f != "setting") + r')/([A-Za-z]+\.md)\b'
-)
+SCHEMA_CITE_RE = re.compile(r'\bpatterns/([A-Za-z_\[\]]+\.md)\b')
 TEMPLATE_STEP_CITE_RE = re.compile(r'\b[Ss]tep\s+([1-9][0-9]*[a-z])\b')
 STEP_BODY_RE = re.compile(r'^\s*-\s+([1-9][0-9]*[a-z])\.(.*?)(?=\n\s*-\s+[1-9][0-9]*[a-z]\.|\n[1-9]\.|\Z)',
                           re.S | re.M)
@@ -296,165 +107,57 @@ def step_bodies() -> dict[str, str]:
     return {m.group(1): m.group(2) for m in STEP_BODY_RE.finditer(STEPS_MD.read_text())}
 
 
-def spec_closure(entries: set, pattern_files: set) -> set:
-    """Every pattern file reachable from these entry points by Spec edges."""
-    reach, stack = set(entries), sorted(entries)
-    while stack:
-        cur = stack.pop()
-        for target in spec_edges((PATTERNS / cur).read_text(), cur):
-            if target in pattern_files and target not in reach:
-                reach.add(target)
-                stack.append(target)
-    return reach
-
-
 def is_review(sid: str) -> bool:
     return sid == "5c" or sid[0] == "6"
 
 
-def read_set_graph():
-    """STEPS.md -> templates -> pattern entry points -> Spec closure.
-
-    Returns a dict of the whole graph so callers can report any layer of it:
-    step_templates, template_roots, roots (generation only), reach, orphans.
-    """
-    bodies = step_bodies()
-    step_templates = {sid: set(TEMPLATE_CITE_RE.findall(body)) for sid, body in bodies.items()}
-
-    pattern_files = ({p.relative_to(PATTERNS).as_posix() for p in PATTERNS.glob("*/*.md")}
-                     if PATTERNS.exists() else set())
-    template_roots: dict[str, set] = {}
-    for name in sorted({t for ts in step_templates.values() for t in ts}):
-        path = TEMPLATES / name
-        if not path.exists():
-            continue
-        template_roots[name] = {f"{folder}/{fname}"
-                                for folder, fname in TEMPLATE_PATTERN_CITE_RE.findall(path.read_text())
-                                if f"{folder}/{fname}" in pattern_files}
-
-    # Roots come from generation steps only - 5c and phase 6 are review.
-    roots: set = set()
-    for sid, names in step_templates.items():
-        if is_review(sid):
-            continue
-        for name in names:
-            roots |= template_roots.get(name, set())
-
-    reach = spec_closure(roots, pattern_files)
-    # The tree's own root reaches what a build is *meant* to generate; the
-    # templates reach what it actually enters. A file missing from the first
-    # is outside the tree, one missing from the second is never generated.
-    tree = (spec_closure({PATTERN_ROOT_KEY}, pattern_files | {PATTERN_ROOT_KEY})
-            - {PATTERN_ROOT_KEY}) if PATTERN_ROOT.exists() else set(pattern_files)
-    return dict(step_templates=step_templates, template_roots=template_roots,
-                pattern_files=pattern_files, roots=roots, reach=reach,
-                orphans=pattern_files - reach, outside_tree=pattern_files - tree)
+def read_set() -> dict[str, tuple[set, set]]:
+    """Per step, the templates it names and the schemas those templates name."""
+    out = {}
+    for sid, body in step_bodies().items():
+        names = set(TEMPLATE_CITE_RE.findall(body))
+        schemas = {f for n in names if (TEMPLATES / n).exists()
+                   for f in SCHEMA_CITE_RE.findall((TEMPLATES / n).read_text())}
+        out[sid] = (names, schemas)
+    return out
 
 
-def check_read_set_graph(diag: Diagnostics):
-    if not PATTERNS.exists() or not STEPS_MD.exists():
+def check_read_set(diag: Diagnostics):
+    if not STEPS_MD.exists():
         return
-    g = read_set_graph()
-    bodies = step_bodies()
-    for sid, names in sorted(g["step_templates"].items()):
-        if not names:
-            if bodies.get(sid, "").strip().lower().startswith("retired"):
-                continue
-            diag.warn(STEPS_MD, f"step {sid} names no template - a step's template is what "
-                                f"names the pattern files the step reads")
+    bodies, steps = step_bodies(), read_set()
+    for sid, (names, _) in sorted(steps.items()):
+        if not names and not bodies.get(sid, "").strip().lower().startswith("retired"):
+            diag.warn(STEPS_MD, f"step {sid} names no template")
         for name in sorted(names):
             if not (TEMPLATES / name).exists():
                 diag.error(STEPS_MD, f"step {sid} names templates/{name}, which does not exist")
-    for name in sorted({n for ns in g["step_templates"].values() for n in ns}):
+    for name in sorted({n for ns, _ in steps.values() for n in ns}):
         path = TEMPLATES / name
         if not path.exists():
             continue
         text = path.read_text()
-        for folder, fname in sorted(set(TEMPLATE_BARE_CITE_RE.findall(text))):
-            if f"{folder}/{fname}" in g["pattern_files"]:
-                diag.error(path, f"cites {folder}/{fname} bare - a template writes a pattern "
-                                 f"citation as patterns/{folder}/{fname}, since the bare form "
-                                 f"drops the edge off the read-set graph")
-    known = set(g["step_templates"])
-    for name in sorted({n for ns in g["step_templates"].values() for n in ns}):
-        path = TEMPLATES / name
-        if not path.exists():
-            continue
-        for sid in sorted(set(TEMPLATE_STEP_CITE_RE.findall(path.read_text())) - known):
+        for sid in sorted(set(TEMPLATE_STEP_CITE_RE.findall(text)) - set(steps)):
             diag.error(path, f"cites step {sid}, which STEPS.md does not define")
-    for stray in sorted(g["outside_tree"]):
-        diag.warn(PATTERNS / stray, "patterns/Genre.md cannot reach this file - it is outside "
-                                    "the tree, whatever a template says about it. Judged at "
-                                    "STEPS.md step 6b")
-    for orphan in sorted(g["orphans"]):
-        diag.warn(PATTERNS / orphan, "no generation template reaches this file - nothing reads "
-                                     "it, so the content it describes is never generated. "
-                                     "Judged at STEPS.md step 6b")
+        for f in sorted(set(SCHEMA_CITE_RE.findall(text))):
+            if "[" not in f and not (PATTERNS / f).exists():
+                diag.error(path, f"cites patterns/{f}, which does not exist")
 
 
 def report_read_set(step_filter: str | None) -> int:
-    """The read-set for each generation step, walked from its template(s)."""
-    g = read_set_graph()
-    if not g["step_templates"]:
+    """The templates and schemas each step reads."""
+    steps = read_set()
+    if not steps:
         print("STEPS.md defines no steps - nothing to report.")
         return 0
-    for sid, names in sorted(g["step_templates"].items()):
+    for sid, (names, schemas) in sorted(steps.items()):
         if step_filter and sid != step_filter:
             continue
-        entries: set = set()
-        for name in names:
-            entries |= g["template_roots"].get(name, set())
-        closure = spec_closure(entries, g["pattern_files"])
         print(f"{sid}{'  (review pass)' if is_review(sid) else ''}")
         print(f"  templates : {', '.join(sorted(names)) or '(none)'}")
-        print(f"  entries   : {', '.join(sorted(entries)) or '(none)'}")
-        expanded = sorted(closure - entries)
-        print(f"  expanded  : {', '.join(expanded) if expanded else '(none)'}")
+        print(f"  schemas   : {', '.join(sorted(schemas)) or '(none)'}")
         print()
-    print(f"{len(g['reach'])}/{len(g['pattern_files'])} pattern files reachable from "
-          f"generation templates; {len(g['orphans'])} orphan(s); "
-          f"{len(g['outside_tree'])} outside patterns/Genre.md's tree")
     return 0
-
-
-# ---------------------------------------------------------------------------
-# patterns/*/*.md - the same sentence in three or more files: a rule restated
-# rather than cited. A warning, since parallel structure is judged by a person.
-# ---------------------------------------------------------------------------
-
-DUP_MIN_WORDS = 9
-DUP_MIN_FILES = 3
-
-
-def _normalise_sentence(s: str) -> str:
-    s = re.sub(r'`[^`]*`', 'X', s)          # a cited filename is not the prose
-    s = re.sub(r'[^a-z ]', ' ', s.lower())
-    return " ".join(s.split())
-
-
-def check_repeated_prose(diag: Diagnostics):
-    if not PATTERNS.exists():
-        return
-    seen: dict[str, set] = {}
-    original: dict[str, str] = {}
-    for path in sorted(PATTERNS.glob("*/*.md")):
-        rel = path.relative_to(PATTERNS).as_posix()
-        text = re.sub(r'```.*?```', '', path.read_text(), flags=re.S)
-        for raw in re.split(r'(?<=[.!?])\s+', text):
-            raw = " ".join(raw.split())
-            if len(raw.split()) < DUP_MIN_WORDS:
-                continue
-            key = _normalise_sentence(raw)
-            if not key:
-                continue
-            seen.setdefault(key, set()).add(rel)
-            original.setdefault(key, raw)
-    for key, files in sorted(seen.items()):
-        if len(files) >= DUP_MIN_FILES:
-            diag.warn(PATTERNS, f"the same sentence appears in {len(files)} files "
-                                f"({', '.join(sorted(files))}): {original[key][:90]!r} - "
-                                f"prose points to where a rule lives rather than "
-                                f"restating it")
 
 
 # ---------------------------------------------------------------------------
@@ -981,34 +684,26 @@ def check_statblocks(diag: Diagnostics, path: Path, label: str, expect_special: 
 # ---------------------------------------------------------------------------
 # A region's seed, setting/region/[Code].md, and its brief, setting/region/[Code]/Brief.md
 #
-# Each field set is patterns/region/*.md's SEED or BRIEF block; the order is the
-# template's. A field from the other part, another rating's set, or one retired, is an
+# Each field set is a rating schema's seed or brief, in its order. A field from the other part, another rating's set, or one retired, is an
 # error because the site renders only the labels it knows and would drop it.
 # ---------------------------------------------------------------------------
 
-REGION_FIELDS = {
-    "SAFE": ["Overview", "Approach", "People", "Services", "Law", "Situation"],
-    "WILD": ["Overview", "Approach", "Terrain", "Situation"],
-    "DANGEROUS": ["Overview", "Approach", "Conditions", "Situation"],
-}
-BRIEF_FIELDS = {
-    "SAFE": ["Places", "Secrets", "Leads", "Tables"],
-    "WILD": ["Places", "Inhabitants", "Loot", "Secrets", "Leads", "Tables"],
-    "DANGEROUS": ["Places", "Inhabitants", "Alarm", "Loot", "Secrets", "Leads", "Tables"],
-}
 REGION_LABEL_RE = re.compile(r'^([A-Z][a-z]+):(?:\s|$)')
 
 
-def check_region_overview(diag: Diagnostics, code: str, rating: str):
+def check_region_overview(diag: Diagnostics, code: str, folder):
+    """A region's seed and brief against its rating schema's seed and brief fields."""
+    if folder is None:
+        return
     seed = SETTING / "region" / f"{code}.md"
-    check_region_fields(diag, seed, REGION_FIELDS[rating], rating, "templates/region/Region.md", 1)
+    check_region_fields(diag, seed, folder.seed, folder, 1)
     if seed.exists():
         codes = sorted(set(re.findall(rf"\b{code}\.\d+\b", seed.read_text())))
         if codes:
             diag.warn(seed, f"names {', '.join(codes)} - a seed is written before any location "
                             f"exists, and where a thing lies is the tables' and the brief's")
     brief = SETTING / "region" / code / "Brief.md"
-    check_region_fields(diag, brief, BRIEF_FIELDS[rating], rating, "templates/region/Brief.md", 0)
+    check_region_fields(diag, brief, folder.brief, folder, 0)
 
 
 def check_inhabitants(diag: Diagnostics, setting):
@@ -1029,39 +724,45 @@ def check_inhabitants(diag: Diagnostics, setting):
                 diag.warn(brief, f"Inhabitants does not name {name}, which an Encounter places here")
 
 
-def check_region_fields(diag: Diagnostics, path: Path, expected: list, rating: str,
-                        template: str, skip: int):
+def check_region_fields(diag: Diagnostics, path: Path, fields: list, folder, skip: int):
     if not path.exists():
         diag.warn(path, "missing - not built yet")
         return
     lines = path.read_text().splitlines()
-    labels = [m.group(1) for m in map(REGION_LABEL_RE.match, lines[skip:]) if m]
+    expected = [m.name for m in fields]
+    found = [(m.group(1), l[m.end():].strip()) for l in lines[skip:] if (m := REGION_LABEL_RE.match(l))]
+    labels = [k for k, _ in found]
     for label in labels:
         if label not in expected:
-            diag.error(path, f"field {label!r} is not in this {rating} file's set "
-                             f"({', '.join(expected)}), per patterns/region/")
+            diag.error(path, f"field {label!r} is not one of {', '.join(expected)}, "
+                             f"per {folder.path.name}")
     missing = [f for f in expected if f not in labels]
     if missing:
         diag.error(path, f"missing field(s): {', '.join(missing)}")
     present = [l for l in labels if l in expected]
     if present != [f for f in expected if f in present]:
-        diag.warn(path, f"fields out of {template}'s order: {', '.join(present)}")
+        diag.warn(path, f"fields out of {folder.path.name}'s order: {', '.join(present)}")
+    for m in fields:
+        for k, v in found:
+            if k == m.name and v and m.type in folder.enums:
+                for msg in tables.check_field(None, m, v, set(), folder.enums):
+                    diag.error(path, f"{k}: {msg}")
     if "Tables" in labels:
         start = next(i for i, l in enumerate(lines) if l.startswith("Tables:"))
-        tables, rows = 0, []
+        found_tables, rows = 0, []
         for raw in lines[start + 1:]:
             line = raw.strip()
             if re.match(r'^d\d+\s', line) and not re.match(r'^\d+[.)]', line):
-                if tables:
+                if found_tables:
                     rows.append(count)
-                tables, count = tables + 1, 0
-            elif re.match(r'^\d+[.)]\s', line) and tables:
+                found_tables, count = found_tables + 1, 0
+            elif re.match(r'^\d+[.)]\s', line) and found_tables:
                 count += 1
-        if tables:
+        if found_tables:
             rows.append(count)
-        if tables != 2:
-            diag.error(path, f"Tables holds {tables} table(s) opened by a `d6 ...` line - "
-                             f"{template} asks for two")
+        if found_tables != 2:
+            diag.error(path, f"Tables holds {found_tables} table(s) opened by a `d6 ...` line - "
+                             f"{folder.path.name} asks for two")
         for i, n in enumerate(rows, 1):
             if n != 6:
                 diag.error(path, f"table {i} has {n} rows - a d6 table has six")
@@ -1361,9 +1062,7 @@ def report_location(code: str) -> int:
 
 def main() -> int:
     diag = Diagnostics()
-    check_pattern_files(diag)
-    check_read_set_graph(diag)
-    check_repeated_prose(diag)
+    check_read_set(diag)
     schema = tables.Schema()
     for path, problem in schema.problems:
         diag.error(path, problem)
@@ -1461,7 +1160,7 @@ def main() -> int:
     check_statblocks(diag, SETTING / "Bestiary.md", "Bestiary", expect_special=True)
     check_statblocks(diag, SETTING / "NamedCreatures.md", "Named Creature", expect_special=True)
     for region_code, info in regions.items():
-        check_region_overview(diag, region_code, info["rating"])
+        check_region_overview(diag, region_code, setting.regions[region_code].folder)
         check_repeated_features(diag, region_code)
     check_rumour_settling(diag)
     check_inhabitants(diag, setting)

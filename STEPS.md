@@ -30,5 +30,5 @@ template's Context names what to read.
    - 5e. Brief: write each region's `Brief.md`, following `templates/region/Brief.md`.
 6. Judge the build
    - 6a. Create or update `setting/checks/TemplateJudgementCheck.md`, following `templates/checks/Template_Judgement_Check.md`.
-   - 6b. Create or update `setting/checks/PatternJudgementCheck.md`, following `templates/checks/Pattern_Judgement_Check.md`, after 6c, starting from 6c's findings traced to a pattern.
+   - 6b. Create or update `setting/checks/SchemaJudgementCheck.md`, following `templates/checks/Schema_Judgement_Check.md`, after 6c, starting from 6c's findings traced to a schema.
    - 6c. Create or update `setting/checks/SettingJudgementCheck.md`, following `templates/checks/Setting_Judgement_Check.md`.

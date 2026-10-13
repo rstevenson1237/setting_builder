@@ -70,7 +70,7 @@ class Region:
     die: str
     tags: str
     gazetteer_blurb: str
-    fields: list[tuple[str, str]]  # per patterns/region/*.md; `- ` items one per line
+    fields: list[tuple[str, str]]  # per a rating schema's seed and brief; `- ` items one per line
     tables: list[tuple[str, list[tuple[int, str]]]]
     locations: dict[int, Location] = field(default_factory=dict)
 
@@ -461,7 +461,7 @@ def parse_regions_gazetteer() -> dict[str, dict]:
 
 # Every field of a region's seed and its brief, in the order they render.
 REGION_FIELD_LABELS = [
-    "Overview", "Approach", "People", "Services", "Law", "Terrain", "Conditions",
+    "Kind", "Overview", "Approach", "People", "Services", "Law", "Terrain", "Conditions",
     "Situation", "Places", "Inhabitants", "Alarm", "Loot", "Secrets", "Leads",
 ]
 TABLE_HEAD_RE = re.compile(r"^d\d+\s+\S")

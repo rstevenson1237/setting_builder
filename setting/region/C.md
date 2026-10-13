@@ -1,5 +1,7 @@
 C The Goblin Cave
 
+Kind: single holding
+
 Overview: The Goblin Cave is a single holding: the home of the goblin tribe, cut into the ravine's far wall in workings older than the tribe, with its one mouth opening on the stream. A party comes for the gold the tribe has stripped from the road, and for whatever the first makers left in the rock.
 
 Approach: One entrance, a low mouth in the ravine wall above the stream, reached by a ledge. Two goblins sit above it by day and four by night, and clack at a party they see; the rest of the tribe is a shout away.

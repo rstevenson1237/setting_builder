@@ -22,6 +22,15 @@ value kind                    // an item of the folder's type enum
 value entry                   // a title on each table the member names
 value pull                    // a roll table's name, or "Table: Title" for an entry table
 
+// -- GENRE.md answers, once each and in this order: Reference (the work modelled on, and
+//    what it sets against what); Lethality (what one wrong roll costs); Magic level (who
+//    works magic, how often, at what cost); Authority (how far a power's writ reaches);
+//    Allegiance (the sides, and how a stranger's is read); Population density (how far
+//    apart settled places sit, and what lies between); Decay (how far past its peak a
+//    settled place stands); Player characters (who they are, what stands behind them);
+//    Reward (what they are after, what having it does); Naming (which tongue proper nouns
+//    are coined from, which are left plain). Nothing here answers one differently.
+
 enum Damage_Type Nuisance Damaging Lethal
 enum Contents_Type "Treasure I" "Treasure II" "Treasure III" "Treasure IV" "Treasure V" Magic Hoards Lore Keys "Unique Treasures" "Magical Tomes"
 

@@ -1,8 +1,8 @@
 # Brief
 
 This build's design requests: every count, mix and rate it is built to, and what this one
-setting should hold. Templates, patterns and schemas set none of their own.
-It never overrides a pattern's rules or `STYLE.md`.
+setting should hold. Templates and schemas set none of their own.
+It never overrides a schema's rules or `STYLE.md`.
 
 - `files`, `safe`, `wild` and `dangerous` hold the framework's levers at reasonable
   defaults. Change a value to customise it.

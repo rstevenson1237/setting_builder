@@ -46,6 +46,8 @@ class Folder:
     enums: dict[str, dict] = field(default_factory=dict)
     nodes: dict[str, list[Member]] = field(default_factory=dict)
     rates: dict[str, dict[str, tuple[int, int]]] = field(default_factory=dict)
+    seed: list[Member] = field(default_factory=list)    # setting/region/[Code].md's fields
+    brief: list[Member] = field(default_factory=list)   # setting/region/[Code]/Brief.md's
 
 
 def bounds(rate) -> tuple[int, int] | None:
@@ -121,12 +123,16 @@ class Schema:
             elif n.name == "node":
                 nodes[name] = [self._member(c) for c in n.children]
             elif n.name == "folder" and path.stem.split("_")[0] not in SHARED:
-                files = {c.name: c.args for c in n.children if c.name not in ("join", "top")}
+                files = {c.name: c.args for c in n.children if c.name not in ("join", "top", "seed", "brief")}
                 joins = {c.args[0]: (set(c.args[1:]), c.props.get("gate"))
                          for c in n.children if c.name == "join" and c.args}
                 top = {a for c in n.children if c.name == "top" for a in c.args}
-                self.folders[name] = Folder(n.props.get("type", ""), files, joins, top, path)
-                folders.append(self.folders[name])
+                f = Folder(n.props.get("type", ""), files, joins, top, path)
+                for c in n.children:
+                    if c.name in ("seed", "brief"):
+                        setattr(f, c.name, [self._member(m) for m in c.children])
+                self.folders[name] = f
+                folders.append(f)
             else:
                 p(n, f"{n.name!r} is not a schema node here")
         return folders
@@ -181,6 +187,9 @@ class Schema:
                         p(f"{node}.{m.name}: {m.arg!r} is not an enum of tables")
             if f.type not in f.enums:
                 p(f"folder {name}: unknown type enum {f.type!r}")
+            for m in f.seed + f.brief:
+                if m.type not in self.values and m.type not in f.enums:
+                    p(f"folder {name}: seed or brief field {m.name}: unknown type {m.type!r}")
             # A group of the type enum names every item in it.
             groups = {}
             for item, g in f.enums.get(f.type, {}).items():
@@ -267,19 +276,30 @@ def check_setting_files(schema: Schema, codes: set[str]):
             for m in fields:
                 v = values.get(m.name, "").strip()
                 if v:
-                    for msg in _check_field(schema, m, v, codes):
+                    for msg in check_field(schema, m, v, codes):
                         yield "error", path, line, f"{title} {m.name}: {msg}"
 
 
-def _check_field(schema: Schema, m: Member, v: str, codes: set[str]):
+def _opens_with(v: str, items) -> bool:
+    low = v.lower()
+    return any(low.startswith(i.lower()) and low[len(i):len(i) + 1] in ("", " ", ".", ",", ";", ":")
+               for i in items)
+
+
+def check_field(schema: Schema, m: Member, v: str, codes: set[str], enums: dict | None = None):
+    """Yield what is wrong with one field's value. An enum field opens with an item; a
+    list enum lists items before any ` - `."""
+    enums = schema.setting_enums if enums is None else enums
     if m.none and v.lower() == "none":
         return
-    if m.type in schema.setting_enums:
-        items = schema.setting_enums[m.type]
-        lead = v.split(" - ")[0]
-        for x in ([i.strip() for i in lead.split(",")] if m.is_list else [lead.strip()]):
-            if x not in items:
-                yield f"{x!r} is not one of {', '.join(items)}"
+    if m.type in enums:
+        items = enums[m.type]
+        if m.is_list:
+            for x in (i.strip() for i in v.split(" - ")[0].split(",")):
+                if x not in items:
+                    yield f"{x!r} is not one of {', '.join(items)}"
+        elif not _opens_with(v, items):
+            yield f"{v[:30]!r} does not open with one of {', '.join(items)}"
     elif m.type == "number":
         b, want = bounds(v), bounds(m.props.get("range", ""))
         if b is None:

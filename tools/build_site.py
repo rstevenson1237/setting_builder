@@ -59,7 +59,7 @@ NAV_LINKS = [
     ("unique-treasures.html", "Unique Treasures"),
     ("quests.html", "Quests"),
     ("checklists.html", "Review Checklists"),
-    ("patterns.html", "Pattern Reference"),
+    ("patterns.html", "Schema Reference"),
 ]
 
 # The judgement-check checklists rendered on checklists.html are parsed straight out of
@@ -67,122 +67,23 @@ NAV_LINKS = [
 # wording that could drift from templates/checks/*_Judgement_Check.md.
 CHECKLIST_SOURCES = [
     ("templates/checks/Template_Judgement_Check.md", "Template Judgement Check", "template"),
-    ("templates/checks/Pattern_Judgement_Check.md", "Pattern Judgement Check", "pattern"),
+    ("templates/checks/Schema_Judgement_Check.md", "Schema Judgement Check", "schema"),
     ("templates/checks/Setting_Judgement_Check.md", "Setting Judgement Check", "setting"),
 ]
 
 
 # ---------------------------------------------------------------------------
-# Pattern reference: parses patterns/*/*.md itself, not setting/ content.
-#
-# Independent of everything above - this section reads the framework's own
-# authoring instructions, not the generated setting, so patterns.html builds
-# the same way whether setting/ is empty, partial, or complete.
-#
-# The graph this page draws is the DRAW TREE, read from tools/validate_setting.py
-# rather than reimplemented, so the two cannot drift.
-#
-# A citation that is not a draw is still worth seeing, so it is kept and
-# shown separately as a mention. Only the format audit below still reads the
-# whole file, because citation format applies everywhere, not just in Spec.
+# Schema reference: patterns/*_Schema.md as written, shared schemas first. It reads
+# the framework rather than setting/, so it builds whatever setting/ holds.
 # ---------------------------------------------------------------------------
 
-import validate_setting as vs
-
-PATTERNS_ROOT = ROOT / "patterns"
-PATTERN_FOLDERS = ("setting", "region", "safe", "wild", "dangerous")
-PATTERN_CITE_RE = re.compile(
-    r'(?<!/)\b(patterns/)?(' + '|'.join(PATTERN_FOLDERS) + r')/([A-Za-z]+\.md)\b'
-)
-BARE_KIND_ARROW_RE = re.compile(r'->\s*([A-Z][A-Za-z]*\.md)\b')
-SECTION_RE_CACHE: dict[str, re.Pattern] = {}
+import tables
+import validate_setting as vs  # read_block_files
 
 
-def pattern_section(text: str, name: str) -> str:
-    pat = SECTION_RE_CACHE.get(name)
-    if pat is None:
-        pat = re.compile(rf'^##\s+{re.escape(name)}\s*\n(.*?)(?=\n##\s+|\Z)', re.S | re.M)
-        SECTION_RE_CACHE[name] = pat
-    m = pat.search(text)
-    return m.group(1).strip() if m else ""
-
-
-def parse_pattern_files() -> tuple[dict[str, dict], list[str]]:
-    """Returns (nodes keyed by "folder/File.md", global format issues).
-
-    "out" is the draw tree - edges read from Spec fenced blocks by
-    validate_setting.spec_edges, the same function CI enforces against.
-    "mentions" is every other pattern file the text names: real context, but
-    not a draw, and counting it as one is what made this page disagree with
-    the tree it claims to show.
-
-    A node's "issues" list is a SUBSET of what CI errors on - citation format
-    and a missing Constraints heading. The validator also checks section
-    presence, Read-at step ids, mode declarations and orphans; a clean audit
-    here does not mean a clean CI run.
-    """
-    files = sorted(p for p in PATTERNS_ROOT.glob("*/*.md") if p.name != ".gitkeep")
-    known = {p.relative_to(PATTERNS_ROOT).as_posix() for p in files}
-    nodes: dict[str, dict] = {}
-    all_issues: list[str] = []
-
-    for path in files:
-        rel = path.relative_to(PATTERNS_ROOT).as_posix()
-        text = path.read_text(encoding="utf-8")
-        m = re.search(r'^#\s+(.+)$', text, re.M)
-        title = m.group(1).strip() if m else rel
-        issues: list[str] = []
-        out: list[str] = []
-
-        if "## Constraints" not in text:
-            issues.append("missing a '## Constraints' section")
-
-        # Format audit reads the whole file - citation format applies
-        # everywhere - and collects every resolvable target as a mention.
-        for cm in PATTERN_CITE_RE.finditer(text):
-            prefixed, folder, fname = cm.groups()
-            target = f"{folder}/{fname}"
-            if target == rel:
-                continue
-            if folder == "setting":
-                if not prefixed:
-                    continue
-                if target in known:
-                    out.append(target)
-                else:
-                    issues.append(f"cites patterns/{target}, which does not exist")
-            else:
-                if prefixed:
-                    issues.append(f"cites patterns/{target} - should be bare {target}")
-                    continue
-                if target in known:
-                    out.append(target)
-                else:
-                    issues.append(f"cites {target}, which does not exist")
-
-        draws = sorted(vs.spec_edges(text, rel))
-        mentions = sorted(set(out) - set(draws))
-
-        for am in BARE_KIND_ARROW_RE.finditer(text):
-            issues.append(f"'-> {am.group(1)}' names a file with no folder qualifier")
-
-        nodes[rel] = dict(
-            rel=rel, folder=rel.split("/")[0], filename=path.name, title=title,
-            provides=pattern_section(text, "Provides"),
-            spec=pattern_section(text, "Spec"),
-            constraints=pattern_section(text, "Constraints"),
-            out=draws, mentions=mentions,
-            incoming=[], issues=issues,
-        )
-        all_issues.extend(f"{rel}: {i}" for i in issues)
-
-    for rel, node in nodes.items():
-        for target in node["out"]:
-            nodes[target]["incoming"].append(rel)
-    for node in nodes.values():
-        node["incoming"] = sorted(set(node["incoming"]))
-
-    return nodes, all_issues
+def schema_files() -> list[Path]:
+    shared = [tables.PATTERNS / f"{n}_Schema.md" for n in tables.SHARED]
+    return shared + sorted(set(tables.PATTERNS.glob("*_Schema.md")) - set(shared))
 
 
 def pdf_filename(setting: sc.Setting) -> str:
@@ -609,79 +510,23 @@ def build_checklists(setting: sc.Setting, out: Path) -> None:
 
 
 def build_patterns(setting: sc.Setting, out: Path) -> None:
-    """The framework's own citation graph - patterns/*/*.md, not the setting.
-
-    Rebuilt fresh on every push, so this is a live audit rather than a
-    point-in-time report: if a future edit reintroduces a bare citation or
-    drops a Constraints heading, the next build shows it here (and
-    tools/validate_setting.py already fails CI on it independently).
-    """
+    """Every schema file: its prose, then its KDL as written."""
     page = "patterns.html"
-    nodes, all_issues = parse_pattern_files()
-    import json as _json
-
-    folder_order = ["setting", "region", "safe", "wild", "dangerous"]
-    folder_nodes: dict[str, list[str]] = {f: [] for f in folder_order}
-    for rel, n in nodes.items():
-        folder_nodes[n["folder"]].append(rel)
-    for f in folder_order:
-        folder_nodes[f].sort(key=lambda rel: (-len(nodes[rel]["out"]), nodes[rel]["filename"]))
-
-    total_edges = sum(len(n["out"]) for n in nodes.values())
-    payload = {
-        "folder_order": folder_order,
-        "folder_nodes": folder_nodes,
-        "nodes": nodes,
-    }
-    data_json = _json.dumps(payload, ensure_ascii=False).replace("</", "<\\/")
-
-    if all_issues:
-        issues_html = (
-            '<div class="pattern-audit pattern-audit-bad">'
-            f'<h3>{len(all_issues)} format issue(s) found</h3>'
-            '<ul>' + "".join(f"<li><code>{html.escape(i)}</code></li>" for i in all_issues) + '</ul>'
-            '<p class="hint">Each of these also fails <code>tools/validate_setting.py</code> in CI - '
-            'this page and the validator read the same rule.</p>'
-            '</div>'
-        )
-    else:
-        issues_html = (
-            '<div class="pattern-audit pattern-audit-ok">'
-            f'Every citation among the {len(nodes)} files below resolves, and every file carries its '
-            'Constraints heading. Checked fresh on every build. This audit is a subset of '
-            'CI - <code>tools/validate_setting.py</code> also checks section presence and '
-            'read-set reachability.'
-            '</div>'
-        )
-
-    body = [
-        '<h1>Pattern Reference</h1>',
-        '<p class="hint">Every file in <code>patterns/*/*.md</code> this build reads, and the draw tree '
-        'between them - the edges read from Spec fenced blocks, which is what makes a file a classifier '
-        'or a leaf. Parsed at build time by the same function CI enforces against, not summarized by '
-        'hand. A citation that is not a draw is listed separately as a mention. This is the framework\'s own '
-        'authoring instructions, not the setting itself: useful while evaluating the setting, and a '
-        'standing check that the instructions stay legible to a mechanical reader, not just a careful '
-        'one. Click any file below to see what it provides and trace its citations.</p>',
-        issues_html,
-        '<div class="pattern-workspace">'
-        '<div class="pattern-diagram-scroll"><div class="pattern-diagram-inner" id="pattern-diagram-inner">'
-        '<svg id="pattern-edge-layer" aria-hidden="true"></svg>'
-        '<div class="pattern-columns" id="pattern-columns"></div>'
-        '</div></div>'
-        '<aside class="pattern-inspector" id="pattern-inspector"></aside>'
-        '</div>',
-        f'<script type="application/json" id="pattern-data">{data_json}</script>',
-    ]
-
-    write_page(out, page, page_shell(
-        setting, page, "Pattern Reference", "\n".join(body),
-        description=f"A live, generated draw tree of all {len(nodes)} patterns/*/*.md files "
-                    f"and the {total_edges} edges between them.",
-        extra_scripts=["assets/patterns.js"],
-        main_class="page page-wide",
-    ))
-
+    body = ['<h1>Schema Reference</h1>',
+            '<p class="hint">Every field, enum and range the setting files and location '
+            'tables are checked against, read from <code>patterns/*_Schema.md</code> at '
+            'build time.</p>']
+    for path in schema_files():
+        text = path.read_text(encoding="utf-8")
+        title = (re.search(r"^#\s+(.+)$", text, re.M) or [None, path.stem])[1]
+        prose = text.split("```")[0].split("\n", 1)[-1].strip()
+        code = re.search(r"```kdl\n(.*?)```", text, re.S)
+        inner = "".join(f"<p>{render_static_inline(par)}</p>" for par in prose.split("\n\n") if par.strip())
+        if code:
+            inner += f"<pre><code>{html.escape(code.group(1))}</code></pre>"
+        body.append(section(title, f'<div class="schema-block">{inner}</div>', anchor=path.stem.lower()))
+    write_page(out, page, page_shell(setting, page, "Schema Reference", "\n".join(body),
+                                     main_class="page page-wide"))
 
 def read_block_files(code: str) -> list[dict]:
     """Every `[Block Name].mmd` in a region folder, header and diagram.
@@ -899,20 +744,13 @@ def build(out_dir: Path) -> sc.Setting:
 
 
 def build_patterns_only(out_dir: Path) -> None:
-    """patterns.html alone, with no setting/ content loaded.
-
-    The pattern reference reads patterns/*/*.md and nothing else, so it is
-    buildable at any point in a build - including before step 1, when
-    setting/ is empty and sc.load_setting() cannot produce a Setting. Without
-    this path the page was unreachable in a fresh checkout despite being
-    independent of the setting, which is how it drifted 156 phantom edges
-    from the tree it claims to show: nobody could look at it.
-    """
+    """patterns.html alone, with no setting/ content loaded, so the schema reference
+    builds before step 1."""
     if out_dir.exists():
         shutil.rmtree(out_dir)
     out_dir.mkdir(parents=True)
     shutil.copytree(ASSETS_SRC, out_dir / "assets")
-    build_patterns(sc.Setting(name="Pattern Reference"), out_dir)
+    build_patterns(sc.Setting(name="Schema Reference"), out_dir)
 
 
 def main() -> int:

@@ -45,8 +45,7 @@ from validate_setting import (  # noqa: E402
     ROOT,
     _summary_tokens,
     feature_segments,
-    read_set_graph,
-    spec_closure,
+    read_set,
 )
 
 REGION = ROOT / "setting" / "region"
@@ -386,7 +385,6 @@ FIXED_CONTEXT = ("CLAUDE.md", "README.md", "GENRE.md", "STYLE.md", "BRIEF.md",
 
 def report_read_set(step: str = "5b") -> None:
     print(f"READ SET (step {step})")
-    g = read_set_graph()
     present = [(n, ROOT / n) for n in FIXED_CONTEXT if (ROOT / n).exists()]
     fixed = sum(file_words(p) for _, p in present)
     for n, p in present:
@@ -403,17 +401,14 @@ def report_read_set(step: str = "5b") -> None:
     print(f"  {'fixed context':24s} : {fixed + avg:6,} (with the mean region overview)")
     print()
 
-    entries: set = set()
-    for name in g["step_templates"].get(step, set()):
-        entries |= g["template_roots"].get(name, set())
-    if not entries:
-        print(f"  step {step} names no pattern entry point\n")
-        return
-    print(f"  {'entry point':24s} {'files':>5s} {'pattern':>8s} {'in context':>11s}")
-    for e in sorted(entries):
-        closure = spec_closure({e}, g["pattern_files"])
-        w = sum(file_words(PATTERNS / f) for f in closure)
-        print(f"  {e:24s} {len(closure):5d} {w:8,} {fixed + avg + w:11,}")
+    names, schemas = read_set().get(step, (set(), set()))
+    paths = [ROOT / "templates" / n for n in sorted(names)] + \
+            [PATTERNS / f for f in sorted(schemas) if "[" not in f]
+    for path in paths:
+        if path.exists():
+            print(f"  {str(path.relative_to(ROOT)):24s} : {file_words(path):6,}")
+    w = sum(file_words(path) for path in paths if path.exists())
+    print(f"  {'in context':24s} : {fixed + avg + w:6,}")
     print()
 
 

@@ -22,9 +22,9 @@ block lists the same items in the same order.
 
 **Record against the content as generated, before anything is fixed.** This pass is a
 diagnosis of the framework as much as of the setting: every Needs Attention names its
-likely source - a pattern line, a template line, a `BRIEF.md` line, or the generator
+likely source - a schema line, a template line, a `BRIEF.md` line, or the generator
 alone - so a defect an edit later hides has already been traced to what produced it. Its
-findings are the evidence `templates/checks/Pattern_Judgement_Check.md` starts from.
+findings are the evidence `templates/checks/Schema_Judgement_Check.md` starts from.
 
 ### Setting-level, once per pass
 
@@ -75,5 +75,5 @@ findings are the evidence `templates/checks/Pattern_Judgement_Check.md` starts f
 
 ## Open Items
 - [Anything flagged Needs Attention, carried forward as an action item, with its source:
-  pattern, template, brief, or generator]
+  schema, template, brief, or generator]
 ```
