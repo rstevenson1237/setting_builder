@@ -48,8 +48,10 @@ def bounds(rate) -> tuple[int, int] | None:
 
 
 class Schema:
-    def __init__(self, path: Path = SCHEMA):
-        self.path, self.problems = path, []
+    """patterns/Schema.md, with each folder's rates from BRIEF.md's node for its rating."""
+
+    def __init__(self, path: Path = SCHEMA, brief: Path | None = None):
+        self.path, self.problems, self.brief_problems = path, [], []
         self.words, self.values, self.tables = {}, set(), {}
         self.enums, self.nodes, self.folders = {}, {}, {}
         try:
@@ -73,15 +75,21 @@ class Schema:
             elif n.name == "node":
                 self.nodes[name] = [self._member(c) for c in n.children]
             elif n.name == "folder":
-                files = {c.name: c.args for c in n.children if c.name not in ("rate", "join", "top")}
-                rates = {a: {f: bounds(r) for f, r in c.props.items()}
-                         for c in n.children if c.name == "rate" for a in c.args}
+                files = {c.name: c.args for c in n.children if c.name not in ("join", "top")}
                 joins = {c.args[0]: (set(c.args[1:]), c.props.get("gate"))
                          for c in n.children if c.name == "join" and c.args}
                 top = {a for c in n.children if c.name == "top" for a in c.args}
-                self.folders[name] = Folder(n.props.get("type", ""), files, rates, joins, top)
+                self.folders[name] = Folder(n.props.get("type", ""), files, {}, joins, top)
             else:
                 self.problems.append(f"line {n.line}: unknown schema node {n.name!r}")
+        try:
+            for n in brief_nodes(brief or BRIEF):
+                if f := self.folders.get(n.name.title()):
+                    for c in n.children:
+                        if c.name == "rate":
+                            f.rates.update({a: {s: bounds(r) for s, r in c.props.items()} for a in c.args})
+        except SyntaxError as e:
+            self.brief_problems.append(str(e))
         self._resolve()
 
     @staticmethod
@@ -125,10 +133,10 @@ class Schema:
                         p(f"folder {name}: {stem} holds unknown node {n!r}")
             for item, rates in f.rates.items():
                 if item not in self.enums.get(f.type, {}):
-                    p(f"folder {name}: rate for {item!r}, which {f.type} does not hold")
+                    self.brief_problems.append(f"{name.lower()}: rate for {item!r}, which {f.type} does not hold")
                 for stem, b in rates.items():
                     if stem not in f.files or b is None:
-                        p(f"folder {name}: rate {item} {stem} is not a file and a count or range")
+                        self.brief_problems.append(f"{name.lower()}: rate {item} {stem} is not a table file and a count or range")
             for t in f.top:
                 if t not in self.enums.get(f.type, {}):
                     p(f"folder {name}: top names {t!r}, which {f.type} does not hold")
@@ -487,16 +495,25 @@ class Setting:
         return own, named
 
 
-# -- BRIEF.md's targets --------------------------------------------------------
+# -- BRIEF.md ------------------------------------------------------------------
 #
-#   target Node.member Value="N%" ...   share of Node entries whose member is each Value
-#   target Node.Child "N%"              share of Node entries holding that one-of child
-#   target Node [of=Type] "N%"          share of locations (of that type) holding a Node
-#   target Node count=N                 how many Node entries
+# One kdl block: `files`, a node per schema folder (its `rate` lines are loaded by Schema),
+# `setting`, and a `region` per region. A folder node's and a region node's targets are
+# measured against the tables:
 #
-# each scoped by rating= and region=, the narrowest applying to a region winning.
+#   target Node.member Value="N%"|N ...  share, or count, of Node entries whose member is
+#                                        each Value; a group of a type enum counts its items
+#   target Node.Child "N%"               share of Node entries holding that one-of child
+#   target Node [of=Type] "N%"           share of locations (of that type) holding a Node
+#
+# and a region's locations=N counts its Location entries. `files` and `setting` are
+# measured against the setting files they govern.
 
 BRIEF = ROOT / "BRIEF.md"
+
+
+def brief_nodes(path: Path = BRIEF) -> list[kdl.Node]:
+    return kdl.fenced(path.read_text()) if path.exists() else []
 
 
 @dataclass
@@ -504,7 +521,7 @@ class Target:
     node: kdl.Node
     path: str
     form: str                      # "values", "child", "presence" or "count"
-    shares: dict[str, int]
+    wants: dict[str, str]          # value -> "N%" share, or N or "N-M" count
     rating: str | None
     region: str | None
 
@@ -520,21 +537,50 @@ class Target:
         return 2 if self.region else 1 if self.rating else 0
 
 
-class Targets:
+class Brief:
     def __init__(self, schema: Schema, path: Path = BRIEF):
-        self.schema, self.path, self.problems, self.targets = schema, path, [], []
+        self.schema, self.path, self.problems = schema, path, list(schema.brief_problems)
+        self.targets, self.regions = [], {}
+        self.files = self.setting = None
         try:
-            nodes = kdl.fenced(path.read_text()) if path.exists() else []
-        except SyntaxError as e:
-            self.problems.append(str(e))
+            nodes = brief_nodes(path)
+        except SyntaxError:
             return
+        folders = {f.lower(): f for f in schema.folders}
         for n in nodes:
-            if n.name != "target":
-                self.problems.append(f"line {n.line}: {n.name!r} is not a target")
-            elif t := self._read(n):
-                self.targets.append(t)
+            p = lambda msg, n=n: self.problems.append(f"line {n.line}: {msg}")
+            if n.name in folders:
+                for c in n.children:
+                    if c.name == "target":
+                        self._add(c, folders[n.name], None)
+                    elif c.name != "rate":
+                        p(f"{n.name} holds rate and target lines, not {c.name!r}")
+            elif n.name == "region":
+                code = str(n.args[0]) if n.args else ""
+                rating = str(n.props.get("rating", "")).title()
+                if not re.fullmatch(r"[A-Z]+", code) or rating not in schema.folders:
+                    p(f"a region opens with its code and rating={' | '.join(f.upper() for f in schema.folders)}")
+                    continue
+                self.regions[code] = n
+                for c in n.children:
+                    if c.name == "target":
+                        self._add(c, rating, code)
+                if "locations" in n.props:
+                    if bounds(n.props["locations"]) is None:
+                        p("locations= is a count or range")
+                    else:
+                        self.targets.append(Target(n, "Location", "count",
+                                                   {"": str(n.props["locations"])}, None, code))
+            elif n.name in ("files", "setting"):
+                setattr(self, n.name, n)
+            else:
+                p(f"{n.name!r} is not files, setting, region or {', '.join(folders)}")
 
-    def _read(self, n: kdl.Node) -> Target | None:
+    def _add(self, n: kdl.Node, rating: str, region: str | None):
+        if t := self._read(n, rating, region):
+            self.targets.append(t)
+
+    def _read(self, n: kdl.Node, rating: str, region: str | None) -> Target | None:
         p = lambda msg: self.problems.append(f"line {n.line}: {msg}") or None
         if not n.args:
             return p("a target names a Node or Node.member")
@@ -542,19 +588,12 @@ class Targets:
         node, _, member = path.partition(".")
         if node not in self.schema.nodes:
             return p(f"{node!r} is not a node of patterns/Schema.md")
-        rating, region = n.props.get("rating"), n.props.get("region")
-        if rating and rating not in self.schema.folders:
-            return p(f"rating={rating!r} is not a folder of patterns/Schema.md")
-        values = {k: v for k, v in n.props.items() if k not in ("rating", "region", "of", "count")}
+        values = {k: str(v) for k, v in n.props.items() if k != "of"}
         members = {m.name: m for m in self.schema.nodes[node] if m.name != "one-of"}
         children = {c for m in self.schema.nodes[node] for c in m.nodes}
-        if "count" in n.props:
-            if member or values or rest or bounds(n.props["count"]) is None:
-                return p("count= takes a bare Node and a count or range")
-            return Target(n, path, "count", {}, rating, region)
         if member in members:
             if rest or not values:
-                return p(f"{path} takes Value=\"N%\" shares")
+                return p(f"{path} takes Value=\"N%\" shares or Value=N counts")
             allowed = self._allowed(members[member], rating)
             bad = [v for v in values if allowed is not None and v not in allowed]
             if bad:
@@ -564,28 +603,27 @@ class Targets:
             if values or len(rest) != 1:
                 return p(f"{path} takes one \"N%\" share")
             values, form = {"": rest[0]}, "child" if member else "presence"
-            if member and "of" in n.props:
-                return p("of= applies to a bare Node")
             of = n.props.get("of")
-            if of and not any(of in self.schema.enums.get(f.type, {})
-                              for f in self.schema.folders.values()):
-                return p(f"of={of!r} is not a location type")
+            if of and (member or of not in self.schema.enums.get(self.schema.folders[rating].type, {})):
+                return p(f"of={of!r} is not a {rating} location type")
         else:
             return p(f"{member!r} is neither a member nor a child of {node}")
-        shares = {}
         for v, s in values.items():
-            m = PERCENT_RE.fullmatch(str(s))
-            if not m:
-                return p(f"{s!r} is not a percentage")
-            shares[v] = int(m.group(1))
-        if sum(shares.values()) > 100:
-            return p(f"shares total {sum(shares.values())}%")
-        return Target(n, path, form, shares, rating, region)
+            if not PERCENT_RE.fullmatch(s) and (form != "values" or bounds(s) is None):
+                return p(f"{s!r} is not a percentage" + (" or a count" if form == "values" else ""))
+        if sum(int(s[:-1]) for s in values.values() if s.endswith("%")) > 100:
+            return p("shares total over 100%")
+        return Target(n, path, form, values, rating, region)
 
-    def _allowed(self, m: Member, rating: str | None) -> set | None:
+    def _groups(self, rating: str) -> dict[str, set]:
+        out = {}
+        for item, g in self.schema.enums.get(self.schema.folders[rating].type, {}).items():
+            out.setdefault(g, set()).add(item)
+        return out
+
+    def _allowed(self, m: Member, rating: str) -> set | None:
         if m.type == "kind":
-            folders = [self.schema.folders[rating]] if rating else self.schema.folders.values()
-            return {v for f in folders for v in self.schema.enums.get(f.type, {})}
+            return set(self.schema.enums[self.schema.folders[rating].type]) | set(self._groups(rating))
         if m.type in self.schema.enums:
             return set(self.schema.enums[m.type])
         if m.type == "pull":
@@ -593,7 +631,8 @@ class Targets:
         return None
 
     def realized(self, setting: Setting):
-        """Per region, (target, label, wanted, got, of) for every target applying to it."""
+        """Per region, (target, label, wanted, got, of) for every target applying to it;
+        of is None where wanted is a count."""
         out = {}
         for r in setting.regions.values():
             best = {}
@@ -601,30 +640,179 @@ class Targets:
                 rank = t.applies(r)
                 if rank >= 0 and rank >= best.get(t.key(), (None, -1))[1]:
                     best[t.key()] = (t, rank)
-            rows = []
-            for t, _ in best.values():
-                rows += self._measure(t, r)
-            out[r.code] = rows
+            out[r.code] = [row for t, _ in best.values() for row in self._measure(t, r)]
         return out
 
     def _measure(self, t: Target, r: Region):
         node, _, member = t.path.partition(".")
         entries = [n for ns in r.files.values() for top in ns for n in kdl.walk([top])
                    if n.name == node]
+        share = lambda s: s.endswith("%")
         if t.form == "count":
-            return [(t, "count", str(t.node.props["count"]), len(entries), None)]
+            return [(t, "count", t.wants[""], len(entries), None)]
         if t.form == "values":
-            got = [str(n.props.get(member, "")).split(":")[0] for n in entries
-                   if member in n.props]
-            return [(t, v, s, sum(1 for g in got if g == v), len(got)) for v, s in t.shares.items()]
+            got = [str(n.props.get(member, "")).split(":")[0] for n in entries if member in n.props]
+            groups = self._groups(t.rating) if t.rating in self.schema.folders else {}
+            rows = []
+            for v, s in t.wants.items():
+                n = sum(1 for g in got if g in groups.get(v, {v}))
+                rows.append((t, v, int(s[:-1]), n, len(got)) if share(s) else (t, v, s, n, None))
+            return rows
         if t.form == "child":
             got = sum(1 for n in entries if any(c.name == member for c in n.children))
-            return [(t, member, t.shares[""], got, len(entries))]
+            return [(t, member, int(t.wants[""][:-1]), got, len(entries))]
         of = t.node.props.get("of")
         locs = [c for c, l in r.locations().items() if not of or l.props.get("type") == of]
         held = {n.args[0] for n in entries if n.args}
-        return [(t, f"of {of}" if of else "of all", t.shares[""],
+        return [(t, f"of {of}" if of else "of all", int(t.wants[""][:-1]),
                  sum(1 for c in locs if c in held), len(locs))]
+
+    # -- the setting files ------------------------------------------------------
+
+    def lever(self, name: str) -> kdl.Node | None:
+        """A `files` lever by name, e.g. Treasure."""
+        return next((c for c in (self.files.children if self.files else []) if c.name == name), None)
+
+    def asks(self, name: str) -> list[kdl.Node]:
+        """Every `setting` line of one kind, e.g. tongue."""
+        return [c for c in (self.setting.children if self.setting else []) if c.name == name]
+
+    def setting_rows(self) -> list[tuple[str, str, str, bool]]:
+        """(lever, wanted, got, off) for every files and setting lever a count can test,
+        over the setting files built so far."""
+        import site_common as sc
+        rows = []
+
+        def count(label, wanted, got):
+            b = bounds(wanted)
+            rows.append((label, str(wanted), str(got), b is None or not b[0] <= got <= b[1]))
+
+        def shares(label, wants, got: list[str]):
+            for v, s in wants.items():
+                n = sum(1 for g in got if g == v)
+                want = int(str(s)[:-1]) * len(got) / 100
+                rows.append((f"{label} {v}", str(s), f"{n} of {len(got)}", abs(n - want) > 1))
+
+        def table(name) -> list[dict]:
+            path = SETTING / name
+            ts = sc.read_tables(path) if path.exists() else []
+            return ts[0].dicts() if ts else []
+
+        def num(s) -> float | None:
+            m = re.match(r"\s*(\d+)", str(s))
+            return float(m.group(1)) if m else None
+
+        if t := self.lever("Treasure"):
+            tabs = {r: table(f"Treasure{i}.md") for i, r in enumerate(("I", "II", "III", "IV", "V"), 1)}
+            values = {r: [v for d in ds if (v := num(d.get("Value"))) is not None] for r, ds in tabs.items()}
+            for c in t.children:
+                if c.name == "average":
+                    for r, want in c.props.items():
+                        if values.get(r):
+                            mean = sum(values[r]) / len(values[r])
+                            b = bounds(want)
+                            rows.append((f"Treasure {r} mean", str(want), f"{mean:.0f}",
+                                         b is None or not b[0] <= mean <= b[1]))
+                elif c.name == "quality":
+                    r = str(c.props.get("table", "II"))
+                    shares(f"Treasure {r} quality", {k: v for k, v in c.props.items() if k != "table"},
+                           [d.get("Quality", "").lower() for d in tabs.get(r, [])])
+                elif c.name == "effect":
+                    for q, s in c.props.items():
+                        has = [d.get("Effect", "-").strip() not in ("-", "") for d in tabs["II"]
+                               if d.get("Quality", "").lower() == q]
+                        shares(f"Treasure II {q}", {"with an effect": s},
+                               ["with an effect" if h else "" for h in has])
+                elif c.name == "price" and "normal" in c.props:
+                    base = float(c.props["normal"])
+                    for q, rng in c.props.items():
+                        b = bounds(str(rng).rstrip("x")) if q != "normal" else None
+                        if b:
+                            got = [num(d.get("Value")) / base for d in tabs["II"]
+                                   if d.get("Quality", "").lower() == q and num(d.get("Value"))]
+                            out = sum(1 for g in got if not b[0] <= g <= b[1])
+                            rows.append((f"Treasure II {q} price", f"{rng} of {c.props['normal']}",
+                                         f"{len(got) - out} of {len(got)} in range", out > 0))
+            if "ceiling" in t.props:
+                for r, vs in values.items():
+                    if vs:
+                        top = max(vs) / (sum(vs) / len(vs))
+                        rows.append((f"Treasure {r} highest", f"{t.props['ceiling']}x mean",
+                                     f"{top:.1f}x", top > float(t.props["ceiling"])))
+        if r := self.lever("Rumours"):
+            ds = table("Rumours.md")
+            if ds:
+                if "die" in r.props:
+                    count("Rumours rows", r.props["die"], len(ds))
+                marks = {k: f"{v}" for k, v in r.props.items() if k in ("T", "P", "F", "U")}
+                got = [d.get("T/P/F/U", "") for d in ds]
+                for k, v in marks.items():
+                    count(f"Rumours marked {k}", v, sum(1 for g in got if g == k))
+        records = lambda f: sc.read_records(SETTING / f) if (SETTING / f).exists() else None
+        for lever, file, prop in (("Factions", "Factions.md", "count"), ("History", "History.md", "events")):
+            if (n := self.lever(lever)) and prop in n.props and (rs := records(file)) is not None:
+                count(f"{lever} entries", n.props[prop], len(rs))
+        for lever, file in (("Quests", "Quests.md"), ("Truths", "Truths.md")):
+            if (n := self.lever(lever)) and "count" in n.props and (SETTING / file).exists():
+                count(f"{lever} entries", n.props["count"], len(table(file)))
+        if (SETTING / "Language.md").exists():
+            tongues = self._tongues(SETTING / "Language.md")
+            if self.asks("tongue"):
+                count("Language tongues", len(self.asks("tongue")), len(tongues))
+            if n := self.lever("Language"):
+                for name, (affixes, roots) in tongues.items():
+                    if "affixes" in n.props:
+                        count(f"Language {name} affixes", n.props["affixes"], affixes)
+                    if "roots" in n.props:
+                        count(f"Language {name} roots", n.props["roots"], roots)
+        have = titles(SETTING / "Bestiary.md")
+        for n in self.asks("bestiary"):
+            for name in n.args:
+                if have is not None:
+                    rows.append((f"Bestiary up front {name}", "present",
+                                 "present" if name in have else "missing", name not in have))
+        for code, n in self.regions.items():
+            seed = SETTING / "region" / f"{code}.md"
+            if "people" in n.props and seed.exists():
+                text = seed.read_text()
+                m = re.search(r"^People:\s*\n((?:- .*\n?)+)", text, re.M)
+                count(f"{code} People", n.props["people"], len(m.group(1).splitlines()) if m else 0)
+        return rows
+
+    @staticmethod
+    def _tongues(path: Path) -> dict[str, tuple[int, int]]:
+        """Each `## ` tongue: how many affixes its Affixes field lists, and how many roots."""
+        out, name, label, affixes, roots = {}, None, None, "", 0
+        for line in path.read_text().splitlines() + ["## "]:
+            if line.startswith("## "):
+                if name:
+                    out[name] = (len([a for a in affixes.split(";") if a.strip()]), roots)
+                name, label, affixes, roots = line[3:].strip(), None, "", 0
+            elif m := re.match(r"^([A-Z][A-Za-z ]*):\s*(.*)$", line):
+                label = m.group(1)
+                if label == "Affixes":
+                    affixes = m.group(2)
+            elif label == "Affixes":
+                affixes += " " + line.strip()
+            elif label == "Roots" and line.startswith("- "):
+                roots += 1
+        return out
+
+    def region_problems(self, gazetteer: dict[str, dict]) -> list[str]:
+        """Each region BRIEF.md names against setting/region/Regions.md: same codes, in
+        order, each with the rating and die asked for."""
+        if not gazetteer or not self.regions:
+            return []
+        out = []
+        if list(self.regions) != list(gazetteer):
+            out.append(f"BRIEF.md names regions {', '.join(self.regions)}; the gazetteer holds "
+                       f"{', '.join(gazetteer)}")
+        for code, n in self.regions.items():
+            g = gazetteer.get(code)
+            for k in ("rating", "die"):
+                if g and k in n.props and str(n.props[k]).upper() != str(g.get(k, "")).upper():
+                    out.append(f"{code} is {k} {g.get(k)!r}; BRIEF.md asks for {n.props[k]!r}")
+        return out
 
 
 # -- staleness ------------------------------------------------------------------

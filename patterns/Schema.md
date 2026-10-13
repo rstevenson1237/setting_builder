@@ -123,22 +123,16 @@ folder Dangerous type=Dangerous_Type {
   Challenges Encounter Hazard Mystery
   Rewards Reward
   Connections Connection
-  rate High Purpose=1 Dressing=1 Challenges="1-2" Rewards="1-2"
-  rate Medium Dressing=1 Challenges=1 Rewards="0-1"
-  rate Low Dressing=1 Rewards="0-1"
 }
 folder Safe type=Safe_Type {
   Locations Location
   Dressing Dressing
-  rate Inn Merchant Bank Market Authority Dressing=1
 }
 folder Wild type=Wild_Type {
   Locations Location
   Dressing Dressing
   Challenges Encounter Hazard Mystery
   Connections Way
-  rate Lair Dressing=1 Challenges=1
-  rate Ruin Natural Route Hidden Secret Dressing=1 Challenges="0-1"
   top Landmark Route  // reached from the region itself, so never joined to one another
   join Hidden Landmark Route  // a type connects only to these within its region
   join Secret Landmark Route gate=Secret  // and the Way into it carries a Secret

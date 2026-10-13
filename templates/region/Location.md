@@ -40,7 +40,7 @@ Written exactly as below, so `tools/build_site.py` can link them.
 - **Unique Treasure** - `(Unique Treasure: Name)`
 - **Magical Tome** - `(Magical Tome: Title)`
 - **Hoard** - `(Hoard: Name)`
-- **Table roll** - `(Treasure [I-V], d20)` or `(Magic, d6)`
+- **Table roll** - `(Treasure [I-V], d[N])` or `(Magic, d[N])`, N the table's rolls
 - **Forced damage**, on every hazard Feature - `(Test of Constitution, Xd, Type)`,
   `(Test of Sanity, Xd)`, `(Test of Fate, Condition)` or `(Test of Fate, Impact)`, per
   `setting/Procedures.md`

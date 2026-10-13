@@ -572,7 +572,7 @@ NAMED_CITE_RE = re.compile(r'\(Named Creature:\s*([^)]+)\)')
 UNIQUE_CITE_RE = re.compile(r'\(Unique Treasure:\s*([^)]+)\)')
 TOME_CITE_RE = re.compile(r'\(Magical Tome:\s*([^)]+)\)')
 HOARD_CITE_RE = re.compile(r'\(Hoard:\s*([^)]+)\)')
-TREASURE_CITE_RE = re.compile(r'\(Treasure\s+([IVX]+),\s*d20\)')
+TREASURE_CITE_RE = re.compile(r'\(Treasure\s+([IVX]+),\s*d\d+\)')
 ROMAN_TABLES = {"I", "II", "III", "IV", "V"}
 
 
@@ -995,23 +995,18 @@ def check_tables(diag: Diagnostics):
 # Lightweight structural checks: treasure tables, rumours, setting docs
 # ---------------------------------------------------------------------------
 
-def check_treasure_tables(diag: Diagnostics):
-    for i in range(1, 6):
-        path = SETTING / f"Treasure{i}.md"
+def check_treasure_tables(diag: Diagnostics, brief):
+    """Each roll table numbered 1 to the rolls BRIEF.md's files node sets."""
+    paths = [(SETTING / f"Treasure{i}.md", "Treasure") for i in range(1, 6)] + [(SETTING / "Magic.md", "Magic")]
+    for path, lever in paths:
         if not path.exists():
             diag.warn(path, "missing - not built yet")
             continue
-        text = path.read_text()
-        rownums = [int(x) for x in re.findall(r"^\|\s*(\d+)\s*\|", text, re.M)]
-        if rownums != list(range(1, 21)):
-            diag.error(path, f"expected 20 rows numbered 1-20, found {rownums}")
-    path = SETTING / "Magic.md"
-    if not path.exists():
-        diag.warn(path, "missing - not built yet")
-    else:
+        n = brief.lever(lever)
+        rolls = n.props.get("rolls") if n else None
         rownums = [int(x) for x in re.findall(r"^\|\s*(\d+)\s*\|", path.read_text(), re.M)]
-        if rownums != list(range(1, 7)):
-            diag.error(path, f"expected 6 rows numbered 1-6, found {rownums}")
+        if isinstance(rolls, int) and rownums != list(range(1, rolls + 1)):
+            diag.error(path, f"expected {rolls} rows numbered 1-{rolls}, per BRIEF.md, found {rownums}")
 
 
 def check_rumours(diag: Diagnostics):
@@ -1515,7 +1510,8 @@ def main() -> int:
     schema = tables.Schema()
     for problem in schema.problems:
         diag.error(tables.SCHEMA, problem)
-    for problem in tables.Targets(schema).problems:
+    brief = tables.Brief(schema)
+    for problem in brief.problems:
         diag.error(tables.BRIEF, problem)
 
     if is_fresh_start():
@@ -1600,7 +1596,9 @@ def main() -> int:
         cross_check_registry(diag, kind, path, registries[kind], citations[kind])
 
     check_tables(diag)
-    check_treasure_tables(diag)
+    check_treasure_tables(diag, brief)
+    for problem in brief.region_problems(regions):
+        diag.error(tables.BRIEF, problem)
     check_rumours(diag)
     check_top_level_files(diag)
     check_statblocks(diag, SETTING / "Bestiary.md", "Bestiary", expect_special=True)

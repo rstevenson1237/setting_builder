@@ -16,7 +16,7 @@ Do not consult location, region, or faction files - this table is setting-level 
 reusable everywhere, not tied to any specific place or owner.
 
 ## Instructions
-Six results, each following `patterns/setting/Magic.md`'s Spec, in randomised order.
+The results `BRIEF.md` sets, each following `patterns/setting/Magic.md`'s Spec, in randomised order.
 
 ## Template
 ```
@@ -26,5 +26,5 @@ Magic Table
 |---|------|------|-------|------|-------|----|
 | 1 | [item] | [does] | [LASTS] | [tell] | [value] | [wt] |
 | ... | ... | ... | ... | ... | ... | ... |
-| 6 | [item] | [does] | [LASTS] | [tell] | [value] | [wt] |
+| [N] | [item] | [does] | [LASTS] | [tell] | [value] | [wt] |
 ```

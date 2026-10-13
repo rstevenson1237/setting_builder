@@ -756,7 +756,7 @@ CITE_PATTERNS = [
     ("unique_treasures", re.compile(r'\(Unique Treasure:\s*([^)]+)\)')),
     ("quests", re.compile(r'\(Quest:\s*([^)]+)\)')),
 ]
-TREASURE_CITE_RE = re.compile(r'\(Treasure\s+([IVX]+),\s*d20\)')
+TREASURE_CITE_RE = re.compile(r'\(Treasure\s+([IVX]+),\s*(d\d+)\)')
 LOC_CODE_RE = re.compile(r'\b([A-Z]{1,2})\.(\d+)\b')
 REGION_PAREN_RE = re.compile(r'\(([A-Z]{1,2})\)')
 BESTIARY_CITE_RE = re.compile(r'\(([^()]*?),\s*Bestiary\s*:\s*([^()]+)\)')
@@ -816,7 +816,7 @@ def render_inline(text: str, setting: Setting, resolver: LinkResolver, current_p
             if roman not in TREASURE_TITLES:
                 return m.group(0)
             href = resolver.href("treasure", roman, current_page)
-            return protect(f"(<a href=\"{href}\">Treasure {roman}</a>, d20)")
+            return protect(f"(<a href=\"{href}\">Treasure {roman}</a>, {m.group(2)})")
         s = TREASURE_CITE_RE.sub(treasure_sub, s)
 
         def bestiary_sub(m):
