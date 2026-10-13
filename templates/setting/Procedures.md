@@ -9,7 +9,7 @@ if generated content turned out to need something the seed did not cover.
 Read first:
 - `GENRE.md`
 - `BRIEF.md`
-- `patterns/setting/Procedures.md`
+- `patterns/Setting_Schema.md`
 - At 2g only: `setting/Setting.md`, `setting/Truths.md`
 
 ## Instructions

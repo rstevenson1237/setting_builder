@@ -6,11 +6,11 @@ A registry of powerful, one-of-a-kind artifacts and other magical or unique trea
 ## Context
 Read first:
 - Step 2g (creating the file): no context needed.
-- Step 5a (writing an entry): `GENRE.md`, `setting/Setting.md`, `setting/History.md`, `setting/Truths.md`, `setting/Factions.md`, `setting/NamedCreatures.md`, `patterns/setting/UniqueTreasures.md`, and every table entry naming it.
+- Step 5a (writing an entry): `GENRE.md`, `setting/Setting.md`, `setting/History.md`, `setting/Truths.md`, `setting/Factions.md`, `setting/NamedCreatures.md`, `patterns/Setting_Schema.md`, and every table entry naming it.
 
 ## Instructions
 - **2g**: create the file with only its title line.
-- **5a**: write each entry a table names and this file lacks, per `patterns/setting/UniqueTreasures.md`, with its Found at the locations naming it.
+- **5a**: write each entry a table names and this file lacks, per `patterns/Setting_Schema.md`, with its Found at the locations naming it.
 
 ## Template
 ```

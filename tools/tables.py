@@ -29,6 +29,9 @@ class Member:
     is_list: bool = False
     n: int | None = None
     nodes: list[str] = field(default_factory=list)
+    args: list[str] = field(default_factory=list)      # every table an entry member names
+    props: dict = field(default_factory=dict)          # range=, count=, bonus=
+    none: bool = False
 
 
 @dataclass
@@ -62,9 +65,14 @@ class Schema:
         self.problems: list[tuple[Path, str]] = []
         self.brief_problems: list[str] = []
         self.words, self.values, self.tables, self.folders = {}, set(), {}, {}
+        self.fields: dict[str, list[Member]] = {}       # a setting table's fields
+        self.table_props: dict[str, dict] = {}
+        self.setting_enums: dict[str, dict] = {}
         shared: tuple[dict, dict] = ({}, {})
         for path in (root / f"{n}_Schema.md" for n in SHARED):
             self._read(path, *shared)
+        self.setting_enums = dict(shared[0])
+        self._resolve_fields()
         for path in sorted(set(root.glob("*_Schema.md")) - {root / f"{n}_Schema.md" for n in SHARED}):
             enums, nodes = dict(shared[0]), dict(shared[1])
             for f in self._read(path, enums, nodes):
@@ -100,6 +108,11 @@ class Schema:
                     self.words[name] = n.props["words"]
             elif n.name == "table":
                 self.tables[name] = (n.args[1], n.props["file"])
+                self.table_props[name] = n.props
+                if n.children:
+                    self.fields[name] = [self._member(c) for c in n.children]
+                elif "as" in n.props:
+                    self.fields[name] = self.fields.get(n.props["as"], [])
             elif n.name == "enum":
                 items = {a: None for a in n.args[1:]}
                 for g in n.children:
@@ -120,12 +133,23 @@ class Schema:
 
     @staticmethod
     def _member(c) -> Member:
-        flags = {"opt", "list"}
+        flags = {"opt", "list", "none"}
         if c.name == "one-of":
             return Member("one-of", opt="opt" in c.args, nodes=[a for a in c.args if a not in flags])
         rest = [a for a in c.args[1:] if a not in flags]
-        return Member(c.name, c.args[0], rest[0] if rest else None, "opt" in c.args,
-                      "list" in c.args, c.props.get("n"))
+        return Member(c.name, c.args[0] if c.args else "", rest[0] if rest else None, "opt" in c.args,
+                      "list" in c.args, c.props.get("n"), [], rest, c.props, "none" in c.args)
+
+    def _resolve_fields(self):
+        """Every setting table's fields name a value, an enum or tables that exist."""
+        path = PATTERNS / "Setting_Schema.md"
+        for name, fields in self.fields.items():
+            for m in fields:
+                if m.type not in self.values and m.type not in self.setting_enums:
+                    self.problems.append((path, f"{name}.{m.name}: unknown type {m.type!r}"))
+                for t in (m.args if m.type == "entry" else []):
+                    if t not in self.tables:
+                        self.problems.append((path, f"{name}.{m.name}: unknown table {t!r}"))
 
     def _resolve(self):
         seen = set()
@@ -194,6 +218,101 @@ def titles(path: Path) -> set[str] | None:
         return heads
     rows = [l for l in text.splitlines() if l.strip().startswith("|")]
     return {l.strip().strip("|").split("|")[0].strip() for l in rows[2:]}
+
+
+# -- the setting files ---------------------------------------------------------
+#
+# Each setting table with fields in Setting_Schema.md is read as records (`### Title`,
+# `## ` where heading=2, then `Field: value` lines) or as the first pipe table, and every
+# entry's fields are checked against it. An empty field is a stub owed to the table's step.
+
+DICE_RE = re.compile(r"(\d+)d6(?:\s*([+-])\s*(\d+))?")
+PLACE_RE = re.compile(r"(?:nowhere on this map|the referee's|[A-Z]+\.\d+(?:\s*,\s*[A-Z]+\.\d+)*)\b")
+
+
+def setting_entries(schema: Schema, name: str) -> list[tuple[str, int, dict[str, str]]] | None:
+    """(title, line, fields) for every entry of one setting file, or None if it is unbuilt."""
+    import site_common as sc
+    path = ROOT / schema.tables[name][1]
+    if not path.exists():
+        return None
+    level = int(schema.table_props[name].get("heading", 3))
+    if re.search(rf"^{'#' * level} ", path.read_text(), re.M):
+        return [(r.name, r.line, dict(r.fields)) for r in sc.read_records(path, level)]
+    ts = sc.read_tables(path)
+    if not ts:
+        return []
+    return [(row[0] if row else "?", line, dict(zip(ts[0].header, row)) | {"": len(row) - len(ts[0].header)})
+            for row, line in zip(ts[0].rows, ts[0].lines)]
+
+
+def check_setting_files(schema: Schema, codes: set[str]):
+    """Yield (severity, path, line, message) for every setting file entry against its
+    table's fields; severity "stub" is an empty field owed to the table's step."""
+    for name, fields in schema.fields.items():
+        entries = setting_entries(schema, name)
+        if not entries:
+            continue
+        path = ROOT / schema.tables[name][1]
+        step = schema.table_props[name].get("step", "?")
+        known = {m.name for m in fields}
+        for title, line, values in entries:
+            if values.pop("", 0):
+                yield "error", path, line, f"{title}: its row has a different number of cells from the header"
+            for k in values:
+                if k not in known:
+                    yield "error", path, line, f"{title} carries {k!r}, which {name} has no field for"
+            empty = [m.name for m in fields if not values.get(m.name, "").strip() and not m.opt]
+            if empty:
+                yield "stub", path, line, f"stub owed to step {step} - {title}: {', '.join(empty)}"
+            for m in fields:
+                v = values.get(m.name, "").strip()
+                if v:
+                    for msg in _check_field(schema, m, v, codes):
+                        yield "error", path, line, f"{title} {m.name}: {msg}"
+
+
+def _check_field(schema: Schema, m: Member, v: str, codes: set[str]):
+    if m.none and v.lower() == "none":
+        return
+    if m.type in schema.setting_enums:
+        items = schema.setting_enums[m.type]
+        lead = v.split(" - ")[0]
+        for x in ([i.strip() for i in lead.split(",")] if m.is_list else [lead.strip()]):
+            if x not in items:
+                yield f"{x!r} is not one of {', '.join(items)}"
+    elif m.type == "number":
+        b, want = bounds(v), bounds(m.props.get("range", ""))
+        if b is None:
+            yield f"{v!r} is not N or N-M"
+        elif want and not (want[0] <= b[0] and b[1] <= want[1]):
+            yield f"{v} is outside {m.props['range']}"
+    elif m.type == "dice":
+        d = DICE_RE.fullmatch(v)
+        if not d:
+            yield f"{v!r} is not Nd6 or Nd6+M"
+            return
+        count, bonus = int(d.group(1)), int(d.group(3) or 0) * (-1 if d.group(2) == "-" else 1)
+        if (c := bounds(m.props.get("count", ""))) and not c[0] <= count <= c[1]:
+            yield f"{count} dice is outside {m.props['count']}"
+        lo, _, hi = str(m.props.get("bonus", "")).partition("..")
+        if hi and not int(lo) <= bonus <= int(hi):
+            yield f"bonus {bonus:+d} is outside {lo}..{hi}"
+    elif m.type == "place":
+        p = PLACE_RE.match(v)
+        if not p:
+            yield f"{v[:30]!r} opens with no location code, 'nowhere on this map' or 'the referee's'"
+        else:
+            for c in re.findall(r"[A-Z]+\.\d+", p.group(0)):
+                if c not in codes:
+                    yield f"{c} is not a location"
+    elif m.type == "entry":
+        for x in ([i.strip() for i in v.split(",")] if m.is_list else [v]):
+            have = set().union(*(titles(ROOT / schema.tables[t][1]) or set() for t in m.args))
+            if x not in have:
+                yield f"{x!r} is on none of {', '.join(m.args)}"
+    elif m.type in schema.words and len(v.split()) > schema.words[m.type]:
+        yield f"{len(v.split())} words - a {m.type} is at most {schema.words[m.type]}"
 
 
 @dataclass

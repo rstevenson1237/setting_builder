@@ -221,15 +221,16 @@ class Record:
 _FIELD_RE = re.compile(r"^([A-Z][A-Za-z' ]{0,30}):\s*(.*)$")
 
 
-def read_records(path: Path) -> list[Record]:
-    """Every `### [Name]` record in a file; a line that opens no field continues
-    the field above it, since every setting/ file is hard-wrapped."""
+def read_records(path: Path, level: int = 3) -> list[Record]:
+    """Every `### [Name]` record in a file (`## ` at level 2); a line that opens no field
+    continues the field above it, since every setting/ file is hard-wrapped."""
     out: list[Record] = []
     cur = None
+    head = "#" * level + " "
     for i, raw in enumerate(path.read_text().splitlines(), 1):
         s = raw.strip()
-        if s.startswith("### "):
-            cur = Record(s[4:].strip(), [], i)
+        if s.startswith(head):
+            cur = Record(s[len(head):].strip(), [], i)
             out.append(cur)
             continue
         if not s or s.startswith("#") or cur is None:

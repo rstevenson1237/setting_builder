@@ -8,7 +8,7 @@ foundation every other document builds on.
 Read first:
 - `GENRE.md`
 - `BRIEF.md`
-- `patterns/setting/Setting.md`
+- `patterns/Setting_Schema.md`
 
 ## Instructions
 Give the setting a name, a tag line, then a two or three sentence outline for the referee.

@@ -5,7 +5,9 @@ node of the same name to mean what that rating needs.
 
 ```kdl
 node Location {
-  name string
+  name string               // per GENRE.md's Naming, after the rest is decided; named only where
+                            // something refers to it again. In whose mouth: residents (SAFE only),
+                            // border passers, the departed, or its occupants
   tags tag list n=3
   type kind
 }

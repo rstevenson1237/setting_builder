@@ -35,11 +35,11 @@ Read these rather than a description of them.
   Instructions / Template**, in folders mirroring `patterns/` plus `checks/` for the
   judgement checks. A template is cited by its path, folder included. A template's own Context section lists exactly which files to
   read before drafting; don't pull in more than it names.
-- `patterns/` - pattern guidance: `setting/` and `region/` pattern files, sharing one
-  skeleton, rooted at `patterns/Genre.md`; and the KDL schemas every location table is
-  checked against: `Setting_Schema.md` and `Region_Schema.md`, shared, and one per rating
-  (`Dangerous_Schema.md`, `Wild_Schema.md`, `Safe_Schema.md`), each able to redefine a
-  shared name for its own tables.
+- `patterns/` - the KDL schemas every setting file and location table is checked
+  against: `Setting_Schema.md` (every setting file's fields) and `Region_Schema.md`,
+  shared, and one per rating (`Dangerous_Schema.md`, `Wild_Schema.md`, `Safe_Schema.md`),
+  each able to redefine a shared name for its own tables; and the `region/` patterns for
+  each rating's seed and brief, rooted at `patterns/Genre.md`.
 - `setting/` - the generated setting, mirroring the template set in the order STEPS.md lays
   out: setting-level artifacts, Treasure Tables I-V, the two living artifacts
   (`Procedures.md`, `Language.md`), the five registries (`Lore.md`, `Keys.md`, `Quests.md`,

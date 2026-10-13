@@ -2,10 +2,10 @@
 
 ## Provides
 The root of the pattern tree: the questions a genre has to answer before anything is
-generated, and one edge to every pattern file a build enters from. `GENRE.md` is the
-answer to this file's GENRE block, authored rather than generated; every other node is
-reached from here. The order the nodes are generated in is `STEPS.md`'s, and what a
-location holds is its rating's schema's, `patterns/*_Schema.md`.
+generated, and an edge to each region pattern. `GENRE.md` is the answer to this file's
+GENRE block, authored rather than generated. The order things are generated in is
+`STEPS.md`'s; what a setting file or a location holds is its schema's,
+`patterns/*_Schema.md`.
 
 ## Spec
 
@@ -25,34 +25,8 @@ GENRE - answered in GENRE.md
 ```
 
 ```
-SETTING - one of each
-  1     Procedures                                     (patterns/setting/Procedures.md)
-  1     Language                                       (patterns/setting/Language.md)
-  1     Setting                                        (patterns/setting/Setting.md)
-  1     History                                        (patterns/setting/History.md)
-  1     Truths                                         (patterns/setting/Truths.md)
-  1     Rumours                                        (patterns/setting/Rumours.md)
-  1     Bestiary                                       (patterns/setting/Bestiary.md)
-  1     Factions                                       (patterns/setting/Factions.md)
-  1     Treasure                                       (patterns/setting/Treasure.md)
-  1     Magic                                          (patterns/setting/Magic.md)
-  1     Lore                                           (patterns/setting/Lore.md)
-  1     Keys                                           (patterns/setting/Keys.md)
-  1     Quests                                         (patterns/setting/Quests.md)
-  1     Named Creatures                        (patterns/setting/NamedCreatures.md)
-  1     Unique Treasures                     (patterns/setting/UniqueTreasures.md)
-  1     Magical Tomes                           (patterns/setting/MagicalTomes.md)
-  1     Hoards                                         (patterns/setting/Hoards.md)
-```
-
-```
 REGION - each region's overview, exactly one by its rating
   1     {safe | wild | dangerous}      (region/Safe.md, region/Wild.md, region/Dangerous.md)
-```
-
-```
-LOCATION - each location
-  1     Name                                           (patterns/setting/Naming.md)
 ```
 
 ## Constraints

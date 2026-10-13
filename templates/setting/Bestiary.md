@@ -7,11 +7,11 @@ Reusable, system-neutral creature templates for the setting.
 Read first:
 - `GENRE.md`
 - `BRIEF.md`
-- `patterns/setting/Bestiary.md`
+- `patterns/Setting_Schema.md`
 - `setting/Setting.md`, `setting/History.md`, `setting/Truths.md`
 
 ## Instructions
-Each entry is one record following `patterns/setting/Bestiary.md`'s Spec for a single entry.
+Each entry is one record following its fields in `patterns/Setting_Schema.md`.
 
 Write the entries `BRIEF.md` asks for up front, in its mix and AD spread. The Bestiary then
 grows as the build needs it: a location or region seed that needs a creature the Bestiary

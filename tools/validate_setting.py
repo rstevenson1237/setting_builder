@@ -91,10 +91,9 @@ def index_to_code(i: int) -> str:
 # check was added: a reference to another patterns/ file inside region/,
 # safe/, wild/, or dangerous/ is always written bare as "folder/File.md" -
 # never with a "patterns/" prefix, never bare of its folder - since none of
-# those four folders share a filename with anything under setting/. A
-# reference to a patterns/setting/*.md file is the one exception and always
-# keeps the "patterns/" prefix, because a bare "setting/File.md" is reserved
-# for the generated content file of the same name and is not checked here.
+# those four folders share a filename with anything under setting/. "setting"
+# stays listed so a stale patterns/setting/ citation is caught; a bare
+# "setting/File.md" is the generated content file and is not checked here.
 # ---------------------------------------------------------------------------
 
 PATTERN_FOLDERS = ("setting", "region", "safe", "wild", "dangerous")
@@ -873,122 +872,11 @@ def cross_check_registry(diag: Diagnostics, kind: str, path: Path, registry: dic
 # a warning naming the step the gap is owed to.
 # ---------------------------------------------------------------------------
 
-TEMPLATES_DIR = ROOT / "templates"
-# The setting-level files and the step each one's gaps are owed to; the template that
-# writes each is named so a record's expected fields can be read from it.
-SETTING_TABLE_FILES = {
-    "Keys.md": ("setting/Keys.md", "5a"),
-    "Quests.md": ("setting/Quests.md", "5d"),
-    "Truths.md": ("setting/Truths.md", "5d"),
-}
-SETTING_RECORD_FILES = {
-    "Bestiary.md": ("setting/Bestiary.md", "2d"),
-    "Factions.md": ("setting/Factions.md", "2e"),
-    "History.md": ("setting/History.md", "5d"),
-    "Lore.md": ("setting/Lore.md", "5a"),
-    "NamedCreatures.md": ("setting/NamedCreatures.md", "5a"),
-    "UniqueTreasures.md": ("setting/UniqueTreasures.md", "5a"),
-    "MagicalTomes.md": ("setting/MagicalTomes.md", "5a"),
-    "Hoards.md": ("setting/Hoards.md", "5a"),
-}
-
-
-def template_block(rel: str) -> str:
-    path = TEMPLATES_DIR / rel
-    if not path.exists():
-        return ""
-    text = path.read_text()
-    i = text.find("## Template")
-    m = re.search(r"```[^\n]*\n(.*?)```", text[i:], re.S) if i >= 0 else None
-    return m.group(1) if m else ""
-
-
-def template_header(rel: str) -> list[str]:
-    for line in template_block(rel).splitlines():
-        if line.strip().startswith("|"):
-            return sc.split_row(line)
-    return []
-
-
-def template_fields(rel: str) -> list[str]:
-    out = []
-    for line in template_block(rel).splitlines():
-        m = re.match(r"^([A-Z][A-Za-z' ]{0,30}):\s", line.strip())
-        if m and m.group(1) not in out:
-            out.append(m.group(1))
-    return out
-
-
-def table_stubs(path: Path, tables, step: str) -> list[tuple[str, Path, int, str]]:
-    out = []
-    for t in tables:
-        for row, line in zip(t.rows, t.lines):
-            empty = [h for h, c in zip(t.header, row) if not c.strip()]
-            empty += t.header[len(row):]
-            if not empty:
-                continue
-            key = row[0] if row else "?"
-            where = f"{t.name} " if t.name else ""
-            out.append((step, path, line, f"{where}{key}: {', '.join(empty)}"))
-    return out
-
-
-def check_table_shape(diag: Diagnostics, path: Path, tables):
-    for t in tables:
-        seen: set = set()
-        for row, line in zip(t.rows, t.lines):
-            if len(row) != len(t.header):
-                diag.error(path, f"line {line}: {len(row)} cells under a {len(t.header)}-column "
-                                 f"header{f' ({t.name})' if t.name else ''}")
-            if "ID" in t.header:
-                rid = row[t.header.index("ID")] if len(row) > t.header.index("ID") else ""
-                if rid and rid in seen:
-                    diag.error(path, f"line {line}: duplicate ID {rid} in {t.name or 'its table'}")
-                seen.add(rid)
-
-
-def collect_stubs() -> list[tuple[str, Path, int, str]]:
-    """Every setting-level stub, as (owed step, file, line, what is missing)."""
-    stubs = []
-    for fname, (tmpl, step) in SETTING_TABLE_FILES.items():
-        path = SETTING / fname
-        if path.exists():
-            stubs += table_stubs(path, sc.read_tables(path), step)
-    for fname, (tmpl, step) in SETTING_RECORD_FILES.items():
-        path = SETTING / fname
-        if not path.exists():
-            continue
-        fields = template_fields(tmpl)
-        for r in sc.read_records(path):
-            have = {k for k, v in r.fields if v.strip()}
-            missing = [f for f in fields if f not in have]
-            if missing:
-                stubs.append((step, path, r.line, f"{r.name}: {', '.join(missing)}"))
-    return stubs
-
-
-def check_tables(diag: Diagnostics):
-    for fname, (tmpl, _step) in SETTING_TABLE_FILES.items():
-        path = SETTING / fname
-        if not path.exists():
-            continue
-        tables = sc.read_tables(path)
-        check_table_shape(diag, path, tables)
-        want = template_header(tmpl)
-        if tables and want and tables[0].header != want:
-            diag.error(path, f"columns {tables[0].header} differ from templates/{tmpl}'s {want}")
-    for fname, (tmpl, _step) in SETTING_RECORD_FILES.items():
-        path = SETTING / fname
-        if not path.exists():
-            continue
-        fields = set(template_fields(tmpl))
-        for r in sc.read_records(path):
-            for k in r.labels():
-                if fields and k not in fields:
-                    diag.error(path, f"line {r.line}: {r.name} carries field {k!r}, which "
-                                     f"templates/{tmpl} does not write")
-    for step, path, line, what in collect_stubs():
-        diag.warn(path, f"line {line}: stub owed to step {step} - {what}")
+def check_setting_files(diag: Diagnostics, schema, codes: set):
+    """Every setting file against its fields in patterns/Setting_Schema.md; a stub is a
+    warning naming the step it is owed to."""
+    for sev, path, line, msg in tables.check_setting_files(schema, codes):
+        (diag.warn if sev == "stub" else diag.error)(path, f"line {line}: {msg}")
 
 
 # ---------------------------------------------------------------------------
@@ -1026,19 +914,7 @@ def check_rumours(diag: Diagnostics):
         diag.warn(path, "not every rumour row carries a T/P/F/U mark")
 
 
-def bestiary_types() -> set[str]:
-    """The TYPE draw block in patterns/setting/Bestiary.md's Spec, lower-cased.
-
-    Read from the pattern rather than copied here, so the closed set has one
-    owner and a rename there cannot leave a stale copy behind.
-    """
-    path = PATTERNS / "setting" / "Bestiary.md"
-    if not path.exists():
-        return set()
-    items = spec_blocks(path.read_text()).get("TYPE", [])
-    return {ln.split(" - ")[0].strip().lower() for ln in items if ln.strip()}
-
-# A stat line's AD field is "Xd6+N" per patterns/setting/Bestiary.md; its Type and MA
+# A stat line's AD field is "Xd6+N" per patterns/Setting_Schema.md; its Type and MA
 # are fields of their own. The bonus and MA are optional here so a partially written
 # file still parses; both are reported as findings rather than as parse failures.
 AD_RE = re.compile(r"^(?P<ad>\d+)d6\s*(?P<mod>[+-]\s*\d+)?$")
@@ -1063,40 +939,19 @@ def parse_statblocks(path: Path):
 
 
 def check_statblocks(diag: Diagnostics, path: Path, label: str, expect_special: bool):
-    """patterns/setting/Bestiary.md's AD ladder, modifier and MA scaling.
-
-    Content, not format, so almost everything here is a warning: the averages
-    exist to be deviated from, and a single entry off its average is the field
-    doing its job. What is worth an error is a value outside the declared
-    range, and what is worth a warning is a *systematic* absence of deviation -
-    a file where nothing carries a modifier has not decided anything.
-    """
+    """The modifier and MA against their averages. patterns/Setting_Schema.md bounds each
+    value; this warns only on a *systematic* absence of deviation - a file where nothing
+    carries a modifier, or everything sits on its average, has not decided anything."""
     if not path.exists():
         diag.warn(path, "missing - not built yet")
         return
-    blocks = parse_statblocks(path)
-    types = bestiary_types()
-    for b in blocks:
-        if b["ad_raw"] and b["ad"] is None:
-            diag.error(path, f"{b['name']}: AD {b['ad_raw']!r} is not written Xd6+N")
-    blocks = [b for b in blocks if b["ad"] is not None]
+    blocks = [b for b in parse_statblocks(path) if b["ad"] is not None]
     if not blocks:
         return
     no_mod = no_ma = no_special = 0
     for b in blocks:
-        if types and b["type"] and b["type"].lower() not in types:
-            diag.error(path, f"{b['name']}: type {b['type']!r} is not in "
-                             f"patterns/setting/Bestiary.md's TYPE draw")
-        if not 1 <= b["ad"] <= 18:
-            diag.error(path, f"{b['name']}: AD {b['ad']} is outside the 1-18 range")
-        if b["mod"] is None:
-            no_mod += 1
-        elif not -2 <= b["mod"] <= 6:
-            diag.error(path, f"{b['name']}: modifier {b['mod']:+d} is outside the -2..+6 range")
-        if b["ma"] is None:
-            no_ma += 1
-        elif not 1 <= b["ma"] <= 6:
-            diag.error(path, f"{b['name']}: MA {b['ma']} is outside the 1-6 range")
+        no_mod += b["mod"] is None
+        no_ma += b["ma"] is None
         if expect_special and not b["special"]:
             no_special += 1
     n = len(blocks)
@@ -1474,8 +1329,10 @@ def report_pending(region_filter: str | None) -> int:
             elif changed := tables.stale(setting, code, history):
                 owed.setdefault(rel(r.dir), []).append(
                     f"{code}'s write-up is stale, owed to step 5b - changed since: {'; '.join(changed)}")
-    for step, path, line, what in ([] if region_filter else collect_stubs()):
-        owed.setdefault(rel(path), []).append(f"line {line}: stub owed to step {step} - {what}")
+    stubs = [] if region_filter else tables.check_setting_files(setting.schema, setting.codes)
+    for sev, path, line, msg in stubs:
+        if sev == "stub":
+            owed.setdefault(rel(path), []).append(f"line {line}: {msg}")
     for path in sorted(owed):
         print(path)
         for msg in owed[path]:
@@ -1595,7 +1452,7 @@ def main() -> int:
     for kind, path, _marker in REGISTRY_KINDS:
         cross_check_registry(diag, kind, path, registries[kind], citations[kind])
 
-    check_tables(diag)
+    check_setting_files(diag, schema, setting.codes)
     check_treasure_tables(diag, brief)
     for problem in brief.region_problems(regions):
         diag.error(tables.BRIEF, problem)

@@ -8,7 +8,7 @@ when a location's contents call for Magic.
 Read first:
 - `GENRE.md`
 - `BRIEF.md`
-- `patterns/setting/Magic.md`
+- `patterns/Setting_Schema.md`
 - `setting/Treasure1.md` - the coins and wt every value is stated in
 - `setting/Setting.md`, `setting/History.md`, `setting/Truths.md`
 
@@ -16,7 +16,7 @@ Do not consult location, region, or faction files - this table is setting-level 
 reusable everywhere, not tied to any specific place or owner.
 
 ## Instructions
-The results `BRIEF.md` sets, each following `patterns/setting/Magic.md`'s Spec, in randomised order.
+The results `BRIEF.md` sets, each following its fields in `patterns/Setting_Schema.md`, in randomised order.
 
 ## Template
 ```

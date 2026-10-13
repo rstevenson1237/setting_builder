@@ -16,14 +16,15 @@ Consult when running this check:
 Record **findings only**, each as Needs Attention with the file, the item and a note. A
 file with no finding is covered by the Confirmed line; do not write a block per file.
 
-Every pattern file in `patterns/setting/` and `patterns/region/` specifies one unit - how
+Every pattern file in `patterns/region/` specifies one unit - how
 many, and in what mix, is `BRIEF.md`'s - in three fields, in order: **Provides**, what
 exists once it is read and where it ends against its siblings; **Spec**, fenced lines each
 rated `1` (always answered) or `*` (`BRIEF.md` sets how often), each an edge to another
 pattern file in parentheses, a question with optional suggestions, or a draw, inline
 `{a | b}` or a named `{NAME}` block; and **Constraints**, what it must never do. A citation
-between pattern files is `folder/File.md`, except `patterns/setting/*.md`, which keeps its
-prefix. `tools/validate_setting.py` checks the shape; this check judges the rest.
+between pattern files is `folder/File.md`. `tools/validate_setting.py` checks the shape;
+this check judges the rest. The schemas, `patterns/*_Schema.md`, hold every setting file's
+and every table's fields, enums and ranges, with what guides them as comments.
 
 Across the library:
 - **No overlap or contradiction** - does one pattern duplicate or conflict with another?

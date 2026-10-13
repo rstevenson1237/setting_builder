@@ -7,7 +7,7 @@ Five reusable random treasure tables (Treasure Tables I-V), each a table of foun
 Read first:
 - `GENRE.md`
 - `BRIEF.md`
-- `patterns/setting/Treasure.md`
+- `patterns/Setting_Schema.md`
 - `setting/Bestiary.md`
 - `setting/Setting.md`, `setting/History.md`, `setting/Truths.md`
 
@@ -16,7 +16,7 @@ Do not consult location, region, or faction files - these tables are setting-lev
 ## Instructions
 One file per table: `setting/Treasure1.md` through `setting/Treasure5.md`, corresponding
 to Treasure Tables I-V in order. Each is a list of the results `BRIEF.md` sets, each following
-`patterns/setting/Treasure.md`'s Spec. Results run in randomised order - never ascending or descending by value - spread as
+its fields in `patterns/Setting_Schema.md`. Results run in randomised order - never ascending or descending by value - spread as
 `BRIEF.md` sets.
 
 Head Table I with the setting's coins - each by name, and its ratio to the others - and

@@ -7,13 +7,13 @@ Establishes 1 or more unique truths that separate this setting from a generic in
 Read first:
 - `GENRE.md`
 - `BRIEF.md`
-- `patterns/setting/Truths.md`
+- `patterns/Setting_Schema.md`
 - `setting/Setting.md`
 - `setting/History.md`
 - At 5d: the location entries and write-ups that deliver each truth
 
 ## Instructions
-List the truths `BRIEF.md` asks for, each following `patterns/setting/Truths.md`'s Spec.
+List the truths `BRIEF.md` asks for, each following its fields in `patterns/Setting_Schema.md`.
 With none asked for, the file is its header line.
 
 A standing mystery or a gap left for the referee may be listed here whether or not the
