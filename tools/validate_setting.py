@@ -153,7 +153,7 @@ def check_pattern_files(diag: Diagnostics):
 
 
 # ---------------------------------------------------------------------------
-# patterns/*/*.md - section structure, per patterns/SPEC.md
+# patterns/*/*.md - section structure, per templates/checks/Pattern_Judgement_Check.md
 # ---------------------------------------------------------------------------
 
 
@@ -175,7 +175,7 @@ def spec_blocks(text: str) -> dict[str, list[str]]:
     return out
 
 
-# A Spec line's rate is `1` or `*`, per patterns/SPEC.md. Anything else in
+# A Spec line's rate is `1` or `*`. Anything else in
 # the rate column - `2`, `3-6`, `15+`, `20%` - is read by this validator as a
 # continuation of the line above, so the line it
 # opens silently merges into its neighbour.
@@ -191,7 +191,7 @@ def check_rate_notation(diag: Diagnostics, path, text: str):
         for line in body:
             m = ODD_RATE_RE.match(line)
             if m and m.group(1) != "1":
-                diag.warn(path, f"Spec line rated {m.group(1)!r} - patterns/SPEC.md allows `1` "
+                diag.warn(path, f"Spec line rated {m.group(1)!r} - a pattern Spec allows `1` "
                                 f"or `*`, and the tools read this line as a "
                                 f"continuation of the one above it: {line.strip()[:60]!r}")
 
@@ -278,7 +278,7 @@ TEMPLATE_CITE_RE = re.compile(r'\btemplates/((?:[a-z]+/)?[A-Za-z_]+\.(?:md|mmd))
 TEMPLATE_PATTERN_CITE_RE = re.compile(
     r'\bpatterns/(' + '|'.join(PATTERN_FOLDERS) + r')/([A-Za-z]+\.md)\b'
 )
-# The bare form is how one pattern file cites another (patterns/SPEC.md's
+# The bare form is how one pattern file cites another (Pattern_Judgement_Check.md's
 # citation grammar) and it is wrong in a template, where it drops the edge off
 # the graph silently. "setting/" is excluded because a bare setting/X.md in a
 # template is a reference to the generated content file of that name.
@@ -1508,8 +1508,8 @@ def main() -> int:
     check_read_set_graph(diag)
     check_repeated_prose(diag)
     schema = tables.Schema()
-    for problem in schema.problems:
-        diag.error(tables.SCHEMA, problem)
+    for path, problem in schema.problems:
+        diag.error(path, problem)
     brief = tables.Brief(schema)
     for problem in brief.problems:
         diag.error(tables.BRIEF, problem)

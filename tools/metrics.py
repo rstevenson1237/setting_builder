@@ -337,7 +337,7 @@ def report_budget() -> None:
     layers = [
         ("authorities", [p for p in authorities if p.exists()]),
         ("templates/", sorted((ROOT / "templates").glob("*/*.md"))),
-        ("patterns/", sorted((ROOT / "patterns").glob("SPEC.md"))
+        ("patterns/", sorted((ROOT / "patterns").glob("*.md"))
                       + sorted((ROOT / "patterns").glob("*/*.md"))),
     ]
     framework = 0

@@ -2,20 +2,20 @@
 
 ## Purpose
 The table files of one region, `setting/region/[Region Code]/[Table].md`: one file per
-table `patterns/Schema.md`'s folder for its rating names, each holding entries.
+table its rating's schema, `patterns/[Rating]_Schema.md`, names, each holding entries.
 
 ## Context
 Read first, for every table:
 - `GENRE.md`
 - `STYLE.md`
 - `BRIEF.md`
-- `patterns/Schema.md`
+- `patterns/Setting_Schema.md`, `patterns/Region_Schema.md` and this region's rating schema
 - this region's seed, `setting/region/[Region Code].md`
 
 Then, by step:
 - **4a, Locations**: this region's die in `setting/region/Regions.md`, `patterns/setting/Naming.md` and `setting/Language.md`.
 - **4c, the stubs**: this region's `Locations.md`, and its `Connections.mmd` where it has one.
-- **5a**: this region's `Locations.md`, `Connections.mmd` and `Purpose.md` where it has them, the table being filled, and the setting files `patterns/Schema.md` names for its values.
+- **5a**: this region's `Locations.md`, `Connections.mmd` and `Purpose.md` where it has them, the table being filled, and the setting files `patterns/Setting_Schema.md` names for its values.
 - **5d, placing**: this region's table files and `Connections.mmd`, and `setting/Keys.md`.
 
 ## Instructions

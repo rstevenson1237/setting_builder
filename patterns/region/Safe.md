@@ -5,7 +5,7 @@ One SAFE region's overview, in two parts: the seed, the settlement as its locati
 written from - who is here, what can be had and for what, what gets a stranger thrown out,
 and what is moving; and the brief, written once the locations exist, which indexes them
 for a referee running the settlement without opening a location. What one location holds
-is `patterns/Schema.md`'s.
+is `patterns/Safe_Schema.md`'s.
 
 ## Spec
 

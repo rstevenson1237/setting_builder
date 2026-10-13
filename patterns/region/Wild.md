@@ -5,7 +5,7 @@ One WILD region's overview, in two parts: the seed, the country as its locations
 from - how it is entered, what moving through it costs, who is out here and what is
 changing; and the brief, written once the locations exist, which indexes them for a
 referee running a crossing without opening a location. What one location holds is
-`patterns/Schema.md`'s.
+`patterns/Wild_Schema.md`'s.
 
 ## Spec
 

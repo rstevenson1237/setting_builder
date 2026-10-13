@@ -5,7 +5,6 @@ A non-mechanical review pass over `patterns/` - confirming, by human or model ju
 
 ## Context
 Consult when running this check:
-- `patterns/SPEC.md` - the standard every pattern file's shape is tested against.
 - `GENRE.md` and `STYLE.md` - the standards a pattern's content is measured against; `STYLE.md` outranks every pattern.
 - every file in `patterns/`.
 - `templates/region/Location.md` (and any other template that consumes a pattern) - to see how a pattern's output actually lands on the page.
@@ -16,6 +15,15 @@ Consult when running this check:
 ## Instructions
 Record **findings only**, each as Needs Attention with the file, the item and a note. A
 file with no finding is covered by the Confirmed line; do not write a block per file.
+
+Every pattern file in `patterns/setting/` and `patterns/region/` specifies one unit - how
+many, and in what mix, is `BRIEF.md`'s - in three fields, in order: **Provides**, what
+exists once it is read and where it ends against its siblings; **Spec**, fenced lines each
+rated `1` (always answered) or `*` (`BRIEF.md` sets how often), each an edge to another
+pattern file in parentheses, a question with optional suggestions, or a draw, inline
+`{a | b}` or a named `{NAME}` block; and **Constraints**, what it must never do. A citation
+between pattern files is `folder/File.md`, except `patterns/setting/*.md`, which keeps its
+prefix. `tools/validate_setting.py` checks the shape; this check judges the rest.
 
 Across the library:
 - **No overlap or contradiction** - does one pattern duplicate or conflict with another?
@@ -30,7 +38,7 @@ Across the library:
 - **Unhoused content** - anything the brief or the user asked for that fits no current
   pattern. Flag it rather than force-fitting it.
 
-Per node of `patterns/Schema.md`, which is what a location draws; a `setting/` or
+Per node of a rating's schema (`patterns/*_Schema.md`), which is what a location draws; a `setting/` or
 `region/` pattern is judged by the library items above and by what its artifact produced:
 - **Specific** - pushes toward named, particular content rather than a reskinnable
   placeholder.

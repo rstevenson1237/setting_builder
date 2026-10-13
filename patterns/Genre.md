@@ -5,7 +5,7 @@ The root of the pattern tree: the questions a genre has to answer before anythin
 generated, and one edge to every pattern file a build enters from. `GENRE.md` is the
 answer to this file's GENRE block, authored rather than generated; every other node is
 reached from here. The order the nodes are generated in is `STEPS.md`'s, and what a
-location holds is `patterns/Schema.md`'s.
+location holds is its rating's schema's, `patterns/*_Schema.md`.
 
 ## Spec
 

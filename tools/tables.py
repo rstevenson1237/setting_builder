@@ -1,5 +1,5 @@
-"""Location tables: patterns/Schema.md loaded, every region's tables read and checked
-against it, and one location's entries gathered."""
+"""Location tables: patterns/*_Schema.md loaded, every region's tables read and checked
+against its rating's schema, and one location's entries gathered."""
 from __future__ import annotations
 
 import re
@@ -10,7 +10,8 @@ import kdl
 
 ROOT = Path(__file__).resolve().parent.parent
 SETTING = ROOT / "setting"
-SCHEMA = ROOT / "patterns" / "Schema.md"
+PATTERNS = ROOT / "patterns"
+SHARED = ("Setting", "Region")   # the shared schemas, widest first; every other is a rating's
 
 CODE_RE = re.compile(r"([A-Z]+)\.(\d+)")
 RANGE_RE = re.compile(r"(\d+)(?:-(\d+))?")
@@ -32,11 +33,16 @@ class Member:
 
 @dataclass
 class Folder:
+    """One rating's tables, with the enums and nodes its schema sees: its own over
+    Region_Schema.md's over Setting_Schema.md's."""
     type: str
     files: dict[str, list[str]]
-    rates: dict[str, dict[str, tuple[int, int]]]
-    joins: dict[str, tuple[set[str], str | None]] = field(default_factory=dict)
-    top: set[str] = field(default_factory=set)
+    joins: dict[str, tuple[set[str], str | None]]
+    top: set[str]
+    path: Path
+    enums: dict[str, dict] = field(default_factory=dict)
+    nodes: dict[str, list[Member]] = field(default_factory=dict)
+    rates: dict[str, dict[str, tuple[int, int]]] = field(default_factory=dict)
 
 
 def bounds(rate) -> tuple[int, int] | None:
@@ -48,19 +54,46 @@ def bounds(rate) -> tuple[int, int] | None:
 
 
 class Schema:
-    """patterns/Schema.md, with each folder's rates from BRIEF.md's node for its rating."""
+    """patterns/*_Schema.md: the shared Setting and Region schemas, then one per rating
+    holding its folder, each a scope over the ones before it. Each folder's rates come
+    from BRIEF.md's node for its rating."""
 
-    def __init__(self, path: Path = SCHEMA, brief: Path | None = None):
-        self.path, self.problems, self.brief_problems = path, [], []
-        self.words, self.values, self.tables = {}, set(), {}
-        self.enums, self.nodes, self.folders = {}, {}, {}
+    def __init__(self, root: Path = PATTERNS, brief: Path | None = None):
+        self.problems: list[tuple[Path, str]] = []
+        self.brief_problems: list[str] = []
+        self.words, self.values, self.tables, self.folders = {}, set(), {}, {}
+        shared: tuple[dict, dict] = ({}, {})
+        for path in (root / f"{n}_Schema.md" for n in SHARED):
+            self._read(path, *shared)
+        for path in sorted(set(root.glob("*_Schema.md")) - {root / f"{n}_Schema.md" for n in SHARED}):
+            enums, nodes = dict(shared[0]), dict(shared[1])
+            for f in self._read(path, enums, nodes):
+                f.enums, f.nodes = enums, nodes
+        try:
+            for n in brief_nodes(brief or BRIEF):
+                if f := self.folders.get(n.name.title()):
+                    for c in n.children:
+                        if c.name == "rate":
+                            f.rates.update({a: {s: bounds(r) for s, r in c.props.items()} for a in c.args})
+        except SyntaxError as e:
+            self.brief_problems.append(str(e))
+        self._resolve()
+
+    def _read(self, path: Path, enums: dict, nodes: dict) -> list[Folder]:
+        """One schema file into the scope given; a name it defines shadows a wider one."""
+        p = lambda n, msg: self.problems.append((path, f"line {n.line}: {msg}"))
         try:
             top = kdl.fenced(path.read_text())
         except (OSError, SyntaxError) as e:
-            self.problems.append(str(e))
-            return
+            self.problems.append((path, str(e)))
+            return []
+        folders, own = [], set()
         for n in top:
             name = n.args[0] if n.args else None
+            if n.name in ("enum", "node", "folder"):
+                if (n.name, name) in own:
+                    p(n, f"{n.name} {name!r} is defined twice")
+                own.add((n.name, name))
             if n.name == "value":
                 self.values.add(name)
                 if "words" in n.props:
@@ -71,26 +104,19 @@ class Schema:
                 items = {a: None for a in n.args[1:]}
                 for g in n.children:
                     items.update({a: g.name for a in g.args})
-                self.enums[name] = items
+                enums[name] = items
             elif n.name == "node":
-                self.nodes[name] = [self._member(c) for c in n.children]
-            elif n.name == "folder":
+                nodes[name] = [self._member(c) for c in n.children]
+            elif n.name == "folder" and path.stem.split("_")[0] not in SHARED:
                 files = {c.name: c.args for c in n.children if c.name not in ("join", "top")}
                 joins = {c.args[0]: (set(c.args[1:]), c.props.get("gate"))
                          for c in n.children if c.name == "join" and c.args}
                 top = {a for c in n.children if c.name == "top" for a in c.args}
-                self.folders[name] = Folder(n.props.get("type", ""), files, {}, joins, top)
+                self.folders[name] = Folder(n.props.get("type", ""), files, joins, top, path)
+                folders.append(self.folders[name])
             else:
-                self.problems.append(f"line {n.line}: unknown schema node {n.name!r}")
-        try:
-            for n in brief_nodes(brief or BRIEF):
-                if f := self.folders.get(n.name.title()):
-                    for c in n.children:
-                        if c.name == "rate":
-                            f.rates.update({a: {s: bounds(r) for s, r in c.props.items()} for a in c.args})
-        except SyntaxError as e:
-            self.brief_problems.append(str(e))
-        self._resolve()
+                p(n, f"{n.name!r} is not a schema node here")
+        return folders
 
     @staticmethod
     def _member(c) -> Member:
@@ -102,49 +128,57 @@ class Schema:
                       "list" in c.args, c.props.get("n"))
 
     def _resolve(self):
-        p = self.problems.append
-        for node, members in self.nodes.items():
-            for m in members:
-                for child in m.nodes:
-                    if child not in self.nodes:
-                        p(f"{node}: one-of names unknown node {child!r}")
-                if m.name == "one-of":
-                    continue
-                if m.type not in self.values and m.type not in self.enums:
-                    p(f"{node}.{m.name}: unknown type {m.type!r}")
-                if m.type == "entry" and m.arg not in self.tables:
-                    p(f"{node}.{m.name}: unknown table {m.arg!r}")
-                if m.type == "pull" and not set(self.enums.get(m.arg, {"?": 0})) <= set(self.tables):
-                    p(f"{node}.{m.name}: {m.arg!r} is not an enum of tables")
+        seen = set()
         for name, f in self.folders.items():
-            if f.type not in self.enums:
+            def p(msg, f=f):
+                if (f.path, msg) not in seen:
+                    seen.add((f.path, msg))
+                    self.problems.append((f.path, msg))
+            # every node the folder's files can hold, through one-of children
+            todo = [n for ns in f.files.values() for n in ns]
+            reach = set()
+            while todo:
+                node = todo.pop()
+                if node in reach:
+                    continue
+                reach.add(node)
+                if node not in f.nodes:
+                    p(f"folder {name}: holds unknown node {node!r}")
+                    continue
+                for m in f.nodes[node]:
+                    todo += m.nodes
+                    if m.name == "one-of":
+                        continue
+                    if m.type not in self.values and m.type not in f.enums:
+                        p(f"{node}.{m.name}: unknown type {m.type!r}")
+                    if m.type == "entry" and m.arg not in self.tables:
+                        p(f"{node}.{m.name}: unknown table {m.arg!r}")
+                    if m.type == "pull" and not set(f.enums.get(m.arg, {"?": 0})) <= set(self.tables):
+                        p(f"{node}.{m.name}: {m.arg!r} is not an enum of tables")
+            if f.type not in f.enums:
                 p(f"folder {name}: unknown type enum {f.type!r}")
             # A group of the type enum names every item in it.
             groups = {}
-            for item, g in self.enums.get(f.type, {}).items():
+            for item, g in f.enums.get(f.type, {}).items():
                 groups.setdefault(g, set()).add(item)
             grow = lambda names: {x for n in names for x in groups.get(n, {n})}
             f.rates = {i: r for item, r in f.rates.items() for i in grow([item])}
             f.top = grow(f.top)
             f.joins = {i: (grow(to), gate) for item, (to, gate) in f.joins.items() for i in grow([item])}
-            for stem, nodes in f.files.items():
-                for n in nodes:
-                    if n not in self.nodes:
-                        p(f"folder {name}: {stem} holds unknown node {n!r}")
             for item, rates in f.rates.items():
-                if item not in self.enums.get(f.type, {}):
+                if item not in f.enums.get(f.type, {}):
                     self.brief_problems.append(f"{name.lower()}: rate for {item!r}, which {f.type} does not hold")
                 for stem, b in rates.items():
                     if stem not in f.files or b is None:
                         self.brief_problems.append(f"{name.lower()}: rate {item} {stem} is not a table file and a count or range")
             for t in f.top:
-                if t not in self.enums.get(f.type, {}):
+                if t not in f.enums.get(f.type, {}):
                     p(f"folder {name}: top names {t!r}, which {f.type} does not hold")
             for item, (to, gate) in f.joins.items():
                 for t in {item} | to:
-                    if t not in self.enums.get(f.type, {}):
+                    if t not in f.enums.get(f.type, {}):
                         p(f"folder {name}: join names {t!r}, which {f.type} does not hold")
-                if gate and gate not in self.nodes:
+                if gate and gate not in f.nodes:
                     p(f"folder {name}: join gate {gate!r} is not a node")
             if f.joins and "Connections" not in f.files:
                 p(f"folder {name}: join without a Connections file")
@@ -347,7 +381,7 @@ class Setting:
     def _check_node(self, r: Region, n: kdl.Node, within: str = ""):
         """Yield (severity, message) for every fault, and the name of every member not yet
         written - a bare entry is a stub, placed at 4c and filled at 5a."""
-        members = self.schema.nodes[n.name]
+        members = r.folder.nodes[n.name]
         known = {m.name for m in members}
         for k in n.props:
             if k not in known:
@@ -395,13 +429,13 @@ class Setting:
                 if s not in self.codes:
                     yield "error", f"{s!r} is not a location code"
             elif m.type == "kind":
-                if s not in self.schema.enums[r.folder.type]:
-                    yield "error", f"{s!r} is not one of {', '.join(self.schema.enums[r.folder.type])}"
+                if s not in r.folder.enums[r.folder.type]:
+                    yield "error", f"{s!r} is not one of {', '.join(r.folder.enums[r.folder.type])}"
             elif m.type == "entry":
                 yield from self._check_title(m.arg, s)
             elif m.type == "pull":
                 table, _, title = s.partition(": ")
-                if table not in self.schema.enums[m.arg]:
+                if table not in r.folder.enums[m.arg]:
                     yield "error", f"{s!r} names no table in {m.arg}"
                 elif (self.schema.tables[table][0] == "entry") != bool(title):
                     yield "error", (f"{s!r} - {table} is pulled as 'Table: Title'"
@@ -409,8 +443,8 @@ class Setting:
                                     else f"{s!r} - {table} is pulled by its name alone")
                 elif title:
                     yield from self._check_title(table, title)
-            elif s not in self.schema.enums[m.type]:
-                yield "error", f"{s!r} is not one of {', '.join(self.schema.enums[m.type])}"
+            elif s not in r.folder.enums[m.type]:
+                yield "error", f"{s!r} is not one of {', '.join(r.folder.enums[m.type])}"
 
     def _check_title(self, table: str, title: str):
         have = self.titles(table)
@@ -586,11 +620,12 @@ class Brief:
             return p("a target names a Node or Node.member")
         path, *rest = [str(a) for a in n.args]
         node, _, member = path.partition(".")
-        if node not in self.schema.nodes:
-            return p(f"{node!r} is not a node of patterns/Schema.md")
+        f = self.schema.folders[rating]
+        if node not in f.nodes:
+            return p(f"{node!r} is not a node of {f.path.name}")
         values = {k: str(v) for k, v in n.props.items() if k != "of"}
-        members = {m.name: m for m in self.schema.nodes[node] if m.name != "one-of"}
-        children = {c for m in self.schema.nodes[node] for c in m.nodes}
+        members = {m.name: m for m in f.nodes[node] if m.name != "one-of"}
+        children = {c for m in f.nodes[node] for c in m.nodes}
         if member in members:
             if rest or not values:
                 return p(f"{path} takes Value=\"N%\" shares or Value=N counts")
@@ -604,7 +639,7 @@ class Brief:
                 return p(f"{path} takes one \"N%\" share")
             values, form = {"": rest[0]}, "child" if member else "presence"
             of = n.props.get("of")
-            if of and (member or of not in self.schema.enums.get(self.schema.folders[rating].type, {})):
+            if of and (member or of not in f.enums.get(f.type, {})):
                 return p(f"of={of!r} is not a {rating} location type")
         else:
             return p(f"{member!r} is neither a member nor a child of {node}")
@@ -617,17 +652,19 @@ class Brief:
 
     def _groups(self, rating: str) -> dict[str, set]:
         out = {}
-        for item, g in self.schema.enums.get(self.schema.folders[rating].type, {}).items():
+        f = self.schema.folders[rating]
+        for item, g in f.enums.get(f.type, {}).items():
             out.setdefault(g, set()).add(item)
         return out
 
     def _allowed(self, m: Member, rating: str) -> set | None:
+        f = self.schema.folders[rating]
         if m.type == "kind":
-            return set(self.schema.enums[self.schema.folders[rating].type]) | set(self._groups(rating))
-        if m.type in self.schema.enums:
-            return set(self.schema.enums[m.type])
+            return set(f.enums[f.type]) | set(self._groups(rating))
+        if m.type in f.enums:
+            return set(f.enums[m.type])
         if m.type == "pull":
-            return set(self.schema.enums.get(m.arg, {}))
+            return set(f.enums.get(m.arg, {}))
         return None
 
     def realized(self, setting: Setting):
@@ -887,7 +924,7 @@ def stale(setting: Setting, code: str, history: History) -> list[str]:
         deps.append((setting.regions[rcode].dir / f"{stem}.md", range(n.line - 1, n.line),
                      f"{stem} {n.name} {n.args[0] if n.args else ''}".strip()))
         for node in kdl.walk([n]):
-            for m in setting.schema.nodes.get(node.name, []):
+            for m in (region.folder.nodes.get(node.name, []) if region.folder else []):
                 v = node.props.get(m.name)
                 if v is None or m.type not in ("entry", "pull"):
                     continue

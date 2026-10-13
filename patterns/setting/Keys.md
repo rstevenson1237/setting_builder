@@ -3,7 +3,7 @@
 ## Provides
 One key entry: a portable object, the lock it opens elsewhere, and why the two are apart.
 Its lock is a `Lock` in a location table, placed first; the key is a `Reward` placed for it
-after, per `patterns/Schema.md`.
+after, per `patterns/Dangerous_Schema.md`.
 
 ## Spec
 
