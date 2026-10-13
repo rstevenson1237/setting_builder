@@ -874,7 +874,7 @@ def cross_check_registry(diag: Diagnostics, kind: str, path: Path, registry: dic
 
 def check_setting_files(diag: Diagnostics, schema, codes: set):
     """Every setting file against its fields in patterns/Setting_Schema.md; a stub is a
-    warning naming the step it is owed to."""
+    warning."""
     for sev, path, line, msg in tables.check_setting_files(schema, codes):
         (diag.warn if sev == "stub" else diag.error)(path, f"line {line}: {msg}")
 

@@ -35,7 +35,7 @@ enum Contents_Type "Treasure I" "Treasure II" "Treasure III" "Treasure IV" "Trea
 // -- Tongues. Every coinage is registered under its tongue's "Coined here", decomposed
 //    into roots, and glossed wherever it is reused; only setting and region steps coin.
 enum Speakers present departed arrived side non-people jargon liturgy
-table Language doc file="setting/Language.md" heading=2 step=2g {
+table Language doc file="setting/Language.md" heading=2 {
   "Spoken by" Speakers
   Consonants text             // an inventory no other tongue shares
   Vowels text
@@ -55,7 +55,7 @@ table Language doc file="setting/Language.md" heading=2 step=2g {
 // outside the world; Fantasy this setting's own.
 enum Bestiary_Type Men Humanoid Giant Beast Wyrm Undead Construct Horror Fey Fiend Fantasy
 enum Sign "a mark" "a track" "a sound" "a smell"
-table Bestiary entry file="setting/Bestiary.md" step=2d {
+table Bestiary entry file="setting/Bestiary.md" {
   Type Bestiary_Type
   AD dice count="1-18" bonus="-2..6"   // 1 a man's match; 2-3 superior; 4-5 larger, highly dangerous;
                                        // 6-8 supernatural; 9-12 gargantuan; 13-16 served; 17-18 a titan
@@ -71,7 +71,7 @@ enum Role "set piece" ranging situation survivor leader unkillable
 enum Motive feeding holding searching collecting protecting expanding waiting
 enum Reach "a rumour" "a piece of lore" "a survivor"
 enum Memory "who hurt it" "who fed it" "who ran" "a smell" "a name" "a promise"
-table "Named Creatures" entry file="setting/NamedCreatures.md" step=5a {
+table "Named Creatures" entry file="setting/NamedCreatures.md" {
   Type Bestiary_Type
   AD dice count="1-18" bonus="-2..6"
   MA number range="1-6"
@@ -88,7 +88,7 @@ table "Named Creatures" entry file="setting/NamedCreatures.md" step=5a {
 // -- Factions. AD is set against other factions' dice and nothing else; a goal is a
 //    condition acted on every turn, never a countdown.
 enum Want route resource person cleared sealed legitimacy debt rival knowing hiding
-table Factions entry file="setting/Factions.md" step=2e {
+table Factions entry file="setting/Factions.md" {
   AD dice bonus="0..0"
   Want Want                   // concrete enough to be interfered with
   Identity text               // repeated identically everywhere: colour, device, habit, arms, mark, phrase, tongue
@@ -104,7 +104,7 @@ table Factions entry file="setting/Factions.md" step=2e {
 //    in two sentences at most. A truth is a class, shows at more than one rating, sharpens
 //    GENRE.md and never overrides it; a mystery or open truth says it is one.
 enum Event_Kind founding withdrawal arrival discovery collapse war blight betrayal boundary working sealing
-table History entry file="setting/History.md" step=5d {
+table History entry file="setting/History.md" {
   When text                   // years ago, vaguer the older it is
   Kind Event_Kind
   Event text
@@ -112,7 +112,7 @@ table History entry file="setting/History.md" step=5d {
   Codes place
 }
 enum Truth_Kind land object custom standing limit price border "the dead" idea mystery open
-table Truths entry file="setting/Truths.md" step=5d {
+table Truths entry file="setting/Truths.md" {
   Truth text                  // the rule in one sentence, not its mood
   Kind Truth_Kind
   Handle text                 // an act a referee could adjudicate
@@ -124,7 +124,7 @@ table Truths entry file="setting/Truths.md" step=5d {
 //    the referee's by design. Each points at a region, location, person, creature,
 //    treasure, event, truth, faction, route or price.
 enum Truth_Mark T P F U
-table Rumours roll file="setting/Rumours.md" step=5d {
+table Rumours roll file="setting/Rumours.md" {
   "#" number
   Rumour text
   "T/P/F/U" Truth_Mark
@@ -134,14 +134,14 @@ table Rumours roll file="setting/Rumours.md" step=5d {
 // -- Finds. A result is the thing itself, tied to no place or container. Value is in
 //    Table I's coins at about 100 per wt; wt 0 is pocketed, 1 one hand, 2 both, 3+ more
 //    than one carrier, and is never shrunk to keep a number tidy.
-table "Treasure I" roll file="setting/Treasure1.md" step=2f {
+table "Treasure I" roll file="setting/Treasure1.md" {
   "#" number
   Item text
   Value number
   Wt number
 }
 enum Quality poor normal fine masterwork cursed   // masterwork always has an effect; cursed presents as fine or masterwork
-table "Treasure II" roll file="setting/Treasure2.md" step=2f {
+table "Treasure II" roll file="setting/Treasure2.md" {
   "#" number
   Item text
   Quality Quality
@@ -149,11 +149,11 @@ table "Treasure II" roll file="setting/Treasure2.md" step=2f {
   Value number
   Wt number
 }
-table "Treasure III" roll file="setting/Treasure3.md" step=2f as="Treasure I"
-table "Treasure IV" roll file="setting/Treasure4.md" step=2f as="Treasure I"
-table "Treasure V" roll file="setting/Treasure5.md" step=2f as="Treasure I"
+table "Treasure III" roll file="setting/Treasure3.md" as="Treasure I"
+table "Treasure IV" roll file="setting/Treasure4.md" as="Treasure I"
+table "Treasure V" roll file="setting/Treasure5.md" as="Treasure I"
 enum Lasts once charges lasting
-table Magic roll file="setting/Magic.md" step=2f {
+table Magic roll file="setting/Magic.md" {
   "#" number
   Item text
   Does text                   // plainly enough to adjudicate, at GENRE.md's Magic level
@@ -162,7 +162,7 @@ table Magic roll file="setting/Magic.md" step=2f {
   Value number
   Wt number
 }
-table Hoards entry file="setting/Hoards.md" step=5a {   // one owner, one location
+table Hoards entry file="setting/Hoards.md" {   // one owner, one location
   "Found at" place
   Owner entry Bestiary Factions "Named Creatures"
   Items text
@@ -171,7 +171,7 @@ table Hoards entry file="setting/Hoards.md" step=5a {   // one owner, one locati
 enum Does once class adjacent solution knowledge passage ward
 enum Cost toll noticed bound desperate foreign sought forbidden
 enum Origin event truth lost reclaimed grave unlikely unmade   // never one nothing established accounts for
-table "Unique Treasures" entry file="setting/UniqueTreasures.md" step=5a {
+table "Unique Treasures" entry file="setting/UniqueTreasures.md" {
   "Found at" place
   Does Does
   Cost Cost list none
@@ -179,7 +179,7 @@ table "Unique Treasures" entry file="setting/UniqueTreasures.md" step=5a {
   Description text
 }
 enum Reading time tongue rite cost
-table "Magical Tomes" entry file="setting/MagicalTomes.md" step=5a {   // learned, never discharged
+table "Magical Tomes" entry file="setting/MagicalTomes.md" {   // learned, never discharged
   "Found at" place
   Teaches text
   Reading Reading
@@ -190,7 +190,7 @@ table "Magical Tomes" entry file="setting/MagicalTomes.md" step=5a {   // learne
 //    lying, secondhand, late, interested, unfinished); never spoken, never omniscient.
 enum Lore_Form written cut woven drawn arranged
 enum Lore_Does purpose connection hook naming dating contradiction
-table Lore entry file="setting/Lore.md" step=5a {
+table Lore entry file="setting/Lore.md" {
   Form Lore_Form
   "Found at" place
   Voice text
@@ -203,7 +203,7 @@ table Lore entry file="setting/Lore.md" step=5a {
 enum Key_Form key profile fitting seal token bone word measure fragment
 enum Apart deliberate transit loot burial trust later
 enum Key_Link maker material measure tongue wear inscription record
-table Keys entry file="setting/Keys.md" step=5a {
+table Keys entry file="setting/Keys.md" {
   Name text
   Form Key_Form
   "Found at" place
@@ -217,7 +217,7 @@ table Keys entry file="setting/Keys.md" step=5a {
 enum Ask retrieve find deliver destroy verify take collect recover message
 enum Reluctance unable burned shamed needed "turned back"
 enum Obstacle living guarded fragile watched contested misplaced misdescribed
-table Quests entry file="setting/Quests.md" step=5d {
+table Quests entry file="setting/Quests.md" {
   Name text
   Ask Ask
   Giver text                  // who wants it, and how a party hears of it

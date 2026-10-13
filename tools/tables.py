@@ -224,7 +224,7 @@ def titles(path: Path) -> set[str] | None:
 #
 # Each setting table with fields in Setting_Schema.md is read as records (`### Title`,
 # `## ` where heading=2, then `Field: value` lines) or as the first pipe table, and every
-# entry's fields are checked against it. An empty field is a stub owed to the table's step.
+# entry's fields are checked against it. An empty field is a stub, still to be written.
 
 DICE_RE = re.compile(r"(\d+)d6(?:\s*([+-])\s*(\d+))?")
 PLACE_RE = re.compile(r"(?:nowhere on this map|the referee's|[A-Z]+\.\d+(?:\s*,\s*[A-Z]+\.\d+)*)\b")
@@ -248,13 +248,12 @@ def setting_entries(schema: Schema, name: str) -> list[tuple[str, int, dict[str,
 
 def check_setting_files(schema: Schema, codes: set[str]):
     """Yield (severity, path, line, message) for every setting file entry against its
-    table's fields; severity "stub" is an empty field owed to the table's step."""
+    table's fields; severity "stub" is an empty field still to be written."""
     for name, fields in schema.fields.items():
         entries = setting_entries(schema, name)
         if not entries:
             continue
         path = ROOT / schema.tables[name][1]
-        step = schema.table_props[name].get("step", "?")
         known = {m.name for m in fields}
         for title, line, values in entries:
             if values.pop("", 0):
@@ -264,7 +263,7 @@ def check_setting_files(schema: Schema, codes: set[str]):
                     yield "error", path, line, f"{title} carries {k!r}, which {name} has no field for"
             empty = [m.name for m in fields if not values.get(m.name, "").strip() and not m.opt]
             if empty:
-                yield "stub", path, line, f"stub owed to step {step} - {title}: {', '.join(empty)}"
+                yield "stub", path, line, f"stub - {title}: {', '.join(empty)} still empty"
             for m in fields:
                 v = values.get(m.name, "").strip()
                 if v:
