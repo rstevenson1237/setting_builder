@@ -262,7 +262,7 @@ def titles(path: Path) -> set[str] | None:
 # entry's fields are checked against it. An empty field is a stub, still to be written.
 
 DICE_RE = re.compile(r"(\d+)d6(?:\s*([+-])\s*(\d+))?")
-PLACE_RE = re.compile(r"(?:nowhere on this map|the referee's|[A-Z]+\.\d+(?:\s*,\s*[A-Z]+\.\d+)*)\b")
+PLACE_RE = re.compile(r"[A-Z]+\.\d+(?:\s*,\s*[A-Z]+\.\d+)*\b")
 
 
 def setting_entries(schema: Schema, name: str) -> list[tuple[str, int, dict[str, str]]] | None:
@@ -320,7 +320,7 @@ def check_field(schema: Schema, m: Member, v: str, codes: set[str], enums: dict 
     """Yield what is wrong with one field's value. An enum field opens with an item; a
     list enum lists items before any ` - `."""
     enums = schema.setting_enums if enums is None else enums
-    if m.none and v.lower() == "none":
+    if m.none and _opens_with(v, ["none"]):
         return
     if m.type in enums:
         items = enums[m.type]
@@ -350,7 +350,7 @@ def check_field(schema: Schema, m: Member, v: str, codes: set[str], enums: dict 
     elif m.type == "place":
         p = PLACE_RE.match(v)
         if not p:
-            yield f"{v[:30]!r} opens with no location code, 'nowhere on this map' or 'the referee's'"
+            yield f"{v[:30]!r} opens with no location code" + (" or none" if m.none else "")
         else:
             for c in re.findall(r"[A-Z]+\.\d+", p.group(0)):
                 if c not in codes:

@@ -89,12 +89,12 @@ table History entry file="setting/History.md" {
   When text                   // years ago, vaguer the older it is
   Event text
   Left text                   // the physical mark findable now
-  Codes place
+  Codes place none
 }
 table Truths entry file="setting/Truths.md" {
   Truth text                  // the rule in one sentence, not its mood
   Handle text                 // an act a referee could adjudicate
-  Codes place
+  Codes place none
 }
 
 // -- Rumours: no speaker built in, and never what the players should do. A P names its
@@ -106,7 +106,7 @@ table Rumours roll file="setting/Rumours.md" {
   "#" number
   Rumour text
   "T/P/F/U" Truth_Mark
-  "Settled at" place
+  "Settled at" place none
 }
 
 // -- Finds. A result is the thing itself, tied to no place or container. Value is in
@@ -190,7 +190,7 @@ table Keys entry file="setting/Keys.md" {
   Connection Key_Link list
 }
 
-// -- A quest points one way, and says where, even when that is nowhere on this map.
+// -- A quest points one way, and says where, or `none` when that is off this map.
 enum Ask retrieve find deliver destroy verify take collect recover message
 enum Reluctance unable burned shamed needed "turned back"
 enum Obstacle living guarded fragile watched contested misplaced misdescribed
@@ -202,6 +202,6 @@ table Quests entry file="setting/Quests.md" {
   Object text
   Obstacle Obstacle
   Terms text                  // the giver's own words: a fee, share, favour, loan, or bait
-  "Points to" place
+  "Points to" place none
 }
 ```

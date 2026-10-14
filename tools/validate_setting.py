@@ -866,7 +866,7 @@ def check_rumour_settling(diag: Diagnostics):
     if unsettled:
         diag.warn(path, f"{len(unsettled)}/{len(rows)} rumours are unsettled - each is written "
                         f"at 5d from the location settling it, and a rumour pointing off "
-                        f"the map says so rather than being left blank")
+                        f"the map says none rather than being left blank")
 
 
 def check_top_level_files(diag: Diagnostics):
