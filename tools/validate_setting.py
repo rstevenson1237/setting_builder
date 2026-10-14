@@ -267,13 +267,10 @@ FEATURE_RE = re.compile(r'^\*\*([^*]+):\*\*\s*(.*)$')
 EXIT_PAIR_RE = re.compile(r'->\s*([A-Z]+\.\d+)\s+([^,]+)')
 EXIT_DEST_RE = re.compile(r'->\s*[A-Z]+\.\d+\s+[^,]+')
 
-LORE_CITE_RE = re.compile(r'\(Lore:\s*([^)]+)\)')
-KEYS_CITE_RE = re.compile(r'\(Keys:\s*([^)]+)\)')
-QUEST_CITE_RE = re.compile(r'\(Quest:\s*([^)]+)\)')
-NAMED_CITE_RE = re.compile(r'\(Named Creature:\s*([^)]+)\)')
-UNIQUE_CITE_RE = re.compile(r'\(Unique Treasure:\s*([^)]+)\)')
-TOME_CITE_RE = re.compile(r'\(Magical Tome:\s*([^)]+)\)')
-HOARD_CITE_RE = re.compile(r'\(Hoard:\s*([^)]+)\)')
+# Each placed setting table's citation label, per templates/region/Location.md.
+CITE_LABELS = {"Lore": "Lore", "Keys": "Keys", "Named Creatures": "Named Creature",
+               "Unique Treasures": "Unique Treasure", "Magical Tomes": "Magical Tome",
+               "Hoards": "Hoard"}
 TREASURE_CITE_RE = re.compile(r'\(Treasure\s+([IVX]+),\s*d\d+\)')
 ROMAN_TABLES = {"I", "II", "III", "IV", "V"}
 
@@ -357,7 +354,7 @@ def check_summary_promises(diag: Diagnostics, path: Path, summary: str, lines: l
 
 
 def check_location_file(diag, path, region_code, num, stub, connected, all_locations,
-                         mundane_edges, hidden_edges, citations, conditions=None):
+                         mundane_edges, hidden_edges, conditions=None):
     """connected: the location has Connections entries, so its write-up carries Exits."""
     text = path.read_text()
     lines = text.splitlines()
@@ -463,20 +460,6 @@ def check_location_file(diag, path, region_code, num, stub, connected, all_locat
                 else:
                     seen_desc.setdefault(key, code)
 
-    for title in LORE_CITE_RE.findall(text):
-        citations["Lore"].setdefault(title.strip(), set()).add(f"{region_code}.{num}")
-    for title in KEYS_CITE_RE.findall(text):
-        citations["Keys"].setdefault(title.strip(), set()).add(f"{region_code}.{num}")
-    for title in QUEST_CITE_RE.findall(text):
-        citations["Quest"].setdefault(title.strip(), set()).add(f"{region_code}.{num}")
-    for title in NAMED_CITE_RE.findall(text):
-        citations["NamedCreature"].setdefault(title.strip(), set()).add(f"{region_code}.{num}")
-    for title in UNIQUE_CITE_RE.findall(text):
-        citations["UniqueTreasure"].setdefault(title.strip(), set()).add(f"{region_code}.{num}")
-    for title in TOME_CITE_RE.findall(text):
-        citations["MagicalTome"].setdefault(title.strip(), set()).add(f"{region_code}.{num}")
-    for title in HOARD_CITE_RE.findall(text):
-        citations["Hoard"].setdefault(title.strip(), set()).add(f"{region_code}.{num}")
     for roman in TREASURE_CITE_RE.findall(text):
         if roman not in ROMAN_TABLES:
             diag.error(path, f"Treasure citation uses unrecognized numeral {roman!r} (expected I-V)")
@@ -504,66 +487,32 @@ def check_region_edge_realization(diag: Diagnostics, top_path, top_edges: list,
 
 
 # ---------------------------------------------------------------------------
-# Lore / Keys / NamedCreatures / UniqueTreasures registries
+# A write-up carries the setting entries its tables place
+#
+# Whether an entry is placed is the tables' to say, checked against the setting files
+# by tables.Setting. A write-up only follows: once fresh, it cites exactly the entries
+# placed at its location, so one left out or one the tables do not hold is an error. A
+# stale write-up is owed to 5b and reported by --pending instead.
 # ---------------------------------------------------------------------------
 
-REGISTRY_KINDS = [
-    ("Lore", SETTING / "Lore.md", "lore"),
-    ("Keys", SETTING / "Keys.md", "keys"),
-    ("Quest", SETTING / "Quests.md", "quests"),
-    ("NamedCreature", SETTING / "NamedCreatures.md", "named_creatures"),
-    ("UniqueTreasure", SETTING / "UniqueTreasures.md", "unique_treasures"),
-    ("MagicalTome", SETTING / "MagicalTomes.md", "magical_tomes"),
-    ("Hoard", SETTING / "Hoards.md", "hoards"),
-]
-
-def parse_registry(diag: Diagnostics, kind: str, path: Path, sc_kind: str, all_locations: dict):
-    if not path.exists():
-        diag.warn(path, "missing - not built yet")
-        return {}
-    entries: dict[str, set] = {}
-    places = sc.REGISTRY_PLACES[sc_kind]
-    for title, fields, lineno in sc.registry_entries(sc_kind):
-        codes = set()
-        for k, v in fields:
-            if k in places:
-                codes |= set(sc.LOC_CODE_TOKEN_RE.findall(v))
-        for c in sorted(codes):
-            if c not in all_locations:
-                diag.error(path, f"line {lineno}: references unknown location code {c}")
-        if title in entries:
-            diag.error(path, f"line {lineno}: duplicate title {title!r}")
-        entries[title] = codes
-    return entries
-
-
-def check_key_obligations(diag: Diagnostics, path: Path, registry: dict, build_complete: bool):
-    """A Keys row names where the key is found and where it opens. Until the build is
-    complete an empty Opens cell is a stub like any other; after it, it is a dangling
-    thread that will never be honoured."""
-    if not build_complete:
-        return
-    for title, codes in sorted(registry.items()):
-        if len(codes) < 2:
-            diag.error(path, f"key {title!r} names only where it is found - every location is "
-                             f"written, so the lock it owes will never be drawn")
-
-
-def cross_check_registry(diag: Diagnostics, kind: str, path: Path, registry: dict, cited: dict):
-    """Every citation has its entry, and every place an entry names cites it back. A
-    quest points one way, so a location may cite one without being named by it."""
-    for title, codes in cited.items():
-        if title not in registry:
-            diag.error(path, f"a location cites ({kind}: {title}) but there is no stub row for it here")
-            continue
-        if kind == "Quest":
-            continue
-        missing = codes - registry[title]
-        if missing:
-            diag.error(path, f"'{title}' is cited from {sorted(missing)} but its stub row's location(s) don't list them")
-    for title in registry:
-        if title not in cited and kind != "Quest":
-            diag.warn(path, f"stub '{title}' has no citing Feature found in any location file")
+def check_writeup_citations(diag: Diagnostics, setting, history):
+    placed: dict[str, set] = {}
+    for (table, title, _), codes in setting.placements().items():
+        if table in CITE_LABELS:
+            for c in codes:
+                placed.setdefault(c, set()).add((CITE_LABELS[table], title))
+    labels = "|".join(CITE_LABELS.values())
+    for r in setting.regions.values():
+        for code in r.locations():
+            path = r.dir / f"{code.split('.')[1]}.md"
+            if not path.exists() or tables.stale(setting, code, history):
+                continue
+            cited = {(m.group(1), m.group(2).strip())
+                     for m in re.finditer(rf"\(({labels}):\s*([^)]+)\)", path.read_text())}
+            for label, title in sorted(placed.get(code, set()) - cited):
+                diag.error(path, f"its tables place ({label}: {title}), which the write-up does not cite")
+            for label, title in sorted(cited - placed.get(code, set())):
+                diag.error(path, f"cites ({label}: {title}), which its tables do not place here")
 
 
 # ---------------------------------------------------------------------------
@@ -1025,6 +974,11 @@ def report_pending(region_filter: str | None) -> int:
             elif changed := tables.stale(setting, code, history):
                 owed.setdefault(rel(r.dir), []).append(
                     f"{code}'s write-up is stale, owed to step 5b - changed since: {'; '.join(changed)}")
+        brief = r.dir / "Brief.md"
+        if Path(brief) == scope or scope in Path(brief).parents:
+            if changed := tables.stale_brief(r, history):
+                owed.setdefault(rel(r.dir), []).append(
+                    f"Brief.md is stale, owed to step 5e - changed since: {'; '.join(changed)}")
     stubs = [] if region_filter else tables.check_setting_files(setting.schema, setting.codes)
     for sev, path, line, msg in stubs:
         if sev == "stub":
@@ -1111,14 +1065,6 @@ def main() -> int:
 
     check_region_edge_realization(diag, top_path, top_edges, all_loc_edges, all_locations)
 
-    registries: dict[str, dict] = {}
-    registry_paths: dict[str, Path] = {}
-    for kind, path, marker in REGISTRY_KINDS:
-        registries[kind] = parse_registry(diag, kind, path, marker, all_locations)
-        registry_paths[kind] = path
-
-    citations: dict[str, dict] = {kind: {} for kind, _, _ in REGISTRY_KINDS}
-
     conditions = procedures_conditions()
     for region_code, locs in region_locs.items():
         rdir = SETTING / "region" / region_code
@@ -1134,18 +1080,9 @@ def main() -> int:
             if fpath.exists():
                 check_location_file(diag, fpath, region_code, num, stub,
                                      f"{region_code}.{num}" in stated,
-                                     all_locations, mundane_edges, hidden_edges, citations,
-                                     conditions)
+                                     all_locations, mundane_edges, hidden_edges, conditions)
 
-    build_complete = not any(
-        not (SETTING / "region" / rc / f"{num}.md").exists()
-        for rc, locs in region_locs.items() for num in locs
-    )
-    check_key_obligations(diag, SETTING / "Keys.md", registries.get("Keys", {}), build_complete)
-
-    for kind, path, _marker in REGISTRY_KINDS:
-        cross_check_registry(diag, kind, path, registries[kind], citations[kind])
-
+    check_writeup_citations(diag, setting, tables.History())
     check_setting_files(diag, schema, setting.codes)
     check_treasure_tables(diag, brief)
     for problem in brief.region_problems(regions):

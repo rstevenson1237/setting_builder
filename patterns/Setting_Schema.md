@@ -60,7 +60,7 @@ table "Named Creatures" entry file="setting/NamedCreatures.md" {   // as an Enco
   AD dice count="1-18" bonus="-2..6"
   Special text
   MA number range="2-6" opt
-  "Appears at" place
+  "Appears at" place from=NamedCreature
   Reacts text                 // what it does on meeting a party
   Wants text                  // a standing goal, stated without the party
   Knows text opt
@@ -141,7 +141,7 @@ table Magic roll file="setting/Magic.md" {
   Wt number
 }
 table Hoards entry file="setting/Hoards.md" {   // one owner, one location
-  "Found at" place
+  "Found at" place from=Reward
   Owner entry Bestiary Factions "Named Creatures"
   Items text
   Total text                  // value and wt, summed
@@ -150,7 +150,7 @@ enum Does once class adjacent solution knowledge passage ward
 enum Cost toll noticed bound desperate foreign sought forbidden
 enum Origin event truth lost reclaimed grave unlikely unmade   // never one nothing established accounts for
 table "Unique Treasures" entry file="setting/UniqueTreasures.md" {
-  "Found at" place
+  "Found at" place from=Reward
   Does Does
   Cost Cost list none
   Origin Origin
@@ -158,7 +158,7 @@ table "Unique Treasures" entry file="setting/UniqueTreasures.md" {
 }
 enum Reading time tongue rite cost
 table "Magical Tomes" entry file="setting/MagicalTomes.md" {   // learned, never discharged
-  "Found at" place
+  "Found at" place from=Reward
   Teaches text
   Reading Reading
 }
@@ -169,7 +169,7 @@ enum Lore_Form written cut woven drawn arranged
 enum Lore_Does purpose connection hook naming dating contradiction
 table Lore entry file="setting/Lore.md" {
   Form Lore_Form
-  "Found at" place
+  "Found at" place from=Reward
   Voice text
   Does Lore_Does list
   Text text                   // read aloud in under a minute
@@ -183,8 +183,8 @@ enum Key_Link maker material measure tongue wear inscription record
 table Keys entry file="setting/Keys.md" {
   Name text
   Form Key_Form
-  "Found at" place
-  Opens place
+  "Found at" place from=Reward
+  Opens place from=Lock
   Feature text
   Apart Apart
   Connection Key_Link list

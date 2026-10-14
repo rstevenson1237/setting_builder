@@ -171,6 +171,12 @@ class Schema:
                         self.problems.append((path, f"{name}.{m.name}: unknown table {t!r}"))
 
     def _resolve(self):
+        path = PATTERNS / "Setting_Schema.md"
+        for table, fields in self.fields.items():
+            for m in fields:
+                node = m.props.get("from")
+                if node and not any(names_table(f, node, table) for f in self.folders.values()):
+                    self.problems.append((path, f"{table}.{m.name}: from={node} is no node naming {table}"))
         seen = set()
         for name, f in self.folders.items():
             def p(msg, f=f):
@@ -230,6 +236,13 @@ class Schema:
                 p(f"folder {name}: join without a Connections file")
 
 
+def names_table(f: Folder, node: str, table: str) -> bool:
+    """A folder's node has a member naming entries on the table: an entry, or a pull of it."""
+    return any(m.type == "entry" and m.arg == table
+               or m.type == "pull" and table in f.enums.get(m.arg, {})
+               for m in f.nodes.get(node, []))
+
+
 def titles(path: Path) -> set[str] | None:
     """A setting table's entry titles: its ### headings, else its first column."""
     if not path.exists():
@@ -277,7 +290,11 @@ def check_setting_files(schema: Schema, codes: set[str]):
             continue
         path = ROOT / schema.tables[name][1]
         known = {m.name for m in fields}
+        seen = set()
         for title, line, values in entries:
+            if title in seen:
+                yield "error", path, line, f"{title} is a title used twice"
+            seen.add(title)
             if values.pop("", 0):
                 yield "error", path, line, f"{title}: its row has a different number of cells from the header"
             for k in values:
@@ -408,10 +425,56 @@ class Setting:
     # -- checks -------------------------------------------------------------
 
     def check(self):
-        """Yield (severity, path, message) for every region, then for the keys between them."""
+        """Yield (severity, path, message) for every region, then for the keys between them,
+        then for the setting entries the tables place."""
         for r in self.regions.values():
             yield from self._check_region(r)
         yield from self._check_keys()
+        yield from self._check_placements()
+
+    def placements(self) -> dict[tuple[str, str, str], set[str]]:
+        """(table, title, place field) -> the locations whose entries name that setting
+        entry through the node the field's from= names."""
+        out: dict[tuple[str, str, str], set[str]] = {}
+        froms = {(table, m.props["from"]): m.name for table, fields in self.schema.fields.items()
+                 for m in fields if "from" in m.props}
+        for r in self.regions.values():
+            if r.folder is None:
+                continue
+            for entries in r.files.values():
+                for n in entries:
+                    code = n.args[0] if n.args else None
+                    for node in kdl.walk([n]):
+                        for m in r.folder.nodes.get(node.name, []):
+                            v = node.props.get(m.name)
+                            if v is None or m.type not in ("entry", "pull"):
+                                continue
+                            table, _, title = str(v).partition(": ") if m.type == "pull" else (m.arg, "", str(v))
+                            if f := froms.get((table, node.name)):
+                                out.setdefault((table, title, f), set()).add(code)
+        return out
+
+    def _check_placements(self):
+        """Every place field with a from= against the tables, both ways: a location the
+        tables place an entry at is owed to its field at 5a; a location the field names
+        and no entry there holds is owed to placing at 5d."""
+        placed = self.placements()
+        for table, fields in self.schema.fields.items():
+            fields = [m for m in fields if "from" in m.props]
+            entries = setting_entries(self.schema, table) if fields else None
+            if entries is None:
+                continue
+            path = ROOT / self.schema.tables[table][1]
+            for title, line, values in entries:
+                for m in fields:
+                    listed = set(re.findall(r"[A-Z]+\.\d+", values.get(m.name, "")))
+                    held = placed.get((table, title, m.name), set())
+                    for c in sorted(held - listed):
+                        yield "warning", path, (f"line {line}: {title} {m.name} lacks {c}, where a "
+                                                f"{m.props['from']} names it - owed to step 5a")
+                    for c in sorted(listed - held):
+                        yield "warning", path, (f"line {line}: {title} {m.name} names {c}, where no "
+                                                f"{m.props['from']} names it yet - owed to step 5d")
 
     def _check_keys(self):
         """Every lock has its key placed, every key its lock, and no key lies behind the lock
@@ -603,7 +666,7 @@ class Setting:
         if have is None:
             yield "warning", f"{title!r} - {file} is not built yet"
         elif title not in have:
-            yield "warning", f"{title!r} is not on {file} yet"
+            yield "warning", f"{title!r} is not on {file} yet - owed to step 5a"
 
     def _check_rates(self, r: Region):
         rated = {s for rates in r.folder.rates.values() for s in rates}
@@ -1074,8 +1137,9 @@ def stale(setting: Setting, code: str, history: History) -> list[str]:
         rcode, stem = where.split("/")
         deps.append((setting.regions[rcode].dir / f"{stem}.md", range(n.line - 1, n.line),
                      f"{stem} {n.name} {n.args[0] if n.args else ''}".strip()))
+        folder = setting.regions[rcode].folder
         for node in kdl.walk([n]):
-            for m in (region.folder.nodes.get(node.name, []) if region.folder else []):
+            for m in (folder.nodes.get(node.name, []) if folder else []):
                 v = node.props.get(m.name)
                 if v is None or m.type not in ("entry", "pull"):
                     continue
@@ -1093,3 +1157,14 @@ def stale(setting: Setting, code: str, history: History) -> list[str]:
         if times and any(times[i] > written for i in lines if i < len(times)):
             changed.append(what)
     return sorted(set(changed))
+
+
+def stale_brief(region: Region, history: History) -> list[str]:
+    """The table files and seed changed since the region's brief, or [] if it is fresh or
+    unwritten."""
+    brief = region.dir / "Brief.md"
+    if not brief.exists() or (written := history.file_time(brief)) is None:
+        return []
+    deps = [region.dir / f"{stem}.md" for stem in region.files] + [SETTING / "region" / f"{region.code}.md"]
+    return sorted(p.name for p in deps if p.exists() and any(
+        tm > written for tm in history.line_times(p) or []))

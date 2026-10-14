@@ -16,7 +16,9 @@ value number                  // N, or a range N-M; range= bounds it
 value dice                    // Nd6 or Nd6+M; count= and bonus= bound it
 value percent                 // N%
 value location                // a location code
-value place                   // location codes first, or "nowhere on this map", or "the referee's"
+value place                   // location codes first, or "nowhere on this map", or "the referee's";
+                              // from= names the table node placing the entry, and the codes
+                              // are exactly the locations whose entries hold one naming it
 value kind                    // an item of the folder's type enum
 value entry                   // a title on each table the member names
 value pull                    // a roll table's name, or "Table: Title" for an entry table

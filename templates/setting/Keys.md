@@ -10,7 +10,7 @@ Read first:
 
 ## Instructions
 - **2g**: create the file with only its title line.
-- **5a**: write each entry a table names and this file lacks, per `patterns/Setting_Schema.md`, with its Found at - where a Reward holds it - and its Opens - where a Lock names it.
+- **5a**: write each entry a table names and this file lacks, per `patterns/Setting_Schema.md`, with its Opens the locations whose Lock names it, and its Found at where the key will lie: a trip of its own, never behind its lock. Step 5d places it there.
 
 ## Template
 ```
