@@ -7,7 +7,7 @@ empty at step 2g; each entry is written at step 5a, from the table entries namin
 ## Context
 Read first:
 - Step 2g (creating the file): no context needed.
-- Step 5a (writing an entry): `GENRE.md`, `setting/Setting.md`, `setting/History.md`, `setting/Factions.md`, `setting/NamedCreatures.md`, `setting/Language.md`, `patterns/Setting_Schema.md`, and every table entry naming it.
+- Step 5a (writing an entry): `GENRE.md`, `setting/Setting.md`, `setting/History.md`, `setting/Factions.md`, `setting/NamedCreatures.md`, `setting/Language.md`, `patterns/Common_Schema.md`, `patterns/Setting_Schema.md`, and every table entry naming it.
 
 ## Instructions
 - **2g**: create the file with only its title line.

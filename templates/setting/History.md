@@ -7,7 +7,7 @@ Records 1 or more major events that have shaped the setting, oldest to newest.
 Read first:
 - `GENRE.md`
 - `BRIEF.md`
-- `patterns/Setting_Schema.md`
+- `patterns/Common_Schema.md` and `patterns/Setting_Schema.md`
 - `setting/Setting.md`
 - At 5d: the location entries and write-ups that hold each event's Left mark
 

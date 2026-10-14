@@ -7,7 +7,7 @@ Establishes 1 or more unique truths that separate this setting from a generic in
 Read first:
 - `GENRE.md`
 - `BRIEF.md`
-- `patterns/Setting_Schema.md`
+- `patterns/Common_Schema.md` and `patterns/Setting_Schema.md`
 - `setting/Setting.md`
 - `setting/History.md`
 - At 5d: the location entries and write-ups that deliver each truth

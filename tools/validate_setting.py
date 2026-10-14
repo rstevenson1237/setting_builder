@@ -684,7 +684,7 @@ def check_statblocks(diag: Diagnostics, path: Path, label: str, expect_special: 
 # ---------------------------------------------------------------------------
 # A region's seed, setting/region/[Code].md, and its brief, setting/region/[Code]/Brief.md
 #
-# Each field set is a rating schema's seed or brief, in its order. A field from the other part, another rating's set, or one retired, is an
+# Each field set is its rating's seed or brief in Region_Schema.md, in its order. A field from the other part, another rating's set, or one retired, is an
 # error because the site renders only the labels it knows and would drop it.
 # ---------------------------------------------------------------------------
 
@@ -692,8 +692,8 @@ REGION_LABEL_RE = re.compile(r'^([A-Z][a-z]+):(?:\s|$)')
 
 
 def check_region_overview(diag: Diagnostics, code: str, folder):
-    """A region's seed and brief against its rating schema's seed and brief fields."""
-    if folder is None:
+    """A region's seed and brief against its rating's seed and brief fields."""
+    if folder is None or folder.region_path is None:
         return
     seed = SETTING / "region" / f"{code}.md"
     check_region_fields(diag, seed, folder.seed, folder, 1)
@@ -735,13 +735,13 @@ def check_region_fields(diag: Diagnostics, path: Path, fields: list, folder, ski
     for label in labels:
         if label not in expected:
             diag.error(path, f"field {label!r} is not one of {', '.join(expected)}, "
-                             f"per {folder.path.name}")
+                             f"per {folder.region_path.name}")
     missing = [f for f in expected if f not in labels]
     if missing:
         diag.error(path, f"missing field(s): {', '.join(missing)}")
     present = [l for l in labels if l in expected]
     if present != [f for f in expected if f in present]:
-        diag.warn(path, f"fields out of {folder.path.name}'s order: {', '.join(present)}")
+        diag.warn(path, f"fields out of {folder.region_path.name}'s order: {', '.join(present)}")
     for m in fields:
         for k, v in found:
             if k == m.name and v and m.type in folder.enums:
@@ -762,7 +762,7 @@ def check_region_fields(diag: Diagnostics, path: Path, fields: list, folder, ski
             rows.append(count)
         if found_tables != 2:
             diag.error(path, f"Tables holds {found_tables} table(s) opened by a `d6 ...` line - "
-                             f"{folder.path.name} asks for two")
+                             f"{folder.region_path.name} asks for two")
         for i, n in enumerate(rows, 1):
             if n != 6:
                 diag.error(path, f"table {i} has {n} rows - a d6 table has six")

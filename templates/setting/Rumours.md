@@ -7,7 +7,7 @@ A referee-facing table of rumours of varying truth that serve as adventure hooks
 Read first:
 - `GENRE.md`
 - `BRIEF.md`
-- `patterns/Setting_Schema.md`
+- `patterns/Common_Schema.md` and `patterns/Setting_Schema.md`
 - `setting/Setting.md`, `setting/History.md`, `setting/Truths.md`
 - each region's seed, `setting/region/[Region Code].md`
 - the location entries and write-ups each rumour is settled at

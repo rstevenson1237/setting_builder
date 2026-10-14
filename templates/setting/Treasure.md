@@ -7,7 +7,7 @@ Five reusable random treasure tables (Treasure Tables I-V), each a table of foun
 Read first:
 - `GENRE.md`
 - `BRIEF.md`
-- `patterns/Setting_Schema.md`
+- `patterns/Common_Schema.md` and `patterns/Setting_Schema.md`
 - `setting/Bestiary.md`
 - `setting/Setting.md`, `setting/History.md`, `setting/Truths.md`
 

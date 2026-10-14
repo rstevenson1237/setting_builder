@@ -8,7 +8,7 @@ nothing on this map. Written at step 5d, against what the build holds.
 Read first:
 - `GENRE.md`
 - `BRIEF.md`
-- `patterns/Setting_Schema.md`
+- `patterns/Common_Schema.md` and `patterns/Setting_Schema.md`
 - `setting/Rumours.md`
 - each region's seed, `setting/region/[Region Code].md`
 - the location entries or setting entries a quest points to

@@ -10,7 +10,7 @@ every time a proper noun is coined.
 Read first:
 - `GENRE.md`
 - `BRIEF.md`
-- `patterns/Setting_Schema.md`
+- `patterns/Common_Schema.md` and `patterns/Setting_Schema.md`
 - At 2g: every setting artifact written so far.
 - At 5b: the write-ups this pass wrote.
 

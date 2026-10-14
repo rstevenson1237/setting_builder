@@ -11,7 +11,7 @@ import kdl
 ROOT = Path(__file__).resolve().parent.parent
 SETTING = ROOT / "setting"
 PATTERNS = ROOT / "patterns"
-SHARED = ("Setting", "Region")   # the shared schemas, widest first; every other is a rating's
+SHARED = ("Common", "Setting", "Region")   # the shared schemas, widest first; every other is a rating's
 
 CODE_RE = re.compile(r"([A-Z]+)\.(\d+)")
 RANGE_RE = re.compile(r"(\d+)(?:-(\d+))?")
@@ -36,8 +36,8 @@ class Member:
 
 @dataclass
 class Folder:
-    """One rating's tables, with the enums and nodes its schema sees: its own over
-    Region_Schema.md's over Setting_Schema.md's."""
+    """One rating's tables, with the enums and nodes its schema sees: its own over the
+    shared schemas'. Its seed and brief are its `region` in Region_Schema.md."""
     type: str
     files: dict[str, list[str]]
     joins: dict[str, tuple[set[str], str | None]]
@@ -48,6 +48,7 @@ class Folder:
     rates: dict[str, dict[str, tuple[int, int]]] = field(default_factory=dict)
     seed: list[Member] = field(default_factory=list)    # setting/region/[Code].md's fields
     brief: list[Member] = field(default_factory=list)   # setting/region/[Code]/Brief.md's
+    region_path: Path | None = None                     # the schema holding seed and brief
 
 
 def bounds(rate) -> tuple[int, int] | None:
@@ -59,9 +60,9 @@ def bounds(rate) -> tuple[int, int] | None:
 
 
 class Schema:
-    """patterns/*_Schema.md: the shared Setting and Region schemas, then one per rating
-    holding its folder, each a scope over the ones before it. Each folder's rates come
-    from BRIEF.md's node for its rating."""
+    """patterns/*_Schema.md: the shared Common, Setting and Region schemas, then one per
+    rating holding its folder, each a scope over the ones before it. Region_Schema.md
+    gives each folder its seed and brief; BRIEF.md's node for its rating, its rates."""
 
     def __init__(self, root: Path = PATTERNS, brief: Path | None = None):
         self.problems: list[tuple[Path, str]] = []
@@ -70,6 +71,7 @@ class Schema:
         self.fields: dict[str, list[Member]] = {}       # a setting table's fields
         self.table_props: dict[str, dict] = {}
         self.setting_enums: dict[str, dict] = {}
+        self.regions: dict[str, tuple[Path, dict[str, list[Member]]]] = {}
         shared: tuple[dict, dict] = ({}, {})
         for path in (root / f"{n}_Schema.md" for n in SHARED):
             self._read(path, *shared)
@@ -79,6 +81,14 @@ class Schema:
             enums, nodes = dict(shared[0]), dict(shared[1])
             for f in self._read(path, enums, nodes):
                 f.enums, f.nodes = enums, nodes
+        for name, (path, parts) in self.regions.items():
+            if f := self.folders.get(name):
+                f.seed, f.brief, f.region_path = parts.get("seed", []), parts.get("brief", []), path
+            else:
+                self.problems.append((path, f"region {name!r} has no folder"))
+        for name, f in self.folders.items():
+            if f.region_path is None:
+                self.problems.append((f.path, f"folder {name}: no region in Region_Schema.md"))
         try:
             for n in brief_nodes(brief or BRIEF):
                 if f := self.folders.get(n.name.title()):
@@ -100,7 +110,7 @@ class Schema:
         folders, own = [], set()
         for n in top:
             name = n.args[0] if n.args else None
-            if n.name in ("enum", "node", "folder"):
+            if n.name in ("enum", "node", "folder", "region"):
                 if (n.name, name) in own:
                     p(n, f"{n.name} {name!r} is defined twice")
                 own.add((n.name, name))
@@ -123,16 +133,19 @@ class Schema:
             elif n.name == "node":
                 nodes[name] = [self._member(c) for c in n.children]
             elif n.name == "folder" and path.stem.split("_")[0] not in SHARED:
-                files = {c.name: c.args for c in n.children if c.name not in ("join", "top", "seed", "brief")}
+                files = {c.name: c.args for c in n.children if c.name not in ("join", "top")}
                 joins = {c.args[0]: (set(c.args[1:]), c.props.get("gate"))
                          for c in n.children if c.name == "join" and c.args}
                 top = {a for c in n.children if c.name == "top" for a in c.args}
                 f = Folder(n.props.get("type", ""), files, joins, top, path)
-                for c in n.children:
-                    if c.name in ("seed", "brief"):
-                        setattr(f, c.name, [self._member(m) for m in c.children])
                 self.folders[name] = f
                 folders.append(f)
+            elif n.name == "region":
+                for c in n.children:
+                    if c.name not in ("seed", "brief"):
+                        p(c, f"region {name}: {c.name!r} is not seed or brief")
+                self.regions[name] = (path, {c.name: [self._member(m) for m in c.children]
+                                             for c in n.children})
             else:
                 p(n, f"{n.name!r} is not a schema node here")
         return folders

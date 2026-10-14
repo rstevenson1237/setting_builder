@@ -1,27 +1,9 @@
 # Setting Schema
 
-The values every entry is written in, and every setting file: its fields, under the
-`table` line naming it. `patterns/Region_Schema.md` and each rating's schema build on it; a
-name a narrower schema defines shadows the same name here.
-
-A field is `Label type`, then `opt`, `list` (comma-separated) or `none` (may be `none`).
-An enum field opens with one of its items, and may go on after ` - ` in prose. How many
-entries a file holds is `BRIEF.md`'s.
+Every setting file in `setting/`: its fields, under the `table` line naming it, written in
+`patterns/Common_Schema.md`'s values.
 
 ```kdl
-value string words=8
-value gloss words=4
-value tag words=2
-value text                    // prose, any length
-value number                  // N, or a range N-M; range= bounds it
-value dice                    // Nd6 or Nd6+M; count= and bonus= bound it
-value percent                 // N%
-value location                // a location code
-value place                   // location codes first, or "nowhere on this map", or "the referee's"
-value kind                    // an item of the folder's type enum
-value entry                   // a title on each table the member names
-value pull                    // a roll table's name, or "Table: Title" for an entry table
-
 // -- GENRE.md answers, once each and in this order: Reference (the work modelled on, and
 //    what it sets against what); Lethality (what one wrong roll costs); Magic level (who
 //    works magic, how often, at what cost); Authority (how far a power's writ reaches);
@@ -30,9 +12,6 @@ value pull                    // a roll table's name, or "Table: Title" for an e
 //    settled place stands); Player characters (who they are, what stands behind them);
 //    Reward (what they are after, what having it does); Naming (which tongue proper nouns
 //    are coined from, which are left plain). Nothing here answers one differently.
-
-enum Damage_Type Nuisance Damaging Lethal
-enum Contents_Type "Treasure I" "Treasure II" "Treasure III" "Treasure IV" "Treasure V" Magic Hoards Lore Keys "Unique Treasures" "Magical Tomes"
 
 // -- Setting.md: its name, a tag line no other setting of its genre fits, and an outline
 //    of two or three sentences: what the party does here, a pressure already going wrong
