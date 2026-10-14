@@ -9,7 +9,7 @@ on:
       # page from templates/checks/*_Judgement_Check.md instead - so a judgement
       # check update alone shouldn't trigger a redeploy.
       - "!setting/checks/**"
-      # patterns.html is generated from patterns/*/*.md, so a pattern edit
+      # patterns.html is generated from patterns/*_Schema.md, so a schema edit
       # has to redeploy the site or the published graph goes stale.
       - "patterns/**"
       - "tools/build_site.py"

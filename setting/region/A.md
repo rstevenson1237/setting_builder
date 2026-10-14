@@ -1,5 +1,7 @@
 A Roadend Keep
 
+Kind: hold
+
 Overview: Roadend is a hold: a square grey keep with a tower at each corner, built where the realm's road ends, with a straggle of houses, stalls and pens inside its curtain wall. A party arrives down the road on foot or by wagon with little money, and comes to buy gear, hear what the ravine holds, and sell what they bring back.
 
 Approach: One gate, on the road, shut at dusk. A soldier at it asks name and business; wagons pay a toll of 5 silver, people on foot nothing. A party that gives a false name or will not answer is held at the gate until the commander's sergeant has heard it; anyone turned away may camp outside the wall and gets no protection there.

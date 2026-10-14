@@ -70,7 +70,7 @@ class Region:
     die: str
     tags: str
     gazetteer_blurb: str
-    fields: list[tuple[str, str]]  # per patterns/region/*.md; `- ` items one per line
+    fields: list[tuple[str, str]]  # per a rating schema's seed and brief; `- ` items one per line
     tables: list[tuple[str, list[tuple[int, str]]]]
     locations: dict[int, Location] = field(default_factory=dict)
 
@@ -221,15 +221,16 @@ class Record:
 _FIELD_RE = re.compile(r"^([A-Z][A-Za-z' ]{0,30}):\s*(.*)$")
 
 
-def read_records(path: Path) -> list[Record]:
-    """Every `### [Name]` record in a file; a line that opens no field continues
-    the field above it, since every setting/ file is hard-wrapped."""
+def read_records(path: Path, level: int = 3) -> list[Record]:
+    """Every `### [Name]` record in a file (`## ` at level 2); a line that opens no field
+    continues the field above it, since every setting/ file is hard-wrapped."""
     out: list[Record] = []
     cur = None
+    head = "#" * level + " "
     for i, raw in enumerate(path.read_text().splitlines(), 1):
         s = raw.strip()
-        if s.startswith("### "):
-            cur = Record(s[4:].strip(), [], i)
+        if s.startswith(head):
+            cur = Record(s[len(head):].strip(), [], i)
             out.append(cur)
             continue
         if not s or s.startswith("#") or cur is None:
@@ -460,8 +461,8 @@ def parse_regions_gazetteer() -> dict[str, dict]:
 
 # Every field of a region's seed and its brief, in the order they render.
 REGION_FIELD_LABELS = [
-    "Overview", "Approach", "People", "Services", "Law", "Terrain", "Conditions",
-    "Inhabitants", "Situation", "Places", "Alarm", "Loot", "Secrets", "Leads",
+    "Kind", "Overview", "Approach", "People", "Services", "Law", "Terrain", "Conditions",
+    "Situation", "Places", "Inhabitants", "Alarm", "Loot", "Secrets", "Leads",
 ]
 TABLE_HEAD_RE = re.compile(r"^d\d+\s+\S")
 
@@ -756,7 +757,7 @@ CITE_PATTERNS = [
     ("unique_treasures", re.compile(r'\(Unique Treasure:\s*([^)]+)\)')),
     ("quests", re.compile(r'\(Quest:\s*([^)]+)\)')),
 ]
-TREASURE_CITE_RE = re.compile(r'\(Treasure\s+([IVX]+),\s*d20\)')
+TREASURE_CITE_RE = re.compile(r'\(Treasure\s+([IVX]+),\s*(d\d+)\)')
 LOC_CODE_RE = re.compile(r'\b([A-Z]{1,2})\.(\d+)\b')
 REGION_PAREN_RE = re.compile(r'\(([A-Z]{1,2})\)')
 BESTIARY_CITE_RE = re.compile(r'\(([^()]*?),\s*Bestiary\s*:\s*([^()]+)\)')
@@ -816,7 +817,7 @@ def render_inline(text: str, setting: Setting, resolver: LinkResolver, current_p
             if roman not in TREASURE_TITLES:
                 return m.group(0)
             href = resolver.href("treasure", roman, current_page)
-            return protect(f"(<a href=\"{href}\">Treasure {roman}</a>, d20)")
+            return protect(f"(<a href=\"{href}\">Treasure {roman}</a>, {m.group(2)})")
         s = TREASURE_CITE_RE.sub(treasure_sub, s)
 
         def bestiary_sub(m):

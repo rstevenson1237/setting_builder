@@ -7,12 +7,12 @@ The 3 factions present in the setting - the powers a party may treat with, oppos
 Read first:
 - `GENRE.md`
 - `BRIEF.md`
-- `patterns/setting/Factions.md`
+- `patterns/Setting_Schema.md`
 - `setting/Setting.md`, `setting/History.md`, `setting/Truths.md`
 - `setting/Rumours.md`, `setting/Bestiary.md`
 
 ## Instructions
-List the factions `BRIEF.md` names, each following `patterns/setting/Factions.md`'s Spec.
+List the factions `BRIEF.md` names, each following its fields in `patterns/Setting_Schema.md`.
 
 ## Template
 ```

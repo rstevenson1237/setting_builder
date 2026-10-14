@@ -1,10 +1,12 @@
 Places:
 - C.1 The Watch Passage - the way in; the chevrons and spoke heap show what the tribe is taking.
-- C.2 The Warren - the tribe's sleeping hall, 10-14 goblins; the way on to C.4 and C.5.
+- C.2 The Warren - the tribe's sleeping hall; the way on to C.4 and C.5.
 - C.3 The Mushroom Pits - the tribe's food; the Chest Key lies here in a pouch.
 - C.4 The Spoil Hall - Treasure IV in the low crates; a roped stack over them; a hidden gap to C.5.
 - C.5 The Chief's Hall - Gronab, the bone seat, the locked chest holding Bruzshub, and a pouch of Magic.
 - C.6 Thono - the makers' carvings, The Foreman's Cut, and a shaft cover.
+
+Inhabitants: Ten to fourteen goblins sleep in the Warren, C.2, and Gronab holds the Chief's Hall, C.5, nine times in ten.
 
 Alarm: Raised by the watchers' clicking at C.1 or by Gronab's bellow in C.5; the sleepers in C.2 hear it first. The 10-14 goblins of C.2 come, one turn to C.1, C.4 or C.5, two to C.3, three to C.6, and Gronab fights from his seat.
 

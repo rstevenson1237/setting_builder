@@ -8,13 +8,13 @@ nothing on this map. Written at step 5d, against what the build holds.
 Read first:
 - `GENRE.md`
 - `BRIEF.md`
-- `patterns/setting/Quests.md`
+- `patterns/Setting_Schema.md`
 - `setting/Rumours.md`
 - each region's seed, `setting/region/[Region Code].md`
 - the location entries or setting entries a quest points to
 
 ## Instructions
-Write the quests `BRIEF.md` asks for, each following `patterns/setting/Quests.md`'s Spec.
+Write the quests `BRIEF.md` asks for, each following its fields in `patterns/Setting_Schema.md`.
 A quest whose object lies at a location is written from what that location holds.
 
 ## Template

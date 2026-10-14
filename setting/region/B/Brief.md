@@ -3,6 +3,8 @@ Places:
 - B.2 Wolf Scree - a slope of scree and bones, with tracks; the wolves' ground.
 - B.3 The Cave Mouth - a ledge above the stream with chevrons scratched at it; the only way into C.
 
+Inhabitants: Six of the keep's soldiers watch the path-head at B.1, a pack of six wolves lies up at B.2, and a dozen goblins watch the Stream Path, B.4, from the ridge.
+
 Loot:
 Thorn-berries by the stream at B.1 sell at the inn, A.2, for 2 copper a pint. Finds here draw on Treasure I, from wagon wreckage.
 

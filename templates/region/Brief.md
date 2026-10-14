@@ -9,51 +9,31 @@ region without opening a location.
 Read first:
 - `GENRE.md`
 - `BRIEF.md`
-- `patterns/region/Safe.md`, `patterns/region/Wild.md`, or `patterns/region/Dangerous.md` - read only the one that matches this region's rating.
+- `patterns/Region_Schema.md`, and this region's rating schema, `patterns/[Rating]_Schema.md` - its `brief`
 - this region's seed, `setting/region/[Region Code].md`
 - this region's table files and `Connections.mmd`
 - `setting/Rumours.md` and `setting/Quests.md`
 
 ## Instructions
-Write the BRIEF block of this region's rating file, every field filled, from the tables
-alone. Each rating has its own field set, shown below; write only this region's.
-
-Every fact about a location names it by code; a count is summed from the
-entries. A fact no entry holds is a placement for step 5d, not a line here. Nothing the
-seed says is repeated.
-
-A field that holds several things - places, secrets, leads - writes each as its own `- `
-line under the field's label. Every other field is prose, and short. Each Tables entry
-holds two d6 tables.
+Write every field of the rating schema's `brief`, in its order, from the tables alone.
+Every fact about a location names it by code; a count is summed from the entries. A fact
+no entry holds is a placement for step 5d, not a line here. Nothing the seed says is
+repeated.
 
 ## Template
 ```
-Places:
-- [Code or codes] [Name] - [...]
+[Field]: [prose, short]
 
-Alarm: [DANGEROUS]
-
-Loot: [WILD, DANGEROUS]
-
-Secrets:
-- [the fact] - [who knows it]; [the entry that brings it out]
-
-Leads:
-- [Rumour N or Quest Name] - [...]
+[List field]:
+- [Code or codes, Rumour N or Quest Name] - [...]
 
 Tables:
-d6 [Events / Encounter / Danger], [when it is rolled]
+d6 [what it is], [when it is rolled]
 1. [...]
-2. [...]
-3. [...]
-4. [...]
-5. [...]
+...
 6. [...]
 d6 [what is met where nothing is keyed]
 1. [...]
-2. [...]
-3. [...]
-4. [...]
-5. [...]
+...
 6. [...]
 ```

@@ -45,8 +45,7 @@ from validate_setting import (  # noqa: E402
     ROOT,
     _summary_tokens,
     feature_segments,
-    read_set_graph,
-    spec_closure,
+    read_set,
 )
 
 REGION = ROOT / "setting" / "region"
@@ -278,8 +277,8 @@ def report_mix() -> None:
         counts = {"connections": {}, "challenges": {}, "hazard damage": {}, "rewards": {}}
         for stem, entries in r.files.items():
             for n in entries:
-                if n.name == "Connection":
-                    k = counts["connections"]; v = n.props.get("type", "?")
+                if stem == "Connections":
+                    k = counts["connections"]; v = n.props.get("type", n.name)
                 elif stem == "Challenges":
                     k = counts["challenges"]; v = n.name
                     if n.name == "Hazard":
@@ -306,24 +305,28 @@ def report_mix() -> None:
 
 
 def report_targets() -> None:
-    """Each BRIEF.md target against what each region's tables hold. A share off by more
-    than one entry is marked; whether that matters is the 5c review's."""
+    """Each BRIEF.md target against what each region's tables hold, then each files and
+    setting lever against the setting files. A share off by more than one entry is
+    marked; whether that matters is the 5c review's."""
     import tables
     from validate_setting import Diagnostics, parse_regions
     regions = parse_regions(Diagnostics())
     setting = tables.Setting({c: i["rating"] for c, i in regions.items()})
     print("TARGETS")
-    for code, rows in tables.Targets(setting.schema).realized(setting).items():
+    brief = tables.Brief(setting.schema)
+    for code, rows in brief.realized(setting).items():
         for t, label, wanted, got, of in rows:
             if of is None:
                 lo, hi = tables.bounds(wanted)
                 mark = "" if lo <= got <= hi else "  <- off"
-                print(f"  {code}: {t.path} count {wanted} -> {got}{mark}")
+                print(f"  {code}: {t.path} {label} {wanted} -> {got}{mark}")
                 continue
             want = round(wanted * of / 100)
             mark = "  <- off" if abs(got - want) > 1 else ""
             pct = f"{100 * got // of}%" if of else "-"
             print(f"  {code}: {t.path} {label} {wanted}% -> {pct} ({got} of {of}){mark}")
+    for label, wanted, got, off in brief.setting_rows():
+        print(f"  {label}: {wanted} -> {got}{'  <- off' if off else ''}")
     print()
 
 
@@ -333,7 +336,7 @@ def report_budget() -> None:
     layers = [
         ("authorities", [p for p in authorities if p.exists()]),
         ("templates/", sorted((ROOT / "templates").glob("*/*.md"))),
-        ("patterns/", sorted((ROOT / "patterns").glob("SPEC.md"))
+        ("patterns/", sorted((ROOT / "patterns").glob("*.md"))
                       + sorted((ROOT / "patterns").glob("*/*.md"))),
     ]
     framework = 0
@@ -382,7 +385,6 @@ FIXED_CONTEXT = ("CLAUDE.md", "README.md", "GENRE.md", "STYLE.md", "BRIEF.md",
 
 def report_read_set(step: str = "5b") -> None:
     print(f"READ SET (step {step})")
-    g = read_set_graph()
     present = [(n, ROOT / n) for n in FIXED_CONTEXT if (ROOT / n).exists()]
     fixed = sum(file_words(p) for _, p in present)
     for n, p in present:
@@ -399,17 +401,14 @@ def report_read_set(step: str = "5b") -> None:
     print(f"  {'fixed context':24s} : {fixed + avg:6,} (with the mean region overview)")
     print()
 
-    entries: set = set()
-    for name in g["step_templates"].get(step, set()):
-        entries |= g["template_roots"].get(name, set())
-    if not entries:
-        print(f"  step {step} names no pattern entry point\n")
-        return
-    print(f"  {'entry point':24s} {'files':>5s} {'pattern':>8s} {'in context':>11s}")
-    for e in sorted(entries):
-        closure = spec_closure({e}, g["pattern_files"])
-        w = sum(file_words(PATTERNS / f) for f in closure)
-        print(f"  {e:24s} {len(closure):5d} {w:8,} {fixed + avg + w:11,}")
+    names, schemas = read_set().get(step, (set(), set()))
+    paths = [ROOT / "templates" / n for n in sorted(names)] + \
+            [PATTERNS / f for f in sorted(schemas) if "[" not in f]
+    for path in paths:
+        if path.exists():
+            print(f"  {str(path.relative_to(ROOT)):24s} : {file_words(path):6,}")
+    w = sum(file_words(path) for path in paths if path.exists())
+    print(f"  {'in context':24s} : {fixed + avg + w:6,}")
     print()
 
 

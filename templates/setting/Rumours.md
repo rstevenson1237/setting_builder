@@ -7,14 +7,14 @@ A referee-facing table of rumours of varying truth that serve as adventure hooks
 Read first:
 - `GENRE.md`
 - `BRIEF.md`
-- `patterns/setting/Rumours.md`
+- `patterns/Setting_Schema.md`
 - `setting/Setting.md`, `setting/History.md`, `setting/Truths.md`
 - each region's seed, `setting/region/[Region Code].md`
 - the location entries and write-ups each rumour is settled at
 
 ## Instructions
 Create a table of rumours, numbered to the die `BRIEF.md` sets, each following
-`patterns/setting/Rumours.md`'s Spec, marked T, P, F or U in the shares `BRIEF.md` sets.
+its fields in `patterns/Setting_Schema.md`, marked T, P, F or U in the shares `BRIEF.md` sets.
 
 **Settled at** names where a party finds out - the Location Code, or codes, holding what
 confirms, denies, or corrects this rumour, filled as the rumour is written at step 5d
@@ -29,7 +29,7 @@ exactly alike.
 
 This column is referee-side, exactly as the truth mark is, and is never shared. It records
 where the truth is, not what the party should do about it - per
-`patterns/setting/Rumours.md`, a rumour is a lead and not an instruction.
+`patterns/Setting_Schema.md`, a rumour is a lead and not an instruction.
 
 ## Template
 ```

@@ -1,6 +1,6 @@
 # Genre
 
-The answers to `patterns/Genre.md`'s GENRE block, one per question, in its order.
+The answers to the genre questions in `patterns/Setting_Schema.md`, one per question, in its order.
 
 - **Reference** - 1981 Basic/Expert Dungeons & Dragons, and its introductory module *Keep
   on the Borderlands*: one fortified outpost of the civilized realm at the edge of the

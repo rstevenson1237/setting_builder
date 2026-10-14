@@ -7,11 +7,11 @@ step 2g; each entry is written at step 5a, from the table entry naming it.
 ## Context
 Read first:
 - Step 2g (creating the file): no context needed.
-- Step 5a (writing an entry): `GENRE.md`, `setting/Treasure1.md`, `setting/Bestiary.md`, `setting/Factions.md`, `setting/NamedCreatures.md`, `patterns/setting/Hoards.md`, `patterns/setting/Treasure.md`, and the table entry naming it.
+- Step 5a (writing an entry): `GENRE.md`, `setting/Treasure1.md`, `setting/Bestiary.md`, `setting/Factions.md`, `setting/NamedCreatures.md`, `patterns/Setting_Schema.md`, and the table entry naming it.
 
 ## Instructions
 - **2g**: create the file with only its title line.
-- **5a**: write each entry a table names and this file lacks, per `patterns/setting/Hoards.md`, with its Found at the location naming it.
+- **5a**: write each entry a table names and this file lacks, per `patterns/Setting_Schema.md`, with its Found at the location naming it.
 
 ## Template
 ```

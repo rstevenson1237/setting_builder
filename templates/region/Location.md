@@ -18,6 +18,7 @@ One location's write-up, `setting/region/[Region Code]/[Location Number].md`.
   elsewhere is written as what a party meets of it here.
 - Each thing a party can look at, act on, take, fight or open is its own Feature.
 - When entries change for a location already written, rewrite only the lines they touch.
+- A location with no Connections entry has no Exits line.
 
 ## Template
 ```
@@ -39,7 +40,7 @@ Written exactly as below, so `tools/build_site.py` can link them.
 - **Unique Treasure** - `(Unique Treasure: Name)`
 - **Magical Tome** - `(Magical Tome: Title)`
 - **Hoard** - `(Hoard: Name)`
-- **Table roll** - `(Treasure [I-V], d20)` or `(Magic, d6)`
+- **Table roll** - `(Treasure [I-V], d[N])` or `(Magic, d[N])`, N the table's rolls
 - **Forced damage**, on every hazard Feature - `(Test of Constitution, Xd, Type)`,
   `(Test of Sanity, Xd)`, `(Test of Fate, Condition)` or `(Test of Fate, Impact)`, per
   `setting/Procedures.md`
