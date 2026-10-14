@@ -25,7 +25,7 @@ At 5d, fill each truth's Codes with the locations that now deliver it.
 ```
 Truths of [Setting Name]
 
-| Truth | Kind | Handle | Codes |
-|---|---|---|---|
-| [the rule, in one sentence - the rule, not the mood] | [Kind] | [what a party does about it, in the specific] | [Location Code(s), filled at 5d] |
+| Truth | Handle | Codes |
+|---|---|---|
+| [the rule, in one sentence - the rule, not the mood] | [what a party does about it, in the specific] | [Location Code(s), filled at 5d] |
 ```

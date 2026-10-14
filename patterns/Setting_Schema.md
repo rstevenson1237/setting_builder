@@ -47,30 +47,24 @@ table Bestiary entry file="setting/Bestiary.md" {
   Type Bestiary_Type
   AD dice count="1-18" bonus="-2..6"   // 1 a man's match; 2-3 superior; 4-5 larger, highly dangerous;
                                        // 6-8 supernatural; 9-12 gargantuan; 13-16 served; 17-18 a titan
-  MA number range="1-6"                // targets threatened at once, about AD/4
-  Description text                     // what a party sees when it comes into view
-  Range text                           // where it lives, how many the land supports, what it eats
-  Sign Sign                            // what reaches a party before it does
-  Disposition text                     // what it does on being met, before anyone fights
   Special text                         // what its dice do not say, or `none`
+  MA number range="2-6" opt            // targets threatened at once, about AD/4; omitted at 1
+  Description text                     // what a party sees when it comes into view
+  Range text opt                       // where it lives, how many the land supports, what it eats
+  Sign Sign opt                        // what reaches a party before it does
+  Disposition text opt                 // what it does on being met, before anyone fights
 }
 
-enum Role "set piece" ranging situation survivor leader unkillable
-enum Motive feeding holding searching collecting protecting expanding waiting
-enum Reach "a rumour" "a piece of lore" "a survivor"
-enum Memory "who hurt it" "who fed it" "who ran" "a smell" "a name" "a promise"
-table "Named Creatures" entry file="setting/NamedCreatures.md" {
+table "Named Creatures" entry file="setting/NamedCreatures.md" {   // as an Encounter meets it
   Type Bestiary_Type
   AD dice count="1-18" bonus="-2..6"
-  MA number range="1-6"
-  "Appears at" place
-  Role Role
-  Motivation Motive           // a standing goal, stated without the party
-  "Reaches by" Reach
-  Remembers Memory list       // why a second meeting never plays like the first
-  Wants text
-  Description text
   Special text
+  MA number range="2-6" opt
+  "Appears at" place
+  Reacts text                 // what it does on meeting a party
+  Wants text                  // a standing goal, stated without the party
+  Knows text opt
+  Description text
 }
 
 // -- Factions. AD is set against other factions' dice and nothing else; a goal is a
@@ -91,18 +85,14 @@ table Factions entry file="setting/Factions.md" {
 // -- The past and the rules. An event is a fact, never a clock aimed at the party, stated
 //    in two sentences at most. A truth is a class, shows at more than one rating, sharpens
 //    GENRE.md and never overrides it; a mystery or open truth says it is one.
-enum Event_Kind founding withdrawal arrival discovery collapse war blight betrayal boundary working sealing
 table History entry file="setting/History.md" {
   When text                   // years ago, vaguer the older it is
-  Kind Event_Kind
   Event text
   Left text                   // the physical mark findable now
   Codes place
 }
-enum Truth_Kind land object custom standing limit price border "the dead" idea mystery open
 table Truths entry file="setting/Truths.md" {
   Truth text                  // the rule in one sentence, not its mood
-  Kind Truth_Kind
   Handle text                 // an act a referee could adjudicate
   Codes place
 }
@@ -171,7 +161,6 @@ table "Magical Tomes" entry file="setting/MagicalTomes.md" {   // learned, never
   "Found at" place
   Teaches text
   Reading Reading
-  Writer entry History Factions "Named Creatures"
 }
 
 // -- Lore is a made thing with an author inside the setting, wrong or partial (unknowing,

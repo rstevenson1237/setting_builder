@@ -24,7 +24,6 @@ History of [Setting Name]
 
 ### [A short name for the event]
 When: [x years ago]
-Kind: [Kind]
 Event: [what happened, in one or two sentences]
 Left: [the physical thing findable now]
 Codes: [Location Code(s), filled at 5d]

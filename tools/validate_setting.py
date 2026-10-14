@@ -618,8 +618,8 @@ def check_rumours(diag: Diagnostics):
 
 
 # A stat line's AD field is "Xd6+N" per patterns/Setting_Schema.md; its Type and MA
-# are fields of their own. The bonus and MA are optional here so a partially written
-# file still parses; both are reported as findings rather than as parse failures.
+# are fields of their own, and an MA left out is 1. The bonus is optional here so a
+# partially written file still parses; its absence is a finding, not a parse failure.
 AD_RE = re.compile(r"^(?P<ad>\d+)d6\s*(?P<mod>[+-]\s*\d+)?$")
 
 
@@ -635,7 +635,7 @@ def parse_statblocks(path: Path):
             "name": r.name, "type": r.get("Type").strip(), "ad_raw": ad_raw,
             "ad": int(m.group("ad")) if m else None,
             "mod": int(mod.replace(" ", "")) if mod else None,
-            "ma": int(ma) if ma.isdigit() else None,
+            "ma": int(ma) if ma.isdigit() else None if ma else 1,
             "special": "Special" in r.labels(),
         })
     return out
@@ -651,10 +651,9 @@ def check_statblocks(diag: Diagnostics, path: Path, label: str, expect_special: 
     blocks = [b for b in parse_statblocks(path) if b["ad"] is not None]
     if not blocks:
         return
-    no_mod = no_ma = no_special = 0
+    no_mod = no_special = 0
     for b in blocks:
         no_mod += b["mod"] is None
-        no_ma += b["ma"] is None
         if expect_special and not b["special"]:
             no_special += 1
     n = len(blocks)
@@ -662,10 +661,6 @@ def check_statblocks(diag: Diagnostics, path: Path, label: str, expect_special: 
         diag.warn(path, f"{no_mod}/{n} entries state no modifier - it is written on every "
                         f"entry, because its distance from the average (AD/3, rounded up) "
                         f"is what it is for")
-    if no_ma:
-        diag.warn(path, f"{no_ma}/{n} entries state no MA - it is written on every entry, "
-                        f"because its distance from the average (AD/4, rounded up) is what "
-                        f"it is for")
     # A file that sits exactly on both averages every time has thrown the
     # fields away just as surely as one that omits them.
     rated = [b for b in blocks if b["mod"] is not None]
