@@ -167,7 +167,7 @@ def report_read_set(step_filter: str | None) -> int:
 REGION_RE = re.compile(r'^([A-Z]+) (.+?) - (SAFE|WILD|DANGEROUS), (d\d+)\s*$')
 
 
-REGION_COLUMNS = ["Code", "Name", "Gloss", "Rating", "Die", "Tag line"]
+REGION_COLUMNS = ["Code", "Name", "Form", "Gloss", "Rating", "Die", "Tag line"]
 RATINGS = {"SAFE", "WILD", "DANGEROUS"}
 
 

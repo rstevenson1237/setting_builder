@@ -11,6 +11,7 @@ node Location {
   name string               // per GENRE.md's Naming, after the rest is decided; named only where
                             // something refers to it again. In whose mouth: residents,
                             // border passers, the departed, or its occupants
+  form Name_Form
   tags tag list n=3
   type kind
 }
@@ -30,6 +31,7 @@ node Purchase {
 }
 node Person {
   name string
+  form Name_Form
   role gloss
   personality gloss
   wants string              // of a stranger, and what it offers for it

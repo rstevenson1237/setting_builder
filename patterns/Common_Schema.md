@@ -24,4 +24,8 @@ value entry                   // a title on each table the member names
 value pull                    // a roll table's name, or "Table: Title" for an entry table
 
 enum Damage_Type Nuisance Damaging Lethal
+enum Name_Form common family epithet tongue   // a name in the common tongue; a common name, then a family name
+                                              // coined in a tongue; a common name, then "the Y", "son of Y" or "of Y";
+                                              // a name coined wholly in a tongue. A coined name is recorded in
+                                              // Language.md, and these are the only fields that coin
 ```

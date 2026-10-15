@@ -18,6 +18,12 @@ Read first:
 Each tongue states who speaks it, its consonants and vowels, its syllable shape, its
 affixes, and its roots, for each tongue `BRIEF.md` names.
 
+A coinage is recorded only for a name that uses it: a place, person, creature or faction
+name whose Name_Form is `tongue` (the whole name) or `family` (a common name, then the
+coinage). Each is `Noun = root + root`, every part a root or affix of its own tongue, then
+what it means. Where it is used is read from the names, never written here; a coinage no
+name uses is cut, and a name that uses one is recorded before it is written.
+
 ## Template
 ```
 Tongues of [Setting Name]
@@ -33,5 +39,5 @@ Roots:
 - [root] - [gloss]
 
 Coined here:
-- [Proper Noun] = [root] + [root] - [where it appears]
+- [Proper Noun] = [root] + [root] - [what it means]
 ```

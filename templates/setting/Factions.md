@@ -19,6 +19,7 @@ List the factions `BRIEF.md` names, each following its fields in `patterns/Setti
 Factions of [Setting Name]
 
 ### [Faction Name]
+Form: [NAME_FORM, of the name]
 AD: [Xd6]
 Want: [WANT]
 Identity: [what a party sees before anyone names the faction - a colour worn, a device on seals and crates, a way of tying a knot or marking a door, a phrase. Repeated identically everywhere this faction appears, so it can be recognised two regions apart]

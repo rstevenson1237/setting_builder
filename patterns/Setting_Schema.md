@@ -20,8 +20,9 @@ Every setting file in `setting/`: its fields, under the `table` line naming it, 
 // -- Procedures.md: the mechanics every level cites, each resolving in one roll or none;
 //    nothing that varies by rating or belongs to one place. Tailoring adjusts, never replaces.
 
-// -- Tongues. Every coinage is registered under its tongue's "Coined here", decomposed
-//    into roots, and glossed wherever it is reused; only setting and region steps coin.
+// -- Tongues. A coinage is registered under its tongue's "Coined here", decomposed into
+//    that tongue's roots and affixes and glossed once; it is used only in a name whose
+//    Name_Form is family or tongue, and each such name is a coinage recorded here.
 enum Speakers present departed arrived side non-people jargon liturgy
 table Language doc file="setting/Language.md" heading=2 {
   "Spoken by" Speakers
@@ -31,7 +32,7 @@ table Language doc file="setting/Language.md" heading=2 {
   Affixes text                // each marks one thing: place, water, smallness, plural, belonging, age, direction, negation, title
   Roots text                  // "- root - gloss" lines naming ground, water, growth, weather, colour,
                               // body, making, exchange, light, the dead, number, direction - never abstractions
-  "Coined here" text opt      // "- Noun = root + root - where it appears"
+  "Coined here" text opt      // "- Noun = root + root - what it means"
 }
 
 // -- Creatures. One stat block is one creature, or one swarm fought as a single thing.
@@ -56,6 +57,7 @@ table Bestiary entry file="setting/Bestiary.md" {
 }
 
 table "Named Creatures" entry file="setting/NamedCreatures.md" {   // as an Encounter meets it
+  Form Name_Form              // of its title
   Type Bestiary_Type
   AD dice count="1-18" bonus="-2..6"
   Special text
@@ -71,6 +73,7 @@ table "Named Creatures" entry file="setting/NamedCreatures.md" {   // as an Enco
 //    condition acted on every turn, never a countdown.
 enum Want route resource person cleared sealed legitimacy debt rival knowing hiding
 table Factions entry file="setting/Factions.md" {
+  Form Name_Form              // of its title
   AD dice bonus="0..0"
   Want Want                   // concrete enough to be interfered with
   Identity text               // repeated identically everywhere: colour, device, habit, arms, mark, phrase, tongue

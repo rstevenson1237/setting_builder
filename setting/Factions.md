@@ -1,6 +1,7 @@
 Factions of Roadsend
 
 ### The Keep
+Form: common
 AD: 3d6
 Want: route - the wagon road to the realm kept open, every fortnight.
 Identity: A white tower on blue cloth, worn as a tabard and sewn on crates and seals; the challenge "Who holds the road?", answered "The road holds."
@@ -12,6 +13,7 @@ Goals: Get each wagon through. Learn where the raiders sleep.
 Fields: Soldier
 
 ### The Zhakuk
+Form: tongue
 AD: 2d6
 Want: resource - what the road carries, wagons and travellers alike.
 Identity: A red clay handprint daubed on stones, doors and every bale taken; a string of knucklebones worn at a chief's belt.

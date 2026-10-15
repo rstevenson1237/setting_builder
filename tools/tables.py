@@ -310,6 +310,36 @@ def check_setting_files(schema: Schema, codes: set[str]):
                         yield "error", path, line, f"{title} {m.name}: {msg}"
 
 
+LANGUAGE = SETTING / "Language.md"
+EPITHET_RE = re.compile(r".\s(?:the|son of|daughter of|of)\s.", re.I)
+COINAGE_RE = re.compile(r"(.+?) = (.+?) - (.+)")
+
+
+def coinages(path: Path = LANGUAGE) -> tuple[dict[str, tuple[str, str]], list[str]]:
+    """Every tongue's `Coined here`: lowercased noun -> (tongue, noun), and what is wrong with
+    the lines. A line is `- Noun = root + root - what it means`, each part a root or an
+    affix of its own tongue."""
+    import site_common as sc
+    if not path.exists():
+        return {}, []
+    known, problems = {}, []
+    for r in sc.read_records(path, 2):
+        roots = {l[2:].split(" - ")[0].strip().lower()
+                 for l in r.get("Roots").split("\n") if l.startswith("- ")}
+        affixes = {a.split(" - ")[0].strip().lower() for a in r.get("Affixes").split(";") if a.strip()}
+        for line in (l for l in r.get("Coined here").split("\n") if l.strip()):
+            m = COINAGE_RE.fullmatch(line.removeprefix("- ").strip())
+            if not m:
+                problems.append(f"{r.name}: {line!r} is not '- Noun = root + root - what it means'")
+                continue
+            noun, parts = m.group(1).strip(), [x.strip().lower() for x in m.group(2).split(" + ")]
+            for x in parts:
+                if x not in roots | affixes:
+                    problems.append(f"{r.name}: {noun} is built from {x!r}, which is no root or affix of its tongue")
+            known[noun.lower()] = (r.name, noun)
+    return known, problems
+
+
 def _opens_with(v: str, items) -> bool:
     low = v.lower()
     return any(low.startswith(i.lower()) and low[len(i):len(i) + 1] in ("", " ", ".", ",", ";", ":")
@@ -431,6 +461,7 @@ class Setting:
             yield from self._check_region(r)
         yield from self._check_keys()
         yield from self._check_placements()
+        yield from self._check_names()
 
     def placements(self) -> dict[tuple[str, str, str], set[str]]:
         """(table, title, place field) -> the locations whose entries name that setting
@@ -475,6 +506,73 @@ class Setting:
                     for c in sorted(listed - held):
                         yield "warning", path, (f"line {line}: {title} {m.name} names {c}, where no "
                                                 f"{m.props['from']} names it yet - owed to step 5d")
+
+    def _check_names(self):
+        """Every name a schema gives a form is that form, and every coinage a tongue records
+        is in one: a tongue name is a recorded coinage, a family name ends in one, an epithet
+        reads "X the Y", "X son of Y" or "X of Y", and a common name holds none."""
+        known, problems = coinages()
+        for msg in problems:
+            yield "error", LANGUAGE, msg
+        used: set[str] = set()
+        for path, where, name, form in self.names():
+            base = re.sub(r"^(?:the|a|an)\s+", "", name, flags=re.I)
+            words = name.split()
+            if form == "tongue":
+                if base.lower() in known:
+                    used.add(base.lower())
+                else:
+                    yield "error", path, f"{where}: {name!r} is a tongue name no tongue records in Coined here"
+            elif form == "family":
+                tails = [" ".join(words[i:]).lower() for i in range(1, len(words))]
+                hit = next((t for t in tails if t in known), None)
+                if hit:
+                    used.add(hit)
+                else:
+                    yield "error", path, (f"{where}: {name!r} is a family name but does not end in a "
+                                          f"coinage Coined here records, after a common name")
+            elif form == "epithet":
+                if not EPITHET_RE.search(name):
+                    yield "error", path, f"{where}: {name!r} is not 'X the Y', 'X son of Y' or 'X of Y'"
+            elif form == "common":
+                for noun in known:
+                    if re.search(rf"\b{re.escape(noun)}\b", name, re.I):
+                        yield "error", path, f"{where}: {name!r} holds the coinage {noun!r} - it is not a common name"
+        for noun, (tongue, shown) in sorted(known.items()):
+            if noun not in used:
+                yield "warning", LANGUAGE, (f"{tongue}: {shown} is recorded, but no tongue or family name "
+                                            f"uses it - give a name its form or cut it")
+
+    def names(self):
+        """(path, where, name, form) for every name that has a form - a schema field, or the gazetteer's
+        Form column - where both are written."""
+        out = []
+        for r in self.regions.values():
+            if r.folder is None:
+                continue
+            for stem, entries in r.files.items():
+                for n in entries:
+                    for node in kdl.walk([n]):
+                        ms = r.folder.nodes.get(node.name, [])
+                        if any(m.type == "Name_Form" for m in ms) and "name" in node.props:
+                            form = node.props.get(next(m.name for m in ms if m.type == "Name_Form"))
+                            if form:
+                                out.append((r.dir / f"{stem}.md", f"line {node.line}",
+                                            str(node.props["name"]), str(form)))
+        gaz = SETTING / "region" / "Regions.md"
+        if gaz.exists():
+            import site_common as sc
+            for t in sc.read_tables(gaz)[:1]:
+                for d, line in zip(t.dicts(), t.lines):
+                    if d.get("Name") and d.get("Form"):
+                        out.append((gaz, f"line {line}", d["Name"], d["Form"].split()[0]))
+        for table, fields in self.schema.fields.items():
+            f = next((m for m in fields if m.type == "Name_Form"), None)
+            for title, line, values in (setting_entries(self.schema, table) or []) if f else []:
+                if values.get(f.name, "").strip():
+                    out.append((ROOT / self.schema.tables[table][1], f"line {line}", title,
+                                values[f.name].split()[0].rstrip(".,;:")))
+        return out
 
     def _check_keys(self):
         """Every lock has its key placed, every key its lock, and no key lies behind the lock
