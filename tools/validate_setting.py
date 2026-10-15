@@ -704,12 +704,12 @@ def check_region_fields(diag: Diagnostics, path: Path, fields: list, folder, ski
                 count += 1
         if found_tables:
             rows.append(count)
-        if found_tables != 2:
+        if found_tables != 1:
             diag.error(path, f"Tables holds {found_tables} table(s) opened by a `d6 ...` line - "
-                             f"{folder.region_path.name} asks for two")
-        for i, n in enumerate(rows, 1):
+                             f"{folder.region_path.name} asks for one")
+        for n in rows:
             if n != 6:
-                diag.error(path, f"table {i} has {n} rows - a d6 table has six")
+                diag.error(path, f"the table has {n} rows - a d6 table has six")
 
 
 def check_repeated_features(diag: Diagnostics, region_code: str):

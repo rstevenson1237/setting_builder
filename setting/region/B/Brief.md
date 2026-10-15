@@ -28,10 +28,3 @@ d6 Encounter, per failed Difficulty roll
 4. A patrol of six Soldiers heading for the ravine's mouth.
 5. A lone goblin, wounded, running down the path from the cave.
 6. A wagon on the road with a driver who has not heard of the raids.
-d6 things met between Landmarks
-1. Fresh paw prints at the water's edge.
-2. A red handprint on a boulder, still wet.
-3. A deer carcass, torn open, steaming.
-4. Spray over the path; the next ford is slick with green weed.
-5. Boot-less prints in the mud, running up the ravine.
-6. A sling stone on the path, still warm from a hand.

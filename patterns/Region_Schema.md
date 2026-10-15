@@ -30,7 +30,7 @@ region Safe {
     Places text             // every location: what a party goes there for, who is found there
     Secrets text            // - the fact - who knows it; the entry that brings it out
     Leads text
-    Tables text             // d6 Events, on arrival and each week; d6 people and trouble, for anywhere unkeyed
+    Tables text             // d6 Events, on arrival and each week
   }
 }
 
@@ -50,7 +50,7 @@ region Wild {
                             // tables. Anything dangerous enough to meet is an Encounter, never game.
     Secrets text
     Leads text
-    Tables text             // d6 Encounter per failed Difficulty roll; d6 things met between Landmarks
+    Tables text             // d6 Encounter per failed Difficulty roll
   }
 }
 
@@ -70,8 +70,7 @@ region Dangerous {
     Loot text               // the largest prize and what stands over it; treasure tables; who buys it back
     Secrets text            // - the fact - the entry that brings it out
     Leads text              // - each rumour by number, each quest by name
-    Tables text             // d6 Danger, 6 noticing to 1 acting, down one per failed Difficulty roll;
-                            // d6 rooms for anywhere no location keys
+    Tables text             // d6 Danger, 6 noticing to 1 acting, down one per failed Difficulty roll
   }
 }
 ```
