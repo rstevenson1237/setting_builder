@@ -9,13 +9,13 @@ region without opening a location.
 Read first:
 - `GENRE.md`
 - `BRIEF.md`
-- `patterns/Region_Schema.md`, and this region's rating schema, `patterns/[Rating]_Schema.md` - its `brief`
+- `patterns/Common_Schema.md`, and `patterns/Region_Schema.md` - this region's rating's `brief`
 - this region's seed, `setting/region/[Region Code].md`
 - this region's table files and `Connections.mmd`
 - `setting/Rumours.md` and `setting/Quests.md`
 
 ## Instructions
-Write every field of the rating schema's `brief`, in its order, from the tables alone.
+Write every field of the rating's `brief`, in its order, from the tables alone.
 Every fact about a location names it by code; a count is summed from the entries. A fact
 no entry holds is a placement for step 5d, not a line here. Nothing the seed says is
 repeated.

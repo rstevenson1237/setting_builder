@@ -7,7 +7,7 @@ Establishes 1 or more unique truths that separate this setting from a generic in
 Read first:
 - `GENRE.md`
 - `BRIEF.md`
-- `patterns/Setting_Schema.md`
+- `patterns/Common_Schema.md` and `patterns/Setting_Schema.md`
 - `setting/Setting.md`
 - `setting/History.md`
 - At 5d: the location entries and write-ups that deliver each truth
@@ -25,7 +25,7 @@ At 5d, fill each truth's Codes with the locations that now deliver it.
 ```
 Truths of [Setting Name]
 
-| Truth | Kind | Handle | Codes |
-|---|---|---|---|
-| [the rule, in one sentence - the rule, not the mood] | [Kind] | [what a party does about it, in the specific] | [Location Code(s), filled at 5d] |
+| Truth | Handle | Codes |
+|---|---|---|
+| [the rule, in one sentence - the rule, not the mood] | [what a party does about it, in the specific] | [Location Code(s), filled at 5d] |
 ```

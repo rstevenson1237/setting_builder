@@ -1,9 +1,9 @@
 # Region Schema
 
-The nodes every rating's tables share. Each rating's schema adds its own, and may define a
-node of the same name to mean what that rating needs. Each rating's `folder` also holds its
-`seed`, `setting/region/[Code].md`, written before any location exists and naming none,
-and its `brief`, `setting/region/[Code]/Brief.md`, written from the tables alone.
+What `setting/region/` holds for each region, by rating: its `seed`,
+`setting/region/[Code].md`, written before any location exists and naming none, and its
+`brief`, `setting/region/[Code]/Brief.md`, written from the tables alone. The tables
+themselves are the rating's own schema.
 
 Every seed and brief sentence carries something usable at the table - a name, count,
 price, place, distance or ruling; why a place exists or how it feels is cut, and nothing
@@ -12,40 +12,67 @@ party engages: what is changing, then two rungs, each with what sets it off. Pla
 index, never a description. A list field writes each item as its own `- ` line.
 
 ```kdl
-node Location {
-  name string               // per GENRE.md's Naming, after the rest is decided; named only where
-                            // something refers to it again. In whose mouth: residents (SAFE only),
-                            // border passers, the departed, or its occupants
-  tags tag list n=3
-  type kind
+enum Safe_Kind steading thorp village town seat hold   // a household; a few; trades; a market and authority;
+                                                        // a greater power's seat; a garrison with folk under its walls
+enum Terrain hills mountains plains forest swamp desert jungle coast   // one, or two in combination
+enum Dangerous_Kind collection "single holding"   // a worked complex in blocks, sized by its die; one occupant's home, sized by what it holds
+
+region Safe {
+  seed {
+    Kind Safe_Kind
+    Overview text           // what a party sees arriving, and what it comes to do
+    Approach text           // every way in: what stands at it, what passing takes, what befalls the turned away
+    People text             // the roster BRIEF.md sizes: - Name, role - wants from a stranger; gives or sells
+    Services text           // prices in Treasure I's coin; what it buys from a party; what cannot be had
+    Law text                // what gets a stranger fined, locked up or put out; who enforces; what each costs
+    Situation text          // who is behind it, and who is hurt
+  }
+  brief {
+    Places text             // every location: what a party goes there for, who of People is found there
+    Secrets text            // - the fact - who knows it; the entry that brings it out
+    Leads text
+    Tables text             // d6 Events, on arrival and each week; d6 people and trouble, for anywhere unkeyed
+  }
 }
-node Dressing {
-  obvious string
-  former gloss opt
-  condition tag opt
-  ambiance gloss opt
-  layout string
+
+region Wild {
+  seed {
+    Overview text           // what a party sees crossing in, who is out here, what brings anyone
+    Approach text           // where it is entered, and how long a crossing takes on the best route and off it
+    Terrain Terrain         // then rulings per setting/Procedures.md's Time: what an action buys on a road,
+                            // off it, through the worst; what loses a party and finds the way; weather,
+                            // night, a fire. Ground is never a location.
+    Situation text
+  }
+  brief {
+    Places text             // every Landmark: what shows from a distance, what a party goes for
+    Inhabitants text        // one sentence: every creature and faction the Encounters hold, how many, where
+    Loot text               // forage and game by local name, what the nearest SAFE region pays; treasure
+                            // tables. Anything dangerous enough to meet is an Encounter, never game.
+    Secrets text
+    Leads text
+    Tables text             // d6 Encounter per failed Difficulty roll; d6 things met between Landmarks
+  }
 }
-node Encounter {
-  one-of Creature NamedCreature Faction
-  doing string
-  reaction string
-  want string opt
-  know string opt
-  left gloss opt
-  far gloss opt
-}
-node Creature {
-  bestiary entry Bestiary
-  count number
-}
-node NamedCreature {
-  named entry "Named Creatures"
-  presence percent
-}
-node Faction {
-  faction entry Factions
-  present number
-  members string
+
+region Dangerous {
+  seed {
+    Kind Dangerous_Kind
+    Overview text           // what a party sees at the way in, who lives there, what it comes for
+    Approach text           // every entrance: where it opens from, who or what watches it
+    Conditions text         // every room unless it says otherwise: material, height and width,
+                            // light, what carries sound, footing, air, what a lit fire does
+    Situation text          // a single holding barely moves the Danger track: name what presses instead
+  }
+  brief {
+    Places text             // each block, or a single holding's notable rooms: codes, way in, prize, rival
+    Inhabitants text        // one sentence: every creature and faction the Encounters hold, how many, where
+    Alarm text              // what raises it, who hears first, who comes from where, how many turns later
+    Loot text               // the largest prize and what stands over it; treasure tables; who buys it back
+    Secrets text            // - the fact - the entry that brings it out
+    Leads text              // - each rumour by number, each quest by name
+    Tables text             // d6 Danger, 6 noticing to 1 acting, down one per failed Difficulty roll;
+                            // d6 rooms for anywhere no location keys
+  }
 }
 ```

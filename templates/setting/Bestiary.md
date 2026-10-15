@@ -7,7 +7,7 @@ Reusable, system-neutral creature templates for the setting.
 Read first:
 - `GENRE.md`
 - `BRIEF.md`
-- `patterns/Setting_Schema.md`
+- `patterns/Common_Schema.md` and `patterns/Setting_Schema.md`
 - `setting/Setting.md`, `setting/History.md`, `setting/Truths.md`
 
 ## Instructions
@@ -26,10 +26,10 @@ Bestiary of [Setting Name]
 ### [Creature Name]
 Type: [Type]
 AD: [Xd6+N]
-MA: [Y]
+Special: [... or `none` - one Special line per ability]
+MA: [Y, omitted at 1]
 Description: [...]
 Range: [...]
 Sign: [...]
 Disposition: [...]
-Special: [... or `none` - one Special line per ability]
 ```

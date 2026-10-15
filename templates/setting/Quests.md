@@ -8,7 +8,7 @@ nothing on this map. Written at step 5d, against what the build holds.
 Read first:
 - `GENRE.md`
 - `BRIEF.md`
-- `patterns/Setting_Schema.md`
+- `patterns/Common_Schema.md` and `patterns/Setting_Schema.md`
 - `setting/Rumours.md`
 - each region's seed, `setting/region/[Region Code].md`
 - the location entries or setting entries a quest points to
@@ -23,5 +23,5 @@ Quests of [Setting Name]
 
 | Name | Ask | Giver | Reluctance | Object | Obstacle | Terms | Points to |
 |---|---|---|---|---|---|---|---|
-| [Quest Name] | [ASK] | [who wants it, and how a party hears of it] | [RELUCTANCE] | [what specifically] | [OBSTACLE] | ["stated in the giver's own words"] | [Location Code, Table: Title, or nowhere on this map] |
+| [Quest Name] | [ASK] | [who wants it, and how a party hears of it] | [RELUCTANCE] | [what specifically] | [OBSTACLE] | ["stated in the giver's own words"] | [Location Code(s), or none] |
 ```

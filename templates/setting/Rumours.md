@@ -7,7 +7,7 @@ A referee-facing table of rumours of varying truth that serve as adventure hooks
 Read first:
 - `GENRE.md`
 - `BRIEF.md`
-- `patterns/Setting_Schema.md`
+- `patterns/Common_Schema.md` and `patterns/Setting_Schema.md`
 - `setting/Setting.md`, `setting/History.md`, `setting/Truths.md`
 - each region's seed, `setting/region/[Region Code].md`
 - the location entries and write-ups each rumour is settled at
@@ -22,7 +22,7 @@ from what that location holds. For a `P` entry it
 also names **which half is false**, in a clause, because "partially true" without that is
 a mark the referee cannot act on.
 
-A rumour that points off the map says so - `Settled at: nowhere on this map` - a decision on
+A rumour that points off the map says so - `Settled at: none` - a decision on
 the page. Without it, a deliberate lead beyond
 the edge of the setting and a dangling reference to something nobody ever wrote read
 exactly alike.
@@ -37,7 +37,7 @@ Rumours of [Setting Name]
 
 | # | Rumour | T/P/F/U | Settled at |
 |---|--------|-------|------------|
-| 1 | [A rumour the players might encounter] | [T/P/F/U] | [Location Code(s), and for P which half is false; for U, the referee's, and where a party would look] |
+| 1 | [A rumour the players might encounter] | [T/P/F/U] | [Location Code(s), and for P which half is false; for U, none, and where a party would look] |
 | 2 | [A rumour the players might encounter] | [T/P/F/U] | [...] |
 | ... | ... | ... | ... |
 | 20 | [A rumour the players might encounter] | [T/P/F/U] | [...] |

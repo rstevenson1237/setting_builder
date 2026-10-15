@@ -1,27 +1,9 @@
 # Setting Schema
 
-The values every entry is written in, and every setting file: its fields, under the
-`table` line naming it. `patterns/Region_Schema.md` and each rating's schema build on it; a
-name a narrower schema defines shadows the same name here.
-
-A field is `Label type`, then `opt`, `list` (comma-separated) or `none` (may be `none`).
-An enum field opens with one of its items, and may go on after ` - ` in prose. How many
-entries a file holds is `BRIEF.md`'s.
+Every setting file in `setting/`: its fields, under the `table` line naming it, written in
+`patterns/Common_Schema.md`'s values.
 
 ```kdl
-value string words=8
-value gloss words=4
-value tag words=2
-value text                    // prose, any length
-value number                  // N, or a range N-M; range= bounds it
-value dice                    // Nd6 or Nd6+M; count= and bonus= bound it
-value percent                 // N%
-value location                // a location code
-value place                   // location codes first, or "nowhere on this map", or "the referee's"
-value kind                    // an item of the folder's type enum
-value entry                   // a title on each table the member names
-value pull                    // a roll table's name, or "Table: Title" for an entry table
-
 // -- GENRE.md answers, once each and in this order: Reference (the work modelled on, and
 //    what it sets against what); Lethality (what one wrong roll costs); Magic level (who
 //    works magic, how often, at what cost); Authority (how far a power's writ reaches);
@@ -30,9 +12,6 @@ value pull                    // a roll table's name, or "Table: Title" for an e
 //    settled place stands); Player characters (who they are, what stands behind them);
 //    Reward (what they are after, what having it does); Naming (which tongue proper nouns
 //    are coined from, which are left plain). Nothing here answers one differently.
-
-enum Damage_Type Nuisance Damaging Lethal
-enum Contents_Type "Treasure I" "Treasure II" "Treasure III" "Treasure IV" "Treasure V" Magic Hoards Lore Keys "Unique Treasures" "Magical Tomes"
 
 // -- Setting.md: its name, a tag line no other setting of its genre fits, and an outline
 //    of two or three sentences: what the party does here, a pressure already going wrong
@@ -68,30 +47,24 @@ table Bestiary entry file="setting/Bestiary.md" {
   Type Bestiary_Type
   AD dice count="1-18" bonus="-2..6"   // 1 a man's match; 2-3 superior; 4-5 larger, highly dangerous;
                                        // 6-8 supernatural; 9-12 gargantuan; 13-16 served; 17-18 a titan
-  MA number range="1-6"                // targets threatened at once, about AD/4
-  Description text                     // what a party sees when it comes into view
-  Range text                           // where it lives, how many the land supports, what it eats
-  Sign Sign                            // what reaches a party before it does
-  Disposition text                     // what it does on being met, before anyone fights
   Special text                         // what its dice do not say, or `none`
+  MA number range="2-6" opt            // targets threatened at once, about AD/4; omitted at 1
+  Description text                     // what a party sees when it comes into view
+  Range text opt                       // where it lives, how many the land supports, what it eats
+  Sign Sign opt                        // what reaches a party before it does
+  Disposition text opt                 // what it does on being met, before anyone fights
 }
 
-enum Role "set piece" ranging situation survivor leader unkillable
-enum Motive feeding holding searching collecting protecting expanding waiting
-enum Reach "a rumour" "a piece of lore" "a survivor"
-enum Memory "who hurt it" "who fed it" "who ran" "a smell" "a name" "a promise"
-table "Named Creatures" entry file="setting/NamedCreatures.md" {
+table "Named Creatures" entry file="setting/NamedCreatures.md" {   // as an Encounter meets it
   Type Bestiary_Type
   AD dice count="1-18" bonus="-2..6"
-  MA number range="1-6"
-  "Appears at" place
-  Role Role
-  Motivation Motive           // a standing goal, stated without the party
-  "Reaches by" Reach
-  Remembers Memory list       // why a second meeting never plays like the first
-  Wants text
-  Description text
   Special text
+  MA number range="2-6" opt
+  "Appears at" place from=NamedCreature
+  Reacts text                 // what it does on meeting a party
+  Wants text                  // a standing goal, stated without the party
+  Knows text opt
+  Description text
 }
 
 // -- Factions. AD is set against other factions' dice and nothing else; a goal is a
@@ -112,20 +85,16 @@ table Factions entry file="setting/Factions.md" {
 // -- The past and the rules. An event is a fact, never a clock aimed at the party, stated
 //    in two sentences at most. A truth is a class, shows at more than one rating, sharpens
 //    GENRE.md and never overrides it; a mystery or open truth says it is one.
-enum Event_Kind founding withdrawal arrival discovery collapse war blight betrayal boundary working sealing
 table History entry file="setting/History.md" {
   When text                   // years ago, vaguer the older it is
-  Kind Event_Kind
   Event text
   Left text                   // the physical mark findable now
-  Codes place
+  Codes place none
 }
-enum Truth_Kind land object custom standing limit price border "the dead" idea mystery open
 table Truths entry file="setting/Truths.md" {
   Truth text                  // the rule in one sentence, not its mood
-  Kind Truth_Kind
   Handle text                 // an act a referee could adjudicate
-  Codes place
+  Codes place none
 }
 
 // -- Rumours: no speaker built in, and never what the players should do. A P names its
@@ -137,7 +106,7 @@ table Rumours roll file="setting/Rumours.md" {
   "#" number
   Rumour text
   "T/P/F/U" Truth_Mark
-  "Settled at" place
+  "Settled at" place none
 }
 
 // -- Finds. A result is the thing itself, tied to no place or container. Value is in
@@ -172,7 +141,7 @@ table Magic roll file="setting/Magic.md" {
   Wt number
 }
 table Hoards entry file="setting/Hoards.md" {   // one owner, one location
-  "Found at" place
+  "Found at" place from=Reward
   Owner entry Bestiary Factions "Named Creatures"
   Items text
   Total text                  // value and wt, summed
@@ -181,7 +150,7 @@ enum Does once class adjacent solution knowledge passage ward
 enum Cost toll noticed bound desperate foreign sought forbidden
 enum Origin event truth lost reclaimed grave unlikely unmade   // never one nothing established accounts for
 table "Unique Treasures" entry file="setting/UniqueTreasures.md" {
-  "Found at" place
+  "Found at" place from=Reward
   Does Does
   Cost Cost list none
   Origin Origin
@@ -189,10 +158,9 @@ table "Unique Treasures" entry file="setting/UniqueTreasures.md" {
 }
 enum Reading time tongue rite cost
 table "Magical Tomes" entry file="setting/MagicalTomes.md" {   // learned, never discharged
-  "Found at" place
+  "Found at" place from=Reward
   Teaches text
   Reading Reading
-  Writer entry History Factions "Named Creatures"
 }
 
 // -- Lore is a made thing with an author inside the setting, wrong or partial (unknowing,
@@ -201,7 +169,7 @@ enum Lore_Form written cut woven drawn arranged
 enum Lore_Does purpose connection hook naming dating contradiction
 table Lore entry file="setting/Lore.md" {
   Form Lore_Form
-  "Found at" place
+  "Found at" place from=Reward
   Voice text
   Does Lore_Does list
   Text text                   // read aloud in under a minute
@@ -215,14 +183,14 @@ enum Key_Link maker material measure tongue wear inscription record
 table Keys entry file="setting/Keys.md" {
   Name text
   Form Key_Form
-  "Found at" place
-  Opens place
+  "Found at" place from=Reward
+  Opens place from=Lock
   Feature text
   Apart Apart
   Connection Key_Link list
 }
 
-// -- A quest points one way, and says where, even when that is nowhere on this map.
+// -- A quest points one way, and says where, or `none` when that is off this map.
 enum Ask retrieve find deliver destroy verify take collect recover message
 enum Reluctance unable burned shamed needed "turned back"
 enum Obstacle living guarded fragile watched contested misplaced misdescribed
@@ -234,6 +202,6 @@ table Quests entry file="setting/Quests.md" {
   Object text
   Obstacle Obstacle
   Terms text                  // the giver's own words: a fee, share, favour, loan, or bait
-  "Points to" place
+  "Points to" place none
 }
 ```

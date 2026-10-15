@@ -6,11 +6,11 @@ A registry of physical objects that trigger something elsewhere - an actual key,
 ## Context
 Read first:
 - Step 2g (creating the file): no context needed.
-- Step 5a (writing an entry): `GENRE.md`, `setting/Setting.md`, `patterns/Setting_Schema.md`, and every table entry naming it.
+- Step 5a (writing an entry): `GENRE.md`, `setting/Setting.md`, `patterns/Common_Schema.md`, `patterns/Setting_Schema.md`, and every table entry naming it.
 
 ## Instructions
 - **2g**: create the file with only its title line.
-- **5a**: write each entry a table names and this file lacks, per `patterns/Setting_Schema.md`, with its Found at - where a Reward holds it - and its Opens - where a Lock names it.
+- **5a**: write each entry a table names and this file lacks, per `patterns/Setting_Schema.md`, with its Opens the locations whose Lock names it, and its Found at where the key will lie: a trip of its own, never behind its lock. Step 5d places it there.
 
 ## Template
 ```

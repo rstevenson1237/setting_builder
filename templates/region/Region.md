@@ -10,11 +10,11 @@ Read first:
 - `BRIEF.md`
 - `setting/Setting.md`, `setting/History.md`, `setting/Truths.md`, `setting/Bestiary.md`, `setting/Factions.md`
 - `setting/region/Regions.md`
-- `patterns/Region_Schema.md`, and this region's rating schema, `patterns/[Rating]_Schema.md` - its `seed`
+- `patterns/Common_Schema.md`, and `patterns/Region_Schema.md` - this region's rating's `seed`
 - `setting/Procedures.md`
 
 ## Instructions
-Write every field of the rating schema's `seed`, in its order. The Overview names who lives
+Write every field of the rating's `seed`, in its order. The Overview names who lives
 here, by `setting/Bestiary.md` or `setting/Factions.md` name; the tables place them.
 
 No location exists yet: name no location code, and place nothing in a room. A question

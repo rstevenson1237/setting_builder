@@ -9,14 +9,14 @@ Read first, for every table:
 - `GENRE.md`
 - `STYLE.md`
 - `BRIEF.md`
-- `patterns/Setting_Schema.md`, `patterns/Region_Schema.md` and this region's rating schema
+- `patterns/Common_Schema.md`, `patterns/Setting_Schema.md` and this region's rating schema
 - this region's seed, `setting/region/[Region Code].md`
 
 Then, by step:
-- **4a, Locations**: this region's die in `setting/region/Regions.md`, `patterns/Region_Schema.md`'s Location and `setting/Language.md`.
+- **4a, Locations**: this region's die in `setting/region/Regions.md`, the rating schema's Location and `setting/Language.md`.
 - **4c, the stubs**: this region's `Locations.md`, and its `Connections.mmd` where it has one.
 - **5a**: this region's `Locations.md`, `Connections.mmd` and `Purpose.md` where it has them, the table being filled, and the setting files `patterns/Setting_Schema.md` names for its values.
-- **5d, placing**: this region's table files and `Connections.mmd`, and `setting/Keys.md`.
+- **5d, placing**: this region's table files and `Connections.mmd`, and the setting entries `python3 tools/validate_setting.py --pending` owes to 5d.
 
 ## Instructions
 - **4a, Locations** - the count `BRIEF.md` sets for the region, in its targets' type mix.
@@ -32,9 +32,9 @@ Then, by step:
   Purpose's `signs` names carries a sign of it. A stub that will not fit its room is a finding for 5c, never moved
   or dropped here.
 - **5d, placing** - a lock goes where the design wants a gate: a `Lock` on a Connection or
-  a Reward, naming its key. A key is placed only for a lock already placed: a Reward
-  pulling `Keys: [name]` where reaching it is a trip of its own, never behind its lock. A
-  placed entry holds only what placement fixes; the next 5a fills the rest.
+  a Reward, naming its key. A setting entry is placed where its Found at or Appears at
+  names a location whose tables do not yet hold it - a key as a Reward pulling
+  `Keys: [name]`. A placed entry holds only what placement fixes; the next 5a fills the rest.
 
 ## Template
 ````
