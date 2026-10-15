@@ -9,7 +9,7 @@ One location's write-up, `setting/region/[Region Code]/[Location Number].md`.
 - `BRIEF.md`
 - `setting/Truths.md`
 - `setting/Procedures.md` - the mechanics a Feature cites
-- `setting/Language.md` - roots for a coined name, and where it is recorded
+- `setting/Language.md` - roots for a coined name, and the coinages already recorded
 - the region's seed, `setting/region/[Region Code].md`
 - the location's entries, from `python3 tools/validate_setting.py --location [Location Code]`, and the setting entries they name
 
@@ -17,6 +17,10 @@ One location's write-up, `setting/region/[Region Code]/[Location Number].md`.
 - Write every entry, and nothing without one. An entry naming this location from
   elsewhere is written as what a party meets of it here.
 - Each thing a party can look at, act on, take, fight or open is its own Feature.
+- A Person is a Feature named for them: what they want and know come out in what they say
+  and do, never as a list, and a `quest` they hold is cited there. A Purchase is written
+  with its price in the Feature that sells it, a menu or sale as the goods, a service as
+  the act.
 - When entries change for a location already written, rewrite only the lines they touch.
 - A location with no Connections entry has no Exits line.
 

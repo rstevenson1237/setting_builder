@@ -20,6 +20,10 @@ Then, by step:
 
 ## Instructions
 - **4a, Locations** - the count `BRIEF.md` sets for the region, in its targets' type mix.
+  A location's name carries no form: it is common, or points at a coinage
+  `setting/Language.md` already records, and never coins one. A Person's name, at 5a, is
+  written with its `form` per `patterns/Common_Schema.md`; a tongue or family name is
+  recorded in `setting/Language.md` first.
 - **4c, the stubs** - every other table, its entries bare: `[Node] [Location Code]`.
   Each room gets the entries its type's `rate` line in `BRIEF.md` gives, choosing within a range for a
   reason its tags give, and toward `BRIEF.md`'s targets. The occupants the seed's Overview

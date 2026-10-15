@@ -1,7 +1,7 @@
 Places:
 - A.1 Roadsend Gate - where every arrival is challenged; Sergeant Tobin Hask, the Wagon Board.
-- A.2 The Drover's Rest - a bed, rumours and the carters from the second lost wagon; Edda Marsh.
-- A.3 Dunn's Stores - gear, and a buyer for finds; Garrick Dunn, the Loss Tally.
+- A.2 The Drover's Rest - a bed at 10 cp, meals and ale, rumours and the carters from the second lost wagon; Edda Marsh.
+- A.3 Dunn's Stores - rope at 15 cp, any normal Treasure II item at 100 cp, and a buyer for finds; Garrick Dunn, the Loss Tally.
 - A.4 The Commander's Hall - the quest and the road's maps; Commander Mara Vell.
 
 Secrets:
@@ -22,10 +22,3 @@ d6 Events, on arrival and each week
 4. Two drovers draw steel in the taproom and Soldiers march them to the cells.
 5. Hask turns a stranger back at dusk; the gate shuts and they stay on the road.
 6. Dunn pays well for goods stamped with a red handprint and says he is buying for no one.
-d6 people and trouble, for anywhere unkeyed
-1. A drover asks the party for the news from the ravine.
-2. A runner crosses the yard with a message for the commander.
-3. A carter with an empty wagon is looking for an escort.
-4. A Soldier on watch asks a party the challenge, as a joke.
-5. Dunn's boy offers to carry a party's finds to the stores for a copper.
-6. A traveller pays for a bed with a goblin-marked buckle.

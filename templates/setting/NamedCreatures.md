@@ -17,6 +17,7 @@ Read first:
 Named Creatures of [Setting Name]
 
 ### [Creature Name]
+Form: [NAME_FORM, of the name]
 Type: [Type]
 AD: [Xd6+N]
 Special: [what it can do that its Action Dice do not already say, or `none`]

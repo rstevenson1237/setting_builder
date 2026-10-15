@@ -31,10 +31,3 @@ d6 Danger, 6 noticing to 1 acting, down one per failed Difficulty roll
 3. Goblins bar the barricade between C.3 and C.6.
 2. A band of ten forms in the warren and moves on C.2.
 1. The whole tribe comes at the party, the chief's guards at its back.
-d6 rooms for anywhere no location keys
-1. Cut-stone corridor, goblin prints along its centre.
-2. A dead end, a plank barred across it with a red handprint.
-3. A cracked wall with a draught from beyond.
-4. A pile of empty sacks and bones.
-5. A makers' mark cut in the wall, worn to the stone.
-6. A rock-fall; water drips behind it.

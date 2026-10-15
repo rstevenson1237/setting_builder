@@ -24,4 +24,10 @@ value entry                   // a title on each table the member names
 value pull                    // a roll table's name, or "Table: Title" for an entry table
 
 enum Damage_Type Nuisance Damaging Lethal
+// Names. A coined name is recorded in Language.md; only these fields coin. A location's name
+// carries no form: it may point at a coinage already recorded, and never coins one.
+enum Name_Form common family epithet tongue   // a being's: in the common tongue; a common name, then a family name
+                                              // coined in a tongue; a common name, then "the Y", "son of Y" or
+                                              // "of Y"; or coined wholly in a tongue
+enum Place_Form common tongue                 // the setting's and a region's: in the common tongue, or coined
 ```

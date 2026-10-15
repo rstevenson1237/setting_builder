@@ -61,8 +61,10 @@ Read these rather than a description of them.
   package manager, no test framework beyond running these against the content.
   - `validate_setting.py` - structural linter, run in CI on every pull request.
   - `build_site.py` / `build_pdf.py` - render `setting/` into a website and a PDF, with no
-    separate copy to keep in sync.
-  - `site_common.py` - parsing helpers shared by the two builders.
+    separate copy to keep in sync. Every setting table is read and drawn through
+    `Setting_Schema.md`, so a table or field added there reaches both outputs unedited;
+    `--check` fails a build that leaves any of it out.
+  - `site_common.py` - the schema-driven readers and renderers shared by the two builders.
   - `metrics.py` - what the framework costs and how the corpus reads, counted. Judges
     nothing; the thresholds are the validator's.
   - `kdl.py` - the KDL subset the location tables are written in.
@@ -78,6 +80,8 @@ python3 tools/validate_setting.py --read-set [STEP]     # what a step reads, per
 python3 tools/metrics.py                    # corpus, tells, budget and read-set report
 python3 tools/metrics.py --tells [PATH]     # every tell hit, listed, over any markdown
 python3 tools/build_site.py --out _site     # static site, including patterns.html
+python3 tools/build_site.py --out _site --check   # ...and fail if the site omits anything setting/ holds
+python3 tools/build_pdf.py --check          # the same for the PDF, without WeasyPrint
 python3 -m http.server -d _site             # preview it locally
 pip install -r tools/requirements-pdf.txt   # WeasyPrint, for the PDF only
 python3 tools/build_pdf.py                  # single print-formatted PDF
@@ -88,8 +92,8 @@ python3 tools/build_pdf.py                  # single print-formatted PDF
 
 ## CI and deployment
 
-- `.github/workflows/validate.yml` - runs the validator on every pull request and every
-  push to `main`.
+- `.github/workflows/validate.yml` - runs the validator and both `--check`s on every pull
+  request and every push to `main`.
 - `.github/workflows/pages.yml` - builds the site and the PDF and deploys both to GitHub
   Pages on every push to `main` touching `setting/` or the generators, or on manual
   dispatch. This needs a one-time repository setting: **Settings -> Pages -> Source:

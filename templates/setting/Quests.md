@@ -15,7 +15,9 @@ Read first:
 
 ## Instructions
 Write the quests `BRIEF.md` asks for, each following its fields in `patterns/Setting_Schema.md`.
-A quest whose object lies at a location is written from what that location holds.
+A quest whose object lies at a location is written from what that location holds. A quest a
+Person gives is set in that Person's `quest`, in the region's `People.md`; a Person who gives none
+keeps the slot empty.
 
 ## Template
 ```

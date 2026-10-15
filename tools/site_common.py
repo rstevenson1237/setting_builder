@@ -17,6 +17,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 
 import kdl
+import tables as tb
 
 ROOT = Path(__file__).resolve().parent.parent
 SETTING = ROOT / "setting"
@@ -74,13 +75,39 @@ class Region:
     tables: list[tuple[str, list[tuple[int, str]]]]
     locations: dict[int, Location] = field(default_factory=dict)
 
+@dataclass
+class Entry:
+    title: str
+    fields: list[tuple[str, str]]     # (label, value), the schema's order, empty values left out
+
 
 @dataclass
-class RegistryEntry:
+class SettingTable:
+    """One table of Setting_Schema.md, read through the schema: what a page and the PDF
+    both render, so neither holds a field list of its own."""
+    name: str
+    kind: str                         # entry, roll or doc
+    members: list                     # tables.Member, in the schema's order
+    entries: list[Entry]
+    heading: str = ""                 # the file's first line
+    intro: str = ""                   # prose between that line and the first entry
+
+    @property
+    def slug(self) -> str:
+        return slugify(self.name)
+
+    @property
+    def page(self) -> str:
+        """Tables whose names differ only by a numeral share a page: Treasure I-V."""
+        return slugify(re.sub(r" [IVX]+$", "", self.name))
+
+
+@dataclass
+class ProseFile:
+    """A setting file no table describes, such as Procedures.md."""
+    slug: str
     title: str
-    typetag: str
-    body: str
-    locations: list[str]
+    text: str
 
 
 @dataclass
@@ -88,67 +115,33 @@ class Setting:
     name: str = ""
     tagline: str = ""
     outline: str = ""
-    history: list[tuple[str, str, str]] = field(default_factory=list)
-    truths: list[str] = field(default_factory=list)
-    rumours: list[tuple[int, str, str, str]] = field(default_factory=list)
-    bestiary: list[dict] = field(default_factory=list)
-    factions: list[dict] = field(default_factory=list)
-    faction_notes: list[str] = field(default_factory=list)
-    treasure: dict[str, list[tuple[int, str, str, str]]] = field(default_factory=dict)
-    lore: list[RegistryEntry] = field(default_factory=list)
-    keys: list[RegistryEntry] = field(default_factory=list)
-    named_creatures: list[RegistryEntry] = field(default_factory=list)
-    unique_treasures: list[RegistryEntry] = field(default_factory=list)
-    quests: list[RegistryEntry] = field(default_factory=list)
+    tables: list[SettingTable] = field(default_factory=list)
+    prose: list[ProseFile] = field(default_factory=list)
     regions: dict[str, Region] = field(default_factory=dict)
     region_order: list[str] = field(default_factory=list)
     top_connections: str = ""
 
     # lookup helpers, filled in after parsing
     all_locations: dict[str, Location] = field(default_factory=dict)
-    bestiary_names: set = field(default_factory=set)
 
+    def table(self, name: str) -> SettingTable | None:
+        return next((t for t in self.tables if t.name == name), None)
 
-TREASURE_TITLES = {
-    "I": "Treasure Table I - Scavenged Loot",
-    "II": "Treasure Table II - Equipment and Armaments",
-    "III": "Treasure Table III - Gems and Jewelry",
-    "IV": "Treasure Table IV - Luxury and Trade Goods",
-    "V": "Treasure Table V - Treasure Cache",
-}
-TREASURE_FILES = {"I": 1, "II": 2, "III": 3, "IV": 4, "V": 5}
+    def pages(self) -> dict[str, list[SettingTable]]:
+        """Page slug -> its tables, in schema order."""
+        out: dict[str, list[SettingTable]] = {}
+        for t in self.tables:
+            out.setdefault(t.page, []).append(t)
+        return out
+
+    def entry_titles(self, name: str) -> set[str]:
+        t = self.table(name)
+        return {e.title for e in t.entries} if t else set()
 
 
 # ---------------------------------------------------------------------------
 # Parsers
 # ---------------------------------------------------------------------------
-
-
-
-def join_wrapped(lines: list[str]) -> list[str]:
-    """Rejoin hard-wrapped source lines into logical lines.
-
-    Every `setting/` file is hard-wrapped at ~95 columns, so a parser that
-    matches line by line silently drops every continuation. A new logical line
-    starts at a list bullet, a numbered row, a `Field:` label, or a table row;
-    anything else continues the line above it. Callers that match their own
-    entry shape pass `starts` instead - see `parse_region_overview`.
-    """
-    out: list[str] = []
-    for raw in lines:
-        line = raw.strip()
-        if not line:
-            continue
-        if not out or _STARTS_LOGICAL_RE.match(line):
-            out.append(line)
-        else:
-            out[-1] += " " + line
-    return out
-
-
-_STARTS_LOGICAL_RE = re.compile(
-    r"^(?:[-*+]\s|\d+[.)]\s|\||#|```|[A-Z][A-Za-z ]{0,24}:\s)"
-)
 
 
 
@@ -223,7 +216,8 @@ _FIELD_RE = re.compile(r"^([A-Z][A-Za-z' ]{0,30}):\s*(.*)$")
 
 def read_records(path: Path, level: int = 3) -> list[Record]:
     """Every `### [Name]` record in a file (`## ` at level 2); a line that opens no field
-    continues the field above it, since every setting/ file is hard-wrapped."""
+    continues the field above it, since every setting/ file is hard-wrapped. A `- ` item
+    stays a line of its own."""
     out: list[Record] = []
     cur = None
     head = "#" * level + " "
@@ -240,7 +234,7 @@ def read_records(path: Path, level: int = 3) -> list[Record]:
             cur.fields.append((m.group(1).strip(), m.group(2).strip()))
         elif cur.fields:
             label, val = cur.fields[-1]
-            cur.fields[-1] = (label, (val + " " + s).strip())
+            cur.fields[-1] = (label, (val + ("\n" if s.startswith("- ") else " ") + s).strip())
     return out
 
 
@@ -249,7 +243,7 @@ LOC_CODE_TOKEN_RE = re.compile(r"\b[A-Z]+\.\d+\b")
 
 def parse_setting() -> tuple[str, str, str]:
     text = (SETTING / "Setting.md").read_text()
-    lines = [l for l in text.splitlines() if l.strip()]
+    lines = [l for l in text.splitlines() if l.strip() and not l.startswith("Form:")]
     name = lines[0].strip()
     rest = lines[1:]
     tagline = ""
@@ -259,190 +253,6 @@ def parse_setting() -> tuple[str, str, str]:
     outline = outline.strip("*").strip()
     return name, tagline, outline
 
-
-# Authoring markers that step 5d is meant to replace. They are not content and
-# must not reach a reader; a build that still shows them is showing the build's
-# own TODO list.
-PENDING_MARKER_RE = re.compile(r"\s*[-\u2013\u2014]?\s*\[pending\s+\w+\]", re.IGNORECASE)
-
-
-def _unpend(text: str) -> str:
-    return PENDING_MARKER_RE.sub("", text).strip().rstrip("-\u2013\u2014 ").strip()
-
-
-def parse_history() -> list[tuple[str, str, str]]:
-    """Returns (when, event, left) per record. `left` carries its codes, since
-    the Left line is a handle in the present rather than part of the event."""
-    entries = []
-    for r in read_records(SETTING / "History.md"):
-        left = _unpend(r.get("Left"))
-        codes = _unpend(r.get("Codes"))
-        if left and codes:
-            left = f"{left} - {codes}"
-        entries.append((r.get("When"), _unpend(r.get("Event")), left))
-    return entries
-
-
-def parse_truths() -> list[str]:
-    """One string per Truths.md row: the truth in bold, then its handle and codes."""
-    t = table_named(SETTING / "Truths.md", "") or next(iter(read_tables(SETTING / "Truths.md")), None)
-    out = []
-    for d in (t.dicts() if t else []):
-        line = f"**{d.get('Truth', '').strip()}**"
-        handle, codes = _unpend(d.get("Handle", "")), _unpend(d.get("Codes", ""))
-        if handle:
-            line += f" Handle: {handle}" + (f" - {codes}" if codes else "")
-        out.append(line)
-    return out
-
-
-def parse_table_rows(path: Path) -> list[list[str]]:
-    text = path.read_text()
-    rows = []
-    for line in text.splitlines():
-        line = line.strip()
-        if not line.startswith("|"):
-            continue
-        cells = [c.strip() for c in line.strip("|").split("|")]
-        if not cells or cells[0] in ("#",) or set(cells[0]) <= {"-"}:
-            continue
-        rows.append(cells)
-    return rows
-
-
-def parse_rumours() -> list[tuple[int, str, str, str]]:
-    """Returns (number, rumour, mark, settled).
-
-    `settled` is templates/setting/Rumours.md's Settled at column - where a party finds
-    what confirms, denies or corrects the lead, and for a partial entry which
-    half is false. It is referee-side exactly as the mark is, and empty for a
-    table written before the column existed.
-    """
-    rows = parse_table_rows(SETTING / "Rumours.md")
-    out = []
-    for cells in rows:
-        if len(cells) < 3:
-            continue
-        try:
-            n = int(cells[0])
-        except ValueError:
-            continue
-        out.append((n, cells[1], cells[2], cells[3] if len(cells) > 3 else ""))
-    return out
-
-
-def parse_treasure(roman: str) -> list[tuple[int, str, str, str]]:
-    idx = TREASURE_FILES[roman]
-    rows = parse_table_rows(SETTING / f"Treasure{idx}.md")
-    out = []
-    for cells in rows:
-        if len(cells) < 4:
-            continue
-        try:
-            n = int(cells[0])
-        except ValueError:
-            continue
-        out.append((n, cells[1], cells[2], cells[3]))
-    return out
-
-
-# An entry may carry more than one Special line - several are expected at 8 AD
-# and above - and each becomes its own field, so they render as separate
-# abilities rather than one run-on paragraph.
-BESTIARY_SUBFIELD_LABELS = ["Description", "Range", "Sign", "Disposition", "Special"]
-
-
-def parse_bestiary() -> list[dict]:
-    out = []
-    for r in read_records(SETTING / "Bestiary.md"):
-        ma = r.get("MA")
-        out.append({
-            "name": r.name, "kind": r.get("Type"),
-            "ad": r.get("AD") + (f" [MA: {ma}]" if ma else ""),
-            "description": r.get("Description"),
-            "fields": [(k, v) for k, v in r.fields if k in BESTIARY_SUBFIELD_LABELS],
-        })
-    return out
-
-
-def parse_factions() -> tuple[list[dict], list[str]]:
-    """Factions.md's records. A note on how factions relate is not a record and
-    has no place in the file, so the notes list is always empty."""
-    out = []
-    for r in read_records(SETTING / "Factions.md"):
-        out.append({"name": r.name, "ad": r.get("AD"),
-                    "fields": [(k, v) for k, v in r.fields if k != "AD"]})
-    return out, []
-
-
-REGISTRY_FILES = {
-    "lore": "Lore.md",
-    "keys": "Keys.md",
-    "named_creatures": "NamedCreatures.md",
-    "unique_treasures": "UniqueTreasures.md",
-    "quests": "Quests.md",
-    "magical_tomes": "MagicalTomes.md",
-    "hoards": "Hoards.md",
-}
-# The pipe-table registries; the rest are record files. Per kind: the column or
-# field giving the entry's type tag, and those naming its locations.
-REGISTRY_TABLES = {"keys", "quests"}
-REGISTRY_TYPETAG = {"lore": "Form", "keys": "Form", "named_creatures": "Type",
-                    "unique_treasures": "", "quests": "Ask", "magical_tomes": "",
-                    "hoards": ""}
-REGISTRY_PLACES = {
-    "lore": ("Found at",),
-    "keys": ("Found at", "Opens"),
-    "named_creatures": ("Appears at",),
-    "unique_treasures": ("Found at",),
-    "quests": ("Points to",),
-    "magical_tomes": ("Found at",),
-    "hoards": ("Found at",),
-}
-
-
-def parse_field_lines(text: str) -> list[tuple[str, str]]:
-    """Parse "- Label: value" lines - an entry's body as parse_registry writes
-    it - into ordered (label, value) pairs."""
-    fields = []
-    for l in text.splitlines():
-        m = re.match(r"^-\s*([^:]+):\s*(.+)$", l.strip())
-        if m:
-            fields.append((m.group(1).strip(), m.group(2).strip()))
-    return fields
-
-
-def registry_entries(kind: str) -> list[tuple[str, list[tuple[str, str]], int]]:
-    """(title, ordered fields, source line) per entry, from either shape."""
-    path = SETTING / REGISTRY_FILES[kind]
-    if kind in REGISTRY_TABLES:
-        tables = read_tables(path)
-        if not tables:
-            return []
-        t = tables[0]
-        out = []
-        for row, line in zip(t.rows, t.lines):
-            pairs = list(zip(t.header, row))
-            title = pairs[0][1] if pairs else ""
-            out.append((title, pairs[1:], line))
-        return out
-    return [(r.name, r.fields, r.line) for r in read_records(path)]
-
-
-def parse_registry(kind: str) -> list[RegistryEntry]:
-    out = []
-    tag_label = REGISTRY_TYPETAG[kind]
-    places = REGISTRY_PLACES[kind]
-    for title, fields, _line in registry_entries(kind):
-        typetag = next((v for k, v in fields if k == tag_label), "") if tag_label else ""
-        codes: list[str] = []
-        for k, v in fields:
-            if k in places:
-                codes += [c for c in LOC_CODE_TOKEN_RE.findall(v) if c not in codes]
-        body = "\n".join(f"- {k}: {v}" for k, v in fields
-                         if k != tag_label and k not in places and v)
-        out.append(RegistryEntry(title=title, typetag=typetag, body=body, locations=codes))
-    return out
 
 
 def parse_regions_gazetteer() -> dict[str, dict]:
@@ -459,11 +269,28 @@ def parse_regions_gazetteer() -> dict[str, dict]:
     return out
 
 
-# Every field of a region's seed and its brief, in the order they render.
-REGION_FIELD_LABELS = [
-    "Kind", "Overview", "Approach", "People", "Services", "Law", "Terrain", "Conditions",
-    "Situation", "Places", "Inhabitants", "Alarm", "Loot", "Secrets", "Leads",
-]
+_SCHEMA = None
+
+
+def schema():
+    """patterns/ read once: what every page and the PDF are drawn from."""
+    global _SCHEMA
+    if _SCHEMA is None:
+        _SCHEMA = tb.Schema()
+    return _SCHEMA
+
+
+def region_labels() -> list[str]:
+    """Every field of any rating's seed and brief, in the order they render. `Tables` is
+    drawn separately, as roll tables."""
+    out: list[str] = []
+    for f in schema().folders.values():
+        for m in f.seed + f.brief:
+            if m.name != "Tables" and m.name not in out:
+                out.append(m.name)
+    return out
+
+
 TABLE_HEAD_RE = re.compile(r"^d\d+\s+\S")
 
 
@@ -508,7 +335,7 @@ def _parse_region_fields(lines: list[str], fields: list, tables: list) -> None:
             continue
         label, val = m.group(1), m.group(2)
         block = [val] if val.strip() else []
-        while i < n and lines[i].strip() and not re.match(r"^[A-Z][a-z]+:\s", lines[i]):
+        while i < n and lines[i].strip() and not re.match(r"^[A-Z][a-z]+:(?:\s|$)", lines[i]):
             block.append(lines[i])
             i += 1
         if label == "Tables":
@@ -529,7 +356,7 @@ def _parse_region_fields(lines: list[str], fields: list, tables: list) -> None:
                     if not tables:
                         tables.append(("", []))
                     tables[-1][1].append((int(rm.group(1)), rm.group(2).strip()))
-        elif label in REGION_FIELD_LABELS:
+        elif label in region_labels():
             fields.append((label, _field_text(block)))
 
 
@@ -648,25 +475,20 @@ def load_mmd(path: Path) -> str:
 
 
 def anchor_id(kind: str, *args) -> str:
-    """Canonical HTML id for a link target - shared by the multi-page site
-    (used on the registry/treasure/bestiary pages that hold several
-    entries) and the single-page PDF (used for every target, since
-    everything lives in one document there)."""
+    """Canonical HTML id for a link target - shared by the multi-page site and the
+    single-page PDF, where every target lives in one document."""
     if kind == "location":
         region, num = args
         return f"loc-{region}-{num}"
     if kind == "region":
         (code,) = args
         return f"region-{code}"
-    if kind in ("lore", "keys", "named_creatures", "unique_treasures", "quests"):
-        (title,) = args
-        return f"{kind}-{slugify(title)}"
-    if kind == "treasure":
-        (roman,) = args
-        return f"treasure-{roman}"
-    if kind == "bestiary":
+    if kind == "entry":
+        table, title = args
+        return f"{slugify(table)}-{slugify(title)}"
+    if kind == "table":
         (name,) = args
-        return f"bestiary-{slugify(name)}"
+        return slugify(name)
     raise ValueError(f"unknown link kind {kind!r}")
 
 
@@ -714,21 +536,51 @@ def mmd_edges_by_code(text: str) -> list[tuple[str, str, str, str]]:
 # Top-level load
 # ---------------------------------------------------------------------------
 
+def _intro(path: Path) -> tuple[str, str]:
+    """A file's first line, then the prose between it and its first heading or table."""
+    lines = path.read_text().splitlines()
+    head, intro = (lines[0].strip() if lines else ""), []
+    for raw in lines[1:]:
+        if raw.lstrip().startswith(("#", "|")):
+            break
+        intro.append(raw.strip())
+    return head, " ".join(" ".join(intro).split())
+
+
+def load_tables() -> list[SettingTable]:
+    """Every table of Setting_Schema.md whose file exists, in the schema's order."""
+    sch = schema()
+    out = []
+    for name, fields in sch.fields.items():
+        entries = tb.setting_entries(sch, name)
+        if entries is None:
+            continue
+        path = ROOT / sch.tables[name][1]
+        head, intro = _intro(path)
+        known = [m.name for m in fields]
+        rows = []
+        for title, _line, values in entries:
+            values.pop("", None)
+            extra = [k for k in values if k not in known]
+            rows.append(Entry(title, [(k, values[k].strip()) for k in known + extra
+                                      if values.get(k, "").strip()]))
+        out.append(SettingTable(name, sch.tables[name][0], fields, rows, head, intro))
+    return out
+
+
+def load_prose() -> list[ProseFile]:
+    """Setting files no table claims, beyond Setting.md itself."""
+    claimed = {ROOT / f for _, f in schema().tables.values()} | {SETTING / "Setting.md"}
+    return [ProseFile(slugify(p.stem), (p.read_text().splitlines() or [p.stem])[0].strip(),
+                      p.read_text().split("\n", 1)[-1])
+            for p in sorted(SETTING.glob("*.md")) if p not in claimed]
+
+
 def load_setting() -> Setting:
     s = Setting()
     s.name, s.tagline, s.outline = parse_setting()
-    s.history = parse_history()
-    s.truths = parse_truths()
-    s.rumours = parse_rumours()
-    s.bestiary = parse_bestiary()
-    s.factions, s.faction_notes = parse_factions()
-    for roman in ("I", "II", "III", "IV", "V"):
-        s.treasure[roman] = parse_treasure(roman)
-    s.lore = parse_registry("lore")
-    s.keys = parse_registry("keys")
-    s.named_creatures = parse_registry("named_creatures")
-    s.unique_treasures = parse_registry("unique_treasures")
-    s.quests = parse_registry("quests")
+    s.tables = load_tables()
+    s.prose = load_prose()
     s.top_connections = load_mmd(SETTING / "region" / "Connections.mmd")
 
     gaz = parse_regions_gazetteer()
@@ -741,8 +593,6 @@ def load_setting() -> Setting:
             region.locations[num] = loc
             s.all_locations[loc.code] = loc
         s.regions[code] = region
-
-    s.bestiary_names = {b["name"] for b in s.bestiary}
     return s
 
 
@@ -750,14 +600,7 @@ def load_setting() -> Setting:
 # Inline rendering: markdown-ish text -> HTML with auto-linking
 # ---------------------------------------------------------------------------
 
-CITE_PATTERNS = [
-    ("lore", re.compile(r'\(Lore:\s*([^)]+)\)')),
-    ("keys", re.compile(r'\(Keys:\s*([^)]+)\)')),
-    ("named_creatures", re.compile(r'\(Named Creature:\s*([^)]+)\)')),
-    ("unique_treasures", re.compile(r'\(Unique Treasure:\s*([^)]+)\)')),
-    ("quests", re.compile(r'\(Quest:\s*([^)]+)\)')),
-]
-TREASURE_CITE_RE = re.compile(r'\(Treasure\s+([IVX]+),\s*(d\d+)\)')
+ROLL_CITE_RE = re.compile(r'\(([^(),]+),\s*(d\d+)\)')
 LOC_CODE_RE = re.compile(r'\b([A-Z]{1,2})\.(\d+)\b')
 REGION_PAREN_RE = re.compile(r'\(([A-Z]{1,2})\)')
 BESTIARY_CITE_RE = re.compile(r'\(([^()]*?),\s*Bestiary\s*:\s*([^()]+)\)')
@@ -799,30 +642,38 @@ def render_inline(text: str, setting: Setting, resolver: LinkResolver, current_p
     s = CODE_SPAN_RE.sub(code_sub, s)
 
     if not no_links:
-        for kind, pattern in CITE_PATTERNS:
-            label = {"lore": "Lore", "keys": "Keys", "named_creatures": "Named Creature",
-                      "unique_treasures": "Unique Treasure", "quests": "Quest"}[kind]
-            titles = {e.title for e in getattr(setting, kind)}
+        # `(Table: Title)` for an entry table, by its name or the name less a final "s";
+        # `(Table, dN)` for a roll table, by its name.
+        cites = {}
+        for t in setting.tables:
+            if t.kind == "roll":
+                continue
+            cites[t.name.lower()] = t
+            if t.name.endswith("s"):
+                cites[t.name[:-1].lower()] = t
 
-            def cite_sub(m, kind=kind, label=label, titles=titles):
-                title = m.group(1).strip()
-                href = resolver.href(kind, title, current_page) if title in titles else None
-                if href:
-                    return protect(f"({label}: <a href=\"{href}\">{html.escape(title, quote=False)}</a>)")
-                return m.group(0)
-            s = pattern.sub(cite_sub, s)
+        def cite_sub(m):
+            t = cites.get(m.group(1).strip().lower())
+            title = m.group(2).strip()
+            if t and any(e.title == title for e in t.entries):
+                href = resolver.href("entry", t.name, title, current_page)
+                return protect(f"({html.escape(m.group(1), quote=False)}: <a href=\"{href}\">"
+                               f"{html.escape(title, quote=False)}</a>)")
+            return m.group(0)
+        s = re.sub(r'\(([A-Z][A-Za-z ]*):\s*([^)]+)\)', cite_sub, s)
 
-        def treasure_sub(m):
-            roman = m.group(1)
-            if roman not in TREASURE_TITLES:
+        def roll_sub(m):
+            t = setting.table(m.group(1).strip())
+            if not t or t.kind != "roll":
                 return m.group(0)
-            href = resolver.href("treasure", roman, current_page)
-            return protect(f"(<a href=\"{href}\">Treasure {roman}</a>, {m.group(2)})")
-        s = TREASURE_CITE_RE.sub(treasure_sub, s)
+            href = resolver.href("table", t.name, current_page)
+            return protect(f"(<a href=\"{href}\">{html.escape(t.name, quote=False)}</a>, {m.group(2)})")
+        s = ROLL_CITE_RE.sub(roll_sub, s)
 
         def bestiary_sub(m):
             prefix, title = m.group(1).strip(), m.group(2).strip()
-            href = resolver.href("bestiary", title, current_page) if title in setting.bestiary_names else None
+            href = (resolver.href("entry", "Bestiary", title, current_page)
+                    if title in setting.entry_titles("Bestiary") else None)
             if href:
                 linked = f"<a href=\"{href}\">{html.escape(title, quote=False)}</a>"
                 return protect(f"({html.escape(prefix, quote=False)}, Bestiary: {linked})")
@@ -853,3 +704,135 @@ def render_inline(text: str, setting: Setting, resolver: LinkResolver, current_p
         return tokens[int(m.group(1))]
     s = re.sub(f"{_TOK_OPEN}(\\d+){_TOK_CLOSE}", restore, s)
     return s
+
+
+# ---------------------------------------------------------------------------
+# Setting tables and prose files, drawn the same way into the site and the PDF
+# ---------------------------------------------------------------------------
+
+def value_html(value: str, render) -> str:
+    """A field's value: prose as a paragraph, `- ` lines as a list."""
+    lines = value.split("\n")
+    prose = [l for l in lines if not l.startswith("- ")]
+    items = [l[2:] for l in lines if l.startswith("- ")]
+    if not items:
+        return render(value)
+    out = f"<p>{render(' '.join(prose))}</p>" if prose else ""
+    return out + "<ul>" + "".join(f"<li>{render(i)}</li>" for i in items) + "</ul>"
+
+
+def table_html(t: SettingTable, render, title: str = "", heading: str = "h2") -> str:
+    """One table, every field its schema names. A roll table is a table; an entry table
+    is a card per entry, its dice and its first enum field set in the title. `title` heads a
+    table sharing its page with others."""
+    h = f"<{heading}>{html.escape(title)}</{heading}>" if title else ""
+    intro = f'<p class="hint">{html.escape(t.intro)}</p>' if t.intro else ""
+    if t.kind == "roll":
+        cols = [m.name for m in t.members]
+        head = "".join(f"<th>{html.escape(c)}</th>" for c in cols)
+        rows = "".join(
+            "<tr>" + "".join(
+                f'<td class="num">{html.escape(dict(e.fields).get(c, ""))}</td>' if c == "#"
+                else f"<td>{render(dict(e.fields).get(c, ''))}</td>" for c in cols) + "</tr>"
+            for e in t.entries)
+        return (f'<div id="{anchor_id("table", t.name)}">{h}{intro}<div class="table-scroll">'
+                f'<table class="data-table"><thead><tr>{head}</tr></thead><tbody>{rows}</tbody>'
+                f'</table></div></div>')
+    enums = schema().setting_enums
+    dice = next((m.name for m in t.members if m.type == "dice"), None)
+    tag = next((m.name for m in t.members if m.type in enums and not m.is_list), None)
+    cards = []
+    for e in t.entries:
+        f = dict(e.fields)
+        shown = set()
+        title = f'{html.escape(e.title)}'
+        if tag and len(f.get(tag, "").split()) <= 3 and tag in f:
+            title += f' <span class="typetag">({html.escape(f[tag])})</span>'
+            shown.add(tag)
+        if dice and dice in f:
+            title += f' <span class="ad">{html.escape(dice)}: {html.escape(f[dice])}</span>'
+            shown.add(dice)
+        rows = "".join(f"<tr><th>{html.escape(k)}</th><td>{value_html(v, render)}</td></tr>"
+                       for k, v in e.fields if k not in shown)
+        cards.append(f'<article class="registry-card" id="{anchor_id("entry", t.name, e.title)}">'
+                     f'<h3>{title}</h3><table class="kv-table">{rows}</table></article>')
+    empty = '<p class="hint">Nothing recorded yet.</p>' if not cards else ""
+    return (f'<div id="{anchor_id("table", t.name)}">{h}{intro}{empty}'
+            f'<div class="registry-list">{"".join(cards)}</div></div>')
+
+
+def prose_html(text: str, render) -> str:
+    """A prose setting file: `##` and `###` headings, `- ` items, pipe tables, paragraphs."""
+    out, para, items, rows = [], [], [], []
+
+    def flush():
+        nonlocal para, items, rows
+        if para:
+            out.append(f"<p>{render(' '.join(para))}</p>")
+        if items:
+            out.append("<ul>" + "".join(f"<li>{render(i)}</li>" for i in items) + "</ul>")
+        if rows:
+            head, *body = rows
+            out.append('<div class="table-scroll"><table class="data-table"><thead><tr>'
+                       + "".join(f"<th>{html.escape(c)}</th>" for c in head) + "</tr></thead><tbody>"
+                       + "".join("<tr>" + "".join(f"<td>{render(c)}</td>" for c in r) + "</tr>"
+                                 for r in body) + "</tbody></table></div>")
+        para, items, rows = [], [], []
+
+    for raw in text.splitlines():
+        line = raw.strip()
+        if m := re.match(r"^(#{2,3}) (.+)$", line):
+            flush()
+            out.append(f"<h{len(m.group(1)) + 1}>{html.escape(m.group(2))}</h{len(m.group(1)) + 1}>")
+        elif line.startswith("|"):
+            if not (para or items):
+                cells = split_row(line)
+                if not all(_SEP_CELL_RE.match(c) for c in cells if c):
+                    rows.append(cells)
+        elif line.startswith("- "):
+            if para or rows:
+                flush()
+            items.append(line[2:])
+        elif not line:
+            flush()
+        elif items:
+            items[-1] += " " + line
+        else:
+            para.append(line)
+    flush()
+    return "".join(out)
+
+
+# -- keeping the display in step with the schema ----------------------------------------
+
+def _plain(s: str) -> str:
+    s = re.sub(r"</?(?:a|em|strong|code|span|b|i)\b[^>]*>", "", s)
+    s = re.sub(r"<[^>]+>", " ", s)
+    return " ".join(html.unescape(s).replace("*", "").replace("`", "").lower().split())
+
+
+def coverage(setting: Setting, text: str, has_page) -> list[str]:
+    """What the schema and the files hold that a rendering does not show. `text` is every
+    page together, or the whole PDF; `has_page(slug)` says whether a table's page exists."""
+    shown = _plain(text)
+    problems = []
+    for t in setting.tables:
+        if not has_page(t.page):
+            problems.append(f"{t.name}: its file has no page")
+        for e in t.entries:
+            for label, value in e.fields:
+                if _plain(value.replace("\n- ", " ").removeprefix("- ")) not in shown:
+                    problems.append(f"{t.name} / {e.title} / {label}: not shown")
+    for p in setting.prose:
+        if not has_page(p.slug):
+            problems.append(f"{p.title}: its file has no page")
+    for code, r in setting.regions.items():
+        rendered = {label for label, _ in r.fields}
+        for path in (SETTING / "region" / f"{code}.md", SETTING / "region" / code / "Brief.md"):
+            for label in re.findall(r"^([A-Z][a-z]+):", path.read_text(), re.M) if path.exists() else []:
+                if label != "Tables" and label not in rendered:
+                    problems.append(f"{path.relative_to(ROOT)}: {label} is not shown")
+        for num in r.locations:
+            if not has_page(f"region/{code}/{num}"):
+                problems.append(f"{code}.{num}: no page")
+    return problems

@@ -36,7 +36,7 @@ Vowels: u, a, o, short
 Syllable: CVC or CVCC, always closed and clipped
 Affixes: -uk - belonging; gu- - smallness; -zor - place; ko- - negation; -ar - plural
 Coined here:
-- Zhakuk = zhak + -uk - the goblin tribe of the cave; Factions
+- Zhakuk = zhak + -uk - the goblin tribe of the cave
 
 Roots:
 - gur - stone

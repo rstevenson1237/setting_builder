@@ -23,44 +23,22 @@ import site_common as sc
 ROOT = sc.ROOT
 ASSETS_SRC = Path(__file__).resolve().parent / "site_assets"
 
-REGISTRY_FILE_NAMES = {
-    "lore": "lore.html",
-    "keys": "keys.html",
-    "named_creatures": "named-creatures.html",
-    "unique_treasures": "unique-treasures.html",
-    "quests": "quests.html",
-}
-REGISTRY_PAGE_TITLES = {
-    "lore": "Lore",
-    "keys": "Keys",
-    "named_creatures": "Named Creatures",
-    "unique_treasures": "Unique Treasures",
-    "quests": "Quests",
-}
-REGISTRY_MARKER_LABELS = {
-    "lore": "Found at",
-    "keys": "Found at",
-    "named_creatures": "Appears at",
-    "unique_treasures": "Found at",
-    "quests": "Points to",
-}
-
-NAV_LINKS = [
-    ("index.html", "Home"),
-    ("history.html", "History"),
-    ("truths.html", "Truths"),
-    ("rumours.html", "Rumours"),
-    ("bestiary.html", "Bestiary"),
-    ("factions.html", "Factions"),
-    ("treasure.html", "Treasure"),
-    ("lore.html", "Lore"),
-    ("keys.html", "Keys"),
-    ("named-creatures.html", "Named Creatures"),
-    ("unique-treasures.html", "Unique Treasures"),
-    ("quests.html", "Quests"),
+# Pages that are not drawn from setting/: the checklists and the schema reference.
+TAIL_LINKS = [
     ("checklists.html", "Review Checklists"),
     ("patterns.html", "Schema Reference"),
 ]
+
+
+def nav_links(setting: sc.Setting) -> list[tuple[str, str]]:
+    """Home, then a page for each table of the schema and each prose file, in the order
+    Setting_Schema.md gives them: a table added there appears here without an edit."""
+    links = [("index.html", "Home")]
+    for slug, ts in setting.pages().items():
+        links.append((f"{slug}.html", re.sub(r" [IVX]+$", "", ts[0].name)))
+    links += [(f"{p.slug}.html", p.title.split(" of ")[0]) for p in setting.prose]
+    return links + TAIL_LINKS
+
 
 # The judgement-check checklists rendered on checklists.html are parsed straight out of
 # these templates' own Instructions sections, so the site never carries a second copy of
@@ -78,7 +56,6 @@ CHECKLIST_SOURCES = [
 # ---------------------------------------------------------------------------
 
 import tables
-import validate_setting as vs  # read_block_files
 
 
 def schema_files() -> list[Path]:
@@ -103,15 +80,12 @@ class SiteLinkResolver(sc.LinkResolver):
         if kind == "region":
             (code,) = args
             return f"region/{code}/index.html", None
-        if kind in REGISTRY_FILE_NAMES:
-            (title,) = args
-            return REGISTRY_FILE_NAMES[kind], f"{kind}-{sc.slugify(title)}"
-        if kind == "treasure":
-            (roman,) = args
-            return "treasure.html", f"treasure-{roman}"
-        if kind == "bestiary":
+        if kind == "entry":
+            table, title = args
+            return f"{sc.slugify(re.sub(r' [IVX]+$', '', table))}.html", sc.anchor_id(kind, table, title)
+        if kind == "table":
             (name,) = args
-            return "bestiary.html", f"bestiary-{sc.slugify(name)}"
+            return f"{sc.slugify(re.sub(r' [IVX]+$', '', name))}.html", sc.anchor_id(kind, name)
         raise ValueError(f"unknown link kind {kind!r}")
 
     def href(self, kind: str, *args) -> str | None:
@@ -143,7 +117,7 @@ def render_inline(text: str, setting: sc.Setting, current_page: str, skip_locati
 
 def nav_html(setting: sc.Setting, current_page: str) -> str:
     items = []
-    for href, label in NAV_LINKS:
+    for href, label in nav_links(setting):
         rel = rel_asset(current_page, href)
         active = " class=\"active\"" if href == current_page else ""
         items.append(f'<li><a href="{rel}"{active}>{label}</a></li>')
@@ -277,7 +251,7 @@ def build_index(setting: sc.Setting, out: Path) -> None:
     body.append(f'<p class="outline">{render_inline(setting.outline, setting, page)}</p>')
 
     cards = []
-    for href, label in NAV_LINKS[1:]:
+    for href, label in nav_links(setting)[1:]:
         cards.append(f'<a class="card" href="{rel_asset(page, href)}">{label}</a>')
     body.append(f'<div class="card-grid">{"".join(cards)}</div>')
 
@@ -301,152 +275,22 @@ def build_index(setting: sc.Setting, out: Path) -> None:
     write_page(out, page, page_shell(setting, page, setting.name, "\n".join(body)))
 
 
-def build_history(setting: sc.Setting, out: Path) -> None:
-    page = "history.html"
-    rows = []
-    for when, text, left in setting.history:
-        marker = f'<span class="when">{html.escape(when)}</span>' if when else ""
-        trace = (
-            f'<span class="left-mark"><em>Left:</em> {render_inline(left, setting, page)}</span>'
-            if left else ""
-        )
-        rows.append(
-            f'<li>{marker}'
-            f'<span class="event">{render_inline(text, setting, page)}</span>'
-            f'{trace}</li>'
-        )
-    body = f'<h1>History</h1><ol class="timeline">{"".join(rows)}</ol>'
-    write_page(out, page, page_shell(setting, page, "History", body))
-
-
-def build_truths(setting: sc.Setting, out: Path) -> None:
-    page = "truths.html"
-    items = "".join(f'<li>{render_inline(t, setting, page)}</li>' for t in setting.truths)
-    body = f'<h1>Truths</h1><ul class="truths-list">{items}</ul>'
-    write_page(out, page, page_shell(setting, page, "Truths", body))
-
-
-def build_rumours(setting: sc.Setting, out: Path) -> None:
-    page = "rumours.html"
-    rows = []
-    label = {"T": "True", "P": "Partly true", "F": "False", "U": "Unverified"}
-    any_settled = any(settled for _, _, _, settled in setting.rumours)
-    for n, text, tpf, settled in setting.rumours:
-        cls = {"T": "tpf-true", "P": "tpf-partial", "F": "tpf-false", "U": "tpf-unverified"}.get(tpf, "")
-        settled_cell = (
-            f'<td class="settled">{render_inline(settled, setting, page)}</td>'
-            if any_settled else ""
-        )
-        rows.append(
-            f'<tr><td class="num">{n}</td><td>{render_inline(text, setting, page)}</td>'
-            f'<td class="tpf {cls}" title="{label.get(tpf, tpf)}">{tpf}</td>'
-            f'{settled_cell}</tr>'
-        )
-    settled_head = "<th>Settled at</th>" if any_settled else ""
-    body = (
-        '<h1>Rumours</h1>'
-        '<p class="hint">Referee reference — hover a mark for what it means. Players hear the rumour, not the mark.</p>'
-        '<div class="table-scroll">'
-        f'<table class="data-table"><thead><tr><th>#</th><th>Rumour</th><th>Truth</th>{settled_head}</tr></thead>'
-        f'<tbody>{"".join(rows)}</tbody></table></div>'
-    )
-    write_page(out, page, page_shell(setting, page, "Rumours", body))
-
-
-def build_bestiary(setting: sc.Setting, out: Path) -> None:
-    page = "bestiary.html"
-    cards = []
-    for creature in setting.bestiary:
-        anchor = f"bestiary-{sc.slugify(creature['name'])}"
-        field_paras = "".join(
-            f'<p><strong>{html.escape(label)}:</strong> {render_inline(value, setting, page)}</p>'
-            for label, value in creature["fields"]
-        )
-        cards.append(
-            f'<article class="stat-card" id="{anchor}">'
-            f'<h3>{html.escape(creature["name"])} <span class="kind">({html.escape(creature["kind"])})</span></h3>'
-            f'<p class="ad">AD: {html.escape(creature["ad"])}</p>'
-            f'{field_paras}'
-            f'</article>'
-        )
-    body = f'<h1>Bestiary</h1><div class="stat-grid">{"".join(cards)}</div>'
-    write_page(out, page, page_shell(setting, page, "Bestiary", body))
-
-
-def build_factions(setting: sc.Setting, out: Path) -> None:
-    page = "factions.html"
-    cards = []
-    for faction in setting.factions:
-        rows = "".join(
-            f'<tr><th>{html.escape(k)}</th><td>{render_inline(v, setting, page)}</td></tr>'
-            for k, v in faction["fields"]
-        )
-        cards.append(
-            f'<article class="faction-card">'
-            f'<h3>{html.escape(faction["name"])} <span class="ad">AD: {html.escape(faction["ad"])}</span></h3>'
-            f'<table class="kv-table">{rows}</table>'
-            f'</article>'
-        )
-    notes = "".join(
-        f'<p class="faction-note">{render_inline(n, setting, page)}</p>'
-        for n in setting.faction_notes
-    )
-    body = f'<h1>Factions</h1><div class="faction-list">{"".join(cards)}</div>{notes}'
-    write_page(out, page, page_shell(setting, page, "Factions", body))
-
-
-def build_treasure(setting: sc.Setting, out: Path) -> None:
-    page = "treasure.html"
-    sections = []
-    for roman in ("I", "II", "III", "IV", "V"):
-        rows = "".join(
-            f'<tr><td class="num">{n}</td><td>{render_inline(item, setting, page)}</td>'
-            f'<td>{html.escape(value)}</td><td>{html.escape(wt)}</td></tr>'
-            for n, item, value, wt in setting.treasure[roman]
-        )
-        table = (
-            f'<div class="table-scroll"><table class="data-table">'
-            f'<thead><tr><th>#</th><th>Item</th>'
-            f'<th>Value</th><th>Wt</th></tr></thead><tbody>{rows}</tbody></table></div>'
-        )
-        sections.append(section(sc.TREASURE_TITLES[roman], table, anchor=f"treasure-{roman}"))
-    body = f'<h1>Treasure Tables</h1>{"".join(sections)}'
-    write_page(out, page, page_shell(setting, page, "Treasure", body))
-
-
-def build_registry(setting: sc.Setting, out: Path, kind: str) -> None:
-    page = REGISTRY_FILE_NAMES[kind]
-    entries = getattr(setting, kind)
-    cards = []
-    for e in entries:
-        anchor = f"{kind}-{sc.slugify(e.title)}"
-        loc_links = ", ".join(
-            f'<a href="{RESOLVER.href("location", c.split(".")[0], int(c.split(".")[1]), page)}">'
-            f'{c} {html.escape(setting.all_locations[c].name)}</a>'
-            for c in e.locations if c in setting.all_locations
-        )
-        marker = REGISTRY_MARKER_LABELS[kind]
-        typetag = render_inline(e.typetag, setting, page) if e.typetag else ""
-        typetag_html = f'<span class="typetag">({typetag})</span>' if typetag else ""
-        if sc.parse_field_lines(e.body):
-            rows = "".join(
-                f'<tr><th>{html.escape(label)}</th><td>{render_inline(text, setting, page)}</td></tr>'
-                for label, text in sc.parse_field_lines(e.body)
-            )
-            body_html = f'<table class="kv-table">{rows}</table>'
+def build_tables(setting: sc.Setting, out: Path) -> None:
+    """One page per group of schema tables, and one per prose file."""
+    for slug, ts in setting.pages().items():
+        page = f"{slug}.html"
+        title = re.sub(r" [IVX]+$", "", ts[0].name)
+        render = lambda text, page=page: render_inline(text, setting, page)
+        if len(ts) == 1:
+            inner = sc.table_html(ts[0], render)
         else:
-            body_html = f'<div class="registry-body">{render_inline(e.body, setting, page)}</div>'
-        cards.append(
-            f'<article class="registry-card" id="{anchor}">'
-            f'<h3>{html.escape(e.title)} {typetag_html}</h3>'
-            f'<p class="registry-location">{marker} {loc_links}</p>'
-            f'{body_html}'
-            f'</article>'
-        )
-    title = REGISTRY_PAGE_TITLES[kind]
-    empty = '<p class="hint">Nothing recorded yet.</p>' if not cards else ""
-    body = f'<h1>{title}</h1>{empty}<div class="registry-list">{"".join(cards)}</div>'
-    write_page(out, page, page_shell(setting, page, title, body))
+            inner = "".join(sc.table_html(t, render, t.heading or t.name) for t in ts)
+        write_page(out, page, page_shell(setting, page, title, f"<h1>{html.escape(title)}</h1>{inner}"))
+    for p in setting.prose:
+        page = f"{p.slug}.html"
+        render = lambda text, page=page: render_inline(text, setting, page)
+        body = f"<h1>{html.escape(p.title)}</h1>{sc.prose_html(p.text, render)}"
+        write_page(out, page, page_shell(setting, page, p.title, body))
 
 
 def render_static_inline(text: str) -> str:
@@ -528,34 +372,6 @@ def build_patterns(setting: sc.Setting, out: Path) -> None:
     write_page(out, page, page_shell(setting, page, "Schema Reference", "\n".join(body),
                                      main_class="page page-wide"))
 
-def read_block_files(code: str) -> list[dict]:
-    """Every `[Block Name].mmd` in a region folder, header and diagram.
-
-    A DANGEROUS region's `Connections.mmd` is the block-existence tier, not its
-    location graph - the typed location edges live one file per block, per
-    STEPS.md 4b. Reading only `Connections.mmd` therefore draws a region of
-    one box per block and no rooms at all. The header regex is the validator's,
-    so the two readers cannot drift apart.
-    """
-    rdir = sc.SETTING / "region" / code
-    if not rdir.is_dir():
-        return []
-    blocks = []
-    for path in sorted(rdir.glob("*.mmd")):
-        if path.name == "Connections.mmd":
-            continue
-        text = path.read_text()
-        head = {k: v for k, v in vs.BLOCK_HEADER_RE.findall(text)}
-        blocks.append({
-            "name": head.get("Block") or path.stem,
-            "purpose": head.get("Purpose", "").strip(),
-            "rooms": head.get("Rooms", "").strip(),
-            "members": re.findall(r"[A-Z]+\.\d+", head.get("Locations", "")),
-            "mmd": text,
-        })
-    return blocks
-
-
 def build_region(setting: sc.Setting, out: Path, code: str) -> None:
     region = setting.regions[code]
     page = f"region/{code}/index.html"
@@ -595,44 +411,12 @@ def build_region(setting: sc.Setting, out: Path, code: str) -> None:
         return f'<div class="location-list">{"".join(loc_row(n) for n in nums)}</div>'
 
     summary_mmd = sc.load_mmd(sc.SETTING / "region" / code / "Connections.mmd")
-    blocks = read_block_files(code)
-
-    if blocks:
-        # A region generated in blocks reads as a summary of its quarters and
-        # then one quarter at a time, which is the order it was written in.
-        if summary_mmd.strip():
-            body.append(section(
-                "Region Summary",
-                mermaid_block(summary_mmd, region_graph_clicks(summary_mmd, code, page)),
-            ))
-        claimed: set[int] = set()
-        for b in blocks:
-            nums = []
-            for m in b["members"]:
-                rc, num_s = m.split(".", 1)
-                if rc == code and int(num_s) in region.locations:
-                    nums.append(int(num_s))
-            nums.sort()
-            claimed.update(nums)
-            meta = " · ".join(x for x in (
-                f'{html.escape(b["purpose"])}' if b["purpose"] else "",
-                f'{len(nums)} locations' if nums else "",
-            ) if x)
-            inner = f'<p class="block-meta">{meta}</p>' if meta else ""
-            inner += mermaid_block(b["mmd"], region_graph_clicks(b["mmd"], code, page))
-            if nums:
-                inner += loc_list(nums)
-            body.append(section(f'Block: {html.escape(b["name"])}', inner))
-        rest = [n for n in sorted(region.locations) if n not in claimed]
-        if rest:
-            body.append(section("Locations outside any block", loc_list(rest)))
-    else:
-        body.append(section("Locations", loc_list(sorted(region.locations))))
-        if summary_mmd.strip():
-            body.append(section(
-                "Connections",
-                mermaid_block(summary_mmd, region_graph_clicks(summary_mmd, code, page)),
-            ))
+    body.append(section("Locations", loc_list(sorted(region.locations))))
+    if summary_mmd.strip():
+        body.append(section(
+            "Connections",
+            mermaid_block(summary_mmd, region_graph_clicks(summary_mmd, code, page)),
+        ))
 
     write_page(out, page, page_shell(setting, page, f"{code} {region.name}", "\n".join(body)))
 
@@ -693,16 +477,13 @@ def build_search_index(setting: sc.Setting, out: Path) -> None:
         for num, loc in sorted(region.locations.items()):
             entries.append({"title": f"{loc.code} {loc.name}", "url": RESOLVER.href("location", code, num, "index.html"),
                              "type": "Location"})
-    for kind in ("lore", "keys", "named_creatures", "unique_treasures", "quests"):
-        label = REGISTRY_PAGE_TITLES[kind]
-        for e in getattr(setting, kind):
-            entries.append({"title": e.title, "url": RESOLVER.href(kind, e.title, "index.html"), "type": label})
-    for creature in setting.bestiary:
-        entries.append({"title": creature["name"], "url": RESOLVER.href("bestiary", creature["name"], "index.html"),
-                         "type": "Bestiary"})
-    for faction in setting.factions:
-        entries.append({"title": faction["name"], "url": "factions.html", "type": "Faction"})
-    for href, label in NAV_LINKS:
+    for t in setting.tables:
+        if t.kind == "roll":
+            continue
+        for e in t.entries:
+            entries.append({"title": e.title, "url": RESOLVER.href("entry", t.name, e.title, "index.html"),
+                            "type": t.name})
+    for href, label in nav_links(setting):
         entries.append({"title": label, "url": href, "type": "Page"})
 
     (out / "search-index.json").write_text(json.dumps(entries), encoding="utf-8")
@@ -723,14 +504,7 @@ def build(out_dir: Path) -> sc.Setting:
     shutil.copytree(ASSETS_SRC, assets_dest)
 
     build_index(setting, out_dir)
-    build_history(setting, out_dir)
-    build_truths(setting, out_dir)
-    build_rumours(setting, out_dir)
-    build_bestiary(setting, out_dir)
-    build_factions(setting, out_dir)
-    build_treasure(setting, out_dir)
-    for kind in ("lore", "keys", "named_creatures", "unique_treasures", "quests"):
-        build_registry(setting, out_dir, kind)
+    build_tables(setting, out_dir)
     build_checklists(setting, out_dir)
     build_patterns(setting, out_dir)
     for code in setting.region_order:
@@ -753,11 +527,20 @@ def build_patterns_only(out_dir: Path) -> None:
     build_patterns(sc.Setting(name="Schema Reference"), out_dir)
 
 
+def check(setting: sc.Setting, out_dir: Path) -> list[str]:
+    """What setting/ and the schema hold that the built pages do not show."""
+    skip = {"patterns.html", "checklists.html"}
+    text = " ".join(p.read_text(encoding="utf-8") for p in out_dir.rglob("*.html") if p.name not in skip)
+    return sc.coverage(setting, text, lambda slug: (out_dir / f"{slug}.html").exists())
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--out", default="_site", help="output directory (default: _site)")
     parser.add_argument("--patterns-only", action="store_true",
                         help="build only patterns.html - needs no setting/ content")
+    parser.add_argument("--check", action="store_true",
+                        help="fail if a table, field or page setting/ holds is not on the site")
     args = parser.parse_args()
     out_dir = (ROOT / args.out).resolve() if not os.path.isabs(args.out) else Path(args.out)
     if args.patterns_only:
@@ -767,6 +550,12 @@ def main() -> int:
     setting = build(out_dir)
     page_count = sum(1 for _ in out_dir.rglob("*.html"))
     print(f"Built {page_count} pages for '{setting.name}' into {out_dir}")
+    if args.check:
+        problems = check(setting, out_dir)
+        for p in problems:
+            print(f"site: {p}")
+        print(f"{len(problems)} problem(s)")
+        return 1 if problems else 0
     return 0
 
 
