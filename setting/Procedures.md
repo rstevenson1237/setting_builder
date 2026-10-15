@@ -1,4 +1,4 @@
-Procedures of the Setting
+Procedures of Roadsend
 
 ## Tests and Consequences
 A Test is one d20 roll by the character at risk, made against their saving throw: equal or over passes, under fails. Hit points stand behind every Test; nothing else does.

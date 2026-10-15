@@ -1,4 +1,4 @@
-Tongues of the Setting
+Tongues of Roadsend
 
 ## The Common Tongue
 Spoken by: arrived - the keep, the realm behind it, and every road traveller.
@@ -36,6 +36,7 @@ Vowels: u, a, o, short
 Syllable: CVC or CVCC, always closed and clipped
 Affixes: -uk - belonging; gu- - smallness; -zor - place; ko- - negation; -ar - plural
 Coined here:
+- Zhakuk = zhak + -uk - the goblin tribe of the cave; Factions
 
 Roots:
 - gur - stone
