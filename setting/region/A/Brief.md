@@ -1,7 +1,7 @@
 Places:
 - A.1 Roadsend Gate - where every arrival is challenged; Sergeant Tobin Hask, the Wagon Board.
-- A.2 The Drover's Rest - a bed, rumours and the carters from the second lost wagon; Edda Marsh.
-- A.3 Dunn's Stores - gear, and a buyer for finds; Garrick Dunn, the Loss Tally.
+- A.2 The Drover's Rest - a bed at 10 cp, meals and ale, rumours and the carters from the second lost wagon; Edda Marsh.
+- A.3 Dunn's Stores - rope at 15 cp, any normal Treasure II item at 100 cp, and a buyer for finds; Garrick Dunn, the Loss Tally.
 - A.4 The Commander's Hall - the quest and the road's maps; Commander Mara Vell.
 
 Secrets:

@@ -22,13 +22,12 @@ region Safe {
     Kind Safe_Kind
     Overview text           // what a party sees arriving, and what it comes to do
     Approach text           // every way in: what stands at it, what passing takes, what befalls the turned away
-    People text             // the roster BRIEF.md sizes: - Name, role - wants from a stranger; gives or sells
-    Services text           // prices in Treasure I's coin; what it buys from a party; what cannot be had
+    Buys text               // what it buys from a party and at what rate; what cannot be had here
     Law text                // what gets a stranger fined, locked up or put out; who enforces; what each costs
     Situation text          // who is behind it, and who is hurt
   }
   brief {
-    Places text             // every location: what a party goes there for, who of People is found there
+    Places text             // every location: what a party goes there for, who is found there
     Secrets text            // - the fact - who knows it; the entry that brings it out
     Leads text
     Tables text             // d6 Events, on arrival and each week; d6 people and trouble, for anywhere unkeyed

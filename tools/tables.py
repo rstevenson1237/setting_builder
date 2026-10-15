@@ -1023,11 +1023,10 @@ class Brief:
                     rows.append((f"Bestiary up front {name}", "present",
                                  "present" if name in have else "missing", name not in have))
         for code, n in self.regions.items():
-            seed = SETTING / "region" / f"{code}.md"
-            if "people" in n.props and seed.exists():
-                text = seed.read_text()
-                m = re.search(r"^People:\s*\n((?:- .*\n?)+)", text, re.M)
-                count(f"{code} People", n.props["people"], len(m.group(1).splitlines()) if m else 0)
+            people = SETTING / "region" / code / "People.md"
+            if "people" in n.props and people.exists():
+                count(f"{code} People", n.props["people"],
+                      sum(1 for e in kdl.fenced(people.read_text()) if e.name == "Person"))
         return rows
 
     @staticmethod
