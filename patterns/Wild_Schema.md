@@ -18,7 +18,6 @@ node Location {
   name string               // per GENRE.md's Naming, after the rest is decided; named only where
                             // something refers to it again. In whose mouth: border passers,
                             // the departed, or its occupants
-  form Name_Form
   tags tag list n=3
   type kind
 }

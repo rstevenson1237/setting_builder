@@ -13,7 +13,7 @@ Every setting file in `setting/`: its fields, under the `table` line naming it, 
 //    Reward (what they are after, what having it does); Naming (which tongue proper nouns
 //    are coined from, which are left plain). Nothing here answers one differently.
 
-// -- Setting.md: its name, a tag line no other setting of its genre fits, and an outline
+// -- Setting.md: its name, its form (a Place_Form, as a `Form:` line), a tag line no other setting of its genre fits, and an outline
 //    of two or three sentences: what the party does here, a pressure already going wrong
 //    that is not aimed at them, and what this setting has that a generic one lacks.
 

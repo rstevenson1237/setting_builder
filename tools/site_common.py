@@ -243,7 +243,7 @@ LOC_CODE_TOKEN_RE = re.compile(r"\b[A-Z]+\.\d+\b")
 
 def parse_setting() -> tuple[str, str, str]:
     text = (SETTING / "Setting.md").read_text()
-    lines = [l for l in text.splitlines() if l.strip()]
+    lines = [l for l in text.splitlines() if l.strip() and not l.startswith("Form:")]
     name = lines[0].strip()
     rest = lines[1:]
     tagline = ""

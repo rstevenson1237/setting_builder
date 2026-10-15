@@ -311,6 +311,8 @@ def check_setting_files(schema: Schema, codes: set[str]):
 
 
 LANGUAGE = SETTING / "Language.md"
+BEING_FORMS = ("common", "family", "epithet", "tongue")
+PLACE_FORMS = ("common", "tongue")
 EPITHET_RE = re.compile(r".\s(?:the|son of|daughter of|of)\s.", re.I)
 COINAGE_RE = re.compile(r"(.+?) = (.+?) - (.+)")
 
@@ -509,13 +511,22 @@ class Setting:
 
     def _check_names(self):
         """Every name a schema gives a form is that form, and every coinage a tongue records
-        is in one: a tongue name is a recorded coinage, a family name ends in one, an epithet
-        reads "X the Y", "X son of Y" or "X of Y", and a common name holds none."""
+        is in one. A being is named in any of four forms: a tongue name is a recorded
+        coinage, a family name ends in one, an epithet reads "X the Y", "X son of Y" or "X of
+        Y", and a common name holds none. A place is common or tongue. A location's name
+        carries no form: it may point at a coinage and never coins one."""
         known, problems = coinages()
         for msg in problems:
             yield "error", LANGUAGE, msg
         used: set[str] = set()
-        for path, where, name, form in self.names():
+        has = lambda name: [n for n in known if re.search(rf"\b{re.escape(n)}\b", name, re.I)]
+        for path, where, name, form, allowed in self.names():
+            if form is None:
+                used.update(has(name))
+                continue
+            if form not in allowed:
+                yield "error", path, f"{where}: {name!r} is {form!r}, but its kind is named {' or '.join(allowed)}"
+                continue
             base = re.sub(r"^(?:the|a|an)\s+", "", name, flags=re.I)
             words = name.split()
             if form == "tongue":
@@ -535,17 +546,17 @@ class Setting:
                 if not EPITHET_RE.search(name):
                     yield "error", path, f"{where}: {name!r} is not 'X the Y', 'X son of Y' or 'X of Y'"
             elif form == "common":
-                for noun in known:
-                    if re.search(rf"\b{re.escape(noun)}\b", name, re.I):
-                        yield "error", path, f"{where}: {name!r} holds the coinage {noun!r} - it is not a common name"
+                for noun in has(name):
+                    yield "error", path, f"{where}: {name!r} holds the coinage {noun!r} - it is not a common name"
         for noun, (tongue, shown) in sorted(known.items()):
             if noun not in used:
-                yield "warning", LANGUAGE, (f"{tongue}: {shown} is recorded, but no tongue or family name "
-                                            f"uses it - give a name its form or cut it")
+                yield "warning", LANGUAGE, (f"{tongue}: {shown} is recorded, but no name uses it - "
+                                            f"give a name its form or cut it")
 
     def names(self):
-        """(path, where, name, form) for every name that has a form - a schema field, or the gazetteer's
-        Form column - where both are written."""
+        """(path, where, name, form, forms allowed) for every name the build holds: a being's
+        in a schema field, a place's in the setting's title or the gazetteer, and a
+        location's with no form, which may only point at a coinage."""
         out = []
         for r in self.regions.values():
             if r.folder is None:
@@ -554,24 +565,32 @@ class Setting:
                 for n in entries:
                     for node in kdl.walk([n]):
                         ms = r.folder.nodes.get(node.name, [])
-                        if any(m.type == "Name_Form" for m in ms) and "name" in node.props:
-                            form = node.props.get(next(m.name for m in ms if m.type == "Name_Form"))
-                            if form:
-                                out.append((r.dir / f"{stem}.md", f"line {node.line}",
-                                            str(node.props["name"]), str(form)))
+                        if "name" not in node.props:
+                            continue
+                        path, where, name = r.dir / f"{stem}.md", f"line {node.line}", str(node.props["name"])
+                        if f := next((m for m in ms if m.type == "Name_Form"), None):
+                            if node.props.get(f.name):
+                                out.append((path, where, name, str(node.props[f.name]), BEING_FORMS))
+                        elif node.name == "Location":
+                            out.append((path, where, name, None, ()))
+        import site_common as sc
         gaz = SETTING / "region" / "Regions.md"
-        if gaz.exists():
-            import site_common as sc
-            for t in sc.read_tables(gaz)[:1]:
-                for d, line in zip(t.dicts(), t.lines):
-                    if d.get("Name") and d.get("Form"):
-                        out.append((gaz, f"line {line}", d["Name"], d["Form"].split()[0]))
+        for t in sc.read_tables(gaz)[:1] if gaz.exists() else []:
+            for d, line in zip(t.dicts(), t.lines):
+                if d.get("Name") and d.get("Form"):
+                    out.append((gaz, f"line {line}", d["Name"], d["Form"].split()[0], PLACE_FORMS))
+        sfile = SETTING / "Setting.md"
+        if sfile.exists():
+            lines = [l.strip() for l in sfile.read_text().splitlines() if l.strip()]
+            form = next((l[5:].strip() for l in lines if l.startswith("Form:")), "")
+            if lines and form:
+                out.append((sfile, "line 1", lines[0], form.split()[0], PLACE_FORMS))
         for table, fields in self.schema.fields.items():
             f = next((m for m in fields if m.type == "Name_Form"), None)
             for title, line, values in (setting_entries(self.schema, table) or []) if f else []:
                 if values.get(f.name, "").strip():
                     out.append((ROOT / self.schema.tables[table][1], f"line {line}", title,
-                                values[f.name].split()[0].rstrip(".,;:")))
+                                values[f.name].split()[0].rstrip(".,;:"), BEING_FORMS))
         return out
 
     def _check_keys(self):
