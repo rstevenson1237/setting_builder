@@ -1,0 +1,6 @@
+B Stream Ravine
+
+Overview: A ravine of broken rock cut by a stream, between the keep and the cave. The Zhakuk watch it and raid the road from its banks, and wolves run its edges; a party crosses it to reach the cave, and Soldiers patrol as far as its mouth.
+Approach: Entered at the ravine's mouth, 8 miles up the road from the keep. The stream path runs 4 miles to the cave mouth at the ravine's head, and the cave mouth is the only way into the cave. A party on the road covers 8 miles a watch, on the stream path 4; off it 2.
+Terrain: hills. On the stream path a watch covers 4 miles; off it, climbing the banks through scree and thicket, 2. A party that leaves the path in fog or after dark is lost on a 1-2 in 6 and spends a watch finding the stream again. Rain turns the path to worst ground, 2 miles a watch. A fire lit in the ravine shows from both banks and from the ravine's mouth.
+Situation: The Zhakuk strike small wagons and lone travellers at the ravine's mouth and fall back up the stream path. Each party seen in the ravine is watched and followed. If a party kills goblins in the ravine, the Zhakuk set ambushes on the path for the next dusk. If wolves are driven off the banks, the goblins hold the banks unopposed.
