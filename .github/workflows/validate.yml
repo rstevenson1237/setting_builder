@@ -19,3 +19,8 @@ jobs:
 
       - name: Run structural validator
         run: python3 tools/validate_setting.py
+
+      - name: Check the site and PDF show everything the schema and setting hold
+        run: |
+          python3 tools/build_site.py --out /tmp/site --check
+          python3 tools/build_pdf.py --check

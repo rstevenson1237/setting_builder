@@ -16,29 +16,13 @@ from __future__ import annotations
 
 import argparse
 import html
+import re
 import sys
 from pathlib import Path
 
 import site_common as sc
-import validate_setting as vs
 
 ROOT = sc.ROOT
-
-REGISTRY_TITLES = {
-    "lore": "Lore",
-    "keys": "Keys",
-    "named_creatures": "Named Creatures",
-    "unique_treasures": "Unique Treasures",
-    "quests": "Quests",
-}
-REGISTRY_MARKER = {
-    "lore": "Found at",
-    "keys": "Found at",
-    "named_creatures": "Appears at",
-    "unique_treasures": "Found at",
-    "quests": "Points to",
-}
-
 
 class PdfLinkResolver(sc.LinkResolver):
     """Everything lives in one document, so every link is just '#anchor-id'."""
@@ -85,101 +69,20 @@ def build_document(setting: sc.Setting) -> str:
     toc_placeholder_index = len(parts)
     parts.append("")  # filled in after we know every section
 
-    # ---- setting-level documents ----
-    parts.append('<section class="doc" id="history"><h1>History</h1><ol class="timeline">' + "".join(
-        f'<li>{f"<strong>{html.escape(when)}</strong> — " if when else ""}{ri(text, setting)}'
-        f'{f"<br><em>Left:</em> {ri(left, setting)}" if left else ""}</li>'
-        for when, text, left in setting.history
-    ) + "</ol></section>")
-    toc.append(toc_entry("History", "history"))
-
-    parts.append('<section class="doc" id="truths"><h1>Truths</h1><ul>' + "".join(
-        f"<li>{ri(t, setting)}</li>" for t in setting.truths
-    ) + "</ul></section>")
-    toc.append(toc_entry("Truths", "truths"))
-
-    any_settled = any(settled for _, _, _, settled in setting.rumours)
-    rrows = "".join(
-        f'<tr><td class="num">{n}</td><td>{ri(text, setting)}</td><td class="tpf">{tpf}</td>'
-        + (f'<td>{ri(settled, setting)}</td>' if any_settled else "") + '</tr>'
-        for n, text, tpf, settled in setting.rumours
-    )
-    settled_head = "<th>Settled at</th>" if any_settled else ""
-    parts.append(
-        '<section class="doc" id="rumours"><h1>Rumours</h1>'
-        f'<table class="data-table"><thead><tr><th>#</th><th>Rumour</th><th>Truth</th>{settled_head}</tr></thead>'
-        f'<tbody>{rrows}</tbody></table></section>'
-    )
-    toc.append(toc_entry("Rumours", "rumours"))
-
-    bcards = "".join(
-        f'<div class="stat-card" id="{sc.anchor_id("bestiary", c["name"])}">'
-        f'<h3>{html.escape(c["name"])} <span class="kind">({html.escape(c["kind"])})</span></h3>'
-        f'<p class="ad">AD: {html.escape(c["ad"])}</p>'
-        + "".join(
-            f'<p><strong>{html.escape(label)}:</strong> {ri(value, setting)}</p>'
-            for label, value in c["fields"]
-        )
-        + '</div>'
-        for c in setting.bestiary
-    )
-    parts.append(f'<section class="doc" id="bestiary"><h1>Bestiary</h1><div class="stat-grid">{bcards}</div></section>')
-    toc.append(toc_entry("Bestiary", "bestiary"))
-
-    fcards = []
-    for fac in setting.factions:
-        rows = "".join(f'<tr><th>{html.escape(k)}</th><td>{ri(v, setting)}</td></tr>' for k, v in fac["fields"])
-        fcards.append(
-            f'<div class="faction-card"><h3>{html.escape(fac["name"])} '
-            f'<span class="ad">AD: {html.escape(fac["ad"])}</span></h3>'
-            f'<table class="kv-table">{rows}</table></div>'
-        )
-    fnotes = "".join(f'<p class="faction-note">{ri(n, setting)}</p>' for n in setting.faction_notes)
-    parts.append(f'<section class="doc" id="factions"><h1>Factions</h1>{"".join(fcards)}{fnotes}</section>')
-    toc.append(toc_entry("Factions", "factions"))
-
-    toc.append(toc_entry("Treasure Tables", "treasure"))
-    tsections = []
-    for roman in ("I", "II", "III", "IV", "V"):
-        rows = "".join(
-            f'<tr><td class="num">{n}</td><td>{ri(item, setting)}</td><td>{html.escape(v)}</td><td>{html.escape(w)}</td></tr>'
-            for n, item, v, w in setting.treasure[roman]
-        )
-        tsections.append(
-            f'<div id="{sc.anchor_id("treasure", roman)}"><h2>{html.escape(sc.TREASURE_TITLES[roman])}</h2>'
-            f'<table class="data-table"><thead><tr><th>#</th><th>Item</th><th>Value (cn)</th><th>Wt</th></tr></thead>'
-            f'<tbody>{rows}</tbody></table></div>'
-        )
-        toc.append(toc_entry(sc.TREASURE_TITLES[roman], sc.anchor_id("treasure", roman), level=1))
-    parts.append(f'<section class="doc" id="treasure"><h1>Treasure Tables</h1>{"".join(tsections)}</section>')
-
-    for kind in ("lore", "keys", "named_creatures", "unique_treasures", "quests"):
-        entries = getattr(setting, kind)
-        cards = []
-        for e in entries:
-            anchor = sc.anchor_id(kind, e.title)
-            loc_links = ", ".join(
-                f'<a href="#{sc.anchor_id("location", c.split(".")[0], int(c.split(".")[1]))}">'
-                f'{c} {html.escape(setting.all_locations[c].name)}</a>'
-                for c in e.locations if c in setting.all_locations
-            )
-            typetag = f' <span class="typetag">({ri(e.typetag, setting)})</span>' if e.typetag else ""
-            if sc.parse_field_lines(e.body):
-                rows = "".join(
-                    f'<tr><th>{html.escape(label)}</th><td>{ri(text, setting)}</td></tr>'
-                    for label, text in sc.parse_field_lines(e.body)
-                )
-                body_html = f'<table class="kv-table">{rows}</table>'
-            else:
-                body_html = f'<div>{ri(e.body, setting)}</div>'
-            cards.append(
-                f'<div class="registry-card" id="{anchor}"><h3>{html.escape(e.title)}{typetag}</h3>'
-                f'<p class="registry-location">{REGISTRY_MARKER[kind]} {loc_links}</p>'
-                f'{body_html}</div>'
-            )
-        title = REGISTRY_TITLES[kind]
-        parts.append(f'<section class="doc" id="{kind}"><h1>{title}</h1>{"".join(cards)}</section>')
-        toc.append(toc_entry(title, kind))
+    # ---- setting-level documents: a section per page of the site, from the same schema ----
+    render = lambda text: ri(text, setting)
+    for slug, ts in setting.pages().items():
+        title = re.sub(r" [IVX]+$", "", ts[0].name)
+        if len(ts) == 1:
+            inner = sc.table_html(ts[0], render)
+        else:
+            inner = "".join(sc.table_html(t, render, t.heading or t.name) for t in ts)
+        parts.append(f'<section class="doc" id="{slug}"><h1>{html.escape(title)}</h1>{inner}</section>')
+        toc.append(toc_entry(title, slug))
+    for p in setting.prose:
+        parts.append(f'<section class="doc" id="{p.slug}"><h1>{html.escape(p.title)}</h1>'
+                     f'{sc.prose_html(p.text, render)}</section>')
+        toc.append(toc_entry(p.title, p.slug))
 
     # ---- regions + locations ----
     top_conn = connections_block(setting.top_connections, setting)
@@ -196,23 +99,7 @@ def build_document(setting: sc.Setting) -> str:
             trows = "".join(f'<tr><td class="num">{n}</td><td>{ri(t, setting)}</td></tr>' for n, t in table_rows)
             table_html += f'<h3>{html.escape(table_label)}</h3><table class="data-table"><tbody>{trows}</tbody></table>'
 
-        # A DANGEROUS region's Connections.mmd asserts block existence only -
-        # its typed location edges live one file per block, per STEPS.md 4b -
-        # so reading that file alone leaves the region with no connections at
-        # all in the PDF. Describe the summary, then each block in turn.
-        rdir = sc.SETTING / "region" / code
-        rconn = connections_block(sc.load_mmd(rdir / "Connections.mmd"), setting)
-        block_paths = sorted(q for q in rdir.glob("*.mmd") if q.name != "Connections.mmd") \
-            if rdir.is_dir() else []
-        for bpath in block_paths:
-            btext = bpath.read_text()
-            head = {k: v for k, v in vs.BLOCK_HEADER_RE.findall(btext)}
-            bname = head.get("Block") or bpath.stem
-            bconn = connections_block(btext, setting)
-            if bconn:
-                purpose = head.get("Purpose", "").strip()
-                meta = f' <em>({html.escape(purpose)})</em>' if purpose else ""
-                rconn += f'<h3>Block: {html.escape(bname)}{meta}</h3>' + bconn
+        rconn = connections_block(sc.load_mmd(sc.SETTING / "region" / code / "Connections.mmd"), setting)
 
         parts.append(
             f'<section class="doc region-doc" id="{r_anchor}">'
@@ -355,14 +242,32 @@ def build_html(setting: sc.Setting) -> str:
 """
 
 
+def check(setting: sc.Setting, doc_html: str) -> list[str]:
+    """What setting/ and the schema hold that the PDF does not show."""
+    def has_page(slug: str) -> bool:
+        if m := re.fullmatch(r"region/([A-Z]+)/(\d+)", slug):
+            slug = sc.anchor_id("location", m.group(1), m.group(2))
+        return f'id="{slug}"' in doc_html
+    return sc.coverage(setting, doc_html, has_page)
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--out", default=None, help="output PDF path (default: _site/<setting-slug>.pdf)")
     parser.add_argument("--html-out", default=None, help="also write the intermediate combined HTML to this path")
+    parser.add_argument("--check", action="store_true",
+                        help="fail if a table, field or page setting/ holds is not in the PDF; "
+                             "needs no WeasyPrint")
     args = parser.parse_args()
 
     setting = sc.load_setting()
     doc_html = build_html(setting)
+    if args.check:
+        problems = check(setting, doc_html)
+        for p in problems:
+            print(f"pdf: {p}")
+        print(f"{len(problems)} problem(s)")
+        return 1 if problems else 0
 
     if args.html_out:
         Path(args.html_out).write_text(doc_html, encoding="utf-8")
