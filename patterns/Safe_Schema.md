@@ -17,6 +17,7 @@ node Location {
                             // border passers, the departed, or its occupants
   tags tag list n=3
   type kind
+  at gloss                  // compass point and distance from the region's way in
 }
 node Dressing {
   obvious string
@@ -24,6 +25,7 @@ node Dressing {
   condition tag opt
   ambiance gloss opt
   layout string
+  mark entry Factions list opt   // the faction whose Identity shows here
 }
 
 node Procedure {
@@ -63,7 +65,7 @@ node Garrison {             // the standing force an Authority commands
 
 node Way {
   to location
-  orientation gloss
+  orientation gloss         // compass point and distance from this end
   one-of Secret opt
 }
 node Secret {              // the way into a Secret location: what opens it, what shows it is there, and when

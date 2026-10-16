@@ -27,6 +27,7 @@ region Safe {
     Situation text          // who is behind it, and who is hurt
   }
   brief {
+    Layout text             // the region as a plan: its blocks or main ways, each way in, and the compass point and distance between them, by location code
     Places text             // every location: what a party goes there for, who is found there
     Secrets text            // - the fact - who knows it; the entry that brings it out
     Leads text
@@ -44,6 +45,7 @@ region Wild {
     Situation text
   }
   brief {
+    Layout text             // the region as a plan: its routes, each way in, and the compass point and distance from the way in to each landmark, by location code
     Places text             // every Landmark: what shows from a distance, what a party goes for
     Inhabitants text        // one sentence: every creature and faction the Encounters hold, how many, where
     Loot text               // forage and game by local name, what the nearest SAFE region pays; treasure
@@ -64,6 +66,7 @@ region Dangerous {
     Situation text          // a single holding barely moves the Danger track: name what presses instead
   }
   brief {
+    Layout text             // the region as a plan: its blocks and main passages, each entrance, and the compass point and distance between them, by location code
     Places text             // each block, or a single holding's notable rooms: codes, way in, prize, rival
     Inhabitants text        // one sentence: every creature and faction the Encounters hold, how many, where
     Alarm text              // what raises it, who hears first, who comes from where, how many turns later

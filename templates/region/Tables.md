@@ -15,7 +15,8 @@ Read first:
   setting entries `python3 tools/validate_setting.py --pending` owes
 
 ## Instructions
-- **4a, Locations** - the count `BRIEF.md` sets for the region, in its targets' type mix.
+- **4a, Locations** - the count `BRIEF.md` sets for the region, in its targets' type mix,
+  each placed by its `at` so the region reads as one plan, distances in the region's units.
   A location's name carries no form: it is common, or points at a coinage
   `setting/Language.md` already records, and never coins one. A Person's name, at 5a, is
   written with its `form` per `patterns/Common_Schema.md`; a tongue or family name is
@@ -32,7 +33,9 @@ Read first:
 - **5a, filling** - Purpose first, where the folder has one; then each table in one pass, every stub in view. Write
   every member a stub lacks, toward its room's Purpose and `BRIEF.md`'s targets; a room a
   Purpose's `signs` names carries a sign of it. A stub that will not fit its room is a finding for 5c, never moved
-  or dropped here.
+  or dropped here. A Dressing's `mark` is the Identity of a faction that holds, passes
+  through or contests the room; every faction a region's Overview names is marked somewhere
+  in it.
 - **5d, placing** - a lock goes where the design wants a gate: a `Lock` on a Connection or
   a Reward, naming its key. A setting entry is placed where its Found at or Appears at
   names a location whose tables do not yet hold it - a key as a Reward pulling
