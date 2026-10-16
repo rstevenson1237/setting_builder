@@ -23,7 +23,8 @@ Read first:
 - **4c, the stubs** - every other table, its entries bare: `[Node] [Location Code]`.
   Each room gets the entries its type's `rate` line in `BRIEF.md` gives, choosing within a range for a
   reason its tags give, and toward `BRIEF.md`'s targets. The occupants the seed's Overview
-  names are placed as Encounters, and a `procedure` line in the region's node of `BRIEF.md`
+  names are placed as Encounters - in a SAFE region as People, Named Creatures and Faction
+  members, and a Garrison at an Authority - and a `procedure` line in the region's node of `BRIEF.md`
   as a Procedure entry at the location it fits. Connections get one entry per
   side of every edge in `Connections.mmd`, with `to` set, and a gate the folder's `join`
   line names on the way into a gated location. A member or child is written now only where the

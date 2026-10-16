@@ -40,7 +40,7 @@ safe {
   rate Inn Dressing=1 Purchases="2-4" People="2-3" Procedures="0-1"
   rate Merchant Dressing=1 Purchases="2-4" People="1-2" Procedures="0-1"
   rate Bank Market Dressing=1 Purchases="1-3" People="1-2" Procedures="0-1"
-  rate Authority Dressing=1 Purchases="0-2" People="1-3"
+  rate Authority Dressing=1 Purchases="0-2" People="1-3" Garrison="0-1"
   rate Gate Dressing=1 Purchases="0-1" People="1-2"
   rate Secret Dressing=1 Purchases="0-1" People="0-1"
 }
@@ -91,6 +91,11 @@ setting {
   faction "the gnoll tribe: raiders and slavers who sell to any buyer, at war with the hobgoblins"
   faction "the bugbears of the dry fork: few, silent, the shrine's paid enforcers"
   faction "the shrine's cult: priests, acolytes and the dead they keep, with two agents in the keep"
+  relations "Goblins and orcs hold each other at Hatred; so do hobgoblins and gnolls."
+  relations "The kobolds hold the goblins at Hatred (fear); the goblins hold the kobolds Neutral."
+  relations "Every tribe holds the cult at Hatred (fear) and the cult holds every tribe Tolerated; the bugbears and the cult hold each other Friendly."
+  relations "The keep holds every tribe and the lizard-folk at Antipathy, the cult and the outlaws at Hatred, and the carters Friendly; the carters hold the keep Friendly and the outlaws Hatred."
+  relations "The outlaws hold the gnolls Tolerated, the lizard-folk Antipathy and the keep Hatred (fear). Every pair not named is Neutral."
   rumours "Twelve, each pointing at a place or person: one at each tribe, the shrine, the maze, the keep's own people, and the wood, the mere and the road. At least one is true and sounds false, and each P names which tribe or number is wrong."
   quest "a bounty on the raiders hitting the wagons, posted by the carters' guild"
   quest "a carter's lost wagon and its strongbox, given at the market"
@@ -102,6 +107,7 @@ setting {
 region A rating=SAFE die=d8 locations=13 people=18 {
   outline "The keep: a hold at the road's end - the main gate on the road and a postern toward the wood, an inn and a tavern, a trader and a smith, a moneychanger, a market in the outer yard, the chapel of Law, the commander's hall and the barracks, and two places kept hidden: the cellar where the cult's two agents meet, and the commander's sally tunnel. A party outfits, hires and sells here, and hears the rumours."
   target Location.type Gate=2 Inn=2 Merchant=2 Bank=1 Market=1 Authority=3 Secret=2
+  target Garrison of=Authority "67%"
   procedure "A game of chance at the tavern."
   procedure "Hiring men-at-arms and torchbearers at the market."
   procedure "Selling what a party carries home, at the moneychanger."

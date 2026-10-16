@@ -22,6 +22,7 @@ value place                   // location codes first, each one that exists, the
 value kind                    // an item of the folder's type enum
 value entry                   // a title on each table the member names
 value pull                    // a roll table's name, or "Table: Title" for an entry table
+value relation                // lines "- [Faction] - [Relation]", then any prose: one line for each other faction
 
 enum Damage_Type Nuisance Damaging Lethal     // the count of Tests a hazard asks: 1, 2 or 3
 enum Wound_Type Piercing Crushing Poison Fire Frost Blast   // each has a Wound table in Procedures.md

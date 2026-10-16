@@ -17,7 +17,9 @@ Read first:
   elsewhere is written as what a party meets of it here.
 - Each thing a party can look at, act on, take, fight or open is its own Feature.
 - A Person is a Feature named for them: what they want and know come out in what they say
-  and do, never as a list, and a `quest` they hold is cited there. A Purchase is written
+  and do, never as a list, and a `quest` they hold is cited there. A `member` is the
+  referee's: the Feature shows only what the faction's Identity would show a party. A
+  Garrison or a Faction's members are one Feature citing their Bestiary entry. A Purchase is written
   with its price in the Feature that sells it, a menu or sale as the goods, a service as
   the act.
 - A Local Procedure is the thing a party can start - the table, the game - cited from its
