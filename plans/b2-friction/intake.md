@@ -28,7 +28,7 @@ already found it. Each names where it lives and what the brief does about it.
 
 | # | Friction | Where | Effect |
 |---|---|---|---|
-| 10 | The site and PDF builders crash on an empty `setting/`. | `tools/site_common.py` `parse_setting` reads `Setting.md` unguarded; `README.md` says they build empty. | `validate.yml` fails every pull request on a wiped setting. `setting/.gitkeep` keeps the directory; the crash stays. |
+| 10 | The site and PDF builders crash on an empty `setting/`. | `tools/site_common.py` `parse_setting` reads `Setting.md` unguarded; `README.md` says they build empty. | `validate.yml` fails every pull request on a wiped setting. `setting/.gitkeep` keeps the directory; the crash stays. They also crash on a laid-out region whose locations have no write-up yet (`setting/region/A/1.md`), so CI is red from step 4 until 5b. |
 | 11 | Carried from Roadsend, now larger. | `Hoards.Total` is hand-summed and unchecked; Lethality needs a hazard that uses it. | Seven hoards; the brief asks for Lethal poison. |
 
 ## `BRIEF.md` as a `CLAUDE.md` import
