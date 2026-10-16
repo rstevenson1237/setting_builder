@@ -63,7 +63,9 @@ Read these rather than a description of them.
   - `build_site.py` / `build_pdf.py` - render `setting/` into a website and a PDF, with no
     separate copy to keep in sync. Every setting table is read and drawn through
     `Setting_Schema.md`, so a table or field added there reaches both outputs unedited;
-    `--check` fails a build that leaves any of it out.
+    `--check` fails a build that leaves any of it out. The site header's Roll button opens a
+    3D dice overlay (`site_assets/dice-overlay.js`, on `dice.js`; three.js and cannon load from
+    a CDN on first use).
   - `site_common.py` - the schema-driven readers and renderers shared by the two builders.
   - `metrics.py` - what the framework costs and how the corpus reads, counted. Judges
     nothing; the thresholds are the validator's.

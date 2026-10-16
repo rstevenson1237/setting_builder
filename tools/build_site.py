@@ -22,6 +22,8 @@ import site_common as sc
 
 ROOT = sc.ROOT
 ASSETS_SRC = Path(__file__).resolve().parent / "site_assets"
+# The dice roller (assets/dice-overlay.js) loads on first use; this is the one place its three.js version is set.
+THREE_URL = "https://cdn.jsdelivr.net/npm/three@0.150.1/build/three.module.js"
 
 # Pages that are not drawn from setting/: the checklists and the schema reference.
 TAIL_LINKS = [
@@ -135,6 +137,7 @@ def nav_html(setting: sc.Setting, current_page: str) -> str:
 <header class="site-header">
   <div class="header-bar">
     <a class="brand" href="{rel_asset(current_page, 'index.html')}">{html.escape(setting.name)}</a>
+    <div class="dice-pill" role="group" aria-label="Dice roller"></div>
     <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
       <span></span><span></span><span></span>
     </button>
@@ -162,6 +165,9 @@ def page_shell(setting: sc.Setting, current_page: str, title: str, body: str, de
                extra_scripts: list[str] | None = None, footer_note: str = "", main_class: str = "page") -> str:
     css_rel = rel_asset(current_page, "assets/style.css")
     js_rel = rel_asset(current_page, "assets/app.js")
+    shim_rel = rel_asset(current_page, "assets/cannon-shim.js")
+    if not shim_rel.startswith("."):
+        shim_rel = "./" + shim_rel  # import-map addresses must be ./, ../ or absolute
     full_title = f"{title} — {setting.name}" if title != setting.name else title
     desc = html.escape(description or setting.outline[:200])
     extra_tags = "".join(f'<script src="{rel_asset(current_page, s)}"></script>' for s in (extra_scripts or []))
@@ -174,6 +180,7 @@ def page_shell(setting: sc.Setting, current_page: str, title: str, body: str, de
 <title>{html.escape(full_title)}</title>
 <meta name="description" content="{desc}">
 <link rel="stylesheet" href="{css_rel}">
+<script type="importmap">{{"imports": {{"three": "{THREE_URL}", "cannon": "{shim_rel}"}}}}</script>
 <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
 </head>
 <body data-cites="{rel_asset(current_page, 'cites.json')}">
