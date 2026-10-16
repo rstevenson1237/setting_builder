@@ -16,7 +16,7 @@ Codes: none
 When: thirty years ago
 Event: The realm raised a keep at the end of its road to hold the frontier, and has kept a garrison in it since.
 Left: A founding stone over the main gate, cut with the realm's arms and the year.
-Codes: none
+Codes: A.1
 
 ### The Shrine Reopens
 When: five years ago
