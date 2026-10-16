@@ -119,4 +119,143 @@
       });
     });
   }
+  // A citation opens a box below the line holding it: the entry itself, a random row of a
+  // roll table, or a creature with a row of circles per creature to mark Attack Dice lost.
+  // The link stays a plain link for anyone without scripts.
+  var citesUrl = document.body.getAttribute("data-cites");
+  var citesLoad = null;
+  function loadCites() {
+    if (!citesLoad) {
+      citesLoad = fetch(citesUrl).then(function (r) { return r.json(); });
+    }
+    return citesLoad;
+  }
+  function fromRoot(html) {
+    var prefix = citesUrl.replace(/cites\.json$/, "");
+    return html.replace(/href="(?![a-z]+:|#)/g, 'href="' + prefix);
+  }
+  function el(tag, cls, text) {
+    var node = document.createElement(tag);
+    if (cls) { node.className = cls; }
+    if (text !== undefined) { node.textContent = text; }
+    return node;
+  }
+  function button(label, title, onclick) {
+    var b = el("button", "cite-btn", label);
+    b.type = "button";
+    b.title = title;
+    b.addEventListener("click", onclick);
+    return b;
+  }
+  function between(lo, hi) { return lo + Math.floor(Math.random() * (hi - lo + 1)); }
+
+  function creatureTracker(name, ad, count) {
+    var dice = /^(\d+)d6/.exec(ad || "");
+    var n = dice ? parseInt(dice[1], 10) : 1;
+    var bonus = /d6([+-]\d+)/.exec(ad || "");
+    var wrap = el("div", "ad-track");
+    for (var i = 1; i <= count; i++) {
+      var row = el("div", "ad-row");
+      row.appendChild(el("span", "ad-name", name + " " + i));
+      var dots = el("span", "ad-dots");
+      for (var d = 1; d <= n; d++) {
+        var dot = el("button", "ad-dot");
+        dot.type = "button";
+        dot.setAttribute("aria-pressed", "false");
+        dot.setAttribute("aria-label", name + " " + i + ", Attack Die " + d + " of " + n + " lost");
+        dot.addEventListener("click", function () {
+          this.setAttribute("aria-pressed", this.getAttribute("aria-pressed") === "true" ? "false" : "true");
+        });
+        dots.appendChild(dot);
+      }
+      row.appendChild(dots);
+      if (bonus) { row.appendChild(el("span", "ad-bonus", bonus[1])); }
+      wrap.appendChild(row);
+    }
+    return wrap;
+  }
+
+  function buildBox(a, data) {
+    var kind = a.getAttribute("data-cite");
+    var table = a.getAttribute("data-table");
+    var title = a.getAttribute("data-title");
+    var box = el("div", "cite-box");
+    box.setAttribute("role", "group");
+    var head = el("div", "cite-box-head");
+    var label = el("strong", "cite-box-title");
+    var actions = el("span", "cite-box-actions");
+    var body = el("div", "cite-box-body");
+    head.appendChild(label);
+    head.appendChild(actions);
+    box.appendChild(head);
+    box.appendChild(body);
+
+    if (kind === "roll") {
+      var rows = data.roll[table] || {};
+      var keys = Object.keys(rows);
+      var die = parseInt(a.getAttribute("data-die"), 10) || keys.length;
+      var roll = function () {
+        var n = between(1, die);
+        var row = rows[String(n)] || rows[keys[(n - 1) % keys.length]];
+        label.textContent = table + " - rolled " + n + " on d" + die;
+        body.innerHTML = fromRoot(row || "");
+      };
+      actions.appendChild(button("Roll again", "Roll again", roll));
+      roll();
+    } else {
+      var card = (data.entry[table] || {})[title];
+      if (!card) { return null; }
+      var render = function () {
+        body.innerHTML = fromRoot(card.html);
+        if (kind === "creature") {
+          var spec = a.getAttribute("data-count") || "1";
+          var range = /^(\d+)-(\d+)$/.exec(spec);
+          var count = range ? between(+range[1], +range[2]) : parseInt(spec, 10) || 1;
+          label.textContent = title + " x" + count + (range ? " (rolled from " + spec + ")" : "");
+          body.appendChild(creatureTracker(title, card.ad, count));
+        } else {
+          label.textContent = table + ": " + title;
+        }
+      };
+      render();
+      if (kind === "creature") {
+        var again = button("Reset", "Clear every circle", render);
+        actions.appendChild(again);
+      }
+    }
+    var open = el("a", "cite-btn", "Open page");
+    open.href = a.href;
+    actions.appendChild(open);
+    actions.appendChild(button("\u00d7", "Close", function () {
+      box.hidden = true;
+      a.setAttribute("aria-expanded", "false");
+    }));
+    return box;
+  }
+
+  function placeBox(a, box) {
+    var host = a.closest("td, th, li, p, .cite-box-body");
+    if (!host) { a.parentNode.appendChild(box); }
+    else if (host.matches("p")) { host.after(box); }
+    else { host.appendChild(box); }
+  }
+
+  document.addEventListener("click", function (e) {
+    var a = e.target.closest && e.target.closest("a.cite");
+    if (!a || !citesUrl || e.button || e.ctrlKey || e.metaKey || e.shiftKey || e.altKey) { return; }
+    e.preventDefault();
+    if (a._box) {
+      a._box.hidden = !a._box.hidden;
+      a.setAttribute("aria-expanded", a._box.hidden ? "false" : "true");
+      return;
+    }
+    loadCites().then(function (data) {
+      var box = buildBox(a, data);
+      if (!box) { window.location.href = a.href; return; }
+      a._box = box;
+      placeBox(a, box);
+      a.setAttribute("aria-expanded", "true");
+    }).catch(function () { window.location.href = a.href; });
+  });
+
 })();

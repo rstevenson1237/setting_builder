@@ -176,7 +176,7 @@ def page_shell(setting: sc.Setting, current_page: str, title: str, body: str, de
 <link rel="stylesheet" href="{css_rel}">
 <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
 </head>
-<body>
+<body data-cites="{rel_asset(current_page, 'cites.json')}">
 {nav_html(setting, current_page)}
 <main class="{main_class}">
 {body}
@@ -493,6 +493,14 @@ def build_search_index(setting: sc.Setting, out: Path) -> None:
 # Main
 # ---------------------------------------------------------------------------
 
+def build_cite_data(setting: sc.Setting, out: Path) -> None:
+    """cites.json: what a citation opens in a box below it, with links relative to the site root."""
+    import json
+
+    render = lambda text: render_inline(text, setting, "index.html")
+    (out / "cites.json").write_text(json.dumps(sc.cite_data(setting, render)), encoding="utf-8")
+
+
 def build(out_dir: Path) -> sc.Setting:
     if out_dir.exists():
         shutil.rmtree(out_dir)
@@ -513,6 +521,7 @@ def build(out_dir: Path) -> sc.Setting:
             build_location(setting, out_dir, code, num)
 
     build_search_index(setting, out_dir)
+    build_cite_data(setting, out_dir)
     (out_dir / ".nojekyll").write_text("")
     return setting
 
@@ -531,7 +540,15 @@ def check(setting: sc.Setting, out_dir: Path) -> list[str]:
     """What setting/ and the schema hold that the built pages do not show."""
     skip = {"patterns.html", "checklists.html"}
     text = " ".join(p.read_text(encoding="utf-8") for p in out_dir.rglob("*.html") if p.name not in skip)
-    return sc.coverage(setting, text, lambda slug: (out_dir / f"{slug}.html").exists())
+    problems = sc.coverage(setting, text, lambda slug: (out_dir / f"{slug}.html").exists())
+    import json
+    cites = json.loads((out_dir / "cites.json").read_text(encoding="utf-8"))
+    for t in setting.tables:
+        held = cites["roll" if t.kind == "roll" else "entry"].get(t.name, {})
+        for e in t.entries:
+            if t.kind in ("roll", "entry") and (dict(e.fields).get("#") if t.kind == "roll" else e.title) not in held:
+                problems.append(f"{t.name} / {e.title}: not in cites.json")
+    return problems
 
 
 def main() -> int:

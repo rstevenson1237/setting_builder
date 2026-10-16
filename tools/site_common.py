@@ -609,6 +609,12 @@ CODE_SPAN_RE = re.compile(r'`([^`]+)`')
 _TOK_OPEN, _TOK_CLOSE = "", ""
 
 
+def cite_attrs(kind: str, table: str, title: str = "", die: str = "", count: str = "") -> str:
+    """The attributes that let the site open a citation as a box below it (see app.js)."""
+    data = {"cite": kind, "table": table, "title": title, "die": die, "count": count}
+    return ' class="cite"' + "".join(f' data-{k}="{html.escape(v)}"' for k, v in data.items() if v)
+
+
 class LinkResolver:
     """Resolves a (kind, *args) target into an href, relative to a given page."""
 
@@ -657,7 +663,7 @@ def render_inline(text: str, setting: Setting, resolver: LinkResolver, current_p
             title = m.group(2).strip()
             if t and any(e.title == title for e in t.entries):
                 href = resolver.href("entry", t.name, title, current_page)
-                return protect(f"({html.escape(m.group(1), quote=False)}: <a href=\"{href}\">"
+                return protect(f"({html.escape(m.group(1), quote=False)}: <a href=\"{href}\"{cite_attrs('entry', t.name, title)}>"
                                f"{html.escape(title, quote=False)}</a>)")
             return m.group(0)
         s = re.sub(r'\(([A-Z][A-Za-z ]*):\s*([^)]+)\)', cite_sub, s)
@@ -667,7 +673,8 @@ def render_inline(text: str, setting: Setting, resolver: LinkResolver, current_p
             if not t or t.kind != "roll":
                 return m.group(0)
             href = resolver.href("table", t.name, current_page)
-            return protect(f"(<a href=\"{href}\">{html.escape(t.name, quote=False)}</a>, {m.group(2)})")
+            return protect(f"(<a href=\"{href}\"{cite_attrs('roll', t.name, die=m.group(2)[1:])}>"
+                           f"{html.escape(t.name, quote=False)}</a>, {m.group(2)})")
         s = ROLL_CITE_RE.sub(roll_sub, s)
 
         def bestiary_sub(m):
@@ -675,7 +682,9 @@ def render_inline(text: str, setting: Setting, resolver: LinkResolver, current_p
             href = (resolver.href("entry", "Bestiary", title, current_page)
                     if title in setting.entry_titles("Bestiary") else None)
             if href:
-                linked = f"<a href=\"{href}\">{html.escape(title, quote=False)}</a>"
+                count = prefix.rsplit(",", 1)[-1].strip()
+                attrs = cite_attrs("creature", "Bestiary", title, count=count if re.fullmatch(r"\d+(-\d+)?", count) else "")
+                linked = f"<a href=\"{href}\"{attrs}>{html.escape(title, quote=False)}</a>"
                 return protect(f"({html.escape(prefix, quote=False)}, Bestiary: {linked})")
             return m.group(0)
         s = BESTIARY_CITE_RE.sub(bestiary_sub, s)
@@ -721,6 +730,51 @@ def value_html(value: str, render) -> str:
     return out + "<ul>" + "".join(f"<li>{render(i)}</li>" for i in items) + "</ul>"
 
 
+def entry_card(t: SettingTable, e: Entry, render) -> tuple[str, str]:
+    """An entry's title line and its field rows: what a card and a citation's box both show."""
+    enums = schema().setting_enums
+    dice = next((m.name for m in t.members if m.type == "dice"), None)
+    tag = next((m.name for m in t.members if m.type in enums and not m.is_list), None)
+    f = dict(e.fields)
+    shown = set()
+    title = html.escape(e.title)
+    if tag and len(f.get(tag, "").split()) <= 3 and tag in f:
+        title += f' <span class="typetag">({html.escape(f[tag])})</span>'
+        shown.add(tag)
+    if dice and dice in f:
+        title += f' <span class="ad">{html.escape(dice)}: {html.escape(f[dice])}</span>'
+        shown.add(dice)
+    rows = "".join(f"<tr><th>{html.escape(k)}</th><td>{value_html(v, render)}</td></tr>"
+                   for k, v in e.fields if k not in shown)
+    return title, rows
+
+
+def cite_data(setting: Setting, render) -> dict:
+    """What a citation opens, by table: an entry table's cards, a roll table's rows by number.
+    `render` draws a field's text with links relative to the site root."""
+    out: dict = {"entry": {}, "roll": {}}
+    dice = lambda t: next((m.name for m in t.members if m.type == "dice"), None)
+    for t in setting.tables:
+        if t.kind == "roll":
+            rows = {}
+            for e in t.entries:
+                f = dict(e.fields)
+                body = "".join(f"<tr><th>{html.escape(k)}</th><td>{value_html(v, render)}</td></tr>"
+                               for k, v in e.fields if k != "#")
+                rows[f.get("#", "")] = f'<table class="kv-table">{body}</table>'
+            out["roll"][t.name] = rows
+        elif t.kind == "entry":
+            cards = {}
+            for e in t.entries:
+                title, rows = entry_card(t, e, render)
+                card = {"html": f'<h4>{title}</h4><table class="kv-table">{rows}</table>'}
+                if d := dice(t):
+                    card["ad"] = dict(e.fields).get(d, "")
+                cards[e.title] = card
+            out["entry"][t.name] = cards
+    return out
+
+
 def table_html(t: SettingTable, render, title: str = "", heading: str = "h2") -> str:
     """One table, every field its schema names. A roll table is a table; an entry table
     is a card per entry, its dice and its first enum field set in the title. `title` heads a
@@ -738,22 +792,9 @@ def table_html(t: SettingTable, render, title: str = "", heading: str = "h2") ->
         return (f'<div id="{anchor_id("table", t.name)}">{h}{intro}<div class="table-scroll">'
                 f'<table class="data-table"><thead><tr>{head}</tr></thead><tbody>{rows}</tbody>'
                 f'</table></div></div>')
-    enums = schema().setting_enums
-    dice = next((m.name for m in t.members if m.type == "dice"), None)
-    tag = next((m.name for m in t.members if m.type in enums and not m.is_list), None)
     cards = []
     for e in t.entries:
-        f = dict(e.fields)
-        shown = set()
-        title = f'{html.escape(e.title)}'
-        if tag and len(f.get(tag, "").split()) <= 3 and tag in f:
-            title += f' <span class="typetag">({html.escape(f[tag])})</span>'
-            shown.add(tag)
-        if dice and dice in f:
-            title += f' <span class="ad">{html.escape(dice)}: {html.escape(f[dice])}</span>'
-            shown.add(dice)
-        rows = "".join(f"<tr><th>{html.escape(k)}</th><td>{value_html(v, render)}</td></tr>"
-                       for k, v in e.fields if k not in shown)
+        title, rows = entry_card(t, e, render)
         cards.append(f'<article class="registry-card" id="{anchor_id("entry", t.name, e.title)}">'
                      f'<h3>{title}</h3><table class="kv-table">{rows}</table></article>')
     empty = '<p class="hint">Nothing recorded yet.</p>' if not cards else ""
