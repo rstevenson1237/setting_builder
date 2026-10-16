@@ -22,7 +22,7 @@ already found it. Each names where it lives and what the brief does about it.
 | 6 | A rating-wide percent mix is noise on a small region. | Roadsend `Review.md`: one of six is "the nearest whole count". | Every holding uses counts, which leaves the rating default unused. |
 | 7 | `BRIEF.md` is read whole by every step. | Every template's Context; analysis below. | It grew from 717 to 2,321 words (about 3,600 tokens); a location write-up's context from 5,646 to 7,396. |
 | 8 | Tongue uniqueness cannot hold past two. | `Setting_Schema.md` Language: Syllable "open or closed, unlike the others'". | GENRE gives each alignment a tongue, so Law, Neutrality, Chaos and the makers make four. |
-| 9 | Danger and Difficulty are both "the die". | `Region_Schema.md` Brief Tables "d6 Danger"; Roadsend's Procedures called it "the Danger die of a DANGEROUS region". | Read as the region's die, K, L and M (d4) cannot reach bands 6 and 5. |
+| 9 | Danger and Difficulty are both "the die". | `Region_Schema.md` Brief Tables "d6 Danger"; Roadsend's Procedures called it "the Danger die of a DANGEROUS region". | This build's seed states the Danger track as a d6; `templates/setting/Procedures.md` does not, and read as the region's die, K, L and M (d4) cannot reach bands 6 and 5. |
 
 ## Tooling
 
