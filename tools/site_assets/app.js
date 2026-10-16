@@ -20,6 +20,20 @@
     });
   }
 
+  var diceButton = document.querySelector(".dice-button");
+  if (diceButton) {
+    var assetBase = document.currentScript.src.replace(/[^\/]*$/, "");
+    var roller = null;
+    diceButton.addEventListener("click", function () {
+      if (!roller) roller = import(assetBase + "dice-overlay.js").then(function (m) { return m.createRoller(); });
+      roller.then(function (r) { r.open(); }).catch(function () {
+        roller = null;
+        diceButton.title = "The dice roller could not load (it needs WebGL and the three.js CDN).";
+        alert(diceButton.title);
+      });
+    });
+  }
+
   var dropdown = document.querySelector(".nav-dropdown");
   var dropdownToggle = document.querySelector(".dropdown-toggle");
   if (dropdown && dropdownToggle) {

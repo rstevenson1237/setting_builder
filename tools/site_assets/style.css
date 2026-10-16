@@ -115,6 +115,20 @@ code {
   color: var(--ink);
 }
 
+.header-tools { display: flex; align-items: center; gap: 0.6rem; }
+
+.dice-button {
+  font: inherit;
+  font-size: 0.92rem;
+  color: var(--accent);
+  background: none;
+  border: 1px solid var(--accent-soft);
+  border-radius: 6px;
+  padding: 0.15rem 0.6rem;
+  cursor: pointer;
+}
+.dice-button:hover { background: var(--bg); }
+
 .nav-toggle {
   display: none;
   flex-direction: column;
@@ -492,3 +506,37 @@ a.cite[aria-expanded="true"] { background: var(--bg-alt); border-radius: 3px; }
 .ad-bonus { color: var(--ink-soft); font-size: 0.85rem; }
 .cite-roll-result { margin: 0.4rem 0; padding: 0.35rem 0.6rem; background: var(--bg-alt); border-radius: 4px; }
 .cite-box li.rolled { background: var(--bg-alt); border-radius: 3px; font-weight: 600; }
+
+/* -------------------------------------------------- dice roller overlay */
+
+.dice-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  background: rgba(20, 15, 10, 0.55);
+}
+.dice-overlay[hidden] { display: none; }
+.dice-canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.dice-panel {
+  position: absolute;
+  left: 50%;
+  bottom: 1rem;
+  transform: translateX(-50%);
+  width: min(30rem, calc(100% - 2rem));
+  background: var(--card-bg);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.3);
+  padding: 0.7rem 1rem;
+  text-align: center;
+}
+.dice-result { min-height: 2.6rem; font-size: 1.1rem; color: var(--ink-soft); }
+.dice-total { font-size: 2.2rem; color: var(--accent); line-height: 1.2; }
+.dice-controls { display: flex; flex-wrap: wrap; gap: 0.5rem 0.9rem; justify-content: center; align-items: center; margin-top: 0.4rem; }
+.dice-controls label { font-size: 0.9rem; color: var(--ink-soft); }
+.dice-controls select, .dice-controls button {
+  font: inherit; font-size: 0.92rem; color: var(--ink); background: var(--bg);
+  border: 1px solid var(--line); border-radius: 6px; padding: 0.2rem 0.6rem; cursor: pointer;
+}
+.dice-controls .dice-roll { color: var(--accent); border-color: var(--accent-soft); }
+.dice-controls button:disabled { opacity: 0.5; cursor: default; }
