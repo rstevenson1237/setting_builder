@@ -550,6 +550,29 @@ def check_setting_files(diag: Diagnostics, schema, codes: set):
 # Lightweight structural checks: treasure tables, rumours, setting docs
 # ---------------------------------------------------------------------------
 
+PRICED_RE = re.compile(r"\(([\d,]+) cn, ([\d,]+) wt\)")
+TOTAL_RE = re.compile(r"([\d,]+) cn, ([\d,]+) wt")
+
+
+def check_hoard_totals(diag: Diagnostics, schema):
+    """A hoard's Total is the sum of the `(value cn, wt wt)` its Items state."""
+    path = SETTING / "Hoards.md"
+    for title, line, values in tables.setting_entries(schema, "Hoards") or []:
+        items, total = values.get("Items", ""), values.get("Total", "").strip()
+        if not items.strip() or not total:
+            continue
+        priced = [tuple(int(x.replace(",", "")) for x in m) for m in PRICED_RE.findall(items)]
+        stated = TOTAL_RE.fullmatch(total)
+        if not priced or not stated:
+            diag.error(path, f"line {line}: {title}: Items and Total are written '(value cn, wt wt)' "
+                             f"and 'value cn, wt wt'")
+            continue
+        want = tuple(sum(c) for c in zip(*priced))
+        have = tuple(int(x.replace(",", "")) for x in stated.groups())
+        if want != have:
+            diag.error(path, f"line {line}: {title}: Total is {total}, its Items sum to "
+                             f"{want[0]:,} cn, {want[1]:,} wt")
+
 def check_treasure_tables(diag: Diagnostics, brief):
     """Each roll table numbered 1 to the rolls BRIEF.md's files node sets."""
     paths = [(SETTING / f"Treasure{i}.md", "Treasure") for i in range(1, 6)] + [(SETTING / "Magic.md", "Magic")]
@@ -1150,6 +1173,7 @@ def main() -> int:
 
     check_writeup_citations(diag, setting, tables.History())
     check_setting_files(diag, schema, setting.codes)
+    check_hoard_totals(diag, schema)
     check_treasure_tables(diag, brief)
     check_procedures(diag, brief)
     for problem in brief.region_problems(regions):

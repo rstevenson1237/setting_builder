@@ -23,6 +23,6 @@ Hoards of [Setting Name]
 ### [Name]
 Found at: [Location Code] [Location Name]
 Owner: [the entry that gathered it]
-Items: [each item, its value and its wt]
-Total: [value], [wt]
+Items: [each item, its (value cn, wt wt)]
+Total: [the sum of the Items] cn, [sum] wt
 ```

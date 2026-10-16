@@ -174,7 +174,7 @@ def read_tables(path: Path) -> list[Table]:
     """Every pipe table in a file, each under the nearest `## ` heading above it."""
     tables: list[Table] = []
     name, cur = "", None
-    for i, raw in enumerate(path.read_text().splitlines(), 1):
+    for i, raw in enumerate(path.read_text().splitlines() if path.exists() else [], 1):
         s = raw.strip()
         if s.startswith("## "):
             name, cur = s[3:].strip(), None
@@ -221,7 +221,7 @@ def read_records(path: Path, level: int = 3) -> list[Record]:
     out: list[Record] = []
     cur = None
     head = "#" * level + " "
-    for i, raw in enumerate(path.read_text().splitlines(), 1):
+    for i, raw in enumerate(path.read_text().splitlines() if path.exists() else [], 1):
         s = raw.strip()
         if s.startswith(head):
             cur = Record(s[len(head):].strip(), [], i)
@@ -242,8 +242,11 @@ LOC_CODE_TOKEN_RE = re.compile(r"\b[A-Z]+\.\d+\b")
 
 
 def parse_setting() -> tuple[str, str, str]:
-    text = (SETTING / "Setting.md").read_text()
-    lines = [l for l in text.splitlines() if l.strip() and not l.startswith("Form:")]
+    path = SETTING / "Setting.md"
+    lines = [l for l in (path.read_text().splitlines() if path.exists() else [])
+             if l.strip() and not l.startswith("Form:")]
+    if not lines:
+        return "", "", ""
     name = lines[0].strip()
     rest = lines[1:]
     tagline = ""
@@ -315,7 +318,8 @@ def parse_region_overview(code: str, gaz: dict) -> Region:
     tables: list[tuple[str, list[tuple[int, str]]]] = []
     seed = SETTING / "region" / f"{code}.md"
     brief = SETTING / "region" / code / "Brief.md"
-    _parse_region_fields(seed.read_text().splitlines()[1:], fields, tables)
+    if seed.exists():
+        _parse_region_fields(seed.read_text().splitlines()[1:], fields, tables)
     if brief.exists():
         _parse_region_fields(brief.read_text().splitlines(), fields, tables)
     info = gaz[code]
@@ -589,6 +593,8 @@ def load_setting() -> Setting:
         region = parse_region_overview(code, gaz)
         loc_stubs = parse_locations_gazetteer(code)
         for num in sorted(loc_stubs):
+            if not (SETTING / "region" / code / f"{num}.md").exists():
+                continue
             loc = parse_location_file(code, num)
             region.locations[num] = loc
             s.all_locations[loc.code] = loc
