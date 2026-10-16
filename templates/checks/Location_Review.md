@@ -6,7 +6,7 @@ pass's write-ups judges them, and sends each finding to the step that fixes it. 
 to `setting/checks/Review.md`, one section per pass.
 
 ## Context
-- `GENRE.md`, `STYLE.md`
+- `GENRE.md`, `STYLE.md` and `BRIEF.md`
 - the output of `python3 tools/validate_setting.py`, `python3 tools/validate_setting.py --pending`, `python3 tools/metrics.py` and `python3 tools/metrics.py --tells setting/`
 - the last section of `setting/checks/Review.md`
 - each region's seed, `setting/region/[Region Code].md`

@@ -122,6 +122,15 @@ def read_set() -> dict[str, tuple[set, set]]:
     return out
 
 
+STANDING_CONTEXT = ("GENRE.md", "STYLE.md", "BRIEF.md")
+
+
+def context_section(text: str) -> str:
+    """A template's Context section."""
+    m = re.search(r'^## Context\n(.*?)(?=^## )', text, re.S | re.M)
+    return m.group(1) if m else ""
+
+
 def check_read_set(diag: Diagnostics):
     if not STEPS_MD.exists():
         return
@@ -142,6 +151,12 @@ def check_read_set(diag: Diagnostics):
         for f in sorted(set(SCHEMA_CITE_RE.findall(text))):
             if "[" not in f and not (PATTERNS / f).exists():
                 diag.error(path, f"cites patterns/{f}, which does not exist")
+        context = context_section(text)
+        for need in STANDING_CONTEXT:
+            if f"`{need}`" not in context:
+                diag.error(path, f"Context does not name {need}, which every step reads")
+        if TEMPLATE_STEP_CITE_RE.search(context) or re.search(r'^- (At|Step) ', context, re.M):
+            diag.error(path, "Context is conditional on a step - one Context serves every step that cites the template")
 
 
 def report_read_set(step_filter: str | None) -> int:

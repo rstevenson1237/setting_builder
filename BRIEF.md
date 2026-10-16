@@ -38,6 +38,8 @@ files {
 safe {
   rate Inn Merchant Bank Market Dressing=1 Purchases="1-3" People="1-2"
   rate Authority Dressing=1 Purchases="0-2" People="1-2"
+  rate Gate Dressing=1 Purchases="0-1" People="1-2"
+  rate Secret Dressing=1 Purchases="0-1" People="0-1"
 }
 
 wild {

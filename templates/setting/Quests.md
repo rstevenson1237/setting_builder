@@ -2,12 +2,11 @@
 
 ## Purpose
 The registry of quests - leads with a reward, each pointing at where its object lies or at
-nothing on this map. Written at step 5d, against what the build holds.
+nothing on this map. Written against what the build holds.
 
 ## Context
 Read first:
-- `GENRE.md`
-- `BRIEF.md`
+- `GENRE.md`, `STYLE.md` and `BRIEF.md`
 - `patterns/Common_Schema.md` and `patterns/Setting_Schema.md`
 - `setting/Rumours.md`
 - each region's seed, `setting/region/[Region Code].md`

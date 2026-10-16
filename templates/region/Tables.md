@@ -5,18 +5,14 @@ The table files of one region, `setting/region/[Region Code]/[Table].md`: one fi
 table its rating's schema, `patterns/[Rating]_Schema.md`, names, each holding entries.
 
 ## Context
-Read first, for every table:
-- `GENRE.md`
-- `STYLE.md`
-- `BRIEF.md`
+Read first:
+- `GENRE.md`, `STYLE.md` and `BRIEF.md`
 - `patterns/Common_Schema.md`, `patterns/Setting_Schema.md` and this region's rating schema
 - this region's seed, `setting/region/[Region Code].md`
-
-Then, by step:
-- **4a, Locations**: this region's die in `setting/region/Regions.md`, the rating schema's Location and `setting/Language.md`.
-- **4c, the stubs**: this region's `Locations.md`, and its `Connections.mmd` where it has one.
-- **5a**: this region's `Locations.md`, `Connections.mmd` and `Purpose.md` where it has them, the table being filled, and the setting files `patterns/Setting_Schema.md` names for its values.
-- **5d, placing**: this region's table files and `Connections.mmd`, and the setting entries `python3 tools/validate_setting.py --pending` owes to 5d.
+- this region's die in `setting/region/Regions.md`, and `setting/Language.md`
+- this region's table files and `Connections.mmd`, as far as they exist
+- the setting files `patterns/Setting_Schema.md` names for the values being written, and the
+  setting entries `python3 tools/validate_setting.py --pending` owes
 
 ## Instructions
 - **4a, Locations** - the count `BRIEF.md` sets for the region, in its targets' type mix.

@@ -1,17 +1,20 @@
 # Hoards.md
 
 ## Purpose
-A registry of hoards, each a bespoke treasure list held at one location. Created empty at
-step 2g; each entry is written at step 5a, from the table entry naming it.
+A registry of hoards, each a bespoke treasure list held at one location. Each entry is
+written from the table entry naming it.
 
 ## Context
 Read first:
-- Step 2g (creating the file): no context needed.
-- Step 5a (writing an entry): `GENRE.md`, `setting/Treasure1.md`, `setting/Bestiary.md`, `setting/Factions.md`, `setting/NamedCreatures.md`, `patterns/Common_Schema.md`, `patterns/Setting_Schema.md`, and the table entry naming it.
+- `GENRE.md`, `STYLE.md` and `BRIEF.md`
+- `patterns/Common_Schema.md` and `patterns/Setting_Schema.md`
+- `setting/Treasure1.md` - the coins and wt every value is stated in
+- `setting/Bestiary.md`, `setting/Factions.md`, `setting/NamedCreatures.md`
+- the table entry naming it
 
 ## Instructions
-- **2g**: create the file with only its title line.
-- **5a**: write each entry a table names and this file lacks, per `patterns/Setting_Schema.md`, with its Found at the location naming it.
+Write each entry a table names and this file lacks, per `patterns/Setting_Schema.md`, with its
+Found at the location naming it.
 
 ## Template
 ```

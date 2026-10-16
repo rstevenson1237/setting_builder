@@ -7,8 +7,7 @@ region without opening a location.
 
 ## Context
 Read first:
-- `GENRE.md`
-- `BRIEF.md`
+- `GENRE.md`, `STYLE.md` and `BRIEF.md`
 - `patterns/Common_Schema.md`, and `patterns/Region_Schema.md` - this region's rating's `brief`
 - this region's seed, `setting/region/[Region Code].md`
 - this region's table files and `Connections.mmd`

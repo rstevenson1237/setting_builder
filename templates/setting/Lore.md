@@ -1,16 +1,21 @@
 # Lore.md
 
 ## Purpose
-A registry of written works discoverable within the setting - books, scrolls, tapestries, notes, correspondence, maps, and the like - that reveal purpose behind a region, connect its History and Truths, and offer adventure hooks. Created empty at step 2g; each entry is written at step 5a, from the table entries naming it.
+A registry of written works discoverable within the setting - books, scrolls, tapestries, notes, correspondence, maps, and the like - that reveal purpose behind a region, connect its History and Truths, and offer adventure hooks. Each entry is written from the table entries naming it.
 
 ## Context
 Read first:
-- Step 2g (creating the file): no context needed.
-- Step 5a (writing an entry): `GENRE.md`, `setting/Setting.md`, `setting/History.md`, `setting/Truths.md`, `patterns/Common_Schema.md`, `patterns/Setting_Schema.md`, and every table entry naming it.
+- `GENRE.md`, `STYLE.md` and `BRIEF.md`
+- `patterns/Common_Schema.md` and `patterns/Setting_Schema.md`
+- `setting/Setting.md`, `setting/History.md`, `setting/Truths.md`
+- `setting/Rumours.md` and `setting/Quests.md`, once written
+- every table entry naming it
 
 ## Instructions
-- **2g**: create the file with only its title line.
-- **5a**: write each entry a table names and this file lacks, per `patterns/Setting_Schema.md`, with its Found at the locations naming it.
+Write each entry a table names and this file lacks, per `patterns/Setting_Schema.md`, with its
+Found at the locations naming it. Once Rumours and Quests are written, bring each entry's Text
+in line with them and with History and Truths: a hook, a dating or a contradiction names the
+thing it points at, not a stand-in.
 
 ## Template
 ```

@@ -25,6 +25,9 @@ Every template:
 - **Consistent with STEPS.md and with the other templates** - does it describe weight,
   rating, units, counts and phases the way STEPS.md and every other template do? A pending
   marker naming the wrong step is a finding here.
+- **One context, no step instructions** - does one Context serve every step citing the
+  template, and do its Instructions say how the artifact is written, leaving what each
+  step does to `STEPS.md`? A line that only says "at 5d, do X" is STEPS.md's.
 - **Genre drift guardrails** - where an authored plot, commonplace magic or a nearer
   authority could creep in (History, Factions, Treasure, Location Features), do its
   Instructions push against it?

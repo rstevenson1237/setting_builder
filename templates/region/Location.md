@@ -4,9 +4,8 @@
 One location's write-up, `setting/region/[Region Code]/[Location Number].md`.
 
 ## Context
-- `GENRE.md`
-- `STYLE.md`
-- `BRIEF.md`
+Read first:
+- `GENRE.md`, `STYLE.md` and `BRIEF.md`
 - `setting/Truths.md`
 - `setting/Procedures.md` - the mechanics a Feature cites
 - `setting/Language.md` - roots for a coined name, and the coinages already recorded
@@ -46,5 +45,5 @@ Written exactly as below, so `tools/build_site.py` can link them.
 - **Hoard** - `(Hoard: Name)`
 - **Table roll** - `(Treasure [I-V], d[N])` or `(Magic, d[N])`, N the table's rolls
 - **Forced damage**, on every hazard Feature - `(Test of Constitution, Xd, Type)`,
-  `(Test of Sanity, Xd)`, `(Test of Fate, Condition)` or `(Test of Fate, Impact)`, per
+  `(Test of Sanity, Xd)` where it defines one, `(Test of Fate, Condition)` or `(Test of Fate, Impact)`, per
   `setting/Procedures.md`

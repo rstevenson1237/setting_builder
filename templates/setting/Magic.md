@@ -6,8 +6,7 @@ when a location's contents call for Magic.
 
 ## Context
 Read first:
-- `GENRE.md`
-- `BRIEF.md`
+- `GENRE.md`, `STYLE.md` and `BRIEF.md`
 - `patterns/Common_Schema.md` and `patterns/Setting_Schema.md`
 - `setting/Treasure1.md` - the coins and wt every value is stated in
 - `setting/Setting.md`, `setting/History.md`, `setting/Truths.md`
