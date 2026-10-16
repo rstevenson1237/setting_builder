@@ -1,0 +1,21 @@
+graph LR
+  subgraph Door
+    L1["L.1 The Barred Door"]
+  end
+  subgraph Passages
+    L2["L.2 The Winding Passages"]
+    L3["L.3 The Statue Hall"]
+    L4["L.4 The Collection"]
+  end
+  subgraph Lair
+    L5["L.5 The Minotaur's Lair"]
+  end
+  E8["E.8 The Maze Door"]
+  M13["M.13 The Passage Landing"]
+  L1 --- E8
+  L1 --- L2
+  L2 --- L3
+  L2 --- L4
+  L3 --- L5
+  L4 --- L5
+  L5 --- M13

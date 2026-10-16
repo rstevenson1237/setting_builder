@@ -1,0 +1,37 @@
+# Connections of M Thalosae
+
+```kdl
+Connection M.1 to="E.9"
+Connection M.1 to="M.2"
+Connection M.2 to="M.1"
+Connection M.2 to="M.3"
+Connection M.3 to="M.2"
+Connection M.2 to="M.4"
+Connection M.4 to="M.2"
+Connection M.3 to="M.5"
+Connection M.5 to="M.3"
+Connection M.4 to="M.5"
+Connection M.5 to="M.4"
+Connection M.5 to="M.14"
+Connection M.14 to="M.5"
+Connection M.14 to="K.4"
+Connection M.2 to="M.6"
+Connection M.6 to="M.2"
+Connection M.6 to="M.7"
+Connection M.7 to="M.6"
+Connection M.7 to="M.8"
+Connection M.8 to="M.7"
+Connection M.7 to="M.9"
+Connection M.9 to="M.7"
+Connection M.13 to="M.8"
+Connection M.8 to="M.13"
+Connection M.13 to="L.5"
+Connection M.5 to="M.10"
+Connection M.10 to="M.5"
+Connection M.9 to="M.10"
+Connection M.10 to="M.9"
+Connection M.10 to="M.11" { Lock }
+Connection M.11 to="M.10"
+Connection M.11 to="M.12" { Lock }
+Connection M.12 to="M.11"
+```

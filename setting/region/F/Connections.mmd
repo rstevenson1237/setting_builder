@@ -1,0 +1,16 @@
+graph LR
+  subgraph Entrance
+    F1["F.1 The Rattle Passage"]
+    F2["F.2 The Pit Run"]
+  end
+  subgraph Warren
+    F3["F.3 The Burrows"]
+    F4["F.4 The Tribute Store"]
+    F5["F.5 The Chief's Den"]
+  end
+  E2["E.2 The Kobold Ledge"]
+  F1 --- E2
+  F1 --- F2
+  F2 --- F3
+  F3 --- F4
+  F3 --- F5

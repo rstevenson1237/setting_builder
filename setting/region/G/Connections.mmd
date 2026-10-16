@@ -1,0 +1,22 @@
+graph LR
+  subgraph Entrance
+    G1["G.1 The Kennel Mouth"]
+    G2["G.2 The Main Cavern"]
+  end
+  subgraph Stores
+    G3["G.3 The Loot Hall"]
+    G4["G.4 The Tribute Pens"]
+    G5["G.5 The Goblin Stores"]
+  end
+  subgraph Boss Quarter
+    G6["G.6 The Boss's Cave"]
+  end
+  E3["E.3 The Goblin Ledge"]
+  H5["H.5 The Walled Stores"]
+  G1 --- E3
+  G1 --- G2
+  G2 --- G3
+  G2 --- G4
+  G2 --- G5
+  G2 --- G6
+  G5 --- H5

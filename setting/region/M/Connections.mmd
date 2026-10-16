@@ -1,0 +1,44 @@
+graph LR
+  subgraph Stair Hall
+    M1["M.1 The Stair-Hall"]
+    M2["M.2 The Outer Shrine"]
+  end
+  subgraph Quarters
+    M3["M.3 The Acolytes' Cells"]
+    M4["M.4 The Refectory"]
+    M5["M.5 The High Priest's Chamber"]
+    M14["M.14 The Back Stair Door"]
+  end
+  subgraph Crypts
+    M6["M.6 The Crypt Stair"]
+    M7["M.7 The Ossuary"]
+    M8["M.8 The Makers' Niches"]
+    M9["M.9 The Priests' Tomb"]
+    M13["M.13 The Passage Landing"]
+  end
+  subgraph Sanctum and Vault
+    M10["M.10 The Antechamber"]
+    M11["M.11 The Sanctum"]
+    M12["M.12 The Vault"]
+  end
+  E9["E.9 The Shrine Stair"]
+  K4["K.4 The Back Stair"]
+  L5["L.5 The Minotaur's Lair"]
+  M1 --- E9
+  M1 --- M2
+  M2 --- M3
+  M2 --- M4
+  M3 --- M5
+  M4 --- M5
+  M5 --- M14
+  M14 --- K4
+  M2 --- M6
+  M6 --- M7
+  M7 --- M8
+  M7 --- M9
+  M13 --- M8
+  M13 --- L5
+  M5 --- M10
+  M9 --- M10
+  M10 --- M11
+  M11 --- M12
