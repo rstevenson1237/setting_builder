@@ -175,6 +175,24 @@
     return wrap;
   }
 
+  // A procedure that is a table: roll its Results list and show the row it lands on.
+  function addRoller(body, actions) {
+    var th = Array.prototype.find.call(body.querySelectorAll("th"), function (t) {
+      return t.textContent === "Results";
+    });
+    var rows = th ? th.parentNode.querySelectorAll("li") : [];
+    if (!rows.length) { return; }
+    var result = el("div", "cite-roll-result");
+    body.insertBefore(result, body.firstChild);
+    var roll = function () {
+      var n = between(1, rows.length);
+      Array.prototype.forEach.call(rows, function (li, i) { li.classList.toggle("rolled", i === n - 1); });
+      result.innerHTML = "<strong>Rolled " + n + " on d" + rows.length + ":</strong> " +
+        rows[n - 1].innerHTML.replace(/^\d+\.\s*/, "");
+    };
+    actions.insertBefore(button("Roll d" + rows.length, "Roll the table", roll), actions.firstChild);
+  }
+
   function buildBox(a, data) {
     var kind = a.getAttribute("data-cite");
     var table = a.getAttribute("data-table");
@@ -218,6 +236,7 @@
         }
       };
       render();
+      if (card.roll) { addRoller(body, actions); }
       if (kind === "creature") {
         var again = button("Reset", "Clear every circle", render);
         actions.appendChild(again);

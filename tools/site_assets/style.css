@@ -490,3 +490,5 @@ a.cite[aria-expanded="true"] { background: var(--bg-alt); border-radius: 3px; }
 }
 .ad-dot[aria-pressed="true"] { background: var(--accent); }
 .ad-bonus { color: var(--ink-soft); font-size: 0.85rem; }
+.cite-roll-result { margin: 0.4rem 0; padding: 0.35rem 0.6rem; background: var(--bg-alt); border-radius: 4px; }
+.cite-box li.rolled { background: var(--bg-alt); border-radius: 3px; font-weight: 600; }

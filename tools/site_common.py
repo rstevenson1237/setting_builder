@@ -770,6 +770,9 @@ def cite_data(setting: Setting, render) -> dict:
                 card = {"html": f'<h4>{title}</h4><table class="kv-table">{rows}</table>'}
                 if d := dice(t):
                     card["ad"] = dict(e.fields).get(d, "")
+                f = dict(e.fields)
+                if f.get("Kind", "").startswith("table") and "\n- " in "\n" + f.get("Results", ""):
+                    card["roll"] = True            # a procedure that is a table: the box can roll it
                 cards[e.title] = card
             out["entry"][t.name] = cards
     return out
