@@ -540,3 +540,14 @@ a.cite[aria-expanded="true"] { background: var(--bg-alt); border-radius: 3px; }
 }
 .dice-controls .dice-roll { color: var(--accent); border-color: var(--accent-soft); }
 .dice-controls button:disabled { opacity: 0.5; cursor: default; }
+.dice-overlay.quick .dice-controls { display: none; }
+
+/* a roll button's result, shown beside it */
+.ad-roll {
+  font: inherit; font-size: 0.8rem; color: var(--accent); background: none;
+  border: 1px solid var(--accent-soft); border-radius: 999px; padding: 0 0.7rem; cursor: pointer;
+}
+.ad-roll:hover:not(:disabled) { background: var(--bg-alt); }
+.ad-roll:disabled { opacity: 0.5; cursor: default; }
+.ad-roll-result { font-weight: 600; min-width: 1.5rem; }
+.ad-roller { display: inline-flex; align-items: center; gap: 0.5rem; }

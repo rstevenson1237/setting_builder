@@ -11,6 +11,7 @@ const GRAVITY = -9.82 * 60;
 const SETTLE_FRAMES = 30;   // consecutive still frames before a throw counts as finished
 const GIVE_UP_SECONDS = 8;  // report whatever the dice show after this long
 const STEP = 1 / 60;
+const QUICK_HOLD_MS = 1400; // how long a result from the page stays up before the overlay closes
 
 const rand = (min, max) => min + Math.random() * (max - min);
 const cssVar = (name) => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
@@ -81,6 +82,8 @@ export function createRoller() {
   let stillFrames = 0;
   let rolling = false;
   let opener = null;
+  let pending = null;       // a roll asked for by the page: { resolve, convert }
+  let closeTimer = 0;
 
   function addPlane(material, position, axis, angle) {
     const body = new CANNON.Body({ mass: 0, shape: new CANNON.Plane(), material });
@@ -197,13 +200,18 @@ export function createRoller() {
     result.textContent = "";
     result.append(el("strong", "dice-total", { textContent: String(total) }));
     if (values.length > 1) result.append(el("span", "dice-parts", { textContent: " = " + values.join(" + ") }));
+    if (pending) {
+      pending.resolve(pending.convert(total));
+      pending = null;
+      closeTimer = setTimeout(close, QUICK_HOLD_MS);
+    }
   }
 
-  function roll() {
+  function throwNow(wantedSides, wantedCount) {
     if (rolling) return;
     cancelAnimationFrame(frameId);
-    sides = Number(sidesSelect.value);
-    count = Number(countSelect.value);
+    sides = wantedSides;
+    count = wantedCount;
     const bounds = fitView();
     buildWalls(bounds);
     clearDice();
@@ -223,29 +231,66 @@ export function createRoller() {
     frameId = requestAnimationFrame(frame);
   }
 
-  function open() {
+  function roll() {
+    throwNow(Number(sidesSelect.value), Number(countSelect.value));
+  }
+
+  function show(quick) {
+    clearTimeout(closeTimer);
     opener = document.activeElement;
+    overlay.classList.toggle("quick", quick);
     overlay.hidden = false;
+  }
+
+  // The header button: the overlay with its controls.
+  function open() {
+    show(false);
     roll();
     rollButton.focus();
   }
 
+  // A roll the page asks for: one die, thrown on its own, resolving to the value it shows.
+  // d2 and d3 are read off a d6. Resolves null for any other die, or while a throw is running.
+  function rollFor(wanted) {
+    const physical = DIE_TYPES[wanted] ? wanted : (6 % wanted === 0 ? 6 : 0);
+    if (!physical || rolling) return Promise.resolve(null);
+    return new Promise((resolve) => {
+      pending = { resolve, convert: (value) => Math.ceil(value * wanted / physical) };
+      show(true);
+      throwNow(physical, 1);
+    });
+  }
+
   function close() {
+    clearTimeout(closeTimer);
     cancelAnimationFrame(frameId);
     rolling = false;
+    pending = null;
     overlay.hidden = true;
     if (opener && opener.focus) opener.focus();
   }
 
+  // Closing during a roll the page is waiting on lets the dice finish at once, so it gets its value.
+  function dismiss() {
+    if (pending && rolling) {
+      cancelAnimationFrame(frameId);
+      while (!advance(STEP));
+      renderer.render(scene, camera);
+      finish();
+    } else {
+      close();
+    }
+  }
+
   rollButton.addEventListener("click", roll);
   closeButton.addEventListener("click", close);
-  overlay.addEventListener("click", (e) => { if (e.target === canvas) close(); });
-  document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !overlay.hidden) close(); });
+  overlay.addEventListener("click", (e) => { if (e.target === canvas) dismiss(); });
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !overlay.hidden) dismiss(); });
   window.addEventListener("resize", () => {
     if (overlay.hidden) return;
     fitView();
     if (!rolling) renderer.render(scene, camera);
   });
 
-  return { open };
+  return { open, roll: rollFor };
 }

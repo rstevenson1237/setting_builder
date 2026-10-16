@@ -20,14 +20,30 @@
     });
   }
 
+  // The dice overlay loads on first use. Table and creature rolls go through rollDie, which
+  // falls back to a plain random number when the overlay cannot load or cannot throw that die.
+  var assetBase = document.currentScript.src.replace(/[^\/]*$/, "");
+  var rollerLoad = null;
+  function loadRoller() {
+    if (!rollerLoad) {
+      rollerLoad = import(assetBase + "dice-overlay.js").then(function (m) { return m.createRoller(); })
+        .catch(function (e) { rollerLoad = null; throw e; });
+    }
+    return rollerLoad;
+  }
+  var inFlight = {};
+  function rollDie(sides) {
+    if (!inFlight[sides]) {
+      inFlight[sides] = loadRoller().then(function (r) { return r.roll(sides); }).catch(function () { return null; })
+        .then(function (n) { inFlight[sides] = null; return n || between(1, sides); });
+    }
+    return inFlight[sides];
+  }
+
   var diceButton = document.querySelector(".dice-button");
   if (diceButton) {
-    var assetBase = document.currentScript.src.replace(/[^\/]*$/, "");
-    var roller = null;
     diceButton.addEventListener("click", function () {
-      if (!roller) roller = import(assetBase + "dice-overlay.js").then(function (m) { return m.createRoller(); });
-      roller.then(function (r) { r.open(); }).catch(function () {
-        roller = null;
+      loadRoller().then(function (r) { r.open(); }).catch(function () {
         diceButton.title = "The dice roller could not load (it needs WebGL and the three.js CDN).";
         alert(diceButton.title);
       });
@@ -163,6 +179,24 @@
   }
   function between(lo, hi) { return lo + Math.floor(Math.random() * (hi - lo + 1)); }
 
+  // A pill that rolls one d6, with the result beside it.
+  function dieRoller(who) {
+    var wrap = el("span", "ad-roller");
+    var pill = el("button", "ad-roll", "Roll");
+    pill.type = "button";
+    pill.setAttribute("aria-label", "Roll a d6 for " + who);
+    var out = el("span", "ad-roll-result");
+    out.setAttribute("aria-live", "polite");
+    pill.addEventListener("click", function () {
+      pill.disabled = true;
+      out.textContent = "";
+      rollDie(6).then(function (n) { out.textContent = n; pill.disabled = false; });
+    });
+    wrap.appendChild(pill);
+    wrap.appendChild(out);
+    return wrap;
+  }
+
   function creatureTracker(name, ad, count) {
     var dice = /^(\d+)d6/.exec(ad || "");
     var n = dice ? parseInt(dice[1], 10) : 1;
@@ -184,6 +218,7 @@
       }
       row.appendChild(dots);
       if (bonus) { row.appendChild(el("span", "ad-bonus", bonus[1])); }
+      row.appendChild(dieRoller(name + " " + i));
       wrap.appendChild(row);
     }
     return wrap;
@@ -198,12 +233,12 @@
     if (!rows.length) { return; }
     var result = el("div", "cite-roll-result");
     body.insertBefore(result, body.firstChild);
-    var roll = function () {
-      var n = between(1, rows.length);
+    var show = function (n) {
       Array.prototype.forEach.call(rows, function (li, i) { li.classList.toggle("rolled", i === n - 1); });
       result.innerHTML = "<strong>Rolled " + n + " on d" + rows.length + ":</strong> " +
         rows[n - 1].innerHTML.replace(/^\d+\.\s*/, "");
     };
+    var roll = function () { rollDie(rows.length).then(show); };
     actions.insertBefore(button("Roll d" + rows.length, "Roll the table", roll), actions.firstChild);
   }
 
@@ -226,14 +261,13 @@
       var rows = data.roll[table] || {};
       var keys = Object.keys(rows);
       var die = parseInt(a.getAttribute("data-die"), 10) || keys.length;
-      var roll = function () {
-        var n = between(1, die);
+      var show = function (n) {
         var row = rows[String(n)] || rows[keys[(n - 1) % keys.length]];
         label.textContent = table + " - rolled " + n + " on d" + die;
         body.innerHTML = fromRoot(row || "");
       };
-      actions.appendChild(button("Roll again", "Roll again", roll));
-      roll();
+      actions.appendChild(button("Roll again", "Roll again", function () { rollDie(die).then(show); }));
+      show(between(1, die));
     } else {
       var card = (data.entry[table] || {})[title];
       if (!card) { return null; }
