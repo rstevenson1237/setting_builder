@@ -62,3 +62,27 @@ Results:
 - 5: A deer, taken quietly - rations for the party for three days.
 - 6: Boar and wild honey - rations for the party, and the hermit's smoke is seen to the north-east.
 Tell: Snares and bundles of drying herbs hang beside the trail.
+
+### Crossing by Causeway or Pole Boat
+Kind: variant
+Extends: Navigate
+Found at: D.1 The Causeway
+Roll: The region's Difficulty die, rolled once for the crossing, which takes a watch by causeway and two by pole boat.
+Stakes: A party that keeps to the causeway crosses free; a pole boat is hired from the Sellaca for 30 cn and a spear's escort.
+Results:
+- FAILURE: a plank gives under a heavy load and the crosser goes into the water (Held until freed).
+- COMPLICATION: fog hides the causeway's edge and the crossing takes a second watch.
+- SUCCESS: the crossing is made in the time it should take.
+Tell: Planks stand in fresh pale wood where the old were taken up, and pole boats lie beached at either end.
+
+### Watching the Cave Mouths
+Kind: variant
+Extends: Search
+Found at: E.11 The Rim Track
+Roll: A Skill die for each watch spent lying on the rim, at Disadvantage in daylight.
+Stakes: A watch of the party's time and the risk of being seen against the sky; the watch learns the habits of one wall's tribes per success.
+Results:
+- FAILURE: a lookout sees the watcher against the sky and sounds the alarm at that mouth.
+- COMPLICATION: the watch learns when one tribe changes its lookouts, but is seen by the Owlbear's cave and must move.
+- SUCCESS: the watch learns when the lookouts change and which neighbours would come to a fight.
+Tell: A hollow trodden flat on the rim looks down on every ledge on the east wall.

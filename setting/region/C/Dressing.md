@@ -7,5 +7,5 @@ Dressing C.3 obvious="A turf hut, bean rows, a well" condition="tended" ambiance
 Dressing C.4 obvious="A fallen stone tower, ivy-choked and roofless" former="a makers' watchtower" condition="overgrown" ambiance="bird-lime, damp stone" layout="Round tower, collapsed stair, cellar hole"
 Dressing C.5 obvious="Seven tall stones ringing a rise" condition="moss-grown" ambiance="low hum, cold air" layout="Ring thirty feet across, flat altar-stone" mark="The Zurnaz"
 Dressing C.6 obvious="A rotting jetty and a beached pole boat" condition="rotting" ambiance="stagnant water, midges" layout="Short jetty, reed bank, path to the causeway" mark="The Sellaca"
-Dressing C.7 obvious="A dry hollow under an uprooted oak" condition="buried" ambiance="dry earth, oilcloth" layout="Pit under the root-plate, turf over it" mark="The Wood Outlaws"
+Dressing C.7 obvious="A dry pit under an uprooted oak" condition="buried" ambiance="dry earth, oilcloth" layout="Cut turf over a pit, roots above" mark="The Wood Outlaws"
 ```
