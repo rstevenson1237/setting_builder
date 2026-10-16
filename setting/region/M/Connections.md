@@ -30,8 +30,8 @@ Connection M.5 to="M.10"
 Connection M.10 to="M.5"
 Connection M.9 to="M.10"
 Connection M.10 to="M.9"
-Connection M.10 to="M.11" { Lock }
+Connection M.10 to="M.11" { Lock key="The Sanctum Key" }
 Connection M.11 to="M.10"
-Connection M.11 to="M.12" { Lock }
+Connection M.11 to="M.12" { Lock key="The Vault Key" }
 Connection M.12 to="M.11"
 ```

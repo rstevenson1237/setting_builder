@@ -32,3 +32,47 @@ Reacts: Whistles for the wolves, then offers a bargain over the road's spoils.
 Wants: The road's wagons taken, and the orcs broken.
 Knows: The wagon days, copied from a carter's waybill, and how the orcs hate his tribe.
 Description: A gaunt goblin in a wolfskin cloak, one thumb tar-black to the wrist, a bone whistle at his neck.
+
+### Hurk the Brewmaster
+Form: epithet
+Type: Humanoid
+AD: 3d6+1
+Special: A bellow from him brings the feast hall's Orcs to his cave in two Rounds.
+Appears at: H.6
+Reacts: Bellows for the hall at the first threat, then fights to keep his seat and offers nothing.
+Wants: His seat held against his captains, and the goblins broken.
+Knows: Which captain schemes against him, and that the goblins loose their wolves at dusk.
+Description: A broad grey orc gone to fat and muscle, one tusk snapped, a horn cup lashed to his belt and a notched axe in his fist.
+
+### Varn the Red-Sashed
+Form: epithet
+Type: Humanoid
+AD: 4d6+1
+Special: A horn at his belt calls the barracks' Hobgoblins to his hall in one Round, in step.
+Appears at: I.6
+Reacts: Gives a challenge from his dais, then parleys in the black speech with anyone who comes unarmed.
+Wants: The shrine's favour before the gnolls win it, and the Kurzun broken.
+Knows: What the gnolls sell and to whom, the tithe days, and that his seal-key opens the sanctum door.
+Description: A tall copper-skinned hobgoblin in blackened mail, a red sash across his chest knotted with a captain's tally, a long horn at his hip.
+
+### Ruk the Collar-Keeper
+Form: epithet
+Type: Humanoid
+AD: 3d6+2
+Special: A target struck by his chain-whip is Held.
+Appears at: J.5
+Reacts: Names a price for any captive, and loosens his chain-whip and the pack on a party that will not pay.
+Wants: A buyer's coin, and the hobgoblins broken.
+Knows: The way through the maze, which buyers pay best, and who has gone missing from the road.
+Description: A huge hunched gnoll, grey at the ruff, iron collars slung over one shoulder like a bandolier and a chain-whip coiled at his hip.
+
+### Mort the Tithe-Taker
+Form: epithet
+Type: Humanoid
+AD: 4d6+2
+Special: A pull on the bell-cord by his bed rings a bell at the stair's top, and acolytes reach the back stair within a turn.
+Appears at: K.5
+Reacts: Waits hidden, strikes the last of a party, then falls back to the stair door; does not parley.
+Wants: Every tribe's tithe carried up the stair, and no stranger on it.
+Knows: Where each tribe keeps its tithe.
+Description: A gaunt bugbear seven feet tall, hide-wrapped and soot-handed, one ear torn off, a short spiked club in each fist.
