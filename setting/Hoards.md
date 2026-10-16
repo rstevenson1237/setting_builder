@@ -35,3 +35,9 @@ Found at: K.5 The Leader's Cave
 Owner: Mort the Tithe-Taker
 Items: A bag of mixed tribal coin skimmed from the tithe, 350 coins (350 cn, 4 wt); a tarnished gold cup stained black inside (300 cn, 1 wt); six gnoll collars wrapped in silver wire (180 cn, 2 wt); an iron bell cut with the makers' script (200 cn, 2 wt).
 Total: 1,030 cn, 9 wt
+
+### The Altar's Hoard
+Found at: M.12 The Vault
+Owner: The Black Altar
+Items: A coffer of gold pieces, 120 of them (1,200 cn, 1 wt); six bars of silver, each stamped with a tribe's mark (900 cn, 6 wt); a gold censer on a chain, set with garnets (700 cn, 1 wt); a silver mirror of the makers' make (500 cn, 2 wt); a bar of makers' gold stamped with script (1,000 cn, 2 wt).
+Total: 4,300 cn, 12 wt

@@ -60,6 +60,7 @@ Form: epithet
 Type: Humanoid
 AD: 3d6+2
 Special: A target struck by his chain-whip is Held.
+MA: 2
 Appears at: J.5
 Reacts: Names a price for any captive, and loosens his chain-whip and the pack on a party that will not pay.
 Wants: A buyer's coin, and the hobgoblins broken.
@@ -76,3 +77,26 @@ Reacts: Waits hidden, strikes the last of a party, then falls back to the stair 
 Wants: Every tribe's tithe carried up the stair, and no stranger on it.
 Knows: Where each tribe keeps its tithe.
 Description: A gaunt bugbear seven feet tall, hide-wrapped and soot-handed, one ear torn off, a short spiked club in each fist.
+
+### Tanglehorn the Keeper
+Form: epithet
+Type: Horror
+AD: 5d6+1
+Special: Charging down a straight passage, it Holds the first target in its path.
+MA: 2
+Appears at: L.5
+Reacts: Charges any light or sound in the passages and does not stop to parley.
+Wants: Intruders found and driven to its nest, and the collection added to.
+Description: A bull-headed giant nine feet tall, matted and hollow-flanked, one horn snapped, a makers' chain hung round its neck with a bronze token on it.
+
+### Veck the Hollow
+Form: epithet
+Type: Men
+AD: 4d6+1
+Special: Raises one Zombie each Round from a body lying in the shrine.
+MA: 2
+Appears at: M.5
+Reacts: Calls the dead and speaks to the party only while they rise.
+Wants: Every tribe's tithe, the keep's wagon days, and the sanctum kept shut.
+Knows: Who the Black Altar's agents inside the keep are, and what the sanctum was built to hold.
+Description: A tall gaunt man in black robes, shaven and hollow-cheeked, a black candle in one hand and an iron inverted triangle on a chain at his chest.
