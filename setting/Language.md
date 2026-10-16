@@ -1,4 +1,4 @@
-Tongues of [Setting Name]
+Tongues of Thornmarch
 
 ## The Common Tongue
 Spoken by: side - Law: the keep, the realm behind it, and everyone who deals with them.
@@ -56,6 +56,7 @@ Roots:
 - verra - west
 
 Coined here:
+- Sellaca = sella + -ca - those of the reeds
 
 ## The Black Speech
 Spoken by: side - Chaos: the tribes of the ravine and the priests of the shrine.
@@ -87,6 +88,12 @@ Roots:
 - nur - fire
 
 Coined here:
+- Gubak = gu- + bak - the small mud
+- Zhakuk = zhak + -uk - of the hole
+- Rokmok = rok + mok - tooth and blood
+- Burgnaz = burg + naz - the red hand
+- Kurzun = kur + zun - the many black
+- Zurnaz = zur + naz - the dark hand
 
 ## The Makers' Tongue
 Spoken by: departed - the makers of the ravine's works, met only cut into its walls.

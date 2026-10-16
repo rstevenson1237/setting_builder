@@ -1,4 +1,4 @@
-Procedures of [Setting Name]
+Procedures of Thornmarch
 
 ## Ruleset
 These procedures assume the light d6 ruleset and add only what it leaves to a setting.
@@ -119,12 +119,12 @@ The common silver coin, cn, is the unit of every value in this setting, and a hu
 ## Weather
 | d6 | Weather |
 |---|---|
-| 1 | Storm - no travel on open ground; every stream runs high. |
-| 2 | Dense fog - nothing can be seen beyond a few paces. |
-| 3 | Heavy rain - tracks are washed out and every bank runs with water. |
+| 1 | Storm - the ravine's stream runs high and the wood paths turn to mud; no travel on open ground. |
+| 2 | Dense fog - a path is lost a few paces ahead, and the ravine's walls cannot be seen. |
+| 3 | Heavy rain - tracks are washed out and every bank and rock face runs with water. |
 | 4 | Light drizzle - the rock is slick and the air grey. |
 | 5 | Overcast, cool and dry. |
-| 6 | Clear, with a steady wind. |
+| 6 | Clear, with a steady wind off the hills. |
 
 ## Encounters
 A party meets an Encounter at a distance rolled on this table unless the Encounter already fixes it.
