@@ -40,14 +40,145 @@
     return inFlight[sides];
   }
 
-  var diceButton = document.querySelector(".dice-button");
-  if (diceButton) {
-    diceButton.addEventListener("click", function () {
-      loadRoller().then(function (r) { r.open(); }).catch(function () {
-        diceButton.title = "The dice roller could not load (it needs WebGL and the three.js CDN).";
-        alert(diceButton.title);
+  // The header's dice pill: Roll, the die icons that add to the pool, the pool itself, summed or
+  // separate, DL/DH (summed) or ADV/DIS (separate), and a bonus. It is built here; the overlay that
+  // throws the dice loads when Roll is first pressed.
+  var DICE = [4, 6, 8, 10, 12, 20];
+  var MAX_POOL = 6;
+  var MAX_BONUS = 20;
+  var DICE_KEY = "setting-dice";
+  var SHAPES = {
+    4: '<polygon points="12,3 22,20 2,20"/>',
+    6: '<rect x="4" y="4" width="16" height="16" rx="2"/>',
+    8: '<polygon points="12,2 22,12 12,22 2,12"/>',
+    10: '<polygon points="12,2 21,10 12,22 3,10"/>',
+    12: '<polygon points="12,2 22,9.5 18.5,21 5.5,21 2,9.5"/>',
+    20: '<polygon points="12,2 21,7 21,17 12,22 3,17 3,7"/>'
+  };
+  var pillHost = document.querySelector(".dice-pill");
+  if (pillHost) {
+    var dice = { pool: { 6: 1 }, sum: true, drop: "", adv: "", bonus: 0 };
+    try {
+      var saved = JSON.parse(localStorage.getItem(DICE_KEY) || "null");
+      if (saved && typeof saved === "object") {
+        var pool = {}, held = 0;
+        DICE.forEach(function (s) {
+          var n = Math.max(0, Math.min(MAX_POOL - held, parseInt(saved.pool && saved.pool[s], 10) || 0));
+          if (n) { pool[s] = n; held += n; }
+        });
+        if (held) { dice.pool = pool; }
+        dice.sum = saved.sum !== false;
+        dice.drop = saved.drop === "DL" || saved.drop === "DH" ? saved.drop : "";
+        dice.adv = saved.adv === "ADV" || saved.adv === "DIS" ? saved.adv : "";
+        dice.bonus = Math.max(-MAX_BONUS, Math.min(MAX_BONUS, parseInt(saved.bonus, 10) || 0));
+      }
+    } catch (e) { /* storage unavailable or unreadable - start from the default roll */ }
+
+    var poolSize = function () {
+      return DICE.reduce(function (n, s) { return n + (dice.pool[s] || 0); }, 0);
+    };
+    var pillButton = function (cls, label, title, onclick) {
+      var b = el("button", cls);
+      b.type = "button";
+      if (label) { b.textContent = label; }
+      b.title = title;
+      b.setAttribute("aria-label", title);
+      b.addEventListener("click", onclick);
+      return b;
+    };
+
+    var rollBtn = pillButton("dp-roll", "Roll", "Roll the dice", function () {
+      var faces = [];
+      DICE.forEach(function (s) { for (var i = 0; i < (dice.pool[s] || 0); i++) { faces.push(s); } });
+      loadRoller().then(function (r) {
+        r.rollSpec({ dice: faces, mode: dice.sum ? "sum" : "sep", drop: dice.sum ? dice.drop : "", adv: dice.sum ? "" : dice.adv, bonus: dice.bonus });
+      }).catch(function () {
+        alert("The dice roller could not load (it needs WebGL and the three.js CDN).");
       });
     });
+
+    var addGroup = el("span", "dp-add");
+    var addBtns = DICE.map(function (s) {
+      var b = pillButton("dp-die", "", "Add a d" + s, function () {
+        if (poolSize() >= MAX_POOL) { return; }
+        dice.pool[s] = (dice.pool[s] || 0) + 1;
+        update();
+      });
+      b.innerHTML = '<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round">' +
+        SHAPES[s] + '</g><text x="12" y="' + (s === 4 ? 17 : 15) + '" text-anchor="middle" font-size="' + (s > 9 ? 8 : 9) +
+        '" fill="currentColor" font-family="sans-serif" font-weight="bold">' + s + '</text></svg>';
+      addGroup.appendChild(b);
+      return b;
+    });
+
+    var poolGroup = el("span", "dp-pool");
+    var modeBtn = pillButton("dp-toggle", "", "", function () { dice.sum = !dice.sum; update(); });
+    modeBtn.setAttribute("role", "switch");
+    var optGroup = el("span", "dp-opts");
+    var opts = [el("button", "dp-opt"), el("button", "dp-opt")];
+    opts.forEach(function (b) {
+      b.type = "button";
+      b.addEventListener("click", function () {
+        if (b.getAttribute("aria-disabled") === "true") { return; }
+        var field = dice.sum ? "drop" : "adv";
+        dice[field] = dice[field] === b.textContent ? "" : b.textContent;
+        update();
+      });
+      optGroup.appendChild(b);
+    });
+    var bonusGroup = el("span", "dp-bonus");
+    var bonusOut = el("span", "dp-bonus-value");
+    var minus = pillButton("dp-step", "−", "Subtract 1 from the bonus", function () {
+      dice.bonus = Math.max(-MAX_BONUS, dice.bonus - 1);
+      update();
+    });
+    var plus = pillButton("dp-step", "+", "Add 1 to the bonus", function () {
+      dice.bonus = Math.min(MAX_BONUS, dice.bonus + 1);
+      update();
+    });
+    bonusOut.addEventListener("click", function () { dice.bonus = 0; update(); });
+    bonusOut.title = "Click to reset the bonus";
+    bonusGroup.appendChild(minus);
+    bonusGroup.appendChild(bonusOut);
+    bonusGroup.appendChild(plus);
+
+    var update = function () {
+      var full = poolSize() >= MAX_POOL;
+      addBtns.forEach(function (b) { b.setAttribute("aria-disabled", full ? "true" : "false"); });
+      poolGroup.textContent = "";
+      DICE.forEach(function (s) {
+        if (!dice.pool[s]) { return; }
+        poolGroup.appendChild(pillButton("dp-chip", dice.pool[s] + "d" + s, "Remove a d" + s, function () {
+          dice.pool[s]--;
+          if (!dice.pool[s]) { delete dice.pool[s]; }
+          update();
+        }));
+      });
+      if (!poolSize()) { poolGroup.appendChild(el("span", "dp-empty", "add dice")); }
+      rollBtn.disabled = !poolSize();
+      modeBtn.textContent = dice.sum ? "Summed" : "Separate";
+      modeBtn.setAttribute("aria-checked", dice.sum ? "true" : "false");
+      var modeTitle = dice.sum ? "Dice are added together. Click to show them one by one."
+        : "Dice are shown one by one. Click to add them together.";
+      modeBtn.title = modeTitle;
+      modeBtn.setAttribute("aria-label", modeTitle);
+      var labels = dice.sum ? ["DL", "DH"] : ["ADV", "DIS"];
+      var titles = dice.sum ? ["Drop the lowest die", "Drop the highest die"] : ["Advantage: roll each die twice, keep the higher", "Disadvantage: roll each die twice, keep the lower"];
+      var chosen = dice.sum ? dice.drop : dice.adv;
+      opts.forEach(function (b, i) {
+        b.textContent = labels[i];
+        b.title = titles[i];
+        b.setAttribute("aria-label", titles[i]);
+        b.setAttribute("aria-pressed", chosen === labels[i] ? "true" : "false");
+        b.setAttribute("aria-disabled", dice.sum && poolSize() < 2 ? "true" : "false");
+      });
+      bonusOut.textContent = (dice.bonus > 0 ? "+" : dice.bonus < 0 ? "−" : "") + Math.abs(dice.bonus);
+      bonusGroup.title = dice.sum ? "Bonus added to the roll" : "Bonus added to each die";
+      try { localStorage.setItem(DICE_KEY, JSON.stringify(dice)); } catch (e) { /* the pill just won't be remembered */ }
+    };
+
+    [rollBtn, addGroup, poolGroup, modeBtn, optGroup, bonusGroup].forEach(function (node) { pillHost.appendChild(node); });
+    update();
   }
 
   var dropdown = document.querySelector(".nav-dropdown");

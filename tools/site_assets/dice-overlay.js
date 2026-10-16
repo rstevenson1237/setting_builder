@@ -3,13 +3,13 @@ import * as CANNON from "cannon";
 import { DiceManager, DiceD4, DiceD6, DiceD8, DiceD10, DiceD12, DiceD20 } from "./dice.js";
 
 const DIE_TYPES = { 4: DiceD4, 6: DiceD6, 8: DiceD8, 10: DiceD10, 12: DiceD12, 20: DiceD20 };
-const MAX_DICE = 6;
 const SIZE = 50;            // die size in world units
+const CROWDED = 6;          // above this many dice, they are thrown smaller
 const HALF_VIEW = 260;      // the shorter half-extent of the floor in view
 const FOV = 40;
 const GRAVITY = -9.82 * 60;
 const SETTLE_FRAMES = 30;   // consecutive still frames before a throw counts as finished
-const GIVE_UP_SECONDS = 8;  // report whatever the dice show after this long
+const GIVE_UP_SECONDS = 10; // report whatever the dice show after this long
 const STEP = 1 / 60;
 const QUICK_HOLD_MS = 1400; // how long a result from the page stays up before the overlay closes
 
@@ -23,38 +23,77 @@ function el(tag, className, attrs) {
   return node;
 }
 
-export function createRoller() {
-  let sides = 6;
-  let count = 1;
+// The physical dice a roll throws: with advantage or disadvantage every die is thrown twice.
+function physicalDice(spec) {
+  return spec.mode === "sep" && spec.adv ? spec.dice.flatMap((sides) => [sides, sides]) : spec.dice.slice();
+}
 
+// What the values the physical dice show come to under the roll's rules.
+function evaluate(spec, values) {
+  if (spec.mode === "sum") {
+    const parts = spec.dice.map((sides, i) => ({ sides, value: values[i], dropped: false }));
+    if (spec.drop && parts.length > 1) {
+      const lowest = spec.drop === "DL";
+      parts.reduce((pick, p) => ((lowest ? p.value < pick.value : p.value > pick.value) ? p : pick)).dropped = true;
+    }
+    const total = parts.reduce((sum, p) => sum + (p.dropped ? 0 : p.value), spec.bonus);
+    return { mode: "sum", parts, bonus: spec.bonus, total };
+  }
+  const per = spec.adv ? 2 : 1;
+  const items = spec.dice.map((sides, i) => {
+    const raw = values.slice(i * per, i * per + per);
+    const kept = spec.adv === "ADV" ? Math.max(...raw) : spec.adv === "DIS" ? Math.min(...raw) : raw[0];
+    return { sides, raw, kept, total: kept + spec.bonus };
+  });
+  return { mode: "sep", items, bonus: spec.bonus, total: items.reduce((sum, item) => sum + item.total, 0) };
+}
+
+const signed = (n) => (n < 0 ? "− " : "+ ") + Math.abs(n);
+
+function renderOutcome(into, outcome) {
+  into.textContent = "";
+  if (outcome.mode === "sum") {
+    into.append(el("strong", "dice-total", { textContent: String(outcome.total) }));
+    if (outcome.parts.length > 1 || outcome.bonus) {
+      const parts = el("span", "dice-parts", { textContent: " = " });
+      outcome.parts.forEach((p, i) => {
+        if (i) parts.append(" + ");
+        parts.append(el(p.dropped ? "s" : "span", "", { textContent: String(p.value) }));
+      });
+      if (outcome.bonus) parts.append(" " + signed(outcome.bonus));
+      into.append(parts);
+    }
+    return;
+  }
+  const row = el("div", "dice-items");
+  for (const item of outcome.items) {
+    const detail = el("small", "dice-detail", { textContent: "d" + item.sides + " " });
+    const kept = item.raw.indexOf(item.kept);
+    item.raw.forEach((v, i) => {
+      if (i) detail.append(" ");
+      detail.append(el(item.raw.length > 1 && i !== kept ? "s" : "span", "", { textContent: String(v) }));
+    });
+    if (outcome.bonus) detail.append(" " + signed(outcome.bonus));
+    const node = el("span", "dice-item");
+    node.append(el("strong", "", { textContent: String(item.total) }), detail);
+    row.append(node);
+  }
+  into.append(row);
+}
+
+export function createRoller() {
   const overlay = el("div", "dice-overlay", { hidden: true });
   overlay.setAttribute("role", "dialog");
-  overlay.setAttribute("aria-modal", "true");
   overlay.setAttribute("aria-label", "Dice roller");
   const canvas = el("canvas", "dice-canvas");
   const panel = el("div", "dice-panel");
   const result = el("div", "dice-result");
   result.setAttribute("aria-live", "polite");
-
-  const countSelect = el("select");
-  for (let n = 1; n <= MAX_DICE; n++) countSelect.add(new Option(n, n));
-  const sidesSelect = el("select");
-  for (const s of Object.keys(DIE_TYPES)) sidesSelect.add(new Option("d" + s, s));
-  sidesSelect.value = String(sides);
-  const rollButton = el("button", "dice-roll", { type: "button", textContent: "Roll again" });
   const closeButton = el("button", "dice-close", { type: "button", textContent: "Close" });
-
-  const controls = el("div", "dice-controls");
-  controls.append(label("Dice", countSelect), label("Die", sidesSelect), rollButton, closeButton);
-  panel.append(result, controls);
+  panel.append(result, closeButton);
   overlay.append(canvas, panel);
   document.body.appendChild(overlay);
-
-  function label(text, control) {
-    const node = el("label");
-    node.append(text + " ", control);
-    return node;
-  }
+  const header = document.querySelector(".site-header");
 
   const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
   const scene = new THREE.Scene();
@@ -76,6 +115,7 @@ export function createRoller() {
   addPlane(DiceManager.floorBodyMaterial, [0, 0, 0], "x", -Math.PI / 2);
   let walls = [];
   let dice = [];
+  let spec = null;          // the roll in flight, or last thrown
   let frameId = 0;
   let lastTime = 0;
   let elapsed = 0;
@@ -93,11 +133,13 @@ export function createRoller() {
     return body;
   }
 
+  // The overlay sits under the header so the header's roll controls stay in reach.
   // The camera looks straight down, so the floor maps linearly to the screen and the
   // walls can sit exactly on the edges of the area the panel leaves free.
   function fitView() {
-    const w = window.innerWidth;
-    const h = window.innerHeight;
+    overlay.style.top = header ? header.getBoundingClientRect().bottom + "px" : "0";
+    const w = overlay.clientWidth;
+    const h = overlay.clientHeight;
     renderer.setPixelRatio(window.devicePixelRatio || 1);
     renderer.setSize(w, h, false);
     const aspect = w / h;
@@ -140,34 +182,41 @@ export function createRoller() {
     dice = [];
   }
 
-  function throwDice(bounds) {
+  // Dice are thrown from one end of the free area along its longer side, in rows across it.
+  function throwDice(plan, bounds) {
     const { halfW, minZ, maxZ } = bounds;
-    const centreZ = (minZ + maxZ) / 2;
     const halfZ = (maxZ - minZ) / 2;
-    // Throw along the longer side of the free area, from one end.
     const alongX = halfW >= halfZ;
-    const reach = (alongX ? halfW : halfZ) * 0.8;
+    const size = plan.length > CROWDED ? SIZE * 0.8 : SIZE;
+    const gap = size * 2.6;
+    const crossHalf = alongX ? halfZ : halfW;
+    const perRow = Math.max(1, Math.floor((crossHalf * 2) / gap));
     const side = Math.random() < 0.5 ? -1 : 1;
-    const options = { size: SIZE, fontColor: cssVar("--bg") || "#faf6ef", backColor: cssVar("--accent") || "#7a2e1d" };
-    for (let i = 0; i < count; i++) {
-      const die = new DIE_TYPES[sides](options);
+    const options = { size, fontColor: cssVar("--bg") || "#faf6ef", backColor: cssVar("--accent") || "#7a2e1d" };
+    plan.forEach((faces, i) => {
+      const die = new DIE_TYPES[faces](options);
       const body = die.getObject().body;
-      const lane = (i - (count - 1) / 2) * SIZE * 1.6;
+      const row = Math.floor(i / perRow);
+      const inRow = Math.min(perRow, plan.length - row * perRow);
+      const cross = (i % perRow - (inRow - 1) / 2) * gap;
+      const along = -side * ((alongX ? halfW : halfZ) - size * 1.6 - row * gap);
       const speed = rand(250, 400);
       const spread = rand(-120, 120);
-      body.position.set(
-        alongX ? -side * reach : THREE.MathUtils.clamp(lane + spread / 4, -halfW * 0.8, halfW * 0.8),
-        SIZE * (3 + i),
-        alongX ? THREE.MathUtils.clamp(centreZ + lane, minZ + SIZE, maxZ - SIZE) : centreZ - side * reach
-      );
+      const y = size * 2.5 + rand(0, size);
+      if (alongX) {
+        body.position.set(along, y, (minZ + maxZ) / 2 + cross);
+        body.velocity.set(side * speed, -100, spread);
+      } else {
+        body.position.set(cross, y, (minZ + maxZ) / 2 + along);
+        body.velocity.set(spread, -100, side * speed);
+      }
       body.linearDamping = 0.2;
       body.angularDamping = 0.3;
       body.quaternion.setFromEuler(rand(0, 6.28), rand(0, 6.28), rand(0, 6.28), "XYZ");
-      body.velocity.set(alongX ? side * speed : spread, -100, alongX ? spread : side * speed);
       body.angularVelocity.set(rand(-20, 20), rand(-20, 20), rand(-20, 20));
       scene.add(die.getObject());
       dice.push(die);
-    }
+    });
   }
 
   function advance(seconds) {
@@ -189,35 +238,29 @@ export function createRoller() {
 
   function readValues() {
     // A d10 shows 0 where the ten is.
-    return dice.map((die) => (sides === 10 && die.getUpsideValue() === 0 ? 10 : die.getUpsideValue()));
+    return dice.map((die) => (die.values === 10 && die.getUpsideValue() === 0 ? 10 : die.getUpsideValue()));
   }
 
   function finish() {
     rolling = false;
-    rollButton.disabled = false;
-    const values = readValues();
-    const total = values.reduce((sum, v) => sum + v, 0);
-    result.textContent = "";
-    result.append(el("strong", "dice-total", { textContent: String(total) }));
-    if (values.length > 1) result.append(el("span", "dice-parts", { textContent: " = " + values.join(" + ") }));
+    const outcome = evaluate(spec, readValues());
+    renderOutcome(result, outcome);
     if (pending) {
-      pending.resolve(pending.convert(total));
+      pending.resolve(pending.convert(outcome.total));
       pending = null;
       closeTimer = setTimeout(close, QUICK_HOLD_MS);
     }
   }
 
-  function throwNow(wantedSides, wantedCount) {
+  function throwNow(rollSpec) {
     if (rolling) return;
     cancelAnimationFrame(frameId);
-    sides = wantedSides;
-    count = wantedCount;
+    spec = rollSpec;
     const bounds = fitView();
     buildWalls(bounds);
     clearDice();
-    throwDice(bounds);
+    throwDice(physicalDice(spec), bounds);
     rolling = true;
-    rollButton.disabled = true;
     elapsed = 0;
     stillFrames = 0;
     result.textContent = "Rolling…";
@@ -231,10 +274,6 @@ export function createRoller() {
     frameId = requestAnimationFrame(frame);
   }
 
-  function roll() {
-    throwNow(Number(sidesSelect.value), Number(countSelect.value));
-  }
-
   function show(quick) {
     clearTimeout(closeTimer);
     opener = document.activeElement;
@@ -242,11 +281,11 @@ export function createRoller() {
     overlay.hidden = false;
   }
 
-  // The header button: the overlay with its controls.
-  function open() {
+  // The header pill's roll: { dice: [faces], mode: "sum" | "sep", drop, adv, bonus }.
+  function rollSpec(rollSpecification) {
+    if (rolling) return;
     show(false);
-    roll();
-    rollButton.focus();
+    throwNow(rollSpecification);
   }
 
   // A roll the page asks for: one die, thrown on its own, resolving to the value it shows.
@@ -257,7 +296,7 @@ export function createRoller() {
     return new Promise((resolve) => {
       pending = { resolve, convert: (value) => Math.ceil(value * wanted / physical) };
       show(true);
-      throwNow(physical, 1);
+      throwNow({ dice: [physical], mode: "sum", drop: "", adv: "", bonus: 0 });
     });
   }
 
@@ -282,15 +321,17 @@ export function createRoller() {
     }
   }
 
-  rollButton.addEventListener("click", roll);
-  closeButton.addEventListener("click", close);
-  overlay.addEventListener("click", (e) => { if (e.target === canvas) dismiss(); });
-  document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !overlay.hidden) dismiss(); });
-  window.addEventListener("resize", () => {
+  function relayout() {
     if (overlay.hidden) return;
     fitView();
     if (!rolling) renderer.render(scene, camera);
-  });
+  }
 
-  return { open, roll: rollFor };
+  closeButton.addEventListener("click", close);
+  overlay.addEventListener("click", (e) => { if (e.target === canvas) dismiss(); });
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !overlay.hidden) dismiss(); });
+  window.addEventListener("resize", relayout);
+  if (header && window.ResizeObserver) new ResizeObserver(relayout).observe(header);
+
+  return { rollSpec, roll: rollFor };
 }

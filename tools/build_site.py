@@ -137,12 +137,10 @@ def nav_html(setting: sc.Setting, current_page: str) -> str:
 <header class="site-header">
   <div class="header-bar">
     <a class="brand" href="{rel_asset(current_page, 'index.html')}">{html.escape(setting.name)}</a>
-    <div class="header-tools">
-      <button class="dice-button" type="button" aria-haspopup="dialog">🎲 Roll</button>
-      <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
-        <span></span><span></span><span></span>
-      </button>
-    </div>
+    <div class="dice-pill" role="group" aria-label="Dice roller"></div>
+    <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
   </div>
   <nav class="site-nav">
     <ul class="nav-list">

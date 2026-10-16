@@ -115,20 +115,6 @@ code {
   color: var(--ink);
 }
 
-.header-tools { display: flex; align-items: center; gap: 0.6rem; }
-
-.dice-button {
-  font: inherit;
-  font-size: 0.92rem;
-  color: var(--accent);
-  background: none;
-  border: 1px solid var(--accent-soft);
-  border-radius: 6px;
-  padding: 0.15rem 0.6rem;
-  cursor: pointer;
-}
-.dice-button:hover { background: var(--bg); }
-
 .nav-toggle {
   display: none;
   flex-direction: column;
@@ -509,10 +495,12 @@ a.cite[aria-expanded="true"] { background: var(--bg-alt); border-radius: 3px; }
 
 /* -------------------------------------------------- dice roller overlay */
 
+/* Under the header (z-index 20), so the dice pill stays usable; app.js and
+   dice-overlay.js set top to the header's bottom edge. */
 .dice-overlay {
   position: fixed;
   inset: 0;
-  z-index: 50;
+  z-index: 15;
   background: rgba(20, 15, 10, 0.55);
 }
 .dice-overlay[hidden] { display: none; }
@@ -522,7 +510,7 @@ a.cite[aria-expanded="true"] { background: var(--bg-alt); border-radius: 3px; }
   left: 50%;
   bottom: 1rem;
   transform: translateX(-50%);
-  width: min(30rem, calc(100% - 2rem));
+  width: min(32rem, calc(100% - 2rem));
   background: var(--card-bg);
   border: 1px solid var(--line);
   border-radius: var(--radius);
@@ -532,15 +520,54 @@ a.cite[aria-expanded="true"] { background: var(--bg-alt); border-radius: 3px; }
 }
 .dice-result { min-height: 2.6rem; font-size: 1.1rem; color: var(--ink-soft); }
 .dice-total { font-size: 2.2rem; color: var(--accent); line-height: 1.2; }
-.dice-controls { display: flex; flex-wrap: wrap; gap: 0.5rem 0.9rem; justify-content: center; align-items: center; margin-top: 0.4rem; }
-.dice-controls label { font-size: 0.9rem; color: var(--ink-soft); }
-.dice-controls select, .dice-controls button {
+.dice-parts s, .dice-detail s { opacity: 0.55; }
+.dice-items { display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; justify-content: center; }
+.dice-item { display: inline-flex; flex-direction: column; align-items: center; }
+.dice-item strong { font-size: 1.8rem; color: var(--accent); line-height: 1.2; }
+.dice-detail { font-size: 0.8rem; }
+.dice-close {
   font: inherit; font-size: 0.92rem; color: var(--ink); background: var(--bg);
-  border: 1px solid var(--line); border-radius: 6px; padding: 0.2rem 0.6rem; cursor: pointer;
+  border: 1px solid var(--line); border-radius: 6px; padding: 0.2rem 0.8rem; cursor: pointer; margin-top: 0.4rem;
 }
-.dice-controls .dice-roll { color: var(--accent); border-color: var(--accent-soft); }
-.dice-controls button:disabled { opacity: 0.5; cursor: default; }
-.dice-overlay.quick .dice-controls { display: none; }
+.dice-overlay.quick .dice-close { display: none; }
+
+/* -------------------------------------------------- header dice pill */
+
+.dice-pill {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.2rem 0.45rem;
+  background: var(--card-bg);
+  border: 1px solid var(--accent-soft);
+  border-radius: 999px;
+  padding: 0.12rem 0.5rem 0.12rem 0.15rem;
+  font-size: 0.82rem;
+}
+.dice-pill button {
+  font: inherit; color: var(--ink); background: none; border: 0; cursor: pointer; padding: 0;
+}
+.dice-pill button:disabled, .dice-pill [aria-disabled="true"] { opacity: 0.4; cursor: default; }
+.dice-pill .dp-roll {
+  background: var(--accent); color: var(--bg); font-weight: 600; border-radius: 999px; padding: 0.2rem 0.8rem;
+}
+.dp-add, .dp-pool, .dp-opts, .dp-bonus { display: inline-flex; align-items: center; gap: 0.15rem; }
+.dp-die { color: var(--accent); line-height: 0; border-radius: 4px; }
+.dp-die:hover:not([aria-disabled="true"]) { background: var(--bg-alt); }
+.dp-pool { min-width: 2.2rem; gap: 0.25rem; }
+.dp-chip { border: 1px solid var(--line) !important; border-radius: 999px; padding: 0 0.4rem !important; background: var(--bg) !important; }
+.dp-chip:hover { text-decoration: line-through; }
+.dp-empty { color: var(--ink-soft); font-style: italic; }
+.dice-pill .dp-toggle { color: var(--accent); border: 1px solid var(--accent-soft); border-radius: 999px; padding: 0 0.55rem; }
+.dice-pill .dp-opt { border: 1px solid var(--line); border-radius: 999px; padding: 0 0.45rem; font-size: 0.75rem; }
+.dice-pill .dp-opt[aria-pressed="true"] { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+.dice-pill .dp-step { width: 1.3rem; height: 1.3rem; border: 1px solid var(--line); border-radius: 50%; line-height: 1; }
+.dp-bonus-value { min-width: 1.6rem; text-align: center; font-weight: 600; cursor: pointer; }
+
+@media (max-width: 720px) {
+  .header-bar { flex-wrap: wrap; gap: 0.5rem; }
+  .dice-pill { order: 3; flex: 1 1 100%; justify-content: center; border-radius: 18px; padding: 0.3rem 0.5rem; }
+}
 
 /* a roll button's result, shown beside it */
 .ad-roll {
