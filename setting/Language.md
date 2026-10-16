@@ -123,3 +123,4 @@ Roots:
 - ora - deep
 
 Coined here:
+- Thalosae = thalo + -sae - place of light

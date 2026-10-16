@@ -130,7 +130,7 @@ Want: resource - what the road carries.
 Identity: A black tar thumbprint on doors and on every bale taken; a wolf skull on a pole at the cave mouth.
 Resources: Twenty to thirty goblins, a dozen wolves, the kobolds' tribute, and loot from the road.
 Knowledge: The wagon days, learned by watching the road, and the traps of the warren below.
-Tactics: Strikes small wagons and lone travellers from the ravine banks at dusk and withdraws before a patrol arrives.
+Tactics: Strikes small wagons and lone travellers from cover at the wood's edge and the ravine banks at dusk, and withdraws before a patrol arrives.
 Reactions: Noticed: watched, and followed to the wood's edge. Crossed: ambushes laid on the stream path. Injured: sally at night in force.
 Goals: Fill the hold with the road's stores. Break the orcs beside them.
 Relations:
