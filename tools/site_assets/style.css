@@ -453,3 +453,42 @@ code {
 .block-meta { color: var(--ink-soft); font-size: 0.85rem; margin: 0 0 0.6rem; text-transform: capitalize; }
 
 .data-table td.settled { color: var(--ink-soft); font-size: 0.85rem; }
+
+/* A citation opened in place */
+a.cite { text-decoration-style: dotted; text-underline-offset: 2px; }
+a.cite[aria-expanded="true"] { background: var(--bg-alt); border-radius: 3px; }
+.cite-box {
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--accent);
+  border-radius: var(--radius);
+  background: var(--card-bg);
+  color: var(--ink);
+  font-size: 0.95rem;
+  line-height: 1.45;
+  margin: 0.5rem 0;
+  padding: 0.5rem 0.8rem 0.7rem;
+}
+.cite-box[hidden] { display: none; }
+.cite-box-head { display: flex; justify-content: space-between; align-items: baseline; gap: 0.6rem; flex-wrap: wrap; }
+.cite-box-title { color: var(--accent); }
+.cite-box-actions { display: inline-flex; gap: 0.4rem; align-items: baseline; }
+.cite-btn {
+  font: inherit; font-size: 0.8rem; color: var(--link); background: none;
+  border: 1px solid var(--line); border-radius: 4px; padding: 0 0.45rem; cursor: pointer;
+  text-decoration: none;
+}
+.cite-btn:hover { background: var(--bg-alt); }
+.cite-box h4 { margin: 0.4rem 0 0.2rem; }
+.cite-box .kv-table th { white-space: nowrap; padding-right: 0.8rem; vertical-align: top; }
+.ad-track { margin-top: 0.6rem; border-top: 1px solid var(--line); padding-top: 0.5rem; }
+.ad-row { display: flex; align-items: center; gap: 0.7rem; margin: 0.25rem 0; }
+.ad-name { min-width: 6.5rem; color: var(--ink-soft); }
+.ad-dots { display: inline-flex; gap: 0.3rem; }
+.ad-dot {
+  width: 1.4rem; height: 1.4rem; padding: 0; border-radius: 50%;
+  border: 2px solid var(--accent); background: transparent; cursor: pointer;
+}
+.ad-dot[aria-pressed="true"] { background: var(--accent); }
+.ad-bonus { color: var(--ink-soft); font-size: 0.85rem; }
+.cite-roll-result { margin: 0.4rem 0; padding: 0.35rem 0.6rem; background: var(--bg-alt); border-radius: 4px; }
+.cite-box li.rolled { background: var(--bg-alt); border-radius: 3px; font-weight: 600; }

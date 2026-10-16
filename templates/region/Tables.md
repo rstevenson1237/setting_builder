@@ -5,18 +5,14 @@ The table files of one region, `setting/region/[Region Code]/[Table].md`: one fi
 table its rating's schema, `patterns/[Rating]_Schema.md`, names, each holding entries.
 
 ## Context
-Read first, for every table:
-- `GENRE.md`
-- `STYLE.md`
-- `BRIEF.md`
+Read first:
+- `GENRE.md`, `STYLE.md` and `BRIEF.md`
 - `patterns/Common_Schema.md`, `patterns/Setting_Schema.md` and this region's rating schema
 - this region's seed, `setting/region/[Region Code].md`
-
-Then, by step:
-- **4a, Locations**: this region's die in `setting/region/Regions.md`, the rating schema's Location and `setting/Language.md`.
-- **4c, the stubs**: this region's `Locations.md`, and its `Connections.mmd` where it has one.
-- **5a**: this region's `Locations.md`, `Connections.mmd` and `Purpose.md` where it has them, the table being filled, and the setting files `patterns/Setting_Schema.md` names for its values.
-- **5d, placing**: this region's table files and `Connections.mmd`, and the setting entries `python3 tools/validate_setting.py --pending` owes to 5d.
+- this region's die in `setting/region/Regions.md`, and `setting/Language.md`
+- this region's table files and `Connections.mmd`, as far as they exist
+- the setting files `patterns/Setting_Schema.md` names for the values being written, and the
+  setting entries `python3 tools/validate_setting.py --pending` owes
 
 ## Instructions
 - **4a, Locations** - the count `BRIEF.md` sets for the region, in its targets' type mix.
@@ -27,7 +23,8 @@ Then, by step:
 - **4c, the stubs** - every other table, its entries bare: `[Node] [Location Code]`.
   Each room gets the entries its type's `rate` line in `BRIEF.md` gives, choosing within a range for a
   reason its tags give, and toward `BRIEF.md`'s targets. The occupants the seed's Overview
-  names are placed as Encounters. Connections get one entry per
+  names are placed as Encounters, and a `procedure` line in the region's node of `BRIEF.md`
+  as a Procedure entry at the location it fits. Connections get one entry per
   side of every edge in `Connections.mmd`, with `to` set, and a gate the folder's `join`
   line names on the way into a gated location. A member or child is written now only where the
   design already fixes it.

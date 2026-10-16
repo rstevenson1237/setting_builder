@@ -61,6 +61,9 @@ node Mystery {
   act gloss                // what sets it off
   tell gloss
 }
+node Procedure {
+  procedure entry "Local Procedures"
+}
 node Way {
   to location
   orientation gloss
@@ -76,6 +79,7 @@ folder Wild type=Wild_Type {
   Locations Location
   Dressing Dressing
   Challenges Encounter Hazard Mystery
+  Procedures Procedure
   Connections Way
   top Landmark Route  // reached from the region itself, so never joined to one another
   join Hidden Landmark Route  // a type connects only to these within its region

@@ -6,12 +6,11 @@ how a party gets in, who is there and how they answer a stranger, and what is ch
 
 ## Context
 Read first:
-- `GENRE.md`
-- `BRIEF.md`
+- `GENRE.md`, `STYLE.md` and `BRIEF.md`
 - `setting/Setting.md`, `setting/History.md`, `setting/Truths.md`, `setting/Bestiary.md`, `setting/Factions.md`
 - `setting/region/Regions.md`
 - `patterns/Common_Schema.md`, and `patterns/Region_Schema.md` - this region's rating's `seed`
-- `setting/Procedures.md`
+- `setting/Procedures.md`'s Time and Distance and Weather
 
 ## Instructions
 Write every field of the rating's `seed`, in its order. The Overview names who lives

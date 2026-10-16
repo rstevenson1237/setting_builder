@@ -1,43 +1,119 @@
 Procedures of Roadsend
 
-## Tests and Consequences
-A Test is one d20 roll by the character at risk, made against their saving throw: equal or over passes, under fails. Hit points stand behind every Test; nothing else does.
-- **Test of Constitution** - the body against harm. A pass takes half the stated damage, rounded down; a fail takes all of it.
-- **Test of Fate** - luck against a curse, trick or fall. A fail forces the named Condition, or an Impact: the character loses their next action and drops what they hold.
-- A Test is made once per hazard, per character, and is never repeated for the same trigger.
+## Ruleset
+These procedures assume the light d6 ruleset and add only what it leaves to a setting.
+- A character has three Action Dice: Combat, Skill and Magic.
+- A region's Difficulty die is rolled for each group action.
+- A 1 is a FAILURE, a 2 or 3 a COMPLICATION, and a 4 or more a SUCCESS.
+- A Test rolls the matching Action Die: Constitution the Combat die, Fate the Skill die.
+- A WOUND is permanent; a Wound of a Type is rolled on that Type's table below.
 
-## Hazards
-A hazard is classed by what one failed Test costs:
-- **Nuisance** - 1d.
-- **Damaging** - 2d.
-- **Lethal** - 3d, already fatal to most first-level characters.
+## Forced Dangers
+A hazard states a trigger, a Test, a count of Tests and a penalty. A Test of Constitution costs a Wound of a Type; a Test of Fate costs a named Condition. A hazard that shows itself (a sign, a smell, a sound) gives a party the choice to avoid it; one that does not springs on whoever triggers it. The count follows the hazard's cost: Nuisance 1 Test, Damaging 2, Lethal 3. One failed Test costs a Wound, which is permanent; a Wound past a character's Maximum is death, and a first-level Maximum is low.
 
-Xd is X d6 of damage. Types: Piercing, Crushing, Poison, Fire, Frost, Blast. Poison named Lethal kills on a failed Test and does no damage on a pass. A hazard that shows itself (a sign, a smell, a sound) gives a party the choice to avoid it; one that does not springs on whoever triggers it.
+## Wounds
+### Piercing
+| d6 | Wound |
+|---|---|
+| 1 | Punctured lung - Disadvantage on every Chase or Flee roll. |
+| 2 | Torn arm - Disadvantage on Strike Blows, and no two-handed weapon. |
+| 3 | Gouged eye - Disadvantage on Fire Missiles and Search. |
+| 4 | Pierced thigh - Disadvantage on Maneuver rolls to run, jump or climb. |
+| 5 | Hole through the hand - drops what it holds whenever a Combat die is lost. |
+| 6 | Never heals clean - the first Condition suffered each day is Bloodied. |
 
-## Wounds and Madness
-A character at 0 hit points is dead; death is permanent. A day of full rest heals 1 hit point, and a week of rest in a safe place heals all. There is no madness.
+### Crushing
+| d6 | Wound |
+|---|---|
+| 1 | Cracked ribs - Disadvantage on Feat of Strength. |
+| 2 | Broken arm - one hand useless; a shield or a two-handed weapon, never both. |
+| 3 | Crushed foot - moves at half pace and Disadvantage on Chase or Flee. |
+| 4 | Dented skull - Disadvantage on Tests of Fate. |
+| 5 | Broken jaw - Disadvantage on Interaction, and no spoken Commune. |
+| 6 | Wrenched spine - Disadvantage on Maneuver, and carries no more than 5 wt. |
+
+### Poison
+| d6 | Wound |
+|---|---|
+| 1 | Fever that never lifts - Exhausted after any day's travel. |
+| 2 | Trembling hands - Disadvantage on Fire Missiles and sleight of hand. |
+| 3 | Blackened veins - Disadvantage on Tests of Constitution. |
+| 4 | Clouded sight - Disadvantage on Search and Fire Missiles. |
+| 5 | Weak gut - the first Make Camp roll each night is at Disadvantage. |
+| 6 | Rotting wound - Diseased after every Wound taken later. |
 
 ## Conditions
-- **Blinded** - cannot see; attacks at -4 and moves at a crawl until sight returns.
-- **Stunned** - no actions for 1d6 rounds.
-- **Slowed** - moves and acts at half rate until rested for a turn.
-- **Frightened** - flees from the source for 1d6 rounds, and will not return of its own accord.
-- **Held** - cannot move or act except to struggle; a Test of Constitution each round frees one.
-- **Diseased** - heals nothing until cured; a day of rest brings a Test of Constitution to throw it off.
+- **Bloodied** - bleeding; Disadvantage on Strike Blows until the wound is bound; clears on a night's Rest.
+- **Exhausted** - Disadvantage on every roll until a night's Rest with food and water.
+- **Encumbered** - carries over 10 wt; moves at half pace until the load is cut.
+- **Poisoned** - Disadvantage on Combat and Skill rolls; clears on a night's Rest.
+- **Diseased** - heals nothing and Rest recovers no dice until cured; a night's Rest allows a Test of Constitution to throw it off.
+- **Blinded** - Disadvantage on every roll that needs sight, until sight returns.
+- **Frightened** - flees the source for a d6 of Rounds; will not return of its own accord.
+- **Held** - cannot move or act except to struggle; a Test of Constitution each Round frees one.
 
-## Searching
-A party that searches a place or an object for a turn finds what is hidden there on a 1 in 6, 2 in 6 for an elf or dwarf; each character may add one such roll per turn. A party that listens at a door for a turn hears what is behind it on a 1 in 6. What a party states it does is resolved by what it does; a roll is for what it cannot see.
+## Coin and Prices
+The common silver coin, cn, is the unit of every value in this setting, and a hundred cn weigh 1 wt. Copper pennies pay for a meal, a mug of ale and the like, and are never counted. A gold piece is worth 10 cn and weighs as a silver coin does. Gold, foreign and old coin is changed to cn at a changer's stall for a 3% fee; goods taken to resale fetch 80% of their value, a 20% fee.
 
-## Time
-- **Turn** - ten minutes. Indoors, a party moves its Move per turn, searches or listens once, rests or fights through a few rounds. A round is ten seconds.
-- **Watch** - four hours. A day holds six, of which a party travels three and spends the rest camped, eating and sleeping.
-- **On the road** a party covers 8 miles a watch; **off it**, 4; **through the worst** (marsh, thicket, scree), 2. A day lost to rest or weather covers nothing.
-- A torch or lantern lasts six turns and a lantern's oil lasts twenty-four; light that fails is darkness.
+| Goods and services | Price |
+|---|---|
+| A bed for a night | 10 cn |
+| A day's rations | 5 cn |
+| A torch | 3 cn |
+| Hemp rope, 50 ft | 15 cn |
 
-## Scaling
-Attack Dice (AD) are the one measure of a creature. A creature of AD Xd6+M has that many hit points, rolled or taken at 3.5 per die; it attacks as a fighter of level equal to its dice, once a round, for 1d6 plus 1 per 4 dice. A creature with MA threatens that many targets a round. A faction's AD is set against another faction's: each rolls its Xd6 and the higher total wins the contest.
+| Hireling | Wage a day |
+|---|---|
+| Porter | 10 cn |
+| Torchbearer | 15 cn |
+| Driver | 30 cn |
+| Mercenary, light | 30 cn |
+| Mercenary, heavy | 150 cn |
+| Sage | 100 to 1000 cn |
+
+## Time and Distance
+- **SAFE regions** measure in feet indoors, yards outdoors and miles on safe roads, and keep time in days.
+- **WILD regions** measure in yards and miles and keep time in watches of four hours, six to a day. A watch of travel covers 8 miles on a road, 4 off it and 2 through the worst ground (marsh, thicket, scree). A day lost to rest or weather covers nothing.
+- **DANGEROUS regions** measure in feet indoors and yards outside and keep time in turns of ten minutes, six to an hour; a Round is one minute and a room is 120 ft. A torch lasts six turns, a lantern's oil twenty-four, and light that fails is darkness.
+
+## Weather
+| d6 | Weather |
+|---|---|
+| 1 | Sudden storm - the stream runs high and loud; no travel. |
+| 2 | Dense fog and mist - the path is lost a pace ahead. |
+| 3 | Torrential downpour - every bank runs with water. |
+| 4 | Light drizzle - the rock is slick and the air grey. |
+| 5 | Mild and overcast - cool, dry and still. |
+| 6 | Clear skies and a steady wind off the hills. |
+
+## Encounters
+A party meets an Encounter at a distance rolled on this table unless the Encounter already fixes it.
+
+| d6 | Distance |
+|---|---|
+| 1 | Instant surprise - at arm's length. |
+| 2 | Close - 30 yards, a thrown spear's range. |
+| 3 | Near - 100 yards, a bowshot. |
+| 4 | Far - 300 yards, across open ground. |
+| 5 | Heard or smelled, and not yet seen. |
+| 6 | Signs or tracks only. |
+
+The Danger die of a DANGEROUS region is read against these bands, and a region's Brief gives each its own instance:
+- **6** - warnings and atmosphere: a smell, a sound, scratches on stone.
+- **5** - ominous signs: fresh tracks, refuse, a light seen far off.
+- **4** - an environmental hazard that asks for a Test.
+- **3** - traps, obstacles or a minor guardian.
+- **2** - danger close by, avoided only with careful action.
+- **1** - a forced encounter or a major hazard.
 
 Numbers appearing are set for a party of five first-level characters; for each character more or fewer, add or take away one creature per AD of 1.
 
-## Region Dice
-Each region carries a die, its Difficulty die, set by the Brief and cited by every table of that region. A party rolls it for each turn (in a DANGEROUS region) or each watch (in a WILD region) spent where the region can act against them; a 1 fails the roll. A failed roll in a WILD region brings an Encounter; in a DANGEROUS region it lowers the Danger track by one. A SAFE region has none.
+## Carousing
+| d6 | Effect |
+|---|---|
+| 1 | Wakes in the cells and is fined 50 cn for drawn steel. |
+| 2 | Signs a marker for half the sum spent, held by a stranger. |
+| 3 | Nothing comes of it but a sore head. |
+| 4 | Overhears a rumour, true or false. |
+| 5 | Makes a friend among the carters, who will carry a message to the realm. |
+| 6 | A stranger buys the next round and offers a job. |

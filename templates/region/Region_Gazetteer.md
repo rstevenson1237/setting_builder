@@ -5,8 +5,7 @@ An overview listing of all regions within the setting - the Regional Gazetteer.
 
 ## Context
 Read first:
-- `GENRE.md`
-- `BRIEF.md`
+- `GENRE.md`, `STYLE.md` and `BRIEF.md`
 - `setting/Setting.md`
 - `setting/Language.md`
 

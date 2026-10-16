@@ -5,8 +5,7 @@ Reusable, system-neutral creature templates for the setting.
 
 ## Context
 Read first:
-- `GENRE.md`
-- `BRIEF.md`
+- `GENRE.md`, `STYLE.md` and `BRIEF.md`
 - `patterns/Common_Schema.md` and `patterns/Setting_Schema.md`
 - `setting/Setting.md`, `setting/History.md`, `setting/Truths.md`
 

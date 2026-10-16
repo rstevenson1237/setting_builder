@@ -6,8 +6,7 @@ foundation every other document builds on.
 
 ## Context
 Read first:
-- `GENRE.md`
-- `BRIEF.md`
+- `GENRE.md`, `STYLE.md` and `BRIEF.md`
 - `patterns/Common_Schema.md` and `patterns/Setting_Schema.md`
 
 ## Instructions

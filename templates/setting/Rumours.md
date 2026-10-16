@@ -5,8 +5,7 @@ A referee-facing table of rumours of varying truth that serve as adventure hooks
 
 ## Context
 Read first:
-- `GENRE.md`
-- `BRIEF.md`
+- `GENRE.md`, `STYLE.md` and `BRIEF.md`
 - `patterns/Common_Schema.md` and `patterns/Setting_Schema.md`
 - `setting/Setting.md`, `setting/History.md`, `setting/Truths.md`
 - each region's seed, `setting/region/[Region Code].md`
@@ -17,8 +16,7 @@ Create a table of rumours, numbered to the die `BRIEF.md` sets, each following
 its fields in `patterns/Setting_Schema.md`, marked T, P, F or U in the shares `BRIEF.md` sets.
 
 **Settled at** names where a party finds out - the Location Code, or codes, holding what
-confirms, denies, or corrects this rumour, filled as the rumour is written at step 5d
-from what that location holds. For a `P` entry it
+confirms, denies, or corrects this rumour, filled from what that location holds. For a `P` entry it
 also names **which half is false**, in a clause, because "partially true" without that is
 a mark the referee cannot act on.
 
@@ -40,5 +38,5 @@ Rumours of [Setting Name]
 | 1 | [A rumour the players might encounter] | [T/P/F/U] | [Location Code(s), and for P which half is false; for U, none, and where a party would look] |
 | 2 | [A rumour the players might encounter] | [T/P/F/U] | [...] |
 | ... | ... | ... | ... |
-| 20 | [A rumour the players might encounter] | [T/P/F/U] | [...] |
+| [N] | [A rumour the players might encounter] | [T/P/F/U] | [...] |
 ```

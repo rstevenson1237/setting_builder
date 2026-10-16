@@ -3,16 +3,15 @@
 ## Purpose
 The setting's tongues - phoneme inventories, syllable shapes, affixes, and a growing root
 list - so that proper nouns coined weeks apart still sound like they come from the same
-world. The framework's one living artifact: seeded at 1b, tailored at 2g, and appended to
-every time a proper noun is coined.
+world. The framework's one living artifact: seeded, tailored once the setting is written,
+and appended to every time a proper noun is coined.
 
 ## Context
 Read first:
-- `GENRE.md`
-- `BRIEF.md`
-- `patterns/Common_Schema.md` and `patterns/Setting_Schema.md`
-- At 2g: every setting artifact written so far.
-- At 5b: the write-ups this pass wrote.
+- `GENRE.md`, `STYLE.md` and `BRIEF.md`
+- `patterns/Common_Schema.md` and `patterns/Setting_Schema.md`'s Language table
+- `setting/Setting.md`, `setting/Bestiary.md`, `setting/Factions.md`
+- the write-ups whose names coin something
 
 ## Instructions
 Each tongue states who speaks it, its consonants and vowels, its syllable shape, its

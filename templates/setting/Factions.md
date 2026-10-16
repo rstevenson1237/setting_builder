@@ -1,15 +1,14 @@
 # Factions.md
 
 ## Purpose
-The 3 factions present in the setting - the powers a party may treat with, oppose, or ignore.
+The factions present in the setting - the powers a party may treat with, oppose, or ignore.
 
 ## Context
 Read first:
-- `GENRE.md`
-- `BRIEF.md`
+- `GENRE.md`, `STYLE.md` and `BRIEF.md`
 - `patterns/Common_Schema.md` and `patterns/Setting_Schema.md`
 - `setting/Setting.md`, `setting/History.md`, `setting/Truths.md`
-- `setting/Rumours.md`, `setting/Bestiary.md`
+- `setting/Bestiary.md`
 
 ## Instructions
 List the factions `BRIEF.md` names, each following its fields in `patterns/Setting_Schema.md`.

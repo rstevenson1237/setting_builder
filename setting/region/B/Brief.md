@@ -6,7 +6,7 @@ Places:
 
 Inhabitants: Six Goblins of the Zhakuk lie behind the scree at B.2, and a pack of four Wolves lies up at B.3; the goblins hold the banks and the wolves keep to the rocks.
 
-Loot: Treasure is keyed at nothing in B. Deer run the banks and a Wolf pelt sells at A.3 for half its 250 cp. Whatever a party carries back from C is paid for at A.3.
+Loot: Treasure is keyed at nothing in B. Deer run the banks and a Wolf pelt sells at A.3 for 200 cn, 80% of its 250 cn. Whatever a party carries back from C is paid for at A.3.
 
 Secrets:
 - The marks on the standing pier read Here the works begin - a reader of the dead tongue; B.4 Marks.

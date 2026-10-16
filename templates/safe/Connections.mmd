@@ -1,0 +1,29 @@
+# Connections.mmd - SAFE
+
+## Purpose
+One SAFE region's location graph, `setting/region/[Region Code]/Connections.mmd`: the
+Secrets hung from other locations, and the locations a region edge lands on.
+
+## Context
+Read first:
+- `GENRE.md`, `STYLE.md` and `BRIEF.md`
+- `GENRE.md`, `STYLE.md` and `BRIEF.md`
+- this region's seed, `setting/region/[Region Code].md` - its Approach
+- this region's `Locations.md`
+- `setting/region/Connections.mmd` - the region edges a location here carries
+
+## Instructions
+- Every location is a node. Every location but a Secret is reached from the region itself,
+  so no edge joins two of them.
+- A Secret hangs from one other location, and its way in is gated, which `Connections.md`
+  records.
+- A region edge lands on a Gate. A location in another region, reached by one, is a node
+  of its own.
+
+## Template
+```mermaid
+graph LR
+  A1["[Location Code] [Location Name]"]
+  A2["[Location Code] [Location Name]"]
+  A1 --- A2
+```

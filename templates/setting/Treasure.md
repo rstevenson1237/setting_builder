@@ -5,9 +5,9 @@ Five reusable random treasure tables (Treasure Tables I-V), each a table of foun
 
 ## Context
 Read first:
-- `GENRE.md`
-- `BRIEF.md`
+- `GENRE.md`, `STYLE.md` and `BRIEF.md`
 - `patterns/Common_Schema.md` and `patterns/Setting_Schema.md`
+- `setting/Procedures.md` - the coin every value is stated in
 - `setting/Bestiary.md`
 - `setting/Setting.md`, `setting/History.md`, `setting/Truths.md`
 
@@ -19,9 +19,7 @@ to Treasure Tables I-V in order. Each is a list of the results `BRIEF.md` sets, 
 its fields in `patterns/Setting_Schema.md`. Results run in randomised order - never ascending or descending by value - spread as
 `BRIEF.md` sets.
 
-Head Table I with the setting's coins - each by name, and its ratio to the others - and
-what a week's ordinary wage is in them. Every value in every table is stated in those
-coins, and the others point back to Table I for the scale.
+Head each table with one line: every value is in cn, per `setting/Procedures.md`.
 
 ```
 TABLES
@@ -41,6 +39,8 @@ TABLES
 ```
 Treasure Table I - Scavenged Loot
 
+Every value is in cn, per `setting/Procedures.md`.
+
 | # | Item | Value | Wt |
 |---|------|-----------|----|
 | 1 | [item] | [value] | [wt] |
@@ -52,6 +52,8 @@ Treasure Table I - Scavenged Loot
 
 ```
 Treasure Table II - Equipment and Armaments
+
+Every value is in cn, per `setting/Procedures.md`.
 
 | # | Item | Quality | Effect | Value | Wt |
 |---|------|---------|--------|-----------|----|
@@ -65,6 +67,8 @@ Treasure Table II - Equipment and Armaments
 ```
 Treasure Table III - Gems and Jewelry
 
+Every value is in cn, per `setting/Procedures.md`.
+
 | # | Item | Value | Wt |
 |---|------|-----------|----|
 | 1 | [item] | [value] | [wt] |
@@ -77,6 +81,8 @@ Treasure Table III - Gems and Jewelry
 ```
 Treasure Table IV - Luxury and Trade Goods
 
+Every value is in cn, per `setting/Procedures.md`.
+
 | # | Item | Value | Wt |
 |---|------|-----------|----|
 | 1 | [item] | [value] | [wt] |
@@ -88,6 +94,8 @@ Treasure Table IV - Luxury and Trade Goods
 
 ```
 Treasure Table V - Treasure Cache
+
+Every value is in cn, per `setting/Procedures.md`.
 
 | # | Item | Value | Wt |
 |---|------|-----------|----|

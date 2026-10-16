@@ -1,16 +1,18 @@
 # MagicalTomes.md
 
 ## Purpose
-A registry of books that teach magic. Created empty at step 2g; each entry is written at step 5a, from the table entries naming it.
+A registry of books that teach magic. Each entry is written from the table entries naming it.
 
 ## Context
 Read first:
-- Step 2g (creating the file): no context needed.
-- Step 5a (writing an entry): `GENRE.md`, `setting/Setting.md`, `setting/Language.md`, `patterns/Common_Schema.md`, `patterns/Setting_Schema.md`, and every table entry naming it.
+- `GENRE.md`, `STYLE.md` and `BRIEF.md`
+- `patterns/Common_Schema.md` and `patterns/Setting_Schema.md`
+- `setting/Setting.md`, `setting/Language.md`
+- every table entry naming it
 
 ## Instructions
-- **2g**: create the file with only its title line.
-- **5a**: write each entry a table names and this file lacks, per `patterns/Setting_Schema.md`, with its Found at the locations naming it.
+Write each entry a table names and this file lacks, per `patterns/Setting_Schema.md`, with its
+Found at the locations naming it.
 
 ## Template
 ```
