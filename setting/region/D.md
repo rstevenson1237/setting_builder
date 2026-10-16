@@ -1,0 +1,6 @@
+D The Black Mere
+
+Overview: Reed marsh north of the road and west of the wood, three miles across by the causeway. The Sellaca live on it in a stilt village. The makers' drowned shrine lies under its eastern flats, and the dead in it do not stay down. A party comes to cross to the wood, to look for what the drowned shrine holds, or to turn the Sellaca against the outlaws.
+Approach: Entered from the road by the causeway, 9 miles from the keep gate, and from the wood by a side path to the mere's north shore. The causeway crosses the mere in one watch; the Sellaca watch it from the reeds and allow those who keep to it.
+Terrain: swamp - On the causeway a watch covers 8 miles, by pole boat 4, and wading through the worst ground, 2. Off the causeway a FAILURE on Maneuver sinks a party to the waist and holds it until freed, a Test of Constitution each Round. Fog hides the causeway's edges, and a party that leaves it by night is lost until dawn. A fire on the flats draws the drowned dead.
+Situation: The Sellaca are closing the mere to every stranger. If a party keeps to the causeway, they let it pass; if it leaves the causeway, they close in boats within a watch. The outlaws are testing the causeway's edge, and a clash between the two would close it to everyone.

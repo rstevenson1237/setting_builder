@@ -1,0 +1,22 @@
+graph LR
+  subgraph Gate
+    I1["I.1 The Hobgoblin Gate"]
+    I2["I.2 The Drill Court"]
+  end
+  subgraph Quarters
+    I3["I.3 The Barracks"]
+    I4["I.4 The Armoury"]
+    I5["I.5 The Grain Stores"]
+  end
+  subgraph Warlord Quarter
+    I6["I.6 The Warlord's Hall"]
+  end
+  E5["E.5 The Hobgoblin Ledge"]
+  J4["J.4 The Bone Heap"]
+  I1 --- E5
+  I1 --- I2
+  I2 --- I3
+  I2 --- I4
+  I4 --- I5
+  I2 --- I6
+  I3 --- J4

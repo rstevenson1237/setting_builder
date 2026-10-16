@@ -1,70 +1,106 @@
-Tongues of Roadsend
+Tongues of Thornmarch
 
 ## The Common Tongue
-Spoken by: arrived - the keep, the realm behind it, and every road traveller.
-Consonants: b, d, f, g, h, l, m, n, p, r, s, t, w, y
+Spoken by: side - Law: the keep, the realm behind it, and everyone who deals with them.
+Consonants: b, d, f, g, h, k, l, m, n, p, r, s, t, w, y
 Vowels: a, e, i, o, u
 Syllable: (C)(C)V(C)(C), closed or open, English-shaped
-Affixes: -ton - place; -mere - water; -er - belonging; -ling - smallness
-Coined here:
+Affixes: -ton - place; -mere - water; -er - belonging; -ling - smallness; un- - negation
 
 Roots:
-- stone - ground
-- hill - rise
-- dale - low ground
+- stone - rock, and the ground it makes
+- hill - a rise of ground
+- dale - low ground between rises
 - marsh - wet ground
 - brook - running water
-- pool - standing water
-- root - growth
-- oak - tree
-- frost - weather
-- red - colour
-- black - colour
+- oak - a tree
+- thorn - a thicket plant
+- frost - cold weather
+- red - a colour
+- black - a colour
 - hand - body
-- bone - the dead
+- bone - body, and the dead
 - forge - making
 - coin - exchange
 - lamp - light
 - grave - the dead
-- north - direction
-- three - number
+- north - a direction
+- three - a number
 
-## The Goblins' Tongue
-Spoken by: non-people - the goblin tribe and whoever trades with it.
+Coined here:
+
+## The Cant
+Spoken by: side - Neutrality: outlaws, lizard-folk, carriers and anyone who looks after themselves.
+Consonants: c, ch, j, l, n, r, s, sh, t, v
+Vowels: a, e, i, o, ee
+Syllable: CVCV, open at the end, with a doubled consonant between (-tt-, -ss-, -nn-)
+Affixes: -et - smallness; -sh - plural; -ca - belonging; ne- - negation; -ra - place
+
+Roots:
+- tella - ground, and a bank
+- nitte - water
+- sella - reed and grass
+- chesse - mist
+- veessa - rain
+- jinna - green
+- rette - grey
+- lisso - skin
+- shenna - hand
+- tavve - a net or trap
+- chetta - a pole boat
+- cesso - barter
+- lonna - lamp fire
+- rotto - the dead
+- nelle - one
+- jette - three
+- verra - west
+
+Coined here:
+- Sellaca = sella + -ca - those of the reeds
+
+## The Black Speech
+Spoken by: side - Chaos: the tribes of the ravine and the priests of the shrine.
 Consonants: g, k, kh, z, zh, r, m, n, b, dr
 Vowels: u, a, o, short
 Syllable: CVC or CVCC, always closed and clipped
 Affixes: -uk - belonging; gu- - smallness; -zor - place; ko- - negation; -ar - plural
-Coined here:
-- Zhakuk = zhak + -uk - the goblin tribe of the cave
 
 Roots:
 - gur - stone
-- zhak - hole
+- zhak - a hole in the ground
 - drom - low ground
 - khub - water
 - bak - mud
-- zug - tree
+- zug - a tree
 - mok - blood
-- grub - red
-- kul - black
+- burg - red
+- kur - black
 - naz - hand
 - rok - tooth
 - zak - making
 - khor - trade
-- uz - dark
-- gra - dead
+- zur - dark
+- gar - the dead
 - kon - one
 - zun - many
-- mud - north
+- mur - north
+- gor - storm
+- nur - fire
 
-## The Cave-Makers' Tongue
-Spoken by: departed - the builders of the cave, met only cut into its walls.
+Coined here:
+- Gubak = gu- + bak - the small mud
+- Zhakuk = zhak + -uk - of the hole
+- Rokmok = rok + mok - tooth and blood
+- Burgnaz = burg + naz - the red hand
+- Kurzun = kur + zun - the many black
+- Zurnaz = zur + naz - the dark hand
+
+## The Makers' Tongue
+Spoken by: departed - the makers of the ravine's works, met only cut into its walls.
 Consonants: l, m, n, s, v, th, d, r, h
 Vowels: a, e, i, o, ae, ei
 Syllable: CV or CVV, always open and long
 Affixes: -sae - place; -ve - belonging; ne- - negation; -thi - age; -na - plural
-Coined here:
 
 Roots:
 - sora - stone
@@ -73,15 +109,18 @@ Roots:
 - rei - rain
 - hema - growth
 - thalo - light
-- dael - gold
+- daela - gold
 - imo - dark
 - vora - the dead
 - lane - body
 - sethi - making
-- nam - hand
+- nama - hand
 - eiro - exchange
 - hae - one
-- dai - three
+- dei - three
 - vone - east
 - mela - white
 - ora - deep
+
+Coined here:
+- Thalosae = thalo + -sae - place of light

@@ -683,6 +683,20 @@ def check_inhabitants(diag: Diagnostics, setting):
                 diag.warn(brief, f"Inhabitants does not name {name}, which an Encounter places here")
 
 
+def check_marks(diag: Diagnostics, setting):
+    """Every faction's Identity is shown by a Dressing `mark` in some location - the claim
+    Factions.md makes upward, kept downward. Only once a region's Dressing is written."""
+    path = SETTING / "Factions.md"
+    names = tables.titles(path)
+    dressed = [r for r in setting.regions.values() if r.files.get("Dressing")]
+    if not names or not dressed:
+        return
+    marked = {x.strip() for r in dressed for n in r.files["Dressing"]
+              for x in str(n.props.get("mark", "")).split(",") if x.strip()}
+    for name in sorted(names - marked):
+        diag.warn(path, f"{name}: its Identity is marked in no Dressing")
+
+
 def check_region_fields(diag: Diagnostics, path: Path, fields: list, folder, skip: int):
     if not path.exists():
         diag.warn(path, "missing - not built yet")
@@ -1149,6 +1163,7 @@ def main() -> int:
         check_repeated_features(diag, region_code)
     check_rumour_settling(diag)
     check_inhabitants(diag, setting)
+    check_marks(diag, setting)
 
     # A location reached from the region itself is no part of the stated graph.
     top = {c for r in setting.regions.values() for c, n in r.locations().items()

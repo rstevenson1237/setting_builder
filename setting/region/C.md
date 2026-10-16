@@ -1,7 +1,6 @@
-C Goblin Cave
+C The Dark Wood
 
-Kind: single holding
-Overview: The Zhakuk's home, and the workings it sits in. The tribe numbers dozens, and nobody outside knows how many. The cave's makers cut it long before the tribe came, and their carved marks stand on its walls.
-Approach: One entrance opens at the ravine's head, a cleft overhung with thorn. Two Goblins watch it by night and one by day; the watch calls a warning down the passage behind it.
-Conditions: Cut stone throughout, ceilings 8 ft and passages 6 ft wide. No light but what the goblins carry. Sound carries along straight passages and dies at corners. Footing is dry and dusty, the air stale but breathable, and a lit fire sends its smoke up the passage to the entrance.
-Situation: The tribe's own stores are low, and its chief wants the keep's next wagon. If that wagon passes untaken, a larger band goes down the ravine at the following dusk. If goblins are killed in number, those left withdraw to the older rooms they otherwise keep out of, and fight from them.
+Overview: Old forest north of the keep, thick enough to hide a camp from a hundred yards. The Wood Outlaws live in it and take a toll on the trail, the Zhakuk's Wolves run its edge, the Zurnaz walk the trail by night, and the ravine lies at its far end. A party comes to reach the ravine, to hunt, or to find what the outlaws hide.
+Approach: Entered at the keep's postern on the south, at the mere's north shore on the west, and at the ravine's mouth on the north. The forest trail runs 12 miles from the postern to the ravine: three watches. A side path leaves the trail 5 miles out and runs west to the mere.
+Terrain: forest - On the trail a watch covers 4 miles; off it, 2. Sight carries 30 yards, and a FAILURE on Navigate off the trail loses the party for a watch; fog or a storm adds Disadvantage. Forage or Hunt succeeds on a 4 or more within a mile of the trail and at Disadvantage deeper in. At night nothing is seen beyond a lit torch; a fire is seen at 200 yards but the canopy hides its smoke.
+Situation: The outlaws' trade has failed with the convoys, and they now stop any party on the trail for a toll. If a party pays, it goes on untouched; if it refuses, arrows come from the trees at the next bend. The Zurnaz walk the trail by night to collect the tithe, and take the last of any party camped on it.

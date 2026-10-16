@@ -1,10 +1,11 @@
-# Locations of C Goblin Cave
+# Locations of C The Dark Wood
 
 ```kdl
-Location C.1 name="The Cleft Passage" tags="cramped, echoing, watched" type=Medium
-Location C.2 name="The Carved Hall" tags="ancient, dusty, inscribed" type=Low
-Location C.3 name="The Warren" tags="crowded, filthy, noisy" type=Medium
-Location C.4 name="The Midden and Stores" tags="foul, littered, pilfered" type=Medium
-Location C.5 name="The Old Vault" tags="sealed, silent, avoided" type=Low
-Location C.6 name="The Chief's Hall" tags="high-roofed, firelit, guarded" type=High
+Location C.1 name="The Forest Trail" tags="narrow, shaded, trodden" type="Route" at="north, 12 miles"
+Location C.2 name="The Outlaws' Camp" tags="hidden, smoky, armed" type="Lair" at="north-west, 5 miles"
+Location C.3 name="The Hermit's Clearing" tags="quiet, tended, strange" type="Lair" at="north-east, 7 miles"
+Location C.4 name="The Old Watchtower" tags="fallen, overgrown, cold" type="Ruin" at="north, 8 miles"
+Location C.5 name="The Standing Stones" tags="tall, moss-grown, humming" type="Natural" at="north, 3 miles"
+Location C.6 name="The Mere Landing" tags="wet, rotting, reedy" type="Natural" at="west, 5 miles"
+Location C.7 name="The Outlaws' Cache" tags="dry, buried, trapped" type="Hidden" at="north-west, 6 miles"
 ```

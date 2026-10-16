@@ -1,21 +1,15 @@
 graph LR
-  B4["B.4 Broken Arch"]
-  subgraph Entrance
-    C1["C.1 The Cleft Passage"]
-    C2["C.2 The Carved Hall"]
-  end
-  subgraph Warren
-    C3["C.3 The Warren"]
-    C4["C.4 The Midden and Stores"]
-    C6["C.6 The Chief's Hall"]
-  end
-  subgraph Old Workings
-    C5["C.5 The Old Vault"]
-  end
-  B4 --- C1
-  C1 --- C2
-  C2 --- C3
-  C2 --- C5
-  C3 --- C4
-  C3 --- C6
-  C5 --- C6
+  C1["C.1 The Forest Trail"]
+  C2["C.2 The Outlaws' Camp"]
+  C3["C.3 The Hermit's Clearing"]
+  C4["C.4 The Old Watchtower"]
+  C5["C.5 The Standing Stones"]
+  C6["C.6 The Mere Landing"]
+  C7["C.7 The Outlaws' Cache"]
+  A2["A.2 The Postern"]
+  E1["E.1 The Stream Path"]
+  D1["D.1 The Causeway"]
+  C1 --- A2
+  C1 --- E1
+  C6 --- D1
+  C2 --- C7

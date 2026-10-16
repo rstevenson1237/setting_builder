@@ -1,30 +1,27 @@
+Layout: The road runs 24 miles west from the keep's main gate to the map's edge (B.1), with the burned wagons (B.3) 3 miles out, the ford (B.2) at 6, the causeway head (B.5) at 9 and the wayside shrine (B.4) at 14. The causeway runs north from B.5 into the mere.
+
 Places:
-- B.1 Stream Path - the way up the ravine; three slick fords, prints running one way.
-- B.2 Ravine Mouth - the goblins' ambush ground, eight miles up the road; the wrecked second wagon.
-- B.3 Wolf Rocks - a wolf lair off the path; a keep soldier's chewed tabard.
-- B.4 Broken Arch - the ravine's head, the cleft into the cave, and marks that read Here the works begin.
+- B.2 The Ford - the stones to cross; a slip costs a fall.
+- B.3 The Burned Wagons - where the convoy was struck; goblin raiders lie in the grass.
+- B.4 The Wayside Shrine - coins left in the bowl; a driver who stops here has news.
+- B.5 The Causeway Head - the way north to the mere; outlaws take a toll.
 
-Inhabitants: Six Goblins of the Zhakuk lie behind the scree at B.2, and a pack of four Wolves lies up at B.3; the goblins hold the banks and the wolves keep to the rocks.
+Inhabitants: A patrol of six soldiers of The Keep walks B.1, six goblin raiders of The Zhakuk lie at B.3, and five of The Wood Outlaws hold the toll at B.5.
 
-Loot: Treasure is keyed at nothing in B. Deer run the banks and a Wolf pelt sells at A.3 for 200 cn, 80% of its 250 cn. Whatever a party carries back from C is paid for at A.3.
+Loot: A day's rations costs 5 cn at A.5, and the Carters' Guild pays 50 cn at A.8 to a party whose wagon arrives whole. No treasure lies on the road; B.3's casks are emptied and the thumbprints are all the raiders leave.
 
 Secrets:
-- The marks on the standing pier read Here the works begin - a reader of the dead tongue; B.4 Marks.
-- Wolf tracks stop short of the arch and none cross - nobody knows why; B.4 Wolf Tracks.
-- Six goblins wait behind the scree for a small party or a wagon - the Zhakuk; B.2 Scree Banks.
+- none - every place on the road is open to it.
 
 Leads:
-- Rumour 1 - B.2 Scree Banks.
-- Rumour 2 - B.4 Marks, with C.2.
-- Rumour 3 - B.2 Wagon Wreck.
-- Rumour 6 - B.4 Wolf Tracks.
-- The Lost Strongbox - B.4 Cleft, into C.
+- Rumour 1 - B.3 Frames.
+- The Road Bounty - B.3 Raiders.
 
 Tables:
 d6 Encounter, per failed Difficulty roll
-1. Goblin scouts, 1d3, watching from the banks; they follow a party and report to the cave.
-2. The six raiders of B.2, on the path early.
-3. The wolf pack of B.3, four, hunting along the stream.
-4. A patrol of six Soldiers heading for the ravine's mouth.
-5. A lone goblin, wounded, running down the path from the cave.
-6. A wagon on the road with a driver who has not heard of the raids.
+1. A convoy rolls by from the realm with a green wheel on the lead wagon; its drivers trade news for a round.
+2. Six goblins break from the grass at dusk with spears and slings.
+3. The patrol, a man short, escorts two carts toward the keep.
+4. Outlaws watch from a rise and withdraw when seen.
+5. A rider with a message for the commander asks the party to ride on with him.
+6. A squall rolls in; the verge turns to mud and the pace off the road is halved.

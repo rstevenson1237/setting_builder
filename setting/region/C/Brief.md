@@ -1,33 +1,28 @@
+Layout: The forest trail (C.1) runs 12 miles north from the keep's postern to the ravine's mouth. Off it lie the standing stones (C.5) at 3 miles north, the outlaws' camp (C.2) at 5 miles north-west, the cache (C.7) a mile beyond it, the mere landing (C.6) at 5 miles west, the hermit's clearing (C.3) at 7 miles north-east and the old watchtower (C.4) at 8 miles north.
+
 Places:
-- C.1 The Cleft Passage - the only way in, from B.4; two goblins in the niche, the first stretch of cut stone.
-- C.2 The Carved Hall - from C.1; the Hall Tally on the wall, the central spiral, goblins' straight path to the west wall.
-- C.3 The Warren - from C.2 by the west gap; ten goblins, scavenged loot, the tally post, a barricade north to C.6.
-- C.4 The Midden and Stores - from C.3 by the low gap; the buried key under a sinkhole crust.
-- C.5 The Old Vault - from C.2 by the flush stone door, or from C.6 over rubble; the makers' pay, undisturbed.
-- C.6 The Chief's Hall - from C.3 by the barricade, or from C.5 over rubble; the chief, five guards and the Chief's Hoard.
+- C.2 The Outlaws' Camp - the outlaws' fire; twelve outlaws talk before they fight.
+- C.3 The Hermit's Clearing - a night's nursing for news; Ansel the Hermit.
+- C.4 The Old Watchtower - makers' stone and a wolf den.
+- C.5 The Standing Stones - a hum felt at the pillars; bugbears gather here at night.
+- C.6 The Mere Landing - the path to the causeway, firm ground in the bog.
 
-Inhabitants: Two Goblins hold the niche at C.1 and ten sleep in the Warren at C.3, and the chief with five guards of the Zhakuk feasts at C.6; the vault at C.5 and the hall at C.2 are empty.
+Inhabitants: Four of The Wood Outlaws hold the toll on C.1 and twelve sit at C.2, five Wolves den at C.4, three bugbears of The Zurnaz wait at C.5 by night, and Ansel the Hermit tends C.3.
 
-Alarm: A shout from the niche at C.1, or a fight in C.3 or C.6, raises it. The warren hears first, in two rounds; its ten goblins reach C.2 a turn later, and the chief's guards come through the barricade to C.3 a round after that.
-
-Loot: The largest prize is the Chief's Hoard at C.6, in a locked chest at the chief's seat, with six goblins around it. Its key lies in the midden at C.4. Treasure I is at C.3, Treasure IV at C.6, and the makers' pay (Magic) at C.5. A.3 buys all of it at half value.
+Loot: Rabbit, deer and boar are taken by Forage and Hunt, with wild garlic and honey, and a day's rations pays 5 cn at A.5. The outlaws' share lies in the pit at C.7.
 
 Secrets:
-- The central spiral swings the flush stone door onto C.5 - the Hall Tally says the pay is east of the hall; C.2 Central Spiral.
-- The midden at C.4 crusts over a pit, and a rusted key lies in the heap - flies mark one patch; C.4 Midden.
-- The rubble slope joins C.5 to C.6 - the vault's scuff marks turn back at its foot; C.5 Chamber.
+- The outlaws' cache lies in a pit under an uprooted oak, a game trail from the camp - the outlaws know; the hare's foot nailed to the trunk (C.7) brings it out.
+- Bugbears gather at the standing stones on dark nights to take the tithe - Ansel knows; the soot handprints on the pillars (C.5) bring it out.
 
 Leads:
-- Rumour 2 - C.2 Wall Carving.
-- Rumour 3 - C.6 Chest.
-- Rumour 5 - C.6 Fire Pit.
-- The Lost Strongbox - C.6 Chest.
+- Rumour 8 - C.5 Stones, C.3 Ansel the Hermit.
 
 Tables:
-d6 Danger, 6 noticing to 1 acting, down one per failed Difficulty roll
-6. Far-off echoes reach the warren; nobody stirs.
-5. A goblin wanders to C.1 to relieve the watch.
-4. The warren wakes; sleepers rise and look to the passage.
-3. Goblins bar the barricade between C.3 and C.6.
-2. A band of ten forms in the warren and moves on C.2.
-1. The whole tribe comes at the party, the chief's guards at its back.
+d6 Encounter, per failed Difficulty roll
+1. Four outlaws with bows step from the trees and ask 10 cn a head.
+2. A hunter's bell sounds, and a deer crashes through the undergrowth.
+3. Wolves howl at dusk; five circle the party's fire.
+4. A bugbear's soot handprint on a tree at head height, still wet.
+5. The hermit's smoke rises to the north-east; Ansel is at a snare.
+6. A storm breaks; paths turn to mud and visibility falls to a few paces.

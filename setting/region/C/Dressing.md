@@ -1,10 +1,11 @@
-# Dressing of C Goblin Cave
+# Dressing of C The Dark Wood
 
 ```kdl
-Dressing C.1 obvious="Narrow cleft sloping into dark, thorn at mouth" condition="trampled" ambiance="damp, cold, goblin musk" layout="Winding passage widening to a cut-stone corridor"
-Dressing C.2 obvious="Pillared hall, walls cut with rows of marks" former="the makers' meeting hall" condition="dust-thick" ambiance="still air, faint echoes" layout="Pillars in two rows, doors on three sides"
-Dressing C.3 obvious="Heaps of rags and straw in alcoves" former="makers' dormitory" condition="filthy" ambiance="smoke, sweat, snoring" layout="Wide cavern ringed with sleeping alcoves"
-Dressing C.4 obvious="Mounded refuse beside a stack of looted crates" condition="rotting" ambiance="rot and sour beer" layout="Dead-end chamber, midden heaped at the back"
-Dressing C.5 obvious="Low bare chamber, clean of goblin litter" former="makers' strongroom" condition="undisturbed" ambiance="dry, silent, faintly warm" layout="Square room, one niche, two ways in"
-Dressing C.6 obvious="High cavern, fire pit, a carved stone seat" condition="smoke-black" ambiance="woodsmoke, roasting meat" layout="Fire pit centre, stone seat facing south door"
+Dressing C.1 obvious="A narrow trail between old pines and oaks" condition="shaded" ambiance="resin, damp leaf-mould" layout="Single-file trail, root-laced, rising north" mark="The Wood Outlaws"
+Dressing C.2 obvious="Lean-tos under a rock lip, a cookfire" condition="smoky" ambiance="woodsmoke, roast hare" layout="Hollow beneath a rock lip, lean-tos round fire" mark="The Wood Outlaws"
+Dressing C.3 obvious="A turf hut, bean rows, a well" condition="tended" ambiance="thyme, smoke, silence" layout="Hut at the centre, thorn fence round"
+Dressing C.4 obvious="A fallen stone tower, ivy-choked and roofless" former="a makers' watchtower" condition="overgrown" ambiance="bird-lime, damp stone" layout="Round tower, collapsed stair, cellar hole"
+Dressing C.5 obvious="Seven tall stones ringing a rise" condition="moss-grown" ambiance="low hum, cold air" layout="Ring thirty feet across, flat altar-stone" mark="The Zurnaz"
+Dressing C.6 obvious="A rotting jetty and a beached pole boat" condition="rotting" ambiance="stagnant water, midges" layout="Short jetty, reed bank, path to the causeway" mark="The Sellaca"
+Dressing C.7 obvious="A dry pit under an uprooted oak" condition="buried" ambiance="dry earth, oilcloth" layout="Cut turf over a pit, roots above" mark="The Wood Outlaws"
 ```

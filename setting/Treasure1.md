@@ -4,23 +4,23 @@ Every value is in cn, per `setting/Procedures.md`.
 
 | # | Item | Value | Wt |
 |---|---|---|---|
-| 1 | Frayed hemp rope, 50 ft | 15 | 1 |
-| 2 | Dented iron pot | 120 | 1 |
-| 3 | Tinderbox, flint and steel | 140 | 0 |
+| 1 | Bone dice and a horn spoon | 10 | 0 |
+| 2 | Sack of coarse salt | 60 | 2 |
+| 3 | Iron cooking pot, dented | 55 | 2 |
 | 4 | Pouch of worn silver, three hundred coins | 300 | 3 |
-| 5 | Pair of worn hobnailed boots | 80 | 1 |
-| 6 | Six candles and a lump of tallow | 60 | 0 |
-| 7 | Waterskin, leaking at the seam | 40 | 1 |
-| 8 | Iron crowbar | 200 | 1 |
-| 9 | Sack of coarse salt | 180 | 2 |
-| 10 | Hand axe, chipped | 250 | 1 |
-| 11 | Iron lantern, shuttered, with a white tower stamped on blue enamel | 400 | 1 |
-| 12 | A dozen arrows | 120 | 1 |
-| 13 | Wolf pelt, flayed and stiff | 250 | 2 |
-| 14 | Whetstone and a flask of oil | 90 | 0 |
-| 15 | Clay jar of pitch, sealed with a red handprint | 300 | 2 |
-| 16 | Purse of worn silver, two hundred and forty coins | 240 | 2 |
-| 17 | Bone dice and a horn spoon | 30 | 0 |
-| 18 | Bronze buckle cast with a white tower | 150 | 0 |
-| 19 | Bone comb carved with a spiral and marks in no tongue you know | 350 | 0 |
-| 20 | Smoked mutton ham in linen | 200 | 2 |
+| 5 | Pair of hobnailed boots, worn | 40 | 1 |
+| 6 | Six candles and a lump of tallow | 20 | 0 |
+| 7 | Waterskin, leaking at the seam | 5 | 1 |
+| 8 | Iron crowbar | 8 | 1 |
+| 9 | Hand axe, notched, orc-made | 40 | 1 |
+| 10 | A dozen arrows, the fletching eaten | 12 | 1 |
+| 11 | Wolf pelt, flayed and stiff | 120 | 2 |
+| 12 | Whetstone and a flask of lamp oil | 15 | 0 |
+| 13 | Tinderbox, flint and steel | 10 | 0 |
+| 14 | Purse of old silver, an issue no mint now strikes, two hundred and forty coins | 240 | 2 |
+| 15 | Lantern, shuttered, the realm's arms on its enamel | 60 | 1 |
+| 16 | Bone comb carved with the makers' script | 90 | 0 |
+| 17 | Clay jar of pitch | 50 | 2 |
+| 18 | Smoked mutton ham in linen | 60 | 2 |
+| 19 | Tin whistle | 15 | 0 |
+| 20 | Hemp rope, 50 ft, frayed | 8 | 1 |

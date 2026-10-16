@@ -306,8 +306,37 @@ def check_setting_files(schema: Schema, codes: set[str]):
             for m in fields:
                 v = values.get(m.name, "").strip()
                 if v:
-                    for msg in check_field(schema, m, v, codes):
+                    checks = check_relations(schema, name, title, v) if m.type == "relation" \
+                        else check_field(schema, m, v, codes)
+                    for msg in checks:
                         yield "error", path, line, f"{title} {m.name}: {msg}"
+
+
+RELATION_RE = re.compile(r"- (.+?) - (\w+)\b")
+
+
+def check_relations(schema: Schema, table: str, title: str, v: str):
+    """Yield what is wrong with a Relations field: one `- [Faction] - [Relation]` line for
+    every other entry of its table, once each."""
+    levels = schema.setting_enums["Relation"]
+    others = (titles(ROOT / schema.tables[table][1]) or set()) - {title}
+    seen = []
+    for line in (l for l in v.split("\n") if l.startswith("- ")):
+        m = RELATION_RE.match(line)
+        if not m:
+            yield f"{line[:30]!r} is not '- [Faction] - [Relation]'"
+            continue
+        name, level = m.groups()
+        if name == title:
+            yield "lists itself"
+        elif name not in others:
+            yield f"{name!r} is on no {table} entry"
+        if level not in levels:
+            yield f"{level!r} is not one of {', '.join(levels)}"
+        seen.append(name)
+    for name in sorted(others):
+        if seen.count(name) != 1:
+            yield f"{name!r} is listed {seen.count(name)} times, not once"
 
 
 LANGUAGE = SETTING / "Language.md"

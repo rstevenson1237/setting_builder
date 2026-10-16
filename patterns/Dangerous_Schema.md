@@ -27,6 +27,7 @@ node Dressing {
   condition tag opt
   ambiance gloss opt
   layout string
+  mark entry Factions list opt   // the faction whose Identity shows here
 }
 node Encounter {
   one-of Creature NamedCreature Faction
@@ -76,7 +77,7 @@ node Reward {
 node Connection {
   to location
   type Connection_Type
-  orientation gloss
+  orientation gloss         // compass point and distance from this end
   one-of Encounter Hazard Mystery Secret Lock opt
 }
 node Secret {              // what sets off or opens the thing it sits on, and what gives it away

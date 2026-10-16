@@ -4,23 +4,23 @@ Every value is in cn, per `setting/Procedures.md`.
 
 | # | Item | Value | Wt |
 |---|---|---|---|
-| 1 | Bolt of coarse wool | 100 | 1 |
-| 2 | Salt block, a hand across | 400 | 2 |
-| 3 | Coil of fine rope, 100 ft | 450 | 2 |
-| 4 | Cask of realm wine, sealed with a white tower | 800 | 3 |
-| 5 | Bale of cured hides | 600 | 4 |
-| 6 | Iron ingot | 300 | 3 |
-| 7 | Bolt of blue-dyed cloth | 700 | 1 |
-| 8 | Sack of dried pepper | 900 | 1 |
-| 9 | Keg of lamp oil | 400 | 3 |
-| 10 | Copper bar stamped with a spiral and marks in no tongue you know | 600 | 6 |
-| 11 | Barrel of salted fish | 300 | 5 |
-| 12 | Beeswax cakes, a dozen | 500 | 2 |
-| 13 | Cask of strong spirits | 1000 | 3 |
-| 14 | Cask of mushroom beer, a red handprint on the bung | 200 | 4 |
-| 15 | Folding table and chairs, travelling set | 350 | 4 |
-| 16 | Bale of fleece | 450 | 4 |
-| 17 | Silver bar stamped with the realm's seal | 1800 | 3 |
-| 18 | Tent of oiled canvas | 400 | 3 |
-| 19 | Chest of glassware packed in straw | 800 | 4 |
-| 20 | Barrel of nails | 250 | 5 |
+| 1 | Bolt of coarse wool | 60 | 4 |
+| 2 | Cask of salted fish | 700 | 12 |
+| 3 | Bale of wolf pelts, a dozen | 800 | 8 |
+| 4 | Blocks of rock salt, twenty | 900 | 20 |
+| 5 | Case of wine, a dozen bottles in straw | 1200 | 6 |
+| 6 | Bolts of fine linen | 1000 | 6 |
+| 7 | Bales of dyed cloth | 1400 | 10 |
+| 8 | Casks of lamp oil | 500 | 10 |
+| 9 | Ingots of copper, ten | 900 | 10 |
+| 10 | Iron bars, a bundle | 600 | 14 |
+| 11 | Sacks of pepper and spice | 2000 | 3 |
+| 12 | Beeswax cakes, a crate | 800 | 5 |
+| 13 | Ivory tusks, a pair | 1800 | 8 |
+| 14 | Bale of fox and marten furs | 1500 | 5 |
+| 15 | Incense in sealed clay jars | 1000 | 3 |
+| 16 | Crate of glass bottles in straw | 500 | 8 |
+| 17 | Bale of fine wool tied with the realm's seal | 1300 | 8 |
+| 18 | Bronze bells cast in the makers' manner, a set | 2200 | 12 |
+| 19 | Barrel of pitch, orc tally notches cut in the staves | 400 | 15 |
+| 20 | Tapestry rolled in oilcloth, black-stained at one end | 2500 | 4 |

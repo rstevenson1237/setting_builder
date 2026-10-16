@@ -1,5 +1,5 @@
-# Procedures of B Stream Ravine
+# Procedures of B The Wagon Road
 
 ```kdl
-Procedure B.1 procedure="Stream-Bank Forage"
+Procedure B.1 procedure="Travelling with the Fortnightly Wagon"
 ```

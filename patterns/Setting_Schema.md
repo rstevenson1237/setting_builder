@@ -74,8 +74,10 @@ table "Named Creatures" entry file="setting/NamedCreatures.md" {   // as an Enco
 }
 
 // -- Factions. AD is set against other factions' dice and nothing else; a goal is a
-//    condition acted on every turn, never a countdown.
+//    condition acted on every turn, never a countdown. Relations are read from the
+//    faction's own side, so two can differ.
 enum Want route resource person cleared sealed legitimacy debt rival knowing hiding
+enum Relation Friendly Tolerated Neutral Antipathy Hatred   // 5 to 1, each with a die: d12 d10 d8 d6 d4
 table Factions entry file="setting/Factions.md" {
   Form Name_Form              // of its title
   AD dice bonus="0..0"
@@ -86,6 +88,7 @@ table Factions entry file="setting/Factions.md" {
   Tactics text
   Reactions text              // noticed, crossed, injured
   Goals text
+  Relations relation          // each other faction, by Relation
   Fields entry Bestiary list none
 }
 
