@@ -7,7 +7,7 @@ One location's write-up, `setting/region/[Region Code]/[Location Number].md`.
 Read first:
 - `GENRE.md`, `STYLE.md` and `BRIEF.md`
 - `setting/Truths.md`
-- `setting/Procedures.md` - the mechanics a Feature cites
+- `setting/Procedures.md`'s Forced Dangers, Conditions and Time and Distance - the mechanics a Feature cites
 - `setting/Language.md` - roots for a coined name, and the coinages already recorded
 - the region's seed, `setting/region/[Region Code].md`
 - the location's entries, from `python3 tools/validate_setting.py --location [Location Code]`, and the setting entries they name
@@ -20,6 +20,8 @@ Read first:
   and do, never as a list, and a `quest` they hold is cited there. A Purchase is written
   with its price in the Feature that sells it, a menu or sale as the goods, a service as
   the act.
+- A Local Procedure is the thing a party can start - the table, the game - cited from its
+  Feature; its rules stay in the entry.
 - When entries change for a location already written, rewrite only the lines they touch.
 - A location with no Connections entry has no Exits line.
 
@@ -43,7 +45,8 @@ Written exactly as below, so `tools/build_site.py` can link them.
 - **Unique Treasure** - `(Unique Treasure: Name)`
 - **Magical Tome** - `(Magical Tome: Title)`
 - **Hoard** - `(Hoard: Name)`
+- **Local Procedure** - `(Local Procedure: Name)`
 - **Table roll** - `(Treasure [I-V], d[N])` or `(Magic, d[N])`, N the table's rolls
 - **Forced damage**, on every hazard Feature - `(Test of Constitution, Xd, Type)`,
-  `(Test of Sanity, Xd)` where it defines one, `(Test of Fate, Condition)` or `(Test of Fate, Impact)`, per
-  `setting/Procedures.md`
+  `(Test of Sanity, Xd)` where `setting/Procedures.md` has a Madness table, or
+  `(Test of Fate, Condition)`; X is the count of Tests

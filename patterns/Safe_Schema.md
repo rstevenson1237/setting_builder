@@ -25,6 +25,9 @@ node Dressing {
   layout string
 }
 
+node Procedure {
+  procedure entry "Local Procedures"
+}
 node Purchase {
   type Purchase_Type
   item string
@@ -57,6 +60,7 @@ folder Safe type=Safe_Type {
   Dressing Dressing
   Purchases Purchase
   People Person
+  Procedures Procedure
   Connections Way
   top Inn Merchant Bank Market Authority Gate   // reached from the region itself, so never joined to one another
   join Secret Inn Merchant Bank Market Authority Gate gate=Secret   // the only type that connects within its region, and the Way into it carries a Secret

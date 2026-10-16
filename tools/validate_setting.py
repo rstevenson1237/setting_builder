@@ -285,7 +285,7 @@ EXIT_DEST_RE = re.compile(r'->\s*[A-Z]+\.\d+\s+[^,]+')
 # Each placed setting table's citation label, per templates/region/Location.md.
 CITE_LABELS = {"Lore": "Lore", "Keys": "Keys", "Named Creatures": "Named Creature",
                "Unique Treasures": "Unique Treasure", "Magical Tomes": "Magical Tome",
-               "Hoards": "Hoard"}
+               "Hoards": "Hoard", "Local Procedures": "Local Procedure"}
 TREASURE_CITE_RE = re.compile(r'\(Treasure\s+([IVX]+),\s*d\d+\)')
 ROMAN_TABLES = {"I", "II", "III", "IV", "V"}
 
@@ -781,7 +781,7 @@ TREASURE_TELL_RE = re.compile(
 # guess from the prose, and a warning that fires on every legitimate secret is
 # a warning nobody reads. A hazard written with no stated cost is caught at
 # STEPS.md step 5c, per templates/checks/Location_Review.md.
-DAMAGE_TYPES = ("Piercing", "Crushing", "Poison", "Fire", "Frost", "Blast")
+DAMAGE_TYPES = tuple(tables.Schema().setting_enums.get("Wound_Type", {}))
 ANY_TEST_CITE_RE = re.compile(r'\(Test of [^)]*\)?')
 TEST_CITE_RE = re.compile(r'\(Test of (Constitution|Sanity|Fate),\s*([^()]+)\)')
 XD_RE = re.compile(r'^(\d+)d$')
@@ -807,8 +807,8 @@ def check_forced_damage(diag: Diagnostics, path: Path, text: str, conditions):
             if not m:
                 diag.error(path, f"{cite!r} is not a forced-damage expression - "
                                  f"templates/region/Location.md allows only "
-                                 f"(Test of Constitution, Xd, Type), (Test of Sanity, Xd), "
-                                 f"(Test of Fate, Condition) and (Test of Fate, Impact)")
+                                 f"(Test of Constitution, Xd, Type), (Test of Sanity, Xd) "
+                                 f"and (Test of Fate, Condition)")
                 continue
             test, args = m.group(1), [a.strip() for a in m.group(2).split(",")]
             if test == "Constitution":
@@ -828,16 +828,53 @@ def check_forced_damage(diag: Diagnostics, path: Path, text: str, conditions):
                 _check_xd(diag, path, cite, args[0])
             else:  # Fate
                 if len(args) != 1:
-                    diag.error(path, f"{cite!r} - a Test of Fate takes one Condition, or Impact")
+                    diag.error(path, f"{cite!r} - a Test of Fate takes one Condition")
                     continue
                 arg = args[0]
                 if XD_RE.match(arg):
                     diag.error(path, f"{cite!r} - a Test of Fate forces no wound, so it takes "
-                                     f"no Xd; use a Condition or Impact")
-                elif arg != "Impact" and conditions is not None and arg not in conditions:
+                                     f"no Xd; use a Condition")
+                elif conditions is not None and arg not in conditions:
                     diag.warn(path, f"{cite!r} - {arg!r} is not a Condition named in "
                                     f"setting/Procedures.md; add it there rather than "
                                     f"describing it in place")
+
+
+PROCEDURES_SECTIONS = ("Ruleset", "Forced Dangers", "Wounds", "Madness", "Conditions", "Coin and Prices",
+                       "Time and Distance", "Weather", "Encounters", "Carousing")
+D6_ROW_RE = re.compile(r'^\|\s*([1-6])\s*\|', re.M)
+
+
+def check_procedures(diag: Diagnostics, brief):
+    """setting/Procedures.md against templates/setting/Procedures.md and BRIEF.md's Procedures
+    lever: its sections in order, a six-row table for each Wound_Type listed, for Madness where
+    asked for, and for Weather and Carousing."""
+    path = SETTING / "Procedures.md"
+    if not path.exists():
+        return
+    text = path.read_text()
+    sections = dict(re.findall(r'^## (.+?)\n(.*?)(?=^## |\Z)', text, re.S | re.M))
+    lever = brief.lever("Procedures")
+    wounds = str(lever.props.get("wounds", "")).split() if lever else []
+    madness = lever.props.get("madness", 0) if lever else 0
+    if not sections:
+        return          # a seed not yet written
+    order = [s for s in re.findall(r'^## (.+)$', text, re.M)]
+    want = [s for s in PROCEDURES_SECTIONS if s != "Madness" or madness]
+    if order != want:
+        diag.error(path, f"sections are {order}, expected {want}")
+    for t in wounds:
+        if t not in DAMAGE_TYPES:
+            diag.error(tables.BRIEF, f"Procedures wounds names {t!r}, which is no Wound_Type")
+    tables_found = dict(re.findall(r'^### (.+?)\n(.*?)(?=^##|\Z)', sections.get("Wounds", ""), re.S | re.M))
+    if list(tables_found) != wounds:
+        diag.error(path, f"Wounds holds {list(tables_found)}, BRIEF.md's Procedures wounds lists {wounds}")
+    d6 = {**{f"Wounds / {k}": v for k, v in tables_found.items()},
+          **{k: sections[k] for k in ("Madness", "Encounters", "Weather", "Carousing") if k in sections}}
+    for name, body in d6.items():
+        rows = [int(x) for x in D6_ROW_RE.findall(body)]
+        if rows[:6] != [1, 2, 3, 4, 5, 6]:
+            diag.error(path, f"{name} is not a d6 table of rows 1-6: {rows}")
 
 
 def _check_xd(diag: Diagnostics, path: Path, cite: str, xd: str):
@@ -1100,6 +1137,7 @@ def main() -> int:
     check_writeup_citations(diag, setting, tables.History())
     check_setting_files(diag, schema, setting.codes)
     check_treasure_tables(diag, brief)
+    check_procedures(diag, brief)
     for problem in brief.region_problems(regions):
         diag.error(tables.BRIEF, problem)
     check_rumours(diag)

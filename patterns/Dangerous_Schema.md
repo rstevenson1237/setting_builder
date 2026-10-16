@@ -50,6 +50,9 @@ node Faction {
   present number
   members string
 }
+node Procedure {
+  procedure entry "Local Procedures"
+}
 node Purpose {
   unique string opt
   pressure string opt
@@ -90,6 +93,7 @@ folder Dangerous type=Dangerous_Type {
   Dressing Dressing
   Challenges Encounter Hazard Mystery
   Rewards Reward
+  Procedures Procedure
   Connections Connection
 }
 ```

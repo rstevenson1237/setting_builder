@@ -10,7 +10,7 @@ Read first:
 - `setting/Setting.md`, `setting/History.md`, `setting/Truths.md`, `setting/Bestiary.md`, `setting/Factions.md`
 - `setting/region/Regions.md`
 - `patterns/Common_Schema.md`, and `patterns/Region_Schema.md` - this region's rating's `seed`
-- `setting/Procedures.md`
+- `setting/Procedures.md`'s Time and Distance and Weather
 
 ## Instructions
 Write every field of the rating's `seed`, in its order. The Overview names who lives

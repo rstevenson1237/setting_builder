@@ -33,10 +33,12 @@ files {
   History events=0
   Truths count=0
   Language affixes="3-5" roots="15-20"               // per tongue
+  Procedures wounds="Piercing Crushing Poison" madness=0   // a Wound table per Wound_Type listed; madness: 6 for a d6 Madness table, 0 for none
 }
 
 safe {
-  rate Inn Merchant Bank Market Dressing=1 Purchases="1-3" People="1-2"
+  rate Inn Dressing=1 Purchases="1-3" People="1-2" Procedures="0-1"
+  rate Merchant Bank Market Dressing=1 Purchases="1-3" People="1-2"
   rate Authority Dressing=1 Purchases="0-2" People="1-2"
   rate Gate Dressing=1 Purchases="0-1" People="1-2"
   rate Secret Dressing=1 Purchases="0-1" People="0-1"
@@ -44,7 +46,7 @@ safe {
 
 wild {
   rate Lair Dressing=1 Challenges=1
-  rate Ruin Natural Route Hidden Secret Dressing=1 Challenges="0-1"
+  rate Ruin Natural Route Hidden Secret Dressing=1 Challenges="0-1" Procedures="0-1"
 }
 
 dangerous {
@@ -62,7 +64,7 @@ setting {
   outline "One frontier, crossed on foot in half a day: a keep at the end of the road from the realm, a ravine beyond it, and one cave opening off the ravine."
   pressure "A goblin tribe in the cave raiding the road, not an invasion or a war. Nobody at the keep knows how many goblins there are."
   history "Shallow: what the land held before matters through what the cave's earlier makers left behind."
-  procedures "B/X's own shape: hit points and saving throws stand behind every Test, and there is no madness track - Wounds and Madness covers wounds only."
+  procedures "Hazards are Tests of Constitution and Fate only; no Test of Sanity is called for."
   tongue "the common tongue of the keep and the realm"
   tongue "the goblins' tongue"
   tongue "the dead tongue of the cave's makers, met only carved into its walls"
@@ -76,11 +78,13 @@ setting {
 
 region A rating=SAFE die=d8 locations=4 people=4 {
   outline "The keep: a hold at the road's end - its gate, an inn, a trader, and the commander's hall."
+  procedure "A game of chance at the inn."
 }
 
 region B rating=WILD die=d8 locations=4 {
   outline "The ravine: the walk from the keep to the cave, along a stream path - the cave mouth is the only way into the cave."
   target Location.type Landmark=3 Route=1
+  procedure "Forage and hunt along the stream."
 }
 
 region C rating=DANGEROUS die=d4 locations=6 {

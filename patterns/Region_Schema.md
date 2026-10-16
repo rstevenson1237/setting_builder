@@ -38,7 +38,7 @@ region Wild {
   seed {
     Overview text           // what a party sees crossing in, who is out here, what brings anyone
     Approach text           // where it is entered, and how long a crossing takes on the best route and off it
-    Terrain Terrain         // then rulings per setting/Procedures.md's Time: what an action buys on a road,
+    Terrain Terrain         // then rulings per setting/Procedures.md's Time and Distance: what an action buys on a road,
                             // off it, through the worst; what loses a party and finds the way; weather,
                             // night, a fire. Ground is never a location.
     Situation text

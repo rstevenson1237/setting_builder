@@ -1,6 +1,6 @@
 Treasure Table II - Equipment and Armaments
 
-Values are in copper pieces, as set in Treasure Table I.
+Every value is in cn, per `setting/Procedures.md`.
 
 | # | Item | Quality | Effect | Value | Wt |
 |---|---|---|---|---|---|

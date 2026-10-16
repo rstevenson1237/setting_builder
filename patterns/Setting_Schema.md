@@ -17,8 +17,12 @@ Every setting file in `setting/`: its fields, under the `table` line naming it, 
 //    of two or three sentences: what the party does here, a pressure already going wrong
 //    that is not aimed at them, and what this setting has that a generic one lacks.
 
-// -- Procedures.md: the mechanics every level cites, each resolving in one roll or none;
-//    nothing that varies by rating or belongs to one place. Tailoring adjusts, never replaces.
+// -- Procedures.md: what the ruleset assumes a setting provides, once for the whole setting:
+//    how a hazard is stated (a trigger, a Test, a count of Tests, a penalty), a Wound table
+//    for each damage Type BRIEF.md lists and a Madness table where it asks for one, the
+//    Conditions, the coin and ordinary prices, time and distance, weather, encounter
+//    distance, the Danger bands and carousing. It restates none of the ruleset and holds
+//    nothing that belongs to one place. Tailoring adjusts, never replaces.
 
 // -- Tongues. A coinage is registered under its tongue's "Coined here", decomposed into
 //    that tongue's roots and affixes and glossed once; it is used only in a name whose
@@ -113,7 +117,7 @@ table Rumours roll file="setting/Rumours.md" {
 }
 
 // -- Finds. A result is the thing itself, tied to no place or container. Value is in
-//    Table I's coins at about 100 per wt; wt 0 is pocketed, 1 one hand, 2 both, 3+ more
+//    cn at about 100 per wt; wt 0 is pocketed, 1 one hand, 2 both, 3+ more
 //    than one carrier, and is never shrunk to keep a number tidy.
 table "Treasure I" roll file="setting/Treasure1.md" {
   "#" number
@@ -164,6 +168,22 @@ table "Magical Tomes" entry file="setting/MagicalTomes.md" {   // learned, never
   "Found at" place from=Reward
   Teaches text
   Reading Reading
+}
+
+// -- A procedure that belongs to a place: a table to roll (forage, hunt, a region's weather),
+//    a contest played out (a tavern game), or a rule a place adds to a standing move. It
+//    extends one move or procedure of the ruleset and is never a second way to do what
+//    Procedures.md already settles.
+enum Proc_Kind table contest variant
+enum Extends General Commerce Carousing "Gather Information" Recruitment Navigate Explore "Forage or Hunt" "Make Camp" "Track or Evade" Search Listen Rest "Opposed roll"
+table "Local Procedures" entry file="setting/LocalProcedures.md" {
+  Kind Proc_Kind
+  Extends Extends
+  "Found at" place from=Procedure
+  Roll text                   // the die and whose it is, and what it decides
+  Stakes text                 // what a party risks and what it can win, coin in cn
+  Results text                // each row or rung of the result on its own `- ` line
+  Tell text                   // what shows a party it can be done here
 }
 
 // -- Lore is a made thing with an author inside the setting, wrong or partial (unknowing,

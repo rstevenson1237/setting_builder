@@ -25,7 +25,7 @@ Read these rather than a description of them.
   suffix and are never renumbered without explicit user request - `templates/` cite step
   ids and `tools/validate_setting.py` resolves those citations against this file (including
   its compile-list regex), so a renumber means updating both alongside every prose citation.
-- `setting/Procedures.md` - the authority on dice, scaling, time and resolution.
+- `setting/Procedures.md` - what the ruleset assumes a setting provides: how a hazard is stated, Wounds, Conditions, coin and prices, time and distance, weather, encounters. A procedure that belongs to a place is a `setting/LocalProcedures.md` entry.
 - `CLAUDE.md` - always loaded as system context; the rules needing active re-checking on
   every request.
 
@@ -42,8 +42,8 @@ Read these rather than a description of them.
   and every node they hold, shared with no other rating.
 - `setting/` - the generated setting, mirroring the template set in the order STEPS.md lays
   out: setting-level artifacts, Treasure Tables I-V, the two living artifacts
-  (`Procedures.md`, `Language.md`), the five registries (`Lore.md`, `Keys.md`, `Quests.md`,
-  `NamedCreatures.md`, `UniqueTreasures.md`), and `region/`, holding the Regional Gazetteer
+  (`Procedures.md`, `Language.md`), the registries (`Lore.md`, `Keys.md`, `Quests.md`,
+  `NamedCreatures.md`, `UniqueTreasures.md`, `LocalProcedures.md`), and `region/`, holding the Regional Gazetteer
   and one folder per region.
 - `setting/region/[Code]/` - one region: the table files its rating's schema names, its `Connections.mmd`, one `[LocationCode].md` per location, written from the
   tables, and its `Brief.md`, written last. The region's seed sits beside it at
