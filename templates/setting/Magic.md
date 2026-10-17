@@ -1,7 +1,7 @@
 # Magic.md
 
 ## Purpose
-A reusable d6 table of found magic items, `setting/Magic.md`, for the referee to roll on
+A reusable table of found magic items, as many rows as `BRIEF.md` sets, `setting/Magic.md`, for the referee to roll on
 when a location's contents call for Magic.
 
 ## Context

@@ -15,17 +15,18 @@ Read first:
 ## Instructions
 - Write every entry, and nothing without one. An entry naming this location from
   elsewhere is written as what a party meets of it here.
-- Each thing a party can look at, act on, take, fight or open is its own Feature.
+- Each thing a party can look at, act on, take, fight or open is its own Feature. An entry
+  carries every Feature: Dressing carries what the room visibly holds, and anything a party
+  can talk to, fight, take or open has an entry of its own, written before its Feature.
 - A Dressing's `mark` is the faction's Identity, shown on something in the room.
 - A Person is a Feature named for them: what they want and know come out in what they say
   and do, never as a list, and a `quest` they hold is cited there. A `member` is the
   referee's: the Feature shows only what the faction's Identity would show a party. A
-  Garrison or a Faction's members are one Feature citing their Bestiary entry. A Purchase is written
+  Garrison or a Faction's members are one Feature citing their Bestiary entry, where they have one. A Purchase is written
   with its price in the Feature that sells it, a menu or sale as the goods, a service as
   the act.
 - A Local Procedure is the thing a party can start - the table, the game - cited from its
   Feature; its rules stay in the entry.
-- When entries change for a location already written, rewrite only the lines they touch.
 - A location with no Connections entry has no Exits line.
 
 ## Template
@@ -42,7 +43,7 @@ Written exactly as below, so `tools/build_site.py` can link them.
 
 - **Bestiary** - `(Demeanor, Number appearing, Bestiary : Entry Name)` - Demeanor one word, from the Encounter's reaction; Number appearing its Creature count
 - **Lore** - `(Lore: Title)`
-- **Keys** - `(Keys: Title)`
+- **Keys** - `(Keys: Title)`, at the location the key lies and at each location whose Lock names it
 - **Quest** - `(Quest: Title)`
 - **Named Creature** - `(Named Creature: Name)`
 - **Unique Treasure** - `(Unique Treasure: Name)`
@@ -50,6 +51,6 @@ Written exactly as below, so `tools/build_site.py` can link them.
 - **Hoard** - `(Hoard: Name)`
 - **Local Procedure** - `(Local Procedure: Name)`
 - **Table roll** - `(Treasure [I-V], d[N])` or `(Magic, d[N])`, N the table's rolls
-- **Forced damage**, on every hazard Feature - `(Test of Constitution, Xd, Type)`,
+- **Forced damage**, on every hazard Feature and every Mystery that asks a Test - `(Test of Constitution, Xd, Type)`,
   `(Test of Sanity, Xd)` where `setting/Procedures.md` has a Madness table, or
   `(Test of Fate, Condition)`; X is the count of Tests
