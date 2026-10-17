@@ -2,7 +2,7 @@ Layout: The door (L.1) opens in the cliff's foot at the ravine's head, entered f
 
 Places:
 - L.1 The Barred Door - a locked oak door; the lock's slot is cut with notches.
-- L.2 The Winding Passages - identical turns, a false flag over a pit.
+- L.2 The Winding Passages - identical turns cut to one pattern, a false flag over a pit.
 - L.3 The Statue Hall - ten statues and a lamp-bearer.
 - L.4 The Collection - picked-over packs and gear.
 - L.5 The Minotaur's Lair - Tanglehorn the Keeper, a plaque, and the stair up.
@@ -21,7 +21,7 @@ Leads:
 - Rumour 11 - L.5 Token.
 
 Tables:
-d6 Danger, 6 noticing to 1 acting, down one per failed Difficulty roll
+Danger, 6 noticing to 1 acting
 6. A bellow comes from every side at once.
 5. Fresh gouges at shoulder height scar the wall.
 4. The floor sounds hollow in the passage ahead (L.2).

@@ -11,7 +11,7 @@ Read first:
 - `GENRE.md`, `STYLE.md` and `BRIEF.md`
 - `patterns/Common_Schema.md` and `patterns/Setting_Schema.md`'s Language table
 - `setting/Setting.md`, `setting/Bestiary.md`, `setting/Factions.md`
-- the write-ups whose names coin something
+- the names that coin something
 
 ## Instructions
 Each tongue states who speaks it, its consonants and vowels, its syllable shape, its

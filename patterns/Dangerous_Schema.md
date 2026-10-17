@@ -28,6 +28,7 @@ node Dressing {
   ambiance gloss opt
   layout string
   mark entry Factions list opt   // the faction whose Identity shows here
+  left entry History list opt    // the event whose Left mark shows here
 }
 node Encounter {
   one-of Creature NamedCreature Faction

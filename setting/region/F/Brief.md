@@ -22,7 +22,7 @@ Leads:
 - Rumour 2 - F.3 Kobolds.
 
 Tables:
-d6 Danger, 6 noticing to 1 acting, down one per failed Difficulty roll
+Danger, 6 noticing to 1 acting
 6. A faint rattling carries from the passage (F.1).
 5. A kobold hurries from F.3 to relieve the sentries at F.1.
 4. Wire clinks overhead, and a trap resets in the pit run (F.2).

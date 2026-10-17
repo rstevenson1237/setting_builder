@@ -17,7 +17,7 @@ Read first:
 Write every field of the rating's `brief`, in its order, from the tables alone.
 Every fact about a location names it by code; a count is summed from the entries. Layout
 is read from the Locations' `at` and the Connections' `orientation`. A fact no entry holds
-is a placement for step 5d, not a line here. Nothing the seed says is repeated.
+is an entry to add to the tables, not a line here. Nothing the seed says is repeated.
 
 ## Template
 ```
@@ -27,11 +27,11 @@ is a placement for step 5d, not a line here. Nothing the seed says is repeated.
 - [Code or codes, Rumour N or Quest Name] - [...]
 
 Tables:
-d6 [what it is], [when it is rolled]
+[die, if rolled] [table name]
 1. [...]
 ...
 6. [...]
-d6 [what is met where nothing is keyed]
+[die] [what is met where nothing is keyed]
 1. [...]
 ...
 6. [...]

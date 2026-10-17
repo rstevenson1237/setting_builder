@@ -2,18 +2,18 @@ Layout: The shrine is cut into the cliff above the maze at the ravine's head. A 
 
 Places:
 - M.1 The Stair-Hall - the way in from the ravine; two acolytes and a barred inner door.
-- M.2 The Outer Shrine - the altar and its bowl, and the reliquary on a shelf behind it.
+- M.2 The Outer Shrine - the old altar, freshly stained, and its bowl, and the reliquary on a shelf behind it.
 - M.3 The Acolytes' Cells - four acolytes resting.
 - M.4 The Refectory - long tables and a pantry door over a gas jar.
 - M.5 The High Priest's Chamber - Veck the Hollow, two zombies, a letter and a coffer.
 - M.6 The Crypt Stair - the way down.
 - M.7 The Ossuary - six zombies in their niches.
-- M.8 The Makers' Niches - empty niches and the last maker's epitaph.
+- M.8 The Makers' Niches - empty niches, sealed doors and the last maker's epitaph.
 - M.9 The Priests' Tomb - a sarcophagus and a psalter.
 - M.10 The Antechamber - runes round an iron door.
 - M.11 The Sanctum - the black fire, three acolytes, a lamp.
 - M.12 The Vault - eight chests under rime.
-- M.13 The Passage Landing - the stair down to the maze.
+- M.13 The Passage Landing - the stair down to the maze, and the makers' carved door.
 - M.14 The Back Stair Door - a bell and a plastered door.
 
 Inhabitants: Three of The Black Altar on the ravine stair, two at M.1, four at M.3 and three at M.11, Veck the Hollow at M.5, two Zombies at M.5 and six Zombies at M.7.
@@ -37,7 +37,7 @@ Leads:
 - Proof of the Hand - M.5 Cabinet.
 
 Tables:
-d6 Danger, 6 noticing to 1 acting, down one per failed Difficulty roll
+Danger, 6 noticing to 1 acting
 6. Chanting drifts along the vault, then stops.
 5. Fresh black candle stubs lie on the stair-hall floor (M.1).
 4. Incense thickens the air; the next Listen is at Disadvantage.

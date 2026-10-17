@@ -32,7 +32,7 @@ table Language doc file="setting/Language.md" heading=2 {
   "Spoken by" Speakers
   Consonants text             // an inventory no other tongue shares
   Vowels text
-  Syllable text               // open or closed, unlike the others'
+  Syllable text               // a shape no other tongue shares
   Affixes text                // each marks one thing: place, water, smallness, plural, belonging, age, direction, negation, title
   Roots text                  // "- root - gloss" lines naming ground, water, growth, weather, colour,
                               // body, making, exchange, light, the dead, number, direction - never abstractions
@@ -99,7 +99,7 @@ table History entry file="setting/History.md" {
   When text                   // years ago, vaguer the older it is
   Event text
   Left text                   // the physical mark findable now
-  Codes place none
+  Codes place from=Dressing none
 }
 table Truths entry file="setting/Truths.md" {
   Truth text                  // the rule in one sentence, not its mood

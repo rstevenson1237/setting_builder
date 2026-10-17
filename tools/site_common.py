@@ -294,7 +294,17 @@ def region_labels() -> list[str]:
     return out
 
 
-TABLE_HEAD_RE = re.compile(r"^d\d+\s+\S")
+TABLE_HEAD_RE = re.compile(r"^(?:d\d+\s+\S|[A-Z][^.]*[^.\s]$)")
+
+
+def is_table_head(line: str, prev: str | None) -> bool:
+    """A line opening a table: `d6 Name` for a rolled one, else a name with no full stop,
+    which follows a finished row rather than a wrapped one."""
+    if re.match(r"^\d+[.)]\s", line):
+        return False
+    if re.match(r"^d\d+\s+\S", line):
+        return True
+    return bool(TABLE_HEAD_RE.match(line)) and (not prev or prev.rstrip()[-1] in ".!?\")")
 
 
 def _field_text(block: list[str]) -> str:
@@ -344,17 +354,17 @@ def _parse_region_fields(lines: list[str], fields: list, tables: list) -> None:
             i += 1
         if label == "Tables":
             # Rows wrap like every other field, so rejoin before matching; a
-            # `d6 ...` line opens the next table.
+            # table head opens the next table.
             rows: list[str] = []
             for raw in block:
                 raw = raw.strip()
-                if not rows or re.match(r"^\d+[.)]\s", raw) or TABLE_HEAD_RE.match(raw):
+                if not rows or re.match(r"^\d+[.)]\s", raw) or is_table_head(raw, rows[-1]):
                     rows.append(raw)
                 else:
                     rows[-1] += " " + raw
             for row in rows:
                 rm = re.match(r"^(\d+)[.)]\s*(.+)$", row)
-                if TABLE_HEAD_RE.match(row) and not rm:
+                if not rm:
                     tables.append((row, []))
                 elif rm:
                     if not tables:

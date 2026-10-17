@@ -16,6 +16,9 @@ SHARED = ("Common", "Setting", "Region")   # the shared schemas, widest first; e
 CODE_RE = re.compile(r"([A-Z]+)\.(\d+)")
 RANGE_RE = re.compile(r"(\d+)(?:-(\d+))?")
 PERCENT_RE = re.compile(r"(\d+)%")
+SHARE_RE = re.compile(r"(<=)?(\d+)%")        # "N%" at least that share of entries, "<=N%" at most
+COUNT_RE = re.compile(r"(\d+)(?:-(\d+)|(\+))?")   # N exactly, "N-M", "N+" at least
+OPEN = 10 ** 9
 MMD_NODE_RE = re.compile(r'(\w+)\["([A-Z]+\.\d+)[^"]*"\]')
 MMD_EDGE_RE = re.compile(r'(\w+)(?:\["[^"]*"\])?\s*(?:---|-->|-\.-)(?:\|[^|]*\|)?\s*(\w+)')
 
@@ -49,6 +52,23 @@ class Folder:
     seed: list[Member] = field(default_factory=list)    # setting/region/[Code].md's fields
     brief: list[Member] = field(default_factory=list)   # setting/region/[Code]/Brief.md's
     region_path: Path | None = None                     # the schema holding seed and brief
+
+
+def entries_allowed(want, of: int | None = None) -> tuple[int, int] | None:
+    """The entry counts a target value allows, or None where it is no value. A share is
+    taken of `of` entries, a floor rounded down and a ceiling rounded up, so a small
+    region owes nothing it cannot hold whole and overshooting a floor is always met."""
+    s = str(want)
+    if m := SHARE_RE.fullmatch(s):
+        if of is None:
+            return None
+        n = int(m.group(2))
+        return (0, -(-n * of // 100)) if m.group(1) else (n * of // 100, OPEN)
+    if m := COUNT_RE.fullmatch(s):
+        lo = int(m.group(1))
+        hi = OPEN if m.group(3) else int(m.group(2) or lo)
+        return (lo, hi) if lo <= hi else None
+    return None
 
 
 def bounds(rate) -> tuple[int, int] | None:
@@ -371,6 +391,23 @@ def coinages(path: Path = LANGUAGE) -> tuple[dict[str, tuple[str, str]], list[st
     return known, problems
 
 
+def tongues_alike(path: Path = LANGUAGE) -> list[str]:
+    """What two tongues share that no two may: a syllable shape or a consonant inventory."""
+    import site_common as sc
+    if not path.exists():
+        return []
+    seen, out = {}, []
+    for r in sc.read_records(path, 2):
+        for field, key in (("Syllable", " ".join(r.get("Syllable").lower().split())),
+                           ("Consonants", frozenset(c.strip().lower()
+                                                    for c in r.get("Consonants").split(",") if c.strip()))):
+            if key and (field, key) in seen:
+                out.append(f"{r.name} and {seen[field, key]} have the same {field.lower()} - no two tongues do")
+            else:
+                seen[field, key] = r.name
+    return out
+
+
 def _opens_with(v: str, items) -> bool:
     low = v.lower()
     return any(low.startswith(i.lower()) and low[len(i):len(i) + 1] in ("", " ", ".", ",", ";", ":")
@@ -511,15 +548,16 @@ class Setting:
                             v = node.props.get(m.name)
                             if v is None or m.type not in ("entry", "pull"):
                                 continue
-                            table, _, title = str(v).partition(": ") if m.type == "pull" else (m.arg, "", str(v))
-                            if f := froms.get((table, node.name)):
-                                out.setdefault((table, title, f), set()).add(code)
+                            for item in ([x.strip() for x in str(v).split(",")] if m.is_list else [str(v)]):
+                                table, _, title = item.partition(": ") if m.type == "pull" else (m.arg, "", item)
+                                if f := froms.get((table, node.name)):
+                                    out.setdefault((table, title, f), set()).add(code)
         return out
 
     def _check_placements(self):
-        """Every place field with a from= against the tables, both ways: a location the
-        tables place an entry at is owed to its field at 5a; a location the field names
-        and no entry there holds is owed to placing at 5d."""
+        """Every place field with a from= against the tables, both ways, each owed to 5a: a
+        location the tables place an entry at, to its field; a location the field names and
+        no entry there holds, to a stub there."""
         placed = self.placements()
         for table, fields in self.schema.fields.items():
             fields = [m for m in fields if "from" in m.props]
@@ -536,7 +574,7 @@ class Setting:
                                                 f"{m.props['from']} names it - owed to step 5a")
                     for c in sorted(listed - held):
                         yield "warning", path, (f"line {line}: {title} {m.name} names {c}, where no "
-                                                f"{m.props['from']} names it yet - owed to step 5d")
+                                                f"{m.props['from']} names it yet - owed to step 5a")
 
     def _check_names(self):
         """Every name a schema gives a form is that form, and every coinage a tongue records
@@ -545,7 +583,7 @@ class Setting:
         Y", and a common name holds none. A place is common or tongue. A location's name
         carries no form: it may point at a coinage and never coins one."""
         known, problems = coinages()
-        for msg in problems:
+        for msg in problems + tongues_alike():
             yield "error", LANGUAGE, msg
         used: set[str] = set()
         has = lambda name: [n for n in known if re.search(rf"\b{re.escape(n)}\b", name, re.I)]
@@ -562,7 +600,7 @@ class Setting:
                 if base.lower() in known:
                     used.add(base.lower())
                 else:
-                    yield "error", path, f"{where}: {name!r} is a tongue name no tongue records in Coined here"
+                    yield "error", path, f"{where}: {name!r} is a tongue name no tongue records in Coined here - record it in Language.md first"
             elif form == "family":
                 tails = [" ".join(words[i:]).lower() for i in range(1, len(words))]
                 hit = next((t for t in tails if t in known), None)
@@ -570,7 +608,7 @@ class Setting:
                     used.add(hit)
                 else:
                     yield "error", path, (f"{where}: {name!r} is a family name but does not end in a "
-                                          f"coinage Coined here records, after a common name")
+                                          f"coinage Coined here records, after a common name - record it in Language.md first")
             elif form == "epithet":
                 if not EPITHET_RE.search(name):
                     yield "error", path, f"{where}: {name!r} is not 'X the Y', 'X son of Y' or 'X of Y'"
@@ -624,13 +662,13 @@ class Setting:
 
     def _check_keys(self):
         """Every lock has its key placed, every key its lock, and no key lies behind the lock
-        it opens. Locks are placed first and keys for them after, so a lock waiting on its
-        key is owed to 5d, and a key with no lock is an error."""
+        it opens. Locks are written first and keys for them after, so a lock waiting on its
+        key is owed to 5a, and a key with no lock is an error."""
         locks, keys = {}, {}
         for r in self.regions.values():
             for stem, entries in r.files.items():
                 for n in entries:
-                    for c in n.children:
+                    for c in kdl.walk([n]):
                         if c.name == "Lock" and "key" in c.props:
                             locks.setdefault(c.props["key"], []).append((r, stem, n))
                     table, _, title = str(n.props.get("contents", "")).partition(": ")
@@ -648,7 +686,7 @@ class Setting:
             if title not in keys:
                 r, stem, n = placed[0]
                 yield "warning", r.dir / f"{stem}.md", (f"line {n.line}: Lock {title!r} has no key "
-                                                       f"placed yet - owed to step 5d")
+                                                       f"placed yet - owed to step 5a")
                 continue
             for r, stem, n in keys[title]:
                 if self._behind(r, title, n.args[0] if n.args else None):
@@ -815,7 +853,11 @@ class Setting:
             yield "warning", f"{title!r} is not on {file} yet - owed to step 5a"
 
     def _check_rates(self, r: Region):
-        rated = {s for rates in r.folder.rates.values() for s in rates}
+        rated = {s for rates in r.folder.rates.values() for s in rates} - {PROCEDURES}
+        for code in r.locations():
+            got = sum(1 for n in r.files.get(PROCEDURES, []) if n.args and n.args[0] == code)
+            if got > 1:
+                yield "warning", r.dir / f"{PROCEDURES}.md", f"{code} has {got} {PROCEDURES} entries - at most 1"
         for code, loc in r.locations().items():
             rates = r.folder.rates.get(loc.props.get("type"))
             if rates is None:
@@ -896,7 +938,10 @@ class Setting:
 # measured against the tables:
 #
 #   target Node.member Value="N%"|N ...  share, or count, of Node entries whose member is
-#                                        each Value; a group of a type enum counts its items
+#                                        each Value; a group of a type enum counts its items.
+#                                        A share is a floor ("<=N%" a ceiling), a count exact
+#                                        ("N+" a floor); a region's value replaces the rating's
+#                                        value of the same key and leaves its others
 #   target Node.Child "N%"               share of Node entries holding that one-of child
 #   target Node [of=Type] "N%"           share of locations (of that type) holding a Node
 #
@@ -904,6 +949,7 @@ class Setting:
 # measured against the setting files they govern.
 
 BRIEF = ROOT / "BRIEF.md"
+PROCEDURES = "Procedures"      # a region's own count, from its `procedure` lines, never a type's rate
 
 
 def brief_nodes(path: Path = BRIEF) -> list[kdl.Node]:
@@ -1004,9 +1050,10 @@ class Brief:
         else:
             return p(f"{member!r} is neither a member nor a child of {node}")
         for v, s in values.items():
-            if not PERCENT_RE.fullmatch(s) and (form != "values" or bounds(s) is None):
-                return p(f"{s!r} is not a percentage" + (" or a count" if form == "values" else ""))
-        if sum(int(s[:-1]) for s in values.values() if s.endswith("%")) > 100:
+            if not (SHARE_RE.fullmatch(s) or (form == "values" and entries_allowed(s) is not None)):
+                return p(f"{s!r} is not a share" + (" or a count" if form == "values" else "")
+                         + ': "N%" at least, "<=N%" at most')
+        if sum(int(s[:-1]) for s in values.values() if PERCENT_RE.fullmatch(s)) > 100:
             return p("shares total over 100%")
         return Target(n, path, form, values, rating, region)
 
@@ -1028,40 +1075,43 @@ class Brief:
         return None
 
     def realized(self, setting: Setting):
-        """Per region, (target, label, wanted, got, of) for every target applying to it;
-        of is None where wanted is a count."""
+        """Per region, (target, label, wanted, got, of) for every target value applying to
+        it; of is None where wanted is a count. A narrower target replaces a wider one's
+        value of the same key, never its other values."""
         out = {}
         for r in setting.regions.values():
             best = {}
             for t in self.targets:
                 rank = t.applies(r)
-                if rank >= 0 and rank >= best.get(t.key(), (None, -1))[1]:
-                    best[t.key()] = (t, rank)
-            out[r.code] = [row for t, _ in best.values() for row in self._measure(t, r)]
+                for v in t.wants:
+                    k = t.key() + (v,)
+                    if rank >= 0 and rank >= best.get(k, (None, -1))[1]:
+                        best[k] = (t, rank)
+            won = {}
+            for k, (t, _) in best.items():
+                won.setdefault(id(t), (t, set()))[1].add(k[-1])
+            out[r.code] = [row for t, vs in won.values() for row in self._measure(t, r, vs)]
         return out
 
-    def _measure(self, t: Target, r: Region):
+    def _measure(self, t: Target, r: Region, only: set[str]):
         node, _, member = t.path.partition(".")
         entries = [n for ns in r.files.values() for top in ns for n in kdl.walk([top])
                    if n.name == node]
-        share = lambda s: s.endswith("%")
         if t.form == "count":
             return [(t, "count", t.wants[""], len(entries), None)]
         if t.form == "values":
             got = [str(n.props.get(member, "")).split(":")[0] for n in entries if member in n.props]
             groups = self._groups(t.rating) if t.rating in self.schema.folders else {}
-            rows = []
-            for v, s in t.wants.items():
-                n = sum(1 for g in got if g in groups.get(v, {v}))
-                rows.append((t, v, int(s[:-1]), n, len(got)) if share(s) else (t, v, s, n, None))
-            return rows
+            return [(t, v, s, sum(1 for g in got if g in groups.get(v, {v})),
+                     len(got) if SHARE_RE.fullmatch(s) else None)
+                    for v, s in t.wants.items() if v in only]
         if t.form == "child":
             got = sum(1 for n in entries if any(c.name == member for c in n.children))
-            return [(t, member, int(t.wants[""][:-1]), got, len(entries))]
+            return [(t, member, t.wants[""], got, len(entries))]
         of = t.node.props.get("of")
         locs = [c for c, l in r.locations().items() if not of or l.props.get("type") == of]
         held = {n.args[0] for n in entries if n.args}
-        return [(t, f"of {of}" if of else "of all", int(t.wants[""][:-1]),
+        return [(t, f"of {of}" if of else "of all", t.wants[""],
                  sum(1 for c in locs if c in held), len(locs))]
 
     # -- the setting files ------------------------------------------------------
@@ -1192,6 +1242,19 @@ class Brief:
                 affixes += " " + line.strip()
             elif label == "Roots" and line.startswith("- "):
                 roots += 1
+        return out
+
+    def procedure_problems(self, setting: Setting) -> list[str]:
+        """Each region's Procedure entries against its `procedure` lines in BRIEF.md."""
+        out = []
+        for code, n in self.regions.items():
+            r = setting.regions.get(code)
+            if r is None or r.folder is None or not (r.dir / f"{PROCEDURES}.md").exists():
+                continue
+            asked = sum(1 for c in n.children if c.name == "procedure")
+            held = len(r.files.get(PROCEDURES, []))
+            if held != asked:
+                out.append(f"{code} has {held} Procedure entries; BRIEF.md asks for {asked} procedure lines")
         return out
 
     def region_problems(self, gazetteer: dict[str, dict]) -> list[str]:

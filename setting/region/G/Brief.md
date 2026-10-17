@@ -5,7 +5,7 @@ Places:
 - G.2 The Main Cavern - twenty goblins at their fires, five passages.
 - G.3 The Loot Hall - wagon goods and a trader's strongbox.
 - G.4 The Tribute Pens - three pens of sacks, one for each tribe that pays.
-- G.5 The Goblin Stores - four goblins and a wall of new stones.
+- G.5 The Goblin Stores - four goblins and a wall of new stones, makers' script at its edge.
 - G.6 The Boss's Cave - Wen the Tar-Thumbed, four guards, a chest and a satchel.
 
 Inhabitants: Six Wolves chained at G.1, twenty of The Zhakuk at G.2, four Goblins at G.5, and Wen the Tar-Thumbed with four Goblins at G.6.
@@ -25,7 +25,7 @@ Leads:
 - The Lost Strongbox - G.3 Strongbox.
 
 Tables:
-d6 Danger, 6 noticing to 1 acting, down one per failed Difficulty roll
+Danger, 6 noticing to 1 acting
 6. Baying and a bone whistle carry from the kennels (G.1).
 5. A goblin hurries sacks from the loot hall (G.3) to the cavern (G.2).
 4. Cookfire smoke rolls down the passage from G.2; the next Search is at Disadvantage.

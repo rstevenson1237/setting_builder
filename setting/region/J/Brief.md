@@ -23,7 +23,7 @@ Leads:
 - The Missing Party - J.2 Captives.
 
 Tables:
-d6 Danger, 6 noticing to 1 acting, down one per failed Difficulty roll
+Danger, 6 noticing to 1 acting
 6. Howling and laughing carry from the den floor (J.3).
 5. A chain drags across stone; a gnoll drives a captive from J.2 to J.3.
 4. Dung and bone litter the floor; the next Move Silently is at Disadvantage.

@@ -15,7 +15,7 @@ List the events `BRIEF.md` asks for, each following its fields in `patterns/Sett
 oldest to newest, one record each. A later step adds an event only where it needs one to
 account for something it wrote. With none asked for, the file is its header line.
 
-An event's Codes are the locations that hold its Left mark.
+An event's Codes are the locations whose Dressing names it in `left`, each showing its Left mark.
 
 ## Template
 ```

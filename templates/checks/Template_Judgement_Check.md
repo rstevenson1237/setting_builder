@@ -10,7 +10,7 @@ Consult when running this check:
 - every generation template in `templates/` - the three `*_Judgement_Check.md` files are not in scope; they are reviewed by being run.
 - `python3 tools/validate_setting.py --read-set` - which templates and schemas each step reads.
 - where a build exists, the table rows naming one location of each rating - what `templates/region/Location.md`'s Context actually assembles to.
-- the last build's `setting/`, its `setting/checks/SettingJudgementCheck.md`, and the findings its `setting/checks/Review.md` sent to the framework - a template is judged by what it produced.
+- the last build's `setting/` and its `setting/checks/SettingJudgementCheck.md` - a template is judged by what it produced.
 
 ## Instructions
 Read each generation template against the items below. Record **findings only**: each as

@@ -8,7 +8,7 @@ Places:
 - E.6 The Gnoll Ledge - iron collars and three lookouts.
 - E.7 The Dry Fork - the way to the bugbears; two lookouts above.
 - E.8 The Maze Door - a locked door at the ravine head.
-- E.9 The Shrine Stair - fifty steps to the shrine; three acolytes.
+- E.9 The Shrine Stair - fifty steps of makers' stone to the shrine, a path from each cave mouth at its foot; three acolytes.
 - E.10 The Owlbear's Rim - an owlbear's cave on the east rim.
 
 Inhabitants: Six Wolves hunt E.1, an Owlbear lairs at E.10, and the ledges are watched by three of The Gubak, two of The Zhakuk, three of The Rokmok, two of The Burgnaz, three of The Kurzun, two of The Zurnaz and three of The Black Altar.
@@ -26,7 +26,7 @@ Leads:
 - Rumour 10 - E.5 Gate.
 
 Tables:
-d6 Encounter, per failed Difficulty roll
+d6 Encounter
 1. Six wolves trot the path at dusk and circle the party.
 2. A tin rattle sounds from the kobold ledge, and a sling-stone clips the rock.
 3. Orcs roar from the cairn, and two come down the slope to the path.

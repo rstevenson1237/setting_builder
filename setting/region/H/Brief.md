@@ -5,7 +5,7 @@ Places:
 - H.2 The Feast Hall - ten orcs at the long tables, spoils behind the high table.
 - H.3 The Pens - boar in plank pens.
 - H.4 The Still - copper vats, one of them liable to burst into flame.
-- H.5 The Walled Stores - sacks, and a wall of plain stones over a makers' passage.
+- H.5 The Walled Stores - sacks, and a wall of plain square-cut stone over a makers' passage.
 - H.6 The Chief's Cave - Hurk the Brewmaster, four orcs, a chest and an axe rack.
 
 Inhabitants: Three of The Rokmok on the ledge below, two Orcs at H.1, ten of The Rokmok at H.2, and Hurk the Brewmaster with four Orcs at H.6.
@@ -23,7 +23,7 @@ Leads:
 - Rumour 4 - H.5 End Wall.
 
 Tables:
-d6 Danger, 6 noticing to 1 acting, down one per failed Difficulty roll
+Danger, 6 noticing to 1 acting
 6. Roaring and drumming carry from the feast hall (H.2).
 5. Two orcs stagger from H.2 to relieve the cairn watch (H.1).
 4. Spirit fumes drift from the still (H.4); a naked flame near them flares (Test of Constitution, 1d, Fire).

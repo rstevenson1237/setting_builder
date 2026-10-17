@@ -82,6 +82,7 @@ python3 tools/validate_setting.py --location CODE       # one location's entries
 python3 tools/validate_setting.py --read-set [STEP]     # what a step reads, per the graph
 python3 tools/metrics.py                    # corpus, tells, budget and read-set report
 python3 tools/metrics.py --tells [PATH]     # every tell hit, listed, over any markdown
+python3 tools/metrics.py --carry [CODE]     # the table words each write-up carries and drops
 python3 tools/build_site.py --out _site     # static site, including patterns.html
 python3 tools/build_site.py --out _site --check   # ...and fail if the site omits anything setting/ holds
 python3 tools/build_pdf.py --check          # the same for the PDF, without WeasyPrint

@@ -8,7 +8,6 @@ Read first:
 - `GENRE.md`, `STYLE.md` and `BRIEF.md`
 - `patterns/Common_Schema.md` and `patterns/Setting_Schema.md`
 - `setting/Procedures.md` - the coin every value is stated in
-- `setting/Bestiary.md`
 - `setting/Setting.md`, `setting/History.md`, `setting/Truths.md`
 
 Do not consult location, region, or faction files - these tables are setting-level and reusable everywhere, not tied to any specific place, hoard, or owner. Do not decide what container holds the treasure, where it is found, or how it is moved or used - that is the location entry's job, not this table's.

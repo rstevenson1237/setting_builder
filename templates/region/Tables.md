@@ -26,20 +26,23 @@ Read first:
   reason its tags give, and toward `BRIEF.md`'s targets. The occupants the seed's Overview
   names are placed as Encounters - in a SAFE region as People, Named Creatures and Faction
   members, and a Garrison at an Authority - and a `procedure` line in the region's node of `BRIEF.md`
-  as a Procedure entry at the location it fits. Connections get one entry per
+  as a Procedure entry at the location it fits, any type and at most one a location. Connections get one entry per
   side of every edge in `Connections.mmd`, with `to` set, and a gate the folder's `join`
   line names on the way into a gated location. A member or child is written now only where the
   design already fixes it.
 - **5a, filling** - Purpose first, where the folder has one; then each table in one pass, every stub in view. Write
   every member a stub lacks, toward its room's Purpose and `BRIEF.md`'s targets; a room a
-  Purpose's `signs` names carries a sign of it. A stub that will not fit its room is a finding for 5c, never moved
+  Purpose's `signs` names carries a sign of it. A stub that will not fit its room is a finding for 6c, never moved
   or dropped here. A Dressing's `mark` is the Identity of a faction that holds, passes
   through or contests the room; every faction a region's Overview names is marked somewhere
-  in it.
-- **5d, placing** - a lock goes where the design wants a gate: a `Lock` on a Connection or
-  a Reward, naming its key. A setting entry is placed where its Found at or Appears at
-  names a location whose tables do not yet hold it - a key as a Reward pulling
-  `Keys: [name]`. A placed entry holds only what placement fixes; the next 5a fills the rest.
+  in it. A Dressing's `left` is each History event whose Left mark the room shows.
+- **5a, locks and keys** - a `Lock` goes where the design wants a gate, on whatever node the
+  schema lets hold one, naming its key; the key's `Keys.md` entry is written with it. Once
+  the pass is filled, the validator owes 5a each key it has no place for: a stub Reward
+  pulling `Keys: [name]`, in a location the lock does not bar, in this region or another.
+  A key whose region is not yet laid out stays a warning until its 4c. Likewise a setting
+  entry whose Found at or Appears at names a location no table holds it is placed there as
+  a stub. A stub holds only what placement fixes; the next 5a fills the rest.
 
 ## Template
 ````
