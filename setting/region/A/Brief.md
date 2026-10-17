@@ -1,7 +1,7 @@
 Layout: The hold is about 150 yards across, with the main gate (A.1) as its way in on the west wall and the postern (A.2) 120 yards north-east on the north wall. From the main gate, the Market Yard (A.8) is 40 yards east, the Traveller's Inn (A.3) 40 yards north, the Broken Wheel (A.4) 50 yards south, the General Store (A.5) 60 yards north-east, the Armourer's Forge (A.6) 70 yards south-east and the Moneychanger (A.7) 80 yards east. The inner wall stands 130 yards east: the Chapel (A.9) at 130, the Barracks (A.11) south-east at 130, the Commander's Hall (A.10) at 150. The cellar (A.12) lies 50 yards south, under the Broken Wheel; the sally tunnel (A.13) runs 150 yards east under the yard, from the hall to a rusted door.
 
 Places:
-- A.1 The Main Gate - the way in and out; Sergeant Ada Brandt and Pell Orrin.
+- A.1 The Main Gate - the way in and out, the founding stone over it; Sergeant Ada Brandt and Pell Orrin.
 - A.2 The Postern - the way to the wood; Corporal Dag Venn.
 - A.3 The Traveller's Inn - beds and stabling; Edda Marsh and Jory Fenn.
 - A.4 The Broken Wheel - knucklebones, strong drink and talk; Marta Voss, Lysa Torren, four soldiers.

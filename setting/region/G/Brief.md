@@ -5,7 +5,7 @@ Places:
 - G.2 The Main Cavern - twenty goblins at their fires, five passages.
 - G.3 The Loot Hall - wagon goods and a trader's strongbox.
 - G.4 The Tribute Pens - three pens of sacks, one for each tribe that pays.
-- G.5 The Goblin Stores - four goblins and a wall of new stones.
+- G.5 The Goblin Stores - four goblins and a wall of new stones, makers' script at its edge.
 - G.6 The Boss's Cave - Wen the Tar-Thumbed, four guards, a chest and a satchel.
 
 Inhabitants: Six Wolves chained at G.1, twenty of The Zhakuk at G.2, four Goblins at G.5, and Wen the Tar-Thumbed with four Goblins at G.6.
