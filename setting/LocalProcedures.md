@@ -86,3 +86,15 @@ Results:
 - COMPLICATION: the watch learns when one tribe changes its lookouts, but is seen by the Owlbear's cave and must move.
 - SUCCESS: the watch learns when the lookouts change and which neighbours would come to a fight.
 Tell: A hollow trodden flat on the rim looks down on every ledge on the east wall.
+
+### Finding the Way Through the Maze
+Kind: variant
+Extends: Navigate
+Found at: L.2 The Winding Passages
+Roll: The region's Difficulty die, rolled once for each leg from one room to the next; a party that chalks or cords its way rolls with Advantage.
+Stakes: A leg costs a turn of light, and a party out of light is lost until it relights; the Minotaur finds a party that is still lost after six turns.
+Results:
+- FAILURE: the leg loops back to the room the party left, its chalk wiped from the walls, and a bellow sounds nearer.
+- COMPLICATION: the party reaches the room it aimed for after a second turn, with half its chalk or cord used.
+- SUCCESS: the party reaches the next room in a turn.
+Tell: Chalk scratches and a frayed cord end lie at the first turn, left by those who did not come back.

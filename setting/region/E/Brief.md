@@ -24,7 +24,6 @@ Leads:
 - Rumour 7 - E.12 Sacks, E.7 Handprints.
 - Rumour 9 - E.6 Gnolls.
 - Rumour 10 - E.5 Gate.
-- Rumour 11 - E.8 Door.
 
 Tables:
 d6 Encounter, per failed Difficulty roll
