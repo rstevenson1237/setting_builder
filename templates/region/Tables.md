@@ -35,11 +35,14 @@ Read first:
   Purpose's `signs` names carries a sign of it. A stub that will not fit its room is a finding for 5c, never moved
   or dropped here. A Dressing's `mark` is the Identity of a faction that holds, passes
   through or contests the room; every faction a region's Overview names is marked somewhere
-  in it.
-- **5d, placing** - a lock goes where the design wants a gate: a `Lock` on a Connection or
-  a Reward, naming its key. A setting entry is placed where its Found at or Appears at
-  names a location whose tables do not yet hold it - a key as a Reward pulling
-  `Keys: [name]`. A placed entry holds only what placement fixes; the next 5a fills the rest.
+  in it. A Dressing's `left` is each History event whose Left mark the room shows.
+- **5a, locks and keys** - a `Lock` goes where the design wants a gate, on whatever node the
+  schema lets hold one, naming its key; the key's `Keys.md` entry is written with it. Once
+  the pass is filled, the validator owes 5a each key it has no place for: a stub Reward
+  pulling `Keys: [name]`, in a location the lock does not bar, in this region or another.
+  A key whose region is not yet laid out stays a warning until its 4c. Likewise a setting
+  entry whose Found at or Appears at names a location no table holds it is placed there as
+  a stub. A stub holds only what placement fixes; the next 5a fills the rest.
 
 ## Template
 ````

@@ -1,7 +1,7 @@
 # Dressing of A Roadsend Keep
 
 ```kdl
-Dressing A.1 obvious="Twin towers, a founding stone, a swinging lantern" condition="iron-bound" ambiance="iron, smoke, wet leather" layout="Tunnel through the wall, murder-holes above, guardroom aside" mark="The Keep"
+Dressing A.1 obvious="Twin towers, a founding stone, a swinging lantern" condition="iron-bound" ambiance="iron, smoke, wet leather" layout="Tunnel through the wall, murder-holes above, guardroom aside" mark="The Keep" left="The Realm Raises the Keep"
 Dressing A.2 obvious="Narrow iron door in the north wall" condition="quiet" ambiance="damp stone, fresh pine" layout="Short passage, two bars, a spy-hole"
 Dressing A.3 obvious="Long common room, fire, trestle tables" former="a granary" condition="smoky" ambiance="wet wool, stew, woodsmoke" layout="Common room below, rooms above, stable behind"
 Dressing A.4 obvious="Low beams, a dice table, a barrel stair" condition="dim" ambiance="spilled ale, pipe smoke" layout="One room, bar east, cellar hatch"

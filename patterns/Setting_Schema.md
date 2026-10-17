@@ -99,7 +99,7 @@ table History entry file="setting/History.md" {
   When text                   // years ago, vaguer the older it is
   Event text
   Left text                   // the physical mark findable now
-  Codes place none
+  Codes place from=Dressing none
 }
 table Truths entry file="setting/Truths.md" {
   Truth text                  // the rule in one sentence, not its mood

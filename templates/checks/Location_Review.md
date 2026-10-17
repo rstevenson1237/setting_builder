@@ -26,7 +26,7 @@ to `setting/checks/Review.md`, one section per pass.
     read for whether it is the failure the tell names.
 - Judge each table this pass filled: its entries share no sentence shape, opening word or
   rotation of the same few glosses.
-- Each finding names its fix: an entry (5a), a write-up (5b), a placement (5d), or the
+- Each finding names its fix: an entry (5a), a write-up (5b), a thread (5d), or the
   framework (`plans/`). A finding raised on the last pass and not fixed is carried, not
   repeated.
 - Write no content. A pass with no findings and readings unchanged from the last says so;

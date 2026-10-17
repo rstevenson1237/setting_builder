@@ -1055,7 +1055,7 @@ def report_pending(region_filter: str | None) -> int:
     scope = SETTING / "region" / region_filter if region_filter else SETTING
     owed: dict[str, list[str]] = {}
     for sev, path, msg in setting.check():
-        if sev == "warning" and (Path(path) == scope or scope in Path(path).parents):
+        if (sev == "warning" or "Coined here" in msg) and (Path(path) == scope or scope in Path(path).parents):
             owed.setdefault(rel(path), []).append(msg)
     history = tables.History()
     for r in setting.regions.values():

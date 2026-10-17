@@ -17,7 +17,7 @@ Read first:
 Write every field of the rating's `brief`, in its order, from the tables alone.
 Every fact about a location names it by code; a count is summed from the entries. Layout
 is read from the Locations' `at` and the Connections' `orientation`. A fact no entry holds
-is a placement for step 5d, not a line here. Nothing the seed says is repeated.
+is an entry for step 5a, not a line here. Nothing the seed says is repeated.
 
 ## Template
 ```

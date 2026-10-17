@@ -3,6 +3,9 @@
 The build, in order. Each step names what it creates and the template it follows; the
 template's Context names what to read.
 
+Every step closes by running `python3 tools/validate_setting.py`; a warning names the step
+that owes it, and `--pending` lists what each still owes.
+
 1. Establish the framework
    - 1a. Seed `setting/Procedures.md`, following `templates/setting/Procedures.md`.
    - 1b. Seed `setting/Language.md`, following `templates/setting/Language.md`.
@@ -23,10 +26,10 @@ template's Context names what to read.
    - 4b. Create each region's `Connections.mmd`, following `templates/safe/Connections.mmd`, `templates/wild/Connections.mmd` or `templates/dangerous/Connections.mmd` by its rating.
    - 4c. Create each region's other table files, every entry a stub, following `templates/region/Tables.md`.
 5. Layer the content, one region at a time (a block at a time in a collection) - 5a to 5d repeat until a pass changes nothing; then 5e
-   - 5a. Seed: fill every stub, Purpose first, following `templates/region/Tables.md`, and write every setting entry a table names, or bring its Found at or Appears at in line with the tables, following `templates/setting/Bestiary.md`, `templates/setting/Factions.md`, `templates/setting/NamedCreatures.md`, `templates/setting/Lore.md`, `templates/setting/Keys.md`, `templates/setting/UniqueTreasures.md`, `templates/setting/MagicalTomes.md`, `templates/setting/Hoards.md` and `templates/setting/LocalProcedures.md`.
-   - 5b. Write: every location whose write-up is missing or stale, following `templates/region/Location.md`, recording coinages in `setting/Language.md`, following `templates/setting/Language.md`.
+   - 5a. Seed: fill every stub, Purpose first, following `templates/region/Tables.md`, and write every setting entry a table names, or bring its Found at or Appears at in line with the tables, following `templates/setting/Bestiary.md`, `templates/setting/Factions.md`, `templates/setting/NamedCreatures.md`, `templates/setting/Lore.md`, `templates/setting/Keys.md`, `templates/setting/UniqueTreasures.md`, `templates/setting/MagicalTomes.md`, `templates/setting/Hoards.md` and `templates/setting/LocalProcedures.md`, recording a tongue or family name's coinage in `setting/Language.md` before it is used, following `templates/setting/Language.md`; write a `Lock` where the design wants a gate; then resolve what the validator now owes 5a - a stub Reward pulling `Keys: [name]` for each lock without its key, and a stub for each entry whose Found at or Appears at names a location no table holds it.
+   - 5b. Write: every location whose write-up is missing or stale, following `templates/region/Location.md`.
    - 5c. Review: run `python3 tools/validate_setting.py` and `python3 tools/metrics.py`, then review this pass's write-ups in a fresh context, following `templates/checks/Location_Review.md`.
-   - 5d. Place: write `setting/Rumours.md` and `setting/Quests.md`, following `templates/setting/Rumours.md` and `templates/setting/Quests.md`, leaving a row's Settled at or Points to empty until the region holding its answer has a pass; set each Person's `quest` to the quest they give; place locks, and every setting entry where its Found at or Appears at names a location not yet holding it, following `templates/region/Tables.md`; bring each `setting/Lore.md` entry in line with the Rumours, Quests, History and Truths now written, following `templates/setting/Lore.md`; and fill the Handles and Left lines the build now delivers, following `templates/setting/Truths.md` and `templates/setting/History.md`.
+   - 5d. Thread: write `setting/Rumours.md` and `setting/Quests.md`, following `templates/setting/Rumours.md` and `templates/setting/Quests.md`, leaving a row's Settled at or Points to empty until the region holding its answer has a pass; set each Person's `quest` to the quest they give; bring each `setting/Lore.md` entry in line with the Rumours, Quests, History and Truths now written, following `templates/setting/Lore.md`; and fill the Handles and Left lines the build now delivers, following `templates/setting/Truths.md` and `templates/setting/History.md`.
    - 5e. Brief: write each region's `Brief.md` that is missing or stale, following `templates/region/Brief.md`.
 6. Judge the build
    - 6a. Create or update `setting/checks/TemplateJudgementCheck.md`, following `templates/checks/Template_Judgement_Check.md`.

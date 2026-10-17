@@ -548,15 +548,16 @@ class Setting:
                             v = node.props.get(m.name)
                             if v is None or m.type not in ("entry", "pull"):
                                 continue
-                            table, _, title = str(v).partition(": ") if m.type == "pull" else (m.arg, "", str(v))
-                            if f := froms.get((table, node.name)):
-                                out.setdefault((table, title, f), set()).add(code)
+                            for item in ([x.strip() for x in str(v).split(",")] if m.is_list else [str(v)]):
+                                table, _, title = item.partition(": ") if m.type == "pull" else (m.arg, "", item)
+                                if f := froms.get((table, node.name)):
+                                    out.setdefault((table, title, f), set()).add(code)
         return out
 
     def _check_placements(self):
-        """Every place field with a from= against the tables, both ways: a location the
-        tables place an entry at is owed to its field at 5a; a location the field names
-        and no entry there holds is owed to placing at 5d."""
+        """Every place field with a from= against the tables, both ways, each owed to 5a: a
+        location the tables place an entry at, to its field; a location the field names and
+        no entry there holds, to a stub there."""
         placed = self.placements()
         for table, fields in self.schema.fields.items():
             fields = [m for m in fields if "from" in m.props]
@@ -573,7 +574,7 @@ class Setting:
                                                 f"{m.props['from']} names it - owed to step 5a")
                     for c in sorted(listed - held):
                         yield "warning", path, (f"line {line}: {title} {m.name} names {c}, where no "
-                                                f"{m.props['from']} names it yet - owed to step 5d")
+                                                f"{m.props['from']} names it yet - owed to step 5a")
 
     def _check_names(self):
         """Every name a schema gives a form is that form, and every coinage a tongue records
@@ -599,7 +600,7 @@ class Setting:
                 if base.lower() in known:
                     used.add(base.lower())
                 else:
-                    yield "error", path, f"{where}: {name!r} is a tongue name no tongue records in Coined here"
+                    yield "error", path, f"{where}: {name!r} is a tongue name no tongue records in Coined here - record it in Language.md first"
             elif form == "family":
                 tails = [" ".join(words[i:]).lower() for i in range(1, len(words))]
                 hit = next((t for t in tails if t in known), None)
@@ -607,7 +608,7 @@ class Setting:
                     used.add(hit)
                 else:
                     yield "error", path, (f"{where}: {name!r} is a family name but does not end in a "
-                                          f"coinage Coined here records, after a common name")
+                                          f"coinage Coined here records, after a common name - record it in Language.md first")
             elif form == "epithet":
                 if not EPITHET_RE.search(name):
                     yield "error", path, f"{where}: {name!r} is not 'X the Y', 'X son of Y' or 'X of Y'"
@@ -661,13 +662,13 @@ class Setting:
 
     def _check_keys(self):
         """Every lock has its key placed, every key its lock, and no key lies behind the lock
-        it opens. Locks are placed first and keys for them after, so a lock waiting on its
-        key is owed to 5d, and a key with no lock is an error."""
+        it opens. Locks are written first and keys for them after, so a lock waiting on its
+        key is owed to 5a, and a key with no lock is an error."""
         locks, keys = {}, {}
         for r in self.regions.values():
             for stem, entries in r.files.items():
                 for n in entries:
-                    for c in n.children:
+                    for c in kdl.walk([n]):
                         if c.name == "Lock" and "key" in c.props:
                             locks.setdefault(c.props["key"], []).append((r, stem, n))
                     table, _, title = str(n.props.get("contents", "")).partition(": ")
@@ -685,7 +686,7 @@ class Setting:
             if title not in keys:
                 r, stem, n = placed[0]
                 yield "warning", r.dir / f"{stem}.md", (f"line {n.line}: Lock {title!r} has no key "
-                                                       f"placed yet - owed to step 5d")
+                                                       f"placed yet - owed to step 5a")
                 continue
             for r, stem, n in keys[title]:
                 if self._behind(r, title, n.args[0] if n.args else None):
