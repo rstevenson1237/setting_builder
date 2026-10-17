@@ -87,8 +87,8 @@ def index_to_code(i: int) -> str:
 # The read-set: STEPS.md -> templates/ -> patterns/*_Schema.md
 #
 # A step names its template(s), and a template names the schemas and steps it
-# reads; each is recorded once, so every name must resolve. A review step (5c
-# and phase 6) reads what it judges rather than what it generates from.
+# reads; each is recorded once, so every name must resolve. A review step (phase 6)
+# reads what it judges rather than what it generates from.
 # ---------------------------------------------------------------------------
 
 TEMPLATES = ROOT / "templates"
@@ -108,7 +108,7 @@ def step_bodies() -> dict[str, str]:
 
 
 def is_review(sid: str) -> bool:
-    return sid == "5c" or sid[0] == "6"
+    return sid[0] == "6"
 
 
 def read_set() -> dict[str, tuple[set, set]]:
@@ -136,7 +136,7 @@ def check_read_set(diag: Diagnostics):
         return
     bodies, steps = step_bodies(), read_set()
     for sid, (names, _) in sorted(steps.items()):
-        if not names and not bodies.get(sid, "").strip().lower().startswith("retired"):
+        if not names and "python3 tools/" not in bodies.get(sid, ""):
             diag.warn(STEPS_MD, f"step {sid} names no template")
         for name in sorted(names):
             if not (TEMPLATES / name).exists():
@@ -773,7 +773,7 @@ def check_repeated_features(diag: Diagnostics, region_code: str):
     """The same Feature sentence in two rooms of one region.
 
     A room written with its siblings in view converges on them, and the first
-    sign is a sentence copied whole. Judged at STEPS.md step 5c, which also
+    sign is a sentence copied whole. Judged at STEPS.md step 6c, which also
     reads for the near-repeats a string match cannot see.
     """
     rdir = SETTING / "region" / region_code
@@ -790,7 +790,7 @@ def check_repeated_features(diag: Diagnostics, region_code: str):
         if len(codes) > 1:
             diag.warn(rdir, f"the same Feature sentence in {len(codes)} rooms "
                             f"({', '.join(codes)}): {body[:70]!r}... - a room written "
-                            f"from its siblings; judged at STEPS.md step 5c")
+                            f"from its siblings; judged at STEPS.md step 6c")
 
 
 # A Feature citing a treasure table must not also say what comes up on it.
@@ -822,7 +822,7 @@ TREASURE_TELL_RE = re.compile(
 # exits all carry the same trigger arrow - so the only available test would
 # guess from the prose, and a warning that fires on every legitimate secret is
 # a warning nobody reads. A hazard written with no stated cost is caught at
-# STEPS.md step 5c, per templates/checks/Location_Review.md.
+# STEPS.md step 6c, per templates/checks/Setting_Judgement_Check.md.
 DAMAGE_TYPES = tuple(tables.Schema().setting_enums.get("Wound_Type", {}))
 ANY_TEST_CITE_RE = re.compile(r'\(Test of [^)]*\)?')
 TEST_CITE_RE = re.compile(r'\(Test of (Constitution|Sanity|Fate),\s*([^()]+)\)')

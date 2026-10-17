@@ -83,3 +83,5 @@ Recorded against the content as generated. Nothing below was fixed in this pass;
 - Carry the tally-disc in the goblin rooms - source: generator (5a).
 - Retag I.4 and M.14 - source: generator (5a/5b).
 - Decide on the Black Psalter - source: generator.
+- Carry the nine captives at J.2 (Kerrin Torren and the four) as entries, not Dressing and a Feature alone - source: generator (5a).
+- Decide whether the grate and heap at I.3 and J.4 read as a Secret on both sides or neither - source: `Dangerous_Schema` Secret.

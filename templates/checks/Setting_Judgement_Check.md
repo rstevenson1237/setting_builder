@@ -10,13 +10,13 @@ Consult when running this check - deliberately broader than any single generatio
 - `STYLE.md` - the tests judged against below.
 - `setting/Setting.md`, `setting/History.md`, `setting/Truths.md` - what every region should be reinforcing.
 - `setting/region/Regions.md` and each region's seed, `setting/region/[Code].md`, and brief, `setting/region/[Code]/Brief.md` - what every location in that region should be reinforcing.
-- each region's `setting/region/[Code]/Locations.md` and its location files.
+- each region's `setting/region/[Code]/Locations.md`, its table files and its location files, each write-up with its entries from `python3 tools/validate_setting.py --location [Location Code]`.
 - `setting/Bestiary.md`, `setting/Factions.md`, `setting/Lore.md`, `setting/Keys.md`, `setting/NamedCreatures.md`, `setting/UniqueTreasures.md` - recurring elements that should be tying levels together rather than sitting isolated.
-- the output of `python3 tools/metrics.py`, and `setting/checks/Review.md`.
+- the output of `python3 tools/validate_setting.py`, `python3 tools/metrics.py` and `python3 tools/metrics.py --tells setting/`.
 
 ## Instructions
-Run this once the loop has exited and the briefs are written. Each location write-up has
-already been reviewed at 5c; this check reads across levels. Record
+Run this once the loop has exited and the briefs are written, in a context that wrote none
+of the content. This check reads across levels, location up. Record
 each item as Confirmed or Needs Attention, with a note, in the order below; the Template
 block lists the same items in the same order.
 
@@ -41,6 +41,11 @@ findings are the evidence `templates/checks/Schema_Judgement_Check.md` starts fr
 
 - **Regions reinforce the setting** - does each region's seed visibly connect back to `setting/Setting.md`/`History.md`/`Truths.md` (a named historical event, a faction's presence, a unique truth playing out), rather than feeling like an unrelated pocket bolted onto the setting?
 - **Locations reinforce their region** - does each location's dressing and Features reflect its region's Conditions, Inhabitants and Places, rather than reading as a location that could belong to any region? Are its three tags recognisable in what it holds?
+- **Entries match** - does every write-up carry every entry its location holds, and nothing written without one?
+- **One room** - does each write-up read as one place, not its entries side by side?
+- **Distinct** - does any write-up share a Feature, shape or sentence frame with its block, or any table's entries a sentence shape, opening word or rotation of the same few glosses?
+- **Said once** - is anything in a write-up restated from the seed, a setting entry or another room?
+- **The tests, at the location** - does each write-up line pass `STYLE.md`, and is each tell `metrics.py --tells` lists read for whether it is the failure the tell names?
 
 ### Room to Grow
 
@@ -65,6 +70,11 @@ findings are the evidence `templates/checks/Schema_Judgement_Check.md` starts fr
 ## Region [Code]
 - Region reinforces the setting: [Confirmed / Needs Attention - note]
 - Locations reinforce this region: [Confirmed / Needs Attention - note]
+- Entries match: [Confirmed / Needs Attention - location, and its source]
+- One room: [Confirmed / Needs Attention - location, and its source]
+- Distinct: [Confirmed / Needs Attention - locations, and its source]
+- Said once: [Confirmed / Needs Attention - locations, and its source]
+- The tests, at the location: [Confirmed / Needs Attention - locations, and its source]
 
 [repeat per region]
 

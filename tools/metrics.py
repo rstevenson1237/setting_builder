@@ -307,7 +307,7 @@ def report_mix() -> None:
 def report_targets() -> None:
     """Each BRIEF.md target against what each region's tables hold, then each files and
     setting lever against the setting files. A value outside what it allows is
-    marked; whether that matters is the 5c review's."""
+    marked; whether that matters is the 6c check's."""
     import tables
     from validate_setting import Diagnostics, parse_regions
     regions = parse_regions(Diagnostics())

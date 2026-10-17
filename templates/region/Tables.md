@@ -32,7 +32,7 @@ Read first:
   design already fixes it.
 - **5a, filling** - Purpose first, where the folder has one; then each table in one pass, every stub in view. Write
   every member a stub lacks, toward its room's Purpose and `BRIEF.md`'s targets; a room a
-  Purpose's `signs` names carries a sign of it. A stub that will not fit its room is a finding for 5c, never moved
+  Purpose's `signs` names carries a sign of it. A stub that will not fit its room is a finding for 6c, never moved
   or dropped here. A Dressing's `mark` is the Identity of a faction that holds, passes
   through or contests the room; every faction a region's Overview names is marked somewhere
   in it. A Dressing's `left` is each History event whose Left mark the room shows.
