@@ -10,7 +10,9 @@ It never overrides a schema's rules or `STYLE.md`.
 - `region` holds one region each, in gazetteer order: its rating, die, location count and
   outline, and any target of its own.
 
-A share is `"N%"`; a count is `N`, or a range `"N-M"`. A quoted line is prose, read by the
+A share is `"N%"`, at least that share of entries rounded down to whole entries, or `"<=N%"`,
+at most; a count is `N`, a range `"N-M"`, or `"N+"`, at least. A region's target replaces the
+rating's only for the values it names. A quoted line is prose, read by the
 step that writes what it names. A `target` is measured by `tools/metrics.py`; a `rate` is
 how many entries each location of a type holds in a table file.
 
@@ -37,9 +39,9 @@ files {
 }
 
 safe {
-  rate Inn Dressing=1 Purchases="2-4" People="2-3" Procedures="0-1"
-  rate Merchant Dressing=1 Purchases="2-4" People="1-2" Procedures="0-1"
-  rate Bank Market Dressing=1 Purchases="1-3" People="1-2" Procedures="0-1"
+  rate Inn Dressing=1 Purchases="2-4" People="2-3"
+  rate Merchant Dressing=1 Purchases="2-4" People="1-2"
+  rate Bank Market Dressing=1 Purchases="1-3" People="1-2"
   rate Authority Dressing=1 Purchases="0-2" People="1-3" Garrison="0-1"
   rate Gate Dressing=1 Purchases="0-1" People="1-2"
   rate Secret Dressing=1 Purchases="0-1" People="0-1"
@@ -47,12 +49,12 @@ safe {
 
 wild {
   rate Lair Dressing=1 Challenges=1
-  rate Ruin Natural Route Hidden Secret Dressing=1 Challenges="0-1" Procedures="0-1"
+  rate Ruin Natural Route Hidden Secret Dressing=1 Challenges="0-1"
 }
 
 dangerous {
-  rate High Purpose=1 Dressing=1 Challenges="1-2" Rewards="1-2" Procedures="0-1"
-  rate Medium Dressing=1 Challenges=1 Rewards="0-1" Procedures="0-1"
+  rate High Purpose=1 Dressing=1 Challenges="1-2" Rewards="1-2"
+  rate Medium Dressing=1 Challenges=1 Rewards="0-1"
   rate Low Dressing=1 Rewards="0-1"
   target Location.type High="17%" Medium="50%" Low="33%"
   target Hazard.damage Nuisance="40%" Damaging="40%" Lethal="20%"
@@ -183,6 +185,6 @@ region L rating=DANGEROUS die=d4 locations=5 {
 region M rating=DANGEROUS die=d4 locations=14 {
   outline "The shrine of Chaos: a collection, worked rock above the maze, in four blocks - the stair-hall and outer shrine; the priests' cells and refectory; the crypts, where the dead do not stay; the sanctum and the vault. Three ways in: the stair from the ravine head, the passage from the maze, the bugbears' back stair. Its high priest is a Named Creature; acolytes, guards and the dead hold the blocks. Locks bar the sanctum and the vault, and their keys lie in the hobgoblin hold and the maze. A Test of Sanity is called for here and nowhere else."
   target Location.type High=3 Medium=7 Low=4
-  target Reward.contents Hoards=1 "Unique Treasures"=2 "Magical Tomes"=1 Lore=2
+  target Reward.contents Hoards=1 Keys=0 "Unique Treasures"=2 "Magical Tomes"=1 Lore=2
 }
 ```

@@ -37,7 +37,7 @@ Leads:
 - Proof of the Hand - M.5 Cabinet.
 
 Tables:
-d6 Danger, 6 noticing to 1 acting, down one per failed Difficulty roll
+Danger, 6 noticing to 1 acting
 6. Chanting drifts along the vault, then stops.
 5. Fresh black candle stubs lie on the stair-hall floor (M.1).
 4. Incense thickens the air; the next Listen is at Disadvantage.

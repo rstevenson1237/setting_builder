@@ -27,11 +27,11 @@ is a placement for step 5d, not a line here. Nothing the seed says is repeated.
 - [Code or codes, Rumour N or Quest Name] - [...]
 
 Tables:
-d6 [what it is], [when it is rolled]
+[die, if rolled] [table name]
 1. [...]
 ...
 6. [...]
-d6 [what is met where nothing is keyed]
+[die] [what is met where nothing is keyed]
 1. [...]
 ...
 6. [...]

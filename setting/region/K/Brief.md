@@ -21,7 +21,7 @@ Leads:
 - Rumour 7 - K.2 Stacks.
 
 Tables:
-d6 Danger, 6 noticing to 1 acting, down one per failed Difficulty roll
+Danger, 6 noticing to 1 acting
 6. Soot flakes drift down from the overhang (K.1).
 5. Fresh drag marks cross the silt toward the tithe store (K.2).
 4. The silt shifts underfoot; the party's tracks show to whoever follows.

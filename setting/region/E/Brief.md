@@ -26,7 +26,7 @@ Leads:
 - Rumour 10 - E.5 Gate.
 
 Tables:
-d6 Encounter, per failed Difficulty roll
+d6 Encounter
 1. Six wolves trot the path at dusk and circle the party.
 2. A tin rattle sounds from the kobold ledge, and a sling-stone clips the rock.
 3. Orcs roar from the cairn, and two come down the slope to the path.

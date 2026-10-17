@@ -23,7 +23,7 @@ Leads:
 - Rumour 4 - H.5 End Wall.
 
 Tables:
-d6 Danger, 6 noticing to 1 acting, down one per failed Difficulty roll
+Danger, 6 noticing to 1 acting
 6. Roaring and drumming carry from the feast hall (H.2).
 5. Two orcs stagger from H.2 to relieve the cairn watch (H.1).
 4. Spirit fumes drift from the still (H.4); a naked flame near them flares (Test of Constitution, 1d, Fire).

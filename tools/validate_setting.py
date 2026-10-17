@@ -746,9 +746,14 @@ def check_region_fields(diag: Diagnostics, path: Path, fields: list, folder, ski
     if "Tables" in labels:
         start = next(i for i, l in enumerate(lines) if l.startswith("Tables:"))
         found_tables, rows = 0, []
+        prev = None
         for raw in lines[start + 1:]:
             line = raw.strip()
-            if re.match(r'^d\d+\s', line) and not re.match(r'^\d+[.)]', line):
+            if not line:
+                continue
+            head = sc.is_table_head(line, prev)
+            prev = line
+            if head:
                 if found_tables:
                     rows.append(count)
                 found_tables, count = found_tables + 1, 0
@@ -757,7 +762,7 @@ def check_region_fields(diag: Diagnostics, path: Path, fields: list, folder, ski
         if found_tables:
             rows.append(count)
         if found_tables != 1:
-            diag.error(path, f"Tables holds {found_tables} table(s) opened by a `d6 ...` line - "
+            diag.error(path, f"Tables holds {found_tables} table(s) - "
                              f"{folder.region_path.name} asks for one")
         for n in rows:
             if n != 6:
@@ -1178,6 +1183,8 @@ def main() -> int:
     check_procedures(diag, brief)
     for problem in brief.region_problems(regions):
         diag.error(tables.BRIEF, problem)
+    for problem in brief.procedure_problems(setting):
+        diag.warn(tables.BRIEF, problem)
     check_rumours(diag)
     check_top_level_files(diag)
     check_statblocks(diag, SETTING / "Bestiary.md", "Bestiary", expect_special=True)

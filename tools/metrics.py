@@ -306,7 +306,7 @@ def report_mix() -> None:
 
 def report_targets() -> None:
     """Each BRIEF.md target against what each region's tables hold, then each files and
-    setting lever against the setting files. A share off by more than one entry is
+    setting lever against the setting files. A value outside what it allows is
     marked; whether that matters is the 5c review's."""
     import tables
     from validate_setting import Diagnostics, parse_regions
@@ -316,15 +316,10 @@ def report_targets() -> None:
     brief = tables.Brief(setting.schema)
     for code, rows in brief.realized(setting).items():
         for t, label, wanted, got, of in rows:
-            if of is None:
-                lo, hi = tables.bounds(wanted)
-                mark = "" if lo <= got <= hi else "  <- off"
-                print(f"  {code}: {t.path} {label} {wanted} -> {got}{mark}")
-                continue
-            want = round(wanted * of / 100)
-            mark = "  <- off" if abs(got - want) > 1 else ""
-            pct = f"{100 * got // of}%" if of else "-"
-            print(f"  {code}: {t.path} {label} {wanted}% -> {pct} ({got} of {of}){mark}")
+            lo, hi = tables.entries_allowed(wanted, of)
+            mark = "" if lo <= got <= hi else "  <- off"
+            pct = f" ({100 * got // of}%, {got} of {of})" if of else ""
+            print(f"  {code}: {t.path} {label} {wanted} -> {got}{pct}{mark}")
     for label, wanted, got, off in brief.setting_rows():
         print(f"  {label}: {wanted} -> {got}{'  <- off' if off else ''}")
     print()

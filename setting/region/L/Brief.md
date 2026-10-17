@@ -21,7 +21,7 @@ Leads:
 - Rumour 11 - L.5 Token.
 
 Tables:
-d6 Danger, 6 noticing to 1 acting, down one per failed Difficulty roll
+Danger, 6 noticing to 1 acting
 6. A bellow comes from every side at once.
 5. Fresh gouges at shoulder height scar the wall.
 4. The floor sounds hollow in the passage ahead (L.2).

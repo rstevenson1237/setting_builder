@@ -23,7 +23,7 @@ Leads:
 - Rumour 11 - I.6 Belt Pouch.
 
 Tables:
-d6 Danger, 6 noticing to 1 acting, down one per failed Difficulty roll
+Danger, 6 noticing to 1 acting
 6. A horn call sounds twice from the gate (I.1).
 5. Boots stamp in step in the drill court (I.2).
 4. The watch smothers a lit torch with a sand scoop before it can be seen from the gate; the party's light is out or shuttered.

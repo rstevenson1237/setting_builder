@@ -19,7 +19,7 @@ Leads:
 - Rumour 8 - C.5 Stones, C.3 Ansel the Hermit.
 
 Tables:
-d6 Encounter, per failed Difficulty roll
+d6 Encounter
 1. Four outlaws with bows step from the trees and ask 10 cn a head.
 2. A hunter's bell sounds, and a deer crashes through the undergrowth.
 3. Wolves howl at dusk; five circle the party's fire.

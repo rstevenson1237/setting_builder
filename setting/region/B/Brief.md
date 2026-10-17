@@ -18,7 +18,7 @@ Leads:
 - The Road Bounty - B.3 Raiders.
 
 Tables:
-d6 Encounter, per failed Difficulty roll
+d6 Encounter
 1. A convoy rolls by from the realm with a green wheel on the lead wagon; its drivers trade news for a round.
 2. Six goblins break from the grass at dusk with spears and slings.
 3. The patrol, a man short, escorts two carts toward the keep.

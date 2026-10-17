@@ -27,7 +27,7 @@ Leads:
 - Proof of the Hand - A.10 Commander Roderic Hale.
 
 Tables:
-d6 Events, on arrival and each week
+d6 Events
 1. A convoy rolls in whole at A.1; the stalls in A.8 fill and goods cost a tenth less for the day.
 2. A patrol returns two short at A.1; Sergeant Brandt bars the gate early, and Bram Tolley at A.11 asks for volunteers.
 3. A brawl breaks out at A.4; drawn steel costs 50 cn or a night in the cells.

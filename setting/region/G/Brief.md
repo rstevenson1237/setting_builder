@@ -25,7 +25,7 @@ Leads:
 - The Lost Strongbox - G.3 Strongbox.
 
 Tables:
-d6 Danger, 6 noticing to 1 acting, down one per failed Difficulty roll
+Danger, 6 noticing to 1 acting
 6. Baying and a bone whistle carry from the kennels (G.1).
 5. A goblin hurries sacks from the loot hall (G.3) to the cavern (G.2).
 4. Cookfire smoke rolls down the passage from G.2; the next Search is at Disadvantage.

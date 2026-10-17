@@ -17,7 +17,7 @@ Leads:
 - Rumour 12 - D.3 Dead Men, D.5 Cairn.
 
 Tables:
-d6 Encounter, per failed Difficulty roll
+d6 Encounter
 1. A pole boat slides from the reeds with two spears in it, silent, and falls in behind the party.
 2. A plank gives under the lead crosser and drops them to the waist.
 3. Fog closes over the water, and the causeway's edges vanish.

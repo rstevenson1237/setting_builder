@@ -26,7 +26,7 @@ Read first:
   reason its tags give, and toward `BRIEF.md`'s targets. The occupants the seed's Overview
   names are placed as Encounters - in a SAFE region as People, Named Creatures and Faction
   members, and a Garrison at an Authority - and a `procedure` line in the region's node of `BRIEF.md`
-  as a Procedure entry at the location it fits. Connections get one entry per
+  as a Procedure entry at the location it fits, any type and at most one a location. Connections get one entry per
   side of every edge in `Connections.mmd`, with `to` set, and a gate the folder's `join`
   line names on the way into a gated location. A member or child is written now only where the
   design already fixes it.
