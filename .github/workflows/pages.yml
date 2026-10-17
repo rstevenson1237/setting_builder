@@ -17,6 +17,7 @@ on:
       - "tools/site_common.py"
       - "tools/tables.py"
       - "tools/kdl.py"
+      - "tools/schema_graph.py"
       - "tools/site_assets/**"
       - "tools/requirements-pdf.txt"
       - ".github/workflows/pages.yml"
