@@ -1,12 +1,16 @@
 #!/usr/bin/env python3
 """Corpus metrics: what the framework costs, what it has produced, and how it reads.
 
-Seven readings, printed in one report:
+Ten readings, printed in one report:
 
   CORPUS    locations and words in setting/region/*/[0-9]*.md
   FEATURES  words, segments and sentences per Feature line
   CARRY     the prose a location's tables hold against its write-up: how many of the
-            table's words the write-up carries, and how much longer it is
+            table's words the write-up carries, how much longer it is, and the
+            location tags it carries
+  HEADCOUNT every faction's and creature's count summed over the rooms that hold it
+  RECURRENCE the registry entries the rooms hold in none, or in one location
+  FRAMES    the Feature openings and endings two or more rooms share
   TELLS     the four prose tells, counted
   MIX       per region, what its tables hold by kind - connections, challenges,
             hazard damage, reward contents - and its stubs, missing and stale
@@ -316,7 +320,9 @@ def carry(setting) -> dict[str, dict]:
             if not path.exists():
                 continue
             prose = table_prose(setting, code)
-            held = set(content_stems(path.read_text()))
+            text = path.read_text()
+            held = set(content_stems(text)) | {stem(w) for w in re.findall(r"[a-z]+", text.lower())}
+            tags = [t.strip() for t in str(r.locations()[code].props.get("tags", "")).split(",") if t.strip()]
             seen, kept, dropped = set(), [], []
             for w in re.findall(r"[a-z][a-z'-]+", prose.lower()):
                 st = stem(w)
@@ -325,7 +331,9 @@ def carry(setting) -> dict[str, dict]:
                 seen.add(st)
                 (kept if st in held else dropped).append(w)
             out[code] = {"table": words(prose), "writeup": file_words(path),
-                         "kept": kept, "dropped": dropped}
+                         "kept": kept, "dropped": dropped,
+                         "tags": [(t, any(stem(w) in held for w in re.findall(r"[a-z]+", t.lower())
+                                          if len(w) > 2 and w not in CARRY_STOPWORDS)) for t in tags]}
     return out
 
 
@@ -347,8 +355,9 @@ def report_carry(setting) -> None:
         k, d = sum(len(r["kept"]) for r in rs), sum(len(r["dropped"]) for r in rs)
         grow = f"{w / t:4.1f}x" if t else "   -"
         share = f"{100 * d // (k + d)}%" if k + d else "-"
+        tags = [c for r in rs for _, c in r["tags"]]
         print(f"  {label:12s} table {t:5,} words, write-up {w:6,}, {grow} longer; "
-              f"dropped {d} of {k + d} table words ({share})")
+              f"dropped {d} of {k + d} table words ({share}); tags carried {sum(tags)} of {len(tags)}")
     line("all", list(rows.values()))
     for code in setting.regions:
         rs = [r for c, r in rows.items() if c.split(".")[0] == code]
@@ -359,6 +368,10 @@ def report_carry(setting) -> None:
     for code, r in worst:
         print(f"    {code:6s} {len(r['dropped'])} of {len(r['kept']) + len(r['dropped'])}: "
               f"{', '.join(r['dropped'])}")
+    lost = [(c, [t for t, ok in r["tags"] if not ok]) for c, r in rows.items()
+            if any(not ok for _, ok in r["tags"])]
+    if lost:
+        print("  tags dropped: " + "; ".join(f"{c} {', '.join(ts)}" for c, ts in lost))
     print()
 
 
@@ -373,7 +386,126 @@ def list_carry(setting, only: str | None) -> int:
         print(f"{code}  table {r['table']} words, write-up {r['writeup']} ({grow})")
         print(f"  carried: {', '.join(r['kept']) or '-'}")
         print(f"  dropped: {', '.join(r['dropped']) or '-'}")
+        print(f"  tags   : {', '.join(t + ('' if ok else ' (dropped)') for t, ok in r['tags']) or '-'}")
     return 0
+
+
+# -- HEADCOUNT ------------------------------------------------------------------
+#
+# What a faction's or creature's prose says it numbers is the writer's to compare with
+# this: the counts its rooms hold, summed, with the rooms they sit in. A range counts at
+# both ends.
+
+def headcount(setting) -> dict[tuple[str, str], dict]:
+    import tables
+    out = {}
+    for r in setting.regions.values():
+        for entries in r.files.values():
+            for top in entries:
+                code = top.args[0] if top.args else None
+                for n in kdl.walk([top]):
+                    if n.name == "Creature":
+                        key, num = ("Bestiary", n.props.get("bestiary")), n.props.get("count")
+                    elif n.name in ("Faction", "Garrison"):
+                        key, num = ("Factions", n.props.get("faction")), n.props.get("present")
+                    else:
+                        continue
+                    b = tables.bounds(str(num)) if num is not None else None
+                    if key[1] is None or b is None:
+                        continue
+                    h = out.setdefault((key[0], str(key[1])), {"rooms": set(), "lo": 0, "hi": 0})
+                    h["rooms"].add(code)
+                    h["lo"] += b[0]
+                    h["hi"] += b[1]
+    return out
+
+
+def report_headcount(setting) -> None:
+    print("HEADCOUNT")
+    rows = headcount(setting)
+    if not rows:
+        print("  no counted creatures or factions yet\n")
+        return
+    for table in ("Factions", "Bestiary"):
+        print(f"  {table}")
+        for (_, title), h in sorted(((k, v) for k, v in rows.items() if k[0] == table),
+                                    key=lambda x: (-x[1]["hi"], x[0][1])):
+            n = str(h["lo"]) if h["lo"] == h["hi"] else f"{h['lo']}-{h['hi']}"
+            print(f"    {title:28s} {n:>7s} in {len(h['rooms'])} room(s)")
+    print()
+
+
+# -- RECURRENCE -----------------------------------------------------------------
+#
+# A registry entry the rooms hold nowhere is a stub the validator already names; one
+# held in a single location is the reading here, a candidate to thicken or to cut.
+
+REGISTRIES = ("Bestiary", "Factions", "Named Creatures", "Lore", "Keys", "Unique Treasures",
+              "Magical Tomes", "Hoards", "Local Procedures")
+
+
+def uses(setting) -> dict[tuple[str, str], set[str]]:
+    """(table, title) -> the locations whose entries hold it."""
+    out: dict[tuple[str, str], set[str]] = {}
+    for r in setting.regions.values():
+        if r.folder is None:
+            continue
+        for entries in r.files.values():
+            for top in entries:
+                code = top.args[0] if top.args else None
+                for n in kdl.walk([top]):
+                    for m in r.folder.nodes.get(n.name, []):
+                        v = n.props.get(m.name)
+                        if v is None or m.type not in ("entry", "pull"):
+                            continue
+                        for item in ([x.strip() for x in str(v).split(",")] if m.is_list else [str(v)]):
+                            table, _, title = item.partition(": ") if m.type == "pull" else (m.arg, "", item)
+                            out.setdefault((table, title), set()).add(code)
+    return out
+
+
+def report_recurrence(setting) -> None:
+    print("RECURRENCE")
+    held = uses(setting)
+    for table in REGISTRIES:
+        titles = setting.titles(table)
+        if not titles:
+            continue
+        counts = {t: len(held.get((table, t), ())) for t in titles}
+        thin = sorted((n, t) for t, n in counts.items() if n <= 1)
+        body = ", ".join(f"{t} ({', '.join(sorted(held[(table, t)])) if n else 'none'})" for n, t in thin)
+        print(f"  {table:18s} {len(titles):3d} entries, {len(thin)} in 0 or 1 location"
+              + (f": {body}" if thin else ""))
+    print()
+
+
+# -- FRAMES ---------------------------------------------------------------------
+#
+# A room written with its siblings in view converges on them. The validator catches a
+# sentence copied whole; this lists the first three and last three words that two or more
+# rooms' Features share, with numbers as N. Prices and distances share endings honestly,
+# so a hit is a prompt to read both rooms.
+
+NUMBER_RE = re.compile(r"\b(\d+|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|"
+                       r"dozen|twenty|thirty)\b")
+
+
+def report_frames(locs: list[Path]) -> None:
+    print("FRAMES")
+    found = False
+    for label, pick in (("opens", lambda t: t[:3]), ("ends", lambda t: t[-3:])):
+        rooms: dict[str, set[str]] = {}
+        for path, _, body in features(locs):
+            toks = re.findall(r"[a-z][a-z'-]*|N", NUMBER_RE.sub("N", CITATION_RE.sub("", body).lower()))
+            if len(toks) >= 5:
+                rooms.setdefault(" ".join(pick(toks)), set()).add(f"{path.parent.name}.{path.stem}")
+        for frame, codes in sorted(rooms.items(), key=lambda x: (-len(x[1]), x[0])):
+            if len(codes) >= 2:
+                found = True
+                print(f"  {label:5s} \"{frame}\" in {len(codes)} rooms: {', '.join(sorted(codes))}")
+    if not found:
+        print("  none")
+    print()
 
 
 def report_tells(locs: list[Path]) -> None:
@@ -564,7 +696,11 @@ def main(argv: list[str]) -> int:
     locs = location_files()
     report_corpus(locs)
     report_features(locs)
-    report_carry(load_setting())
+    setting = load_setting()
+    report_carry(setting)
+    report_headcount(setting)
+    report_recurrence(setting)
+    report_frames(locs)
     report_tells(locs)
     report_mix()
     report_targets()
