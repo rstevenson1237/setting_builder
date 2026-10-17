@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
 """Corpus metrics: what the framework costs, what it has produced, and how it reads.
 
-Six readings, printed in one report:
+Seven readings, printed in one report:
 
   CORPUS    locations and words in setting/region/*/[0-9]*.md
   FEATURES  words, segments and sentences per Feature line
+  CARRY     the prose a location's tables hold against its write-up: how many of the
+            table's words the write-up carries, and how much longer it is
   TELLS     the four prose tells, counted
   MIX       per region, what its tables hold by kind - connections, challenges,
             hazard damage, reward contents - and its stubs, missing and stale
@@ -22,9 +24,10 @@ The Feature parsing, the read-set graph and the stopword list are imported
 from the validator rather than restated, so a change to the Feature grammar
 reaches this report without a second edit.
 
-Usage: python3 tools/metrics.py [--tells [PATH]]
+Usage: python3 tools/metrics.py [--tells [PATH] | --carry [CODE]]
 
   (no argument)  the full report over this repository
+  --carry        every location's dropped table words, or one location's or region's
   --tells        every tell hit listed with its file and line, not just counted
   --tells PATH   the same, over a file or directory outside setting/ - which is
                  how a control arm in fixtures/ is read with the instrument the
@@ -38,6 +41,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
+import kdl  # noqa: E402
 from validate_setting import (  # noqa: E402
     CITATION_RE,
     FEATURE_RE,
@@ -253,6 +257,125 @@ def report_features(locs: list[Path]) -> None:
     print()
 
 
+# -- CARRY ----------------------------------------------------------------------
+#
+# A write-up connects the details its tables hold into features a referee can run. The
+# table's prose is every free-text member of the location's own entries - a Dressing's
+# obvious and layout, a Reward's container, a Secret's trigger and tell, a Person's role
+# - leaving out what the header, the Exits and the citations carry mechanically. A table
+# word is carried when the write-up holds the same word, singular or plural, in any
+# tense; the rest are dropped. Synonyms read as dropped: the figure is a prompt to look
+# at what a write-up left behind, not a verdict that it should have kept it.
+
+CARRY_SKIP_NODES = {"Location"}
+CARRY_SKIP_MEMBERS = {"at", "orientation", "to", "one-of"}
+CARRY_STOPWORDS = frozenset("""
+the a an of to in on at by for with from that which it its is are was were be and or but as
+into onto over under up down out off no not this these those their them they there here has
+have had do does did than then so if when where while one two three four five six seven
+eight nine ten itself themselves another only some each every any all both
+""".split())
+
+
+def stem(word: str) -> str:
+    w = re.sub(r"'s$", "", word)
+    for suffix, repl in (("ies", "y"), ("ing", ""), ("ed", ""), ("es", ""), ("s", "")):
+        if w.endswith(suffix) and len(w) - len(suffix) >= 3 and not w.endswith("ss"):
+            return w[:len(w) - len(suffix)] + repl
+    return w
+
+
+def content_stems(text: str) -> list[str]:
+    return [stem(w) for w in re.findall(r"[a-z][a-z'-]+", text.lower())
+            if len(w) > 2 and w not in CARRY_STOPWORDS]
+
+
+def table_prose(setting, code: str) -> str:
+    """The free text of the location's own entries, as the schema types it."""
+    region = setting.regions[code.split(".")[0]]
+    out = []
+    own, _ = setting.entries_at(code)
+    for _, entry in own:
+        for node in kdl.walk([entry]):
+            if node.name in CARRY_SKIP_NODES:
+                continue
+            for m in region.folder.nodes.get(node.name, []):
+                if (m.name not in CARRY_SKIP_MEMBERS and node.props.get(m.name) is not None
+                        and (m.type in setting.schema.words or m.type == "text")):
+                    out.append(str(node.props[m.name]))
+    return "\n".join(out)
+
+
+def carry(setting) -> dict[str, dict]:
+    """Per written location: the table's prose words, the write-up's words, and the table's
+    content words the write-up carries and drops, each once."""
+    out = {}
+    for r in setting.regions.values():
+        for code in r.locations():
+            path = r.dir / f"{code.split('.')[1]}.md"
+            if not path.exists():
+                continue
+            prose = table_prose(setting, code)
+            held = set(content_stems(path.read_text()))
+            seen, kept, dropped = set(), [], []
+            for w in re.findall(r"[a-z][a-z'-]+", prose.lower()):
+                st = stem(w)
+                if len(w) <= 2 or w in CARRY_STOPWORDS or st in seen:
+                    continue
+                seen.add(st)
+                (kept if st in held else dropped).append(w)
+            out[code] = {"table": words(prose), "writeup": file_words(path),
+                         "kept": kept, "dropped": dropped}
+    return out
+
+
+def load_setting():
+    import tables
+    from validate_setting import Diagnostics, parse_regions
+    regions = parse_regions(Diagnostics())
+    return tables.Setting({c: i["rating"] for c, i in regions.items()})
+
+
+def report_carry(setting) -> None:
+    print("CARRY")
+    rows = carry(setting)
+    if not rows:
+        print("  no written locations - nothing to compare\n")
+        return
+    def line(label, rs):
+        t, w = sum(r["table"] for r in rs), sum(r["writeup"] for r in rs)
+        k, d = sum(len(r["kept"]) for r in rs), sum(len(r["dropped"]) for r in rs)
+        grow = f"{w / t:4.1f}x" if t else "   -"
+        share = f"{100 * d // (k + d)}%" if k + d else "-"
+        print(f"  {label:12s} table {t:5,} words, write-up {w:6,}, {grow} longer; "
+              f"dropped {d} of {k + d} table words ({share})")
+    line("all", list(rows.values()))
+    for code in setting.regions:
+        rs = [r for c, r in rows.items() if c.split(".")[0] == code]
+        if rs:
+            line(code, rs)
+    worst = sorted(rows.items(), key=lambda x: (-len(x[1]["dropped"]), x[0]))[:5]
+    print("  most dropped:")
+    for code, r in worst:
+        print(f"    {code:6s} {len(r['dropped'])} of {len(r['kept']) + len(r['dropped'])}: "
+              f"{', '.join(r['dropped'])}")
+    print()
+
+
+def list_carry(setting, only: str | None) -> int:
+    rows = {c: r for c, r in carry(setting).items()
+            if not only or c == only or c.split(".")[0] == only}
+    if not rows:
+        print(f"{only or 'setting'}: no written locations")
+        return 1
+    for code, r in rows.items():
+        grow = f"{r['writeup'] / r['table']:.1f}x" if r["table"] else "-"
+        print(f"{code}  table {r['table']} words, write-up {r['writeup']} ({grow})")
+        print(f"  carried: {', '.join(r['kept']) or '-'}")
+        print(f"  dropped: {', '.join(r['dropped']) or '-'}")
+    return 0
+
+
 def report_tells(locs: list[Path]) -> None:
     print("TELLS")
     feats = features(locs)
@@ -268,9 +391,7 @@ def report_tells(locs: list[Path]) -> None:
 def report_mix() -> None:
     """Per region, what its tables hold, by kind, and what the loop still owes."""
     import tables
-    from validate_setting import Diagnostics, parse_regions
-    regions = parse_regions(Diagnostics())
-    setting = tables.Setting({c: i["rating"] for c, i in regions.items()})
+    setting = load_setting()
     history = tables.History()
     print("MIX")
     for r in setting.regions.values():
@@ -309,9 +430,7 @@ def report_targets() -> None:
     setting lever against the setting files. A value outside what it allows is
     marked; whether that matters is the 6c check's."""
     import tables
-    from validate_setting import Diagnostics, parse_regions
-    regions = parse_regions(Diagnostics())
-    setting = tables.Setting({c: i["rating"] for c, i in regions.items()})
+    setting = load_setting()
     print("TARGETS")
     brief = tables.Brief(setting.schema)
     for code, rows in brief.realized(setting).items():
@@ -436,6 +555,8 @@ def main(argv: list[str]) -> int:
                 print(f"  {rel(path)}:{lineno}  {quote}")
             print()
         return 0
+    if argv and argv[0] == "--carry":
+        return list_carry(load_setting(), argv[1] if len(argv) > 1 else None)
     if argv:
         print(__doc__)
         return 1
@@ -443,6 +564,7 @@ def main(argv: list[str]) -> int:
     locs = location_files()
     report_corpus(locs)
     report_features(locs)
+    report_carry(load_setting())
     report_tells(locs)
     report_mix()
     report_targets()
