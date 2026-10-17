@@ -71,6 +71,7 @@ Read these rather than a description of them.
     nothing; the thresholds are the validator's.
   - `kdl.py` - the KDL subset the location tables are written in.
   - `tables.py` - reads every region's tables and checks them against its rating's schema.
+  - `schema_graph.py` - reads `patterns/` as a graph of definitions, each name on a line resolved to the definition it names; `patterns.html` is drawn from it.
 
 ## Commands
 
@@ -89,8 +90,11 @@ pip install -r tools/requirements-pdf.txt   # WeasyPrint, for the PDF only
 python3 tools/build_pdf.py                  # single print-formatted PDF
 ```
 
-`build_site.py` also renders `patterns.html`, a Schema Reference page built from
-`patterns/` rather than `setting/`, so it builds against an empty setting.
+`build_site.py` also renders `patterns.html`, a Schema Reference built from `patterns/`
+rather than `setting/`, so it builds against an empty setting. It is a graph of every
+definition - types, enums, tables, nodes, folders, regions - beside the entry for the one
+selected: a line in an entry opens the definition it names, a hovered name shows it, and
+Up and Back move through what was opened.
 
 ## CI and deployment
 

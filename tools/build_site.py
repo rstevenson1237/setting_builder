@@ -18,6 +18,8 @@ import re
 import shutil
 from pathlib import Path
 
+import kdl
+import schema_graph
 import site_common as sc
 
 ROOT = sc.ROOT
@@ -53,17 +55,10 @@ CHECKLIST_SOURCES = [
 
 
 # ---------------------------------------------------------------------------
-# Schema reference: patterns/*_Schema.md as written, shared schemas first. It reads
-# the framework rather than setting/, so it builds whatever setting/ holds.
+# Schema reference: patterns/*_Schema.md, shared schemas first, drawn as a graph by
+# schema_graph.py. It reads the framework rather than setting/, so it builds whatever
+# setting/ holds.
 # ---------------------------------------------------------------------------
-
-import tables
-
-
-def schema_files() -> list[Path]:
-    shared = [tables.PATTERNS / f"{n}_Schema.md" for n in tables.SHARED]
-    return shared + sorted(set(tables.PATTERNS.glob("*_Schema.md")) - set(shared))
-
 
 def pdf_filename(setting: sc.Setting) -> str:
     return f"{sc.slugify(setting.name)}.pdf"
@@ -361,13 +356,16 @@ def build_checklists(setting: sc.Setting, out: Path) -> None:
 
 
 def build_patterns(setting: sc.Setting, out: Path) -> None:
-    """Every schema file: its prose, then its KDL as written."""
+    """The schema explorer: a graph of every definition, and an entry for each. The model it
+    runs on is embedded in the page, so it works from a `file://` open; without scripts the
+    schema files are listed as written."""
+    import json
+
     page = "patterns.html"
-    body = ['<h1>Schema Reference</h1>',
-            '<p class="hint">Every field, enum and range the setting files and location '
-            'tables are checked against, read from <code>patterns/*_Schema.md</code> at '
-            'build time.</p>']
-    for path in schema_files():
+    graph = schema_graph.Graph()
+    model = json.dumps(graph.model(), separators=(",", ":")).replace("</", "<\\/")
+    plain = []
+    for path in graph.paths:
         text = path.read_text(encoding="utf-8")
         title = (re.search(r"^#\s+(.+)$", text, re.M) or [None, path.stem])[1]
         prose = text.split("```")[0].split("\n", 1)[-1].strip()
@@ -375,9 +373,13 @@ def build_patterns(setting: sc.Setting, out: Path) -> None:
         inner = "".join(f"<p>{render_static_inline(par)}</p>" for par in prose.split("\n\n") if par.strip())
         if code:
             inner += f"<pre><code>{html.escape(code.group(1))}</code></pre>"
-        body.append(section(title, f'<div class="schema-block">{inner}</div>', anchor=path.stem.lower()))
-    write_page(out, page, page_shell(setting, page, "Schema Reference", "\n".join(body),
-                                     main_class="page page-wide"))
+        plain.append(section(title, f'<div class="schema-block">{inner}</div>', anchor=path.stem.lower()))
+    body = ('<div id="schema-explorer" class="sx"></div>'
+            f'<script type="application/json" id="schema-data">{model}</script>'
+            '<noscript><h1>Schema Reference</h1>' + "".join(plain) + '</noscript>')
+    write_page(out, page, page_shell(setting, page, "Schema Reference", body,
+                                     extra_scripts=["assets/schema-explorer.js"], main_class="page page-explorer"))
+
 
 def build_region(setting: sc.Setting, out: Path, code: str) -> None:
     region = setting.regions[code]
@@ -549,6 +551,11 @@ def check(setting: sc.Setting, out_dir: Path) -> list[str]:
     text = " ".join(p.read_text(encoding="utf-8") for p in out_dir.rglob("*.html") if p.name not in skip)
     problems = sc.coverage(setting, text, lambda slug: (out_dir / f"{slug}.html").exists())
     import json
+    graph = schema_graph.Graph()
+    problems += [f"patterns.html: {p}" for p in graph.problems]
+    held = sum(1 for path in graph.paths for n in kdl.fenced(path.read_text(encoding="utf-8")))
+    if held != len(graph.defs):
+        problems.append(f"patterns.html: {held} schema definitions, {len(graph.defs)} in the explorer")
     cites = json.loads((out_dir / "cites.json").read_text(encoding="utf-8"))
     for t in setting.tables:
         held = cites["roll" if t.kind == "roll" else "entry"].get(t.name, {})
