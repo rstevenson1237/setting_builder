@@ -7,8 +7,8 @@ of a faction - with a garrison at an Authority. Its seed and brief are
 
 ```kdl
 enum Safe_Type Inn Merchant Bank Market Authority Gate Secret
-// Gate: a way across the region's edge, and what stands at it. Secret: a place or thing
-// kept hidden, reached only by the Way that hangs it from another location.
+// Gate: a way across the region's edge, where what stands at the Approach stands. Secret: a
+// place or thing kept hidden, reached only by the Way that hangs it from another location.
 enum Purchase_Type menu service sale   // food and drink by the portion; a thing done for a party; goods handed over
 
 node Location {
