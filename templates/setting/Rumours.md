@@ -5,7 +5,7 @@ A referee-facing table of rumours of varying truth that serve as adventure hooks
 
 ## Context
 Read first:
-- `GENRE.md`, `STYLE.md` and `BRIEF.md`
+- `GENRE.md`, `STYLE.md` and `BRIEF.md`, as `python3 tools/validate_setting.py --brief setting` prints it
 - `patterns/Common_Schema.md` and `patterns/Setting_Schema.md`
 - `setting/Setting.md`, `setting/History.md`, `setting/Truths.md`
 - each region's seed, `setting/region/[Region Code].md`

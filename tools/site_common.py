@@ -12,6 +12,7 @@ combined PDF) build on top of this module so the two outputs stay in sync.
 from __future__ import annotations
 
 import html
+import math
 import re
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -308,18 +309,29 @@ def is_table_head(line: str, prev: str | None) -> bool:
 
 
 def _field_text(block: list[str]) -> str:
-    """A field's lines, rejoined: `- ` items stay one per line, prose is one line."""
+    """A field's lines, rejoined: `- ` items stay one per line, each prose paragraph is
+    one line."""
     items: list[str] = []
-    prose: list[str] = []
+    prose: list[list[str]] = [[]]
     for raw in block:
         line = raw.strip()
-        if line.startswith("- "):
+        if not line:
+            if prose[-1]:
+                prose.append([])
+        elif line.startswith("- "):
             items.append(line)
         elif items:
             items[-1] += " " + line
         else:
-            prose.append(line)
-    return "\n".join(([" ".join(prose)] if prose else []) + items).strip()
+            prose[-1].append(line)
+    return "\n".join([" ".join(p) for p in prose if p] + items).strip()
+
+
+def parse_field(lines: list[str], label: str) -> str:
+    """One seed or brief field's text, as the site reads it."""
+    fields: list[tuple[str, str]] = []
+    _parse_region_fields(lines, fields, [])
+    return dict(fields).get(label, "")
 
 
 def parse_region_overview(code: str, gaz: dict) -> Region:
@@ -349,7 +361,7 @@ def _parse_region_fields(lines: list[str], fields: list, tables: list) -> None:
             continue
         label, val = m.group(1), m.group(2)
         block = [val] if val.strip() else []
-        while i < n and lines[i].strip() and not re.match(r"^[A-Z][a-z]+:(?:\s|$)", lines[i]):
+        while i < n and not re.match(r"^[A-Z][a-z]+:(?:\s|$)", lines[i]):
             block.append(lines[i])
             i += 1
         if label == "Tables":
@@ -358,6 +370,8 @@ def _parse_region_fields(lines: list[str], fields: list, tables: list) -> None:
             rows: list[str] = []
             for raw in block:
                 raw = raw.strip()
+                if not raw:
+                    continue
                 if not rows or re.match(r"^\d+[.)]\s", raw) or is_table_head(raw, rows[-1]):
                     rows.append(raw)
                 else:
@@ -397,8 +411,210 @@ def parse_locations_gazetteer(region_code: str) -> dict[int, dict]:
         if n.name == "Location" and m:
             out[int(m.group(2))] = {"name": n.props.get("name", ""),
                                     "weight": str(n.props.get("type", "")).lower() or None,
-                                    "tags": n.props.get("tags", "")}
+                                    "tags": n.props.get("tags", ""),
+                                    "at": str(n.props.get("at", ""))}
     return out
+
+
+# -- The plan --------------------------------------------------------------
+#
+# A location's `at` places it from its region's way in, and a Connection's orientation
+# places the room it leads to from the room it leaves, so a region's plan is drawn from its
+# tables alone: what the Layout says can be checked against it, two routes to one room
+# must agree, and an artist starts from it.
+
+COMPASS = ["north", "north-north-east", "north-east", "east-north-east",
+           "east", "east-south-east", "south-east", "south-south-east",
+           "south", "south-south-west", "south-west", "west-south-west",
+           "west", "west-north-west", "north-west", "north-north-west"]
+UNIT_YARDS = {"yard": 1, "yards": 1, "mile": 1760, "miles": 1760, "foot": 1 / 3, "feet": 1 / 3, "ft": 1 / 3}
+AT_RE = re.compile(r"^(?P<point>[a-z-]+),\s*(?P<n>[\d,.]+)\s*(?P<unit>[a-z]+)(?:\s+(?P<level>up|down))?$")
+OFFSET_RE = re.compile(r"^(?P<ns>[\d,.]+)\s*(?P<unit>[a-z]+)\s+(?P<nsd>north|south),\s*"
+                       r"(?P<ew>[\d,.]+)\s+(?P<ewd>east|west)$")
+
+
+def parse_at(at: str) -> tuple[float, float, int] | None:
+    """An `at`, or a Connection's orientation, as yards east and north and levels up; None
+    where it states no position."""
+    at = at.strip().lower()
+    num = lambda v: float(v.replace(",", ""))
+    if at == "at the way in":
+        return 0.0, 0.0, 0
+    if (m := OFFSET_RE.match(at)) and m["unit"] in UNIT_YARDS:
+        k = UNIT_YARDS[m["unit"]]
+        return (num(m["ew"]) * k * (1 if m["ewd"] == "east" else -1),
+                num(m["ns"]) * k * (1 if m["nsd"] == "north" else -1), 0)
+    m = AT_RE.match(at)
+    if not m or m["point"] not in COMPASS or m["unit"] not in UNIT_YARDS:
+        return None
+    d = num(m["n"]) * UNIT_YARDS[m["unit"]]
+    a = math.radians(COMPASS.index(m["point"]) * 22.5)
+    return d * math.sin(a), d * math.cos(a), {"up": 1, "down": -1}.get(m["level"], 0)
+
+
+def positions(code: str) -> tuple[dict[str, tuple[float, float, int]], list[tuple[str, str, float]]]:
+    """Each location's place, from its `at` where the region's locations have one, else by
+    walking the Connections out from the room an entrance opens into; and each pair of
+    rooms two routes place apart, with the yards between."""
+    locs = parse_locations_gazetteer(code)
+    inside = {f"{code}.{n}" for n in locs}
+    pos = {c: xy for c in inside if (xy := parse_at(locs[int(c.split(".")[1])]["at"]))}
+    if pos:
+        return pos, []
+    path = SETTING / "region" / code / "Connections.md"
+    try:
+        nodes = kdl.fenced(path.read_text()) if path.exists() else []
+    except SyntaxError:
+        nodes = []
+    ways = [(str(n.args[0]), str(n.props["to"]), parse_at(str(n.props.get("orientation", ""))))
+            for n in nodes if n.args and "to" in n.props]
+    order = sorted(inside, key=lambda c: int(c.split(".")[1]))
+    start = next((a for a, b, _ in ways if a in inside and b not in inside), order[0] if order else None)
+    if start is None:
+        return {}, []
+    pos = {start: (0.0, 0.0, 0)}
+    grew = True
+    while grew:
+        grew = False
+        for a, b, o in ways:
+            if a in pos and b in inside and b not in pos and o:
+                pos[b] = (pos[a][0] + o[0], pos[a][1] + o[1], pos[a][2] + o[2])
+                grew = True
+    apart = {}
+    for a, b, o in ways:
+        if a in pos and b in pos and o:
+            gap = math.dist((pos[a][0] + o[0], pos[a][1] + o[1]), pos[b][:2])
+            if gap > max(10 / 3, 0.1 * math.hypot(*o[:2])):
+                apart[tuple(sorted((a, b)))] = gap
+    return pos, [(a, b, gap) for (a, b), gap in sorted(apart.items())]
+
+
+def route_stops(code: str) -> dict[str, list[tuple[str, tuple[float, float, int] | None, str, str]]]:
+    """Each Route's stops in order: its feature, its place, where its path leads, and its `at`."""
+    path = SETTING / "region" / code / "Stops.md"
+    try:
+        nodes = kdl.fenced(path.read_text()) if path.exists() else []
+    except SyntaxError:
+        nodes = []
+    out: dict[str, list] = {}
+    for n in nodes:
+        if n.name == "Stop" and n.args:
+            at = str(n.props.get("at", ""))
+            out.setdefault(str(n.args[0]), []).append(
+                (str(n.props.get("feature", "")), parse_at(at), str(n.props.get("to", "")), at))
+    return out
+
+
+def _nice(x: float) -> float:
+    """The round length nearest below x: 1, 2 or 5 times a power of ten."""
+    p = 10 ** math.floor(math.log10(x))
+    return max(f * p for f in (1, 2, 5) if f * p <= x)
+
+
+def _offset(x: float, y: float, level: int, feet: bool) -> str:
+    """A place as how far north or south, then east or west, of the way in."""
+    k, unit = (3, "feet") if feet else (1, "yards")
+    parts = [f"{abs(v) * k:,.0f} {unit if not i else ''}".strip() + f" {d}"
+             for i, (v, d) in enumerate(((y, "north" if y >= 0 else "south"), (x, "east" if x >= 0 else "west")))
+             if round(abs(v) * k)]
+    return (", ".join(parts) or "at the way in") + (f", {abs(level)} level{'s' * (abs(level) > 1)} "
+                                                     f"{'up' if level > 0 else 'down'}" if level else "")
+
+
+def plan_html(code: str, name: str) -> str:
+    """The region's locations drawn where their tables place them, north up, with a scale
+    bar, and the same places as text for a reader who cannot see the drawing."""
+    locs = parse_locations_gazetteer(code)
+    pos, _ = positions(code)
+    if len(pos) < 2:
+        return ""
+    by_at = any(parse_at(l["at"]) for l in locs.values())
+    routes = route_stops(code)
+    every = list(pos.values()) + [xy for ss in routes.values() for _, xy, _, _ in ss if xy]
+    xs, ys = [p[0] for p in every], [p[1] for p in every]
+    span = max(max(xs) - min(xs), max(ys) - min(ys)) or 1
+    feet = span * 3 < 600
+    pad, size = span * 0.12, 340                   # drawn at its own size, so text reads the same in every plan
+    k = size / (span + 2 * pad)
+    w = (max(xs) - min(xs) + 2 * pad) * k + 120    # room for the labels east of the last point
+    h = (max(ys) - min(ys) + 2 * pad) * k + 40
+    px = lambda x: (x - min(xs) + pad) * k
+    py = lambda y: (max(ys) - y + pad) * k
+    points: dict[tuple[float, float], list[str]] = {}   # one label for places closer than a dot's width
+    for c in sorted(pos, key=lambda c: (pos[c][:2] != (0, 0), int(c.split(".")[1]))):
+        x, y, level = pos[c]
+        at = next((p for p in points if math.dist((px(p[0]), py(p[1])), (px(x), py(y))) < 10), (x, y))
+        points.setdefault(at, []).append(c)
+    tag = lambda c: c + (f" ({'+' if pos[c][2] > 0 else ''}{pos[c][2]})" if pos[c][2] else "")
+    if feet:
+        bar_ft = _nice(span)                       # a third of the span, in feet
+        bar, label = bar_ft / 3, f"{bar_ft:g} feet"
+    elif span / 3 >= 880:
+        bar_mi = _nice(span / 3 / 1760)
+        bar, label = bar_mi * 1760, f"{bar_mi:g} mile{'s' * (bar_mi != 1)}"
+    else:
+        bar = _nice(span / 3)
+        label = f"{bar:g} yards"
+    place = lambda c: (locs[int(c.split(".")[1])]["at"] if by_at else _offset(*pos[c], feet))
+    text = [(c, locs[int(c.split(".")[1])]["name"], place(c))
+            for c in sorted(pos, key=lambda c: int(c.split(".")[1]))]
+    tid, did = f"plan-{code}-title", f"plan-{code}-desc"
+    out = [f'<svg class="plan" width="{w:.0f}" viewBox="0 0 {w:.0f} {h:.0f}" role="img" aria-labelledby="{tid} {did}" '
+           f'font-family="inherit" font-size="13" fill="currentColor" stroke="currentColor">',
+           f'<title id="{tid}">Plan of {html.escape(code)} {html.escape(name)}, drawn from its tables</title>',
+           f'<desc id="{did}">North is up. The way in is ringed; a number after a code is the levels '
+           f'above or below it; a dashed line is a route through its stops, each a numbered square. '
+           + "; ".join(f"{c}: {html.escape(t)}" for c, _, t in text) + ".</desc>"]
+    for c, ss in routes.items():                   # a route is a line through its stops, in order
+        line = " ".join(f"{px(xy[0]):.1f},{py(xy[1]):.1f}" for _, xy, _, _ in ss if xy)
+        out.append(f'<polyline points="{line}" fill="none" stroke-width="1.5" stroke-dasharray="6 4"/>'
+                   + "".join(f'<rect x="{px(xy[0]) - 3:.1f}" y="{py(xy[1]) - 3:.1f}" width="6" height="6" '
+                             f'fill="none" stroke-width="1.5"/>' for _, xy, _, _ in ss if xy))
+    taken = [(px(p[0]) - 4, py(p[1]) - 4, px(p[0]) + 4, py(p[1]) + 4) for p in every]  # dots, then labels
+    spots = [(8, -6, "start"), (8, 15, "start"), (-8, -6, "end"), (-8, 15, "end"), (0, -10, "middle"),
+             (0, 22, "middle"), (8, -20, "start"), (8, 29, "start"), (-8, -20, "end"), (-8, 29, "end")]
+
+    def spot(x: float, y: float, text_: str) -> tuple[int, int, str]:
+        """The first place beside a point where its label covers no dot and no other label."""
+        lw = 7 * len(text_)
+        left = {"start": 0, "middle": lw / 2, "end": lw}
+        box = lambda dx, dy, a: (px(x) + dx - left[a], py(y) + dy - 11, px(x) + dx - left[a] + lw, py(y) + dy + 2)
+        free = lambda b: all(b[2] <= t[0] or b[0] >= t[2] or b[3] <= t[1] or b[1] >= t[3] for t in taken)
+        dx, dy, anchor = next((s for s in spots if free(box(*s))), spots[0])
+        taken.append(box(dx, dy, anchor))
+        return dx, dy, anchor
+
+    for (x, y), cs in points.items():
+        text_ = ", ".join(tag(c) for c in cs)
+        dx, dy, anchor = spot(x, y, text_)
+        ring = '<circle r="9" fill="none" stroke-width="1.5"/>' if (x, y) == (0, 0) else ""
+        dots = "".join(f'<circle cx="{px(pos[c][0]) - px(x):.1f}" cy="{py(pos[c][1]) - py(y):.1f}" r="4" stroke="none"/>'
+                       for c in cs)
+        out.append(f'<g transform="translate({px(x):.1f} {py(y):.1f})">{ring}{dots}'
+                   f'<text x="{dx}" y="{dy}" text-anchor="{anchor}" stroke="none">{text_}</text></g>')
+    for ss in routes.values():                      # each stop numbered in the route's order
+        for i, (_, xy, _, _) in enumerate(ss, 1):
+            if xy:
+                dx, dy, anchor = spot(xy[0], xy[1], str(i))
+                out.append(f'<text x="{px(xy[0]) + dx:.1f}" y="{py(xy[1]) + dy:.1f}" text-anchor="{anchor}" '
+                           f'font-size="11" stroke="none">{i}</text>')
+    y0 = h - 22
+    out.append(f'<g stroke-width="2"><line x1="12" y1="{y0}" x2="{12 + bar * k:.1f}" y2="{y0}"/>'
+               f'<line x1="12" y1="{y0 - 5}" x2="12" y2="{y0 + 5}"/>'
+               f'<line x1="{12 + bar * k:.1f}" y1="{y0 - 5}" x2="{12 + bar * k:.1f}" y2="{y0 + 5}"/></g>'
+               f'<text x="12" y="{y0 + 18}" stroke="none">{label}</text>'
+               f'<g transform="translate({w - 20:.0f} 24)"><path d="M0 -14 L6 6 L0 2 L-6 6 Z" stroke="none"/>'
+               f'<text x="0" y="22" text-anchor="middle" stroke="none">N</text></g></svg>')
+    stop_rows = lambda c: "".join(f"<li>{html.escape(f)} - {html.escape(at)}"
+                                  f"{', leads to ' + html.escape(to) if to else ''}</li>"
+                                  for f, _, to, at in routes.get(c, []))
+    rows = "".join(f"<li>{c} {html.escape(n)} - {html.escape(t)}"
+                   + (f"<ol>{stop_rows(c)}</ol>" if c in routes else "") + "</li>" for c, n, t in text)
+    how = ("at its compass point and distance from the way in" if by_at
+           else "placed by walking its connections from the entrance")
+    return (f'<figure class="diagram plan-figure">{"".join(out)}'
+            f'<figcaption>Each location {how}.</figcaption>'
+            f'<details><summary>Positions as text</summary><ul>{rows}</ul></details></figure>')
 
 
 LOC_HEADER_RE = re.compile(r'^([A-Z]+)\.(\d+) \*\*(.+?)\*\*(?: \(([^)]+)\))? - \*(.+)\*\s*$')

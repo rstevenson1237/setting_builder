@@ -78,7 +78,8 @@ node Reward {
 node Connection {
   to location
   type Connection_Type
-  orientation gloss         // compass point and distance from this end
+  orientation gloss         // compass point and distance from this end, then up or down where the
+                            // way changes level
   one-of Encounter Hazard Mystery Secret Lock opt
 }
 node Secret {              // what sets off or opens the thing it sits on, and what gives it away

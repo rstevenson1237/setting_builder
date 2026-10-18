@@ -2,8 +2,8 @@
 
 ```kdl
 Connection H.1 to="E.4" type="Open" orientation="east, 20 feet"
-Connection H.1 to="H.2" type="Archway" orientation="west, 40 feet"
-Connection H.2 to="H.1" type="Archway" orientation="east, 40 feet"
+Connection H.1 to="H.2" type="Archway" orientation="west, 60 feet"
+Connection H.2 to="H.1" type="Archway" orientation="east, 60 feet"
 Connection H.2 to="H.3" type="Wooden" orientation="north, 50 feet"
 Connection H.3 to="H.2" type="Wooden" orientation="south, 50 feet"
 Connection H.2 to="H.4" type="Archway" orientation="south, 40 feet"

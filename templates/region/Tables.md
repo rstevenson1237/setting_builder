@@ -6,7 +6,7 @@ table its rating's schema, `patterns/[Rating]_Schema.md`, names, each holding en
 
 ## Context
 Read first:
-- `GENRE.md`, `STYLE.md` and `BRIEF.md`
+- `GENRE.md`, `STYLE.md` and `BRIEF.md`, as `python3 tools/validate_setting.py --brief [Region Code]` prints it
 - `patterns/Common_Schema.md`, `patterns/Setting_Schema.md` and this region's rating schema
 - this region's seed, `setting/region/[Region Code].md`
 - this region's die in `setting/region/Regions.md`, and `setting/Language.md`

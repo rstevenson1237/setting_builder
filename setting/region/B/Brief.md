@@ -1,14 +1,12 @@
-Layout: The road runs 24 miles west from the keep's main gate to the map's edge (B.1), with the burned wagons (B.3) 3 miles out, the ford (B.2) at 6, the causeway head (B.5) at 9 and the wayside shrine (B.4) at 14. The causeway runs north from B.5 into the mere.
+Layout: The realm's road (B.1), 24 miles long, is entered at the keep's main gate (A.1) at its east end, at the realm off the map at its west end, and at the causeway head (B.5) 9 miles out, where the mere's causeway (D.1) leaves it north. It runs west over open grass, 24 feet wide, with a milestone at every mile numbered from the keep: three watches end to end, six off it. Its stops in order: the watch rise at 1 mile, which shows three miles of road and the wood's edge to the north; the burned frames at 3 miles, beside the burned wagons (B.3); the ford stones at 6 miles, crossing the ford (B.2); the causeway turning at 9 miles, a reedy track north to the causeway head (B.5); the wayside shrine at 14 miles, beside the shrine (B.4); and the last milestone at 24 miles, where the map ends.
 
-Places:
-- B.2 The Ford - the stones to cross; a slip costs a fall.
-- B.3 The Burned Wagons - where the convoy was struck; goblin raiders lie in the grass.
-- B.4 The Wayside Shrine - coins left in the bowl; a driver who stops here has news.
-- B.5 The Causeway Head - the way north to the mere; outlaws take a toll.
+The burned wagons (B.3), 3 miles west, are charred frames and burst casks in a line 60 feet long along the ditch beside the road, smoke rising from the wood beyond them; a party reaches them by stepping off the road at the burned frames. The ford (B.2), 6 miles west, is 30 yards of knee-deep stream crossed by flat stones a yard apart, the banks churned by hooves and wheels; the road itself runs over it. The causeway head (B.5), 9 miles west, is a muddy landing 30 feet across in a stand of reeds, with a planked causeway a yard wide on piles running north into the mere, a hare's foot hung on a post at head height and red-threaded reed bundles on the posts; the causeway turning leads to it. The wayside shrine (B.4), 14 miles west, is a grey stone box 3 feet high under a hood beside the road, a tower carved on its face and a bowl of flowers at its foot; the road passes it.
 
-Inhabitants: A patrol of six soldiers of The Keep walks B.1, six goblin raiders of The Zhakuk lie at B.3, and five of The Wood Outlaws hold the toll at B.5.
+Nothing on the road is hidden or secret. Off it the grass stands tall and open on both sides to the horizon and hides a man lying down at 30 yards; the wood's edge lies to the north, and the mere north of the causeway head.
 
-Loot: A day's rations costs 5 cn at A.5, and the Carters' Guild pays 50 cn at A.8 to a party whose wagon arrives whole. No treasure lies on the road; B.3's casks are emptied and the thumbprints are all the raiders leave.
+Inhabitants: The Keep (Faction: The Keep) walks the road in a column of six soldiers, wary, who escort a wagon as far as the ford (B.2), challenge strangers and want the road clear to it; they know where the last convoy was struck (B.1). Six goblins of The Zhakuk (Faction: The Zhakuk) lie in the grass at the burned wagons (B.3) with spears and slings, hostile to small parties and waiting for the next wagon. Five of The Wood Outlaws (Faction: The Wood Outlaws) take the toll at the causeway head (B.5), 10 cn a head, shoot those who run, and know which carters use the causeway. The fortnightly wagon (B.1) is run by the Carters' Guild (Faction: The Carters' Guild) (Local Procedure: Travelling with the Fortnightly Wagon).
+
+Loot: The road pays a wage, not goods; the game on the open grass is all Encounter. A place on the fortnightly wagon costs 20 cn a head, and the Carters' Guild pays 50 cn at the Market Yard (A.8) to each party whose wagon arrives whole. No treasure lies on the road; the casks at B.3 are emptied.
 
 Secrets:
 - none - every place on the road is open to it.

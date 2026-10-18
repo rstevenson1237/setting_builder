@@ -18,7 +18,8 @@ to run against a build in progress, not just a finished one. Errors are
 reserved for content that exists but is wrong (malformed, inconsistent with
 something else that exists, or an unresolved/malformed citation).
 
-Usage: python3 tools/validate_setting.py [--pending [REGION] | --location CODE | --read-set [STEP]]
+Usage: python3 tools/validate_setting.py [--pending [REGION] | --location CODE | --read-set [STEP]
+                                         | --brief setting|REGION]
 Exits 1 if any error is found, 0 otherwise (warnings never fail the run).
 """
 from __future__ import annotations
@@ -123,6 +124,8 @@ def read_set() -> dict[str, tuple[set, set]]:
 
 
 STANDING_CONTEXT = ("GENRE.md", "STYLE.md", "BRIEF.md")
+BRIEF_SLICE_RE = re.compile(r'--brief (\S+?)`')
+BRIEF_SCOPES = ("setting", "[Region Code]")   # the slices a Context may name
 
 
 def context_section(text: str) -> str:
@@ -155,8 +158,36 @@ def check_read_set(diag: Diagnostics):
         for need in STANDING_CONTEXT:
             if f"`{need}`" not in context:
                 diag.error(path, f"Context does not name {need}, which every step reads")
+        for scope in BRIEF_SLICE_RE.findall(context):
+            if scope not in BRIEF_SCOPES:
+                diag.error(path, f"Context reads BRIEF.md's slice {scope!r}; a slice is one of {', '.join(BRIEF_SCOPES)}")
         if TEMPLATE_STEP_CITE_RE.search(context) or re.search(r'^- (At|Step) ', context, re.M):
             diag.error(path, "Context is conditional on a step - one Context serves every step that cites the template")
+
+
+def check_brief_slices(diag: Diagnostics):
+    """Each slice --brief prints holds its nodes as BRIEF.md does, `setting` cut to the
+    lines a region's slice keeps."""
+    nodes = tables.brief_nodes()
+    whole = {(n.name, n.args[0] if n.name == "region" and n.args else None): n for n in nodes}
+    for scope in ["setting"] + [str(n.args[0]) for n in nodes if n.name == "region" and n.args]:
+        for n in kdl.fenced(tables.brief_slice(scope)):
+            want = whole.get((n.name, n.args[0] if n.name == "region" and n.args else None))
+            kids = want and [c for c in want.children
+                             if scope == "setting" or n.name != "setting" or c.name in tables.SLICE_SETTING]
+            if not want or repr((n.args, n.props, n.children)) != repr((want.args, want.props, kids)):
+                diag.error(tables.BRIEF, f"--brief {scope} misreads its {n.name} node")
+
+
+def report_brief(scope: str) -> int:
+    """BRIEF.md as a step of that scope reads it."""
+    text = tables.brief_slice(scope)
+    if text is None:
+        codes = [str(n.args[0]) for n in tables.brief_nodes() if n.name == "region" and n.args]
+        print(f"BRIEF.md has no slice {scope!r}: one of setting, {', '.join(codes)}")
+        return 1
+    print(text, end="")
+    return 0
 
 
 def report_read_set(step_filter: str | None) -> int:
@@ -689,21 +720,59 @@ def check_region_overview(diag: Diagnostics, code: str, folder):
 
 
 def check_inhabitants(diag: Diagnostics, setting):
-    """A brief's Inhabitants names every creature and faction its region's Encounters
-    hold. Matched loosely - a stem, so "wolves" keeps Wolf - and so a warning."""
+    """A brief's Inhabitants names every creature, person and faction its region's
+    Encounters, People and Garrison hold, and its Services every location selling or
+    running something. Matched loosely - a stem, so "wolves" keeps Wolf - and so a warning."""
     for r in setting.regions.values():
         brief = r.dir / "Brief.md"
         if not brief.exists():
             continue
-        m = re.search(r"^Inhabitants:(.*?)(?=^[A-Z][a-z]+:|\Z)", brief.read_text(), re.M | re.S)
-        if not m:
-            continue
-        text = m.group(1).lower()
-        names = {str(c.props[k]) for ns in r.files.values() for n in ns if n.name == "Encounter"
-                 for c in n.children for k in ("bestiary", "named", "faction") if k in c.props}
-        for name in sorted(names):
+        lines = brief.read_text().splitlines()
+        nodes = [n for ns in r.files.values() for n in ns]
+        held = {str(c.props[k]): "an Encounter" for n in nodes if n.name == "Encounter"
+                for c in n.children for k in ("bestiary", "named", "faction") if k in c.props}
+        held |= {str(n.props[k]): n.args[0] for n in nodes for k in ("name", "named", "faction")
+                 if n.name in ("Person", "NamedCreature", "Faction", "Garrison") and k in n.props}
+        text = sc.parse_field(lines, "Inhabitants").lower()
+        for name, where in sorted(held.items()) if text else ():
             if name.lower()[:max(3, len(name) - 1)] not in text:
-                diag.warn(brief, f"Inhabitants does not name {name}, which an Encounter places here")
+                diag.warn(brief, f"Inhabitants does not name {name}, which {where} places here")
+        layout = sc.parse_field(lines, "Layout")
+        for n in nodes if layout else ():
+            if n.name == "Location" and n.args and not re.search(rf"\b{re.escape(str(n.args[0]))}\b", layout):
+                diag.warn(brief, f"Layout does not name {n.args[0]}")
+            at = str(n.props.get("at", "")) if n.name == "Location" and n.args else ""
+            dist = re.search(r"\d[\d,]*", at) if sc.parse_at(at) else None
+            code = str(n.args[0]) if n.args else ""
+            said = [s for s in re.split(r"(?<=[.;])\s", layout) if re.search(rf"\b{re.escape(code)}\b", s)]
+            if dist and not any(re.search(rf"\b{re.escape(dist[0])}\b", s) for s in said):
+                diag.warn(brief, f"Layout does not place {code} at {at}, its `at`")
+        text = sc.parse_field(lines, "Services")
+        sold = {str(n.args[0]) for n in nodes if n.name in ("Purchase", "Procedure")}
+        for code in sorted(sold) if text else ():
+            if not re.search(rf"\b{re.escape(code)}\b", text):
+                diag.warn(brief, f"Services does not name {code}, which sells or runs something")
+
+
+def check_plans(diag: Diagnostics, setting):
+    """Two routes to one room place it in one spot, and every Connection and every Stop
+    reaches a place the plan can draw."""
+    for code in sorted(setting.regions):
+        path = setting.regions[code].dir / "Connections.md"
+        pos, apart = sc.positions(code)
+        for a, b, gap in apart:
+            diag.warn(path, f"the way between {a} and {b} disagrees with the other routes to them "
+                            f"by {gap * 3:,.0f} feet")
+        unplaced = sorted(set(f"{code}.{n}" for n in sc.parse_locations_gazetteer(code)) - set(pos),
+                          key=lambda c: int(c.split(".")[1]))
+        for route, stops in sc.route_stops(code).items():
+            for feature, xy, _, at in stops:
+                if xy is None:
+                    diag.warn(setting.regions[code].dir / "Stops.md",
+                              f"{route}'s stop {feature!r} is at {at!r}, which the plan cannot place")
+        if pos and unplaced:
+            diag.warn(path, f"{', '.join(unplaced)} cannot be placed: no orientation reaching "
+                            f"{'it' if len(unplaced) == 1 else 'them'} states a compass point and distance")
 
 
 def check_marks(diag: Diagnostics, setting):
@@ -739,6 +808,11 @@ def check_region_fields(diag: Diagnostics, path: Path, fields: list, folder, ski
     if present != [f for f in expected if f in present]:
         diag.warn(path, f"fields out of {folder.region_path.name}'s order: {', '.join(present)}")
     for m in fields:
+        if m.n and m.name in labels:
+            paras = len(sc.parse_field(lines[skip:], m.name).split("\n"))
+            if paras != m.n:
+                diag.error(path, f"{m.name} holds {paras} paragraph(s) - "
+                                 f"{folder.region_path.name} asks for {m.n}")
         for k, v in found:
             if k == m.name and v and m.type in folder.enums:
                 for msg in tables.check_field(None, m, v, set(), folder.enums):
@@ -1112,6 +1186,8 @@ def main() -> int:
     brief = tables.Brief(schema)
     for problem in brief.problems:
         diag.error(tables.BRIEF, problem)
+    if not brief.problems:
+        check_brief_slices(diag)
 
     if is_fresh_start():
         seeded = sorted(n for n in SEED_FILES if (SETTING / n).exists())
@@ -1195,6 +1271,7 @@ def main() -> int:
     check_rumour_settling(diag)
     check_inhabitants(diag, setting)
     check_marks(diag, setting)
+    check_plans(diag, setting)
 
     # A location reached from the region itself is no part of the stated graph.
     top = {c for r in setting.regions.values() for c, n in r.locations().items()
@@ -1219,6 +1296,8 @@ if __name__ == "__main__":
         sys.exit(report_pending(sys.argv[2] if len(sys.argv) > 2 else None))
     if len(sys.argv) > 2 and sys.argv[1] == "--location":
         sys.exit(report_location(sys.argv[2]))
+    if len(sys.argv) > 2 and sys.argv[1] == "--brief":
+        sys.exit(report_brief(sys.argv[2]))
     if len(sys.argv) > 1 and sys.argv[1] == "--read-set":
         sys.exit(report_read_set(sys.argv[2] if len(sys.argv) > 2 else None))
     sys.exit(main())

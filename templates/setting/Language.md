@@ -8,7 +8,7 @@ and appended to every time a proper noun is coined.
 
 ## Context
 Read first:
-- `GENRE.md`, `STYLE.md` and `BRIEF.md`
+- `GENRE.md`, `STYLE.md` and `BRIEF.md`, as `python3 tools/validate_setting.py --brief setting` prints it
 - `patterns/Common_Schema.md` and `patterns/Setting_Schema.md`'s Language table
 - `setting/Setting.md`, `setting/Bestiary.md`, `setting/Factions.md`
 - the names that coin something

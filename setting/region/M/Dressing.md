@@ -9,7 +9,7 @@ Dressing M.5 obvious="A chamber hung with black cloth and censers" condition="in
 Dressing M.6 obvious="A narrow stair of worn steps going down" condition="worn" ambiance="cold, grave dust" layout="Forty feet of steps, turning once"
 Dressing M.7 obvious="Bones stacked in ranked niches to the roof" condition="dry" ambiance="old bone, dust" layout="Hall sixty feet long, niches in three walls"
 Dressing M.8 obvious="Empty burial niches cut in long rows" condition="dusty" ambiance="dry stone, silence" layout="Long gallery, four rows of niches" left="The Makers Fade"
-Dressing M.9 obvious="A sealed tomb round a black stone sarcophagus" condition="sealed" ambiance="cold, burnt incense" layout="Tomb thirty feet across, one door south"
+Dressing M.9 obvious="A sealed tomb round a black stone sarcophagus" condition="sealed" ambiance="cold, burnt incense" layout="Tomb thirty feet across, door south, stair west"
 Dressing M.10 obvious="A narrow chamber, runes round an iron door" condition="runed" ambiance="hot metal, silence" layout="Chamber twenty feet by ten, door north"
 Dressing M.11 obvious="A vast black hall, black fire burning" condition="blackened" ambiance="cold fire, whispers" layout="Hall eighty feet across, altar at centre" mark="The Black Altar"
 Dressing M.12 obvious="A sealed stone room gleaming with gold" condition="rimed" ambiance="frost, silence" layout="Vault thirty feet square, round recess in door"

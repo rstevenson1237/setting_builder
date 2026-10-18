@@ -105,7 +105,7 @@ def build_document(setting: sc.Setting) -> str:
             f'<section class="doc region-doc" id="{r_anchor}">'
             f'<h1>{code} {html.escape(region.name)} '
             f'<span class="badge badge-{region.rating.lower()}">{region.rating} {region.die}</span></h1>'
-            f'{field_html}{table_html}{rconn}'
+            f'{field_html}{table_html}{sc.plan_html(code, region.name)}{rconn}'
             f'</section>'
         )
         region_toc.append(toc_entry(f"{code} {region.name}", r_anchor, level=1))
@@ -219,6 +219,9 @@ code { background: #f1e9da; padding: 0 3px; }
 .exit-list li { padding: 0.2em 0; }
 
 .connections { margin-top: 0.8em; }
+.plan-figure { margin: 0.8em 0; page-break-inside: avoid; }
+.plan-figure svg { width: 11cm; display: block; }
+.plan-figure figcaption, .plan-figure details { font-size: 9pt; color: #5a4f42; }
 .connections ul { margin: 0.2em 0 0; padding-left: 1.2em; font-size: 9.5pt; }
 
 .timeline { list-style: none; padding: 0; }

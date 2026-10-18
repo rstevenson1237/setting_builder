@@ -5,7 +5,7 @@ One location's write-up, `setting/region/[Region Code]/[Location Number].md`.
 
 ## Context
 Read first:
-- `GENRE.md`, `STYLE.md` and `BRIEF.md`
+- `GENRE.md`, `STYLE.md` and `BRIEF.md`, as `python3 tools/validate_setting.py --brief [Region Code]` prints it
 - `setting/Truths.md`
 - `setting/Procedures.md`'s Forced Dangers, Conditions and Time and Distance - the mechanics a Feature cites
 - `setting/Language.md` - roots for a coined name, and the coinages already recorded
@@ -25,6 +25,8 @@ Read first:
   Garrison or a Faction's members are one Feature citing their Bestiary entry, where they have one. A Purchase is written
   with its price in the Feature that sells it, a menu or sale as the goods, a service as
   the act.
+- A Stop is a Feature named for its `feature`, in the route's order, saying how far along the
+  route it lies; one with a `to` says where its path leads, by that location's code.
 - A Local Procedure is the thing a party can start - the table, the game - cited from its
   Feature; its rules stay in the entry.
 - A location with no Connections entry has no Exits line.

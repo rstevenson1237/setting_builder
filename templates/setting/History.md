@@ -5,7 +5,7 @@ Records the major events that have shaped the setting, oldest to newest.
 
 ## Context
 Read first:
-- `GENRE.md`, `STYLE.md` and `BRIEF.md`
+- `GENRE.md`, `STYLE.md` and `BRIEF.md`, as `python3 tools/validate_setting.py --brief setting` prints it
 - `patterns/Common_Schema.md` and `patterns/Setting_Schema.md`
 - `setting/Setting.md`
 - the location entries and write-ups that hold each event's Left mark, once written

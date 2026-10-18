@@ -49,7 +49,8 @@ safe {
 
 wild {
   rate Lair Dressing=1 Challenges=1
-  rate Ruin Natural Route Hidden Secret Dressing=1 Challenges="0-1"
+  rate Ruin Natural Hidden Secret Dressing=1 Challenges="0-1"
+  rate Route Dressing=1 Challenges="0-1" Stops="3-6"
 }
 
 dangerous {

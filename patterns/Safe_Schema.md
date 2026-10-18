@@ -17,7 +17,8 @@ node Location {
                             // border passers, the departed, or its occupants
   tags tag list n=3
   type kind
-  at gloss                  // compass point and distance from the region's way in
+  at string                 // compass point and distance from the region's way in, or how far
+                            // north or south of it then east or west: "700 yards north, 50 west"
 }
 node Dressing {
   obvious string
