@@ -739,6 +739,8 @@ def check_inhabitants(diag: Diagnostics, setting):
                 diag.warn(brief, f"Inhabitants does not name {name}, which {where} places here")
         layout = sc.parse_field(lines, "Layout")
         for n in nodes if layout else ():
+            if n.name == "Location" and n.args and not re.search(rf"\b{re.escape(str(n.args[0]))}\b", layout):
+                diag.warn(brief, f"Layout does not name {n.args[0]}")
             at = str(n.props.get("at", "")) if n.name == "Location" and n.args else ""
             dist = re.search(r"\d[\d,]*", at) if sc.parse_at(at) else None
             code = str(n.args[0]) if n.args else ""
@@ -750,6 +752,22 @@ def check_inhabitants(diag: Diagnostics, setting):
         for code in sorted(sold) if text else ():
             if not re.search(rf"\b{re.escape(code)}\b", text):
                 diag.warn(brief, f"Services does not name {code}, which sells or runs something")
+
+
+def check_plans(diag: Diagnostics, setting):
+    """Two routes to one room place it in one spot, and every Connection reaches a place
+    the plan can draw."""
+    for code in sorted(setting.regions):
+        path = setting.regions[code].dir / "Connections.md"
+        pos, apart = sc.positions(code)
+        for a, b, gap in apart:
+            diag.warn(path, f"the way between {a} and {b} disagrees with the other routes to them "
+                            f"by {gap * 3:,.0f} feet")
+        unplaced = sorted(set(f"{code}.{n}" for n in sc.parse_locations_gazetteer(code)) - set(pos),
+                          key=lambda c: int(c.split(".")[1]))
+        if pos and unplaced:
+            diag.warn(path, f"{', '.join(unplaced)} cannot be placed: no orientation reaching "
+                            f"{'it' if len(unplaced) == 1 else 'them'} states a compass point and distance")
 
 
 def check_marks(diag: Diagnostics, setting):
@@ -1248,6 +1266,7 @@ def main() -> int:
     check_rumour_settling(diag)
     check_inhabitants(diag, setting)
     check_marks(diag, setting)
+    check_plans(diag, setting)
 
     # A location reached from the region itself is no part of the stated graph.
     top = {c for r in setting.regions.values() for c, n in r.locations().items()
