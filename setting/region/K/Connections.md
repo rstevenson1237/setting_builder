@@ -1,7 +1,7 @@
 # Connections of K Bugbear Den
 
 ```kdl
-Connection K.1 to="E.7" type="Open" orientation="west, 20 yards"
+Connection K.1 to="E.7" type="Open" orientation="west, 200 yards"
 Connection K.1 to="K.3" type="Open" orientation="east, 200 yards"
 Connection K.3 to="K.1" type="Open" orientation="west, 200 yards"
 Connection K.3 to="K.2" type="Wooden" orientation="north, 40 feet"
