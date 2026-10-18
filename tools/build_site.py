@@ -179,8 +179,9 @@ def page_shell(setting: sc.Setting, current_page: str, title: str, body: str, de
 <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
 </head>
 <body data-cites="{rel_asset(current_page, 'cites.json')}">
+<a class="skip-link" href="#content">Skip to content</a>
 {nav_html(setting, current_page)}
-<main class="{main_class}">
+<main class="{main_class}" id="content" tabindex="-1">
 {body}
 </main>
 <footer class="site-footer">
@@ -208,12 +209,25 @@ def section(title: str, body: str, anchor: str | None = None) -> str:
 MERMAID_FENCE_RE = re.compile(r"```mermaid\s*\n(.*?)```", re.DOTALL)
 
 
-def mermaid_block(mmd_text: str, extra_lines: list[str] | None = None) -> str:
+def mermaid_block(mmd_text: str, extra_lines: list[str] | None = None, title: str = "") -> str:
     m = MERMAID_FENCE_RE.search(mmd_text)
     text = m.group(1) if m else mmd_text
+    if title:
+        # mermaid gives the drawn graph this title for a screen reader
+        first, _, rest = text.lstrip().partition("\n")
+        text = f"{first}\n  accTitle: {title}\n{rest}"
     if extra_lines:
         text = text.rstrip() + "\n" + "\n".join(extra_lines) + "\n"
     return f'<div class="diagram"><pre class="mermaid">{html.escape(text)}</pre></div>'
+
+
+def edges_text(mmd_text: str, setting: sc.Setting) -> str:
+    """The graph's edges as a list, for a reader who cannot see the drawing."""
+    lines = sc.describe_edges(mmd_text, setting)
+    if not lines:
+        return ""
+    items = "".join(f"<li>{html.escape(l)}</li>" for l in lines)
+    return f'<details class="diagram-text"><summary>Connections as text</summary><ul>{items}</ul></details>'
 
 
 def region_graph_clicks(mmd_text: str, region_code: str, current_page: str) -> list[str]:
@@ -272,7 +286,9 @@ def build_index(setting: sc.Setting, out: Path) -> None:
     body.append(section("Regions", f'<div class="region-list">{"".join(region_rows)}</div>'))
 
     clicks = top_graph_clicks(setting.top_connections, page)
-    body.append(section("Region Connections", mermaid_block(setting.top_connections, clicks)))
+    body.append(section("Region Connections",
+                        mermaid_block(setting.top_connections, clicks, "Region connections")
+                        + edges_text(setting.top_connections, setting)))
 
     write_page(out, page, page_shell(setting, page, setting.name, "\n".join(body)))
 
@@ -419,12 +435,17 @@ def build_region(setting: sc.Setting, out: Path, code: str) -> None:
     def loc_list(nums) -> str:
         return f'<div class="location-list">{"".join(loc_row(n) for n in nums)}</div>'
 
+    plan = sc.plan_html(code, region.name)
+    if plan:
+        body.append(section("Plan", plan))
     summary_mmd = sc.load_mmd(sc.SETTING / "region" / code / "Connections.mmd")
     body.append(section("Locations", loc_list(sorted(region.locations))))
     if summary_mmd.strip():
         body.append(section(
             "Connections",
-            mermaid_block(summary_mmd, region_graph_clicks(summary_mmd, code, page)),
+            mermaid_block(summary_mmd, region_graph_clicks(summary_mmd, code, page),
+                          f"Connections of {code} {region.name}")
+            + edges_text(summary_mmd, setting),
         ))
 
     write_page(out, page, page_shell(setting, page, f"{code} {region.name}", "\n".join(body)))

@@ -737,6 +737,14 @@ def check_inhabitants(diag: Diagnostics, setting):
         for name, where in sorted(held.items()) if text else ():
             if name.lower()[:max(3, len(name) - 1)] not in text:
                 diag.warn(brief, f"Inhabitants does not name {name}, which {where} places here")
+        layout = sc.parse_field(lines, "Layout")
+        for n in nodes if layout else ():
+            at = str(n.props.get("at", "")) if n.name == "Location" and n.args else ""
+            dist = re.search(r"\d[\d,]*", at) if sc.parse_at(at) else None
+            code = str(n.args[0]) if n.args else ""
+            said = [s for s in re.split(r"(?<=[.;])\s", layout) if re.search(rf"\b{re.escape(code)}\b", s)]
+            if dist and not any(re.search(rf"\b{re.escape(dist[0])}\b", s) for s in said):
+                diag.warn(brief, f"Layout does not place {code} at {at}, its `at`")
         text = sc.parse_field(lines, "Services")
         sold = {str(n.args[0]) for n in nodes if n.name in ("Purchase", "Procedure")}
         for code in sorted(sold) if text else ():

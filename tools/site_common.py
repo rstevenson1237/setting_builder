@@ -12,6 +12,7 @@ combined PDF) build on top of this module so the two outputs stay in sync.
 from __future__ import annotations
 
 import html
+import math
 import re
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -410,8 +411,90 @@ def parse_locations_gazetteer(region_code: str) -> dict[int, dict]:
         if n.name == "Location" and m:
             out[int(m.group(2))] = {"name": n.props.get("name", ""),
                                     "weight": str(n.props.get("type", "")).lower() or None,
-                                    "tags": n.props.get("tags", "")}
+                                    "tags": n.props.get("tags", ""),
+                                    "at": str(n.props.get("at", ""))}
     return out
+
+
+# -- The plan --------------------------------------------------------------
+#
+# Every location's `at` is a compass point and distance from its region's way in, so a
+# region's plan is drawn from its tables alone: what the Layout says can be checked
+# against it, and an artist starts from it.
+
+COMPASS = ["north", "north-north-east", "north-east", "east-north-east",
+           "east", "east-south-east", "south-east", "south-south-east",
+           "south", "south-south-west", "south-west", "west-south-west",
+           "west", "west-north-west", "north-west", "north-north-west"]
+UNIT_YARDS = {"yard": 1, "yards": 1, "mile": 1760, "miles": 1760, "foot": 1 / 3, "feet": 1 / 3, "ft": 1 / 3}
+AT_RE = re.compile(r"^(?P<point>[a-z-]+),\s*(?P<n>[\d,.]+)\s*(?P<unit>[a-z]+)$")
+
+
+def parse_at(at: str) -> tuple[float, float] | None:
+    """An `at` as yards east and north of the way in; None where it states no position."""
+    at = at.strip().lower()
+    if at == "at the way in":
+        return 0.0, 0.0
+    m = AT_RE.match(at)
+    if not m or m["point"] not in COMPASS or m["unit"] not in UNIT_YARDS:
+        return None
+    d = float(m["n"].replace(",", "")) * UNIT_YARDS[m["unit"]]
+    a = math.radians(COMPASS.index(m["point"]) * 22.5)
+    return d * math.sin(a), d * math.cos(a)
+
+
+def _nice(x: float) -> float:
+    """The round length nearest below x: 1, 2 or 5 times a power of ten."""
+    p = 10 ** math.floor(math.log10(x))
+    return max(f * p for f in (1, 2, 5) if f * p <= x)
+
+
+def plan_html(code: str, name: str) -> str:
+    """The region's locations plotted from their `at`, north up, with a scale bar, and the
+    same positions as text for a reader who cannot see the drawing."""
+    locs = parse_locations_gazetteer(code)
+    points: dict[tuple[float, float], list[str]] = {}
+    for num, loc in sorted(locs.items()):
+        xy = parse_at(loc["at"])
+        if xy:
+            points.setdefault((round(xy[0], 1), round(xy[1], 1)), []).append(f"{code}.{num}")
+    if len(points) < 2:
+        return ""
+    xs, ys = [p[0] for p in points], [p[1] for p in points]
+    span = max(max(xs) - min(xs), max(ys) - min(ys)) or 1
+    pad, size = span * 0.12, 480
+    k = size / (span + 2 * pad)
+    w = (max(xs) - min(xs) + 2 * pad) * k + 70     # room for the labels east of the last point
+    h = (max(ys) - min(ys) + 2 * pad) * k + 40
+    px = lambda x: (x - min(xs) + pad) * k
+    py = lambda y: (max(ys) - y + pad) * k
+    bar = _nice(span / 3)
+    miles = bar >= 880
+    label = f"{bar / 1760:g} miles" if miles else f"{bar:g} yards"
+    tid, did = f"plan-{code}-title", f"plan-{code}-desc"
+    out = [f'<svg class="plan" viewBox="0 0 {w:.0f} {h:.0f}" role="img" aria-labelledby="{tid} {did}" '
+           f'font-family="inherit" font-size="13" fill="currentColor" stroke="currentColor">',
+           f'<title id="{tid}">Plan of {html.escape(code)} {html.escape(name)}, drawn from each location\'s position</title>',
+           f'<desc id="{did}">North is up. The way in is ringed. ' + "; ".join(
+               f"{', '.join(cs)}: {html.escape(locs[int(cs[0].split('.')[1])]['at'])}"
+               for cs in points.values()) + ".</desc>"]
+    for (x, y), cs in points.items():
+        ring = '<circle r="9" fill="none" stroke-width="1.5"/>' if (x, y) == (0, 0) else ""
+        out.append(f'<g transform="translate({px(x):.1f} {py(y):.1f})">{ring}'
+                   f'<circle r="4" stroke="none"/><text x="8" y="-6" stroke="none">{", ".join(cs)}</text></g>')
+    y0 = h - 22
+    out.append(f'<g stroke-width="2"><line x1="12" y1="{y0}" x2="{12 + bar * k:.1f}" y2="{y0}"/>'
+               f'<line x1="12" y1="{y0 - 5}" x2="12" y2="{y0 + 5}"/>'
+               f'<line x1="{12 + bar * k:.1f}" y1="{y0 - 5}" x2="{12 + bar * k:.1f}" y2="{y0 + 5}"/></g>'
+               f'<text x="12" y="{y0 + 18}" stroke="none">{label}</text>'
+               f'<g transform="translate({w - 20:.0f} 24)"><path d="M0 -14 L6 6 L0 2 L-6 6 Z" stroke="none"/>'
+               f'<text x="0" y="22" text-anchor="middle" stroke="none">N</text></g></svg>')
+    rows = "".join(f"<li>{c} {html.escape(locs[int(c.split('.')[1])]['name'])} - "
+                   f"{html.escape(locs[int(c.split('.')[1])]['at'])}</li>"
+                   for cs in points.values() for c in cs)
+    return (f'<figure class="diagram plan-figure">{"".join(out)}'
+            f'<figcaption>Each location at its compass point and distance from the way in.</figcaption>'
+            f'<details><summary>Positions as text</summary><ul>{rows}</ul></details></figure>')
 
 
 LOC_HEADER_RE = re.compile(r'^([A-Z]+)\.(\d+) \*\*(.+?)\*\*(?: \(([^)]+)\))? - \*(.+)\*\s*$')

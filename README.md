@@ -66,7 +66,8 @@ Read these rather than a description of them.
     `--check` fails a build that leaves any of it out. The site header's Roll button opens a
     3D dice overlay (`site_assets/dice-overlay.js`, on `dice.js`; three.js and cannon load from
     a CDN on first use).
-  - `site_common.py` - the schema-driven readers and renderers shared by the two builders.
+  - `site_common.py` - the schema-driven readers and renderers shared by the two builders,
+    including each region's plan, drawn from its locations' `at`.
   - `metrics.py` - what the framework costs and how the corpus reads, counted. Judges
     nothing; the thresholds are the validator's.
   - `kdl.py` - the KDL subset the location tables are written in.

@@ -428,6 +428,14 @@ code {
 .checklist-item:has(input:checked) { opacity: 0.6; }
 .checklist-item:has(input:checked) span { text-decoration: line-through; }
 .diagram svg { max-width: 100%; height: auto; }
+.plan-figure { margin: 0; color: var(--ink); }
+.plan-figure svg { display: block; width: 100%; max-width: 480px; margin: 0 auto; }
+.plan-figure figcaption, .diagram-text { font-size: 0.85rem; color: var(--ink-soft); margin-top: 0.4rem; }
+.diagram-text summary, .plan-figure summary { cursor: pointer; }
+
+.skip-link { position: absolute; left: -9999px; top: 0; z-index: 100; padding: 0.5rem 0.9rem;
+  background: var(--card-bg); color: var(--link); border: 2px solid var(--accent); }
+.skip-link:focus { left: 0.5rem; top: 0.5rem; }
 
 .site-footer {
   text-align: center;
