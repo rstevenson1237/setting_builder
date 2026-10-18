@@ -489,6 +489,22 @@ def positions(code: str) -> tuple[dict[str, tuple[float, float, int]], list[tupl
     return pos, [(a, b, gap) for (a, b), gap in sorted(apart.items())]
 
 
+def route_stops(code: str) -> dict[str, list[tuple[str, tuple[float, float, int] | None, str, str]]]:
+    """Each Route's stops in order: its feature, its place, where its path leads, and its `at`."""
+    path = SETTING / "region" / code / "Stops.md"
+    try:
+        nodes = kdl.fenced(path.read_text()) if path.exists() else []
+    except SyntaxError:
+        nodes = []
+    out: dict[str, list] = {}
+    for n in nodes:
+        if n.name == "Stop" and n.args:
+            at = str(n.props.get("at", ""))
+            out.setdefault(str(n.args[0]), []).append(
+                (str(n.props.get("feature", "")), parse_at(at), str(n.props.get("to", "")), at))
+    return out
+
+
 def _nice(x: float) -> float:
     """The round length nearest below x: 1, 2 or 5 times a power of ten."""
     p = 10 ** math.floor(math.log10(x))
@@ -513,7 +529,9 @@ def plan_html(code: str, name: str) -> str:
     if len(pos) < 2:
         return ""
     by_at = any(parse_at(l["at"]) for l in locs.values())
-    xs, ys = [p[0] for p in pos.values()], [p[1] for p in pos.values()]
+    routes = route_stops(code)
+    every = list(pos.values()) + [xy for ss in routes.values() for _, xy, _, _ in ss if xy]
+    xs, ys = [p[0] for p in every], [p[1] for p in every]
     span = max(max(xs) - min(xs), max(ys) - min(ys)) or 1
     feet = span * 3 < 600
     pad, size = span * 0.12, 340                   # drawn at its own size, so text reads the same in every plan
@@ -531,9 +549,12 @@ def plan_html(code: str, name: str) -> str:
     if feet:
         bar_ft = _nice(span)                       # a third of the span, in feet
         bar, label = bar_ft / 3, f"{bar_ft:g} feet"
+    elif span / 3 >= 880:
+        bar_mi = _nice(span / 3 / 1760)
+        bar, label = bar_mi * 1760, f"{bar_mi:g} mile{'s' * (bar_mi != 1)}"
     else:
         bar = _nice(span / 3)
-        label = f"{bar / 1760:g} miles" if bar >= 880 else f"{bar:g} yards"
+        label = f"{bar:g} yards"
     place = lambda c: (locs[int(c.split(".")[1])]["at"] if by_at else _offset(*pos[c], feet))
     text = [(c, locs[int(c.split(".")[1])]["name"], place(c))
             for c in sorted(pos, key=lambda c: int(c.split(".")[1]))]
@@ -542,23 +563,41 @@ def plan_html(code: str, name: str) -> str:
            f'font-family="inherit" font-size="13" fill="currentColor" stroke="currentColor">',
            f'<title id="{tid}">Plan of {html.escape(code)} {html.escape(name)}, drawn from its tables</title>',
            f'<desc id="{did}">North is up. The way in is ringed; a number after a code is the levels '
-           f'above or below it. ' + "; ".join(f"{c}: {html.escape(t)}" for c, _, t in text) + ".</desc>"]
-    taken = [(px(p[0]) - 4, py(p[1]) - 4, px(p[0]) + 4, py(p[1]) + 4) for p in pos.values()]  # dots, then labels
+           f'above or below it; a dashed line is a route through its stops, each a numbered square. '
+           + "; ".join(f"{c}: {html.escape(t)}" for c, _, t in text) + ".</desc>"]
+    for c, ss in routes.items():                   # a route is a line through its stops, in order
+        line = " ".join(f"{px(xy[0]):.1f},{py(xy[1]):.1f}" for _, xy, _, _ in ss if xy)
+        out.append(f'<polyline points="{line}" fill="none" stroke-width="1.5" stroke-dasharray="6 4"/>'
+                   + "".join(f'<rect x="{px(xy[0]) - 3:.1f}" y="{py(xy[1]) - 3:.1f}" width="6" height="6" '
+                             f'fill="none" stroke-width="1.5"/>' for _, xy, _, _ in ss if xy))
+    taken = [(px(p[0]) - 4, py(p[1]) - 4, px(p[0]) + 4, py(p[1]) + 4) for p in every]  # dots, then labels
     spots = [(8, -6, "start"), (8, 15, "start"), (-8, -6, "end"), (-8, 15, "end"), (0, -10, "middle"),
              (0, 22, "middle"), (8, -20, "start"), (8, 29, "start"), (-8, -20, "end"), (-8, 29, "end")]
-    for (x, y), cs in points.items():
-        text_ = ", ".join(tag(c) for c in cs)
+
+    def spot(x: float, y: float, text_: str) -> tuple[int, int, str]:
+        """The first place beside a point where its label covers no dot and no other label."""
         lw = 7 * len(text_)
         left = {"start": 0, "middle": lw / 2, "end": lw}
         box = lambda dx, dy, a: (px(x) + dx - left[a], py(y) + dy - 11, px(x) + dx - left[a] + lw, py(y) + dy + 2)
         free = lambda b: all(b[2] <= t[0] or b[0] >= t[2] or b[3] <= t[1] or b[1] >= t[3] for t in taken)
         dx, dy, anchor = next((s for s in spots if free(box(*s))), spots[0])
         taken.append(box(dx, dy, anchor))
+        return dx, dy, anchor
+
+    for (x, y), cs in points.items():
+        text_ = ", ".join(tag(c) for c in cs)
+        dx, dy, anchor = spot(x, y, text_)
         ring = '<circle r="9" fill="none" stroke-width="1.5"/>' if (x, y) == (0, 0) else ""
         dots = "".join(f'<circle cx="{px(pos[c][0]) - px(x):.1f}" cy="{py(pos[c][1]) - py(y):.1f}" r="4" stroke="none"/>'
                        for c in cs)
         out.append(f'<g transform="translate({px(x):.1f} {py(y):.1f})">{ring}{dots}'
                    f'<text x="{dx}" y="{dy}" text-anchor="{anchor}" stroke="none">{text_}</text></g>')
+    for ss in routes.values():                      # each stop numbered in the route's order
+        for i, (_, xy, _, _) in enumerate(ss, 1):
+            if xy:
+                dx, dy, anchor = spot(xy[0], xy[1], str(i))
+                out.append(f'<text x="{px(xy[0]) + dx:.1f}" y="{py(xy[1]) + dy:.1f}" text-anchor="{anchor}" '
+                           f'font-size="11" stroke="none">{i}</text>')
     y0 = h - 22
     out.append(f'<g stroke-width="2"><line x1="12" y1="{y0}" x2="{12 + bar * k:.1f}" y2="{y0}"/>'
                f'<line x1="12" y1="{y0 - 5}" x2="12" y2="{y0 + 5}"/>'
@@ -566,7 +605,11 @@ def plan_html(code: str, name: str) -> str:
                f'<text x="12" y="{y0 + 18}" stroke="none">{label}</text>'
                f'<g transform="translate({w - 20:.0f} 24)"><path d="M0 -14 L6 6 L0 2 L-6 6 Z" stroke="none"/>'
                f'<text x="0" y="22" text-anchor="middle" stroke="none">N</text></g></svg>')
-    rows = "".join(f"<li>{c} {html.escape(n)} - {html.escape(t)}</li>" for c, n, t in text)
+    stop_rows = lambda c: "".join(f"<li>{html.escape(f)} - {html.escape(at)}"
+                                  f"{', leads to ' + html.escape(to) if to else ''}</li>"
+                                  for f, _, to, at in routes.get(c, []))
+    rows = "".join(f"<li>{c} {html.escape(n)} - {html.escape(t)}"
+                   + (f"<ol>{stop_rows(c)}</ol>" if c in routes else "") + "</li>" for c, n, t in text)
     how = ("at its compass point and distance from the way in" if by_at
            else "placed by walking its connections from the entrance")
     return (f'<figure class="diagram plan-figure">{"".join(out)}'

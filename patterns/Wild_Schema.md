@@ -68,6 +68,13 @@ node Mystery {
 node Procedure {
   procedure entry "Local Procedures"
 }
+node Stop {                 // a place of interest on a Route, listed in order from where the route starts
+  feature gloss             // the Feature its write-up gives it
+  at string                 // as a Location's at
+  sight string              // what a party finds there and can do
+  to location opt           // where a path from it leads, in this region or another: a Route is then a
+                            // slice through the region, the stops its way to what lies off it
+}
 node Way {
   to location
   orientation gloss         // compass point and distance from this end
@@ -84,6 +91,7 @@ folder Wild type=Wild_Type {
   Dressing Dressing
   Challenges Encounter Hazard Mystery
   Procedures Procedure
+  Stops Stop                                       // a Route's only
   Connections Way
   top Landmark Route  // reached from the region itself, so never joined to one another
   join Hidden Landmark Route  // a type connects only to these within its region

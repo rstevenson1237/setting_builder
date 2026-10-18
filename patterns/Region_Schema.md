@@ -53,8 +53,8 @@ region Wild {
                             // night, a fire. Ground is never a location.
   }
   brief {
-    Layout text n=3         // every location by code: each way in and each Route - where it runs, how long, the
-                            // seed's Approach folded in; each Landmark at its `at` - what shows of it and from
+    Layout text n=3         // every location by code: each way in and each Route - where it runs, how long, its
+                            // stops in order and where each leads, the seed's Approach folded in; each Landmark at its `at` - what shows of it and from
                             // how far, and how it is reached from the route; the rest at its `at`, in prose,
                             // a secret or rule shown only as what a party can notice
     Inhabitants text        // every creature and faction the Encounters hold, how many, where and what they are about

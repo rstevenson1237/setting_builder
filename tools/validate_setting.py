@@ -755,8 +755,8 @@ def check_inhabitants(diag: Diagnostics, setting):
 
 
 def check_plans(diag: Diagnostics, setting):
-    """Two routes to one room place it in one spot, and every Connection reaches a place
-    the plan can draw."""
+    """Two routes to one room place it in one spot, and every Connection and every Stop
+    reaches a place the plan can draw."""
     for code in sorted(setting.regions):
         path = setting.regions[code].dir / "Connections.md"
         pos, apart = sc.positions(code)
@@ -765,6 +765,11 @@ def check_plans(diag: Diagnostics, setting):
                             f"by {gap * 3:,.0f} feet")
         unplaced = sorted(set(f"{code}.{n}" for n in sc.parse_locations_gazetteer(code)) - set(pos),
                           key=lambda c: int(c.split(".")[1]))
+        for route, stops in sc.route_stops(code).items():
+            for feature, xy, _, at in stops:
+                if xy is None:
+                    diag.warn(setting.regions[code].dir / "Stops.md",
+                              f"{route}'s stop {feature!r} is at {at!r}, which the plan cannot place")
         if pos and unplaced:
             diag.warn(path, f"{', '.join(unplaced)} cannot be placed: no orientation reaching "
                             f"{'it' if len(unplaced) == 1 else 'them'} states a compass point and distance")
