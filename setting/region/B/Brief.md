@@ -6,7 +6,7 @@ Nothing on the road is hidden or secret. Off it the grass stands tall and open o
 
 Inhabitants: The Keep (Faction: The Keep) walks the road in a column of six soldiers, wary, who escort a wagon as far as the ford (B.2), challenge strangers and want the road clear to it; they know where the last convoy was struck (B.1). Six goblins of The Zhakuk (Faction: The Zhakuk) lie in the grass at the burned wagons (B.3) with spears and slings, hostile to small parties and waiting for the next wagon. Five of The Wood Outlaws (Faction: The Wood Outlaws) take the toll at the causeway head (B.5), 10 cn a head, shoot those who run, and know which carters use the causeway. The fortnightly wagon (B.1) is run by the Carters' Guild (Faction: The Carters' Guild) (Local Procedure: Travelling with the Fortnightly Wagon).
 
-Loot: The road yields its wage and nothing else: no forage or game grows on the open grass that is not an Encounter. A place on the fortnightly wagon costs 20 cn a head, and the Carters' Guild pays 50 cn at the Market Yard (A.8) to each party whose wagon arrives whole. No treasure lies on the road; the casks at B.3 are emptied.
+Loot: The road pays a wage, not goods; the game on the open grass is all Encounter. A place on the fortnightly wagon costs 20 cn a head, and the Carters' Guild pays 50 cn at the Market Yard (A.8) to each party whose wagon arrives whole. No treasure lies on the road; the casks at B.3 are emptied.
 
 Secrets:
 - none - every place on the road is open to it.
