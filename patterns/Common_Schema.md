@@ -3,7 +3,8 @@
 The values every field is written in, shared by every schema after it; a narrower schema
 defining a name used here shadows it.
 
-A field is `Label type`, then `opt`, `list` (comma-separated) or `none` (may be `none`).
+A field is `Label type`, then `opt`, `list` (comma-separated) or `none` (may be `none`), and
+`n=N`: exactly N items, or N paragraphs of prose.
 An enum field opens with one of its items, and may go on after ` - ` in prose. How many
 entries a file holds is `BRIEF.md`'s.
 

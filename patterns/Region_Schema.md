@@ -7,9 +7,10 @@ themselves are the rating's own schema.
 
 Every seed and brief sentence carries something usable at the table - a name, count,
 price, place, distance or ruling; why a place exists or how it feels is cut, and nothing
-is said twice. A secret always carries its answer. A Situation is true whether or not the
+is said twice. A secret always carries its answer. A situation is true whether or not the
 party engages: what is changing, then two rungs, each with what sets it off. Places is an
-index, never a description. A list field writes each item as its own `- ` line.
+index, never a description. A list field writes each item as its own `- ` line, and
+paragraphs are separated by a blank line.
 
 ```kdl
 enum Safe_Kind steading thorp village town seat hold   // a household; a few; trades; a market and authority;
@@ -20,15 +21,16 @@ enum Dangerous_Kind collection "single holding"   // a worked complex in blocks,
 region Safe {
   seed {
     Kind Safe_Kind
-    Overview text           // what a party sees arriving, and what it comes to do
-    Approach text           // every way in: what stands at it, what passing takes, what befalls the turned away
+    Overview text           // what a party comes to do; then its situation: who is behind it, and who is hurt
     Buys text               // what it buys from a party and at what rate; what cannot be had here
     Law text                // what gets a stranger fined, locked up or put out; who enforces; what each costs
-    Situation text          // who is behind it, and who is hurt
   }
   brief {
-    Layout text             // the region as a plan: its blocks or main ways, each way in, and the compass point and distance between them, by location code
-    Places text             // every location: what a party goes there for, who is found there
+    Layout text n=3         // every location by code: the view from afar, then each way in -
+                            // what stands at it, what passing takes, what befalls the turned away; the plan -
+                            // its blocks or main ways, and the compass point and distance between them; what a
+                            // party goes to each location for and who is found there, a secret or rule shown
+                            // only as what a party can notice
     Secrets text            // - the fact - who knows it; the entry that brings it out
     Leads text
     Tables text             // d6 Events

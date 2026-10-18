@@ -23,6 +23,10 @@ is an entry to add to the tables, not a line here. Nothing the seed says is repe
 ```
 [Field]: [prose, short]
 
+[Paragraph field]: [first paragraph]
+
+[next paragraph]
+
 [List field]:
 - [Code or codes, Rumour N or Quest Name] - [...]
 

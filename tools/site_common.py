@@ -308,18 +308,29 @@ def is_table_head(line: str, prev: str | None) -> bool:
 
 
 def _field_text(block: list[str]) -> str:
-    """A field's lines, rejoined: `- ` items stay one per line, prose is one line."""
+    """A field's lines, rejoined: `- ` items stay one per line, each prose paragraph is
+    one line."""
     items: list[str] = []
-    prose: list[str] = []
+    prose: list[list[str]] = [[]]
     for raw in block:
         line = raw.strip()
-        if line.startswith("- "):
+        if not line:
+            if prose[-1]:
+                prose.append([])
+        elif line.startswith("- "):
             items.append(line)
         elif items:
             items[-1] += " " + line
         else:
-            prose.append(line)
-    return "\n".join(([" ".join(prose)] if prose else []) + items).strip()
+            prose[-1].append(line)
+    return "\n".join([" ".join(p) for p in prose if p] + items).strip()
+
+
+def parse_field(lines: list[str], label: str) -> str:
+    """One seed or brief field's text, as the site reads it."""
+    fields: list[tuple[str, str]] = []
+    _parse_region_fields(lines, fields, [])
+    return dict(fields).get(label, "")
 
 
 def parse_region_overview(code: str, gaz: dict) -> Region:
@@ -349,7 +360,7 @@ def _parse_region_fields(lines: list[str], fields: list, tables: list) -> None:
             continue
         label, val = m.group(1), m.group(2)
         block = [val] if val.strip() else []
-        while i < n and lines[i].strip() and not re.match(r"^[A-Z][a-z]+:(?:\s|$)", lines[i]):
+        while i < n and not re.match(r"^[A-Z][a-z]+:(?:\s|$)", lines[i]):
             block.append(lines[i])
             i += 1
         if label == "Tables":
@@ -358,6 +369,8 @@ def _parse_region_fields(lines: list[str], fields: list, tables: list) -> None:
             rows: list[str] = []
             for raw in block:
                 raw = raw.strip()
+                if not raw:
+                    continue
                 if not rows or re.match(r"^\d+[.)]\s", raw) or is_table_head(raw, rows[-1]):
                     rows.append(raw)
                 else:

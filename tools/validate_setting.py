@@ -770,6 +770,11 @@ def check_region_fields(diag: Diagnostics, path: Path, fields: list, folder, ski
     if present != [f for f in expected if f in present]:
         diag.warn(path, f"fields out of {folder.region_path.name}'s order: {', '.join(present)}")
     for m in fields:
+        if m.n and m.name in labels:
+            paras = len(sc.parse_field(lines[skip:], m.name).split("\n"))
+            if paras != m.n:
+                diag.error(path, f"{m.name} holds {paras} paragraph(s) - "
+                                 f"{folder.region_path.name} asks for {m.n}")
         for k, v in found:
             if k == m.name and v and m.type in folder.enums:
                 for msg in tables.check_field(None, m, v, set(), folder.enums):
