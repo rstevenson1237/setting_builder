@@ -18,7 +18,8 @@ to run against a build in progress, not just a finished one. Errors are
 reserved for content that exists but is wrong (malformed, inconsistent with
 something else that exists, or an unresolved/malformed citation).
 
-Usage: python3 tools/validate_setting.py [--pending [REGION] | --location CODE | --read-set [STEP]]
+Usage: python3 tools/validate_setting.py [--pending [REGION] | --location CODE | --read-set [STEP]
+                                         | --brief setting|REGION]
 Exits 1 if any error is found, 0 otherwise (warnings never fail the run).
 """
 from __future__ import annotations
@@ -123,6 +124,8 @@ def read_set() -> dict[str, tuple[set, set]]:
 
 
 STANDING_CONTEXT = ("GENRE.md", "STYLE.md", "BRIEF.md")
+BRIEF_SLICE_RE = re.compile(r'--brief (\S+?)`')
+BRIEF_SCOPES = ("setting", "[Region Code]")   # the slices a Context may name
 
 
 def context_section(text: str) -> str:
@@ -155,8 +158,36 @@ def check_read_set(diag: Diagnostics):
         for need in STANDING_CONTEXT:
             if f"`{need}`" not in context:
                 diag.error(path, f"Context does not name {need}, which every step reads")
+        for scope in BRIEF_SLICE_RE.findall(context):
+            if scope not in BRIEF_SCOPES:
+                diag.error(path, f"Context reads BRIEF.md's slice {scope!r}; a slice is one of {', '.join(BRIEF_SCOPES)}")
         if TEMPLATE_STEP_CITE_RE.search(context) or re.search(r'^- (At|Step) ', context, re.M):
             diag.error(path, "Context is conditional on a step - one Context serves every step that cites the template")
+
+
+def check_brief_slices(diag: Diagnostics):
+    """Each slice --brief prints holds its nodes as BRIEF.md does, `setting` cut to the
+    lines a region's slice keeps."""
+    nodes = tables.brief_nodes()
+    whole = {(n.name, n.args[0] if n.name == "region" and n.args else None): n for n in nodes}
+    for scope in ["setting"] + [str(n.args[0]) for n in nodes if n.name == "region" and n.args]:
+        for n in kdl.fenced(tables.brief_slice(scope)):
+            want = whole.get((n.name, n.args[0] if n.name == "region" and n.args else None))
+            kids = want and [c for c in want.children
+                             if scope == "setting" or n.name != "setting" or c.name in tables.SLICE_SETTING]
+            if not want or repr((n.args, n.props, n.children)) != repr((want.args, want.props, kids)):
+                diag.error(tables.BRIEF, f"--brief {scope} misreads its {n.name} node")
+
+
+def report_brief(scope: str) -> int:
+    """BRIEF.md as a step of that scope reads it."""
+    text = tables.brief_slice(scope)
+    if text is None:
+        codes = [str(n.args[0]) for n in tables.brief_nodes() if n.name == "region" and n.args]
+        print(f"BRIEF.md has no slice {scope!r}: one of setting, {', '.join(codes)}")
+        return 1
+    print(text, end="")
+    return 0
 
 
 def report_read_set(step_filter: str | None) -> int:
@@ -1112,6 +1143,8 @@ def main() -> int:
     brief = tables.Brief(schema)
     for problem in brief.problems:
         diag.error(tables.BRIEF, problem)
+    if not brief.problems:
+        check_brief_slices(diag)
 
     if is_fresh_start():
         seeded = sorted(n for n in SEED_FILES if (SETTING / n).exists())
@@ -1219,6 +1252,8 @@ if __name__ == "__main__":
         sys.exit(report_pending(sys.argv[2] if len(sys.argv) > 2 else None))
     if len(sys.argv) > 2 and sys.argv[1] == "--location":
         sys.exit(report_location(sys.argv[2]))
+    if len(sys.argv) > 2 and sys.argv[1] == "--brief":
+        sys.exit(report_brief(sys.argv[2]))
     if len(sys.argv) > 1 and sys.argv[1] == "--read-set":
         sys.exit(report_read_set(sys.argv[2] if len(sys.argv) > 2 else None))
     sys.exit(main())

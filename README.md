@@ -17,7 +17,7 @@ Read these rather than a description of them.
 - `BRIEF.md` - one KDL block: every count, mix and rate the build is built to, at
   reasonable defaults, then this setting's outline and one node per region. Templates
   and schemas set none of their own. Read by the templates
-  alongside `GENRE.md`; it never overrides a schema's rules or `STYLE.md`.
+  alongside `GENRE.md`, a step reading only its scope's slice; it never overrides a schema's rules or `STYLE.md`.
   Edited directly by the user; a request in the user's own prompt carries the same weight.
 - `STYLE.md` - the tests every line at every level must pass.
 - `STEPS.md` - the authoritative, sequential build log. Every artifact created follows a
@@ -80,6 +80,7 @@ python3 tools/validate_setting.py           # structural lint
 python3 tools/validate_setting.py --pending [REGION]    # what each step still owes
 python3 tools/validate_setting.py --location CODE       # one location's entries, and those naming it
 python3 tools/validate_setting.py --read-set [STEP]     # what a step reads, per the graph
+python3 tools/validate_setting.py --brief setting|REGION # BRIEF.md as a setting or region step reads it
 python3 tools/metrics.py                    # corpus, tells, budget and read-set report
 python3 tools/metrics.py --tells [PATH]     # every tell hit, listed, over any markdown
 python3 tools/metrics.py --carry [CODE]     # the table words each write-up carries and drops

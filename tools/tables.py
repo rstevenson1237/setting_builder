@@ -956,6 +956,50 @@ def brief_nodes(path: Path = BRIEF) -> list[kdl.Node]:
     return kdl.fenced(path.read_text()) if path.exists() else []
 
 
+SLICE_SETTING = ("test", "outline", "pressure")   # what a region's slice keeps of `setting`
+
+
+def brief_slice(scope: str, path: Path = BRIEF) -> str | None:
+    """BRIEF.md as one step reads it, None for an unknown scope. "setting": the prose,
+    `files` and `setting`. A region code: the prose, its rating's node, `setting`'s
+    test, outline and pressure, and its own node."""
+    nodes = brief_nodes(path)
+    if not nodes:
+        return None
+    lines = path.read_text().splitlines()
+    fence = nodes[0].line - 1
+    while lines[fence].strip() != "```kdl":
+        fence -= 1
+
+    def span(seq, i, stop):
+        """Node i's own lines, up to the next node or line `stop`, without the blanks
+        and comments between."""
+        out = lines[seq[i].line - 1:seq[i + 1].line - 1 if i + 1 < len(seq) else stop]
+        while out and (not out[-1].strip() or out[-1].lstrip().startswith("//")):
+            out.pop()
+        return out
+
+    end = fence + 1 + next(i for i, l in enumerate(lines[fence + 1:]) if l.strip() == "```")
+    chunks = {(n.name, str(n.args[0]) if n.name == "region" and n.args else None): i
+              for i, n in enumerate(nodes)}
+    whole = lambda name, arg=None: span(nodes, chunks[name, arg], end)
+    if scope == "setting":
+        keep = [whole(k) for k in ("files", "setting") if (k, None) in chunks]
+    elif ("region", scope) in chunks:
+        rating = str(nodes[chunks["region", scope]].props.get("rating", "")).lower()
+        keep = [whole(rating)] if (rating, None) in chunks else []
+        if ("setting", None) in chunks:
+            node, own = nodes[chunks["setting", None]], whole("setting")
+            close = node.line - 2 + len(own)       # the line of its closing brace
+            keep.append([own[0]] + [l for j, c in enumerate(node.children) if c.name in SLICE_SETTING
+                                    for l in span(node.children, j, close)] + [own[-1]])
+        keep.append(whole("region", scope))
+    else:
+        return None
+    body = "\n\n".join("\n".join(k) for k in keep)
+    return "\n".join(lines[:fence]).rstrip() + f"\n\n```kdl\n{body}\n```\n"
+
+
 @dataclass
 class Target:
     node: kdl.Node

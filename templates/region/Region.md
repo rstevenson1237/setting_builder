@@ -6,7 +6,7 @@ how a party gets in, who is there and how they answer a stranger, and what is ch
 
 ## Context
 Read first:
-- `GENRE.md`, `STYLE.md` and `BRIEF.md`
+- `GENRE.md`, `STYLE.md` and `BRIEF.md`, as `python3 tools/validate_setting.py --brief [Region Code]` prints it
 - `setting/Setting.md`, `setting/History.md`, `setting/Truths.md`, `setting/Bestiary.md`, `setting/Factions.md`
 - `setting/region/Regions.md`
 - `patterns/Common_Schema.md`, and `patterns/Region_Schema.md` - this region's rating's `seed`

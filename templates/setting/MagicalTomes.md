@@ -5,7 +5,7 @@ A registry of books that teach magic. Each entry is written from the table entri
 
 ## Context
 Read first:
-- `GENRE.md`, `STYLE.md` and `BRIEF.md`
+- `GENRE.md`, `STYLE.md` and `BRIEF.md`, as `python3 tools/validate_setting.py --brief setting` prints it
 - `patterns/Common_Schema.md` and `patterns/Setting_Schema.md`
 - `setting/Setting.md`, `setting/Language.md`
 - every table entry naming it

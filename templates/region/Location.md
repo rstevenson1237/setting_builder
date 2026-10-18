@@ -5,7 +5,7 @@ One location's write-up, `setting/region/[Region Code]/[Location Number].md`.
 
 ## Context
 Read first:
-- `GENRE.md`, `STYLE.md` and `BRIEF.md`
+- `GENRE.md`, `STYLE.md` and `BRIEF.md`, as `python3 tools/validate_setting.py --brief [Region Code]` prints it
 - `setting/Truths.md`
 - `setting/Procedures.md`'s Forced Dangers, Conditions and Time and Distance - the mechanics a Feature cites
 - `setting/Language.md` - roots for a coined name, and the coinages already recorded

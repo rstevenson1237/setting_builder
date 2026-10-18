@@ -8,7 +8,7 @@ settle. Each entry is written from the table entries naming it.
 
 ## Context
 Read first:
-- `GENRE.md`, `STYLE.md` and `BRIEF.md`
+- `GENRE.md`, `STYLE.md` and `BRIEF.md`, as `python3 tools/validate_setting.py --brief setting` prints it
 - `patterns/Common_Schema.md` and `patterns/Setting_Schema.md`
 - `setting/Setting.md`, `setting/Procedures.md`
 - the seed of each region holding the table entries naming it, `setting/region/[Region Code].md`

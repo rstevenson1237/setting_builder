@@ -620,13 +620,23 @@ def report_budget() -> None:
 # it. The variable half is walked with the graph tools/validate_setting.py
 # --read-set walks, from the same entry points.
 #
-# The region overview is per-region, so it is reported as its own range rather
-# than folded into one number that would be right for no region.
+# The region overview and BRIEF.md's region slice are per-region, so each is
+# reported as its own range rather than folded into one number that would be
+# right for no region.
 # ---------------------------------------------------------------------------
 
-FIXED_CONTEXT = ("CLAUDE.md", "README.md", "GENRE.md", "STYLE.md", "BRIEF.md",
+FIXED_CONTEXT = ("CLAUDE.md", "README.md", "GENRE.md", "STYLE.md",
                  "templates/region/Location.md",
                  "setting/Truths.md", "setting/Procedures.md", "setting/Language.md")
+
+
+def report_range(name: str, counts: dict[str, int]) -> int:
+    """One per-region row; its mean."""
+    if not counts:
+        return 0
+    lo, hi, avg = min(counts.values()), max(counts.values()), round(mean(counts.values()))
+    print(f"  {name:24s} : {lo:6,}-{hi:,} across {len(counts)} regions, mean {avg:,}")
+    return avg
 
 
 def report_read_set(step: str = "5b") -> None:
@@ -635,16 +645,12 @@ def report_read_set(step: str = "5b") -> None:
     fixed = sum(file_words(p) for _, p in present)
     for n, p in present:
         print(f"  {n:24s} : {file_words(p):6,}")
-    overviews = {p.stem: file_words(p) for p in sorted(REGION.glob("[A-Z].md"))} \
-        if REGION.exists() else {}
-    if overviews:
-        lo, hi = min(overviews.values()), max(overviews.values())
-        avg = round(mean(overviews.values()))
-        print(f"  {'region overview':24s} : {lo:6,}-{hi:,} across "
-              f"{len(overviews)} regions, mean {avg:,}")
-    else:
-        avg = 0
-    print(f"  {'fixed context':24s} : {fixed + avg:6,} (with the mean region overview)")
+    import tables
+    codes = [str(n.args[0]) for n in tables.brief_nodes() if n.name == "region" and n.args]
+    avg = report_range("BRIEF.md region slice", {c: words(tables.brief_slice(c)) for c in codes})
+    avg += report_range("region overview", {p.stem: file_words(p) for p in sorted(REGION.glob("[A-Z].md"))}
+                        if REGION.exists() else {})
+    print(f"  {'fixed context':24s} : {fixed + avg:6,} (with the mean region slice and overview)")
     print()
 
     names, schemas = read_set().get(step, (set(), set()))
