@@ -14,7 +14,8 @@ Read first:
 - `setting/Rumours.md` and `setting/Quests.md`
 
 ## Instructions
-Write every field of the rating's `brief`, in its order, from the tables alone.
+Write every field of the rating's `brief`, in its order, from the tables alone. A setting
+entry is cited as `(Named Creature: Name)`, `(Faction: Name)` or `(Local Procedure: Name)`.
 Every fact about a location names it by code; a count is summed from the entries. Layout
 is read from the Locations' `at` and the Connections' `orientation`. A fact no entry holds
 is an entry to add to the tables, not a line here. Nothing the seed says is repeated, unless a field folds it in.

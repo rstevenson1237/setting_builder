@@ -23,14 +23,18 @@ region Safe {
     Kind Safe_Kind
     Overview text           // what a party comes to do; then its situation: who is behind it, and who is hurt
     Approach text           // every way in: what stands at it, what passing takes, what befalls the turned away
-    Buys text               // what it buys from a party and at what rate; what cannot be had here
     Law text                // what gets a stranger fined, locked up or put out; who enforces; what each costs
   }
   brief {
     Layout text n=3         // every location by code: the view from afar, then the seed's Approach folded
                             // in at each way in; the plan - its blocks or main ways, and the compass point
-                            // and distance between them; what a party goes to each location for and who is
-                            // found there, a secret or rule shown only as what a party can notice
+                            // and distance between them; what each location holds and what a party goes
+                            // there for, a secret or rule shown only as what a party can notice
+    Inhabitants text        // every Person, Named Creature, Faction and Garrison the People and Garrison
+                            // tables hold, where and what they are about, a faction's members for what
+                            // its Identity shows
+    Services text           // one sentence on the economy; then what is sold, done and bought from a
+                            // party, at what price and where, and what cannot be had
     Secrets text            // - the fact - who knows it; the entry that brings it out
     Leads text
     Tables text             // d6 Events

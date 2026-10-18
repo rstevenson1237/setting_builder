@@ -720,21 +720,28 @@ def check_region_overview(diag: Diagnostics, code: str, folder):
 
 
 def check_inhabitants(diag: Diagnostics, setting):
-    """A brief's Inhabitants names every creature and faction its region's Encounters
-    hold. Matched loosely - a stem, so "wolves" keeps Wolf - and so a warning."""
+    """A brief's Inhabitants names every creature, person and faction its region's
+    Encounters, People and Garrison hold, and its Services every location selling or
+    running something. Matched loosely - a stem, so "wolves" keeps Wolf - and so a warning."""
     for r in setting.regions.values():
         brief = r.dir / "Brief.md"
         if not brief.exists():
             continue
-        m = re.search(r"^Inhabitants:(.*?)(?=^[A-Z][a-z]+:|\Z)", brief.read_text(), re.M | re.S)
-        if not m:
-            continue
-        text = m.group(1).lower()
-        names = {str(c.props[k]) for ns in r.files.values() for n in ns if n.name == "Encounter"
-                 for c in n.children for k in ("bestiary", "named", "faction") if k in c.props}
-        for name in sorted(names):
+        lines = brief.read_text().splitlines()
+        nodes = [n for ns in r.files.values() for n in ns]
+        held = {str(c.props[k]): "an Encounter" for n in nodes if n.name == "Encounter"
+                for c in n.children for k in ("bestiary", "named", "faction") if k in c.props}
+        held |= {str(n.props[k]): n.args[0] for n in nodes for k in ("name", "named", "faction")
+                 if n.name in ("Person", "NamedCreature", "Faction", "Garrison") and k in n.props}
+        text = sc.parse_field(lines, "Inhabitants").lower()
+        for name, where in sorted(held.items()) if text else ():
             if name.lower()[:max(3, len(name) - 1)] not in text:
-                diag.warn(brief, f"Inhabitants does not name {name}, which an Encounter places here")
+                diag.warn(brief, f"Inhabitants does not name {name}, which {where} places here")
+        text = sc.parse_field(lines, "Services")
+        sold = {str(n.args[0]) for n in nodes if n.name in ("Purchase", "Procedure")}
+        for code in sorted(sold) if text else ():
+            if not re.search(rf"\b{re.escape(code)}\b", text):
+                diag.warn(brief, f"Services does not name {code}, which sells or runs something")
 
 
 def check_marks(diag: Diagnostics, setting):
