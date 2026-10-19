@@ -20,8 +20,11 @@ node Location {
                             // the departed, or its occupants
   tags tag list n=3
   type kind
-  at string                 // compass point and distance from the region's way in, or how far
-                            // north or south of it then east or west: "700 yards north, 50 west"
+  at string opt             // "way in" where it stands at the region's way in; else prose for the reader
+  bearing Compass opt       // from the region's way in, with distance; or north and east
+  distance distance opt
+  north distance opt        // how far north of the way in, south where negative
+  east distance opt         // and east, west where negative
 }
 node Dressing {
   obvious string
@@ -70,14 +73,20 @@ node Procedure {
 }
 node Stop {                 // a place of interest on a Route, listed in order from where the route starts
   feature gloss             // the Feature its write-up gives it
-  at string                 // as a Location's at
+  at string opt             // as a Location's at, and its bearing, distance, north and east
+  bearing Compass opt
+  distance distance opt
+  north distance opt
+  east distance opt
   sight string              // what a party finds there and can do
   to location opt           // where a path from it leads, in this region or another: a Route is then a
                             // slice through the region, the stops its way to what lies off it
 }
 node Way {
   to location
-  orientation gloss         // compass point and distance from this end
+  bearing Compass           // from this end
+  distance distance
+  orientation gloss opt     // the same in words, for the reader
   one-of Secret opt
 }
 node Secret {              // the way into a Secret location: what opens it, what shows it is there, and when
