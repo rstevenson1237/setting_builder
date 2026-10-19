@@ -107,6 +107,29 @@ keep, and the Caves of Chaos. They are not committed.)
 | D8 | Yes: `plan_html` goes with mermaid. |
 | Push access | Not needed. artgen work is written here as briefs and run in an artgen session, as for earlier plans. |
 
+## Second decisions, verbatim
+
+> d7 is yes and another shape of d6 - in general when the generated map is wrong then change
+> the map, but also by making a map we also have an opportunity to review and potentially
+> change the original tables, however that should be based on user judgement, not the
+> default process so yes to the d7 recommendation
+> d8 yes
+> d5, yes one of the big strengths of kdl is we can add very fine grained schema, optional
+> when it makes sense and then the agent builds these fields back into prose for the user -
+> we could probably use a full review of the schema for these opportunities
+> d4, previously I've done testing of the workflow, written the brief of findings which is
+> imported into the repo and then the changes are published as a new release, but again I'm
+> open to changing the process if there is a better workflow
+
+### How they are read
+
+| Decision | Read as |
+|---|---|
+| D7 | Settled as recommended. A map's drawing is also a review of the tables; what it finds is offered to the user, never applied by default. |
+| D8 | Settled. |
+| D5 | Settled, widened: `at` and `orientation` become typed too (`spec.md` 5.4). A review of every schema for the same gain is its own plan (T0.4). |
+| D4 | The current loop - test, brief of findings, import, release - is kept and made cheaper (`spec.md` section 12), for sign-off. |
+
 ## Evidence from the evaluation
 
 artgen 0.10 was installed in a scratch repo and driven from the setting's own tables through

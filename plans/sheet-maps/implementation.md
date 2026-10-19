@@ -16,9 +16,10 @@ then migrate Thornmarch and judge it against the reference.
 
 | Task | What | Done when |
 |---|---|---|
-| T0.1 | D1-D3, D5, D6, D8 settled (`spec.md` section 2) | Done |
-| T0.2 | D4: a reusable rule for tools that move in step across projects - how a consumer gets a change, how a consumer's need and its evidence reach the tool, and what a change costs each side | The rule written and settled; `plans/` holds it if it outgrows this plan |
-| T0.3 | D7 settled | Marked in `spec.md` |
+| T0.1 | D1-D3 and D5-D8 settled (`spec.md` section 2) | Done |
+| T0.2 | D4 signed off: `spec.md` section 12, or the user's change to it | Marked in `spec.md` |
+| T0.3 | Fixtures and contract version agreed with artgen as the first brief (12.2, items 2 and 4) | Brief written |
+| T0.4 | A schema review for typed fields everywhere prose holds a value (D5), as its own plan in `plans/` | Its intake written |
 
 ---
 
@@ -61,7 +62,7 @@ The validator must pass after every task, so each tool change lands with the tex
 | Task | What | Files |
 |---|---|---|
 | T3.1 | Bring artgen in by D4's rule; `node` in CI; `README.md` tools list | per D4, `.github/workflows/*.yml`, `README.md` |
-| T3.2 | `feet` and `Room_Shape`; `width`, `length`, `height`, `shape` on DANGEROUS and SAFE Dressing; `Block` node and `Blocks` table | `patterns/Common_Schema.md`, `Dangerous_Schema.md`, `Safe_Schema.md`; `tools/tables.py` |
+| T3.2 | `feet`, `Room_Shape`, `Compass`, `Distance_Unit`, `distance`; `at` and `orientation` typed (`spec.md` 5.4); `width`, `length`, `height`, `shape` on DANGEROUS and SAFE Dressing; `Block` node and `Blocks` table | `patterns/Common_Schema.md`, `Dangerous_Schema.md`, `Safe_Schema.md`; `tools/tables.py` |
 | T3.3 | `sheet`, `ground`, `place` in `BRIEF.md`'s grammar and `--brief` slices | `BRIEF.md` header, `tools/validate_setting.py` |
 | T3.4 | Gazetteer `Joins` column; 3a writes it | `patterns/Setting_Schema.md`, `templates/region/Region_Gazetteer.md`, validator |
 | T3.5 | 4b rewritten: `Connections.md` with `to` and `orientation`, and `Blocks.md`; 4c drops edge-copying; retire the four `Connections.mmd` templates | `STEPS.md`, `templates/region/Tables.md`, `templates/*/Connections.mmd` |
@@ -87,7 +88,7 @@ nothing restated from elsewhere.
 | T4.3 | `Blocks.md` for F-M: one block each for F-L unless a change of level splits it; M by its four blocks | Every DANGEROUS location in one block |
 | T4.4 | E fitted to the Ravine sheet (D6): compressed, or the square coarsened where that plays better; every E `at` and Stop rewritten | E's locations all on the Ravine sheet |
 | T4.5 | K.1 folded into E.7 or rewritten as K's own entrance room, so K starts where its caves start | K draws without a strip |
-| T4.6 | Footprints on every DANGEROUS Dressing and A's buildings, taken out of `layout` and each `Brief.md` | No location the validator calls unsized |
+| T4.6 | Footprints on every DANGEROUS Dressing and A's buildings, taken out of `layout` and each `Brief.md`; every `at` and `orientation` rewritten typed | No location the validator calls unsized or unplaced |
 | T4.7 | `maps.py place`, `ground`, `draw`; 5b and 5e rerun where `Ground.md` contradicts a write-up | Validator clean; both `--check`s pass |
 
 ---

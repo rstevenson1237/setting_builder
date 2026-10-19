@@ -28,10 +28,10 @@ themes.
 | D1 | Merge adjoining WILD regions into one, as the reference does | **No merge here; the workflow supports both.** A merged region is one region on a sheet, so nothing below assumes either. |
 | D2 | Where sheets, ground and placement are requested | **`BRIEF.md`** (section 4). |
 | D3 | What is committed | **Each map's JSON and `Ground.md`.** Renders are made by the site and PDF builds. |
-| D4 | How artgen arrives, and how improvements flow back | **Open** - explored as its own question: a reusable rule for a suite of tools that move in step (`implementation.md` T0.2). |
-| D5 | How a footprint is written | **Typed fields on Dressing** (5.1): `width`, `length`, `height` in whole feet and a `shape` enum, replacing the sizes `layout` now carries in prose. |
+| D4 | How artgen arrives, and how improvements flow back | **Recommended, for sign-off**: the current loop kept and made cheaper (section 12). |
+| D5 | How a footprint and a place are written | **Typed fields** (5.1, 5.4): a footprint on Dressing, and `at` and `orientation` as direction, distance and unit, not strings. The agent turns fields back into prose for the reader. A review of every schema for the same gain is its own plan (`implementation.md` T0.4). |
 | D6 | The ravine's scale | **Fit the sheet**: compress E, or coarsen the square where that plays better (it is already 10 yards, not 10 feet). |
-| D7 | Hand edits to a generated map | **Open** - explained to the user; recommended: only what no table states (terrain paint, symbols, labels, corridor bends) survives a rebuild. |
+| D7 | Hand edits to a generated map | **Only what no table states survives a rebuild.** A wrong map is fixed on the map. Drawing a map is also a review: what it shows wrong in the tables is offered to the user, and changed only on their word. |
 | D8 | Drop the site's `plan_html` plan along with mermaid | **Yes.** One drawing path. |
 
 ## 3. Sheets
@@ -135,6 +135,26 @@ Block A.a name="The Outer Bailey" locations="A.1, A.2, ..." wall="20 feet, walk 
 - A single holding is one block unless it changes level. A collection is several.
 - `wall` and `towers` (SAFE only) give the enclosure drawn round the block's locations.
 - The block's map is `setting/region/[Code]/[Block].json`.
+
+### 5.4 Places, typed
+
+`at` and `orientation` are strings today, taken apart by a pattern in `site_common.py`. A
+map is walked from them, so they become typed:
+
+```kdl
+enum Compass north north-north-east north-east east-north-east east east-south-east
+             south-east south-south-east south south-south-west south-west
+             west-south-west west west-north-west north-west north-north-west
+enum Distance_Unit feet yards miles
+value distance                // a number then a Distance_Unit: 40 feet, 1.5 miles
+```
+
+- `at` becomes `bearing=Compass distance=distance`, or `north=distance east=distance` (a
+  negative for south or west), or `at="way in"`.
+- `orientation` becomes `bearing`, `distance` and `climb` (feet up, negative down; a change
+  of level is a climb across blocks).
+- `site_common.parse_at` and its two patterns retire; the validator rejects what does not
+  parse rather than skipping it.
 
 ### 5.3 `Connections.md` written at 4b
 
@@ -258,3 +278,33 @@ Token cost stays near zero: code calls the CLI with `--json`, and no step reads 
 
 Step ids 3b and 4b keep their numbers and change their content; 4d is new (implementation
 T2.6). Nothing is renumbered.
+
+## 12. D4 - tools that move in step
+
+### 12.1 The loop today
+
+A consumer tests a tool against its own work, writes a brief of the findings, the brief is
+taken into the tool's repo, and the change ships in a release the consumer then installs.
+It works and gives back; its cost is the wait for a release, and that nothing in the tool
+guards the consumer's case once the brief is closed.
+
+### 12.2 The rule, for any tool and any consumer
+
+1. **The brief carries its evidence.** The consumer's scratch prototype and its output
+   (the evaluation's converters and renders, here) go with the findings, so the tool's
+   session starts from working code, not a description.
+2. **The consumer's cases become the tool's fixtures.** A brief lands with the consumer's
+   real inputs as test fixtures in the tool (for artgen: F's block, the ravine, the keep).
+   Every later change to the tool is tested against every consumer, which is how one
+   project's need improves the whole suite and is never broken by the next.
+3. **Pin by commit, release when it suits.** artgen's `artgen-dist` branch is installable at
+   any commit (`#<sha>`), so a consumer takes a landed change at once; a tagged release
+   gathers several. Upgrading is its own commit in the consumer, passing the consumer's
+   checks.
+4. **A versioned contract.** The CLI's JSON and file formats carry a version; a consumer
+   states the one it reads, and a breaking change bumps it.
+5. **Briefs on both sides.** The consumer keeps its brief and the commit it pinned in its
+   plan; the tool keeps the brief that produced each change.
+
+Whatever the consumer needs that the tool lacks is never built in the consumer beyond a
+prototype; it goes back as a brief.
