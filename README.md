@@ -73,6 +73,8 @@ Read these rather than a description of them.
   - `artgen/` - artgen's map and dungeon engines (`artgen-maps.js`, run with `node`), copied from
     `artgen-dist` `maps/` at the commit `plans/sheet-maps/brief-engines.md` records. Upgrade it by
     copying `maps/` at a newer commit, in a commit of its own.
+  - `maps.py` - draws maps from the setting through artgen. `place` puts each region on its sheets
+    from `BRIEF.md`'s `sheet`, `ground` and `place` lines and writes `setting/Sheets.md`.
   - `kdl.py` - the KDL subset the location tables are written in.
   - `tables.py` - reads every region's tables and checks them against its rating's schema.
   - `schema_graph.py` - reads `patterns/` as a graph of definitions, each name on a line resolved to the definition it names; `patterns.html` is drawn from it.

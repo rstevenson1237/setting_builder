@@ -19,7 +19,7 @@ that owes it, and `--pending` lists what each still owes.
    - 2g. Tailor `setting/Procedures.md` and `setting/Language.md`, following `templates/setting/Procedures.md` and `templates/setting/Language.md`, and create the registries empty - each its title line only - following `templates/setting/Lore.md`, `templates/setting/Keys.md`, `templates/setting/NamedCreatures.md`, `templates/setting/UniqueTreasures.md`, `templates/setting/MagicalTomes.md`, `templates/setting/Hoards.md` and `templates/setting/LocalProcedures.md`.
 3. Build the regions
    - 3a. Create `setting/region/Regions.md`, following `templates/region/Region_Gazetteer.md`.
-   - 3b. Retired: region adjacency is the Joins column of 3a.
+   - 3b. Place the regions on the sheets `BRIEF.md` asks for: run `python3 tools/maps.py place`, which writes `setting/Sheets.md` and each sheet's map file, and send each request it reports unmet to `BRIEF.md`.
    - 3c. For each region, create its folder and its seed, `setting/region/[Code].md`, following `templates/region/Region.md`.
 4. Lay out the locations - structure, no content
    - 4a. Create each region's `Locations.md`, following `templates/region/Tables.md`.
