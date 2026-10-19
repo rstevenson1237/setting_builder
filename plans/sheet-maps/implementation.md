@@ -19,7 +19,7 @@ then migrate Thornmarch and judge it against the reference.
 | T0.1 | D1-D3 and D5-D8 settled (`spec.md` section 2) | Done |
 | T0.2 | D4 signed off (`spec.md` section 12) | Done |
 | T0.3 | Fixtures and contract version agreed with artgen as the first brief (12.2, items 2 and 4) | Done: `brief-fixtures.md` |
-| T0.4 | A schema review for typed fields everywhere prose holds a value (D5), as its own plan in `plans/` | Its intake written |
+| T0.4 | A schema review for typed fields everywhere prose holds a value (D5), as its own plan in `plans/` | Done: `plans/typed-fields/intake.md` |
 
 ---
 
