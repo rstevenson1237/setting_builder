@@ -17,6 +17,13 @@ jobs:
         with:
           python-version: "3.11"
 
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Check artgen runs and reports its formats
+        run: node tools/artgen/artgen-maps.js formats --json
+
       - name: Run structural validator
         run: python3 tools/validate_setting.py
 
