@@ -1,7 +1,8 @@
 """A DANGEROUS region's tables as artgen dungeon commands: rooms at the places
 site_common.positions() gives, links from Connections, doors from type/Secret/Lock."""
 import sys, subprocess
-sys.path.insert(0, "/home/user/setting_builder/tools")
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parents[3] / "tools"))     # the setting_builder checkout this file is in
 import site_common as sc, kdl
 
 code, game = sys.argv[1], sys.argv[2]
