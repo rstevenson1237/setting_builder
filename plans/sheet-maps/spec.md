@@ -28,7 +28,7 @@ themes.
 | D1 | Merge adjoining WILD regions into one, as the reference does | **No merge here; the workflow supports both.** A merged region is one region on a sheet, so nothing below assumes either. |
 | D2 | Where sheets, ground and placement are requested | **`BRIEF.md`** (section 4). |
 | D3 | What is committed | **Each map's JSON and `Ground.md`.** Renders are made by the site and PDF builds. |
-| D4 | How artgen arrives, and how improvements flow back | **Recommended, for sign-off**: the current loop kept and made cheaper (section 12). |
+| D4 | How artgen arrives, and how improvements flow back | **The current loop kept and made cheaper** (section 12). |
 | D5 | How a footprint and a place are written | **Typed fields** (5.1, 5.3): a footprint on Dressing, and `at` and `orientation` as direction, distance and unit, not strings. The agent turns fields back into prose for the reader. A review of every schema for the same gain is its own plan (`implementation.md` T0.4). |
 | D6 | The ravine's scale | **Fit the sheet**: compress E, or coarsen the square where that plays better (it is already 10 yards, not 10 feet). |
 | D7 | Hand edits to a generated map | **Only what no table states survives a rebuild.** A wrong map is fixed on the map. Drawing a map is also a review: what it shows wrong in the tables is offered to the user, and changed only on their word. |
