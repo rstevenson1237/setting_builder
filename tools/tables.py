@@ -14,11 +14,14 @@ PATTERNS = ROOT / "patterns"
 SHARED = ("Common", "Setting", "Region")   # the shared schemas, widest first; every other is a rating's
 
 CODE_RE = re.compile(r"([A-Z]+)\.(\d+)")
+BLOCK_RE = re.compile(r"([A-Z]+)\.([a-z]+)")
 RANGE_RE = re.compile(r"(\d+)(?:-(\d+))?")
 PERCENT_RE = re.compile(r"(\d+)%")
 SHARE_RE = re.compile(r"(<=)?(\d+)%")        # "N%" at least that share of entries, "<=N%" at most
 COUNT_RE = re.compile(r"(\d+)(?:-(\d+)|(\+))?")   # N exactly, "N-M", "N+" at least
 OPEN = 10 ** 9
+FEET_RE = re.compile(r"-?\d+")
+DISTANCE_RE = re.compile(r"(\d+(?:\.\d+)?) (\w+)")
 MMD_NODE_RE = re.compile(r'(\w+)\["([A-Z]+\.\d+)[^"]*"\]')
 MMD_EDGE_RE = re.compile(r'(\w+)(?:\["[^"]*"\])?\s*(?:---|-->|-\.-)(?:\|[^|]*\|)?\s*(\w+)')
 
@@ -408,6 +411,17 @@ def tongues_alike(path: Path = LANGUAGE) -> list[str]:
     return out
 
 
+def unit_problem(typ: str, v: str, enums: dict) -> str | None:
+    """What is wrong with a `feet` or `distance` value, or None where it reads."""
+    if typ == "feet":
+        return None if FEET_RE.fullmatch(v) else f"{v!r} is not a whole number of feet"
+    m = DISTANCE_RE.fullmatch(v)
+    units = enums.get("Distance_Unit", {})
+    if not m or m.group(2) not in units:
+        return f"{v!r} is not a number then {' | '.join(units)}"
+    return None
+
+
 def _opens_with(v: str, items) -> bool:
     low = v.lower()
     return any(low.startswith(i.lower()) and low[len(i):len(i) + 1] in ("", " ", ".", ",", ";", ":")
@@ -434,6 +448,9 @@ def check_field(schema: Schema, m: Member, v: str, codes: set[str], enums: dict 
             yield f"{v!r} is not N or N-M"
         elif want and not (want[0] <= b[0] and b[1] <= want[1]):
             yield f"{v} is outside {m.props['range']}"
+    elif m.type in ("feet", "distance"):
+        if msg := unit_problem(m.type, v, enums):
+            yield msg
     elif m.type == "dice":
         d = DICE_RE.fullmatch(v)
         if not d:
@@ -765,9 +782,11 @@ class Setting:
         if any(c.line != n.line for c in kdl.walk(n.children)):
             yield "error", f"{n.name} spans several lines - an entry is one line"
         code = n.args[0] if len(n.args) == 1 else None
-        if code is None or not CODE_RE.fullmatch(str(code)) or not str(code).startswith(r.code + "."):
-            yield "error", f"{n.name} opens with {n.args} - an entry opens with one {r.code} location code"
-        elif stem != "Locations" and code not in r.locations():
+        block = stem == "Blocks"
+        if code is None or not (BLOCK_RE if block else CODE_RE).fullmatch(str(code)) or not str(code).startswith(r.code + "."):
+            yield "error", (f"{n.name} opens with {n.args} - an entry opens with one {r.code} "
+                            f"{'block id, a lower-case letter after the dot' if block else 'location code'}")
+        elif stem not in ("Locations", "Blocks") and code not in r.locations():
             yield "error", f"{n.name} names {code}, which Locations.md does not hold"
         missing = list(self._check_node(r, n))
         owed = [m for m in missing if isinstance(m, str)]
@@ -820,6 +839,9 @@ class Setting:
                 b = bounds(s)
                 if b is None:
                     yield "error", f"{s!r} is not N or N-M"
+            elif m.type in ("feet", "distance"):
+                if msg := unit_problem(m.type, s, r.folder.enums):
+                    yield "error", msg
             elif m.type == "percent":
                 if not PERCENT_RE.fullmatch(s) or int(s[:-1]) > 100:
                     yield "error", f"{s!r} is not a percentage"

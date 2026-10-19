@@ -17,14 +17,21 @@ node Location {
                             // border passers, the departed, or its occupants
   tags tag list n=3
   type kind
-  at string                 // compass point and distance from the region's way in, or how far
-                            // north or south of it then east or west: "700 yards north, 50 west"
+  at string opt             // "way in" where it stands at the region's way in; else prose for the reader
+  bearing Compass opt       // from the region's way in, with distance; or north and east
+  distance distance opt
+  north distance opt        // how far north of the way in, south where negative
+  east distance opt         // and east, west where negative
 }
 node Dressing {
   obvious string
   former gloss opt
   condition tag opt
   ambiance gloss opt
+  width feet opt            // across, west to east as the room lies; a round room's diameter
+  length feet opt           // north to south
+  height feet opt           // floor to roof, where it matters at the table
+  shape Room_Shape opt      // rect where unset
   layout string
   mark entry Factions list opt   // the faction whose Identity shows here
   left entry History list opt    // the event whose Left mark shows here
@@ -67,8 +74,16 @@ node Garrison {             // the standing force an Authority commands
 
 node Way {
   to location
-  orientation gloss         // compass point and distance from this end
+  bearing Compass           // from this end
+  distance distance
+  orientation gloss opt     // the same in words, for the reader
   one-of Secret opt
+}
+node Block {               // a map of its own, and the enclosure drawn round its locations
+  name string
+  locations location list
+  wall gloss opt            // its height and what stands on it
+  towers gloss opt          // their shape and where they stand
 }
 node Secret {              // the way into a Secret location: what opens it, what shows it is there, and when
   trigger gloss
@@ -83,6 +98,7 @@ folder Safe type=Safe_Type {
   People Person NamedCreature Faction
   Garrison Garrison                                // an Authority's only
   Procedures Procedure
+  Blocks Block                                     // optional
   Connections Way
   top Inn Merchant Bank Market Authority Gate   // reached from the region itself, so never joined to one another
   join Secret Inn Merchant Bank Market Authority Gate gate=Secret   // the only type that connects within its region, and the Way into it carries a Secret

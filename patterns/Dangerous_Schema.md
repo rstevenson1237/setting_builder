@@ -26,6 +26,10 @@ node Dressing {
   former gloss opt
   condition tag opt
   ambiance gloss opt
+  width feet                // across, west to east as the room lies; a round room's diameter
+  length feet               // north to south
+  height feet opt           // floor to roof, where it matters at the table
+  shape Room_Shape opt      // rect where unset
   layout string
   mark entry Factions list opt   // the faction whose Identity shows here
   left entry History list opt    // the event whose Left mark shows here
@@ -78,9 +82,15 @@ node Reward {
 node Connection {
   to location
   type Connection_Type
-  orientation gloss         // compass point and distance from this end, then up or down where the
-                            // way changes level
+  bearing Compass           // from this end
+  distance distance
+  climb feet opt            // up, or down where negative, where the way changes level
+  orientation gloss opt     // the same in words, for the reader
   one-of Encounter Hazard Mystery Secret Lock opt
+}
+node Block {               // one level: a map of its own
+  name string
+  locations location list
 }
 node Secret {              // what sets off or opens the thing it sits on, and what gives it away
   trigger gloss
@@ -97,6 +107,7 @@ folder Dangerous type=Dangerous_Type {
   Challenges Encounter Hazard Mystery
   Rewards Reward
   Procedures Procedure
+  Blocks Block
   Connections Connection
 }
 ```
