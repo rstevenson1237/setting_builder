@@ -174,7 +174,7 @@ def check_brief_slices(diag: Diagnostics):
         for n in kdl.fenced(tables.brief_slice(scope)):
             want = whole.get((n.name, n.args[0] if n.name == "region" and n.args else None))
             kids = want and [c for c in want.children
-                             if scope == "setting" or n.name != "setting" or c.name in tables.SLICE_SETTING]
+                             if scope == "setting" or n.name != "setting" or tables.slice_keeps(c, scope)]
             if not want or repr((n.args, n.props, n.children)) != repr((want.args, want.props, kids)):
                 diag.error(tables.BRIEF, f"--brief {scope} misreads its {n.name} node")
 

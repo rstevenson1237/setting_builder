@@ -16,6 +16,12 @@ rating's only for the values it names. A quoted line is prose, read by the
 step that writes what it names. A `target` is measured by `tools/metrics.py`; a `rate` is
 how many entries each location of a type holds in a table file.
 
+The maps are asked for here. `setting` holds a `sheet` per terrain map: its name, `square`
+(a distance), `extent` (`"W by H unit"`) and `regions`, the codes it holds; a DANGEROUS region
+is on none. A region on a sheet may hold one `ground` line, a terrain its area must have, then
+prose the writing reads and the solver does not, and `place` lines: another region on a sheet
+with it, a compass direction, and a distance or `"N-M unit"` from that region's way in.
+
 ```kdl
 // -- Framework levers ----------------------------------------------------------
 

@@ -969,8 +969,14 @@ class Setting:
 #
 # and a region's locations=N counts its Location entries. `files` and `setting` are
 # measured against the setting files they govern.
+#
+# `setting` holds `sheet` lines and a region `ground` and `place` lines, requests for the
+# maps; Brief.map_problems reads them.
 
 BRIEF = ROOT / "BRIEF.md"
+ARTGEN = Path(__file__).resolve().parent / "artgen" / "artgen-maps.js"
+EXTENT_RE = re.compile(r"(\d+(?:\.\d+)?) by (\d+(?:\.\d+)?) (\w+)")
+SPAN_RE = re.compile(r"(\d+(?:\.\d+)?)(?:-(\d+(?:\.\d+)?))? (\w+)")
 PROCEDURES = "Procedures"      # a region's own count, from its `procedure` lines, never a type's rate
 
 
@@ -981,10 +987,17 @@ def brief_nodes(path: Path = BRIEF) -> list[kdl.Node]:
 SLICE_SETTING = ("test", "outline", "pressure")   # what a region's slice keeps of `setting`
 
 
+def slice_keeps(child: kdl.Node, scope: str) -> bool:
+    """Whether a `setting` line is in a region's slice: its test, outline and pressure,
+    and the sheets listing the region."""
+    return child.name in SLICE_SETTING or (
+        child.name == "sheet" and scope in str(child.props.get("regions", "")).split())
+
+
 def brief_slice(scope: str, path: Path = BRIEF) -> str | None:
     """BRIEF.md as one step reads it, None for an unknown scope. "setting": the prose,
     `files` and `setting`. A region code: the prose, its rating's node, `setting`'s
-    test, outline and pressure, and its own node."""
+    test, outline and pressure, the sheets listing it, and its own node."""
     nodes = brief_nodes(path)
     if not nodes:
         return None
@@ -1013,7 +1026,7 @@ def brief_slice(scope: str, path: Path = BRIEF) -> str | None:
         if ("setting", None) in chunks:
             node, own = nodes[chunks["setting", None]], whole("setting")
             close = node.line - 2 + len(own)       # the line of its closing brace
-            keep.append([own[0]] + [l for j, c in enumerate(node.children) if c.name in SLICE_SETTING
+            keep.append([own[0]] + [l for j, c in enumerate(node.children) if slice_keeps(c, scope)
                                     for l in span(node.children, j, close)] + [own[-1]])
         keep.append(whole("region", scope))
     else:
@@ -1048,6 +1061,7 @@ class Brief:
         self.schema, self.path, self.problems = schema, path, list(schema.brief_problems)
         self.targets, self.regions = [], {}
         self.files = self.setting = None
+        self.sheets: dict[str, kdl.Node] = {}
         try:
             nodes = brief_nodes(path)
         except SyntaxError:
@@ -1081,6 +1095,65 @@ class Brief:
                 setattr(self, n.name, n)
             else:
                 p(f"{n.name!r} is not files, setting, region or {', '.join(folders)}")
+        self.problems += self.map_problems()
+
+    def terrains(self) -> list[str]:
+        """The terrains artgen draws."""
+        m = re.search(r"var TERRAINS = \[(.*?)\]", ARTGEN.read_text()) if ARTGEN.exists() else None
+        return re.findall(r'"(\w+)"', m.group(1)) if m else []
+
+    def map_problems(self) -> list[str]:
+        """The `sheet` lines of `setting`, and each region's `ground` and `place` lines."""
+        out = []
+        units = self.schema.setting_enums.get("Distance_Unit", {})
+        compass = self.schema.setting_enums.get("Compass", {})
+        terrains = self.terrains()
+        for n in (self.setting.children if self.setting else []):
+            if n.name != "sheet":
+                continue
+            p = lambda msg, n=n: out.append(f"line {n.line}: {msg}")
+            name = str(n.args[0]) if n.args else ""
+            if not name or name in self.sheets:
+                p("a sheet opens with its own name")
+                continue
+            self.sheets[name] = n
+            if (msg := unit_problem("distance", str(n.props.get("square", "")), self.schema.setting_enums)):
+                p(f"sheet {name} square: {msg}")
+            m = EXTENT_RE.fullmatch(str(n.props.get("extent", "")))
+            if not m or m.group(3) not in units:
+                p(f"sheet {name} extent is W by H then {' | '.join(units)}")
+            codes = str(n.props.get("regions", "")).split()
+            if not codes:
+                p(f"sheet {name} lists no regions")
+            for c in codes:
+                if c not in self.regions:
+                    p(f"sheet {name} lists {c}, which is no region")
+                elif str(self.regions[c].props.get("rating", "")).upper() == "DANGEROUS":
+                    p(f"sheet {name} lists {c}, a DANGEROUS region; those are drawn per block")
+        on = {c for s in self.sheets.values() for c in str(s.props.get("regions", "")).split()}
+        for code, r in self.regions.items():
+            grounds = [c for c in r.children if c.name == "ground"]
+            for c in r.children:
+                p = lambda msg, c=c: out.append(f"line {c.line}: region {code} {msg}")
+                if c.name in ("ground", "place") and code not in on:
+                    p(f"has a {c.name} line and is on no sheet")
+                elif c.name == "ground":
+                    if not c.args or str(c.args[0]) not in terrains:
+                        p(f"ground opens with a terrain: {' | '.join(terrains)}")
+                    if len(grounds) > 1 and c is not grounds[0]:
+                        p("has more than one ground line")
+                elif c.name == "place":
+                    other = str(c.args[0]) if c.args else ""
+                    span = SPAN_RE.fullmatch(str(c.args[2])) if len(c.args) == 3 else None
+                    if other not in on or other == code:
+                        p(f"place names {other!r}, which is not another region on a sheet")
+                    elif not any(set(str(s.props.get("regions", "")).split()) >= {code, other}
+                                 for s in self.sheets.values()):
+                        p(f"place names {other}, which shares no sheet with it")
+                    if len(c.args) != 3 or str(c.args[1]) not in compass or not span or span.group(3) not in units:
+                        p(f"place is another region, a Compass direction and a distance: "
+                          f'place A north "0-1 miles"')
+        return out
 
     def _add(self, n: kdl.Node, rating: str, region: str | None):
         if t := self._read(n, rating, region):
