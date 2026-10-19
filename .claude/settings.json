@@ -1,4 +1,9 @@
 {
+  "permissions": {
+    "allow": [
+      "Bash(node tools/artgen/artgen-maps.js:*)"
+    ]
+  },
   "hooks": {
     "SessionStart": [
       {
