@@ -23,16 +23,16 @@ themes.
 
 ## 2. Decisions
 
-| # | Decision | Recommended |
+| # | Decision | Settled as |
 |---|---|---|
-| D1 | Merge adjoining WILD regions into one, as the reference does | **No.** Regions stay units of writing; they share one sheet, and the sheet is printed whole (3.3). |
-| D2 | Where sheets, ground and placement are requested | **`BRIEF.md`**: they are design requests, like counts and outlines (section 4). |
-| D3 | What is committed | **Each map's JSON** (seed, settings, hand edits) and `Ground.md`; renders are built, never committed. |
-| D4 | How artgen arrives | **One vendored file**, `tools/vendor/artgen-maps.js`, pinned to an artgen release and run with `node`. Node is the build's one dependency outside the Python stdlib. |
-| D5 | How a footprint is written | **`size` gloss and `shape` enum on Location** (5.1), parsed by one function. |
-| D6 | The ravine's scale | **Compress it to the Ravine sheet's extent** when Thornmarch migrates (implementation T4.4); a mile-long ravine cannot play like the reference. |
-| D7 | Hand edits to a generated map | **Only to what no table states**: terrain edits, symbols, labels, corridor bends. A room or location moves by its table, never on the map; regenerating keeps the hand edits. |
-| D8 | Keep `site_common.plan_html` as a fallback | **No.** One drawing path. |
+| D1 | Merge adjoining WILD regions into one, as the reference does | **No merge here; the workflow supports both.** A merged region is one region on a sheet, so nothing below assumes either. |
+| D2 | Where sheets, ground and placement are requested | **`BRIEF.md`** (section 4). |
+| D3 | What is committed | **Each map's JSON and `Ground.md`.** Renders are made by the site and PDF builds. |
+| D4 | How artgen arrives, and how improvements flow back | **Open** - explored as its own question: a reusable rule for a suite of tools that move in step (`implementation.md` T0.2). |
+| D5 | How a footprint is written | **Typed fields on Dressing** (5.1): `width`, `length`, `height` in whole feet and a `shape` enum, replacing the sizes `layout` now carries in prose. |
+| D6 | The ravine's scale | **Fit the sheet**: compress E, or coarsen the square where that plays better (it is already 10 yards, not 10 feet). |
+| D7 | Hand edits to a generated map | **Open** - explained to the user; recommended: only what no table states (terrain paint, symbols, labels, corridor bends) survives a rebuild. |
+| D8 | Drop the site's `plan_html` plan along with mermaid | **Yes.** One drawing path. |
 
 ## 3. Sheets
 
@@ -93,16 +93,29 @@ region C rating=WILD die=d6 locations=7 {
 
 ## 5. Tables
 
-### 5.1 Location fields
+### 5.1 Footprint, on Dressing
 
-| Rating | Field | Value |
-|---|---|---|
-| DANGEROUS | `size` gloss | `"15 by 12 feet"`, `"30 feet across"`, `"40 by 4 feet"` (a passage) |
-| DANGEROUS | `shape` Room_Shape opt | `rect` (default) `round` `octagon` `cave` |
-| SAFE | `size` gloss opt | a building's footprint, as above; a location without one is drawn as a mark |
+A footprint is typed, not prose. `Common_Schema.md` gains:
 
-`Room_Shape` is added to `Common_Schema.md`. WILD locations stay points: a landmark is a
-mark on its sheet, as in the reference.
+```kdl
+value feet                    // a whole number of feet
+enum Room_Shape rect round octagon cave
+```
+
+and Dressing, in DANGEROUS and SAFE, gains:
+
+```kdl
+  width feet                  // across, west to east as the room lies; a round room's diameter
+  length feet                 // north to south
+  height feet opt             // floor to roof, where it matters at the table
+  shape Room_Shape opt        // rect where unset
+```
+
+- Required on every DANGEROUS Dressing; on SAFE, where the location is a building drawn to
+  size. A SAFE location without them is a mark.
+- `layout` no longer states a size: `"Den fifteen by twelve feet, wires over bed"` becomes
+  `width=15 length=12 layout="Wires over the bed"`.
+- WILD locations stay points: a landmark is a mark on its sheet, as in the reference.
 
 DANGEROUS Location keeps no `at`: a room's place is walked from its block's entrance along
 `Connections.md`'s orientations, as `site_common.positions()` does today.
@@ -134,8 +147,8 @@ it did not before. Orientation is needed this early because every map is walked 
 `tools/maps.py` builds a block's dungeon from the tables:
 
 1. Its entrance is the room a Connection reaches from outside the block.
-2. Each room is placed by walking orientations from the entrance, then drawn at its `size`
-   and `shape`, centred on its place.
+2. Each room is placed by walking orientations from the entrance, then drawn at its Dressing's
+   `width`, `length` and `shape`, centred on its place.
 3. Each Connection inside the block is a corridor; its door is the Connection's type
    (`Open`, `Crude`, `Broken`, `Archway` none; `Wooden`, `Banded`, `Stone` door; `Iron`
    portcullis), overridden by `Lock` (locked) or `Secret` (secret). A `Hazard` is a trap
@@ -190,8 +203,8 @@ It is the only map output a step reads. Its size is counted by `tools/metrics.py
 
 A SAFE region's home sheet holds the ground and road. Each block with a `wall` is drawn as
 walls with towers at the vertices of the hull of its locations' footprints, with a gate
-where a Gate location sits. Each located building is a room drawn at its `size`, no rock
-hatching. Locations with no `size` are marks.
+where a Gate location sits. Each building is a room drawn at its Dressing's footprint, no rock hatching. A location
+with no footprint is a mark.
 
 ### 8.2 What this leaves rough
 
@@ -200,12 +213,12 @@ manor or a walled village.
 
 ## 9. artgen work
 
-The project is ours, so missing pieces are built there. Each item ships in an artgen
-release before the step here that needs it.
+The project is ours, so missing pieces are built there, from briefs written here and run
+in an artgen session. How a finished item reaches this repo is D4's.
 
 | # | Feature | Used by |
 |---|---|---|
-| A1 | `artgen-maps`: the map and dungeon engines and their CLI as one dependency-free JS file, without the pixel-art pipeline | D4 |
+| A1 | The map and dungeon engines usable without the pixel-art pipeline, in whatever form D4 settles | D4 |
 | A2 | Constrained generation: `require` entries in `map.json` (area, terrain, height band, stream or road path); `map check` lists each unmet | 7.1 |
 | A3 | `map facts` / `dungeon facts`: features, and terrain, height and slope at given points, as JSON | 7.2 |
 | A4 | Crop render: `--crop x,y,w,h`, `--room id --margin n`, `--fit WxH` | 3.3, 6 |
@@ -224,7 +237,7 @@ Token cost stays near zero: code calls the CLI with `--json`, and no step reads 
   `ground` request is met, or reported by name.
 - Every WILD and SAFE location's `at` lies on its home sheet; outside its region's area is a
   warning.
-- Every DANGEROUS location is in exactly one block, has a `size`, and is reached from its
+- Every DANGEROUS location is in exactly one block, has a footprint, and is reached from its
   block's entrance; two routes placing a room apart, or two footprints overlapping, is an
   error.
 - No same-block Connection goes up or down.
