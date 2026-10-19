@@ -23,12 +23,12 @@ Two patterns already in the schema do most of the work:
 
 ## 1. Common values
 
-- [ ] **C1. `coin`.** `value coin // N cn or N-M cn; or pennies, the copper Procedures.md
-  never counts`. Read by S1's `price`, S1's finds, and any later field holding coin. Check:
+- [x] **C1. `coin`.** `value coin // N cn or N-M cn; or pennies, the copper Procedures.md
+  never counts`. Read by R5's `price`, S1's finds, and any later field holding coin. Check:
   the form, and a range low to high. *(`Treasure` `Value` stays a bare `number`: its unit is
   the table's.)*
 
-- [ ] **C2. `time`.** `enum Time_Unit Round turn hour watch day week` and
+- [x] **C2. `time`.** `enum Time_Unit Round turn hour watch day week` and
   `value time // N or N-M, then a Time_Unit: "2 turns", "1 watch"`. These are the units
   `Procedures.md`'s Time and Distance keeps (Round, turn, watch, day), plus hour and week,
   which the prices use. Read by R3 and R4. Check: the form, and a unit the region's rating
@@ -41,7 +41,7 @@ sheet-maps adds `feet`, `distance`, `Compass` and `Distance_Unit` (its `spec.md`
 
 ## 2. Region tables
 
-- [ ] **R1. A hazard states its Test and its cost.** Today the table holds only `type` and
+- [x] **R1. A hazard states its Test and its cost.** Today the table holds only `type` and
   `damage`, and each write-up decides the rest. Thornmarch's write-ups add it in prose, 14
   times, as `(Test of Constitution, 2d, Crushing)`, and no check can see it. `Hazard`, in
   DANGEROUS and WILD, gains:
@@ -65,7 +65,7 @@ sheet-maps adds `feet`, `distance`, `Compass` and `Distance_Unit` (its `spec.md`
   - Cost: 13 Hazard lines gain two fields. 5b keeps writing the parenthesis, now from the
     table.
 
-- [ ] **R2. An encounter's reaction opens with one of a closed set.** Every one of
+- [x] **R2. An encounter's reaction opens with one of a closed set.** Every one of
   Thornmarch's 51 `reaction` values already opens with a disposition word: Hostile 32,
   Wary 16, then Fearful, Desperate and Cunning once each. Proposed:
   `enum Reaction Hostile Wary Fearful Neutral Friendly`, with `reaction Reaction`, and
@@ -75,7 +75,7 @@ sheet-maps adds `feet`, `distance`, `Compass` and `Distance_Unit` (its `spec.md`
   - Cost: 51 values, three of them re-read (Desperate and Cunning are not dispositions; the
     word moves after the dash).
 
-- [ ] **R3. A DANGEROUS encounter states how soon it answers an alarm.** A DANGEROUS
+- [x] **R3. A DANGEROUS encounter states how soon it answers an alarm.** A DANGEROUS
   brief's `Alarm` states "who comes from where, how many turns later", but a brief is
   written "from the tables alone" (`Region_Schema.md`), and no table holds a delay. So 5e
   invents it. `Encounter` in DANGEROUS gains `answers time opt`: how soon it reaches an
@@ -84,14 +84,14 @@ sheet-maps adds `feet`, `distance`, `Compass` and `Distance_Unit` (its `spec.md`
   - Cost: 31 DANGEROUS Encounters to consider, set where the Alarm already names them. 5e
     writes Alarm from them.
 
-- [ ] **R4. A garrison's call and delay are fields.** `answers string` packs a trigger, a
+- [x] **R4. A garrison's call and delay are fields.** `answers string` packs a trigger, a
   count and a delay into one value (`"the alarm drum; twenty in two turns"`), and the count
   repeats `present`. It becomes `call gloss` (what brings it out) and
   `within time` (how soon). **Depends on C2.**
   - Check: the time form. The count is `present` alone.
   - Cost: two Garrison lines.
 
-- [ ] **R5. A purchase's price is typed.** Thornmarch's 19 prices take five forms: coin and
+- [x] **R5. A purchase's price is typed.** Thornmarch's 19 prices take five forms: coin and
   a unit (`"10 cn a night"`), a coin range (`"50-100 cn each"`), a rate (`"3% of the
   sum"`), the price list (`"listed prices"`) and pennies (`"pennies a round"`). `Purchase`
   becomes:
@@ -112,7 +112,7 @@ sheet-maps adds `feet`, `distance`, `Compass` and `Distance_Unit` (its `spec.md`
     lists, and the Setting Judgement Check compares a coin price against the list's.
   - Cost: 19 Purchase lines split into `price` and `per`.
 
-- [ ] **R6. A block states its passages' width and height.** A DANGEROUS seed's
+- [x] **R6. A block states its passages' width and height.** A DANGEROUS seed's
   `Conditions` gives one passage size for every room (`"passages 4 feet high and 3
   wide"`), as prose a map cannot read. sheet-maps' `Block` (its `spec.md` 5.2) gains
   `width feet` and `height feet` for its passages, and a Connection gains the same two as
@@ -126,7 +126,7 @@ sheet-maps adds `feet`, `distance`, `Compass` and `Distance_Unit` (its `spec.md`
 
 ## 3. Setting tables
 
-- [ ] **S1. A hoard's finds are a declared value, and `Total` retires.** Items already
+- [x] **S1. A hoard's finds are a declared value, and `Total` retires.** Items already
   carry `(N cn, N wt)` per find, and `validate_setting.py` reads them with a pattern
   (`PRICED_RE`) to check a `Total` that only restates their sum.
   `value finds // finds split by "; ", each prose then "(N cn, N wt)"` makes the pattern a
@@ -135,7 +135,7 @@ sheet-maps adds `feet`, `distance`, `Compass` and `Distance_Unit` (its `spec.md`
   - Check: the form of each find. The sum check goes, because nothing is left to disagree.
   - Cost: 7 Hoards lose their `Total` line, and `check_hoard_totals` goes.
 
-- [ ] **S2. A creature states how many one lair or band holds.** `Range` packs where it
+- [x] **S2. A creature states how many one lair or band holds.** `Range` packs where it
   lives, what it eats and a count (`"a warren holds thirty or so"`). `Bestiary` gains
   `Numbers number opt`, and the count leaves `Range`.
   - Check, as a warning: in a DANGEROUS region of `Kind` single holding, the count of that
@@ -144,7 +144,7 @@ sheet-maps adds `feet`, `distance`, `Compass` and `Distance_Unit` (its `spec.md`
     Bestiary's "thirty or so": close enough here, and the check would show it.
   - Cost: 11 Bestiary entries.
 
-- [ ] **S3. An event's age opens with one of a closed set.** `When` is "years ago, vaguer
+- [x] **S3. An event's age opens with one of a closed set.** `When` is "years ago, vaguer
   the older it is". The vagueness is the point, so the prose stays, and its order becomes
   readable: `enum Age recent living old ancient` (within ten years; within living memory;
   recorded but not remembered; before any record), with `When Age` and the prose after the
@@ -152,14 +152,14 @@ sheet-maps adds `feet`, `distance`, `Compass` and `Distance_Unit` (its `spec.md`
   - Check: the entries are written oldest first. The site draws a timeline in that order.
   - Cost: 4 History entries.
 
-- [ ] **S4. A local procedure's roll opens with its die.** `Roll` is "the die and whose it
+- [x] **S4. A local procedure's roll opens with its die.** `Roll` is "the die and whose it
   is, and what it decides". All 8 of Thornmarch's name one: a Skill die, the region's
   Difficulty die, or a d6. `enum Roll_Die Combat Skill Magic Difficulty d6`, with `Roll Roll_Die`
   and the prose after the dash.
   - Check: the die is one the ruleset rolls. `Procedures.md`'s Ruleset names them.
   - Cost: 8 entries.
 
-- [ ] **S5. A quest's terms open with the kind of payment.** The schema's own comment
+- [x] **S5. A quest's terms open with the kind of payment.** The schema's own comment
   already closes the set: "a fee, share, favour, loan, or bait". `enum Pay fee share favour
   loan bait`, with `Terms Pay` and the giver's words after the dash:
   `fee - "Five cn a disc, paid by the guild..."`.
