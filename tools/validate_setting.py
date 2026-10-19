@@ -139,7 +139,8 @@ def check_read_set(diag: Diagnostics):
         return
     bodies, steps = step_bodies(), read_set()
     for sid, (names, _) in sorted(steps.items()):
-        if not names and "python3 tools/" not in bodies.get(sid, ""):
+        body = bodies.get(sid, "").strip()
+        if not names and "python3 tools/" not in body and not body.startswith("Retired"):
             diag.warn(STEPS_MD, f"step {sid} names no template")
         for name in sorted(names):
             if not (TEMPLATES / name).exists():

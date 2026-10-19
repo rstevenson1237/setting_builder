@@ -10,7 +10,7 @@ Read first:
 - `GENRE.md`, `STYLE.md` and `BRIEF.md`, as `python3 tools/validate_setting.py --brief [Region Code]` prints it
 - `patterns/Common_Schema.md`, and `patterns/Region_Schema.md` - this region's rating's `brief`
 - this region's seed, `setting/region/[Region Code].md`
-- this region's table files and `Connections.mmd`, and each location's referee notes for its size
+- this region's table files, and each location's referee notes for its size
 - `setting/Rumours.md` and `setting/Quests.md`
 
 ## Instructions

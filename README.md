@@ -45,7 +45,7 @@ Read these rather than a description of them.
   (`Procedures.md`, `Language.md`), the registries (`Lore.md`, `Keys.md`, `Quests.md`,
   `NamedCreatures.md`, `UniqueTreasures.md`, `LocalProcedures.md`), and `region/`, holding the Regional Gazetteer
   and one folder per region.
-- `setting/region/[Code]/` - one region: the table files its rating's schema names, its `Connections.mmd`, one `[LocationCode].md` per location, written from the
+- `setting/region/[Code]/` - one region: the table files its rating's schema names, one `[LocationCode].md` per location, written from the
   tables, and its `Brief.md`, written last. The region's seed sits beside it at
   `setting/region/[Code].md`.
 - `setting/checks/` - output of the judgement checks (STEPS.md step 6): non-mechanical
