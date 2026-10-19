@@ -43,15 +43,15 @@ here but a findings note in this folder.
 Each item is a brief written into this folder, with the evidence from phase 1 and the
 Thornmarch cases it must draw, then run in an artgen session. Each lands by D4's rule.
 
-| Task | What | Needed by |
-|---|---|---|
-| T2.1 | A1 the map and dungeon engines usable alone, packaged as D4 settles | T3.1 |
-| T2.2 | A3 `facts` for maps and dungeons | T3.7 |
-| T2.3 | A4 crop and fit renders | T3.8 |
-| T2.4 | A2 constrained generation and `map check` | T3.6 |
-| T2.5 | A6 symbols, A7 page-relative sizes | T5.2 |
-| T2.6 | A8 hand edits kept across regeneration | T3.6 |
-| T2.7 | A5 terrain underlay, walls, towers, gates | T5.1 |
+| Task | What | Brief | Needed by |
+|---|---|---|---|
+| T2.1 | A1 the map and dungeon engines usable alone, packaged as D4 settles | `brief-engines.md` | T3.1 |
+| T2.2 | A3 `facts` for maps and dungeons | `brief-facts.md` | T3.7 |
+| T2.3 | A4 crop and fit renders | `brief-crop.md` | T3.8 |
+| T2.4 | A2 constrained generation and `map check` | `brief-constraints.md` | T3.6 |
+| T2.5 | A6 symbols, A7 page-relative sizes | `brief-symbols.md` | T5.2 |
+| T2.6 | A8 hand edits kept across regeneration | `brief-edits.md` | T3.6 |
+| T2.7 | A5 terrain underlay, walls, towers, gates | `brief-underlay.md` | T5.1 |
 
 ---
 
