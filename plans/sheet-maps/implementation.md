@@ -62,7 +62,7 @@ The validator must pass after every task, so each tool change lands with the tex
 | Task | What | Files |
 |---|---|---|
 | T3.1 | Bring artgen in by D4's rule; `node` in CI; `README.md` tools list | per D4, `.github/workflows/*.yml`, `README.md` |
-| T3.2 | `feet`, `Room_Shape`, `Compass`, `Distance_Unit`, `distance`; `at` and `orientation` typed (`spec.md` 5.4); `width`, `length`, `height`, `shape` on DANGEROUS and SAFE Dressing; `Block` node and `Blocks` table | `patterns/Common_Schema.md`, `Dangerous_Schema.md`, `Safe_Schema.md`; `tools/tables.py` |
+| T3.2 | `feet`, `Room_Shape`, `Compass`, `Distance_Unit`, `distance`; `at` and `orientation` typed (`spec.md` 5.3); `width`, `length`, `height`, `shape` on DANGEROUS and SAFE Dressing; `Block` node and `Blocks` table | `patterns/Common_Schema.md`, `Dangerous_Schema.md`, `Safe_Schema.md`; `tools/tables.py` |
 | T3.3 | `sheet`, `ground`, `place` in `BRIEF.md`'s grammar and `--brief` slices | `BRIEF.md` header, `tools/validate_setting.py` |
 | T3.4 | Gazetteer `Joins` column; 3a writes it | `patterns/Setting_Schema.md`, `templates/region/Region_Gazetteer.md`, validator |
 | T3.5 | 4b rewritten: `Connections.md` with `to` and `orientation`, and `Blocks.md`; 4c drops edge-copying; retire the four `Connections.mmd` templates | `STEPS.md`, `templates/region/Tables.md`, `templates/*/Connections.mmd` |

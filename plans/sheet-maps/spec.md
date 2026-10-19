@@ -29,7 +29,7 @@ themes.
 | D2 | Where sheets, ground and placement are requested | **`BRIEF.md`** (section 4). |
 | D3 | What is committed | **Each map's JSON and `Ground.md`.** Renders are made by the site and PDF builds. |
 | D4 | How artgen arrives, and how improvements flow back | **Recommended, for sign-off**: the current loop kept and made cheaper (section 12). |
-| D5 | How a footprint and a place are written | **Typed fields** (5.1, 5.4): a footprint on Dressing, and `at` and `orientation` as direction, distance and unit, not strings. The agent turns fields back into prose for the reader. A review of every schema for the same gain is its own plan (`implementation.md` T0.4). |
+| D5 | How a footprint and a place are written | **Typed fields** (5.1, 5.3): a footprint on Dressing, and `at` and `orientation` as direction, distance and unit, not strings. The agent turns fields back into prose for the reader. A review of every schema for the same gain is its own plan (`implementation.md` T0.4). |
 | D6 | The ravine's scale | **Fit the sheet**: compress E, or coarsen the square where that plays better (it is already 10 yards, not 10 feet). |
 | D7 | Hand edits to a generated map | **Only what no table states survives a rebuild.** A wrong map is fixed on the map. Drawing a map is also a review: what it shows wrong in the tables is offered to the user, and changed only on their word. |
 | D8 | Drop the site's `plan_html` plan along with mermaid | **Yes.** One drawing path. |
@@ -136,7 +136,7 @@ Block A.a name="The Outer Bailey" locations="A.1, A.2, ..." wall="20 feet, walk 
 - `wall` and `towers` (SAFE only) give the enclosure drawn round the block's locations.
 - The block's map is `setting/region/[Code]/[Block].json`.
 
-### 5.4 Places, typed
+### 5.3 Places, typed
 
 `at` and `orientation` are strings today, taken apart by a pattern in `site_common.py`. A
 map is walked from them, so they become typed:
@@ -156,7 +156,7 @@ value distance                // a number then a Distance_Unit: 40 feet, 1.5 mil
 - `site_common.parse_at` and its two patterns retire; the validator rejects what does not
   parse rather than skipping it.
 
-### 5.3 `Connections.md` written at 4b
+### 5.4 `Connections.md` written at 4b
 
 The edges the mermaid graph held are written straight into `Connections.md` at 4b, one
 entry per side with `to` and `orientation` set and the rest a stub; 4c fills nothing there

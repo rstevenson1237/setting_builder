@@ -127,7 +127,7 @@ keep, and the Caves of Chaos. They are not committed.)
 |---|---|
 | D7 | Settled as recommended. A map's drawing is also a review of the tables; what it finds is offered to the user, never applied by default. |
 | D8 | Settled. |
-| D5 | Settled, widened: `at` and `orientation` become typed too (`spec.md` 5.4). A review of every schema for the same gain is its own plan (T0.4). |
+| D5 | Settled, widened: `at` and `orientation` become typed too (`spec.md` 5.3). A review of every schema for the same gain is its own plan (T0.4). |
 | D4 | The current loop - test, brief of findings, import, release - is kept and made cheaper (`spec.md` section 12), for sign-off. |
 
 ## Evidence from the evaluation
