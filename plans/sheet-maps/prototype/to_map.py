@@ -1,6 +1,7 @@
 """A WILD region's Locations and Stops as an artgen local terrain map, north up."""
 import sys, subprocess, shutil
-sys.path.insert(0, "/home/user/setting_builder/tools")
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parents[3] / "tools"))     # the setting_builder checkout this file is in
 import site_common as sc
 code, game, yd = sys.argv[1], sys.argv[2], float(sys.argv[3])   # yards per cell
 pos, _ = sc.positions(code)
