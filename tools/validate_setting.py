@@ -213,7 +213,7 @@ def report_read_set(step_filter: str | None) -> int:
 REGION_RE = re.compile(r'^([A-Z]+) (.+?) - (SAFE|WILD|DANGEROUS), (d\d+)\s*$')
 
 
-REGION_COLUMNS = ["Code", "Name", "Form", "Gloss", "Rating", "Die", "Tag line"]
+REGION_COLUMNS = ["Code", "Name", "Form", "Gloss", "Rating", "Die", "Joins", "Tag line"]
 RATINGS = {"SAFE", "WILD", "DANGEROUS"}
 
 
@@ -240,8 +240,17 @@ def parse_regions(diag: Diagnostics):
             diag.error(path, f"line {line}: region {code} has rating {rating!r} - expected SAFE, WILD or DANGEROUS")
         if die and not re.fullmatch(r"d\d+", die):
             diag.error(path, f"line {line}: region {code} has die {die!r} - expected dN")
-        regions[code] = {"name": d.get("Name", ""), "rating": rating, "die": die}
+        regions[code] = {"name": d.get("Name", ""), "rating": rating, "die": die,
+                         "joins": d.get("Joins", "").split()}
         order.append(code)
+    for code, r in regions.items():
+        for j in r["joins"]:
+            if j == code or j not in regions:
+                diag.error(path, f"region {code} joins {j}, which is {'itself' if j == code else 'no region'}")
+            elif code not in regions[j]["joins"]:
+                diag.error(path, f"region {code} joins {j}, which does not join {code}")
+        if not r["joins"]:
+            diag.error(path, f"region {code} joins no region")
     expected = [index_to_code(idx) for idx in range(len(order))]
     if order != expected:
         diag.error(path, f"region codes not a plain A-Z progression: found {order}, expected {expected}")
