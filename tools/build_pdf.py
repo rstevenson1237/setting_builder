@@ -8,9 +8,8 @@ as tools/build_site.py's web view) and converts it to PDF with WeasyPrint.
 WeasyPrint is not part of the standard library - install it with
 `pip install weasyprint` (see requirements-pdf.txt) before running this.
 
-Mermaid diagrams can't be executed by WeasyPrint (no JavaScript), so each
-Connections.mmd is rendered instead as a plain "X — Y" connection list
-carrying the same information.
+Connections are listed as plain "X — Y" lines: the gazetteer's Joins between
+regions, and each region's Connections.md between locations.
 """
 from __future__ import annotations
 
@@ -44,8 +43,7 @@ def toc_entry(title: str, anchor: str, level: int = 0) -> str:
     return f'<li class="{cls}"><a href="#{anchor}">{html.escape(title)}</a></li>'
 
 
-def connections_block(mmd_text: str, setting: sc.Setting) -> str:
-    lines = sc.describe_edges(mmd_text, setting)
+def connections_block(lines: list[str]) -> str:
     if not lines:
         return ""
     items = "".join(f"<li>{html.escape(l)}</li>" for l in lines)
@@ -85,7 +83,7 @@ def build_document(setting: sc.Setting) -> str:
         toc.append(toc_entry(p.title, p.slug))
 
     # ---- regions + locations ----
-    top_conn = connections_block(setting.top_connections, setting) + sc.sheets_html("170x230mm")
+    top_conn = connections_block(sc.join_lines(setting)) + sc.sheets_html("170x230mm")
     region_toc: list[str] = []
     for code in setting.region_order:
         region = setting.regions[code]
@@ -99,7 +97,7 @@ def build_document(setting: sc.Setting) -> str:
             trows = "".join(f'<tr><td class="num">{n}</td><td>{ri(t, setting)}</td></tr>' for n, t in table_rows)
             table_html += f'<h3>{html.escape(table_label)}</h3><table class="data-table"><tbody>{trows}</tbody></table>'
 
-        rconn = connections_block(sc.load_mmd(sc.SETTING / "region" / code / "Connections.mmd"), setting)
+        rconn = connections_block(sc.connection_lines(code, setting))
 
         parts.append(
             f'<section class="doc region-doc" id="{r_anchor}">'

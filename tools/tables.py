@@ -22,8 +22,6 @@ COUNT_RE = re.compile(r"(\d+)(?:-(\d+)|(\+))?")   # N exactly, "N-M", "N+" at le
 OPEN = 10 ** 9
 FEET_RE = re.compile(r"-?\d+")
 DISTANCE_RE = re.compile(r"(\d+(?:\.\d+)?) (\w+)")
-MMD_NODE_RE = re.compile(r'(\w+)\["([A-Z]+\.\d+)[^"]*"\]')
-MMD_EDGE_RE = re.compile(r'(\w+)(?:\["[^"]*"\])?\s*(?:---|-->|-\.-)(?:\|[^|]*\|)?\s*(\w+)')
 
 
 @dataclass
@@ -487,17 +485,14 @@ class Region:
     folder: Folder | None
     files: dict[str, list] = field(default_factory=dict)
     syntax: list[tuple[Path, str]] = field(default_factory=list)
-    diagram: Path | None = None
-    nodes: dict[str, str] = field(default_factory=dict)
-    edges: list[tuple[str, str]] = field(default_factory=list)
-    unresolved: set[str] = field(default_factory=set)
+    edges: list[tuple[str, str]] = field(default_factory=list)     # each way between two locations, once
 
     def locations(self) -> dict[str, kdl.Node]:
         return {n.args[0]: n for n in self.files.get("Locations", []) if n.args}
 
 
 class Setting:
-    """Every region's tables and diagram, read once."""
+    """Every region's tables, read once."""
 
     def __init__(self, regions: dict[str, str], schema: Schema | None = None):
         self.schema = schema or Schema()
@@ -518,18 +513,11 @@ class Setting:
                     r.files[stem] = kdl.fenced(path.read_text())
                 except SyntaxError as e:
                     r.syntax.append((path, str(e)))
-        mmd = rdir / "Connections.mmd"
-        if mmd.exists():
-            r.diagram = mmd
-            for line in mmd.read_text().splitlines():
-                line = line.split("%%")[0]
-                for m in MMD_NODE_RE.finditer(line):
-                    r.nodes[m.group(1)] = m.group(2)
-                for m in MMD_EDGE_RE.finditer(line):
-                    r.edges.append((m.group(1), m.group(2)))
-            r.unresolved = {i for e in r.edges for i in e if i not in r.nodes}
-            r.edges = [(r.nodes[a], r.nodes[b]) for a, b in r.edges
-                       if a in r.nodes and b in r.nodes]
+        seen = set()
+        for n in r.files.get("Connections", []):
+            if n.args and "to" in n.props and (pair := frozenset((str(n.args[0]), str(n.props["to"])))) not in seen:
+                seen.add(pair)
+                r.edges.append((str(n.args[0]), str(n.props["to"])))
         return r
 
     def titles(self, table: str) -> set | None:
@@ -760,7 +748,7 @@ class Setting:
                     yield sev, path, f"line {n.line}: {msg}"
         yield from self._check_rates(r)
         if "Connections" in r.folder.files:
-            yield from self._check_diagram(r)
+            yield from self._check_connections(r)
             yield from self._check_joins(r)
 
     def _check_locations(self, r: Region):
@@ -895,21 +883,9 @@ class Setting:
                     yield "warning", r.dir / f"{stem}.md", (
                         f"{code} ({loc.props['type']}) has {got} {stem} entries - its rate is {want}")
 
-    def _check_diagram(self, r: Region):
-        if r.diagram is None:
-            yield "warning", r.dir / "Connections.mmd", "missing - not built yet"
-            return
-        for i in sorted(r.unresolved):
-            yield "error", r.diagram, f"edge names node id {i!r}, which no node defines"
-        for c in sorted(set(r.nodes.values()) - self.codes):
-            yield "error", r.diagram, f"node {c} is not a location"
-        for c in sorted(set(r.locations()) - set(r.nodes.values())):
-            yield "warning", r.diagram, f"{c} has no node yet"
+    def _check_connections(self, r: Region):
+        """Each way has an entry at each end in its own region."""
         path = r.dir / "Connections.md"
-        for n in r.files.get("Connections", []):
-            to = n.props.get("to")
-            if n.args and to and frozenset((n.args[0], to)) not in self.edges:
-                yield "error", path, f"line {n.line}: {n.args[0]} to {to} is on no Connections.mmd"
         for a, b in r.edges:
             for near, far in ((a, b), (b, a)):
                 if near.startswith(r.code + ".") and (near, far) not in self.connections:
@@ -924,13 +900,13 @@ class Setting:
             if a not in types or b not in types:
                 continue
             if {types[a], types[b]} <= r.folder.top:
-                yield "error", r.diagram, (f"{a} ({types[a]}) connects to {b} ({types[b]}) - both are "
+                yield "error", r.dir / "Connections.md", (f"{a} ({types[a]}) connects to {b} ({types[b]}) - both are "
                                            f"reached from the region itself, so no edge is stated")
                 continue
             for near, far in ((a, b), (b, a)):
                 to = r.folder.joins.get(types[near], (None, None))[0]
                 if to is not None and types[far] not in to:
-                    yield "error", r.diagram, (f"{near} ({types[near]}) connects to {far} ({types[far]}) - "
+                    yield "error", r.dir / "Connections.md", (f"{near} ({types[near]}) connects to {far} ({types[far]}) - "
                                                f"a {types[near]} connects only to {', '.join(sorted(to))}")
                     break
             for near, far in ((a, b), (b, a)):

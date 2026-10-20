@@ -4,7 +4,7 @@
 Two independent checks: that every step, template and schema STEPS.md names
 resolves (runs unconditionally, regardless of what setting/ holds), and the
 generated content against patterns/*_Schema.md and the formats in templates/,
-the location graphs in Connections.mmd files, and the cross-file registry
+the location graphs in Connections.md files, and the cross-file registry
 constraints (Lore/Keys/NamedCreatures/UniqueTreasures).
 
 This is a structural linter, not a genre/content reviewer - it cannot judge
@@ -94,7 +94,7 @@ def index_to_code(i: int) -> str:
 
 TEMPLATES = ROOT / "templates"
 # A template is cited by its path under templates/, folder included.
-TEMPLATE_CITE_RE = re.compile(r'\btemplates/((?:[a-z]+/)?[A-Za-z_]+\.(?:md|mmd))\b')
+TEMPLATE_CITE_RE = re.compile(r'\btemplates/((?:[a-z]+/)?[A-Za-z_]+\.md)\b')
 SCHEMA_CITE_RE = re.compile(r'\bpatterns/([A-Za-z_\[\]]+\.md)\b')
 TEMPLATE_STEP_CITE_RE = re.compile(r'\b[Ss]tep\s+([1-9][0-9]*[a-z])\b')
 STEP_BODY_RE = re.compile(r'^\s*-\s+([1-9][0-9]*[a-z])\.(.*?)(?=\n\s*-\s+[1-9][0-9]*[a-z]\.|\n[1-9]\.|\Z)',
@@ -208,7 +208,7 @@ def report_read_set(step_filter: str | None) -> int:
 
 
 # ---------------------------------------------------------------------------
-# Regions.md / setting/region/Connections.mmd
+# Regions.md
 # ---------------------------------------------------------------------------
 
 REGION_RE = re.compile(r'^([A-Z]+) (.+?) - (SAFE|WILD|DANGEROUS), (d\d+)\s*$')
@@ -258,59 +258,8 @@ def parse_regions(diag: Diagnostics):
     return regions
 
 
-TOP_NODE_RE = re.compile(r'(\w+)\["([A-Z]+) - (.*?)"\]')
-EDGE_RE = re.compile(
-    r'(\w+)(?:\[[^\]]*\])?\s*(---|-\.-|-->)(?:\|([^|]*)\|)?\s*(\w+)(?:\[[^\]]*\])?')
-EDGE_KINDS = {"---": "open", "-->": "one-way", "-.-": "secret"}
-
-
-def parse_mmd_edges(text: str, node_re: re.Pattern):
-    id_to_code: dict[str, str] = {}
-    for m in node_re.finditer(text):
-        id_to_code[m.group(1)] = m.group(2)
-    edges = []
-    unresolved: set[str] = set()
-    for raw_line in text.splitlines():
-        line = raw_line.split("%%")[0]
-        for m in EDGE_RE.finditer(line):
-            a, typ, label, b = m.groups()
-            ca, cb = id_to_code.get(a), id_to_code.get(b)
-            if ca is None:
-                unresolved.add(a)
-            if cb is None:
-                unresolved.add(b)
-            if ca and cb:
-                edges.append((ca, typ, (label or "").strip(), cb))
-    return id_to_code, edges, unresolved
-
-
-def edge_key(a: str, typ: str, label: str, b: str):
-    """Identity of an edge, direction-sensitive only where the kind is."""
-    ends = (a, b) if typ == "-->" else tuple(sorted((a, b)))
-    return (ends, typ, label)
-
-
-def check_top_connections(diag: Diagnostics, regions: dict):
-    path = SETTING / "region" / "Connections.mmd"
-    if not path.exists():
-        diag.warn(path, "missing - not built yet")
-        return []
-    text = path.read_text()
-    id_to_code, top_edges, unresolved = parse_mmd_edges(text, TOP_NODE_RE)
-    for u in sorted(unresolved):
-        diag.error(path, f"edge references node id {u!r} with no bracketed definition")
-    codes_in_graph = set(id_to_code.values())
-    for code in regions:
-        if code not in codes_in_graph:
-            diag.warn(path, f"region {code} has no node in the region-level Connections graph yet")
-    for code in codes_in_graph:
-        if code not in regions:
-            diag.error(path, f"node references unknown region code {code}")
-    return top_edges
-
-
 # ---------------------------------------------------------------------------
-# Per-region Locations.md + Connections.mmd
+# Per-region Locations.md + Connections.md
 # ---------------------------------------------------------------------------
 
 
@@ -523,23 +472,22 @@ def check_location_file(diag, path, region_code, num, stub, connected, all_locat
 
 
 
-def check_region_edge_realization(diag: Diagnostics, top_path, top_edges: list,
-                                  all_loc_edges: list, all_locations: dict):
-    """Both directions of the claim templates/region/Connections.mmd makes at 3b."""
+def check_region_edge_realization(diag: Diagnostics, regions: dict, all_loc_edges: list, all_locations: dict):
+    """Both directions of the claim Regions.md's Joins column makes at 3a."""
+    path = SETTING / "region" / "Regions.md"
     crossings = set()
     for a, _typ, _l, b in all_loc_edges:
         ra = all_locations.get(a, {}).get("region")
         rb = all_locations.get(b, {}).get("region")
         if ra and rb and ra != rb:
             crossings.add(frozenset((ra, rb)))
-    licensed = {frozenset((a, b)) for a, _typ, _l, b in top_edges if a != b}
+    licensed = {frozenset((a, b)) for a, r in regions.items() for b in r["joins"] if a != b}
     for pair in sorted(crossings - licensed, key=sorted):
         x, y = sorted(pair)
-        diag.error(top_path, f"locations connect {x} to {y}, but no region-level edge licenses it")
+        diag.error(path, f"locations connect {x} to {y}, but neither region Joins the other")
     for pair in sorted(licensed - crossings, key=sorted):
         x, y = sorted(pair)
-        diag.warn(top_path, f"region edge {x} - {y} is not yet realized by any "
-                            f"location-to-location connection")
+        diag.warn(path, f"{x} Joins {y}, but no location-to-location connection realizes it")
 
 
 # ---------------------------------------------------------------------------
@@ -1217,9 +1165,6 @@ def main() -> int:
         return 1 if diag.errors else 0
 
     regions = parse_regions(diag)
-    top_path = SETTING / "region" / "Connections.mmd"
-    top_edges = check_top_connections(diag, regions)
-
     setting = tables.Setting({c: i["rating"] for c, i in regions.items()})
     for sev, path, msg in setting.check():
         (diag.error if sev == "error" else diag.warn)(path, msg)
@@ -1243,7 +1188,7 @@ def main() -> int:
     mundane_edges = {(n.args[0], n.props["to"]) for n in sides} - hidden_edges
     stated = {n.args[0] for n in sides}
 
-    check_region_edge_realization(diag, top_path, top_edges, all_loc_edges, all_locations)
+    check_region_edge_realization(diag, regions, all_loc_edges, all_locations)
 
     conditions = procedures_conditions()
     for region_code, locs in region_locs.items():

@@ -1,7 +1,7 @@
 # Setting Builder
 
 A plain-text framework for authoring OSR (Old-School Renaissance) adventure settings as
-markdown and a few `.mmd` mermaid diagrams. All "development" here is content generation
+markdown and the maps drawn from it. All "development" here is content generation
 following the templates and workflow below.
 
 This file is a map: where things live and what each part does. It is not a reference for
