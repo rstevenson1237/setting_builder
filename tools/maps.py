@@ -175,7 +175,7 @@ def map_file(sheet: Sheet, seed: int, names: dict, regions: dict, radius: dict, 
     return m
 
 
-def draw(sheet: Sheet, target: Path, build) -> tuple[list[str], int]:
+def draw_sheet(sheet: Sheet, target: Path, build) -> tuple[list[str], int]:
     """Writes the sheet's map file with the first seed meeting every requirement, else the
     seed missing fewest. Returns what is unmet, and the seed."""
     kept = json.loads(target.read_text()) if target.exists() else None
@@ -235,7 +235,7 @@ def place(brief_path: Path, setting: Path) -> int:
                 for p in brief.regions[c].children if p.name == "place" and str(p.args[0]) in sheet.codes]
         unmet += solve(sheet, rad, asks)
         target = setting / f"{sheet.name}.json"
-        problems, sheet.seed = draw(sheet, target,
+        problems, sheet.seed = draw_sheet(sheet, target,
                                     lambda seed, s=sheet: map_file(s, seed, names, brief.regions, rad, home))
         for p in problems:
             ground = brief.regions.get(p.split("-")[0])
@@ -293,25 +293,41 @@ def offset(node: kdl.Node) -> tuple[float, float] | None:
     return None
 
 
+def read_only(file: Path, *args) -> subprocess.CompletedProcess:
+    """An artgen call that reads a map and changes nothing. Generating the ground takes
+    seconds, so the answer is kept under .maps-cache, keyed by the map file and the call."""
+    key = hashlib.sha256("\0".join([file.read_text(), ARTGEN.parent.joinpath("VERSION").read_text(),
+                                    *map(str, args)]).encode()).hexdigest()
+    kept = CACHE / f"{key}.json"
+    if kept.exists():
+        return subprocess.CompletedProcess(args, *json.loads(kept.read_text()))
+    done = artgen(*args, "--file", file, "--json")
+    if done.returncode in (0, 1) and done.stdout.strip().startswith("{"):
+        CACHE.mkdir(exist_ok=True)
+        kept.write_text(json.dumps([done.returncode, done.stdout, done.stderr]))
+    return done
+
+
 def facts(file: Path, *args) -> dict:
-    done = artgen("map", "facts", "--file", file, "--json", *args)
+    done = read_only(file, "map", "facts", *args)
     if done.returncode or not done.stdout.strip():
         raise SystemExit(f"artgen cannot read {file.name}: {(done.stderr or done.stdout).strip()}")
     return json.loads(done.stdout)
 
 
-def ground(brief_path: Path, setting: Path) -> int:
+def ground_texts(brief_path: Path, setting: Path) -> tuple[dict[str, str], list[str], list[str]] | str:
+    """Each placed region's Ground.md as `ground` would write it now, the locations off
+    their sheets, and those with no position stated. A string says why it cannot."""
     schema = tables.Schema(brief=brief_path)
     brief = tables.Brief(schema, brief_path)
     sheets_md = setting / "Sheets.md"
     if brief.problems or not sheets_md.exists():
-        print("; ".join(brief.problems) if brief.problems else "setting/Sheets.md is missing: run `place` first")
-        return 1
+        return "; ".join(brief.problems) if brief.problems else "setting/Sheets.md is missing: run `place` first"
     sheets = {n: Sheet(n, node) for n, node in brief.sheets.items()}
     rows = sc.read_tables(sheets_md)[0].dicts()
     gazetteer = sc.parse_regions_gazetteer()
     world = tables.Setting({c: g["rating"] for c, g in gazetteer.items()})
-    skipped, off = [], []
+    skipped, off, texts = [], [], {}
     for row in rows:
         code, area = row["Region"], row["Area"]
         if not area.startswith("circle"):
@@ -364,10 +380,20 @@ def ground(brief_path: Path, setting: Path) -> int:
             got = facts(file, "--at", *[f"{px:.1f},{py:.1f}" for px, py in spots.values()])["points"]
             for loc, pt in zip(spots, got):
                 lines.append(f'At {loc} ground="{pt["terrain"]}" height="{round(pt["height"])}" slope="{pt["slope"]["band"]}"')
+        texts[code] = f"# Ground of {code} {gazetteer[code]['name']}\n\n```kdl\n" + "\n".join(lines) + "\n```\n"
+    return texts, off, skipped
+
+
+def ground(brief_path: Path, setting: Path) -> int:
+    made = ground_texts(brief_path, setting)
+    if isinstance(made, str):
+        print(made)
+        return 1
+    texts, off, skipped = made
+    for code, text in texts.items():
         folder = setting / "region" / code
         folder.mkdir(parents=True, exist_ok=True)
-        (folder / "Ground.md").write_text(
-            f"# Ground of {code} {gazetteer[code]['name']}\n\n```kdl\n" + "\n".join(lines) + "\n```\n")
+        (folder / "Ground.md").write_text(text)
     if off:
         print("NOTE: off its sheet: " + ", ".join(off))
     if skipped:
@@ -379,6 +405,7 @@ def ground(brief_path: Path, setting: Path) -> int:
 
 DOOR = {"Open": None, "Archway": None, "Broken": None, "Crude": None, "Iron": "portcullis"}
 SHAPE = {"rect": "rect", "round": "circle", "octagon": "octagon", "cave": "cave"}
+APART = 10                      # feet two routes to one room may disagree by
 UNSIZED = 20                    # feet, a room's side where its Dressing states none
 EDGE = 8                        # cells of map beyond the rooms, for the corridors that leave it
 MAX_CELLS = 150
@@ -407,16 +434,23 @@ def block_map(region, block: kdl.Node) -> tuple[dict | None, list[str]]:
         return d * math.sin(math.radians(a)), -d * math.cos(math.radians(a))
     leaving = {str(n.args[0]) for n in ways if str(n.props["to"]) not in members and str(n.args[0]) in members}
     entrance = min(leaving or members, key=lambda c: int(c.split(".")[1]))
-    at, queue = {entrance: (0.0, 0.0)}, [entrance]
+    at, queue, told = {entrance: (0.0, 0.0)}, [entrance], set()
     for a in queue:                                      # rooms placed by walking orientations
         for n in ways:
             x, y = str(n.args[0]), str(n.props["to"])
-            if x == a and y in members and y not in at and (v := step(n)):
-                at[y] = (at[a][0] + v[0], at[a][1] + v[1])
-                queue.append(y)
-            elif y == a and x in members and x not in at and (v := step(n)):
-                at[x] = (at[a][0] - v[0], at[a][1] - v[1])
-                queue.append(x)
+            if x == a and y in members and (v := step(n)):
+                far, sign = y, 1
+            elif y == a and x in members and (v := step(n)):
+                far, sign = x, -1
+            else:
+                continue
+            spot = (at[a][0] + sign * v[0], at[a][1] + sign * v[1])
+            if far not in at:
+                at[far] = spot
+                queue.append(far)
+            elif math.dist(at[far], spot) > APART and (key := frozenset((a, far))) not in told:
+                told.add(key)
+                problems.append(f"the ways to {far} place it {math.dist(at[far], spot):.0f} feet apart")
     for c in members:
         if c not in at:
             problems.append(f"{c} is reached from {entrance} by no Connection with a bearing and distance")
@@ -430,6 +464,10 @@ def block_map(region, block: kdl.Node) -> tuple[dict | None, list[str]]:
         if w is None or h is None:
             problems.append(f"{c} states no width and length")
         size[c] = (float(w or UNSIZED), float(h or UNSIZED), SHAPE.get(str(d.props.get("shape", "rect")) if d else "rect", "rect"))
+    for i, a in enumerate(list(at)):
+        for b in list(at)[i + 1:]:
+            if all(abs(at[a][k] - at[b][k]) < (size[a][k] + size[b][k]) / 2 - APART / 5 for k in (0, 1)):
+                problems.append(f"{a} and {b} overlap")
     lo = [min(at[c][i] - size[c][i] / 2 for c in at) for i in (0, 1)]
     hi = [max(at[c][i] + size[c][i] / 2 for c in at) for i in (0, 1)]
     cell = next((f for f in CELLS if max(hi[i] - lo[i] for i in (0, 1)) / f + 2 * EDGE <= MAX_CELLS), CELLS[-1])

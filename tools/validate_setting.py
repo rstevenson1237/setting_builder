@@ -24,6 +24,8 @@ Exits 1 if any error is found, 0 otherwise (warnings never fail the run).
 """
 from __future__ import annotations
 
+import json
+import math
 import re
 import sys
 from pathlib import Path
@@ -733,6 +735,116 @@ def check_plans(diag: Diagnostics, setting):
                             f"{'it' if len(unplaced) == 1 else 'them'} states a compass point and distance")
 
 
+def check_sheets(diag: Diagnostics, brief):
+    """The sheets BRIEF.md asks for exist as Sheets.md rows and as map files, each `place`
+    and `ground` request is met, and Ground.md is what `maps.py ground` would write now."""
+    import maps
+    if not brief.sheets:
+        return
+    sheets_md, held = SETTING / "Sheets.md", {}
+    if not sheets_md.exists():
+        diag.warn(sheets_md, "missing - not built yet, owed to step 3b")
+        return
+    for d in sc.read_tables(sheets_md)[0].dicts():
+        held[d["Sheet"], d["Region"]] = d
+    sheets = {n: maps.Sheet(n, node) for n, node in brief.sheets.items()}
+    for name, sheet in sheets.items():
+        file = SETTING / f"{name}.json"
+        missing = [c for c in sheet.codes if (name, c) not in held]
+        if missing:
+            diag.warn(sheets_md, f"sheet {name} holds no row for {', '.join(missing)} - owed to step 3b")
+            continue
+        if not file.exists():
+            diag.warn(file, "missing - not built yet, owed to step 3b")
+            continue
+        for c in sheet.codes:
+            sheet.at[c] = tuple(float(v) for v in held[name, c]["Way in"].split(","))
+        for c in sheet.codes:
+            for n in brief.regions[c].children:
+                if n.name == "place" and str(n.args[0]) in sheet.codes:
+                    q = maps.Request(c, n, sheet.square)
+                    if q.miss(sheet.at[c], sheet.at[q.of]) > 0.5:
+                        diag.error(tables.BRIEF, f"line {n.line}: region {c} place {q.of} {n.args[1]} {n.args[2]!r} "
+                                                 f"is unmet on {name}: {q.said(sheet.at[c], sheet.at[q.of])}")
+        done = maps.read_only(file, "map", "check")
+        report = json.loads(done.stdout) if done.stdout.strip().startswith("{") else None
+        if report is None:
+            diag.error(file, f"artgen cannot check it: {(done.stderr or done.stdout).strip()}")
+            continue
+        for e in report["errors"]:
+            diag.error(file, f"{e['path']}: {e['message']}")
+        for r in report["requirements"]:
+            if not r["met"]:
+                node = next((c for c in brief.regions.get(r["id"].split("-")[0], kdl.Node("", 0)).children
+                             if c.name == "ground"), None)
+                diag.error(tables.BRIEF, f"{'line ' + str(node.line) + ': ' if node else ''}{r['text']}")
+    made = maps.ground_texts(brief.path, SETTING)
+    if isinstance(made, str):
+        diag.warn(sheets_md, made)
+        return
+    for code, text in made[0].items():
+        path = SETTING / "region" / code / "Ground.md"
+        if not path.exists():
+            diag.warn(path, "missing - not built yet, owed to step 3b")
+        elif path.read_text() != text:
+            diag.warn(path, "is not what `python3 tools/maps.py ground` writes now - owed to step 4d")
+
+
+def check_places(diag: Diagnostics, setting, brief):
+    """A WILD or SAFE location on a sheet states where it lies, on that sheet and, to a
+    warning, inside its region's area."""
+    import maps
+    for code, row in maps.sheet_rows().items():
+        region = setting.regions.get(code)
+        if region is None:
+            continue
+        sheet = brief.sheets.get(row["sheet"])
+        if sheet is None:
+            continue
+        cell = maps.feet(sheet.props["square"])
+        cols, rows = maps.Sheet(row["sheet"], sheet).cols, maps.Sheet(row["sheet"], sheet).rows
+        for loc, n in region.locations().items():
+            o = maps.offset(n)
+            path = region.dir / "Locations.md"
+            if o is None:
+                diag.error(path, f"{loc} states no place: bearing and distance, north and east, or at=\"way in\"")
+                continue
+            x, y = row["x"] + o[0] / cell, row["y"] - o[1] / cell
+            if not (0 <= x < cols and 0 <= y < rows):
+                diag.error(path, f"{loc} lies off the {row['sheet']} sheet")
+            elif math.dist((x, y), (row["x"], row["y"])) > row["radius"]:
+                diag.warn(path, f"{loc} lies outside {code}'s area on the {row['sheet']} sheet")
+
+
+def check_blocks(diag: Diagnostics, setting):
+    """Every location of a region with Blocks.md is in exactly one block with a footprint
+    and a route from its entrance, no room overlaps another, and no way within a block
+    climbs."""
+    import maps
+    for code, region in setting.regions.items():
+        blocks = maps.blocks_of(region)
+        if not blocks:
+            continue
+        path = region.dir / "Blocks.md"
+        owner: dict[str, str] = {}
+        for bid, block in blocks.items():
+            for c in (m.strip() for m in str(block.props.get("locations", "")).split(",") if m.strip()):
+                if c not in region.locations():
+                    diag.error(path, f"{bid} names {c}, which Locations.md does not hold")
+                elif c in owner:
+                    diag.error(path, f"{c} is in blocks {owner[c]} and {bid}")
+                owner[c] = bid
+            _, problems = maps.block_map(region, block)
+            for p in problems:
+                diag.error(path, f"{bid}: {p}")
+        for c in sorted(set(region.locations()) - set(owner), key=lambda c: int(c.split(".")[1])):
+            diag.error(path, f"{c} is in no block")
+        for n in region.files.get("Connections", []):
+            a, b = str(n.args[0]), str(n.props.get("to"))
+            if owner.get(a) and owner.get(a) == owner.get(b) and str(n.props.get("climb", "0")).lstrip("-") not in ("", "0"):
+                diag.error(region.dir / "Connections.md", f"{a} to {b} climbs within block {owner[a]}; a way that climbs joins two blocks")
+
+
 def check_marks(diag: Diagnostics, setting):
     """Every faction's Identity is shown by a Dressing `mark` in some location - the claim
     Factions.md makes upward, kept downward. Only once a region's Dressing is written."""
@@ -1227,6 +1339,9 @@ def main() -> int:
     check_inhabitants(diag, setting)
     check_marks(diag, setting)
     check_plans(diag, setting)
+    check_sheets(diag, brief)
+    check_places(diag, setting, brief)
+    check_blocks(diag, setting)
 
     # A location reached from the region itself is no part of the stated graph.
     top = {c for r in setting.regions.values() for c, n in r.locations().items()
