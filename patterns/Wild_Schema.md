@@ -95,6 +95,24 @@ node Secret {              // the way into a Secret location: what opens it, wha
   when gloss opt
 }
 
+node Ground {               // written by `tools/maps.py ground`, never by hand: the region as its sheet draws it
+  sheet string              // its home sheet
+  square string             // its way in on that sheet, as "column,row"
+  ground string             // the terrain its area holds, by share
+}
+node Feature {              // a river, road, hill or hollow in the region's area
+  kind Feature_Kind
+  bearing Compass           // from the region's way in, to the nearest of it
+  distance distance
+  runs Compass opt          // the way a river or road runs, to its far end
+  height feet opt           // a hill's or hollow's
+}
+node At {                   // the ground at a location
+  ground Ground_Type
+  height feet
+  slope Slope
+}
+
 folder Wild type=Wild_Type {
   Locations Location
   Dressing Dressing
@@ -102,6 +120,7 @@ folder Wild type=Wild_Type {
   Procedures Procedure
   Stops Stop                                       // a Route's only
   Connections Way
+  Ground Ground Feature At                         // written by code
   top Landmark Route  // reached from the region itself, so never joined to one another
   join Hidden Landmark Route  // a type connects only to these within its region
   join Secret Landmark Route gate=Secret  // and the Way into it carries a Secret

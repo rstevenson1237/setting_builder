@@ -783,7 +783,10 @@ class Setting:
             yield "error", f"{n.name} spans several lines - an entry is one line"
         code = n.args[0] if len(n.args) == 1 else None
         block = stem == "Blocks"
-        if code is None or not (BLOCK_RE if block else CODE_RE).fullmatch(str(code)) or not str(code).startswith(r.code + "."):
+        if stem == "Ground" and n.name != "At":
+            if code != r.code:
+                yield "error", f"{n.name} opens with {n.args} - it opens with the region code {r.code}"
+        elif code is None or not (BLOCK_RE if block else CODE_RE).fullmatch(str(code)) or not str(code).startswith(r.code + "."):
             yield "error", (f"{n.name} opens with {n.args} - an entry opens with one {r.code} "
                             f"{'block id, a lower-case letter after the dot' if block else 'location code'}")
         elif stem not in ("Locations", "Blocks") and code not in r.locations():

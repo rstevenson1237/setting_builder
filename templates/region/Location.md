@@ -29,6 +29,7 @@ Read first:
   route it lies; one with a `to` says where its path leads, by that location's code.
 - A Local Procedure is the thing a party can start - the table, the game - cited from its
   Feature; its rules stay in the entry.
+- Ground, height and slope are the `At` entry in `Ground.md`; a Feature never contradicts them.
 - A location with no Connections entry has no Exits line.
 
 ## Template

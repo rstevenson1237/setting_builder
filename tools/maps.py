@@ -2,12 +2,18 @@
 """Maps from the setting's tables, drawn by artgen (tools/artgen).
 
   python3 tools/maps.py place [--brief PATH] [--setting DIR]
+  python3 tools/maps.py ground [--brief PATH] [--setting DIR]
 
 place    Reads BRIEF.md's `sheet` lines and each region's `ground` and `place` lines, puts
          each region's way in on the sheets that list it, gives it an area, and asks artgen
          for terrain meeting the ground each area requires. Writes `setting/[Sheet].json`
          per sheet and `setting/Sheets.md`. A request that cannot be met is reported by its
          BRIEF.md line, and exits 1.
+ground   Reads each placed region's ground back from its home sheet and writes its
+         `Ground.md`: the region's way in and terrain, the rivers, roads and hills in its
+         area, and, once its Locations.md exists, the ground at each location. Run again
+         after the locations are written. A location with no bearing and distance, or north
+         and east, from the way in is listed and left out.
 """
 from __future__ import annotations
 
@@ -144,6 +150,8 @@ def map_file(sheet: Sheet, seed: int, names: dict, regions: dict, radius: dict, 
          "cols": sheet.cols, "rows": sheet.rows, "grid": {"type": "square", "size": 1, "coords": not local},
          "scale": {"perCell": sheet.per_cell, "unit": UNIT[sheet.unit]},
          "edits": [], "overlay": {"labels": [], "symbols": []}, "require": []}
+    if not local:
+        m["topo"] = {"maxElevation": 600, "interval": 50, "majorEvery": 4, "unit": "ft", "labels": False}
     for code in sheet.codes:
         x, y = sheet.at[code]
         area = home[code] == sheet.name
@@ -242,13 +250,131 @@ def place(brief_path: Path, setting: Path) -> int:
     return 1 if unmet else 0
 
 
+def compass(dx: float, dy: float) -> str:
+    """The Compass point of a displacement on a sheet, north being up."""
+    points = list(tables.Schema().setting_enums["Compass"])
+    return points[round((math.degrees(math.atan2(dx, -dy)) % 360) / 22.5) % 16]
+
+
+def said(ft: float) -> str:
+    """A length as a `distance` value, in the unit it reads best in."""
+    if ft >= 4800:
+        n, unit = round(ft / 5280 * 2) / 2, "miles"
+    elif ft >= 600:
+        n, unit = round(ft / 3 / 10) * 10, "yards"
+    else:
+        n, unit = max(10, round(ft / 10) * 10), "feet"
+    return f"{n:g} {unit}"
+
+
+def offset(node: kdl.Node) -> tuple[float, float] | None:
+    """A location's (east, north) in feet from its region's way in, or None when it states
+    no bearing and distance, or north and east."""
+    p = node.props
+    if str(p.get("at", "")) == "way in":
+        return 0.0, 0.0
+    num = lambda v: (-1 if str(v).startswith("-") else 1) * feet(str(v).lstrip("-"))
+    try:
+        if "bearing" in p and "distance" in p:
+            a = list(tables.Schema().setting_enums["Compass"]).index(str(p["bearing"])) * 22.5
+            d = num(p["distance"])
+            return d * math.sin(math.radians(a)), d * math.cos(math.radians(a))
+        if "north" in p or "east" in p:
+            return num(p["east"]) if "east" in p else 0.0, num(p["north"]) if "north" in p else 0.0
+    except (ValueError, KeyError):
+        return None
+    return None
+
+
+def facts(file: Path, *args) -> dict:
+    done = artgen("map", "facts", "--file", file, "--json", *args)
+    if done.returncode or not done.stdout.strip():
+        raise SystemExit(f"artgen cannot read {file.name}: {(done.stderr or done.stdout).strip()}")
+    return json.loads(done.stdout)
+
+
+def ground(brief_path: Path, setting: Path) -> int:
+    schema = tables.Schema(brief=brief_path)
+    brief = tables.Brief(schema, brief_path)
+    sheets_md = setting / "Sheets.md"
+    if brief.problems or not sheets_md.exists():
+        print("; ".join(brief.problems) if brief.problems else "setting/Sheets.md is missing: run `place` first")
+        return 1
+    sheets = {n: Sheet(n, node) for n, node in brief.sheets.items()}
+    rows = sc.read_tables(sheets_md)[0].dicts()
+    gazetteer = sc.parse_regions_gazetteer()
+    world = tables.Setting({c: g["rating"] for c, g in gazetteer.items()})
+    skipped, off = [], []
+    for row in rows:
+        code, area = row["Region"], row["Area"]
+        if not area.startswith("circle"):
+            continue
+        sheet = sheets[row["Sheet"]]
+        radius = int(area.split("radius")[1].split()[0])
+        x, y = (float(v) for v in row["Way in"].split(","))
+        file = setting / f"{sheet.name}.json"
+        ring = ",".join(f"{x + radius * math.cos(a * math.pi / 8):.1f},{y + radius * math.sin(a * math.pi / 8):.1f}"
+                        for a in range(16))
+        shares = facts(file, "--area", ring)["areas"][0]["terrain"]
+        lines = [f'Ground {code} sheet="{sheet.name}" square="{x:g},{y:g}" ground="'
+                 + ", ".join(f"{t['terrain']} {t['share']}%" for t in shares if t["share"] >= 5) + '"']
+        whole = facts(file)["features"]
+        reach = radius * 1.3
+        cell = sheet.square
+
+        def seen(kind, name_points, runs):
+            near = min(name_points, key=lambda p: math.dist(p, (x, y)))
+            if math.dist(near, (x, y)) > reach:
+                return
+            e, n = (near[0] - x) * cell, -(near[1] - y) * cell
+            line = f'Feature {code} kind="{kind}" bearing="{compass(e, -n)}" distance="{said(math.hypot(e, n))}"'
+            if runs:
+                a, b = runs
+                line += f' runs="{compass(b[0] - a[0], b[1] - a[1])}"'
+            return line
+
+        for kind, key in (("river", "rivers"), ("river", "generatedRivers"), ("road", "roads")):
+            for f in whole.get(key, []):
+                if line := seen(kind, f["points"], (f["points"][0], f["points"][-1])):
+                    lines.append(line)
+        for kind, key in (("hill", "hilltops"), ("hollow", "hollows")):
+            for f in sorted((f for f in whole.get(key, []) if math.dist(f["at"], (x, y)) <= reach),
+                            key=lambda f: -f["height"] if kind == "hill" else f["height"])[:3]:
+                lines.append(seen(kind, [f["at"]], None) + f' height="{round(f["height"])}"')
+        located = world.regions[code].locations() if code in world.regions else {}
+        spots = {}
+        for loc, node in located.items():
+            o = offset(node)
+            if o is None:
+                skipped.append(loc)
+                continue
+            px, py = x + o[0] / cell, y - o[1] / cell
+            if 0 <= px < sheet.cols and 0 <= py < sheet.rows:
+                spots[loc] = (px, py)
+            else:
+                off.append(loc)
+        if spots:
+            got = facts(file, "--at", *[f"{px:.1f},{py:.1f}" for px, py in spots.values()])["points"]
+            for loc, pt in zip(spots, got):
+                lines.append(f'At {loc} ground="{pt["terrain"]}" height="{round(pt["height"])}" slope="{pt["slope"]["band"]}"')
+        folder = setting / "region" / code
+        folder.mkdir(parents=True, exist_ok=True)
+        (folder / "Ground.md").write_text(
+            f"# Ground of {code} {gazetteer[code]['name']}\n\n```kdl\n" + "\n".join(lines) + "\n```\n")
+    if off:
+        print("NOTE: off its sheet: " + ", ".join(off))
+    if skipped:
+        print("NOTE: no bearing and distance, or north and east, for " + ", ".join(skipped))
+    return 0
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("command", choices=["place"])
+    ap.add_argument("command", choices=["place", "ground"])
     ap.add_argument("--brief", type=Path, default=tables.BRIEF)
     ap.add_argument("--setting", type=Path, default=tables.SETTING)
     a = ap.parse_args()
-    return place(a.brief, a.setting)
+    return (place if a.command == "place" else ground)(a.brief, a.setting)
 
 
 if __name__ == "__main__":

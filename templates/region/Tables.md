@@ -10,14 +10,14 @@ Read first:
 - `patterns/Common_Schema.md`, `patterns/Setting_Schema.md` and this region's rating schema
 - this region's seed, `setting/region/[Region Code].md`
 - this region's die in `setting/region/Regions.md`, and `setting/Language.md`
-- this region's table files, as far as they exist
+- this region's table files, as far as they exist, and its `Ground.md`: the terrain, rivers, roads and hills of its area
 - `setting/region/Regions.md` - the regions this one joins
 - the setting files `patterns/Setting_Schema.md` names for the values being written, and the
   setting entries `python3 tools/validate_setting.py --pending` owes
 
 ## Instructions
 - **4a, Locations** - the count `BRIEF.md` sets for the region, in its targets' type mix,
-  each placed by its `at` so the region reads as one plan, distances in the region's units.
+  each placed by its `at` so the region reads as one plan, distances in the region's units, on ground `Ground.md` shows can hold it.
   A location's name carries no form: it is common, or points at a coinage
   `setting/Language.md` already records, and never coins one. A Person's name, at 5a, is
   written with its `form` per `patterns/Common_Schema.md`; a tongue or family name is
