@@ -289,6 +289,8 @@ def build_index(setting: sc.Setting, out: Path) -> None:
     body.append(section("Region Connections",
                         mermaid_block(setting.top_connections, clicks, "Region connections")
                         + edges_text(setting.top_connections, setting)))
+    if sheets := sc.sheets_html(sc.maps_fit_site):
+        body.append(section("Sheets", sheets))
 
     write_page(out, page, page_shell(setting, page, setting.name, "\n".join(body)))
 
@@ -468,6 +470,7 @@ def build_location(setting: sc.Setting, out: Path, code: str, num: int) -> None:
     body.append(f'<p class="player-summary">{render_inline(loc.player_summary, setting, page, skip_location=loc.code)}</p>')
     body.append(f'<p class="referee-notes">{render_inline(loc.referee_notes, setting, page, skip_location=loc.code)}</p>')
 
+    body.append(sc.cut_html(code, num, sc.maps_fit_site))
     feature_items = "".join(
         f'<li><span class="feature-label">{html.escape(label)}:</span> '
         f'{render_inline(text, setting, page, skip_location=loc.code)}</li>'

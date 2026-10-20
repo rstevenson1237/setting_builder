@@ -23,6 +23,7 @@ import tables as tb
 ROOT = Path(__file__).resolve().parent.parent
 SETTING = ROOT / "setting"
 
+maps_fit_site, maps_fit_pdf = "720x560px", "110x150mm"
 ARTICLES = ("the ", "a ", "an ")
 
 
@@ -521,9 +522,52 @@ def _offset(x: float, y: float, level: int, feet: bool) -> str:
                                                      f"{'up' if level > 0 else 'down'}" if level else "")
 
 
-def plan_html(code: str, name: str) -> str:
+def _figure(svg: str | None, caption: str) -> str:
+    return f'<figure class="diagram plan-figure">{svg}<figcaption>{html.escape(caption)}</figcaption></figure>' if svg else ""
+
+
+def sheets_html(fit: str) -> str:
+    """Every terrain sheet whole: the play map."""
+    import maps
+    return "".join(_figure(maps.sheet_svg(f.stem, fit), f"{f.stem}, drawn from the setting's tables")
+                   for f in sorted(SETTING.glob("*.json")))
+
+
+def cut_html(code: str, num: int, fit: str) -> str:
+    """A location's cut of its block's or its sheet's map."""
+    import maps
+    return _figure(maps.cut_svg(f"{code}.{num}", maps.world_for(SETTING), fit), f"{code}.{num} and its surroundings")
+
+
+def drawn_html(code: str, fit: str) -> str:
+    """A region's map, or a DANGEROUS region's block maps, drawn from its tables by artgen."""
+    import maps
+    world = maps.world_for(SETTING)
+    region = world.regions.get(code)
+    if region is None:
+        return ""
+    blocks = maps.blocks_of(region)
+    if blocks:
+        return "".join(_figure(maps.block_svg(code, bid, fit), f"{bid} {b.props.get('name', '')}".strip())
+                       for bid, b in blocks.items())
+    return _figure(maps.region_svg(code, fit), f"{code}, cropped from its sheet")
+
+
+def map_labels() -> list[str]:
+    """The label of each map a build must show: every sheet, every block, every region on a sheet."""
+    import maps
+    world = maps.world_for(SETTING)
+    out = [f"Sheet {f.stem}" for f in sorted(SETTING.glob("*.json"))]
+    for code, r in world.regions.items():
+        out += [f"Map of {bid}" for bid in maps.blocks_of(r) if (r.dir / f"{bid}.json").exists()]
+    return out + [f"Map of region {c}" for c in maps.sheet_rows()]
+
+
+def plan_html(code: str, name: str, fit: str = "720x560px") -> str:
     """The region's locations drawn where their tables place them, north up, with a scale
     bar, and the same places as text for a reader who cannot see the drawing."""
+    if drawn := drawn_html(code, fit):
+        return drawn
     locs = parse_locations_gazetteer(code)
     pos, _ = positions(code)
     if len(pos) < 2:
@@ -1111,4 +1155,5 @@ def coverage(setting: Setting, text: str, has_page) -> list[str]:
         for num in r.locations:
             if not has_page(f"region/{code}/{num}"):
                 problems.append(f"{code}.{num}: no page")
+    problems += [f"{label}: no map" for label in map_labels() if f'aria-label="{label}"' not in text]
     return problems

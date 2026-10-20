@@ -85,7 +85,7 @@ def build_document(setting: sc.Setting) -> str:
         toc.append(toc_entry(p.title, p.slug))
 
     # ---- regions + locations ----
-    top_conn = connections_block(setting.top_connections, setting)
+    top_conn = connections_block(setting.top_connections, setting) + sc.sheets_html("170x230mm")
     region_toc: list[str] = []
     for code in setting.region_order:
         region = setting.regions[code]
@@ -105,7 +105,7 @@ def build_document(setting: sc.Setting) -> str:
             f'<section class="doc region-doc" id="{r_anchor}">'
             f'<h1>{code} {html.escape(region.name)} '
             f'<span class="badge badge-{region.rating.lower()}">{region.rating} {region.die}</span></h1>'
-            f'{field_html}{table_html}{sc.plan_html(code, region.name)}{rconn}'
+            f'{field_html}{table_html}{sc.plan_html(code, region.name, sc.maps_fit_pdf)}{rconn}'
             f'</section>'
         )
         region_toc.append(toc_entry(f"{code} {region.name}", r_anchor, level=1))
@@ -132,7 +132,7 @@ def build_document(setting: sc.Setting) -> str:
                 f'<h2>{loc.code} {html.escape(loc.name)}{weight}</h2>'
                 f'<p class="player-summary">{ri(loc.player_summary, setting, skip_location=loc.code)}</p>'
                 f'<p class="referee-notes">{ri(loc.referee_notes, setting, skip_location=loc.code)}</p>'
-                f'<ul class="feature-list">{feats}</ul>{exits_html}'
+                f'{sc.cut_html(code, num, sc.maps_fit_pdf)}<ul class="feature-list">{feats}</ul>{exits_html}'
                 f'</section>'
             )
             region_toc.append(toc_entry(f"{loc.code} {loc.name}", l_anchor, level=2))
