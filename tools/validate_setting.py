@@ -701,12 +701,6 @@ def check_inhabitants(diag: Diagnostics, setting):
         for n in nodes if layout else ():
             if n.name == "Location" and n.args and not re.search(rf"\b{re.escape(str(n.args[0]))}\b", layout):
                 diag.warn(brief, f"Layout does not name {n.args[0]}")
-            at = str(n.props.get("at", "")) if n.name == "Location" and n.args else ""
-            dist = re.search(r"\d[\d,]*", at) if sc.parse_at(at) else None
-            code = str(n.args[0]) if n.args else ""
-            said = [s for s in re.split(r"(?<=[.;])\s", layout) if re.search(rf"\b{re.escape(code)}\b", s)]
-            if dist and not any(re.search(rf"\b{re.escape(dist[0])}\b", s) for s in said):
-                diag.warn(brief, f"Layout does not place {code} at {at}, its `at`")
         text = sc.parse_field(lines, "Services")
         sold = {str(n.args[0]) for n in nodes if n.name in ("Purchase", "Procedure")}
         for code in sorted(sold) if text else ():

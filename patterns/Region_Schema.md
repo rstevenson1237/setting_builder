@@ -8,9 +8,8 @@ themselves are the rating's own schema.
 Every seed and brief sentence carries something usable at the table - a name, count,
 price, place, distance or ruling; why a place exists or how it feels is cut, and nothing
 is said twice. A secret always carries its answer. A situation is true whether or not the
-party engages: what is changing, then two rungs, each with what sets it off. A Layout is enough to draw from: an artist given it alone
-draws the region's plan and its view without a guess, every measure agreeing with every
-other and with each location's `at`. A list field writes each item as its own `- ` line,
+party engages: what is changing, then two rungs, each with what sets it off. A Layout is read beside the region's maps and `Ground.md`: it says what a map cannot, what a party
+notices and hears, and restates no place, size or height a map shows. A list field writes each item as its own `- ` line,
 and paragraphs are separated by a blank line.
 
 ```kdl
@@ -29,10 +28,9 @@ region Safe {
     Law text                // what gets a stranger fined, locked up or put out; who enforces; what each costs
   }
   brief {
-    Layout text n=3         // every location by code: the seed's View, then its Approach at each way in;
-                            // the plan - its outline, blocks and main ways, and every location at its `at`,
-                            // with its footprint; what each location holds and what a party goes there
-                            // for, a secret or rule shown only as what a party can notice
+    Layout text n=3         // every location by code: the seed's View, then its Approach at each way in; what each
+                            // location holds and what a party goes there for, what is noticed or heard there, a
+                            // secret or rule shown only as what a party can notice
     Inhabitants text        // every Person, Named Creature, Faction and Garrison the People and Garrison
                             // tables hold, where and what they are about, a faction's members for what
                             // its Identity shows
@@ -53,10 +51,10 @@ region Wild {
                             // night, a fire. Ground is never a location.
   }
   brief {
-    Layout text n=3         // every location by code: each way in and each Route - where it runs, how long, its
-                            // stops in order and where each leads, the seed's Approach folded in; each Landmark at its `at` - what shows of it and from
-                            // how far, and how it is reached from the route; the rest at its `at`, in prose,
-                            // a secret or rule shown only as what a party can notice
+    Layout text n=3         // every location by code: each way in and each Route - how long it takes, its stops in
+                            // order and where each leads, the seed's Approach folded in; each Landmark - what shows
+                            // of it and from how far, how it is reached from the route; the rest in prose, what is
+                            // noticed or heard there, a secret or rule shown only as what a party can notice
     Inhabitants text        // every creature and faction the Encounters hold, how many, where and what they are about
     Loot text               // one sentence on what the land yields; then forage and game by local name, what the
                             // nearest SAFE region pays, and treasure, where. Anything dangerous enough to meet is
@@ -78,10 +76,9 @@ region Dangerous {
   }
   brief {
     Layout text n=3         // every location by code: each entrance - how it shows from outside, the seed's
-                            // Approach and Conditions folded in; each High location - where it lies from the
-                            // entrance, its size, what holds it, its prize; the rest in prose, each room at the
-                            // compass point and distance from the room it opens off, a secret or rule shown only
-                            // as what a party can notice
+                            // Approach and Conditions folded in; each High location - what holds it, its prize; the
+                            // rest in prose, what is noticed or heard there, a secret or rule shown only as what a
+                            // party can notice
     Inhabitants text        // every creature and faction the Encounters hold, how many, where and what they are about
     Alarm text              // what raises it, who hears first, who comes from where, how many turns later
     Loot text               // one sentence on the region's wealth; then the largest prize and what stands over it,
