@@ -44,7 +44,7 @@ Read first:
 ## Citations
 Written exactly as below, so `tools/build_site.py` can link them.
 
-- **Bestiary** - `(Demeanor, Number appearing, Bestiary : Entry Name)` - Demeanor one word, from the Encounter's reaction; Number appearing its Creature count
+- **Bestiary** - `(Demeanor, Number appearing, Bestiary : Entry Name)` - Demeanor the item its reaction opens with; Number appearing its Creature count
 - **Lore** - `(Lore: Title)`
 - **Keys** - `(Keys: Title)`, at the location the key lies and at each location whose Lock names it
 - **Quest** - `(Quest: Title)`

@@ -38,6 +38,7 @@ enum Time_Unit Round turn hour watch day week   // Procedures.md's Time and Dist
 enum Slope flat gentle steep cliff
 enum Feature_Kind river road hill hollow
 enum Damage_Type Nuisance Damaging Lethal     // the count of Tests a hazard asks: 1, 2 or 3
+enum Reaction Hostile Wary Fearful Neutral Friendly   // an encounter's opening disposition, then ' - ' and what it does
 enum Test Constitution Fate Sanity          // Procedures.md's Forced Dangers: the die each Test rolls
 enum Wound_Type Piercing Crushing Poison Fire Frost Blast   // each has a Wound table in Procedures.md
 

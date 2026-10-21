@@ -38,7 +38,7 @@ node Dressing {
 node Encounter {
   one-of Creature NamedCreature Faction
   doing string
-  reaction string
+  reaction Reaction
   want string opt
   know string opt
   left gloss opt
