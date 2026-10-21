@@ -26,7 +26,7 @@ FIND_RE = re.compile(r".+ \(([\d,]+) cn, ([\d,]+) wt\)")
 COIN_RE = re.compile(r"(\d+)(?:-(\d+))? cn")
 TIME_RE = re.compile(r"(\d+)(?:-(\d+))? ([A-Za-z]+)")
 RATING_TIME = {"SAFE": {"Round", "turn", "hour", "day", "week"}, "WILD": {"watch", "day"},
-               "DANGEROUS": {"Round", "turn"}}      # the units each rating keeps time in, per Procedures.md
+               "DANGEROUS": {"Round", "turn"}}      # the units a time in each rating is stated in
 DISTANCE_RE = re.compile(r"(-?\d+(?:\.\d+)?) (\w+)")   # negative: south or west
 
 

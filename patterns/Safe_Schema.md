@@ -9,7 +9,7 @@ of a faction - with a garrison at an Authority. Its seed and brief are
 enum Safe_Type Inn Merchant Bank Market Authority Gate Secret
 // Gate: a way across the region's edge, where what stands at the Approach stands. Secret: a
 // place or thing kept hidden, reached only by the Way that hangs it from another location.
-value price                    // a coin; N% of the sum; or listed, at Procedures.md's Coin and Prices
+value price                    // a coin; N% of the sum; or listed, at Procedures.md's prices
 enum Purchase_Type menu service sale   // food and drink by the portion; a thing done for a party; goods handed over
 
 node Location {
@@ -45,7 +45,7 @@ node Purchase {
   type Purchase_Type
   item string
   price price
-  per gloss opt             // what one price buys: "a night", "each", "a Condition"
+  per gloss opt             // what one price buys: "a night", "each"
   limit gloss opt           // the stock, hours or terms that cap it
 }
 node Person {

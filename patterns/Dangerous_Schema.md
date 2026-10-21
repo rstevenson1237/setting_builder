@@ -38,7 +38,7 @@ node Encounter {
   one-of Creature NamedCreature Faction
   doing string
   reaction Reaction
-  answers time opt          // how soon it reaches an alarm raised elsewhere in its region, in turns or Rounds; unset, it does not come
+  answers time opt          // how soon it reaches an alarm raised elsewhere in its region; unset, it does not come
   want string opt
   know string opt
   left gloss opt
@@ -69,8 +69,8 @@ node Hazard {
   type Hazard_Type
   damage Damage_Type
   test Test
-  wound Wound_Type opt      // a Constitution Test's Wound, required for one; one of BRIEF.md's Procedures wounds
-  condition gloss opt       // a Fate Test's Condition, required for one; a name in Procedures.md's Conditions
+  wound Wound_Type opt      // required for a Constitution Test: one of BRIEF.md's Procedures wounds
+  condition gloss opt       // required for a Fate Test: a name in Procedures.md's Conditions
   one-of Secret
 }
 node Mystery {
@@ -90,14 +90,14 @@ node Connection {
   distance distance
   climb feet opt            // up, or down where negative, where the way changes level
   orientation gloss opt     // the same in words, for the reader
-  width feet opt            // where this passage differs from its block's; within both rooms' footprints
+  width feet opt            // where it differs from its block's; within both rooms' footprints
   height feet opt
   one-of Encounter Hazard Mystery Secret Lock opt
 }
 node Block {               // one level: a map of its own
   name string
   locations location list
-  width feet                // its passages, as its seed's Conditions state them
+  width feet                // of its passages
   height feet
 }
 node Secret {              // what sets off or opens the thing it sits on, and what gives it away

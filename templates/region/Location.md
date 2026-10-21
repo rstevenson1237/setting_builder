@@ -23,7 +23,7 @@ Read first:
   and do, never as a list, and a `quest` they hold is cited there. A `member` is the
   referee's: the Feature shows only what the faction's Identity would show a party. A
   Garrison or a Faction's members are one Feature citing their Bestiary entry, where they have one. A Purchase is written
-  with its `price`, and `per` after it, in the Feature that sells it, a menu or sale as the goods, a service as
+  with its `price` and `per` in the Feature that sells it, a menu or sale as the goods, a service as
   the act.
 - A Stop is a Feature named for its `feature`, in the route's order, saying how far along the
   route it lies; one with a `to` says where its path leads, by that location's code.
@@ -54,7 +54,6 @@ Written exactly as below, so `tools/build_site.py` can link them.
 - **Hoard** - `(Hoard: Name)`
 - **Local Procedure** - `(Local Procedure: Name)`
 - **Table roll** - `(Treasure [I-V], d[N])` or `(Magic, d[N])`, N the table's rolls
-- **Forced damage**, on every hazard Feature, from its Hazard's `test`, `wound` or `condition`, and `damage`, and on
-  every Mystery that asks a Test - `(Test of Constitution, Xd, Type)`,
+- **Forced damage**, on every hazard Feature (from its Hazard) and every Mystery that asks a Test - `(Test of Constitution, Xd, Type)`,
   `(Test of Sanity, Xd)` where `setting/Procedures.md` has a Madness table, or
   `(Test of Fate, Condition)`; X is the count of Tests

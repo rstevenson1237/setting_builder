@@ -61,8 +61,8 @@ node Hazard {              // ground or weather: it shows itself before it bites
   type Hazard_Type
   damage Damage_Type
   test Test
-  wound Wound_Type opt     // a Constitution Test's Wound, required for one; one of BRIEF.md's Procedures wounds
-  condition gloss opt      // a Fate Test's Condition, required for one; a name in Procedures.md's Conditions
+  wound Wound_Type opt     // required for a Constitution Test: one of BRIEF.md's Procedures wounds
+  condition gloss opt      // required for a Fate Test: a name in Procedures.md's Conditions
   sign gloss
 }
 node Mystery {

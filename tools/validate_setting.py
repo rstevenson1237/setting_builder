@@ -782,7 +782,7 @@ def check_hazards(diag: Diagnostics, setting, brief):
             path = region.dir / f"{stem}.md"
             for entry in entries:
                 for h in (n for n in kdl.walk([entry]) if n.name == "Hazard"):
-                    where = f"{h.args[0] if h.args else entry.args[0]}"
+                    where = entry.args[0]
                     test, wound, cond = (h.props.get(k) for k in ("test", "wound", "condition"))
                     cite = None
                     if test == "Constitution":
@@ -902,12 +902,11 @@ def check_blocks(diag: Diagnostics, setting):
                 diag.error(path, f"{bid}: {p}")
         dress = {str(n.args[0]): n for n in region.files.get("Dressing", []) if n.args}
         for n in region.files.get("Connections", []):
-            for k, side in (("width", lambda d: min(float(d.props.get("width", 0)), float(d.props.get("length", 0)))),
-                            ("height", lambda d: float(d.props.get("height", 0)))):
-                if k not in n.props:
-                    continue
-                for end in (str(n.args[0]), str(n.props.get("to"))):
-                    room = side(dress[end]) if end in dress else 0
+            for k in ("width", "height"):
+                for end in (str(n.args[0]), str(n.props.get("to"))) if k in n.props else ():
+                    d = dress.get(end)
+                    room = 0 if d is None else min(float(d.props.get("width", 0)), float(d.props.get("length", 0))) \
+                        if k == "width" else float(d.props.get("height", 0))
                     if room and float(n.props[k]) > room:
                         diag.error(region.dir / "Connections.md",
                                    f"{n.args[0]} to {n.props.get('to')}: its {k} {n.props[k]} exceeds {end}'s {room:g}")

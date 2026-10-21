@@ -98,7 +98,7 @@ table Factions entry file="setting/Factions.md" {
 //    GENRE.md and never overrides it; a mystery or open truth says it is one.
 enum Age recent living old ancient   // within ten years; within living memory; recorded but not remembered; before any record
 table History entry file="setting/History.md" {
-  When Age                    // then ' - ' and the years ago, vaguer the older it is; entries run oldest first
+  When Age                    // then the years ago, vaguer the older it is; entries run oldest first
   Event text
   Left text                   // the physical mark findable now
   Codes place from=Dressing none
@@ -180,12 +180,12 @@ table "Magical Tomes" entry file="setting/MagicalTomes.md" {   // learned, never
 //    Procedures.md already settles.
 enum Proc_Kind table contest variant
 enum Extends General Commerce Carousing "Gather Information" Recruitment Navigate Explore "Forage or Hunt" "Make Camp" "Track or Evade" Search Listen Rest "Opposed roll"
-enum Roll_Die Combat Skill Magic Difficulty d6   // the dice Procedures.md's Ruleset rolls: an Action Die, the region's Difficulty die, or a d6
+enum Roll_Die Combat Skill Magic Difficulty d6   // an Action Die, the region's Difficulty die, or a d6
 table "Local Procedures" entry file="setting/LocalProcedures.md" {
   Kind Proc_Kind
   Extends Extends
   "Found at" place from=Procedure
-  Roll Roll_Die               // then ' - ' and whose it is, and what it decides
+  Roll Roll_Die               // then whose it is, and what it decides
   Stakes text                 // what a party risks and what it can win, coin in cn
   Results text                // each row or rung of the result on its own `- ` line
   Tell text                   // what shows a party it can be done here
@@ -240,7 +240,7 @@ table Quests entry file="setting/Quests.md" {
   Reluctance Reluctance
   Object text
   Obstacle Obstacle
-  Terms Pay                   // then ' - ' and the giver's own words
+  Terms Pay                   // then the giver's own words
   "Points to" place none
 }
 ```
