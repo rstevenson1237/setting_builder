@@ -839,6 +839,29 @@ def check_blocks(diag: Diagnostics, setting):
                 diag.error(region.dir / "Connections.md", f"{a} to {b} climbs within block {owner[a]}; a way that climbs joins two blocks")
 
 
+def check_reversals(diag: Diagnostics, setting):
+    """The far side of a way reverses its bearing, at the same distance and the opposite climb."""
+    import maps
+    points = list(setting.schema.setting_enums["Compass"])
+    ways = {}
+    for region in setting.regions.values():
+        for n in region.files.get("Connections", []):
+            if n.args and "to" in n.props and "bearing" in n.props and str(n.props["bearing"]) in points:
+                ways[str(n.args[0]), str(n.props["to"])] = (region, n)
+    for (a, b), (region, n) in sorted(ways.items()):
+        if (b, a) not in ways or a > b:
+            continue
+        m = ways[b, a][1]
+        flip = points[(points.index(str(n.props["bearing"])) + 8) % 16]
+        far = (str(m.props["bearing"]), maps.feet(str(m.props.get("distance", "0 feet"))))
+        if far != (flip, maps.feet(str(n.props.get("distance", "0 feet")))):
+            diag.error(region.dir / "Connections.md", f"line {n.line}: {a} to {b} is {n.props['bearing']}, "
+                       f"{n.props.get('distance')}; its far side should read {flip}, {n.props.get('distance')}")
+        if "climb" in n.props and "climb" in m.props and int(n.props["climb"]) != -int(m.props["climb"]):
+            diag.error(region.dir / "Connections.md", f"line {n.line}: {a} to {b} climbs {n.props['climb']}, "
+                       f"its far side {m.props['climb']}")
+
+
 def check_marks(diag: Diagnostics, setting):
     """Every faction's Identity is shown by a Dressing `mark` in some location - the claim
     Factions.md makes upward, kept downward. Only once a region's Dressing is written."""
@@ -1336,6 +1359,7 @@ def main() -> int:
     check_sheets(diag, brief)
     check_places(diag, setting, brief)
     check_blocks(diag, setting)
+    check_reversals(diag, setting)
 
     # A location reached from the region itself is no part of the stated graph.
     top = {c for r in setting.regions.values() for c, n in r.locations().items()
