@@ -23,7 +23,7 @@ Read first:
   and do, never as a list, and a `quest` they hold is cited there. A `member` is the
   referee's: the Feature shows only what the faction's Identity would show a party. A
   Garrison or a Faction's members are one Feature citing their Bestiary entry, where they have one. A Purchase is written
-  with its price in the Feature that sells it, a menu or sale as the goods, a service as
+  with its `price`, and `per` after it, in the Feature that sells it, a menu or sale as the goods, a service as
   the act.
 - A Stop is a Feature named for its `feature`, in the route's order, saying how far along the
   route it lies; one with a `to` says where its path leads, by that location's code.

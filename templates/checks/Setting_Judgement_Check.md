@@ -42,6 +42,7 @@ findings are the evidence `templates/checks/Schema_Judgement_Check.md` starts fr
 - **Regions reinforce the setting** - does each region's seed visibly connect back to `setting/Setting.md`/`History.md`/`Truths.md` (a named historical event, a faction's presence, a unique truth playing out), rather than feeling like an unrelated pocket bolted onto the setting?
 - **Locations reinforce their region** - does each location's dressing and Features reflect its region's seed and brief, rather than reading as a location that could belong to any region? Are its three tags recognisable in what it holds?
 - **Entries match** - does every write-up carry every entry its location holds, and nothing written without one? `python3 tools/metrics.py --carry` lists the table words each write-up drops, a prompt to look and not a verdict.
+- **Prices fit the list** - does each coin `price` of a Purchase sit near what `setting/Procedures.md`'s Coin and Prices lists for the same or a like good, and where it differs, does its room say why?
 - **One room** - does each write-up read as one place, not its entries side by side?
 - **Distinct** - does any write-up share a Feature, shape or sentence frame with its block, or any table's entries a sentence shape, opening word or rotation of the same few glosses?
 - **Said once** - is anything in a write-up restated from the seed, a setting entry or another room?
@@ -71,6 +72,7 @@ findings are the evidence `templates/checks/Schema_Judgement_Check.md` starts fr
 - Region reinforces the setting: [Confirmed / Needs Attention - note]
 - Locations reinforce this region: [Confirmed / Needs Attention - note]
 - Entries match: [Confirmed / Needs Attention - location, and its source]
+- Prices fit the list: [Confirmed / Needs Attention - location, and its source]
 - One room: [Confirmed / Needs Attention - location, and its source]
 - Distinct: [Confirmed / Needs Attention - locations, and its source]
 - Said once: [Confirmed / Needs Attention - locations, and its source]

@@ -836,6 +836,22 @@ def check_hazards(diag: Diagnostics, setting, brief):
                         diag.error(writeup, f"does not cite {cite}, which {where}'s Hazard states")
 
 
+def check_listed_prices(diag: Diagnostics, setting):
+    """A Purchase priced `listed` sells something Procedures.md's Coin and Prices lists: a
+    word of its item is a word of a listed good."""
+    path = SETTING / "Procedures.md"
+    m = re.search(r'\n## Coin and Prices\n(.*?)(?=\n## |\Z)', path.read_text(), re.S) if path.exists() else None
+    if not m:
+        return
+    stem = lambda text: {w.rstrip("s") for w in re.findall(r"[a-z]+", text.lower()) if len(w) > 3}
+    goods = set().union(*(stem(c) for c in re.findall(r"^\| ([^|]+) \|", m.group(1), re.M)))
+    for code, region in setting.regions.items():
+        for n in region.files.get("Purchases", []):
+            if n.props.get("price") == "listed" and not stem(str(n.props.get("item", ""))) & goods:
+                diag.warn(region.dir / "Purchases.md",
+                          f"Purchase {n.args[0]}: {n.props.get('item')!r} is priced listed, and Procedures.md's Coin and Prices lists nothing like it")
+
+
 def check_blocks(diag: Diagnostics, setting):
     """Every location of a region with Blocks.md is in exactly one block with a footprint
     and a route from its entrance, no room overlaps another, and no way within a block
@@ -1385,6 +1401,7 @@ def main() -> int:
     check_places(diag, setting, brief)
     check_blocks(diag, setting)
     check_hazards(diag, setting, brief)
+    check_listed_prices(diag, setting)
     check_reversals(diag, setting)
 
     # A location reached from the region itself is no part of the stated graph.

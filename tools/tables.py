@@ -21,6 +21,7 @@ SHARE_RE = re.compile(r"(<=)?(\d+)%")        # "N%" at least that share of entri
 COUNT_RE = re.compile(r"(\d+)(?:-(\d+)|(\+))?")   # N exactly, "N-M", "N+" at least
 OPEN = 10 ** 9
 FEET_RE = re.compile(r"-?\d+")
+PERCENT_SUM_RE = re.compile(r"\d+% of the sum")
 COIN_RE = re.compile(r"(\d+)(?:-(\d+))? cn")
 TIME_RE = re.compile(r"(\d+)(?:-(\d+))? ([A-Za-z]+)")
 RATING_TIME = {"SAFE": {"hour", "day", "week"}, "WILD": {"watch", "day"},
@@ -471,6 +472,9 @@ def value_problems(m: Member, v: str, enums: dict, words: dict):
             yield f"{v!r} is not N cn, N-M cn or pennies"
         elif c and c.group(2) and int(c.group(1)) > int(c.group(2)):
             yield f"{v!r} runs high to low"
+    elif m.type == "price":
+        if v != "listed" and not PERCENT_SUM_RE.fullmatch(v):
+            yield from value_problems(Member(m.name, "coin"), v, enums, words)
     elif m.type == "time":
         t = TIME_RE.fullmatch(v)
         if not t or time_unit(v, enums.get("Time_Unit", ())) is None:
