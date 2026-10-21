@@ -1,2 +1,7 @@
 # Commits that change a line's form and not its meaning. `git blame` looks past them, so
 # staleness (tools/tables.py) does not mark the write-ups they touch. One full hash per line.
+e2df0e9f9eab4577039045225444798d5f204745
+01f619ddbdacc2570f4105d8e60f238ade3cb138
+1b0cda7f51878a13bff5b13da455f6805e1f8577
+e60722e409ba783b00f299877cc4e830e072147f
+f24e589eb96add184ba39634173f913104a4d92b
