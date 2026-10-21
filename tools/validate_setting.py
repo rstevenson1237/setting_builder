@@ -632,57 +632,28 @@ def check_statblocks(diag: Diagnostics, path: Path, label: str, expect_special: 
 
 
 # ---------------------------------------------------------------------------
-# A region's seed, setting/region/[Code].md, and its brief, setting/region/[Code]/Brief.md
-#
-# Each field set is its rating's seed or brief in Region_Schema.md, in its order. A field from the other part, another rating's set, or one retired, is an
-# error because the site renders only the labels it knows and would drop it.
+# A region's seed, setting/region/[Code]/Seed.md, is a table file and checked with the
+# tables. Its brief, setting/region/[Code].md, is its rating's brief in Region_Schema.md,
+# in its order. A field from another rating's set, or one retired, is an error because the
+# site renders only the labels it knows and would drop it.
 # ---------------------------------------------------------------------------
 
 REGION_LABEL_RE = re.compile(r'^([A-Z][a-z]+):(?:\s|$)')
+ITEM_CODES_RE = re.compile(r'^- ((?:[A-Z]+\.\d+)(?:(?:, | and )[A-Z]+\.\d+)*)\b')
 
 
-def check_region_overview(diag: Diagnostics, code: str, folder):
-    """A region's seed and brief against its rating's seed and brief fields."""
-    if folder is None or folder.region_path is None:
+def check_region_overview(diag: Diagnostics, setting, code: str):
+    """A region's seed names no location; its brief holds its rating's fields."""
+    r = setting.regions[code]
+    if r.folder is None or r.folder.region_path is None:
         return
-    seed = SETTING / "region" / f"{code}.md"
-    check_region_fields(diag, seed, folder.seed, folder, 1)
+    seed = r.dir / "Seed.md"
     if seed.exists():
         codes = sorted(set(re.findall(rf"\b{code}\.\d+\b", seed.read_text())))
         if codes:
             diag.warn(seed, f"names {', '.join(codes)} - a seed is written before any location "
                             f"exists, and where a thing lies is the tables' and the brief's")
-    brief = SETTING / "region" / code / "Brief.md"
-    check_region_fields(diag, brief, folder.brief, folder, 0)
-
-
-def check_inhabitants(diag: Diagnostics, setting):
-    """A brief's Inhabitants names every creature, person and faction its region's
-    Encounters, People and Garrison hold, and its Services every location selling or
-    running something. Matched loosely - a stem, so "wolves" keeps Wolf - and so a warning."""
-    for r in setting.regions.values():
-        brief = r.dir / "Brief.md"
-        if not brief.exists():
-            continue
-        lines = brief.read_text().splitlines()
-        nodes = [n for ns in r.files.values() for n in ns]
-        held = {str(c.props[k]): "an Encounter" for n in nodes if n.name == "Encounter"
-                for c in n.children for k in ("bestiary", "named", "faction") if k in c.props}
-        held |= {str(n.props[k]): n.args[0] for n in nodes for k in ("name", "named", "faction")
-                 if n.name in ("Person", "NamedCreature", "Faction", "Garrison") and k in n.props}
-        text = sc.parse_field(lines, "Inhabitants").lower()
-        for name, where in sorted(held.items()) if text else ():
-            if name.lower()[:max(3, len(name) - 1)] not in text:
-                diag.warn(brief, f"Inhabitants does not name {name}, which {where} places here")
-        layout = sc.parse_field(lines, "Layout")
-        for n in nodes if layout else ():
-            if n.name == "Location" and n.args and not re.search(rf"\b{re.escape(str(n.args[0]))}\b", layout):
-                diag.warn(brief, f"Layout does not name {n.args[0]}")
-        text = sc.parse_field(lines, "Services")
-        sold = {str(n.args[0]) for n in nodes if n.name in ("Purchase", "Procedure")}
-        for code in sorted(sold) if text else ():
-            if not re.search(rf"\b{re.escape(code)}\b", text):
-                diag.warn(brief, f"Services does not name {code}, which sells or runs something")
+    check_region_fields(diag, SETTING / "region" / f"{code}.md", r, tables.brief_holds(setting, r))
 
 
 def check_sheets(diag: Diagnostics, brief):
@@ -839,8 +810,8 @@ def check_numbers(diag: Diagnostics, setting, schema):
     fields = {t: [x.strip() for x in v.get("Fields", "").split(",")]
               for t, _, v in tables.setting_entries(schema, "Factions") or []}
     for code, region in setting.regions.items():
-        seed = SETTING / "region" / f"{code}.md"
-        if region.rating.upper() != "DANGEROUS" or "Kind: single holding" not in (seed.read_text() if seed.exists() else ""):
+        kind = region.seed("Seed")
+        if region.rating.upper() != "DANGEROUS" or kind is None or kind.props.get("kind") != "single holding":
             continue
         held: dict[str, list[int]] = {}
         for entries in region.files.values():
@@ -955,34 +926,49 @@ def check_marks(diag: Diagnostics, setting):
         diag.warn(path, f"{name}: its Identity is marked in no Dressing")
 
 
-def check_region_fields(diag: Diagnostics, path: Path, fields: list, folder, skip: int):
+def check_region_fields(diag: Diagnostics, path: Path, r, holds: dict[str, list[str]]):
+    """The brief's fields against its rating's: each present, in order and within its words;
+    each list field's items opening with exactly the locations its holds= gives it."""
+    folder, fields = r.folder, r.folder.brief
     if not path.exists():
-        diag.warn(path, "missing - not built yet")
+        diag.warn(path, "missing - not built yet, owed to step 5e")
         return
-    lines = path.read_text().splitlines()
+    lines = path.read_text().splitlines()[1:]
     expected = [m.name for m in fields]
-    found = [(m.group(1), l[m.end():].strip()) for l in lines[skip:] if (m := REGION_LABEL_RE.match(l))]
-    labels = [k for k, _ in found]
+    labels = [m.group(1) for l in lines if (m := REGION_LABEL_RE.match(l))]
     for label in labels:
         if label not in expected:
             diag.error(path, f"field {label!r} is not one of {', '.join(expected)}, "
                              f"per {folder.region_path.name}")
-    missing = [f for f in expected if f not in labels]
+    missing = [f for f in expected if f not in labels and holds.get(f, True)]
     if missing:
         diag.error(path, f"missing field(s): {', '.join(missing)}")
     present = [l for l in labels if l in expected]
     if present != [f for f in expected if f in present]:
         diag.warn(path, f"fields out of {folder.region_path.name}'s order: {', '.join(present)}")
     for m in fields:
-        if m.n and m.name in labels:
-            paras = len(sc.parse_field(lines[skip:], m.name).split("\n"))
-            if paras != m.n:
-                diag.error(path, f"{m.name} holds {paras} paragraph(s) - "
-                                 f"{folder.region_path.name} asks for {m.n}")
-        for k, v in found:
-            if k == m.name and v and m.type in folder.enums:
-                for msg in tables.check_field(None, m, v, set(), folder.enums):
-                    diag.error(path, f"{k}: {msg}")
+        if m.name not in labels or m.name == "Tables":
+            continue
+        text = sc.parse_field(lines, m.name)
+        items = [l for l in text.split("\n") if l.startswith("- ")] if m.is_list else [text]
+        cap = folder.words.get(m.name)
+        for item in items if cap else ():
+            n = len(re.sub(r"^- [A-Z., and0-9]*?- ", "", item).split())
+            if n > cap:
+                diag.warn(path, f"{m.name}: {item[:40]!r}... runs {n} words - BRIEF.md's words cap it at {cap}")
+        if m.name in holds:
+            named = []
+            for item in items:
+                got = ITEM_CODES_RE.match(item)
+                if not got:
+                    diag.error(path, f"{m.name}: {item[:40]!r} opens with no location code")
+                    continue
+                named += re.split(r", | and ", got.group(1))
+            for c in sorted(set(named) - set(holds[m.name]), key=named.index):
+                diag.error(path, f"{m.name} names {c}, which {_holder(holds, c)}")
+            for c in holds[m.name]:
+                if named.count(c) != 1:
+                    diag.error(path, f"{m.name} opens {named.count(c)} items with {c} - it holds {c} once")
     if "Tables" in labels:
         start = next(i for i, l in enumerate(lines) if l.startswith("Tables:"))
         found_tables, rows = 0, []
@@ -1007,6 +993,14 @@ def check_region_fields(diag: Diagnostics, path: Path, fields: list, folder, ski
         for n in rows:
             if n != 6:
                 diag.error(path, f"the table has {n} rows - a d6 table has six")
+        cap = folder.words.get("Tables")
+        for raw in lines[start + 1:] if cap else ():
+            if re.match(r'^\d+[.)]\s', raw.strip()) and len(raw.split()) > cap + 1:
+                diag.warn(path, f"Tables: row {raw.strip()[:30]!r}... runs {len(raw.split()) - 1} words - BRIEF.md's words cap it at {cap}")
+
+
+def _holder(holds: dict[str, list[str]], code: str) -> str:
+    return next((f"{f} holds" for f, cs in holds.items() if code in cs), "is no location of this region")
 
 
 def check_repeated_features(diag: Diagnostics, region_code: str):
@@ -1308,11 +1302,11 @@ def report_pending(region_filter: str | None) -> int:
             elif changed := tables.stale(setting, code, history):
                 owed.setdefault(rel(r.dir), []).append(
                     f"{code}'s write-up is stale, owed to step 5b - changed since: {'; '.join(changed)}")
-        brief = r.dir / "Brief.md"
-        if Path(brief) == scope or scope in Path(brief).parents:
+        brief = SETTING / "region" / f"{r.code}.md"
+        if Path(brief) == scope or scope in Path(brief).parents or scope in Path(r.dir).parents:
             if changed := tables.stale_brief(r, history):
-                owed.setdefault(rel(r.dir), []).append(
-                    f"Brief.md is stale, owed to step 5e - changed since: {'; '.join(changed)}")
+                owed.setdefault(rel(brief), []).append(
+                    f"the brief is stale, owed to step 5e - changed since: {'; '.join(changed)}")
     stubs = [] if region_filter else tables.check_setting_files(setting.schema, setting.codes)
     for sev, path, line, msg in stubs:
         if sev == "stub":
@@ -1428,10 +1422,9 @@ def main() -> int:
     check_statblocks(diag, SETTING / "Bestiary.md", "Bestiary", expect_special=True)
     check_statblocks(diag, SETTING / "NamedCreatures.md", "Named Creature", expect_special=True)
     for region_code, info in regions.items():
-        check_region_overview(diag, region_code, setting.regions[region_code].folder)
+        check_region_overview(diag, setting, region_code)
         check_repeated_features(diag, region_code)
     check_rumour_settling(diag)
-    check_inhabitants(diag, setting)
     check_marks(diag, setting)
     check_sheets(diag, brief)
     check_places(diag, setting, brief)

@@ -72,8 +72,9 @@ class Region:
     die: str
     tags: str
     gazetteer_blurb: str
-    fields: list[tuple[str, str]]  # per a rating schema's seed and brief; `- ` items one per line
+    fields: list[tuple[str, str]]  # per its rating's brief; `- ` items one per line
     tables: list[tuple[str, list[tuple[int, str]]]]
+    drawn: list[tuple[str, list[str]]] = field(default_factory=list)   # per its rating's drawn
     locations: dict[int, Location] = field(default_factory=dict)
 
 @dataclass
@@ -285,11 +286,11 @@ def schema():
 
 
 def region_labels() -> list[str]:
-    """Every field of any rating's seed and brief, in the order they render. `Tables` is
+    """Every field of any rating's brief, in the order they render. `Tables` is
     drawn separately, as roll tables."""
     out: list[str] = []
     for f in schema().folders.values():
-        for m in f.seed + f.brief:
+        for m in f.brief:
             if m.name != "Tables" and m.name not in out:
                 out.append(m.name)
     return out
@@ -328,27 +329,172 @@ def _field_text(block: list[str]) -> str:
 
 
 def parse_field(lines: list[str], label: str) -> str:
-    """One seed or brief field's text, as the site reads it."""
+    """One brief field's text, as the site reads it."""
     fields: list[tuple[str, str]] = []
     _parse_region_fields(lines, fields, [])
     return dict(fields).get(label, "")
 
 
 def parse_region_overview(code: str, gaz: dict) -> Region:
-    """The region's seed, then its brief where it exists, as one run sheet."""
+    """The region's brief, and what is drawn from its tables beside it, as one run sheet."""
     fields: list[tuple[str, str]] = []
     tables: list[tuple[str, list[tuple[int, str]]]] = []
-    seed = SETTING / "region" / f"{code}.md"
-    brief = SETTING / "region" / code / "Brief.md"
-    if seed.exists():
-        _parse_region_fields(seed.read_text().splitlines()[1:], fields, tables)
+    brief = SETTING / "region" / f"{code}.md"
     if brief.exists():
-        _parse_region_fields(brief.read_text().splitlines(), fields, tables)
+        _parse_region_fields(brief.read_text().splitlines()[1:], fields, tables)
     info = gaz[code]
     return Region(
         code=code, name=info["name"], rating=info["rating"], die=info["die"], tags=info["tags"],
-        gazetteer_blurb=info["blurb"], fields=fields, tables=tables,
+        gazetteer_blurb=info["blurb"], fields=fields, tables=tables, drawn=drawn(code),
     )
+
+
+# -- what is drawn from a region's tables beside its brief --------------------------------
+#
+# Each section is a list of lines in the citation forms render_inline links, one entry a
+# line, so nothing in it is said twice and none of it goes stale.
+
+_TABLES: tb.Setting | None = None
+
+
+def region_tables() -> tb.Setting:
+    global _TABLES
+    if _TABLES is None:
+        _TABLES = tb.Setting({c: r["rating"] for c, r in parse_regions_gazetteer().items()}, schema())
+    return _TABLES
+
+
+def _also(*parts) -> str:
+    return "; ".join(p for p in parts if p)
+
+
+def _reaction(v) -> tuple[str, str]:
+    head, _, rest = str(v or "").partition(" - ")
+    return head, rest
+
+
+def _who(n) -> str:
+    """An Encounter's or People entry's occupant, as a citation."""
+    if n.name == "Creature" or "bestiary" in n.props:
+        return f"{n.props.get('count', '')} {n.props.get('bestiary')}".strip()
+    if "named" in n.props:
+        return f"(Named Creature: {n.props['named']}), {n.props.get('presence', '')} of the time".rstrip(", ")
+    return f"{n.props.get('present', '')} of (Faction: {n.props.get('faction')})".strip()
+
+
+def _inhabitants(r, setting) -> list[str]:
+    out = []
+    for stem in ("People", "Garrison", "Challenges"):
+        for n in r.files.get(stem, []):
+            at = n.args[0] if n.args else ""
+            p = n.props
+            if n.name == "Person":
+                quest = f"gives (Quest: {p['quest']})" if p.get("quest") else ""
+                member = f"(Faction: {p['member']})" if p.get("member") else ""
+                out.append(f"{at} **{p.get('name')}**, {p.get('role')}{' ' + member if member else ''} - "
+                           + _also(f"wants {p.get('wants')}", f"knows {p.get('knows')}", quest))
+            elif n.name in ("NamedCreature", "Faction"):
+                out.append(f"{at} {_who(n)}" + (f" - {p['members']}" if p.get("members") else ""))
+            elif n.name == "Garrison":
+                out.append(f"{at} {_who(n)} under arms - {p.get('members')}; {p.get('call')} brings them within {p.get('within')}")
+            elif n.name == "Encounter":
+                kid = next((c for c in n.children if c.name in ("Creature", "NamedCreature", "Faction")), None)
+                head, rest = _reaction(p.get("reaction"))
+                if kid is not None and kid.name == "Creature":
+                    who = f"({head}, {kid.props.get('count')}, Bestiary : {kid.props.get('bestiary')})"
+                else:
+                    who = f"{_who(kid) if kid is not None else ''}, {head}"
+                out.append(f"{at} {who} - " + _also(p.get("doing"), rest, p.get("want") and f"wants {p['want']}",
+                                                     p.get("know") and f"knows {p['know']}"))
+    return out
+
+
+def _procedures(r) -> list[str]:
+    return [f"{n.args[0]} (Local Procedure: {n.props.get('procedure')})" for n in r.files.get("Procedures", []) if n.args]
+
+
+def _services(r) -> list[str]:
+    out = []
+    for n in r.files.get("Purchases", []):
+        p = n.props
+        price = "at the listed price" if p.get("price") == "listed" else p.get("price")
+        out.append(f"{n.args[0]} {p.get('item')} - {price}{' ' + p['per'] if p.get('per') else ''}"
+                   + (f" ({p['limit']})" if p.get("limit") else ""))
+    return out + _procedures(r)
+
+
+GUARDS = {"Encounter": "watched", "Hazard": "trapped", "Mystery": "behind a mystery", "Secret": "hidden"}
+
+
+def _loot(r) -> list[str]:
+    brief = tb.Brief(schema())
+    rolls = {k: (brief.lever(k).props.get("rolls") if brief.lever(k) else None) for k in ("Treasure", "Magic")}
+    out = []
+    for n in r.files.get("Rewards", []):
+        table, _, title = str(n.props.get("contents", "")).partition(": ")
+        die = rolls["Magic" if table == "Magic" else "Treasure"]
+        what = f"({table}: {title})" if title else f"({table}, d{die})"
+        guard = next((f"locked (Keys: {c.props.get('key')})" if c.name == "Lock" else GUARDS.get(c.name, "")
+                      for c in n.children), "")
+        out.append(f"{n.args[0]} {n.props.get('container')} - {what}{', ' + guard if guard else ''}")
+    return out
+
+
+def _alarm(r) -> list[str]:
+    def soon(n):
+        t = tb.TIME_RE.match(str(n.props.get("answers", "")))
+        return (0 if t and t.group(3).startswith("Round") else 1, int(t.group(1)) if t else 0)
+    out = []
+    for n in sorted((n for n in r.files.get("Challenges", []) if n.name == "Encounter" and "answers" in n.props), key=soon):
+        kid = next((c for c in n.children if c.name in ("Creature", "NamedCreature", "Faction")), None)
+        out.append(f"{n.args[0]} {_who(kid) if kid is not None else ''} - within {n.props['answers']}")
+    return out
+
+
+def _leads(r) -> list[str]:
+    sch, out = schema(), []
+    codes = set(r.locations())
+    for _title, _line, v in tb.setting_entries(sch, "Rumours") or []:
+        here = [c for c in re.findall(r"[A-Z]+\.\d+", v.get("Settled at", "")) if c in codes]
+        if here:
+            out.append(f"Rumour {v.get('#')} ({v.get('T/P/F/U', '').split()[0] if v.get('T/P/F/U') else '?'}) - settled at {', '.join(here)}")
+    givers = {str(n.props["quest"]): n for n in r.files.get("People", []) if n.props.get("quest")}
+    for title, _line, v in tb.setting_entries(sch, "Quests") or []:
+        here = [c for c in re.findall(r"[A-Z]+\.\d+", v.get("Points to", "")) if c in codes]
+        g = givers.get(title)
+        if here or g is not None:
+            out.append(f"(Quest: {title}) - " + _also(g is not None and f"given by {g.props.get('name')} at {g.args[0]}",
+                                                      here and f"points to {', '.join(here)}"))
+    return out
+
+
+def _secrets(r) -> list[str]:
+    out = []
+    for stem in r.files:
+        for n in r.files[stem]:
+            for c in n.children:
+                if c.name != "Secret":
+                    continue
+                where = f"{n.args[0]} to {n.props['to']}" if "to" in n.props else f"{n.args[0]} {n.name}"
+                p = c.props
+                out.append(f"{where} - " + _also(p.get("fact"), p.get("knows") and f"known to {p['knows']}",
+                                                f"shown by {p.get('tell')}", f"opened by {p.get('trigger')}",
+                                                p.get("when") and f"when {p['when']}"))
+    return out
+
+
+DRAWERS = {"Inhabitants": _inhabitants, "Services": lambda r, s: _services(r), "Procedures": lambda r, s: _procedures(r),
+           "Loot": lambda r, s: _loot(r), "Alarm": lambda r, s: _alarm(r), "Leads": lambda r, s: _leads(r),
+           "Secrets": lambda r, s: _secrets(r)}
+
+
+def drawn(code: str) -> list[tuple[str, list[str]]]:
+    """Each section its rating's `drawn` names, with its lines; an empty one is left out."""
+    setting = region_tables()
+    r = setting.regions.get(code)
+    if r is None or r.folder is None:
+        return []
+    return [(name, lines) for name in r.folder.drawn if (lines := DRAWERS[name](r, setting))]
 
 
 def _parse_region_fields(lines: list[str], fields: list, tables: list) -> None:
@@ -924,10 +1070,13 @@ def coverage(setting: Setting, text: str, has_page) -> list[str]:
             problems.append(f"{p.title}: its file has no page")
     for code, r in setting.regions.items():
         rendered = {label for label, _ in r.fields}
-        for path in (SETTING / "region" / f"{code}.md", SETTING / "region" / code / "Brief.md"):
-            for label in re.findall(r"^([A-Z][a-z]+):", path.read_text(), re.M) if path.exists() else []:
-                if label != "Tables" and label not in rendered:
-                    problems.append(f"{path.relative_to(ROOT)}: {label} is not shown")
+        path = SETTING / "region" / f"{code}.md"
+        for label in re.findall(r"^([A-Z][a-z]+):", path.read_text(), re.M) if path.exists() else []:
+            if label != "Tables" and label not in rendered:
+                problems.append(f"{path.relative_to(ROOT)}: {label} is not shown")
+        for label, _ in r.drawn:
+            if not re.search(rf">{label}</h[1-6]>", text):
+                problems.append(f"{code}: {label} is not shown")
         for num in r.locations:
             if not has_page(f"region/{code}/{num}"):
                 problems.append(f"{code}.{num}: no page")

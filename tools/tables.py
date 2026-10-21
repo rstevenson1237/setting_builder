@@ -12,6 +12,7 @@ ROOT = Path(__file__).resolve().parent.parent
 SETTING = ROOT / "setting"
 PATTERNS = ROOT / "patterns"
 SHARED = ("Common", "Setting", "Region")   # the shared schemas, widest first; every other is a rating's
+DRAWN = ("Inhabitants", "Services", "Procedures", "Loot", "Alarm", "Leads", "Secrets")   # site_common.drawn
 
 CODE_RE = re.compile(r"([A-Z]+)\.(\d+)")
 BLOCK_RE = re.compile(r"([A-Z]+)\.([a-z]+)")
@@ -47,7 +48,7 @@ class Member:
 @dataclass
 class Folder:
     """One rating's tables, with the enums and nodes its schema sees: its own over the
-    shared schemas'. Its seed and brief are its `region` in Region_Schema.md."""
+    shared schemas'. Its `Seed` file and its brief are its `region` in Region_Schema.md."""
     type: str
     files: dict[str, list[str]]
     joins: dict[str, tuple[set[str], str | None]]
@@ -56,8 +57,10 @@ class Folder:
     enums: dict[str, dict] = field(default_factory=dict)
     nodes: dict[str, list[Member]] = field(default_factory=dict)
     rates: dict[str, dict[str, tuple[int, int]]] = field(default_factory=dict)
-    seed: list[Member] = field(default_factory=list)    # setting/region/[Code].md's fields
-    brief: list[Member] = field(default_factory=list)   # setting/region/[Code]/Brief.md's
+    counts: dict[str, dict[str, int]] = field(default_factory=dict)   # file -> node -> exactly N entries
+    brief: list[Member] = field(default_factory=list)   # setting/region/[Code].md's fields
+    drawn: list[str] = field(default_factory=list)      # what is drawn from the tables beside it
+    words: dict[str, int] = field(default_factory=dict) # BRIEF.md's cap on each brief field, or each item
     region_path: Path | None = None                     # the schema holding seed and brief
     optional: set[str] = field(default_factory=set)     # files a region of this rating may leave out
 
@@ -111,7 +114,10 @@ class Schema:
                 f.enums, f.nodes = enums, nodes
         for name, (path, parts) in self.regions.items():
             if f := self.folders.get(name):
-                f.seed, f.brief, f.region_path = parts.get("seed", []), parts.get("brief", []), path
+                f.brief, f.drawn, f.region_path = parts.get("brief", []), parts.get("drawn", []), path
+                if (seed := parts.get("seed")) is not None:
+                    f.files["Seed"] = [str(a) for a in seed.args] + list(seed.props)
+                    f.counts["Seed"] = dict(seed.props)
             else:
                 self.problems.append((path, f"region {name!r} has no folder"))
         for name, f in self.folders.items():
@@ -123,6 +129,8 @@ class Schema:
                     for c in n.children:
                         if c.name == "rate":
                             f.rates.update({a: {s: bounds(r) for s, r in c.props.items()} for a in c.args})
+                        elif c.name == "words":
+                            f.words.update(c.props)
         except SyntaxError as e:
             self.brief_problems.append(str(e))
         self._resolve()
@@ -170,11 +178,20 @@ class Schema:
                 self.folders[name] = f
                 folders.append(f)
             elif n.name == "region":
+                parts = {}
                 for c in n.children:
-                    if c.name not in ("seed", "brief"):
-                        p(c, f"region {name}: {c.name!r} is not seed or brief")
-                self.regions[name] = (path, {c.name: [self._member(m) for m in c.children]
-                                             for c in n.children})
+                    if c.name == "seed":
+                        parts["seed"] = c
+                    elif c.name == "brief":
+                        parts["brief"] = [self._member(m) for m in c.children]
+                    elif c.name == "drawn":
+                        parts["drawn"] = [str(a) for a in c.args]
+                        for a in parts["drawn"]:
+                            if a not in DRAWN:
+                                p(c, f"region {name}: drawn {a!r} is not one of {', '.join(DRAWN)}")
+                    else:
+                        p(c, f"region {name}: {c.name!r} is not seed, brief or drawn")
+                self.regions[name] = (path, parts)
             else:
                 p(n, f"{n.name!r} is not a schema node here")
         return folders
@@ -235,9 +252,16 @@ class Schema:
                         p(f"{node}.{m.name}: {m.arg!r} is not an enum of tables")
             if f.type not in f.enums:
                 p(f"folder {name}: unknown type enum {f.type!r}")
-            for m in f.seed + f.brief:
+            for m in f.brief:
                 if m.type not in self.values and m.type not in f.enums:
-                    p(f"folder {name}: seed or brief field {m.name}: unknown type {m.type!r}")
+                    p(f"folder {name}: brief field {m.name}: unknown type {m.type!r}")
+                for h in str(m.props.get("holds", "")).split():
+                    if h not in ("entrance", "rest") and h not in f.enums.get(f.type, {}) \
+                            and h not in f.enums.get(f.type, {}).values():
+                        p(f"folder {name}: brief field {m.name} holds {h!r}, which {f.type} does not hold")
+            for k, v in f.words.items():
+                if k not in {m.name for m in f.brief} or not isinstance(v, int):
+                    self.brief_problems.append(f"{name.lower()}: words {k}={v!r} is not a brief field and a count")
             # A group of the type enum names every item in it.
             groups = {}
             for item, g in f.enums.get(f.type, {}).items():
@@ -551,6 +575,35 @@ class Region:
     def locations(self) -> dict[str, kdl.Node]:
         return {n.args[0]: n for n in self.files.get("Locations", []) if n.args}
 
+    def seed(self, node: str) -> kdl.Node | None:
+        """The region's first seed node of that name."""
+        return next((n for n in self.files.get("Seed", []) if n.name == node), None)
+
+    def passage(self, block: kdl.Node, k: str) -> float:
+        """A block's passage width or height: its own, else the seed's Conditions."""
+        c = self.seed("Conditions")
+        return float(block.props.get(k, c.props.get(k, 0) if c else 0))
+
+
+def brief_holds(setting: "Setting", r: Region) -> dict[str, list[str]]:
+    """Each list field of the region's brief -> the locations it holds, in code order: by
+    its `holds=`, each location to the first field naming it."""
+    out, left = {}, sorted(r.locations(), key=lambda c: int(c.split(".")[1]))
+    groups = r.folder.enums.get(r.folder.type, {}) if r.folder else {}
+    for m in (r.folder.brief if r.folder else []):
+        want = str(m.props.get("holds", "")).split()
+        if not want:
+            continue
+        def held(c):
+            t = r.locations()[c].props.get("type")
+            return "rest" in want or t in want or groups.get(t) in want or "entrance" in want and any(
+                b.split(".")[0] != r.code and setting.regions.get(b.split(".")[0]) is not None
+                and setting.regions[b.split(".")[0]].rating.upper() != "DANGEROUS"
+                for e in r.edges for a, b in [e, e[::-1]] if a == c)
+        out[m.name] = [c for c in left if held(c)]
+        left = [c for c in left if c not in out[m.name]]
+    return out
+
 
 class Setting:
     """Every region's tables, read once."""
@@ -794,8 +847,8 @@ class Setting:
             yield "warning", r.dir, f"{r.rating} has no folder in {self.schema.path.name}"
             return
         for path in sorted(r.dir.glob("*.md")):
-            if not path.stem.isdigit() and path.stem not in r.folder.files and path.stem != "Brief":
-                yield "error", path, (f"is neither a location file, Brief.md, nor one of "
+            if not path.stem.isdigit() and path.stem not in r.folder.files:
+                yield "error", path, (f"is neither a location file nor one of "
                                       f"{', '.join(r.folder.files)}")
         for stem in r.folder.files:
             path = r.dir / f"{stem}.md"
@@ -808,6 +861,7 @@ class Setting:
                 for sev, msg in self._check_entry(r, stem, n):
                     yield sev, path, f"line {n.line}: {msg}"
         yield from self._check_rates(r)
+        yield from self._check_counts(r)
         if "Connections" in r.folder.files:
             yield from self._check_connections(r)
             yield from self._check_joins(r)
@@ -832,7 +886,7 @@ class Setting:
             yield "error", f"{n.name} spans several lines - an entry is one line"
         code = n.args[0] if len(n.args) == 1 else None
         block = stem == "Blocks"
-        if stem == "Ground" and n.name != "At":
+        if stem == "Seed" or stem == "Ground" and n.name != "At":
             if code != r.code:
                 yield "error", f"{n.name} opens with {n.args} - it opens with the region code {r.code}"
         elif code is None or not (BLOCK_RE if block else CODE_RE).fullmatch(str(code)) or not str(code).startswith(r.code + "."):
@@ -844,7 +898,7 @@ class Setting:
         owed = [m for m in missing if isinstance(m, str)]
         yield from (m for m in missing if not isinstance(m, str))
         if owed:
-            step = "4a" if stem == "Locations" else "5a"
+            step = {"Locations": "4a", "Seed": "3c"}.get(stem, "5a")
             yield "warning", f"{n.name} {n.args[0] if n.args else ''} is a stub owed to step {step} - lacks {', '.join(owed)}"
 
     def _check_node(self, r: Region, n: kdl.Node, within: str = ""):
@@ -890,7 +944,8 @@ class Setting:
                 if s not in enums[r.folder.type]:
                     yield "error", f"{s!r} is not one of {', '.join(enums[r.folder.type])}"
             elif m.type == "entry":
-                yield from self._check_title(m.arg, s)
+                if not any(s in (self.titles(t) or ()) for t in m.args[1:]):
+                    yield from self._check_title(m.arg, s)
             elif m.type == "pull":
                 table, _, title = s.partition(": ")
                 if table not in enums[m.arg]:
@@ -915,6 +970,19 @@ class Setting:
             yield "warning", f"{title!r} - {file} is not built yet"
         elif title not in have:
             yield "warning", f"{title!r} is not on {file} yet - owed to step 5a"
+
+    def _check_counts(self, r: Region):
+        """Each file with counts holds each node its folder line names: exactly N where it
+        says N, else at least one."""
+        for stem, counts in r.folder.counts.items():
+            if stem not in r.files:
+                continue
+            for node in r.folder.files[stem]:
+                got = sum(1 for n in r.files[stem] if n.name == node)
+                want = counts.get(node)
+                if got != want if want is not None else not got:
+                    yield "error", r.dir / f"{stem}.md", (f"holds {got} {node} - it holds "
+                                                          f"{want if want is not None else 'one or more'}")
 
     def _check_rates(self, r: Region):
         rated = {s for rates in r.folder.rates.values() for s in rates} - {PROCEDURES}
@@ -1103,8 +1171,8 @@ class Brief:
                 for c in n.children:
                     if c.name == "target":
                         self._add(c, folders[n.name], None)
-                    elif c.name != "rate":
-                        p(f"{n.name} holds rate and target lines, not {c.name!r}")
+                    elif c.name not in ("rate", "words"):
+                        p(f"{n.name} holds rate, words and target lines, not {c.name!r}")
             elif n.name == "region":
                 code = str(n.args[0]) if n.args else ""
                 rating = str(n.props.get("rating", "")).title()
@@ -1450,7 +1518,8 @@ class Brief:
 # write-up last did. A line's time is its last commit's, read by `git blame`, or its
 # file's modified time while the line is uncommitted. Without git, nothing is stale.
 # A commit that changes a line's form and not its meaning is listed in BLAME_IGNORE, so
-# `git blame` looks past it and the write-ups the line feeds stay current.
+# `git blame` looks past it and the write-ups the line feeds stay current; a line it adds,
+# which blame cannot look past, counts as old.
 
 import os
 import subprocess
@@ -1463,6 +1532,8 @@ class History:
         self._blame: dict[Path, list[float] | None] = {}
         ignore = ROOT / BLAME_IGNORE
         self._ignore = ["--ignore-revs-file", str(ignore)] if ignore.exists() else []
+        self._ignored = {l.strip() for l in ignore.read_text().splitlines()
+                         if re.fullmatch(r"[0-9a-f]{40}", l.strip())} if ignore.exists() else set()
 
     def _git(self, *args) -> str | None:
         try:
@@ -1474,12 +1545,13 @@ class History:
     def line_times(self, path: Path) -> list[float] | None:
         if path not in self._blame:
             out = self._git("blame", "--line-porcelain", *self._ignore, "--", str(path.relative_to(ROOT)))
-            times, uncommitted = [], False
+            times, uncommitted, ignored = [], False, False
             for line in (out or "").splitlines():
                 if re.match(r"[0-9a-f]{40} ", line):
-                    uncommitted = line.startswith("0" * 40)
+                    uncommitted, ignored = line.startswith("0" * 40), line[:40] in self._ignored
                 elif line.startswith("committer-time "):
-                    times.append(path.stat().st_mtime if uncommitted else float(line.split()[1]))
+                    # a line only an ignored commit holds, as one it adds, is as old as any
+                    times.append(path.stat().st_mtime if uncommitted else 0.0 if ignored else float(line.split()[1]))
             self._blame[path] = times if out is not None else None
         return self._blame[path]
 
@@ -1531,7 +1603,7 @@ def stale(setting: Setting, code: str, history: History) -> list[str]:
                     path = ROOT / setting.schema.tables[table][1]
                     if path.exists():
                         deps.append((path, record_lines(path, title), f"{table}: {title}"))
-    seed = SETTING / "region" / f"{region.code}.md"
+    seed = region.dir / "Seed.md"
     if seed.exists():
         deps.append((seed, range(0, 10 ** 6), "the region's seed"))
     changed = []
@@ -1545,9 +1617,9 @@ def stale(setting: Setting, code: str, history: History) -> list[str]:
 def stale_brief(region: Region, history: History) -> list[str]:
     """The table files and seed changed since the region's brief, or [] if it is fresh or
     unwritten."""
-    brief = region.dir / "Brief.md"
+    brief = SETTING / "region" / f"{region.code}.md"
     if not brief.exists() or (written := history.file_time(brief)) is None:
         return []
-    deps = [region.dir / f"{stem}.md" for stem in region.files] + [SETTING / "region" / f"{region.code}.md"]
+    deps = [region.dir / f"{stem}.md" for stem in region.files]
     return sorted(p.name for p in deps if p.exists() and any(
         tm > written for tm in history.line_times(p) or []))

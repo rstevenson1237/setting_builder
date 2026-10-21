@@ -12,5 +12,5 @@ Connection H.2 to="H.6" type="Banded" bearing="west" distance="70 feet"
 Connection H.6 to="H.2" type="Banded" bearing="east" distance="70 feet"
 Connection H.4 to="H.5" type="Broken" bearing="west" distance="50 feet"
 Connection H.5 to="H.4" type="Broken" bearing="east" distance="50 feet"
-Connection H.5 to="G.5" type="Stone" bearing="south" distance="50 yards" orientation="behind the sacks" { Secret trigger="lift lowest stones" tell="cold draught, low down" }
+Connection H.5 to="G.5" type="Stone" bearing="south" distance="50 yards" orientation="behind the sacks" { Secret trigger="lift lowest stones" tell="cold draught, low down" knows="neither tribe" fact="each tribe thinks it ends at its wall" }
 ```

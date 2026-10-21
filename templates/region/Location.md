@@ -9,7 +9,7 @@ Read first:
 - `setting/Truths.md`
 - `setting/Procedures.md`'s Forced Dangers, Conditions and Time and Distance - the mechanics a Feature cites
 - `setting/Language.md` - roots for a coined name, and the coinages already recorded
-- the region's seed, `setting/region/[Region Code].md`
+- the region's seed, `setting/region/[Region Code]/Seed.md`
 - the location's entries, from `python3 tools/validate_setting.py --location [Location Code]`, and the setting entries they name
 
 ## Instructions

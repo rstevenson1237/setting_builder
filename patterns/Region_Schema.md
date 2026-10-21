@@ -1,16 +1,24 @@
 # Region Schema
 
-What `setting/region/` holds for each region, by rating: its `seed`,
-`setting/region/[Code].md`, written before any location exists and naming none, and its
-`brief`, `setting/region/[Code]/Brief.md`, written from the tables alone. The tables
-themselves are the rating's own schema.
+What `setting/region/` holds for each region, by rating, beside its tables:
 
-Every seed and brief sentence carries something usable at the table - a name, count,
-price, place, distance or ruling; why a place exists or how it feels is cut, and nothing
-is said twice. A secret always carries its answer. A situation is true whether or not the
-party engages: what is changing, then two rungs, each with what sets it off. A Layout is read beside the region's maps and `Ground.md`: it says what a map cannot, what a party
-notices and hears, and restates no place, size or height a map shows. A list field writes each item as its own `- ` line,
-and paragraphs are separated by a blank line.
+- its `seed`, the nodes of `setting/region/[Code]/Seed.md`, written before any location
+  exists and naming none, each opening with the region code. A `seed` line names its
+  nodes, `Node=N` where a seed holds exactly N, else one or more; a node its rating's
+  schema defines is that rating's own.
+- its `brief`, `setting/region/[Code].md`, written from the seed and the tables and stale
+  when they change: the seed's fields as prose, then one list field per `holds=`, each
+  `- ` item opening with the codes it is about. `holds=` names location types, `entrance`
+  (a location joined to a region that is not DANGEROUS) or `rest`; each location is held
+  by the first field naming it, and named by exactly that one. How long each field or item
+  runs is `BRIEF.md`'s `words`.
+- what is `drawn` from the tables beside the brief, never written: Inhabitants, Services,
+  Procedures, Loot, Alarm, Leads, Secrets.
+
+Every brief sentence carries something usable at the table - a name, count, price, place,
+distance or ruling; why a place exists or how it feels is cut. A brief is read beside the
+region's maps, `Ground.md` and what is drawn: it says what they cannot, what a party
+notices and hears, and restates no place, size, height, person or price they show.
 
 ```kdl
 enum Safe_Kind steading thorp village town seat hold   // a household; a few; trades; a market and authority;
@@ -18,74 +26,59 @@ enum Safe_Kind steading thorp village town seat hold   // a household; a few; tr
 enum Terrain hills mountains plains forest swamp desert jungle coast   // one, or two in combination
 enum Dangerous_Kind collection "single holding"   // a worked complex in blocks, sized by its die; one occupant's home, sized by what it holds
 
+node Rung {                 // what the situation does next, true whether or not a party engages
+  if string                 // what sets it off
+  then text                 // what follows
+}
+node Entry {                // a way in
+  name gloss
+  from string opt           // where it opens from
+  stands text               // who or what stands at it or watches it
+  takes text opt            // what passing takes
+  refused text opt          // what befalls the turned away
+}
+
 region Safe {
-  seed {
-    Kind Safe_Kind
-    Overview text           // what a party comes to do; then its situation: who is behind it, and who is hurt
-    View text               // from where and how far off it is first seen; its outline and size; its walls or
-                            // edges, their height and material; the ground under it; roofs, colours, devices, lights
-    Approach text           // every way in: what stands at it, what passing takes, what befalls the turned away
-    Law text                // what gets a stranger fined, locked up or put out; who enforces; what each costs
-  }
+  seed Seed=1 View=1 Rung=2 Entry Law
   brief {
-    Layout text n=3         // every location by code: the seed's View, then its Approach at each way in; what each
-                            // location holds and what a party goes there for, what is noticed or heard there, a
-                            // secret or rule shown only as what a party can notice
-    Inhabitants text        // every Person, Named Creature, Faction and Garrison the People and Garrison
-                            // tables hold, where and what they are about, a faction's members for what
-                            // its Identity shows
-    Services text           // one sentence on the economy; then what is sold, done and bought from a
-                            // party, at what price and where, and what cannot be had
-    Secrets text            // - the fact - who knows it; the entry that brings it out
-    Leads text
+    Overview text           // the Seed and both Rungs, each with what sets it off
+    View text
+    Approach text           // every Entry
+    Law text                // every Law
+    Arrival text list holds=Gate    // what a party meets there that the Approach does not say
+    Plan text               // how the locations sit, what is reached through what
+    Places text list holds=rest     // what each holds and what a party goes there for, what is noticed
+                                    // or heard there, a secret shown only as what a party can notice
     Tables text             // d6 Events
   }
+  drawn Inhabitants Services Leads Secrets
 }
 
 region Wild {
-  seed {
-    Overview text           // what a party sees crossing in, who is out here, what brings anyone; then its situation
-    Approach text           // where it is entered, and how long a crossing takes on the best route and off it
-    Terrain Terrain         // then rulings per setting/Procedures.md's Time and Distance: what an action buys on a road,
-                            // off it, through the worst; what loses a party and finds the way; weather,
-                            // night, a fire. Ground is never a location.
-  }
+  seed Seed=1 Rung=2 Entry Ruling
   brief {
-    Layout text n=3         // every location by code: each way in and each Route - how long it takes, its stops in
-                            // order and where each leads, the seed's Approach folded in; each Landmark - what shows
-                            // of it and from how far, how it is reached from the route; the rest in prose, what is
-                            // noticed or heard there, a secret or rule shown only as what a party can notice
-    Inhabitants text        // every creature and faction the Encounters hold, how many, where and what they are about
-    Loot text               // one sentence on what the land yields; then forage and game by local name, what the
-                            // nearest SAFE region pays, and treasure, where. Anything dangerous enough to meet is
-                            // an Encounter, never game.
-    Secrets text
-    Leads text
+    Overview text           // the Seed and both Rungs, each with what sets it off
+    Approach text           // every Entry, and the crossing on and off the best route
+    Terrain text            // the Seed's terrain, then every Ruling
+    Ways text list holds=Route      // how long it takes, its stops in order and where each leads
+    Landmarks text list holds=Landmark   // what shows of it and from how far, how it is reached from a Way
+    Places text list holds=rest     // what is noticed or heard there, a secret shown only as what a party can notice
     Tables text             // d6 Encounter
   }
+  drawn Inhabitants Procedures Leads Secrets
 }
 
 region Dangerous {
-  seed {
-    Kind Dangerous_Kind
-    Overview text           // what a party sees at the way in, who lives there, what it comes for; then its
-                            // situation - a single holding barely moves the Danger track: name what presses instead
-    Approach text           // every entrance: where it opens from, who or what watches it
-    Conditions text         // every room unless it says otherwise: material, height and width,
-                            // light, what carries sound, footing, air, what a lit fire does
-  }
+  seed Seed=1 Rung=2 Entry Conditions=1
   brief {
-    Layout text n=3         // every location by code: each entrance - how it shows from outside, the seed's
-                            // Approach and Conditions folded in; each High location - what holds it, its prize; the
-                            // rest in prose, what is noticed or heard there, a secret or rule shown only as what a
-                            // party can notice
-    Inhabitants text        // every creature and faction the Encounters hold, how many, where and what they are about
-    Alarm text              // what raises it, who hears first, who comes from where, how many turns later
-    Loot text               // one sentence on the region's wealth; then the largest prize and what stands over it,
-                            // treasure, where, and who buys it back
-    Secrets text            // - the fact - the entry that brings it out
-    Leads text              // - each rumour by number, each quest by name
+    Overview text           // the Seed and both Rungs, each with what sets it off
+    Approach text           // every Entry
+    Conditions text
+    Entrances text list holds=entrance   // how it shows from outside
+    Prizes text list holds=High     // what holds it, and its prize
+    Places text list holds=rest     // what is noticed or heard there, a secret shown only as what a party can notice
     Tables text             // Danger, 6 noticing to 1 acting
   }
+  drawn Inhabitants Loot Alarm Procedures Leads Secrets
 }
 ```

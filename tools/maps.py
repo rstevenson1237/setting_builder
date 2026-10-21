@@ -597,7 +597,7 @@ def block_map(region, block: kdl.Node) -> tuple[dict | None, list[str]]:
         return DOOR.get(str(n.props.get("type")), "door")
     def span(n) -> int:
         """Cells across a passage: the way's own width, else the block's."""
-        return max(1, round(float(n.props.get("width", block.props.get("width", 0))) / cell))
+        return max(1, round(float(n.props.get("width", region.passage(block, "width"))) / cell))
     seen = {}
     for n in ways:
         a, b = str(n.args[0]), str(n.props["to"])

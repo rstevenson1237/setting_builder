@@ -625,7 +625,7 @@ def report_budget() -> None:
 # it. The variable half is walked with the graph tools/validate_setting.py
 # --read-set walks, from the same entry points.
 #
-# The region overview and BRIEF.md's region slice are per-region, so each is
+# The region seed and BRIEF.md's region slice are per-region, so each is
 # reported as its own range rather than folded into one number that would be
 # right for no region. Ground.md is a range too: 4a and 5e read it whole, while 5b
 # reads only a location's At entry, which --location already carries.
@@ -654,9 +654,9 @@ def report_read_set(step: str = "5b") -> None:
     import tables
     codes = [str(n.args[0]) for n in tables.brief_nodes() if n.name == "region" and n.args]
     avg = report_range("BRIEF.md region slice", {c: words(tables.brief_slice(c)) for c in codes})
-    avg += report_range("region overview", {p.stem: file_words(p) for p in sorted(REGION.glob("[A-Z].md"))}
+    avg += report_range("region seed", {p.parent.name: file_words(p) for p in sorted(REGION.glob("[A-Z]/Seed.md"))}
                         if REGION.exists() else {})
-    print(f"  {'fixed context':24s} : {fixed + avg:6,} (with the mean region slice and overview)")
+    print(f"  {'fixed context':24s} : {fixed + avg:6,} (with the mean region slice and seed)")
     report_range("Ground.md (4a, 5e; not summed)",
                  {p.parent.name: file_words(p) for p in sorted(REGION.glob("[A-Z]/Ground.md"))} if REGION.exists() else {})
     print()

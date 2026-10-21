@@ -8,7 +8,7 @@ Connection K.3 to="K.2" type="Wooden" bearing="north" distance="40 feet"
 Connection K.2 to="K.3" type="Wooden" bearing="south" distance="40 feet"
 Connection K.3 to="K.5" type="Crude" bearing="east" distance="60 feet"
 Connection K.5 to="K.3" type="Crude" bearing="west" distance="60 feet"
-Connection K.5 to="K.4" type="Stone" bearing="south" distance="30 feet" { Secret trigger="break the plaster" tell="hollow sound, cracked seam" }
+Connection K.5 to="K.4" type="Stone" bearing="south" distance="30 feet" { Secret trigger="break the plaster" tell="hollow sound, cracked seam" knows="the Zurnaz" fact="the back stair to the shrine" }
 Connection K.4 to="K.5" type="Stone" bearing="north" distance="30 feet"
 Connection K.4 to="M.14" type="Stone" bearing="north-east" distance="120 feet" climb=120
 ```

@@ -9,7 +9,7 @@ Read first:
 - `GENRE.md`, `STYLE.md` and `BRIEF.md`, as `python3 tools/validate_setting.py --brief setting` prints it
 - `patterns/Common_Schema.md` and `patterns/Setting_Schema.md`
 - `setting/Rumours.md`
-- each region's seed, `setting/region/[Region Code].md`
+- each region's seed, `setting/region/[Region Code]/Seed.md`
 - the location entries or setting entries a quest points to
 
 ## Instructions

@@ -92,6 +92,10 @@ def build_document(setting: sc.Setting) -> str:
             f'<h3>{html.escape(label)}</h3>' + sc.field_html(text, lambda t: ri(t, setting))
             for label, text in region.fields
         )
+        field_html += "".join(
+            f'<h3>{html.escape(label)}</h3>' + sc.field_html("\n".join("- " + l for l in lines), lambda t: ri(t, setting))
+            for label, lines in region.drawn
+        )
         table_html = ""
         for table_label, table_rows in region.tables:
             trows = "".join(f'<tr><td class="num">{n}</td><td>{ri(t, setting)}</td></tr>' for n, t in table_rows)

@@ -8,7 +8,7 @@ table its rating's schema, `patterns/[Rating]_Schema.md`, names, each holding en
 Read first:
 - `GENRE.md`, `STYLE.md` and `BRIEF.md`, as `python3 tools/validate_setting.py --brief [Region Code]` prints it
 - `patterns/Common_Schema.md`, `patterns/Setting_Schema.md` and this region's rating schema
-- this region's seed, `setting/region/[Region Code].md`
+- this region's seed, `setting/region/[Region Code]/Seed.md`
 - this region's die in `setting/region/Regions.md`, and `setting/Language.md`
 - this region's table files, as far as they exist, and its `Ground.md`: the terrain, rivers, roads and hills of its area
 - `setting/region/Regions.md` - the regions this one joins
@@ -25,14 +25,14 @@ Read first:
 - **4b, Connections and Blocks** - one entry per side of every way between two locations, with
   `to`, `bearing` and `distance` set from this end (and `climb` where the way changes level), and
   the rest a stub; the far side's entry reverses the bearing. Every location is reachable from
-  an entrance the seed's Approach names, and a way into a gated location carries the gate its
+  an entrance the seed's Entries name, and a way into a gated location carries the gate its
   folder's `join` line names. A way to another region joins only a region this one joins in
   `setting/region/Regions.md`. Where the schema holds Blocks, every location is in exactly one
-  block, and a way that climbs joins two blocks. A Block's `width` and `height` are its passages' size as the seed's
-  Conditions give it; a Connection states its own only where it differs, within both rooms' footprints.
+  block, and a way that climbs joins two blocks. A Block or Connection states its passages' `width` and `height` only where they
+  differ from the seed's Conditions, a Connection's within both rooms' footprints.
 - **4c, the stubs** - every other table, its entries bare: `[Node] [Location Code]`.
   Each room gets the entries its type's `rate` line in `BRIEF.md` gives, choosing within a range for a
-  reason its tags give, and toward `BRIEF.md`'s targets. The occupants the seed's Overview
+  reason its tags give, and toward `BRIEF.md`'s targets. The occupants the seed's `who`
   names are placed as Encounters - in a SAFE region as People, Named Creatures and Faction
   members, and a Garrison at an Authority - and a `procedure` line in the region's node of `BRIEF.md`
   as a Procedure entry at the location it fits, any type and at most one a location. A member or child is written now only where the
@@ -41,10 +41,10 @@ Read first:
   every member a stub lacks, toward its room's Purpose and `BRIEF.md`'s targets; a room a
   Purpose's `signs` names carries a sign of it. A stub that will not fit its room is a finding for 6c, never moved
   or dropped here. A Dressing's `mark` is the Identity of a faction that holds, passes
-  through or contests the room; every faction a region's Overview names is marked somewhere
+  through or contests the room; every faction a region's seed names in `who` is marked somewhere
   in it. A Dressing's `left` is each History event whose Left mark the room shows.
   A Hazard's `test` is Constitution with a `wound`, Fate with a `condition`, or Sanity from a Chaos source only. A
-  DANGEROUS Encounter's `answers` is set where the region's Alarm brings it out.
+  DANGEROUS Encounter's `answers` is set where an alarm raised elsewhere in the region brings it out.
 - **5a, locks and keys** - a `Lock` goes where the design wants a gate, on whatever node the
   schema lets hold one, naming its key; the key's `Keys.md` entry is written with it. Once
   the pass is filled, the validator owes 5a each key it has no place for: a stub Reward

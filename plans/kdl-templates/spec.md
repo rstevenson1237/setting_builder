@@ -8,12 +8,16 @@ decisions; each has a recommendation, and the proposals assume it.
 
 ## 1. The seed is a table file
 
-- [ ] **S1. `setting/region/[Code]/Seed.md`.** One ```kdl fence of nodes keyed by the
+- [x] **S1. `setting/region/[Code]/Seed.md`.** One ```kdl fence of nodes keyed by the
   region code, as `Ground.md` is (`Ground A ...`). `Region_Schema.md`'s `seed` becomes
   nodes; the folder line of each rating gains `Seed`. Written at 3c as now, still naming no
-  location. `setting/region/[Code].md` is retired. *(Name: see D2.)*
+  location. *(Name: see D2.)*
 
-- [ ] **S2. Each prose field split into the members it already packs.** The schema comments
+  **Amended:** `setting/region/[Code].md` is kept. It becomes the region's written-up text,
+  built at 5e from `Seed.md` and the tables and stale when they change, as a location's
+  `[n].md` is. `Brief.md` is retired in its place: `[Code].md` is the brief.
+
+- [x] **S2. Each prose field split into the members it already packs.** The schema comments
   already list them; they become members, typed with `Common_Schema.md`'s values.
 
   ```kdl
@@ -70,7 +74,7 @@ decisions; each has a recommendation, and the proposals assume it.
 
 **Depends on** S1, D1.
 
-- [ ] **B1. Rendered sections.** Built by code from the seed and tables at site and PDF
+- [x] **B1. Rendered sections.** Built by code from the seed and tables at site and PDF
   build, never written by hand and never stale:
 
   | Section | From |
@@ -86,7 +90,10 @@ decisions; each has a recommendation, and the proposals assume it.
   twice. Retires `check_inhabitants`, the Services and Layout name checks, and the brief
   `Tables:` parser.
 
-- [ ] **B2. `Brief.md` holds only what no table holds, as KDL.** Written at 5e:
+- [x] **B2. The brief holds only what no table holds.** Written at 5e.
+
+  **Amended:** the nodes below are `[Code].md`'s list fields, `- [Code] ...` items, beside
+  the seed's fields written as prose; there is no KDL `Brief.md`. The shapes, as first proposed:
 
   ```kdl
   // SAFE                         WILD                      DANGEROUS
@@ -107,16 +114,16 @@ decisions; each has a recommendation, and the proposals assume it.
   - `Event` / `Danger` nodes replace the d6 `Tables:` block; their count and die come from
     the schema.
 
-- [ ] **B3. Brief size is a lever.** `BRIEF.md` gains `brief place=30 arrival=60 event=20`
+- [x] **B3. Brief size is a lever.** `BRIEF.md` gains `brief place=30 arrival=60 event=20`
   (words per node, defaults to tune). Estimate at these defaults: 94 location nodes and 78
   events come to about 5,000 written words against 11,847 today; the rendered rosters add
   rows, not prose.
 
-- [ ] **B4. A Secret states its fact.** `Secret` (SAFE, WILD, DANGEROUS) gains
+- [x] **B4. A Secret states its fact.** `Secret` (SAFE, WILD, DANGEROUS) gains
   `fact string opt` and `knows gloss opt`, so Secrets renders whole. Without it, Secrets
   stays a written `Secret` node in `Brief.md`. *(See D3.)*
 
-- [ ] **B5. The site and PDF draw a region page as: seed, then the B2 nodes in schema order,
+- [x] **B5. The site and PDF draw a region page as: seed, then the B2 nodes in schema order,
   then the B1 sections.** `--check` fails a build that drops any node. `_parse_region_fields`,
   `is_table_head` and `REGION_LABEL_RE` retire; `n=` means items only.
 
@@ -126,7 +133,7 @@ decisions; each has a recommendation, and the proposals assume it.
 
 **Depends on** D4.
 
-- [ ] **T1. A template's machine part is a ```kdl fence; its prose stays markdown**, as a
+- [x] **T1. A template's machine part is a ```kdl fence; its prose stays markdown**, as a
   schema's does. `kdl.py`'s strings are single-line, so instructions stay prose.
 
   ```kdl
@@ -137,20 +144,20 @@ decisions; each has a recommendation, and the proposals assume it.
   field Event reads="Encounter Challenge Seed.Rung"
   ```
 
-- [ ] **T2. Standing context is implied, never listed.** Every template reads `GENRE.md`,
+- [x] **T2. Standing context is implied, never listed.** Every template reads `GENRE.md`,
   `STYLE.md`, its `BRIEF.md` slice and `Common_Schema.md`; `template` names its scope
   (`setting` or `[Code]`). Retires 23 identical Context lines and 17 schema lines.
 
-- [ ] **T3. The output skeleton comes from the schema.** `--skeleton STEP` prints the shape
+- [x] **T3. The output skeleton comes from the schema.** `--skeleton STEP` prints the shape
   a step writes, from the `schema=` its template names. Each `## Template` block that
   restates a schema (1,562 words in `templates/setting/`) is cut; a template keeps a
   skeleton only for a shape no schema holds.
 
-- [ ] **T4. Per-field inputs.** A `field` line names the members it reads; `--read-set STEP
+- [x] **T4. Per-field inputs.** A `field` line names the members it reads; `--read-set STEP
   [Code]` resolves to files and members, and the writer reads that set, nothing more. A
   member a field reads that no schema defines is an error.
 
-- [ ] **T5. `templates/region/Tables.md` splits by step.** One `step` node per step
+- [x] **T5. `templates/region/Tables.md` splits by step.** One `step` node per step
   (4a Locations, 4b Connections and Blocks, 4c stubs, 5a fill, 5a locks), each with its own
   `writes`, `read` and `field` lines, so 4a reads no 5a input. Its prose sections follow the
   same split. One file still, per "one template per artifact type".
@@ -175,7 +182,7 @@ Each leaves the prose that carried it:
 
 ---
 
-## 5. Open decisions
+## 5. Open decisions - approved as recommended
 
 - **D1. Who writes the rosters.** (a) *Recommended*: code renders Inhabitants, Services,
   Loot, Alarm, Leads and Secrets (B1); the agent writes only B2. (b) The agent writes every
