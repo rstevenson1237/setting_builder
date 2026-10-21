@@ -24,7 +24,7 @@ FEET_RE = re.compile(r"-?\d+")
 PERCENT_SUM_RE = re.compile(r"\d+% of the sum")
 COIN_RE = re.compile(r"(\d+)(?:-(\d+))? cn")
 TIME_RE = re.compile(r"(\d+)(?:-(\d+))? ([A-Za-z]+)")
-RATING_TIME = {"SAFE": {"hour", "day", "week"}, "WILD": {"watch", "day"},
+RATING_TIME = {"SAFE": {"Round", "turn", "hour", "day", "week"}, "WILD": {"watch", "day"},
                "DANGEROUS": {"Round", "turn"}}      # the units each rating keeps time in, per Procedures.md
 DISTANCE_RE = re.compile(r"(-?\d+(?:\.\d+)?) (\w+)")   # negative: south or west
 
