@@ -10,5 +10,5 @@ Encounter E.6 doing="lounging and laughing on the ledge" reaction="Hostile; hams
 Encounter E.7 doing="lying along the overhang" reaction="Hostile; drop on the last in line" want="the tithe, collected" know="who goes up the fork" left="drag marks in dust" far="no sound at all" { Faction faction="The Zurnaz" present=2 members="bugbear lookouts hidden above" }
 Encounter E.9 doing="stationed at the landing with knives" reaction="Hostile; strike intruders, sound the gong" want="no one to climb unseen" know="who climbs" left="black candle stubs" far="chanting from above" { Faction faction="The Black Altar" present=3 members="acolytes in black robes with knives" }
 Encounter E.10 doing="asleep on its nest by day" reaction="Hostile; attack anything entering the cave" want="its kill left alone" left="torn feathers" far="hooting at night" { Creature bestiary="Owlbear" count=1 }
-Hazard E.11 type="Cliff/Climb" damage="Damaging" sign="crumbling edge"
+Hazard E.11 type="Cliff/Climb" damage="Damaging" test="Constitution" wound="Crushing" sign="crumbling edge"
 ```

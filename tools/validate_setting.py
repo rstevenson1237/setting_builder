@@ -793,6 +793,49 @@ def check_places(diag: Diagnostics, setting, brief):
                                                     f"states no place: bearing and distance, or north and east")
 
 
+def check_hazards(diag: Diagnostics, setting, brief):
+    """A Hazard's cost follows its Test: Constitution a `wound` the setting rolls, Fate a
+    `condition` Procedures.md names, Sanity neither. Its write-up cites that cost."""
+    lever = brief.lever("Procedures")
+    wounds = str(lever.props.get("wounds", "")).split() if lever else []
+    conditions = procedures_conditions()
+    count = {"Nuisance": 1, "Damaging": 2, "Lethal": 3}
+    for code, region in setting.regions.items():
+        for stem, entries in region.files.items():
+            path = region.dir / f"{stem}.md"
+            for entry in entries:
+                for h in (n for n in kdl.walk([entry]) if n.name == "Hazard"):
+                    where = f"{h.args[0] if h.args else entry.args[0]}"
+                    test, wound, cond = (h.props.get(k) for k in ("test", "wound", "condition"))
+                    cite = None
+                    if test == "Constitution":
+                        if not wound:
+                            diag.error(path, f"Hazard {where}: a Test of Constitution costs a wound")
+                        elif wound not in wounds:
+                            diag.error(path, f"Hazard {where}: wound {wound!r} is not among BRIEF.md's Procedures wounds, {' '.join(wounds)}")
+                        elif cond:
+                            diag.error(path, f"Hazard {where}: a Test of Constitution costs a wound, not a condition")
+                        else:
+                            cite = f"(Test of Constitution, {count.get(h.props.get('damage'), 0)}d, {wound})"
+                    elif test == "Fate":
+                        if not cond:
+                            diag.error(path, f"Hazard {where}: a Test of Fate costs a condition")
+                        elif wound:
+                            diag.error(path, f"Hazard {where}: a Test of Fate costs a condition, not a wound")
+                        else:
+                            if conditions is not None and cond not in conditions:
+                                diag.error(path, f"Hazard {where}: condition {cond!r} is not named in Procedures.md's Conditions")
+                            cite = f"(Test of Fate, {cond})"
+                    elif test == "Sanity":
+                        if wound or cond:
+                            diag.error(path, f"Hazard {where}: a Test of Sanity costs neither wound nor condition")
+                        diag.warn(path, f"Hazard {where}: a Test of Sanity is called for only by Chaos itself - confirm its source")
+                        cite = f"(Test of Sanity, {count.get(h.props.get('damage'), 0)}d)"
+                    writeup = region.dir / f"{entry.args[0].split('.')[1]}.md"
+                    if cite and writeup.exists() and cite not in writeup.read_text():
+                        diag.error(writeup, f"does not cite {cite}, which {where}'s Hazard states")
+
+
 def check_blocks(diag: Diagnostics, setting):
     """Every location of a region with Blocks.md is in exactly one block with a footprint
     and a route from its entrance, no room overlaps another, and no way within a block
@@ -1341,6 +1384,7 @@ def main() -> int:
     check_sheets(diag, brief)
     check_places(diag, setting, brief)
     check_blocks(diag, setting)
+    check_hazards(diag, setting, brief)
     check_reversals(diag, setting)
 
     # A location reached from the region itself is no part of the stated graph.

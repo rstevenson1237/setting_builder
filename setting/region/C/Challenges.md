@@ -6,6 +6,6 @@ Encounter C.2 doing="mending arrows round a fire" reaction="Wary; talk first, fi
 Encounter C.3 doing="tending a bean row" reaction="Wary; talks to travellers, gives nothing free" want="news of the realm" know="what the standing stones answer" left="herb bundles, worn path" far="a bell tolling" { NamedCreature named="Ansel the Hermit" presence="90%" }
 Encounter C.4 doing="denning in the cellar hole" reaction="Hostile; circle, then rush the weakest" want="their den undisturbed" left="gnawed bones" far="a howl at dusk" { Creature bestiary="Wolf" count=5 }
 Encounter C.5 doing="gathered at the stones by night" reaction="Hostile; strike from hiding, never parley" want="the tithe, paid in full" know="when each tribe's tithe is due" left="soot handprints on stones" far="no sound at all" { Faction faction="The Zurnaz" present=3 members="bugbears of the Zurnaz" }
-Hazard C.6 type="Bog/Quicksand" damage="Nuisance" sign="bubbling mud"
-Hazard C.7 type="Thorns" damage="Nuisance" sign="thorn cuttings, turned earth"
+Hazard C.6 type="Bog/Quicksand" damage="Nuisance" test="Fate" condition="Held" sign="bubbling mud"
+Hazard C.7 type="Thorns" damage="Nuisance" test="Constitution" wound="Piercing" sign="thorn cuttings, turned earth"
 ```

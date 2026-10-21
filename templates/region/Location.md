@@ -54,6 +54,7 @@ Written exactly as below, so `tools/build_site.py` can link them.
 - **Hoard** - `(Hoard: Name)`
 - **Local Procedure** - `(Local Procedure: Name)`
 - **Table roll** - `(Treasure [I-V], d[N])` or `(Magic, d[N])`, N the table's rolls
-- **Forced damage**, on every hazard Feature and every Mystery that asks a Test - `(Test of Constitution, Xd, Type)`,
+- **Forced damage**, on every hazard Feature, from its Hazard's `test`, `wound` or `condition`, and `damage`, and on
+  every Mystery that asks a Test - `(Test of Constitution, Xd, Type)`,
   `(Test of Sanity, Xd)` where `setting/Procedures.md` has a Madness table, or
   `(Test of Fate, Condition)`; X is the count of Tests
