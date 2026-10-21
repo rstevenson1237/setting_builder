@@ -1,0 +1,229 @@
+{
+  "cols": 40,
+  "rows": 42,
+  "gen": {
+    "rooms": 1,
+    "minSize": 3,
+    "maxSize": 8,
+    "caves": 0,
+    "round": 0,
+    "loops": 0,
+    "doors": 0,
+    "corridorWidth": 1,
+    "spacing": 2,
+    "entrance": false
+  },
+  "grid": {
+    "show": true,
+    "size": 2,
+    "sub": true,
+    "clip": "floor"
+  },
+  "style": {
+    "hatch": "band",
+    "band": 0.9,
+    "wall": 1
+  },
+  "scale": {
+    "perCell": 5,
+    "unit": "ft"
+  },
+  "numbers": true,
+  "scaleBar": true,
+  "compass": false,
+  "id": "M-c",
+  "version": 1,
+  "seed": 1,
+  "rooms": [
+    {
+      "id": "M-6",
+      "shape": "rect",
+      "x": 23.49,
+      "y": 32.6,
+      "w": 8,
+      "h": 1,
+      "label": "M.6 The Crypt Stair",
+      "number": 6,
+      "origin": "tables"
+    },
+    {
+      "id": "M-7",
+      "shape": "rect",
+      "x": 25.49,
+      "y": 15,
+      "w": 4,
+      "h": 12,
+      "label": "M.7 The Ossuary",
+      "number": 7,
+      "origin": "tables"
+    },
+    {
+      "id": "M-8",
+      "shape": "rect",
+      "x": 15.49,
+      "y": 14,
+      "w": 4,
+      "h": 14,
+      "label": "M.8 The Makers' Niches",
+      "number": 8,
+      "origin": "tables"
+    },
+    {
+      "id": "M-9",
+      "shape": "circle",
+      "x": 24.49,
+      "y": 8,
+      "w": 6,
+      "h": 6,
+      "label": "M.9 The Priests' Tomb",
+      "number": 9,
+      "origin": "tables"
+    },
+    {
+      "id": "M-13",
+      "shape": "rect",
+      "x": 8,
+      "y": 28.49,
+      "w": 2,
+      "h": 2,
+      "label": "M.13 The Passage Landing",
+      "number": 13,
+      "origin": "tables"
+    }
+  ],
+  "corridors": [
+    {
+      "from": {
+        "room": "M-6"
+      },
+      "to": {
+        "at": [
+          19.5,
+          33
+        ]
+      },
+      "width": 1,
+      "doors": [
+        null,
+        null
+      ],
+      "origin": "tables"
+    },
+    {
+      "from": {
+        "room": "M-13"
+      },
+      "to": {
+        "at": [
+          9,
+          40
+        ]
+      },
+      "width": 1,
+      "doors": [
+        null,
+        null
+      ],
+      "origin": "tables"
+    },
+    {
+      "from": {
+        "room": "M-9"
+      },
+      "to": {
+        "at": [
+          19.5,
+          11
+        ]
+      },
+      "width": 1,
+      "doors": [
+        "door",
+        null
+      ],
+      "origin": "tables"
+    },
+    {
+      "from": {
+        "room": "M-6"
+      },
+      "to": {
+        "room": "M-7"
+      },
+      "width": 1,
+      "origin": "tables",
+      "doors": [
+        null,
+        null
+      ]
+    },
+    {
+      "from": {
+        "room": "M-7"
+      },
+      "to": {
+        "room": "M-8"
+      },
+      "width": 1,
+      "origin": "tables",
+      "doors": [
+        null,
+        null
+      ]
+    },
+    {
+      "from": {
+        "room": "M-7"
+      },
+      "to": {
+        "room": "M-9"
+      },
+      "width": 1,
+      "origin": "tables",
+      "doors": [
+        "door",
+        "door"
+      ]
+    },
+    {
+      "from": {
+        "room": "M-13"
+      },
+      "to": {
+        "room": "M-8"
+      },
+      "width": 1,
+      "origin": "tables",
+      "doors": [
+        "door",
+        "secret"
+      ]
+    }
+  ],
+  "overlay": {
+    "labels": [
+      {
+        "text": "up to M.2",
+        "x": 19.5,
+        "y": 32,
+        "kind": "note",
+        "origin": "tables"
+      },
+      {
+        "text": "down to L.5",
+        "x": 9,
+        "y": 39,
+        "kind": "note",
+        "origin": "tables"
+      },
+      {
+        "text": "up to M.10",
+        "x": 19.5,
+        "y": 10,
+        "kind": "note",
+        "origin": "tables"
+      }
+    ],
+    "symbols": []
+  }
+}

@@ -6,10 +6,14 @@
   python3 tools/maps.py draw [--brief PATH] [--setting DIR] [--out DIR] [--fit WxH[mm|px]]
 
 place    Reads BRIEF.md's `sheet` lines and each region's `ground` and `place` lines, puts
-         each region's way in on the sheets that list it, gives it an area, and asks artgen
-         for terrain meeting the ground each area requires. Writes `setting/[Sheet].json`
-         per sheet and `setting/Sheets.md`. A request that cannot be met is reported by its
-         BRIEF.md line, and exits 1.
+         each region's way in on the sheets that list it - centred where no `place` names
+         it, and keeping its placed locations on the sheet - gives it an area reaching its
+         farthest location, and asks artgen for terrain meeting its ground at the way in
+         and at each location, where no other region's ground meets it. Every location is a
+         keyed mark on its home sheet; one a DANGEROUS region opens from is a cave mouth
+         keyed with that region too. Writes `setting/[Sheet].json` per sheet and
+         `setting/Sheets.md`. A request that cannot be met is reported by its BRIEF.md
+         line, and exits 1.
 ground   Reads each placed region's ground back from its home sheet and writes its
          `Ground.md`: the region's way in and terrain, the rivers, roads and hills in its
          area, and, once its Locations.md exists, the ground at each location. Run again
@@ -41,7 +45,9 @@ import tables                   # noqa: E402
 ARTGEN = Path(__file__).resolve().parent / "artgen" / "artgen-maps.js"
 FEET = {"feet": 1, "yards": 3, "miles": 5280}
 UNIT = {"feet": "ft", "yards": "yd", "miles": "mi"}
-SQUARES_PER_LOCATION = 4        # the ground one location needs, in squares
+SQUARES_PER_LOCATION = 4        # the ground one location needs, in squares, before its locations exist
+MARK = {"Ruin": "ruin", "Lair": "camp", "Gate": "gate"}   # a location's symbol by type, else a point
+LOCATION_GROUND = 1.5           # squares round a location its region's ground must cover
 GROUND_SHARE = 0.8              # the share of its area a region's ground must cover
 SEPARATION = 0.6                # two areas' centres lie at least this much of their radii apart
 BEARING_SLACK = 15              # degrees either side of a compass point
@@ -92,20 +98,32 @@ class Request:
         off = abs((math.degrees(math.atan2(dx, -dy)) - self.angle + 180) % 360 - 180)
         return far + d * math.radians(max(0.0, off - BEARING_SLACK))
 
+    def strain(self, a: tuple[float, float], b: tuple[float, float]) -> float:
+        """Squares between region `code` at a and the middle of its place from `of` at b."""
+        d = (self.lo + self.hi) / 2
+        r = math.radians(self.angle)
+        return math.dist(a, (b[0] + d * math.sin(r), b[1] - d * math.cos(r)))
+
     def said(self, a, b) -> str:
         dx, dy = a[0] - b[0], a[1] - b[1]
         return f"{math.hypot(dx, dy):.1f} squares at {math.degrees(math.atan2(dx, -dy)) % 360:.0f} degrees"
 
 
-def solve(sheet: Sheet, radius: dict[str, float], requests: list[Request]) -> list[str]:
-    """Positions for sheet.codes, in sheet.at, meeting every request and keeping the areas
-    apart. Returns what is unmet, empty when all is met."""
+def solve(sheet: Sheet, radius: dict[str, float], requests: list[Request],
+          spread: dict[str, list[tuple[float, float]]]) -> list[str]:
+    """Positions for sheet.codes, in sheet.at, meeting every request, keeping the areas
+    apart and every located place on the sheet. A region no request names is centred.
+    Returns what is unmet, empty when all is met."""
     rng = random.Random(1)
     codes = sheet.codes
+    reach = {c: [p for p in spread.get(c, [])] + [(sx * radius[c], sy * radius[c]) for sx in (-1, 1) for sy in (-1, 1)]
+             for c in codes}
+    lo = {c: (-min(p[0] for p in reach[c]), -min(p[1] for p in reach[c])) for c in codes}
+    hi = {c: (sheet.cols - 1 - max(p[0] for p in reach[c]), sheet.rows - 1 - max(p[1] for p in reach[c])) for c in codes}
 
     def clamp(code, x, y):
-        r = radius[code] + 1
-        return (min(max(x, r), sheet.cols - 1 - r), min(max(y, r), sheet.rows - 1 - r))
+        (x0, y0), (x1, y1) = lo[code], hi[code]
+        return (min(max(x, x0), x1) if x0 <= x1 else (x0 + x1) / 2, min(max(y, y0), y1) if y0 <= y1 else (y0 + y1) / 2)
 
     def cost(at):
         at = {c: (round(x), round(y)) for c, (x, y) in at.items()}   # judged as it will be written
@@ -134,8 +152,30 @@ def solve(sheet: Sheet, radius: dict[str, float], requests: list[Request]) -> li
             best, best_cost = dict(at), now
         if now < 1e-6:
             break
-    sheet.at = {c: (round(x), round(y)) for c, (x, y) in best.items()}
+    for c in codes:
+        if not any(c in (q.code, q.of) for q in requests):
+            best[c] = ((lo[c][0] + hi[c][0]) / 2, (lo[c][1] + hi[c][1]) / 2)
+    at = {c: (round(x), round(y)) for c, (x, y) in best.items()}
+    strain = lambda at: sum(q.strain(at[q.code], at[q.of]) for q in requests)
+    moved = True
+    while moved:                                  # then square by square toward each place's middle
+        moved = False
+        for c in codes:
+            for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1)):
+                was, now = at[c], (at[c][0] + dx, at[c][1] + dy)
+                if clamp(c, *now) != now:
+                    continue
+                before = (cost(at), strain(at))
+                at[c] = now
+                if cost(at) <= before[0] and strain(at) < before[1] - 1e-9:
+                    moved = True
+                else:
+                    at[c] = was
+    sheet.at = at
     out = []
+    for c in codes:
+        if lo[c][0] > hi[c][0] or lo[c][1] > hi[c][1]:
+            out.append(f"{c}'s locations do not fit on {sheet.name}")
     for q in requests:
         if q.miss(sheet.at[q.code], sheet.at[q.of]) > 0.5:
             out.append(f"line {q.node.line}: region {q.code} place {q.of} {q.node.args[1]} "
@@ -154,8 +194,18 @@ def artgen(*args) -> subprocess.CompletedProcess:
     return subprocess.run(["node", str(ARTGEN), *map(str, args)], capture_output=True, text=True)
 
 
-def map_file(sheet: Sheet, seed: int, names: dict, regions: dict, radius: dict, home: dict) -> dict:
+def map_file(sheet: Sheet, seed: int, names: dict, regions: dict, radius: dict, home: dict, spread: dict,
+             marks: list[tuple[float, float, str, str]]) -> dict:
     local = sheet.square <= LOCAL_SQUARE_FEET
+    circles = []                                  # (id, x, y, r, terrain): each area's ground
+    for code in sheet.codes:
+        ground = next((c for c in regions[code].children if c.name == "ground"), None)
+        if home[code] == sheet.name and ground:
+            x, y = sheet.at[code]
+            circles.append((f"{code}-ground", x, y, radius[code], str(ground.args[0])))
+            circles += [(f"{code}-ground-{i + 1}", round(x + dx, 1), round(y + dy, 1), LOCATION_GROUND, str(ground.args[0]))
+                        for i, (dx, dy) in enumerate(p for p in spread.get(code, []) if math.hypot(*p) > radius[code])]
+    clash = lambda a: any(b[4] != a[4] and math.dist(a[1:3], b[1:3]) < a[3] + b[3] + 2 for b in circles)
     m = {"id": sheet.name, "version": 1, "preset": "local" if local else "regional", "seed": seed,
          "cols": sheet.cols, "rows": sheet.rows, "grid": {"type": "square", "size": 1, "coords": not local},
          "scale": {"perCell": sheet.per_cell, "unit": UNIT[sheet.unit]},
@@ -170,11 +220,13 @@ def map_file(sheet: Sheet, seed: int, names: dict, regions: dict, radius: dict, 
                                         "origin": "tables"})
         m["overlay"]["labels"].append({"text": f"{code} {names.get(code, '')}".strip(), "x": x + 1.2,
                                        "y": y, "kind": "region" if area else "place", "origin": "tables"})
-        ground = next((c for c in regions[code].children if c.name == "ground"), None)
-        if area and ground:
-            m["require"].append({"id": f"{code}-ground", "kind": "terrain", "origin": "tables",
-                                 "area": {"circle": [x, y, radius[code]]},
-                                 "terrain": str(ground.args[0]), "share": GROUND_SHARE})
+    for x, y, kind, label in marks:
+        m["overlay"]["symbols"].append({"kind": kind, "x": x, "y": y, "origin": "tables"})
+        m["overlay"]["labels"].append({"text": label, "x": round(x + 0.8, 1), "y": y, "kind": "place", "origin": "tables"})
+    for c in circles:                             # a location's ground yields where another region's meets it
+        if c[0].endswith("-ground") or not clash(c):
+            m["require"].append({"id": c[0], "kind": "terrain", "origin": "tables", "area": {"circle": list(c[1:4])},
+                                 "terrain": c[4], "share": GROUND_SHARE})
     return m
 
 
@@ -231,15 +283,20 @@ def place(brief_path: Path, setting: Path) -> int:
     for code, node in brief.regions.items():
         n = tables.bounds(node.props.get("locations", 1))[1]
         radius[code] = max(3, math.ceil(math.sqrt(SQUARES_PER_LOCATION * n / math.pi)))
+    world = world_for(setting) if names else None
     unmet, table = [], []
     for sheet in sheets.values():
         rad = {c: (radius[c] if home[c] == sheet.name else 0) for c in sheet.codes}
+        spread = {c: located(world, c, sheet.square) for c in sheet.codes if home[c] == sheet.name}
+        area = {c: max([rad[c]] + [math.ceil(math.hypot(*p)) + 1 for p in spread.get(c, [])]) if rad[c] else 0
+                for c in sheet.codes}
         asks = [Request(c, p, sheet.square) for c in sheet.codes
                 for p in brief.regions[c].children if p.name == "place" and str(p.args[0]) in sheet.codes]
-        unmet += solve(sheet, rad, asks)
+        unmet += solve(sheet, rad, asks, spread)
         target = setting / f"{sheet.name}.json"
-        problems, sheet.seed = draw_sheet(sheet, target,
-                                    lambda seed, s=sheet: map_file(s, seed, names, brief.regions, rad, home))
+        marks = location_marks(world, sheet, home) if world else []
+        problems, sheet.seed = draw_sheet(sheet, target, lambda seed, s=sheet: map_file(
+            s, seed, names, brief.regions, rad, home, spread, marks))
         for p in problems:
             ground = brief.regions.get(p.split("-")[0])
             node = next((c for c in ground.children if c.name == "ground"), None) if ground else None
@@ -247,7 +304,7 @@ def place(brief_path: Path, setting: Path) -> int:
         for code in sheet.codes:
             x, y = sheet.at[code]
             table.append(f"| {sheet.name} {code} | {sheet.name} | {code} | {x},{y} | "
-                         f"{'circle, radius ' + str(rad[code]) + ' squares' if rad[code] else 'mark'} |")
+                         f"{'circle, radius ' + str(area[code]) + ' squares' if area[code] else 'mark'} |")
     title = "Sheets"
     if (reg := setting / "region" / "Regions.md").exists():
         first = reg.read_text().splitlines()[0]
@@ -294,6 +351,39 @@ def offset(node: kdl.Node) -> tuple[float, float] | None:
     except (ValueError, KeyError):
         return None
     return None
+
+
+def location_marks(world, sheet: Sheet, home: dict) -> list[tuple[float, float, str, str]]:
+    """Each location on its home sheet as a keyed mark; where a DANGEROUS region opens from
+    one, a cave mouth keyed with that region's code too."""
+    opens: dict[str, list[str]] = {}
+    for region in world.regions.values():
+        if region.rating.upper() == "DANGEROUS":
+            for n in region.files.get("Connections", []):
+                if n.args and str(n.props.get("to", "")).split(".")[0] != region.code:
+                    opens.setdefault(str(n.props["to"]), []).append(region.code)
+    out = []
+    for code in sheet.codes:
+        if home.get(code) != sheet.name or code not in world.regions:
+            continue
+        x0, y0 = sheet.at[code]
+        for loc, node in world.regions[code].locations().items():
+            if (o := offset(node)) is None:
+                continue
+            kind = "cave-mouth" if loc in opens else MARK.get(str(node.props.get("type")), "poi")
+            label = " ".join([loc] + sorted(set(opens.get(loc, []))))
+            out.append((round(x0 + o[0] / sheet.square, 1), round(y0 - o[1] / sheet.square, 1), kind, label))
+    return out
+
+
+def located(world, code: str, square: float) -> list[tuple[float, float]]:
+    """Each placed location of a region as squares east and south of its way in."""
+    region = world.regions.get(code) if world else None
+    out = []
+    for node in (region.locations().values() if region else []):
+        if (o := offset(node)) is not None:
+            out.append((o[0] / square, -o[1] / square))
+    return out
 
 
 def read_only(file: Path, *args) -> subprocess.CompletedProcess:

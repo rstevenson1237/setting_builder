@@ -1,0 +1,598 @@
+{
+  "cols": 123,
+  "rows": 132,
+  "gen": {
+    "land": "mixed",
+    "sea": 0.3,
+    "moisture": 0.5,
+    "roughness": 0.5,
+    "relief": 0.5,
+    "rivers": 3,
+    "simplify": 3,
+    "feature": 10
+  },
+  "topo": {
+    "maxElevation": 600,
+    "interval": 50,
+    "majorEvery": 4,
+    "unit": "ft",
+    "labels": false
+  },
+  "grid": {
+    "type": "square",
+    "size": 1,
+    "coords": true
+  },
+  "scale": {
+    "perCell": 200,
+    "unit": "yd"
+  },
+  "legend": true,
+  "scaleBar": true,
+  "compass": true,
+  "id": "Frontier",
+  "version": 1,
+  "preset": "regional",
+  "seed": 1,
+  "edits": [],
+  "overlay": {
+    "labels": [
+      {
+        "text": "A Roadsend Keep",
+        "x": 112.2,
+        "y": 121,
+        "kind": "place",
+        "origin": "tables"
+      },
+      {
+        "text": "B The Wagon Road",
+        "x": 109.2,
+        "y": 121,
+        "kind": "region",
+        "origin": "tables"
+      },
+      {
+        "text": "C The Dark Wood",
+        "x": 114.2,
+        "y": 118,
+        "kind": "region",
+        "origin": "tables"
+      },
+      {
+        "text": "D The Black Mere",
+        "x": 65.2,
+        "y": 121,
+        "kind": "region",
+        "origin": "tables"
+      },
+      {
+        "text": "E The Ravine",
+        "x": 114.2,
+        "y": 12,
+        "kind": "place",
+        "origin": "tables"
+      },
+      {
+        "text": "B.1",
+        "x": 3.2,
+        "y": 121,
+        "kind": "place",
+        "origin": "tables"
+      },
+      {
+        "text": "B.2",
+        "x": 56,
+        "y": 121,
+        "kind": "place",
+        "origin": "tables"
+      },
+      {
+        "text": "B.3",
+        "x": 82.4,
+        "y": 121,
+        "kind": "place",
+        "origin": "tables"
+      },
+      {
+        "text": "B.4",
+        "x": 12,
+        "y": 121,
+        "kind": "place",
+        "origin": "tables"
+      },
+      {
+        "text": "B.5",
+        "x": 64.8,
+        "y": 121,
+        "kind": "place",
+        "origin": "tables"
+      },
+      {
+        "text": "C.1",
+        "x": 113.8,
+        "y": 12.4,
+        "kind": "place",
+        "origin": "tables"
+      },
+      {
+        "text": "C.2",
+        "x": 82.7,
+        "y": 86.9,
+        "kind": "place",
+        "origin": "tables"
+      },
+      {
+        "text": "C.3",
+        "x": 122.6,
+        "y": 56.4,
+        "kind": "place",
+        "origin": "tables"
+      },
+      {
+        "text": "C.4",
+        "x": 113.8,
+        "y": 47.6,
+        "kind": "place",
+        "origin": "tables"
+      },
+      {
+        "text": "C.5",
+        "x": 113.8,
+        "y": 91.6,
+        "kind": "place",
+        "origin": "tables"
+      },
+      {
+        "text": "C.6",
+        "x": 69.8,
+        "y": 91.6,
+        "kind": "place",
+        "origin": "tables"
+      },
+      {
+        "text": "C.7",
+        "x": 76.5,
+        "y": 80.7,
+        "kind": "place",
+        "origin": "tables"
+      },
+      {
+        "text": "D.1",
+        "x": 64.8,
+        "y": 94.6,
+        "kind": "place",
+        "origin": "tables"
+      },
+      {
+        "text": "D.2",
+        "x": 67,
+        "y": 103.4,
+        "kind": "place",
+        "origin": "tables"
+      },
+      {
+        "text": "D.3",
+        "x": 77.2,
+        "y": 108.6,
+        "kind": "place",
+        "origin": "tables"
+      },
+      {
+        "text": "D.4",
+        "x": 73.6,
+        "y": 116.6,
+        "kind": "place",
+        "origin": "tables"
+      },
+      {
+        "text": "D.5",
+        "x": 62.6,
+        "y": 99,
+        "kind": "place",
+        "origin": "tables"
+      }
+    ],
+    "symbols": [
+      {
+        "kind": "castle",
+        "x": 111,
+        "y": 121,
+        "origin": "tables"
+      },
+      {
+        "kind": "poi",
+        "x": 108,
+        "y": 121,
+        "origin": "tables"
+      },
+      {
+        "kind": "poi",
+        "x": 113,
+        "y": 118,
+        "origin": "tables"
+      },
+      {
+        "kind": "poi",
+        "x": 64,
+        "y": 121,
+        "origin": "tables"
+      },
+      {
+        "kind": "poi",
+        "x": 113,
+        "y": 12,
+        "origin": "tables"
+      },
+      {
+        "kind": "poi",
+        "x": 2.4,
+        "y": 121,
+        "origin": "tables"
+      },
+      {
+        "kind": "poi",
+        "x": 55.2,
+        "y": 121,
+        "origin": "tables"
+      },
+      {
+        "kind": "ruin",
+        "x": 81.6,
+        "y": 121,
+        "origin": "tables"
+      },
+      {
+        "kind": "ruin",
+        "x": 11.2,
+        "y": 121,
+        "origin": "tables"
+      },
+      {
+        "kind": "poi",
+        "x": 64,
+        "y": 121,
+        "origin": "tables"
+      },
+      {
+        "kind": "poi",
+        "x": 113,
+        "y": 12.4,
+        "origin": "tables"
+      },
+      {
+        "kind": "camp",
+        "x": 81.9,
+        "y": 86.9,
+        "origin": "tables"
+      },
+      {
+        "kind": "camp",
+        "x": 121.8,
+        "y": 56.4,
+        "origin": "tables"
+      },
+      {
+        "kind": "ruin",
+        "x": 113,
+        "y": 47.6,
+        "origin": "tables"
+      },
+      {
+        "kind": "poi",
+        "x": 113,
+        "y": 91.6,
+        "origin": "tables"
+      },
+      {
+        "kind": "poi",
+        "x": 69,
+        "y": 91.6,
+        "origin": "tables"
+      },
+      {
+        "kind": "poi",
+        "x": 75.7,
+        "y": 80.7,
+        "origin": "tables"
+      },
+      {
+        "kind": "poi",
+        "x": 64,
+        "y": 94.6,
+        "origin": "tables"
+      },
+      {
+        "kind": "camp",
+        "x": 66.2,
+        "y": 103.4,
+        "origin": "tables"
+      },
+      {
+        "kind": "ruin",
+        "x": 76.4,
+        "y": 108.6,
+        "origin": "tables"
+      },
+      {
+        "kind": "poi",
+        "x": 72.8,
+        "y": 116.6,
+        "origin": "tables"
+      },
+      {
+        "kind": "poi",
+        "x": 61.8,
+        "y": 99,
+        "origin": "tables"
+      }
+    ]
+  },
+  "require": [
+    {
+      "id": "B-ground",
+      "kind": "terrain",
+      "origin": "tables",
+      "area": {
+        "circle": [
+          108,
+          121,
+          3
+        ]
+      },
+      "terrain": "grass",
+      "share": 0.8
+    },
+    {
+      "id": "B-ground-1",
+      "kind": "terrain",
+      "origin": "tables",
+      "area": {
+        "circle": [
+          2.4,
+          121,
+          1.5
+        ]
+      },
+      "terrain": "grass",
+      "share": 0.8
+    },
+    {
+      "id": "B-ground-2",
+      "kind": "terrain",
+      "origin": "tables",
+      "area": {
+        "circle": [
+          55.2,
+          121,
+          1.5
+        ]
+      },
+      "terrain": "grass",
+      "share": 0.8
+    },
+    {
+      "id": "B-ground-3",
+      "kind": "terrain",
+      "origin": "tables",
+      "area": {
+        "circle": [
+          81.6,
+          121,
+          1.5
+        ]
+      },
+      "terrain": "grass",
+      "share": 0.8
+    },
+    {
+      "id": "B-ground-4",
+      "kind": "terrain",
+      "origin": "tables",
+      "area": {
+        "circle": [
+          11.2,
+          121,
+          1.5
+        ]
+      },
+      "terrain": "grass",
+      "share": 0.8
+    },
+    {
+      "id": "C-ground",
+      "kind": "terrain",
+      "origin": "tables",
+      "area": {
+        "circle": [
+          113,
+          118,
+          3
+        ]
+      },
+      "terrain": "forest",
+      "share": 0.8
+    },
+    {
+      "id": "C-ground-1",
+      "kind": "terrain",
+      "origin": "tables",
+      "area": {
+        "circle": [
+          113,
+          12.4,
+          1.5
+        ]
+      },
+      "terrain": "forest",
+      "share": 0.8
+    },
+    {
+      "id": "C-ground-2",
+      "kind": "terrain",
+      "origin": "tables",
+      "area": {
+        "circle": [
+          81.9,
+          86.9,
+          1.5
+        ]
+      },
+      "terrain": "forest",
+      "share": 0.8
+    },
+    {
+      "id": "C-ground-3",
+      "kind": "terrain",
+      "origin": "tables",
+      "area": {
+        "circle": [
+          121.8,
+          56.4,
+          1.5
+        ]
+      },
+      "terrain": "forest",
+      "share": 0.8
+    },
+    {
+      "id": "C-ground-4",
+      "kind": "terrain",
+      "origin": "tables",
+      "area": {
+        "circle": [
+          113,
+          47.6,
+          1.5
+        ]
+      },
+      "terrain": "forest",
+      "share": 0.8
+    },
+    {
+      "id": "C-ground-5",
+      "kind": "terrain",
+      "origin": "tables",
+      "area": {
+        "circle": [
+          113,
+          91.6,
+          1.5
+        ]
+      },
+      "terrain": "forest",
+      "share": 0.8
+    },
+    {
+      "id": "C-ground-6",
+      "kind": "terrain",
+      "origin": "tables",
+      "area": {
+        "circle": [
+          69,
+          91.6,
+          1.5
+        ]
+      },
+      "terrain": "forest",
+      "share": 0.8
+    },
+    {
+      "id": "C-ground-7",
+      "kind": "terrain",
+      "origin": "tables",
+      "area": {
+        "circle": [
+          75.7,
+          80.7,
+          1.5
+        ]
+      },
+      "terrain": "forest",
+      "share": 0.8
+    },
+    {
+      "id": "D-ground",
+      "kind": "terrain",
+      "origin": "tables",
+      "area": {
+        "circle": [
+          64,
+          121,
+          3
+        ]
+      },
+      "terrain": "marsh",
+      "share": 0.8
+    },
+    {
+      "id": "D-ground-1",
+      "kind": "terrain",
+      "origin": "tables",
+      "area": {
+        "circle": [
+          64,
+          94.6,
+          1.5
+        ]
+      },
+      "terrain": "marsh",
+      "share": 0.8
+    },
+    {
+      "id": "D-ground-2",
+      "kind": "terrain",
+      "origin": "tables",
+      "area": {
+        "circle": [
+          66.2,
+          103.4,
+          1.5
+        ]
+      },
+      "terrain": "marsh",
+      "share": 0.8
+    },
+    {
+      "id": "D-ground-3",
+      "kind": "terrain",
+      "origin": "tables",
+      "area": {
+        "circle": [
+          76.4,
+          108.6,
+          1.5
+        ]
+      },
+      "terrain": "marsh",
+      "share": 0.8
+    },
+    {
+      "id": "D-ground-4",
+      "kind": "terrain",
+      "origin": "tables",
+      "area": {
+        "circle": [
+          72.8,
+          116.6,
+          1.5
+        ]
+      },
+      "terrain": "marsh",
+      "share": 0.8
+    },
+    {
+      "id": "D-ground-5",
+      "kind": "terrain",
+      "origin": "tables",
+      "area": {
+        "circle": [
+          61.8,
+          99,
+          1.5
+        ]
+      },
+      "terrain": "marsh",
+      "share": 0.8
+    }
+  ]
+}

@@ -1,0 +1,230 @@
+{
+  "cols": 53,
+  "rows": 52,
+  "gen": {
+    "rooms": 1,
+    "minSize": 3,
+    "maxSize": 8,
+    "caves": 0,
+    "round": 0,
+    "loops": 0,
+    "doors": 0,
+    "corridorWidth": 1,
+    "spacing": 2,
+    "entrance": false
+  },
+  "grid": {
+    "show": true,
+    "size": 2,
+    "sub": true,
+    "clip": "floor"
+  },
+  "style": {
+    "hatch": "band",
+    "band": 0.9,
+    "wall": 1
+  },
+  "scale": {
+    "perCell": 5,
+    "unit": "ft"
+  },
+  "numbers": true,
+  "scaleBar": true,
+  "compass": false,
+  "id": "G-a",
+  "version": 1,
+  "seed": 1,
+  "rooms": [
+    {
+      "id": "G-1",
+      "shape": "cave",
+      "x": 36.14,
+      "y": 20,
+      "w": 8,
+      "h": 4,
+      "label": "G.1 The Kennel Mouth",
+      "number": 1,
+      "origin": "tables"
+    },
+    {
+      "id": "G-2",
+      "shape": "cave",
+      "x": 17.14,
+      "y": 13,
+      "w": 18,
+      "h": 18,
+      "label": "G.2 The Main Cavern",
+      "number": 2,
+      "origin": "tables"
+    },
+    {
+      "id": "G-3",
+      "shape": "rect",
+      "x": 24.14,
+      "y": 32,
+      "w": 4,
+      "h": 12,
+      "label": "G.3 The Loot Hall",
+      "number": 3,
+      "origin": "tables"
+    },
+    {
+      "id": "G-4",
+      "shape": "rect",
+      "x": 23.14,
+      "y": 8,
+      "w": 6,
+      "h": 4,
+      "label": "G.4 The Tribute Pens",
+      "number": 4,
+      "origin": "tables"
+    },
+    {
+      "id": "G-5",
+      "shape": "rect",
+      "x": 11.64,
+      "y": 20.8,
+      "w": 5,
+      "h": 2.4,
+      "label": "G.5 The Goblin Stores",
+      "number": 5,
+      "origin": "tables"
+    },
+    {
+      "id": "G-6",
+      "shape": "cave",
+      "x": 8,
+      "y": 32.14,
+      "w": 8,
+      "h": 8,
+      "label": "G.6 The Boss's Cave",
+      "number": 6,
+      "origin": "tables"
+    }
+  ],
+  "corridors": [
+    {
+      "from": {
+        "room": "G-1"
+      },
+      "to": {
+        "at": [
+          44.1,
+          22
+        ]
+      },
+      "width": 1,
+      "doors": [
+        null,
+        null
+      ],
+      "origin": "tables"
+    },
+    {
+      "from": {
+        "room": "G-5"
+      },
+      "to": {
+        "at": [
+          14.1,
+          1
+        ]
+      },
+      "width": 1,
+      "doors": [
+        "secret",
+        null
+      ],
+      "origin": "tables"
+    },
+    {
+      "from": {
+        "room": "G-1"
+      },
+      "to": {
+        "room": "G-2"
+      },
+      "width": 1,
+      "origin": "tables",
+      "doors": [
+        null,
+        null
+      ]
+    },
+    {
+      "from": {
+        "room": "G-2"
+      },
+      "to": {
+        "room": "G-3"
+      },
+      "width": 1,
+      "origin": "tables",
+      "doors": [
+        null,
+        null
+      ]
+    },
+    {
+      "from": {
+        "room": "G-2"
+      },
+      "to": {
+        "room": "G-4"
+      },
+      "width": 1,
+      "origin": "tables",
+      "doors": [
+        "door",
+        "door"
+      ]
+    },
+    {
+      "from": {
+        "room": "G-2"
+      },
+      "to": {
+        "room": "G-5"
+      },
+      "width": 1,
+      "origin": "tables",
+      "doors": [
+        "door",
+        "door"
+      ]
+    },
+    {
+      "from": {
+        "room": "G-2"
+      },
+      "to": {
+        "room": "G-6"
+      },
+      "width": 1,
+      "origin": "tables",
+      "doors": [
+        "door",
+        "door"
+      ]
+    }
+  ],
+  "overlay": {
+    "labels": [
+      {
+        "text": "to E.3",
+        "x": 44.1,
+        "y": 21,
+        "kind": "note",
+        "origin": "tables"
+      },
+      {
+        "text": "to H.5",
+        "x": 14.1,
+        "y": 0,
+        "kind": "note",
+        "origin": "tables"
+      }
+    ],
+    "symbols": []
+  }
+}
