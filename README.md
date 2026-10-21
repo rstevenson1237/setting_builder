@@ -32,12 +32,13 @@ Read these rather than a description of them.
 ## Directories
 
 - `templates/` - one template per artifact type, each structured **Purpose / Context /
-  Instructions / Template**, in folders `setting/`, `region/`, `safe/`, `wild/` and `dangerous/`, plus `checks/` for the
-  judgement checks. A template is cited by its path, folder included. A template's own Context section lists exactly which files to
-  read before drafting; don't pull in more than it names.
+  Instructions**, and **Template** where no schema gives its shape, in folders `setting/` and
+  `region/`, plus `checks/` for the judgement checks. A template is cited by its path, folder
+  included. A template's Context is a KDL fence naming exactly what it reads, down to the
+  members a field reads; don't pull in more than it names.
 - `patterns/` - the KDL schemas, mirroring `setting/`: `Common_Schema.md` (the value
   types every field is written in), `Setting_Schema.md` (every setting file's fields),
-  `Region_Schema.md` (each rating's region `seed` and `brief`), and one per rating
+  `Region_Schema.md` (each rating's region `seed`, `brief` and `drawn`), and one per rating
   (`Safe_Schema.md`, `Wild_Schema.md`, `Dangerous_Schema.md`) defining its location tables
   and every node they hold, shared with no other rating.
 - `setting/` - the generated setting, mirroring the template set in the order STEPS.md lays
@@ -45,9 +46,9 @@ Read these rather than a description of them.
   (`Procedures.md`, `Language.md`), the registries (`Lore.md`, `Keys.md`, `Quests.md`,
   `NamedCreatures.md`, `UniqueTreasures.md`, `LocalProcedures.md`), and `region/`, holding the Regional Gazetteer
   and one folder per region.
-- `setting/region/[Code]/` - one region: the table files its rating's schema names, one `[LocationCode].md` per location, written from the
-  tables, and its `Brief.md`, written last. The region's seed sits beside it at
-  `setting/region/[Code].md`.
+- `setting/region/[Code]/` - one region: its seed, `Seed.md`, the table files its rating's
+  schema names, and one `[LocationCode].md` per location, written from the tables. Its
+  brief sits beside it at `setting/region/[Code].md`, written last.
 - `setting/checks/` - output of the judgement checks (STEPS.md step 6): non-mechanical
   review passes `tools/validate_setting.py` can't do, following the checklist format in
   the matching `templates/checks/*_Judgement_Check.md`. Nested under `setting/` so wiping the
@@ -78,6 +79,7 @@ Read these rather than a description of them.
     which the site and PDF builders embed.
   - `kdl.py` - the KDL subset the location tables are written in.
   - `tables.py` - reads every region's tables and checks them against its rating's schema.
+  - `templates.py` - reads each template's Context fence: what a step reads and the shape of what it writes.
   - `schema_graph.py` - reads `patterns/` as a graph of definitions, each name on a line resolved to the definition it names; `patterns.html` is drawn from it.
 
 ## Commands
@@ -86,7 +88,8 @@ Read these rather than a description of them.
 python3 tools/validate_setting.py           # structural lint
 python3 tools/validate_setting.py --pending [REGION]    # what each step still owes
 python3 tools/validate_setting.py --location CODE       # one location's entries, and those naming it
-python3 tools/validate_setting.py --read-set [STEP]     # what a step reads, per the graph
+python3 tools/validate_setting.py --read-set [STEP]     # what a step reads, per its templates' fences
+python3 tools/validate_setting.py --skeleton STEP [REGION]   # the shape of what a step writes
 python3 tools/validate_setting.py --brief setting|REGION # BRIEF.md as a setting or region step reads it
 python3 tools/metrics.py                    # corpus, tells, budget and read-set report
 python3 tools/metrics.py --tells [PATH]     # every tell hit, listed, over any markdown
