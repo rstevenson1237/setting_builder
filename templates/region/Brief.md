@@ -18,7 +18,8 @@ Write every field of the rating's `brief`, in its order, from the tables alone. 
 entry is cited as `(Named Creature: Name)`, `(Faction: Name)` or `(Local Procedure: Name)`.
 Every fact about a location names it by code; a count is summed from the entries. Layout
 is written beside the region's maps and `Ground.md`, and says only what they cannot. A fact no entry holds
-is an entry to add to the tables, not a line here. Nothing the seed says is repeated, unless a field folds it in.
+is an entry to add to the tables, not a line here. A DANGEROUS Alarm
+names who comes from where and when from the Encounters' `answers`, and that none come where one has none. Nothing the seed says is repeated, unless a field folds it in.
 
 ## Template
 ```

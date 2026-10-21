@@ -38,6 +38,7 @@ node Encounter {
   one-of Creature NamedCreature Faction
   doing string
   reaction Reaction
+  answers time opt          // how soon it reaches an alarm raised elsewhere in its region, in turns or Rounds; unset, it does not come
   want string opt
   know string opt
   left gloss opt
