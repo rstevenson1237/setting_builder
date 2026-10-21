@@ -71,6 +71,9 @@ dangerous {
 // -- This setting --------------------------------------------------------------
 
 setting {
+  sheet Frontier square="200 yards" extent="14 by 15 miles" regions="A B C D E"
+  sheet Ravine square="10 yards" extent="200 by 400 yards" regions="E"
+  sheet Keep square="10 feet" extent="220 by 180 yards" regions="A"
   test "Keep on the Borderlands in play, not in text, built fresh by the framework and transcribed from nothing: a party outfits at a safe keep, walks half a day to a ravine of lairs, picks which to try, retreats to heal and sell, and comes back. The lairs hate one another and can be played against one another, and all of them pay a shrine at the ravine's head. Every location type, procedure kind and registry the framework has is used at least once."
   outline "One frontier, crossed in a day: a keep at the end of the road from the realm; between it and the hills a wood, a mere and the road itself; in the hills a ravine whose walls hold six tribes' lairs and a maze, and above the maze a shrine."
   pressure "Chaos is gathering in the ravine. Tribes that fought one another for years now pay the shrine's priests, and the road is where the keep first feels it: wagons lost, patrols back short. Nobody at the keep knows how many raiders there are or who commands them. The priests have two agents inside the keep."
@@ -114,6 +117,7 @@ setting {
 }
 
 region A rating=SAFE die=d8 locations=13 people=18 {
+  ground grass "a low rise cleared round the walls, the road arriving from the west and the wood's edge to the north-east"
   outline "The keep: a hold at the road's end - the main gate on the road and a postern toward the wood, an inn and a tavern, a trader and a smith, a moneychanger, a market in the outer yard, the chapel of Law, the commander's hall and the barracks, and two places kept hidden: the cellar where the cult's two agents meet, and the commander's sally tunnel. A party outfits, hires and sells here, and hears the rumours."
   target Location.type Gate=2 Inn=2 Merchant=2 Bank=1 Market=1 Authority=3 Secret=2
   target Garrison of=Authority "67%"
@@ -123,24 +127,32 @@ region A rating=SAFE die=d8 locations=13 people=18 {
 }
 
 region B rating=WILD die=d8 locations=5 {
+  ground grass "open grass and scrub either side of the road, a stream crossing it at the ford"
+  place A west "0.25-0.5 miles"
   outline "The wagon road: the realm's road to the keep gate, open country where the fortnightly wagon is the only safe company - a toll post, a ford, the milestone where the last wagons were lost, a roadside shrine of Law. It leaves the map toward the realm, and meets the mere's causeway and the wood path."
   target Location.type Landmark=4 Route=1
   procedure "Travelling with the fortnightly wagon."
 }
 
 region C rating=WILD die=d6 locations=7 {
+  ground forest "old wood rising north toward the hills"
+  place A north-east "0.25-0.75 miles"
   outline "The Dark Wood: forest between the keep and the ravine; the forest trail from the postern to the ravine's mouth is three watches' walk. In it: the outlaws' camp, a hermit's clearing, a watchtower older than the keep, a ring of standing stones, and the outlaws' hidden cache."
   target Location.type Landmark=5 Route=1 Hidden=1
   procedure "Forage and hunt in the wood."
 }
 
 region D rating=WILD die=d6 locations=5 {
+  ground marsh "open water, reed beds and sinking flats north of the road"
+  place B west "5 miles"
   outline "The Black Mere: marsh beside the road, crossed by a causeway the lizard-folk allow and a pole-boat route they do not. In it: the lizard-folk's stilt village, a drowned shrine of the makers, a sinking flat, and a dry island hidden in the reeds. It joins the road and the wood."
   target Location.type Landmark=3 Route=1 Hidden=1
   procedure "Crossing by causeway or pole boat."
 }
 
 region E rating=WILD die=d6 locations=12 {
+  ground rock "a stream cut between steep rock walls, the hills above"
+  place C north "12 miles"
   outline "The ravine: a stream cut through the hills, entered from the wood and climbing to its head. West wall from the mouth up: the kobold, goblin and orc caves. East wall from the mouth up: the hobgoblin and gnoll caves, then a dry fork holding the bugbear den. At the head: the maze in the cliff's foot and the stair up to the shrine. An owlbear's lair is on the east rim. Each mouth is a ledge a tribe watches. Goblins and orcs are neighbours and enemies; so are hobgoblins and gnolls."
   target Location.type Landmark=9 Route=1 Hidden=1 Secret=1
   procedure "Watching the cave mouths from the rim."
