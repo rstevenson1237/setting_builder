@@ -831,7 +831,8 @@ def check_listed_prices(diag: Diagnostics, setting):
 
 def check_numbers(diag: Diagnostics, setting, schema):
     """In a single holding, the count of a creature - its Encounters' `count`, and the `present`
-    of each Faction whose Fields name it - lies within the Bestiary's Numbers."""
+    of each Faction whose Fields name it alone - lies within the Bestiary's Numbers. A faction
+    naming several creatures states no split, so its `present` counts toward none."""
     path = SETTING / "Bestiary.md"
     numbers = {t: tables.bounds(v["Numbers"]) for t, _, v in tables.setting_entries(schema, "Bestiary") or []
                if v.get("Numbers")}
@@ -848,7 +849,8 @@ def check_numbers(diag: Diagnostics, setting, schema):
                     if n.name == "Creature":
                         names, num = [str(n.props.get("bestiary"))], n.props.get("count")
                     elif n.name in ("Faction", "Garrison"):
-                        names = [c for c in fields.get(str(n.props.get("faction")), [])]
+                        names = fields.get(str(n.props.get("faction")), [])
+                        names = names if len(names) == 1 else []
                         num = n.props.get("present")
                     else:
                         continue

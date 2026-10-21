@@ -140,7 +140,8 @@ sheet-maps adds `feet`, `distance`, `Compass` and `Distance_Unit` (its `spec.md`
   `Numbers number opt`, and the count leaves `Range`.
   - Check, as a warning: in a DANGEROUS region of `Kind` single holding, the count of that
     creature across its Encounters, plus the `present` of each Faction whose `Fields` name
-    it, lies within `Numbers`. F holds 2 kobolds, 20 of the Gubak and Nib, against a
+    it alone, lies within `Numbers`. A setting-level faction states no count, so one
+    naming several creatures splits nothing; the region's entries count what they hold. F holds 2 kobolds, 20 of the Gubak and Nib, against a
     Bestiary's "thirty or so": close enough here, and the check would show it.
   - Cost: 11 Bestiary entries.
 
