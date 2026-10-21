@@ -428,12 +428,11 @@ def _opens_with(v: str, items) -> bool:
                for i in items)
 
 
-def check_field(schema: Schema, m: Member, v: str, codes: set[str], enums: dict | None = None):
-    """Yield what is wrong with one field's value. An enum field opens with an item; a
-    list enum lists items before any ` - `."""
-    enums = schema.setting_enums if enums is None else enums
-    if m.none and _opens_with(v, ["none"]):
-        return
+def value_problems(m: Member, v: str, enums: dict, words: dict):
+    """Yield what is wrong with one value of a type that needs no context: an enum, whose
+    field opens with an item and may go on after ` - ` (a list enum lists items before any
+    ` - `), a number, a dice roll, a percentage, feet or a distance, or a word-limited line.
+    Both the setting's entries and the regions' tables are checked here."""
     if m.type in enums:
         items = enums[m.type]
         if m.is_list:
@@ -451,6 +450,9 @@ def check_field(schema: Schema, m: Member, v: str, codes: set[str], enums: dict 
     elif m.type in ("feet", "distance"):
         if msg := unit_problem(m.type, v, enums):
             yield msg
+    elif m.type == "percent":
+        if not PERCENT_RE.fullmatch(v) or int(v[:-1]) > 100:
+            yield f"{v!r} is not a percentage"
     elif m.type == "dice":
         d = DICE_RE.fullmatch(v)
         if not d:
@@ -462,7 +464,19 @@ def check_field(schema: Schema, m: Member, v: str, codes: set[str], enums: dict 
         lo, _, hi = str(m.props.get("bonus", "")).partition("..")
         if hi and not int(lo) <= bonus <= int(hi):
             yield f"bonus {bonus:+d} is outside {lo}..{hi}"
-    elif m.type == "place":
+    elif m.type in words:
+        if not v.strip():
+            yield "empty"
+        elif len(v.split()) > words[m.type]:
+            yield f"{len(v.split())} words - a {m.type} is at most {words[m.type]}"
+
+
+def check_field(schema: Schema, m: Member, v: str, codes: set[str], enums: dict | None = None):
+    """Yield what is wrong with one setting entry's field value."""
+    enums = schema.setting_enums if enums is None else enums
+    if m.none and _opens_with(v, ["none"]):
+        return
+    if m.type == "place":
         p = PLACE_RE.match(v)
         if not p:
             yield f"{v[:30]!r} opens with no location code" + (" or none" if m.none else "")
@@ -475,8 +489,8 @@ def check_field(schema: Schema, m: Member, v: str, codes: set[str], enums: dict 
             have = set().union(*(titles(ROOT / schema.tables[t][1]) or set() for t in m.args))
             if x not in have:
                 yield f"{x!r} is on none of {', '.join(m.args)}"
-    elif m.type in schema.words and len(v.split()) > schema.words[m.type]:
-        yield f"{len(v.split())} words - a {m.type} is at most {schema.words[m.type]}"
+    else:
+        yield from value_problems(m, v, enums, schema.words if schema else {})
 
 
 @dataclass
@@ -818,37 +832,23 @@ class Setting:
                 yield from self._check_node(r, c, f"{within}{c.name}.")
 
     def _check_value(self, r: Region, m: Member, v):
-        items = [x.strip() for x in str(v).split(",")] if m.is_list else [v]
+        enums, text = r.folder.enums, str(v)
+        head = text.split(" - ")[0] if m.is_list and m.type in enums else text
+        items = [x.strip() for x in head.split(",")] if m.is_list else [text]
         if m.n and len(items) != m.n:
             yield "error", f"{len(items)} items - expected {m.n}"
-        for x in items:
-            s = str(x)
-            if m.type in self.schema.words:
-                if not s.strip():
-                    yield "error", "empty"
-                elif len(s.split()) > self.schema.words[m.type]:
-                    yield "error", f"{len(s.split())} words in {s!r} - a {m.type} is at most {self.schema.words[m.type]}"
-            elif m.type == "number":
-                b = bounds(s)
-                if b is None:
-                    yield "error", f"{s!r} is not N or N-M"
-            elif m.type in ("feet", "distance"):
-                if msg := unit_problem(m.type, s, r.folder.enums):
-                    yield "error", msg
-            elif m.type == "percent":
-                if not PERCENT_RE.fullmatch(s) or int(s[:-1]) > 100:
-                    yield "error", f"{s!r} is not a percentage"
-            elif m.type == "location":
+        for s in [text] if m.type in enums else items:
+            if m.type == "location":
                 if s not in self.codes:
                     yield "error", f"{s!r} is not a location code"
             elif m.type == "kind":
-                if s not in r.folder.enums[r.folder.type]:
-                    yield "error", f"{s!r} is not one of {', '.join(r.folder.enums[r.folder.type])}"
+                if s not in enums[r.folder.type]:
+                    yield "error", f"{s!r} is not one of {', '.join(enums[r.folder.type])}"
             elif m.type == "entry":
                 yield from self._check_title(m.arg, s)
             elif m.type == "pull":
                 table, _, title = s.partition(": ")
-                if table not in r.folder.enums[m.arg]:
+                if table not in enums[m.arg]:
                     yield "error", f"{s!r} names no table in {m.arg}"
                 elif (self.schema.tables[table][0] == "entry") != bool(title):
                     yield "error", (f"{s!r} - {table} is pulled as 'Table: Title'"
@@ -856,8 +856,9 @@ class Setting:
                                     else f"{s!r} - {table} is pulled by its name alone")
                 elif title:
                     yield from self._check_title(table, title)
-            elif s not in r.folder.enums[m.type]:
-                yield "error", f"{s!r} is not one of {', '.join(r.folder.enums[m.type])}"
+            else:
+                for msg in value_problems(m, s, enums, self.schema.words):
+                    yield "error", msg
 
     def _check_title(self, table: str, title: str):
         have = self.titles(table)
