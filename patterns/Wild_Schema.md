@@ -98,7 +98,7 @@ node Secret {              // the way into a Secret location: what opens it, wha
 node Ground {               // written by `tools/maps.py ground`, never by hand: the region as its sheet draws it
   sheet string              // its home sheet
   square string             // its way in on that sheet, as "column,row"
-  ground string             // the terrain its area holds, by share
+  ground string list        // the terrain its area holds, by share
 }
 node Feature {              // a river, road, hill or hollow in the region's area
   kind Feature_Kind

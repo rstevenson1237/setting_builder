@@ -53,6 +53,7 @@ class Folder:
     seed: list[Member] = field(default_factory=list)    # setting/region/[Code].md's fields
     brief: list[Member] = field(default_factory=list)   # setting/region/[Code]/Brief.md's
     region_path: Path | None = None                     # the schema holding seed and brief
+    optional: set[str] = field(default_factory=set)     # files a region of this rating may leave out
 
 
 def entries_allowed(want, of: int | None = None) -> tuple[int, int] | None:
@@ -154,11 +155,12 @@ class Schema:
             elif n.name == "node":
                 nodes[name] = [self._member(c) for c in n.children]
             elif n.name == "folder" and path.stem.split("_")[0] not in SHARED:
-                files = {c.name: c.args for c in n.children if c.name not in ("join", "top")}
+                files = {c.name: [a for a in c.args if a != "opt"] for c in n.children if c.name not in ("join", "top")}
                 joins = {c.args[0]: (set(c.args[1:]), c.props.get("gate"))
                          for c in n.children if c.name == "join" and c.args}
                 top = {a for c in n.children if c.name == "top" for a in c.args}
-                f = Folder(n.props.get("type", ""), files, joins, top, path)
+                f = Folder(n.props.get("type", ""), files, joins, top, path,
+                           optional={c.name for c in n.children if "opt" in c.args})
                 self.folders[name] = f
                 folders.append(f)
             elif n.name == "region":
@@ -738,7 +740,7 @@ class Setting:
                                       f"{', '.join(r.folder.files)}")
         for stem in r.folder.files:
             path = r.dir / f"{stem}.md"
-            if not path.exists():
+            if not path.exists() and stem not in r.folder.optional:
                 yield "warning", path, "missing - not built yet"
         yield from self._check_locations(r)
         for stem, entries in r.files.items():

@@ -108,6 +108,7 @@ def solve(sheet: Sheet, radius: dict[str, float], requests: list[Request]) -> li
         return (min(max(x, r), sheet.cols - 1 - r), min(max(y, r), sheet.rows - 1 - r))
 
     def cost(at):
+        at = {c: (round(x), round(y)) for c, (x, y) in at.items()}   # judged as it will be written
         c = sum(q.miss(at[q.code], at[q.of]) for q in requests)
         for i, a in enumerate(codes):
             for b in codes[i + 1:]:
@@ -143,7 +144,9 @@ def solve(sheet: Sheet, radius: dict[str, float], requests: list[Request]) -> li
     for i, a in enumerate(codes):
         for b in codes[i + 1:]:
             if math.dist(sheet.at[a], sheet.at[b]) < max(SEPARATION * (radius[a] + radius[b]), MARK_GAP) - 0.5:
-                out.append(f"{a} and {b} cannot lie apart on {sheet.name}: their places leave no room")
+                lines = [str(q.node.line) for q in requests if {q.code, q.of} == {a, b}]
+                out.append(f"{'line ' + ', '.join(lines) + ': ' if lines else ''}{a} and {b} cannot lie apart "
+                           f"on {sheet.name}: their places leave no room")
     return out
 
 

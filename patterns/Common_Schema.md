@@ -5,6 +5,7 @@ defining a name used here shadows it.
 
 A field is `Label type`, then `opt`, `list` (comma-separated) or `none` (may be `none`), and
 `n=N`: exactly N items, or N paragraphs of prose.
+A folder's line is a file and the nodes it holds, then `opt` where a region may leave it out.
 An enum field opens with one of its items, and may go on after ` - ` in prose. How many
 entries a file holds is `BRIEF.md`'s.
 
