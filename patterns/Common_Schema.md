@@ -19,6 +19,8 @@ value dice                    // Nd6 or Nd6+M; count= and bonus= bound it
 value percent                 // N%
 value feet                    // a whole number of feet, negative where a climb goes down
 value distance                // a number then a Distance_Unit: 40 feet, 1.5 miles
+value coin                    // N cn or N-M cn, low to high; or pennies, the copper Procedures.md never counts
+value time                    // N or N-M, then a Time_Unit, plural where it reads so: 2 turns, 1 watch
 value location                // a location code
 value place                   // location codes first, each one that exists, then any prose after ` - `;
                               // from= names the table node placing the entry, and the codes
@@ -32,6 +34,7 @@ enum Room_Shape rect round octagon cave
 enum Compass north north-north-east north-east east-north-east east east-south-east south-east south-south-east south south-south-west south-west west-south-west west west-north-west north-west north-north-west
 enum Distance_Unit feet yards miles
 enum Ground_Type deep water marsh sand desert grass scrub forest rock snow   // the terrains a sheet draws
+enum Time_Unit Round turn hour watch day week   // Procedures.md's Time and Distance keeps Round, turn, watch and day; prices add hour and week
 enum Slope flat gentle steep cliff
 enum Feature_Kind river road hill hollow
 enum Damage_Type Nuisance Damaging Lethal     // the count of Tests a hazard asks: 1, 2 or 3

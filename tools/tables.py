@@ -21,6 +21,10 @@ SHARE_RE = re.compile(r"(<=)?(\d+)%")        # "N%" at least that share of entri
 COUNT_RE = re.compile(r"(\d+)(?:-(\d+)|(\+))?")   # N exactly, "N-M", "N+" at least
 OPEN = 10 ** 9
 FEET_RE = re.compile(r"-?\d+")
+COIN_RE = re.compile(r"(\d+)(?:-(\d+))? cn")
+TIME_RE = re.compile(r"(\d+)(?:-(\d+))? ([A-Za-z]+)")
+RATING_TIME = {"SAFE": {"hour", "day", "week"}, "WILD": {"watch", "day"},
+               "DANGEROUS": {"Round", "turn"}}      # the units each rating keeps time in, per Procedures.md
 DISTANCE_RE = re.compile(r"(-?\d+(?:\.\d+)?) (\w+)")   # negative: south or west
 
 
@@ -422,6 +426,14 @@ def unit_problem(typ: str, v: str, enums: dict) -> str | None:
     return None
 
 
+def time_unit(v: str, units) -> str | None:
+    """The Time_Unit a time value is in, or None where it reads as no time."""
+    m = TIME_RE.fullmatch(v)
+    if not m:
+        return None
+    return next((u for u in units if m.group(3) in (u, u + "s", u + "es")), None)
+
+
 def _opens_with(v: str, items) -> bool:
     low = v.lower()
     return any(low.startswith(i.lower()) and low[len(i):len(i) + 1] in ("", " ", ".", ",", ";", ":")
@@ -453,6 +465,18 @@ def value_problems(m: Member, v: str, enums: dict, words: dict):
     elif m.type == "percent":
         if not PERCENT_RE.fullmatch(v) or int(v[:-1]) > 100:
             yield f"{v!r} is not a percentage"
+    elif m.type == "coin":
+        c = COIN_RE.fullmatch(v)
+        if v != "pennies" and not c:
+            yield f"{v!r} is not N cn, N-M cn or pennies"
+        elif c and c.group(2) and int(c.group(1)) > int(c.group(2)):
+            yield f"{v!r} runs high to low"
+    elif m.type == "time":
+        t = TIME_RE.fullmatch(v)
+        if not t or time_unit(v, enums.get("Time_Unit", ())) is None:
+            yield f"{v!r} is not a number then {' | '.join(enums.get('Time_Unit', ()))}"
+        elif t.group(2) and int(t.group(1)) > int(t.group(2)):
+            yield f"{v!r} runs high to low"
     elif m.type == "dice":
         d = DICE_RE.fullmatch(v)
         if not d:
@@ -859,6 +883,9 @@ class Setting:
             else:
                 for msg in value_problems(m, s, enums, self.schema.words):
                     yield "error", msg
+                if m.type == "time" and (u := time_unit(s, enums.get("Time_Unit", ()))) \
+                        and u not in RATING_TIME.get(r.rating.upper(), {u}):
+                    yield "warning", f"{s!r} - {r.rating} regions keep time in {', '.join(sorted(RATING_TIME[r.rating.upper()]))}"
 
     def _check_title(self, table: str, title: str):
         have = self.titles(table)
