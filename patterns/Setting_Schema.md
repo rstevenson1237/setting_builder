@@ -55,7 +55,8 @@ table Bestiary entry file="setting/Bestiary.md" {
   Special text                         // what its dice do not say, or `none`
   MA number range="2-6" opt            // targets threatened at once, about AD/4; omitted at 1
   Description text                     // what a party sees when it comes into view
-  Range text opt                       // where it lives, how many the land supports, what it eats
+  Range text opt                       // where it lives and what it eats
+  Numbers number opt                   // how many one lair or band holds
   Sign Sign opt                        // what reaches a party before it does
   Disposition text opt                 // what it does on being met, before anyone fights
 }

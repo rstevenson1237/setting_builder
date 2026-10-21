@@ -829,6 +829,42 @@ def check_listed_prices(diag: Diagnostics, setting):
                           f"Purchase {n.args[0]}: {n.props.get('item')!r} is priced listed, and Procedures.md's Coin and Prices lists nothing like it")
 
 
+def check_numbers(diag: Diagnostics, setting, schema):
+    """In a single holding, the count of a creature - its Encounters' `count`, and the `present`
+    of each Faction whose Fields name it - lies within the Bestiary's Numbers."""
+    path = SETTING / "Bestiary.md"
+    numbers = {t: tables.bounds(v["Numbers"]) for t, _, v in tables.setting_entries(schema, "Bestiary") or []
+               if v.get("Numbers")}
+    fields = {t: [x.strip() for x in v.get("Fields", "").split(",")]
+              for t, _, v in tables.setting_entries(schema, "Factions") or []}
+    for code, region in setting.regions.items():
+        seed = SETTING / "region" / f"{code}.md"
+        if region.rating.upper() != "DANGEROUS" or "Kind: single holding" not in (seed.read_text() if seed.exists() else ""):
+            continue
+        held: dict[str, list[int]] = {}
+        for entries in region.files.values():
+            for top in entries:
+                for n in kdl.walk([top]):
+                    if n.name == "Creature":
+                        names, num = [str(n.props.get("bestiary"))], n.props.get("count")
+                    elif n.name in ("Faction", "Garrison"):
+                        names = [c for c in fields.get(str(n.props.get("faction")), [])]
+                        num = n.props.get("present")
+                    else:
+                        continue
+                    b = tables.bounds(str(num)) if num is not None else None
+                    for name in (names if b else []):
+                        got = held.setdefault(name, [0, 0])
+                        got[0] += b[0]
+                        got[1] += b[1]
+        for name, (lo, hi) in sorted(held.items()):
+            want = numbers.get(name)
+            if want and (hi < want[0] or lo > want[1]):
+                diag.warn(region.dir / "Challenges.md",
+                          f"{code} holds {lo if lo == hi else f'{lo}-{hi}'} {name}, outside the Bestiary's Numbers "
+                          f"{want[0] if want[0] == want[1] else f'{want[0]}-{want[1]}'}")
+
+
 def check_blocks(diag: Diagnostics, setting):
     """Every location of a region with Blocks.md is in exactly one block with a footprint
     and a route from its entrance, no room overlaps another, and no way within a block
@@ -1378,6 +1414,7 @@ def main() -> int:
     check_blocks(diag, setting)
     check_hazards(diag, setting, brief)
     check_listed_prices(diag, setting)
+    check_numbers(diag, setting, schema)
     check_reversals(diag, setting)
 
     # A location reached from the region itself is no part of the stated graph.
