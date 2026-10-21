@@ -4,12 +4,14 @@
 A referee-facing table of rumours of varying truth that serve as adventure hooks into the setting.
 
 ## Context
-Read first:
-- `GENRE.md`, `STYLE.md` and `BRIEF.md`, as `python3 tools/validate_setting.py --brief setting` prints it
-- `patterns/Common_Schema.md` and `patterns/Setting_Schema.md`
-- `setting/Setting.md`, `setting/History.md`, `setting/Truths.md`
-- each region's seed, `setting/region/[Region Code].md`
-- the location entries and write-ups each rumour is settled at
+```kdl
+template scope="setting" writes="setting/Rumours.md" shape="Rumours"
+read "setting/Setting.md"
+read "setting/History.md"
+read "setting/Truths.md"
+read "setting/region/[Region Code]/Seed.md" part="each region's"
+run "--location [Location Code]" once="written"
+```
 
 ## Instructions
 Create a table of rumours, numbered to the die `BRIEF.md` sets, each following
@@ -28,15 +30,3 @@ exactly alike.
 This column is referee-side, exactly as the truth mark is, and is never shared. It records
 where the truth is, not what the party should do about it - per
 `patterns/Setting_Schema.md`, a rumour is a lead and not an instruction.
-
-## Template
-```
-Rumours of [Setting Name]
-
-| # | Rumour | T/P/F/U | Settled at |
-|---|--------|-------|------------|
-| 1 | [A rumour the players might encounter] | [T/P/F/U] | [Location Code(s), and for P which half is false; for U, none, and where a party would look] |
-| 2 | [A rumour the players might encounter] | [T/P/F/U] | [...] |
-| ... | ... | ... | ... |
-| [N] | [A rumour the players might encounter] | [T/P/F/U] | [...] |
-```

@@ -12,6 +12,24 @@ enum Safe_Type Inn Merchant Bank Market Authority Gate Secret
 value price                    // a coin; N% of the sum; or listed, at Procedures.md's prices
 enum Purchase_Type menu service sale   // food and drink by the portion; a thing done for a party; goods handed over
 
+node Seed {
+  kind Safe_Kind
+  comes text                // what a party comes to do
+  who entry Bestiary Factions "Named Creatures" list   // who lives here; the tables place them
+  changing text             // what is changing, and who is behind it and who is hurt
+}
+node View {                 // where it is first seen from
+  from string
+  distance distance
+  outline text              // its outline and size; its walls or edges, their height and material; the ground under it
+  shows text                // roofs, colours, devices, lights
+}
+node Law {                  // what gets a stranger fined, locked up or put out
+  offence string
+  cost text
+  enforcer gloss
+}
+
 node Location {
   name string               // per GENRE.md's Naming, after the rest is decided; named only where
                             // something refers to it again. In whose mouth: residents,
@@ -91,6 +109,8 @@ node Block {               // a map of its own, and the enclosure drawn round it
 node Secret {              // the way into a Secret location: what opens it, what shows it is there, and when
   trigger gloss
   tell gloss
+  knows gloss opt           // who knows it, or nobody
+  fact string opt           // what it hides, where the node it sits on does not say
   when gloss opt
 }
 

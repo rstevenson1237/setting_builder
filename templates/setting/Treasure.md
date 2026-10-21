@@ -4,11 +4,13 @@
 Five reusable random treasure tables (Treasure Tables I-V), each a table of found valuables, for the referee to roll on when a location's content calls for treasure.
 
 ## Context
-Read first:
-- `GENRE.md`, `STYLE.md` and `BRIEF.md`, as `python3 tools/validate_setting.py --brief setting` prints it
-- `patterns/Common_Schema.md` and `patterns/Setting_Schema.md`
-- `setting/Procedures.md` - the coin every value is stated in
-- `setting/Setting.md`, `setting/History.md`, `setting/Truths.md`
+```kdl
+template scope="setting" writes="setting/Treasure1.md" shape="Treasure I, Treasure II, Treasure III, Treasure IV, Treasure V"
+read "setting/Procedures.md" part="the coin every value is stated in"
+read "setting/Setting.md"
+read "setting/History.md"
+read "setting/Truths.md"
+```
 
 Do not consult location, region, or faction files - these tables are setting-level and reusable everywhere, not tied to any specific place, hoard, or owner. Do not decide what container holds the treasure, where it is found, or how it is moved or used - that is the location entry's job, not this table's.
 
@@ -32,75 +34,4 @@ TABLES
   V     Treasure Cache - mixed coinage, including foreign or old issues, plate, and a
         hoard's worth of one thing; the only table where one result changes a party's
         plans, and usually more than a party can carry out in one trip
-```
-
-## Template
-```
-Treasure Table I - Scavenged Loot
-
-Every value is in cn, per `setting/Procedures.md`.
-
-| # | Item | Value | Wt |
-|---|------|-----------|----|
-| 1 | [item] | [value] | [wt] |
-| 2 | [item] | [value] | [wt] |
-| 3 | [item] | [value] | [wt] |
-| ... | ... | ... | ... |
-| [N] | [item] | [value] | [wt] |
-```
-
-```
-Treasure Table II - Equipment and Armaments
-
-Every value is in cn, per `setting/Procedures.md`.
-
-| # | Item | Quality | Effect | Value | Wt |
-|---|------|---------|--------|-----------|----|
-| 1 | [item] | [quality] | [effect or -] | [value] | [wt] |
-| 2 | [item] | [quality] | [effect or -] | [value] | [wt] |
-| 3 | [item] | [quality] | [effect or -] | [value] | [wt] |
-| ... | ... | ... | ... | ... | ... |
-| [N] | [item] | [quality] | [effect or -] | [value] | [wt] |
-```
-
-```
-Treasure Table III - Gems and Jewelry
-
-Every value is in cn, per `setting/Procedures.md`.
-
-| # | Item | Value | Wt |
-|---|------|-----------|----|
-| 1 | [item] | [value] | [wt] |
-| 2 | [item] | [value] | [wt] |
-| 3 | [item] | [value] | [wt] |
-| ... | ... | ... | ... |
-| [N] | [item] | [value] | [wt] |
-```
-
-```
-Treasure Table IV - Luxury and Trade Goods
-
-Every value is in cn, per `setting/Procedures.md`.
-
-| # | Item | Value | Wt |
-|---|------|-----------|----|
-| 1 | [item] | [value] | [wt] |
-| 2 | [item] | [value] | [wt] |
-| 3 | [item] | [value] | [wt] |
-| ... | ... | ... | ... |
-| [N] | [item] | [value] | [wt] |
-```
-
-```
-Treasure Table V - Treasure Cache
-
-Every value is in cn, per `setting/Procedures.md`.
-
-| # | Item | Value | Wt |
-|---|------|-----------|----|
-| 1 | [item] | [value] | [wt] |
-| 2 | [item] | [value] | [wt] |
-| 3 | [item] | [value] | [wt] |
-| ... | ... | ... | ... |
-| [N] | [item] | [value] | [wt] |
 ```

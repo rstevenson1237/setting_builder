@@ -9,7 +9,7 @@ Consult when running this check - deliberately broader than any single generatio
 - `BRIEF.md`
 - `STYLE.md` - the tests judged against below.
 - `setting/Setting.md`, `setting/History.md`, `setting/Truths.md` - what every region should be reinforcing.
-- `setting/region/Regions.md` and each region's seed, `setting/region/[Code].md`, and brief, `setting/region/[Code]/Brief.md` - what every location in that region should be reinforcing.
+- `setting/region/Regions.md` and each region's seed, `setting/region/[Code]/Seed.md`, and brief, `setting/region/[Code].md` - what every location in that region should be reinforcing.
 - each region's `setting/region/[Code]/Locations.md`, its table files and its location files, each write-up with its entries from `python3 tools/validate_setting.py --location [Location Code]`.
 - `setting/Bestiary.md`, `setting/Factions.md`, `setting/Lore.md`, `setting/Keys.md`, `setting/NamedCreatures.md`, `setting/UniqueTreasures.md`, `setting/MagicalTomes.md`, `setting/Hoards.md`, `setting/LocalProcedures.md`, `setting/Rumours.md`, `setting/Quests.md` - recurring elements that should be tying levels together rather than sitting isolated.
 - the output of `python3 tools/validate_setting.py`, `python3 tools/metrics.py` and `python3 tools/metrics.py --tells setting/`.

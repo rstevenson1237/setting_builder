@@ -10,5 +10,5 @@ Connection J.3 to="J.4" type="Crude" bearing="south" distance="80 feet"
 Connection J.4 to="J.3" type="Crude" bearing="north" distance="80 feet"
 Connection J.3 to="J.5" type="Wooden" bearing="east" distance="90 feet"
 Connection J.5 to="J.3" type="Wooden" bearing="west" distance="90 feet"
-Connection J.4 to="I.3" type="Crude" bearing="south-west" distance="90 feet" { Secret trigger="pull the heap apart" tell="cold draught through bones" }
+Connection J.4 to="I.3" type="Crude" bearing="south-west" distance="90 feet" { Secret trigger="pull the heap apart" tell="cold draught through bones" knows="the Kurzun" }
 ```

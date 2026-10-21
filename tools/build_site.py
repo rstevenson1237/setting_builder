@@ -363,6 +363,9 @@ def build_region(setting: sc.Setting, out: Path, code: str) -> None:
 
     for label, text in region.fields:
         body.append(section(label, sc.field_html(text, lambda t: render_inline(t, setting, page))))
+    for label, lines in region.drawn:
+        body.append(section(label, sc.field_html("\n".join("- " + l for l in lines),
+                                                 lambda t: render_inline(t, setting, page))))
 
     for table_label, table_rows in region.tables:
         rows = "".join(

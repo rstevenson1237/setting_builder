@@ -4,10 +4,12 @@
 Reusable, system-neutral creature templates for the setting.
 
 ## Context
-Read first:
-- `GENRE.md`, `STYLE.md` and `BRIEF.md`, as `python3 tools/validate_setting.py --brief setting` prints it
-- `patterns/Common_Schema.md` and `patterns/Setting_Schema.md`
-- `setting/Setting.md`, `setting/History.md`, `setting/Truths.md`
+```kdl
+template scope="setting" writes="setting/Bestiary.md" shape="Bestiary"
+read "setting/Setting.md"
+read "setting/History.md"
+read "setting/Truths.md"
+```
 
 ## Instructions
 Each entry is one record following its fields in `patterns/Setting_Schema.md`.
@@ -17,19 +19,3 @@ grows as the build needs it: a location or region seed that needs a creature the
 lacks adds its entry here first, then cites it.
 
 Cut any field that does not fit the template block below.
-
-## Template
-```
-Bestiary of [Setting Name]
-
-### [Creature Name]
-Type: [Type]
-AD: [Xd6+N]
-Special: [... or `none` - one Special line per ability]
-MA: [Y, omitted at 1]
-Description: [...]
-Range: [...]
-Numbers: [N or N-M]
-Sign: [...]
-Disposition: [...]
-```

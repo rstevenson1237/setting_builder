@@ -4,12 +4,13 @@
 Establishes the unique truths that separate this setting from a generic instance of its genre.
 
 ## Context
-Read first:
-- `GENRE.md`, `STYLE.md` and `BRIEF.md`, as `python3 tools/validate_setting.py --brief setting` prints it
-- `patterns/Common_Schema.md` and `patterns/Setting_Schema.md`
-- `setting/Setting.md`
-- `setting/History.md`
-- the location entries and write-ups that deliver each truth, once written
+```kdl
+template scope="setting" writes="setting/Truths.md" shape="Truths"
+read "setting/Setting.md"
+read "setting/History.md"
+run "--location [Location Code]" once="written"
+field "Truths.Codes" reads="Truths.Handle"
+```
 
 ## Instructions
 List the truths `BRIEF.md` asks for, each following its fields in `patterns/Setting_Schema.md`.
@@ -19,12 +20,3 @@ A standing mystery or a gap left for the referee may be listed here whether or n
 file is otherwise asked for; it is the place such a decision is written down.
 
 A truth's Codes are the locations that deliver it.
-
-## Template
-```
-Truths of [Setting Name]
-
-| Truth | Handle | Codes |
-|---|---|---|
-| [the rule, in one sentence - the rule, not the mood] | [what a party does about it, in the specific] | [Location Code(s)] |
-```

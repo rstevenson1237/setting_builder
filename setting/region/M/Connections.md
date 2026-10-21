@@ -12,7 +12,7 @@ Connection M.3 to="M.5" type="Wooden" bearing="north-east" distance="99 feet"
 Connection M.5 to="M.3" type="Wooden" bearing="south-west" distance="99 feet"
 Connection M.4 to="M.5" type="Wooden" bearing="north-west" distance="99 feet"
 Connection M.5 to="M.4" type="Wooden" bearing="south-east" distance="99 feet"
-Connection M.5 to="M.14" type="Wooden" bearing="east" distance="40 feet" { Secret trigger="push the black hanging" tell="soot on the cloth" }
+Connection M.5 to="M.14" type="Wooden" bearing="east" distance="40 feet" { Secret trigger="push the black hanging" tell="soot on the cloth" knows="Veck and the Zurnaz" }
 Connection M.14 to="M.5" type="Wooden" bearing="west" distance="40 feet"
 Connection M.14 to="K.4" type="Stone" bearing="south-west" distance="120 feet" climb=-120
 Connection M.2 to="M.6" type="Archway" bearing="east" distance="40 feet" climb=-40
@@ -24,7 +24,7 @@ Connection M.8 to="M.7" type="Open" bearing="east" distance="50 feet"
 Connection M.7 to="M.9" type="Stone" bearing="north" distance="50 feet"
 Connection M.9 to="M.7" type="Stone" bearing="south" distance="50 feet"
 Connection M.13 to="M.8" type="Stone" bearing="north-east" distance="60 feet"
-Connection M.8 to="M.13" type="Stone" bearing="south-west" distance="60 feet" { Secret trigger="press the emptiest niche" tell="dust-free streaks on floor" }
+Connection M.8 to="M.13" type="Stone" bearing="south-west" distance="60 feet" { Secret trigger="press the emptiest niche" tell="dust-free streaks on floor" knows="nobody" }
 Connection M.13 to="L.5" type="Archway" bearing="south" distance="120 feet" climb=-120
 Connection M.5 to="M.10" type="Archway" bearing="north" distance="40 feet"
 Connection M.10 to="M.5" type="Archway" bearing="south" distance="40 feet"

@@ -14,6 +14,19 @@ enum Hazard_Type {
 }
 enum Mystery_Type "Standing Stone" Cairn Spring Pool "Old Tree" Shrine "Carved Rock" Ring
 
+node Seed {
+  terrain Terrain
+  comes text                // what a party sees crossing in, and what brings anyone
+  who entry Bestiary Factions "Named Creatures" list   // who is out here; the tables place them
+  changing text             // what is changing, and who is behind it and who is hurt
+  crossing time opt         // the best route, end to end
+  off time opt              // and off it
+}
+node Ruling {               // per setting/Procedures.md's Time and Distance; ground is never a location
+  on gloss                  // the road, off it, the worst ground, night, fog, a fire
+  buys text                 // what an action buys there, what loses a party and what finds the way
+}
+
 node Location {
   name string               // per GENRE.md's Naming, after the rest is decided; named only where
                             // something refers to it again. In whose mouth: border passers,
@@ -95,6 +108,8 @@ node Way {
 node Secret {              // the way into a Secret location: what opens it, what shows it is there, and when
   trigger gloss
   tell gloss
+  knows gloss opt           // who knows it, or nobody
+  fact string opt           // what it hides, where the node it sits on does not say
   when gloss opt
 }
 

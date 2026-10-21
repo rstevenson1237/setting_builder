@@ -10,10 +10,11 @@ written, and extended only if generated content turned out to need something the
 not cover.
 
 ## Context
-Read first:
-- `GENRE.md`, `STYLE.md` and `BRIEF.md`, as `python3 tools/validate_setting.py --brief setting` prints it
-- `patterns/Common_Schema.md` and `patterns/Setting_Schema.md`
-- `setting/Setting.md` and `setting/Truths.md`, once written
+```kdl
+template scope="setting" writes="setting/Procedures.md"
+read "setting/Setting.md" once="written"
+read "setting/Truths.md" once="written"
+```
 
 ## Instructions
 Sections, in order: Ruleset, Forced Dangers, Wounds, Madness, Conditions, Coin and Prices,

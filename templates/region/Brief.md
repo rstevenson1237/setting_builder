@@ -1,44 +1,39 @@
 # Brief.md
 
 ## Purpose
-A region's brief, `setting/region/[Region Code]/Brief.md`: a run sheet written once the
-region's locations exist. A referee holding it and the seed can run an excursion into the
-region without opening a location.
+A region's brief, `setting/region/[Region Code].md`: its run sheet, written once its
+locations exist and rewritten when its seed or tables change. A referee holding it, with
+what the site draws beside it, can run an excursion into the region without opening a
+location.
 
 ## Context
-Read first:
-- `GENRE.md`, `STYLE.md` and `BRIEF.md`, as `python3 tools/validate_setting.py --brief [Region Code]` prints it
-- `patterns/Common_Schema.md`, and `patterns/Region_Schema.md` - this region's rating's `brief`
-- this region's seed, `setting/region/[Region Code].md`
-- this region's table files and its `Ground.md`
-- `setting/Rumours.md` and `setting/Quests.md`
+```kdl
+template scope="[Region Code]" writes="setting/region/[Region Code].md" shape="brief"
+read "setting/region/[Region Code]/Seed.md"
+read "setting/region/[Region Code]/[Table].md"
+read "setting/region/[Region Code]/Ground.md"
+field "Overview" reads="Seed.comes, Seed.who, Seed.changing, Rung"
+field "View" reads="View"
+field "Approach" reads="Entry, Seed.crossing, Seed.off"
+field "Law" reads="Law"
+field "Terrain" reads="Seed.terrain, Ruling"
+field "Conditions" reads="Conditions"
+field "Arrival" reads="Dressing.obvious, Dressing.layout"
+field "Plan" reads="Block, Way, Location.type"
+field "Ways" reads="Stop.feature, Stop.distance, Stop.to, Dressing.obvious"
+field "Landmarks" reads="Dressing.obvious, Dressing.ambiance, Stop.sight"
+field "Entrances" reads="Dressing.obvious, Dressing.layout, Connection.to"
+field "Prizes" reads="Dressing.obvious, Dressing.layout, Connection.type"
+field "Places" reads="Dressing.obvious, Dressing.ambiance, Dressing.condition, Secret.tell"
+field "Tables" reads="Encounter.doing, Encounter.reaction, Hazard, Rung"
+```
 
 ## Instructions
-Write every field of the rating's `brief`, in its order, from the tables alone. A setting
-entry is cited as `(Named Creature: Name)`, `(Faction: Name)` or `(Local Procedure: Name)`.
-Every fact about a location names it by code; a count is summed from the entries. Layout
-is written beside the region's maps and `Ground.md`, and says only what they cannot. A fact no entry holds
-is an entry to add to the tables, not a line here. A DANGEROUS Alarm
-is written from the Encounters' `answers`. Nothing the seed says is repeated, unless a field folds it in.
+Write every field of the rating's `brief`, in its order, from the seed and the tables
+alone. The seed's fields are its nodes as prose, each member once. A list field opens one
+`- ` item for each location its `holds=` gives it, in code order, with that code, as
+`--skeleton 5e [Region Code]` lists them. What `drawn` names is never written here.
 
-## Template
-```
-[Field]: [prose, short]
-
-[Paragraph field]: [first paragraph]
-
-[next paragraph]
-
-[List field]:
-- [Code or codes, Rumour N or Quest Name] - [...]
-
-Tables:
-[die, if rolled] [table name]
-1. [...]
-...
-6. [...]
-[die] [what is met where nothing is keyed]
-1. [...]
-...
-6. [...]
-```
+Every fact about a location names it by code. A fact no entry holds is an entry to add to
+the tables, not a line here. A setting entry is cited as `(Named Creature: Name)`,
+`(Faction: Name)` or `(Local Procedure: Name)`.

@@ -4,13 +4,14 @@
 One location's write-up, `setting/region/[Region Code]/[Location Number].md`.
 
 ## Context
-Read first:
-- `GENRE.md`, `STYLE.md` and `BRIEF.md`, as `python3 tools/validate_setting.py --brief [Region Code]` prints it
-- `setting/Truths.md`
-- `setting/Procedures.md`'s Forced Dangers, Conditions and Time and Distance - the mechanics a Feature cites
-- `setting/Language.md` - roots for a coined name, and the coinages already recorded
-- the region's seed, `setting/region/[Region Code].md`
-- the location's entries, from `python3 tools/validate_setting.py --location [Location Code]`, and the setting entries they name
+```kdl
+template scope="[Region Code]" writes="setting/region/[Region Code]/[Location Number].md"
+read "setting/Truths.md"
+read "setting/Procedures.md" part="Forced Dangers, Conditions, Time and Distance"
+read "setting/Language.md" part="roots for a coined name, and the coinages recorded"
+read "setting/region/[Region Code]/Seed.md"
+run "--location [Location Code]"
+```
 
 ## Instructions
 - Write every entry, and nothing without one. An entry naming this location from

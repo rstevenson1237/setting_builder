@@ -12,5 +12,5 @@ Connection G.2 to="G.5" type="Wooden" bearing="west" distance="60 feet"
 Connection G.5 to="G.2" type="Wooden" bearing="east" distance="60 feet"
 Connection G.2 to="G.6" type="Banded" bearing="south-west" distance="100 feet"
 Connection G.6 to="G.2" type="Banded" bearing="north-east" distance="100 feet"
-Connection G.5 to="H.5" type="Stone" bearing="north" distance="50 yards" orientation="behind new stones" { Secret trigger="pull out loose stones" tell="newer stones, fresh mortar" }
+Connection G.5 to="H.5" type="Stone" bearing="north" distance="50 yards" orientation="behind new stones" { Secret trigger="pull out loose stones" tell="newer stones, fresh mortar" knows="neither tribe" fact="each tribe thinks it ends at its wall" }
 ```

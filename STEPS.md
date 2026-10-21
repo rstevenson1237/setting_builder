@@ -1,7 +1,9 @@
 # Steps
 
 The build, in order. Each step names what it creates and the template it follows; the
-template's Context names what to read.
+template's Context names what to read, and `python3 tools/validate_setting.py --read-set
+STEP` lists it. Where the template has no Template section, `--skeleton STEP [REGION]`
+prints the shape its schema gives what the step writes.
 
 Every step closes by running `python3 tools/validate_setting.py`; a warning names the step
 that owes it, and `--pending` lists what each still owes.
@@ -20,7 +22,7 @@ that owes it, and `--pending` lists what each still owes.
 3. Build the regions
    - 3a. Create `setting/region/Regions.md`, following `templates/region/Region_Gazetteer.md`.
    - 3b. Place the regions on the sheets `BRIEF.md` asks for: run `python3 tools/maps.py place`, which writes `setting/Sheets.md` and each sheet's map file, and send each request it reports unmet to `BRIEF.md`; then run `python3 tools/maps.py ground`, which writes each placed region's `Ground.md`.
-   - 3c. For each region, create its folder and its seed, `setting/region/[Code].md`, following `templates/region/Region.md`.
+   - 3c. For each region, create its folder and its seed, `setting/region/[Code]/Seed.md`, following `templates/region/Region.md`.
 4. Lay out the locations - structure, no content
    - 4a. Create each region's `Locations.md`, following `templates/region/Tables.md`.
    - 4b. Create each region's `Connections.md`, and its `Blocks.md` where its rating's schema asks for one, following `templates/region/Tables.md`.
@@ -31,7 +33,7 @@ that owes it, and `--pending` lists what each still owes.
    - 5b. Write: every location whose write-up is missing or stale, rewriting only the lines its changed entries touch, following `templates/region/Location.md`.
    - 5c. Check: run `python3 tools/validate_setting.py` and `python3 tools/metrics.py`, and send each reading outside its range to the step that owes it - a stub or an unmet target to 5a, a stale write-up or a tell to 5b, an open thread to 5d. A pass that leaves none ends the loop.
    - 5d. Thread: write `setting/Rumours.md` and `setting/Quests.md`, following `templates/setting/Rumours.md` and `templates/setting/Quests.md`, leaving a row's Settled at or Points to empty until the region holding its answer has a pass; set each Person's `quest` to the quest they give; bring each `setting/Lore.md` entry in line with the Rumours, Quests, History and Truths now written, following `templates/setting/Lore.md`; and fill each Truth's Handle and Codes, following `templates/setting/Truths.md`.
-   - 5e. Brief: write each region's `Brief.md` that is missing or stale, following `templates/region/Brief.md`.
+   - 5e. Brief: write each region's brief, `setting/region/[Code].md`, that is missing or stale, following `templates/region/Brief.md`.
 6. Judge the build
    - 6a. Create or update `setting/checks/TemplateJudgementCheck.md`, following `templates/checks/Template_Judgement_Check.md`.
    - 6b. Create or update `setting/checks/SchemaJudgementCheck.md`, following `templates/checks/Schema_Judgement_Check.md`, after 6c, starting from 6c's findings traced to a schema.

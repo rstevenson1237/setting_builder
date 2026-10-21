@@ -14,7 +14,8 @@ A share is `"N%"`, at least that share of entries rounded down to whole entries,
 at most; a count is `N`, a range `"N-M"`, or `"N+"`, at least. A region's target replaces the
 rating's only for the values it names. A quoted line is prose, read by the
 step that writes what it names. A `target` is measured by `tools/metrics.py`; a `rate` is
-how many entries each location of a type holds in a table file.
+how many entries each location of a type holds in a table file; `words` is how long each
+field of a region's brief runs, or each item of a list field and each row of a table.
 
 The maps are asked for here. `setting` holds a `sheet` per terrain map: its name, `square`
 (a distance), `extent` (`"W by H unit"`) and `regions`, the codes it holds; a DANGEROUS region
@@ -51,18 +52,21 @@ safe {
   rate Authority Dressing=1 Purchases="0-2" People="1-3" Garrison="0-1"
   rate Gate Dressing=1 Purchases="0-1" People="1-2"
   rate Secret Dressing=1 Purchases="0-1" People="0-1"
+  words Overview=120 View=90 Approach=90 Law=70 Arrival=50 Plan=90 Places=35 Tables=25
 }
 
 wild {
   rate Lair Dressing=1 Challenges=1
   rate Ruin Natural Hidden Secret Dressing=1 Challenges="0-1"
   rate Route Dressing=1 Challenges="0-1" Stops="3-6"
+  words Overview=120 Approach=80 Terrain=110 Ways=120 Landmarks=40 Places=40 Tables=25
 }
 
 dangerous {
   rate High Purpose=1 Dressing=1 Challenges="1-2" Rewards="1-2"
   rate Medium Dressing=1 Challenges=1 Rewards="0-1"
   rate Low Dressing=1 Rewards="0-1"
+  words Overview=100 Approach=70 Conditions=70 Entrances=60 Prizes=50 Places=35 Tables=25
   target Location.type High="17%" Medium="50%" Low="33%"
   target Hazard.damage Nuisance="40%" Damaging="40%" Lethal="20%"
   target Reward.contents Keys="10%" Lore="15%"

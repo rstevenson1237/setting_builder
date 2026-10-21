@@ -1,0 +1,242 @@
+"""templates/: each generation template's ```kdl fence under `## Context` - the scope it is
+written for, what it writes and in what shape, and what it reads, down to the members a
+field reads - resolved against patterns/, and drawn as the skeleton of what a step writes.
+
+  template scope="setting"|"[Region Code]" writes="path" shape="Table, ..."|seed|brief|tables
+  read "path" [part="..."] [once="written"]   a file, or the part of it named
+  read naming="Table"                          the region entries naming that table's entries
+  run "--flag [args]"                          what tools/validate_setting.py prints
+  field "Name" reads="Node.member, Table.Field, Node, ..."   one field's own inputs
+  step ID writes="Files" { read ...; field ... }   what one step of several adds
+
+Every template also reads STANDING, which it never lists. A review template (step 6)
+reads what it judges, so its Context stays prose."""
+from __future__ import annotations
+
+import re
+from dataclasses import dataclass
+from pathlib import Path
+
+import kdl
+import tables as tb
+
+ROOT = Path(__file__).resolve().parent.parent
+TEMPLATES = ROOT / "templates"
+STANDING = ("GENRE.md", "STYLE.md", "BRIEF.md", "patterns/Common_Schema.md")
+SCOPES = ("setting", "[Region Code]")
+SHAPES = ("seed", "brief", "tables")       # else a Setting_Schema.md table, or several
+RUNS = ("--location", "--pending", "--brief", "--read-set", "--skeleton")
+NODES = ("template", "read", "run", "field", "step")
+PLACEHOLDER_RE = re.compile(r"\[[^\]]+\]|\*")
+
+
+@dataclass
+class Template:
+    path: Path
+    nodes: list[kdl.Node]
+
+    @property
+    def head(self) -> kdl.Node | None:
+        return next((n for n in self.nodes if n.name == "template"), None)
+
+    def prop(self, k: str) -> str:
+        return str(self.head.props.get(k, "")) if self.head else ""
+
+    @property
+    def shapes(self) -> list[str]:
+        return [s.strip() for s in self.prop("shape").split(",") if s.strip()]
+
+    def part(self, step: str | None = None) -> list[kdl.Node]:
+        """The read, run and field lines a step reads: the template's own, then its step's."""
+        out = [n for n in self.nodes if n.name in ("read", "run", "field")]
+        for s in self.nodes:
+            if s.name == "step" and (step is None or str(s.args[0] if s.args else "") == step):
+                out += s.children
+        return out
+
+    def writes(self, step: str | None = None) -> list[str]:
+        s = next((n for n in self.nodes if n.name == "step" and step and n.args and str(n.args[0]) == step), None)
+        return str(s.props.get("writes", "")).split() if s is not None else [self.prop("writes")]
+
+
+def load(path: Path) -> Template | None:
+    """A template's fence, or None where its Context is prose."""
+    m = re.search(r"^## Context\n(.*?)(?=^## |\Z)", path.read_text(), re.S | re.M)
+    if not m or "```kdl" not in m.group(1):
+        return None
+    return Template(path, kdl.fenced(m.group(1)))
+
+
+def names(v) -> list[str]:
+    return [x.strip() for x in str(v).split(",") if x.strip()]
+
+
+def resolve(name: str, schema: tb.Schema) -> bool:
+    """A name a field reads: a node or setting table, or one of its members or fields; a
+    brief field of any rating."""
+    head, _, member = name.partition(".")
+    if not member:
+        return head in schema.tables or any(head in f.nodes for f in schema.folders.values()) \
+            or any(head == m.name for f in schema.folders.values() for m in f.brief)
+    if head in schema.fields:
+        return any(m.name == member for m in schema.fields[head])
+    return any(m.name == member for f in schema.folders.values() for m in f.nodes.get(head, []))
+
+
+def problems(t: Template, schema: tb.Schema, steps: set[str]) -> list[str]:
+    out = []
+    heads = [n for n in t.nodes if n.name == "template"]
+    if len(heads) != 1:
+        return [f"its fence holds {len(heads)} template lines - it holds one"]
+    if t.prop("scope") not in SCOPES:
+        out.append(f"template scope {t.prop('scope')!r} is not one of {', '.join(SCOPES)}")
+    for s in t.shapes:
+        if s not in SHAPES and s not in schema.tables:
+            out.append(f"template shape {s!r} is no Setting_Schema.md table and not one of {', '.join(SHAPES)}")
+    for n in t.nodes:
+        if n.name not in NODES:
+            out.append(f"line {n.line}: {n.name!r} is not one of {', '.join(NODES)}")
+        if n.name == "step":
+            sid = str(n.args[0]) if n.args else ""
+            if sid not in steps:
+                out.append(f"line {n.line}: step {sid!r} is no STEPS.md step")
+            for c in n.children:
+                if c.name not in ("read", "run", "field"):
+                    out.append(f"line {c.line}: a step holds read, run and field lines, not {c.name!r}")
+    for n in t.part():
+        where = f"line {n.line}: {n.name}"
+        arg = str(n.args[0]) if n.args else ""
+        if n.name == "read" and "naming" in n.props:
+            table = str(n.props["naming"])
+            if table not in schema.tables:
+                out.append(f"{where} naming {table!r}, which is no table")
+            elif not any(tb.names_table(f, node, table) for f in schema.folders.values() for node in f.nodes):
+                out.append(f"{where} naming {table!r}, which no region node names")
+        elif n.name == "read":
+            if arg in STANDING:
+                out.append(f"{where} {arg} - every template reads it, so none lists it")
+            elif not PLACEHOLDER_RE.search(arg) and not arg.startswith("setting/") and not (ROOT / arg).exists():
+                out.append(f"{where} {arg}, which does not exist")
+        elif n.name == "run" and arg.split()[0] not in RUNS:
+            out.append(f"{where} {arg!r} - a run is one of {', '.join(RUNS)}")
+        elif n.name == "field":
+            for x in [arg] + names(n.props.get("reads", "")):
+                if not resolve(x, schema):
+                    out.append(f"{where} {arg}: {x!r} names no node, table, member, field or brief field")
+    return out
+
+
+def schemas(t: Template) -> set[str]:
+    """The schemas a template reads: Common always, the ones its fence names, and those its
+    shape is written in."""
+    out = {"Common_Schema.md"}
+    out |= {Path(str(n.args[0])).name for n in t.part() if n.name == "read" and n.args
+            and str(n.args[0]).startswith("patterns/")}
+    for s in t.shapes:
+        out |= {"Region_Schema.md", "[Rating]_Schema.md"} if s in ("seed", "brief") else \
+            {"Setting_Schema.md", "[Rating]_Schema.md"} if s == "tables" else {"Setting_Schema.md"}
+    if any(n.name == "read" and "naming" in n.props for n in t.part()):
+        out |= {"Setting_Schema.md", "[Rating]_Schema.md"}
+    return out
+
+
+def read_lines(t: Template, schema: tb.Schema, step: str | None = None) -> list[str]:
+    """What a step reads beyond STANDING and its schemas, one line each."""
+    out = []
+    for n in t.part(step):
+        arg = str(n.args[0]) if n.args else ""
+        if n.name == "read" and "naming" in n.props:
+            table = str(n.props["naming"])
+            via = sorted({f"{node}.{m.name}" for f in schema.folders.values() for node, ms in f.nodes.items()
+                          for m in ms if (m.type == "entry" and table in m.args)
+                          or (m.type == "pull" and table in f.enums.get(m.arg, {}))})
+            out.append(f"the entries naming {table}: {', '.join(via)}")
+        elif n.name == "read":
+            extra = [str(n.props[k]) for k in ("part",) if k in n.props]
+            out.append(arg + (f" - {extra[0]}" if extra else "") + (" (once written)" if "once" in n.props else ""))
+        elif n.name == "run":
+            out.append(f"python3 tools/validate_setting.py {arg}")
+        elif n.name == "field":
+            out.append(f"{arg} <- {n.props.get('reads', '')}")
+    return out
+
+
+# -- skeletons -------------------------------------------------------------------------
+
+def _hint(m: tb.Member) -> str:
+    return f"[{m.type}{' ' + ' '.join(m.args) if m.type in ('entry', 'pull') else ''}" \
+           f"{', opt' if m.opt else ''}{', list' if m.is_list else ''}]"
+
+
+def table_skeleton(schema: tb.Schema, name: str) -> str:
+    kind, file = schema.tables[name]
+    props, fields = schema.table_props[name], schema.fields.get(name, [])
+    title = str(props.get("title", f"{name} of [Setting Name]"))
+    if kind == "roll" or props.get("layout") == "rows":
+        head = "| " + " | ".join(m.name for m in fields) + " |"
+        return "\n".join([title, "", head, "|" + "---|" * len(fields),
+                          "| " + " | ".join(_hint(m) for m in fields) + " |"])
+    level = "#" * int(props.get("heading", 3))
+    return "\n".join([title, "", f"{level} [Title]"] + [f"{m.name}: {_hint(m)}" for m in fields])
+
+
+def node_line(f: tb.Folder, node: str, key: str) -> str:
+    return " ".join([node, key] + [f"{m.name}={_hint(m)}" for m in f.nodes.get(node, []) if m.name != "one-of"]
+                    + [f"{{ {' | '.join(m.nodes)} }}" for m in f.nodes.get(node, []) if m.name == "one-of"])
+
+
+def region_skeleton(schema: tb.Schema, shape: str, files: list[str], rating: str | None,
+                    code: str | None, setting: tb.Setting | None) -> str:
+    out = []
+    for name, f in schema.folders.items():
+        if rating and name.lower() != rating.lower():
+            continue
+        c = code or "[Region Code]"
+        out.append(f"## {name.upper()}")
+        if shape == "seed":
+            counts = f.counts.get("Seed", {})
+            out += ["# Seed of " + c + " [Region Name]", "", "```kdl"]
+            out += [node_line(f, n, c) + (f"   // {counts[n]}" if n in counts else "   // 1+")
+                    for n in f.files.get("Seed", [])] + ["```"]
+        elif shape == "brief":
+            holds = tb.brief_holds(setting, setting.regions[code]) if setting and code in setting.regions else {}
+            out += [f"{c} [Region Name]", ""]
+            for m in f.brief:
+                if m.is_list:
+                    items = holds.get(m.name) or ["[Location Code]"]
+                    out += [f"{m.name}:"] + [f"- {i} - [...]" for i in items] + [""]
+                elif m.name == "Tables":
+                    out += ["Tables:", "[die, if rolled] [table name]", "1. [...]", "...", "6. [...]", ""]
+                else:
+                    out += [f"{m.name}: [{m.type}]", ""]
+            out.append(f"Drawn beside it, never written: {', '.join(f.drawn)}")
+        else:
+            for stem in [s for s in f.files if s not in ("Seed", "Ground")] if files == ["*"] else files:
+                if stem not in f.files:
+                    continue
+                key = f"{c}.[a-z]" if stem == "Blocks" else "[Location Code]"
+                out += [f"# {stem} of {c} [Region Name]", "", "```kdl"] + \
+                       [node_line(f, n, key) for n in f.files[stem]] + ["```", ""]
+        out.append("")
+    return "\n".join(out).rstrip() + "\n"
+
+
+def skeleton(t: Template, schema: tb.Schema, step: str | None, code: str | None = None,
+             setting: tb.Setting | None = None) -> str | None:
+    """What a step writes, as its schema shapes it; None where no schema does."""
+    if not t.shapes:
+        return None
+    rating = setting.regions[code].rating if setting and code in setting.regions else None
+    out = []
+    for s in t.shapes:
+        if s in SHAPES:
+            files = t.writes(step) if s == "tables" and step and any(
+                n.name == "step" for n in t.nodes) else ["*"]
+            out.append(region_skeleton(schema, s, files, rating, code, setting))
+        else:
+            out.append(table_skeleton(schema, s))
+    return "\n\n".join(out)
+
+
+def load_all() -> dict[Path, Template]:
+    return {p: t for p in sorted(TEMPLATES.glob("*/*.md")) if (t := load(p))}

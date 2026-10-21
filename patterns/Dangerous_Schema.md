@@ -14,6 +14,23 @@ enum Hazard_Type {
   Environmental "Fire/Lava" Water Ice "Ravine/Climb" "Broken/Weak Floor"
 }
 
+node Seed {
+  kind Dangerous_Kind
+  comes text                // what a party sees at the way in, and what it comes for
+  who entry Bestiary Factions "Named Creatures" list   // who lives here; the tables place them
+  changing text             // what is changing; a single holding barely moves the Danger track: what presses instead
+}
+node Conditions {           // every room, unless a Dressing, Block or Connection says otherwise
+  material gloss
+  height feet
+  width feet                // of a passage
+  light gloss
+  sound string              // what carries it and what hides it
+  footing gloss
+  air gloss
+  fire string               // what a lit fire does
+}
+
 node Location {
   name string               // per GENRE.md's Naming, after the rest is decided; named only where
                             // something refers to it again. In whose mouth: border passers,
@@ -97,12 +114,14 @@ node Connection {
 node Block {               // one level: a map of its own
   name string
   locations location list
-  width feet                // of its passages
-  height feet
+  width feet opt            // of its passages, where they differ from the seed's Conditions
+  height feet opt
 }
 node Secret {              // what sets off or opens the thing it sits on, and what gives it away
   trigger gloss
   tell gloss
+  knows gloss opt           // who knows it, or nobody
+  fact string opt           // what it hides, where the node it sits on does not say
 }
 node Lock {
   key entry Keys
