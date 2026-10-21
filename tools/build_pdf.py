@@ -103,7 +103,7 @@ def build_document(setting: sc.Setting) -> str:
             f'<section class="doc region-doc" id="{r_anchor}">'
             f'<h1>{code} {html.escape(region.name)} '
             f'<span class="badge badge-{region.rating.lower()}">{region.rating} {region.die}</span></h1>'
-            f'{field_html}{table_html}{sc.plan_html(code, region.name, sc.maps_fit_pdf)}{rconn}'
+            f'{field_html}{table_html}{sc.drawn_html(code, sc.maps_fit_pdf)}{rconn}'
             f'</section>'
         )
         region_toc.append(toc_entry(f"{code} {region.name}", r_anchor, level=1))

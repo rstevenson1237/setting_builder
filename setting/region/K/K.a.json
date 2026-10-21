@@ -1,0 +1,205 @@
+{
+  "cols": 42,
+  "rows": 36,
+  "gen": {
+    "rooms": 1,
+    "minSize": 3,
+    "maxSize": 8,
+    "caves": 0,
+    "round": 0,
+    "loops": 0,
+    "doors": 0,
+    "corridorWidth": 1,
+    "spacing": 2,
+    "entrance": false
+  },
+  "grid": {
+    "show": true,
+    "size": 2,
+    "sub": true,
+    "clip": "floor"
+  },
+  "style": {
+    "hatch": "band",
+    "band": 0.9,
+    "wall": 1
+  },
+  "scale": {
+    "perCell": 5,
+    "unit": "ft"
+  },
+  "numbers": true,
+  "scaleBar": true,
+  "compass": false,
+  "id": "K-a",
+  "version": 1,
+  "seed": 1,
+  "rooms": [
+    {
+      "id": "K-1",
+      "shape": "cave",
+      "x": 8,
+      "y": 16.5,
+      "w": 4,
+      "h": 4,
+      "label": "K.1 The Den Mouth",
+      "number": 1,
+      "origin": "tables"
+    },
+    {
+      "id": "K-3",
+      "shape": "circle",
+      "x": 15,
+      "y": 15.5,
+      "w": 6,
+      "h": 6,
+      "label": "K.3 The Sleeping Cave",
+      "number": 3,
+      "origin": "tables"
+    },
+    {
+      "id": "K-2",
+      "shape": "rect",
+      "x": 15.5,
+      "y": 8,
+      "w": 5,
+      "h": 5,
+      "label": "K.2 The Tithe Store",
+      "number": 2,
+      "origin": "tables"
+    },
+    {
+      "id": "K-5",
+      "shape": "cave",
+      "x": 26.5,
+      "y": 15.5,
+      "w": 7,
+      "h": 6,
+      "label": "K.5 The Leader's Cave",
+      "number": 5,
+      "origin": "tables"
+    },
+    {
+      "id": "K-4",
+      "shape": "rect",
+      "x": 29.6,
+      "y": 21.5,
+      "w": 1,
+      "h": 6,
+      "label": "K.4 The Back Stair",
+      "number": 4,
+      "origin": "tables"
+    }
+  ],
+  "corridors": [
+    {
+      "from": {
+        "room": "K-1"
+      },
+      "to": {
+        "at": [
+          1,
+          18.5
+        ]
+      },
+      "width": 1,
+      "doors": [
+        null,
+        null
+      ],
+      "origin": "tables"
+    },
+    {
+      "from": {
+        "room": "K-4"
+      },
+      "to": {
+        "at": [
+          40,
+          7.5
+        ]
+      },
+      "width": 1,
+      "doors": [
+        "door",
+        null
+      ],
+      "origin": "tables"
+    },
+    {
+      "from": {
+        "room": "K-1"
+      },
+      "to": {
+        "room": "K-3"
+      },
+      "width": 1,
+      "origin": "tables",
+      "doors": [
+        null,
+        null
+      ]
+    },
+    {
+      "from": {
+        "room": "K-2"
+      },
+      "to": {
+        "room": "K-3"
+      },
+      "width": 1,
+      "origin": "tables",
+      "doors": [
+        "door",
+        "door"
+      ]
+    },
+    {
+      "from": {
+        "room": "K-3"
+      },
+      "to": {
+        "room": "K-5"
+      },
+      "width": 1,
+      "origin": "tables",
+      "doors": [
+        null,
+        null
+      ]
+    },
+    {
+      "from": {
+        "room": "K-4"
+      },
+      "to": {
+        "room": "K-5"
+      },
+      "width": 1,
+      "origin": "tables",
+      "doors": [
+        "door",
+        "secret"
+      ]
+    }
+  ],
+  "overlay": {
+    "labels": [
+      {
+        "text": "to E.7",
+        "x": 1,
+        "y": 17.5,
+        "kind": "note",
+        "origin": "tables"
+      },
+      {
+        "text": "up to M.14",
+        "x": 40,
+        "y": 6.5,
+        "kind": "note",
+        "origin": "tables"
+      }
+    ],
+    "symbols": []
+  }
+}

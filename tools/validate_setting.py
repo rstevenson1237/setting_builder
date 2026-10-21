@@ -708,27 +708,6 @@ def check_inhabitants(diag: Diagnostics, setting):
                 diag.warn(brief, f"Services does not name {code}, which sells or runs something")
 
 
-def check_plans(diag: Diagnostics, setting):
-    """Two routes to one room place it in one spot, and every Connection and every Stop
-    reaches a place the plan can draw."""
-    for code in sorted(setting.regions):
-        path = setting.regions[code].dir / "Connections.md"
-        pos, apart = sc.positions(code)
-        for a, b, gap in apart:
-            diag.warn(path, f"the way between {a} and {b} disagrees with the other routes to them "
-                            f"by {gap * 3:,.0f} feet")
-        unplaced = sorted(set(f"{code}.{n}" for n in sc.parse_locations_gazetteer(code)) - set(pos),
-                          key=lambda c: int(c.split(".")[1]))
-        for route, stops in sc.route_stops(code).items():
-            for feature, xy, _, at in stops:
-                if xy is None:
-                    diag.warn(setting.regions[code].dir / "Stops.md",
-                              f"{route}'s stop {feature!r} is at {at!r}, which the plan cannot place")
-        if pos and unplaced:
-            diag.warn(path, f"{', '.join(unplaced)} cannot be placed: no orientation reaching "
-                            f"{'it' if len(unplaced) == 1 else 'them'} states a compass point and distance")
-
-
 def check_sheets(diag: Diagnostics, brief):
     """The sheets BRIEF.md asks for exist as Sheets.md rows and as map files, each `place`
     and `ground` request is met, and Ground.md is what `maps.py ground` would write now."""
@@ -808,6 +787,10 @@ def check_places(diag: Diagnostics, setting, brief):
                 diag.error(path, f"{loc} lies off the {row['sheet']} sheet")
             elif math.dist((x, y), (row["x"], row["y"])) > row["radius"]:
                 diag.warn(path, f"{loc} lies outside {code}'s area on the {row['sheet']} sheet")
+        for n in region.files.get("Stops", []):
+            if maps.offset(n) is None:
+                diag.error(region.dir / "Stops.md", f"line {n.line}: {n.args[0]}'s stop {n.props.get('feature')!r} "
+                                                    f"states no place: bearing and distance, or north and east")
 
 
 def check_blocks(diag: Diagnostics, setting):
@@ -837,6 +820,29 @@ def check_blocks(diag: Diagnostics, setting):
             a, b = str(n.args[0]), str(n.props.get("to"))
             if owner.get(a) and owner.get(a) == owner.get(b) and str(n.props.get("climb", "0")).lstrip("-") not in ("", "0"):
                 diag.error(region.dir / "Connections.md", f"{a} to {b} climbs within block {owner[a]}; a way that climbs joins two blocks")
+
+
+def check_reversals(diag: Diagnostics, setting):
+    """The far side of a way reverses its bearing, at the same distance and the opposite climb."""
+    import maps
+    points = list(setting.schema.setting_enums["Compass"])
+    ways = {}
+    for region in setting.regions.values():
+        for n in region.files.get("Connections", []):
+            if n.args and "to" in n.props and "bearing" in n.props and str(n.props["bearing"]) in points:
+                ways[str(n.args[0]), str(n.props["to"])] = (region, n)
+    for (a, b), (region, n) in sorted(ways.items()):
+        if (b, a) not in ways or a > b:
+            continue
+        m = ways[b, a][1]
+        flip = points[(points.index(str(n.props["bearing"])) + 8) % 16]
+        far = (str(m.props["bearing"]), maps.feet(str(m.props.get("distance", "0 feet"))))
+        if far != (flip, maps.feet(str(n.props.get("distance", "0 feet")))):
+            diag.error(region.dir / "Connections.md", f"line {n.line}: {a} to {b} is {n.props['bearing']}, "
+                       f"{n.props.get('distance')}; its far side should read {flip}, {n.props.get('distance')}")
+        if "climb" in n.props and "climb" in m.props and int(n.props["climb"]) != -int(m.props["climb"]):
+            diag.error(region.dir / "Connections.md", f"line {n.line}: {a} to {b} climbs {n.props['climb']}, "
+                       f"its far side {m.props['climb']}")
 
 
 def check_marks(diag: Diagnostics, setting):
@@ -1332,10 +1338,10 @@ def main() -> int:
     check_rumour_settling(diag)
     check_inhabitants(diag, setting)
     check_marks(diag, setting)
-    check_plans(diag, setting)
     check_sheets(diag, brief)
     check_places(diag, setting, brief)
     check_blocks(diag, setting)
+    check_reversals(diag, setting)
 
     # A location reached from the region itself is no part of the stated graph.
     top = {c for r in setting.regions.values() for c, n in r.locations().items()

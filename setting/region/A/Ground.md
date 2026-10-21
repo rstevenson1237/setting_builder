@@ -1,0 +1,25 @@
+# Ground of A Roadsend Keep
+
+```kdl
+Ground A sheet="Keep" square="9,27" ground="grass 53%, scrub 19%, forest 16%"
+Feature A kind="river" bearing="south-east" distance="260 feet" runs="north-east"
+Feature A kind="hill" bearing="east-south-east" distance="370 feet" height="35"
+Feature A kind="hill" bearing="north-north-east" distance="200 feet" height="35"
+Feature A kind="hill" bearing="east-north-east" distance="430 feet" height="35"
+Feature A kind="hollow" bearing="east-north-east" distance="480 feet" height="5"
+Feature A kind="hollow" bearing="east-north-east" distance="330 feet" height="5"
+Feature A kind="hollow" bearing="east-north-east" distance="530 feet" height="5"
+At A.1 ground="grass" height="10" slope="gentle"
+At A.2 ground="grass" height="5" slope="gentle"
+At A.3 ground="grass" height="10" slope="steep"
+At A.4 ground="grass" height="10" slope="steep"
+At A.5 ground="grass" height="5" slope="gentle"
+At A.6 ground="grass" height="10" slope="flat"
+At A.7 ground="grass" height="15" slope="gentle"
+At A.8 ground="grass" height="5" slope="gentle"
+At A.9 ground="grass" height="15" slope="gentle"
+At A.10 ground="grass" height="15" slope="gentle"
+At A.11 ground="grass" height="15" slope="steep"
+At A.12 ground="grass" height="10" slope="steep"
+At A.13 ground="grass" height="15" slope="steep"
+```

@@ -88,7 +88,7 @@ nothing restated from elsewhere.
 | T4.3 | `Blocks.md` for F-M: one block each for F-L unless a change of level splits it; M by its four blocks | Every DANGEROUS location in one block |
 | T4.4 | E fitted to the Ravine sheet (D6): compressed, or the square coarsened where that plays better; every E `at` and Stop rewritten | E's locations all on the Ravine sheet |
 | T4.5 | K.1 folded into E.7 or rewritten as K's own entrance room, so K starts where its caves start | K draws without a strip |
-| T4.6 | Footprints on every DANGEROUS Dressing and A's buildings, taken out of `layout` and each `Brief.md`; every `at` and `orientation` rewritten typed | No location the validator calls unsized or unplaced |
+| T4.6 | Footprints on every DANGEROUS Dressing and A's buildings, taken out of `layout` and each `Brief.md`; every `at` and `orientation` rewritten typed, and what reads them as prose retired with them (`spec.md` 5.3, 11: `site_common.parse_at`, `positions`, `route_stops`, `plan_html`'s own plan, the validator's `check_plans`) | No location the validator calls unsized or unplaced |
 | T4.7 | `maps.py place`, `ground`, `draw`; 5b and 5e rerun where `Ground.md` contradicts a write-up | Validator clean; both `--check`s pass |
 
 ---

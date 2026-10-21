@@ -1,0 +1,155 @@
+{
+  "cols": 32,
+  "rows": 46,
+  "gen": {
+    "rooms": 1,
+    "minSize": 3,
+    "maxSize": 8,
+    "caves": 0,
+    "round": 0,
+    "loops": 0,
+    "doors": 0,
+    "corridorWidth": 1,
+    "spacing": 2,
+    "entrance": false
+  },
+  "grid": {
+    "show": true,
+    "size": 2,
+    "sub": true,
+    "clip": "floor"
+  },
+  "style": {
+    "hatch": "band",
+    "band": 0.9,
+    "wall": 1
+  },
+  "scale": {
+    "perCell": 5,
+    "unit": "ft"
+  },
+  "numbers": true,
+  "scaleBar": true,
+  "compass": false,
+  "id": "M-d",
+  "version": 1,
+  "seed": 1,
+  "rooms": [
+    {
+      "id": "M-10",
+      "shape": "rect",
+      "x": 14,
+      "y": 36,
+      "w": 4,
+      "h": 2,
+      "label": "M.10 The Antechamber",
+      "number": 10,
+      "origin": "tables"
+    },
+    {
+      "id": "M-11",
+      "shape": "rect",
+      "x": 8,
+      "y": 17,
+      "w": 16,
+      "h": 16,
+      "label": "M.11 The Sanctum",
+      "number": 11,
+      "origin": "tables"
+    },
+    {
+      "id": "M-12",
+      "shape": "rect",
+      "x": 13,
+      "y": 8,
+      "w": 6,
+      "h": 6,
+      "label": "M.12 The Vault",
+      "number": 12,
+      "origin": "tables"
+    }
+  ],
+  "corridors": [
+    {
+      "from": {
+        "room": "M-10"
+      },
+      "to": {
+        "at": [
+          16,
+          44
+        ]
+      },
+      "width": 1,
+      "doors": [
+        null,
+        null
+      ],
+      "origin": "tables"
+    },
+    {
+      "from": {
+        "room": "M-10"
+      },
+      "to": {
+        "at": [
+          24,
+          37
+        ]
+      },
+      "width": 1,
+      "doors": [
+        "door",
+        null
+      ],
+      "origin": "tables"
+    },
+    {
+      "from": {
+        "room": "M-10"
+      },
+      "to": {
+        "room": "M-11"
+      },
+      "width": 1,
+      "origin": "tables",
+      "doors": [
+        "locked",
+        "portcullis"
+      ]
+    },
+    {
+      "from": {
+        "room": "M-11"
+      },
+      "to": {
+        "room": "M-12"
+      },
+      "width": 1,
+      "origin": "tables",
+      "doors": [
+        "locked",
+        "door"
+      ]
+    }
+  ],
+  "overlay": {
+    "labels": [
+      {
+        "text": "to M.5",
+        "x": 16,
+        "y": 43,
+        "kind": "note",
+        "origin": "tables"
+      },
+      {
+        "text": "down to M.9",
+        "x": 24,
+        "y": 36,
+        "kind": "note",
+        "origin": "tables"
+      }
+    ],
+    "symbols": []
+  }
+}

@@ -388,9 +388,8 @@ def build_region(setting: sc.Setting, out: Path, code: str) -> None:
     def loc_list(nums) -> str:
         return f'<div class="location-list">{"".join(loc_row(n) for n in nums)}</div>'
 
-    plan = sc.plan_html(code, region.name)
-    if plan:
-        body.append(section("Plan", plan))
+    if drawn := sc.drawn_html(code, sc.maps_fit_site):
+        body.append(section("Map", drawn))
     body.append(section("Locations", loc_list(sorted(region.locations))))
     if lines := sc.connection_lines(code, setting):
         body.append(section("Connections", connections_list(lines)))

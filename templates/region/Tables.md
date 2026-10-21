@@ -17,7 +17,7 @@ Read first:
 
 ## Instructions
 - **4a, Locations** - the count `BRIEF.md` sets for the region, in its targets' type mix,
-  each placed by its `at` so the region reads as one plan, distances in the region's units, on ground `Ground.md` shows can hold it.
+  each placed from the region's way in by bearing and distance, or north and east, so the region reads as one plan, distances in the region's units, on ground `Ground.md` shows can hold it.
   A location's name carries no form: it is common, or points at a coinage
   `setting/Language.md` already records, and never coins one. A Person's name, at 5a, is
   written with its `form` per `patterns/Common_Schema.md`; a tongue or family name is

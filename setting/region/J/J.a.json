@@ -1,0 +1,205 @@
+{
+  "cols": 59,
+  "rows": 49,
+  "gen": {
+    "rooms": 1,
+    "minSize": 3,
+    "maxSize": 8,
+    "caves": 0,
+    "round": 0,
+    "loops": 0,
+    "doors": 0,
+    "corridorWidth": 1,
+    "spacing": 2,
+    "entrance": false
+  },
+  "grid": {
+    "show": true,
+    "size": 2,
+    "sub": true,
+    "clip": "floor"
+  },
+  "style": {
+    "hatch": "band",
+    "band": 0.9,
+    "wall": 1
+  },
+  "scale": {
+    "perCell": 5,
+    "unit": "ft"
+  },
+  "numbers": true,
+  "scaleBar": true,
+  "compass": false,
+  "id": "J-a",
+  "version": 1,
+  "seed": 1,
+  "rooms": [
+    {
+      "id": "J-1",
+      "shape": "cave",
+      "x": 8,
+      "y": 19,
+      "w": 6,
+      "h": 8,
+      "label": "J.1 The Collar Mouth",
+      "number": 1,
+      "origin": "tables"
+    },
+    {
+      "id": "J-2",
+      "shape": "rect",
+      "x": 10,
+      "y": 8,
+      "w": 2,
+      "h": 10,
+      "label": "J.2 The Slave Pens",
+      "number": 2,
+      "origin": "tables"
+    },
+    {
+      "id": "J-3",
+      "shape": "cave",
+      "x": 17,
+      "y": 11,
+      "w": 24,
+      "h": 24,
+      "label": "J.3 The Den Floor",
+      "number": 3,
+      "origin": "tables"
+    },
+    {
+      "id": "J-4",
+      "shape": "cave",
+      "x": 26,
+      "y": 37,
+      "w": 6,
+      "h": 4,
+      "label": "J.4 The Bone Heap",
+      "number": 4,
+      "origin": "tables"
+    },
+    {
+      "id": "J-5",
+      "shape": "cave",
+      "x": 43,
+      "y": 19,
+      "w": 8,
+      "h": 8,
+      "label": "J.5 The Pack-Leader's Den",
+      "number": 5,
+      "origin": "tables"
+    }
+  ],
+  "corridors": [
+    {
+      "from": {
+        "room": "J-1"
+      },
+      "to": {
+        "at": [
+          7,
+          23
+        ]
+      },
+      "width": 1,
+      "doors": [
+        null,
+        null
+      ],
+      "origin": "tables"
+    },
+    {
+      "from": {
+        "room": "J-4"
+      },
+      "to": {
+        "at": [
+          16.3,
+          47
+        ]
+      },
+      "width": 1,
+      "doors": [
+        "secret",
+        null
+      ],
+      "origin": "tables"
+    },
+    {
+      "from": {
+        "room": "J-1"
+      },
+      "to": {
+        "room": "J-2"
+      },
+      "width": 1,
+      "origin": "tables",
+      "doors": [
+        null,
+        null
+      ]
+    },
+    {
+      "from": {
+        "room": "J-1"
+      },
+      "to": {
+        "room": "J-3"
+      },
+      "width": 1,
+      "origin": "tables",
+      "doors": [
+        null,
+        null
+      ]
+    },
+    {
+      "from": {
+        "room": "J-3"
+      },
+      "to": {
+        "room": "J-4"
+      },
+      "width": 1,
+      "origin": "tables",
+      "doors": [
+        null,
+        null
+      ]
+    },
+    {
+      "from": {
+        "room": "J-3"
+      },
+      "to": {
+        "room": "J-5"
+      },
+      "width": 1,
+      "origin": "tables",
+      "doors": [
+        "door",
+        "door"
+      ]
+    }
+  ],
+  "overlay": {
+    "labels": [
+      {
+        "text": "to E.6",
+        "x": 7,
+        "y": 22,
+        "kind": "note",
+        "origin": "tables"
+      },
+      {
+        "text": "to I.3",
+        "x": 16.3,
+        "y": 46,
+        "kind": "note",
+        "origin": "tables"
+      }
+    ],
+    "symbols": []
+  }
+}
