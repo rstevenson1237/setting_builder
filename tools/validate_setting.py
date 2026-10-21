@@ -900,6 +900,17 @@ def check_blocks(diag: Diagnostics, setting):
             _, problems = maps.block_map(region, block)
             for p in problems:
                 diag.error(path, f"{bid}: {p}")
+        dress = {str(n.args[0]): n for n in region.files.get("Dressing", []) if n.args}
+        for n in region.files.get("Connections", []):
+            for k, side in (("width", lambda d: min(float(d.props.get("width", 0)), float(d.props.get("length", 0)))),
+                            ("height", lambda d: float(d.props.get("height", 0)))):
+                if k not in n.props:
+                    continue
+                for end in (str(n.args[0]), str(n.props.get("to"))):
+                    room = side(dress[end]) if end in dress else 0
+                    if room and float(n.props[k]) > room:
+                        diag.error(region.dir / "Connections.md",
+                                   f"{n.args[0]} to {n.props.get('to')}: its {k} {n.props[k]} exceeds {end}'s {room:g}")
         for c in sorted(set(region.locations()) - set(owner), key=lambda c: int(c.split(".")[1])):
             diag.error(path, f"{c} is in no block")
         for n in region.files.get("Connections", []):

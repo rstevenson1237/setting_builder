@@ -91,7 +91,7 @@
           25
         ]
       },
-      "width": 1,
+      "width": 2,
       "doors": [
         "door",
         null
@@ -108,7 +108,7 @@
           25
         ]
       },
-      "width": 1,
+      "width": 2,
       "doors": [
         null,
         null
@@ -125,7 +125,7 @@
           28
         ]
       },
-      "width": 1,
+      "width": 2,
       "doors": [
         "door",
         null
@@ -142,7 +142,7 @@
           3
         ]
       },
-      "width": 1,
+      "width": 2,
       "doors": [
         null,
         null
@@ -156,7 +156,7 @@
       "to": {
         "room": "M-5"
       },
-      "width": 1,
+      "width": 2,
       "origin": "tables",
       "doors": [
         "door",
@@ -170,7 +170,7 @@
       "to": {
         "room": "M-5"
       },
-      "width": 1,
+      "width": 2,
       "origin": "tables",
       "doors": [
         "door",
@@ -184,7 +184,7 @@
       "to": {
         "room": "M-5"
       },
-      "width": 1,
+      "width": 2,
       "origin": "tables",
       "doors": [
         "door",

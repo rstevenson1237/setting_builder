@@ -28,7 +28,8 @@ Read first:
   an entrance the seed's Approach names, and a way into a gated location carries the gate its
   folder's `join` line names. A way to another region joins only a region this one joins in
   `setting/region/Regions.md`. Where the schema holds Blocks, every location is in exactly one
-  block, and a way that climbs joins two blocks.
+  block, and a way that climbs joins two blocks. A Block's `width` and `height` are its passages' size as the seed's
+  Conditions give it; a Connection states its own only where it differs, within both rooms' footprints.
 - **4c, the stubs** - every other table, its entries bare: `[Node] [Location Code]`.
   Each room gets the entries its type's `rate` line in `BRIEF.md` gives, choosing within a range for a
   reason its tags give, and toward `BRIEF.md`'s targets. The occupants the seed's Overview

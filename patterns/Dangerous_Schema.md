@@ -90,11 +90,15 @@ node Connection {
   distance distance
   climb feet opt            // up, or down where negative, where the way changes level
   orientation gloss opt     // the same in words, for the reader
+  width feet opt            // where this passage differs from its block's; within both rooms' footprints
+  height feet opt
   one-of Encounter Hazard Mystery Secret Lock opt
 }
 node Block {               // one level: a map of its own
   name string
   locations location list
+  width feet                // its passages, as its seed's Conditions state them
+  height feet
 }
 node Secret {              // what sets off or opens the thing it sits on, and what gives it away
   trigger gloss

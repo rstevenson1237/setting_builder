@@ -595,6 +595,9 @@ def block_map(region, block: kdl.Node) -> tuple[dict | None, list[str]]:
         if "Secret" in kids:
             return "secret"
         return DOOR.get(str(n.props.get("type")), "door")
+    def span(n) -> int:
+        """Cells across a passage: the way's own width, else the block's."""
+        return max(1, round(float(n.props.get("width", block.props.get("width", 0))) / cell))
     seen = {}
     for n in ways:
         a, b = str(n.args[0]), str(n.props["to"])
@@ -612,12 +615,13 @@ def block_map(region, block: kdl.Node) -> tuple[dict | None, list[str]]:
             climb = n.props.get("climb")
             way = "up to" if climb and int(climb) > 0 else "down to" if climb and int(climb) < 0 else "to"
             m["corridors"].append({"from": {"room": rid(a)}, "to": {"at": [round(tx, 1), round(ty, 1)]},
-                                   "width": 1, "doors": [door(n), None], "origin": "tables"})
+                                   "width": span(n), "doors": [door(n), None], "origin": "tables"})
             m["overlay"]["labels"].append({"text": f"{way} {b}", "x": round(tx, 1), "y": round(ty - 1, 1),
                                            "kind": "note", "origin": "tables"})
     for (a, b), ends in seen.items():
         first, second = ends.get(a), ends.get(b)
-        m["corridors"].append({"from": {"room": rid(a)}, "to": {"room": rid(b)}, "width": 1, "origin": "tables",
+        m["corridors"].append({"from": {"room": rid(a)}, "to": {"room": rid(b)},
+                               "width": max(span(n) for _, n in ends.values()), "origin": "tables",
                                "doors": [first[0] if first else None, second[0] if second else None]})
         if any(c.name == "Hazard" for _, n in ends.values() for c in n.children):
             m["overlay"]["symbols"].append({"kind": "trap", "x": round((cx(a) + cx(b)) / 2, 2),
