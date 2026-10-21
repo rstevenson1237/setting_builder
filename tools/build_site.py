@@ -176,7 +176,6 @@ def page_shell(setting: sc.Setting, current_page: str, title: str, body: str, de
 <meta name="description" content="{desc}">
 <link rel="stylesheet" href="{css_rel}">
 <script type="importmap">{{"imports": {{"three": "{THREE_URL}", "cannon": "{shim_rel}"}}}}</script>
-<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
 </head>
 <body data-cites="{rel_asset(current_page, 'cites.json')}">
 <a class="skip-link" href="#content">Skip to content</a>
@@ -206,53 +205,8 @@ def section(title: str, body: str, anchor: str | None = None) -> str:
 
 
 
-MERMAID_FENCE_RE = re.compile(r"```mermaid\s*\n(.*?)```", re.DOTALL)
-
-
-def mermaid_block(mmd_text: str, extra_lines: list[str] | None = None, title: str = "") -> str:
-    m = MERMAID_FENCE_RE.search(mmd_text)
-    text = m.group(1) if m else mmd_text
-    if title:
-        # mermaid gives the drawn graph this title for a screen reader
-        first, _, rest = text.lstrip().partition("\n")
-        text = f"{first}\n  accTitle: {title}\n{rest}"
-    if extra_lines:
-        text = text.rstrip() + "\n" + "\n".join(extra_lines) + "\n"
-    return f'<div class="diagram"><pre class="mermaid">{html.escape(text)}</pre></div>'
-
-
-def edges_text(mmd_text: str, setting: sc.Setting) -> str:
-    """The graph's edges as a list, for a reader who cannot see the drawing."""
-    lines = sc.describe_edges(mmd_text, setting)
-    if not lines:
-        return ""
-    items = "".join(f"<li>{html.escape(l)}</li>" for l in lines)
-    return f'<details class="diagram-text"><summary>Connections as text</summary><ul>{items}</ul></details>'
-
-
-def region_graph_clicks(mmd_text: str, region_code: str, current_page: str) -> list[str]:
-    lines = []
-    id_to_code: dict[str, str] = {}
-    for m in sc.NODE_RE.finditer(mmd_text):
-        id_to_code[m.group(1)] = m.group(2)
-    for node_id, code in id_to_code.items():
-        if "." not in code:
-            continue
-        rcode, num = code.split(".", 1)
-        href = RESOLVER.href("location", rcode, int(num), current_page)
-        lines.append(f'    click {node_id} "{href}" "{code}"')
-    return lines
-
-
-def top_graph_clicks(mmd_text: str, current_page: str) -> list[str]:
-    lines = []
-    id_to_code: dict[str, str] = {}
-    for m in sc.NODE_RE.finditer(mmd_text):
-        id_to_code[m.group(1)] = m.group(2)
-    for node_id, code in id_to_code.items():
-        href = RESOLVER.href("region", code, current_page)
-        lines.append(f'    click {node_id} "{href}" "{code}"')
-    return lines
+def connections_list(lines: list[str]) -> str:
+    return f'<ul class="connection-list">{"".join(f"<li>{html.escape(l)}</li>" for l in lines)}</ul>' if lines else ""
 
 
 # ---------------------------------------------------------------------------
@@ -285,10 +239,9 @@ def build_index(setting: sc.Setting, out: Path) -> None:
         )
     body.append(section("Regions", f'<div class="region-list">{"".join(region_rows)}</div>'))
 
-    clicks = top_graph_clicks(setting.top_connections, page)
-    body.append(section("Region Connections",
-                        mermaid_block(setting.top_connections, clicks, "Region connections")
-                        + edges_text(setting.top_connections, setting)))
+    body.append(section("Region Connections", connections_list(sc.join_lines(setting))))
+    if sheets := sc.sheets_html(sc.maps_fit_site):
+        body.append(section("Sheets", sheets))
 
     write_page(out, page, page_shell(setting, page, setting.name, "\n".join(body)))
 
@@ -438,15 +391,9 @@ def build_region(setting: sc.Setting, out: Path, code: str) -> None:
     plan = sc.plan_html(code, region.name)
     if plan:
         body.append(section("Plan", plan))
-    summary_mmd = sc.load_mmd(sc.SETTING / "region" / code / "Connections.mmd")
     body.append(section("Locations", loc_list(sorted(region.locations))))
-    if summary_mmd.strip():
-        body.append(section(
-            "Connections",
-            mermaid_block(summary_mmd, region_graph_clicks(summary_mmd, code, page),
-                          f"Connections of {code} {region.name}")
-            + edges_text(summary_mmd, setting),
-        ))
+    if lines := sc.connection_lines(code, setting):
+        body.append(section("Connections", connections_list(lines)))
 
     write_page(out, page, page_shell(setting, page, f"{code} {region.name}", "\n".join(body)))
 
@@ -468,6 +415,7 @@ def build_location(setting: sc.Setting, out: Path, code: str, num: int) -> None:
     body.append(f'<p class="player-summary">{render_inline(loc.player_summary, setting, page, skip_location=loc.code)}</p>')
     body.append(f'<p class="referee-notes">{render_inline(loc.referee_notes, setting, page, skip_location=loc.code)}</p>')
 
+    body.append(sc.cut_html(code, num, sc.maps_fit_site))
     feature_items = "".join(
         f'<li><span class="feature-label">{html.escape(label)}:</span> '
         f'{render_inline(text, setting, page, skip_location=loc.code)}</li>'

@@ -22,8 +22,6 @@ COUNT_RE = re.compile(r"(\d+)(?:-(\d+)|(\+))?")   # N exactly, "N-M", "N+" at le
 OPEN = 10 ** 9
 FEET_RE = re.compile(r"-?\d+")
 DISTANCE_RE = re.compile(r"(\d+(?:\.\d+)?) (\w+)")
-MMD_NODE_RE = re.compile(r'(\w+)\["([A-Z]+\.\d+)[^"]*"\]')
-MMD_EDGE_RE = re.compile(r'(\w+)(?:\["[^"]*"\])?\s*(?:---|-->|-\.-)(?:\|[^|]*\|)?\s*(\w+)')
 
 
 @dataclass
@@ -487,17 +485,14 @@ class Region:
     folder: Folder | None
     files: dict[str, list] = field(default_factory=dict)
     syntax: list[tuple[Path, str]] = field(default_factory=list)
-    diagram: Path | None = None
-    nodes: dict[str, str] = field(default_factory=dict)
-    edges: list[tuple[str, str]] = field(default_factory=list)
-    unresolved: set[str] = field(default_factory=set)
+    edges: list[tuple[str, str]] = field(default_factory=list)     # each way between two locations, once
 
     def locations(self) -> dict[str, kdl.Node]:
         return {n.args[0]: n for n in self.files.get("Locations", []) if n.args}
 
 
 class Setting:
-    """Every region's tables and diagram, read once."""
+    """Every region's tables, read once."""
 
     def __init__(self, regions: dict[str, str], schema: Schema | None = None):
         self.schema = schema or Schema()
@@ -518,18 +513,11 @@ class Setting:
                     r.files[stem] = kdl.fenced(path.read_text())
                 except SyntaxError as e:
                     r.syntax.append((path, str(e)))
-        mmd = rdir / "Connections.mmd"
-        if mmd.exists():
-            r.diagram = mmd
-            for line in mmd.read_text().splitlines():
-                line = line.split("%%")[0]
-                for m in MMD_NODE_RE.finditer(line):
-                    r.nodes[m.group(1)] = m.group(2)
-                for m in MMD_EDGE_RE.finditer(line):
-                    r.edges.append((m.group(1), m.group(2)))
-            r.unresolved = {i for e in r.edges for i in e if i not in r.nodes}
-            r.edges = [(r.nodes[a], r.nodes[b]) for a, b in r.edges
-                       if a in r.nodes and b in r.nodes]
+        seen = set()
+        for n in r.files.get("Connections", []):
+            if n.args and "to" in n.props and (pair := frozenset((str(n.args[0]), str(n.props["to"])))) not in seen:
+                seen.add(pair)
+                r.edges.append((str(n.args[0]), str(n.props["to"])))
         return r
 
     def titles(self, table: str) -> set | None:
@@ -760,7 +748,7 @@ class Setting:
                     yield sev, path, f"line {n.line}: {msg}"
         yield from self._check_rates(r)
         if "Connections" in r.folder.files:
-            yield from self._check_diagram(r)
+            yield from self._check_connections(r)
             yield from self._check_joins(r)
 
     def _check_locations(self, r: Region):
@@ -783,7 +771,10 @@ class Setting:
             yield "error", f"{n.name} spans several lines - an entry is one line"
         code = n.args[0] if len(n.args) == 1 else None
         block = stem == "Blocks"
-        if code is None or not (BLOCK_RE if block else CODE_RE).fullmatch(str(code)) or not str(code).startswith(r.code + "."):
+        if stem == "Ground" and n.name != "At":
+            if code != r.code:
+                yield "error", f"{n.name} opens with {n.args} - it opens with the region code {r.code}"
+        elif code is None or not (BLOCK_RE if block else CODE_RE).fullmatch(str(code)) or not str(code).startswith(r.code + "."):
             yield "error", (f"{n.name} opens with {n.args} - an entry opens with one {r.code} "
                             f"{'block id, a lower-case letter after the dot' if block else 'location code'}")
         elif stem not in ("Locations", "Blocks") and code not in r.locations():
@@ -892,21 +883,9 @@ class Setting:
                     yield "warning", r.dir / f"{stem}.md", (
                         f"{code} ({loc.props['type']}) has {got} {stem} entries - its rate is {want}")
 
-    def _check_diagram(self, r: Region):
-        if r.diagram is None:
-            yield "warning", r.dir / "Connections.mmd", "missing - not built yet"
-            return
-        for i in sorted(r.unresolved):
-            yield "error", r.diagram, f"edge names node id {i!r}, which no node defines"
-        for c in sorted(set(r.nodes.values()) - self.codes):
-            yield "error", r.diagram, f"node {c} is not a location"
-        for c in sorted(set(r.locations()) - set(r.nodes.values())):
-            yield "warning", r.diagram, f"{c} has no node yet"
+    def _check_connections(self, r: Region):
+        """Each way has an entry at each end in its own region."""
         path = r.dir / "Connections.md"
-        for n in r.files.get("Connections", []):
-            to = n.props.get("to")
-            if n.args and to and frozenset((n.args[0], to)) not in self.edges:
-                yield "error", path, f"line {n.line}: {n.args[0]} to {to} is on no Connections.mmd"
         for a, b in r.edges:
             for near, far in ((a, b), (b, a)):
                 if near.startswith(r.code + ".") and (near, far) not in self.connections:
@@ -921,13 +900,13 @@ class Setting:
             if a not in types or b not in types:
                 continue
             if {types[a], types[b]} <= r.folder.top:
-                yield "error", r.diagram, (f"{a} ({types[a]}) connects to {b} ({types[b]}) - both are "
+                yield "error", r.dir / "Connections.md", (f"{a} ({types[a]}) connects to {b} ({types[b]}) - both are "
                                            f"reached from the region itself, so no edge is stated")
                 continue
             for near, far in ((a, b), (b, a)):
                 to = r.folder.joins.get(types[near], (None, None))[0]
                 if to is not None and types[far] not in to:
-                    yield "error", r.diagram, (f"{near} ({types[near]}) connects to {far} ({types[far]}) - "
+                    yield "error", r.dir / "Connections.md", (f"{near} ({types[near]}) connects to {far} ({types[far]}) - "
                                                f"a {types[near]} connects only to {', '.join(sorted(to))}")
                     break
             for near, far in ((a, b), (b, a)):
@@ -969,8 +948,14 @@ class Setting:
 #
 # and a region's locations=N counts its Location entries. `files` and `setting` are
 # measured against the setting files they govern.
+#
+# `setting` holds `sheet` lines and a region `ground` and `place` lines, requests for the
+# maps; Brief.map_problems reads them.
 
 BRIEF = ROOT / "BRIEF.md"
+ARTGEN = Path(__file__).resolve().parent / "artgen" / "artgen-maps.js"
+EXTENT_RE = re.compile(r"(\d+(?:\.\d+)?) by (\d+(?:\.\d+)?) (\w+)")
+SPAN_RE = re.compile(r"(\d+(?:\.\d+)?)(?:-(\d+(?:\.\d+)?))? (\w+)")
 PROCEDURES = "Procedures"      # a region's own count, from its `procedure` lines, never a type's rate
 
 
@@ -981,10 +966,17 @@ def brief_nodes(path: Path = BRIEF) -> list[kdl.Node]:
 SLICE_SETTING = ("test", "outline", "pressure")   # what a region's slice keeps of `setting`
 
 
+def slice_keeps(child: kdl.Node, scope: str) -> bool:
+    """Whether a `setting` line is in a region's slice: its test, outline and pressure,
+    and the sheets listing the region."""
+    return child.name in SLICE_SETTING or (
+        child.name == "sheet" and scope in str(child.props.get("regions", "")).split())
+
+
 def brief_slice(scope: str, path: Path = BRIEF) -> str | None:
     """BRIEF.md as one step reads it, None for an unknown scope. "setting": the prose,
     `files` and `setting`. A region code: the prose, its rating's node, `setting`'s
-    test, outline and pressure, and its own node."""
+    test, outline and pressure, the sheets listing it, and its own node."""
     nodes = brief_nodes(path)
     if not nodes:
         return None
@@ -1013,7 +1005,7 @@ def brief_slice(scope: str, path: Path = BRIEF) -> str | None:
         if ("setting", None) in chunks:
             node, own = nodes[chunks["setting", None]], whole("setting")
             close = node.line - 2 + len(own)       # the line of its closing brace
-            keep.append([own[0]] + [l for j, c in enumerate(node.children) if c.name in SLICE_SETTING
+            keep.append([own[0]] + [l for j, c in enumerate(node.children) if slice_keeps(c, scope)
                                     for l in span(node.children, j, close)] + [own[-1]])
         keep.append(whole("region", scope))
     else:
@@ -1048,6 +1040,7 @@ class Brief:
         self.schema, self.path, self.problems = schema, path, list(schema.brief_problems)
         self.targets, self.regions = [], {}
         self.files = self.setting = None
+        self.sheets: dict[str, kdl.Node] = {}
         try:
             nodes = brief_nodes(path)
         except SyntaxError:
@@ -1081,6 +1074,65 @@ class Brief:
                 setattr(self, n.name, n)
             else:
                 p(f"{n.name!r} is not files, setting, region or {', '.join(folders)}")
+        self.problems += self.map_problems()
+
+    def terrains(self) -> list[str]:
+        """The terrains artgen draws."""
+        m = re.search(r"var TERRAINS = \[(.*?)\]", ARTGEN.read_text()) if ARTGEN.exists() else None
+        return re.findall(r'"(\w+)"', m.group(1)) if m else []
+
+    def map_problems(self) -> list[str]:
+        """The `sheet` lines of `setting`, and each region's `ground` and `place` lines."""
+        out = []
+        units = self.schema.setting_enums.get("Distance_Unit", {})
+        compass = self.schema.setting_enums.get("Compass", {})
+        terrains = self.terrains()
+        for n in (self.setting.children if self.setting else []):
+            if n.name != "sheet":
+                continue
+            p = lambda msg, n=n: out.append(f"line {n.line}: {msg}")
+            name = str(n.args[0]) if n.args else ""
+            if not name or name in self.sheets:
+                p("a sheet opens with its own name")
+                continue
+            self.sheets[name] = n
+            if (msg := unit_problem("distance", str(n.props.get("square", "")), self.schema.setting_enums)):
+                p(f"sheet {name} square: {msg}")
+            m = EXTENT_RE.fullmatch(str(n.props.get("extent", "")))
+            if not m or m.group(3) not in units:
+                p(f"sheet {name} extent is W by H then {' | '.join(units)}")
+            codes = str(n.props.get("regions", "")).split()
+            if not codes:
+                p(f"sheet {name} lists no regions")
+            for c in codes:
+                if c not in self.regions:
+                    p(f"sheet {name} lists {c}, which is no region")
+                elif str(self.regions[c].props.get("rating", "")).upper() == "DANGEROUS":
+                    p(f"sheet {name} lists {c}, a DANGEROUS region; those are drawn per block")
+        on = {c for s in self.sheets.values() for c in str(s.props.get("regions", "")).split()}
+        for code, r in self.regions.items():
+            grounds = [c for c in r.children if c.name == "ground"]
+            for c in r.children:
+                p = lambda msg, c=c: out.append(f"line {c.line}: region {code} {msg}")
+                if c.name in ("ground", "place") and code not in on:
+                    p(f"has a {c.name} line and is on no sheet")
+                elif c.name == "ground":
+                    if not c.args or str(c.args[0]) not in terrains:
+                        p(f"ground opens with a terrain: {' | '.join(terrains)}")
+                    if len(grounds) > 1 and c is not grounds[0]:
+                        p("has more than one ground line")
+                elif c.name == "place":
+                    other = str(c.args[0]) if c.args else ""
+                    span = SPAN_RE.fullmatch(str(c.args[2])) if len(c.args) == 3 else None
+                    if other not in on or other == code:
+                        p(f"place names {other!r}, which is not another region on a sheet")
+                    elif not any(set(str(s.props.get("regions", "")).split()) >= {code, other}
+                                 for s in self.sheets.values()):
+                        p(f"place names {other}, which shares no sheet with it")
+                    if len(c.args) != 3 or str(c.args[1]) not in compass or not span or span.group(3) not in units:
+                        p(f"place is another region, a Compass direction and a distance: "
+                          f'place A north "0-1 miles"')
+        return out
 
     def _add(self, n: kdl.Node, rating: str, region: str | None):
         if t := self._read(n, rating, region):

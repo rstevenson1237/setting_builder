@@ -30,6 +30,9 @@ value relation                // lines "- [Faction] - [Relation]", then any pros
 enum Room_Shape rect round octagon cave
 enum Compass north north-north-east north-east east-north-east east east-south-east south-east south-south-east south south-south-west south-west west-south-west west west-north-west north-west north-north-west
 enum Distance_Unit feet yards miles
+enum Ground_Type deep water marsh sand desert grass scrub forest rock snow   // the terrains a sheet draws
+enum Slope flat gentle steep cliff
+enum Feature_Kind river road hill hollow
 enum Damage_Type Nuisance Damaging Lethal     // the count of Tests a hazard asks: 1, 2 or 3
 enum Wound_Type Piercing Crushing Poison Fire Frost Blast   // each has a Wound table in Procedures.md
 

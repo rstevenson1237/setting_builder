@@ -23,6 +23,7 @@ import tables as tb
 ROOT = Path(__file__).resolve().parent.parent
 SETTING = ROOT / "setting"
 
+maps_fit_site, maps_fit_pdf = "720x560px", "110x150mm"
 ARTICLES = ("the ", "a ", "an ")
 
 
@@ -120,7 +121,6 @@ class Setting:
     prose: list[ProseFile] = field(default_factory=list)
     regions: dict[str, Region] = field(default_factory=dict)
     region_order: list[str] = field(default_factory=list)
-    top_connections: str = ""
 
     # lookup helpers, filled in after parsing
     all_locations: dict[str, Location] = field(default_factory=dict)
@@ -269,7 +269,8 @@ def parse_regions_gazetteer() -> dict[str, dict]:
             continue
         out[code] = {"name": d.get("Name", "").strip(), "rating": d.get("Rating", "").strip(),
                      "die": d.get("Die", "").strip(), "tags": "",
-                     "gloss": d.get("Gloss", "").strip(), "blurb": d.get("Tag line", "").strip()}
+                     "gloss": d.get("Gloss", "").strip(), "blurb": d.get("Tag line", "").strip(),
+                     "joins": d.get("Joins", "").split()}
     return out
 
 
@@ -521,9 +522,52 @@ def _offset(x: float, y: float, level: int, feet: bool) -> str:
                                                      f"{'up' if level > 0 else 'down'}" if level else "")
 
 
-def plan_html(code: str, name: str) -> str:
+def _figure(svg: str | None, caption: str) -> str:
+    return f'<figure class="diagram plan-figure">{svg}<figcaption>{html.escape(caption)}</figcaption></figure>' if svg else ""
+
+
+def sheets_html(fit: str) -> str:
+    """Every terrain sheet whole: the play map."""
+    import maps
+    return "".join(_figure(maps.sheet_svg(f.stem, fit), f"{f.stem}, drawn from the setting's tables")
+                   for f in sorted(SETTING.glob("*.json")))
+
+
+def cut_html(code: str, num: int, fit: str) -> str:
+    """A location's cut of its block's or its sheet's map."""
+    import maps
+    return _figure(maps.cut_svg(f"{code}.{num}", maps.world_for(SETTING), fit), f"{code}.{num} and its surroundings")
+
+
+def drawn_html(code: str, fit: str) -> str:
+    """A region's map, or a DANGEROUS region's block maps, drawn from its tables by artgen."""
+    import maps
+    world = maps.world_for(SETTING)
+    region = world.regions.get(code)
+    if region is None:
+        return ""
+    blocks = maps.blocks_of(region)
+    if blocks:
+        return "".join(_figure(maps.block_svg(code, bid, fit), f"{bid} {b.props.get('name', '')}".strip())
+                       for bid, b in blocks.items())
+    return _figure(maps.region_svg(code, fit), f"{code}, cropped from its sheet")
+
+
+def map_labels() -> list[str]:
+    """The label of each map a build must show: every sheet, every block, every region on a sheet."""
+    import maps
+    world = maps.world_for(SETTING)
+    out = [f"Sheet {f.stem}" for f in sorted(SETTING.glob("*.json"))]
+    for code, r in world.regions.items():
+        out += [f"Map of {bid}" for bid in maps.blocks_of(r) if (r.dir / f"{bid}.json").exists()]
+    return out + [f"Map of region {c}" for c in maps.sheet_rows()]
+
+
+def plan_html(code: str, name: str, fit: str = "720x560px") -> str:
     """The region's locations drawn where their tables place them, north up, with a scale
     bar, and the same places as text for a reader who cannot see the drawing."""
+    if drawn := drawn_html(code, fit):
+        return drawn
     locs = parse_locations_gazetteer(code)
     pos, _ = positions(code)
     if len(pos) < 2:
@@ -691,19 +735,6 @@ def parse_location_file(region_code: str, num: int) -> Location:
     )
 
 
-NODE_RE = re.compile(r'(\w+)\["([A-Z]+(?:\.\d+)?) (.*?)"\]')
-# Matches validate_setting.EDGE_RE, labelled edges included. Without the
-# optional |label| group a vertical or gated edge - `D6 ---|vertical| D9` - is
-# dropped silently, so the PDF's text edge list loses exactly the connections
-# that carry the most information.
-EDGE_RE = re.compile(
-    r'(\w+)(?:\[[^\]]*\])?\s*(---|-\.-|-->)(?:\|([^|]*)\|)?\s*(\w+)(?:\[[^\]]*\])?')
-
-
-def load_mmd(path: Path) -> str:
-    return path.read_text() if path.exists() else ""
-
-
 def anchor_id(kind: str, *args) -> str:
     """Canonical HTML id for a link target - shared by the multi-page site and the
     single-page PDF, where every target lives in one document."""
@@ -730,36 +761,28 @@ def edge_label(code: str, setting: "Setting") -> str:
     return f"{code} {region.name}" if region else code
 
 
-def describe_edges(mmd_text: str, setting: "Setting") -> list[str]:
-    """Human-readable connection lines for contexts (like a PDF) that can't
-    render the mermaid graph itself."""
-    lines = []
-    for a, typ, label, b in mmd_edges_by_code(mmd_text):
-        la, lb = edge_label(a, setting), edge_label(b, setting)
-        note = f" [{label}]" if label else ""
-        if typ == "---":
-            lines.append(f"{la} — {lb}{note}")
-        elif typ == "-.-":
-            lines.append(f"{la} ⤳ {lb} (hidden){note}")
-        elif typ == "-->":
-            lines.append(f"{la} → {lb} (one-way){note}")
-    return lines
+def join_lines(setting: "Setting") -> list[str]:
+    """Each pair of regions the Regional Gazetteer joins, once."""
+    pairs = {}
+    for code, g in parse_regions_gazetteer().items():
+        for other in g["joins"]:
+            pairs.setdefault(frozenset((code, other)), (code, other))
+    return [f"{edge_label(a, setting)} — {edge_label(b, setting)}" for a, b in pairs.values()]
 
 
-def mmd_edges_by_code(text: str) -> list[tuple[str, str, str, str]]:
-    """Return (code_a, edge_type, label, code_b) using the ["CODE Name"] node labels."""
-    id_to_code: dict[str, str] = {}
-    for m in NODE_RE.finditer(text):
-        id_to_code[m.group(1)] = m.group(2)
-    edges = []
-    for raw_line in text.splitlines():
-        line = raw_line.split("%%")[0]
-        for m in EDGE_RE.finditer(line):
-            a, typ, label, b = m.groups()
-            ca, cb = id_to_code.get(a), id_to_code.get(b)
-            if ca and cb:
-                edges.append((ca, typ, (label or "").strip(), cb))
-    return edges
+def connection_lines(code: str, setting: "Setting") -> list[str]:
+    """Each way between two locations of a region, once, from its Connections.md."""
+    path = SETTING / "region" / code / "Connections.md"
+    seen: dict[frozenset, tuple[str, str, bool]] = {}
+    for n in kdl.fenced(path.read_text()) if path.exists() else []:
+        if not n.args or "to" not in n.props:
+            continue
+        a, b = str(n.args[0]), str(n.props["to"])
+        hidden = any(c.name == "Secret" for c in n.children)
+        prev = seen.get(frozenset((a, b)))
+        seen[frozenset((a, b))] = (prev[0], prev[1], prev[2] or hidden) if prev else (a, b, hidden)
+    return [f"{edge_label(a, setting)} — {edge_label(b, setting)}" + (" (hidden)" if hidden else "")
+            for a, b, hidden in seen.values()]
 
 
 # ---------------------------------------------------------------------------
@@ -811,7 +834,6 @@ def load_setting() -> Setting:
     s.name, s.tagline, s.outline = parse_setting()
     s.tables = load_tables()
     s.prose = load_prose()
-    s.top_connections = load_mmd(SETTING / "region" / "Connections.mmd")
 
     gaz = parse_regions_gazetteer()
     s.region_order = list(gaz.keys())
@@ -1111,4 +1133,5 @@ def coverage(setting: Setting, text: str, has_page) -> list[str]:
         for num in r.locations:
             if not has_page(f"region/{code}/{num}"):
                 problems.append(f"{code}.{num}: no page")
+    problems += [f"{label}: no map" for label in map_labels() if f'aria-label="{label}"' not in text]
     return problems

@@ -4,7 +4,7 @@
 Two independent checks: that every step, template and schema STEPS.md names
 resolves (runs unconditionally, regardless of what setting/ holds), and the
 generated content against patterns/*_Schema.md and the formats in templates/,
-the location graphs in Connections.mmd files, and the cross-file registry
+the location graphs in Connections.md files, and the cross-file registry
 constraints (Lore/Keys/NamedCreatures/UniqueTreasures).
 
 This is a structural linter, not a genre/content reviewer - it cannot judge
@@ -24,6 +24,8 @@ Exits 1 if any error is found, 0 otherwise (warnings never fail the run).
 """
 from __future__ import annotations
 
+import json
+import math
 import re
 import sys
 from pathlib import Path
@@ -94,7 +96,7 @@ def index_to_code(i: int) -> str:
 
 TEMPLATES = ROOT / "templates"
 # A template is cited by its path under templates/, folder included.
-TEMPLATE_CITE_RE = re.compile(r'\btemplates/((?:[a-z]+/)?[A-Za-z_]+\.(?:md|mmd))\b')
+TEMPLATE_CITE_RE = re.compile(r'\btemplates/((?:[a-z]+/)?[A-Za-z_]+\.md)\b')
 SCHEMA_CITE_RE = re.compile(r'\bpatterns/([A-Za-z_\[\]]+\.md)\b')
 TEMPLATE_STEP_CITE_RE = re.compile(r'\b[Ss]tep\s+([1-9][0-9]*[a-z])\b')
 STEP_BODY_RE = re.compile(r'^\s*-\s+([1-9][0-9]*[a-z])\.(.*?)(?=\n\s*-\s+[1-9][0-9]*[a-z]\.|\n[1-9]\.|\Z)',
@@ -139,7 +141,8 @@ def check_read_set(diag: Diagnostics):
         return
     bodies, steps = step_bodies(), read_set()
     for sid, (names, _) in sorted(steps.items()):
-        if not names and "python3 tools/" not in bodies.get(sid, ""):
+        body = bodies.get(sid, "").strip()
+        if not names and "python3 tools/" not in body and not body.startswith("Retired"):
             diag.warn(STEPS_MD, f"step {sid} names no template")
         for name in sorted(names):
             if not (TEMPLATES / name).exists():
@@ -174,7 +177,7 @@ def check_brief_slices(diag: Diagnostics):
         for n in kdl.fenced(tables.brief_slice(scope)):
             want = whole.get((n.name, n.args[0] if n.name == "region" and n.args else None))
             kids = want and [c for c in want.children
-                             if scope == "setting" or n.name != "setting" or c.name in tables.SLICE_SETTING]
+                             if scope == "setting" or n.name != "setting" or tables.slice_keeps(c, scope)]
             if not want or repr((n.args, n.props, n.children)) != repr((want.args, want.props, kids)):
                 diag.error(tables.BRIEF, f"--brief {scope} misreads its {n.name} node")
 
@@ -207,13 +210,13 @@ def report_read_set(step_filter: str | None) -> int:
 
 
 # ---------------------------------------------------------------------------
-# Regions.md / setting/region/Connections.mmd
+# Regions.md
 # ---------------------------------------------------------------------------
 
 REGION_RE = re.compile(r'^([A-Z]+) (.+?) - (SAFE|WILD|DANGEROUS), (d\d+)\s*$')
 
 
-REGION_COLUMNS = ["Code", "Name", "Form", "Gloss", "Rating", "Die", "Tag line"]
+REGION_COLUMNS = ["Code", "Name", "Form", "Gloss", "Rating", "Die", "Joins", "Tag line"]
 RATINGS = {"SAFE", "WILD", "DANGEROUS"}
 
 
@@ -240,67 +243,25 @@ def parse_regions(diag: Diagnostics):
             diag.error(path, f"line {line}: region {code} has rating {rating!r} - expected SAFE, WILD or DANGEROUS")
         if die and not re.fullmatch(r"d\d+", die):
             diag.error(path, f"line {line}: region {code} has die {die!r} - expected dN")
-        regions[code] = {"name": d.get("Name", ""), "rating": rating, "die": die}
+        regions[code] = {"name": d.get("Name", ""), "rating": rating, "die": die,
+                         "joins": d.get("Joins", "").split()}
         order.append(code)
+    for code, r in regions.items():
+        for j in r["joins"]:
+            if j == code or j not in regions:
+                diag.error(path, f"region {code} joins {j}, which is {'itself' if j == code else 'no region'}")
+            elif code not in regions[j]["joins"]:
+                diag.error(path, f"region {code} joins {j}, which does not join {code}")
+        if not r["joins"]:
+            diag.error(path, f"region {code} joins no region")
     expected = [index_to_code(idx) for idx in range(len(order))]
     if order != expected:
         diag.error(path, f"region codes not a plain A-Z progression: found {order}, expected {expected}")
     return regions
 
 
-TOP_NODE_RE = re.compile(r'(\w+)\["([A-Z]+) - (.*?)"\]')
-EDGE_RE = re.compile(
-    r'(\w+)(?:\[[^\]]*\])?\s*(---|-\.-|-->)(?:\|([^|]*)\|)?\s*(\w+)(?:\[[^\]]*\])?')
-EDGE_KINDS = {"---": "open", "-->": "one-way", "-.-": "secret"}
-
-
-def parse_mmd_edges(text: str, node_re: re.Pattern):
-    id_to_code: dict[str, str] = {}
-    for m in node_re.finditer(text):
-        id_to_code[m.group(1)] = m.group(2)
-    edges = []
-    unresolved: set[str] = set()
-    for raw_line in text.splitlines():
-        line = raw_line.split("%%")[0]
-        for m in EDGE_RE.finditer(line):
-            a, typ, label, b = m.groups()
-            ca, cb = id_to_code.get(a), id_to_code.get(b)
-            if ca is None:
-                unresolved.add(a)
-            if cb is None:
-                unresolved.add(b)
-            if ca and cb:
-                edges.append((ca, typ, (label or "").strip(), cb))
-    return id_to_code, edges, unresolved
-
-
-def edge_key(a: str, typ: str, label: str, b: str):
-    """Identity of an edge, direction-sensitive only where the kind is."""
-    ends = (a, b) if typ == "-->" else tuple(sorted((a, b)))
-    return (ends, typ, label)
-
-
-def check_top_connections(diag: Diagnostics, regions: dict):
-    path = SETTING / "region" / "Connections.mmd"
-    if not path.exists():
-        diag.warn(path, "missing - not built yet")
-        return []
-    text = path.read_text()
-    id_to_code, top_edges, unresolved = parse_mmd_edges(text, TOP_NODE_RE)
-    for u in sorted(unresolved):
-        diag.error(path, f"edge references node id {u!r} with no bracketed definition")
-    codes_in_graph = set(id_to_code.values())
-    for code in regions:
-        if code not in codes_in_graph:
-            diag.warn(path, f"region {code} has no node in the region-level Connections graph yet")
-    for code in codes_in_graph:
-        if code not in regions:
-            diag.error(path, f"node references unknown region code {code}")
-    return top_edges
-
-
 # ---------------------------------------------------------------------------
-# Per-region Locations.md + Connections.mmd
+# Per-region Locations.md + Connections.md
 # ---------------------------------------------------------------------------
 
 
@@ -513,23 +474,22 @@ def check_location_file(diag, path, region_code, num, stub, connected, all_locat
 
 
 
-def check_region_edge_realization(diag: Diagnostics, top_path, top_edges: list,
-                                  all_loc_edges: list, all_locations: dict):
-    """Both directions of the claim templates/region/Connections.mmd makes at 3b."""
+def check_region_edge_realization(diag: Diagnostics, regions: dict, all_loc_edges: list, all_locations: dict):
+    """Both directions of the claim Regions.md's Joins column makes at 3a."""
+    path = SETTING / "region" / "Regions.md"
     crossings = set()
     for a, _typ, _l, b in all_loc_edges:
         ra = all_locations.get(a, {}).get("region")
         rb = all_locations.get(b, {}).get("region")
         if ra and rb and ra != rb:
             crossings.add(frozenset((ra, rb)))
-    licensed = {frozenset((a, b)) for a, _typ, _l, b in top_edges if a != b}
+    licensed = {frozenset((a, b)) for a, r in regions.items() for b in r["joins"] if a != b}
     for pair in sorted(crossings - licensed, key=sorted):
         x, y = sorted(pair)
-        diag.error(top_path, f"locations connect {x} to {y}, but no region-level edge licenses it")
+        diag.error(path, f"locations connect {x} to {y}, but neither region Joins the other")
     for pair in sorted(licensed - crossings, key=sorted):
         x, y = sorted(pair)
-        diag.warn(top_path, f"region edge {x} - {y} is not yet realized by any "
-                            f"location-to-location connection")
+        diag.warn(path, f"{x} Joins {y}, but no location-to-location connection realizes it")
 
 
 # ---------------------------------------------------------------------------
@@ -741,12 +701,6 @@ def check_inhabitants(diag: Diagnostics, setting):
         for n in nodes if layout else ():
             if n.name == "Location" and n.args and not re.search(rf"\b{re.escape(str(n.args[0]))}\b", layout):
                 diag.warn(brief, f"Layout does not name {n.args[0]}")
-            at = str(n.props.get("at", "")) if n.name == "Location" and n.args else ""
-            dist = re.search(r"\d[\d,]*", at) if sc.parse_at(at) else None
-            code = str(n.args[0]) if n.args else ""
-            said = [s for s in re.split(r"(?<=[.;])\s", layout) if re.search(rf"\b{re.escape(code)}\b", s)]
-            if dist and not any(re.search(rf"\b{re.escape(dist[0])}\b", s) for s in said):
-                diag.warn(brief, f"Layout does not place {code} at {at}, its `at`")
         text = sc.parse_field(lines, "Services")
         sold = {str(n.args[0]) for n in nodes if n.name in ("Purchase", "Procedure")}
         for code in sorted(sold) if text else ():
@@ -773,6 +727,116 @@ def check_plans(diag: Diagnostics, setting):
         if pos and unplaced:
             diag.warn(path, f"{', '.join(unplaced)} cannot be placed: no orientation reaching "
                             f"{'it' if len(unplaced) == 1 else 'them'} states a compass point and distance")
+
+
+def check_sheets(diag: Diagnostics, brief):
+    """The sheets BRIEF.md asks for exist as Sheets.md rows and as map files, each `place`
+    and `ground` request is met, and Ground.md is what `maps.py ground` would write now."""
+    import maps
+    if not brief.sheets:
+        return
+    sheets_md, held = SETTING / "Sheets.md", {}
+    if not sheets_md.exists():
+        diag.warn(sheets_md, "missing - not built yet, owed to step 3b")
+        return
+    for d in sc.read_tables(sheets_md)[0].dicts():
+        held[d["Sheet"], d["Region"]] = d
+    sheets = {n: maps.Sheet(n, node) for n, node in brief.sheets.items()}
+    for name, sheet in sheets.items():
+        file = SETTING / f"{name}.json"
+        missing = [c for c in sheet.codes if (name, c) not in held]
+        if missing:
+            diag.warn(sheets_md, f"sheet {name} holds no row for {', '.join(missing)} - owed to step 3b")
+            continue
+        if not file.exists():
+            diag.warn(file, "missing - not built yet, owed to step 3b")
+            continue
+        for c in sheet.codes:
+            sheet.at[c] = tuple(float(v) for v in held[name, c]["Way in"].split(","))
+        for c in sheet.codes:
+            for n in brief.regions[c].children:
+                if n.name == "place" and str(n.args[0]) in sheet.codes:
+                    q = maps.Request(c, n, sheet.square)
+                    if q.miss(sheet.at[c], sheet.at[q.of]) > 0.5:
+                        diag.error(tables.BRIEF, f"line {n.line}: region {c} place {q.of} {n.args[1]} {n.args[2]!r} "
+                                                 f"is unmet on {name}: {q.said(sheet.at[c], sheet.at[q.of])}")
+        done = maps.read_only(file, "map", "check")
+        report = json.loads(done.stdout) if done.stdout.strip().startswith("{") else None
+        if report is None:
+            diag.error(file, f"artgen cannot check it: {(done.stderr or done.stdout).strip()}")
+            continue
+        for e in report["errors"]:
+            diag.error(file, f"{e['path']}: {e['message']}")
+        for r in report["requirements"]:
+            if not r["met"]:
+                node = next((c for c in brief.regions.get(r["id"].split("-")[0], kdl.Node("", 0)).children
+                             if c.name == "ground"), None)
+                diag.error(tables.BRIEF, f"{'line ' + str(node.line) + ': ' if node else ''}{r['text']}")
+    made = maps.ground_texts(brief.path, SETTING)
+    if isinstance(made, str):
+        diag.warn(sheets_md, made)
+        return
+    for code, text in made[0].items():
+        path = SETTING / "region" / code / "Ground.md"
+        if not path.exists():
+            diag.warn(path, "missing - not built yet, owed to step 3b")
+        elif path.read_text() != text:
+            diag.warn(path, "is not what `python3 tools/maps.py ground` writes now - owed to step 4d")
+
+
+def check_places(diag: Diagnostics, setting, brief):
+    """A WILD or SAFE location on a sheet states where it lies, on that sheet and, to a
+    warning, inside its region's area."""
+    import maps
+    for code, row in maps.sheet_rows().items():
+        region = setting.regions.get(code)
+        if region is None:
+            continue
+        sheet = brief.sheets.get(row["sheet"])
+        if sheet is None:
+            continue
+        cell = maps.feet(sheet.props["square"])
+        cols, rows = maps.Sheet(row["sheet"], sheet).cols, maps.Sheet(row["sheet"], sheet).rows
+        for loc, n in region.locations().items():
+            o = maps.offset(n)
+            path = region.dir / "Locations.md"
+            if o is None:
+                diag.error(path, f"{loc} states no place: bearing and distance, north and east, or at=\"way in\"")
+                continue
+            x, y = row["x"] + o[0] / cell, row["y"] - o[1] / cell
+            if not (0 <= x < cols and 0 <= y < rows):
+                diag.error(path, f"{loc} lies off the {row['sheet']} sheet")
+            elif math.dist((x, y), (row["x"], row["y"])) > row["radius"]:
+                diag.warn(path, f"{loc} lies outside {code}'s area on the {row['sheet']} sheet")
+
+
+def check_blocks(diag: Diagnostics, setting):
+    """Every location of a region with Blocks.md is in exactly one block with a footprint
+    and a route from its entrance, no room overlaps another, and no way within a block
+    climbs."""
+    import maps
+    for code, region in setting.regions.items():
+        blocks = maps.blocks_of(region)
+        if not blocks:
+            continue
+        path = region.dir / "Blocks.md"
+        owner: dict[str, str] = {}
+        for bid, block in blocks.items():
+            for c in (m.strip() for m in str(block.props.get("locations", "")).split(",") if m.strip()):
+                if c not in region.locations():
+                    diag.error(path, f"{bid} names {c}, which Locations.md does not hold")
+                elif c in owner:
+                    diag.error(path, f"{c} is in blocks {owner[c]} and {bid}")
+                owner[c] = bid
+            _, problems = maps.block_map(region, block)
+            for p in problems:
+                diag.error(path, f"{bid}: {p}")
+        for c in sorted(set(region.locations()) - set(owner), key=lambda c: int(c.split(".")[1])):
+            diag.error(path, f"{c} is in no block")
+        for n in region.files.get("Connections", []):
+            a, b = str(n.args[0]), str(n.props.get("to"))
+            if owner.get(a) and owner.get(a) == owner.get(b) and str(n.props.get("climb", "0")).lstrip("-") not in ("", "0"):
+                diag.error(region.dir / "Connections.md", f"{a} to {b} climbs within block {owner[a]}; a way that climbs joins two blocks")
 
 
 def check_marks(diag: Diagnostics, setting):
@@ -1207,9 +1271,6 @@ def main() -> int:
         return 1 if diag.errors else 0
 
     regions = parse_regions(diag)
-    top_path = SETTING / "region" / "Connections.mmd"
-    top_edges = check_top_connections(diag, regions)
-
     setting = tables.Setting({c: i["rating"] for c, i in regions.items()})
     for sev, path, msg in setting.check():
         (diag.error if sev == "error" else diag.warn)(path, msg)
@@ -1233,7 +1294,7 @@ def main() -> int:
     mundane_edges = {(n.args[0], n.props["to"]) for n in sides} - hidden_edges
     stated = {n.args[0] for n in sides}
 
-    check_region_edge_realization(diag, top_path, top_edges, all_loc_edges, all_locations)
+    check_region_edge_realization(diag, regions, all_loc_edges, all_locations)
 
     conditions = procedures_conditions()
     for region_code, locs in region_locs.items():
@@ -1272,6 +1333,9 @@ def main() -> int:
     check_inhabitants(diag, setting)
     check_marks(diag, setting)
     check_plans(diag, setting)
+    check_sheets(diag, brief)
+    check_places(diag, setting, brief)
+    check_blocks(diag, setting)
 
     # A location reached from the region itself is no part of the stated graph.
     top = {c for r in setting.regions.values() for c, n in r.locations().items()

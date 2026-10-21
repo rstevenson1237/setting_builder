@@ -197,11 +197,6 @@
     });
   }
 
-  if (window.mermaid) {
-    var isDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
-    mermaid.initialize({ startOnLoad: true, theme: isDark ? "dark" : "default", securityLevel: "loose" });
-  }
-
   var searchInput = document.getElementById("site-search");
   var resultsBox = document.getElementById("search-results");
   if (searchInput && resultsBox) {

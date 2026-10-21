@@ -91,6 +91,24 @@ node Secret {              // the way into a Secret location: what opens it, wha
   when gloss opt
 }
 
+node Ground {               // written by `tools/maps.py ground`, never by hand: the region as its sheet draws it
+  sheet string              // its home sheet
+  square string             // its way in on that sheet, as "column,row"
+  ground string             // the terrain its area holds, by share
+}
+node Feature {              // a river, road, hill or hollow in the region's area
+  kind Feature_Kind
+  bearing Compass           // from the region's way in, to the nearest of it
+  distance distance
+  runs Compass opt          // the way a river or road runs, to its far end
+  height feet opt           // a hill's or hollow's
+}
+node At {                   // the ground at a location
+  ground Ground_Type
+  height feet
+  slope Slope
+}
+
 folder Safe type=Safe_Type {
   Locations Location
   Dressing Dressing
@@ -100,6 +118,7 @@ folder Safe type=Safe_Type {
   Procedures Procedure
   Blocks Block                                     // optional
   Connections Way
+  Ground Ground Feature At                         // written by code
   top Inn Merchant Bank Market Authority Gate   // reached from the region itself, so never joined to one another
   join Secret Inn Merchant Bank Market Authority Gate gate=Secret   // the only type that connects within its region, and the Way into it carries a Secret
 }

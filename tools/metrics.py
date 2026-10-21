@@ -622,7 +622,8 @@ def report_budget() -> None:
 #
 # The region overview and BRIEF.md's region slice are per-region, so each is
 # reported as its own range rather than folded into one number that would be
-# right for no region.
+# right for no region. Ground.md is a range too: 4a and 5e read it whole, while 5b
+# reads only a location's At entry, which --location already carries.
 # ---------------------------------------------------------------------------
 
 FIXED_CONTEXT = ("CLAUDE.md", "README.md", "GENRE.md", "STYLE.md",
@@ -651,6 +652,8 @@ def report_read_set(step: str = "5b") -> None:
     avg += report_range("region overview", {p.stem: file_words(p) for p in sorted(REGION.glob("[A-Z].md"))}
                         if REGION.exists() else {})
     print(f"  {'fixed context':24s} : {fixed + avg:6,} (with the mean region slice and overview)")
+    report_range("Ground.md (4a, 5e; not summed)",
+                 {p.parent.name: file_words(p) for p in sorted(REGION.glob("[A-Z]/Ground.md"))} if REGION.exists() else {})
     print()
 
     names, schemas = read_set().get(step, (set(), set()))

@@ -220,6 +220,16 @@ table Keys entry file="setting/Keys.md" {
 enum Ask retrieve find deliver destroy verify take collect recover message
 enum Reluctance unable burned shamed needed "turned back"
 enum Obstacle living guarded fragile watched contested misplaced misdescribed
+// -- Sheets.md: written by `tools/maps.py place`, never by hand. Where each region's way in
+//    lies on each sheet BRIEF.md asks for, in squares from the north-west corner, and the
+//    area it is given on its home sheet; a region on a coarser sheet is a mark.
+table Sheets entry file="setting/Sheets.md" {
+  Name text                   // the sheet and the region, as "Frontier C"
+  Sheet text
+  Region text
+  "Way in" text
+  Area text
+}
 table Quests entry file="setting/Quests.md" {
   Name text
   Ask Ask
