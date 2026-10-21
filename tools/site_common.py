@@ -794,6 +794,10 @@ def entry_card(t: SettingTable, e: Entry, render) -> tuple[str, str]:
         shown.add(dice)
     rows = "".join(f"<tr><th>{html.escape(k)}</th><td>{value_html(v, render)}</td></tr>"
                    for k, v in e.fields if k not in shown)
+    for m in t.members:
+        if m.type == "finds" and f.get(m.name):
+            cn, wt = tb.finds_total(f[m.name])
+            rows += f"<tr><th>Total</th><td>{cn:,} cn, {wt:,} wt</td></tr>"
     return title, rows
 
 

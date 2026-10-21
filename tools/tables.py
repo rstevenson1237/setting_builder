@@ -22,6 +22,7 @@ COUNT_RE = re.compile(r"(\d+)(?:-(\d+)|(\+))?")   # N exactly, "N-M", "N+" at le
 OPEN = 10 ** 9
 FEET_RE = re.compile(r"-?\d+")
 PERCENT_SUM_RE = re.compile(r"\d+% of the sum")
+FIND_RE = re.compile(r".+ \(([\d,]+) cn, ([\d,]+) wt\)")
 COIN_RE = re.compile(r"(\d+)(?:-(\d+))? cn")
 TIME_RE = re.compile(r"(\d+)(?:-(\d+))? ([A-Za-z]+)")
 RATING_TIME = {"SAFE": {"Round", "turn", "hour", "day", "week"}, "WILD": {"watch", "day"},
@@ -427,6 +428,18 @@ def unit_problem(typ: str, v: str, enums: dict) -> str | None:
     return None
 
 
+def finds_of(v: str) -> list[str]:
+    """The finds a `finds` value lists."""
+    return [f for f in v.strip().rstrip(".").split("; ") if f.strip()]
+
+
+def finds_total(v: str) -> tuple[int, int]:
+    """The value in cn and the weight in wt a `finds` value sums to."""
+    got = [FIND_RE.fullmatch(f) for f in finds_of(v)]
+    return (sum(int(m.group(1).replace(",", "")) for m in got if m),
+            sum(int(m.group(2).replace(",", "")) for m in got if m))
+
+
 def time_unit(v: str, units) -> str | None:
     """The Time_Unit a time value is in, or None where it reads as no time."""
     m = TIME_RE.fullmatch(v)
@@ -466,6 +479,10 @@ def value_problems(m: Member, v: str, enums: dict, words: dict):
     elif m.type == "percent":
         if not PERCENT_RE.fullmatch(v) or int(v[:-1]) > 100:
             yield f"{v!r} is not a percentage"
+    elif m.type == "finds":
+        for find in finds_of(v):
+            if not FIND_RE.fullmatch(find):
+                yield f"{find[:40]!r} does not end '(N cn, N wt)'"
     elif m.type == "coin":
         c = COIN_RE.fullmatch(v)
         if v != "pennies" and not c:

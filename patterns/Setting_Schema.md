@@ -153,8 +153,7 @@ table Magic roll file="setting/Magic.md" {
 table Hoards entry file="setting/Hoards.md" {   // one owner, one location
   "Found at" place from=Reward
   Owner entry Bestiary Factions "Named Creatures"
-  Items text
-  Total text                  // value and wt, summed
+  Items finds
 }
 enum Does once class adjacent solution knowledge passage ward
 enum Cost toll noticed bound desperate foreign sought forbidden
