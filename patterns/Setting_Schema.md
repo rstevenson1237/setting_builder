@@ -96,8 +96,9 @@ table Factions entry file="setting/Factions.md" {
 // -- The past and the rules. An event is a fact, never a clock aimed at the party, stated
 //    in two sentences at most. A truth is a class, shows at more than one rating, sharpens
 //    GENRE.md and never overrides it; a mystery or open truth says it is one.
+enum Age recent living old ancient   // within ten years; within living memory; recorded but not remembered; before any record
 table History entry file="setting/History.md" {
-  When text                   // years ago, vaguer the older it is
+  When Age                    // then ' - ' and the years ago, vaguer the older it is; entries run oldest first
   Event text
   Left text                   // the physical mark findable now
   Codes place from=Dressing none

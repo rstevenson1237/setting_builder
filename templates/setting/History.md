@@ -22,7 +22,7 @@ An event's Codes are the locations whose Dressing names it in `left`, each showi
 History of [Setting Name]
 
 ### [A short name for the event]
-When: [x years ago]
+When: [recent, living, old or ancient] - [x years ago]
 Event: [what happened, in one or two sentences]
 Left: [the physical thing findable now]
 Codes: [Location Code(s)]

@@ -865,6 +865,18 @@ def check_numbers(diag: Diagnostics, setting, schema):
                           f"{want[0] if want[0] == want[1] else f'{want[0]}-{want[1]}'}")
 
 
+def check_history_order(diag: Diagnostics, schema):
+    """History runs oldest first: each entry's Age is no younger than the one before."""
+    ages = list(schema.setting_enums.get("Age", []))
+    last = None
+    for title, line, values in tables.setting_entries(schema, "History") or []:
+        age = next((a for a in ages if values.get("When", "").startswith(a)), None)
+        if age and last and ages.index(age) > ages.index(last[1]):
+            diag.error(SETTING / "History.md", f"line {line}: {title} is {age} and follows {last[0]}, which is {last[1]} - oldest first")
+        if age:
+            last = (title, age)
+
+
 def check_blocks(diag: Diagnostics, setting):
     """Every location of a region with Blocks.md is in exactly one block with a footprint
     and a route from its entrance, no room overlaps another, and no way within a block
@@ -1415,6 +1427,7 @@ def main() -> int:
     check_hazards(diag, setting, brief)
     check_listed_prices(diag, setting)
     check_numbers(diag, setting, schema)
+    check_history_order(diag, schema)
     check_reversals(diag, setting)
 
     # A location reached from the region itself is no part of the stated graph.
