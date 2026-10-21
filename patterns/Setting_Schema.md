@@ -232,6 +232,7 @@ table Sheets entry file="setting/Sheets.md" {
   "Way in" text
   Area text
 }
+enum Pay fee share favour loan bait
 table Quests entry file="setting/Quests.md" {
   Name text
   Ask Ask
@@ -239,7 +240,7 @@ table Quests entry file="setting/Quests.md" {
   Reluctance Reluctance
   Object text
   Obstacle Obstacle
-  Terms text                  // the giver's own words: a fee, share, favour, loan, or bait
+  Terms Pay                   // then ' - ' and the giver's own words
   "Points to" place none
 }
 ```
