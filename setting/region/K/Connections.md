@@ -1,9 +1,9 @@
 # Connections of K Bugbear Den
 
 ```kdl
-Connection K.1 to="E.7" type="Open" bearing="west" distance="20 yards"
-Connection K.1 to="K.3" type="Open" bearing="east" distance="180 yards"
-Connection K.3 to="K.1" type="Open" bearing="west" distance="180 yards"
+Connection K.1 to="E.7" type="Open" bearing="west" distance="50 yards" orientation="down the dry bed"
+Connection K.1 to="K.3" type="Open" bearing="east" distance="40 feet"
+Connection K.3 to="K.1" type="Open" bearing="west" distance="40 feet"
 Connection K.3 to="K.2" type="Wooden" bearing="north" distance="40 feet"
 Connection K.2 to="K.3" type="Wooden" bearing="south" distance="40 feet"
 Connection K.3 to="K.5" type="Crude" bearing="east" distance="60 feet"
