@@ -69,7 +69,8 @@ node Garrison {             // the standing force an Authority commands
   faction entry Factions
   present number            // under arms and within call
   members string            // ranks, arms and posts
-  answers string            // what brings it out, and how soon
+  call gloss                // what brings it out
+  within time               // how soon
 }
 
 node Way {
