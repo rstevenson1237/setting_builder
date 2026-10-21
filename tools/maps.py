@@ -19,9 +19,9 @@ ground   Reads each placed region's ground back from its home sheet and writes i
          area, and, once its Locations.md exists, the ground at each location. Run again
          after the locations are written. A location with no bearing and distance, or north
          and east, from the way in is listed and left out.
-draw     Writes each DANGEROUS block's map, `setting/region/[Code]/[Block].json`, from its
-         tables, and with --out renders every sheet, region map, block and location cut to
-         SVG there. The site and PDF builders call `region_svg`, `block_svg` and `cut_svg`.
+draw     Writes the first block's map of each DANGEROUS region, `setting/region/[Code]/[Block].json`,
+         from its tables, and with --out renders every sheet and those blocks to SVG there.
+         Region maps and location cuts (`region_svg`, `cut_svg`) are paused.
 """
 from __future__ import annotations
 
@@ -509,6 +509,14 @@ def blocks_of(region) -> dict[str, kdl.Node]:
     return {str(n.args[0]): n for n in region.files.get("Blocks", []) if n.args}
 
 
+def drawn_blocks(region) -> dict[str, kdl.Node]:
+    """The one block drawn for a DANGEROUS region: its first. Region and location maps are
+    paused, and so is every other rating's."""
+    if region.rating.upper() != "DANGEROUS":
+        return {}
+    return dict(list(blocks_of(region).items())[:1])
+
+
 def block_map(region, block: kdl.Node) -> tuple[dict | None, list[str]]:
     """The artgen dungeon file for one block of a region, and what the tables leave it
     unable to draw."""
@@ -630,9 +638,9 @@ def write_blocks(world, only: str | None = None) -> list[str]:
     cannot be drawn."""
     out = []
     for code, region in world.regions.items():
-        if region.rating.upper() != "DANGEROUS" or (only and code != only):
+        if only and code != only:
             continue
-        for bid, block in blocks_of(region).items():
+        for bid, block in drawn_blocks(region).items():
             m, problems = block_map(region, block)
             out += [f"{bid}: {p}" for p in problems]
             if m is None:
@@ -776,11 +784,8 @@ def draw(brief_path: Path, setting: Path, out: Path | None, fit: str) -> int:
         for f in sorted(setting.glob("*.json")):
             put(f"{f.stem}.svg", sheet_svg(f.stem, fit, setting))
         for code, region in world.regions.items():
-            put(f"{code}.svg", region_svg(code, fit, setting))
-            for bid in blocks_of(region):
+            for bid in drawn_blocks(region):
                 put(f"{bid}.svg", block_svg(code, bid, fit, setting))
-            for loc in region.locations():
-                put(f"{loc}.svg", cut_svg(loc, world, fit, setting))
     for p in problems:
         print(f"UNDRAWN: {p}")
     return 1 if problems else 0
