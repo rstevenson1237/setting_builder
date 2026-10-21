@@ -1,0 +1,2 @@
+# Commits that change a line's form and not its meaning. `git blame` looks past them, so
+# staleness (tools/tables.py) does not mark the write-ups they touch. One full hash per line.

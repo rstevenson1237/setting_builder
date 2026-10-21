@@ -1401,14 +1401,20 @@ class Brief:
 # naming it, the setting entries those name, or its region's seed - changed after the
 # write-up last did. A line's time is its last commit's, read by `git blame`, or its
 # file's modified time while the line is uncommitted. Without git, nothing is stale.
+# A commit that changes a line's form and not its meaning is listed in BLAME_IGNORE, so
+# `git blame` looks past it and the write-ups the line feeds stay current.
 
 import os
 import subprocess
+
+BLAME_IGNORE = ".git-blame-ignore-revs"
 
 
 class History:
     def __init__(self):
         self._blame: dict[Path, list[float] | None] = {}
+        ignore = ROOT / BLAME_IGNORE
+        self._ignore = ["--ignore-revs-file", str(ignore)] if ignore.exists() else []
 
     def _git(self, *args) -> str | None:
         try:
@@ -1419,7 +1425,7 @@ class History:
 
     def line_times(self, path: Path) -> list[float] | None:
         if path not in self._blame:
-            out = self._git("blame", "--line-porcelain", "--", str(path.relative_to(ROOT)))
+            out = self._git("blame", "--line-porcelain", *self._ignore, "--", str(path.relative_to(ROOT)))
             times, uncommitted = [], False
             for line in (out or "").splitlines():
                 if re.match(r"[0-9a-f]{40} ", line):
