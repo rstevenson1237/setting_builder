@@ -19,8 +19,8 @@ ground   Reads each placed region's ground back from its home sheet and writes i
          area, and, once its Locations.md exists, the ground at each location. Run again
          after the locations are written. A location with no bearing and distance, or north
          and east, from the way in is listed and left out.
-draw     Writes the first block's map of each DANGEROUS region, `setting/region/[Code]/[Block].json`,
-         from its tables, and with --out renders every sheet and those blocks to SVG there.
+draw     Writes each DANGEROUS block's map, `setting/region/[Code]/[Block].json`, from its
+         tables, and with --out renders every sheet and block to SVG there.
          Region maps and location cuts (`region_svg`, `cut_svg`) are paused.
 """
 from __future__ import annotations
@@ -510,11 +510,9 @@ def blocks_of(region) -> dict[str, kdl.Node]:
 
 
 def drawn_blocks(region) -> dict[str, kdl.Node]:
-    """The one block drawn for a DANGEROUS region: its first. Region and location maps are
+    """The blocks drawn for a DANGEROUS region: all of them. Region and location maps are
     paused, and so is every other rating's."""
-    if region.rating.upper() != "DANGEROUS":
-        return {}
-    return dict(list(blocks_of(region).items())[:1])
+    return blocks_of(region) if region.rating.upper() == "DANGEROUS" else {}
 
 
 def block_map(region, block: kdl.Node) -> tuple[dict | None, list[str]]:

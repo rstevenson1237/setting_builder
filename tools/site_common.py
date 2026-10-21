@@ -435,7 +435,7 @@ def cut_html(code: str, num: int, fit: str) -> str:
 
 
 def drawn_html(code: str, fit: str) -> str:
-    """A DANGEROUS region's one drawn block map, from its tables by artgen. Other ratings'
+    """A DANGEROUS region's block maps, from its tables by artgen. Other ratings'
     region maps are paused (`maps.region_svg` draws one)."""
     import maps
     region = maps.world_for(SETTING).regions.get(code)
@@ -446,7 +446,7 @@ def drawn_html(code: str, fit: str) -> str:
 
 
 def map_labels() -> list[str]:
-    """The label of each map a build must show: every sheet, and each DANGEROUS region's drawn block."""
+    """The label of each map a build must show: every sheet, and each DANGEROUS region's blocks."""
     import maps
     world = maps.world_for(SETTING)
     out = [f"Sheet {f.stem}" for f in sorted(SETTING.glob("*.json"))]
