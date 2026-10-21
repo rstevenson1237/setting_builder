@@ -1,0 +1,376 @@
+CORPUS
+  regions            : 13 (A, B, C, D, E, F, G, H, I, J, K, L, M)
+  keyed locations    : 94
+  words              : 13,167
+  words per location : 140
+    A: 13 locations,  2,162 words
+    B:  5 locations,    712 words
+    C:  7 locations,    911 words
+    D:  5 locations,    715 words
+    E: 12 locations,  1,331 words
+    F:  5 locations,    601 words
+    G:  6 locations,    849 words
+    H:  6 locations,    889 words
+    I:  6 locations,    865 words
+    J:  5 locations,    742 words
+    K:  5 locations,    689 words
+    L:  5 locations,    751 words
+    M: 14 locations,  1,950 words
+
+FEATURES
+  Features           : 328
+  words per Feature  : mean 18.1, max 56 (body with citation)
+  prose words        : mean 16.3, max 51 (citation stripped)
+  segments           : mean 2.0, max 6
+  sentences          : mean 1.09, max 2
+  longest            : setting/region/C/3.md 'Ansel the Hermit'
+
+CARRY
+  all          table 4,336 words, write-up 13,167,  3.0x longer; dropped 801 of 2664 table words (30%); tags carried 282 of 282
+  A            table   820 words, write-up  2,162,  2.6x longer; dropped 163 of 507 table words (32%); tags carried 39 of 39
+  B            table   255 words, write-up    712,  2.8x longer; dropped 40 of 159 table words (25%); tags carried 15 of 15
+  C            table   342 words, write-up    911,  2.7x longer; dropped 75 of 209 table words (35%); tags carried 21 of 21
+  D            table   232 words, write-up    715,  3.1x longer; dropped 29 of 141 table words (20%); tags carried 15 of 15
+  E            table   531 words, write-up  1,331,  2.5x longer; dropped 119 of 349 table words (34%); tags carried 36 of 36
+  F            table   203 words, write-up    601,  3.0x longer; dropped 39 of 117 table words (33%); tags carried 15 of 15
+  G            table   261 words, write-up    849,  3.3x longer; dropped 40 of 157 table words (25%); tags carried 18 of 18
+  H            table   276 words, write-up    889,  3.2x longer; dropped 45 of 164 table words (27%); tags carried 18 of 18
+  I            table   259 words, write-up    865,  3.3x longer; dropped 48 of 163 table words (29%); tags carried 18 of 18
+  J            table   228 words, write-up    742,  3.3x longer; dropped 43 of 141 table words (30%); tags carried 15 of 15
+  K            table   211 words, write-up    689,  3.3x longer; dropped 38 of 125 table words (30%); tags carried 15 of 15
+  L            table   160 words, write-up    751,  4.7x longer; dropped 35 of 104 table words (33%); tags carried 15 of 15
+  M            table   558 words, write-up  1,950,  3.5x longer; dropped 87 of 328 table words (26%); tags carried 42 of 42
+  most dropped:
+    A.4    21 of 60: stair, spilled, pipe, smoke, sit, landlady, loud, fair, steel, drawn, indoors, kinswoman, lost, stubborn, sleepless, found, whatever, off-duty, drinking, floor, casks
+    J.5    21 of 54: buyer, due, full, musk, rot, name, loose, coin, hobgoblins, broken, links, spotted, hide, dragging, circle, hamstring, fallen, share, chewed, low, growling
+    A.9    19 of 60: candle, wax, rope, cure, lift, calm, severe, found, quietly, deaf, kindly, hand, healer, earnest, nervous, help, carrying, gate, deals
+    B.1    18 of 64: packed-earth, across, survey, dust, horse, dung, wagon-wide, tall-grass, shallow, challenge, strangers, clear, struck, wheel, ruts, bootprints, plume, mail
+    H.6    18 of 49: passage, want, smoke-black, sweat, pitch, weapon, kept, goblins, broken, spilt, ale, cracked, horns, favour, chewed, bones, grunting, snores
+
+HEADCOUNT
+  Factions
+    The Keep                          36 in 4 room(s)
+    The Zhakuk                        28 in 3 room(s)
+    The Gubak                         23 in 2 room(s)
+    The Wood Outlaws                  21 in 3 room(s)
+    The Sellaca                       16 in 2 room(s)
+    The Rokmok                        13 in 2 room(s)
+    The Black Altar                   12 in 4 room(s)
+    The Kurzun                         9 in 2 room(s)
+    The Burgnaz                        6 in 2 room(s)
+    The Zurnaz                         5 in 2 room(s)
+    The Carters' Guild                 4 in 1 room(s)
+  Bestiary
+    Wolf                              17 in 3 room(s)
+    Zombie                            16 in 3 room(s)
+    Goblin                             8 in 2 room(s)
+    Hobgoblin                          8 in 3 room(s)
+    Orc                                6 in 2 room(s)
+    Gnoll                              5 in 2 room(s)
+    Bugbear                            4 in 2 room(s)
+    Kobold                             2 in 1 room(s)
+    Owlbear                            1 in 1 room(s)
+
+RECURRENCE
+  Bestiary            11 entries, 4 in 0 or 1 location: Lizard Man (none), Soldier (none), Kobold (F.1), Owlbear (E.10)
+  Factions            11 entries, 1 in 0 or 1 location: The Carters' Guild (A.8)
+  Named Creatures      9 entries, 9 in 0 or 1 location: Ansel the Hermit (C.3), Hurk the Brewmaster (H.6), Mort the Tithe-Taker (K.5), Nib the Trapwright (F.5), Ruk the Collar-Keeper (J.5), Tanglehorn the Keeper (L.5), Varn the Red-Sashed (I.6), Veck the Hollow (M.5), Wen the Tar-Thumbed (G.6)
+  Lore                 6 entries, 6 in 0 or 1 location: The Buyer's Tally (J.4), The Carters' Waybill (G.6), The High Priest's Letter (M.5), The Keeper's Charge (L.5), The Last Niche (M.8), The Tithe Sticks (K.4)
+  Keys                 3 entries, 0 in 0 or 1 location
+  Unique Treasures     2 entries, 2 in 0 or 1 location: The Founder's Reliquary (M.2), The Thalosae Lamp (M.11)
+  Magical Tomes        1 entries, 1 in 0 or 1 location: The Black Psalter (M.9)
+  Hoards               7 entries, 7 in 0 or 1 location: Hurk's Hoard (H.6), Mort's Hoard (K.5), Nib's Hoard (F.5), Ruk's Hoard (J.5), The Altar's Hoard (M.12), Varn's Hoard (I.6), Wen's Hoard (G.6)
+  Local Procedures     8 entries, 8 in 0 or 1 location: Crossing by Causeway or Pole Boat (D.1), Finding the Way Through the Maze (L.2), Forage and Hunt in the Wood (C.1), Hiring at the Market Yard (A.8), Knucklebones at the Broken Wheel (A.4), Selling Loot to the Moneychanger (A.7), Travelling with the Fortnightly Wagon (B.1), Watching the Cave Mouths (E.11)
+
+FRAMES
+  opens "N miles out" in 3 rooms: B.1, C.1, D.1
+  opens "N feet of" in 2 rooms: E.5, I.1
+  opens "N lizard-folk with" in 2 rooms: D.1, D.2
+  opens "N on the" in 2 rooms: I.6, J.1
+  opens "N outlaws with" in 2 rooms: B.5, C.1
+  opens "N stand at" in 2 rooms: E.9, M.5
+  opens "climbs to the" in 2 rooms: A.11, A.12
+  opens "cut into the" in 2 rooms: K.4, M.2
+  opens "hung from the" in 2 rooms: G.6, H.6
+  opens "iron bars set" in 2 rooms: I.3, J.2
+  opens "makers' cut stone" in 2 rooms: K.4, M.6
+  opens "makers' stone wide" in 2 rooms: L.5, M.13
+  opens "soot at head" in 2 rooms: K.1, K.4
+  opens "stands at the" in 2 rooms: A.10, L.3
+  ends  "across the floor" in 2 rooms: H.1, J.1
+  ends  "at N cn" in 2 rooms: A.4, A.5
+  ends  "at head height" in 2 rooms: C.2, C.7
+  ends  "at the edges" in 2 rooms: D.1, E.8
+  ends  "in the mud" in 2 rooms: B.3, C.6
+  ends  "on the road" in 2 rooms: A.1, B.4
+  ends  "the back stair" in 2 rooms: K.5, M.5
+  ends  "the mere landing" in 2 rooms: C.1, D.1
+  ends  "to N cn" in 2 rooms: A.6, A.7
+
+TELLS
+  rather than      :    0   the trailing clause, per PR #41
+  absence claim    :    0   absence across time or space
+  conclusion tell  :    0   the players' conclusion written down, per STYLE.md
+  gloss            :    1   a term carrying its own definition
+                     'rather than' is in 0 of 328 Features
+
+MIX
+  A:
+     connections      6 - Way 6 (100%)
+     challenges       0 - none
+     hazard damage    0 - none
+     rewards          0 - none
+     owed           stubs 0, write-ups missing 0, stale 13
+  B:
+     connections      2 - Way 2 (100%)
+     challenges       4 - Encounter 3 (75%), Hazard 1 (25%)
+     hazard damage    1 - Nuisance 1 (100%)
+     rewards          0 - none
+     owed           stubs 0, write-ups missing 0, stale 2
+  C:
+     connections      5 - Way 5 (100%)
+     challenges       7 - Encounter 5 (71%), Hazard 2 (28%)
+     hazard damage    2 - Nuisance 2 (100%)
+     rewards          0 - none
+     owed           stubs 0, write-ups missing 0, stale 5
+  D:
+     connections      4 - Way 4 (100%)
+     challenges       5 - Encounter 3 (60%), Hazard 1 (20%), Mystery 1 (20%)
+     hazard damage    1 - Damaging 1 (100%)
+     rewards          0 - none
+     owed           stubs 0, write-ups missing 0, stale 5
+  E:
+     connections     13 - Way 13 (100%)
+     challenges      10 - Encounter 9 (90%), Hazard 1 (10%)
+     hazard damage    1 - Damaging 1 (100%)
+     rewards          0 - none
+     owed           stubs 0, write-ups missing 0, stale 2
+  F:
+     connections      9 - Crude 4 (44%), Wooden 4 (44%), Open 1 (11%)
+     challenges       3 - Encounter 3 (100%)
+     hazard damage    0 - none
+     rewards          4 - Treasure I 1 (25%), Treasure IV 1 (25%), Hoards 1 (25%), Treasure II 1 (25%)
+     owed           stubs 0, write-ups missing 0, stale 5
+  G:
+     connections     12 - Crude 4 (33%), Wooden 4 (33%), Banded 2 (16%), Open 1 (8%), Stone 1 (8%)
+     challenges       5 - Encounter 5 (100%)
+     hazard damage    0 - none
+     rewards          5 - Treasure I 1 (20%), Treasure III 1 (20%), Treasure IV 1 (20%), Hoards 1 (20%), Lore 1 (20%)
+     owed           stubs 0, write-ups missing 0, stale 4
+  H:
+     connections     12 - Archway 4 (33%), Wooden 2 (16%), Banded 2 (16%), Broken 2 (16%), Open 1 (8%), Stone 1 (8%)
+     challenges       5 - Encounter 4 (80%), Hazard 1 (20%)
+     hazard damage    1 - Damaging 1 (100%)
+     rewards          6 - Treasure II 1 (16%), Treasure I 1 (16%), Treasure III 1 (16%), Treasure IV 1 (16%), Hoards 1 (16%), Magic 1 (16%)
+     owed           stubs 0, write-ups missing 0, stale 6
+  I:
+     connections     12 - Wooden 4 (33%), Banded 3 (25%), Archway 2 (16%), Open 2 (16%), Iron 1 (8%)
+     challenges       5 - Encounter 5 (100%)
+     hazard damage    0 - none
+     rewards          4 - Treasure II 1 (25%), Treasure III 1 (25%), Keys 1 (25%), Hoards 1 (25%)
+     owed           stubs 0, write-ups missing 0, stale 6
+  J:
+     connections     10 - Crude 7 (70%), Wooden 2 (20%), Open 1 (10%)
+     challenges       4 - Encounter 4 (100%)
+     hazard damage    0 - none
+     rewards          5 - Treasure I 1 (20%), Treasure III 1 (20%), Lore 1 (20%), Keys 1 (20%), Hoards 1 (20%)
+     owed           stubs 0, write-ups missing 0, stale 5
+  K:
+     connections     10 - Open 3 (30%), Stone 3 (30%), Wooden 2 (20%), Crude 2 (20%)
+     challenges       3 - Encounter 3 (100%)
+     hazard damage    0 - none
+     rewards          5 - Treasure V 1 (20%), Treasure I 1 (20%), Lore 1 (20%), Hoards 1 (20%), Treasure III 1 (20%)
+     owed           stubs 0, write-ups missing 0, stale 3
+  L:
+     connections     12 - Open 6 (50%), Archway 5 (41%), Banded 1 (8%)
+     challenges       3 - Hazard 1 (33%), Mystery 1 (33%), Encounter 1 (33%)
+     hazard damage    1 - Damaging 1 (100%)
+     rewards          3 - Treasure II 1 (33%), Keys 1 (33%), Lore 1 (33%)
+     owed           stubs 0, write-ups missing 0, stale 5
+  M:
+     connections     33 - Archway 10 (30%), Stone 9 (27%), Wooden 8 (24%), Banded 2 (6%), Open 2 (6%), Iron 2 (6%)
+     challenges      12 - Encounter 6 (50%), Mystery 3 (25%), Hazard 3 (25%)
+     hazard damage    3 - Nuisance 2 (66%), Damaging 1 (33%)
+     rewards         10 - Unique Treasures 2 (20%), Lore 2 (20%), Treasure I 1 (10%), Treasure IV 1 (10%), Treasure III 1 (10%), Magical Tomes 1 (10%), Hoards 1 (10%), Treasure V 1 (10%)
+     owed           stubs 0, write-ups missing 0, stale 14
+
+TARGETS
+  A: Location.type Gate 2 -> 2
+  A: Location.type Inn 2 -> 2
+  A: Location.type Merchant 2 -> 2
+  A: Location.type Bank 1 -> 1
+  A: Location.type Market 1 -> 1
+  A: Location.type Authority 3 -> 3
+  A: Location.type Secret 2 -> 2
+  A: Garrison of Authority 67% -> 2 (66%, 2 of 3)
+  A: Location count 13 -> 13
+  B: Location.type Landmark 4 -> 4
+  B: Location.type Route 1 -> 1
+  B: Location count 5 -> 5
+  C: Location.type Landmark 5 -> 5
+  C: Location.type Route 1 -> 1
+  C: Location.type Hidden 1 -> 1
+  C: Location count 7 -> 7
+  D: Location.type Landmark 3 -> 3
+  D: Location.type Route 1 -> 1
+  D: Location.type Hidden 1 -> 1
+  D: Location count 5 -> 5
+  E: Location.type Landmark 9 -> 9
+  E: Location.type Route 1 -> 1
+  E: Location.type Hidden 1 -> 1
+  E: Location.type Secret 1 -> 1
+  E: Location count 12 -> 12
+  F: Location.type High 1 -> 1
+  F: Location.type Medium 2 -> 2
+  F: Location.type Low 2 -> 2
+  F: Hazard.damage Nuisance 40% -> 1 (33%, 1 of 3)
+  F: Hazard.damage Damaging 40% -> 1 (33%, 1 of 3)
+  F: Hazard.damage Lethal 20% -> 1 (33%, 1 of 3)
+  F: Reward.contents Keys 10% -> 0 (0%, 0 of 4)
+  F: Reward.contents Lore 15% -> 0 (0%, 0 of 4)
+  F: Reward.contents Hoards 1 -> 1
+  F: Location count 5 -> 5
+  G: Location.type High 1 -> 1
+  G: Location.type Medium 3 -> 3
+  G: Location.type Low 2 -> 2
+  G: Hazard.damage Nuisance 40% -> 0
+  G: Hazard.damage Damaging 40% -> 0
+  G: Hazard.damage Lethal 20% -> 0
+  G: Reward.contents Keys 10% -> 0 (0%, 0 of 5)
+  G: Reward.contents Hoards 1 -> 1
+  G: Reward.contents Lore 1 -> 1
+  G: Location count 6 -> 6
+  H: Location.type High 1 -> 1
+  H: Location.type Medium 3 -> 3
+  H: Location.type Low 2 -> 2
+  H: Hazard.damage Nuisance 40% -> 0 (0%, 0 of 1)
+  H: Hazard.damage Damaging 40% -> 1 (100%, 1 of 1)
+  H: Hazard.damage Lethal 20% -> 0 (0%, 0 of 1)
+  H: Reward.contents Keys 10% -> 0 (0%, 0 of 6)
+  H: Reward.contents Lore 15% -> 0 (0%, 0 of 6)
+  H: Reward.contents Hoards 1 -> 1
+  H: Location count 6 -> 6
+  I: Location.type High 1 -> 1
+  I: Location.type Medium 3 -> 3
+  I: Location.type Low 2 -> 2
+  I: Hazard.damage Nuisance 40% -> 0
+  I: Hazard.damage Damaging 40% -> 0
+  I: Hazard.damage Lethal 20% -> 0
+  I: Reward.contents Hoards 1 -> 1
+  I: Reward.contents Keys 1 -> 1
+  I: Reward.contents Lore 15% -> 0 (0%, 0 of 4)
+  I: Location count 6 -> 6
+  J: Location.type High 1 -> 1
+  J: Location.type Medium 2 -> 2
+  J: Location.type Low 2 -> 2
+  J: Hazard.damage Nuisance 40% -> 0
+  J: Hazard.damage Damaging 40% -> 0
+  J: Hazard.damage Lethal 20% -> 0
+  J: Reward.contents Hoards 1 -> 1
+  J: Reward.contents Keys 1 -> 1
+  J: Reward.contents Lore 1 -> 1
+  J: Location count 5 -> 5
+  K: Location.type High 1 -> 1
+  K: Location.type Medium 2 -> 2
+  K: Location.type Low 2 -> 2
+  K: Hazard.damage Nuisance 40% -> 0
+  K: Hazard.damage Damaging 40% -> 0
+  K: Hazard.damage Lethal 20% -> 0
+  K: Reward.contents Keys 10% -> 0 (0%, 0 of 5)
+  K: Reward.contents Hoards 1 -> 1
+  K: Reward.contents Lore 1 -> 1
+  K: Location count 5 -> 5
+  L: Location.type High 1 -> 1
+  L: Location.type Medium 2 -> 2
+  L: Location.type Low 2 -> 2
+  L: Hazard.damage Nuisance 40% -> 0 (0%, 0 of 1)
+  L: Hazard.damage Damaging 40% -> 1 (100%, 1 of 1)
+  L: Hazard.damage Lethal 20% -> 0 (0%, 0 of 1)
+  L: Reward.contents Keys 1 -> 1
+  L: Reward.contents Lore 1 -> 1
+  L: Location count 5 -> 5
+  M: Location.type High 3 -> 3
+  M: Location.type Medium 7 -> 7
+  M: Location.type Low 4 -> 4
+  M: Hazard.damage Nuisance 40% -> 2 (66%, 2 of 3)
+  M: Hazard.damage Damaging 40% -> 1 (33%, 1 of 3)
+  M: Hazard.damage Lethal 20% -> 0 (0%, 0 of 3)
+  M: Reward.contents Hoards 1 -> 1
+  M: Reward.contents Keys 0 -> 0
+  M: Reward.contents Unique Treasures 2 -> 2
+  M: Reward.contents Magical Tomes 1 -> 1
+  M: Reward.contents Lore 2 -> 2
+  M: Location count 14 -> 14
+  Treasure I mean: 0-500 -> 61
+  Treasure II quality poor: 10% -> 2 of 20
+  Treasure II quality normal: 50% -> 10 of 20
+  Treasure II quality fine: 30% -> 6 of 20
+  Treasure II quality masterwork: 5% -> 1 of 20
+  Treasure II quality cursed: 5% -> 1 of 20
+  Treasure II fine price: 3-10x of 100 -> 6 of 6 in range
+  Treasure II masterwork price: 10-100x of 100 -> 1 of 1 in range
+  Treasure II fine with an effect: 33% -> 2 of 6
+  Treasure I highest: 100x mean -> 4.9x
+  Treasure II highest: 100x mean -> 8.5x
+  Treasure III highest: 100x mean -> 3.4x
+  Treasure IV highest: 100x mean -> 2.3x
+  Treasure V highest: 100x mean -> 2.5x
+  Rumours rows: 12 -> 12
+  Rumours marked T: 4 -> 4
+  Rumours marked P: 3 -> 3
+  Rumours marked F: 3 -> 3
+  Rumours marked U: 2 -> 2
+  Factions entries: 11 -> 11
+  History entries: 4 -> 4
+  Quests entries: 5 -> 5
+  Truths entries: 4 -> 4
+  Language tongues: 4 -> 4
+  Language The Common Tongue affixes: 3-5 -> 5
+  Language The Common Tongue roots: 15-20 -> 18
+  Language The Cant affixes: 3-5 -> 5
+  Language The Cant roots: 15-20 -> 17
+  Language The Black Speech affixes: 3-5 -> 5
+  Language The Black Speech roots: 15-20 -> 20
+  Language The Makers' Tongue affixes: 3-5 -> 5
+  Language The Makers' Tongue roots: 15-20 -> 18
+  Bestiary up front Kobold: present -> present
+  Bestiary up front Goblin: present -> present
+  Bestiary up front Orc: present -> present
+  Bestiary up front Hobgoblin: present -> present
+  Bestiary up front Gnoll: present -> present
+  Bestiary up front Bugbear: present -> present
+  Bestiary up front Owlbear: present -> present
+  Bestiary up front Wolf: present -> present
+  Bestiary up front Soldier: present -> present
+  Bestiary up front Lizard Man: present -> present
+  Bestiary up front Zombie: present -> present
+  A People: 18 -> 18
+
+BUDGET
+  authorities    :    4 files,   2,424 words
+  templates/     :   26 files,   9,148 words
+  patterns/      :    6 files,   5,069 words
+  setting/       :  244 files,  49,602 words
+  setting/checks/ :    3 files,   2,749 words   (neither framework nor setting)
+  tools/         :    9 files,   6,549 lines
+  framework      : 16,641 words
+  setting        : 49,602 words
+  ratio          : 0.34 words of framework per word of setting
+
+READ SET (step 5b)
+  CLAUDE.md                :     87
+  README.md                :  1,169
+  GENRE.md                 :    554
+  STYLE.md                 :    134
+  templates/region/Location.md :    604
+  setting/Truths.md        :    189
+  setting/Procedures.md    :  1,743
+  setting/Language.md      :    683
+  BRIEF.md region slice    :    542-658 across 13 regions, mean 576
+  region overview          :    174-369 across 13 regions, mean 228
+  fixed context            :  5,967 (with the mean region slice and overview)
+  Ground.md (4a, 5e; not summed) :     78-132 across 5 regions, mean 111
+
+  templates/region/Location.md :    604
+  in context               :  6,571
+
