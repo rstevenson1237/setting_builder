@@ -72,7 +72,7 @@ dangerous {
 
 setting {
   sheet Frontier square="200 yards" extent="14 by 15 miles" regions="A B C D E"
-  sheet Ravine square="10 yards" extent="200 by 400 yards" regions="E"
+  sheet Ravine square="10 yards" extent="200 by 500 yards" regions="E"
   sheet Keep square="10 feet" extent="220 by 180 yards" regions="A"
   test "Keep on the Borderlands in play, not in text, built fresh by the framework and transcribed from nothing: a party outfits at a safe keep, walks half a day to a ravine of lairs, picks which to try, retreats to heal and sell, and comes back. The lairs hate one another and can be played against one another, and all of them pay a shrine at the ravine's head. Every location type, procedure kind and registry the framework has is used at least once."
   outline "One frontier, crossed in a day: a keep at the end of the road from the realm; between it and the hills a wood, a mere and the road itself; in the hills a ravine whose walls hold six tribes' lairs and a maze, and above the maze a shrine."

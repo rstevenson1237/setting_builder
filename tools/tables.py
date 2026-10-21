@@ -21,7 +21,7 @@ SHARE_RE = re.compile(r"(<=)?(\d+)%")        # "N%" at least that share of entri
 COUNT_RE = re.compile(r"(\d+)(?:-(\d+)|(\+))?")   # N exactly, "N-M", "N+" at least
 OPEN = 10 ** 9
 FEET_RE = re.compile(r"-?\d+")
-DISTANCE_RE = re.compile(r"(\d+(?:\.\d+)?) (\w+)")
+DISTANCE_RE = re.compile(r"(-?\d+(?:\.\d+)?) (\w+)")   # negative: south or west
 
 
 @dataclass
