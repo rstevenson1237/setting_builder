@@ -180,11 +180,12 @@ table "Magical Tomes" entry file="setting/MagicalTomes.md" {   // learned, never
 //    Procedures.md already settles.
 enum Proc_Kind table contest variant
 enum Extends General Commerce Carousing "Gather Information" Recruitment Navigate Explore "Forage or Hunt" "Make Camp" "Track or Evade" Search Listen Rest "Opposed roll"
+enum Roll_Die Combat Skill Magic Difficulty d6   // the dice Procedures.md's Ruleset rolls: an Action Die, the region's Difficulty die, or a d6
 table "Local Procedures" entry file="setting/LocalProcedures.md" {
   Kind Proc_Kind
   Extends Extends
   "Found at" place from=Procedure
-  Roll text                   // the die and whose it is, and what it decides
+  Roll Roll_Die               // then ' - ' and whose it is, and what it decides
   Stakes text                 // what a party risks and what it can win, coin in cn
   Results text                // each row or rung of the result on its own `- ` line
   Tell text                   // what shows a party it can be done here

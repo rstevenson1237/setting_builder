@@ -4,7 +4,7 @@ Local Procedures of Thornmarch
 Kind: contest
 Extends: Opposed roll
 Found at: A.4 The Broken Wheel
-Roll: The party's player and the landlady's house each roll a Skill die for the pot; the higher die wins and a tie is rolled again.
+Roll: Skill - the party's player and the landlady's house each roll for the pot; the higher die wins and a tie is rolled again.
 Stakes: A stake of 5 to 100 cn per player; the house takes 10% of any pot the party wins.
 Results:
 - FAILURE: the party loses its stake, and a cheat is called loudly.
@@ -16,7 +16,7 @@ Tell: Bone dice rattle at the table by the cellar hatch, and a chalk board by th
 Kind: variant
 Extends: Commerce
 Found at: A.7 The Moneychanger
-Roll: The seller rolls a Skill die for each hoard it brings, before the scale is set.
+Roll: Skill - the seller rolls for each hoard it brings, before the scale is set.
 Stakes: The 80% resale rate, 90% for gems and jewellery; a hoard of 1,000 cn or more is bought by the sum, not by the piece.
 Results:
 - FAILURE: the moneychanger offers three-quarters of the usual rate, and asks where it was found.
@@ -28,7 +28,7 @@ Tell: A chained scale, a ledger and a strongroom door stand behind a barred coun
 Kind: variant
 Extends: Recruitment
 Found at: A.8 The Market Yard
-Roll: The party rolls a Skill die once for each hire; the hirelings on the notice board are those of the wage table.
+Roll: Skill - the party rolls once for each hire; the hirelings on the notice board are those of the wage table.
 Stakes: The wage a day in cn, paid at each dusk; a hireling who is killed is owed nothing, and a hireling who flees is owed its day.
 Results:
 - FAILURE: no hireling will go into the ravine at any wage.
@@ -40,7 +40,7 @@ Tell: A notice board by the guildhall door lists names and wages in chalk.
 Kind: variant
 Extends: Navigate
 Found at: B.1 The Realm's Road
-Roll: The region's Difficulty die, once for each watch the convoy is on the road; a party that travels with it rolls no Navigate of its own.
+Roll: Difficulty - once for each watch the convoy is on the road; a party that travels with it rolls no Navigate of its own.
 Stakes: A place on the convoy costs 20 cn a head to the Carters' Guild, and the guild pays 50 cn to each party whose wagon arrives whole.
 Results:
 - FAILURE: raiders strike the convoy; the party fights beside the soldiers or loses the rear wagon.
@@ -52,7 +52,7 @@ Tell: The Carters' Guild chalks the wagon day on its notice board, and a green w
 Kind: table
 Extends: Forage or Hunt
 Found at: C.1 The Forest Trail
-Roll: A d6 rolled after a SUCCESS on Forage or Hunt within a mile of the trail, and at Disadvantage deeper in.
+Roll: d6 - rolled after a SUCCESS on Forage or Hunt within a mile of the trail, and at Disadvantage deeper in.
 Stakes: A day's rations is 5 cn a head; a party that finds none pays for what it buys at the keep.
 Results:
 - 1: Bad mushrooms - whoever eats them is Poisoned until a night's Rest.
@@ -67,7 +67,7 @@ Tell: Snares and bundles of drying herbs hang beside the trail.
 Kind: variant
 Extends: Navigate
 Found at: D.1 The Causeway
-Roll: The region's Difficulty die, rolled once for the crossing, which takes a watch by causeway and two by pole boat.
+Roll: Difficulty - rolled once for the crossing, which takes a watch by causeway and two by pole boat.
 Stakes: A party that keeps to the causeway crosses free; a pole boat is hired from the Sellaca for 30 cn and a spear's escort.
 Results:
 - FAILURE: a plank gives under a heavy load and the crosser goes into the water (Held until freed).
@@ -79,7 +79,7 @@ Tell: Planks stand in fresh pale wood where the old were taken up, and pole boat
 Kind: variant
 Extends: Search
 Found at: E.11 The Rim Track
-Roll: A Skill die for each watch spent lying on the rim, at Disadvantage in daylight.
+Roll: Skill - for each watch spent lying on the rim, at Disadvantage in daylight.
 Stakes: A watch of the party's time and the risk of being seen against the sky; the watch learns the habits of one wall's tribes per success.
 Results:
 - FAILURE: a lookout sees the watcher against the sky and sounds the alarm at that mouth.
@@ -91,7 +91,7 @@ Tell: A hollow trodden flat on the rim looks down on every ledge on the east wal
 Kind: variant
 Extends: Navigate
 Found at: L.2 The Winding Passages
-Roll: The region's Difficulty die, rolled once for each leg from one room to the next; a party that chalks or cords its way rolls with Advantage.
+Roll: Difficulty - rolled once for each leg from one room to the next; a party that chalks or cords its way rolls with Advantage.
 Stakes: A leg costs a turn of light, and a party out of light is lost until it relights; the Minotaur finds a party that is still lost after six turns.
 Results:
 - FAILURE: the leg loops back to the room the party left, its chalk wiped from the walls, and a bellow sounds nearer.
