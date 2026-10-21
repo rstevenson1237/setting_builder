@@ -80,7 +80,7 @@
           44
         ]
       },
-      "width": 1,
+      "width": 2,
       "doors": [
         null,
         null
@@ -97,7 +97,7 @@
           37
         ]
       },
-      "width": 1,
+      "width": 2,
       "doors": [
         "door",
         null
@@ -111,7 +111,7 @@
       "to": {
         "room": "M-11"
       },
-      "width": 1,
+      "width": 2,
       "origin": "tables",
       "doors": [
         "locked",
@@ -125,7 +125,7 @@
       "to": {
         "room": "M-12"
       },
-      "width": 1,
+      "width": 2,
       "origin": "tables",
       "doors": [
         "locked",

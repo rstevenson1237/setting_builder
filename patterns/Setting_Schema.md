@@ -55,7 +55,8 @@ table Bestiary entry file="setting/Bestiary.md" {
   Special text                         // what its dice do not say, or `none`
   MA number range="2-6" opt            // targets threatened at once, about AD/4; omitted at 1
   Description text                     // what a party sees when it comes into view
-  Range text opt                       // where it lives, how many the land supports, what it eats
+  Range text opt                       // where it lives and what it eats
+  Numbers number opt                   // how many one lair or band holds
   Sign Sign opt                        // what reaches a party before it does
   Disposition text opt                 // what it does on being met, before anyone fights
 }
@@ -95,8 +96,9 @@ table Factions entry file="setting/Factions.md" {
 // -- The past and the rules. An event is a fact, never a clock aimed at the party, stated
 //    in two sentences at most. A truth is a class, shows at more than one rating, sharpens
 //    GENRE.md and never overrides it; a mystery or open truth says it is one.
+enum Age recent living old ancient   // within ten years; within living memory; recorded but not remembered; before any record
 table History entry file="setting/History.md" {
-  When text                   // years ago, vaguer the older it is
+  When Age                    // then the years ago, vaguer the older it is; entries run oldest first
   Event text
   Left text                   // the physical mark findable now
   Codes place from=Dressing none
@@ -153,8 +155,7 @@ table Magic roll file="setting/Magic.md" {
 table Hoards entry file="setting/Hoards.md" {   // one owner, one location
   "Found at" place from=Reward
   Owner entry Bestiary Factions "Named Creatures"
-  Items text
-  Total text                  // value and wt, summed
+  Items finds
 }
 enum Does once class adjacent solution knowledge passage ward
 enum Cost toll noticed bound desperate foreign sought forbidden
@@ -179,11 +180,12 @@ table "Magical Tomes" entry file="setting/MagicalTomes.md" {   // learned, never
 //    Procedures.md already settles.
 enum Proc_Kind table contest variant
 enum Extends General Commerce Carousing "Gather Information" Recruitment Navigate Explore "Forage or Hunt" "Make Camp" "Track or Evade" Search Listen Rest "Opposed roll"
+enum Roll_Die Combat Skill Magic Difficulty d6   // an Action Die, the region's Difficulty die, or a d6
 table "Local Procedures" entry file="setting/LocalProcedures.md" {
   Kind Proc_Kind
   Extends Extends
   "Found at" place from=Procedure
-  Roll text                   // the die and whose it is, and what it decides
+  Roll Roll_Die               // then whose it is, and what it decides
   Stakes text                 // what a party risks and what it can win, coin in cn
   Results text                // each row or rung of the result on its own `- ` line
   Tell text                   // what shows a party it can be done here
@@ -230,6 +232,7 @@ table Sheets entry file="setting/Sheets.md" {
   "Way in" text
   Area text
 }
+enum Pay fee share favour loan bait
 table Quests entry file="setting/Quests.md" {
   Name text
   Ask Ask
@@ -237,7 +240,7 @@ table Quests entry file="setting/Quests.md" {
   Reluctance Reluctance
   Object text
   Obstacle Obstacle
-  Terms text                  // the giver's own words: a fee, share, favour, loan, or bait
+  Terms Pay                   // then the giver's own words
   "Points to" place none
 }
 ```

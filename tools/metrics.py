@@ -13,7 +13,7 @@ Ten readings, printed in one report:
   FRAMES    the Feature openings and endings two or more rooms share
   TELLS     the four prose tells, counted
   MIX       per region, what its tables hold by kind - connections, challenges,
-            hazard damage, reward contents - and its stubs, missing and stale
+            hazard damage, encounter reactions, reward contents - and its stubs, missing and stale
             write-ups
   BUDGET    framework words against setting words
   READ SET  words in context per step 5b write-up
@@ -527,7 +527,12 @@ def report_mix() -> None:
     history = tables.History()
     print("MIX")
     for r in setting.regions.values():
-        counts = {"connections": {}, "challenges": {}, "hazard damage": {}, "rewards": {}}
+        counts = {"connections": {}, "challenges": {}, "hazard damage": {}, "reactions": {}, "rewards": {}}
+        for entries in r.files.values():
+            for n in kdl.walk(entries):
+                if n.name == "Encounter":
+                    item = str(n.props.get("reaction", "?")).split(" - ")[0].strip()
+                    counts["reactions"][item] = counts["reactions"].get(item, 0) + 1
         for stem, entries in r.files.items():
             for n in entries:
                 if stem == "Connections":

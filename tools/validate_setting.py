@@ -541,29 +541,6 @@ def check_setting_files(diag: Diagnostics, schema, codes: set):
 # Lightweight structural checks: treasure tables, rumours, setting docs
 # ---------------------------------------------------------------------------
 
-PRICED_RE = re.compile(r"\(([\d,]+) cn, ([\d,]+) wt\)")
-TOTAL_RE = re.compile(r"([\d,]+) cn, ([\d,]+) wt")
-
-
-def check_hoard_totals(diag: Diagnostics, schema):
-    """A hoard's Total is the sum of the `(value cn, wt wt)` its Items state."""
-    path = SETTING / "Hoards.md"
-    for title, line, values in tables.setting_entries(schema, "Hoards") or []:
-        items, total = values.get("Items", ""), values.get("Total", "").strip()
-        if not items.strip() or not total:
-            continue
-        priced = [tuple(int(x.replace(",", "")) for x in m) for m in PRICED_RE.findall(items)]
-        stated = TOTAL_RE.fullmatch(total)
-        if not priced or not stated:
-            diag.error(path, f"line {line}: {title}: Items and Total are written '(value cn, wt wt)' "
-                             f"and 'value cn, wt wt'")
-            continue
-        want = tuple(sum(c) for c in zip(*priced))
-        have = tuple(int(x.replace(",", "")) for x in stated.groups())
-        if want != have:
-            diag.error(path, f"line {line}: {title}: Total is {total}, its Items sum to "
-                             f"{want[0]:,} cn, {want[1]:,} wt")
-
 def check_treasure_tables(diag: Diagnostics, brief):
     """Each roll table numbered 1 to the rolls BRIEF.md's files node sets."""
     paths = [(SETTING / f"Treasure{i}.md", "Treasure") for i in range(1, 6)] + [(SETTING / "Magic.md", "Magic")]
@@ -793,6 +770,115 @@ def check_places(diag: Diagnostics, setting, brief):
                                                     f"states no place: bearing and distance, or north and east")
 
 
+def check_hazards(diag: Diagnostics, setting, brief):
+    """A Hazard's cost follows its Test: Constitution a `wound` the setting rolls, Fate a
+    `condition` Procedures.md names, Sanity neither. Its write-up cites that cost."""
+    lever = brief.lever("Procedures")
+    wounds = str(lever.props.get("wounds", "")).split() if lever else []
+    conditions = procedures_conditions()
+    count = {"Nuisance": 1, "Damaging": 2, "Lethal": 3}
+    for code, region in setting.regions.items():
+        for stem, entries in region.files.items():
+            path = region.dir / f"{stem}.md"
+            for entry in entries:
+                for h in (n for n in kdl.walk([entry]) if n.name == "Hazard"):
+                    where = entry.args[0]
+                    test, wound, cond = (h.props.get(k) for k in ("test", "wound", "condition"))
+                    cite = None
+                    if test == "Constitution":
+                        if not wound:
+                            diag.error(path, f"Hazard {where}: a Test of Constitution costs a wound")
+                        elif wound not in wounds:
+                            diag.error(path, f"Hazard {where}: wound {wound!r} is not among BRIEF.md's Procedures wounds, {' '.join(wounds)}")
+                        elif cond:
+                            diag.error(path, f"Hazard {where}: a Test of Constitution costs a wound, not a condition")
+                        else:
+                            cite = f"(Test of Constitution, {count.get(h.props.get('damage'), 0)}d, {wound})"
+                    elif test == "Fate":
+                        if not cond:
+                            diag.error(path, f"Hazard {where}: a Test of Fate costs a condition")
+                        elif wound:
+                            diag.error(path, f"Hazard {where}: a Test of Fate costs a condition, not a wound")
+                        else:
+                            if conditions is not None and cond not in conditions:
+                                diag.error(path, f"Hazard {where}: condition {cond!r} is not named in Procedures.md's Conditions")
+                            cite = f"(Test of Fate, {cond})"
+                    elif test == "Sanity":
+                        if wound or cond:
+                            diag.error(path, f"Hazard {where}: a Test of Sanity costs neither wound nor condition")
+                        diag.warn(path, f"Hazard {where}: a Test of Sanity is called for only by Chaos itself - confirm its source")
+                        cite = f"(Test of Sanity, {count.get(h.props.get('damage'), 0)}d)"
+                    writeup = region.dir / f"{entry.args[0].split('.')[1]}.md"
+                    if cite and writeup.exists() and cite not in writeup.read_text():
+                        diag.error(writeup, f"does not cite {cite}, which {where}'s Hazard states")
+
+
+def check_listed_prices(diag: Diagnostics, setting):
+    """A Purchase priced `listed` sells something Procedures.md's Coin and Prices lists: a
+    word of its item is a word of a listed good."""
+    path = SETTING / "Procedures.md"
+    m = re.search(r'\n## Coin and Prices\n(.*?)(?=\n## |\Z)', path.read_text(), re.S) if path.exists() else None
+    if not m:
+        return
+    stem = lambda text: {w.rstrip("s") for w in re.findall(r"[a-z]+", text.lower()) if len(w) > 3}
+    goods = set().union(*(stem(c) for c in re.findall(r"^\| ([^|]+) \|", m.group(1), re.M)))
+    for code, region in setting.regions.items():
+        for n in region.files.get("Purchases", []):
+            if n.props.get("price") == "listed" and not stem(str(n.props.get("item", ""))) & goods:
+                diag.warn(region.dir / "Purchases.md",
+                          f"Purchase {n.args[0]}: {n.props.get('item')!r} is priced listed, and Procedures.md's Coin and Prices lists nothing like it")
+
+
+def check_numbers(diag: Diagnostics, setting, schema):
+    """In a single holding, the count of a creature - its Encounters' `count`, and the `present`
+    of each Faction whose Fields name it alone - lies within the Bestiary's Numbers. A faction
+    naming several creatures states no split, so its `present` counts toward none."""
+    path = SETTING / "Bestiary.md"
+    numbers = {t: tables.bounds(v["Numbers"]) for t, _, v in tables.setting_entries(schema, "Bestiary") or []
+               if v.get("Numbers")}
+    fields = {t: [x.strip() for x in v.get("Fields", "").split(",")]
+              for t, _, v in tables.setting_entries(schema, "Factions") or []}
+    for code, region in setting.regions.items():
+        seed = SETTING / "region" / f"{code}.md"
+        if region.rating.upper() != "DANGEROUS" or "Kind: single holding" not in (seed.read_text() if seed.exists() else ""):
+            continue
+        held: dict[str, list[int]] = {}
+        for entries in region.files.values():
+            for top in entries:
+                for n in kdl.walk([top]):
+                    if n.name == "Creature":
+                        names, num = [str(n.props.get("bestiary"))], n.props.get("count")
+                    elif n.name in ("Faction", "Garrison"):
+                        names = fields.get(str(n.props.get("faction")), [])
+                        names = names if len(names) == 1 else []
+                        num = n.props.get("present")
+                    else:
+                        continue
+                    b = tables.bounds(str(num)) if num is not None else None
+                    for name in (names if b else []):
+                        got = held.setdefault(name, [0, 0])
+                        got[0] += b[0]
+                        got[1] += b[1]
+        for name, (lo, hi) in sorted(held.items()):
+            want = numbers.get(name)
+            if want and (hi < want[0] or lo > want[1]):
+                diag.warn(region.dir / "Challenges.md",
+                          f"{code} holds {lo if lo == hi else f'{lo}-{hi}'} {name}, outside the Bestiary's Numbers "
+                          f"{want[0] if want[0] == want[1] else f'{want[0]}-{want[1]}'}")
+
+
+def check_history_order(diag: Diagnostics, schema):
+    """History runs oldest first: each entry's Age is no younger than the one before."""
+    ages = list(schema.setting_enums.get("Age", []))
+    last = None
+    for title, line, values in tables.setting_entries(schema, "History") or []:
+        age = next((a for a in ages if values.get("When", "").startswith(a)), None)
+        if age and last and ages.index(age) > ages.index(last[1]):
+            diag.error(SETTING / "History.md", f"line {line}: {title} is {age} and follows {last[0]}, which is {last[1]} - oldest first")
+        if age:
+            last = (title, age)
+
+
 def check_blocks(diag: Diagnostics, setting):
     """Every location of a region with Blocks.md is in exactly one block with a footprint
     and a route from its entrance, no room overlaps another, and no way within a block
@@ -814,6 +900,16 @@ def check_blocks(diag: Diagnostics, setting):
             _, problems = maps.block_map(region, block)
             for p in problems:
                 diag.error(path, f"{bid}: {p}")
+        dress = {str(n.args[0]): n for n in region.files.get("Dressing", []) if n.args}
+        for n in region.files.get("Connections", []):
+            for k in ("width", "height"):
+                for end in (str(n.args[0]), str(n.props.get("to"))) if k in n.props else ():
+                    d = dress.get(end)
+                    room = 0 if d is None else min(float(d.props.get("width", 0)), float(d.props.get("length", 0))) \
+                        if k == "width" else float(d.props.get("height", 0))
+                    if room and float(n.props[k]) > room:
+                        diag.error(region.dir / "Connections.md",
+                                   f"{n.args[0]} to {n.props.get('to')}: its {k} {n.props[k]} exceeds {end}'s {room:g}")
         for c in sorted(set(region.locations()) - set(owner), key=lambda c: int(c.split(".")[1])):
             diag.error(path, f"{c} is in no block")
         for n in region.files.get("Connections", []):
@@ -1321,7 +1417,6 @@ def main() -> int:
 
     check_writeup_citations(diag, setting, tables.History())
     check_setting_files(diag, schema, setting.codes)
-    check_hoard_totals(diag, schema)
     check_treasure_tables(diag, brief)
     check_procedures(diag, brief)
     for problem in brief.region_problems(regions):
@@ -1341,6 +1436,10 @@ def main() -> int:
     check_sheets(diag, brief)
     check_places(diag, setting, brief)
     check_blocks(diag, setting)
+    check_hazards(diag, setting, brief)
+    check_listed_prices(diag, setting)
+    check_numbers(diag, setting, schema)
+    check_history_order(diag, schema)
     check_reversals(diag, setting)
 
     # A location reached from the region itself is no part of the stated graph.

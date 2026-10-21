@@ -24,5 +24,5 @@ Quests of [Setting Name]
 
 | Name | Ask | Giver | Reluctance | Object | Obstacle | Terms | Points to |
 |---|---|---|---|---|---|---|---|
-| [Quest Name] | [ASK] | [who wants it, and how a party hears of it] | [RELUCTANCE] | [what specifically] | [OBSTACLE] | ["stated in the giver's own words"] | [Location Code(s), or none] |
+| [Quest Name] | [ASK] | [who wants it, and how a party hears of it] | [RELUCTANCE] | [what specifically] | [OBSTACLE] | [fee, share, favour, loan or bait] - ["stated in the giver's own words"] | [Location Code(s), or none] |
 ```

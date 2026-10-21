@@ -430,33 +430,29 @@ def sheets_html(fit: str) -> str:
 
 
 def cut_html(code: str, num: int, fit: str) -> str:
-    """A location's cut of its block's or its sheet's map."""
-    import maps
-    return _figure(maps.cut_svg(f"{code}.{num}", maps.world_for(SETTING), fit), f"{code}.{num} and its surroundings")
+    """Paused: no location cut is drawn (`maps.cut_svg` draws one)."""
+    return ""
 
 
 def drawn_html(code: str, fit: str) -> str:
-    """A region's map, or a DANGEROUS region's block maps, drawn from its tables by artgen."""
+    """A DANGEROUS region's block maps, from its tables by artgen. Other ratings'
+    region maps are paused (`maps.region_svg` draws one)."""
     import maps
-    world = maps.world_for(SETTING)
-    region = world.regions.get(code)
+    region = maps.world_for(SETTING).regions.get(code)
     if region is None:
         return ""
-    blocks = maps.blocks_of(region)
-    if blocks:
-        return "".join(_figure(maps.block_svg(code, bid, fit), f"{bid} {b.props.get('name', '')}".strip())
-                       for bid, b in blocks.items())
-    return _figure(maps.region_svg(code, fit), f"{code}, cropped from its sheet")
+    return "".join(_figure(maps.block_svg(code, bid, fit), f"{bid} {b.props.get('name', '')}".strip())
+                   for bid, b in maps.drawn_blocks(region).items())
 
 
 def map_labels() -> list[str]:
-    """The label of each map a build must show: every sheet, every block, every region on a sheet."""
+    """The label of each map a build must show: every sheet, and each DANGEROUS region's blocks."""
     import maps
     world = maps.world_for(SETTING)
     out = [f"Sheet {f.stem}" for f in sorted(SETTING.glob("*.json"))]
-    for code, r in world.regions.items():
-        out += [f"Map of {bid}" for bid in maps.blocks_of(r) if (r.dir / f"{bid}.json").exists()]
-    return out + [f"Map of region {c}" for c in maps.sheet_rows()]
+    for r in world.regions.values():
+        out += [f"Map of {bid}" for bid in maps.drawn_blocks(r) if (r.dir / f"{bid}.json").exists()]
+    return out
 
 
 LOC_HEADER_RE = re.compile(r'^([A-Z]+)\.(\d+) \*\*(.+?)\*\*(?: \(([^)]+)\))? - \*(.+)\*\s*$')
@@ -798,6 +794,10 @@ def entry_card(t: SettingTable, e: Entry, render) -> tuple[str, str]:
         shown.add(dice)
     rows = "".join(f"<tr><th>{html.escape(k)}</th><td>{value_html(v, render)}</td></tr>"
                    for k, v in e.fields if k not in shown)
+    for m in t.members:
+        if m.type == "finds" and f.get(m.name):
+            cn, wt = tb.finds_total(f[m.name])
+            rows += f"<tr><th>Total</th><td>{cn:,} cn, {wt:,} wt</td></tr>"
     return title, rows
 
 

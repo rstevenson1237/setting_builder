@@ -29,6 +29,7 @@ Special: [... or `none` - one Special line per ability]
 MA: [Y, omitted at 1]
 Description: [...]
 Range: [...]
+Numbers: [N or N-M]
 Sign: [...]
 Disposition: [...]
 ```

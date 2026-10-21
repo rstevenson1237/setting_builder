@@ -38,7 +38,7 @@ node Dressing {
 node Encounter {
   one-of Creature NamedCreature Faction
   doing string
-  reaction string
+  reaction Reaction
   want string opt
   know string opt
   left gloss opt
@@ -60,6 +60,9 @@ node Faction {
 node Hazard {              // ground or weather: it shows itself before it bites
   type Hazard_Type
   damage Damage_Type
+  test Test
+  wound Wound_Type opt     // required for a Constitution Test: one of BRIEF.md's Procedures wounds
+  condition gloss opt      // required for a Fate Test: a name in Procedures.md's Conditions
   sign gloss
 }
 node Mystery {

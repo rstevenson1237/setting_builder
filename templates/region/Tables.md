@@ -28,7 +28,8 @@ Read first:
   an entrance the seed's Approach names, and a way into a gated location carries the gate its
   folder's `join` line names. A way to another region joins only a region this one joins in
   `setting/region/Regions.md`. Where the schema holds Blocks, every location is in exactly one
-  block, and a way that climbs joins two blocks.
+  block, and a way that climbs joins two blocks. A Block's `width` and `height` are its passages' size as the seed's
+  Conditions give it; a Connection states its own only where it differs, within both rooms' footprints.
 - **4c, the stubs** - every other table, its entries bare: `[Node] [Location Code]`.
   Each room gets the entries its type's `rate` line in `BRIEF.md` gives, choosing within a range for a
   reason its tags give, and toward `BRIEF.md`'s targets. The occupants the seed's Overview
@@ -42,6 +43,8 @@ Read first:
   or dropped here. A Dressing's `mark` is the Identity of a faction that holds, passes
   through or contests the room; every faction a region's Overview names is marked somewhere
   in it. A Dressing's `left` is each History event whose Left mark the room shows.
+  A Hazard's `test` is Constitution with a `wound`, Fate with a `condition`, or Sanity from a Chaos source only. A
+  DANGEROUS Encounter's `answers` is set where the region's Alarm brings it out.
 - **5a, locks and keys** - a `Lock` goes where the design wants a gate, on whatever node the
   schema lets hold one, naming its key; the key's `Keys.md` entry is written with it. Once
   the pass is filled, the validator owes 5a each key it has no place for: a stub Reward

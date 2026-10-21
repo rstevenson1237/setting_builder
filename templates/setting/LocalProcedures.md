@@ -29,7 +29,7 @@ Local Procedures of [Setting Name]
 Kind: [PROC_KIND]
 Extends: [EXTENDS]
 Found at: [Location Code] [Location Name]
-Roll: [the die, whose it is, and what it decides]
+Roll: [Combat, Skill, Magic, Difficulty or d6] - [whose it is, and what it decides]
 Stakes: [what a party risks and what it can win, in cn]
 Results:
 - [row or result]
