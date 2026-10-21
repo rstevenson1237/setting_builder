@@ -10,12 +10,11 @@ Read first:
 - `GENRE.md`, `STYLE.md` and `BRIEF.md`, as `python3 tools/validate_setting.py --brief [Region Code]` prints it
 - `patterns/Common_Schema.md`, and `patterns/Region_Schema.md` - this region's rating's `brief`
 - this region's seed, `setting/region/[Region Code].md`
-- this region's table files, and each location's referee notes for its size
+- this region's table files and its `Ground.md`
 - `setting/Rumours.md` and `setting/Quests.md`
 
 ## Instructions
-Write every field of the rating's `brief`, in its order, from the tables alone, and a location's
-size from its referee notes. A setting
+Write every field of the rating's `brief`, in its order, from the tables alone. A setting
 entry is cited as `(Named Creature: Name)`, `(Faction: Name)` or `(Local Procedure: Name)`.
 Every fact about a location names it by code; a count is summed from the entries. Layout
 is written beside the region's maps and `Ground.md`, and says only what they cannot. A fact no entry holds

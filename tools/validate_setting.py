@@ -708,27 +708,6 @@ def check_inhabitants(diag: Diagnostics, setting):
                 diag.warn(brief, f"Services does not name {code}, which sells or runs something")
 
 
-def check_plans(diag: Diagnostics, setting):
-    """Two routes to one room place it in one spot, and every Connection and every Stop
-    reaches a place the plan can draw."""
-    for code in sorted(setting.regions):
-        path = setting.regions[code].dir / "Connections.md"
-        pos, apart = sc.positions(code)
-        for a, b, gap in apart:
-            diag.warn(path, f"the way between {a} and {b} disagrees with the other routes to them "
-                            f"by {gap * 3:,.0f} feet")
-        unplaced = sorted(set(f"{code}.{n}" for n in sc.parse_locations_gazetteer(code)) - set(pos),
-                          key=lambda c: int(c.split(".")[1]))
-        for route, stops in sc.route_stops(code).items():
-            for feature, xy, _, at in stops:
-                if xy is None:
-                    diag.warn(setting.regions[code].dir / "Stops.md",
-                              f"{route}'s stop {feature!r} is at {at!r}, which the plan cannot place")
-        if pos and unplaced:
-            diag.warn(path, f"{', '.join(unplaced)} cannot be placed: no orientation reaching "
-                            f"{'it' if len(unplaced) == 1 else 'them'} states a compass point and distance")
-
-
 def check_sheets(diag: Diagnostics, brief):
     """The sheets BRIEF.md asks for exist as Sheets.md rows and as map files, each `place`
     and `ground` request is met, and Ground.md is what `maps.py ground` would write now."""
@@ -808,6 +787,10 @@ def check_places(diag: Diagnostics, setting, brief):
                 diag.error(path, f"{loc} lies off the {row['sheet']} sheet")
             elif math.dist((x, y), (row["x"], row["y"])) > row["radius"]:
                 diag.warn(path, f"{loc} lies outside {code}'s area on the {row['sheet']} sheet")
+        for n in region.files.get("Stops", []):
+            if maps.offset(n) is None:
+                diag.error(region.dir / "Stops.md", f"line {n.line}: {n.args[0]}'s stop {n.props.get('feature')!r} "
+                                                    f"states no place: bearing and distance, or north and east")
 
 
 def check_blocks(diag: Diagnostics, setting):
@@ -1355,7 +1338,6 @@ def main() -> int:
     check_rumour_settling(diag)
     check_inhabitants(diag, setting)
     check_marks(diag, setting)
-    check_plans(diag, setting)
     check_sheets(diag, brief)
     check_places(diag, setting, brief)
     check_blocks(diag, setting)
