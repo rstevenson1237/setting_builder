@@ -7,11 +7,13 @@ world. The framework's one living artifact: seeded, tailored once the setting is
 and appended to every time a proper noun is coined.
 
 ## Context
-Read first:
-- `GENRE.md`, `STYLE.md` and `BRIEF.md`, as `python3 tools/validate_setting.py --brief setting` prints it
-- `patterns/Common_Schema.md` and `patterns/Setting_Schema.md`'s Language table
-- `setting/Setting.md`, `setting/Bestiary.md`, `setting/Factions.md`
-- the names that coin something
+```kdl
+template scope="setting" writes="setting/Language.md" shape="Language"
+read "setting/Setting.md"
+read "setting/Bestiary.md"
+read "setting/Factions.md"
+field "Language.Coined here" reads="Person.name, Person.form, Named Creatures.Form, Factions.Form, Location.name"
+```
 
 ## Instructions
 Each tongue states who speaks it, its consonants and vowels, its syllable shape, its
@@ -23,21 +25,3 @@ Place_Form is `tongue`. A location's name may point at a coinage already recorde
 `Noun = root + root`, every part a root or affix of its own tongue, then what it means.
 Where it is used is read from the names, never written here; a coinage no name uses or
 points at is cut, and a name that coins one is recorded before it is written.
-
-## Template
-```
-Tongues of [Setting Name]
-
-## [Tongue Name]
-Spoken by: [...]
-Consonants: [...]
-Vowels: [...]
-Syllable: [shape, e.g. (C)V(C)]
-Affixes: [prefix/suffix and what each marks]
-
-Roots:
-- [root] - [gloss]
-
-Coined here:
-- [Proper Noun] = [root] + [root] - [what it means]
-```

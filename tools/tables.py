@@ -57,7 +57,7 @@ class Folder:
     enums: dict[str, dict] = field(default_factory=dict)
     nodes: dict[str, list[Member]] = field(default_factory=dict)
     rates: dict[str, dict[str, tuple[int, int]]] = field(default_factory=dict)
-    counts: dict[str, dict[str, int]] = field(default_factory=dict)   # file -> node -> exactly N entries
+    counts: dict[str, dict[str, int]] = field(default_factory=dict)   # file -> node -> exactly N entries, else 1+
     brief: list[Member] = field(default_factory=list)   # setting/region/[Code].md's fields
     drawn: list[str] = field(default_factory=list)      # what is drawn from the tables beside it
     words: dict[str, int] = field(default_factory=dict) # BRIEF.md's cap on each brief field, or each item
@@ -116,8 +116,8 @@ class Schema:
             if f := self.folders.get(name):
                 f.brief, f.drawn, f.region_path = parts.get("brief", []), parts.get("drawn", []), path
                 if (seed := parts.get("seed")) is not None:
-                    f.files["Seed"] = [str(a) for a in seed.args] + list(seed.props)
-                    f.counts["Seed"] = dict(seed.props)
+                    f.files["Seed"] = list(seed.props)
+                    f.counts["Seed"] = {k: v for k, v in seed.props.items() if isinstance(v, int)}
             else:
                 self.problems.append((path, f"region {name!r} has no folder"))
         for name, f in self.folders.items():
@@ -972,8 +972,8 @@ class Setting:
             yield "warning", f"{title!r} is not on {file} yet - owed to step 5a"
 
     def _check_counts(self, r: Region):
-        """Each file with counts holds each node its folder line names: exactly N where it
-        says N, else at least one."""
+        """Each file with counts holds each node its line names: exactly N where it says N,
+        else at least one."""
         for stem, counts in r.folder.counts.items():
             if stem not in r.files:
                 continue

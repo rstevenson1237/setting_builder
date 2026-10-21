@@ -19,7 +19,7 @@ reserved for content that exists but is wrong (malformed, inconsistent with
 something else that exists, or an unresolved/malformed citation).
 
 Usage: python3 tools/validate_setting.py [--pending [REGION] | --location CODE | --read-set [STEP]
-                                         | --brief setting|REGION]
+                                         | --skeleton STEP [REGION] | --brief setting|REGION]
 Exits 1 if any error is found, 0 otherwise (warnings never fail the run).
 """
 from __future__ import annotations
@@ -36,6 +36,7 @@ sys.path.insert(0, str(ROOT / "tools"))
 import kdl  # noqa: E402
 import site_common as sc  # noqa: E402  - the two generic readers live there
 import tables  # noqa: E402
+import templates as tp  # noqa: E402
 
 SETTING = ROOT / "setting"
 PATTERNS = ROOT / "patterns"
@@ -89,9 +90,9 @@ def index_to_code(i: int) -> str:
 # ---------------------------------------------------------------------------
 # The read-set: STEPS.md -> templates/ -> patterns/*_Schema.md
 #
-# A step names its template(s), and a template names the schemas and steps it
+# A step names its template(s), and a template's fence (tools/templates.py) names what it
 # reads; each is recorded once, so every name must resolve. A review step (phase 6)
-# reads what it judges rather than what it generates from.
+# reads what it judges rather than what it generates from, and its Context stays prose.
 # ---------------------------------------------------------------------------
 
 TEMPLATES = ROOT / "templates"
@@ -115,19 +116,22 @@ def is_review(sid: str) -> bool:
 
 
 def read_set() -> dict[str, tuple[set, set]]:
-    """Per step, the templates it names and the schemas those templates name."""
+    """Per step, the templates it names and the schemas those templates read."""
     out = {}
     for sid, body in step_bodies().items():
         names = set(TEMPLATE_CITE_RE.findall(body))
-        schemas = {f for n in names if (TEMPLATES / n).exists()
-                   for f in SCHEMA_CITE_RE.findall((TEMPLATES / n).read_text())}
+        schemas = set()
+        for n in names:
+            path = TEMPLATES / n
+            if not path.exists():
+                continue
+            t = tp.load(path)
+            schemas |= tp.schemas(t) if t else set(SCHEMA_CITE_RE.findall(path.read_text()))
         out[sid] = (names, schemas)
     return out
 
 
-STANDING_CONTEXT = ("GENRE.md", "STYLE.md", "BRIEF.md")
-BRIEF_SLICE_RE = re.compile(r'--brief (\S+?)`')
-BRIEF_SCOPES = ("setting", "[Region Code]")   # the slices a Context may name
+STANDING_CONTEXT = ("GENRE.md", "STYLE.md", "BRIEF.md")   # what a review template's prose Context names
 
 
 def context_section(text: str) -> str:
@@ -136,7 +140,7 @@ def context_section(text: str) -> str:
     return m.group(1) if m else ""
 
 
-def check_read_set(diag: Diagnostics):
+def check_read_set(diag: Diagnostics, schema):
     if not STEPS_MD.exists():
         return
     bodies, steps = step_bodies(), read_set()
@@ -158,14 +162,22 @@ def check_read_set(diag: Diagnostics):
             if "[" not in f and not (PATTERNS / f).exists():
                 diag.error(path, f"cites patterns/{f}, which does not exist")
         context = context_section(text)
-        for need in STANDING_CONTEXT:
-            if f"`{need}`" not in context:
-                diag.error(path, f"Context does not name {need}, which every step reads")
-        for scope in BRIEF_SLICE_RE.findall(context):
-            if scope not in BRIEF_SCOPES:
-                diag.error(path, f"Context reads BRIEF.md's slice {scope!r}; a slice is one of {', '.join(BRIEF_SCOPES)}")
-        if TEMPLATE_STEP_CITE_RE.search(context) or re.search(r'^- (At|Step) ', context, re.M):
-            diag.error(path, "Context is conditional on a step - one Context serves every step that cites the template")
+        citing = {sid for sid, (ns, _) in steps.items() if name in ns}
+        if all(is_review(sid) for sid in citing):
+            for need in STANDING_CONTEXT:
+                if f"`{need}`" not in context:
+                    diag.error(path, f"Context does not name {need}, which every step reads")
+            continue
+        t = tp.load(path)
+        if t is None:
+            diag.error(path, "Context is prose - a generation template's Context is a ```kdl fence")
+            continue
+        for problem in tp.problems(t, schema, set(steps)):
+            diag.error(path, problem)
+        for sid in sorted({str(n.args[0]) for n in t.nodes if n.name == "step" and n.args} - citing):
+            diag.error(path, f"has a step {sid} line, but STEPS.md {sid} does not cite it")
+        if TEMPLATE_STEP_CITE_RE.search(re.sub(r"```kdl.*?```", "", context, flags=re.S)):
+            diag.error(path, "Context is conditional on a step outside its step lines")
 
 
 def check_brief_slices(diag: Diagnostics):
@@ -193,8 +205,30 @@ def report_brief(scope: str) -> int:
     return 0
 
 
+def report_skeleton(step: str, code: str | None) -> int:
+    """What a step writes, as its template's shape and the schema draw it."""
+    names = read_set().get(step, (set(), set()))[0]
+    if not names:
+        print(f"STEPS.md has no step {step!r} citing a template")
+        return 1
+    schema = tables.Schema()
+    setting = None
+    if code:
+        regions = {r["Code"]: r["Rating"] for t in sc.read_tables(SETTING / "region" / "Regions.md")[:1]
+                   for r in t.dicts()} if (SETTING / "region" / "Regions.md").exists() else {}
+        setting = tables.Setting(regions, schema) if code in regions else None
+    for n in sorted(names):
+        t = tp.load(TEMPLATES / n)
+        drawn = tp.skeleton(t, schema, step, code, setting) if t else None
+        print(f"templates/{n}" + ("" if drawn else ": its own ## Template is the shape"))
+        if drawn:
+            print(drawn)
+    return 0
+
+
 def report_read_set(step_filter: str | None) -> int:
     """The templates and schemas each step reads."""
+    schema = tables.Schema()
     steps = read_set()
     if not steps:
         print("STEPS.md defines no steps - nothing to report.")
@@ -205,6 +239,11 @@ def report_read_set(step_filter: str | None) -> int:
         print(f"{sid}{'  (review pass)' if is_review(sid) else ''}")
         print(f"  templates : {', '.join(sorted(names)) or '(none)'}")
         print(f"  schemas   : {', '.join(sorted(schemas)) or '(none)'}")
+        reads = list(dict.fromkeys(line for n in sorted(names) if (TEMPLATES / n).exists()
+                                   and (t := tp.load(TEMPLATES / n)) for line in tp.read_lines(t, schema, sid)))
+        if reads:
+            print(f"  standing  : {', '.join(tp.STANDING)}")
+            print("  reads     : " + "\n              ".join(reads))
         print()
     return 0
 
@@ -1339,8 +1378,8 @@ def report_location(code: str) -> int:
 
 def main() -> int:
     diag = Diagnostics()
-    check_read_set(diag)
     schema = tables.Schema()
+    check_read_set(diag, schema)
     for path, problem in schema.problems:
         diag.error(path, problem)
     brief = tables.Brief(schema)
@@ -1460,6 +1499,8 @@ if __name__ == "__main__":
         sys.exit(report_location(sys.argv[2]))
     if len(sys.argv) > 2 and sys.argv[1] == "--brief":
         sys.exit(report_brief(sys.argv[2]))
+    if len(sys.argv) > 2 and sys.argv[1] == "--skeleton":
+        sys.exit(report_skeleton(sys.argv[2], sys.argv[3] if len(sys.argv) > 3 else None))
     if len(sys.argv) > 1 and sys.argv[1] == "--read-set":
         sys.exit(report_read_set(sys.argv[2] if len(sys.argv) > 2 else None))
     sys.exit(main())

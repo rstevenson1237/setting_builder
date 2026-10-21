@@ -5,9 +5,9 @@ Defines the setting's name, its tag line and a short referee-facing outline - th
 foundation every other document builds on.
 
 ## Context
-Read first:
-- `GENRE.md`, `STYLE.md` and `BRIEF.md`, as `python3 tools/validate_setting.py --brief setting` prints it
-- `patterns/Common_Schema.md` and `patterns/Setting_Schema.md`
+```kdl
+template scope="setting" writes="setting/Setting.md"
+```
 
 ## Instructions
 Give the setting a name and its Place_Form, a tag line, then a two or three sentence outline

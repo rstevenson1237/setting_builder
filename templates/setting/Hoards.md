@@ -5,23 +5,15 @@ A registry of hoards, each a bespoke treasure list held at one location. Each en
 written from the table entry naming it.
 
 ## Context
-Read first:
-- `GENRE.md`, `STYLE.md` and `BRIEF.md`, as `python3 tools/validate_setting.py --brief setting` prints it
-- `patterns/Common_Schema.md` and `patterns/Setting_Schema.md`
-- `setting/Procedures.md` - the coin every value is stated in
-- `setting/Bestiary.md`, `setting/Factions.md`, `setting/NamedCreatures.md`
-- the table entry naming it
+```kdl
+template scope="setting" writes="setting/Hoards.md" shape="Hoards"
+read "setting/Procedures.md" part="the coin every value is stated in"
+read "setting/Bestiary.md"
+read "setting/Factions.md"
+read "setting/NamedCreatures.md"
+read naming="Hoards"
+```
 
 ## Instructions
 Write each entry a table names and this file lacks, per `patterns/Setting_Schema.md`, with its
 Found at the location naming it.
-
-## Template
-```
-Hoards of [Setting Name]
-
-### [Name]
-Found at: [Location Code] [Location Name]
-Owner: [the entry that gathered it]
-Items: [each item, its (value cn, wt wt); ...]
-```

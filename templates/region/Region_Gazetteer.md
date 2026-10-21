@@ -4,10 +4,11 @@
 An overview listing of all regions within the setting - the Regional Gazetteer.
 
 ## Context
-Read first:
-- `GENRE.md`, `STYLE.md` and `BRIEF.md`
-- `setting/Setting.md`
-- `setting/Language.md`
+```kdl
+template scope="setting" writes="setting/region/Regions.md"
+read "setting/Setting.md"
+read "setting/Language.md"
+```
 
 ## Instructions
 List the regions `BRIEF.md` names.

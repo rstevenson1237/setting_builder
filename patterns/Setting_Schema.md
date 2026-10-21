@@ -28,11 +28,11 @@ Every setting file in `setting/`: its fields, under the `table` line naming it, 
 //    that tongue's roots and affixes and glossed once; it is used only in a name whose
 //    Name_Form is family or tongue, and each such name is a coinage recorded here.
 enum Speakers present departed arrived side non-people jargon liturgy
-table Language doc file="setting/Language.md" heading=2 {
+table Language doc file="setting/Language.md" heading=2 title="Tongues of [Setting Name]" {
   "Spoken by" Speakers
   Consonants text             // an inventory no other tongue shares
   Vowels text
-  Syllable text               // a shape no other tongue shares
+  Syllable text               // a shape no other tongue shares, as (C)V(C)
   Affixes text                // each marks one thing: place, water, smallness, plural, belonging, age, direction, negation, title
   Roots text                  // "- root - gloss" lines naming ground, water, growth, weather, colour,
                               // body, making, exchange, light, the dead, number, direction - never abstractions
@@ -52,7 +52,7 @@ table Bestiary entry file="setting/Bestiary.md" {
   Type Bestiary_Type
   AD dice count="1-18" bonus="-2..6"   // 1 a man's match; 2-3 superior; 4-5 larger, highly dangerous;
                                        // 6-8 supernatural; 9-12 gargantuan; 13-16 served; 17-18 a titan
-  Special text                         // what its dice do not say, or `none`
+  Special text                         // what its dice do not say, a line per ability, or `none`
   MA number range="2-6" opt            // targets threatened at once, about AD/4; omitted at 1
   Description text                     // what a party sees when it comes into view
   Range text opt                       // where it lives and what it eats
@@ -65,13 +65,13 @@ table "Named Creatures" entry file="setting/NamedCreatures.md" {   // as an Enco
   Form Name_Form              // of its title
   Type Bestiary_Type
   AD dice count="1-18" bonus="-2..6"
-  Special text
+  Special text                // what its dice do not say, or `none`
   MA number range="2-6" opt
   "Appears at" place from=NamedCreature
   Reacts text                 // what it does on meeting a party
   Wants text                  // a standing goal, stated without the party
   Knows text opt
-  Description text
+  Description text            // one to three sentences, as a Bestiary entry's
 }
 
 // -- Factions. AD is set against other factions' dice and nothing else; a goal is a
@@ -84,11 +84,11 @@ table Factions entry file="setting/Factions.md" {
   AD dice bonus="0..0"
   Want Want                   // concrete enough to be interfered with
   Identity text               // repeated identically everywhere: colour, device, habit, arms, mark, phrase, tongue
-  Resources text
+  Resources text              // assets, territory, coin or manpower it can spend
   Knowledge text              // what makes it worth dealing with rather than only fighting
-  Tactics text
+  Tactics text                // its move when contested
   Reactions text              // noticed, crossed, injured
-  Goals text
+  Goals text                  // the objectives driving it now
   Relations relation          // each other faction, by Relation
   Fields entry Bestiary list none
 }
@@ -103,7 +103,7 @@ table History entry file="setting/History.md" {
   Left text                   // the physical mark findable now
   Codes place from=Dressing none
 }
-table Truths entry file="setting/Truths.md" {
+table Truths entry file="setting/Truths.md" layout="rows" {
   Truth text                  // the rule in one sentence, not its mood
   Handle text                 // an act a referee could adjudicate
   Codes place none
@@ -118,20 +118,20 @@ table Rumours roll file="setting/Rumours.md" {
   "#" number
   Rumour text
   "T/P/F/U" Truth_Mark
-  "Settled at" place none
+  "Settled at" place none     // and for a P, which half is false; for a U, none, then where a party would look
 }
 
 // -- Finds. A result is the thing itself, tied to no place or container. Value is in
 //    cn at about 100 per wt; wt 0 is pocketed, 1 one hand, 2 both, 3+ more
 //    than one carrier, and is never shrunk to keep a number tidy.
-table "Treasure I" roll file="setting/Treasure1.md" {
+table "Treasure I" roll file="setting/Treasure1.md" title="Treasure Table I - Scavenged Loot" {
   "#" number
   Item text
   Value number
   Wt number
 }
 enum Quality poor normal fine masterwork cursed   // masterwork always has an effect; cursed presents as fine or masterwork
-table "Treasure II" roll file="setting/Treasure2.md" {
+table "Treasure II" roll file="setting/Treasure2.md" title="Treasure Table II - Equipment and Armaments" {
   "#" number
   Item text
   Quality Quality
@@ -139,11 +139,11 @@ table "Treasure II" roll file="setting/Treasure2.md" {
   Value number
   Wt number
 }
-table "Treasure III" roll file="setting/Treasure3.md" as="Treasure I"
-table "Treasure IV" roll file="setting/Treasure4.md" as="Treasure I"
-table "Treasure V" roll file="setting/Treasure5.md" as="Treasure I"
+table "Treasure III" roll file="setting/Treasure3.md" as="Treasure I" title="Treasure Table III - Gems and Jewelry"
+table "Treasure IV" roll file="setting/Treasure4.md" as="Treasure I" title="Treasure Table IV - Luxury and Trade Goods"
+table "Treasure V" roll file="setting/Treasure5.md" as="Treasure I" title="Treasure Table V - Treasure Cache"
 enum Lasts once charges lasting
-table Magic roll file="setting/Magic.md" {
+table Magic roll file="setting/Magic.md" title="Magic Table" {
   "#" number
   Item text
   Does text                   // plainly enough to adjudicate, at GENRE.md's Magic level
@@ -154,7 +154,7 @@ table Magic roll file="setting/Magic.md" {
 }
 table Hoards entry file="setting/Hoards.md" {   // one owner, one location
   "Found at" place from=Reward
-  Owner entry Bestiary Factions "Named Creatures"
+  Owner entry Bestiary Factions "Named Creatures"   // the entry that gathered it
   Items finds
 }
 enum Does once class adjacent solution knowledge passage ward
@@ -164,13 +164,13 @@ table "Unique Treasures" entry file="setting/UniqueTreasures.md" {
   "Found at" place from=Reward
   Does Does
   Cost Cost list none
-  Origin Origin
-  Description text
+  Origin Origin               // then the entry that accounts for it
+  Description text            // what it is, does and costs, in a referee's words
 }
 enum Reading time tongue rite cost
 table "Magical Tomes" entry file="setting/MagicalTomes.md" {   // learned, never discharged
   "Found at" place from=Reward
-  Teaches text
+  Teaches text                // what a reader able to use it learns
   Reading Reading
 }
 
@@ -198,7 +198,7 @@ enum Lore_Does purpose connection hook naming dating contradiction
 table Lore entry file="setting/Lore.md" {
   Form Lore_Form
   "Found at" place from=Reward
-  Voice text
+  Voice text                  // whose, and how they are wrong or partial
   Does Lore_Does list
   Text text                   // read aloud in under a minute
 }
@@ -208,12 +208,12 @@ table Lore entry file="setting/Lore.md" {
 enum Key_Form key profile fitting seal token bone word measure fragment
 enum Apart deliberate transit loot burial trust later
 enum Key_Link maker material measure tongue wear inscription record
-table Keys entry file="setting/Keys.md" {
+table Keys entry file="setting/Keys.md" layout="rows" {
   Name text
   Form Key_Form
   "Found at" place from=Reward
   Opens place from=Lock
-  Feature text
+  Feature text                // which Feature it fits, and what it does
   Apart Apart
   Connection Key_Link list
 }
@@ -225,7 +225,7 @@ enum Obstacle living guarded fragile watched contested misplaced misdescribed
 // -- Sheets.md: written by `tools/maps.py place`, never by hand. Where each region's way in
 //    lies on each sheet BRIEF.md asks for, in squares from the north-west corner, and the
 //    area it is given on its home sheet; a region on a coarser sheet is a mark.
-table Sheets entry file="setting/Sheets.md" {
+table Sheets entry file="setting/Sheets.md" layout="rows" {
   Name text                   // the sheet and the region, as "Frontier C"
   Sheet text
   Region text
@@ -233,12 +233,12 @@ table Sheets entry file="setting/Sheets.md" {
   Area text
 }
 enum Pay fee share favour loan bait
-table Quests entry file="setting/Quests.md" {
+table Quests entry file="setting/Quests.md" layout="rows" {
   Name text
   Ask Ask
   Giver text                  // who wants it, and how a party hears of it
   Reluctance Reluctance
-  Object text
+  Object text                 // what, specifically
   Obstacle Obstacle
   Terms Pay                   // then the giver's own words
   "Points to" place none

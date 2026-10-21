@@ -4,8 +4,8 @@ What `setting/region/` holds for each region, by rating, beside its tables:
 
 - its `seed`, the nodes of `setting/region/[Code]/Seed.md`, written before any location
   exists and naming none, each opening with the region code. A `seed` line names its
-  nodes, `Node=N` where a seed holds exactly N, else one or more; a node its rating's
-  schema defines is that rating's own.
+  nodes in order, each `=N`, exactly N, or `="1+"`; a node its rating's schema defines is
+  that rating's own.
 - its `brief`, `setting/region/[Code].md`, written from the seed and the tables and stale
   when they change: the seed's fields as prose, then one list field per `holds=`, each
   `- ` item opening with the codes it is about. `holds=` names location types, `entrance`
@@ -39,7 +39,7 @@ node Entry {                // a way in
 }
 
 region Safe {
-  seed Seed=1 View=1 Rung=2 Entry Law
+  seed Seed=1 View=1 Rung=2 Entry="1+" Law="1+"
   brief {
     Overview text           // the Seed and both Rungs, each with what sets it off
     View text
@@ -55,7 +55,7 @@ region Safe {
 }
 
 region Wild {
-  seed Seed=1 Rung=2 Entry Ruling
+  seed Seed=1 Rung=2 Entry="1+" Ruling="1+"
   brief {
     Overview text           // the Seed and both Rungs, each with what sets it off
     Approach text           // every Entry, and the crossing on and off the best route
@@ -69,7 +69,7 @@ region Wild {
 }
 
 region Dangerous {
-  seed Seed=1 Rung=2 Entry Conditions=1
+  seed Seed=1 Rung=2 Entry="1+" Conditions=1
   brief {
     Overview text           // the Seed and both Rungs, each with what sets it off
     Approach text           // every Entry

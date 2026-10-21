@@ -1,7 +1,9 @@
 # Steps
 
 The build, in order. Each step names what it creates and the template it follows; the
-template's Context names what to read.
+template's Context names what to read, and `python3 tools/validate_setting.py --read-set
+STEP` lists it. Where the template has no Template section, `--skeleton STEP [REGION]`
+prints the shape its schema gives what the step writes.
 
 Every step closes by running `python3 tools/validate_setting.py`; a warning names the step
 that owes it, and `--pending` lists what each still owes.

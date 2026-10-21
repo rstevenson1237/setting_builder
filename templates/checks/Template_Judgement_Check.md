@@ -21,13 +21,14 @@ Every template:
 - **The right schemas** - does its Context name the schemas its artifact is checked
   against, its own rating's and no other? `--read-set` shows them.
 - **No context creep** - does it read only what its artifact needs? A whole setting file
-  read for one name or one column is creep.
+  read for one name or one column is creep: a `field` line reading that member is the fix.
 - **Consistent with STEPS.md and with the other templates** - does it describe weight,
   rating, units, counts and phases the way STEPS.md and every other template do? A pending
   marker naming the wrong step is a finding here.
 - **One context, no step instructions** - does one Context serve every step citing the
-  template, and do its Instructions say how the artifact is written, leaving what each
-  step does to `STEPS.md`? A line that only says "at 5d, do X" is STEPS.md's.
+  template, with what only one step reads in that step's `step` line, and do its
+  Instructions say how the artifact is written, leaving what each step does to `STEPS.md`?
+  A line that only says "at 5d, do X" is STEPS.md's.
 - **Genre drift guardrails** - where an authored plot, commonplace magic or a nearer
   authority could creep in (History, Factions, Treasure, Location Features), do its
   Instructions push against it?

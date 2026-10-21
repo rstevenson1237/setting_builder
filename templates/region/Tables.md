@@ -5,15 +5,46 @@ The table files of one region, `setting/region/[Region Code]/[Table].md`: one fi
 table its rating's schema, `patterns/[Rating]_Schema.md`, names, each holding entries.
 
 ## Context
-Read first:
-- `GENRE.md`, `STYLE.md` and `BRIEF.md`, as `python3 tools/validate_setting.py --brief [Region Code]` prints it
-- `patterns/Common_Schema.md`, `patterns/Setting_Schema.md` and this region's rating schema
-- this region's seed, `setting/region/[Region Code]/Seed.md`
-- this region's die in `setting/region/Regions.md`, and `setting/Language.md`
-- this region's table files, as far as they exist, and its `Ground.md`: the terrain, rivers, roads and hills of its area
-- `setting/region/Regions.md` - the regions this one joins
-- the setting files `patterns/Setting_Schema.md` names for the values being written, and the
-  setting entries `python3 tools/validate_setting.py --pending` owes
+```kdl
+template scope="[Region Code]" writes="setting/region/[Region Code]/[Table].md" shape="tables"
+read "setting/region/[Region Code]/Seed.md"
+read "setting/region/Regions.md" part="this region's die, and the regions it joins"
+read "setting/region/[Region Code]/Ground.md"
+read "setting/Language.md"
+step 4a writes="Locations" {
+  field "Location.name" reads="Language.Coined here"
+  field "Location.bearing" reads="Feature.bearing, Feature.distance, At.ground"
+}
+step 4b writes="Connections Blocks" {
+  read "setting/region/[Region Code]/Locations.md"
+  field "Way.to" reads="Entry.from, Location.type"
+  field "Connection.to" reads="Entry.from, Location.type"
+  field "Connection.width" reads="Conditions.width"
+  field "Block.locations" reads="Location.type"
+}
+step 4c writes="Purpose Dressing Purchases People Garrison Challenges Rewards Procedures Stops" {
+  read "setting/region/[Region Code]/Locations.md"
+  read "setting/region/[Region Code]/Connections.md"
+  field "Encounter" reads="Seed.who"
+  field "Person" reads="Seed.who"
+}
+step 5a writes="Purpose Dressing Purchases People Garrison Challenges Rewards Procedures Stops Connections" {
+  read "setting/region/[Region Code]/[Table].md"
+  read "setting/Bestiary.md"
+  read "setting/Factions.md"
+  read "setting/History.md"
+  read "setting/Procedures.md" part="Forced Dangers, Conditions, Wounds"
+  run "--pending [Region Code]"
+  field "Dressing.mark" reads="Seed.who, Factions.Identity"
+  field "Dressing.left" reads="History.Left"
+  field "Person.form" reads="Language.Coined here"
+  field "Person.quest" reads="Quests.Name"
+  field "Purpose.signs" reads="Location.tags"
+  field "Hazard.wound" reads="Hazard.damage"
+  field "Encounter.answers" reads="Connection.to"
+  field "Lock.key" reads="Keys.Found at"
+}
+```
 
 ## Instructions
 - **4a, Locations** - the count `BRIEF.md` sets for the region, in its targets' type mix,
@@ -52,12 +83,3 @@ Read first:
   A key whose region is not yet laid out stays a warning until its 4c. Likewise a setting
   entry whose Found at or Appears at names a location no table holds it is placed there as
   a stub. A stub holds only what placement fixes; the next 5a fills the rest.
-
-## Template
-````
-# [Table] of [Region Code] [Region Name]
-
-```kdl
-[Node] [Location Code] [member]=[value] { [Child] [member]=[value] }
-```
-````

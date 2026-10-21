@@ -5,12 +5,19 @@ A region's seed, `setting/region/[Region Code]/Seed.md`: what its locations are 
 how a party gets in, who is there and how they answer a stranger, and what is changing.
 
 ## Context
-Read first:
-- `GENRE.md`, `STYLE.md` and `BRIEF.md`, as `python3 tools/validate_setting.py --brief [Region Code]` prints it
-- `setting/Setting.md`, `setting/History.md`, `setting/Truths.md`, `setting/Bestiary.md`, `setting/Factions.md`
-- `setting/region/Regions.md`
-- `patterns/Common_Schema.md`, `patterns/Region_Schema.md` - this region's rating's `seed` - and the rating's schema
-- `setting/Procedures.md`'s Time and Distance and Weather
+```kdl
+template scope="[Region Code]" writes="setting/region/[Region Code]/Seed.md" shape="seed"
+read "setting/Setting.md"
+read "setting/History.md"
+read "setting/Truths.md"
+read "setting/Bestiary.md"
+read "setting/Factions.md"
+read "setting/region/Regions.md"
+read "setting/Procedures.md" part="Time and Distance, Weather"
+field "Seed.who" reads="Bestiary, Factions"
+field "Rung" reads="Truths.Truth, History.Event"
+field "Ruling" reads="Seed.terrain"
+```
 
 ## Instructions
 Write every node the rating's `seed` names, as many as it says, each opening with the
@@ -23,12 +30,3 @@ answered here.
 
 Cut anything repeated from `setting/region/Regions.md` or `setting/History.md`, and any
 value stating what the referee should conclude or the players should do.
-
-## Template
-````
-# Seed of [Region Code] [Region Name]
-
-```kdl
-[Node] [Region Code] [member]=[value]
-```
-````
