@@ -1,4 +1,4 @@
-# Challenges of K Bugbear Den
+# Encounters of K Bugbear Den
 
 ```kdl
 Encounter K.1 doing="dozing on a stool behind the hide" reaction="Hostile - bellow, then fight in the mouth" want="no one past unmarked" know="which tribe's tithe is late" left="gnawed bone, soot smears" far="a rumbling snore" { Creature bestiary="Bugbear" count=1 }

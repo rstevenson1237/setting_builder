@@ -1,6 +1,7 @@
 # Region Schema
 
-What `setting/region/` holds for each region, by rating, beside its tables:
+What `setting/region/` holds: the gazetteer, `Regions.md`, one `Region` node a region, then for
+each region, by rating, beside its tables:
 
 - its `seed`, the nodes of `setting/region/[Code]/Seed.md`, written before any location
   exists and naming none, each opening with the region code. A `seed` line names its
@@ -21,6 +22,18 @@ region's maps, `Ground.md` and what is drawn: it says what they cannot, what a p
 notices and hears, and restates no place, size, height, person or price they show.
 
 ```kdl
+enum Rating SAFE WILD DANGEROUS
+enum Region_Die d4 d6 d8 d10 d12
+node Region file="setting/region/Regions.md" {   // opens with the region's code; codes run A-Z, then AA, AB
+  name string               // per GENRE.md's Naming
+  form Place_Form           // of the name
+  gloss gloss               // what a tongue name means; `none` where the name is plain
+  rating Rating
+  die Region_Die            // BRIEF.md's, per Procedures.md
+  joins region list         // every region it borders, and the WILD region a DANGEROUS one opens from; a join is mutual
+  tag string                // one phrase, the region one step past its name
+}
+
 enum Safe_Kind steading thorp village town seat hold   // a household; a few; trades; a market and authority;
                                                         // a greater power's seat; a garrison with folk under its walls
 enum Terrain hills mountains plains forest swamp desert jungle coast   // one, or two in combination

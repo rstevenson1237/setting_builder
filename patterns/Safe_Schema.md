@@ -74,7 +74,7 @@ node Person {
   wants string              // of a stranger, and what it offers for it
   knows string              // what a party can learn from them
   member entry Factions opt // the faction they belong to, where they belong to one
-  quest entry Quests opt    // the quest they give; left empty until Quests.md is written (step 5d)
+  quest entry Quests opt    // the quest they give; left empty until Quests.md is written (step 4d)
 }
 node NamedCreature {
   named entry "Named Creatures"
@@ -136,7 +136,10 @@ folder Safe type=Safe_Type {
   Locations Location
   Dressing Dressing
   Purchases Purchase
-  People Person NamedCreature Faction
+  People Person
+  Creatures NamedCreature opt
+  Members Faction opt
+  group People People Creatures Members            // a rate counts them together
   Garrison Garrison                                // an Authority's only
   Procedures Procedure
   Blocks Block opt

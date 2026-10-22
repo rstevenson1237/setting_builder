@@ -16,7 +16,7 @@ Ten readings, printed in one report:
             hazard damage, encounter reactions, reward contents - and its stubs, missing and stale
             write-ups
   BUDGET    framework words against setting words
-  READ SET  words in context per step 5b write-up
+  READ SET  words in context per step 4b write-up
 
 Nothing here judges. A tell is a candidate a reader looks at, the read-set
 figure is an arithmetic sum of what templates/region/Location.md's Context section
@@ -537,7 +537,7 @@ def report_mix() -> None:
             for n in entries:
                 if stem == "Connections":
                     k = counts["connections"]; v = n.props.get("type", n.name)
-                elif stem == "Challenges":
+                elif stem in ("Encounters", "Hazards", "Mysteries"):
                     k = counts["challenges"]; v = n.name
                     if n.name == "Hazard":
                         d = n.props.get("damage", "?")
@@ -565,7 +565,7 @@ def report_mix() -> None:
 def report_targets() -> None:
     """Each BRIEF.md target against what each region's tables hold, then each files and
     setting lever against the setting files. A value outside what it allows is
-    marked; whether that matters is the 6c check's."""
+    marked; whether that matters is the 5c check's."""
     import tables
     setting = load_setting()
     print("TARGETS")
@@ -618,7 +618,7 @@ def report_budget() -> None:
 # ---------------------------------------------------------------------------
 # The read set
 #
-# What one location costs to write up: the fixed context every 5b write-up
+# What one location costs to write up: the fixed context every 4b write-up
 # carries, beside its own entries from --location. The fixed half is
 # templates/region/Location.md's own Context section, which is the authority on what a
 # drafting session opens - README.md is in it because the session hook injects
@@ -627,7 +627,7 @@ def report_budget() -> None:
 #
 # The region seed and BRIEF.md's region slice are per-region, so each is
 # reported as its own range rather than folded into one number that would be
-# right for no region. Ground.md is a range too: 4a and 5e read it whole, while 5b
+# right for no region. Ground.md is a range too: 3d and 4e read it whole, while 4b
 # reads only a location's At entry, which --location already carries.
 # ---------------------------------------------------------------------------
 
@@ -645,7 +645,7 @@ def report_range(name: str, counts: dict[str, int]) -> int:
     return avg
 
 
-def report_read_set(step: str = "5b") -> None:
+def report_read_set(step: str = "4b") -> None:
     print(f"READ SET (step {step})")
     present = [(n, ROOT / n) for n in FIXED_CONTEXT if (ROOT / n).exists()]
     fixed = sum(file_words(p) for _, p in present)
@@ -657,7 +657,7 @@ def report_read_set(step: str = "5b") -> None:
     avg += report_range("region seed", {p.parent.name: file_words(p) for p in sorted(REGION.glob("[A-Z]/Seed.md"))}
                         if REGION.exists() else {})
     print(f"  {'fixed context':24s} : {fixed + avg:6,} (with the mean region slice and seed)")
-    report_range("Ground.md (4a, 5e; not summed)",
+    report_range("Ground.md (3d, 4e; not summed)",
                  {p.parent.name: file_words(p) for p in sorted(REGION.glob("[A-Z]/Ground.md"))} if REGION.exists() else {})
     print()
 

@@ -12,6 +12,7 @@ ROOT = Path(__file__).resolve().parent.parent
 SETTING = ROOT / "setting"
 PATTERNS = ROOT / "patterns"
 SHARED = ("Common", "Setting", "Region")   # the shared schemas, widest first; every other is a rating's
+ONE_RECORD = ("Seed", "Ground")   # the files that hold several nodes: one region's record, and what code writes
 DRAWN = ("Inhabitants", "Services", "Procedures", "Loot", "Alarm", "Leads", "Secrets")   # site_common.drawn
 
 CODE_RE = re.compile(r"([A-Z]+)\.(\d+)")
@@ -63,6 +64,7 @@ class Folder:
     words: dict[str, int] = field(default_factory=dict) # BRIEF.md's cap on each brief field, or each item
     region_path: Path | None = None                     # the schema holding seed and brief
     optional: set[str] = field(default_factory=set)     # files a region of this rating may leave out
+    groups: dict[str, list[str]] = field(default_factory=dict)   # a name a rate may use for several files, counted together
 
 
 def entries_allowed(want, of: int | None = None) -> tuple[int, int] | None:
@@ -103,10 +105,12 @@ class Schema:
         self.table_props: dict[str, dict] = {}
         self.setting_enums: dict[str, dict] = {}
         self.regions: dict[str, tuple[Path, dict[str, list[Member]]]] = {}
+        self.node_files: dict[str, str] = {}            # a node that is the whole of a file's entries -> the file
         shared: tuple[dict, dict] = ({}, {})
         for path in (root / f"{n}_Schema.md" for n in SHARED):
             self._read(path, *shared)
         self.setting_enums = dict(shared[0])
+        self.shared_nodes = dict(shared[1])
         self._resolve_fields()
         for path in sorted(set(root.glob("*_Schema.md")) - {root / f"{n}_Schema.md" for n in SHARED}):
             enums, nodes = dict(shared[0]), dict(shared[1])
@@ -168,13 +172,16 @@ class Schema:
                 enums[name] = items
             elif n.name == "node":
                 nodes[name] = [self._member(c) for c in n.children]
+                if "file" in n.props:
+                    self.node_files[name] = n.props["file"]
             elif n.name == "folder" and path.stem.split("_")[0] not in SHARED:
-                files = {c.name: [a for a in c.args if a != "opt"] for c in n.children if c.name not in ("join", "top")}
+                files = {c.name: [a for a in c.args if a != "opt"] for c in n.children if c.name not in ("join", "top", "group")}
                 joins = {c.args[0]: (set(c.args[1:]), c.props.get("gate"))
                          for c in n.children if c.name == "join" and c.args}
                 top = {a for c in n.children if c.name == "top" for a in c.args}
                 f = Folder(n.props.get("type", ""), files, joins, top, path,
-                           optional={c.name for c in n.children if "opt" in c.args})
+                           optional={c.name for c in n.children if "opt" in c.args},
+                           groups={c.args[0]: [str(a) for a in c.args[1:]] for c in n.children if c.name == "group" and c.args})
                 self.folders[name] = f
                 folders.append(f)
             elif n.name == "region":
@@ -252,6 +259,13 @@ class Schema:
                         p(f"{node}.{m.name}: {m.arg!r} is not an enum of tables")
             if f.type not in f.enums:
                 p(f"folder {name}: unknown type enum {f.type!r}")
+            for stem, ns in f.files.items():
+                if len(ns) > 1 and stem not in ONE_RECORD:
+                    p(f"folder {name}: {stem} holds {len(ns)} nodes - a file holds one, except {', '.join(ONE_RECORD)}")
+            for g, stems in f.groups.items():
+                for stem in stems:
+                    if stem not in f.files:
+                        p(f"folder {name}: group {g} names {stem!r}, which is no file")
             for m in f.brief:
                 if m.type not in self.values and m.type not in f.enums:
                     p(f"folder {name}: brief field {m.name}: unknown type {m.type!r}")
@@ -274,7 +288,7 @@ class Schema:
                 if item not in f.enums.get(f.type, {}):
                     self.brief_problems.append(f"{name.lower()}: rate for {item!r}, which {f.type} does not hold")
                 for stem, b in rates.items():
-                    if stem not in f.files or b is None:
+                    if stem not in f.files and stem not in f.groups or b is None:
                         self.brief_problems.append(f"{name.lower()}: rate {item} {stem} is not a table file and a count or range")
             for t in f.top:
                 if t not in f.enums.get(f.type, {}):
@@ -562,6 +576,58 @@ def check_field(schema: Schema, m: Member, v: str, codes: set[str], enums: dict 
         yield from value_problems(m, v, enums, schema.words if schema else {})
 
 
+GAZETTEER = SETTING / "region" / "Regions.md"
+
+
+def gazetteer(path: Path = GAZETTEER) -> list[kdl.Node]:
+    """The Region nodes of setting/region/Regions.md, in order; none where it is unwritten."""
+    return [n for n in kdl.fenced(path.read_text()) if n.name == "Region"] if path.exists() else []
+
+
+def region_code(index: int) -> str:
+    """0 -> A, 25 -> Z, 26 -> AA: the plain progression region codes follow."""
+    out = ""
+    index += 1
+    while index:
+        index, r = divmod(index - 1, 26)
+        out = chr(65 + r) + out
+    return out
+
+
+def gazetteer_problems(schema: Schema, nodes: list[kdl.Node]) -> list[tuple[int, str]]:
+    """(line, fault) for each Region node against its schema node: its members, the codes
+    in order, and the joins - each a region, never itself, and mutual."""
+    members = schema.shared_nodes.get("Region", [])
+    enums, out = schema.setting_enums, []
+    codes = [str(n.args[0]) if len(n.args) == 1 else "" for n in nodes]
+    for i, (n, code) in enumerate(zip(nodes, codes)):
+        if not code:
+            out.append((n.line, "Region opens with its region code, and only that"))
+        elif code != region_code(i):
+            out.append((n.line, f"Region {code} is not the plain A-Z progression - expected {region_code(i)}"))
+        if code in codes[:i]:
+            out.append((n.line, f"Region {code} is written twice"))
+        for k in n.props:
+            if k not in {m.name for m in members}:
+                out.append((n.line, f"Region {code} has no member {k!r}"))
+        for m in members:
+            if m.name not in n.props:
+                out.append((n.line, f"Region {code} lacks {m.name}"))
+            elif m.type == "region":
+                for j in (x.strip() for x in str(n.props[m.name]).split(",")):
+                    other = nodes[codes.index(j)] if j in codes else None
+                    if j == code:
+                        out.append((n.line, f"Region {code} joins itself"))
+                    elif other is None:
+                        out.append((n.line, f"Region {code} joins {j}, which is no region"))
+                    elif code not in [x.strip() for x in str(other.props.get(m.name, "")).split(",")]:
+                        out.append((n.line, f"Region {code} joins {j}, which does not join {code}"))
+            else:
+                out += [(n.line, f"Region {code} {m.name}: {msg}")
+                        for msg in value_problems(m, str(n.props[m.name]), enums, schema.words)]
+    return out
+
+
 @dataclass
 class Region:
     code: str
@@ -674,7 +740,7 @@ class Setting:
         return out
 
     def _check_placements(self):
-        """Every place field with a from= against the tables, both ways, each owed to 5a: a
+        """Every place field with a from= against the tables, both ways, each owed to 4a: a
         location the tables place an entry at, to its field; a location the field names and
         no entry there holds, to a stub there."""
         placed = self.placements()
@@ -690,10 +756,10 @@ class Setting:
                     held = placed.get((table, title, m.name), set())
                     for c in sorted(held - listed):
                         yield "warning", path, (f"line {line}: {title} {m.name} lacks {c}, where a "
-                                                f"{m.props['from']} names it - owed to step 5a")
+                                                f"{m.props['from']} names it - owed to step 4a")
                     for c in sorted(listed - held):
                         yield "warning", path, (f"line {line}: {title} {m.name} names {c}, where no "
-                                                f"{m.props['from']} names it yet - owed to step 5a")
+                                                f"{m.props['from']} names it yet - owed to step 4a")
 
     def _check_names(self):
         """Every name a schema gives a form is that form, and every coinage a tongue records
@@ -759,12 +825,9 @@ class Setting:
                                 out.append((path, where, name, str(node.props[f.name]), BEING_FORMS))
                         elif node.name == "Location":
                             out.append((path, where, name, None, ()))
-        import site_common as sc
-        gaz = SETTING / "region" / "Regions.md"
-        for t in sc.read_tables(gaz)[:1] if gaz.exists() else []:
-            for d, line in zip(t.dicts(), t.lines):
-                if d.get("Name") and d.get("Form"):
-                    out.append((gaz, f"line {line}", d["Name"], d["Form"].split()[0], PLACE_FORMS))
+        for n in gazetteer():
+            if n.args and {"name", "form"} <= set(n.props):
+                out.append((GAZETTEER, f"line {n.line}", str(n.props["name"]), str(n.props["form"]).split()[0], PLACE_FORMS))
         sfile = SETTING / "Setting.md"
         if sfile.exists():
             lines = [l.strip() for l in sfile.read_text().splitlines() if l.strip()]
@@ -782,7 +845,7 @@ class Setting:
     def _check_keys(self):
         """Every lock has its key placed, every key its lock, and no key lies behind the lock
         it opens. Locks are written first and keys for them after, so a lock waiting on its
-        key is owed to 5a, and a key with no lock is an error."""
+        key is owed to 4a, and a key with no lock is an error."""
         locks, keys = {}, {}
         for r in self.regions.values():
             for stem, entries in r.files.items():
@@ -805,7 +868,7 @@ class Setting:
             if title not in keys:
                 r, stem, n = placed[0]
                 yield "warning", r.dir / f"{stem}.md", (f"line {n.line}: Lock {title!r} has no key "
-                                                       f"placed yet - owed to step 5a")
+                                                       f"placed yet - owed to step 4a")
                 continue
             for r, stem, n in keys[title]:
                 if self._behind(r, title, n.args[0] if n.args else None):
@@ -898,12 +961,12 @@ class Setting:
         owed = [m for m in missing if isinstance(m, str)]
         yield from (m for m in missing if not isinstance(m, str))
         if owed:
-            step = {"Locations": "4a", "Seed": "3c"}.get(stem, "5a")
+            step = {"Locations": "3d", "Seed": "3c"}.get(stem, "4a")
             yield "warning", f"{n.name} {n.args[0] if n.args else ''} is a stub owed to step {step} - lacks {', '.join(owed)}"
 
     def _check_node(self, r: Region, n: kdl.Node, within: str = ""):
         """Yield (severity, message) for every fault, and the name of every member not yet
-        written - a bare entry is a stub, placed at 4c and filled at 5a."""
+        written - a bare entry is a stub, filled at 4a."""
         members = r.folder.nodes[n.name]
         known = {m.name for m in members}
         for k in n.props:
@@ -969,7 +1032,7 @@ class Setting:
         if have is None:
             yield "warning", f"{title!r} - {file} is not built yet"
         elif title not in have:
-            yield "warning", f"{title!r} is not on {file} yet - owed to step 5a"
+            yield "warning", f"{title!r} is not on {file} yet - owed to step 4a"
 
     def _check_counts(self, r: Region):
         """Each file with counts holds each node its line names: exactly N where it says N,
@@ -996,10 +1059,11 @@ class Setting:
                 continue
             for stem in sorted(rated):
                 lo, hi = rates.get(stem, (0, 0))
-                got = sum(1 for n in r.files.get(stem, []) if n.args and n.args[0] == code)
+                files = r.folder.groups.get(stem, [stem])
+                got = sum(1 for f in files for n in r.files.get(f, []) if n.args and n.args[0] == code)
                 if not lo <= got <= hi:
                     want = f"{lo}" if lo == hi else f"{lo}-{hi}"
-                    yield "warning", r.dir / f"{stem}.md", (
+                    yield "warning", r.dir / f"{files[0]}.md", (
                         f"{code} ({loc.props['type']}) has {got} {stem} entries - its rate is {want}")
 
     def _check_connections(self, r: Region):
@@ -1494,17 +1558,17 @@ class Brief:
                 out.append(f"{code} has {held} Procedure entries; BRIEF.md asks for {asked} procedure lines")
         return out
 
-    def region_problems(self, gazetteer: dict[str, dict]) -> list[str]:
+    def region_problems(self, gaz: dict[str, dict]) -> list[str]:
         """Each region BRIEF.md names against setting/region/Regions.md: same codes, in
         order, each with the rating and die asked for."""
-        if not gazetteer or not self.regions:
+        if not gaz or not self.regions:
             return []
         out = []
-        if list(self.regions) != list(gazetteer):
+        if list(self.regions) != list(gaz):
             out.append(f"BRIEF.md names regions {', '.join(self.regions)}; the gazetteer holds "
-                       f"{', '.join(gazetteer)}")
+                       f"{', '.join(gaz)}")
         for code, n in self.regions.items():
-            g = gazetteer.get(code)
+            g = gaz.get(code)
             for k in ("rating", "die"):
                 if g and k in n.props and str(n.props[k]).upper() != str(g.get(k, "")).upper():
                     out.append(f"{code} is {k} {g.get(k)!r}; BRIEF.md asks for {n.props[k]!r}")

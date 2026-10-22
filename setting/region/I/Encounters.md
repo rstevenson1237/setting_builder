@@ -1,4 +1,4 @@
-# Challenges of I Hobgoblin Hold
+# Encounters of I Hobgoblin Hold
 
 ```kdl
 Encounter I.1 doing="standing a drilled watch" reaction="Wary - challenge, then bar the inner gate" want="no one inside unchallenged" know="the relief hours" left="boot prints in ranks" far="a horn call" { Creature bestiary="Hobgoblin" count=2 }

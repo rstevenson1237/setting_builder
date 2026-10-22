@@ -32,7 +32,7 @@ field "Tables" reads="Encounter.doing, Encounter.reaction, Hazard, Rung"
 Write every field of the rating's `brief`, in its order, from the seed and the tables
 alone. The seed's fields are its nodes as prose, each member once. A list field opens one
 `- ` item for each location its `holds=` gives it, in code order, with that code, as
-`--skeleton 5e [Region Code]` lists them. What `drawn` names is never written here.
+`--skeleton 4e [Region Code]` lists them. What `drawn` names is never written here.
 
 Every fact about a location names it by code. A fact no entry holds is an entry to add to
 the tables, not a line here. A setting entry is cited as `(Named Creature: Name)`,

@@ -1,4 +1,4 @@
-# Challenges of F Kobold Warren
+# Encounters of F Kobold Warren
 
 ```kdl
 Encounter F.1 doing="squatting by the rattles with slings" reaction="Fearful - rattle the alarm, bolt for the burrows" want="to warn the burrows" know="which bends are trapped" left="chalk grins, tin scraps" far="a faint rattling" { Creature bestiary="Kobold" count=2 }
