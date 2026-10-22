@@ -194,7 +194,7 @@ table "Local Procedures" entry file="setting/LocalProcedures.md" {
 // -- Lore is a made thing with an author inside the setting, wrong or partial (unknowing,
 //    lying, secondhand, late, interested, unfinished); never spoken, never omniscient.
 enum Lore_Form written cut woven drawn arranged
-enum Lore_Does purpose connection hook naming dating contradiction
+enum Lore_Does purpose connection hook naming dating contradiction translation   // translation: a clue to reading a tongue's script
 table Lore entry file="setting/Lore.md" {
   Form Lore_Form
   "Found at" place from=Reward

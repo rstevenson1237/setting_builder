@@ -24,7 +24,7 @@ notices and hears, and restates no place, size, height, person or price they sho
 ```kdl
 enum Rating SAFE WILD DANGEROUS
 enum Region_Die d4 d6 d8 d10 d12
-node Region file="setting/region/Regions.md" {   // opens with the region's code; codes run A-Z, then AA, AB
+node Region file="setting/region/Regions.md" {   // opens with the region's code; one or two capital letters, ascending; a first letter holds one region or a group (FA, FB), never both
   name string               // per GENRE.md's Naming
   form Place_Form           // of the name
   gloss gloss               // what a tongue name means; `none` where the name is plain

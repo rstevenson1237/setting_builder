@@ -574,27 +574,22 @@ def gazetteer(path: Path = GAZETTEER) -> list[kdl.Node]:
     return [n for n in kdl.fenced(path.read_text()) if n.name == "Region"] if path.exists() else []
 
 
-def region_code(index: int) -> str:
-    """0 -> A, 25 -> Z, 26 -> AA: the plain progression region codes follow."""
-    out = ""
-    index += 1
-    while index:
-        index, r = divmod(index - 1, 26)
-        out = chr(65 + r) + out
-    return out
-
-
 def gazetteer_problems(schema: Schema, nodes: list[kdl.Node]) -> list[tuple[int, str]]:
     """(line, fault) for each Region node against its schema node: its members, the codes
-    in order, and the joins - each a region, never itself, and mutual."""
+    (one or two letters, in order, a first letter either one region or a group of them), and
+    the joins - each a region, never itself, and mutual."""
     members = schema.shared_nodes.get("Region", [])
     enums, out = schema.setting_enums, []
     codes = [str(n.args[0]) if len(n.args) == 1 else "" for n in nodes]
     for i, (n, code) in enumerate(zip(nodes, codes)):
         if not code:
             out.append((n.line, "Region opens with its region code, and only that"))
-        elif code != region_code(i):
-            out.append((n.line, f"Region {code} is not the plain A-Z progression - expected {region_code(i)}"))
+        elif not re.fullmatch(r"[A-Z]{1,2}", code):
+            out.append((n.line, f"Region {code} is one or two capital letters"))
+        elif i and codes[i - 1] and code <= codes[i - 1]:
+            out.append((n.line, f"Region {code} follows {codes[i - 1]} out of order - codes ascend"))
+        elif len(code) == 1 and any(len(c) == 2 and c[0] == code for c in codes):
+            out.append((n.line, f"Region {code} is a group's first letter, so every code starting {code} has two"))
         if code in codes[:i]:
             out.append((n.line, f"Region {code} is written twice"))
         for k in n.props:
@@ -1135,7 +1130,7 @@ def brief_nodes(path: Path = BRIEF) -> list[kdl.Node]:
     return kdl.fenced(path.read_text()) if path.exists() else []
 
 
-SLICE_SETTING = ("test", "outline", "pressure")   # what a region's slice keeps of `setting`
+SLICE_SETTING = ("test", "outline", "pressure", "architecture", "construction")   # what a region's slice keeps of `setting`
 
 
 def slice_keeps(child: kdl.Node, scope: str) -> bool:
@@ -1492,6 +1487,9 @@ class Brief:
         for lever, file in (("Quests", "Quests.md"), ("Truths", "Truths.md")):
             if (n := self.lever(lever)) and "count" in n.props and (SETTING / file).exists():
                 count(f"{lever} entries", n.props["count"], len(table(file)))
+        if (n := self.lever("Language")) and "clues" in n.props and (SETTING / "Lore.md").exists():
+            count("Language clues", n.props["clues"],
+                  sum(1 for r in records("Lore.md") if "translation" in dict(r.fields).get("Does", "")))
         if (SETTING / "Language.md").exists():
             tongues = self._tongues(SETTING / "Language.md")
             if self.asks("tongue"):

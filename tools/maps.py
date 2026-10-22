@@ -496,7 +496,7 @@ def ground(brief_path: Path, setting: Path) -> int:
 
 # -- blocks: a DANGEROUS region's rooms, walked from the entrance -------------------------
 
-DOOR = {"Open": None, "Archway": None, "Broken": None, "Crude": None, "Iron": "portcullis"}
+DOOR = {"Open": None, "Archway": None, "Broken": None, "Crude": None, "Lift": None, "Chute": None, "Iron": "portcullis"}
 SHAPE = {"rect": "rect", "round": "circle", "octagon": "octagon", "cave": "cave"}
 APART = 10                      # feet two routes to one room may disagree by
 UNSIZED = 20                    # feet, a room's side where its Dressing states none

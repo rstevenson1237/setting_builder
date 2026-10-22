@@ -22,7 +22,9 @@ field "Ruling" reads="Seed.terrain"
 ## Instructions
 Write every node the rating's `seed` names, as many as it says, each opening with the
 region code. `who` names who lives here by `setting/Bestiary.md` or `setting/Factions.md`
-title; the tables place them.
+title; the tables place them. Where `BRIEF.md` gives an `architecture` line (SAFE) or a
+`construction` line (DANGEROUS), a View's outline and shows, or the Conditions, start from it and
+state only what this region changes.
 
 No location exists yet: name no location code, and place nothing in a room. A question
 `setting/Truths.md` holds open, or a gap it leaves to the referee, is cited there, never
