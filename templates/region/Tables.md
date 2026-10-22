@@ -22,7 +22,7 @@ step 3e writes="Connections Blocks" {
   field "Connection.width" reads="Conditions.width"
   field "Block.locations" reads="Location.type"
 }
-step 4a writes="Purpose Dressing Purchases People Garrison Challenges Rewards Procedures Stops Connections" {
+step 4a writes="Purpose Dressing Purchases People Creatures Members Garrison Encounters Hazards Mysteries Rewards Procedures Stops Connections" {
   read "setting/region/[Region Code]/Locations.md"
   read "setting/region/[Region Code]/Connections.md"
   read "setting/region/[Region Code]/[Table].md"

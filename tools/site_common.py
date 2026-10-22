@@ -381,7 +381,7 @@ def _who(n) -> str:
 
 def _inhabitants(r, setting) -> list[str]:
     out = []
-    for stem in ("People", "Garrison", "Challenges"):
+    for stem in ("People", "Creatures", "Members", "Garrison", "Encounters"):
         for n in r.files.get(stem, []):
             at = n.args[0] if n.args else ""
             p = n.props
@@ -442,7 +442,7 @@ def _alarm(r) -> list[str]:
         t = tb.TIME_RE.match(str(n.props.get("answers", "")))
         return (0 if t and t.group(3).startswith("Round") else 1, int(t.group(1)) if t else 0)
     out = []
-    for n in sorted((n for n in r.files.get("Challenges", []) if n.name == "Encounter" and "answers" in n.props), key=soon):
+    for n in sorted((n for n in r.files.get("Encounters", []) if n.name == "Encounter" and "answers" in n.props), key=soon):
         kid = next((c for c in n.children if c.name in ("Creature", "NamedCreature", "Faction")), None)
         out.append(f"{n.args[0]} {_who(kid) if kid is not None else ''} - within {n.props['answers']}")
     return out

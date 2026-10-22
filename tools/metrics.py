@@ -537,7 +537,7 @@ def report_mix() -> None:
             for n in entries:
                 if stem == "Connections":
                     k = counts["connections"]; v = n.props.get("type", n.name)
-                elif stem == "Challenges":
+                elif stem in ("Encounters", "Hazards", "Mysteries"):
                     k = counts["challenges"]; v = n.name
                     if n.name == "Hazard":
                         d = n.props.get("damage", "?")

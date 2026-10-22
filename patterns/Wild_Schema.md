@@ -134,7 +134,10 @@ node At {                   // the ground at a location
 folder Wild type=Wild_Type {
   Locations Location
   Dressing Dressing
-  Challenges Encounter Hazard Mystery
+  Encounters Encounter opt
+  Hazards Hazard opt
+  Mysteries Mystery opt
+  group Challenges Encounters Hazards Mysteries   // a rate counts them together
   Procedures Procedure
   Stops Stop                                       // a Route's only
   Connections Way
