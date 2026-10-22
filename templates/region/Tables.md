@@ -22,19 +22,17 @@ step 3e writes="Connections Blocks" {
   field "Connection.width" reads="Conditions.width"
   field "Block.locations" reads="Location.type"
 }
-step 3f writes="Purpose Dressing Purchases People Garrison Challenges Rewards Procedures Stops" {
+step 4a writes="Purpose Dressing Purchases People Garrison Challenges Rewards Procedures Stops Connections" {
   read "setting/region/[Region Code]/Locations.md"
   read "setting/region/[Region Code]/Connections.md"
-  field "Encounter" reads="Seed.who"
-  field "Person" reads="Seed.who"
-}
-step 4a writes="Purpose Dressing Purchases People Garrison Challenges Rewards Procedures Stops Connections" {
   read "setting/region/[Region Code]/[Table].md"
   read "setting/Bestiary.md"
   read "setting/Factions.md"
   read "setting/History.md"
   read "setting/Procedures.md" part="Forced Dangers, Conditions, Wounds"
   run "--pending [Region Code]"
+  field "Encounter" reads="Seed.who"
+  field "Person" reads="Seed.who"
   field "Dressing.mark" reads="Seed.who, Factions.Identity"
   field "Dressing.left" reads="History.Left"
   field "Person.form" reads="Language.Coined here"
@@ -55,22 +53,21 @@ step 4a writes="Purpose Dressing Purchases People Garrison Challenges Rewards Pr
   recorded in `setting/Language.md` first.
 - **3e, Connections and Blocks** - one entry per side of every way between two locations, with
   `to`, `bearing` and `distance` set from this end (and `climb` where the way changes level), and
-  the rest a stub; the far side's entry reverses the bearing. Every location is reachable from
+  the rest left to 4a; the far side's entry reverses the bearing. Every location is reachable from
   an entrance the seed's Entries name, and a way into a gated location carries the gate its
   folder's `join` line names. A way to another region joins only a region this one joins in
   `setting/region/Regions.md`. Where the schema holds Blocks, every location is in exactly one
   block, and a way that climbs joins two blocks. A Block or Connection states its passages' `width` and `height` only where they
   differ from the seed's Conditions, a Connection's within both rooms' footprints.
-- **3f, the stubs** - every other table, its entries bare: `[Node] [Location Code]`.
-  Each room gets the entries its type's `rate` line in `BRIEF.md` gives, choosing within a range for a
-  reason its tags give, and toward `BRIEF.md`'s targets. The occupants the seed's `who`
-  names are placed as Encounters - in a SAFE region as People, Named Creatures and Faction
-  members, and a Garrison at an Authority - and a `procedure` line in the region's node of `BRIEF.md`
-  as a Procedure entry at the location it fits, any type and at most one a location. A member or child is written now only where the
-  design already fixes it.
-- **4a, filling** - Purpose first, where the folder has one; then each table in one pass, every stub in view. Write
-  every member a stub lacks, toward its room's Purpose and `BRIEF.md`'s targets; a room a
-  Purpose's `signs` names carries a sign of it. A stub that will not fit its room is a finding for 5c, never moved
+- **4a, the tables** - every table file its folder names that is not yet written, and every entry
+  in it. Purpose first, where the folder has one; then each table in one pass. Each room gets the
+  entries its type's `rate` line in `BRIEF.md` gives, choosing within a range for a reason its
+  tags give, and toward `BRIEF.md`'s targets. The occupants the seed's `who` names are placed as
+  Encounters - in a SAFE region as People, Named Creatures and Faction members, and a Garrison at
+  an Authority - and a `procedure` line in the region's node of `BRIEF.md` as a Procedure entry at
+  the location it fits, any type and at most one a location. Write every member, toward its
+  room's Purpose and `BRIEF.md`'s targets; a room a
+  Purpose's `signs` names carries a sign of it. An entry that will not fit its room is a finding for 5c, never moved
   or dropped here. A Dressing's `mark` is the Identity of a faction that holds, passes
   through or contests the room; every faction a region's seed names in `who` is marked somewhere
   in it. A Dressing's `left` is each History event whose Left mark the room shows.
@@ -80,6 +77,6 @@ step 4a writes="Purpose Dressing Purchases People Garrison Challenges Rewards Pr
   schema lets hold one, naming its key; the key's `Keys.md` entry is written with it. Once
   the pass is filled, the validator owes 4a each key it has no place for: a stub Reward
   pulling `Keys: [name]`, in a location the lock does not bar, in this region or another.
-  A key whose region is not yet laid out stays a warning until its 3f. Likewise a setting
+  A key whose region is not yet laid out stays a warning until its 4a. Likewise a setting
   entry whose Found at or Appears at names a location no table holds it is placed there as
   a stub. A stub holds only what placement fixes; the next 4a fills the rest.

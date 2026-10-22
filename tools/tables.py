@@ -956,7 +956,7 @@ class Setting:
 
     def _check_node(self, r: Region, n: kdl.Node, within: str = ""):
         """Yield (severity, message) for every fault, and the name of every member not yet
-        written - a bare entry is a stub, placed at 3f and filled at 4a."""
+        written - a bare entry is a stub, filled at 4a."""
         members = r.folder.nodes[n.name]
         known = {m.name for m in members}
         for k in n.props:
