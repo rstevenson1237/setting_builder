@@ -1,4 +1,4 @@
-# Encounters of G Goblin Hold
+# Challenges of G Goblin Hold
 
 ```kdl
 Encounter G.1 doing="chained at their kennels by day" reaction="Hostile - loosed at dusk, bay and rush" want="to be fed" left="gnawed bones, hair" far="baying at dusk" { Creature bestiary="Wolf" count=6 }

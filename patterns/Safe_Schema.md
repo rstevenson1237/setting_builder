@@ -136,10 +136,7 @@ folder Safe type=Safe_Type {
   Locations Location
   Dressing Dressing
   Purchases Purchase
-  People Person
-  Creatures NamedCreature opt
-  Members Faction opt
-  group People People Creatures Members            // a rate counts them together
+  People Person NamedCreature Faction
   Garrison Garrison                                // an Authority's only
   Procedures Procedure
   Blocks Block opt

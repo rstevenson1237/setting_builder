@@ -131,10 +131,7 @@ folder Dangerous type=Dangerous_Type {
   Locations Location
   Purpose Purpose
   Dressing Dressing
-  Encounters Encounter opt
-  Hazards Hazard opt
-  Mysteries Mystery opt
-  group Challenges Encounters Hazards Mysteries   // a rate counts them together
+  Challenges Encounter Hazard Mystery
   Rewards Reward
   Procedures Procedure
   Blocks Block
