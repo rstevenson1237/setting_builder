@@ -38,7 +38,7 @@ then each table in one pass.
 
 Each room gets the entries its type's `rate` line in `BRIEF.md` gives, choosing within a range
 for a reason its tags give, and toward `BRIEF.md`'s targets. The occupants the seed's `who`
-names are placed as Encounters - in a SAFE region as People, Creatures and Members, and a
+names are placed as Encounters - in a SAFE region as People, Named Creatures and Faction members, and a
 Garrison at an Authority - and a `procedure` line in the region's node of `BRIEF.md` as a
 Procedure entry at the location it fits, any type and at most one a location. A room a
 Purpose's `signs` names carries a sign of it. An entry that will not fit its room is a finding

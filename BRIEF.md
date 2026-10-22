@@ -14,8 +14,10 @@ A share is `"N%"`, at least that share of entries rounded down to whole entries,
 at most; a count is `N`, a range `"N-M"`, or `"N+"`, at least. A region's target replaces the
 rating's only for the values it names. A quoted line is prose, read by the
 step that writes what it names. A `target` is measured by `tools/metrics.py`; a `rate` is
-how many entries each location of a type holds in a table file, or in the group of files a folder's `group` line names; `words` is how long each
+how many entries each location of a type holds in a table file; `words` is how long each
 field of a region's brief runs, or each item of a list field and each row of a table.
+An `architecture` or `construction` line in `setting` is how its SAFE or DANGEROUS regions are
+built, so a region states only where it differs.
 
 The maps are asked for here. `setting` holds a `sheet` per terrain map: its name, `square`
 (a distance), `extent` (`"W by H unit"`) and `regions`, the codes it holds; a DANGEROUS region

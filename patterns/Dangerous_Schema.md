@@ -5,7 +5,7 @@ brief are `patterns/Region_Schema.md`'s.
 
 ```kdl
 enum Dangerous_Type High Medium Low
-enum Connection_Type Open Archway Broken Crude Wooden Banded Stone Iron
+enum Connection_Type Open Archway Broken Crude Wooden Banded Stone Iron Lift Chute   // Lift and Chute: a dwarven machine, with `climb` for the rise
 enum Contents_Type "Treasure I" "Treasure II" "Treasure III" "Treasure IV" "Treasure V" Magic Hoards Lore Keys "Unique Treasures" "Magical Tomes"
 enum Mystery_Type Altar Statue Fountain Fresco Tapestry Throne "Button/Lever/Switch/Keyhole" Mirror Flooring
 enum Hazard_Type {
@@ -131,10 +131,7 @@ folder Dangerous type=Dangerous_Type {
   Locations Location
   Purpose Purpose
   Dressing Dressing
-  Encounters Encounter opt
-  Hazards Hazard opt
-  Mysteries Mystery opt
-  group Challenges Encounters Hazards Mysteries   // a rate counts them together
+  Challenges Encounter Hazard Mystery
   Rewards Reward
   Procedures Procedure
   Blocks Block

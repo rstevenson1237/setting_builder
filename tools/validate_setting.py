@@ -835,7 +835,7 @@ def check_numbers(diag: Diagnostics, setting, schema):
         for name, (lo, hi) in sorted(held.items()):
             want = numbers.get(name)
             if want and (hi < want[0] or lo > want[1]):
-                diag.warn(region.dir / "Encounters.md",
+                diag.warn(region.dir / "Challenges.md",
                           f"{code} holds {lo if lo == hi else f'{lo}-{hi}'} {name}, outside the Bestiary's Numbers "
                           f"{want[0] if want[0] == want[1] else f'{want[0]}-{want[1]}'}")
 

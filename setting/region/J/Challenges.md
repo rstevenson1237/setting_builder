@@ -1,4 +1,4 @@
-# Encounters of J Gnoll Den
+# Challenges of J Gnoll Den
 
 ```kdl
 Encounter J.1 doing="lounging on the ledge, laughing" reaction="Hostile - circle, hamstring the slow" want="a buyer's coin" know="when the buyer is due" left="gnawed knucklebones" far="howling, laughing" { Creature bestiary="Gnoll" count=3 }
