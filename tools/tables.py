@@ -730,7 +730,7 @@ class Setting:
         return out
 
     def _check_placements(self):
-        """Every place field with a from= against the tables, both ways, each owed to 5a: a
+        """Every place field with a from= against the tables, both ways, each owed to 4a: a
         location the tables place an entry at, to its field; a location the field names and
         no entry there holds, to a stub there."""
         placed = self.placements()
@@ -746,10 +746,10 @@ class Setting:
                     held = placed.get((table, title, m.name), set())
                     for c in sorted(held - listed):
                         yield "warning", path, (f"line {line}: {title} {m.name} lacks {c}, where a "
-                                                f"{m.props['from']} names it - owed to step 5a")
+                                                f"{m.props['from']} names it - owed to step 4a")
                     for c in sorted(listed - held):
                         yield "warning", path, (f"line {line}: {title} {m.name} names {c}, where no "
-                                                f"{m.props['from']} names it yet - owed to step 5a")
+                                                f"{m.props['from']} names it yet - owed to step 4a")
 
     def _check_names(self):
         """Every name a schema gives a form is that form, and every coinage a tongue records
@@ -835,7 +835,7 @@ class Setting:
     def _check_keys(self):
         """Every lock has its key placed, every key its lock, and no key lies behind the lock
         it opens. Locks are written first and keys for them after, so a lock waiting on its
-        key is owed to 5a, and a key with no lock is an error."""
+        key is owed to 4a, and a key with no lock is an error."""
         locks, keys = {}, {}
         for r in self.regions.values():
             for stem, entries in r.files.items():
@@ -858,7 +858,7 @@ class Setting:
             if title not in keys:
                 r, stem, n = placed[0]
                 yield "warning", r.dir / f"{stem}.md", (f"line {n.line}: Lock {title!r} has no key "
-                                                       f"placed yet - owed to step 5a")
+                                                       f"placed yet - owed to step 4a")
                 continue
             for r, stem, n in keys[title]:
                 if self._behind(r, title, n.args[0] if n.args else None):
@@ -951,12 +951,12 @@ class Setting:
         owed = [m for m in missing if isinstance(m, str)]
         yield from (m for m in missing if not isinstance(m, str))
         if owed:
-            step = {"Locations": "4a", "Seed": "3c"}.get(stem, "5a")
+            step = {"Locations": "3d", "Seed": "3c"}.get(stem, "4a")
             yield "warning", f"{n.name} {n.args[0] if n.args else ''} is a stub owed to step {step} - lacks {', '.join(owed)}"
 
     def _check_node(self, r: Region, n: kdl.Node, within: str = ""):
         """Yield (severity, message) for every fault, and the name of every member not yet
-        written - a bare entry is a stub, placed at 4c and filled at 5a."""
+        written - a bare entry is a stub, placed at 3f and filled at 4a."""
         members = r.folder.nodes[n.name]
         known = {m.name for m in members}
         for k in n.props:
@@ -1022,7 +1022,7 @@ class Setting:
         if have is None:
             yield "warning", f"{title!r} - {file} is not built yet"
         elif title not in have:
-            yield "warning", f"{title!r} is not on {file} yet - owed to step 5a"
+            yield "warning", f"{title!r} is not on {file} yet - owed to step 4a"
 
     def _check_counts(self, r: Region):
         """Each file with counts holds each node its line names: exactly N where it says N,

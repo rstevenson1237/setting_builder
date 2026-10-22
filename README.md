@@ -21,7 +21,7 @@ Read these rather than a description of them.
   Edited directly by the user; a request in the user's own prompt carries the same weight.
 - `STYLE.md` - the tests every line at every level must pass.
 - `STEPS.md` - the authoritative, sequential build log. Every artifact created follows a
-  numbered step here (e.g. `4c`) naming its template. Step ids grow by
+  numbered step here (e.g. `3d`) naming its template. Step ids grow by
   suffix and are never renumbered without explicit user request - `templates/` cite step
   ids and `tools/validate_setting.py` resolves those citations against this file (including
   its compile-list regex), so a renumber means updating both alongside every prose citation.
@@ -49,7 +49,7 @@ Read these rather than a description of them.
 - `setting/region/[Code]/` - one region: its seed, `Seed.md`, the table files its rating's
   schema names, and one `[LocationCode].md` per location, written from the tables. Its
   brief sits beside it at `setting/region/[Code].md`, written last.
-- `setting/checks/` - output of the judgement checks (STEPS.md step 6): non-mechanical
+- `setting/checks/` - output of the judgement checks (STEPS.md step 5): non-mechanical
   review passes `tools/validate_setting.py` can't do, following the checklist format in
   the matching `templates/checks/*_Judgement_Check.md`. Nested under `setting/` so wiping the
   setting for a new build takes its judgement checks with it, rather than leaving them

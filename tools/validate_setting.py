@@ -102,7 +102,7 @@ def step_bodies() -> dict[str, str]:
 
 
 def is_review(sid: str) -> bool:
-    return sid[0] == "6"
+    return sid[0] == "5"
 
 
 def read_set() -> dict[str, tuple[set, set]]:
@@ -500,7 +500,7 @@ def check_region_edge_realization(diag: Diagnostics, regions: dict, all_loc_edge
 # Whether an entry is placed is the tables' to say, checked against the setting files
 # by tables.Setting. A write-up only follows: once fresh, it cites exactly the entries
 # placed at its location, so one left out or one the tables do not hold is an error. A
-# stale write-up is owed to 5b and reported by --pending instead.
+# stale write-up is owed to 4b and reported by --pending instead.
 # ---------------------------------------------------------------------------
 
 def check_writeup_citations(diag: Diagnostics, setting, history):
@@ -710,7 +710,7 @@ def check_sheets(diag: Diagnostics, brief):
         if not path.exists():
             diag.warn(path, "missing - not built yet, owed to step 3b")
         elif path.read_text() != text:
-            diag.warn(path, "is not what `python3 tools/maps.py ground` writes now - owed to step 4d")
+            diag.warn(path, "is not what `python3 tools/maps.py ground` writes now - owed to step 3g")
 
 
 def check_places(diag: Diagnostics, setting, brief):
@@ -933,7 +933,7 @@ def check_region_fields(diag: Diagnostics, path: Path, r, holds: dict[str, list[
     each list field's items opening with exactly the locations its holds= gives it."""
     folder, fields = r.folder, r.folder.brief
     if not path.exists():
-        diag.warn(path, "missing - not built yet, owed to step 5e")
+        diag.warn(path, "missing - not built yet, owed to step 4e")
         return
     lines = path.read_text().splitlines()[1:]
     expected = [m.name for m in fields]
@@ -1009,7 +1009,7 @@ def check_repeated_features(diag: Diagnostics, region_code: str):
     """The same Feature sentence in two rooms of one region.
 
     A room written with its siblings in view converges on them, and the first
-    sign is a sentence copied whole. Judged at STEPS.md step 6c, which also
+    sign is a sentence copied whole. Judged at STEPS.md step 5c, which also
     reads for the near-repeats a string match cannot see.
     """
     rdir = SETTING / "region" / region_code
@@ -1026,7 +1026,7 @@ def check_repeated_features(diag: Diagnostics, region_code: str):
         if len(codes) > 1:
             diag.warn(rdir, f"the same Feature sentence in {len(codes)} rooms "
                             f"({', '.join(codes)}): {body[:70]!r}... - a room written "
-                            f"from its siblings; judged at STEPS.md step 6c")
+                            f"from its siblings; judged at STEPS.md step 5c")
 
 
 # A Feature citing a treasure table must not also say what comes up on it.
@@ -1058,7 +1058,7 @@ TREASURE_TELL_RE = re.compile(
 # exits all carry the same trigger arrow - so the only available test would
 # guess from the prose, and a warning that fires on every legitimate secret is
 # a warning nobody reads. A hazard written with no stated cost is caught at
-# STEPS.md step 6c, per templates/checks/Setting_Judgement_Check.md.
+# STEPS.md step 5c, per templates/checks/Setting_Judgement_Check.md.
 DAMAGE_TYPES = tuple(tables.Schema().setting_enums.get("Wound_Type", {}))
 ANY_TEST_CITE_RE = re.compile(r'\(Test of [^)]*\)?')
 TEST_CITE_RE = re.compile(r'\(Test of (Constitution|Sanity|Fate),\s*([^()]+)\)')
@@ -1178,7 +1178,7 @@ def check_treasure_citation_prose(diag: Diagnostics, path: Path, text: str):
 
 def check_rumour_settling(diag: Diagnostics):
     """templates/setting/Rumours.md's Settled at column, filled as each rumour is
-    written at 5d."""
+    written at 4d."""
     path = SETTING / "Rumours.md"
     if not path.exists():
         return
@@ -1195,7 +1195,7 @@ def check_rumour_settling(diag: Diagnostics):
                  or l.rstrip().endswith("||") or re.search(r"\|\s*\|\s*$", l)]
     if unsettled:
         diag.warn(path, f"{len(unsettled)}/{len(rows)} rumours are unsettled - each is written "
-                        f"at 5d from the location settling it, and a rumour pointing off "
+                        f"at 4d from the location settling it, and a rumour pointing off "
                         f"the map says none rather than being left blank")
 
 
@@ -1303,12 +1303,12 @@ def report_pending(region_filter: str | None) -> int:
                 owed.setdefault(rel(r.dir), []).append(f"{code} has no write-up yet")
             elif changed := tables.stale(setting, code, history):
                 owed.setdefault(rel(r.dir), []).append(
-                    f"{code}'s write-up is stale, owed to step 5b - changed since: {'; '.join(changed)}")
+                    f"{code}'s write-up is stale, owed to step 4b - changed since: {'; '.join(changed)}")
         brief = SETTING / "region" / f"{r.code}.md"
         if Path(brief) == scope or scope in Path(brief).parents or scope in Path(r.dir).parents:
             if changed := tables.stale_brief(r, history):
                 owed.setdefault(rel(brief), []).append(
-                    f"the brief is stale, owed to step 5e - changed since: {'; '.join(changed)}")
+                    f"the brief is stale, owed to step 4e - changed since: {'; '.join(changed)}")
     stubs = [] if region_filter else tables.check_setting_files(setting.schema, setting.codes)
     for sev, path, line, msg in stubs:
         if sev == "stub":

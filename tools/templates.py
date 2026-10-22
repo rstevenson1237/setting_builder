@@ -9,7 +9,7 @@ field reads - resolved against patterns/, and drawn as the skeleton of what a st
   field "Name" reads="Node.member, Table.Field, Node, ..."   one field's own inputs
   step ID writes="Files" { read ...; field ... }   what one step of several adds
 
-Every template also reads STANDING, which it never lists. A review template (step 6)
+Every template also reads STANDING, which it never lists. A review template (step 5)
 reads what it judges, so its Context stays prose."""
 from __future__ import annotations
 

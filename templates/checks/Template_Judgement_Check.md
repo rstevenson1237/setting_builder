@@ -28,7 +28,7 @@ Every template:
 - **One context, no step instructions** - does one Context serve every step citing the
   template, with what only one step reads in that step's `step` line, and do its
   Instructions say how the artifact is written, leaving what each step does to `STEPS.md`?
-  A line that only says "at 5d, do X" is STEPS.md's.
+  A line that only says "at 4d, do X" is STEPS.md's.
 - **Genre drift guardrails** - where an authored plot, commonplace magic or a nearer
   authority could creep in (History, Factions, Treasure, Location Features), do its
   Instructions push against it?
