@@ -793,7 +793,7 @@ def load_setting() -> Setting:
 
 ROLL_CITE_RE = re.compile(r'\(([^(),]+),\s*(d\d+)\)')
 LOC_CODE_RE = re.compile(r'\b([A-Z]{1,2})\.(\d+)\b')
-REGION_PAREN_RE = re.compile(r'\(([A-Z]{1,2})\)')
+REGION_PAREN_RE = re.compile(r'(?<![\w)])\(([A-Z]{1,2})\)(?![\w(])')   # a region code standing alone, not a pattern like (C)(C)V(C)
 BESTIARY_CITE_RE = re.compile(r'\(([^()]*?),\s*Bestiary\s*:\s*([^()]+)\)')
 CODE_SPAN_RE = re.compile(r'`([^`]+)`')
 
