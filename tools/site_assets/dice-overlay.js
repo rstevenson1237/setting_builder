@@ -228,7 +228,8 @@ export function createRoller() {
   }
 
   function frame(now) {
-    const seconds = Math.min((now - lastTime) / 1000, 0.1);
+    // The first frame's timestamp can precede the throw's start; a negative step would jump the world ahead.
+    const seconds = Math.min(Math.max((now - lastTime) / 1000, 0), 0.1);
     lastTime = now;
     const done = advance(seconds);
     renderer.render(scene, camera);
