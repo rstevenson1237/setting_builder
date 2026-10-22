@@ -56,7 +56,7 @@ class Template:
 
     def writes(self, step: str | None = None) -> list[str]:
         s = next((n for n in self.nodes if n.name == "step" and step and n.args and str(n.args[0]) == step), None)
-        return str(s.props.get("writes", "")).split() if s is not None else [self.prop("writes")]
+        return str(s.props.get("writes", "") if s is not None else self.prop("writes")).split()
 
 
 def load(path: Path) -> Template | None:
@@ -242,8 +242,8 @@ def skeleton(t: Template, schema: tb.Schema, step: str | None, code: str | None 
         if s == "gazetteer":
             out.append(gazetteer_skeleton(schema))
         elif s in SHAPES:
-            files = t.writes(step) if s == "tables" and step and any(
-                n.name == "step" for n in t.nodes) else ["*"]
+            stems = [Path(w).stem for w in t.writes(step)] if s == "tables" else []
+            files = stems if stems and "[Table]" not in stems else ["*"]
             out.append(region_skeleton(schema, s, files, rating, code, setting))
         else:
             out.append(table_skeleton(schema, s))
