@@ -103,10 +103,12 @@ class Schema:
         self.table_props: dict[str, dict] = {}
         self.setting_enums: dict[str, dict] = {}
         self.regions: dict[str, tuple[Path, dict[str, list[Member]]]] = {}
+        self.node_files: dict[str, str] = {}            # a node that is the whole of a file's entries -> the file
         shared: tuple[dict, dict] = ({}, {})
         for path in (root / f"{n}_Schema.md" for n in SHARED):
             self._read(path, *shared)
         self.setting_enums = dict(shared[0])
+        self.shared_nodes = dict(shared[1])
         self._resolve_fields()
         for path in sorted(set(root.glob("*_Schema.md")) - {root / f"{n}_Schema.md" for n in SHARED}):
             enums, nodes = dict(shared[0]), dict(shared[1])
@@ -168,6 +170,8 @@ class Schema:
                 enums[name] = items
             elif n.name == "node":
                 nodes[name] = [self._member(c) for c in n.children]
+                if "file" in n.props:
+                    self.node_files[name] = n.props["file"]
             elif n.name == "folder" and path.stem.split("_")[0] not in SHARED:
                 files = {c.name: [a for a in c.args if a != "opt"] for c in n.children if c.name not in ("join", "top")}
                 joins = {c.args[0]: (set(c.args[1:]), c.props.get("gate"))
@@ -562,6 +566,58 @@ def check_field(schema: Schema, m: Member, v: str, codes: set[str], enums: dict 
         yield from value_problems(m, v, enums, schema.words if schema else {})
 
 
+GAZETTEER = SETTING / "region" / "Regions.md"
+
+
+def gazetteer(path: Path = GAZETTEER) -> list[kdl.Node]:
+    """The Region nodes of setting/region/Regions.md, in order; none where it is unwritten."""
+    return [n for n in kdl.fenced(path.read_text()) if n.name == "Region"] if path.exists() else []
+
+
+def region_code(index: int) -> str:
+    """0 -> A, 25 -> Z, 26 -> AA: the plain progression region codes follow."""
+    out = ""
+    index += 1
+    while index:
+        index, r = divmod(index - 1, 26)
+        out = chr(65 + r) + out
+    return out
+
+
+def gazetteer_problems(schema: Schema, nodes: list[kdl.Node]) -> list[tuple[int, str]]:
+    """(line, fault) for each Region node against its schema node: its members, the codes
+    in order, and the joins - each a region, never itself, and mutual."""
+    members = schema.shared_nodes.get("Region", [])
+    enums, out = schema.setting_enums, []
+    codes = [str(n.args[0]) if len(n.args) == 1 else "" for n in nodes]
+    for i, (n, code) in enumerate(zip(nodes, codes)):
+        if not code:
+            out.append((n.line, "Region opens with its region code, and only that"))
+        elif code != region_code(i):
+            out.append((n.line, f"Region {code} is not the plain A-Z progression - expected {region_code(i)}"))
+        if code in codes[:i]:
+            out.append((n.line, f"Region {code} is written twice"))
+        for k in n.props:
+            if k not in {m.name for m in members}:
+                out.append((n.line, f"Region {code} has no member {k!r}"))
+        for m in members:
+            if m.name not in n.props:
+                out.append((n.line, f"Region {code} lacks {m.name}"))
+            elif m.type == "region":
+                for j in (x.strip() for x in str(n.props[m.name]).split(",")):
+                    other = nodes[codes.index(j)] if j in codes else None
+                    if j == code:
+                        out.append((n.line, f"Region {code} joins itself"))
+                    elif other is None:
+                        out.append((n.line, f"Region {code} joins {j}, which is no region"))
+                    elif code not in [x.strip() for x in str(other.props.get(m.name, "")).split(",")]:
+                        out.append((n.line, f"Region {code} joins {j}, which does not join {code}"))
+            else:
+                out += [(n.line, f"Region {code} {m.name}: {msg}")
+                        for msg in value_problems(m, str(n.props[m.name]), enums, schema.words)]
+    return out
+
+
 @dataclass
 class Region:
     code: str
@@ -759,12 +815,9 @@ class Setting:
                                 out.append((path, where, name, str(node.props[f.name]), BEING_FORMS))
                         elif node.name == "Location":
                             out.append((path, where, name, None, ()))
-        import site_common as sc
-        gaz = SETTING / "region" / "Regions.md"
-        for t in sc.read_tables(gaz)[:1] if gaz.exists() else []:
-            for d, line in zip(t.dicts(), t.lines):
-                if d.get("Name") and d.get("Form"):
-                    out.append((gaz, f"line {line}", d["Name"], d["Form"].split()[0], PLACE_FORMS))
+        for n in gazetteer():
+            if n.args and {"name", "form"} <= set(n.props):
+                out.append((GAZETTEER, f"line {n.line}", str(n.props["name"]), str(n.props["form"]).split()[0], PLACE_FORMS))
         sfile = SETTING / "Setting.md"
         if sfile.exists():
             lines = [l.strip() for l in sfile.read_text().splitlines() if l.strip()]
@@ -1494,17 +1547,17 @@ class Brief:
                 out.append(f"{code} has {held} Procedure entries; BRIEF.md asks for {asked} procedure lines")
         return out
 
-    def region_problems(self, gazetteer: dict[str, dict]) -> list[str]:
+    def region_problems(self, gaz: dict[str, dict]) -> list[str]:
         """Each region BRIEF.md names against setting/region/Regions.md: same codes, in
         order, each with the rating and die asked for."""
-        if not gazetteer or not self.regions:
+        if not gaz or not self.regions:
             return []
         out = []
-        if list(self.regions) != list(gazetteer):
+        if list(self.regions) != list(gaz):
             out.append(f"BRIEF.md names regions {', '.join(self.regions)}; the gazetteer holds "
-                       f"{', '.join(gazetteer)}")
+                       f"{', '.join(gaz)}")
         for code, n in self.regions.items():
-            g = gazetteer.get(code)
+            g = gaz.get(code)
             for k in ("rating", "die"):
                 if g and k in n.props and str(n.props[k]).upper() != str(g.get(k, "")).upper():
                     out.append(f"{code} is {k} {g.get(k)!r}; BRIEF.md asks for {n.props[k]!r}")

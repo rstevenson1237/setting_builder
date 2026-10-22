@@ -77,16 +77,6 @@ def names_match(a: str, b: str) -> bool:
     return strip_article(a).lower() == strip_article(b).lower()
 
 
-def index_to_code(i: int) -> str:
-    """0 -> A, 25 -> Z, 26 -> AA, ... (bijective base-26, matches Region_Gazetteer.md)."""
-    i += 1
-    s = ""
-    while i > 0:
-        i, rem = divmod(i - 1, 26)
-        s = chr(65 + rem) + s
-    return s
-
-
 # ---------------------------------------------------------------------------
 # The read-set: STEPS.md -> templates/ -> patterns/*_Schema.md
 #
@@ -214,8 +204,7 @@ def report_skeleton(step: str, code: str | None) -> int:
     schema = tables.Schema()
     setting = None
     if code:
-        regions = {r["Code"]: r["Rating"] for t in sc.read_tables(SETTING / "region" / "Regions.md")[:1]
-                   for r in t.dicts()} if (SETTING / "region" / "Regions.md").exists() else {}
+        regions = {c: g["rating"] for c, g in sc.parse_regions_gazetteer().items()}
         setting = tables.Setting(regions, schema) if code in regions else None
     for n in sorted(names):
         t = tp.load(TEMPLATES / n)
@@ -252,51 +241,25 @@ def report_read_set(step_filter: str | None) -> int:
 # Regions.md
 # ---------------------------------------------------------------------------
 
-REGION_RE = re.compile(r'^([A-Z]+) (.+?) - (SAFE|WILD|DANGEROUS), (d\d+)\s*$')
-
-
-REGION_COLUMNS = ["Code", "Name", "Form", "Gloss", "Rating", "Die", "Joins", "Tag line"]
-RATINGS = {"SAFE", "WILD", "DANGEROUS"}
-
-
 def parse_regions(diag: Diagnostics):
     path = SETTING / "region" / "Regions.md"
     if not path.exists():
         diag.warn(path, "missing - not built yet")
         return {}
-    tables = sc.read_tables(path)
-    if not tables:
-        diag.error(path, "holds no table - templates/region/Region_Gazetteer.md writes one pipe table")
+    try:
+        nodes = tables.gazetteer(path)
+    except SyntaxError as e:
+        diag.error(path, str(e))
         return {}
-    t = tables[0]
-    missing = [c for c in REGION_COLUMNS if c not in t.header]
-    if missing:
-        diag.error(path, f"table lacks column(s) {', '.join(missing)}")
-    regions: dict[str, dict] = {}
-    order: list[str] = []
-    for d, line in zip(t.dicts(), t.lines):
-        code, rating, die = d.get("Code", ""), d.get("Rating", ""), d.get("Die", "")
-        if code in regions:
-            diag.error(path, f"line {line}: duplicate region code {code}")
-        if rating not in RATINGS:
-            diag.error(path, f"line {line}: region {code} has rating {rating!r} - expected SAFE, WILD or DANGEROUS")
-        if die and not re.fullmatch(r"d\d+", die):
-            diag.error(path, f"line {line}: region {code} has die {die!r} - expected dN")
-        regions[code] = {"name": d.get("Name", ""), "rating": rating, "die": die,
-                         "joins": d.get("Joins", "").split()}
-        order.append(code)
-    for code, r in regions.items():
-        for j in r["joins"]:
-            if j == code or j not in regions:
-                diag.error(path, f"region {code} joins {j}, which is {'itself' if j == code else 'no region'}")
-            elif code not in regions[j]["joins"]:
-                diag.error(path, f"region {code} joins {j}, which does not join {code}")
-        if not r["joins"]:
-            diag.error(path, f"region {code} joins no region")
-    expected = [index_to_code(idx) for idx in range(len(order))]
-    if order != expected:
-        diag.error(path, f"region codes not a plain A-Z progression: found {order}, expected {expected}")
-    return regions
+    if not nodes:
+        diag.error(path, "holds no Region node - templates/region/Region_Gazetteer.md writes one a region")
+        return {}
+    for line, msg in tables.gazetteer_problems(tables.Schema(), nodes):
+        diag.error(path, f"line {line}: {msg}")
+    return {str(n.args[0]): {"name": str(n.props.get("name", "")), "rating": str(n.props.get("rating", "")),
+                             "die": str(n.props.get("die", "")),
+                             "joins": [j.strip() for j in str(n.props.get("joins", "")).split(",") if j.strip()]}
+            for n in nodes if len(n.args) == 1}
 
 
 # ---------------------------------------------------------------------------

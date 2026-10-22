@@ -2,7 +2,7 @@
 written for, what it writes and in what shape, and what it reads, down to the members a
 field reads - resolved against patterns/, and drawn as the skeleton of what a step writes.
 
-  template scope="setting"|"[Region Code]" writes="path" shape="Table, ..."|seed|brief|tables
+  template scope="setting"|"[Region Code]" writes="path" shape="Table, ..."|gazetteer|seed|brief|tables
   read "path" [part="..."] [once="written"]   a file, or the part of it named
   read naming="Table"                          the region entries naming that table's entries
   run "--flag [args]"                          what tools/validate_setting.py prints
@@ -24,7 +24,7 @@ ROOT = Path(__file__).resolve().parent.parent
 TEMPLATES = ROOT / "templates"
 STANDING = ("GENRE.md", "STYLE.md", "BRIEF.md", "patterns/Common_Schema.md")
 SCOPES = ("setting", "[Region Code]")
-SHAPES = ("seed", "brief", "tables")       # else a Setting_Schema.md table, or several
+SHAPES = ("gazetteer", "seed", "brief", "tables")       # else a Setting_Schema.md table, or several
 RUNS = ("--location", "--pending", "--brief", "--read-set", "--skeleton")
 NODES = ("template", "read", "run", "field", "step")
 PLACEHOLDER_RE = re.compile(r"\[[^\]]+\]|\*")
@@ -133,7 +133,8 @@ def schemas(t: Template) -> set[str]:
     out |= {Path(str(n.args[0])).name for n in t.part() if n.name == "read" and n.args
             and str(n.args[0]).startswith("patterns/")}
     for s in t.shapes:
-        out |= {"Region_Schema.md", "[Rating]_Schema.md"} if s in ("seed", "brief") else \
+        out |= {"Region_Schema.md"} if s == "gazetteer" else \
+            {"Region_Schema.md", "[Rating]_Schema.md"} if s in ("seed", "brief") else \
             {"Setting_Schema.md", "[Rating]_Schema.md"} if s == "tables" else {"Setting_Schema.md"}
     if any(n.name == "read" and "naming" in n.props for n in t.part()):
         out |= {"Setting_Schema.md", "[Rating]_Schema.md"}
@@ -181,8 +182,17 @@ def table_skeleton(schema: tb.Schema, name: str) -> str:
 
 
 def node_line(f: tb.Folder, node: str, key: str) -> str:
-    return " ".join([node, key] + [f"{m.name}={_hint(m)}" for m in f.nodes.get(node, []) if m.name != "one-of"]
-                    + [f"{{ {' | '.join(m.nodes)} }}" for m in f.nodes.get(node, []) if m.name == "one-of"])
+    return members_line(f.nodes.get(node, []), node, key)
+
+
+def members_line(members: list[tb.Member], node: str, key: str) -> str:
+    return " ".join([node, key] + [f"{m.name}={_hint(m)}" for m in members if m.name != "one-of"]
+                    + [f"{{ {' | '.join(m.nodes)} }}" for m in members if m.name == "one-of"])
+
+
+def gazetteer_skeleton(schema: tb.Schema) -> str:
+    return "\n".join(["Regional Gazetteer of [Setting Name]", "", "```kdl",
+                      members_line(schema.shared_nodes.get("Region", []), "Region", "[Region Code]"), "```"])
 
 
 def region_skeleton(schema: tb.Schema, shape: str, files: list[str], rating: str | None,
@@ -229,7 +239,9 @@ def skeleton(t: Template, schema: tb.Schema, step: str | None, code: str | None 
     rating = setting.regions[code].rating if setting and code in setting.regions else None
     out = []
     for s in t.shapes:
-        if s in SHAPES:
+        if s == "gazetteer":
+            out.append(gazetteer_skeleton(schema))
+        elif s in SHAPES:
             files = t.writes(step) if s == "tables" and step and any(
                 n.name == "step" for n in t.nodes) else ["*"]
             out.append(region_skeleton(schema, s, files, rating, code, setting))

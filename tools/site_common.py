@@ -260,17 +260,14 @@ def parse_setting() -> tuple[str, str, str]:
 
 
 def parse_regions_gazetteer() -> dict[str, dict]:
-    path = SETTING / "region" / "Regions.md"
-    tables = read_tables(path)
     out: dict[str, dict] = {}
-    for d in (tables[0].dicts() if tables else []):
-        code = d.get("Code", "").strip()
-        if not code:
+    for n in tb.gazetteer():
+        if len(n.args) != 1:
             continue
-        out[code] = {"name": d.get("Name", "").strip(), "rating": d.get("Rating", "").strip(),
-                     "die": d.get("Die", "").strip(), "tags": "",
-                     "gloss": d.get("Gloss", "").strip(), "blurb": d.get("Tag line", "").strip(),
-                     "joins": d.get("Joins", "").split()}
+        p = {k: str(v).strip() for k, v in n.props.items()}
+        out[str(n.args[0])] = {"name": p.get("name", ""), "rating": p.get("rating", ""), "die": p.get("die", ""),
+                               "tags": "", "gloss": p.get("gloss", ""), "blurb": p.get("tag", ""),
+                               "joins": [j.strip() for j in p.get("joins", "").split(",") if j.strip()]}
     return out
 
 

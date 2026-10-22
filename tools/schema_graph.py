@@ -154,6 +154,8 @@ class Graph:
         elif n.name in ("table", "node"):
             if n.name == "table":
                 d["head"] = [{"t": str(n.args[1])}] + self._props(file, n.props, {"as": ("table",)})
+            else:
+                d["head"] = self._props(file, n.props, {})
             d["lines"] = self._fields(file, n.children, lines, hi)
         elif n.name == "folder":
             d["head"] = self._props(file, n.props, {"type": ("enum",)})
