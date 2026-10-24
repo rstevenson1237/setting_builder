@@ -5,12 +5,13 @@ Task plan for `spec.md` once approved, run as one change in phases. Commits cite
 - `python3 tools/validate_setting.py`
 - both `--check` builds
 - `--read-set` and `--skeleton` for every step, unchanged against the baseline
-- the site and PDF HTML byte-equal to the baseline (phases 1-4)
+- the site and PDF HTML byte-equal to the baseline (phases 1-4), but for `patterns.html` and
+  `schema-explorer.js` where a phase adds to the Schema Reference
 
 | Phase | Task | Spec | What | Files |
 |---|---|---|---|---|
 | 0 | 0.1 | | Baseline: `metrics.py`, every step's `--read-set` and `--skeleton`, the built site and PDF HTML, kept for diffing | this folder |
-| 1 | 1.1 | T1 | `Template_Schema.md`; `templates.py` reads its enums and `standing` in place of its tuples; `schema_graph.py` reads it | `templates/Template_Schema.md`, `tools/templates.py`, `tools/schema_graph.py` |
+| 1 | 1.1 | T1 | `Template_Schema.md`; `templates.py` reads its enums and nodes in place of its tuples; `schema_graph.py` reads it | `templates/Template_Schema.md`, `tools/templates.py`, `tools/schema_graph.py` |
 | | 1.2 | T2, T4 | `reads=` becomes `from=` in `templates.py` and every template fence; file and `BRIEF:` sources; `items=` | `tools/templates.py`, `templates/**` |
 | 2 | 2.1 | T3, D1 | `enum Out`, value defaults, member overrides; `tables.py` reads `out`; `--skeleton` draws from it | `patterns/*.md`, `tools/tables.py`, `tools/templates.py` |
 | 3 | 3.1 | F1 | `format` node; `Location`, `Procedures`, `Setting`, `Factions` formats; skeleton, validator and the shared header pattern read it; their `## Template` blocks are cut | `tools/templates.py`, `tools/validate_setting.py`, `tools/site_common.py`, `templates/**` |

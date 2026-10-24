@@ -155,7 +155,7 @@
     var p = h("div", "sx-entry");
     p.appendChild(h("h1", "", [kindTag(d.kind), d.name]));
     p.appendChild(h("p", "sx-meta", [link(d.file, "", [dot(d.file), d.file + " schema"]),
-      " · patterns/" + d.file + "_Schema.md:" + d.line]));
+      " · " + files[d.file].path + ":" + d.line]));
     if (d.doc) { p.appendChild(h("p", "sx-doc", prose(d.doc))); }
     if (d.section) { p.appendChild(h("p", "sx-section", prose(d.section))); }
     if (d.head.length) { p.appendChild(h("div", "sx-decl", [h("span", "sx-label", d.kind), tokens(d.head)])); }

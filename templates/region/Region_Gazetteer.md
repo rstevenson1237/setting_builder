@@ -8,7 +8,7 @@ An overview of all regions within the setting - the Regional Gazetteer.
 template scope="setting" writes="setting/region/Regions.md" shape="gazetteer"
 read "setting/Setting.md"
 read "setting/Language.md"
-field "Region.name" reads="Language.Coined here"
+field "Region.name" from="Language.Coined here"
 ```
 
 ## Instructions

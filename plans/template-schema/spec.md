@@ -16,8 +16,8 @@ The PDF and site change only in phase 5, and only by proposals approved one at a
 
 - [ ] **T1. `templates/Template_Schema.md`.** One ```kdl fence defining every fence node
   (`template`, `read`, `run`, `field`, `step`, and `format` from F1), in the notation
-  `patterns/` uses. `Scope`, `Shape`, `Run` and `Length_Unit` become enums, and the
-  standing reads become a `standing` node. `tools/templates.py` reads them in place of its
+  `patterns/` uses. `Scope`, `Shape`, `Run`, `Once` and `Standing` become enums, and the field
+  lengths are `field`'s `length` members. `tools/templates.py` reads them in place of its
   `NODES`, `SHAPES`, `RUNS`, `SCOPES`, `LENGTH_UNITS` and `STANDING` tuples, and its docstring
   grammar is cut. `tools/schema_graph.py` reads it beside `patterns/`.
 

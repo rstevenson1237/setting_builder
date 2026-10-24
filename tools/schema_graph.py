@@ -1,4 +1,4 @@
-"""patterns/*_Schema.md as a graph of definitions: every value, enum, node, table, folder and
+"""patterns/*_Schema.md and templates/Template_Schema.md as a graph of definitions: every value, enum, node, table, folder and
 region, with the lines it is written in and each name on them resolved to the definition it
 names. The schema explorer on patterns.html is drawn from this and nothing else."""
 from __future__ import annotations
@@ -9,7 +9,9 @@ from pathlib import Path
 
 import kdl
 
-PATTERNS = Path(__file__).resolve().parent.parent / "patterns"
+ROOT = Path(__file__).resolve().parent.parent
+PATTERNS = ROOT / "patterns"
+TEMPLATE_SCHEMA = ROOT / "templates" / "Template_Schema.md"
 SHARED = ("Common", "Setting", "Region")   # widest first; every other schema is a rating's
 KINDS = ("value", "enum", "node", "table", "folder", "region")
 FLAGS = {"opt", "list", "none"}
@@ -64,14 +66,17 @@ class Graph:
         self.files: list[dict] = []
         self.defs: dict[str, dict] = {}
         order = [root / f"{n}_Schema.md" for n in SHARED]
-        order += sorted(set(root.glob("*_Schema.md")) - set(order))
+        order += sorted(set(root.glob("*_Schema.md")) - set(order)) + [TEMPLATE_SCHEMA]
         self.paths = [p for p in order if p.exists()]
+        where = {stem(p): p.relative_to(ROOT).as_posix() for p in self.paths}
         self.by_file: dict[str, dict[tuple[str, str], str]] = {}
         sources = {stem(p): p.read_text(encoding="utf-8") for p in self.paths}
         for name, text in sources.items():
             self._declare(name, text)
         for name, text in sources.items():
             self._read(name, text)
+        for f in self.files:
+            f["path"] = where[f["id"]]
         for d in self.defs.values():
             src = next((t["to"] for t in d["head"] if t["t"].startswith("as=")), None)
             if src:

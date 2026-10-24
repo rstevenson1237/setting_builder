@@ -1,17 +1,7 @@
 """templates/: each generation template's ```kdl fence under `## Context` - the scope it is
 written for, what it writes and in what shape, and what it reads, down to the members a
-field reads - resolved against patterns/, and drawn as the skeleton of what a step writes.
-
-  template scope="setting"|"[Region Code]" writes="path" shape="Table, ..."|gazetteer|seed|brief|tables
-  read "path" [part="..."] [once="written"]   a file, or the part of it named
-  read naming="Table"                          the region entries naming that table's entries
-  run "--flag [args]"                          what tools/validate_setting.py prints
-  field "Name" reads="Node.member, Table.Field, Node, ..."   one field's own inputs
-  field "Table.Field" words="N"|"N-M"|"N+"|"-M" sentences="..."   a setting entry's length, min, max or range
-  step ID writes="Files" { read ...; field ... }   what one step of several adds
-
-Every template also reads STANDING, which it never lists. A review template (step 5)
-reads what it judges, so its Context stays prose."""
+field reads - checked against templates/Template_Schema.md and patterns/, and drawn as the
+skeleton of what a step writes."""
 from __future__ import annotations
 
 import re
@@ -23,12 +13,34 @@ import tables as tb
 
 ROOT = Path(__file__).resolve().parent.parent
 TEMPLATES = ROOT / "templates"
-STANDING = ("GENRE.md", "STYLE.md", "BRIEF.md", "patterns/Common_Schema.md")
-SCOPES = ("setting", "[Region Code]")
-SHAPES = ("gazetteer", "seed", "brief", "tables")       # else a Setting_Schema.md table, or several
-RUNS = ("--location", "--pending", "--brief", "--read-set", "--skeleton")
-NODES = ("template", "read", "run", "field", "step")
-LENGTH_UNITS = ("words", "sentences")
+TEMPLATE_SCHEMA = TEMPLATES / "Template_Schema.md"
+
+
+def _grammar() -> tuple[dict[str, list[str]], dict[str, kdl.Node]]:
+    """Template_Schema.md's enums, and its nodes by name."""
+    enums, nodes = {}, {}
+    for n in kdl.fenced(TEMPLATE_SCHEMA.read_text()):
+        if n.name == "enum" and n.args:
+            enums[str(n.args[0])] = [str(a) for a in n.args[1:]]
+        elif n.name == "node" and n.args:
+            nodes[str(n.args[0])] = n
+    return enums, nodes
+
+
+ENUMS, GRAMMAR = _grammar()
+STANDING = tuple(ENUMS["Standing"])
+SCOPES, SHAPES, RUNS = tuple(ENUMS["Scope"]), tuple(ENUMS["Shape"]), tuple(ENUMS["Run"])
+NODES = tuple(GRAMMAR)
+LINES = tuple(next(c.args for c in GRAMMAR["step"].children if c.name == "one-of"))   # what a step holds
+LENGTH_UNITS = tuple(c.name for c in GRAMMAR["field"].children if c.args[:1] == ["length"])
+
+
+def members(node: str) -> dict[str, kdl.Node]:
+    """A node's properties as Template_Schema.md defines them: every member but its `arg=`."""
+    g = GRAMMAR[node]
+    return {c.name: c for c in g.children if c.name not in ("one-of", g.props.get("arg"))}
+
+
 LENGTH_RE = re.compile(r"(\d+)?(-(\d+)?|\+)?")
 PLACEHOLDER_RE = re.compile(r"\[[^\]]+\]|\*")
 
@@ -51,7 +63,7 @@ class Template:
 
     def part(self, step: str | None = None) -> list[kdl.Node]:
         """The read, run and field lines a step reads: the template's own, then its step's."""
-        out = [n for n in self.nodes if n.name in ("read", "run", "field")]
+        out = [n for n in self.nodes if n.name in LINES]
         for s in self.nodes:
             if s.name == "step" and (step is None or str(s.args[0] if s.args else "") == step):
                 out += s.children
@@ -89,6 +101,8 @@ def length(spec) -> tuple[int, int | None] | None:
 def count(text: str, unit: str) -> int:
     if unit == "words":
         return len(text.split())
+    if unit == "items":
+        return len(re.findall(r"^\s*- ", text, re.M))
     return len(re.findall(r"[.!?](?=\s|$)", text.strip())) or (1 if text.strip() else 0)
 
 
@@ -114,51 +128,107 @@ def resolve(name: str, schema: tb.Schema) -> bool:
     return any(m.name == member for f in schema.folders.values() for m in f.nodes.get(head, []))
 
 
+def brief_names() -> set[str]:
+    """Every line a BRIEF:[name] source can name: BRIEF.md's nodes and the lines they hold."""
+    return {x.name for n in tb.brief_nodes() for x in [n, *n.children]}
+
+
+def is_file(source: str) -> bool:
+    return "/" in source or source.endswith(".md")
+
+
+def source_problem(x: str, schema: tb.Schema, reads: set[str]) -> str | None:
+    """What is wrong with one source a field pulls from, or None where it resolves."""
+    if x.startswith("BRIEF:"):
+        return None if x[6:] in brief_names() else f"{x!r} names no BRIEF.md line"
+    if is_file(x):
+        return None if x in reads else f"{x!r} is a file the template does not read"
+    return None if resolve(x, schema) else f"{x!r} names no node, table, member, field or brief field"
+
+
+def line_problems(n: kdl.Node, schema: tb.Schema) -> list[str]:
+    """A line's properties against Template_Schema.md: each one it defines, every one it
+    requires, and an enum's items."""
+    out, defined = [], members(n.name)
+    for k, v in n.props.items():
+        m = defined.get(k)
+        if m is None:
+            out.append(f"line {n.line}: {n.name} has no {k!r} - it takes {', '.join(defined) or 'none'}")
+            continue
+        typ, items = m.args[0], ENUMS.get(m.args[0])
+        allowed = (items or []) + (list(schema.tables) if k == "shape" else [])
+        for x in (names(v) if "list" in m.args else [str(v)]) if items else []:
+            if x not in allowed:
+                out.append(f"line {n.line}: {n.name} {k} {x!r} is not one of {', '.join(items)}"
+                           + (" nor a Setting_Schema.md table" if k == "shape" else ""))
+    for k, m in defined.items():
+        if "opt" not in m.args and k not in n.props:
+            out.append(f"line {n.line}: {n.name} has no {k}, which it requires")
+    return out
+
+
 def problems(t: Template, schema: tb.Schema, steps: set[str]) -> list[str]:
-    out = []
     heads = [n for n in t.nodes if n.name == "template"]
     if len(heads) != 1:
         return [f"its fence holds {len(heads)} template lines - it holds one"]
-    if t.prop("scope") not in SCOPES:
-        out.append(f"template scope {t.prop('scope')!r} is not one of {', '.join(SCOPES)}")
-    for s in t.shapes:
-        if s not in SHAPES and s not in schema.tables:
-            out.append(f"template shape {s!r} is no Setting_Schema.md table and not one of {', '.join(SHAPES)}")
+    out = []
     for n in t.nodes:
         if n.name not in NODES:
             out.append(f"line {n.line}: {n.name!r} is not one of {', '.join(NODES)}")
+            continue
+        out += line_problems(n, schema)
         if n.name == "step":
             sid = str(n.args[0]) if n.args else ""
             if sid not in steps:
                 out.append(f"line {n.line}: step {sid!r} is no STEPS.md step")
             for c in n.children:
-                if c.name not in ("read", "run", "field"):
-                    out.append(f"line {c.line}: a step holds read, run and field lines, not {c.name!r}")
-    for n in t.part():
-        where = f"line {n.line}: {n.name}"
-        arg = str(n.args[0]) if n.args else ""
-        if n.name == "read" and "naming" in n.props:
-            table = str(n.props["naming"])
-            if table not in schema.tables:
-                out.append(f"{where} naming {table!r}, which is no table")
-            elif not any(tb.names_table(f, node, table) for f in schema.folders.values() for node in f.nodes):
-                out.append(f"{where} naming {table!r}, which no region node names")
-        elif n.name == "read":
-            if arg in STANDING:
-                out.append(f"{where} {arg} - every template reads it, so none lists it")
-            elif not PLACEHOLDER_RE.search(arg) and not arg.startswith("setting/") and not (ROOT / arg).exists():
-                out.append(f"{where} {arg}, which does not exist")
-        elif n.name == "run" and arg.split()[0] not in RUNS:
-            out.append(f"{where} {arg!r} - a run is one of {', '.join(RUNS)}")
-        elif n.name == "field":
-            for u in LENGTH_UNITS:
-                if u in n.props and not length(n.props[u]):
-                    out.append(f"{where} {arg}: {u} {n.props[u]!r} is not N, N-M, N+ or -M")
-            if any(u in n.props for u in LENGTH_UNITS) and "." not in arg:
-                out.append(f"{where} {arg}: a length names a Table.Field")
-            for x in [arg] + names(n.props.get("reads", "")):
-                if not resolve(x, schema):
-                    out.append(f"{where} {arg}: {x!r} names no node, table, member, field or brief field")
+                if c.name not in LINES:
+                    out.append(f"line {c.line}: a step holds {', '.join(LINES)} lines, not {c.name!r}")
+                elif c.name in NODES:
+                    out += line_problems(c, schema)
+    own = [n for n in t.nodes if n.name in LINES]
+    groups = [own] + [own + s.children for s in t.nodes if s.name == "step"]
+    seen = set()
+    for group in groups:
+        reads = {str(n.args[0]) for n in group if n.name == "read" and n.args}
+        for n in group:
+            if id(n) in seen:
+                continue
+            seen.add(id(n))
+            out += _line_problems(n, schema, reads)
+    return out
+
+
+def _line_problems(n: kdl.Node, schema: tb.Schema, reads: set[str]) -> list[str]:
+    """What is wrong with one read, run or field line's own values, given the files its
+    template and step read."""
+    out = []
+    where = f"line {n.line}: {n.name}"
+    arg = str(n.args[0]) if n.args else ""
+    if n.name == "read" and "naming" in n.props:
+        table = str(n.props["naming"])
+        if table not in schema.tables:
+            out.append(f"{where} naming {table!r}, which is no table")
+        elif not any(tb.names_table(f, node, table) for f in schema.folders.values() for node in f.nodes):
+            out.append(f"{where} naming {table!r}, which no region node names")
+    elif n.name == "read":
+        if arg in STANDING:
+            out.append(f"{where} {arg} - every template reads it, so none lists it")
+        elif not PLACEHOLDER_RE.search(arg) and not arg.startswith("setting/") and not (ROOT / arg).exists():
+            out.append(f"{where} {arg}, which does not exist")
+    elif n.name == "run" and arg.split()[0] not in RUNS:
+        out.append(f"{where} {arg!r} - a run is one of {', '.join(RUNS)}")
+    elif n.name == "field":
+        for u in LENGTH_UNITS:
+            if u in n.props and not length(n.props[u]):
+                out.append(f"{where} {arg}: {u} {n.props[u]!r} is not N, N-M, N+ or -M")
+        if any(u in n.props for u in LENGTH_UNITS) and "." not in arg:
+            out.append(f"{where} {arg}: a length names a Table.Field")
+        if not resolve(arg, schema):
+            out.append(f"{where} {arg}: {arg!r} names no node, table, member, field or brief field")
+        for x in names(n.props.get("from", "")):
+            if (p := source_problem(x, schema, reads)):
+                out.append(f"{where} {arg}: {p}")
     return out
 
 
@@ -195,7 +265,7 @@ def read_lines(t: Template, schema: tb.Schema, step: str | None = None) -> list[
             out.append(f"python3 tools/validate_setting.py {arg}")
         elif n.name == "field":
             lens = [f"{u} {n.props[u]}" for u in LENGTH_UNITS if u in n.props]
-            out.append(f"{arg} <- {n.props.get('reads', '')}" if "reads" in n.props else f"{arg}: {', '.join(lens)}")
+            out.append(f"{arg} <- {n.props.get('from', '')}" if "from" in n.props else f"{arg}: {', '.join(lens)}")
     return out
 
 

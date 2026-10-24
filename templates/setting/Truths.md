@@ -9,7 +9,7 @@ template scope="setting" writes="setting/Truths.md" shape="Truths"
 read "setting/Setting.md"
 read "setting/History.md"
 run "--location [Location Code]" once="written"
-field "Truths.Codes" reads="Truths.Handle"
+field "Truths.Codes" from="Truths.Handle"
 ```
 
 ## Instructions

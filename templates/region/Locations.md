@@ -11,8 +11,8 @@ read "setting/region/[Region Code]/Seed.md"
 read "setting/region/Regions.md" part="this region's die"
 read "setting/region/[Region Code]/Ground.md"
 read "setting/Language.md"
-field "Location.name" reads="Language.Coined here"
-field "Location.bearing" reads="Feature.bearing, Feature.distance, At.ground"
+field "Location.name" from="Language.Coined here"
+field "Location.bearing" from="Feature.bearing, Feature.distance, At.ground"
 ```
 
 ## Instructions

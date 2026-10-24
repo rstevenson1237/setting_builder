@@ -586,7 +586,8 @@ def report_budget() -> None:
     authorities = [ROOT / n for n in ("CLAUDE.md", "README.md", "GENRE.md", "STEPS.md")]
     layers = [
         ("authorities", [p for p in authorities if p.exists()]),
-        ("templates/", sorted((ROOT / "templates").glob("*/*.md"))),
+        ("templates/", sorted((ROOT / "templates").glob("*.md"))
+                       + sorted((ROOT / "templates").glob("*/*.md"))),
         ("patterns/", sorted((ROOT / "patterns").glob("*.md"))
                       + sorted((ROOT / "patterns").glob("*/*.md"))),
     ]
