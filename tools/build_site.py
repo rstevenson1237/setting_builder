@@ -415,7 +415,7 @@ def build_location(setting: sc.Setting, out: Path, code: str, num: int) -> None:
     tags = " · ".join(t.strip() for t in loc.tags.split(","))
     body.append(f'<h1>{loc.code} {html.escape(loc.name)}{weight}</h1>')
     body.append(f'<p class="tags">{html.escape(tags)}</p>')
-    body.append(f'<p class="player-summary">{render_inline(loc.player_summary, setting, page, skip_location=loc.code)}</p>')
+    body.append(f'<p class="{sc.line_class("summary", "player-summary")}">{render_inline(loc.player_summary, setting, page, skip_location=loc.code)}</p>')
     body.append(f'<p class="referee-notes">{render_inline(loc.referee_notes, setting, page, skip_location=loc.code)}</p>')
 
     body.append(sc.cut_html(code, num, sc.maps_fit_site))

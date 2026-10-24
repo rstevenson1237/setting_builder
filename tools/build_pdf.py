@@ -142,7 +142,7 @@ def build_document(setting: sc.Setting) -> str:
             parts.append(
                 f'<section class="location-doc" id="{l_anchor}">'
                 f'<h2>{loc.code} {html.escape(loc.name)}{weight}</h2>'
-                f'<p class="player-summary">{ri(loc.player_summary, setting, skip_location=loc.code)}</p>'
+                f'<p class="{sc.line_class("summary", "player-summary")}">{ri(loc.player_summary, setting, skip_location=loc.code)}</p>'
                 f'<p class="referee-notes">{ri(loc.referee_notes, setting, skip_location=loc.code)}</p>'
                 f'{sc.cut_html(code, num, sc.maps_fit_pdf)}<ul class="feature-list">{feats}</ul>{exits_html}'
                 f'</section>'
@@ -225,6 +225,7 @@ code { background: #f1e9da; padding: 0 3px; }
 .registry-location { color: #5a4f42; font-size: 9pt; }
 
 .player-summary { font-size: 11pt; }
+.readaloud { background: #f1e9da; border-left: 2.5pt solid #7a2e1d; padding: 5pt 8pt; break-inside: avoid; }
 .referee-notes { font-style: italic; color: #5a4f42; }
 .feature-list { list-style: none; padding: 0; }
 .feature-list li { margin-bottom: 0.4em; }

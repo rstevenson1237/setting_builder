@@ -604,6 +604,12 @@ LOCATION = tp.load(tp.TEMPLATES / "region" / "Location.md")
 LOC_HEADER_RE, FEATURE_RE = LOCATION.pattern("header"), LOCATION.pattern("feature")
 LOC_CODE_FULL_RE = re.compile(r"([A-Z]+)\.(\d+)")
 EXITS_HEAD = tp.literal_head(str(LOCATION.line("exits").props["pattern"]))
+
+
+def line_class(name: str, base: str) -> str:
+    """A write-up line's classes: its own, then its format's out=, which the stylesheets set."""
+    out = LOCATION.line(name).props.get("out")
+    return base + (f" {out}" if out else "")
 EXIT_DEST_RE = re.compile(r'^\s*([A-Z]+\.\d+)\s+(.*)$')
 
 

@@ -61,6 +61,7 @@ node line arg=name {
   name gloss
   pattern string
   count Count opt           // one, unless it says otherwise
+  out Out opt               // how the site and PDF set it, where not as written
   hint text opt             // what the skeleton says its last field holds
 }
 node section arg=name {     // a `## [name]` section

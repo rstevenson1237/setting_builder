@@ -13,7 +13,7 @@ read "setting/region/[Region Code]/Seed.md"
 run "--location [Location Code]"
 format {
   line header pattern="[Location Code] **[Location Name]** ([type]) - *[tags]*" hint="its three tags"
-  line summary pattern="[Player Summary]" hint="what a party sees on arriving, to be read aloud, with each Feature it names in **bold**"
+  line summary pattern="[Player Summary]" out="readaloud" hint="what a party sees on arriving, to be read aloud, with each Feature it names in **bold**"
   line notes pattern="*[Referee Notes]*" hint="size, shape, and what the referee needs to run the location"
   line feature pattern="**[Feature Name]:** [feature]" count="many" hint="the feature, where it sits, and any act on it with its effect; a hidden exit is written here, in the Feature that hides it"
   line exits pattern="**Exits:** [exits]" count="optional" hint="each exit as \"[make and condition], [position] -> [Location Code] [Location Name]\"; an exit off the map ends \"-> [where it leads]\" and comes last"

@@ -11,7 +11,8 @@ An enum field opens with one of its items, and may go on after ` - ` in prose. H
 entries a file holds is `BRIEF.md`'s.
 
 ```kdl
-enum Out line prose bullets table tag   // one value on a line; paragraphs; a `- ` line each; a d6 table; a short word set by a title
+enum Out line prose bullets table tag readaloud   // one value on a line; paragraphs; a `- ` line each; a d6 table; a short word
+                                                   // set by a title; prose read aloud to the players, set apart from the referee's
 value string words=8
 value gloss words=4
 value tag words=2
