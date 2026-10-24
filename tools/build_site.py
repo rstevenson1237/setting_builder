@@ -255,9 +255,9 @@ def build_tables(setting: sc.Setting, out: Path) -> None:
         title = re.sub(r" [IVX]+$", "", ts[0].name)
         render = lambda text, page=page: render_inline(text, setting, page)
         if len(ts) == 1:
-            inner = sc.table_html(ts[0], render)
+            inner = sc.table_html(ts[0], render, setting=setting)
         else:
-            inner = "".join(sc.table_html(t, render, t.heading or t.name) for t in ts)
+            inner = "".join(sc.table_html(t, render, t.heading or t.name, setting=setting) for t in ts)
         write_page(out, page, page_shell(setting, page, title, f"<h1>{html.escape(title)}</h1>{inner}"))
     for p in setting.prose:
         page = f"{p.slug}.html"

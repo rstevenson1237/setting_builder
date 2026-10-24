@@ -393,6 +393,12 @@ code {
 .map-key-type { color: var(--ink-soft); font-style: italic; font-size: 0.9em; }
 .statline td { background: var(--bg-alt); border: 1px solid var(--line); padding: 0.35rem 0.6rem; font-size: 0.92rem; }
 .statline .stat b { color: var(--accent); margin-right: 0.15rem; }
+.glossary { border: 1px solid var(--line); border-radius: var(--radius); background: var(--bg-alt); padding: 0.4rem 1.1rem 0.8rem; margin-top: 1.5rem; }
+.glossary dl { margin: 0; columns: 2 20rem; column-gap: 2rem; }
+.glossary dt { font-weight: 700; color: var(--accent); break-after: avoid; margin-top: 0.5rem; }
+.glossary dd { margin: 0; break-inside: avoid; }
+.gloss-entry, .gloss-uses { display: block; color: var(--ink-soft); font-size: 0.88em; }
+.gloss-entry { font-style: italic; }
 .readaloud { background: var(--bg-alt); border-left: 3px solid var(--accent); border-radius: 4px; padding: 0.6rem 0.9rem; }
 .referee-notes { color: var(--ink-soft); font-style: italic; }
 

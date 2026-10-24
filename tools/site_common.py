@@ -1126,7 +1126,36 @@ def cite_data(setting: Setting, render) -> dict:
     return out
 
 
-def table_html(t: SettingTable, render, title: str = "", heading: str = "h2") -> str:
+GLOSS_TERM_RE = re.compile(r"(.+?) (?:=|-) ")
+
+
+def glossary_html(t: SettingTable, field: str, render, setting: "Setting") -> str:
+    """Every entry's `field` items as one alphabetical list: each term as written, its
+    entry, and each name the setting holds that uses the term, cited so it links."""
+    names = [(f"({table_props(x.name).get('cite', x.name)}: {e.title})", e.title)
+             for x in setting.tables if x.kind == "entry" for e in x.entries]
+    names += [(f"{c} {loc.name}", loc.name) for c, loc in setting.all_locations.items()]
+    names += [(f"({c}) {r.name}", r.name) for c, r in setting.regions.items()]
+    terms = []
+    for e in t.entries:
+        for line in dict(e.fields).get(field, "").splitlines():
+            if line.startswith("- ") and (m := GLOSS_TERM_RE.match(line[2:])):
+                term = m.group(1).strip()
+                uses = [cite for cite, name in names if re.search(rf"\b{re.escape(term)}\b", name, re.I)]
+                terms.append((term.lower(), term, line[2 + m.end(1):].strip(), e.title, uses))
+    if not terms:
+        return ""
+    rows = "".join(f'<dt>{html.escape(term)}</dt><dd>{render(text)} <span class="gloss-entry">{html.escape(entry)}</span>'
+                   + (f'<span class="gloss-uses">Named in {"; ".join(render(u) for u in uses)}</span>' if uses else "")
+                   + "</dd>" for _, term, text, entry, uses in sorted(terms))
+    return f'<div class="glossary"><h3>Glossary</h3><dl>{rows}</dl></div>'
+
+
+def table_props(name: str) -> dict:
+    return schema().table_props.get(name, {})
+
+
+def table_html(t: SettingTable, render, title: str = "", heading: str = "h2", setting: "Setting | None" = None) -> str:
     """One table, every field its schema names. A roll table is a table; an entry table
     is a card per entry, its dice and its first enum field set in the title. `title` heads a
     table sharing its page with others."""
@@ -1151,8 +1180,10 @@ def table_html(t: SettingTable, render, title: str = "", heading: str = "h2") ->
         cards.append(f'<article class="registry-card" id="{anchor_id("entry", t.name, e.title)}">'
                      f'<h3>{title}</h3><table class="kv-table">{rows}</table></article>')
     empty = '<p class="hint">Nothing recorded yet.</p>' if not cards else ""
+    gloss = glossary_html(t, str(table_props(t.name)["glossary"]), render, setting) \
+        if setting is not None and "glossary" in table_props(t.name) else ""
     return (f'<div id="{anchor_id("table", t.name)}">{h}{intro}{empty}'
-            f'<div class="registry-list">{"".join(cards)}</div></div>')
+            f'<div class="registry-list">{"".join(cards)}</div>{gloss}</div>')
 
 
 def timeline_html(t: SettingTable, by: str, render) -> str:

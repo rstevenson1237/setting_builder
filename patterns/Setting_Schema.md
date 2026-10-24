@@ -6,7 +6,8 @@ of its entries by: `(Label: Title)`. Its `flow=` names fields the site and PDF s
 under the first one's label, a sentence for each group between `|`; its `stat=`, fields set
 on one line under the entry's title, as a referee scans a stat block; its `timeline=`, a field
 the site and PDF set its entries on a rail by, in the file's order, marking each era its
-enum opens with.
+enum opens with; its `glossary=`, a field whose `- ` items, each a term then ` = ` or ` - `,
+the site and PDF gather from every entry into one list, each term with the names using it.
 
 ```kdl
 // -- GENRE.md answers, once each and in this order: Reference (the work modelled on, and
@@ -33,7 +34,7 @@ enum opens with.
 //    that tongue's roots and affixes and glossed once; it is used only in a name whose
 //    Name_Form is family or tongue, and each such name is a coinage recorded here.
 enum Speakers present departed arrived side non-people jargon liturgy
-table Language doc file="setting/Language.md" heading=2 title="Tongues of [Setting Name]" {
+table Language doc file="setting/Language.md" heading=2 title="Tongues of [Setting Name]" glossary="Coined here" {
   "Spoken by" Speakers
   Consonants text             // an inventory no other tongue shares
   Vowels text

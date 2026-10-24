@@ -80,9 +80,9 @@ def build_document(setting: sc.Setting) -> str:
     for slug, ts in setting.pages().items():
         title = re.sub(r" [IVX]+$", "", ts[0].name)
         if len(ts) == 1:
-            inner = sc.table_html(ts[0], render)
+            inner = sc.table_html(ts[0], render, setting=setting)
         else:
-            inner = "".join(sc.table_html(t, render, t.heading or t.name) for t in ts)
+            inner = "".join(sc.table_html(t, render, t.heading or t.name, setting=setting) for t in ts)
         inner = inner.replace(f'<div id="{slug}">', "<div>", 1)  # the section carries the id; a repeat leaves its page number unresolved
         parts.append(f'<section class="doc" id="{slug}"><h1>{html.escape(title)}</h1>{inner}</section>')
         toc.append(toc_entry(title, slug))
@@ -244,6 +244,13 @@ code { background: #f1e9da; padding: 0 3px; }
 .kv-table { width: 100%; }
 .kv-table th { text-align: left; vertical-align: top; width: 8em; color: #7a2e1d; font-size: 9pt; padding: 0.15em 0.4em 0.15em 0; }
 .kv-table td { padding: 0.15em 0; }
+.glossary { border: 0.5pt solid #cbbb98; background: #f7f1e6; padding: 0.3em 0.8em 0.6em; margin-top: 1em; break-inside: avoid; }
+.glossary dl { margin: 0; columns: 2; column-gap: 1.2em; font-size: 9pt; }
+.glossary dt { font-weight: 700; color: #7a2e1d; margin-top: 0.35em; break-after: avoid; }
+.glossary dd { margin: 0; break-inside: avoid; }
+.gloss-entry, .gloss-uses { display: block; color: #766a5a; font-size: 8.5pt; }
+.gloss-entry { font-style: italic; }
+.gloss-uses a::after { content: " (p. " target-counter(attr(href), page) ")"; color: #766a5a; }
 .statline td { background: #f1e9da; padding: 0.2em 0.5em; font-size: 9.5pt; }
 .statline .stat b { color: #7a2e1d; }
 
