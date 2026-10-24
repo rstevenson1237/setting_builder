@@ -81,7 +81,7 @@ table "Named Creatures" entry file="setting/NamedCreatures.md" cite="Named Creat
 //    faction's own side, so two can differ.
 enum Want route resource person cleared sealed legitimacy debt rival knowing hiding
 enum Relation Friendly Tolerated Neutral Antipathy Hatred   // 5 to 1, each with a die: d12 d10 d8 d6 d4
-table Factions entry file="setting/Factions.md" {
+table Factions entry file="setting/Factions.md" cite=Faction {
   Form Name_Form              // of its title
   AD dice bonus="0..0"
   Want Want                   // concrete enough to be interfered with

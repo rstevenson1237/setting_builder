@@ -35,5 +35,5 @@ item for each location its `holds=` gives it, in code order, as `--skeleton 4e [
 Code]` lists them. What `drawn` names is never written here.
 
 Every fact about a location names it by code. A fact no entry holds is an entry to add to
-the tables, not a line here. A setting entry is cited as `(Named Creature: Name)`,
-`(Faction: Name)` or `(Local Procedure: Name)`.
+the tables, not a line here. A setting entry is cited by its table's `cite=`: `(Named
+Creature: Name)`, `(Faction: Name)` or `(Local Procedure: Name)`.
