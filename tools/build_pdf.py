@@ -269,8 +269,12 @@ code { background: #f1e9da; padding: 0 3px; }
 .plan-figure figcaption, .plan-figure details { font-size: 9pt; color: #5a4f42; }
 .connections ul { margin: 0.2em 0 0; padding-left: 1.2em; font-size: 9.5pt; }
 
-.timeline { list-style: none; padding: 0; }
-.timeline li { margin-bottom: 0.5em; }
+.timeline { list-style: none; padding: 0 0 0 0.9em; margin: 0 0 0 0.3em; border-left: 1.5pt solid #cbbb98; }
+.timeline li { margin-bottom: 0.6em; break-inside: avoid; }
+.timeline li.registry-card { border: none; border-radius: 0; padding: 0; }
+.timeline li.era { font-size: 8.5pt; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #766a5a; margin-bottom: 0.3em; }
+.timeline .when { display: block; font-weight: 700; color: #7a2e1d; font-size: 9pt; }
+.timeline h3 { margin: 0.1em 0 0.2em; }
 """
 
 

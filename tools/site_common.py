@@ -1065,14 +1065,14 @@ def statline(table: str) -> list[str]:
     return str(schema().table_props.get(table, {}).get("stat", "")).split()
 
 
-def entry_card(t: SettingTable, e: Entry, render) -> tuple[str, str]:
+def entry_card(t: SettingTable, e: Entry, render, omit: tuple[str, ...] = ()) -> tuple[str, str]:
     """An entry's title line and its field rows, its statline first: what a card and a
-    citation's box both show."""
+    citation's box both show. `omit` names fields the caller sets elsewhere."""
     enums = schema().setting_enums
     dice = next((m.name for m in t.members if m.type == "dice"), None)
     tag = next((m.name for m in t.members if m.type in enums and not m.is_list), None)
     f = dict(e.fields)
-    shown = set()
+    shown = set(omit)
     title = html.escape(e.title)
     if tag and len(f.get(tag, "").split()) <= 3 and tag in f:
         title += f' <span class="typetag">({html.escape(f[tag])})</span>'
@@ -1143,6 +1143,8 @@ def table_html(t: SettingTable, render, title: str = "", heading: str = "h2") ->
         return (f'<div id="{anchor_id("table", t.name)}">{h}{intro}<div class="table-scroll">'
                 f'<table class="data-table"><thead><tr>{head}</tr></thead><tbody>{rows}</tbody>'
                 f'</table></div></div>')
+    if by := str(schema().table_props.get(t.name, {}).get("timeline", "")):
+        return f'<div id="{anchor_id("table", t.name)}">{h}{intro}{timeline_html(t, by, render)}</div>'
     cards = []
     for e in t.entries:
         title, rows = entry_card(t, e, render)
@@ -1151,6 +1153,25 @@ def table_html(t: SettingTable, render, title: str = "", heading: str = "h2") ->
     empty = '<p class="hint">Nothing recorded yet.</p>' if not cards else ""
     return (f'<div id="{anchor_id("table", t.name)}">{h}{intro}{empty}'
             f'<div class="registry-list">{"".join(cards)}</div></div>')
+
+
+def timeline_html(t: SettingTable, by: str, render) -> str:
+    """A table's entries on a rail, in the file's order: each marked by its `by` field, and
+    an era heading wherever the item of the enum that field opens with changes."""
+    member = next((m for m in t.members if m.name == by), None)
+    items = list(schema().setting_enums.get(member.type, {})) if member else []
+    out, era = [], None
+    for e in t.entries:
+        when = dict(e.fields).get(by, "")
+        now = next((i for i in items if when.startswith(i)), None)
+        if now and now != era:
+            out.append(f'<li class="era">{html.escape(now.capitalize())}</li>')
+            era = now
+        title, rows = entry_card(t, e, render, omit=(by,))
+        out.append(f'<li class="registry-card" id="{anchor_id("entry", t.name, e.title)}">'
+                   f'<span class="when">{render(when)}</span><h3>{title}</h3>'
+                   f'<table class="kv-table">{rows}</table></li>')
+    return f'<ol class="timeline">{"".join(out)}</ol>' if out else '<p class="hint">Nothing recorded yet.</p>'
 
 
 def prose_html(text: str, render) -> str:

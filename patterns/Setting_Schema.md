@@ -4,7 +4,9 @@ Every setting file in `setting/`: its fields, under the `table` line naming it, 
 `patterns/Common_Schema.md`'s values. A table's `cite=` is the label another file cites one
 of its entries by: `(Label: Title)`. Its `flow=` names fields the site and PDF set as prose
 under the first one's label, a sentence for each group between `|`; its `stat=`, fields set
-on one line under the entry's title, as a referee scans a stat block.
+on one line under the entry's title, as a referee scans a stat block; its `timeline=`, a field
+the site and PDF set its entries on a rail by, in the file's order, marking each era its
+enum opens with.
 
 ```kdl
 // -- GENRE.md answers, once each and in this order: Reference (the work modelled on, and
@@ -100,7 +102,7 @@ table Factions entry file="setting/Factions.md" cite=Faction {
 //    in two sentences at most. A truth is a class, shows at more than one rating, sharpens
 //    GENRE.md and never overrides it; a mystery or open truth says it is one.
 enum Age recent living old ancient   // within ten years; within living memory; recorded but not remembered; before any record
-table History entry file="setting/History.md" {
+table History entry file="setting/History.md" timeline=When {
   When Age                    // then the years ago, vaguer the older it is; entries run oldest first
   Event text
   Left text                   // the physical mark findable now
