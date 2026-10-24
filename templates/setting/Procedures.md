@@ -22,7 +22,9 @@ format {
   section Madness out="table" head="Madness" when="BRIEF:Procedures.madness"
   section Conditions out="bullets" item="**[Name]** - [effect]; [duration]"
   section "Coin and Prices"
-  section "Time and Distance"
+  section "Time and Distance" {
+    line tracker pattern="- **Tracker** - a DANGEROUS turn is [minutes] minutes, [turns] to an hour; a torch lasts [torch] turns and a lantern's oil [lantern]; Difficulty is rolled each turn on the region's die, and a 1 advances Danger one band toward 1."
+  }
   section Weather out="table" head="Weather"
   section Encounters out="table" head="Distance"
   section Carousing out="table" head="Effect"
@@ -48,7 +50,8 @@ format {
   cover untracked. Then the ordinary goods and services a Purchase prices against, and a
   hireling's wage by the day, each in cn.
 - **Time and Distance** - what each region type measures in, and the miles a watch covers on
-  a road, off it and through the worst ground; how long a light lasts.
+  a road, off it and through the worst ground; its Tracker line gives a DANGEROUS turn and
+  how long a light lasts, which the PDF's turn tracker is drawn from.
 - **Weather** - a 1 is severe (travel impossible), 2 and 3 are poor, 4 to 6 are calm; the
   setting writes what each is.
 - **Encounters** - distance, 1 an instant surprise to 6 signs or tracks only,

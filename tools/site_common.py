@@ -704,6 +704,47 @@ def quickref() -> list[tuple[str, str]]:
     return out
 
 
+TRACKER_FIELDS = ("minutes", "turns", "torch", "lantern")
+
+
+def tracker() -> tuple[str, dict[str, int]] | None:
+    """A setting file's tracker line, as its format's section names it: the sentence as
+    written, and its numbers by field."""
+    for t in tp.load_all().values():
+        for n in (n for n in t.format if n.name == "section"):
+            for c in (c for c in n.children if c.name == "line" and str(c.args[0]) == "tracker"):
+                for path in (ROOT / w for w in t.writes() if (ROOT / w).exists()):
+                    for line in tp.file_sections(path.read_text()).get(str(n.args[0]), []):
+                        if (m := tp.pattern_re(str(c.props["pattern"])).match(line.strip())):
+                            return line.strip(), {k: int(v) for k, v in m.groupdict().items() if v.isdigit()}
+    return None
+
+
+TRACKER_HOURS, TRACKER_TORCHES, TRACKER_LANTERNS = 8, 4, 2     # how much one sheet holds
+
+
+def tracker_html(render) -> str:
+    """One printable sheet: the Danger track, a Difficulty box for each turn of a few hours,
+    and a strip for each torch and lantern to tick as it burns."""
+    found = tracker()
+    if not found or not all(k in found[1] for k in TRACKER_FIELDS):
+        return ""
+    line, n = found
+    sentence = re.sub(r"^- \*\*[^*]+\*\* - ", "", line)
+    sentence = sentence[:1].upper() + sentence[1:]
+    boxes = lambda k, cls="box": "".join(f'<span class="{cls}"></span>' for _ in range(k))
+    danger = "".join(f'<span class="band"><b>{b}</b><span class="box"></span></span>' for b in range(6, 0, -1))
+    rows = "".join(f'<tr><th>Hour {h + 1}</th>' + "".join(
+        f'<td><span class="turn">{h * n["turns"] + i + 1}</span><span class="box"></span></td>' for i in range(n["turns"]))
+        + "</tr>" for h in range(TRACKER_HOURS))
+    lights = "".join(f'<div class="light"><b>{name} ({k} turns)</b> {boxes(k)}</div>'
+                     for name, k, count in (("Torch", n["torch"], TRACKER_TORCHES), ("Lantern", n["lantern"], TRACKER_LANTERNS))
+                     for _ in range(count))
+    return (f'<p>{render(sentence)}</p><h3>Danger</h3><div class="danger">{danger}</div>'
+            f'<h3>Difficulty, each turn of {n["minutes"]} minutes</h3><table class="turns">{rows}</table>'
+            f'<h3>Light</h3>{lights}')
+
+
 def line_class(name: str, base: str) -> str:
     """A write-up line's classes: its own, then its format's out=, which the stylesheets set."""
     out = LOCATION.line(name).props.get("out")

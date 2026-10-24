@@ -113,7 +113,8 @@ The common silver coin, cn, is the unit of every value in this setting, and a hu
 ## Time and Distance
 - **SAFE regions** measure in feet indoors, yards outdoors and miles on safe roads, and keep time in days.
 - **WILD regions** measure in yards and miles and keep time in watches of four hours, six to a day. A watch of travel covers 8 miles on a road, 4 off it and 2 through the worst ground (marsh, thicket, scree). A day lost to rest or weather covers nothing.
-- **DANGEROUS regions** measure in feet indoors and yards outside and keep time in turns of ten minutes, six to an hour; a Round is one minute. A torch lasts six turns, a lantern's oil twenty-four, and light that fails is darkness.
+- **DANGEROUS regions** measure in feet indoors and yards outside and keep time in turns, as the Tracker gives; a Round is one minute, and light that fails is darkness.
+- **Tracker** - a DANGEROUS turn is 10 minutes, 6 to an hour; a torch lasts 6 turns and a lantern's oil 24; Difficulty is rolled each turn on the region's die, and a 1 advances Danger one band toward 1.
 - A place is fixed by a compass point and a distance, in its region type's unit.
 
 ## Weather

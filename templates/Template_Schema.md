@@ -71,6 +71,7 @@ node section arg=name {     // a `## [name]` section
   item string opt           // a bullets section's item, as a pattern
   each source opt           // a `### ` table for each item BRIEF:[name].[property] lists
   when source opt           // present only where BRIEF:[name].[property] is set and not 0
+  one-of line               // a line its body holds, among whatever else it says
 }
 node table {                // a table copied as written
   head string list

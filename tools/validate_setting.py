@@ -1160,6 +1160,11 @@ def check_formats(diag: Diagnostics, schema):
             if (SETTING.parent / w).exists():
                 for sev, msg in tp.format_problems(t, (SETTING.parent / w).read_text(), schema):
                     (diag.warn if sev == "warn" else diag.error)(SETTING.parent / w, msg)
+    for t in (t for t in map(tp.load, sorted(TEMPLATES.glob("*/*.md"))) if t):
+        for c in (c for n in t.format if n.name == "section" for c in n.children
+                  if c.name == "line" and str(c.args[0]) == "tracker"):
+            if missing := set(sc.TRACKER_FIELDS) - set(tp.pattern_re(str(c.props["pattern"])).groupindex):
+                diag.error(t.path, f"its tracker pattern lacks {sorted(missing)}, which the turn tracker reads")
     loc = sc.LOCATION
     for line, want in (("header", {"location_code", "location_name", "type", "tags"}), ("feature", None), ("exits", None)):
         if loc.line(line) is None:

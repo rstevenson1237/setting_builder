@@ -444,6 +444,7 @@ def draw_format(t: Template) -> list[str]:
                 out.append("- " + str(p.get("item", "[...]")))
             else:
                 out.append("[...]")
+            out += [fill(str(c.props["pattern"]), c.props.get("hint")) for c in n.children if c.name == "line"]
     return out
 
 
@@ -520,6 +521,9 @@ def section_problems(n: kdl.Node, body: list[str]) -> list[tuple[str, str]]:
     elif p.get("out") == "bullets" and "item" in p:
         r = pattern_re(str(p["item"]))
         out += [("warn", f"{name}: {l!r} is not {p['item']!r}") for l in body if l.startswith("- ") and not r.match(l[2:])]
+    for c in (c for c in n.children if c.name == "line"):
+        if c.props.get("count") != "optional" and not any(pattern_re(str(c.props["pattern"])).match(l) for l in body):
+            out.append(("error", f"{name} holds no {c.args[0]} line, {c.props['pattern']!r}"))
     return out
 
 

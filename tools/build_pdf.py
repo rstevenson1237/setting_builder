@@ -151,6 +151,11 @@ def build_document(setting: sc.Setting) -> str:
 
     toc.extend(region_toc)
 
+    # ---- a sheet to tick as turns pass ----
+    if sheet := sc.tracker_html(render):
+        parts.append(f'<section class="doc tracker" id="tracker"><h1>Turn Tracker</h1>{sheet}</section>')
+        toc.append(toc_entry("Turn Tracker", "tracker"))
+
     # ---- where each setting entry turns up, then every d6 table on one page, at the back ----
     parts.append(f'<section class="doc index" id="lookup"><h1>Index</h1>{sc.index_html(setting, RESOLVER, "pdf")}</section>')
     toc.append(toc_entry("Index", "lookup"))
@@ -206,6 +211,17 @@ code { background: #f1e9da; padding: 0 3px; }
 .index-list li { padding-left: 1em; text-indent: -1em; margin-bottom: 0.15em; break-inside: avoid; }
 .index-loc::after { content: " (p. " target-counter(attr(href), page) ")"; color: #766a5a; }
 .index-via { color: #766a5a; font-style: italic; }
+.tracker h3 { margin: 0.8em 0 0.3em; }
+.tracker .box { display: inline-block; width: 0.42cm; height: 0.42cm; border: 0.8pt solid #5a4f42; margin: 0 0.06cm; vertical-align: middle; }
+.tracker .band { display: inline-block; margin-right: 0.5cm; }
+.tracker .band b { margin-right: 0.12cm; color: #7a2e1d; }
+.tracker .turns { border-collapse: collapse; width: 100%; }
+.tracker .turns th { text-align: left; font-size: 9pt; color: #5a4f42; width: 4em; padding: 0.15em 0.4em 0.15em 0; }
+.tracker .turns td { border: 0.5pt solid #cbbb98; padding: 0.2em 0.3em; text-align: center; }
+.tracker .turn { display: block; font-size: 7pt; color: #766a5a; }
+.tracker .light { margin: 0.25em 0; font-size: 9pt; }
+.tracker .light b { display: inline-block; width: 7.5em; font-weight: 400; color: #5a4f42; }
+.tracker .light .box { width: 0.32cm; height: 0.32cm; margin: 0 0.03cm; }
 .quickref { columns: 2; column-gap: 1.2em; }
 .quickref h1 { column-span: all; }
 .quickref-table { break-inside: avoid; }
