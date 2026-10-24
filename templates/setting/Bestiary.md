@@ -9,6 +9,9 @@ template scope="setting" writes="setting/Bestiary.md" shape="Bestiary"
 read "setting/Setting.md"
 read "setting/History.md"
 read "setting/Truths.md"
+field "Bestiary.Description" sentences="1"
+field "Bestiary.Range" sentences="1-2"
+field "Bestiary.Disposition" sentences="1"
 ```
 
 ## Instructions
@@ -20,5 +23,6 @@ lacks adds its entry here first, then cites it.
 
 The site and PDF flow Description through Disposition into two sentences under the label
 Description, so write Range, Sign and Disposition as clauses that read when joined by semicolons.
+Each field's length is its `field` line's.
 
-Cut any field that does not fit the template block below.
+Cut any field the schema does not name.
