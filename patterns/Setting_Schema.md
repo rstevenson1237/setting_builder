@@ -3,7 +3,8 @@
 Every setting file in `setting/`: its fields, under the `table` line naming it, written in
 `patterns/Common_Schema.md`'s values. A table's `cite=` is the label another file cites one
 of its entries by: `(Label: Title)`. Its `flow=` names fields the site and PDF set as prose
-under the first one's label, a sentence for each group between `|`.
+under the first one's label, a sentence for each group between `|`; its `stat=`, fields set
+on one line under the entry's title, as a referee scans a stat block.
 
 ```kdl
 // -- GENRE.md answers, once each and in this order: Reference (the work modelled on, and
@@ -50,7 +51,7 @@ table Language doc file="setting/Language.md" heading=2 title="Tongues of [Setti
 // outside the world; Fantasy this setting's own.
 enum Bestiary_Type Men Humanoid Giant Beast Wyrm Undead Construct Horror Fey Fiend Fantasy
 enum Sign "a mark" "a track" "a sound" "a smell"
-table Bestiary entry file="setting/Bestiary.md" flow="Description Range | Numbers Sign Disposition" {
+table Bestiary entry file="setting/Bestiary.md" flow="Description Range | Numbers Sign Disposition" stat="AD MA Special" {
   Type Bestiary_Type
   AD dice count="1-18" bonus="-2..6"   // 1 a man's match; 2-3 superior; 4-5 larger, highly dangerous;
                                        // 6-8 supernatural; 9-12 gargantuan; 13-16 served; 17-18 a titan
@@ -63,7 +64,7 @@ table Bestiary entry file="setting/Bestiary.md" flow="Description Range | Number
   Disposition text opt                 // what it does on being met, before anyone fights
 }
 
-table "Named Creatures" entry file="setting/NamedCreatures.md" cite="Named Creature" {   // as an Encounter meets it
+table "Named Creatures" entry file="setting/NamedCreatures.md" cite="Named Creature" stat="AD MA Special" {   // as an Encounter meets it
   Form Name_Form              // of its title
   Type Bestiary_Type
   AD dice count="1-18" bonus="-2..6"

@@ -389,6 +389,8 @@ code {
 .map-key ul { list-style: none; padding: 0; margin: 0; columns: 3 12rem; column-gap: 1.5rem; }
 .map-key li { break-inside: avoid; }
 .map-key-type { color: var(--ink-soft); font-style: italic; font-size: 0.9em; }
+.statline td { background: var(--bg-alt); border: 1px solid var(--line); padding: 0.35rem 0.6rem; font-size: 0.92rem; }
+.statline .stat b { color: var(--accent); margin-right: 0.15rem; }
 .readaloud { background: var(--bg-alt); border-left: 3px solid var(--accent); border-radius: 4px; padding: 0.6rem 0.9rem; }
 .referee-notes { color: var(--ink-soft); font-style: italic; }
 

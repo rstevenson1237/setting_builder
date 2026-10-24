@@ -1060,8 +1060,14 @@ def flow_prose(table: str, f: dict) -> str:
     return " ".join(out)
 
 
+def statline(table: str) -> list[str]:
+    """A table's stat=: the fields set on one line under an entry's title."""
+    return str(schema().table_props.get(table, {}).get("stat", "")).split()
+
+
 def entry_card(t: SettingTable, e: Entry, render) -> tuple[str, str]:
-    """An entry's title line and its field rows: what a card and a citation's box both show."""
+    """An entry's title line and its field rows, its statline first: what a card and a
+    citation's box both show."""
     enums = schema().setting_enums
     dice = next((m.name for m in t.members if m.type == "dice"), None)
     tag = next((m.name for m in t.members if m.type in enums and not m.is_list), None)
@@ -1071,14 +1077,19 @@ def entry_card(t: SettingTable, e: Entry, render) -> tuple[str, str]:
     if tag and len(f.get(tag, "").split()) <= 3 and tag in f:
         title += f' <span class="typetag">({html.escape(f[tag])})</span>'
         shown.add(tag)
-    if dice and dice in f:
+    stat = [k for k in statline(t.name) if f.get(k)]
+    if dice and dice in f and dice not in stat:
         title += f' <span class="ad">{html.escape(dice)}: {html.escape(f[dice])}</span>'
         shown.add(dice)
+    shown |= set(stat)
+    line = lambda v: "; ".join(l.removeprefix("- ").strip() for l in v.splitlines() if l.strip())
+    strip = " · ".join(f'<span class="stat"><b>{html.escape(k)}</b> {render(line(f[k]))}</span>' for k in stat)
     fields = e.fields
     if (flowed := flow_fields(t.name)) and flowed[0] in f:
         fields = [(flowed[0], flow_prose(t.name, f))] + [(k, v) for k, v in fields if k not in flowed]
-    rows = "".join(f"<tr><th>{html.escape(k)}</th><td>{value_html(v, render)}</td></tr>"
-                   for k, v in fields if k not in shown)
+    rows = (f'<tr class="statline"><td colspan="2">{strip}</td></tr>' if stat else "") + \
+        "".join(f"<tr><th>{html.escape(k)}</th><td>{value_html(v, render)}</td></tr>"
+                for k, v in fields if k not in shown)
     for m in t.members:
         if m.type == "finds" and f.get(m.name):
             cn, wt = tb.finds_total(f[m.name])

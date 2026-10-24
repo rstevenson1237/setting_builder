@@ -244,6 +244,8 @@ code { background: #f1e9da; padding: 0 3px; }
 .kv-table { width: 100%; }
 .kv-table th { text-align: left; vertical-align: top; width: 8em; color: #7a2e1d; font-size: 9pt; padding: 0.15em 0.4em 0.15em 0; }
 .kv-table td { padding: 0.15em 0; }
+.statline td { background: #f1e9da; padding: 0.2em 0.5em; font-size: 9.5pt; }
+.statline .stat b { color: #7a2e1d; }
 
 .registry-location { color: #5a4f42; font-size: 9pt; }
 

@@ -248,9 +248,10 @@ class Schema:
                     if t not in self.tables:
                         self.problems.append((path, f"{name}.{m.name}: unknown table {t!r}"))
         for name, props in self.table_props.items():
-            for k in str(props.get("flow", "")).replace("|", " ").split():
-                if k not in {m.name for m in self.fields.get(name, [])}:
-                    self.problems.append((path, f"{name} flow= names {k!r}, which is none of its fields"))
+            for prop in ("flow", "stat"):
+                for k in str(props.get(prop, "")).replace("|", " ").split():
+                    if k not in {m.name for m in self.fields.get(name, [])}:
+                        self.problems.append((path, f"{name} {prop}= names {k!r}, which is none of its fields"))
 
     def _resolve(self):
         path = PATTERNS / "Setting_Schema.md"
