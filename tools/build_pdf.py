@@ -151,7 +151,9 @@ def build_document(setting: sc.Setting) -> str:
 
     toc.extend(region_toc)
 
-    # ---- every d6 table on one page, at the back where a referee finds it ----
+    # ---- where each setting entry turns up, then every d6 table on one page, at the back ----
+    parts.append(f'<section class="doc index" id="lookup"><h1>Index</h1>{sc.index_html(setting, RESOLVER, "pdf")}</section>')
+    toc.append(toc_entry("Index", "lookup"))
     if quick := sc.quickref():
         inner = "".join(f'<div class="quickref-table"><h3>{html.escape(title)}</h3>{sc.prose_html(rows, render)}</div>'
                         for title, rows in quick)
@@ -197,6 +199,13 @@ code { background: #f1e9da; padding: 0 3px; }
 .toc-level-1 { font-size: 10pt; }
 
 .doc { page-break-before: always; }
+.index { columns: 2; column-gap: 1.2em; font-size: 9pt; }
+.index h1 { column-span: all; }
+.index h2 { font-size: 11pt; break-after: avoid; }
+.index-list { list-style: none; padding: 0; margin: 0; }
+.index-list li { padding-left: 1em; text-indent: -1em; margin-bottom: 0.15em; break-inside: avoid; }
+.index-loc::after { content: " (p. " target-counter(attr(href), page) ")"; color: #766a5a; }
+.index-via { color: #766a5a; font-style: italic; }
 .quickref { columns: 2; column-gap: 1.2em; }
 .quickref h1 { column-span: all; }
 .quickref-table { break-inside: avoid; }

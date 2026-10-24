@@ -28,8 +28,9 @@ ASSETS_SRC = Path(__file__).resolve().parent / "site_assets"
 # The dice roller (assets/dice-overlay.js) loads on first use; this is the one place its three.js version is set.
 THREE_URL = "https://cdn.jsdelivr.net/npm/three@0.150.1/build/three.module.js"
 
-# Pages that are not drawn from setting/: the checklists and the schema reference.
+# Pages that are not one setting file: the index, the checklists and the schema reference.
 TAIL_LINKS = [
+    ("lookup.html", "Index"),
     ("checklists.html", "Review Checklists"),
     ("patterns.html", "Schema Reference"),
 ]
@@ -295,6 +296,14 @@ def parse_checklist_source(rel_path: str) -> dict:
     return {"purpose": purpose, "intro": " ".join(intro_lines), "items": items}
 
 
+def build_lookup(setting: sc.Setting, out: Path) -> None:
+    """Where each setting entry turns up: every location whose tables name it."""
+    page = "lookup.html"
+    body = ["<h1>Index</h1>", '<p class="hint">Every setting entry the region tables name, with each location '
+            "that names it and what there names it.</p>", sc.index_html(setting, RESOLVER, page)]
+    write_page(out, page, page_shell(setting, page, "Index", "\n".join(body)))
+
+
 def build_checklists(setting: sc.Setting, out: Path) -> None:
     page = "checklists.html"
     body = [
@@ -494,6 +503,7 @@ def build(out_dir: Path) -> sc.Setting:
 
     build_index(setting, out_dir)
     build_tables(setting, out_dir)
+    build_lookup(setting, out_dir)
     build_checklists(setting, out_dir)
     build_patterns(setting, out_dir)
     for code in setting.region_order:

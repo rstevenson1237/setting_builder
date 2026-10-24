@@ -735,12 +735,9 @@ class Setting:
         yield from self._check_placements()
         yield from self._check_names()
 
-    def placements(self) -> dict[tuple[str, str, str], set[str]]:
-        """(table, title, place field) -> the locations whose entries name that setting
-        entry through the node the field's from= names."""
-        out: dict[tuple[str, str, str], set[str]] = {}
-        froms = {(table, m.props["from"]): m.name for table, fields in self.schema.fields.items()
-                 for m in fields if "from" in m.props}
+    def namings(self) -> dict[tuple[str, str], list[tuple[str, str]]]:
+        """(table, title) -> (location, node) for each region node naming that setting entry."""
+        out: dict[tuple[str, str], list[tuple[str, str]]] = {}
         for r in self.regions.values():
             if r.folder is None:
                 continue
@@ -754,8 +751,19 @@ class Setting:
                                 continue
                             for item in ([x.strip() for x in str(v).split(",")] if m.is_list else [str(v)]):
                                 table, _, title = item.partition(": ") if m.type == "pull" else (m.arg, "", item)
-                                if f := froms.get((table, node.name)):
-                                    out.setdefault((table, title, f), set()).add(code)
+                                out.setdefault((table, title), []).append((code, node.name))
+        return out
+
+    def placements(self) -> dict[tuple[str, str, str], set[str]]:
+        """(table, title, place field) -> the locations whose entries name that setting
+        entry through the node the field's from= names."""
+        froms = {(table, m.props["from"]): m.name for table, fields in self.schema.fields.items()
+                 for m in fields if "from" in m.props}
+        out: dict[tuple[str, str, str], set[str]] = {}
+        for (table, title), hits in self.namings().items():
+            for code, node in hits:
+                if f := froms.get((table, node)):
+                    out.setdefault((table, title, f), set()).add(code)
         return out
 
     def _check_placements(self):

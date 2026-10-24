@@ -606,6 +606,48 @@ LOC_CODE_FULL_RE = re.compile(r"([A-Z]+)\.(\d+)")
 EXITS_HEAD = tp.literal_head(str(LOCATION.line("exits").props["pattern"]))
 
 
+def index(setting: "Setting") -> list[tuple[str, list[tuple[str, dict[str, list[str]]]]]]:
+    """Each entry table the region tables name: its entries in title order, each with the
+    places naming it - a region's seed, then its locations, in region order - and the nodes
+    there that do."""
+    named, order = region_tables().namings(), {c: i for i, c in enumerate(setting.region_order)}
+    where = lambda code: (order.get(code.split(".")[0], len(order)), int(code.partition(".")[2] or 0))
+    out = []
+    for t in (t for t in setting.tables if t.kind == "entry"):
+        rows = []
+        for e in sorted(t.entries, key=lambda e: strip_article(e.title).lower()):
+            at: dict[str, list[str]] = {}
+            for code, node in sorted(named.get((t.name, e.title), []), key=lambda h: where(h[0])):
+                if node not in at.setdefault(code, []):
+                    at[code].append(node)
+            if at:
+                rows.append((e.title, at))
+        if rows:
+            out.append((t.name, rows))
+    return out
+
+
+def index_html(setting: "Setting", resolver: "LinkResolver", page: str, heading: str = "h2") -> str:
+    """The index: each entry linked, then each location naming it, linked, with the nodes
+    there that name it."""
+    spaced = lambda node: re.sub(r"(?<=[a-z])(?=[A-Z])", " ", node)
+    out = []
+    for table, rows in index(setting):
+        items = []
+        for title, at in rows:
+            locs = []
+            for code, nodes in at.items():
+                region, _, num = code.partition(".")
+                label = f'<span class="index-via">{", ".join(map(spaced, nodes))}</span>'
+                href = resolver.href("location", region, int(num), page) if code in setting.all_locations else \
+                    resolver.href("region", region, page) if not num and region in setting.regions else None
+                locs.append(f'<a class="index-loc" href="{href}">{code}</a> {label}' if href else f"{code} {label}")
+            items.append(f'<li><a href="{resolver.href("entry", table, title, page)}">{html.escape(title)}</a>'
+                         f' - {"; ".join(locs)}</li>')
+        out.append(f'<{heading}>{html.escape(table)}</{heading}><ul class="index-list">{"".join(items)}</ul>')
+    return "".join(out)
+
+
 def quickref() -> list[tuple[str, str]]:
     """Every d6 table a setting file's format holds, titled, its rows as written: what the
     PDF's quick reference gathers onto one page."""
