@@ -384,6 +384,11 @@ code {
 .index-list { list-style: none; padding: 0; columns: 2 18rem; column-gap: 2rem; }
 .index-list li { break-inside: avoid; margin-bottom: 0.35rem; }
 .index-via { color: var(--ink-soft); font-style: italic; font-size: 0.9em; }
+.map-key { font-size: 0.9rem; margin: 0.6rem 0 1.4rem; }
+.map-key h4 { font-size: 0.9rem; margin: 0.6rem 0 0.2rem; }
+.map-key ul { list-style: none; padding: 0; margin: 0; columns: 3 12rem; column-gap: 1.5rem; }
+.map-key li { break-inside: avoid; }
+.map-key-type { color: var(--ink-soft); font-style: italic; font-size: 0.9em; }
 .readaloud { background: var(--bg-alt); border-left: 3px solid var(--accent); border-radius: 4px; padding: 0.6rem 0.9rem; }
 .referee-notes { color: var(--ink-soft); font-style: italic; }
 

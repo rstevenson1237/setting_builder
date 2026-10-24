@@ -242,7 +242,7 @@ def build_index(setting: sc.Setting, out: Path) -> None:
     body.append(section("Regions", f'<div class="region-list">{"".join(region_rows)}</div>'))
 
     body.append(section("Region Connections", connections_list(sc.join_lines(setting))))
-    if sheets := sc.sheets_html(sc.maps_fit_site):
+    if sheets := sc.sheets_html(sc.maps_fit_site, (setting, RESOLVER, page)):
         body.append(section("Sheets", sheets))
 
     write_page(out, page, page_shell(setting, page, setting.name, "\n".join(body)))
@@ -401,7 +401,7 @@ def build_region(setting: sc.Setting, out: Path, code: str) -> None:
     def loc_list(nums) -> str:
         return f'<div class="location-list">{"".join(loc_row(n) for n in nums)}</div>'
 
-    if drawn := sc.drawn_html(code, sc.maps_fit_site):
+    if drawn := sc.drawn_html(code, sc.maps_fit_site, (setting, RESOLVER, page)):
         body.append(section("Map", drawn))
     body.append(section("Locations", loc_list(sorted(region.locations))))
     if lines := sc.connection_lines(code, setting):

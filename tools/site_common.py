@@ -562,14 +562,52 @@ def parse_locations_gazetteer(region_code: str) -> dict[int, dict]:
 
 # -- Maps, drawn by tools/maps.py ---------------------------------------------------
 
-def _figure(svg: str | None, caption: str) -> str:
-    return f'<figure class="diagram plan-figure">{svg}<figcaption>{html.escape(caption)}</figcaption></figure>' if svg else ""
+MapKey = tuple["Setting", "LinkResolver", str]     # what a key links with: the setting, a resolver, the page
+MAP_TEXT_RE = re.compile(r"<text[^>]*>([^<]*)</text>")
+MAP_LABEL_RE = re.compile(r"((?:up |down )?to )?([A-Z]+\.\d+)\b")
 
 
-def sheets_html(fit: str) -> str:
-    """Every terrain sheet whole: the play map."""
+def map_key(svg: str, key: MapKey) -> str:
+    """The key beside a drawn map: each location its labels show, linked, with its name and
+    type, by region; then each location a way off the map leads to."""
+    setting, resolver, page = key
+    shown, leads = {}, {}
+    for raw in MAP_TEXT_RE.findall(svg):
+        if (m := MAP_LABEL_RE.match(html.unescape(raw).strip())) and m.group(2) in setting.all_locations:
+            (leads if m.group(1) else shown)[m.group(2)] = True
+    order = {c: i for i, c in enumerate(setting.region_order)}
+    where = lambda code: (order.get(code.split(".")[0], len(order)), int(code.split(".")[1]))
+
+    def item(code: str) -> str:
+        loc = setting.all_locations[code]
+        href = resolver.href("location", loc.region, loc.num, page)
+        kind = f' <span class="map-key-type">{html.escape(loc.weight)}</span>' if loc.weight else ""
+        return f'<li><a href="{href}">{code}</a> {html.escape(loc.name)}{kind}</li>'
+
+    regions: dict[str, list[str]] = {}
+    for code in sorted(shown, key=where):
+        regions.setdefault(code.split(".")[0], []).append(code)
+    out = []
+    for r, codes in regions.items():
+        head = f'<h4><a href="{resolver.href("region", r, page)}">{r} {html.escape(setting.regions[r].name)}</a></h4>' \
+            if len(regions) > 1 else ""
+        out.append(head + "<ul>" + "".join(map(item, codes)) + "</ul>")
+    if off := sorted(set(leads) - set(shown), key=where):
+        out.append("<h4>Leading off it</h4><ul>" + "".join(map(item, off)) + "</ul>")
+    return f'<div class="map-key">{"".join(out)}</div>' if out else ""
+
+
+def _figure(svg: str | None, caption: str, key: MapKey | None = None) -> str:
+    if not svg:
+        return ""
+    return (f'<figure class="diagram plan-figure">{svg}<figcaption>{html.escape(caption)}</figcaption></figure>'
+            + (map_key(svg, key) if key else ""))
+
+
+def sheets_html(fit: str, key: MapKey | None = None) -> str:
+    """Every terrain sheet whole: the play map, with its key where a link target is given."""
     import maps
-    return "".join(_figure(maps.sheet_svg(f.stem, fit), f"{f.stem}, drawn from the setting's tables")
+    return "".join(_figure(maps.sheet_svg(f.stem, fit), f"{f.stem}, drawn from the setting's tables", key)
                    for f in sorted(SETTING.glob("*.json")))
 
 
@@ -578,14 +616,14 @@ def cut_html(code: str, num: int, fit: str) -> str:
     return ""
 
 
-def drawn_html(code: str, fit: str) -> str:
+def drawn_html(code: str, fit: str, key: MapKey | None = None) -> str:
     """A DANGEROUS region's block maps, from its tables by artgen. Other ratings'
     region maps are paused (`maps.region_svg` draws one)."""
     import maps
     region = maps.world_for(SETTING).regions.get(code)
     if region is None:
         return ""
-    return "".join(_figure(maps.block_svg(code, bid, fit), f"{bid} {b.props.get('name', '')}".strip())
+    return "".join(_figure(maps.block_svg(code, bid, fit), f"{bid} {b.props.get('name', '')}".strip(), key)
                    for bid, b in maps.drawn_blocks(region).items())
 
 
