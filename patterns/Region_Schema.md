@@ -9,7 +9,7 @@ each region, by rating, beside its tables:
   that rating's own.
 - its `brief`, `setting/region/[Code].md`, written from the seed and the tables and stale
   when they change: the seed's fields as prose, then one list field per `holds=`, each
-  `- ` item opening with the codes it is about. `holds=` names location types, `entrance`
+  item opening with the codes it is about. `holds=` names location types, `entrance`
   (a location joined to a region that is not DANGEROUS) or `rest`; each location is held
   by the first field naming it, and named by exactly that one. How long each field or item
   runs is `BRIEF.md`'s `words`.
@@ -58,11 +58,11 @@ region Safe {
     View text
     Approach text           // every Entry
     Law text                // every Law
-    Arrival text list holds=Gate    // what a party meets there that the Approach does not say
+    Arrival text list out=bullets holds=Gate    // what a party meets there that the Approach does not say
     Plan text               // how the locations sit, what is reached through what
-    Places text list holds=rest     // what each holds and what a party goes there for, what is noticed
+    Places text list out=bullets holds=rest     // what each holds and what a party goes there for, what is noticed
                                     // or heard there, a secret shown only as what a party can notice
-    Tables text             // d6 Events
+    Tables text out=table   // d6 Events
   }
   drawn Inhabitants Services Leads Secrets
 }
@@ -73,10 +73,10 @@ region Wild {
     Overview text           // the Seed and both Rungs, each with what sets it off
     Approach text           // every Entry, and the crossing on and off the best route
     Terrain text            // the Seed's terrain, then every Ruling
-    Ways text list holds=Route      // how long it takes, its stops in order and where each leads
-    Landmarks text list holds=Landmark   // what shows of it and from how far, how it is reached from a Way
-    Places text list holds=rest     // what is noticed or heard there, a secret shown only as what a party can notice
-    Tables text             // d6 Encounter
+    Ways text list out=bullets holds=Route      // how long it takes, its stops in order and where each leads
+    Landmarks text list out=bullets holds=Landmark   // what shows of it and from how far, how it is reached from a Way
+    Places text list out=bullets holds=rest     // what is noticed or heard there, a secret shown only as what a party can notice
+    Tables text out=table   // d6 Encounter
   }
   drawn Inhabitants Procedures Leads Secrets
 }
@@ -87,10 +87,10 @@ region Dangerous {
     Overview text           // the Seed and both Rungs, each with what sets it off
     Approach text           // every Entry
     Conditions text
-    Entrances text list holds=entrance   // how it shows from outside
-    Prizes text list holds=High     // what holds it, and its prize
-    Places text list holds=rest     // what is noticed or heard there, a secret shown only as what a party can notice
-    Tables text             // Danger, 6 noticing to 1 acting
+    Entrances text list out=bullets holds=entrance   // how it shows from outside
+    Prizes text list out=bullets holds=High     // what holds it, and its prize
+    Places text list out=bullets holds=rest     // what is noticed or heard there, a secret shown only as what a party can notice
+    Tables text out=table   // Danger, 6 noticing to 1 acting
   }
   drawn Inhabitants Loot Alarm Procedures Leads Secrets
 }

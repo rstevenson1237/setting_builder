@@ -14,9 +14,9 @@ read "setting/Bestiary.md"
 read "setting/Factions.md"
 read "setting/region/Regions.md"
 read "setting/Procedures.md" part="Time and Distance, Weather"
-field "Seed.who" reads="Bestiary, Factions"
-field "Rung" reads="Truths.Truth, History.Event"
-field "Ruling" reads="Seed.terrain"
+field "Seed.who" from="Bestiary, Factions"
+field "Rung" from="Truths.Truth, History.Event"
+field "Ruling" from="Seed.terrain"
 ```
 
 ## Instructions

@@ -8,7 +8,7 @@ A registry of physical objects that trigger something elsewhere - an actual key,
 template scope="setting" writes="setting/Keys.md" shape="Keys"
 read "setting/Setting.md"
 read naming="Keys"
-field "Keys.Opens" reads="Lock.key"
+field "Keys.Opens" from="Lock.key"
 ```
 
 ## Instructions

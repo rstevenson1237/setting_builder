@@ -10,10 +10,10 @@ template scope="[Region Code]" writes="setting/region/[Region Code]/Connections.
 read "setting/region/[Region Code]/Seed.md"
 read "setting/region/Regions.md" part="the regions this one joins"
 read "setting/region/[Region Code]/Locations.md"
-field "Way.to" reads="Entry.from, Location.type"
-field "Connection.to" reads="Entry.from, Location.type"
-field "Connection.width" reads="Conditions.width"
-field "Block.locations" reads="Location.type"
+field "Way.to" from="Entry.from, Location.type"
+field "Connection.to" from="Entry.from, Location.type"
+field "Connection.width" from="Conditions.width"
+field "Block.locations" from="Location.type"
 ```
 
 ## Instructions

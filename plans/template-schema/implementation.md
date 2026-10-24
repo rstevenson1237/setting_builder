@@ -1,28 +1,29 @@
-# Implementation - a template schema, and no template hard-coded in Python
+# Implementation - a template schema, and no editable template hard-coded in Python
 
-Task plan for `spec.md` once approved. Commits cite tasks as `template-schema T1`. Each
-phase ends with `python3 tools/validate_setting.py` clean of errors, both `--check` builds
-passing, and `--read-set`, `--skeleton` for every step unchanged in what they list (the
-oracle), and commits on its own.
+Task plan for `spec.md` once approved, run as one change in phases. Commits cite tasks as
+`template-schema P1.2`. Each phase ends with these clean, and is committed on its own:
+- `python3 tools/validate_setting.py`
+- both `--check` builds
+- `--read-set` and `--skeleton` for every step, unchanged against the baseline, but for
+  the change a phase sets out to make (phase 2: the `- ` hint on a bullets field)
+- the site and PDF HTML byte-equal to the baseline (phases 1-4), but for `patterns.html` and
+  the explorer's script and styles where a phase adds to the Schema Reference
 
-| Task | Spec | What | Files |
-|---|---|---|---|
-| T0 | | Baseline: `metrics.py`, every step's `--read-set` and `--skeleton`, the site and PDF as built, kept for diffing | this folder |
-| T1 | T1, D1, D5 | `kdl.py` takes `"""` multi-line strings; `Template_Schema.md` with the node definitions; `templates.py` reads its enums and nodes in place of `NODES`, `SHAPES`, `RUNS`, `SCOPES`, `LENGTH_UNITS`; `schema_graph.py` draws it | `tools/kdl.py`, `tools/templates.py`, `tools/schema_graph.py`, `templates/Template_Schema.md` |
-| T2 | T2-T4 | `field` gains `from`, `out`, `items`, `note`; `from` resolves; `--read-set` reports per field; the length lint moves onto it; the validator errors on a `from` naming an unread file | `tools/templates.py`, `tools/validate_setting.py`, `tools/metrics.py` |
-| T3 | M1 (setting) | 18 setting templates to `.kdl`, one commit, `--read-set`/`--skeleton` diffed; the markdown files removed in the same commit | `templates/setting/`, `STEPS.md`, `README.md` |
-| T4 | M1, M2 (region) | 7 region templates to `.kdl`; `Tables` split by rating with `inherit` | `templates/region/` |
-| T5 | T5 | `format` node; `Location`, `Procedures`, `Treasure`, `Factions`, `Setting` formats; `skeleton` draws from `format`; `check_location_file`, `check_procedures`, `check_treasure_tables`, `check_rumours` read their shape from it; `parse_location_file`, `parse_exits`, `LOC_HEADER_RE` retire | `tools/templates.py`, `tools/validate_setting.py`, `tools/site_common.py` |
-| T6 | T6 | `cite` node; `render_inline`, `cite_attrs`, the validator's citation checks and `Location`'s Citations list read it | `tools/site_common.py`, `tools/validate_setting.py` |
-| T7 | P1 | The view engine (`tools/views.py`): row grammar, `each`, `part`, `join`, `sort`, `lookup`. `entry_card`, `table_html`, `bestiary_prose` and the seven `_drawn` functions replaced by `view` nodes; `site`/`pdf` HTML diffed against T0 until equal | `tools/views.py`, `tools/site_common.py`, `templates/view/` |
-| T8 | P2 | Document and Site layout as `view` nodes; `build_pdf.py` and `build_site.py` shrink to the engine and a target block; `PDF_CSS` to `tools/site_assets/pdf.css` | `tools/build_*.py`, `templates/view/` |
-| T9 | P3 | The first presentation types (`readaloud`, `statline`, `index`, `quickref`, `runhead`), each its own commit, each seen in the PDF before the next | `Template_Schema.md`, `tools/views.py`, `templates/view/` |
-| T10 | P4, T8 | `templates.html`; judgement checks as `check` templates; `parse_checklist_source` retires | `tools/build_site.py`, `templates/checks/` |
-| T11 | M3 | `README.md` map, `CLAUDE.md` bullet, `metrics.py` counts the hard-coded shapes left (target: none but the named code views), `metrics-after.txt` | `README.md`, `CLAUDE.md`, this folder |
+| Phase | Task | Spec | What | Files |
+|---|---|---|---|---|
+| 0 | 0.1 | | Baseline: `metrics.py`, every step's `--read-set` and `--skeleton`, the built site and PDF HTML, kept for diffing | this folder |
+| 1 | 1.1 | T1 | `Template_Schema.md`; `templates.py` reads its enums and nodes in place of its tuples; `schema_graph.py` reads it | `templates/Template_Schema.md`, `tools/templates.py`, `tools/schema_graph.py` |
+| | 1.2 | T2, T4 | `reads=` becomes `from=` in `templates.py` and every template fence; file and `BRIEF:` sources; `items=` | `tools/templates.py`, `templates/**` |
+| 2 | 2.1 | T3, D1 | `enum Out`, value defaults, member overrides; `tables.py` reads `out`; `--skeleton` draws from it | `patterns/*.md`, `tools/tables.py`, `tools/templates.py` |
+| 3 | 3.1 | F1 | `format` node; `Location`, `Procedures`, `Setting`, `Factions` formats; skeleton, validator and the shared header pattern read it; their `## Template` blocks are cut | `tools/templates.py`, `tools/validate_setting.py`, `tools/site_common.py`, `templates/**` |
+| | 3.2 | F2, D2 | `cite=` on citable tables; `cite` nodes in `Location.md`; `CITE_LABELS` and `## Citations` retire; form-against-regex check | `patterns/Setting_Schema.md`, `templates/region/Location.md`, `tools/validate_setting.py` |
+| | 3.3 | F3, F4 | Bestiary `flow=`; `check_top_level_files` from `writes` | `patterns/Setting_Schema.md`, `tools/site_common.py`, `tools/validate_setting.py`, `templates/setting/Bestiary.md` |
+| 4 | 4.1 | U1 | Templates drawn in `patterns.html`, each entry with members, sources, outputs, format and Instructions | `tools/schema_graph.py`, site assets for the reference |
+| | 4.2 | M1, M2 | Instructions pass: cut each rule now carried by a schema, format or `out`; `README.md` | `templates/**`, `README.md` |
+| 5 | 5.n | §5 | Each approved presentation type, one commit each, seen in the PDF before the next | as each needs |
 
-**Order and risk.** T1-T2 change no output. T3-T4 are the large mechanical change and the
-one most worth a second pair of eyes: the oracle (`--read-set`, `--skeleton`) catches a
-lost read, not a lost sentence of guidance, so each template's `guide` lines are diffed
-against its old Instructions by hand. T7 is the largest single risk: the drawn sections and
-the entry cards are the output people see, so its definition of done is byte-equal HTML
-for every page before any change in appearance (T9) is allowed.
+**Risk.** Phase 3.1 is the one change that reaches the renderers before phase 5. It is
+small (one header pattern), but a location write-up the writer set down loosely must still
+parse, so it is run against every existing location before commit. Phase 4.2 cuts
+Instructions text, and the oracle can't see a lost rule there. Each template's cuts are
+diffed by hand against the schema line or format that now carries the rule.

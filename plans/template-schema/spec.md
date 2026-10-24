@@ -1,244 +1,182 @@
-# Spec - a template schema, and no template hard-coded in Python
+# Spec - a template schema, and no editable template hard-coded in Python
 
 Proposals to approve line by line: tick, strike or amend. **Depends on** marks a proposal
-that stands only with another. Section 6 holds the open decisions, each with a
-recommendation the proposals assume.
+that stands only with another. Section 7 holds the open decisions, each with a
+recommendation the proposals assume; all are decided.
+
+The measure for every proposal: **would the user reasonably want to change this
+directly?** If so, it is stated once, in a template's fence or a schema, and the tools read it
+there. If it only applies requested styling, or follows from a schema or template decision,
+it stays code. Templates stay markdown with an embedded ```kdl fence (kdl-templates D4).
+The PDF and site change only in phase 5, and only by proposals approved one at a time.
 
 ---
 
-## 1. The template schema
+## 1. The schema of a template
 
-- [ ] **T1. `templates/Template_Schema.md`.** One ```kdl fence of node definitions, in the
-  notation `patterns/` already uses (`node`, `enum`, `value`), read by `tools/templates.py`
-  exactly as `tools/tables.py` reads `patterns/`. `NODES`, `SHAPES`, `RUNS`, `SCOPES`,
-  `LENGTH_UNITS` and the docstring grammar leave the Python; each is an enum or node here.
-  `tools/schema_graph.py` draws it into `patterns.html` beside the others.
+- [ ] **T1. `templates/Template_Schema.md`.** One ```kdl fence defining every fence node
+  (`template`, `read`, `run`, `field`, `step`, and `format` from F1), in the notation
+  `patterns/` uses. `Scope`, `Shape`, `Run`, `Once` and `Standing` become enums, and the field
+  lengths are `field`'s `length` members. `tools/templates.py` reads them in place of its
+  `NODES`, `SHAPES`, `RUNS`, `SCOPES`, `LENGTH_UNITS` and `STANDING` tuples, and its docstring
+  grammar is cut. `tools/schema_graph.py` reads it beside `patterns/`.
 
-- [ ] **T2. A template is one `.kdl` file** (`templates/setting/Bestiary.kdl`). Nodes:
-
-  ```kdl
-  node template {                // the file's one root; its argument is the artifact's name
-    scope Scope                  // setting | [Region Code]
-    writes path list             // files written, `[Region Code]` etc. as now
-    shape shape list             // a Setting_Schema table, or seed | brief | tables | gazetteer
-    step step list               // STEPS.md ids that cite it; the validator checks both ways
-    purpose text                 // one or two sentences; the user-facing page's first line
-  }
-  node pull {                    // a file a step reads, as `read` is now
-    path path
-    part gloss opt               // the part of it read
-    once enum Once opt           // written: read once the artifact exists
-  }
-  node run { flag Run_Flag; arg gloss opt }       // what the validator prints for the step
-  node guide { text text }       // one writing rule; many; shown to the writer and on the page
-  node field {                   // one field of the artifact
-    name path                    // Table.Member, as a `field` line names it now
-    from from list               // where it is pulled from: see T3
-    out Out                      // how it is set down: see T4
-    words length opt             // N | N-M | N+ | -M
-    sentences length opt
-    items length opt             // for out=bullets
-    note text opt                // a rule for this field only
-  }
-  node step { id step; ... }     // what only one step of several adds: pull, run, field
-  node format { ... }            // a file's own shape: see T6
-  node view { ... }              // how an entry, a page or a document is drawn: see section 3
-  node cite { ... }              // a citation's grammar: see T7
-  ```
-
-  Check: every `from` resolves; every `field` names a member of the template's shape
-  (today only the `reads` do); every member of the shape has a `field` or is declared
-  `inherit` (the 3 rating schemas' members need not be restated per rating: see D2); a
-  template with `step` has its steps cited both ways.
-
-- [ ] **T3. `from=` states where a field is pulled from**, one or more of:
+- [ ] **T2. A field states where it pulls from: `from=`, which replaces `reads=`.** One name
+  for one thing. A source is one of:
 
   | Form | Reads |
   |---|---|
-  | `"setting/Truths.md"` | a file whole |
-  | `"Truths.Truth"` | a table member, so the read set shrinks to the column |
-  | `"BRIEF.md#Bestiary"` | a lever or line of the brief |
-  | `"authored"` | nothing: the writer invents it. The default for a member with no source, stated so a reader can see no source was forgotten |
-  | `"derived: Location.tags"` | computed from another field by rule, never written (a count, a total, a stub) |
-  | `"enum"` | an item of its schema enum, no source needed |
+  | `Truths.Truth`, `Encounter`, `Dressing.mark` | a table, node or member, resolved as `reads=` is now |
+  | `"setting/Procedures.md"` | a file, which the template must also `read` |
+  | `BRIEF:Bestiary` | a `BRIEF.md` lever |
 
-  `--read-set STEP` reports per field, not per file. `metrics.py` READ SET gains the
-  fields column. A field whose `from` names a file the template never `pull`s is an error.
+  A member with no `field` line, or with no `from`, is **authored**: the writer invents it.
+  No line is required. The user-facing page (U1) shows the source of every member of a
+  template's shape, written or not, so a missing source is visible without boilerplate.
+  Check: each `from` resolves, and a file source has its `read` line.
 
-- [ ] **T4. `out=` states how a field is set down**, one word from an enum defined in the
-  schema. Currently-used shapes, now named:
+- [ ] **T3. Output type is a schema fact: `out=`.** **Depends on** D1. `Common_Schema.md`
+  gains `enum Out line prose bullets table tag`. Each `value` declares its
+  default (`value text out=prose`, `value relation out=bullets`), and a member overrides it
+  where it differs (`Roots text out=bullets`). It goes in `patterns/` and not the
+  template because the same member reads the same way wherever it appears, and the
+  renderers already read every table through the schema. `--skeleton` draws its hint from
+  `out` (a paragraph, or `- ` items), and the page shows it. The renderers don't read it in
+  this plan (phase 5 may).
 
-  | `out` | Is | Today |
-  |---|---|---|
-  | `line` | one value on one line | `Type: Humanoid` |
-  | `prose` | a paragraph or more | Description, Referee Notes |
-  | `bullets` | one `- ` item each | Roots, Services, Relations |
-  | `rows` | label / value pairs | an entry card's table |
-  | `table` | columns by header, rows by number | roll tables, Procedures' Weather |
-  | `tag` | a short word set against a title | `(Humanoid)`, `d6` weight badge |
-  | `cite` | a citation to another entry | `(Lore: Title)` |
-  | `figure` | a drawing from the data | region sheet, location cut |
-
-  The length keys (`words`, `sentences`, `items`) apply to `prose`, `bullets`, `line`.
-  The writer's skeleton, the linter and the renderer all take shape from `out`; today the
-  schema's `text` / `list` / `string` say what a value is and nothing says how it reads.
+- [ ] **T4. `items=` length on a `field`** for an `out=bullets` member (`N`, `N-M`, `N+`,
+  `-M`, as `words` and `sentences`), linted by `check_lengths`.
 
 ---
 
-## 2. One definition for a file's shape
+## 2. Shapes the user edits, moved into the fence
 
-**Depends on** T2.
+**Depends on** T1.
 
-- [ ] **T5. Every `## Template` block, skeleton string and `parse_*` regex becomes a
-  `format`.** The write-up of a location, the Procedures sections, Treasure's `TABLES`
-  line, the Factions relation table, the Setting header: each is a `format` of `line`,
-  `block`, `table` nodes naming the field each fills. One definition feeds three readers:
+- [ ] **F1. A `## Template` block that a tool also parses becomes a `format` node in its
+  template's fence**: `Location`, `Procedures`, `Setting` and `Factions` (the Relations table
+  written out verbatim). A format is an ordered list of lines, each naming the field it holds
+  and how it is marked:
 
   ```kdl
-  format "Location" file="setting/region/[Region Code]/[n].md" {
-    line header "{code} **{name}** ({type}) - *{tags}*"         // out=line
-    block summary  out=prose  sentences="2-4" mark=bold         // read aloud; each Feature in bold
-    block notes    out=prose  style=italic
-    each feature   out=bullets  label="**{name}:**"  text=prose // one per Feature entry
-    line exits     "**Exits:** {list}"  out=bullets
+  format {
+    line header pattern="[Location Code] **[Location Name]** ([type]) - *[tags]*" hint="its three tags"
+    line summary pattern="[Player Summary]" hint="what a party sees on arriving, ..."
+    line notes pattern="*[Referee Notes]*" hint="size, shape, ..."
+    line feature pattern="**[Feature Name]:** [feature]" count="many" hint="..."
+    line exits pattern="**Exits:** [exits]" count="optional" hint="..."
   }
   ```
 
-  - the writer's skeleton is the format with hints, as `--skeleton` draws now
-  - `check_location_file`, `LOC_HEADER_RE`, the header-tag count and the Exits rule are
-    read from the format, not hand-written
-  - `parse_location_file` and `parse_exits` retire: the format is the parser
-  - the site and PDF draw a location from it
+  It replaces the second copy in each place:
+  - `--skeleton` draws the format, with its hints, where it drew the `## Template`
+  - `validate_setting.py` reads it for `LOC_HEADER_RE`, `FEATURE_RE` and the Exits label,
+    and checks each setting file a format shapes against it, in place of
+    `PROCEDURES_SECTIONS` and the d6 checks
+  - `site_common.py`'s `LOC_HEADER_RE`, `FEATURE_RE` and Exits label are compiled from the
+    format. This is the only change to the renderers outside phase 5, and the output is
+    unchanged. `parse_setting` keeps its own lenient reading.
 
-- [ ] **T6. A citation is a `cite`**, defined once:
+  Treasure's `TABLES` block stays prose in Instructions. It is guidance the user edits and
+  no tool reads, so it has no second copy.
 
-  ```kdl
-  cite Lore       form="(Lore: {title})"            to=entry:Lore
-  cite Bestiary   form="({demeanor}, {count}, Bestiary : {title})"   to=entry:Bestiary  show=count
-  cite Roll       form="({table}, d{n})"            to=table
-  cite Test       form="(Test of {test}, {x}d, {type})"  forced=damage
-  ```
+- [ ] **F2. A citable table states its label in the schema: `cite=`** on its
+  `Setting_Schema.md` table line (`table "Named Creatures" ... cite="Named Creature"`).
+  `validate_setting.py`'s `CITE_LABELS` and `Location.md`'s `## Citations` list for those
+  tables are derived from it, so a new citable table is one word. The three special forms
+  (Bestiary, a table roll, a Test) become `cite` nodes in `Location.md`'s fence, with their
+  `form`. **Depends on** D2 for how the renderer's regexes follow.
 
-  `render_inline`'s regexes, `cite_attrs`, the validator's citation checks and
-  `Location.md`'s `## Citations` list all read these. A new citable table is one line.
+- [ ] **F3. The Bestiary's flowed fields are named in the schema.** **Depends on** D3.
+  `table Bestiary ... flow="Description Range | Numbers Sign Disposition"` (the fields of
+  each sentence) replaces `BESTIARY_FLOW`. The joining words ("found in groups of",
+  "heralded by") stay in `bestiary_prose`. They are styling. `Bestiary.md`'s paragraph
+  explaining the flow is cut, and the page shows the flow instead.
 
----
-
-## 3. Presentation: what is drawn, and how
-
-**Depends on** T2.
-
-- [ ] **P1. `view` nodes replace `entry_card`, `table_html`, `bestiary_prose`, the drawn
-  `_inhabitants` ... `_secrets`, and the page layouts in `build_site.py` and `build_pdf.py`.**
-  A view is a tree of presentation nodes over fields; the site and the PDF read the same
-  tree and differ only in a small `target` block (columns, page breaks, nav).
-
-  ```kdl
-  view entry Bestiary {
-    head   "{title}" tag="Type" stat="AD"                       // card heading
-    prose  "Description" join="; " {                             // two sentences from five fields
-      part Description
-      part Range
-      part Numbers fmt="found in groups of {}" with=Sign fmt2=", heralded by {}"
-      part Disposition
-      sentences 2
-    }
-    rows   Special MA
-  }
-  view drawn Inhabitants for=region {                            // was _inhabitants
-    each Person    in=People       row="{at} **{name}**, {role}{ (Faction: {member})} - wants {wants}; knows {knows}{; gives (Quest: {quest})}"
-    each Garrison  in=Garrison     row="{at} {who} under arms - {members}; {call} brings them within {within}"
-    each Encounter in=Challenges   row="{at} {who} - {doing}; {reaction.rest}"
-  }
-  ```
-
-  The row grammar is a format string: `{field}`, `{ text {field} }` for a segment kept only
-  when its field is set, `{a.b}` for a member, `join=` and `sort=`. This is the whole
-  language (see D3). A row that needs more is a missing field in the schema, not a
-  new feature of the language.
-
-- [ ] **P2. Document and page layout as data.** `templates/view/Document.kdl` (the PDF's
-  order: cover, contents, setting pages, regions, each region's locations, depth of
-  contents, columns for locations) and `templates/view/Site.kdl` (nav, index, region and
-  location pages). The CSS leaves the Python strings for `tools/site_assets/pdf.css` and
-  the existing site stylesheet; a `target` names which sheet.
-
-- [ ] **P3. Presentation types not used now.** Each is an `out` or `view` word added to the
-  schema, each justified by data the build already holds, none requiring a new field:
-
-  | Type | What it adds | Data already there |
-  |---|---|---|
-  | `readaloud` | a boxed paragraph set apart from referee text | a location's Player Summary, now an unmarked paragraph before the italic Referee Notes |
-  | `statline` | the compact `AD 1d6-1 · MA 2 · Special` strip a referee scans | Bestiary `AD`, `MA`, `Special`; Named Creatures |
-  | `callout` | a ruled box for referee-only matter | Secrets, hidden exits, Conditions of a DANGEROUS region |
-  | `reveal` | referee-only text collapsed on the site, a margin note in print | the Rumours' `Settled at` column, a Secret's `fact` |
-  | `timeline` | dated entries on a rail, in order | History by `Age`; the PDF already carries a `.timeline` rule that no content uses |
-  | `glossary` | a term list, set apart, with page references | Language roots, "Coined here" entries |
-  | `index` | an alphabetical or by-kind finding list with page links | every entry's `Found at` / `Appears at`: "Bestiary by region", "Quests by giver", "Keys by lock" |
-  | `quickref` | every d6 table (Weather, Encounters, Carousing, Wounds) on one page | Procedures' tables |
-  | `rows-merged` | a roll table whose adjacent equal results merge: `1-2 ...` | Rumours, Treasure, Procedures tables |
-  | `runhead` | the region and location code in the page margin | codes already in every heading; the PDF has page numbers only |
-  | `backlinks` | "Seen at A.3, G.6" under an entry | the same `Found at` data, computed |
-
-  Recommended first: `readaloud`, `statline`, `index`, `quickref`, `runhead`: they change
-  how the PDF is used at a table (finding a thing, reading a room aloud) and need no new
-  authored content. `callout`/`reveal` follow where the referee-only rule is
-  settled (D4).
-
-- [ ] **P4. A user-facing page of the templates.** `templates.html`, drawn from the
-  `.kdl` files by `build_site.py`, one entry per template: purpose, steps, what it reads
-  (fields, not files), each field's source and output, the guides, a worked skeleton.
-  The judgement checks appear as `check` templates (T8) and drop `parse_checklist_source`.
+- [ ] **F4. The setting files a step must have written come from the templates' `writes`**,
+  in place of `check_top_level_files`' hand-kept list.
 
 ---
 
-## 4. Migration of the existing templates
+## 3. The user-facing statement
 
-- [ ] **M1. Mechanical, with the validator as the oracle.** For each of the 25
-  generation templates: Context fence -> `template`/`pull`/`run`/`field`/`step`;
-  Instructions -> `guide` lines (kept in the maintainer's words; a rule already carried by
-  a schema comment is cut, per `CLAUDE.md`); `## Template` -> `format`; `## Citations` ->
-  `cite`. Each is checked by `--read-set` and `--skeleton` giving the same reads and shape
-  before and after, then both `--check` builds.
-- [ ] **M2. `Tables.md` splits** into `Tables_Safe.kdl`, `Tables_Wild.kdl`,
-  `Tables_Dangerous.kdl` sharing a base by `inherit`, so a member's `from` and `out` are
-  stated once per rating rather than guessed (D2).
-- [ ] **T8. Judgement checks** keep their three files as `.kdl` with `check` and `ask`
-  nodes (the item, what to look at, what a finding is), read by the site as data.
-- [ ] **M3. `STEPS.md` and `README.md`** cite `.kdl` paths; the validator's
-  `TEMPLATE_CITE_RE` follows. `CLAUDE.md` bullet 3 gains: "A new artifact adds its
-  template".
+- [ ] **U1. Templates in the Schema Reference.** `schema_graph.py` reads `templates/` as it
+  reads `patterns/`: each template is a definition, and each name on its fence lines
+  links to the schema definition it names. A template's entry shows its purpose, the steps
+  that cite it, what it reads, and every member of its shape with source (T2), output (T3)
+  and length. It also shows its format (F1) and its Instructions text as written. There is
+  no new page and no new builder code: `patterns.html` is already drawn from
+  `schema_graph.py`.
 
 ---
 
-## 5. What stays code
+## 4. What stays code, by the measure
 
-- The engine: reading KDL, resolving `from`, interpreting `view`, drawing SVG maps
-  (`maps.py`), the dice overlay, link resolution per target.
-- Judgements that need a lookup across files (a key has a lock, a quest points to a place,
-  a rumour is settled): these are named `rule`s in the schema (`rule keys-have-locks`) that
-  point at one registered check, so a template can switch one on or off but not define it.
-  They are today ~900 lines of `validate_setting.py` and are not template shapes.
-- The fixed words of the interface (nav labels, "Roll", "Exits"): `view` nodes carry them
-  where they are content, and the engine keeps those that are chrome.
+| Shape in Python | Would the user change it directly? | Here |
+|---|---|---|
+| fence grammar: `NODES`, `SHAPES`, `RUNS`, ... | yes: it is the template language | T1 |
+| skeleton builders (`table_skeleton`, `members_line`, ...) | no: they draw the schema, format and `out` | stay, read T3 and F1 |
+| citation labels, `## Citations` | yes: adding a citable table | F2 |
+| location write-up, Procedures sections, Setting header, Factions table | yes | F1 |
+| Bestiary flow | which fields: yes; the joining words: no | F3 |
+| `entry_card` tag, dice and rows | no: styling chosen by value type | stay |
+| the seven drawn sections' sentences | no: which sections and their order are already `Region_Schema.md`'s `drawn`, and the wording is styling | stay |
+| document order, layout, `PDF_CSS`, nav | no: styling | stay |
+| `check_rumours`, `check_treasure_tables`, cross-file rules | no: they check schema and brief facts | stay |
+| judgement checklists | yes, and they already are markdown the user edits | stay |
 
 ---
 
-## 6. Open decisions
+## 5. Presentation types not used now
 
-- **D1. File format.** Recommended: `.kdl` throughout, with `guide` lines as quoted strings.
-  Needs `tools/kdl.py` to take multi-line `"""` strings (it takes none now); the alternative
-  is markdown with a leading fence per template, which keeps today's parsing trouble.
-- **D2. Member-level `field` lines.** Recommended: required, with `inherit` from the
-  schema's own comment when a template adds nothing (`field Bestiary.* inherit`), so the
-  default costs one line and every override is visible. A template then states 5-30
-  lines, not 3. The alternative, only the fields a template changes, repeats what the
-  kdl-templates plan found: a member whose source is unstated.
-- **D3. How far the row grammar goes.** Recommended: the minimal one in P1 and nothing
-  Turing-shaped. `_alarm` sorting by time and `_loot` reading `BRIEF.md`'s die are covered
-  by `sort=` and `lookup=BRIEF`; anything beyond stays a named code view (`view drawn X
-  code=name`), counted and listed so none is hidden.
-- **D4. Referee-only matter.** Is the site one referee's reference (so `reveal` hides
-  nothing) or does it also face players? Decides `reveal` and `callout`.
-- **D5. Name.** `Template_Schema.md` in `templates/` as asked, with `schema_graph.py`
-  extended to read both directories; the alternative is a `templates/schema/` folder.
+Suggestions only. Each is a phase 5 change to the PDF and site, approved and committed on
+its own, using data the build already holds.
+
+| Type | What it adds | Data | Cost |
+|---|---|---|---|
+| `readaloud` | the Player Summary boxed apart from referee text | Location format `summary` | an `out` word and one CSS rule |
+| `quickref` | every d6 table (Weather, Encounters, Carousing, Wounds) on one page | Procedures' tables | one PDF section |
+| `index` | finding lists with page links: Bestiary by region, Quests by giver, Keys by lock | each entry's `Found at` / `Appears at` | one PDF section, one site page |
+| map key | the location list beside each region sheet and block figure | the Locations gazetteer | beside the existing figures |
+| `statline` | `AD 1d6-1 · MA 2 · Special` as one scannable strip | Bestiary, Named Creatures | changes `entry_card` |
+| `timeline` | History on a rail by Age | History `When`; the PDF's unused `.timeline` rule | one view |
+| `glossary` | Language roots and coinages, set apart | Language | one view |
+| tracker | turns, light and encounter checks as a strip to tick | Procedures' Time and Distance, Encounters | one PDF section |
+
+Recommended first: `readaloud`, `quickref`, `index`. They change how the PDF is used at
+the table and need no new authored content. Running heads and backlinks need no schema word:
+the first is CSS and the second is computed, so they are left out of the list. Hidden
+referee text and player handouts are out (D4).
+
+---
+
+## 6. Migration
+
+- [ ] **M1. Each template in place, same path.** `reads=` becomes `from=`, and a parsed
+  `## Template` or `## Citations` becomes a fence node. A rule already carried by a schema
+  comment, a format or `out` is cut from Instructions, per `CLAUDE.md`. The oracle for each:
+  - `--read-set` and `--skeleton` for every step list the same reads and shape
+  - the validator is clean
+  - both `--check` builds pass
+  - the site and PDF HTML are byte-equal to the baseline until phase 5
+- [ ] **M2. `README.md`** names `Template_Schema.md` under `templates/` and adds the
+  templates to its Schema Reference paragraph. `STEPS.md`, `TEMPLATE_CITE_RE` and
+  template paths are unchanged.
+
+---
+
+## 7. Decisions - approved as recommended, D4 as answered
+
+- **D1. `out` defaults.** `text` prose, `relation` bullets, an enum `tag`, every other value
+  `line`; a member overrides only where its comment already says otherwise (Language's
+  `Roots` and `Coined here`, Local Procedures' `Results`, a brief's `holds=` and `Tables`
+  fields). `finds` stays `line`: it is one line split by `; `.
+- **D2. The special citation forms.** Recommended: the renderer keeps its three regexes, and
+  the validator checks that each `cite` node's `form` matches its regex, so the two
+  can't drift. The alternative, compiling the regexes from `form`, touches `render_inline`
+  for no visible change.
+- **D3. Bestiary flow.** Recommended: the field list goes to the schema (F3). The alternative
+  leaves all of it in code and keeps `Bestiary.md`'s explanation as the second copy.
+- **D4. Who the site faces.** The referee only. What players get is whatever the referee
+  relays, and the referee may change it, so nothing on the site is hidden and no player
+  copy is drawn.

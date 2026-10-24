@@ -32,10 +32,11 @@ Read these rather than a description of them.
 ## Directories
 
 - `templates/` - one template per artifact type, each structured **Purpose / Context /
-  Instructions**, and **Template** where no schema gives its shape, in folders `setting/` and
-  `region/`, plus `checks/` for the judgement checks. A template is cited by its path, folder
-  included. A template's Context is a KDL fence naming exactly what it reads, down to the
-  members a field reads; don't pull in more than it names.
+  Instructions**, in folders `setting/` and `region/`, plus `checks/` for the judgement
+  checks, whose `## Template` is the checklist each fills. A template is cited by its path,
+  folder included. A template's Context is a KDL fence naming exactly what it reads, down to
+  the members a field reads, and the `format` of a file no schema shapes; don't pull in more
+  than it names. `Template_Schema.md` defines that fence.
 - `patterns/` - the KDL schemas, mirroring `setting/`: `Common_Schema.md` (the value
   types every field is written in), `Setting_Schema.md` (every setting file's fields),
   `Region_Schema.md` (each rating's region `seed`, `brief` and `drawn`), and one per rating
@@ -80,7 +81,7 @@ Read these rather than a description of them.
   - `kdl.py` - the KDL subset the location tables are written in.
   - `tables.py` - reads every region's tables and checks them against its rating's schema.
   - `templates.py` - reads each template's Context fence: what a step reads and the shape of what it writes.
-  - `schema_graph.py` - reads `patterns/` as a graph of definitions, each name on a line resolved to the definition it names; `patterns.html` is drawn from it.
+  - `schema_graph.py` - reads `patterns/` and `templates/Template_Schema.md` as a graph of definitions, each name on a line resolved to the definition it names; `patterns.html` is drawn from it.
 
 ## Commands
 
@@ -102,11 +103,12 @@ pip install -r tools/requirements-pdf.txt   # WeasyPrint, for the PDF only
 python3 tools/build_pdf.py                  # single print-formatted PDF
 ```
 
-`build_site.py` also renders `patterns.html`, a Schema Reference built from `patterns/`
+`build_site.py` also renders `patterns.html`, a Schema Reference built from the schemas
 rather than `setting/`, so it builds against an empty setting. It is a graph of every
-definition - types, enums, tables, nodes, folders, regions - beside the entry for the one
-selected: a line in an entry opens the definition it names, a hovered name shows it, and
-Up and Back move through what was opened.
+definition - types, enums, tables, nodes, folders, regions, and each template with what it
+reads and each field's source and output - beside the entry for the one selected: a line
+in an entry opens the definition it names, a hovered name shows it, and Up and Back move
+through what was opened.
 
 ## CI and deployment
 

@@ -21,14 +21,16 @@ from pathlib import Path
 import kdl
 import schema_graph
 import site_common as sc
+import templates as tp
 
 ROOT = sc.ROOT
 ASSETS_SRC = Path(__file__).resolve().parent / "site_assets"
 # The dice roller (assets/dice-overlay.js) loads on first use; this is the one place its three.js version is set.
 THREE_URL = "https://cdn.jsdelivr.net/npm/three@0.150.1/build/three.module.js"
 
-# Pages that are not drawn from setting/: the checklists and the schema reference.
+# Pages that are not one setting file: the index, the checklists and the schema reference.
 TAIL_LINKS = [
+    ("lookup.html", "Index"),
     ("checklists.html", "Review Checklists"),
     ("patterns.html", "Schema Reference"),
 ]
@@ -240,7 +242,7 @@ def build_index(setting: sc.Setting, out: Path) -> None:
     body.append(section("Regions", f'<div class="region-list">{"".join(region_rows)}</div>'))
 
     body.append(section("Region Connections", connections_list(sc.join_lines(setting))))
-    if sheets := sc.sheets_html(sc.maps_fit_site):
+    if sheets := sc.sheets_html(sc.maps_fit_site, (setting, RESOLVER, page)):
         body.append(section("Sheets", sheets))
 
     write_page(out, page, page_shell(setting, page, setting.name, "\n".join(body)))
@@ -253,9 +255,9 @@ def build_tables(setting: sc.Setting, out: Path) -> None:
         title = re.sub(r" [IVX]+$", "", ts[0].name)
         render = lambda text, page=page: render_inline(text, setting, page)
         if len(ts) == 1:
-            inner = sc.table_html(ts[0], render)
+            inner = sc.table_html(ts[0], render, setting=setting)
         else:
-            inner = "".join(sc.table_html(t, render, t.heading or t.name) for t in ts)
+            inner = "".join(sc.table_html(t, render, t.heading or t.name, setting=setting) for t in ts)
         write_page(out, page, page_shell(setting, page, title, f"<h1>{html.escape(title)}</h1>{inner}"))
     for p in setting.prose:
         page = f"{p.slug}.html"
@@ -292,6 +294,14 @@ def parse_checklist_source(rel_path: str) -> dict:
             intro_lines.append(line)
 
     return {"purpose": purpose, "intro": " ".join(intro_lines), "items": items}
+
+
+def build_lookup(setting: sc.Setting, out: Path) -> None:
+    """Where each setting entry turns up: every location whose tables name it."""
+    page = "lookup.html"
+    body = ["<h1>Index</h1>", '<p class="hint">Every setting entry the region tables name, with each location '
+            "that names it and what there names it.</p>", sc.index_html(setting, RESOLVER, page)]
+    write_page(out, page, page_shell(setting, page, "Index", "\n".join(body)))
 
 
 def build_checklists(setting: sc.Setting, out: Path) -> None:
@@ -391,7 +401,7 @@ def build_region(setting: sc.Setting, out: Path, code: str) -> None:
     def loc_list(nums) -> str:
         return f'<div class="location-list">{"".join(loc_row(n) for n in nums)}</div>'
 
-    if drawn := sc.drawn_html(code, sc.maps_fit_site):
+    if drawn := sc.drawn_html(code, sc.maps_fit_site, (setting, RESOLVER, page)):
         body.append(section("Map", drawn))
     body.append(section("Locations", loc_list(sorted(region.locations))))
     if lines := sc.connection_lines(code, setting):
@@ -414,7 +424,7 @@ def build_location(setting: sc.Setting, out: Path, code: str, num: int) -> None:
     tags = " · ".join(t.strip() for t in loc.tags.split(","))
     body.append(f'<h1>{loc.code} {html.escape(loc.name)}{weight}</h1>')
     body.append(f'<p class="tags">{html.escape(tags)}</p>')
-    body.append(f'<p class="player-summary">{render_inline(loc.player_summary, setting, page, skip_location=loc.code)}</p>')
+    body.append(f'<p class="{sc.line_class("summary", "player-summary")}">{render_inline(loc.player_summary, setting, page, skip_location=loc.code)}</p>')
     body.append(f'<p class="referee-notes">{render_inline(loc.referee_notes, setting, page, skip_location=loc.code)}</p>')
 
     body.append(sc.cut_html(code, num, sc.maps_fit_site))
@@ -493,6 +503,7 @@ def build(out_dir: Path) -> sc.Setting:
 
     build_index(setting, out_dir)
     build_tables(setting, out_dir)
+    build_lookup(setting, out_dir)
     build_checklists(setting, out_dir)
     build_patterns(setting, out_dir)
     for code in setting.region_order:
@@ -525,8 +536,12 @@ def check(setting: sc.Setting, out_dir: Path) -> list[str]:
     graph = schema_graph.Graph()
     problems += [f"patterns.html: {p}" for p in graph.problems]
     held = sum(1 for path in graph.paths for n in kdl.fenced(path.read_text(encoding="utf-8")))
-    if held != len(graph.defs):
-        problems.append(f"patterns.html: {held} schema definitions, {len(graph.defs)} in the explorer")
+    drawn = [d for d in graph.defs.values() if d["kind"] != "template"]
+    if held != len(drawn):
+        problems.append(f"patterns.html: {held} schema definitions, {len(drawn)} in the explorer")
+    templates = len(tp.load_all())
+    if templates != len(graph.defs) - len(drawn):
+        problems.append(f"patterns.html: {templates} templates, {len(graph.defs) - len(drawn)} in the explorer")
     cites = json.loads((out_dir / "cites.json").read_text(encoding="utf-8"))
     for t in setting.tables:
         held = cites["roll" if t.kind == "roll" else "entry"].get(t.name, {})

@@ -1,6 +1,7 @@
-"""patterns/*_Schema.md as a graph of definitions: every value, enum, node, table, folder and
+"""patterns/*_Schema.md and templates/Template_Schema.md as a graph of definitions: every value, enum, node, table, folder and
 region, with the lines it is written in and each name on them resolved to the definition it
-names. The schema explorer on patterns.html is drawn from this and nothing else."""
+names; then each template, with what it reads, the fields it writes and how. The schema
+explorer on patterns.html is drawn from this and nothing else."""
 from __future__ import annotations
 
 import re
@@ -9,7 +10,9 @@ from pathlib import Path
 
 import kdl
 
-PATTERNS = Path(__file__).resolve().parent.parent / "patterns"
+ROOT = Path(__file__).resolve().parent.parent
+PATTERNS = ROOT / "patterns"
+TEMPLATE_SCHEMA = ROOT / "templates" / "Template_Schema.md"
 SHARED = ("Common", "Setting", "Region")   # widest first; every other schema is a rating's
 KINDS = ("value", "enum", "node", "table", "folder", "region")
 FLAGS = {"opt", "list", "none"}
@@ -23,6 +26,15 @@ def stem(path: Path) -> str:
 def split_comment(line: str) -> tuple[str, str]:
     code = COMMENT.match(line).group()
     return code.rstrip(), line[len(code):].lstrip("/ ").rstrip()
+
+
+def paragraphs(text: str) -> list[str]:
+    """Markdown prose as its paragraphs and list items, each on one line."""
+    out = []
+    for block in text.strip().split("\n\n"):
+        items = re.split(r"\n(?=- )", block.strip())
+        out += [" ".join(i.split()) for i in items if i.strip()]
+    return out
 
 
 def ref_id(file: str, kind: str, name: str) -> str:
@@ -64,14 +76,18 @@ class Graph:
         self.files: list[dict] = []
         self.defs: dict[str, dict] = {}
         order = [root / f"{n}_Schema.md" for n in SHARED]
-        order += sorted(set(root.glob("*_Schema.md")) - set(order))
+        order += sorted(set(root.glob("*_Schema.md")) - set(order)) + [TEMPLATE_SCHEMA]
         self.paths = [p for p in order if p.exists()]
+        where = {stem(p): p.relative_to(ROOT).as_posix() for p in self.paths}
         self.by_file: dict[str, dict[tuple[str, str], str]] = {}
         sources = {stem(p): p.read_text(encoding="utf-8") for p in self.paths}
         for name, text in sources.items():
             self._declare(name, text)
         for name, text in sources.items():
             self._read(name, text)
+        for f in self.files:
+            f["path"] = where[f["id"]]
+        self._templates()
         for d in self.defs.values():
             src = next((t["to"] for t in d["head"] if t["t"].startswith("as=")), None)
             if src:
@@ -227,6 +243,89 @@ class Graph:
             toks += self._props(file, c.props, {})
             out.append({"label": c.name, "parts": toks, "comment": self._line_comment(lines, c.line - 1, limit),
                         "to": next((t["to"] for t in toks if t.get("to")), None)})
+        return out
+
+    # -- templates: what each reads, and the fields it writes and how ---------------------
+
+    def _templates(self):
+        import tables as tb
+        import templates as tp
+        import validate_setting as v
+        schema, steps = tb.Schema(), v.read_set()
+        groups = {}
+        for path, t in tp.load_all().items():
+            rel = path.relative_to(tp.TEMPLATES).as_posix()
+            text = path.read_text(encoding="utf-8")
+            section = lambda h: (re.search(rf"^## {h}\n(.*?)(?=^## |\Z)", text, re.S | re.M) or [None, ""])[1]
+            cited = sorted(s for s, (names, _) in steps.items() if rel in names)
+            d = {"id": ref_id("Templates", "template", rel.removesuffix(".md")), "kind": "template",
+                 "name": path.stem, "file": "Templates", "path": path.relative_to(ROOT).as_posix(), "line": 1,
+                 "doc": " ".join(section("Purpose").split()), "head": [], "rows": [], "lines": [],
+                 "text": paragraphs(section("Instructions"))}
+            d["head"] = [{"t": f"scope={t.prop('scope')}"}] + [{"t": f"step {s}"} for s in cited] + \
+                [{"t": s, "to": self.find("Setting", ("table",), s)} for s in t.shapes]
+            d["lines"] = self._template_lines(t, schema, tp)
+            self.defs[d["id"]] = d
+            groups.setdefault(rel.split("/")[0], []).append(d["id"])
+        self.files.append({"id": "Templates", "title": "Templates", "path": "templates/", "intro": [
+            "One template per artifact type: what it reads, each field it writes with its source and output, "
+            "and the format of a file no schema shapes."],
+            "groups": [{"note": g, "defs": ids} for g, ids in groups.items()]})
+
+    def _source(self, x: str) -> dict:
+        """A field's source, linked to the table or node it names."""
+        head = x.partition(".")[0]
+        return {"t": x, "to": self.find("Setting", ("table",), head) or self.only(("node",), head)
+                or next((i for f in self.by_file.values() for (k, n), i in f.items() if k == "node" and n == head), None)}
+
+    def _template_lines(self, t, schema, tp) -> list[dict]:
+        line = lambda label, parts, comment="", to=None: {"label": label, "parts": parts, "comment": comment,
+                                                           "to": to or next((p["to"] for p in parts if p.get("to")), None)}
+        out = []
+        reads = [n for n in t.part() if n.name in ("read", "run")]
+        if reads:
+            out.append({"heading": "Reads"})
+            for n in reads:
+                arg = str(n.args[0]) if n.args else ""
+                parts = [{"t": arg}] if arg else [{"t": f"entries naming {n.props['naming']}",
+                                                    "to": self.find("Setting", ("table",), str(n.props["naming"]))}]
+                out.append(line(n.name, parts + ([{"t": f"once {n.props['once']}", "flag": True}] if "once" in n.props else []),
+                                str(n.props.get("part", ""))))
+        given = {str(n.args[0]): n for n in t.part() if n.name == "field" and n.args}
+        fields = []
+        for s in t.shapes:
+            for m in schema.fields.get(s, []):
+                fields.append((f"{s}.{m.name}", m))
+        fields += [(k, tp.member(k, schema)) for k in given if k not in dict(fields)]
+        if fields:
+            out.append({"heading": "Fields"})
+            for name, m in fields:
+                n = given.get(name)
+                parts = []
+                if m is not None:
+                    parts.append({"t": m.type, "to": self.find("Setting", ("enum", "value"), m.type)
+                                  or self.only(("enum", "value"), m.type)})
+                    parts.append({"t": f"out={m.out}", "flag": True})
+                froms = tp.names(n.props.get("from", "")) if n is not None else []
+                parts += [{"t": "from", "flag": True}] + [self._source(x) for x in froms] if froms \
+                    else [{"t": "authored", "flag": True}]
+                parts += [{"t": f"{u}={n.props[u]}", "flag": True} for u in tp.LENGTH_UNITS if n is not None and u in n.props]
+                out.append(line(name.split(".", 1)[-1] if "." in name and name.split(".")[0] in t.shapes else name, parts))
+        if t.format:
+            out.append({"heading": "Format"})
+            for n in t.format:
+                p = n.props
+                if n.name == "table":
+                    out.append(line("table", [{"t": " | ".join(tp.names(p.get("head", "")))},
+                                              {"t": f"{len(n.children)} rows", "flag": True}]))
+                    continue
+                parts = [{"t": f"## {n.args[0]}" if n.name == "section" else str(p["pattern"])}]
+                parts += [{"t": f"{k}={p[k]}", "flag": True} for k in ("count", "out", "head", "each", "when") if k in p]
+                parts += [{"t": f"- {p['item']}"}] if "item" in p else []
+                out.append(line(str(n.args[0]) if n.name == "line" else "section", parts, str(p.get("hint", ""))))
+        if t.cites:
+            out.append({"heading": "Citations"})
+            out += [line(str(n.args[0]), [{"t": str(n.props["form"])}], str(n.props.get("note", ""))) for n in t.cites]
         return out
 
     # -- the graph ---------------------------------------------------------------------

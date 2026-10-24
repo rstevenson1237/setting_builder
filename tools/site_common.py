@@ -18,6 +18,7 @@ from pathlib import Path
 
 import kdl
 import tables as tb
+import templates as tp
 
 ROOT = Path(__file__).resolve().parent.parent
 SETTING = ROOT / "setting"
@@ -561,14 +562,52 @@ def parse_locations_gazetteer(region_code: str) -> dict[int, dict]:
 
 # -- Maps, drawn by tools/maps.py ---------------------------------------------------
 
-def _figure(svg: str | None, caption: str) -> str:
-    return f'<figure class="diagram plan-figure">{svg}<figcaption>{html.escape(caption)}</figcaption></figure>' if svg else ""
+MapKey = tuple["Setting", "LinkResolver", str]     # what a key links with: the setting, a resolver, the page
+MAP_TEXT_RE = re.compile(r"<text[^>]*>([^<]*)</text>")
+MAP_LABEL_RE = re.compile(r"((?:up |down )?to )?([A-Z]+\.\d+)\b")
 
 
-def sheets_html(fit: str) -> str:
-    """Every terrain sheet whole: the play map."""
+def map_key(svg: str, key: MapKey) -> str:
+    """The key beside a drawn map: each location its labels show, linked, with its name and
+    type, by region; then each location a way off the map leads to."""
+    setting, resolver, page = key
+    shown, leads = {}, {}
+    for raw in MAP_TEXT_RE.findall(svg):
+        if (m := MAP_LABEL_RE.match(html.unescape(raw).strip())) and m.group(2) in setting.all_locations:
+            (leads if m.group(1) else shown)[m.group(2)] = True
+    order = {c: i for i, c in enumerate(setting.region_order)}
+    where = lambda code: (order.get(code.split(".")[0], len(order)), int(code.split(".")[1]))
+
+    def item(code: str) -> str:
+        loc = setting.all_locations[code]
+        href = resolver.href("location", loc.region, loc.num, page)
+        kind = f' <span class="map-key-type">{html.escape(loc.weight)}</span>' if loc.weight else ""
+        return f'<li><a href="{href}">{code}</a> {html.escape(loc.name)}{kind}</li>'
+
+    regions: dict[str, list[str]] = {}
+    for code in sorted(shown, key=where):
+        regions.setdefault(code.split(".")[0], []).append(code)
+    out = []
+    for r, codes in regions.items():
+        head = f'<h4><a href="{resolver.href("region", r, page)}">{r} {html.escape(setting.regions[r].name)}</a></h4>' \
+            if len(regions) > 1 else ""
+        out.append(head + "<ul>" + "".join(map(item, codes)) + "</ul>")
+    if off := sorted(set(leads) - set(shown), key=where):
+        out.append("<h4>Leading off it</h4><ul>" + "".join(map(item, off)) + "</ul>")
+    return f'<div class="map-key">{"".join(out)}</div>' if out else ""
+
+
+def _figure(svg: str | None, caption: str, key: MapKey | None = None) -> str:
+    if not svg:
+        return ""
+    return (f'<figure class="diagram plan-figure">{svg}<figcaption>{html.escape(caption)}</figcaption></figure>'
+            + (map_key(svg, key) if key else ""))
+
+
+def sheets_html(fit: str, key: MapKey | None = None) -> str:
+    """Every terrain sheet whole: the play map, with its key where a link target is given."""
     import maps
-    return "".join(_figure(maps.sheet_svg(f.stem, fit), f"{f.stem}, drawn from the setting's tables")
+    return "".join(_figure(maps.sheet_svg(f.stem, fit), f"{f.stem}, drawn from the setting's tables", key)
                    for f in sorted(SETTING.glob("*.json")))
 
 
@@ -577,14 +616,14 @@ def cut_html(code: str, num: int, fit: str) -> str:
     return ""
 
 
-def drawn_html(code: str, fit: str) -> str:
+def drawn_html(code: str, fit: str, key: MapKey | None = None) -> str:
     """A DANGEROUS region's block maps, from its tables by artgen. Other ratings'
     region maps are paused (`maps.region_svg` draws one)."""
     import maps
     region = maps.world_for(SETTING).regions.get(code)
     if region is None:
         return ""
-    return "".join(_figure(maps.block_svg(code, bid, fit), f"{bid} {b.props.get('name', '')}".strip())
+    return "".join(_figure(maps.block_svg(code, bid, fit), f"{bid} {b.props.get('name', '')}".strip(), key)
                    for bid, b in maps.drawn_blocks(region).items())
 
 
@@ -598,8 +637,118 @@ def map_labels() -> list[str]:
     return out
 
 
-LOC_HEADER_RE = re.compile(r'^([A-Z]+)\.(\d+) \*\*(.+?)\*\*(?: \(([^)]+)\))? - \*(.+)\*\s*$')
-FEATURE_RE = re.compile(r'^\*\*([^*]+):\*\*\s*(.*)$')
+# A write-up's lines, as templates/region/Location.md's format gives them.
+LOCATION = tp.load(tp.TEMPLATES / "region" / "Location.md")
+LOC_HEADER_RE, FEATURE_RE = LOCATION.pattern("header"), LOCATION.pattern("feature")
+LOC_CODE_FULL_RE = re.compile(r"([A-Z]+)\.(\d+)")
+EXITS_HEAD = tp.literal_head(str(LOCATION.line("exits").props["pattern"]))
+
+
+def index(setting: "Setting") -> list[tuple[str, list[tuple[str, dict[str, list[str]]]]]]:
+    """Each entry table the region tables name: its entries in title order, each with the
+    places naming it - a region's seed, then its locations, in region order - and the nodes
+    there that do."""
+    named, order = region_tables().namings(), {c: i for i, c in enumerate(setting.region_order)}
+    where = lambda code: (order.get(code.split(".")[0], len(order)), int(code.partition(".")[2] or 0))
+    out = []
+    for t in (t for t in setting.tables if t.kind == "entry"):
+        rows = []
+        for e in sorted(t.entries, key=lambda e: strip_article(e.title).lower()):
+            at: dict[str, list[str]] = {}
+            for code, node in sorted(named.get((t.name, e.title), []), key=lambda h: where(h[0])):
+                if node not in at.setdefault(code, []):
+                    at[code].append(node)
+            if at:
+                rows.append((e.title, at))
+        if rows:
+            out.append((t.name, rows))
+    return out
+
+
+def index_html(setting: "Setting", resolver: "LinkResolver", page: str, heading: str = "h2") -> str:
+    """The index: each entry linked, then each location naming it, linked, with the nodes
+    there that name it."""
+    spaced = lambda node: re.sub(r"(?<=[a-z])(?=[A-Z])", " ", node)
+    out = []
+    for table, rows in index(setting):
+        items = []
+        for title, at in rows:
+            locs = []
+            for code, nodes in at.items():
+                region, _, num = code.partition(".")
+                label = f'<span class="index-via">{", ".join(map(spaced, nodes))}</span>'
+                href = resolver.href("location", region, int(num), page) if code in setting.all_locations else \
+                    resolver.href("region", region, page) if not num and region in setting.regions else None
+                locs.append(f'<a class="index-loc" href="{href}">{code}</a> {label}' if href else f"{code} {label}")
+            items.append(f'<li><a href="{resolver.href("entry", table, title, page)}">{html.escape(title)}</a>'
+                         f' - {"; ".join(locs)}</li>')
+        out.append(f'<{heading}>{html.escape(table)}</{heading}><ul class="index-list">{"".join(items)}</ul>')
+    return "".join(out)
+
+
+def quickref() -> list[tuple[str, str]]:
+    """Every d6 table a setting file's format holds, titled, its rows as written: what the
+    PDF's quick reference gathers onto one page."""
+    out = []
+    for t in tp.load_all().values():
+        tables = [n for n in t.format if n.name == "section" and n.props.get("out") == "table"]
+        for path in (ROOT / w for w in t.writes() if tables and t.prop("scope") == "setting"):
+            sections = tp.file_sections(path.read_text()) if path.exists() else {}
+            for n in tables:
+                name, body = str(n.args[0]), sections.get(str(n.args[0]), [])
+                subs = {name: body} if "each" not in n.props else \
+                    {f"{name}: {k}": v for k, v in tp.file_sections("\n".join(
+                        l.replace("### ", "## ", 1) for l in body)).items()}
+                out += [(title, "\n".join(l for l in lines if l.startswith("|")))
+                        for title, lines in subs.items() if any(l.startswith("|") for l in lines)]
+    return out
+
+
+TRACKER_FIELDS = ("minutes", "turns", "torch", "lantern")
+
+
+def tracker() -> tuple[str, dict[str, int]] | None:
+    """A setting file's tracker line, as its format's section names it: the sentence as
+    written, and its numbers by field."""
+    for t in tp.load_all().values():
+        for n in (n for n in t.format if n.name == "section"):
+            for c in (c for c in n.children if c.name == "line" and str(c.args[0]) == "tracker"):
+                for path in (ROOT / w for w in t.writes() if (ROOT / w).exists()):
+                    for line in tp.file_sections(path.read_text()).get(str(n.args[0]), []):
+                        if (m := tp.pattern_re(str(c.props["pattern"])).match(line.strip())):
+                            return line.strip(), {k: int(v) for k, v in m.groupdict().items() if v.isdigit()}
+    return None
+
+
+TRACKER_HOURS, TRACKER_TORCHES, TRACKER_LANTERNS = 8, 4, 2     # how much one sheet holds
+
+
+def tracker_html(render) -> str:
+    """One printable sheet: the Danger track, a Difficulty box for each turn of a few hours,
+    and a strip for each torch and lantern to tick as it burns."""
+    found = tracker()
+    if not found or not all(k in found[1] for k in TRACKER_FIELDS):
+        return ""
+    line, n = found
+    sentence = re.sub(r"^- \*\*[^*]+\*\* - ", "", line)
+    sentence = sentence[:1].upper() + sentence[1:]
+    boxes = lambda k, cls="box": "".join(f'<span class="{cls}"></span>' for _ in range(k))
+    danger = "".join(f'<span class="band"><b>{b}</b><span class="box"></span></span>' for b in range(6, 0, -1))
+    rows = "".join(f'<tr><th>Hour {h + 1}</th>' + "".join(
+        f'<td><span class="turn">{h * n["turns"] + i + 1}</span><span class="box"></span></td>' for i in range(n["turns"]))
+        + "</tr>" for h in range(TRACKER_HOURS))
+    lights = "".join(f'<div class="light"><b>{name} ({k} turns)</b> {boxes(k)}</div>'
+                     for name, k, count in (("Torch", n["torch"], TRACKER_TORCHES), ("Lantern", n["lantern"], TRACKER_LANTERNS))
+                     for _ in range(count))
+    return (f'<p>{render(sentence)}</p><h3>Danger</h3><div class="danger">{danger}</div>'
+            f'<h3>Difficulty, each turn of {n["minutes"]} minutes</h3><table class="turns">{rows}</table>'
+            f'<h3>Light</h3>{lights}')
+
+
+def line_class(name: str, base: str) -> str:
+    """A write-up line's classes: its own, then its format's out=, which the stylesheets set."""
+    out = LOCATION.line(name).props.get("out")
+    return base + (f" {out}" if out else "")
 EXIT_DEST_RE = re.compile(r'^\s*([A-Z]+\.\d+)\s+(.*)$')
 
 
@@ -637,7 +786,7 @@ def parse_location_file(region_code: str, num: int) -> Location:
     path = SETTING / "region" / region_code / f"{num}.md"
     lines = path.read_text().splitlines()
     m = LOC_HEADER_RE.match(lines[0].strip())
-    _hcode, _hnum, name, weight, tags = m.groups()
+    name, weight, tags = m["location_name"], m["type"], m["tags"]
 
     body = lines[1:]
     idx = 0
@@ -656,8 +805,8 @@ def parse_location_file(region_code: str, num: int) -> Location:
         s = raw.strip()
         if not s:
             continue
-        if s.startswith("**Exits:**"):
-            exits_raw = s[len("**Exits:**"):].strip()
+        if s.startswith(EXITS_HEAD):
+            exits_raw = s[len(EXITS_HEAD):].strip()
             continue
         fm = FEATURE_RE.match(s)
         if fm:
@@ -921,44 +1070,67 @@ def value_html(value: str, render) -> str:
     return out + "<ul>" + "".join(f"<li>{render(i)}</li>" for i in items) + "</ul>"
 
 
-BESTIARY_FLOW = ("Description", "Range", "Numbers", "Sign", "Disposition")
+# How a flowed field reads, beyond its own words: the styling of Setting_Schema.md's flow=.
+FLOW_PHRASE = {"Numbers": "found in groups of {}", "Sign": "heralded by {}"}
+FLOW_JOIN = {"Sign": ", "}       # joined to the clause before it by this, not "; "
+FLOW_SPLIT = {"Range"}           # each of its sentences a clause
 
 
-def bestiary_prose(f: dict) -> str:
-    """A Bestiary entry's Description through Disposition as two sentences, each field's words kept."""
+def flow(table: str) -> list[list[str]]:
+    """A table's flow=: its sentences, each the fields it is built from."""
+    return [g.split() for g in str(schema().table_props.get(table, {}).get("flow", "")).split("|") if g.split()]
+
+
+def flow_fields(table: str) -> list[str]:
+    return [k for g in flow(table) for k in g]
+
+
+def flow_prose(table: str, f: dict) -> str:
+    """An entry's flowed fields as its flow's sentences, each field's words kept."""
     lc = lambda x: x[:1].lower() + x[1:]
-    first = f["Description"].rstrip(".")
-    if f.get("Range"):
-        first += "; " + "; ".join(lc(x.strip()) for x in f["Range"].rstrip(".").split(". "))
-    second = []
-    if f.get("Numbers"):
-        second.append(f"found in groups of {f['Numbers']}" + (f", heralded by {f['Sign']}" if f.get("Sign") else ""))
-    elif f.get("Sign"):
-        second.append(f"heralded by {f['Sign']}")
-    if f.get("Disposition"):
-        second.append(lc(f["Disposition"].rstrip(".")))
-    return first + "." + (" " + second[0][:1].upper() + "; ".join(second)[1:] + "." if second else "")
+    out = []
+    for i, group in enumerate(flow(table)):
+        text = ""
+        for k in group:
+            v = f.get(k, "").rstrip(".")
+            for part in ([x.strip() for x in v.split(". ")] if k in FLOW_SPLIT else [v]) if v else []:
+                part = FLOW_PHRASE.get(k, "{}").format(part)
+                text = text + FLOW_JOIN.get(k, "; ") + lc(part) if text else part
+        if text:
+            out.append((text if i == 0 else text[:1].upper() + text[1:]) + ".")
+    return " ".join(out)
 
 
-def entry_card(t: SettingTable, e: Entry, render) -> tuple[str, str]:
-    """An entry's title line and its field rows: what a card and a citation's box both show."""
+def statline(table: str) -> list[str]:
+    """A table's stat=: the fields set on one line under an entry's title."""
+    return str(schema().table_props.get(table, {}).get("stat", "")).split()
+
+
+def entry_card(t: SettingTable, e: Entry, render, omit: tuple[str, ...] = ()) -> tuple[str, str]:
+    """An entry's title line and its field rows, its statline first: what a card and a
+    citation's box both show. `omit` names fields the caller sets elsewhere."""
     enums = schema().setting_enums
     dice = next((m.name for m in t.members if m.type == "dice"), None)
     tag = next((m.name for m in t.members if m.type in enums and not m.is_list), None)
     f = dict(e.fields)
-    shown = set()
+    shown = set(omit)
     title = html.escape(e.title)
     if tag and len(f.get(tag, "").split()) <= 3 and tag in f:
         title += f' <span class="typetag">({html.escape(f[tag])})</span>'
         shown.add(tag)
-    if dice and dice in f:
+    stat = [k for k in statline(t.name) if f.get(k)]
+    if dice and dice in f and dice not in stat:
         title += f' <span class="ad">{html.escape(dice)}: {html.escape(f[dice])}</span>'
         shown.add(dice)
+    shown |= set(stat)
+    line = lambda v: "; ".join(l.removeprefix("- ").strip() for l in v.splitlines() if l.strip())
+    strip = " · ".join(f'<span class="stat"><b>{html.escape(k)}</b> {render(line(f[k]))}</span>' for k in stat)
     fields = e.fields
-    if t.name == "Bestiary" and "Description" in f:
-        fields = [("Description", bestiary_prose(f))] + [(k, v) for k, v in fields if k not in BESTIARY_FLOW]
-    rows = "".join(f"<tr><th>{html.escape(k)}</th><td>{value_html(v, render)}</td></tr>"
-                   for k, v in fields if k not in shown)
+    if (flowed := flow_fields(t.name)) and flowed[0] in f:
+        fields = [(flowed[0], flow_prose(t.name, f))] + [(k, v) for k, v in fields if k not in flowed]
+    rows = (f'<tr class="statline"><td colspan="2">{strip}</td></tr>' if stat else "") + \
+        "".join(f"<tr><th>{html.escape(k)}</th><td>{value_html(v, render)}</td></tr>"
+                for k, v in fields if k not in shown)
     for m in t.members:
         if m.type == "finds" and f.get(m.name):
             cn, wt = tb.finds_total(f[m.name])
@@ -995,7 +1167,36 @@ def cite_data(setting: Setting, render) -> dict:
     return out
 
 
-def table_html(t: SettingTable, render, title: str = "", heading: str = "h2") -> str:
+GLOSS_TERM_RE = re.compile(r"(.+?) (?:=|-) ")
+
+
+def glossary_html(t: SettingTable, field: str, render, setting: "Setting") -> str:
+    """Every entry's `field` items as one alphabetical list: each term as written, its
+    entry, and each name the setting holds that uses the term, cited so it links."""
+    names = [(f"({table_props(x.name).get('cite', x.name)}: {e.title})", e.title)
+             for x in setting.tables if x.kind == "entry" for e in x.entries]
+    names += [(f"{c} {loc.name}", loc.name) for c, loc in setting.all_locations.items()]
+    names += [(f"({c}) {r.name}", r.name) for c, r in setting.regions.items()]
+    terms = []
+    for e in t.entries:
+        for line in dict(e.fields).get(field, "").splitlines():
+            if line.startswith("- ") and (m := GLOSS_TERM_RE.match(line[2:])):
+                term = m.group(1).strip()
+                uses = [cite for cite, name in names if re.search(rf"\b{re.escape(term)}\b", name, re.I)]
+                terms.append((term.lower(), term, line[2 + m.end(1):].strip(), e.title, uses))
+    if not terms:
+        return ""
+    rows = "".join(f'<dt>{html.escape(term)}</dt><dd>{render(text)} <span class="gloss-entry">{html.escape(entry)}</span>'
+                   + (f'<span class="gloss-uses">Named in {"; ".join(render(u) for u in uses)}</span>' if uses else "")
+                   + "</dd>" for _, term, text, entry, uses in sorted(terms))
+    return f'<div class="glossary"><h3>Glossary</h3><dl>{rows}</dl></div>'
+
+
+def table_props(name: str) -> dict:
+    return schema().table_props.get(name, {})
+
+
+def table_html(t: SettingTable, render, title: str = "", heading: str = "h2", setting: "Setting | None" = None) -> str:
     """One table, every field its schema names. A roll table is a table; an entry table
     is a card per entry, its dice and its first enum field set in the title. `title` heads a
     table sharing its page with others."""
@@ -1012,14 +1213,37 @@ def table_html(t: SettingTable, render, title: str = "", heading: str = "h2") ->
         return (f'<div id="{anchor_id("table", t.name)}">{h}{intro}<div class="table-scroll">'
                 f'<table class="data-table"><thead><tr>{head}</tr></thead><tbody>{rows}</tbody>'
                 f'</table></div></div>')
+    if by := str(schema().table_props.get(t.name, {}).get("timeline", "")):
+        return f'<div id="{anchor_id("table", t.name)}">{h}{intro}{timeline_html(t, by, render)}</div>'
     cards = []
     for e in t.entries:
         title, rows = entry_card(t, e, render)
         cards.append(f'<article class="registry-card" id="{anchor_id("entry", t.name, e.title)}">'
                      f'<h3>{title}</h3><table class="kv-table">{rows}</table></article>')
     empty = '<p class="hint">Nothing recorded yet.</p>' if not cards else ""
+    gloss = glossary_html(t, str(table_props(t.name)["glossary"]), render, setting) \
+        if setting is not None and "glossary" in table_props(t.name) else ""
     return (f'<div id="{anchor_id("table", t.name)}">{h}{intro}{empty}'
-            f'<div class="registry-list">{"".join(cards)}</div></div>')
+            f'<div class="registry-list">{"".join(cards)}</div>{gloss}</div>')
+
+
+def timeline_html(t: SettingTable, by: str, render) -> str:
+    """A table's entries on a rail, in the file's order: each marked by its `by` field, and
+    an era heading wherever the item of the enum that field opens with changes."""
+    member = next((m for m in t.members if m.name == by), None)
+    items = list(schema().setting_enums.get(member.type, {})) if member else []
+    out, era = [], None
+    for e in t.entries:
+        when = dict(e.fields).get(by, "")
+        now = next((i for i in items if when.startswith(i)), None)
+        if now and now != era:
+            out.append(f'<li class="era">{html.escape(now.capitalize())}</li>')
+            era = now
+        title, rows = entry_card(t, e, render, omit=(by,))
+        out.append(f'<li class="registry-card" id="{anchor_id("entry", t.name, e.title)}">'
+                   f'<span class="when">{render(when)}</span><h3>{title}</h3>'
+                   f'<table class="kv-table">{rows}</table></li>')
+    return f'<ol class="timeline">{"".join(out)}</ol>' if out else '<p class="hint">Nothing recorded yet.</p>'
 
 
 def prose_html(text: str, render) -> str:
@@ -1076,7 +1300,7 @@ def coverage(setting: Setting, text: str, has_page) -> list[str]:
     """What the schema and the files hold that a rendering does not show. `text` is every
     page together, or the whole PDF; `has_page(slug)` says whether a table's page exists."""
     shown = _plain(text)
-    bare = lambda x: re.sub(r"[.;,]", "", x)    # Bestiary prose rejoins sentences, keeping every word
+    bare = lambda x: re.sub(r"[.;,]", "", x)    # flowed prose rejoins sentences, keeping every word
     shown_bare = bare(shown)
     problems = []
     for t in setting.tables:
@@ -1085,7 +1309,7 @@ def coverage(setting: Setting, text: str, has_page) -> list[str]:
         for e in t.entries:
             for label, value in e.fields:
                 v = _plain(value.replace("\n- ", " ").removeprefix("- "))
-                if t.name == "Bestiary" and label in BESTIARY_FLOW:
+                if label in flow_fields(t.name):
                     if bare(v) not in shown_bare:
                         problems.append(f"{t.name} / {e.title} / {label}: not shown")
                 elif v not in shown:

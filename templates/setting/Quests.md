@@ -10,7 +10,7 @@ template scope="setting" writes="setting/Quests.md" shape="Quests"
 read "setting/Rumours.md"
 read "setting/region/[Region Code]/Seed.md" part="each region's"
 run "--location [Location Code]"
-field "Quests.Giver" reads="Person.quest, Person.wants"
+field "Quests.Giver" from="Person.quest, Person.wants"
 ```
 
 ## Instructions

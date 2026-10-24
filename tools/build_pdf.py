@@ -80,9 +80,9 @@ def build_document(setting: sc.Setting) -> str:
     for slug, ts in setting.pages().items():
         title = re.sub(r" [IVX]+$", "", ts[0].name)
         if len(ts) == 1:
-            inner = sc.table_html(ts[0], render)
+            inner = sc.table_html(ts[0], render, setting=setting)
         else:
-            inner = "".join(sc.table_html(t, render, t.heading or t.name) for t in ts)
+            inner = "".join(sc.table_html(t, render, t.heading or t.name, setting=setting) for t in ts)
         inner = inner.replace(f'<div id="{slug}">', "<div>", 1)  # the section carries the id; a repeat leaves its page number unresolved
         parts.append(f'<section class="doc" id="{slug}"><h1>{html.escape(title)}</h1>{inner}</section>')
         toc.append(toc_entry(title, slug))
@@ -92,7 +92,7 @@ def build_document(setting: sc.Setting) -> str:
         toc.append(toc_entry(p.title, p.slug))
 
     # ---- regions + locations ----
-    top_conn = connections_block(sc.join_lines(setting), setting) + sc.sheets_html("170x230mm")
+    top_conn = connections_block(sc.join_lines(setting), setting) + sc.sheets_html("170x230mm", (setting, RESOLVER, "pdf"))
     region_toc: list[str] = []
     for code in setting.region_order:
         region = setting.regions[code]
@@ -116,7 +116,7 @@ def build_document(setting: sc.Setting) -> str:
             f'<section class="doc region-doc" id="{r_anchor}">'
             f'<h1>{code} {html.escape(region.name)} '
             f'<span class="badge badge-{region.rating.lower()}">{region.rating} {region.die}</span></h1>'
-            f'{field_html}{table_html}{sc.drawn_html(code, sc.maps_fit_pdf)}{rconn}'
+            f'{field_html}{table_html}{sc.drawn_html(code, sc.maps_fit_pdf, (setting, RESOLVER, "pdf"))}{rconn}'
             f'</section>'
         )
         region_toc.append(toc_entry(f"{code} {region.name}", r_anchor, level=1))
@@ -142,7 +142,7 @@ def build_document(setting: sc.Setting) -> str:
             parts.append(
                 f'<section class="location-doc" id="{l_anchor}">'
                 f'<h2>{loc.code} {html.escape(loc.name)}{weight}</h2>'
-                f'<p class="player-summary">{ri(loc.player_summary, setting, skip_location=loc.code)}</p>'
+                f'<p class="{sc.line_class("summary", "player-summary")}">{ri(loc.player_summary, setting, skip_location=loc.code)}</p>'
                 f'<p class="referee-notes">{ri(loc.referee_notes, setting, skip_location=loc.code)}</p>'
                 f'{sc.cut_html(code, num, sc.maps_fit_pdf)}<ul class="feature-list">{feats}</ul>{exits_html}'
                 f'</section>'
@@ -150,6 +150,20 @@ def build_document(setting: sc.Setting) -> str:
         parts.append('</div>')
 
     toc.extend(region_toc)
+
+    # ---- a sheet to tick as turns pass ----
+    if sheet := sc.tracker_html(render):
+        parts.append(f'<section class="doc tracker" id="tracker"><h1>Turn Tracker</h1>{sheet}</section>')
+        toc.append(toc_entry("Turn Tracker", "tracker"))
+
+    # ---- where each setting entry turns up, then every d6 table on one page, at the back ----
+    parts.append(f'<section class="doc index" id="lookup"><h1>Index</h1>{sc.index_html(setting, RESOLVER, "pdf")}</section>')
+    toc.append(toc_entry("Index", "lookup"))
+    if quick := sc.quickref():
+        inner = "".join(f'<div class="quickref-table"><h3>{html.escape(title)}</h3>{sc.prose_html(rows, render)}</div>'
+                        for title, rows in quick)
+        parts.append(f'<section class="doc quickref" id="quickref"><h1>Quick Reference</h1>{inner}</section>')
+        toc.append(toc_entry("Quick Reference", "quickref"))
 
     toc_html = f"""
 <section class="cover toc-page">
@@ -190,6 +204,31 @@ code { background: #f1e9da; padding: 0 3px; }
 .toc-level-1 { font-size: 10pt; }
 
 .doc { page-break-before: always; }
+.index { columns: 2; column-gap: 1.2em; font-size: 9pt; }
+.index h1 { column-span: all; }
+.index h2 { font-size: 11pt; break-after: avoid; }
+.index-list { list-style: none; padding: 0; margin: 0; }
+.index-list li { padding-left: 1em; text-indent: -1em; margin-bottom: 0.15em; break-inside: avoid; }
+.index-loc::after { content: " (p. " target-counter(attr(href), page) ")"; color: #766a5a; }
+.index-via { color: #766a5a; font-style: italic; }
+.tracker h3 { margin: 0.8em 0 0.3em; }
+.tracker .box { display: inline-block; width: 0.42cm; height: 0.42cm; border: 0.8pt solid #5a4f42; margin: 0 0.06cm; vertical-align: middle; }
+.tracker .band { display: inline-block; margin-right: 0.5cm; }
+.tracker .band b { margin-right: 0.12cm; color: #7a2e1d; }
+.tracker .turns { border-collapse: collapse; width: 100%; }
+.tracker .turns th { text-align: left; font-size: 9pt; color: #5a4f42; width: 4em; padding: 0.15em 0.4em 0.15em 0; }
+.tracker .turns td { border: 0.5pt solid #cbbb98; padding: 0.2em 0.3em; text-align: center; }
+.tracker .turn { display: block; font-size: 7pt; color: #766a5a; }
+.tracker .light { margin: 0.25em 0; font-size: 9pt; }
+.tracker .light b { display: inline-block; width: 7.5em; font-weight: 400; color: #5a4f42; }
+.tracker .light .box { width: 0.32cm; height: 0.32cm; margin: 0 0.03cm; }
+.quickref { columns: 2; column-gap: 1.2em; }
+.quickref h1 { column-span: all; }
+.quickref-table { break-inside: avoid; }
+.quickref-table h3 { font-size: 10pt; margin: 0.3em 0 0.1em; }
+.quickref .data-table { font-size: 8pt; line-height: 1.25; margin: 0 0 0.3em; }
+.quickref .data-table th, .quickref .data-table td { padding: 0.1em 0.3em; }
+.quickref .data-table th:first-child { width: 2em; }
 .loc-columns { page-break-before: always; column-count: 2; column-gap: 1cm; column-rule: 0.5pt solid #cbbb98; }
 .location-doc { margin-bottom: 1.2em; }
 .location-doc h2 { font-size: 13pt; margin-top: 0; }
@@ -221,10 +260,20 @@ code { background: #f1e9da; padding: 0 3px; }
 .kv-table { width: 100%; }
 .kv-table th { text-align: left; vertical-align: top; width: 8em; color: #7a2e1d; font-size: 9pt; padding: 0.15em 0.4em 0.15em 0; }
 .kv-table td { padding: 0.15em 0; }
+.glossary { border: 0.5pt solid #cbbb98; background: #f7f1e6; padding: 0.3em 0.8em 0.6em; margin-top: 1em; break-inside: avoid; }
+.glossary dl { margin: 0; columns: 2; column-gap: 1.2em; font-size: 9pt; }
+.glossary dt { font-weight: 700; color: #7a2e1d; margin-top: 0.35em; break-after: avoid; }
+.glossary dd { margin: 0; break-inside: avoid; }
+.gloss-entry, .gloss-uses { display: block; color: #766a5a; font-size: 8.5pt; }
+.gloss-entry { font-style: italic; }
+.gloss-uses a::after { content: " (p. " target-counter(attr(href), page) ")"; color: #766a5a; }
+.statline td { background: #f1e9da; padding: 0.2em 0.5em; font-size: 9.5pt; }
+.statline .stat b { color: #7a2e1d; }
 
 .registry-location { color: #5a4f42; font-size: 9pt; }
 
 .player-summary { font-size: 11pt; }
+.readaloud { background: #f1e9da; border-left: 2.5pt solid #7a2e1d; padding: 5pt 8pt; break-inside: avoid; }
 .referee-notes { font-style: italic; color: #5a4f42; }
 .feature-list { list-style: none; padding: 0; }
 .feature-list li { margin-bottom: 0.4em; }
@@ -234,12 +283,21 @@ code { background: #f1e9da; padding: 0 3px; }
 
 .connections { margin-top: 0.8em; }
 .plan-figure { margin: 0.8em 0; page-break-inside: avoid; }
+.map-key { font-size: 8.5pt; margin: 0.2em 0 1em; break-before: avoid; }
+.map-key h4 { font-size: 9pt; margin: 0.4em 0 0.1em; }
+.map-key ul { list-style: none; padding: 0; margin: 0; columns: 3; column-gap: 1em; }
+.map-key li { break-inside: avoid; }
+.map-key-type { color: #766a5a; font-style: italic; }
 .plan-figure svg { width: 11cm; display: block; }
 .plan-figure figcaption, .plan-figure details { font-size: 9pt; color: #5a4f42; }
 .connections ul { margin: 0.2em 0 0; padding-left: 1.2em; font-size: 9.5pt; }
 
-.timeline { list-style: none; padding: 0; }
-.timeline li { margin-bottom: 0.5em; }
+.timeline { list-style: none; padding: 0 0 0 0.9em; margin: 0 0 0 0.3em; border-left: 1.5pt solid #cbbb98; }
+.timeline li { margin-bottom: 0.6em; break-inside: avoid; }
+.timeline li.registry-card { border: none; border-radius: 0; padding: 0; }
+.timeline li.era { font-size: 8.5pt; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #766a5a; margin-bottom: 0.3em; }
+.timeline .when { display: block; font-weight: 700; color: #7a2e1d; font-size: 9pt; }
+.timeline h3 { margin: 0.1em 0 0.2em; }
 """
 
 

@@ -12,28 +12,28 @@ template scope="[Region Code]" writes="setting/region/[Region Code].md" shape="b
 read "setting/region/[Region Code]/Seed.md"
 read "setting/region/[Region Code]/[Table].md"
 read "setting/region/[Region Code]/Ground.md"
-field "Overview" reads="Seed.comes, Seed.who, Seed.changing, Rung"
-field "View" reads="View"
-field "Approach" reads="Entry, Seed.crossing, Seed.off"
-field "Law" reads="Law"
-field "Terrain" reads="Seed.terrain, Ruling"
-field "Conditions" reads="Conditions"
-field "Arrival" reads="Dressing.obvious, Dressing.layout"
-field "Plan" reads="Block, Way, Location.type"
-field "Ways" reads="Stop.feature, Stop.distance, Stop.to, Dressing.obvious"
-field "Landmarks" reads="Dressing.obvious, Dressing.ambiance, Stop.sight"
-field "Entrances" reads="Dressing.obvious, Dressing.layout, Connection.to"
-field "Prizes" reads="Dressing.obvious, Dressing.layout, Connection.type"
-field "Places" reads="Dressing.obvious, Dressing.ambiance, Dressing.condition, Secret.tell"
-field "Tables" reads="Encounter.doing, Encounter.reaction, Hazard, Rung"
+field "Overview" from="Seed.comes, Seed.who, Seed.changing, Rung"
+field "View" from="View"
+field "Approach" from="Entry, Seed.crossing, Seed.off"
+field "Law" from="Law"
+field "Terrain" from="Seed.terrain, Ruling"
+field "Conditions" from="Conditions"
+field "Arrival" from="Dressing.obvious, Dressing.layout"
+field "Plan" from="Block, Way, Location.type"
+field "Ways" from="Stop.feature, Stop.distance, Stop.to, Dressing.obvious"
+field "Landmarks" from="Dressing.obvious, Dressing.ambiance, Stop.sight"
+field "Entrances" from="Dressing.obvious, Dressing.layout, Connection.to"
+field "Prizes" from="Dressing.obvious, Dressing.layout, Connection.type"
+field "Places" from="Dressing.obvious, Dressing.ambiance, Dressing.condition, Secret.tell"
+field "Tables" from="Encounter.doing, Encounter.reaction, Hazard, Rung"
 ```
 
 ## Instructions
 Write every field of the rating's `brief`, in its order, from the seed and the tables
-alone. The seed's fields are its nodes as prose, each member once. A list field opens one
-`- ` item for each location its `holds=` gives it, in code order, with that code, as
-`--skeleton 4e [Region Code]` lists them. What `drawn` names is never written here.
+alone. The seed's fields are its nodes as prose, each member once. A list field holds an
+item for each location its `holds=` gives it, in code order, as `--skeleton 4e [Region
+Code]` lists them. What `drawn` names is never written here.
 
 Every fact about a location names it by code. A fact no entry holds is an entry to add to
-the tables, not a line here. A setting entry is cited as `(Named Creature: Name)`,
-`(Faction: Name)` or `(Local Procedure: Name)`.
+the tables, not a line here. A setting entry is cited by its table's `cite=`: `(Named
+Creature: Name)`, `(Faction: Name)` or `(Local Procedure: Name)`.

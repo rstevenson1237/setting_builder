@@ -21,8 +21,7 @@ Write the entries `BRIEF.md` asks for up front, in its mix and AD spread. The Be
 grows as the build needs it: a location or region seed that needs a creature the Bestiary
 lacks adds its entry here first, then cites it.
 
-The site and PDF flow Description through Disposition into two sentences under the label
-Description, so write Range, Sign and Disposition as clauses that read when joined by semicolons.
-Each field's length is its `field` line's.
+The site and PDF set the fields the schema's `flow=` names as sentences under the first
+one's label, so write each after the first as a clause that reads when joined by semicolons.
 
 Cut any field the schema does not name.

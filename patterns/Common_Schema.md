@@ -4,16 +4,19 @@ The values every field is written in, shared by every schema after it; a narrowe
 defining a name used here shadows it.
 
 A field is `Label type`, then `opt`, `list` (comma-separated) or `none` (may be `none`), and
-`n=N`: exactly N items, or N paragraphs of prose.
+`n=N`: exactly N items, or N paragraphs of prose. How a field is set down is its `out=`, else
+its value's, else `tag` for an enum and `line` for any other.
 A folder's line is a file and the nodes it holds, then `opt` where a region may leave it out.
 An enum field opens with one of its items, and may go on after ` - ` in prose. How many
 entries a file holds is `BRIEF.md`'s.
 
 ```kdl
+enum Out line prose bullets table tag readaloud   // one value on a line; paragraphs; a `- ` line each; a d6 table; a short word
+                                                   // set by a title; prose read aloud to the players, set apart from the referee's
 value string words=8
 value gloss words=4
 value tag words=2
-value text                    // prose, any length
+value text out=prose          // prose, any length
 value number                  // N, or a range N-M; range= bounds it
 value dice                    // Nd6 or Nd6+M; count= and bonus= bound it
 value percent                 // N%
@@ -30,7 +33,7 @@ value place                   // location codes first, each one that exists, the
 value kind                    // an item of the folder's type enum
 value entry                   // a title on each table the member names
 value pull                    // a roll table's name, or "Table: Title" for an entry table
-value relation                // lines "- [Faction] - [Relation]", then any prose: one line for each other faction
+value relation out=bullets    // lines "- [Faction] - [Relation]", then any prose: one line for each other faction
 
 enum Room_Shape rect round octagon cave
 enum Compass north north-north-east north-east east-north-east east east-south-east south-east south-south-east south south-south-west south-west west-south-west west west-north-west north-west north-north-west

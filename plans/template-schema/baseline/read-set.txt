@@ -1,0 +1,3710 @@
+== 1a 
+1a
+  templates : setting/Procedures.md
+  schemas   : Common_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md (once written)
+              setting/Truths.md (once written)
+
+== 1a A
+1a
+  templates : setting/Procedures.md
+  schemas   : Common_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md (once written)
+              setting/Truths.md (once written)
+
+== 1a B
+1a
+  templates : setting/Procedures.md
+  schemas   : Common_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md (once written)
+              setting/Truths.md (once written)
+
+== 1a C
+1a
+  templates : setting/Procedures.md
+  schemas   : Common_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md (once written)
+              setting/Truths.md (once written)
+
+== 1a D
+1a
+  templates : setting/Procedures.md
+  schemas   : Common_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md (once written)
+              setting/Truths.md (once written)
+
+== 1a E
+1a
+  templates : setting/Procedures.md
+  schemas   : Common_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md (once written)
+              setting/Truths.md (once written)
+
+== 1a F
+1a
+  templates : setting/Procedures.md
+  schemas   : Common_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md (once written)
+              setting/Truths.md (once written)
+
+== 1a G
+1a
+  templates : setting/Procedures.md
+  schemas   : Common_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md (once written)
+              setting/Truths.md (once written)
+
+== 1a H
+1a
+  templates : setting/Procedures.md
+  schemas   : Common_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md (once written)
+              setting/Truths.md (once written)
+
+== 1a I
+1a
+  templates : setting/Procedures.md
+  schemas   : Common_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md (once written)
+              setting/Truths.md (once written)
+
+== 1a J
+1a
+  templates : setting/Procedures.md
+  schemas   : Common_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md (once written)
+              setting/Truths.md (once written)
+
+== 1a K
+1a
+  templates : setting/Procedures.md
+  schemas   : Common_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md (once written)
+              setting/Truths.md (once written)
+
+== 1a L
+1a
+  templates : setting/Procedures.md
+  schemas   : Common_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md (once written)
+              setting/Truths.md (once written)
+
+== 1a M
+1a
+  templates : setting/Procedures.md
+  schemas   : Common_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md (once written)
+              setting/Truths.md (once written)
+
+== 1b 
+1b
+  templates : setting/Language.md
+  schemas   : Common_Schema.md, Setting_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/Bestiary.md
+              setting/Factions.md
+              Language.Coined here <- Person.name, Person.form, Named Creatures.Form, Factions.Form, Location.name
+
+== 1b A
+1b
+  templates : setting/Language.md
+  schemas   : Common_Schema.md, Setting_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/Bestiary.md
+              setting/Factions.md
+              Language.Coined here <- Person.name, Person.form, Named Creatures.Form, Factions.Form, Location.name
+
+== 1b B
+1b
+  templates : setting/Language.md
+  schemas   : Common_Schema.md, Setting_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/Bestiary.md
+              setting/Factions.md
+              Language.Coined here <- Person.name, Person.form, Named Creatures.Form, Factions.Form, Location.name
+
+== 1b C
+1b
+  templates : setting/Language.md
+  schemas   : Common_Schema.md, Setting_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/Bestiary.md
+              setting/Factions.md
+              Language.Coined here <- Person.name, Person.form, Named Creatures.Form, Factions.Form, Location.name
+
+== 1b D
+1b
+  templates : setting/Language.md
+  schemas   : Common_Schema.md, Setting_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/Bestiary.md
+              setting/Factions.md
+              Language.Coined here <- Person.name, Person.form, Named Creatures.Form, Factions.Form, Location.name
+
+== 1b E
+1b
+  templates : setting/Language.md
+  schemas   : Common_Schema.md, Setting_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/Bestiary.md
+              setting/Factions.md
+              Language.Coined here <- Person.name, Person.form, Named Creatures.Form, Factions.Form, Location.name
+
+== 1b F
+1b
+  templates : setting/Language.md
+  schemas   : Common_Schema.md, Setting_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/Bestiary.md
+              setting/Factions.md
+              Language.Coined here <- Person.name, Person.form, Named Creatures.Form, Factions.Form, Location.name
+
+== 1b G
+1b
+  templates : setting/Language.md
+  schemas   : Common_Schema.md, Setting_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/Bestiary.md
+              setting/Factions.md
+              Language.Coined here <- Person.name, Person.form, Named Creatures.Form, Factions.Form, Location.name
+
+== 1b H
+1b
+  templates : setting/Language.md
+  schemas   : Common_Schema.md, Setting_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/Bestiary.md
+              setting/Factions.md
+              Language.Coined here <- Person.name, Person.form, Named Creatures.Form, Factions.Form, Location.name
+
+== 1b I
+1b
+  templates : setting/Language.md
+  schemas   : Common_Schema.md, Setting_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/Bestiary.md
+              setting/Factions.md
+              Language.Coined here <- Person.name, Person.form, Named Creatures.Form, Factions.Form, Location.name
+
+== 1b J
+1b
+  templates : setting/Language.md
+  schemas   : Common_Schema.md, Setting_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/Bestiary.md
+              setting/Factions.md
+              Language.Coined here <- Person.name, Person.form, Named Creatures.Form, Factions.Form, Location.name
+
+== 1b K
+1b
+  templates : setting/Language.md
+  schemas   : Common_Schema.md, Setting_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/Bestiary.md
+              setting/Factions.md
+              Language.Coined here <- Person.name, Person.form, Named Creatures.Form, Factions.Form, Location.name
+
+== 1b L
+1b
+  templates : setting/Language.md
+  schemas   : Common_Schema.md, Setting_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/Bestiary.md
+              setting/Factions.md
+              Language.Coined here <- Person.name, Person.form, Named Creatures.Form, Factions.Form, Location.name
+
+== 1b M
+1b
+  templates : setting/Language.md
+  schemas   : Common_Schema.md, Setting_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/Bestiary.md
+              setting/Factions.md
+              Language.Coined here <- Person.name, Person.form, Named Creatures.Form, Factions.Form, Location.name
+
+== 2a 
+2a
+  templates : setting/Setting.md
+  schemas   : Common_Schema.md
+
+== 2a A
+2a
+  templates : setting/Setting.md
+  schemas   : Common_Schema.md
+
+== 2a B
+2a
+  templates : setting/Setting.md
+  schemas   : Common_Schema.md
+
+== 2a C
+2a
+  templates : setting/Setting.md
+  schemas   : Common_Schema.md
+
+== 2a D
+2a
+  templates : setting/Setting.md
+  schemas   : Common_Schema.md
+
+== 2a E
+2a
+  templates : setting/Setting.md
+  schemas   : Common_Schema.md
+
+== 2a F
+2a
+  templates : setting/Setting.md
+  schemas   : Common_Schema.md
+
+== 2a G
+2a
+  templates : setting/Setting.md
+  schemas   : Common_Schema.md
+
+== 2a H
+2a
+  templates : setting/Setting.md
+  schemas   : Common_Schema.md
+
+== 2a I
+2a
+  templates : setting/Setting.md
+  schemas   : Common_Schema.md
+
+== 2a J
+2a
+  templates : setting/Setting.md
+  schemas   : Common_Schema.md
+
+== 2a K
+2a
+  templates : setting/Setting.md
+  schemas   : Common_Schema.md
+
+== 2a L
+2a
+  templates : setting/Setting.md
+  schemas   : Common_Schema.md
+
+== 2a M
+2a
+  templates : setting/Setting.md
+  schemas   : Common_Schema.md
+
+== 2b 
+2b
+  templates : setting/History.md
+  schemas   : Common_Schema.md, Setting_Schema.md, [Rating]_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              the entries naming History: Dressing.left
+              python3 tools/validate_setting.py --location [Location Code]
+
+== 2b A
+2b
+  templates : setting/History.md
+  schemas   : Common_Schema.md, Setting_Schema.md, [Rating]_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              the entries naming History: Dressing.left
+              python3 tools/validate_setting.py --location [Location Code]
+
+== 2b B
+2b
+  templates : setting/History.md
+  schemas   : Common_Schema.md, Setting_Schema.md, [Rating]_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              the entries naming History: Dressing.left
+              python3 tools/validate_setting.py --location [Location Code]
+
+== 2b C
+2b
+  templates : setting/History.md
+  schemas   : Common_Schema.md, Setting_Schema.md, [Rating]_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              the entries naming History: Dressing.left
+              python3 tools/validate_setting.py --location [Location Code]
+
+== 2b D
+2b
+  templates : setting/History.md
+  schemas   : Common_Schema.md, Setting_Schema.md, [Rating]_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              the entries naming History: Dressing.left
+              python3 tools/validate_setting.py --location [Location Code]
+
+== 2b E
+2b
+  templates : setting/History.md
+  schemas   : Common_Schema.md, Setting_Schema.md, [Rating]_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              the entries naming History: Dressing.left
+              python3 tools/validate_setting.py --location [Location Code]
+
+== 2b F
+2b
+  templates : setting/History.md
+  schemas   : Common_Schema.md, Setting_Schema.md, [Rating]_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              the entries naming History: Dressing.left
+              python3 tools/validate_setting.py --location [Location Code]
+
+== 2b G
+2b
+  templates : setting/History.md
+  schemas   : Common_Schema.md, Setting_Schema.md, [Rating]_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              the entries naming History: Dressing.left
+              python3 tools/validate_setting.py --location [Location Code]
+
+== 2b H
+2b
+  templates : setting/History.md
+  schemas   : Common_Schema.md, Setting_Schema.md, [Rating]_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              the entries naming History: Dressing.left
+              python3 tools/validate_setting.py --location [Location Code]
+
+== 2b I
+2b
+  templates : setting/History.md
+  schemas   : Common_Schema.md, Setting_Schema.md, [Rating]_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              the entries naming History: Dressing.left
+              python3 tools/validate_setting.py --location [Location Code]
+
+== 2b J
+2b
+  templates : setting/History.md
+  schemas   : Common_Schema.md, Setting_Schema.md, [Rating]_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              the entries naming History: Dressing.left
+              python3 tools/validate_setting.py --location [Location Code]
+
+== 2b K
+2b
+  templates : setting/History.md
+  schemas   : Common_Schema.md, Setting_Schema.md, [Rating]_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              the entries naming History: Dressing.left
+              python3 tools/validate_setting.py --location [Location Code]
+
+== 2b L
+2b
+  templates : setting/History.md
+  schemas   : Common_Schema.md, Setting_Schema.md, [Rating]_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              the entries naming History: Dressing.left
+              python3 tools/validate_setting.py --location [Location Code]
+
+== 2b M
+2b
+  templates : setting/History.md
+  schemas   : Common_Schema.md, Setting_Schema.md, [Rating]_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              the entries naming History: Dressing.left
+              python3 tools/validate_setting.py --location [Location Code]
+
+== 2c 
+2c
+  templates : setting/Truths.md
+  schemas   : Common_Schema.md, Setting_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/History.md
+              python3 tools/validate_setting.py --location [Location Code]
+              Truths.Codes <- Truths.Handle
+
+== 2c A
+2c
+  templates : setting/Truths.md
+  schemas   : Common_Schema.md, Setting_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/History.md
+              python3 tools/validate_setting.py --location [Location Code]
+              Truths.Codes <- Truths.Handle
+
+== 2c B
+2c
+  templates : setting/Truths.md
+  schemas   : Common_Schema.md, Setting_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/History.md
+              python3 tools/validate_setting.py --location [Location Code]
+              Truths.Codes <- Truths.Handle
+
+== 2c C
+2c
+  templates : setting/Truths.md
+  schemas   : Common_Schema.md, Setting_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/History.md
+              python3 tools/validate_setting.py --location [Location Code]
+              Truths.Codes <- Truths.Handle
+
+== 2c D
+2c
+  templates : setting/Truths.md
+  schemas   : Common_Schema.md, Setting_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/History.md
+              python3 tools/validate_setting.py --location [Location Code]
+              Truths.Codes <- Truths.Handle
+
+== 2c E
+2c
+  templates : setting/Truths.md
+  schemas   : Common_Schema.md, Setting_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/History.md
+              python3 tools/validate_setting.py --location [Location Code]
+              Truths.Codes <- Truths.Handle
+
+== 2c F
+2c
+  templates : setting/Truths.md
+  schemas   : Common_Schema.md, Setting_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/History.md
+              python3 tools/validate_setting.py --location [Location Code]
+              Truths.Codes <- Truths.Handle
+
+== 2c G
+2c
+  templates : setting/Truths.md
+  schemas   : Common_Schema.md, Setting_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/History.md
+              python3 tools/validate_setting.py --location [Location Code]
+              Truths.Codes <- Truths.Handle
+
+== 2c H
+2c
+  templates : setting/Truths.md
+  schemas   : Common_Schema.md, Setting_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/History.md
+              python3 tools/validate_setting.py --location [Location Code]
+              Truths.Codes <- Truths.Handle
+
+== 2c I
+2c
+  templates : setting/Truths.md
+  schemas   : Common_Schema.md, Setting_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/History.md
+              python3 tools/validate_setting.py --location [Location Code]
+              Truths.Codes <- Truths.Handle
+
+== 2c J
+2c
+  templates : setting/Truths.md
+  schemas   : Common_Schema.md, Setting_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/History.md
+              python3 tools/validate_setting.py --location [Location Code]
+              Truths.Codes <- Truths.Handle
+
+== 2c K
+2c
+  templates : setting/Truths.md
+  schemas   : Common_Schema.md, Setting_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/History.md
+              python3 tools/validate_setting.py --location [Location Code]
+              Truths.Codes <- Truths.Handle
+
+== 2c L
+2c
+  templates : setting/Truths.md
+  schemas   : Common_Schema.md, Setting_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/History.md
+              python3 tools/validate_setting.py --location [Location Code]
+              Truths.Codes <- Truths.Handle
+
+== 2c M
+2c
+  templates : setting/Truths.md
+  schemas   : Common_Schema.md, Setting_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/History.md
+              python3 tools/validate_setting.py --location [Location Code]
+              Truths.Codes <- Truths.Handle
+
+== 2d 
+2d
+  templates : setting/Bestiary.md
+  schemas   : Common_Schema.md, Setting_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/History.md
+              setting/Truths.md
+              Bestiary.Description: sentences 1
+              Bestiary.Range: sentences 1-2
+              Bestiary.Disposition: sentences 1
+
+== 2d A
+2d
+  templates : setting/Bestiary.md
+  schemas   : Common_Schema.md, Setting_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/History.md
+              setting/Truths.md
+              Bestiary.Description: sentences 1
+              Bestiary.Range: sentences 1-2
+              Bestiary.Disposition: sentences 1
+
+== 2d B
+2d
+  templates : setting/Bestiary.md
+  schemas   : Common_Schema.md, Setting_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/History.md
+              setting/Truths.md
+              Bestiary.Description: sentences 1
+              Bestiary.Range: sentences 1-2
+              Bestiary.Disposition: sentences 1
+
+== 2d C
+2d
+  templates : setting/Bestiary.md
+  schemas   : Common_Schema.md, Setting_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/History.md
+              setting/Truths.md
+              Bestiary.Description: sentences 1
+              Bestiary.Range: sentences 1-2
+              Bestiary.Disposition: sentences 1
+
+== 2d D
+2d
+  templates : setting/Bestiary.md
+  schemas   : Common_Schema.md, Setting_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/History.md
+              setting/Truths.md
+              Bestiary.Description: sentences 1
+              Bestiary.Range: sentences 1-2
+              Bestiary.Disposition: sentences 1
+
+== 2d E
+2d
+  templates : setting/Bestiary.md
+  schemas   : Common_Schema.md, Setting_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/History.md
+              setting/Truths.md
+              Bestiary.Description: sentences 1
+              Bestiary.Range: sentences 1-2
+              Bestiary.Disposition: sentences 1
+
+== 2d F
+2d
+  templates : setting/Bestiary.md
+  schemas   : Common_Schema.md, Setting_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/History.md
+              setting/Truths.md
+              Bestiary.Description: sentences 1
+              Bestiary.Range: sentences 1-2
+              Bestiary.Disposition: sentences 1
+
+== 2d G
+2d
+  templates : setting/Bestiary.md
+  schemas   : Common_Schema.md, Setting_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/History.md
+              setting/Truths.md
+              Bestiary.Description: sentences 1
+              Bestiary.Range: sentences 1-2
+              Bestiary.Disposition: sentences 1
+
+== 2d H
+2d
+  templates : setting/Bestiary.md
+  schemas   : Common_Schema.md, Setting_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/History.md
+              setting/Truths.md
+              Bestiary.Description: sentences 1
+              Bestiary.Range: sentences 1-2
+              Bestiary.Disposition: sentences 1
+
+== 2d I
+2d
+  templates : setting/Bestiary.md
+  schemas   : Common_Schema.md, Setting_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/History.md
+              setting/Truths.md
+              Bestiary.Description: sentences 1
+              Bestiary.Range: sentences 1-2
+              Bestiary.Disposition: sentences 1
+
+== 2d J
+2d
+  templates : setting/Bestiary.md
+  schemas   : Common_Schema.md, Setting_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/History.md
+              setting/Truths.md
+              Bestiary.Description: sentences 1
+              Bestiary.Range: sentences 1-2
+              Bestiary.Disposition: sentences 1
+
+== 2d K
+2d
+  templates : setting/Bestiary.md
+  schemas   : Common_Schema.md, Setting_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/History.md
+              setting/Truths.md
+              Bestiary.Description: sentences 1
+              Bestiary.Range: sentences 1-2
+              Bestiary.Disposition: sentences 1
+
+== 2d L
+2d
+  templates : setting/Bestiary.md
+  schemas   : Common_Schema.md, Setting_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/History.md
+              setting/Truths.md
+              Bestiary.Description: sentences 1
+              Bestiary.Range: sentences 1-2
+              Bestiary.Disposition: sentences 1
+
+== 2d M
+2d
+  templates : setting/Bestiary.md
+  schemas   : Common_Schema.md, Setting_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/History.md
+              setting/Truths.md
+              Bestiary.Description: sentences 1
+              Bestiary.Range: sentences 1-2
+              Bestiary.Disposition: sentences 1
+
+== 2e 
+2e
+  templates : setting/Factions.md
+  schemas   : Common_Schema.md, Setting_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/History.md
+              setting/Truths.md
+              setting/Bestiary.md
+
+== 2e A
+2e
+  templates : setting/Factions.md
+  schemas   : Common_Schema.md, Setting_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/History.md
+              setting/Truths.md
+              setting/Bestiary.md
+
+== 2e B
+2e
+  templates : setting/Factions.md
+  schemas   : Common_Schema.md, Setting_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/History.md
+              setting/Truths.md
+              setting/Bestiary.md
+
+== 2e C
+2e
+  templates : setting/Factions.md
+  schemas   : Common_Schema.md, Setting_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/History.md
+              setting/Truths.md
+              setting/Bestiary.md
+
+== 2e D
+2e
+  templates : setting/Factions.md
+  schemas   : Common_Schema.md, Setting_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/History.md
+              setting/Truths.md
+              setting/Bestiary.md
+
+== 2e E
+2e
+  templates : setting/Factions.md
+  schemas   : Common_Schema.md, Setting_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/History.md
+              setting/Truths.md
+              setting/Bestiary.md
+
+== 2e F
+2e
+  templates : setting/Factions.md
+  schemas   : Common_Schema.md, Setting_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/History.md
+              setting/Truths.md
+              setting/Bestiary.md
+
+== 2e G
+2e
+  templates : setting/Factions.md
+  schemas   : Common_Schema.md, Setting_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/History.md
+              setting/Truths.md
+              setting/Bestiary.md
+
+== 2e H
+2e
+  templates : setting/Factions.md
+  schemas   : Common_Schema.md, Setting_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/History.md
+              setting/Truths.md
+              setting/Bestiary.md
+
+== 2e I
+2e
+  templates : setting/Factions.md
+  schemas   : Common_Schema.md, Setting_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/History.md
+              setting/Truths.md
+              setting/Bestiary.md
+
+== 2e J
+2e
+  templates : setting/Factions.md
+  schemas   : Common_Schema.md, Setting_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/History.md
+              setting/Truths.md
+              setting/Bestiary.md
+
+== 2e K
+2e
+  templates : setting/Factions.md
+  schemas   : Common_Schema.md, Setting_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/History.md
+              setting/Truths.md
+              setting/Bestiary.md
+
+== 2e L
+2e
+  templates : setting/Factions.md
+  schemas   : Common_Schema.md, Setting_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/History.md
+              setting/Truths.md
+              setting/Bestiary.md
+
+== 2e M
+2e
+  templates : setting/Factions.md
+  schemas   : Common_Schema.md, Setting_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/History.md
+              setting/Truths.md
+              setting/Bestiary.md
+
+== 2f 
+2f
+  templates : setting/Magic.md, setting/Treasure.md
+  schemas   : Common_Schema.md, Setting_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Procedures.md - the coin every value is stated in
+              setting/Setting.md
+              setting/History.md
+              setting/Truths.md
+
+== 2f A
+2f
+  templates : setting/Magic.md, setting/Treasure.md
+  schemas   : Common_Schema.md, Setting_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Procedures.md - the coin every value is stated in
+              setting/Setting.md
+              setting/History.md
+              setting/Truths.md
+
+== 2f B
+2f
+  templates : setting/Magic.md, setting/Treasure.md
+  schemas   : Common_Schema.md, Setting_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Procedures.md - the coin every value is stated in
+              setting/Setting.md
+              setting/History.md
+              setting/Truths.md
+
+== 2f C
+2f
+  templates : setting/Magic.md, setting/Treasure.md
+  schemas   : Common_Schema.md, Setting_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Procedures.md - the coin every value is stated in
+              setting/Setting.md
+              setting/History.md
+              setting/Truths.md
+
+== 2f D
+2f
+  templates : setting/Magic.md, setting/Treasure.md
+  schemas   : Common_Schema.md, Setting_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Procedures.md - the coin every value is stated in
+              setting/Setting.md
+              setting/History.md
+              setting/Truths.md
+
+== 2f E
+2f
+  templates : setting/Magic.md, setting/Treasure.md
+  schemas   : Common_Schema.md, Setting_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Procedures.md - the coin every value is stated in
+              setting/Setting.md
+              setting/History.md
+              setting/Truths.md
+
+== 2f F
+2f
+  templates : setting/Magic.md, setting/Treasure.md
+  schemas   : Common_Schema.md, Setting_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Procedures.md - the coin every value is stated in
+              setting/Setting.md
+              setting/History.md
+              setting/Truths.md
+
+== 2f G
+2f
+  templates : setting/Magic.md, setting/Treasure.md
+  schemas   : Common_Schema.md, Setting_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Procedures.md - the coin every value is stated in
+              setting/Setting.md
+              setting/History.md
+              setting/Truths.md
+
+== 2f H
+2f
+  templates : setting/Magic.md, setting/Treasure.md
+  schemas   : Common_Schema.md, Setting_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Procedures.md - the coin every value is stated in
+              setting/Setting.md
+              setting/History.md
+              setting/Truths.md
+
+== 2f I
+2f
+  templates : setting/Magic.md, setting/Treasure.md
+  schemas   : Common_Schema.md, Setting_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Procedures.md - the coin every value is stated in
+              setting/Setting.md
+              setting/History.md
+              setting/Truths.md
+
+== 2f J
+2f
+  templates : setting/Magic.md, setting/Treasure.md
+  schemas   : Common_Schema.md, Setting_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Procedures.md - the coin every value is stated in
+              setting/Setting.md
+              setting/History.md
+              setting/Truths.md
+
+== 2f K
+2f
+  templates : setting/Magic.md, setting/Treasure.md
+  schemas   : Common_Schema.md, Setting_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Procedures.md - the coin every value is stated in
+              setting/Setting.md
+              setting/History.md
+              setting/Truths.md
+
+== 2f L
+2f
+  templates : setting/Magic.md, setting/Treasure.md
+  schemas   : Common_Schema.md, Setting_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Procedures.md - the coin every value is stated in
+              setting/Setting.md
+              setting/History.md
+              setting/Truths.md
+
+== 2f M
+2f
+  templates : setting/Magic.md, setting/Treasure.md
+  schemas   : Common_Schema.md, Setting_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Procedures.md - the coin every value is stated in
+              setting/Setting.md
+              setting/History.md
+              setting/Truths.md
+
+== 2g 
+2g
+  templates : setting/Language.md, setting/Procedures.md
+  schemas   : Common_Schema.md, Setting_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/Bestiary.md
+              setting/Factions.md
+              Language.Coined here <- Person.name, Person.form, Named Creatures.Form, Factions.Form, Location.name
+              setting/Setting.md (once written)
+              setting/Truths.md (once written)
+
+== 2g A
+2g
+  templates : setting/Language.md, setting/Procedures.md
+  schemas   : Common_Schema.md, Setting_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/Bestiary.md
+              setting/Factions.md
+              Language.Coined here <- Person.name, Person.form, Named Creatures.Form, Factions.Form, Location.name
+              setting/Setting.md (once written)
+              setting/Truths.md (once written)
+
+== 2g B
+2g
+  templates : setting/Language.md, setting/Procedures.md
+  schemas   : Common_Schema.md, Setting_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/Bestiary.md
+              setting/Factions.md
+              Language.Coined here <- Person.name, Person.form, Named Creatures.Form, Factions.Form, Location.name
+              setting/Setting.md (once written)
+              setting/Truths.md (once written)
+
+== 2g C
+2g
+  templates : setting/Language.md, setting/Procedures.md
+  schemas   : Common_Schema.md, Setting_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/Bestiary.md
+              setting/Factions.md
+              Language.Coined here <- Person.name, Person.form, Named Creatures.Form, Factions.Form, Location.name
+              setting/Setting.md (once written)
+              setting/Truths.md (once written)
+
+== 2g D
+2g
+  templates : setting/Language.md, setting/Procedures.md
+  schemas   : Common_Schema.md, Setting_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/Bestiary.md
+              setting/Factions.md
+              Language.Coined here <- Person.name, Person.form, Named Creatures.Form, Factions.Form, Location.name
+              setting/Setting.md (once written)
+              setting/Truths.md (once written)
+
+== 2g E
+2g
+  templates : setting/Language.md, setting/Procedures.md
+  schemas   : Common_Schema.md, Setting_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/Bestiary.md
+              setting/Factions.md
+              Language.Coined here <- Person.name, Person.form, Named Creatures.Form, Factions.Form, Location.name
+              setting/Setting.md (once written)
+              setting/Truths.md (once written)
+
+== 2g F
+2g
+  templates : setting/Language.md, setting/Procedures.md
+  schemas   : Common_Schema.md, Setting_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/Bestiary.md
+              setting/Factions.md
+              Language.Coined here <- Person.name, Person.form, Named Creatures.Form, Factions.Form, Location.name
+              setting/Setting.md (once written)
+              setting/Truths.md (once written)
+
+== 2g G
+2g
+  templates : setting/Language.md, setting/Procedures.md
+  schemas   : Common_Schema.md, Setting_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/Bestiary.md
+              setting/Factions.md
+              Language.Coined here <- Person.name, Person.form, Named Creatures.Form, Factions.Form, Location.name
+              setting/Setting.md (once written)
+              setting/Truths.md (once written)
+
+== 2g H
+2g
+  templates : setting/Language.md, setting/Procedures.md
+  schemas   : Common_Schema.md, Setting_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/Bestiary.md
+              setting/Factions.md
+              Language.Coined here <- Person.name, Person.form, Named Creatures.Form, Factions.Form, Location.name
+              setting/Setting.md (once written)
+              setting/Truths.md (once written)
+
+== 2g I
+2g
+  templates : setting/Language.md, setting/Procedures.md
+  schemas   : Common_Schema.md, Setting_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/Bestiary.md
+              setting/Factions.md
+              Language.Coined here <- Person.name, Person.form, Named Creatures.Form, Factions.Form, Location.name
+              setting/Setting.md (once written)
+              setting/Truths.md (once written)
+
+== 2g J
+2g
+  templates : setting/Language.md, setting/Procedures.md
+  schemas   : Common_Schema.md, Setting_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/Bestiary.md
+              setting/Factions.md
+              Language.Coined here <- Person.name, Person.form, Named Creatures.Form, Factions.Form, Location.name
+              setting/Setting.md (once written)
+              setting/Truths.md (once written)
+
+== 2g K
+2g
+  templates : setting/Language.md, setting/Procedures.md
+  schemas   : Common_Schema.md, Setting_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/Bestiary.md
+              setting/Factions.md
+              Language.Coined here <- Person.name, Person.form, Named Creatures.Form, Factions.Form, Location.name
+              setting/Setting.md (once written)
+              setting/Truths.md (once written)
+
+== 2g L
+2g
+  templates : setting/Language.md, setting/Procedures.md
+  schemas   : Common_Schema.md, Setting_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/Bestiary.md
+              setting/Factions.md
+              Language.Coined here <- Person.name, Person.form, Named Creatures.Form, Factions.Form, Location.name
+              setting/Setting.md (once written)
+              setting/Truths.md (once written)
+
+== 2g M
+2g
+  templates : setting/Language.md, setting/Procedures.md
+  schemas   : Common_Schema.md, Setting_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/Bestiary.md
+              setting/Factions.md
+              Language.Coined here <- Person.name, Person.form, Named Creatures.Form, Factions.Form, Location.name
+              setting/Setting.md (once written)
+              setting/Truths.md (once written)
+
+== 3a 
+3a
+  templates : region/Region_Gazetteer.md
+  schemas   : Common_Schema.md, Region_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/Language.md
+              Region.name <- Language.Coined here
+
+== 3a A
+3a
+  templates : region/Region_Gazetteer.md
+  schemas   : Common_Schema.md, Region_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/Language.md
+              Region.name <- Language.Coined here
+
+== 3a B
+3a
+  templates : region/Region_Gazetteer.md
+  schemas   : Common_Schema.md, Region_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/Language.md
+              Region.name <- Language.Coined here
+
+== 3a C
+3a
+  templates : region/Region_Gazetteer.md
+  schemas   : Common_Schema.md, Region_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/Language.md
+              Region.name <- Language.Coined here
+
+== 3a D
+3a
+  templates : region/Region_Gazetteer.md
+  schemas   : Common_Schema.md, Region_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/Language.md
+              Region.name <- Language.Coined here
+
+== 3a E
+3a
+  templates : region/Region_Gazetteer.md
+  schemas   : Common_Schema.md, Region_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/Language.md
+              Region.name <- Language.Coined here
+
+== 3a F
+3a
+  templates : region/Region_Gazetteer.md
+  schemas   : Common_Schema.md, Region_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/Language.md
+              Region.name <- Language.Coined here
+
+== 3a G
+3a
+  templates : region/Region_Gazetteer.md
+  schemas   : Common_Schema.md, Region_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/Language.md
+              Region.name <- Language.Coined here
+
+== 3a H
+3a
+  templates : region/Region_Gazetteer.md
+  schemas   : Common_Schema.md, Region_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/Language.md
+              Region.name <- Language.Coined here
+
+== 3a I
+3a
+  templates : region/Region_Gazetteer.md
+  schemas   : Common_Schema.md, Region_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/Language.md
+              Region.name <- Language.Coined here
+
+== 3a J
+3a
+  templates : region/Region_Gazetteer.md
+  schemas   : Common_Schema.md, Region_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/Language.md
+              Region.name <- Language.Coined here
+
+== 3a K
+3a
+  templates : region/Region_Gazetteer.md
+  schemas   : Common_Schema.md, Region_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/Language.md
+              Region.name <- Language.Coined here
+
+== 3a L
+3a
+  templates : region/Region_Gazetteer.md
+  schemas   : Common_Schema.md, Region_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/Language.md
+              Region.name <- Language.Coined here
+
+== 3a M
+3a
+  templates : region/Region_Gazetteer.md
+  schemas   : Common_Schema.md, Region_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/Language.md
+              Region.name <- Language.Coined here
+
+== 3b 
+3b
+  templates : (none)
+  schemas   : (none)
+
+== 3b A
+3b
+  templates : (none)
+  schemas   : (none)
+
+== 3b B
+3b
+  templates : (none)
+  schemas   : (none)
+
+== 3b C
+3b
+  templates : (none)
+  schemas   : (none)
+
+== 3b D
+3b
+  templates : (none)
+  schemas   : (none)
+
+== 3b E
+3b
+  templates : (none)
+  schemas   : (none)
+
+== 3b F
+3b
+  templates : (none)
+  schemas   : (none)
+
+== 3b G
+3b
+  templates : (none)
+  schemas   : (none)
+
+== 3b H
+3b
+  templates : (none)
+  schemas   : (none)
+
+== 3b I
+3b
+  templates : (none)
+  schemas   : (none)
+
+== 3b J
+3b
+  templates : (none)
+  schemas   : (none)
+
+== 3b K
+3b
+  templates : (none)
+  schemas   : (none)
+
+== 3b L
+3b
+  templates : (none)
+  schemas   : (none)
+
+== 3b M
+3b
+  templates : (none)
+  schemas   : (none)
+
+== 3c 
+3c
+  templates : region/Region.md
+  schemas   : Common_Schema.md, Region_Schema.md, [Rating]_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/History.md
+              setting/Truths.md
+              setting/Bestiary.md
+              setting/Factions.md
+              setting/region/Regions.md
+              setting/Procedures.md - Time and Distance, Weather
+              Seed.who <- Bestiary, Factions
+              Rung <- Truths.Truth, History.Event
+              Ruling <- Seed.terrain
+
+== 3c A
+3c
+  templates : region/Region.md
+  schemas   : Common_Schema.md, Region_Schema.md, [Rating]_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/History.md
+              setting/Truths.md
+              setting/Bestiary.md
+              setting/Factions.md
+              setting/region/Regions.md
+              setting/Procedures.md - Time and Distance, Weather
+              Seed.who <- Bestiary, Factions
+              Rung <- Truths.Truth, History.Event
+              Ruling <- Seed.terrain
+
+== 3c B
+3c
+  templates : region/Region.md
+  schemas   : Common_Schema.md, Region_Schema.md, [Rating]_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/History.md
+              setting/Truths.md
+              setting/Bestiary.md
+              setting/Factions.md
+              setting/region/Regions.md
+              setting/Procedures.md - Time and Distance, Weather
+              Seed.who <- Bestiary, Factions
+              Rung <- Truths.Truth, History.Event
+              Ruling <- Seed.terrain
+
+== 3c C
+3c
+  templates : region/Region.md
+  schemas   : Common_Schema.md, Region_Schema.md, [Rating]_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/History.md
+              setting/Truths.md
+              setting/Bestiary.md
+              setting/Factions.md
+              setting/region/Regions.md
+              setting/Procedures.md - Time and Distance, Weather
+              Seed.who <- Bestiary, Factions
+              Rung <- Truths.Truth, History.Event
+              Ruling <- Seed.terrain
+
+== 3c D
+3c
+  templates : region/Region.md
+  schemas   : Common_Schema.md, Region_Schema.md, [Rating]_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/History.md
+              setting/Truths.md
+              setting/Bestiary.md
+              setting/Factions.md
+              setting/region/Regions.md
+              setting/Procedures.md - Time and Distance, Weather
+              Seed.who <- Bestiary, Factions
+              Rung <- Truths.Truth, History.Event
+              Ruling <- Seed.terrain
+
+== 3c E
+3c
+  templates : region/Region.md
+  schemas   : Common_Schema.md, Region_Schema.md, [Rating]_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/History.md
+              setting/Truths.md
+              setting/Bestiary.md
+              setting/Factions.md
+              setting/region/Regions.md
+              setting/Procedures.md - Time and Distance, Weather
+              Seed.who <- Bestiary, Factions
+              Rung <- Truths.Truth, History.Event
+              Ruling <- Seed.terrain
+
+== 3c F
+3c
+  templates : region/Region.md
+  schemas   : Common_Schema.md, Region_Schema.md, [Rating]_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/History.md
+              setting/Truths.md
+              setting/Bestiary.md
+              setting/Factions.md
+              setting/region/Regions.md
+              setting/Procedures.md - Time and Distance, Weather
+              Seed.who <- Bestiary, Factions
+              Rung <- Truths.Truth, History.Event
+              Ruling <- Seed.terrain
+
+== 3c G
+3c
+  templates : region/Region.md
+  schemas   : Common_Schema.md, Region_Schema.md, [Rating]_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/History.md
+              setting/Truths.md
+              setting/Bestiary.md
+              setting/Factions.md
+              setting/region/Regions.md
+              setting/Procedures.md - Time and Distance, Weather
+              Seed.who <- Bestiary, Factions
+              Rung <- Truths.Truth, History.Event
+              Ruling <- Seed.terrain
+
+== 3c H
+3c
+  templates : region/Region.md
+  schemas   : Common_Schema.md, Region_Schema.md, [Rating]_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/History.md
+              setting/Truths.md
+              setting/Bestiary.md
+              setting/Factions.md
+              setting/region/Regions.md
+              setting/Procedures.md - Time and Distance, Weather
+              Seed.who <- Bestiary, Factions
+              Rung <- Truths.Truth, History.Event
+              Ruling <- Seed.terrain
+
+== 3c I
+3c
+  templates : region/Region.md
+  schemas   : Common_Schema.md, Region_Schema.md, [Rating]_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/History.md
+              setting/Truths.md
+              setting/Bestiary.md
+              setting/Factions.md
+              setting/region/Regions.md
+              setting/Procedures.md - Time and Distance, Weather
+              Seed.who <- Bestiary, Factions
+              Rung <- Truths.Truth, History.Event
+              Ruling <- Seed.terrain
+
+== 3c J
+3c
+  templates : region/Region.md
+  schemas   : Common_Schema.md, Region_Schema.md, [Rating]_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/History.md
+              setting/Truths.md
+              setting/Bestiary.md
+              setting/Factions.md
+              setting/region/Regions.md
+              setting/Procedures.md - Time and Distance, Weather
+              Seed.who <- Bestiary, Factions
+              Rung <- Truths.Truth, History.Event
+              Ruling <- Seed.terrain
+
+== 3c K
+3c
+  templates : region/Region.md
+  schemas   : Common_Schema.md, Region_Schema.md, [Rating]_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/History.md
+              setting/Truths.md
+              setting/Bestiary.md
+              setting/Factions.md
+              setting/region/Regions.md
+              setting/Procedures.md - Time and Distance, Weather
+              Seed.who <- Bestiary, Factions
+              Rung <- Truths.Truth, History.Event
+              Ruling <- Seed.terrain
+
+== 3c L
+3c
+  templates : region/Region.md
+  schemas   : Common_Schema.md, Region_Schema.md, [Rating]_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/History.md
+              setting/Truths.md
+              setting/Bestiary.md
+              setting/Factions.md
+              setting/region/Regions.md
+              setting/Procedures.md - Time and Distance, Weather
+              Seed.who <- Bestiary, Factions
+              Rung <- Truths.Truth, History.Event
+              Ruling <- Seed.terrain
+
+== 3c M
+3c
+  templates : region/Region.md
+  schemas   : Common_Schema.md, Region_Schema.md, [Rating]_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/History.md
+              setting/Truths.md
+              setting/Bestiary.md
+              setting/Factions.md
+              setting/region/Regions.md
+              setting/Procedures.md - Time and Distance, Weather
+              Seed.who <- Bestiary, Factions
+              Rung <- Truths.Truth, History.Event
+              Ruling <- Seed.terrain
+
+== 3d 
+3d
+  templates : region/Locations.md
+  schemas   : Common_Schema.md, Setting_Schema.md, [Rating]_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/region/[Region Code]/Seed.md
+              setting/region/Regions.md - this region's die
+              setting/region/[Region Code]/Ground.md
+              setting/Language.md
+              Location.name <- Language.Coined here
+              Location.bearing <- Feature.bearing, Feature.distance, At.ground
+
+== 3d A
+3d
+  templates : region/Locations.md
+  schemas   : Common_Schema.md, Setting_Schema.md, [Rating]_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/region/[Region Code]/Seed.md
+              setting/region/Regions.md - this region's die
+              setting/region/[Region Code]/Ground.md
+              setting/Language.md
+              Location.name <- Language.Coined here
+              Location.bearing <- Feature.bearing, Feature.distance, At.ground
+
+== 3d B
+3d
+  templates : region/Locations.md
+  schemas   : Common_Schema.md, Setting_Schema.md, [Rating]_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/region/[Region Code]/Seed.md
+              setting/region/Regions.md - this region's die
+              setting/region/[Region Code]/Ground.md
+              setting/Language.md
+              Location.name <- Language.Coined here
+              Location.bearing <- Feature.bearing, Feature.distance, At.ground
+
+== 3d C
+3d
+  templates : region/Locations.md
+  schemas   : Common_Schema.md, Setting_Schema.md, [Rating]_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/region/[Region Code]/Seed.md
+              setting/region/Regions.md - this region's die
+              setting/region/[Region Code]/Ground.md
+              setting/Language.md
+              Location.name <- Language.Coined here
+              Location.bearing <- Feature.bearing, Feature.distance, At.ground
+
+== 3d D
+3d
+  templates : region/Locations.md
+  schemas   : Common_Schema.md, Setting_Schema.md, [Rating]_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/region/[Region Code]/Seed.md
+              setting/region/Regions.md - this region's die
+              setting/region/[Region Code]/Ground.md
+              setting/Language.md
+              Location.name <- Language.Coined here
+              Location.bearing <- Feature.bearing, Feature.distance, At.ground
+
+== 3d E
+3d
+  templates : region/Locations.md
+  schemas   : Common_Schema.md, Setting_Schema.md, [Rating]_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/region/[Region Code]/Seed.md
+              setting/region/Regions.md - this region's die
+              setting/region/[Region Code]/Ground.md
+              setting/Language.md
+              Location.name <- Language.Coined here
+              Location.bearing <- Feature.bearing, Feature.distance, At.ground
+
+== 3d F
+3d
+  templates : region/Locations.md
+  schemas   : Common_Schema.md, Setting_Schema.md, [Rating]_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/region/[Region Code]/Seed.md
+              setting/region/Regions.md - this region's die
+              setting/region/[Region Code]/Ground.md
+              setting/Language.md
+              Location.name <- Language.Coined here
+              Location.bearing <- Feature.bearing, Feature.distance, At.ground
+
+== 3d G
+3d
+  templates : region/Locations.md
+  schemas   : Common_Schema.md, Setting_Schema.md, [Rating]_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/region/[Region Code]/Seed.md
+              setting/region/Regions.md - this region's die
+              setting/region/[Region Code]/Ground.md
+              setting/Language.md
+              Location.name <- Language.Coined here
+              Location.bearing <- Feature.bearing, Feature.distance, At.ground
+
+== 3d H
+3d
+  templates : region/Locations.md
+  schemas   : Common_Schema.md, Setting_Schema.md, [Rating]_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/region/[Region Code]/Seed.md
+              setting/region/Regions.md - this region's die
+              setting/region/[Region Code]/Ground.md
+              setting/Language.md
+              Location.name <- Language.Coined here
+              Location.bearing <- Feature.bearing, Feature.distance, At.ground
+
+== 3d I
+3d
+  templates : region/Locations.md
+  schemas   : Common_Schema.md, Setting_Schema.md, [Rating]_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/region/[Region Code]/Seed.md
+              setting/region/Regions.md - this region's die
+              setting/region/[Region Code]/Ground.md
+              setting/Language.md
+              Location.name <- Language.Coined here
+              Location.bearing <- Feature.bearing, Feature.distance, At.ground
+
+== 3d J
+3d
+  templates : region/Locations.md
+  schemas   : Common_Schema.md, Setting_Schema.md, [Rating]_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/region/[Region Code]/Seed.md
+              setting/region/Regions.md - this region's die
+              setting/region/[Region Code]/Ground.md
+              setting/Language.md
+              Location.name <- Language.Coined here
+              Location.bearing <- Feature.bearing, Feature.distance, At.ground
+
+== 3d K
+3d
+  templates : region/Locations.md
+  schemas   : Common_Schema.md, Setting_Schema.md, [Rating]_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/region/[Region Code]/Seed.md
+              setting/region/Regions.md - this region's die
+              setting/region/[Region Code]/Ground.md
+              setting/Language.md
+              Location.name <- Language.Coined here
+              Location.bearing <- Feature.bearing, Feature.distance, At.ground
+
+== 3d L
+3d
+  templates : region/Locations.md
+  schemas   : Common_Schema.md, Setting_Schema.md, [Rating]_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/region/[Region Code]/Seed.md
+              setting/region/Regions.md - this region's die
+              setting/region/[Region Code]/Ground.md
+              setting/Language.md
+              Location.name <- Language.Coined here
+              Location.bearing <- Feature.bearing, Feature.distance, At.ground
+
+== 3d M
+3d
+  templates : region/Locations.md
+  schemas   : Common_Schema.md, Setting_Schema.md, [Rating]_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/region/[Region Code]/Seed.md
+              setting/region/Regions.md - this region's die
+              setting/region/[Region Code]/Ground.md
+              setting/Language.md
+              Location.name <- Language.Coined here
+              Location.bearing <- Feature.bearing, Feature.distance, At.ground
+
+== 3e 
+3e
+  templates : region/Connections.md
+  schemas   : Common_Schema.md, Setting_Schema.md, [Rating]_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/region/[Region Code]/Seed.md
+              setting/region/Regions.md - the regions this one joins
+              setting/region/[Region Code]/Locations.md
+              Way.to <- Entry.from, Location.type
+              Connection.to <- Entry.from, Location.type
+              Connection.width <- Conditions.width
+              Block.locations <- Location.type
+
+== 3e A
+3e
+  templates : region/Connections.md
+  schemas   : Common_Schema.md, Setting_Schema.md, [Rating]_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/region/[Region Code]/Seed.md
+              setting/region/Regions.md - the regions this one joins
+              setting/region/[Region Code]/Locations.md
+              Way.to <- Entry.from, Location.type
+              Connection.to <- Entry.from, Location.type
+              Connection.width <- Conditions.width
+              Block.locations <- Location.type
+
+== 3e B
+3e
+  templates : region/Connections.md
+  schemas   : Common_Schema.md, Setting_Schema.md, [Rating]_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/region/[Region Code]/Seed.md
+              setting/region/Regions.md - the regions this one joins
+              setting/region/[Region Code]/Locations.md
+              Way.to <- Entry.from, Location.type
+              Connection.to <- Entry.from, Location.type
+              Connection.width <- Conditions.width
+              Block.locations <- Location.type
+
+== 3e C
+3e
+  templates : region/Connections.md
+  schemas   : Common_Schema.md, Setting_Schema.md, [Rating]_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/region/[Region Code]/Seed.md
+              setting/region/Regions.md - the regions this one joins
+              setting/region/[Region Code]/Locations.md
+              Way.to <- Entry.from, Location.type
+              Connection.to <- Entry.from, Location.type
+              Connection.width <- Conditions.width
+              Block.locations <- Location.type
+
+== 3e D
+3e
+  templates : region/Connections.md
+  schemas   : Common_Schema.md, Setting_Schema.md, [Rating]_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/region/[Region Code]/Seed.md
+              setting/region/Regions.md - the regions this one joins
+              setting/region/[Region Code]/Locations.md
+              Way.to <- Entry.from, Location.type
+              Connection.to <- Entry.from, Location.type
+              Connection.width <- Conditions.width
+              Block.locations <- Location.type
+
+== 3e E
+3e
+  templates : region/Connections.md
+  schemas   : Common_Schema.md, Setting_Schema.md, [Rating]_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/region/[Region Code]/Seed.md
+              setting/region/Regions.md - the regions this one joins
+              setting/region/[Region Code]/Locations.md
+              Way.to <- Entry.from, Location.type
+              Connection.to <- Entry.from, Location.type
+              Connection.width <- Conditions.width
+              Block.locations <- Location.type
+
+== 3e F
+3e
+  templates : region/Connections.md
+  schemas   : Common_Schema.md, Setting_Schema.md, [Rating]_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/region/[Region Code]/Seed.md
+              setting/region/Regions.md - the regions this one joins
+              setting/region/[Region Code]/Locations.md
+              Way.to <- Entry.from, Location.type
+              Connection.to <- Entry.from, Location.type
+              Connection.width <- Conditions.width
+              Block.locations <- Location.type
+
+== 3e G
+3e
+  templates : region/Connections.md
+  schemas   : Common_Schema.md, Setting_Schema.md, [Rating]_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/region/[Region Code]/Seed.md
+              setting/region/Regions.md - the regions this one joins
+              setting/region/[Region Code]/Locations.md
+              Way.to <- Entry.from, Location.type
+              Connection.to <- Entry.from, Location.type
+              Connection.width <- Conditions.width
+              Block.locations <- Location.type
+
+== 3e H
+3e
+  templates : region/Connections.md
+  schemas   : Common_Schema.md, Setting_Schema.md, [Rating]_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/region/[Region Code]/Seed.md
+              setting/region/Regions.md - the regions this one joins
+              setting/region/[Region Code]/Locations.md
+              Way.to <- Entry.from, Location.type
+              Connection.to <- Entry.from, Location.type
+              Connection.width <- Conditions.width
+              Block.locations <- Location.type
+
+== 3e I
+3e
+  templates : region/Connections.md
+  schemas   : Common_Schema.md, Setting_Schema.md, [Rating]_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/region/[Region Code]/Seed.md
+              setting/region/Regions.md - the regions this one joins
+              setting/region/[Region Code]/Locations.md
+              Way.to <- Entry.from, Location.type
+              Connection.to <- Entry.from, Location.type
+              Connection.width <- Conditions.width
+              Block.locations <- Location.type
+
+== 3e J
+3e
+  templates : region/Connections.md
+  schemas   : Common_Schema.md, Setting_Schema.md, [Rating]_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/region/[Region Code]/Seed.md
+              setting/region/Regions.md - the regions this one joins
+              setting/region/[Region Code]/Locations.md
+              Way.to <- Entry.from, Location.type
+              Connection.to <- Entry.from, Location.type
+              Connection.width <- Conditions.width
+              Block.locations <- Location.type
+
+== 3e K
+3e
+  templates : region/Connections.md
+  schemas   : Common_Schema.md, Setting_Schema.md, [Rating]_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/region/[Region Code]/Seed.md
+              setting/region/Regions.md - the regions this one joins
+              setting/region/[Region Code]/Locations.md
+              Way.to <- Entry.from, Location.type
+              Connection.to <- Entry.from, Location.type
+              Connection.width <- Conditions.width
+              Block.locations <- Location.type
+
+== 3e L
+3e
+  templates : region/Connections.md
+  schemas   : Common_Schema.md, Setting_Schema.md, [Rating]_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/region/[Region Code]/Seed.md
+              setting/region/Regions.md - the regions this one joins
+              setting/region/[Region Code]/Locations.md
+              Way.to <- Entry.from, Location.type
+              Connection.to <- Entry.from, Location.type
+              Connection.width <- Conditions.width
+              Block.locations <- Location.type
+
+== 3e M
+3e
+  templates : region/Connections.md
+  schemas   : Common_Schema.md, Setting_Schema.md, [Rating]_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/region/[Region Code]/Seed.md
+              setting/region/Regions.md - the regions this one joins
+              setting/region/[Region Code]/Locations.md
+              Way.to <- Entry.from, Location.type
+              Connection.to <- Entry.from, Location.type
+              Connection.width <- Conditions.width
+              Block.locations <- Location.type
+
+== 3f 
+3f
+  templates : (none)
+  schemas   : (none)
+
+== 3f A
+3f
+  templates : (none)
+  schemas   : (none)
+
+== 3f B
+3f
+  templates : (none)
+  schemas   : (none)
+
+== 3f C
+3f
+  templates : (none)
+  schemas   : (none)
+
+== 3f D
+3f
+  templates : (none)
+  schemas   : (none)
+
+== 3f E
+3f
+  templates : (none)
+  schemas   : (none)
+
+== 3f F
+3f
+  templates : (none)
+  schemas   : (none)
+
+== 3f G
+3f
+  templates : (none)
+  schemas   : (none)
+
+== 3f H
+3f
+  templates : (none)
+  schemas   : (none)
+
+== 3f I
+3f
+  templates : (none)
+  schemas   : (none)
+
+== 3f J
+3f
+  templates : (none)
+  schemas   : (none)
+
+== 3f K
+3f
+  templates : (none)
+  schemas   : (none)
+
+== 3f L
+3f
+  templates : (none)
+  schemas   : (none)
+
+== 3f M
+3f
+  templates : (none)
+  schemas   : (none)
+
+== 4a 
+4a
+  templates : region/Tables.md, setting/Bestiary.md, setting/Factions.md, setting/Hoards.md, setting/Keys.md, setting/Language.md, setting/LocalProcedures.md, setting/Lore.md, setting/MagicalTomes.md, setting/NamedCreatures.md, setting/UniqueTreasures.md
+  schemas   : Common_Schema.md, Setting_Schema.md, [Rating]_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/region/[Region Code]/Seed.md
+              setting/region/Regions.md - this region's die
+              setting/region/[Region Code]/Ground.md
+              setting/region/[Region Code]/Locations.md
+              setting/region/[Region Code]/Connections.md
+              setting/region/[Region Code]/[Table].md
+              setting/Bestiary.md
+              setting/Factions.md
+              setting/History.md
+              setting/Language.md
+              setting/Procedures.md - Forced Dangers, Conditions, Wounds
+              python3 tools/validate_setting.py --pending [Region Code]
+              Encounter <- Seed.who
+              Person <- Seed.who
+              Dressing.mark <- Seed.who, Factions.Identity
+              Dressing.left <- History.Left
+              Person.form <- Language.Coined here
+              Person.quest <- Quests.Name
+              Purpose.signs <- Location.tags
+              Hazard.wound <- Hazard.damage
+              Encounter.answers <- Connection.to
+              Lock.key <- Keys.Found at
+              setting/Setting.md
+              setting/Truths.md
+              Bestiary.Description: sentences 1
+              Bestiary.Range: sentences 1-2
+              Bestiary.Disposition: sentences 1
+              setting/Procedures.md - the coin every value is stated in
+              setting/NamedCreatures.md
+              the entries naming Hoards: Reward.contents
+              the entries naming Keys: Lock.key, Reward.contents
+              Keys.Opens <- Lock.key
+              Language.Coined here <- Person.name, Person.form, Named Creatures.Form, Factions.Form, Location.name
+              setting/Procedures.md
+              setting/region/[Region Code]/Seed.md - each region holding an entry naming it
+              the entries naming Local Procedures: Procedure.procedure
+              setting/Rumours.md (once written)
+              setting/Quests.md (once written)
+              the entries naming Lore: Reward.contents
+              the entries naming Magical Tomes: Reward.contents
+              the entries naming Named Creatures: NamedCreature.named, Seed.who
+              the entries naming Unique Treasures: Reward.contents
+
+== 4a A
+4a
+  templates : region/Tables.md, setting/Bestiary.md, setting/Factions.md, setting/Hoards.md, setting/Keys.md, setting/Language.md, setting/LocalProcedures.md, setting/Lore.md, setting/MagicalTomes.md, setting/NamedCreatures.md, setting/UniqueTreasures.md
+  schemas   : Common_Schema.md, Setting_Schema.md, [Rating]_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/region/[Region Code]/Seed.md
+              setting/region/Regions.md - this region's die
+              setting/region/[Region Code]/Ground.md
+              setting/region/[Region Code]/Locations.md
+              setting/region/[Region Code]/Connections.md
+              setting/region/[Region Code]/[Table].md
+              setting/Bestiary.md
+              setting/Factions.md
+              setting/History.md
+              setting/Language.md
+              setting/Procedures.md - Forced Dangers, Conditions, Wounds
+              python3 tools/validate_setting.py --pending [Region Code]
+              Encounter <- Seed.who
+              Person <- Seed.who
+              Dressing.mark <- Seed.who, Factions.Identity
+              Dressing.left <- History.Left
+              Person.form <- Language.Coined here
+              Person.quest <- Quests.Name
+              Purpose.signs <- Location.tags
+              Hazard.wound <- Hazard.damage
+              Encounter.answers <- Connection.to
+              Lock.key <- Keys.Found at
+              setting/Setting.md
+              setting/Truths.md
+              Bestiary.Description: sentences 1
+              Bestiary.Range: sentences 1-2
+              Bestiary.Disposition: sentences 1
+              setting/Procedures.md - the coin every value is stated in
+              setting/NamedCreatures.md
+              the entries naming Hoards: Reward.contents
+              the entries naming Keys: Lock.key, Reward.contents
+              Keys.Opens <- Lock.key
+              Language.Coined here <- Person.name, Person.form, Named Creatures.Form, Factions.Form, Location.name
+              setting/Procedures.md
+              setting/region/[Region Code]/Seed.md - each region holding an entry naming it
+              the entries naming Local Procedures: Procedure.procedure
+              setting/Rumours.md (once written)
+              setting/Quests.md (once written)
+              the entries naming Lore: Reward.contents
+              the entries naming Magical Tomes: Reward.contents
+              the entries naming Named Creatures: NamedCreature.named, Seed.who
+              the entries naming Unique Treasures: Reward.contents
+
+== 4a B
+4a
+  templates : region/Tables.md, setting/Bestiary.md, setting/Factions.md, setting/Hoards.md, setting/Keys.md, setting/Language.md, setting/LocalProcedures.md, setting/Lore.md, setting/MagicalTomes.md, setting/NamedCreatures.md, setting/UniqueTreasures.md
+  schemas   : Common_Schema.md, Setting_Schema.md, [Rating]_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/region/[Region Code]/Seed.md
+              setting/region/Regions.md - this region's die
+              setting/region/[Region Code]/Ground.md
+              setting/region/[Region Code]/Locations.md
+              setting/region/[Region Code]/Connections.md
+              setting/region/[Region Code]/[Table].md
+              setting/Bestiary.md
+              setting/Factions.md
+              setting/History.md
+              setting/Language.md
+              setting/Procedures.md - Forced Dangers, Conditions, Wounds
+              python3 tools/validate_setting.py --pending [Region Code]
+              Encounter <- Seed.who
+              Person <- Seed.who
+              Dressing.mark <- Seed.who, Factions.Identity
+              Dressing.left <- History.Left
+              Person.form <- Language.Coined here
+              Person.quest <- Quests.Name
+              Purpose.signs <- Location.tags
+              Hazard.wound <- Hazard.damage
+              Encounter.answers <- Connection.to
+              Lock.key <- Keys.Found at
+              setting/Setting.md
+              setting/Truths.md
+              Bestiary.Description: sentences 1
+              Bestiary.Range: sentences 1-2
+              Bestiary.Disposition: sentences 1
+              setting/Procedures.md - the coin every value is stated in
+              setting/NamedCreatures.md
+              the entries naming Hoards: Reward.contents
+              the entries naming Keys: Lock.key, Reward.contents
+              Keys.Opens <- Lock.key
+              Language.Coined here <- Person.name, Person.form, Named Creatures.Form, Factions.Form, Location.name
+              setting/Procedures.md
+              setting/region/[Region Code]/Seed.md - each region holding an entry naming it
+              the entries naming Local Procedures: Procedure.procedure
+              setting/Rumours.md (once written)
+              setting/Quests.md (once written)
+              the entries naming Lore: Reward.contents
+              the entries naming Magical Tomes: Reward.contents
+              the entries naming Named Creatures: NamedCreature.named, Seed.who
+              the entries naming Unique Treasures: Reward.contents
+
+== 4a C
+4a
+  templates : region/Tables.md, setting/Bestiary.md, setting/Factions.md, setting/Hoards.md, setting/Keys.md, setting/Language.md, setting/LocalProcedures.md, setting/Lore.md, setting/MagicalTomes.md, setting/NamedCreatures.md, setting/UniqueTreasures.md
+  schemas   : Common_Schema.md, Setting_Schema.md, [Rating]_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/region/[Region Code]/Seed.md
+              setting/region/Regions.md - this region's die
+              setting/region/[Region Code]/Ground.md
+              setting/region/[Region Code]/Locations.md
+              setting/region/[Region Code]/Connections.md
+              setting/region/[Region Code]/[Table].md
+              setting/Bestiary.md
+              setting/Factions.md
+              setting/History.md
+              setting/Language.md
+              setting/Procedures.md - Forced Dangers, Conditions, Wounds
+              python3 tools/validate_setting.py --pending [Region Code]
+              Encounter <- Seed.who
+              Person <- Seed.who
+              Dressing.mark <- Seed.who, Factions.Identity
+              Dressing.left <- History.Left
+              Person.form <- Language.Coined here
+              Person.quest <- Quests.Name
+              Purpose.signs <- Location.tags
+              Hazard.wound <- Hazard.damage
+              Encounter.answers <- Connection.to
+              Lock.key <- Keys.Found at
+              setting/Setting.md
+              setting/Truths.md
+              Bestiary.Description: sentences 1
+              Bestiary.Range: sentences 1-2
+              Bestiary.Disposition: sentences 1
+              setting/Procedures.md - the coin every value is stated in
+              setting/NamedCreatures.md
+              the entries naming Hoards: Reward.contents
+              the entries naming Keys: Lock.key, Reward.contents
+              Keys.Opens <- Lock.key
+              Language.Coined here <- Person.name, Person.form, Named Creatures.Form, Factions.Form, Location.name
+              setting/Procedures.md
+              setting/region/[Region Code]/Seed.md - each region holding an entry naming it
+              the entries naming Local Procedures: Procedure.procedure
+              setting/Rumours.md (once written)
+              setting/Quests.md (once written)
+              the entries naming Lore: Reward.contents
+              the entries naming Magical Tomes: Reward.contents
+              the entries naming Named Creatures: NamedCreature.named, Seed.who
+              the entries naming Unique Treasures: Reward.contents
+
+== 4a D
+4a
+  templates : region/Tables.md, setting/Bestiary.md, setting/Factions.md, setting/Hoards.md, setting/Keys.md, setting/Language.md, setting/LocalProcedures.md, setting/Lore.md, setting/MagicalTomes.md, setting/NamedCreatures.md, setting/UniqueTreasures.md
+  schemas   : Common_Schema.md, Setting_Schema.md, [Rating]_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/region/[Region Code]/Seed.md
+              setting/region/Regions.md - this region's die
+              setting/region/[Region Code]/Ground.md
+              setting/region/[Region Code]/Locations.md
+              setting/region/[Region Code]/Connections.md
+              setting/region/[Region Code]/[Table].md
+              setting/Bestiary.md
+              setting/Factions.md
+              setting/History.md
+              setting/Language.md
+              setting/Procedures.md - Forced Dangers, Conditions, Wounds
+              python3 tools/validate_setting.py --pending [Region Code]
+              Encounter <- Seed.who
+              Person <- Seed.who
+              Dressing.mark <- Seed.who, Factions.Identity
+              Dressing.left <- History.Left
+              Person.form <- Language.Coined here
+              Person.quest <- Quests.Name
+              Purpose.signs <- Location.tags
+              Hazard.wound <- Hazard.damage
+              Encounter.answers <- Connection.to
+              Lock.key <- Keys.Found at
+              setting/Setting.md
+              setting/Truths.md
+              Bestiary.Description: sentences 1
+              Bestiary.Range: sentences 1-2
+              Bestiary.Disposition: sentences 1
+              setting/Procedures.md - the coin every value is stated in
+              setting/NamedCreatures.md
+              the entries naming Hoards: Reward.contents
+              the entries naming Keys: Lock.key, Reward.contents
+              Keys.Opens <- Lock.key
+              Language.Coined here <- Person.name, Person.form, Named Creatures.Form, Factions.Form, Location.name
+              setting/Procedures.md
+              setting/region/[Region Code]/Seed.md - each region holding an entry naming it
+              the entries naming Local Procedures: Procedure.procedure
+              setting/Rumours.md (once written)
+              setting/Quests.md (once written)
+              the entries naming Lore: Reward.contents
+              the entries naming Magical Tomes: Reward.contents
+              the entries naming Named Creatures: NamedCreature.named, Seed.who
+              the entries naming Unique Treasures: Reward.contents
+
+== 4a E
+4a
+  templates : region/Tables.md, setting/Bestiary.md, setting/Factions.md, setting/Hoards.md, setting/Keys.md, setting/Language.md, setting/LocalProcedures.md, setting/Lore.md, setting/MagicalTomes.md, setting/NamedCreatures.md, setting/UniqueTreasures.md
+  schemas   : Common_Schema.md, Setting_Schema.md, [Rating]_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/region/[Region Code]/Seed.md
+              setting/region/Regions.md - this region's die
+              setting/region/[Region Code]/Ground.md
+              setting/region/[Region Code]/Locations.md
+              setting/region/[Region Code]/Connections.md
+              setting/region/[Region Code]/[Table].md
+              setting/Bestiary.md
+              setting/Factions.md
+              setting/History.md
+              setting/Language.md
+              setting/Procedures.md - Forced Dangers, Conditions, Wounds
+              python3 tools/validate_setting.py --pending [Region Code]
+              Encounter <- Seed.who
+              Person <- Seed.who
+              Dressing.mark <- Seed.who, Factions.Identity
+              Dressing.left <- History.Left
+              Person.form <- Language.Coined here
+              Person.quest <- Quests.Name
+              Purpose.signs <- Location.tags
+              Hazard.wound <- Hazard.damage
+              Encounter.answers <- Connection.to
+              Lock.key <- Keys.Found at
+              setting/Setting.md
+              setting/Truths.md
+              Bestiary.Description: sentences 1
+              Bestiary.Range: sentences 1-2
+              Bestiary.Disposition: sentences 1
+              setting/Procedures.md - the coin every value is stated in
+              setting/NamedCreatures.md
+              the entries naming Hoards: Reward.contents
+              the entries naming Keys: Lock.key, Reward.contents
+              Keys.Opens <- Lock.key
+              Language.Coined here <- Person.name, Person.form, Named Creatures.Form, Factions.Form, Location.name
+              setting/Procedures.md
+              setting/region/[Region Code]/Seed.md - each region holding an entry naming it
+              the entries naming Local Procedures: Procedure.procedure
+              setting/Rumours.md (once written)
+              setting/Quests.md (once written)
+              the entries naming Lore: Reward.contents
+              the entries naming Magical Tomes: Reward.contents
+              the entries naming Named Creatures: NamedCreature.named, Seed.who
+              the entries naming Unique Treasures: Reward.contents
+
+== 4a F
+4a
+  templates : region/Tables.md, setting/Bestiary.md, setting/Factions.md, setting/Hoards.md, setting/Keys.md, setting/Language.md, setting/LocalProcedures.md, setting/Lore.md, setting/MagicalTomes.md, setting/NamedCreatures.md, setting/UniqueTreasures.md
+  schemas   : Common_Schema.md, Setting_Schema.md, [Rating]_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/region/[Region Code]/Seed.md
+              setting/region/Regions.md - this region's die
+              setting/region/[Region Code]/Ground.md
+              setting/region/[Region Code]/Locations.md
+              setting/region/[Region Code]/Connections.md
+              setting/region/[Region Code]/[Table].md
+              setting/Bestiary.md
+              setting/Factions.md
+              setting/History.md
+              setting/Language.md
+              setting/Procedures.md - Forced Dangers, Conditions, Wounds
+              python3 tools/validate_setting.py --pending [Region Code]
+              Encounter <- Seed.who
+              Person <- Seed.who
+              Dressing.mark <- Seed.who, Factions.Identity
+              Dressing.left <- History.Left
+              Person.form <- Language.Coined here
+              Person.quest <- Quests.Name
+              Purpose.signs <- Location.tags
+              Hazard.wound <- Hazard.damage
+              Encounter.answers <- Connection.to
+              Lock.key <- Keys.Found at
+              setting/Setting.md
+              setting/Truths.md
+              Bestiary.Description: sentences 1
+              Bestiary.Range: sentences 1-2
+              Bestiary.Disposition: sentences 1
+              setting/Procedures.md - the coin every value is stated in
+              setting/NamedCreatures.md
+              the entries naming Hoards: Reward.contents
+              the entries naming Keys: Lock.key, Reward.contents
+              Keys.Opens <- Lock.key
+              Language.Coined here <- Person.name, Person.form, Named Creatures.Form, Factions.Form, Location.name
+              setting/Procedures.md
+              setting/region/[Region Code]/Seed.md - each region holding an entry naming it
+              the entries naming Local Procedures: Procedure.procedure
+              setting/Rumours.md (once written)
+              setting/Quests.md (once written)
+              the entries naming Lore: Reward.contents
+              the entries naming Magical Tomes: Reward.contents
+              the entries naming Named Creatures: NamedCreature.named, Seed.who
+              the entries naming Unique Treasures: Reward.contents
+
+== 4a G
+4a
+  templates : region/Tables.md, setting/Bestiary.md, setting/Factions.md, setting/Hoards.md, setting/Keys.md, setting/Language.md, setting/LocalProcedures.md, setting/Lore.md, setting/MagicalTomes.md, setting/NamedCreatures.md, setting/UniqueTreasures.md
+  schemas   : Common_Schema.md, Setting_Schema.md, [Rating]_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/region/[Region Code]/Seed.md
+              setting/region/Regions.md - this region's die
+              setting/region/[Region Code]/Ground.md
+              setting/region/[Region Code]/Locations.md
+              setting/region/[Region Code]/Connections.md
+              setting/region/[Region Code]/[Table].md
+              setting/Bestiary.md
+              setting/Factions.md
+              setting/History.md
+              setting/Language.md
+              setting/Procedures.md - Forced Dangers, Conditions, Wounds
+              python3 tools/validate_setting.py --pending [Region Code]
+              Encounter <- Seed.who
+              Person <- Seed.who
+              Dressing.mark <- Seed.who, Factions.Identity
+              Dressing.left <- History.Left
+              Person.form <- Language.Coined here
+              Person.quest <- Quests.Name
+              Purpose.signs <- Location.tags
+              Hazard.wound <- Hazard.damage
+              Encounter.answers <- Connection.to
+              Lock.key <- Keys.Found at
+              setting/Setting.md
+              setting/Truths.md
+              Bestiary.Description: sentences 1
+              Bestiary.Range: sentences 1-2
+              Bestiary.Disposition: sentences 1
+              setting/Procedures.md - the coin every value is stated in
+              setting/NamedCreatures.md
+              the entries naming Hoards: Reward.contents
+              the entries naming Keys: Lock.key, Reward.contents
+              Keys.Opens <- Lock.key
+              Language.Coined here <- Person.name, Person.form, Named Creatures.Form, Factions.Form, Location.name
+              setting/Procedures.md
+              setting/region/[Region Code]/Seed.md - each region holding an entry naming it
+              the entries naming Local Procedures: Procedure.procedure
+              setting/Rumours.md (once written)
+              setting/Quests.md (once written)
+              the entries naming Lore: Reward.contents
+              the entries naming Magical Tomes: Reward.contents
+              the entries naming Named Creatures: NamedCreature.named, Seed.who
+              the entries naming Unique Treasures: Reward.contents
+
+== 4a H
+4a
+  templates : region/Tables.md, setting/Bestiary.md, setting/Factions.md, setting/Hoards.md, setting/Keys.md, setting/Language.md, setting/LocalProcedures.md, setting/Lore.md, setting/MagicalTomes.md, setting/NamedCreatures.md, setting/UniqueTreasures.md
+  schemas   : Common_Schema.md, Setting_Schema.md, [Rating]_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/region/[Region Code]/Seed.md
+              setting/region/Regions.md - this region's die
+              setting/region/[Region Code]/Ground.md
+              setting/region/[Region Code]/Locations.md
+              setting/region/[Region Code]/Connections.md
+              setting/region/[Region Code]/[Table].md
+              setting/Bestiary.md
+              setting/Factions.md
+              setting/History.md
+              setting/Language.md
+              setting/Procedures.md - Forced Dangers, Conditions, Wounds
+              python3 tools/validate_setting.py --pending [Region Code]
+              Encounter <- Seed.who
+              Person <- Seed.who
+              Dressing.mark <- Seed.who, Factions.Identity
+              Dressing.left <- History.Left
+              Person.form <- Language.Coined here
+              Person.quest <- Quests.Name
+              Purpose.signs <- Location.tags
+              Hazard.wound <- Hazard.damage
+              Encounter.answers <- Connection.to
+              Lock.key <- Keys.Found at
+              setting/Setting.md
+              setting/Truths.md
+              Bestiary.Description: sentences 1
+              Bestiary.Range: sentences 1-2
+              Bestiary.Disposition: sentences 1
+              setting/Procedures.md - the coin every value is stated in
+              setting/NamedCreatures.md
+              the entries naming Hoards: Reward.contents
+              the entries naming Keys: Lock.key, Reward.contents
+              Keys.Opens <- Lock.key
+              Language.Coined here <- Person.name, Person.form, Named Creatures.Form, Factions.Form, Location.name
+              setting/Procedures.md
+              setting/region/[Region Code]/Seed.md - each region holding an entry naming it
+              the entries naming Local Procedures: Procedure.procedure
+              setting/Rumours.md (once written)
+              setting/Quests.md (once written)
+              the entries naming Lore: Reward.contents
+              the entries naming Magical Tomes: Reward.contents
+              the entries naming Named Creatures: NamedCreature.named, Seed.who
+              the entries naming Unique Treasures: Reward.contents
+
+== 4a I
+4a
+  templates : region/Tables.md, setting/Bestiary.md, setting/Factions.md, setting/Hoards.md, setting/Keys.md, setting/Language.md, setting/LocalProcedures.md, setting/Lore.md, setting/MagicalTomes.md, setting/NamedCreatures.md, setting/UniqueTreasures.md
+  schemas   : Common_Schema.md, Setting_Schema.md, [Rating]_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/region/[Region Code]/Seed.md
+              setting/region/Regions.md - this region's die
+              setting/region/[Region Code]/Ground.md
+              setting/region/[Region Code]/Locations.md
+              setting/region/[Region Code]/Connections.md
+              setting/region/[Region Code]/[Table].md
+              setting/Bestiary.md
+              setting/Factions.md
+              setting/History.md
+              setting/Language.md
+              setting/Procedures.md - Forced Dangers, Conditions, Wounds
+              python3 tools/validate_setting.py --pending [Region Code]
+              Encounter <- Seed.who
+              Person <- Seed.who
+              Dressing.mark <- Seed.who, Factions.Identity
+              Dressing.left <- History.Left
+              Person.form <- Language.Coined here
+              Person.quest <- Quests.Name
+              Purpose.signs <- Location.tags
+              Hazard.wound <- Hazard.damage
+              Encounter.answers <- Connection.to
+              Lock.key <- Keys.Found at
+              setting/Setting.md
+              setting/Truths.md
+              Bestiary.Description: sentences 1
+              Bestiary.Range: sentences 1-2
+              Bestiary.Disposition: sentences 1
+              setting/Procedures.md - the coin every value is stated in
+              setting/NamedCreatures.md
+              the entries naming Hoards: Reward.contents
+              the entries naming Keys: Lock.key, Reward.contents
+              Keys.Opens <- Lock.key
+              Language.Coined here <- Person.name, Person.form, Named Creatures.Form, Factions.Form, Location.name
+              setting/Procedures.md
+              setting/region/[Region Code]/Seed.md - each region holding an entry naming it
+              the entries naming Local Procedures: Procedure.procedure
+              setting/Rumours.md (once written)
+              setting/Quests.md (once written)
+              the entries naming Lore: Reward.contents
+              the entries naming Magical Tomes: Reward.contents
+              the entries naming Named Creatures: NamedCreature.named, Seed.who
+              the entries naming Unique Treasures: Reward.contents
+
+== 4a J
+4a
+  templates : region/Tables.md, setting/Bestiary.md, setting/Factions.md, setting/Hoards.md, setting/Keys.md, setting/Language.md, setting/LocalProcedures.md, setting/Lore.md, setting/MagicalTomes.md, setting/NamedCreatures.md, setting/UniqueTreasures.md
+  schemas   : Common_Schema.md, Setting_Schema.md, [Rating]_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/region/[Region Code]/Seed.md
+              setting/region/Regions.md - this region's die
+              setting/region/[Region Code]/Ground.md
+              setting/region/[Region Code]/Locations.md
+              setting/region/[Region Code]/Connections.md
+              setting/region/[Region Code]/[Table].md
+              setting/Bestiary.md
+              setting/Factions.md
+              setting/History.md
+              setting/Language.md
+              setting/Procedures.md - Forced Dangers, Conditions, Wounds
+              python3 tools/validate_setting.py --pending [Region Code]
+              Encounter <- Seed.who
+              Person <- Seed.who
+              Dressing.mark <- Seed.who, Factions.Identity
+              Dressing.left <- History.Left
+              Person.form <- Language.Coined here
+              Person.quest <- Quests.Name
+              Purpose.signs <- Location.tags
+              Hazard.wound <- Hazard.damage
+              Encounter.answers <- Connection.to
+              Lock.key <- Keys.Found at
+              setting/Setting.md
+              setting/Truths.md
+              Bestiary.Description: sentences 1
+              Bestiary.Range: sentences 1-2
+              Bestiary.Disposition: sentences 1
+              setting/Procedures.md - the coin every value is stated in
+              setting/NamedCreatures.md
+              the entries naming Hoards: Reward.contents
+              the entries naming Keys: Lock.key, Reward.contents
+              Keys.Opens <- Lock.key
+              Language.Coined here <- Person.name, Person.form, Named Creatures.Form, Factions.Form, Location.name
+              setting/Procedures.md
+              setting/region/[Region Code]/Seed.md - each region holding an entry naming it
+              the entries naming Local Procedures: Procedure.procedure
+              setting/Rumours.md (once written)
+              setting/Quests.md (once written)
+              the entries naming Lore: Reward.contents
+              the entries naming Magical Tomes: Reward.contents
+              the entries naming Named Creatures: NamedCreature.named, Seed.who
+              the entries naming Unique Treasures: Reward.contents
+
+== 4a K
+4a
+  templates : region/Tables.md, setting/Bestiary.md, setting/Factions.md, setting/Hoards.md, setting/Keys.md, setting/Language.md, setting/LocalProcedures.md, setting/Lore.md, setting/MagicalTomes.md, setting/NamedCreatures.md, setting/UniqueTreasures.md
+  schemas   : Common_Schema.md, Setting_Schema.md, [Rating]_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/region/[Region Code]/Seed.md
+              setting/region/Regions.md - this region's die
+              setting/region/[Region Code]/Ground.md
+              setting/region/[Region Code]/Locations.md
+              setting/region/[Region Code]/Connections.md
+              setting/region/[Region Code]/[Table].md
+              setting/Bestiary.md
+              setting/Factions.md
+              setting/History.md
+              setting/Language.md
+              setting/Procedures.md - Forced Dangers, Conditions, Wounds
+              python3 tools/validate_setting.py --pending [Region Code]
+              Encounter <- Seed.who
+              Person <- Seed.who
+              Dressing.mark <- Seed.who, Factions.Identity
+              Dressing.left <- History.Left
+              Person.form <- Language.Coined here
+              Person.quest <- Quests.Name
+              Purpose.signs <- Location.tags
+              Hazard.wound <- Hazard.damage
+              Encounter.answers <- Connection.to
+              Lock.key <- Keys.Found at
+              setting/Setting.md
+              setting/Truths.md
+              Bestiary.Description: sentences 1
+              Bestiary.Range: sentences 1-2
+              Bestiary.Disposition: sentences 1
+              setting/Procedures.md - the coin every value is stated in
+              setting/NamedCreatures.md
+              the entries naming Hoards: Reward.contents
+              the entries naming Keys: Lock.key, Reward.contents
+              Keys.Opens <- Lock.key
+              Language.Coined here <- Person.name, Person.form, Named Creatures.Form, Factions.Form, Location.name
+              setting/Procedures.md
+              setting/region/[Region Code]/Seed.md - each region holding an entry naming it
+              the entries naming Local Procedures: Procedure.procedure
+              setting/Rumours.md (once written)
+              setting/Quests.md (once written)
+              the entries naming Lore: Reward.contents
+              the entries naming Magical Tomes: Reward.contents
+              the entries naming Named Creatures: NamedCreature.named, Seed.who
+              the entries naming Unique Treasures: Reward.contents
+
+== 4a L
+4a
+  templates : region/Tables.md, setting/Bestiary.md, setting/Factions.md, setting/Hoards.md, setting/Keys.md, setting/Language.md, setting/LocalProcedures.md, setting/Lore.md, setting/MagicalTomes.md, setting/NamedCreatures.md, setting/UniqueTreasures.md
+  schemas   : Common_Schema.md, Setting_Schema.md, [Rating]_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/region/[Region Code]/Seed.md
+              setting/region/Regions.md - this region's die
+              setting/region/[Region Code]/Ground.md
+              setting/region/[Region Code]/Locations.md
+              setting/region/[Region Code]/Connections.md
+              setting/region/[Region Code]/[Table].md
+              setting/Bestiary.md
+              setting/Factions.md
+              setting/History.md
+              setting/Language.md
+              setting/Procedures.md - Forced Dangers, Conditions, Wounds
+              python3 tools/validate_setting.py --pending [Region Code]
+              Encounter <- Seed.who
+              Person <- Seed.who
+              Dressing.mark <- Seed.who, Factions.Identity
+              Dressing.left <- History.Left
+              Person.form <- Language.Coined here
+              Person.quest <- Quests.Name
+              Purpose.signs <- Location.tags
+              Hazard.wound <- Hazard.damage
+              Encounter.answers <- Connection.to
+              Lock.key <- Keys.Found at
+              setting/Setting.md
+              setting/Truths.md
+              Bestiary.Description: sentences 1
+              Bestiary.Range: sentences 1-2
+              Bestiary.Disposition: sentences 1
+              setting/Procedures.md - the coin every value is stated in
+              setting/NamedCreatures.md
+              the entries naming Hoards: Reward.contents
+              the entries naming Keys: Lock.key, Reward.contents
+              Keys.Opens <- Lock.key
+              Language.Coined here <- Person.name, Person.form, Named Creatures.Form, Factions.Form, Location.name
+              setting/Procedures.md
+              setting/region/[Region Code]/Seed.md - each region holding an entry naming it
+              the entries naming Local Procedures: Procedure.procedure
+              setting/Rumours.md (once written)
+              setting/Quests.md (once written)
+              the entries naming Lore: Reward.contents
+              the entries naming Magical Tomes: Reward.contents
+              the entries naming Named Creatures: NamedCreature.named, Seed.who
+              the entries naming Unique Treasures: Reward.contents
+
+== 4a M
+4a
+  templates : region/Tables.md, setting/Bestiary.md, setting/Factions.md, setting/Hoards.md, setting/Keys.md, setting/Language.md, setting/LocalProcedures.md, setting/Lore.md, setting/MagicalTomes.md, setting/NamedCreatures.md, setting/UniqueTreasures.md
+  schemas   : Common_Schema.md, Setting_Schema.md, [Rating]_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/region/[Region Code]/Seed.md
+              setting/region/Regions.md - this region's die
+              setting/region/[Region Code]/Ground.md
+              setting/region/[Region Code]/Locations.md
+              setting/region/[Region Code]/Connections.md
+              setting/region/[Region Code]/[Table].md
+              setting/Bestiary.md
+              setting/Factions.md
+              setting/History.md
+              setting/Language.md
+              setting/Procedures.md - Forced Dangers, Conditions, Wounds
+              python3 tools/validate_setting.py --pending [Region Code]
+              Encounter <- Seed.who
+              Person <- Seed.who
+              Dressing.mark <- Seed.who, Factions.Identity
+              Dressing.left <- History.Left
+              Person.form <- Language.Coined here
+              Person.quest <- Quests.Name
+              Purpose.signs <- Location.tags
+              Hazard.wound <- Hazard.damage
+              Encounter.answers <- Connection.to
+              Lock.key <- Keys.Found at
+              setting/Setting.md
+              setting/Truths.md
+              Bestiary.Description: sentences 1
+              Bestiary.Range: sentences 1-2
+              Bestiary.Disposition: sentences 1
+              setting/Procedures.md - the coin every value is stated in
+              setting/NamedCreatures.md
+              the entries naming Hoards: Reward.contents
+              the entries naming Keys: Lock.key, Reward.contents
+              Keys.Opens <- Lock.key
+              Language.Coined here <- Person.name, Person.form, Named Creatures.Form, Factions.Form, Location.name
+              setting/Procedures.md
+              setting/region/[Region Code]/Seed.md - each region holding an entry naming it
+              the entries naming Local Procedures: Procedure.procedure
+              setting/Rumours.md (once written)
+              setting/Quests.md (once written)
+              the entries naming Lore: Reward.contents
+              the entries naming Magical Tomes: Reward.contents
+              the entries naming Named Creatures: NamedCreature.named, Seed.who
+              the entries naming Unique Treasures: Reward.contents
+
+== 4b 
+4b
+  templates : region/Location.md
+  schemas   : Common_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Truths.md
+              setting/Procedures.md - Forced Dangers, Conditions, Time and Distance
+              setting/Language.md - roots for a coined name, and the coinages recorded
+              setting/region/[Region Code]/Seed.md
+              python3 tools/validate_setting.py --location [Location Code]
+
+== 4b A
+4b
+  templates : region/Location.md
+  schemas   : Common_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Truths.md
+              setting/Procedures.md - Forced Dangers, Conditions, Time and Distance
+              setting/Language.md - roots for a coined name, and the coinages recorded
+              setting/region/[Region Code]/Seed.md
+              python3 tools/validate_setting.py --location [Location Code]
+
+== 4b B
+4b
+  templates : region/Location.md
+  schemas   : Common_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Truths.md
+              setting/Procedures.md - Forced Dangers, Conditions, Time and Distance
+              setting/Language.md - roots for a coined name, and the coinages recorded
+              setting/region/[Region Code]/Seed.md
+              python3 tools/validate_setting.py --location [Location Code]
+
+== 4b C
+4b
+  templates : region/Location.md
+  schemas   : Common_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Truths.md
+              setting/Procedures.md - Forced Dangers, Conditions, Time and Distance
+              setting/Language.md - roots for a coined name, and the coinages recorded
+              setting/region/[Region Code]/Seed.md
+              python3 tools/validate_setting.py --location [Location Code]
+
+== 4b D
+4b
+  templates : region/Location.md
+  schemas   : Common_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Truths.md
+              setting/Procedures.md - Forced Dangers, Conditions, Time and Distance
+              setting/Language.md - roots for a coined name, and the coinages recorded
+              setting/region/[Region Code]/Seed.md
+              python3 tools/validate_setting.py --location [Location Code]
+
+== 4b E
+4b
+  templates : region/Location.md
+  schemas   : Common_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Truths.md
+              setting/Procedures.md - Forced Dangers, Conditions, Time and Distance
+              setting/Language.md - roots for a coined name, and the coinages recorded
+              setting/region/[Region Code]/Seed.md
+              python3 tools/validate_setting.py --location [Location Code]
+
+== 4b F
+4b
+  templates : region/Location.md
+  schemas   : Common_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Truths.md
+              setting/Procedures.md - Forced Dangers, Conditions, Time and Distance
+              setting/Language.md - roots for a coined name, and the coinages recorded
+              setting/region/[Region Code]/Seed.md
+              python3 tools/validate_setting.py --location [Location Code]
+
+== 4b G
+4b
+  templates : region/Location.md
+  schemas   : Common_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Truths.md
+              setting/Procedures.md - Forced Dangers, Conditions, Time and Distance
+              setting/Language.md - roots for a coined name, and the coinages recorded
+              setting/region/[Region Code]/Seed.md
+              python3 tools/validate_setting.py --location [Location Code]
+
+== 4b H
+4b
+  templates : region/Location.md
+  schemas   : Common_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Truths.md
+              setting/Procedures.md - Forced Dangers, Conditions, Time and Distance
+              setting/Language.md - roots for a coined name, and the coinages recorded
+              setting/region/[Region Code]/Seed.md
+              python3 tools/validate_setting.py --location [Location Code]
+
+== 4b I
+4b
+  templates : region/Location.md
+  schemas   : Common_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Truths.md
+              setting/Procedures.md - Forced Dangers, Conditions, Time and Distance
+              setting/Language.md - roots for a coined name, and the coinages recorded
+              setting/region/[Region Code]/Seed.md
+              python3 tools/validate_setting.py --location [Location Code]
+
+== 4b J
+4b
+  templates : region/Location.md
+  schemas   : Common_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Truths.md
+              setting/Procedures.md - Forced Dangers, Conditions, Time and Distance
+              setting/Language.md - roots for a coined name, and the coinages recorded
+              setting/region/[Region Code]/Seed.md
+              python3 tools/validate_setting.py --location [Location Code]
+
+== 4b K
+4b
+  templates : region/Location.md
+  schemas   : Common_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Truths.md
+              setting/Procedures.md - Forced Dangers, Conditions, Time and Distance
+              setting/Language.md - roots for a coined name, and the coinages recorded
+              setting/region/[Region Code]/Seed.md
+              python3 tools/validate_setting.py --location [Location Code]
+
+== 4b L
+4b
+  templates : region/Location.md
+  schemas   : Common_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Truths.md
+              setting/Procedures.md - Forced Dangers, Conditions, Time and Distance
+              setting/Language.md - roots for a coined name, and the coinages recorded
+              setting/region/[Region Code]/Seed.md
+              python3 tools/validate_setting.py --location [Location Code]
+
+== 4b M
+4b
+  templates : region/Location.md
+  schemas   : Common_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Truths.md
+              setting/Procedures.md - Forced Dangers, Conditions, Time and Distance
+              setting/Language.md - roots for a coined name, and the coinages recorded
+              setting/region/[Region Code]/Seed.md
+              python3 tools/validate_setting.py --location [Location Code]
+
+== 4c 
+4c
+  templates : (none)
+  schemas   : (none)
+
+== 4c A
+4c
+  templates : (none)
+  schemas   : (none)
+
+== 4c B
+4c
+  templates : (none)
+  schemas   : (none)
+
+== 4c C
+4c
+  templates : (none)
+  schemas   : (none)
+
+== 4c D
+4c
+  templates : (none)
+  schemas   : (none)
+
+== 4c E
+4c
+  templates : (none)
+  schemas   : (none)
+
+== 4c F
+4c
+  templates : (none)
+  schemas   : (none)
+
+== 4c G
+4c
+  templates : (none)
+  schemas   : (none)
+
+== 4c H
+4c
+  templates : (none)
+  schemas   : (none)
+
+== 4c I
+4c
+  templates : (none)
+  schemas   : (none)
+
+== 4c J
+4c
+  templates : (none)
+  schemas   : (none)
+
+== 4c K
+4c
+  templates : (none)
+  schemas   : (none)
+
+== 4c L
+4c
+  templates : (none)
+  schemas   : (none)
+
+== 4c M
+4c
+  templates : (none)
+  schemas   : (none)
+
+== 4d 
+4d
+  templates : setting/Lore.md, setting/Quests.md, setting/Rumours.md, setting/Truths.md
+  schemas   : Common_Schema.md, Setting_Schema.md, [Rating]_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/History.md
+              setting/Truths.md
+              setting/Rumours.md (once written)
+              setting/Quests.md (once written)
+              the entries naming Lore: Reward.contents
+              setting/Rumours.md
+              setting/region/[Region Code]/Seed.md - each region's
+              python3 tools/validate_setting.py --location [Location Code]
+              Quests.Giver <- Person.quest, Person.wants
+              Truths.Codes <- Truths.Handle
+
+== 4d A
+4d
+  templates : setting/Lore.md, setting/Quests.md, setting/Rumours.md, setting/Truths.md
+  schemas   : Common_Schema.md, Setting_Schema.md, [Rating]_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/History.md
+              setting/Truths.md
+              setting/Rumours.md (once written)
+              setting/Quests.md (once written)
+              the entries naming Lore: Reward.contents
+              setting/Rumours.md
+              setting/region/[Region Code]/Seed.md - each region's
+              python3 tools/validate_setting.py --location [Location Code]
+              Quests.Giver <- Person.quest, Person.wants
+              Truths.Codes <- Truths.Handle
+
+== 4d B
+4d
+  templates : setting/Lore.md, setting/Quests.md, setting/Rumours.md, setting/Truths.md
+  schemas   : Common_Schema.md, Setting_Schema.md, [Rating]_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/History.md
+              setting/Truths.md
+              setting/Rumours.md (once written)
+              setting/Quests.md (once written)
+              the entries naming Lore: Reward.contents
+              setting/Rumours.md
+              setting/region/[Region Code]/Seed.md - each region's
+              python3 tools/validate_setting.py --location [Location Code]
+              Quests.Giver <- Person.quest, Person.wants
+              Truths.Codes <- Truths.Handle
+
+== 4d C
+4d
+  templates : setting/Lore.md, setting/Quests.md, setting/Rumours.md, setting/Truths.md
+  schemas   : Common_Schema.md, Setting_Schema.md, [Rating]_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/History.md
+              setting/Truths.md
+              setting/Rumours.md (once written)
+              setting/Quests.md (once written)
+              the entries naming Lore: Reward.contents
+              setting/Rumours.md
+              setting/region/[Region Code]/Seed.md - each region's
+              python3 tools/validate_setting.py --location [Location Code]
+              Quests.Giver <- Person.quest, Person.wants
+              Truths.Codes <- Truths.Handle
+
+== 4d D
+4d
+  templates : setting/Lore.md, setting/Quests.md, setting/Rumours.md, setting/Truths.md
+  schemas   : Common_Schema.md, Setting_Schema.md, [Rating]_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/History.md
+              setting/Truths.md
+              setting/Rumours.md (once written)
+              setting/Quests.md (once written)
+              the entries naming Lore: Reward.contents
+              setting/Rumours.md
+              setting/region/[Region Code]/Seed.md - each region's
+              python3 tools/validate_setting.py --location [Location Code]
+              Quests.Giver <- Person.quest, Person.wants
+              Truths.Codes <- Truths.Handle
+
+== 4d E
+4d
+  templates : setting/Lore.md, setting/Quests.md, setting/Rumours.md, setting/Truths.md
+  schemas   : Common_Schema.md, Setting_Schema.md, [Rating]_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/History.md
+              setting/Truths.md
+              setting/Rumours.md (once written)
+              setting/Quests.md (once written)
+              the entries naming Lore: Reward.contents
+              setting/Rumours.md
+              setting/region/[Region Code]/Seed.md - each region's
+              python3 tools/validate_setting.py --location [Location Code]
+              Quests.Giver <- Person.quest, Person.wants
+              Truths.Codes <- Truths.Handle
+
+== 4d F
+4d
+  templates : setting/Lore.md, setting/Quests.md, setting/Rumours.md, setting/Truths.md
+  schemas   : Common_Schema.md, Setting_Schema.md, [Rating]_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/History.md
+              setting/Truths.md
+              setting/Rumours.md (once written)
+              setting/Quests.md (once written)
+              the entries naming Lore: Reward.contents
+              setting/Rumours.md
+              setting/region/[Region Code]/Seed.md - each region's
+              python3 tools/validate_setting.py --location [Location Code]
+              Quests.Giver <- Person.quest, Person.wants
+              Truths.Codes <- Truths.Handle
+
+== 4d G
+4d
+  templates : setting/Lore.md, setting/Quests.md, setting/Rumours.md, setting/Truths.md
+  schemas   : Common_Schema.md, Setting_Schema.md, [Rating]_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/History.md
+              setting/Truths.md
+              setting/Rumours.md (once written)
+              setting/Quests.md (once written)
+              the entries naming Lore: Reward.contents
+              setting/Rumours.md
+              setting/region/[Region Code]/Seed.md - each region's
+              python3 tools/validate_setting.py --location [Location Code]
+              Quests.Giver <- Person.quest, Person.wants
+              Truths.Codes <- Truths.Handle
+
+== 4d H
+4d
+  templates : setting/Lore.md, setting/Quests.md, setting/Rumours.md, setting/Truths.md
+  schemas   : Common_Schema.md, Setting_Schema.md, [Rating]_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/History.md
+              setting/Truths.md
+              setting/Rumours.md (once written)
+              setting/Quests.md (once written)
+              the entries naming Lore: Reward.contents
+              setting/Rumours.md
+              setting/region/[Region Code]/Seed.md - each region's
+              python3 tools/validate_setting.py --location [Location Code]
+              Quests.Giver <- Person.quest, Person.wants
+              Truths.Codes <- Truths.Handle
+
+== 4d I
+4d
+  templates : setting/Lore.md, setting/Quests.md, setting/Rumours.md, setting/Truths.md
+  schemas   : Common_Schema.md, Setting_Schema.md, [Rating]_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/History.md
+              setting/Truths.md
+              setting/Rumours.md (once written)
+              setting/Quests.md (once written)
+              the entries naming Lore: Reward.contents
+              setting/Rumours.md
+              setting/region/[Region Code]/Seed.md - each region's
+              python3 tools/validate_setting.py --location [Location Code]
+              Quests.Giver <- Person.quest, Person.wants
+              Truths.Codes <- Truths.Handle
+
+== 4d J
+4d
+  templates : setting/Lore.md, setting/Quests.md, setting/Rumours.md, setting/Truths.md
+  schemas   : Common_Schema.md, Setting_Schema.md, [Rating]_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/History.md
+              setting/Truths.md
+              setting/Rumours.md (once written)
+              setting/Quests.md (once written)
+              the entries naming Lore: Reward.contents
+              setting/Rumours.md
+              setting/region/[Region Code]/Seed.md - each region's
+              python3 tools/validate_setting.py --location [Location Code]
+              Quests.Giver <- Person.quest, Person.wants
+              Truths.Codes <- Truths.Handle
+
+== 4d K
+4d
+  templates : setting/Lore.md, setting/Quests.md, setting/Rumours.md, setting/Truths.md
+  schemas   : Common_Schema.md, Setting_Schema.md, [Rating]_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/History.md
+              setting/Truths.md
+              setting/Rumours.md (once written)
+              setting/Quests.md (once written)
+              the entries naming Lore: Reward.contents
+              setting/Rumours.md
+              setting/region/[Region Code]/Seed.md - each region's
+              python3 tools/validate_setting.py --location [Location Code]
+              Quests.Giver <- Person.quest, Person.wants
+              Truths.Codes <- Truths.Handle
+
+== 4d L
+4d
+  templates : setting/Lore.md, setting/Quests.md, setting/Rumours.md, setting/Truths.md
+  schemas   : Common_Schema.md, Setting_Schema.md, [Rating]_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/History.md
+              setting/Truths.md
+              setting/Rumours.md (once written)
+              setting/Quests.md (once written)
+              the entries naming Lore: Reward.contents
+              setting/Rumours.md
+              setting/region/[Region Code]/Seed.md - each region's
+              python3 tools/validate_setting.py --location [Location Code]
+              Quests.Giver <- Person.quest, Person.wants
+              Truths.Codes <- Truths.Handle
+
+== 4d M
+4d
+  templates : setting/Lore.md, setting/Quests.md, setting/Rumours.md, setting/Truths.md
+  schemas   : Common_Schema.md, Setting_Schema.md, [Rating]_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/Setting.md
+              setting/History.md
+              setting/Truths.md
+              setting/Rumours.md (once written)
+              setting/Quests.md (once written)
+              the entries naming Lore: Reward.contents
+              setting/Rumours.md
+              setting/region/[Region Code]/Seed.md - each region's
+              python3 tools/validate_setting.py --location [Location Code]
+              Quests.Giver <- Person.quest, Person.wants
+              Truths.Codes <- Truths.Handle
+
+== 4e 
+4e
+  templates : region/Brief.md
+  schemas   : Common_Schema.md, Region_Schema.md, [Rating]_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/region/[Region Code]/Seed.md
+              setting/region/[Region Code]/[Table].md
+              setting/region/[Region Code]/Ground.md
+              Overview <- Seed.comes, Seed.who, Seed.changing, Rung
+              View <- View
+              Approach <- Entry, Seed.crossing, Seed.off
+              Law <- Law
+              Terrain <- Seed.terrain, Ruling
+              Conditions <- Conditions
+              Arrival <- Dressing.obvious, Dressing.layout
+              Plan <- Block, Way, Location.type
+              Ways <- Stop.feature, Stop.distance, Stop.to, Dressing.obvious
+              Landmarks <- Dressing.obvious, Dressing.ambiance, Stop.sight
+              Entrances <- Dressing.obvious, Dressing.layout, Connection.to
+              Prizes <- Dressing.obvious, Dressing.layout, Connection.type
+              Places <- Dressing.obvious, Dressing.ambiance, Dressing.condition, Secret.tell
+              Tables <- Encounter.doing, Encounter.reaction, Hazard, Rung
+
+== 4e A
+4e
+  templates : region/Brief.md
+  schemas   : Common_Schema.md, Region_Schema.md, [Rating]_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/region/[Region Code]/Seed.md
+              setting/region/[Region Code]/[Table].md
+              setting/region/[Region Code]/Ground.md
+              Overview <- Seed.comes, Seed.who, Seed.changing, Rung
+              View <- View
+              Approach <- Entry, Seed.crossing, Seed.off
+              Law <- Law
+              Terrain <- Seed.terrain, Ruling
+              Conditions <- Conditions
+              Arrival <- Dressing.obvious, Dressing.layout
+              Plan <- Block, Way, Location.type
+              Ways <- Stop.feature, Stop.distance, Stop.to, Dressing.obvious
+              Landmarks <- Dressing.obvious, Dressing.ambiance, Stop.sight
+              Entrances <- Dressing.obvious, Dressing.layout, Connection.to
+              Prizes <- Dressing.obvious, Dressing.layout, Connection.type
+              Places <- Dressing.obvious, Dressing.ambiance, Dressing.condition, Secret.tell
+              Tables <- Encounter.doing, Encounter.reaction, Hazard, Rung
+
+== 4e B
+4e
+  templates : region/Brief.md
+  schemas   : Common_Schema.md, Region_Schema.md, [Rating]_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/region/[Region Code]/Seed.md
+              setting/region/[Region Code]/[Table].md
+              setting/region/[Region Code]/Ground.md
+              Overview <- Seed.comes, Seed.who, Seed.changing, Rung
+              View <- View
+              Approach <- Entry, Seed.crossing, Seed.off
+              Law <- Law
+              Terrain <- Seed.terrain, Ruling
+              Conditions <- Conditions
+              Arrival <- Dressing.obvious, Dressing.layout
+              Plan <- Block, Way, Location.type
+              Ways <- Stop.feature, Stop.distance, Stop.to, Dressing.obvious
+              Landmarks <- Dressing.obvious, Dressing.ambiance, Stop.sight
+              Entrances <- Dressing.obvious, Dressing.layout, Connection.to
+              Prizes <- Dressing.obvious, Dressing.layout, Connection.type
+              Places <- Dressing.obvious, Dressing.ambiance, Dressing.condition, Secret.tell
+              Tables <- Encounter.doing, Encounter.reaction, Hazard, Rung
+
+== 4e C
+4e
+  templates : region/Brief.md
+  schemas   : Common_Schema.md, Region_Schema.md, [Rating]_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/region/[Region Code]/Seed.md
+              setting/region/[Region Code]/[Table].md
+              setting/region/[Region Code]/Ground.md
+              Overview <- Seed.comes, Seed.who, Seed.changing, Rung
+              View <- View
+              Approach <- Entry, Seed.crossing, Seed.off
+              Law <- Law
+              Terrain <- Seed.terrain, Ruling
+              Conditions <- Conditions
+              Arrival <- Dressing.obvious, Dressing.layout
+              Plan <- Block, Way, Location.type
+              Ways <- Stop.feature, Stop.distance, Stop.to, Dressing.obvious
+              Landmarks <- Dressing.obvious, Dressing.ambiance, Stop.sight
+              Entrances <- Dressing.obvious, Dressing.layout, Connection.to
+              Prizes <- Dressing.obvious, Dressing.layout, Connection.type
+              Places <- Dressing.obvious, Dressing.ambiance, Dressing.condition, Secret.tell
+              Tables <- Encounter.doing, Encounter.reaction, Hazard, Rung
+
+== 4e D
+4e
+  templates : region/Brief.md
+  schemas   : Common_Schema.md, Region_Schema.md, [Rating]_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/region/[Region Code]/Seed.md
+              setting/region/[Region Code]/[Table].md
+              setting/region/[Region Code]/Ground.md
+              Overview <- Seed.comes, Seed.who, Seed.changing, Rung
+              View <- View
+              Approach <- Entry, Seed.crossing, Seed.off
+              Law <- Law
+              Terrain <- Seed.terrain, Ruling
+              Conditions <- Conditions
+              Arrival <- Dressing.obvious, Dressing.layout
+              Plan <- Block, Way, Location.type
+              Ways <- Stop.feature, Stop.distance, Stop.to, Dressing.obvious
+              Landmarks <- Dressing.obvious, Dressing.ambiance, Stop.sight
+              Entrances <- Dressing.obvious, Dressing.layout, Connection.to
+              Prizes <- Dressing.obvious, Dressing.layout, Connection.type
+              Places <- Dressing.obvious, Dressing.ambiance, Dressing.condition, Secret.tell
+              Tables <- Encounter.doing, Encounter.reaction, Hazard, Rung
+
+== 4e E
+4e
+  templates : region/Brief.md
+  schemas   : Common_Schema.md, Region_Schema.md, [Rating]_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/region/[Region Code]/Seed.md
+              setting/region/[Region Code]/[Table].md
+              setting/region/[Region Code]/Ground.md
+              Overview <- Seed.comes, Seed.who, Seed.changing, Rung
+              View <- View
+              Approach <- Entry, Seed.crossing, Seed.off
+              Law <- Law
+              Terrain <- Seed.terrain, Ruling
+              Conditions <- Conditions
+              Arrival <- Dressing.obvious, Dressing.layout
+              Plan <- Block, Way, Location.type
+              Ways <- Stop.feature, Stop.distance, Stop.to, Dressing.obvious
+              Landmarks <- Dressing.obvious, Dressing.ambiance, Stop.sight
+              Entrances <- Dressing.obvious, Dressing.layout, Connection.to
+              Prizes <- Dressing.obvious, Dressing.layout, Connection.type
+              Places <- Dressing.obvious, Dressing.ambiance, Dressing.condition, Secret.tell
+              Tables <- Encounter.doing, Encounter.reaction, Hazard, Rung
+
+== 4e F
+4e
+  templates : region/Brief.md
+  schemas   : Common_Schema.md, Region_Schema.md, [Rating]_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/region/[Region Code]/Seed.md
+              setting/region/[Region Code]/[Table].md
+              setting/region/[Region Code]/Ground.md
+              Overview <- Seed.comes, Seed.who, Seed.changing, Rung
+              View <- View
+              Approach <- Entry, Seed.crossing, Seed.off
+              Law <- Law
+              Terrain <- Seed.terrain, Ruling
+              Conditions <- Conditions
+              Arrival <- Dressing.obvious, Dressing.layout
+              Plan <- Block, Way, Location.type
+              Ways <- Stop.feature, Stop.distance, Stop.to, Dressing.obvious
+              Landmarks <- Dressing.obvious, Dressing.ambiance, Stop.sight
+              Entrances <- Dressing.obvious, Dressing.layout, Connection.to
+              Prizes <- Dressing.obvious, Dressing.layout, Connection.type
+              Places <- Dressing.obvious, Dressing.ambiance, Dressing.condition, Secret.tell
+              Tables <- Encounter.doing, Encounter.reaction, Hazard, Rung
+
+== 4e G
+4e
+  templates : region/Brief.md
+  schemas   : Common_Schema.md, Region_Schema.md, [Rating]_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/region/[Region Code]/Seed.md
+              setting/region/[Region Code]/[Table].md
+              setting/region/[Region Code]/Ground.md
+              Overview <- Seed.comes, Seed.who, Seed.changing, Rung
+              View <- View
+              Approach <- Entry, Seed.crossing, Seed.off
+              Law <- Law
+              Terrain <- Seed.terrain, Ruling
+              Conditions <- Conditions
+              Arrival <- Dressing.obvious, Dressing.layout
+              Plan <- Block, Way, Location.type
+              Ways <- Stop.feature, Stop.distance, Stop.to, Dressing.obvious
+              Landmarks <- Dressing.obvious, Dressing.ambiance, Stop.sight
+              Entrances <- Dressing.obvious, Dressing.layout, Connection.to
+              Prizes <- Dressing.obvious, Dressing.layout, Connection.type
+              Places <- Dressing.obvious, Dressing.ambiance, Dressing.condition, Secret.tell
+              Tables <- Encounter.doing, Encounter.reaction, Hazard, Rung
+
+== 4e H
+4e
+  templates : region/Brief.md
+  schemas   : Common_Schema.md, Region_Schema.md, [Rating]_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/region/[Region Code]/Seed.md
+              setting/region/[Region Code]/[Table].md
+              setting/region/[Region Code]/Ground.md
+              Overview <- Seed.comes, Seed.who, Seed.changing, Rung
+              View <- View
+              Approach <- Entry, Seed.crossing, Seed.off
+              Law <- Law
+              Terrain <- Seed.terrain, Ruling
+              Conditions <- Conditions
+              Arrival <- Dressing.obvious, Dressing.layout
+              Plan <- Block, Way, Location.type
+              Ways <- Stop.feature, Stop.distance, Stop.to, Dressing.obvious
+              Landmarks <- Dressing.obvious, Dressing.ambiance, Stop.sight
+              Entrances <- Dressing.obvious, Dressing.layout, Connection.to
+              Prizes <- Dressing.obvious, Dressing.layout, Connection.type
+              Places <- Dressing.obvious, Dressing.ambiance, Dressing.condition, Secret.tell
+              Tables <- Encounter.doing, Encounter.reaction, Hazard, Rung
+
+== 4e I
+4e
+  templates : region/Brief.md
+  schemas   : Common_Schema.md, Region_Schema.md, [Rating]_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/region/[Region Code]/Seed.md
+              setting/region/[Region Code]/[Table].md
+              setting/region/[Region Code]/Ground.md
+              Overview <- Seed.comes, Seed.who, Seed.changing, Rung
+              View <- View
+              Approach <- Entry, Seed.crossing, Seed.off
+              Law <- Law
+              Terrain <- Seed.terrain, Ruling
+              Conditions <- Conditions
+              Arrival <- Dressing.obvious, Dressing.layout
+              Plan <- Block, Way, Location.type
+              Ways <- Stop.feature, Stop.distance, Stop.to, Dressing.obvious
+              Landmarks <- Dressing.obvious, Dressing.ambiance, Stop.sight
+              Entrances <- Dressing.obvious, Dressing.layout, Connection.to
+              Prizes <- Dressing.obvious, Dressing.layout, Connection.type
+              Places <- Dressing.obvious, Dressing.ambiance, Dressing.condition, Secret.tell
+              Tables <- Encounter.doing, Encounter.reaction, Hazard, Rung
+
+== 4e J
+4e
+  templates : region/Brief.md
+  schemas   : Common_Schema.md, Region_Schema.md, [Rating]_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/region/[Region Code]/Seed.md
+              setting/region/[Region Code]/[Table].md
+              setting/region/[Region Code]/Ground.md
+              Overview <- Seed.comes, Seed.who, Seed.changing, Rung
+              View <- View
+              Approach <- Entry, Seed.crossing, Seed.off
+              Law <- Law
+              Terrain <- Seed.terrain, Ruling
+              Conditions <- Conditions
+              Arrival <- Dressing.obvious, Dressing.layout
+              Plan <- Block, Way, Location.type
+              Ways <- Stop.feature, Stop.distance, Stop.to, Dressing.obvious
+              Landmarks <- Dressing.obvious, Dressing.ambiance, Stop.sight
+              Entrances <- Dressing.obvious, Dressing.layout, Connection.to
+              Prizes <- Dressing.obvious, Dressing.layout, Connection.type
+              Places <- Dressing.obvious, Dressing.ambiance, Dressing.condition, Secret.tell
+              Tables <- Encounter.doing, Encounter.reaction, Hazard, Rung
+
+== 4e K
+4e
+  templates : region/Brief.md
+  schemas   : Common_Schema.md, Region_Schema.md, [Rating]_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/region/[Region Code]/Seed.md
+              setting/region/[Region Code]/[Table].md
+              setting/region/[Region Code]/Ground.md
+              Overview <- Seed.comes, Seed.who, Seed.changing, Rung
+              View <- View
+              Approach <- Entry, Seed.crossing, Seed.off
+              Law <- Law
+              Terrain <- Seed.terrain, Ruling
+              Conditions <- Conditions
+              Arrival <- Dressing.obvious, Dressing.layout
+              Plan <- Block, Way, Location.type
+              Ways <- Stop.feature, Stop.distance, Stop.to, Dressing.obvious
+              Landmarks <- Dressing.obvious, Dressing.ambiance, Stop.sight
+              Entrances <- Dressing.obvious, Dressing.layout, Connection.to
+              Prizes <- Dressing.obvious, Dressing.layout, Connection.type
+              Places <- Dressing.obvious, Dressing.ambiance, Dressing.condition, Secret.tell
+              Tables <- Encounter.doing, Encounter.reaction, Hazard, Rung
+
+== 4e L
+4e
+  templates : region/Brief.md
+  schemas   : Common_Schema.md, Region_Schema.md, [Rating]_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/region/[Region Code]/Seed.md
+              setting/region/[Region Code]/[Table].md
+              setting/region/[Region Code]/Ground.md
+              Overview <- Seed.comes, Seed.who, Seed.changing, Rung
+              View <- View
+              Approach <- Entry, Seed.crossing, Seed.off
+              Law <- Law
+              Terrain <- Seed.terrain, Ruling
+              Conditions <- Conditions
+              Arrival <- Dressing.obvious, Dressing.layout
+              Plan <- Block, Way, Location.type
+              Ways <- Stop.feature, Stop.distance, Stop.to, Dressing.obvious
+              Landmarks <- Dressing.obvious, Dressing.ambiance, Stop.sight
+              Entrances <- Dressing.obvious, Dressing.layout, Connection.to
+              Prizes <- Dressing.obvious, Dressing.layout, Connection.type
+              Places <- Dressing.obvious, Dressing.ambiance, Dressing.condition, Secret.tell
+              Tables <- Encounter.doing, Encounter.reaction, Hazard, Rung
+
+== 4e M
+4e
+  templates : region/Brief.md
+  schemas   : Common_Schema.md, Region_Schema.md, [Rating]_Schema.md
+  standing  : GENRE.md, STYLE.md, BRIEF.md, patterns/Common_Schema.md
+  reads     : setting/region/[Region Code]/Seed.md
+              setting/region/[Region Code]/[Table].md
+              setting/region/[Region Code]/Ground.md
+              Overview <- Seed.comes, Seed.who, Seed.changing, Rung
+              View <- View
+              Approach <- Entry, Seed.crossing, Seed.off
+              Law <- Law
+              Terrain <- Seed.terrain, Ruling
+              Conditions <- Conditions
+              Arrival <- Dressing.obvious, Dressing.layout
+              Plan <- Block, Way, Location.type
+              Ways <- Stop.feature, Stop.distance, Stop.to, Dressing.obvious
+              Landmarks <- Dressing.obvious, Dressing.ambiance, Stop.sight
+              Entrances <- Dressing.obvious, Dressing.layout, Connection.to
+              Prizes <- Dressing.obvious, Dressing.layout, Connection.type
+              Places <- Dressing.obvious, Dressing.ambiance, Dressing.condition, Secret.tell
+              Tables <- Encounter.doing, Encounter.reaction, Hazard, Rung
+
+== 5a 
+5a  (review pass)
+  templates : checks/Template_Judgement_Check.md
+  schemas   : (none)
+
+== 5a A
+5a  (review pass)
+  templates : checks/Template_Judgement_Check.md
+  schemas   : (none)
+
+== 5a B
+5a  (review pass)
+  templates : checks/Template_Judgement_Check.md
+  schemas   : (none)
+
+== 5a C
+5a  (review pass)
+  templates : checks/Template_Judgement_Check.md
+  schemas   : (none)
+
+== 5a D
+5a  (review pass)
+  templates : checks/Template_Judgement_Check.md
+  schemas   : (none)
+
+== 5a E
+5a  (review pass)
+  templates : checks/Template_Judgement_Check.md
+  schemas   : (none)
+
+== 5a F
+5a  (review pass)
+  templates : checks/Template_Judgement_Check.md
+  schemas   : (none)
+
+== 5a G
+5a  (review pass)
+  templates : checks/Template_Judgement_Check.md
+  schemas   : (none)
+
+== 5a H
+5a  (review pass)
+  templates : checks/Template_Judgement_Check.md
+  schemas   : (none)
+
+== 5a I
+5a  (review pass)
+  templates : checks/Template_Judgement_Check.md
+  schemas   : (none)
+
+== 5a J
+5a  (review pass)
+  templates : checks/Template_Judgement_Check.md
+  schemas   : (none)
+
+== 5a K
+5a  (review pass)
+  templates : checks/Template_Judgement_Check.md
+  schemas   : (none)
+
+== 5a L
+5a  (review pass)
+  templates : checks/Template_Judgement_Check.md
+  schemas   : (none)
+
+== 5a M
+5a  (review pass)
+  templates : checks/Template_Judgement_Check.md
+  schemas   : (none)
+
+== 5b 
+5b  (review pass)
+  templates : checks/Schema_Judgement_Check.md
+  schemas   : [Name]_Schema.md
+
+== 5b A
+5b  (review pass)
+  templates : checks/Schema_Judgement_Check.md
+  schemas   : [Name]_Schema.md
+
+== 5b B
+5b  (review pass)
+  templates : checks/Schema_Judgement_Check.md
+  schemas   : [Name]_Schema.md
+
+== 5b C
+5b  (review pass)
+  templates : checks/Schema_Judgement_Check.md
+  schemas   : [Name]_Schema.md
+
+== 5b D
+5b  (review pass)
+  templates : checks/Schema_Judgement_Check.md
+  schemas   : [Name]_Schema.md
+
+== 5b E
+5b  (review pass)
+  templates : checks/Schema_Judgement_Check.md
+  schemas   : [Name]_Schema.md
+
+== 5b F
+5b  (review pass)
+  templates : checks/Schema_Judgement_Check.md
+  schemas   : [Name]_Schema.md
+
+== 5b G
+5b  (review pass)
+  templates : checks/Schema_Judgement_Check.md
+  schemas   : [Name]_Schema.md
+
+== 5b H
+5b  (review pass)
+  templates : checks/Schema_Judgement_Check.md
+  schemas   : [Name]_Schema.md
+
+== 5b I
+5b  (review pass)
+  templates : checks/Schema_Judgement_Check.md
+  schemas   : [Name]_Schema.md
+
+== 5b J
+5b  (review pass)
+  templates : checks/Schema_Judgement_Check.md
+  schemas   : [Name]_Schema.md
+
+== 5b K
+5b  (review pass)
+  templates : checks/Schema_Judgement_Check.md
+  schemas   : [Name]_Schema.md
+
+== 5b L
+5b  (review pass)
+  templates : checks/Schema_Judgement_Check.md
+  schemas   : [Name]_Schema.md
+
+== 5b M
+5b  (review pass)
+  templates : checks/Schema_Judgement_Check.md
+  schemas   : [Name]_Schema.md
+
+== 5c 
+5c  (review pass)
+  templates : checks/Setting_Judgement_Check.md
+  schemas   : (none)
+
+== 5c A
+5c  (review pass)
+  templates : checks/Setting_Judgement_Check.md
+  schemas   : (none)
+
+== 5c B
+5c  (review pass)
+  templates : checks/Setting_Judgement_Check.md
+  schemas   : (none)
+
+== 5c C
+5c  (review pass)
+  templates : checks/Setting_Judgement_Check.md
+  schemas   : (none)
+
+== 5c D
+5c  (review pass)
+  templates : checks/Setting_Judgement_Check.md
+  schemas   : (none)
+
+== 5c E
+5c  (review pass)
+  templates : checks/Setting_Judgement_Check.md
+  schemas   : (none)
+
+== 5c F
+5c  (review pass)
+  templates : checks/Setting_Judgement_Check.md
+  schemas   : (none)
+
+== 5c G
+5c  (review pass)
+  templates : checks/Setting_Judgement_Check.md
+  schemas   : (none)
+
+== 5c H
+5c  (review pass)
+  templates : checks/Setting_Judgement_Check.md
+  schemas   : (none)
+
+== 5c I
+5c  (review pass)
+  templates : checks/Setting_Judgement_Check.md
+  schemas   : (none)
+
+== 5c J
+5c  (review pass)
+  templates : checks/Setting_Judgement_Check.md
+  schemas   : (none)
+
+== 5c K
+5c  (review pass)
+  templates : checks/Setting_Judgement_Check.md
+  schemas   : (none)
+
+== 5c L
+5c  (review pass)
+  templates : checks/Setting_Judgement_Check.md
+  schemas   : (none)
+
+== 5c M
+5c  (review pass)
+  templates : checks/Setting_Judgement_Check.md
+  schemas   : (none)
+

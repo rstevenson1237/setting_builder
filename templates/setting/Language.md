@@ -12,7 +12,7 @@ template scope="setting" writes="setting/Language.md" shape="Language"
 read "setting/Setting.md"
 read "setting/Bestiary.md"
 read "setting/Factions.md"
-field "Language.Coined here" reads="Person.name, Person.form, Named Creatures.Form, Factions.Form, Location.name"
+field "Language.Coined here" from="Person.name, Person.form, Named Creatures.Form, Factions.Form, Location.name"
 ```
 
 ## Instructions
