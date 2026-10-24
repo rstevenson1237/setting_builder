@@ -32,6 +32,7 @@ class PdfLinkResolver(sc.LinkResolver):
 
 
 RESOLVER = PdfLinkResolver()
+REGION_CODE_RE = re.compile(r'(?<![\w.])([A-Z]{1,2})(?= [A-Z])')
 
 
 def ri(text: str, setting: sc.Setting, skip_location: str | None = None) -> str:
@@ -47,10 +48,13 @@ def connections_block(lines: list[str], setting: sc.Setting) -> str:
     if not lines:
         return ""
     def region_link(m):
-        return f'<a href="#{sc.anchor_id("region", m.group(1))}">{m.group(1)}</a>'
-    items = "".join(
-        f"<li>{re.sub(r'(?<![\w.])([A-Z]{1,2})(?= [A-Z])', lambda m: region_link(m) if m.group(1) in setting.regions else m.group(0), ri(l, setting))}</li>"
-        for l in lines)
+        code = m.group(1)
+        return f'<a href="#{sc.anchor_id("region", code)}">{code}</a>' if code in setting.regions else code
+
+    def linked(line: str) -> str:
+        return REGION_CODE_RE.sub(region_link, ri(line, setting))
+
+    items = "".join(f"<li>{linked(l)}</li>" for l in lines)
     return f'<div class="connections"><h3>Connections</h3><ul>{items}</ul></div>'
 
 
