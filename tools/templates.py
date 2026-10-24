@@ -7,6 +7,7 @@ field reads - resolved against patterns/, and drawn as the skeleton of what a st
   read naming="Table"                          the region entries naming that table's entries
   run "--flag [args]"                          what tools/validate_setting.py prints
   field "Name" reads="Node.member, Table.Field, Node, ..."   one field's own inputs
+  field "Table.Field" words="N"|"N-M"|"N+"|"-M" sentences="..."   a setting entry's length, min, max or range
   step ID writes="Files" { read ...; field ... }   what one step of several adds
 
 Every template also reads STANDING, which it never lists. A review template (step 5)
@@ -27,6 +28,8 @@ SCOPES = ("setting", "[Region Code]")
 SHAPES = ("gazetteer", "seed", "brief", "tables")       # else a Setting_Schema.md table, or several
 RUNS = ("--location", "--pending", "--brief", "--read-set", "--skeleton")
 NODES = ("template", "read", "run", "field", "step")
+LENGTH_UNITS = ("words", "sentences")
+LENGTH_RE = re.compile(r"(\d+)?(-(\d+)?|\+)?")
 PLACEHOLDER_RE = re.compile(r"\[[^\]]+\]|\*")
 
 
@@ -65,6 +68,34 @@ def load(path: Path) -> Template | None:
     if not m or "```kdl" not in m.group(1):
         return None
     return Template(path, kdl.fenced(m.group(1)))
+
+
+def length(spec) -> tuple[int, int | None] | None:
+    """A length as (min, max or None): `N` exactly, `N-M`, `N+` at least, `-M` at most."""
+    m = LENGTH_RE.fullmatch(str(spec))
+    if not m or not str(spec):
+        return None
+    lo, rest, hi = m.groups()
+    if rest is None:
+        return (int(lo), int(lo))
+    if rest == "+":
+        return (int(lo), None) if lo else None
+    if not lo and not hi:
+        return None
+    lo, hi = int(lo or 0), int(hi) if hi else None
+    return (lo, hi) if hi is None or lo <= hi else None
+
+
+def count(text: str, unit: str) -> int:
+    if unit == "words":
+        return len(text.split())
+    return len(re.findall(r"[.!?](?=\s|$)", text.strip())) or (1 if text.strip() else 0)
+
+
+def limits(t: Template) -> list[tuple[str, str, tuple[int, int | None]]]:
+    """(Table.Field, unit, length) for every length a template's field lines state."""
+    return [(str(n.args[0]), u, length(n.props[u])) for n in t.part()
+            if n.name == "field" and n.args for u in LENGTH_UNITS if u in n.props and length(n.props[u])]
 
 
 def names(v) -> list[str]:
@@ -120,6 +151,11 @@ def problems(t: Template, schema: tb.Schema, steps: set[str]) -> list[str]:
         elif n.name == "run" and arg.split()[0] not in RUNS:
             out.append(f"{where} {arg!r} - a run is one of {', '.join(RUNS)}")
         elif n.name == "field":
+            for u in LENGTH_UNITS:
+                if u in n.props and not length(n.props[u]):
+                    out.append(f"{where} {arg}: {u} {n.props[u]!r} is not N, N-M, N+ or -M")
+            if any(u in n.props for u in LENGTH_UNITS) and "." not in arg:
+                out.append(f"{where} {arg}: a length names a Table.Field")
             for x in [arg] + names(n.props.get("reads", "")):
                 if not resolve(x, schema):
                     out.append(f"{where} {arg}: {x!r} names no node, table, member, field or brief field")
@@ -158,7 +194,8 @@ def read_lines(t: Template, schema: tb.Schema, step: str | None = None) -> list[
         elif n.name == "run":
             out.append(f"python3 tools/validate_setting.py {arg}")
         elif n.name == "field":
-            out.append(f"{arg} <- {n.props.get('reads', '')}")
+            lens = [f"{u} {n.props[u]}" for u in LENGTH_UNITS if u in n.props]
+            out.append(f"{arg} <- {n.props.get('reads', '')}" if "reads" in n.props else f"{arg}: {', '.join(lens)}")
     return out
 
 

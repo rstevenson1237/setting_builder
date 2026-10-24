@@ -840,6 +840,23 @@ def check_numbers(diag: Diagnostics, setting, schema):
                           f"{want[0] if want[0] == want[1] else f'{want[0]}-{want[1]}'}")
 
 
+def check_lengths(diag: Diagnostics, schema):
+    """Each setting entry's field against the length its template's `field` line states."""
+    for path in sorted(TEMPLATES.glob("*/*.md")):
+        t = tp.load(path)
+        for ref, unit, (lo, hi) in tp.limits(t) if t else []:
+            table, _, field = ref.partition(".")
+            if table not in schema.tables:
+                continue
+            for title, _, values in tables.setting_entries(schema, table) or []:
+                if field in values and values[field] not in ("", "none"):
+                    n = tp.count(values[field], unit)
+                    if n < lo or (hi is not None and n > hi):
+                        diag.warn(ROOT / schema.tables[table][1],
+                                  f"{title}: {field} runs {n} {unit} - {path.relative_to(ROOT)} asks for "
+                                  f"{lo}{'+' if hi is None else '' if hi == lo else f'-{hi}'}")
+
+
 def check_history_order(diag: Diagnostics, schema):
     """History runs oldest first: each entry's Age is no younger than the one before."""
     ages = list(schema.setting_enums.get("Age", []))
@@ -1435,6 +1452,7 @@ def main() -> int:
     check_listed_prices(diag, setting)
     check_numbers(diag, setting, schema)
     check_history_order(diag, schema)
+    check_lengths(diag, schema)
     check_reversals(diag, setting)
 
     # A location reached from the region itself is no part of the stated graph.
