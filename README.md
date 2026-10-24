@@ -105,9 +105,10 @@ python3 tools/build_pdf.py                  # single print-formatted PDF
 
 `build_site.py` also renders `patterns.html`, a Schema Reference built from the schemas
 rather than `setting/`, so it builds against an empty setting. It is a graph of every
-definition - types, enums, tables, nodes, folders, regions - beside the entry for the one
-selected: a line in an entry opens the definition it names, a hovered name shows it, and
-Up and Back move through what was opened.
+definition - types, enums, tables, nodes, folders, regions, and each template with what it
+reads and each field's source and output - beside the entry for the one selected: a line
+in an entry opens the definition it names, a hovered name shows it, and Up and Back move
+through what was opened.
 
 ## CI and deployment
 

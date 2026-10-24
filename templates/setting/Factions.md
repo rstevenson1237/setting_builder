@@ -24,7 +24,6 @@ format {
 ## Instructions
 List the factions `BRIEF.md` names, each following its fields in `patterns/Setting_Schema.md`.
 
-The file opens with its format's Relations table, copied as written. Each entry's Relations
-lists every other faction once, by the Relation it holds toward that faction; where
-`BRIEF.md` names one, that is the Relation. A parenthetical in the table is a second name
-the line may add: `- The Zhakuk - Hatred (fear)`.
+Each entry's Relations lists every other faction once, by the Relation it holds toward that
+faction; where `BRIEF.md` names one, that is the Relation. A parenthetical in the table is a
+second name the line may add: `- The Zhakuk - Hatred (fear)`.

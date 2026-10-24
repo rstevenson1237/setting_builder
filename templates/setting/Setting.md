@@ -16,5 +16,4 @@ format {
 ```
 
 ## Instructions
-Give the setting a name and its Place_Form, a tag line, then a two or three sentence outline
-for the referee. A `tongue` name is recorded first in `setting/Language.md`.
+A `tongue` name is recorded first in `setting/Language.md`.

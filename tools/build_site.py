@@ -21,6 +21,7 @@ from pathlib import Path
 import kdl
 import schema_graph
 import site_common as sc
+import templates as tp
 
 ROOT = sc.ROOT
 ASSETS_SRC = Path(__file__).resolve().parent / "site_assets"
@@ -525,8 +526,12 @@ def check(setting: sc.Setting, out_dir: Path) -> list[str]:
     graph = schema_graph.Graph()
     problems += [f"patterns.html: {p}" for p in graph.problems]
     held = sum(1 for path in graph.paths for n in kdl.fenced(path.read_text(encoding="utf-8")))
-    if held != len(graph.defs):
-        problems.append(f"patterns.html: {held} schema definitions, {len(graph.defs)} in the explorer")
+    drawn = [d for d in graph.defs.values() if d["kind"] != "template"]
+    if held != len(drawn):
+        problems.append(f"patterns.html: {held} schema definitions, {len(drawn)} in the explorer")
+    templates = len(tp.load_all())
+    if templates != len(graph.defs) - len(drawn):
+        problems.append(f"patterns.html: {templates} templates, {len(graph.defs) - len(drawn)} in the explorer")
     cites = json.loads((out_dir / "cites.json").read_text(encoding="utf-8"))
     for t in setting.tables:
         held = cites["roll" if t.kind == "roll" else "entry"].get(t.name, {})

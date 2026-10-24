@@ -38,13 +38,10 @@ format {
   Sanity rolls the Magic die and a penalty is Madness. A hazard's `Damage_Type` sets its
   count: Nuisance 1, Damaging 2, Lethal 3. `GENRE.md`'s Lethality answer is a rule a hazard
   can cite: what one failed Test costs a first-level character.
-- **Wounds** - one `### [Type]` table of six rows, `1` to `6`, for each Wound_Type
-  `BRIEF.md`'s `Procedures wounds` lists: the mechanical effect of a Wound of that Type, plain
-  enough to apply without looking anything up.
-- **Madness** - present only where `BRIEF.md`'s `Procedures madness` is not 0: one table of
-  six rows. A Test of Sanity is cited only where it exists.
-- **Conditions** - each `- **Name** - effect; how long it lasts`. Every Condition a Test of
-  Fate or a Wound row names is here.
+- **Wounds** - the mechanical effect of a Wound of each Type, plain enough to apply without
+  looking anything up.
+- **Madness** - a Test of Sanity is cited only where it exists.
+- **Conditions** - every Condition a Test of Fate or a Wound row names.
 - **Coin and Prices** - the common silver coin, cn, is the unit of every value in the
   setting; a hundred cn weigh 1 wt. Name each other coin the setting knows and its ratio to
   cn, the fee for changing one (3%) and for reselling goods (10-20%), and what copper pennies
@@ -52,9 +49,9 @@ format {
   hireling's wage by the day, each in cn.
 - **Time and Distance** - what each region type measures in, and the miles a watch covers on
   a road, off it and through the worst ground; how long a light lasts.
-- **Weather** - a d6 table of six rows. A 1 is severe (travel impossible), 2 and 3 are poor,
-  4 to 6 are calm; the setting writes what each is.
-- **Encounters** - a d6 table of distance, 1 an instant surprise to 6 signs or tracks only,
+- **Weather** - a 1 is severe (travel impossible), 2 and 3 are poor, 4 to 6 are calm; the
+  setting writes what each is.
+- **Encounters** - distance, 1 an instant surprise to 6 signs or tracks only,
   and the six Danger bands, 6 to 1, each in a line a region's Brief can instance. The party
   size numbers appearing are set for.
-- **Carousing** - a d6 table of effects: 1 and 2 negative, 3 and 4 neutral, 5 and 6 positive.
+- **Carousing** - 1 and 2 negative, 3 and 4 neutral, 5 and 6 positive.

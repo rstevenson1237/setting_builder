@@ -7,7 +7,7 @@ Task plan for `spec.md` once approved, run as one change in phases. Commits cite
 - `--read-set` and `--skeleton` for every step, unchanged against the baseline, but for
   the change a phase sets out to make (phase 2: the `- ` hint on a bullets field)
 - the site and PDF HTML byte-equal to the baseline (phases 1-4), but for `patterns.html` and
-  `schema-explorer.js` where a phase adds to the Schema Reference
+  the explorer's script and styles where a phase adds to the Schema Reference
 
 | Phase | Task | Spec | What | Files |
 |---|---|---|---|---|

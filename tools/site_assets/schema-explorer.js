@@ -1,5 +1,5 @@
-// The Schema Reference: every definition in patterns/*_Schema.md as a node in a graph, and an
-// entry for each. The model is read from #schema-data (tools/schema_graph.py); nothing here
+// The Schema Reference: every definition in patterns/*_Schema.md and templates/Template_Schema.md,
+// and every template, as a node in a graph, and an entry for each. The model is read from #schema-data (tools/schema_graph.py); nothing here
 // knows a schema's names, only its kinds.
 (function () {
   "use strict";
@@ -11,9 +11,11 @@
   var SVG = "http://www.w3.org/2000/svg";
 
   // Left to right, a definition is built from those before it.
-  var TIERS = ["value", "enum", "table", "node", "folder", "region"];
-  var PLURAL = { value: "Types", enum: "Enums", table: "Tables", node: "Nodes", folder: "Folders", region: "Regions" };
-  var SINGLE = { value: "type", enum: "enum", table: "table", node: "node", folder: "folder", region: "region" };
+  var TIERS = ["value", "enum", "table", "node", "folder", "region", "template"];
+  var PLURAL = { value: "Types", enum: "Enums", table: "Tables", node: "Nodes", folder: "Folders", region: "Regions",
+    template: "Templates" };
+  var SINGLE = { value: "type", enum: "enum", table: "table", node: "node", folder: "folder", region: "region",
+    template: "template" };
   var PALETTE = ["#6b7a8f", "#3f6f9f", "#7a5aa0", "#8a2e2e", "#2f6f4f", "#8a6d1e", "#2f8a8a", "#a0527a"];
   var TITLE = document.title;
 
@@ -45,7 +47,11 @@
   function prose(text) {
     var out = h("span", "sx-prose");
     text.split("`").forEach(function (part, i) {
-      if (part) { out.appendChild(i % 2 ? h("code", "", part) : document.createTextNode(part)); }
+      if (!part) { return; }
+      if (i % 2) { out.appendChild(h("code", "", part)); return; }
+      part.split("**").forEach(function (bit, j) {
+        if (bit) { out.appendChild(j % 2 ? h("strong", "", bit) : document.createTextNode(bit)); }
+      });
     });
     return out;
   }
@@ -116,7 +122,8 @@
     var p = h("div", "sx-entry", [
       h("h1", "", "Schema Reference"),
       h("p", "hint", ["Every field, enum and range the setting files and location tables are checked against, " +
-        "read from ", h("code", "", "patterns/*_Schema.md"), " at build time. Pick a node in the graph or a name " +
+        "read from ", h("code", "", "patterns/*_Schema.md"), " at build time, and every template: what it reads, " +
+        "each field it writes and how. Pick a node in the graph or a name " +
         "below to open its entry; follow any line to the definition it names, and hover a name to see it."])]);
     p.appendChild(h("h2", "", "Schemas"));
     var list = h("div", "sx-files");
@@ -154,13 +161,17 @@
   function defPanel(d) {
     var p = h("div", "sx-entry");
     p.appendChild(h("h1", "", [kindTag(d.kind), d.name]));
-    p.appendChild(h("p", "sx-meta", [link(d.file, "", [dot(d.file), d.file + " schema"]),
-      " · " + files[d.file].path + ":" + d.line]));
+    p.appendChild(h("p", "sx-meta", [link(d.file, "", [dot(d.file), d.kind === "template" ? "Templates" : d.file + " schema"]),
+      " · " + (d.path || files[d.file].path + ":" + d.line)]));
     if (d.doc) { p.appendChild(h("p", "sx-doc", prose(d.doc))); }
     if (d.section) { p.appendChild(h("p", "sx-section", prose(d.section))); }
     if (d.head.length) { p.appendChild(h("div", "sx-decl", [h("span", "sx-label", d.kind), tokens(d.head)])); }
     if (d.rows.length) { p.appendChild(h("div", "sx-lines", d.rows.map(enumRow))); }
     if (d.lines.length) { p.appendChild(h("div", "sx-lines", d.lines.map(lineRow))); }
+    if (d.text && d.text.length) {
+      p.appendChild(h("h2", "", "Instructions"));
+      d.text.forEach(function (t) { p.appendChild(h("p", "", prose(t))); });
+    }
     var same = data.defs.filter(function (o) { return o.name === d.name && o.kind === d.kind && o.id !== d.id; });
     if (same.length) {
       p.appendChild(h("h2", "", "Also defined in"));

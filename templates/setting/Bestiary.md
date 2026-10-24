@@ -23,6 +23,5 @@ lacks adds its entry here first, then cites it.
 
 The site and PDF set the fields the schema's `flow=` names as sentences under the first
 one's label, so write each after the first as a clause that reads when joined by semicolons.
-Each field's length is its `field` line's.
 
 Cut any field the schema does not name.

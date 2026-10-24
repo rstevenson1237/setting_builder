@@ -621,11 +621,13 @@ a.sx-tok:hover, a.sx-chip:hover, a.sx-tok:focus { text-decoration: underline; ou
 .ref-table { color: #2f6f4f; }
 .ref-node { color: var(--accent); }
 .ref-folder, .ref-region { color: #7a5aa0; }
+.ref-template { color: #a0527a; }
 @media (prefers-color-scheme: dark) {
   .ref-value { color: #7db3e3; }
   .ref-enum { color: #d9b45a; }
   .ref-table { color: #6fc79b; }
   .ref-folder, .ref-region { color: #b79adb; }
+  .ref-template { color: #d98ab5; }
 }
 a.sx-chip:visited, a.sx-tok:visited { color: inherit; }
 .ref-value:visited { color: #3f7fb5; }
