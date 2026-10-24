@@ -1,0 +1,5511 @@
+== 1a 
+templates/setting/Procedures.md: its own ## Template is the shape
+== 1a A
+templates/setting/Procedures.md: its own ## Template is the shape
+== 1a B
+templates/setting/Procedures.md: its own ## Template is the shape
+== 1a C
+templates/setting/Procedures.md: its own ## Template is the shape
+== 1a D
+templates/setting/Procedures.md: its own ## Template is the shape
+== 1a E
+templates/setting/Procedures.md: its own ## Template is the shape
+== 1a F
+templates/setting/Procedures.md: its own ## Template is the shape
+== 1a G
+templates/setting/Procedures.md: its own ## Template is the shape
+== 1a H
+templates/setting/Procedures.md: its own ## Template is the shape
+== 1a I
+templates/setting/Procedures.md: its own ## Template is the shape
+== 1a J
+templates/setting/Procedures.md: its own ## Template is the shape
+== 1a K
+templates/setting/Procedures.md: its own ## Template is the shape
+== 1a L
+templates/setting/Procedures.md: its own ## Template is the shape
+== 1a M
+templates/setting/Procedures.md: its own ## Template is the shape
+== 1b 
+templates/setting/Language.md
+Tongues of [Setting Name]
+
+## [Title]
+Spoken by: [Speakers]
+Consonants: [text]
+Vowels: [text]
+Syllable: [text]
+Affixes: [text]
+Roots: [text]
+Coined here: [text, opt]
+== 1b A
+templates/setting/Language.md
+Tongues of [Setting Name]
+
+## [Title]
+Spoken by: [Speakers]
+Consonants: [text]
+Vowels: [text]
+Syllable: [text]
+Affixes: [text]
+Roots: [text]
+Coined here: [text, opt]
+== 1b B
+templates/setting/Language.md
+Tongues of [Setting Name]
+
+## [Title]
+Spoken by: [Speakers]
+Consonants: [text]
+Vowels: [text]
+Syllable: [text]
+Affixes: [text]
+Roots: [text]
+Coined here: [text, opt]
+== 1b C
+templates/setting/Language.md
+Tongues of [Setting Name]
+
+## [Title]
+Spoken by: [Speakers]
+Consonants: [text]
+Vowels: [text]
+Syllable: [text]
+Affixes: [text]
+Roots: [text]
+Coined here: [text, opt]
+== 1b D
+templates/setting/Language.md
+Tongues of [Setting Name]
+
+## [Title]
+Spoken by: [Speakers]
+Consonants: [text]
+Vowels: [text]
+Syllable: [text]
+Affixes: [text]
+Roots: [text]
+Coined here: [text, opt]
+== 1b E
+templates/setting/Language.md
+Tongues of [Setting Name]
+
+## [Title]
+Spoken by: [Speakers]
+Consonants: [text]
+Vowels: [text]
+Syllable: [text]
+Affixes: [text]
+Roots: [text]
+Coined here: [text, opt]
+== 1b F
+templates/setting/Language.md
+Tongues of [Setting Name]
+
+## [Title]
+Spoken by: [Speakers]
+Consonants: [text]
+Vowels: [text]
+Syllable: [text]
+Affixes: [text]
+Roots: [text]
+Coined here: [text, opt]
+== 1b G
+templates/setting/Language.md
+Tongues of [Setting Name]
+
+## [Title]
+Spoken by: [Speakers]
+Consonants: [text]
+Vowels: [text]
+Syllable: [text]
+Affixes: [text]
+Roots: [text]
+Coined here: [text, opt]
+== 1b H
+templates/setting/Language.md
+Tongues of [Setting Name]
+
+## [Title]
+Spoken by: [Speakers]
+Consonants: [text]
+Vowels: [text]
+Syllable: [text]
+Affixes: [text]
+Roots: [text]
+Coined here: [text, opt]
+== 1b I
+templates/setting/Language.md
+Tongues of [Setting Name]
+
+## [Title]
+Spoken by: [Speakers]
+Consonants: [text]
+Vowels: [text]
+Syllable: [text]
+Affixes: [text]
+Roots: [text]
+Coined here: [text, opt]
+== 1b J
+templates/setting/Language.md
+Tongues of [Setting Name]
+
+## [Title]
+Spoken by: [Speakers]
+Consonants: [text]
+Vowels: [text]
+Syllable: [text]
+Affixes: [text]
+Roots: [text]
+Coined here: [text, opt]
+== 1b K
+templates/setting/Language.md
+Tongues of [Setting Name]
+
+## [Title]
+Spoken by: [Speakers]
+Consonants: [text]
+Vowels: [text]
+Syllable: [text]
+Affixes: [text]
+Roots: [text]
+Coined here: [text, opt]
+== 1b L
+templates/setting/Language.md
+Tongues of [Setting Name]
+
+## [Title]
+Spoken by: [Speakers]
+Consonants: [text]
+Vowels: [text]
+Syllable: [text]
+Affixes: [text]
+Roots: [text]
+Coined here: [text, opt]
+== 1b M
+templates/setting/Language.md
+Tongues of [Setting Name]
+
+## [Title]
+Spoken by: [Speakers]
+Consonants: [text]
+Vowels: [text]
+Syllable: [text]
+Affixes: [text]
+Roots: [text]
+Coined here: [text, opt]
+== 2a 
+templates/setting/Setting.md: its own ## Template is the shape
+== 2a A
+templates/setting/Setting.md: its own ## Template is the shape
+== 2a B
+templates/setting/Setting.md: its own ## Template is the shape
+== 2a C
+templates/setting/Setting.md: its own ## Template is the shape
+== 2a D
+templates/setting/Setting.md: its own ## Template is the shape
+== 2a E
+templates/setting/Setting.md: its own ## Template is the shape
+== 2a F
+templates/setting/Setting.md: its own ## Template is the shape
+== 2a G
+templates/setting/Setting.md: its own ## Template is the shape
+== 2a H
+templates/setting/Setting.md: its own ## Template is the shape
+== 2a I
+templates/setting/Setting.md: its own ## Template is the shape
+== 2a J
+templates/setting/Setting.md: its own ## Template is the shape
+== 2a K
+templates/setting/Setting.md: its own ## Template is the shape
+== 2a L
+templates/setting/Setting.md: its own ## Template is the shape
+== 2a M
+templates/setting/Setting.md: its own ## Template is the shape
+== 2b 
+templates/setting/History.md
+History of [Setting Name]
+
+### [Title]
+When: [Age]
+Event: [text]
+Left: [text]
+Codes: [place]
+== 2b A
+templates/setting/History.md
+History of [Setting Name]
+
+### [Title]
+When: [Age]
+Event: [text]
+Left: [text]
+Codes: [place]
+== 2b B
+templates/setting/History.md
+History of [Setting Name]
+
+### [Title]
+When: [Age]
+Event: [text]
+Left: [text]
+Codes: [place]
+== 2b C
+templates/setting/History.md
+History of [Setting Name]
+
+### [Title]
+When: [Age]
+Event: [text]
+Left: [text]
+Codes: [place]
+== 2b D
+templates/setting/History.md
+History of [Setting Name]
+
+### [Title]
+When: [Age]
+Event: [text]
+Left: [text]
+Codes: [place]
+== 2b E
+templates/setting/History.md
+History of [Setting Name]
+
+### [Title]
+When: [Age]
+Event: [text]
+Left: [text]
+Codes: [place]
+== 2b F
+templates/setting/History.md
+History of [Setting Name]
+
+### [Title]
+When: [Age]
+Event: [text]
+Left: [text]
+Codes: [place]
+== 2b G
+templates/setting/History.md
+History of [Setting Name]
+
+### [Title]
+When: [Age]
+Event: [text]
+Left: [text]
+Codes: [place]
+== 2b H
+templates/setting/History.md
+History of [Setting Name]
+
+### [Title]
+When: [Age]
+Event: [text]
+Left: [text]
+Codes: [place]
+== 2b I
+templates/setting/History.md
+History of [Setting Name]
+
+### [Title]
+When: [Age]
+Event: [text]
+Left: [text]
+Codes: [place]
+== 2b J
+templates/setting/History.md
+History of [Setting Name]
+
+### [Title]
+When: [Age]
+Event: [text]
+Left: [text]
+Codes: [place]
+== 2b K
+templates/setting/History.md
+History of [Setting Name]
+
+### [Title]
+When: [Age]
+Event: [text]
+Left: [text]
+Codes: [place]
+== 2b L
+templates/setting/History.md
+History of [Setting Name]
+
+### [Title]
+When: [Age]
+Event: [text]
+Left: [text]
+Codes: [place]
+== 2b M
+templates/setting/History.md
+History of [Setting Name]
+
+### [Title]
+When: [Age]
+Event: [text]
+Left: [text]
+Codes: [place]
+== 2c 
+templates/setting/Truths.md
+Truths of [Setting Name]
+
+| Truth | Handle | Codes |
+|---|---|---|
+| [text] | [text] | [place] |
+== 2c A
+templates/setting/Truths.md
+Truths of [Setting Name]
+
+| Truth | Handle | Codes |
+|---|---|---|
+| [text] | [text] | [place] |
+== 2c B
+templates/setting/Truths.md
+Truths of [Setting Name]
+
+| Truth | Handle | Codes |
+|---|---|---|
+| [text] | [text] | [place] |
+== 2c C
+templates/setting/Truths.md
+Truths of [Setting Name]
+
+| Truth | Handle | Codes |
+|---|---|---|
+| [text] | [text] | [place] |
+== 2c D
+templates/setting/Truths.md
+Truths of [Setting Name]
+
+| Truth | Handle | Codes |
+|---|---|---|
+| [text] | [text] | [place] |
+== 2c E
+templates/setting/Truths.md
+Truths of [Setting Name]
+
+| Truth | Handle | Codes |
+|---|---|---|
+| [text] | [text] | [place] |
+== 2c F
+templates/setting/Truths.md
+Truths of [Setting Name]
+
+| Truth | Handle | Codes |
+|---|---|---|
+| [text] | [text] | [place] |
+== 2c G
+templates/setting/Truths.md
+Truths of [Setting Name]
+
+| Truth | Handle | Codes |
+|---|---|---|
+| [text] | [text] | [place] |
+== 2c H
+templates/setting/Truths.md
+Truths of [Setting Name]
+
+| Truth | Handle | Codes |
+|---|---|---|
+| [text] | [text] | [place] |
+== 2c I
+templates/setting/Truths.md
+Truths of [Setting Name]
+
+| Truth | Handle | Codes |
+|---|---|---|
+| [text] | [text] | [place] |
+== 2c J
+templates/setting/Truths.md
+Truths of [Setting Name]
+
+| Truth | Handle | Codes |
+|---|---|---|
+| [text] | [text] | [place] |
+== 2c K
+templates/setting/Truths.md
+Truths of [Setting Name]
+
+| Truth | Handle | Codes |
+|---|---|---|
+| [text] | [text] | [place] |
+== 2c L
+templates/setting/Truths.md
+Truths of [Setting Name]
+
+| Truth | Handle | Codes |
+|---|---|---|
+| [text] | [text] | [place] |
+== 2c M
+templates/setting/Truths.md
+Truths of [Setting Name]
+
+| Truth | Handle | Codes |
+|---|---|---|
+| [text] | [text] | [place] |
+== 2d 
+templates/setting/Bestiary.md
+Bestiary of [Setting Name]
+
+### [Title]
+Type: [Bestiary_Type]
+AD: [dice]
+Special: [text]
+MA: [number, opt]
+Description: [text]
+Range: [text, opt]
+Numbers: [number, opt]
+Sign: [Sign, opt]
+Disposition: [text, opt]
+== 2d A
+templates/setting/Bestiary.md
+Bestiary of [Setting Name]
+
+### [Title]
+Type: [Bestiary_Type]
+AD: [dice]
+Special: [text]
+MA: [number, opt]
+Description: [text]
+Range: [text, opt]
+Numbers: [number, opt]
+Sign: [Sign, opt]
+Disposition: [text, opt]
+== 2d B
+templates/setting/Bestiary.md
+Bestiary of [Setting Name]
+
+### [Title]
+Type: [Bestiary_Type]
+AD: [dice]
+Special: [text]
+MA: [number, opt]
+Description: [text]
+Range: [text, opt]
+Numbers: [number, opt]
+Sign: [Sign, opt]
+Disposition: [text, opt]
+== 2d C
+templates/setting/Bestiary.md
+Bestiary of [Setting Name]
+
+### [Title]
+Type: [Bestiary_Type]
+AD: [dice]
+Special: [text]
+MA: [number, opt]
+Description: [text]
+Range: [text, opt]
+Numbers: [number, opt]
+Sign: [Sign, opt]
+Disposition: [text, opt]
+== 2d D
+templates/setting/Bestiary.md
+Bestiary of [Setting Name]
+
+### [Title]
+Type: [Bestiary_Type]
+AD: [dice]
+Special: [text]
+MA: [number, opt]
+Description: [text]
+Range: [text, opt]
+Numbers: [number, opt]
+Sign: [Sign, opt]
+Disposition: [text, opt]
+== 2d E
+templates/setting/Bestiary.md
+Bestiary of [Setting Name]
+
+### [Title]
+Type: [Bestiary_Type]
+AD: [dice]
+Special: [text]
+MA: [number, opt]
+Description: [text]
+Range: [text, opt]
+Numbers: [number, opt]
+Sign: [Sign, opt]
+Disposition: [text, opt]
+== 2d F
+templates/setting/Bestiary.md
+Bestiary of [Setting Name]
+
+### [Title]
+Type: [Bestiary_Type]
+AD: [dice]
+Special: [text]
+MA: [number, opt]
+Description: [text]
+Range: [text, opt]
+Numbers: [number, opt]
+Sign: [Sign, opt]
+Disposition: [text, opt]
+== 2d G
+templates/setting/Bestiary.md
+Bestiary of [Setting Name]
+
+### [Title]
+Type: [Bestiary_Type]
+AD: [dice]
+Special: [text]
+MA: [number, opt]
+Description: [text]
+Range: [text, opt]
+Numbers: [number, opt]
+Sign: [Sign, opt]
+Disposition: [text, opt]
+== 2d H
+templates/setting/Bestiary.md
+Bestiary of [Setting Name]
+
+### [Title]
+Type: [Bestiary_Type]
+AD: [dice]
+Special: [text]
+MA: [number, opt]
+Description: [text]
+Range: [text, opt]
+Numbers: [number, opt]
+Sign: [Sign, opt]
+Disposition: [text, opt]
+== 2d I
+templates/setting/Bestiary.md
+Bestiary of [Setting Name]
+
+### [Title]
+Type: [Bestiary_Type]
+AD: [dice]
+Special: [text]
+MA: [number, opt]
+Description: [text]
+Range: [text, opt]
+Numbers: [number, opt]
+Sign: [Sign, opt]
+Disposition: [text, opt]
+== 2d J
+templates/setting/Bestiary.md
+Bestiary of [Setting Name]
+
+### [Title]
+Type: [Bestiary_Type]
+AD: [dice]
+Special: [text]
+MA: [number, opt]
+Description: [text]
+Range: [text, opt]
+Numbers: [number, opt]
+Sign: [Sign, opt]
+Disposition: [text, opt]
+== 2d K
+templates/setting/Bestiary.md
+Bestiary of [Setting Name]
+
+### [Title]
+Type: [Bestiary_Type]
+AD: [dice]
+Special: [text]
+MA: [number, opt]
+Description: [text]
+Range: [text, opt]
+Numbers: [number, opt]
+Sign: [Sign, opt]
+Disposition: [text, opt]
+== 2d L
+templates/setting/Bestiary.md
+Bestiary of [Setting Name]
+
+### [Title]
+Type: [Bestiary_Type]
+AD: [dice]
+Special: [text]
+MA: [number, opt]
+Description: [text]
+Range: [text, opt]
+Numbers: [number, opt]
+Sign: [Sign, opt]
+Disposition: [text, opt]
+== 2d M
+templates/setting/Bestiary.md
+Bestiary of [Setting Name]
+
+### [Title]
+Type: [Bestiary_Type]
+AD: [dice]
+Special: [text]
+MA: [number, opt]
+Description: [text]
+Range: [text, opt]
+Numbers: [number, opt]
+Sign: [Sign, opt]
+Disposition: [text, opt]
+== 2e 
+templates/setting/Factions.md
+Factions of [Setting Name]
+
+### [Title]
+Form: [Name_Form]
+AD: [dice]
+Want: [Want]
+Identity: [text]
+Resources: [text]
+Knowledge: [text]
+Tactics: [text]
+Reactions: [text]
+Goals: [text]
+Relations: [relation]
+Fields: [entry Bestiary, list]
+== 2e A
+templates/setting/Factions.md
+Factions of [Setting Name]
+
+### [Title]
+Form: [Name_Form]
+AD: [dice]
+Want: [Want]
+Identity: [text]
+Resources: [text]
+Knowledge: [text]
+Tactics: [text]
+Reactions: [text]
+Goals: [text]
+Relations: [relation]
+Fields: [entry Bestiary, list]
+== 2e B
+templates/setting/Factions.md
+Factions of [Setting Name]
+
+### [Title]
+Form: [Name_Form]
+AD: [dice]
+Want: [Want]
+Identity: [text]
+Resources: [text]
+Knowledge: [text]
+Tactics: [text]
+Reactions: [text]
+Goals: [text]
+Relations: [relation]
+Fields: [entry Bestiary, list]
+== 2e C
+templates/setting/Factions.md
+Factions of [Setting Name]
+
+### [Title]
+Form: [Name_Form]
+AD: [dice]
+Want: [Want]
+Identity: [text]
+Resources: [text]
+Knowledge: [text]
+Tactics: [text]
+Reactions: [text]
+Goals: [text]
+Relations: [relation]
+Fields: [entry Bestiary, list]
+== 2e D
+templates/setting/Factions.md
+Factions of [Setting Name]
+
+### [Title]
+Form: [Name_Form]
+AD: [dice]
+Want: [Want]
+Identity: [text]
+Resources: [text]
+Knowledge: [text]
+Tactics: [text]
+Reactions: [text]
+Goals: [text]
+Relations: [relation]
+Fields: [entry Bestiary, list]
+== 2e E
+templates/setting/Factions.md
+Factions of [Setting Name]
+
+### [Title]
+Form: [Name_Form]
+AD: [dice]
+Want: [Want]
+Identity: [text]
+Resources: [text]
+Knowledge: [text]
+Tactics: [text]
+Reactions: [text]
+Goals: [text]
+Relations: [relation]
+Fields: [entry Bestiary, list]
+== 2e F
+templates/setting/Factions.md
+Factions of [Setting Name]
+
+### [Title]
+Form: [Name_Form]
+AD: [dice]
+Want: [Want]
+Identity: [text]
+Resources: [text]
+Knowledge: [text]
+Tactics: [text]
+Reactions: [text]
+Goals: [text]
+Relations: [relation]
+Fields: [entry Bestiary, list]
+== 2e G
+templates/setting/Factions.md
+Factions of [Setting Name]
+
+### [Title]
+Form: [Name_Form]
+AD: [dice]
+Want: [Want]
+Identity: [text]
+Resources: [text]
+Knowledge: [text]
+Tactics: [text]
+Reactions: [text]
+Goals: [text]
+Relations: [relation]
+Fields: [entry Bestiary, list]
+== 2e H
+templates/setting/Factions.md
+Factions of [Setting Name]
+
+### [Title]
+Form: [Name_Form]
+AD: [dice]
+Want: [Want]
+Identity: [text]
+Resources: [text]
+Knowledge: [text]
+Tactics: [text]
+Reactions: [text]
+Goals: [text]
+Relations: [relation]
+Fields: [entry Bestiary, list]
+== 2e I
+templates/setting/Factions.md
+Factions of [Setting Name]
+
+### [Title]
+Form: [Name_Form]
+AD: [dice]
+Want: [Want]
+Identity: [text]
+Resources: [text]
+Knowledge: [text]
+Tactics: [text]
+Reactions: [text]
+Goals: [text]
+Relations: [relation]
+Fields: [entry Bestiary, list]
+== 2e J
+templates/setting/Factions.md
+Factions of [Setting Name]
+
+### [Title]
+Form: [Name_Form]
+AD: [dice]
+Want: [Want]
+Identity: [text]
+Resources: [text]
+Knowledge: [text]
+Tactics: [text]
+Reactions: [text]
+Goals: [text]
+Relations: [relation]
+Fields: [entry Bestiary, list]
+== 2e K
+templates/setting/Factions.md
+Factions of [Setting Name]
+
+### [Title]
+Form: [Name_Form]
+AD: [dice]
+Want: [Want]
+Identity: [text]
+Resources: [text]
+Knowledge: [text]
+Tactics: [text]
+Reactions: [text]
+Goals: [text]
+Relations: [relation]
+Fields: [entry Bestiary, list]
+== 2e L
+templates/setting/Factions.md
+Factions of [Setting Name]
+
+### [Title]
+Form: [Name_Form]
+AD: [dice]
+Want: [Want]
+Identity: [text]
+Resources: [text]
+Knowledge: [text]
+Tactics: [text]
+Reactions: [text]
+Goals: [text]
+Relations: [relation]
+Fields: [entry Bestiary, list]
+== 2e M
+templates/setting/Factions.md
+Factions of [Setting Name]
+
+### [Title]
+Form: [Name_Form]
+AD: [dice]
+Want: [Want]
+Identity: [text]
+Resources: [text]
+Knowledge: [text]
+Tactics: [text]
+Reactions: [text]
+Goals: [text]
+Relations: [relation]
+Fields: [entry Bestiary, list]
+== 2f 
+templates/setting/Magic.md
+Magic Table
+
+| # | Item | Does | Lasts | Tell | Value | Wt |
+|---|---|---|---|---|---|---|
+| [number] | [text] | [text] | [Lasts] | [text] | [number] | [number] |
+templates/setting/Treasure.md
+Treasure Table I - Scavenged Loot
+
+| # | Item | Value | Wt |
+|---|---|---|---|
+| [number] | [text] | [number] | [number] |
+
+Treasure Table II - Equipment and Armaments
+
+| # | Item | Quality | Effect | Value | Wt |
+|---|---|---|---|---|---|
+| [number] | [text] | [Quality] | [text] | [number] | [number] |
+
+Treasure Table III - Gems and Jewelry
+
+| # | Item | Value | Wt |
+|---|---|---|---|
+| [number] | [text] | [number] | [number] |
+
+Treasure Table IV - Luxury and Trade Goods
+
+| # | Item | Value | Wt |
+|---|---|---|---|
+| [number] | [text] | [number] | [number] |
+
+Treasure Table V - Treasure Cache
+
+| # | Item | Value | Wt |
+|---|---|---|---|
+| [number] | [text] | [number] | [number] |
+== 2f A
+templates/setting/Magic.md
+Magic Table
+
+| # | Item | Does | Lasts | Tell | Value | Wt |
+|---|---|---|---|---|---|---|
+| [number] | [text] | [text] | [Lasts] | [text] | [number] | [number] |
+templates/setting/Treasure.md
+Treasure Table I - Scavenged Loot
+
+| # | Item | Value | Wt |
+|---|---|---|---|
+| [number] | [text] | [number] | [number] |
+
+Treasure Table II - Equipment and Armaments
+
+| # | Item | Quality | Effect | Value | Wt |
+|---|---|---|---|---|---|
+| [number] | [text] | [Quality] | [text] | [number] | [number] |
+
+Treasure Table III - Gems and Jewelry
+
+| # | Item | Value | Wt |
+|---|---|---|---|
+| [number] | [text] | [number] | [number] |
+
+Treasure Table IV - Luxury and Trade Goods
+
+| # | Item | Value | Wt |
+|---|---|---|---|
+| [number] | [text] | [number] | [number] |
+
+Treasure Table V - Treasure Cache
+
+| # | Item | Value | Wt |
+|---|---|---|---|
+| [number] | [text] | [number] | [number] |
+== 2f B
+templates/setting/Magic.md
+Magic Table
+
+| # | Item | Does | Lasts | Tell | Value | Wt |
+|---|---|---|---|---|---|---|
+| [number] | [text] | [text] | [Lasts] | [text] | [number] | [number] |
+templates/setting/Treasure.md
+Treasure Table I - Scavenged Loot
+
+| # | Item | Value | Wt |
+|---|---|---|---|
+| [number] | [text] | [number] | [number] |
+
+Treasure Table II - Equipment and Armaments
+
+| # | Item | Quality | Effect | Value | Wt |
+|---|---|---|---|---|---|
+| [number] | [text] | [Quality] | [text] | [number] | [number] |
+
+Treasure Table III - Gems and Jewelry
+
+| # | Item | Value | Wt |
+|---|---|---|---|
+| [number] | [text] | [number] | [number] |
+
+Treasure Table IV - Luxury and Trade Goods
+
+| # | Item | Value | Wt |
+|---|---|---|---|
+| [number] | [text] | [number] | [number] |
+
+Treasure Table V - Treasure Cache
+
+| # | Item | Value | Wt |
+|---|---|---|---|
+| [number] | [text] | [number] | [number] |
+== 2f C
+templates/setting/Magic.md
+Magic Table
+
+| # | Item | Does | Lasts | Tell | Value | Wt |
+|---|---|---|---|---|---|---|
+| [number] | [text] | [text] | [Lasts] | [text] | [number] | [number] |
+templates/setting/Treasure.md
+Treasure Table I - Scavenged Loot
+
+| # | Item | Value | Wt |
+|---|---|---|---|
+| [number] | [text] | [number] | [number] |
+
+Treasure Table II - Equipment and Armaments
+
+| # | Item | Quality | Effect | Value | Wt |
+|---|---|---|---|---|---|
+| [number] | [text] | [Quality] | [text] | [number] | [number] |
+
+Treasure Table III - Gems and Jewelry
+
+| # | Item | Value | Wt |
+|---|---|---|---|
+| [number] | [text] | [number] | [number] |
+
+Treasure Table IV - Luxury and Trade Goods
+
+| # | Item | Value | Wt |
+|---|---|---|---|
+| [number] | [text] | [number] | [number] |
+
+Treasure Table V - Treasure Cache
+
+| # | Item | Value | Wt |
+|---|---|---|---|
+| [number] | [text] | [number] | [number] |
+== 2f D
+templates/setting/Magic.md
+Magic Table
+
+| # | Item | Does | Lasts | Tell | Value | Wt |
+|---|---|---|---|---|---|---|
+| [number] | [text] | [text] | [Lasts] | [text] | [number] | [number] |
+templates/setting/Treasure.md
+Treasure Table I - Scavenged Loot
+
+| # | Item | Value | Wt |
+|---|---|---|---|
+| [number] | [text] | [number] | [number] |
+
+Treasure Table II - Equipment and Armaments
+
+| # | Item | Quality | Effect | Value | Wt |
+|---|---|---|---|---|---|
+| [number] | [text] | [Quality] | [text] | [number] | [number] |
+
+Treasure Table III - Gems and Jewelry
+
+| # | Item | Value | Wt |
+|---|---|---|---|
+| [number] | [text] | [number] | [number] |
+
+Treasure Table IV - Luxury and Trade Goods
+
+| # | Item | Value | Wt |
+|---|---|---|---|
+| [number] | [text] | [number] | [number] |
+
+Treasure Table V - Treasure Cache
+
+| # | Item | Value | Wt |
+|---|---|---|---|
+| [number] | [text] | [number] | [number] |
+== 2f E
+templates/setting/Magic.md
+Magic Table
+
+| # | Item | Does | Lasts | Tell | Value | Wt |
+|---|---|---|---|---|---|---|
+| [number] | [text] | [text] | [Lasts] | [text] | [number] | [number] |
+templates/setting/Treasure.md
+Treasure Table I - Scavenged Loot
+
+| # | Item | Value | Wt |
+|---|---|---|---|
+| [number] | [text] | [number] | [number] |
+
+Treasure Table II - Equipment and Armaments
+
+| # | Item | Quality | Effect | Value | Wt |
+|---|---|---|---|---|---|
+| [number] | [text] | [Quality] | [text] | [number] | [number] |
+
+Treasure Table III - Gems and Jewelry
+
+| # | Item | Value | Wt |
+|---|---|---|---|
+| [number] | [text] | [number] | [number] |
+
+Treasure Table IV - Luxury and Trade Goods
+
+| # | Item | Value | Wt |
+|---|---|---|---|
+| [number] | [text] | [number] | [number] |
+
+Treasure Table V - Treasure Cache
+
+| # | Item | Value | Wt |
+|---|---|---|---|
+| [number] | [text] | [number] | [number] |
+== 2f F
+templates/setting/Magic.md
+Magic Table
+
+| # | Item | Does | Lasts | Tell | Value | Wt |
+|---|---|---|---|---|---|---|
+| [number] | [text] | [text] | [Lasts] | [text] | [number] | [number] |
+templates/setting/Treasure.md
+Treasure Table I - Scavenged Loot
+
+| # | Item | Value | Wt |
+|---|---|---|---|
+| [number] | [text] | [number] | [number] |
+
+Treasure Table II - Equipment and Armaments
+
+| # | Item | Quality | Effect | Value | Wt |
+|---|---|---|---|---|---|
+| [number] | [text] | [Quality] | [text] | [number] | [number] |
+
+Treasure Table III - Gems and Jewelry
+
+| # | Item | Value | Wt |
+|---|---|---|---|
+| [number] | [text] | [number] | [number] |
+
+Treasure Table IV - Luxury and Trade Goods
+
+| # | Item | Value | Wt |
+|---|---|---|---|
+| [number] | [text] | [number] | [number] |
+
+Treasure Table V - Treasure Cache
+
+| # | Item | Value | Wt |
+|---|---|---|---|
+| [number] | [text] | [number] | [number] |
+== 2f G
+templates/setting/Magic.md
+Magic Table
+
+| # | Item | Does | Lasts | Tell | Value | Wt |
+|---|---|---|---|---|---|---|
+| [number] | [text] | [text] | [Lasts] | [text] | [number] | [number] |
+templates/setting/Treasure.md
+Treasure Table I - Scavenged Loot
+
+| # | Item | Value | Wt |
+|---|---|---|---|
+| [number] | [text] | [number] | [number] |
+
+Treasure Table II - Equipment and Armaments
+
+| # | Item | Quality | Effect | Value | Wt |
+|---|---|---|---|---|---|
+| [number] | [text] | [Quality] | [text] | [number] | [number] |
+
+Treasure Table III - Gems and Jewelry
+
+| # | Item | Value | Wt |
+|---|---|---|---|
+| [number] | [text] | [number] | [number] |
+
+Treasure Table IV - Luxury and Trade Goods
+
+| # | Item | Value | Wt |
+|---|---|---|---|
+| [number] | [text] | [number] | [number] |
+
+Treasure Table V - Treasure Cache
+
+| # | Item | Value | Wt |
+|---|---|---|---|
+| [number] | [text] | [number] | [number] |
+== 2f H
+templates/setting/Magic.md
+Magic Table
+
+| # | Item | Does | Lasts | Tell | Value | Wt |
+|---|---|---|---|---|---|---|
+| [number] | [text] | [text] | [Lasts] | [text] | [number] | [number] |
+templates/setting/Treasure.md
+Treasure Table I - Scavenged Loot
+
+| # | Item | Value | Wt |
+|---|---|---|---|
+| [number] | [text] | [number] | [number] |
+
+Treasure Table II - Equipment and Armaments
+
+| # | Item | Quality | Effect | Value | Wt |
+|---|---|---|---|---|---|
+| [number] | [text] | [Quality] | [text] | [number] | [number] |
+
+Treasure Table III - Gems and Jewelry
+
+| # | Item | Value | Wt |
+|---|---|---|---|
+| [number] | [text] | [number] | [number] |
+
+Treasure Table IV - Luxury and Trade Goods
+
+| # | Item | Value | Wt |
+|---|---|---|---|
+| [number] | [text] | [number] | [number] |
+
+Treasure Table V - Treasure Cache
+
+| # | Item | Value | Wt |
+|---|---|---|---|
+| [number] | [text] | [number] | [number] |
+== 2f I
+templates/setting/Magic.md
+Magic Table
+
+| # | Item | Does | Lasts | Tell | Value | Wt |
+|---|---|---|---|---|---|---|
+| [number] | [text] | [text] | [Lasts] | [text] | [number] | [number] |
+templates/setting/Treasure.md
+Treasure Table I - Scavenged Loot
+
+| # | Item | Value | Wt |
+|---|---|---|---|
+| [number] | [text] | [number] | [number] |
+
+Treasure Table II - Equipment and Armaments
+
+| # | Item | Quality | Effect | Value | Wt |
+|---|---|---|---|---|---|
+| [number] | [text] | [Quality] | [text] | [number] | [number] |
+
+Treasure Table III - Gems and Jewelry
+
+| # | Item | Value | Wt |
+|---|---|---|---|
+| [number] | [text] | [number] | [number] |
+
+Treasure Table IV - Luxury and Trade Goods
+
+| # | Item | Value | Wt |
+|---|---|---|---|
+| [number] | [text] | [number] | [number] |
+
+Treasure Table V - Treasure Cache
+
+| # | Item | Value | Wt |
+|---|---|---|---|
+| [number] | [text] | [number] | [number] |
+== 2f J
+templates/setting/Magic.md
+Magic Table
+
+| # | Item | Does | Lasts | Tell | Value | Wt |
+|---|---|---|---|---|---|---|
+| [number] | [text] | [text] | [Lasts] | [text] | [number] | [number] |
+templates/setting/Treasure.md
+Treasure Table I - Scavenged Loot
+
+| # | Item | Value | Wt |
+|---|---|---|---|
+| [number] | [text] | [number] | [number] |
+
+Treasure Table II - Equipment and Armaments
+
+| # | Item | Quality | Effect | Value | Wt |
+|---|---|---|---|---|---|
+| [number] | [text] | [Quality] | [text] | [number] | [number] |
+
+Treasure Table III - Gems and Jewelry
+
+| # | Item | Value | Wt |
+|---|---|---|---|
+| [number] | [text] | [number] | [number] |
+
+Treasure Table IV - Luxury and Trade Goods
+
+| # | Item | Value | Wt |
+|---|---|---|---|
+| [number] | [text] | [number] | [number] |
+
+Treasure Table V - Treasure Cache
+
+| # | Item | Value | Wt |
+|---|---|---|---|
+| [number] | [text] | [number] | [number] |
+== 2f K
+templates/setting/Magic.md
+Magic Table
+
+| # | Item | Does | Lasts | Tell | Value | Wt |
+|---|---|---|---|---|---|---|
+| [number] | [text] | [text] | [Lasts] | [text] | [number] | [number] |
+templates/setting/Treasure.md
+Treasure Table I - Scavenged Loot
+
+| # | Item | Value | Wt |
+|---|---|---|---|
+| [number] | [text] | [number] | [number] |
+
+Treasure Table II - Equipment and Armaments
+
+| # | Item | Quality | Effect | Value | Wt |
+|---|---|---|---|---|---|
+| [number] | [text] | [Quality] | [text] | [number] | [number] |
+
+Treasure Table III - Gems and Jewelry
+
+| # | Item | Value | Wt |
+|---|---|---|---|
+| [number] | [text] | [number] | [number] |
+
+Treasure Table IV - Luxury and Trade Goods
+
+| # | Item | Value | Wt |
+|---|---|---|---|
+| [number] | [text] | [number] | [number] |
+
+Treasure Table V - Treasure Cache
+
+| # | Item | Value | Wt |
+|---|---|---|---|
+| [number] | [text] | [number] | [number] |
+== 2f L
+templates/setting/Magic.md
+Magic Table
+
+| # | Item | Does | Lasts | Tell | Value | Wt |
+|---|---|---|---|---|---|---|
+| [number] | [text] | [text] | [Lasts] | [text] | [number] | [number] |
+templates/setting/Treasure.md
+Treasure Table I - Scavenged Loot
+
+| # | Item | Value | Wt |
+|---|---|---|---|
+| [number] | [text] | [number] | [number] |
+
+Treasure Table II - Equipment and Armaments
+
+| # | Item | Quality | Effect | Value | Wt |
+|---|---|---|---|---|---|
+| [number] | [text] | [Quality] | [text] | [number] | [number] |
+
+Treasure Table III - Gems and Jewelry
+
+| # | Item | Value | Wt |
+|---|---|---|---|
+| [number] | [text] | [number] | [number] |
+
+Treasure Table IV - Luxury and Trade Goods
+
+| # | Item | Value | Wt |
+|---|---|---|---|
+| [number] | [text] | [number] | [number] |
+
+Treasure Table V - Treasure Cache
+
+| # | Item | Value | Wt |
+|---|---|---|---|
+| [number] | [text] | [number] | [number] |
+== 2f M
+templates/setting/Magic.md
+Magic Table
+
+| # | Item | Does | Lasts | Tell | Value | Wt |
+|---|---|---|---|---|---|---|
+| [number] | [text] | [text] | [Lasts] | [text] | [number] | [number] |
+templates/setting/Treasure.md
+Treasure Table I - Scavenged Loot
+
+| # | Item | Value | Wt |
+|---|---|---|---|
+| [number] | [text] | [number] | [number] |
+
+Treasure Table II - Equipment and Armaments
+
+| # | Item | Quality | Effect | Value | Wt |
+|---|---|---|---|---|---|
+| [number] | [text] | [Quality] | [text] | [number] | [number] |
+
+Treasure Table III - Gems and Jewelry
+
+| # | Item | Value | Wt |
+|---|---|---|---|
+| [number] | [text] | [number] | [number] |
+
+Treasure Table IV - Luxury and Trade Goods
+
+| # | Item | Value | Wt |
+|---|---|---|---|
+| [number] | [text] | [number] | [number] |
+
+Treasure Table V - Treasure Cache
+
+| # | Item | Value | Wt |
+|---|---|---|---|
+| [number] | [text] | [number] | [number] |
+== 2g 
+templates/setting/Language.md
+Tongues of [Setting Name]
+
+## [Title]
+Spoken by: [Speakers]
+Consonants: [text]
+Vowels: [text]
+Syllable: [text]
+Affixes: [text]
+Roots: [text]
+Coined here: [text, opt]
+templates/setting/Procedures.md: its own ## Template is the shape
+== 2g A
+templates/setting/Language.md
+Tongues of [Setting Name]
+
+## [Title]
+Spoken by: [Speakers]
+Consonants: [text]
+Vowels: [text]
+Syllable: [text]
+Affixes: [text]
+Roots: [text]
+Coined here: [text, opt]
+templates/setting/Procedures.md: its own ## Template is the shape
+== 2g B
+templates/setting/Language.md
+Tongues of [Setting Name]
+
+## [Title]
+Spoken by: [Speakers]
+Consonants: [text]
+Vowels: [text]
+Syllable: [text]
+Affixes: [text]
+Roots: [text]
+Coined here: [text, opt]
+templates/setting/Procedures.md: its own ## Template is the shape
+== 2g C
+templates/setting/Language.md
+Tongues of [Setting Name]
+
+## [Title]
+Spoken by: [Speakers]
+Consonants: [text]
+Vowels: [text]
+Syllable: [text]
+Affixes: [text]
+Roots: [text]
+Coined here: [text, opt]
+templates/setting/Procedures.md: its own ## Template is the shape
+== 2g D
+templates/setting/Language.md
+Tongues of [Setting Name]
+
+## [Title]
+Spoken by: [Speakers]
+Consonants: [text]
+Vowels: [text]
+Syllable: [text]
+Affixes: [text]
+Roots: [text]
+Coined here: [text, opt]
+templates/setting/Procedures.md: its own ## Template is the shape
+== 2g E
+templates/setting/Language.md
+Tongues of [Setting Name]
+
+## [Title]
+Spoken by: [Speakers]
+Consonants: [text]
+Vowels: [text]
+Syllable: [text]
+Affixes: [text]
+Roots: [text]
+Coined here: [text, opt]
+templates/setting/Procedures.md: its own ## Template is the shape
+== 2g F
+templates/setting/Language.md
+Tongues of [Setting Name]
+
+## [Title]
+Spoken by: [Speakers]
+Consonants: [text]
+Vowels: [text]
+Syllable: [text]
+Affixes: [text]
+Roots: [text]
+Coined here: [text, opt]
+templates/setting/Procedures.md: its own ## Template is the shape
+== 2g G
+templates/setting/Language.md
+Tongues of [Setting Name]
+
+## [Title]
+Spoken by: [Speakers]
+Consonants: [text]
+Vowels: [text]
+Syllable: [text]
+Affixes: [text]
+Roots: [text]
+Coined here: [text, opt]
+templates/setting/Procedures.md: its own ## Template is the shape
+== 2g H
+templates/setting/Language.md
+Tongues of [Setting Name]
+
+## [Title]
+Spoken by: [Speakers]
+Consonants: [text]
+Vowels: [text]
+Syllable: [text]
+Affixes: [text]
+Roots: [text]
+Coined here: [text, opt]
+templates/setting/Procedures.md: its own ## Template is the shape
+== 2g I
+templates/setting/Language.md
+Tongues of [Setting Name]
+
+## [Title]
+Spoken by: [Speakers]
+Consonants: [text]
+Vowels: [text]
+Syllable: [text]
+Affixes: [text]
+Roots: [text]
+Coined here: [text, opt]
+templates/setting/Procedures.md: its own ## Template is the shape
+== 2g J
+templates/setting/Language.md
+Tongues of [Setting Name]
+
+## [Title]
+Spoken by: [Speakers]
+Consonants: [text]
+Vowels: [text]
+Syllable: [text]
+Affixes: [text]
+Roots: [text]
+Coined here: [text, opt]
+templates/setting/Procedures.md: its own ## Template is the shape
+== 2g K
+templates/setting/Language.md
+Tongues of [Setting Name]
+
+## [Title]
+Spoken by: [Speakers]
+Consonants: [text]
+Vowels: [text]
+Syllable: [text]
+Affixes: [text]
+Roots: [text]
+Coined here: [text, opt]
+templates/setting/Procedures.md: its own ## Template is the shape
+== 2g L
+templates/setting/Language.md
+Tongues of [Setting Name]
+
+## [Title]
+Spoken by: [Speakers]
+Consonants: [text]
+Vowels: [text]
+Syllable: [text]
+Affixes: [text]
+Roots: [text]
+Coined here: [text, opt]
+templates/setting/Procedures.md: its own ## Template is the shape
+== 2g M
+templates/setting/Language.md
+Tongues of [Setting Name]
+
+## [Title]
+Spoken by: [Speakers]
+Consonants: [text]
+Vowels: [text]
+Syllable: [text]
+Affixes: [text]
+Roots: [text]
+Coined here: [text, opt]
+templates/setting/Procedures.md: its own ## Template is the shape
+== 3a 
+templates/region/Region_Gazetteer.md
+Regional Gazetteer of [Setting Name]
+
+```kdl
+Region [Region Code] name=[string] form=[Place_Form] gloss=[gloss] rating=[Rating] die=[Region_Die] joins=[region, list] tag=[string]
+```
+== 3a A
+templates/region/Region_Gazetteer.md
+Regional Gazetteer of [Setting Name]
+
+```kdl
+Region [Region Code] name=[string] form=[Place_Form] gloss=[gloss] rating=[Rating] die=[Region_Die] joins=[region, list] tag=[string]
+```
+== 3a B
+templates/region/Region_Gazetteer.md
+Regional Gazetteer of [Setting Name]
+
+```kdl
+Region [Region Code] name=[string] form=[Place_Form] gloss=[gloss] rating=[Rating] die=[Region_Die] joins=[region, list] tag=[string]
+```
+== 3a C
+templates/region/Region_Gazetteer.md
+Regional Gazetteer of [Setting Name]
+
+```kdl
+Region [Region Code] name=[string] form=[Place_Form] gloss=[gloss] rating=[Rating] die=[Region_Die] joins=[region, list] tag=[string]
+```
+== 3a D
+templates/region/Region_Gazetteer.md
+Regional Gazetteer of [Setting Name]
+
+```kdl
+Region [Region Code] name=[string] form=[Place_Form] gloss=[gloss] rating=[Rating] die=[Region_Die] joins=[region, list] tag=[string]
+```
+== 3a E
+templates/region/Region_Gazetteer.md
+Regional Gazetteer of [Setting Name]
+
+```kdl
+Region [Region Code] name=[string] form=[Place_Form] gloss=[gloss] rating=[Rating] die=[Region_Die] joins=[region, list] tag=[string]
+```
+== 3a F
+templates/region/Region_Gazetteer.md
+Regional Gazetteer of [Setting Name]
+
+```kdl
+Region [Region Code] name=[string] form=[Place_Form] gloss=[gloss] rating=[Rating] die=[Region_Die] joins=[region, list] tag=[string]
+```
+== 3a G
+templates/region/Region_Gazetteer.md
+Regional Gazetteer of [Setting Name]
+
+```kdl
+Region [Region Code] name=[string] form=[Place_Form] gloss=[gloss] rating=[Rating] die=[Region_Die] joins=[region, list] tag=[string]
+```
+== 3a H
+templates/region/Region_Gazetteer.md
+Regional Gazetteer of [Setting Name]
+
+```kdl
+Region [Region Code] name=[string] form=[Place_Form] gloss=[gloss] rating=[Rating] die=[Region_Die] joins=[region, list] tag=[string]
+```
+== 3a I
+templates/region/Region_Gazetteer.md
+Regional Gazetteer of [Setting Name]
+
+```kdl
+Region [Region Code] name=[string] form=[Place_Form] gloss=[gloss] rating=[Rating] die=[Region_Die] joins=[region, list] tag=[string]
+```
+== 3a J
+templates/region/Region_Gazetteer.md
+Regional Gazetteer of [Setting Name]
+
+```kdl
+Region [Region Code] name=[string] form=[Place_Form] gloss=[gloss] rating=[Rating] die=[Region_Die] joins=[region, list] tag=[string]
+```
+== 3a K
+templates/region/Region_Gazetteer.md
+Regional Gazetteer of [Setting Name]
+
+```kdl
+Region [Region Code] name=[string] form=[Place_Form] gloss=[gloss] rating=[Rating] die=[Region_Die] joins=[region, list] tag=[string]
+```
+== 3a L
+templates/region/Region_Gazetteer.md
+Regional Gazetteer of [Setting Name]
+
+```kdl
+Region [Region Code] name=[string] form=[Place_Form] gloss=[gloss] rating=[Rating] die=[Region_Die] joins=[region, list] tag=[string]
+```
+== 3a M
+templates/region/Region_Gazetteer.md
+Regional Gazetteer of [Setting Name]
+
+```kdl
+Region [Region Code] name=[string] form=[Place_Form] gloss=[gloss] rating=[Rating] die=[Region_Die] joins=[region, list] tag=[string]
+```
+== 3b 
+STEPS.md has no step '3b' citing a template
+== 3b A
+STEPS.md has no step '3b' citing a template
+== 3b B
+STEPS.md has no step '3b' citing a template
+== 3b C
+STEPS.md has no step '3b' citing a template
+== 3b D
+STEPS.md has no step '3b' citing a template
+== 3b E
+STEPS.md has no step '3b' citing a template
+== 3b F
+STEPS.md has no step '3b' citing a template
+== 3b G
+STEPS.md has no step '3b' citing a template
+== 3b H
+STEPS.md has no step '3b' citing a template
+== 3b I
+STEPS.md has no step '3b' citing a template
+== 3b J
+STEPS.md has no step '3b' citing a template
+== 3b K
+STEPS.md has no step '3b' citing a template
+== 3b L
+STEPS.md has no step '3b' citing a template
+== 3b M
+STEPS.md has no step '3b' citing a template
+== 3c 
+templates/region/Region.md
+## DANGEROUS
+# Seed of [Region Code] [Region Name]
+
+```kdl
+Seed [Region Code] kind=[Dangerous_Kind] comes=[text] who=[entry Bestiary Factions Named Creatures, list] changing=[text]   // 1
+Rung [Region Code] if=[string] then=[text]   // 2
+Entry [Region Code] name=[gloss] from=[string, opt] stands=[text] takes=[text, opt] refused=[text, opt]   // 1+
+Conditions [Region Code] material=[gloss] height=[feet] width=[feet] light=[gloss] sound=[string] footing=[gloss] air=[gloss] fire=[string]   // 1
+```
+
+## SAFE
+# Seed of [Region Code] [Region Name]
+
+```kdl
+Seed [Region Code] kind=[Safe_Kind] comes=[text] who=[entry Bestiary Factions Named Creatures, list] changing=[text]   // 1
+View [Region Code] from=[string] distance=[distance] outline=[text] shows=[text]   // 1
+Rung [Region Code] if=[string] then=[text]   // 2
+Entry [Region Code] name=[gloss] from=[string, opt] stands=[text] takes=[text, opt] refused=[text, opt]   // 1+
+Law [Region Code] offence=[string] cost=[text] enforcer=[gloss]   // 1+
+```
+
+## WILD
+# Seed of [Region Code] [Region Name]
+
+```kdl
+Seed [Region Code] terrain=[Terrain] comes=[text] who=[entry Bestiary Factions Named Creatures, list] changing=[text] crossing=[time, opt] off=[time, opt]   // 1
+Rung [Region Code] if=[string] then=[text]   // 2
+Entry [Region Code] name=[gloss] from=[string, opt] stands=[text] takes=[text, opt] refused=[text, opt]   // 1+
+Ruling [Region Code] on=[gloss] buys=[text]   // 1+
+```
+
+== 3c A
+templates/region/Region.md
+## SAFE
+# Seed of A [Region Name]
+
+```kdl
+Seed A kind=[Safe_Kind] comes=[text] who=[entry Bestiary Factions Named Creatures, list] changing=[text]   // 1
+View A from=[string] distance=[distance] outline=[text] shows=[text]   // 1
+Rung A if=[string] then=[text]   // 2
+Entry A name=[gloss] from=[string, opt] stands=[text] takes=[text, opt] refused=[text, opt]   // 1+
+Law A offence=[string] cost=[text] enforcer=[gloss]   // 1+
+```
+
+== 3c B
+templates/region/Region.md
+## WILD
+# Seed of B [Region Name]
+
+```kdl
+Seed B terrain=[Terrain] comes=[text] who=[entry Bestiary Factions Named Creatures, list] changing=[text] crossing=[time, opt] off=[time, opt]   // 1
+Rung B if=[string] then=[text]   // 2
+Entry B name=[gloss] from=[string, opt] stands=[text] takes=[text, opt] refused=[text, opt]   // 1+
+Ruling B on=[gloss] buys=[text]   // 1+
+```
+
+== 3c C
+templates/region/Region.md
+## WILD
+# Seed of C [Region Name]
+
+```kdl
+Seed C terrain=[Terrain] comes=[text] who=[entry Bestiary Factions Named Creatures, list] changing=[text] crossing=[time, opt] off=[time, opt]   // 1
+Rung C if=[string] then=[text]   // 2
+Entry C name=[gloss] from=[string, opt] stands=[text] takes=[text, opt] refused=[text, opt]   // 1+
+Ruling C on=[gloss] buys=[text]   // 1+
+```
+
+== 3c D
+templates/region/Region.md
+## WILD
+# Seed of D [Region Name]
+
+```kdl
+Seed D terrain=[Terrain] comes=[text] who=[entry Bestiary Factions Named Creatures, list] changing=[text] crossing=[time, opt] off=[time, opt]   // 1
+Rung D if=[string] then=[text]   // 2
+Entry D name=[gloss] from=[string, opt] stands=[text] takes=[text, opt] refused=[text, opt]   // 1+
+Ruling D on=[gloss] buys=[text]   // 1+
+```
+
+== 3c E
+templates/region/Region.md
+## WILD
+# Seed of E [Region Name]
+
+```kdl
+Seed E terrain=[Terrain] comes=[text] who=[entry Bestiary Factions Named Creatures, list] changing=[text] crossing=[time, opt] off=[time, opt]   // 1
+Rung E if=[string] then=[text]   // 2
+Entry E name=[gloss] from=[string, opt] stands=[text] takes=[text, opt] refused=[text, opt]   // 1+
+Ruling E on=[gloss] buys=[text]   // 1+
+```
+
+== 3c F
+templates/region/Region.md
+## DANGEROUS
+# Seed of F [Region Name]
+
+```kdl
+Seed F kind=[Dangerous_Kind] comes=[text] who=[entry Bestiary Factions Named Creatures, list] changing=[text]   // 1
+Rung F if=[string] then=[text]   // 2
+Entry F name=[gloss] from=[string, opt] stands=[text] takes=[text, opt] refused=[text, opt]   // 1+
+Conditions F material=[gloss] height=[feet] width=[feet] light=[gloss] sound=[string] footing=[gloss] air=[gloss] fire=[string]   // 1
+```
+
+== 3c G
+templates/region/Region.md
+## DANGEROUS
+# Seed of G [Region Name]
+
+```kdl
+Seed G kind=[Dangerous_Kind] comes=[text] who=[entry Bestiary Factions Named Creatures, list] changing=[text]   // 1
+Rung G if=[string] then=[text]   // 2
+Entry G name=[gloss] from=[string, opt] stands=[text] takes=[text, opt] refused=[text, opt]   // 1+
+Conditions G material=[gloss] height=[feet] width=[feet] light=[gloss] sound=[string] footing=[gloss] air=[gloss] fire=[string]   // 1
+```
+
+== 3c H
+templates/region/Region.md
+## DANGEROUS
+# Seed of H [Region Name]
+
+```kdl
+Seed H kind=[Dangerous_Kind] comes=[text] who=[entry Bestiary Factions Named Creatures, list] changing=[text]   // 1
+Rung H if=[string] then=[text]   // 2
+Entry H name=[gloss] from=[string, opt] stands=[text] takes=[text, opt] refused=[text, opt]   // 1+
+Conditions H material=[gloss] height=[feet] width=[feet] light=[gloss] sound=[string] footing=[gloss] air=[gloss] fire=[string]   // 1
+```
+
+== 3c I
+templates/region/Region.md
+## DANGEROUS
+# Seed of I [Region Name]
+
+```kdl
+Seed I kind=[Dangerous_Kind] comes=[text] who=[entry Bestiary Factions Named Creatures, list] changing=[text]   // 1
+Rung I if=[string] then=[text]   // 2
+Entry I name=[gloss] from=[string, opt] stands=[text] takes=[text, opt] refused=[text, opt]   // 1+
+Conditions I material=[gloss] height=[feet] width=[feet] light=[gloss] sound=[string] footing=[gloss] air=[gloss] fire=[string]   // 1
+```
+
+== 3c J
+templates/region/Region.md
+## DANGEROUS
+# Seed of J [Region Name]
+
+```kdl
+Seed J kind=[Dangerous_Kind] comes=[text] who=[entry Bestiary Factions Named Creatures, list] changing=[text]   // 1
+Rung J if=[string] then=[text]   // 2
+Entry J name=[gloss] from=[string, opt] stands=[text] takes=[text, opt] refused=[text, opt]   // 1+
+Conditions J material=[gloss] height=[feet] width=[feet] light=[gloss] sound=[string] footing=[gloss] air=[gloss] fire=[string]   // 1
+```
+
+== 3c K
+templates/region/Region.md
+## DANGEROUS
+# Seed of K [Region Name]
+
+```kdl
+Seed K kind=[Dangerous_Kind] comes=[text] who=[entry Bestiary Factions Named Creatures, list] changing=[text]   // 1
+Rung K if=[string] then=[text]   // 2
+Entry K name=[gloss] from=[string, opt] stands=[text] takes=[text, opt] refused=[text, opt]   // 1+
+Conditions K material=[gloss] height=[feet] width=[feet] light=[gloss] sound=[string] footing=[gloss] air=[gloss] fire=[string]   // 1
+```
+
+== 3c L
+templates/region/Region.md
+## DANGEROUS
+# Seed of L [Region Name]
+
+```kdl
+Seed L kind=[Dangerous_Kind] comes=[text] who=[entry Bestiary Factions Named Creatures, list] changing=[text]   // 1
+Rung L if=[string] then=[text]   // 2
+Entry L name=[gloss] from=[string, opt] stands=[text] takes=[text, opt] refused=[text, opt]   // 1+
+Conditions L material=[gloss] height=[feet] width=[feet] light=[gloss] sound=[string] footing=[gloss] air=[gloss] fire=[string]   // 1
+```
+
+== 3c M
+templates/region/Region.md
+## DANGEROUS
+# Seed of M [Region Name]
+
+```kdl
+Seed M kind=[Dangerous_Kind] comes=[text] who=[entry Bestiary Factions Named Creatures, list] changing=[text]   // 1
+Rung M if=[string] then=[text]   // 2
+Entry M name=[gloss] from=[string, opt] stands=[text] takes=[text, opt] refused=[text, opt]   // 1+
+Conditions M material=[gloss] height=[feet] width=[feet] light=[gloss] sound=[string] footing=[gloss] air=[gloss] fire=[string]   // 1
+```
+
+== 3d 
+templates/region/Locations.md
+## DANGEROUS
+# Locations of [Region Code] [Region Name]
+
+```kdl
+Location [Location Code] name=[string] tags=[tag, list] type=[kind]
+```
+
+
+## SAFE
+# Locations of [Region Code] [Region Name]
+
+```kdl
+Location [Location Code] name=[string] tags=[tag, list] type=[kind] at=[string, opt] bearing=[Compass, opt] distance=[distance, opt] north=[distance, opt] east=[distance, opt]
+```
+
+
+## WILD
+# Locations of [Region Code] [Region Name]
+
+```kdl
+Location [Location Code] name=[string] tags=[tag, list] type=[kind] at=[string, opt] bearing=[Compass, opt] distance=[distance, opt] north=[distance, opt] east=[distance, opt]
+```
+
+== 3d A
+templates/region/Locations.md
+## SAFE
+# Locations of A [Region Name]
+
+```kdl
+Location [Location Code] name=[string] tags=[tag, list] type=[kind] at=[string, opt] bearing=[Compass, opt] distance=[distance, opt] north=[distance, opt] east=[distance, opt]
+```
+
+== 3d B
+templates/region/Locations.md
+## WILD
+# Locations of B [Region Name]
+
+```kdl
+Location [Location Code] name=[string] tags=[tag, list] type=[kind] at=[string, opt] bearing=[Compass, opt] distance=[distance, opt] north=[distance, opt] east=[distance, opt]
+```
+
+== 3d C
+templates/region/Locations.md
+## WILD
+# Locations of C [Region Name]
+
+```kdl
+Location [Location Code] name=[string] tags=[tag, list] type=[kind] at=[string, opt] bearing=[Compass, opt] distance=[distance, opt] north=[distance, opt] east=[distance, opt]
+```
+
+== 3d D
+templates/region/Locations.md
+## WILD
+# Locations of D [Region Name]
+
+```kdl
+Location [Location Code] name=[string] tags=[tag, list] type=[kind] at=[string, opt] bearing=[Compass, opt] distance=[distance, opt] north=[distance, opt] east=[distance, opt]
+```
+
+== 3d E
+templates/region/Locations.md
+## WILD
+# Locations of E [Region Name]
+
+```kdl
+Location [Location Code] name=[string] tags=[tag, list] type=[kind] at=[string, opt] bearing=[Compass, opt] distance=[distance, opt] north=[distance, opt] east=[distance, opt]
+```
+
+== 3d F
+templates/region/Locations.md
+## DANGEROUS
+# Locations of F [Region Name]
+
+```kdl
+Location [Location Code] name=[string] tags=[tag, list] type=[kind]
+```
+
+== 3d G
+templates/region/Locations.md
+## DANGEROUS
+# Locations of G [Region Name]
+
+```kdl
+Location [Location Code] name=[string] tags=[tag, list] type=[kind]
+```
+
+== 3d H
+templates/region/Locations.md
+## DANGEROUS
+# Locations of H [Region Name]
+
+```kdl
+Location [Location Code] name=[string] tags=[tag, list] type=[kind]
+```
+
+== 3d I
+templates/region/Locations.md
+## DANGEROUS
+# Locations of I [Region Name]
+
+```kdl
+Location [Location Code] name=[string] tags=[tag, list] type=[kind]
+```
+
+== 3d J
+templates/region/Locations.md
+## DANGEROUS
+# Locations of J [Region Name]
+
+```kdl
+Location [Location Code] name=[string] tags=[tag, list] type=[kind]
+```
+
+== 3d K
+templates/region/Locations.md
+## DANGEROUS
+# Locations of K [Region Name]
+
+```kdl
+Location [Location Code] name=[string] tags=[tag, list] type=[kind]
+```
+
+== 3d L
+templates/region/Locations.md
+## DANGEROUS
+# Locations of L [Region Name]
+
+```kdl
+Location [Location Code] name=[string] tags=[tag, list] type=[kind]
+```
+
+== 3d M
+templates/region/Locations.md
+## DANGEROUS
+# Locations of M [Region Name]
+
+```kdl
+Location [Location Code] name=[string] tags=[tag, list] type=[kind]
+```
+
+== 3e 
+templates/region/Connections.md
+## DANGEROUS
+# Connections of [Region Code] [Region Name]
+
+```kdl
+Connection [Location Code] to=[location] type=[Connection_Type] bearing=[Compass] distance=[distance] climb=[feet, opt] orientation=[gloss, opt] width=[feet, opt] height=[feet, opt] { Encounter | Hazard | Mystery | Secret | Lock }
+```
+
+# Blocks of [Region Code] [Region Name]
+
+```kdl
+Block [Region Code].[a-z] name=[string] locations=[location, list] width=[feet, opt] height=[feet, opt]
+```
+
+
+## SAFE
+# Connections of [Region Code] [Region Name]
+
+```kdl
+Way [Location Code] to=[location] bearing=[Compass] distance=[distance] orientation=[gloss, opt] { Secret }
+```
+
+# Blocks of [Region Code] [Region Name]
+
+```kdl
+Block [Region Code].[a-z] name=[string] locations=[location, list] wall=[gloss, opt] towers=[gloss, opt]
+```
+
+
+## WILD
+# Connections of [Region Code] [Region Name]
+
+```kdl
+Way [Location Code] to=[location] bearing=[Compass] distance=[distance] orientation=[gloss, opt] { Secret }
+```
+
+== 3e A
+templates/region/Connections.md
+## SAFE
+# Connections of A [Region Name]
+
+```kdl
+Way [Location Code] to=[location] bearing=[Compass] distance=[distance] orientation=[gloss, opt] { Secret }
+```
+
+# Blocks of A [Region Name]
+
+```kdl
+Block A.[a-z] name=[string] locations=[location, list] wall=[gloss, opt] towers=[gloss, opt]
+```
+
+== 3e B
+templates/region/Connections.md
+## WILD
+# Connections of B [Region Name]
+
+```kdl
+Way [Location Code] to=[location] bearing=[Compass] distance=[distance] orientation=[gloss, opt] { Secret }
+```
+
+== 3e C
+templates/region/Connections.md
+## WILD
+# Connections of C [Region Name]
+
+```kdl
+Way [Location Code] to=[location] bearing=[Compass] distance=[distance] orientation=[gloss, opt] { Secret }
+```
+
+== 3e D
+templates/region/Connections.md
+## WILD
+# Connections of D [Region Name]
+
+```kdl
+Way [Location Code] to=[location] bearing=[Compass] distance=[distance] orientation=[gloss, opt] { Secret }
+```
+
+== 3e E
+templates/region/Connections.md
+## WILD
+# Connections of E [Region Name]
+
+```kdl
+Way [Location Code] to=[location] bearing=[Compass] distance=[distance] orientation=[gloss, opt] { Secret }
+```
+
+== 3e F
+templates/region/Connections.md
+## DANGEROUS
+# Connections of F [Region Name]
+
+```kdl
+Connection [Location Code] to=[location] type=[Connection_Type] bearing=[Compass] distance=[distance] climb=[feet, opt] orientation=[gloss, opt] width=[feet, opt] height=[feet, opt] { Encounter | Hazard | Mystery | Secret | Lock }
+```
+
+# Blocks of F [Region Name]
+
+```kdl
+Block F.[a-z] name=[string] locations=[location, list] width=[feet, opt] height=[feet, opt]
+```
+
+== 3e G
+templates/region/Connections.md
+## DANGEROUS
+# Connections of G [Region Name]
+
+```kdl
+Connection [Location Code] to=[location] type=[Connection_Type] bearing=[Compass] distance=[distance] climb=[feet, opt] orientation=[gloss, opt] width=[feet, opt] height=[feet, opt] { Encounter | Hazard | Mystery | Secret | Lock }
+```
+
+# Blocks of G [Region Name]
+
+```kdl
+Block G.[a-z] name=[string] locations=[location, list] width=[feet, opt] height=[feet, opt]
+```
+
+== 3e H
+templates/region/Connections.md
+## DANGEROUS
+# Connections of H [Region Name]
+
+```kdl
+Connection [Location Code] to=[location] type=[Connection_Type] bearing=[Compass] distance=[distance] climb=[feet, opt] orientation=[gloss, opt] width=[feet, opt] height=[feet, opt] { Encounter | Hazard | Mystery | Secret | Lock }
+```
+
+# Blocks of H [Region Name]
+
+```kdl
+Block H.[a-z] name=[string] locations=[location, list] width=[feet, opt] height=[feet, opt]
+```
+
+== 3e I
+templates/region/Connections.md
+## DANGEROUS
+# Connections of I [Region Name]
+
+```kdl
+Connection [Location Code] to=[location] type=[Connection_Type] bearing=[Compass] distance=[distance] climb=[feet, opt] orientation=[gloss, opt] width=[feet, opt] height=[feet, opt] { Encounter | Hazard | Mystery | Secret | Lock }
+```
+
+# Blocks of I [Region Name]
+
+```kdl
+Block I.[a-z] name=[string] locations=[location, list] width=[feet, opt] height=[feet, opt]
+```
+
+== 3e J
+templates/region/Connections.md
+## DANGEROUS
+# Connections of J [Region Name]
+
+```kdl
+Connection [Location Code] to=[location] type=[Connection_Type] bearing=[Compass] distance=[distance] climb=[feet, opt] orientation=[gloss, opt] width=[feet, opt] height=[feet, opt] { Encounter | Hazard | Mystery | Secret | Lock }
+```
+
+# Blocks of J [Region Name]
+
+```kdl
+Block J.[a-z] name=[string] locations=[location, list] width=[feet, opt] height=[feet, opt]
+```
+
+== 3e K
+templates/region/Connections.md
+## DANGEROUS
+# Connections of K [Region Name]
+
+```kdl
+Connection [Location Code] to=[location] type=[Connection_Type] bearing=[Compass] distance=[distance] climb=[feet, opt] orientation=[gloss, opt] width=[feet, opt] height=[feet, opt] { Encounter | Hazard | Mystery | Secret | Lock }
+```
+
+# Blocks of K [Region Name]
+
+```kdl
+Block K.[a-z] name=[string] locations=[location, list] width=[feet, opt] height=[feet, opt]
+```
+
+== 3e L
+templates/region/Connections.md
+## DANGEROUS
+# Connections of L [Region Name]
+
+```kdl
+Connection [Location Code] to=[location] type=[Connection_Type] bearing=[Compass] distance=[distance] climb=[feet, opt] orientation=[gloss, opt] width=[feet, opt] height=[feet, opt] { Encounter | Hazard | Mystery | Secret | Lock }
+```
+
+# Blocks of L [Region Name]
+
+```kdl
+Block L.[a-z] name=[string] locations=[location, list] width=[feet, opt] height=[feet, opt]
+```
+
+== 3e M
+templates/region/Connections.md
+## DANGEROUS
+# Connections of M [Region Name]
+
+```kdl
+Connection [Location Code] to=[location] type=[Connection_Type] bearing=[Compass] distance=[distance] climb=[feet, opt] orientation=[gloss, opt] width=[feet, opt] height=[feet, opt] { Encounter | Hazard | Mystery | Secret | Lock }
+```
+
+# Blocks of M [Region Name]
+
+```kdl
+Block M.[a-z] name=[string] locations=[location, list] width=[feet, opt] height=[feet, opt]
+```
+
+== 3f 
+STEPS.md has no step '3f' citing a template
+== 3f A
+STEPS.md has no step '3f' citing a template
+== 3f B
+STEPS.md has no step '3f' citing a template
+== 3f C
+STEPS.md has no step '3f' citing a template
+== 3f D
+STEPS.md has no step '3f' citing a template
+== 3f E
+STEPS.md has no step '3f' citing a template
+== 3f F
+STEPS.md has no step '3f' citing a template
+== 3f G
+STEPS.md has no step '3f' citing a template
+== 3f H
+STEPS.md has no step '3f' citing a template
+== 3f I
+STEPS.md has no step '3f' citing a template
+== 3f J
+STEPS.md has no step '3f' citing a template
+== 3f K
+STEPS.md has no step '3f' citing a template
+== 3f L
+STEPS.md has no step '3f' citing a template
+== 3f M
+STEPS.md has no step '3f' citing a template
+== 4a 
+templates/region/Tables.md
+## DANGEROUS
+# Locations of [Region Code] [Region Name]
+
+```kdl
+Location [Location Code] name=[string] tags=[tag, list] type=[kind]
+```
+
+# Purpose of [Region Code] [Region Name]
+
+```kdl
+Purpose [Location Code] unique=[string, opt] pressure=[string, opt] signs=[location, opt, list]
+```
+
+# Dressing of [Region Code] [Region Name]
+
+```kdl
+Dressing [Location Code] obvious=[string] former=[gloss, opt] condition=[tag, opt] ambiance=[gloss, opt] width=[feet] length=[feet] height=[feet, opt] shape=[Room_Shape, opt] layout=[string] mark=[entry Factions, opt, list] left=[entry History, opt, list]
+```
+
+# Challenges of [Region Code] [Region Name]
+
+```kdl
+Encounter [Location Code] doing=[string] reaction=[Reaction] answers=[time, opt] want=[string, opt] know=[string, opt] left=[gloss, opt] far=[gloss, opt] { Creature | NamedCreature | Faction }
+Hazard [Location Code] type=[Hazard_Type] damage=[Damage_Type] test=[Test] wound=[Wound_Type, opt] condition=[gloss, opt] { Secret }
+Mystery [Location Code] type=[Mystery_Type] effect=[string] { Secret }
+```
+
+# Rewards of [Region Code] [Region Name]
+
+```kdl
+Reward [Location Code] container=[gloss] contents=[pull Contents_Type] { Encounter | Hazard | Mystery | Secret | Lock }
+```
+
+# Procedures of [Region Code] [Region Name]
+
+```kdl
+Procedure [Location Code] procedure=[entry Local Procedures]
+```
+
+# Blocks of [Region Code] [Region Name]
+
+```kdl
+Block [Region Code].[a-z] name=[string] locations=[location, list] width=[feet, opt] height=[feet, opt]
+```
+
+# Connections of [Region Code] [Region Name]
+
+```kdl
+Connection [Location Code] to=[location] type=[Connection_Type] bearing=[Compass] distance=[distance] climb=[feet, opt] orientation=[gloss, opt] width=[feet, opt] height=[feet, opt] { Encounter | Hazard | Mystery | Secret | Lock }
+```
+
+
+## SAFE
+# Locations of [Region Code] [Region Name]
+
+```kdl
+Location [Location Code] name=[string] tags=[tag, list] type=[kind] at=[string, opt] bearing=[Compass, opt] distance=[distance, opt] north=[distance, opt] east=[distance, opt]
+```
+
+# Dressing of [Region Code] [Region Name]
+
+```kdl
+Dressing [Location Code] obvious=[string] former=[gloss, opt] condition=[tag, opt] ambiance=[gloss, opt] width=[feet, opt] length=[feet, opt] height=[feet, opt] shape=[Room_Shape, opt] layout=[string] mark=[entry Factions, opt, list] left=[entry History, opt, list]
+```
+
+# Purchases of [Region Code] [Region Name]
+
+```kdl
+Purchase [Location Code] type=[Purchase_Type] item=[string] price=[price] per=[gloss, opt] limit=[gloss, opt]
+```
+
+# People of [Region Code] [Region Name]
+
+```kdl
+Person [Location Code] name=[string] form=[Name_Form] role=[gloss] personality=[gloss] wants=[string] knows=[string] member=[entry Factions, opt] quest=[entry Quests, opt]
+NamedCreature [Location Code] named=[entry Named Creatures] presence=[percent]
+Faction [Location Code] faction=[entry Factions] present=[number] members=[string]
+```
+
+# Garrison of [Region Code] [Region Name]
+
+```kdl
+Garrison [Location Code] faction=[entry Factions] present=[number] members=[string] call=[gloss] within=[time]
+```
+
+# Procedures of [Region Code] [Region Name]
+
+```kdl
+Procedure [Location Code] procedure=[entry Local Procedures]
+```
+
+# Blocks of [Region Code] [Region Name]
+
+```kdl
+Block [Region Code].[a-z] name=[string] locations=[location, list] wall=[gloss, opt] towers=[gloss, opt]
+```
+
+# Connections of [Region Code] [Region Name]
+
+```kdl
+Way [Location Code] to=[location] bearing=[Compass] distance=[distance] orientation=[gloss, opt] { Secret }
+```
+
+
+## WILD
+# Locations of [Region Code] [Region Name]
+
+```kdl
+Location [Location Code] name=[string] tags=[tag, list] type=[kind] at=[string, opt] bearing=[Compass, opt] distance=[distance, opt] north=[distance, opt] east=[distance, opt]
+```
+
+# Dressing of [Region Code] [Region Name]
+
+```kdl
+Dressing [Location Code] obvious=[string] former=[gloss, opt] condition=[tag, opt] ambiance=[gloss, opt] layout=[string] mark=[entry Factions, opt, list] left=[entry History, opt, list]
+```
+
+# Challenges of [Region Code] [Region Name]
+
+```kdl
+Encounter [Location Code] doing=[string] reaction=[Reaction] want=[string, opt] know=[string, opt] left=[gloss, opt] far=[gloss, opt] { Creature | NamedCreature | Faction }
+Hazard [Location Code] type=[Hazard_Type] damage=[Damage_Type] test=[Test] wound=[Wound_Type, opt] condition=[gloss, opt] sign=[gloss]
+Mystery [Location Code] type=[Mystery_Type] effect=[string] act=[gloss] tell=[gloss]
+```
+
+# Procedures of [Region Code] [Region Name]
+
+```kdl
+Procedure [Location Code] procedure=[entry Local Procedures]
+```
+
+# Stops of [Region Code] [Region Name]
+
+```kdl
+Stop [Location Code] feature=[gloss] at=[string, opt] bearing=[Compass, opt] distance=[distance, opt] north=[distance, opt] east=[distance, opt] sight=[string] to=[location, opt]
+```
+
+# Connections of [Region Code] [Region Name]
+
+```kdl
+Way [Location Code] to=[location] bearing=[Compass] distance=[distance] orientation=[gloss, opt] { Secret }
+```
+
+templates/setting/Bestiary.md
+Bestiary of [Setting Name]
+
+### [Title]
+Type: [Bestiary_Type]
+AD: [dice]
+Special: [text]
+MA: [number, opt]
+Description: [text]
+Range: [text, opt]
+Numbers: [number, opt]
+Sign: [Sign, opt]
+Disposition: [text, opt]
+templates/setting/Factions.md
+Factions of [Setting Name]
+
+### [Title]
+Form: [Name_Form]
+AD: [dice]
+Want: [Want]
+Identity: [text]
+Resources: [text]
+Knowledge: [text]
+Tactics: [text]
+Reactions: [text]
+Goals: [text]
+Relations: [relation]
+Fields: [entry Bestiary, list]
+templates/setting/Hoards.md
+Hoards of [Setting Name]
+
+### [Title]
+Found at: [place]
+Owner: [entry Bestiary Factions Named Creatures]
+Items: [finds]
+templates/setting/Keys.md
+Keys of [Setting Name]
+
+| Name | Form | Found at | Opens | Feature | Apart | Connection |
+|---|---|---|---|---|---|---|
+| [text] | [Key_Form] | [place] | [place] | [text] | [Apart] | [Key_Link, list] |
+templates/setting/Language.md
+Tongues of [Setting Name]
+
+## [Title]
+Spoken by: [Speakers]
+Consonants: [text]
+Vowels: [text]
+Syllable: [text]
+Affixes: [text]
+Roots: [text]
+Coined here: [text, opt]
+templates/setting/LocalProcedures.md
+Local Procedures of [Setting Name]
+
+### [Title]
+Kind: [Proc_Kind]
+Extends: [Extends]
+Found at: [place]
+Roll: [Roll_Die]
+Stakes: [text]
+Results: [text]
+Tell: [text]
+templates/setting/Lore.md
+Lore of [Setting Name]
+
+### [Title]
+Form: [Lore_Form]
+Found at: [place]
+Voice: [text]
+Does: [Lore_Does, list]
+Text: [text]
+templates/setting/MagicalTomes.md
+Magical Tomes of [Setting Name]
+
+### [Title]
+Found at: [place]
+Teaches: [text]
+Reading: [Reading]
+templates/setting/NamedCreatures.md
+Named Creatures of [Setting Name]
+
+### [Title]
+Form: [Name_Form]
+Type: [Bestiary_Type]
+AD: [dice]
+Special: [text]
+MA: [number, opt]
+Appears at: [place]
+Reacts: [text]
+Wants: [text]
+Knows: [text, opt]
+Description: [text]
+templates/setting/UniqueTreasures.md
+Unique Treasures of [Setting Name]
+
+### [Title]
+Found at: [place]
+Does: [Does]
+Cost: [Cost, list]
+Origin: [Origin]
+Description: [text]
+== 4a A
+templates/region/Tables.md
+## SAFE
+# Locations of A [Region Name]
+
+```kdl
+Location [Location Code] name=[string] tags=[tag, list] type=[kind] at=[string, opt] bearing=[Compass, opt] distance=[distance, opt] north=[distance, opt] east=[distance, opt]
+```
+
+# Dressing of A [Region Name]
+
+```kdl
+Dressing [Location Code] obvious=[string] former=[gloss, opt] condition=[tag, opt] ambiance=[gloss, opt] width=[feet, opt] length=[feet, opt] height=[feet, opt] shape=[Room_Shape, opt] layout=[string] mark=[entry Factions, opt, list] left=[entry History, opt, list]
+```
+
+# Purchases of A [Region Name]
+
+```kdl
+Purchase [Location Code] type=[Purchase_Type] item=[string] price=[price] per=[gloss, opt] limit=[gloss, opt]
+```
+
+# People of A [Region Name]
+
+```kdl
+Person [Location Code] name=[string] form=[Name_Form] role=[gloss] personality=[gloss] wants=[string] knows=[string] member=[entry Factions, opt] quest=[entry Quests, opt]
+NamedCreature [Location Code] named=[entry Named Creatures] presence=[percent]
+Faction [Location Code] faction=[entry Factions] present=[number] members=[string]
+```
+
+# Garrison of A [Region Name]
+
+```kdl
+Garrison [Location Code] faction=[entry Factions] present=[number] members=[string] call=[gloss] within=[time]
+```
+
+# Procedures of A [Region Name]
+
+```kdl
+Procedure [Location Code] procedure=[entry Local Procedures]
+```
+
+# Blocks of A [Region Name]
+
+```kdl
+Block A.[a-z] name=[string] locations=[location, list] wall=[gloss, opt] towers=[gloss, opt]
+```
+
+# Connections of A [Region Name]
+
+```kdl
+Way [Location Code] to=[location] bearing=[Compass] distance=[distance] orientation=[gloss, opt] { Secret }
+```
+
+templates/setting/Bestiary.md
+Bestiary of [Setting Name]
+
+### [Title]
+Type: [Bestiary_Type]
+AD: [dice]
+Special: [text]
+MA: [number, opt]
+Description: [text]
+Range: [text, opt]
+Numbers: [number, opt]
+Sign: [Sign, opt]
+Disposition: [text, opt]
+templates/setting/Factions.md
+Factions of [Setting Name]
+
+### [Title]
+Form: [Name_Form]
+AD: [dice]
+Want: [Want]
+Identity: [text]
+Resources: [text]
+Knowledge: [text]
+Tactics: [text]
+Reactions: [text]
+Goals: [text]
+Relations: [relation]
+Fields: [entry Bestiary, list]
+templates/setting/Hoards.md
+Hoards of [Setting Name]
+
+### [Title]
+Found at: [place]
+Owner: [entry Bestiary Factions Named Creatures]
+Items: [finds]
+templates/setting/Keys.md
+Keys of [Setting Name]
+
+| Name | Form | Found at | Opens | Feature | Apart | Connection |
+|---|---|---|---|---|---|---|
+| [text] | [Key_Form] | [place] | [place] | [text] | [Apart] | [Key_Link, list] |
+templates/setting/Language.md
+Tongues of [Setting Name]
+
+## [Title]
+Spoken by: [Speakers]
+Consonants: [text]
+Vowels: [text]
+Syllable: [text]
+Affixes: [text]
+Roots: [text]
+Coined here: [text, opt]
+templates/setting/LocalProcedures.md
+Local Procedures of [Setting Name]
+
+### [Title]
+Kind: [Proc_Kind]
+Extends: [Extends]
+Found at: [place]
+Roll: [Roll_Die]
+Stakes: [text]
+Results: [text]
+Tell: [text]
+templates/setting/Lore.md
+Lore of [Setting Name]
+
+### [Title]
+Form: [Lore_Form]
+Found at: [place]
+Voice: [text]
+Does: [Lore_Does, list]
+Text: [text]
+templates/setting/MagicalTomes.md
+Magical Tomes of [Setting Name]
+
+### [Title]
+Found at: [place]
+Teaches: [text]
+Reading: [Reading]
+templates/setting/NamedCreatures.md
+Named Creatures of [Setting Name]
+
+### [Title]
+Form: [Name_Form]
+Type: [Bestiary_Type]
+AD: [dice]
+Special: [text]
+MA: [number, opt]
+Appears at: [place]
+Reacts: [text]
+Wants: [text]
+Knows: [text, opt]
+Description: [text]
+templates/setting/UniqueTreasures.md
+Unique Treasures of [Setting Name]
+
+### [Title]
+Found at: [place]
+Does: [Does]
+Cost: [Cost, list]
+Origin: [Origin]
+Description: [text]
+== 4a B
+templates/region/Tables.md
+## WILD
+# Locations of B [Region Name]
+
+```kdl
+Location [Location Code] name=[string] tags=[tag, list] type=[kind] at=[string, opt] bearing=[Compass, opt] distance=[distance, opt] north=[distance, opt] east=[distance, opt]
+```
+
+# Dressing of B [Region Name]
+
+```kdl
+Dressing [Location Code] obvious=[string] former=[gloss, opt] condition=[tag, opt] ambiance=[gloss, opt] layout=[string] mark=[entry Factions, opt, list] left=[entry History, opt, list]
+```
+
+# Challenges of B [Region Name]
+
+```kdl
+Encounter [Location Code] doing=[string] reaction=[Reaction] want=[string, opt] know=[string, opt] left=[gloss, opt] far=[gloss, opt] { Creature | NamedCreature | Faction }
+Hazard [Location Code] type=[Hazard_Type] damage=[Damage_Type] test=[Test] wound=[Wound_Type, opt] condition=[gloss, opt] sign=[gloss]
+Mystery [Location Code] type=[Mystery_Type] effect=[string] act=[gloss] tell=[gloss]
+```
+
+# Procedures of B [Region Name]
+
+```kdl
+Procedure [Location Code] procedure=[entry Local Procedures]
+```
+
+# Stops of B [Region Name]
+
+```kdl
+Stop [Location Code] feature=[gloss] at=[string, opt] bearing=[Compass, opt] distance=[distance, opt] north=[distance, opt] east=[distance, opt] sight=[string] to=[location, opt]
+```
+
+# Connections of B [Region Name]
+
+```kdl
+Way [Location Code] to=[location] bearing=[Compass] distance=[distance] orientation=[gloss, opt] { Secret }
+```
+
+templates/setting/Bestiary.md
+Bestiary of [Setting Name]
+
+### [Title]
+Type: [Bestiary_Type]
+AD: [dice]
+Special: [text]
+MA: [number, opt]
+Description: [text]
+Range: [text, opt]
+Numbers: [number, opt]
+Sign: [Sign, opt]
+Disposition: [text, opt]
+templates/setting/Factions.md
+Factions of [Setting Name]
+
+### [Title]
+Form: [Name_Form]
+AD: [dice]
+Want: [Want]
+Identity: [text]
+Resources: [text]
+Knowledge: [text]
+Tactics: [text]
+Reactions: [text]
+Goals: [text]
+Relations: [relation]
+Fields: [entry Bestiary, list]
+templates/setting/Hoards.md
+Hoards of [Setting Name]
+
+### [Title]
+Found at: [place]
+Owner: [entry Bestiary Factions Named Creatures]
+Items: [finds]
+templates/setting/Keys.md
+Keys of [Setting Name]
+
+| Name | Form | Found at | Opens | Feature | Apart | Connection |
+|---|---|---|---|---|---|---|
+| [text] | [Key_Form] | [place] | [place] | [text] | [Apart] | [Key_Link, list] |
+templates/setting/Language.md
+Tongues of [Setting Name]
+
+## [Title]
+Spoken by: [Speakers]
+Consonants: [text]
+Vowels: [text]
+Syllable: [text]
+Affixes: [text]
+Roots: [text]
+Coined here: [text, opt]
+templates/setting/LocalProcedures.md
+Local Procedures of [Setting Name]
+
+### [Title]
+Kind: [Proc_Kind]
+Extends: [Extends]
+Found at: [place]
+Roll: [Roll_Die]
+Stakes: [text]
+Results: [text]
+Tell: [text]
+templates/setting/Lore.md
+Lore of [Setting Name]
+
+### [Title]
+Form: [Lore_Form]
+Found at: [place]
+Voice: [text]
+Does: [Lore_Does, list]
+Text: [text]
+templates/setting/MagicalTomes.md
+Magical Tomes of [Setting Name]
+
+### [Title]
+Found at: [place]
+Teaches: [text]
+Reading: [Reading]
+templates/setting/NamedCreatures.md
+Named Creatures of [Setting Name]
+
+### [Title]
+Form: [Name_Form]
+Type: [Bestiary_Type]
+AD: [dice]
+Special: [text]
+MA: [number, opt]
+Appears at: [place]
+Reacts: [text]
+Wants: [text]
+Knows: [text, opt]
+Description: [text]
+templates/setting/UniqueTreasures.md
+Unique Treasures of [Setting Name]
+
+### [Title]
+Found at: [place]
+Does: [Does]
+Cost: [Cost, list]
+Origin: [Origin]
+Description: [text]
+== 4a C
+templates/region/Tables.md
+## WILD
+# Locations of C [Region Name]
+
+```kdl
+Location [Location Code] name=[string] tags=[tag, list] type=[kind] at=[string, opt] bearing=[Compass, opt] distance=[distance, opt] north=[distance, opt] east=[distance, opt]
+```
+
+# Dressing of C [Region Name]
+
+```kdl
+Dressing [Location Code] obvious=[string] former=[gloss, opt] condition=[tag, opt] ambiance=[gloss, opt] layout=[string] mark=[entry Factions, opt, list] left=[entry History, opt, list]
+```
+
+# Challenges of C [Region Name]
+
+```kdl
+Encounter [Location Code] doing=[string] reaction=[Reaction] want=[string, opt] know=[string, opt] left=[gloss, opt] far=[gloss, opt] { Creature | NamedCreature | Faction }
+Hazard [Location Code] type=[Hazard_Type] damage=[Damage_Type] test=[Test] wound=[Wound_Type, opt] condition=[gloss, opt] sign=[gloss]
+Mystery [Location Code] type=[Mystery_Type] effect=[string] act=[gloss] tell=[gloss]
+```
+
+# Procedures of C [Region Name]
+
+```kdl
+Procedure [Location Code] procedure=[entry Local Procedures]
+```
+
+# Stops of C [Region Name]
+
+```kdl
+Stop [Location Code] feature=[gloss] at=[string, opt] bearing=[Compass, opt] distance=[distance, opt] north=[distance, opt] east=[distance, opt] sight=[string] to=[location, opt]
+```
+
+# Connections of C [Region Name]
+
+```kdl
+Way [Location Code] to=[location] bearing=[Compass] distance=[distance] orientation=[gloss, opt] { Secret }
+```
+
+templates/setting/Bestiary.md
+Bestiary of [Setting Name]
+
+### [Title]
+Type: [Bestiary_Type]
+AD: [dice]
+Special: [text]
+MA: [number, opt]
+Description: [text]
+Range: [text, opt]
+Numbers: [number, opt]
+Sign: [Sign, opt]
+Disposition: [text, opt]
+templates/setting/Factions.md
+Factions of [Setting Name]
+
+### [Title]
+Form: [Name_Form]
+AD: [dice]
+Want: [Want]
+Identity: [text]
+Resources: [text]
+Knowledge: [text]
+Tactics: [text]
+Reactions: [text]
+Goals: [text]
+Relations: [relation]
+Fields: [entry Bestiary, list]
+templates/setting/Hoards.md
+Hoards of [Setting Name]
+
+### [Title]
+Found at: [place]
+Owner: [entry Bestiary Factions Named Creatures]
+Items: [finds]
+templates/setting/Keys.md
+Keys of [Setting Name]
+
+| Name | Form | Found at | Opens | Feature | Apart | Connection |
+|---|---|---|---|---|---|---|
+| [text] | [Key_Form] | [place] | [place] | [text] | [Apart] | [Key_Link, list] |
+templates/setting/Language.md
+Tongues of [Setting Name]
+
+## [Title]
+Spoken by: [Speakers]
+Consonants: [text]
+Vowels: [text]
+Syllable: [text]
+Affixes: [text]
+Roots: [text]
+Coined here: [text, opt]
+templates/setting/LocalProcedures.md
+Local Procedures of [Setting Name]
+
+### [Title]
+Kind: [Proc_Kind]
+Extends: [Extends]
+Found at: [place]
+Roll: [Roll_Die]
+Stakes: [text]
+Results: [text]
+Tell: [text]
+templates/setting/Lore.md
+Lore of [Setting Name]
+
+### [Title]
+Form: [Lore_Form]
+Found at: [place]
+Voice: [text]
+Does: [Lore_Does, list]
+Text: [text]
+templates/setting/MagicalTomes.md
+Magical Tomes of [Setting Name]
+
+### [Title]
+Found at: [place]
+Teaches: [text]
+Reading: [Reading]
+templates/setting/NamedCreatures.md
+Named Creatures of [Setting Name]
+
+### [Title]
+Form: [Name_Form]
+Type: [Bestiary_Type]
+AD: [dice]
+Special: [text]
+MA: [number, opt]
+Appears at: [place]
+Reacts: [text]
+Wants: [text]
+Knows: [text, opt]
+Description: [text]
+templates/setting/UniqueTreasures.md
+Unique Treasures of [Setting Name]
+
+### [Title]
+Found at: [place]
+Does: [Does]
+Cost: [Cost, list]
+Origin: [Origin]
+Description: [text]
+== 4a D
+templates/region/Tables.md
+## WILD
+# Locations of D [Region Name]
+
+```kdl
+Location [Location Code] name=[string] tags=[tag, list] type=[kind] at=[string, opt] bearing=[Compass, opt] distance=[distance, opt] north=[distance, opt] east=[distance, opt]
+```
+
+# Dressing of D [Region Name]
+
+```kdl
+Dressing [Location Code] obvious=[string] former=[gloss, opt] condition=[tag, opt] ambiance=[gloss, opt] layout=[string] mark=[entry Factions, opt, list] left=[entry History, opt, list]
+```
+
+# Challenges of D [Region Name]
+
+```kdl
+Encounter [Location Code] doing=[string] reaction=[Reaction] want=[string, opt] know=[string, opt] left=[gloss, opt] far=[gloss, opt] { Creature | NamedCreature | Faction }
+Hazard [Location Code] type=[Hazard_Type] damage=[Damage_Type] test=[Test] wound=[Wound_Type, opt] condition=[gloss, opt] sign=[gloss]
+Mystery [Location Code] type=[Mystery_Type] effect=[string] act=[gloss] tell=[gloss]
+```
+
+# Procedures of D [Region Name]
+
+```kdl
+Procedure [Location Code] procedure=[entry Local Procedures]
+```
+
+# Stops of D [Region Name]
+
+```kdl
+Stop [Location Code] feature=[gloss] at=[string, opt] bearing=[Compass, opt] distance=[distance, opt] north=[distance, opt] east=[distance, opt] sight=[string] to=[location, opt]
+```
+
+# Connections of D [Region Name]
+
+```kdl
+Way [Location Code] to=[location] bearing=[Compass] distance=[distance] orientation=[gloss, opt] { Secret }
+```
+
+templates/setting/Bestiary.md
+Bestiary of [Setting Name]
+
+### [Title]
+Type: [Bestiary_Type]
+AD: [dice]
+Special: [text]
+MA: [number, opt]
+Description: [text]
+Range: [text, opt]
+Numbers: [number, opt]
+Sign: [Sign, opt]
+Disposition: [text, opt]
+templates/setting/Factions.md
+Factions of [Setting Name]
+
+### [Title]
+Form: [Name_Form]
+AD: [dice]
+Want: [Want]
+Identity: [text]
+Resources: [text]
+Knowledge: [text]
+Tactics: [text]
+Reactions: [text]
+Goals: [text]
+Relations: [relation]
+Fields: [entry Bestiary, list]
+templates/setting/Hoards.md
+Hoards of [Setting Name]
+
+### [Title]
+Found at: [place]
+Owner: [entry Bestiary Factions Named Creatures]
+Items: [finds]
+templates/setting/Keys.md
+Keys of [Setting Name]
+
+| Name | Form | Found at | Opens | Feature | Apart | Connection |
+|---|---|---|---|---|---|---|
+| [text] | [Key_Form] | [place] | [place] | [text] | [Apart] | [Key_Link, list] |
+templates/setting/Language.md
+Tongues of [Setting Name]
+
+## [Title]
+Spoken by: [Speakers]
+Consonants: [text]
+Vowels: [text]
+Syllable: [text]
+Affixes: [text]
+Roots: [text]
+Coined here: [text, opt]
+templates/setting/LocalProcedures.md
+Local Procedures of [Setting Name]
+
+### [Title]
+Kind: [Proc_Kind]
+Extends: [Extends]
+Found at: [place]
+Roll: [Roll_Die]
+Stakes: [text]
+Results: [text]
+Tell: [text]
+templates/setting/Lore.md
+Lore of [Setting Name]
+
+### [Title]
+Form: [Lore_Form]
+Found at: [place]
+Voice: [text]
+Does: [Lore_Does, list]
+Text: [text]
+templates/setting/MagicalTomes.md
+Magical Tomes of [Setting Name]
+
+### [Title]
+Found at: [place]
+Teaches: [text]
+Reading: [Reading]
+templates/setting/NamedCreatures.md
+Named Creatures of [Setting Name]
+
+### [Title]
+Form: [Name_Form]
+Type: [Bestiary_Type]
+AD: [dice]
+Special: [text]
+MA: [number, opt]
+Appears at: [place]
+Reacts: [text]
+Wants: [text]
+Knows: [text, opt]
+Description: [text]
+templates/setting/UniqueTreasures.md
+Unique Treasures of [Setting Name]
+
+### [Title]
+Found at: [place]
+Does: [Does]
+Cost: [Cost, list]
+Origin: [Origin]
+Description: [text]
+== 4a E
+templates/region/Tables.md
+## WILD
+# Locations of E [Region Name]
+
+```kdl
+Location [Location Code] name=[string] tags=[tag, list] type=[kind] at=[string, opt] bearing=[Compass, opt] distance=[distance, opt] north=[distance, opt] east=[distance, opt]
+```
+
+# Dressing of E [Region Name]
+
+```kdl
+Dressing [Location Code] obvious=[string] former=[gloss, opt] condition=[tag, opt] ambiance=[gloss, opt] layout=[string] mark=[entry Factions, opt, list] left=[entry History, opt, list]
+```
+
+# Challenges of E [Region Name]
+
+```kdl
+Encounter [Location Code] doing=[string] reaction=[Reaction] want=[string, opt] know=[string, opt] left=[gloss, opt] far=[gloss, opt] { Creature | NamedCreature | Faction }
+Hazard [Location Code] type=[Hazard_Type] damage=[Damage_Type] test=[Test] wound=[Wound_Type, opt] condition=[gloss, opt] sign=[gloss]
+Mystery [Location Code] type=[Mystery_Type] effect=[string] act=[gloss] tell=[gloss]
+```
+
+# Procedures of E [Region Name]
+
+```kdl
+Procedure [Location Code] procedure=[entry Local Procedures]
+```
+
+# Stops of E [Region Name]
+
+```kdl
+Stop [Location Code] feature=[gloss] at=[string, opt] bearing=[Compass, opt] distance=[distance, opt] north=[distance, opt] east=[distance, opt] sight=[string] to=[location, opt]
+```
+
+# Connections of E [Region Name]
+
+```kdl
+Way [Location Code] to=[location] bearing=[Compass] distance=[distance] orientation=[gloss, opt] { Secret }
+```
+
+templates/setting/Bestiary.md
+Bestiary of [Setting Name]
+
+### [Title]
+Type: [Bestiary_Type]
+AD: [dice]
+Special: [text]
+MA: [number, opt]
+Description: [text]
+Range: [text, opt]
+Numbers: [number, opt]
+Sign: [Sign, opt]
+Disposition: [text, opt]
+templates/setting/Factions.md
+Factions of [Setting Name]
+
+### [Title]
+Form: [Name_Form]
+AD: [dice]
+Want: [Want]
+Identity: [text]
+Resources: [text]
+Knowledge: [text]
+Tactics: [text]
+Reactions: [text]
+Goals: [text]
+Relations: [relation]
+Fields: [entry Bestiary, list]
+templates/setting/Hoards.md
+Hoards of [Setting Name]
+
+### [Title]
+Found at: [place]
+Owner: [entry Bestiary Factions Named Creatures]
+Items: [finds]
+templates/setting/Keys.md
+Keys of [Setting Name]
+
+| Name | Form | Found at | Opens | Feature | Apart | Connection |
+|---|---|---|---|---|---|---|
+| [text] | [Key_Form] | [place] | [place] | [text] | [Apart] | [Key_Link, list] |
+templates/setting/Language.md
+Tongues of [Setting Name]
+
+## [Title]
+Spoken by: [Speakers]
+Consonants: [text]
+Vowels: [text]
+Syllable: [text]
+Affixes: [text]
+Roots: [text]
+Coined here: [text, opt]
+templates/setting/LocalProcedures.md
+Local Procedures of [Setting Name]
+
+### [Title]
+Kind: [Proc_Kind]
+Extends: [Extends]
+Found at: [place]
+Roll: [Roll_Die]
+Stakes: [text]
+Results: [text]
+Tell: [text]
+templates/setting/Lore.md
+Lore of [Setting Name]
+
+### [Title]
+Form: [Lore_Form]
+Found at: [place]
+Voice: [text]
+Does: [Lore_Does, list]
+Text: [text]
+templates/setting/MagicalTomes.md
+Magical Tomes of [Setting Name]
+
+### [Title]
+Found at: [place]
+Teaches: [text]
+Reading: [Reading]
+templates/setting/NamedCreatures.md
+Named Creatures of [Setting Name]
+
+### [Title]
+Form: [Name_Form]
+Type: [Bestiary_Type]
+AD: [dice]
+Special: [text]
+MA: [number, opt]
+Appears at: [place]
+Reacts: [text]
+Wants: [text]
+Knows: [text, opt]
+Description: [text]
+templates/setting/UniqueTreasures.md
+Unique Treasures of [Setting Name]
+
+### [Title]
+Found at: [place]
+Does: [Does]
+Cost: [Cost, list]
+Origin: [Origin]
+Description: [text]
+== 4a F
+templates/region/Tables.md
+## DANGEROUS
+# Locations of F [Region Name]
+
+```kdl
+Location [Location Code] name=[string] tags=[tag, list] type=[kind]
+```
+
+# Purpose of F [Region Name]
+
+```kdl
+Purpose [Location Code] unique=[string, opt] pressure=[string, opt] signs=[location, opt, list]
+```
+
+# Dressing of F [Region Name]
+
+```kdl
+Dressing [Location Code] obvious=[string] former=[gloss, opt] condition=[tag, opt] ambiance=[gloss, opt] width=[feet] length=[feet] height=[feet, opt] shape=[Room_Shape, opt] layout=[string] mark=[entry Factions, opt, list] left=[entry History, opt, list]
+```
+
+# Challenges of F [Region Name]
+
+```kdl
+Encounter [Location Code] doing=[string] reaction=[Reaction] answers=[time, opt] want=[string, opt] know=[string, opt] left=[gloss, opt] far=[gloss, opt] { Creature | NamedCreature | Faction }
+Hazard [Location Code] type=[Hazard_Type] damage=[Damage_Type] test=[Test] wound=[Wound_Type, opt] condition=[gloss, opt] { Secret }
+Mystery [Location Code] type=[Mystery_Type] effect=[string] { Secret }
+```
+
+# Rewards of F [Region Name]
+
+```kdl
+Reward [Location Code] container=[gloss] contents=[pull Contents_Type] { Encounter | Hazard | Mystery | Secret | Lock }
+```
+
+# Procedures of F [Region Name]
+
+```kdl
+Procedure [Location Code] procedure=[entry Local Procedures]
+```
+
+# Blocks of F [Region Name]
+
+```kdl
+Block F.[a-z] name=[string] locations=[location, list] width=[feet, opt] height=[feet, opt]
+```
+
+# Connections of F [Region Name]
+
+```kdl
+Connection [Location Code] to=[location] type=[Connection_Type] bearing=[Compass] distance=[distance] climb=[feet, opt] orientation=[gloss, opt] width=[feet, opt] height=[feet, opt] { Encounter | Hazard | Mystery | Secret | Lock }
+```
+
+templates/setting/Bestiary.md
+Bestiary of [Setting Name]
+
+### [Title]
+Type: [Bestiary_Type]
+AD: [dice]
+Special: [text]
+MA: [number, opt]
+Description: [text]
+Range: [text, opt]
+Numbers: [number, opt]
+Sign: [Sign, opt]
+Disposition: [text, opt]
+templates/setting/Factions.md
+Factions of [Setting Name]
+
+### [Title]
+Form: [Name_Form]
+AD: [dice]
+Want: [Want]
+Identity: [text]
+Resources: [text]
+Knowledge: [text]
+Tactics: [text]
+Reactions: [text]
+Goals: [text]
+Relations: [relation]
+Fields: [entry Bestiary, list]
+templates/setting/Hoards.md
+Hoards of [Setting Name]
+
+### [Title]
+Found at: [place]
+Owner: [entry Bestiary Factions Named Creatures]
+Items: [finds]
+templates/setting/Keys.md
+Keys of [Setting Name]
+
+| Name | Form | Found at | Opens | Feature | Apart | Connection |
+|---|---|---|---|---|---|---|
+| [text] | [Key_Form] | [place] | [place] | [text] | [Apart] | [Key_Link, list] |
+templates/setting/Language.md
+Tongues of [Setting Name]
+
+## [Title]
+Spoken by: [Speakers]
+Consonants: [text]
+Vowels: [text]
+Syllable: [text]
+Affixes: [text]
+Roots: [text]
+Coined here: [text, opt]
+templates/setting/LocalProcedures.md
+Local Procedures of [Setting Name]
+
+### [Title]
+Kind: [Proc_Kind]
+Extends: [Extends]
+Found at: [place]
+Roll: [Roll_Die]
+Stakes: [text]
+Results: [text]
+Tell: [text]
+templates/setting/Lore.md
+Lore of [Setting Name]
+
+### [Title]
+Form: [Lore_Form]
+Found at: [place]
+Voice: [text]
+Does: [Lore_Does, list]
+Text: [text]
+templates/setting/MagicalTomes.md
+Magical Tomes of [Setting Name]
+
+### [Title]
+Found at: [place]
+Teaches: [text]
+Reading: [Reading]
+templates/setting/NamedCreatures.md
+Named Creatures of [Setting Name]
+
+### [Title]
+Form: [Name_Form]
+Type: [Bestiary_Type]
+AD: [dice]
+Special: [text]
+MA: [number, opt]
+Appears at: [place]
+Reacts: [text]
+Wants: [text]
+Knows: [text, opt]
+Description: [text]
+templates/setting/UniqueTreasures.md
+Unique Treasures of [Setting Name]
+
+### [Title]
+Found at: [place]
+Does: [Does]
+Cost: [Cost, list]
+Origin: [Origin]
+Description: [text]
+== 4a G
+templates/region/Tables.md
+## DANGEROUS
+# Locations of G [Region Name]
+
+```kdl
+Location [Location Code] name=[string] tags=[tag, list] type=[kind]
+```
+
+# Purpose of G [Region Name]
+
+```kdl
+Purpose [Location Code] unique=[string, opt] pressure=[string, opt] signs=[location, opt, list]
+```
+
+# Dressing of G [Region Name]
+
+```kdl
+Dressing [Location Code] obvious=[string] former=[gloss, opt] condition=[tag, opt] ambiance=[gloss, opt] width=[feet] length=[feet] height=[feet, opt] shape=[Room_Shape, opt] layout=[string] mark=[entry Factions, opt, list] left=[entry History, opt, list]
+```
+
+# Challenges of G [Region Name]
+
+```kdl
+Encounter [Location Code] doing=[string] reaction=[Reaction] answers=[time, opt] want=[string, opt] know=[string, opt] left=[gloss, opt] far=[gloss, opt] { Creature | NamedCreature | Faction }
+Hazard [Location Code] type=[Hazard_Type] damage=[Damage_Type] test=[Test] wound=[Wound_Type, opt] condition=[gloss, opt] { Secret }
+Mystery [Location Code] type=[Mystery_Type] effect=[string] { Secret }
+```
+
+# Rewards of G [Region Name]
+
+```kdl
+Reward [Location Code] container=[gloss] contents=[pull Contents_Type] { Encounter | Hazard | Mystery | Secret | Lock }
+```
+
+# Procedures of G [Region Name]
+
+```kdl
+Procedure [Location Code] procedure=[entry Local Procedures]
+```
+
+# Blocks of G [Region Name]
+
+```kdl
+Block G.[a-z] name=[string] locations=[location, list] width=[feet, opt] height=[feet, opt]
+```
+
+# Connections of G [Region Name]
+
+```kdl
+Connection [Location Code] to=[location] type=[Connection_Type] bearing=[Compass] distance=[distance] climb=[feet, opt] orientation=[gloss, opt] width=[feet, opt] height=[feet, opt] { Encounter | Hazard | Mystery | Secret | Lock }
+```
+
+templates/setting/Bestiary.md
+Bestiary of [Setting Name]
+
+### [Title]
+Type: [Bestiary_Type]
+AD: [dice]
+Special: [text]
+MA: [number, opt]
+Description: [text]
+Range: [text, opt]
+Numbers: [number, opt]
+Sign: [Sign, opt]
+Disposition: [text, opt]
+templates/setting/Factions.md
+Factions of [Setting Name]
+
+### [Title]
+Form: [Name_Form]
+AD: [dice]
+Want: [Want]
+Identity: [text]
+Resources: [text]
+Knowledge: [text]
+Tactics: [text]
+Reactions: [text]
+Goals: [text]
+Relations: [relation]
+Fields: [entry Bestiary, list]
+templates/setting/Hoards.md
+Hoards of [Setting Name]
+
+### [Title]
+Found at: [place]
+Owner: [entry Bestiary Factions Named Creatures]
+Items: [finds]
+templates/setting/Keys.md
+Keys of [Setting Name]
+
+| Name | Form | Found at | Opens | Feature | Apart | Connection |
+|---|---|---|---|---|---|---|
+| [text] | [Key_Form] | [place] | [place] | [text] | [Apart] | [Key_Link, list] |
+templates/setting/Language.md
+Tongues of [Setting Name]
+
+## [Title]
+Spoken by: [Speakers]
+Consonants: [text]
+Vowels: [text]
+Syllable: [text]
+Affixes: [text]
+Roots: [text]
+Coined here: [text, opt]
+templates/setting/LocalProcedures.md
+Local Procedures of [Setting Name]
+
+### [Title]
+Kind: [Proc_Kind]
+Extends: [Extends]
+Found at: [place]
+Roll: [Roll_Die]
+Stakes: [text]
+Results: [text]
+Tell: [text]
+templates/setting/Lore.md
+Lore of [Setting Name]
+
+### [Title]
+Form: [Lore_Form]
+Found at: [place]
+Voice: [text]
+Does: [Lore_Does, list]
+Text: [text]
+templates/setting/MagicalTomes.md
+Magical Tomes of [Setting Name]
+
+### [Title]
+Found at: [place]
+Teaches: [text]
+Reading: [Reading]
+templates/setting/NamedCreatures.md
+Named Creatures of [Setting Name]
+
+### [Title]
+Form: [Name_Form]
+Type: [Bestiary_Type]
+AD: [dice]
+Special: [text]
+MA: [number, opt]
+Appears at: [place]
+Reacts: [text]
+Wants: [text]
+Knows: [text, opt]
+Description: [text]
+templates/setting/UniqueTreasures.md
+Unique Treasures of [Setting Name]
+
+### [Title]
+Found at: [place]
+Does: [Does]
+Cost: [Cost, list]
+Origin: [Origin]
+Description: [text]
+== 4a H
+templates/region/Tables.md
+## DANGEROUS
+# Locations of H [Region Name]
+
+```kdl
+Location [Location Code] name=[string] tags=[tag, list] type=[kind]
+```
+
+# Purpose of H [Region Name]
+
+```kdl
+Purpose [Location Code] unique=[string, opt] pressure=[string, opt] signs=[location, opt, list]
+```
+
+# Dressing of H [Region Name]
+
+```kdl
+Dressing [Location Code] obvious=[string] former=[gloss, opt] condition=[tag, opt] ambiance=[gloss, opt] width=[feet] length=[feet] height=[feet, opt] shape=[Room_Shape, opt] layout=[string] mark=[entry Factions, opt, list] left=[entry History, opt, list]
+```
+
+# Challenges of H [Region Name]
+
+```kdl
+Encounter [Location Code] doing=[string] reaction=[Reaction] answers=[time, opt] want=[string, opt] know=[string, opt] left=[gloss, opt] far=[gloss, opt] { Creature | NamedCreature | Faction }
+Hazard [Location Code] type=[Hazard_Type] damage=[Damage_Type] test=[Test] wound=[Wound_Type, opt] condition=[gloss, opt] { Secret }
+Mystery [Location Code] type=[Mystery_Type] effect=[string] { Secret }
+```
+
+# Rewards of H [Region Name]
+
+```kdl
+Reward [Location Code] container=[gloss] contents=[pull Contents_Type] { Encounter | Hazard | Mystery | Secret | Lock }
+```
+
+# Procedures of H [Region Name]
+
+```kdl
+Procedure [Location Code] procedure=[entry Local Procedures]
+```
+
+# Blocks of H [Region Name]
+
+```kdl
+Block H.[a-z] name=[string] locations=[location, list] width=[feet, opt] height=[feet, opt]
+```
+
+# Connections of H [Region Name]
+
+```kdl
+Connection [Location Code] to=[location] type=[Connection_Type] bearing=[Compass] distance=[distance] climb=[feet, opt] orientation=[gloss, opt] width=[feet, opt] height=[feet, opt] { Encounter | Hazard | Mystery | Secret | Lock }
+```
+
+templates/setting/Bestiary.md
+Bestiary of [Setting Name]
+
+### [Title]
+Type: [Bestiary_Type]
+AD: [dice]
+Special: [text]
+MA: [number, opt]
+Description: [text]
+Range: [text, opt]
+Numbers: [number, opt]
+Sign: [Sign, opt]
+Disposition: [text, opt]
+templates/setting/Factions.md
+Factions of [Setting Name]
+
+### [Title]
+Form: [Name_Form]
+AD: [dice]
+Want: [Want]
+Identity: [text]
+Resources: [text]
+Knowledge: [text]
+Tactics: [text]
+Reactions: [text]
+Goals: [text]
+Relations: [relation]
+Fields: [entry Bestiary, list]
+templates/setting/Hoards.md
+Hoards of [Setting Name]
+
+### [Title]
+Found at: [place]
+Owner: [entry Bestiary Factions Named Creatures]
+Items: [finds]
+templates/setting/Keys.md
+Keys of [Setting Name]
+
+| Name | Form | Found at | Opens | Feature | Apart | Connection |
+|---|---|---|---|---|---|---|
+| [text] | [Key_Form] | [place] | [place] | [text] | [Apart] | [Key_Link, list] |
+templates/setting/Language.md
+Tongues of [Setting Name]
+
+## [Title]
+Spoken by: [Speakers]
+Consonants: [text]
+Vowels: [text]
+Syllable: [text]
+Affixes: [text]
+Roots: [text]
+Coined here: [text, opt]
+templates/setting/LocalProcedures.md
+Local Procedures of [Setting Name]
+
+### [Title]
+Kind: [Proc_Kind]
+Extends: [Extends]
+Found at: [place]
+Roll: [Roll_Die]
+Stakes: [text]
+Results: [text]
+Tell: [text]
+templates/setting/Lore.md
+Lore of [Setting Name]
+
+### [Title]
+Form: [Lore_Form]
+Found at: [place]
+Voice: [text]
+Does: [Lore_Does, list]
+Text: [text]
+templates/setting/MagicalTomes.md
+Magical Tomes of [Setting Name]
+
+### [Title]
+Found at: [place]
+Teaches: [text]
+Reading: [Reading]
+templates/setting/NamedCreatures.md
+Named Creatures of [Setting Name]
+
+### [Title]
+Form: [Name_Form]
+Type: [Bestiary_Type]
+AD: [dice]
+Special: [text]
+MA: [number, opt]
+Appears at: [place]
+Reacts: [text]
+Wants: [text]
+Knows: [text, opt]
+Description: [text]
+templates/setting/UniqueTreasures.md
+Unique Treasures of [Setting Name]
+
+### [Title]
+Found at: [place]
+Does: [Does]
+Cost: [Cost, list]
+Origin: [Origin]
+Description: [text]
+== 4a I
+templates/region/Tables.md
+## DANGEROUS
+# Locations of I [Region Name]
+
+```kdl
+Location [Location Code] name=[string] tags=[tag, list] type=[kind]
+```
+
+# Purpose of I [Region Name]
+
+```kdl
+Purpose [Location Code] unique=[string, opt] pressure=[string, opt] signs=[location, opt, list]
+```
+
+# Dressing of I [Region Name]
+
+```kdl
+Dressing [Location Code] obvious=[string] former=[gloss, opt] condition=[tag, opt] ambiance=[gloss, opt] width=[feet] length=[feet] height=[feet, opt] shape=[Room_Shape, opt] layout=[string] mark=[entry Factions, opt, list] left=[entry History, opt, list]
+```
+
+# Challenges of I [Region Name]
+
+```kdl
+Encounter [Location Code] doing=[string] reaction=[Reaction] answers=[time, opt] want=[string, opt] know=[string, opt] left=[gloss, opt] far=[gloss, opt] { Creature | NamedCreature | Faction }
+Hazard [Location Code] type=[Hazard_Type] damage=[Damage_Type] test=[Test] wound=[Wound_Type, opt] condition=[gloss, opt] { Secret }
+Mystery [Location Code] type=[Mystery_Type] effect=[string] { Secret }
+```
+
+# Rewards of I [Region Name]
+
+```kdl
+Reward [Location Code] container=[gloss] contents=[pull Contents_Type] { Encounter | Hazard | Mystery | Secret | Lock }
+```
+
+# Procedures of I [Region Name]
+
+```kdl
+Procedure [Location Code] procedure=[entry Local Procedures]
+```
+
+# Blocks of I [Region Name]
+
+```kdl
+Block I.[a-z] name=[string] locations=[location, list] width=[feet, opt] height=[feet, opt]
+```
+
+# Connections of I [Region Name]
+
+```kdl
+Connection [Location Code] to=[location] type=[Connection_Type] bearing=[Compass] distance=[distance] climb=[feet, opt] orientation=[gloss, opt] width=[feet, opt] height=[feet, opt] { Encounter | Hazard | Mystery | Secret | Lock }
+```
+
+templates/setting/Bestiary.md
+Bestiary of [Setting Name]
+
+### [Title]
+Type: [Bestiary_Type]
+AD: [dice]
+Special: [text]
+MA: [number, opt]
+Description: [text]
+Range: [text, opt]
+Numbers: [number, opt]
+Sign: [Sign, opt]
+Disposition: [text, opt]
+templates/setting/Factions.md
+Factions of [Setting Name]
+
+### [Title]
+Form: [Name_Form]
+AD: [dice]
+Want: [Want]
+Identity: [text]
+Resources: [text]
+Knowledge: [text]
+Tactics: [text]
+Reactions: [text]
+Goals: [text]
+Relations: [relation]
+Fields: [entry Bestiary, list]
+templates/setting/Hoards.md
+Hoards of [Setting Name]
+
+### [Title]
+Found at: [place]
+Owner: [entry Bestiary Factions Named Creatures]
+Items: [finds]
+templates/setting/Keys.md
+Keys of [Setting Name]
+
+| Name | Form | Found at | Opens | Feature | Apart | Connection |
+|---|---|---|---|---|---|---|
+| [text] | [Key_Form] | [place] | [place] | [text] | [Apart] | [Key_Link, list] |
+templates/setting/Language.md
+Tongues of [Setting Name]
+
+## [Title]
+Spoken by: [Speakers]
+Consonants: [text]
+Vowels: [text]
+Syllable: [text]
+Affixes: [text]
+Roots: [text]
+Coined here: [text, opt]
+templates/setting/LocalProcedures.md
+Local Procedures of [Setting Name]
+
+### [Title]
+Kind: [Proc_Kind]
+Extends: [Extends]
+Found at: [place]
+Roll: [Roll_Die]
+Stakes: [text]
+Results: [text]
+Tell: [text]
+templates/setting/Lore.md
+Lore of [Setting Name]
+
+### [Title]
+Form: [Lore_Form]
+Found at: [place]
+Voice: [text]
+Does: [Lore_Does, list]
+Text: [text]
+templates/setting/MagicalTomes.md
+Magical Tomes of [Setting Name]
+
+### [Title]
+Found at: [place]
+Teaches: [text]
+Reading: [Reading]
+templates/setting/NamedCreatures.md
+Named Creatures of [Setting Name]
+
+### [Title]
+Form: [Name_Form]
+Type: [Bestiary_Type]
+AD: [dice]
+Special: [text]
+MA: [number, opt]
+Appears at: [place]
+Reacts: [text]
+Wants: [text]
+Knows: [text, opt]
+Description: [text]
+templates/setting/UniqueTreasures.md
+Unique Treasures of [Setting Name]
+
+### [Title]
+Found at: [place]
+Does: [Does]
+Cost: [Cost, list]
+Origin: [Origin]
+Description: [text]
+== 4a J
+templates/region/Tables.md
+## DANGEROUS
+# Locations of J [Region Name]
+
+```kdl
+Location [Location Code] name=[string] tags=[tag, list] type=[kind]
+```
+
+# Purpose of J [Region Name]
+
+```kdl
+Purpose [Location Code] unique=[string, opt] pressure=[string, opt] signs=[location, opt, list]
+```
+
+# Dressing of J [Region Name]
+
+```kdl
+Dressing [Location Code] obvious=[string] former=[gloss, opt] condition=[tag, opt] ambiance=[gloss, opt] width=[feet] length=[feet] height=[feet, opt] shape=[Room_Shape, opt] layout=[string] mark=[entry Factions, opt, list] left=[entry History, opt, list]
+```
+
+# Challenges of J [Region Name]
+
+```kdl
+Encounter [Location Code] doing=[string] reaction=[Reaction] answers=[time, opt] want=[string, opt] know=[string, opt] left=[gloss, opt] far=[gloss, opt] { Creature | NamedCreature | Faction }
+Hazard [Location Code] type=[Hazard_Type] damage=[Damage_Type] test=[Test] wound=[Wound_Type, opt] condition=[gloss, opt] { Secret }
+Mystery [Location Code] type=[Mystery_Type] effect=[string] { Secret }
+```
+
+# Rewards of J [Region Name]
+
+```kdl
+Reward [Location Code] container=[gloss] contents=[pull Contents_Type] { Encounter | Hazard | Mystery | Secret | Lock }
+```
+
+# Procedures of J [Region Name]
+
+```kdl
+Procedure [Location Code] procedure=[entry Local Procedures]
+```
+
+# Blocks of J [Region Name]
+
+```kdl
+Block J.[a-z] name=[string] locations=[location, list] width=[feet, opt] height=[feet, opt]
+```
+
+# Connections of J [Region Name]
+
+```kdl
+Connection [Location Code] to=[location] type=[Connection_Type] bearing=[Compass] distance=[distance] climb=[feet, opt] orientation=[gloss, opt] width=[feet, opt] height=[feet, opt] { Encounter | Hazard | Mystery | Secret | Lock }
+```
+
+templates/setting/Bestiary.md
+Bestiary of [Setting Name]
+
+### [Title]
+Type: [Bestiary_Type]
+AD: [dice]
+Special: [text]
+MA: [number, opt]
+Description: [text]
+Range: [text, opt]
+Numbers: [number, opt]
+Sign: [Sign, opt]
+Disposition: [text, opt]
+templates/setting/Factions.md
+Factions of [Setting Name]
+
+### [Title]
+Form: [Name_Form]
+AD: [dice]
+Want: [Want]
+Identity: [text]
+Resources: [text]
+Knowledge: [text]
+Tactics: [text]
+Reactions: [text]
+Goals: [text]
+Relations: [relation]
+Fields: [entry Bestiary, list]
+templates/setting/Hoards.md
+Hoards of [Setting Name]
+
+### [Title]
+Found at: [place]
+Owner: [entry Bestiary Factions Named Creatures]
+Items: [finds]
+templates/setting/Keys.md
+Keys of [Setting Name]
+
+| Name | Form | Found at | Opens | Feature | Apart | Connection |
+|---|---|---|---|---|---|---|
+| [text] | [Key_Form] | [place] | [place] | [text] | [Apart] | [Key_Link, list] |
+templates/setting/Language.md
+Tongues of [Setting Name]
+
+## [Title]
+Spoken by: [Speakers]
+Consonants: [text]
+Vowels: [text]
+Syllable: [text]
+Affixes: [text]
+Roots: [text]
+Coined here: [text, opt]
+templates/setting/LocalProcedures.md
+Local Procedures of [Setting Name]
+
+### [Title]
+Kind: [Proc_Kind]
+Extends: [Extends]
+Found at: [place]
+Roll: [Roll_Die]
+Stakes: [text]
+Results: [text]
+Tell: [text]
+templates/setting/Lore.md
+Lore of [Setting Name]
+
+### [Title]
+Form: [Lore_Form]
+Found at: [place]
+Voice: [text]
+Does: [Lore_Does, list]
+Text: [text]
+templates/setting/MagicalTomes.md
+Magical Tomes of [Setting Name]
+
+### [Title]
+Found at: [place]
+Teaches: [text]
+Reading: [Reading]
+templates/setting/NamedCreatures.md
+Named Creatures of [Setting Name]
+
+### [Title]
+Form: [Name_Form]
+Type: [Bestiary_Type]
+AD: [dice]
+Special: [text]
+MA: [number, opt]
+Appears at: [place]
+Reacts: [text]
+Wants: [text]
+Knows: [text, opt]
+Description: [text]
+templates/setting/UniqueTreasures.md
+Unique Treasures of [Setting Name]
+
+### [Title]
+Found at: [place]
+Does: [Does]
+Cost: [Cost, list]
+Origin: [Origin]
+Description: [text]
+== 4a K
+templates/region/Tables.md
+## DANGEROUS
+# Locations of K [Region Name]
+
+```kdl
+Location [Location Code] name=[string] tags=[tag, list] type=[kind]
+```
+
+# Purpose of K [Region Name]
+
+```kdl
+Purpose [Location Code] unique=[string, opt] pressure=[string, opt] signs=[location, opt, list]
+```
+
+# Dressing of K [Region Name]
+
+```kdl
+Dressing [Location Code] obvious=[string] former=[gloss, opt] condition=[tag, opt] ambiance=[gloss, opt] width=[feet] length=[feet] height=[feet, opt] shape=[Room_Shape, opt] layout=[string] mark=[entry Factions, opt, list] left=[entry History, opt, list]
+```
+
+# Challenges of K [Region Name]
+
+```kdl
+Encounter [Location Code] doing=[string] reaction=[Reaction] answers=[time, opt] want=[string, opt] know=[string, opt] left=[gloss, opt] far=[gloss, opt] { Creature | NamedCreature | Faction }
+Hazard [Location Code] type=[Hazard_Type] damage=[Damage_Type] test=[Test] wound=[Wound_Type, opt] condition=[gloss, opt] { Secret }
+Mystery [Location Code] type=[Mystery_Type] effect=[string] { Secret }
+```
+
+# Rewards of K [Region Name]
+
+```kdl
+Reward [Location Code] container=[gloss] contents=[pull Contents_Type] { Encounter | Hazard | Mystery | Secret | Lock }
+```
+
+# Procedures of K [Region Name]
+
+```kdl
+Procedure [Location Code] procedure=[entry Local Procedures]
+```
+
+# Blocks of K [Region Name]
+
+```kdl
+Block K.[a-z] name=[string] locations=[location, list] width=[feet, opt] height=[feet, opt]
+```
+
+# Connections of K [Region Name]
+
+```kdl
+Connection [Location Code] to=[location] type=[Connection_Type] bearing=[Compass] distance=[distance] climb=[feet, opt] orientation=[gloss, opt] width=[feet, opt] height=[feet, opt] { Encounter | Hazard | Mystery | Secret | Lock }
+```
+
+templates/setting/Bestiary.md
+Bestiary of [Setting Name]
+
+### [Title]
+Type: [Bestiary_Type]
+AD: [dice]
+Special: [text]
+MA: [number, opt]
+Description: [text]
+Range: [text, opt]
+Numbers: [number, opt]
+Sign: [Sign, opt]
+Disposition: [text, opt]
+templates/setting/Factions.md
+Factions of [Setting Name]
+
+### [Title]
+Form: [Name_Form]
+AD: [dice]
+Want: [Want]
+Identity: [text]
+Resources: [text]
+Knowledge: [text]
+Tactics: [text]
+Reactions: [text]
+Goals: [text]
+Relations: [relation]
+Fields: [entry Bestiary, list]
+templates/setting/Hoards.md
+Hoards of [Setting Name]
+
+### [Title]
+Found at: [place]
+Owner: [entry Bestiary Factions Named Creatures]
+Items: [finds]
+templates/setting/Keys.md
+Keys of [Setting Name]
+
+| Name | Form | Found at | Opens | Feature | Apart | Connection |
+|---|---|---|---|---|---|---|
+| [text] | [Key_Form] | [place] | [place] | [text] | [Apart] | [Key_Link, list] |
+templates/setting/Language.md
+Tongues of [Setting Name]
+
+## [Title]
+Spoken by: [Speakers]
+Consonants: [text]
+Vowels: [text]
+Syllable: [text]
+Affixes: [text]
+Roots: [text]
+Coined here: [text, opt]
+templates/setting/LocalProcedures.md
+Local Procedures of [Setting Name]
+
+### [Title]
+Kind: [Proc_Kind]
+Extends: [Extends]
+Found at: [place]
+Roll: [Roll_Die]
+Stakes: [text]
+Results: [text]
+Tell: [text]
+templates/setting/Lore.md
+Lore of [Setting Name]
+
+### [Title]
+Form: [Lore_Form]
+Found at: [place]
+Voice: [text]
+Does: [Lore_Does, list]
+Text: [text]
+templates/setting/MagicalTomes.md
+Magical Tomes of [Setting Name]
+
+### [Title]
+Found at: [place]
+Teaches: [text]
+Reading: [Reading]
+templates/setting/NamedCreatures.md
+Named Creatures of [Setting Name]
+
+### [Title]
+Form: [Name_Form]
+Type: [Bestiary_Type]
+AD: [dice]
+Special: [text]
+MA: [number, opt]
+Appears at: [place]
+Reacts: [text]
+Wants: [text]
+Knows: [text, opt]
+Description: [text]
+templates/setting/UniqueTreasures.md
+Unique Treasures of [Setting Name]
+
+### [Title]
+Found at: [place]
+Does: [Does]
+Cost: [Cost, list]
+Origin: [Origin]
+Description: [text]
+== 4a L
+templates/region/Tables.md
+## DANGEROUS
+# Locations of L [Region Name]
+
+```kdl
+Location [Location Code] name=[string] tags=[tag, list] type=[kind]
+```
+
+# Purpose of L [Region Name]
+
+```kdl
+Purpose [Location Code] unique=[string, opt] pressure=[string, opt] signs=[location, opt, list]
+```
+
+# Dressing of L [Region Name]
+
+```kdl
+Dressing [Location Code] obvious=[string] former=[gloss, opt] condition=[tag, opt] ambiance=[gloss, opt] width=[feet] length=[feet] height=[feet, opt] shape=[Room_Shape, opt] layout=[string] mark=[entry Factions, opt, list] left=[entry History, opt, list]
+```
+
+# Challenges of L [Region Name]
+
+```kdl
+Encounter [Location Code] doing=[string] reaction=[Reaction] answers=[time, opt] want=[string, opt] know=[string, opt] left=[gloss, opt] far=[gloss, opt] { Creature | NamedCreature | Faction }
+Hazard [Location Code] type=[Hazard_Type] damage=[Damage_Type] test=[Test] wound=[Wound_Type, opt] condition=[gloss, opt] { Secret }
+Mystery [Location Code] type=[Mystery_Type] effect=[string] { Secret }
+```
+
+# Rewards of L [Region Name]
+
+```kdl
+Reward [Location Code] container=[gloss] contents=[pull Contents_Type] { Encounter | Hazard | Mystery | Secret | Lock }
+```
+
+# Procedures of L [Region Name]
+
+```kdl
+Procedure [Location Code] procedure=[entry Local Procedures]
+```
+
+# Blocks of L [Region Name]
+
+```kdl
+Block L.[a-z] name=[string] locations=[location, list] width=[feet, opt] height=[feet, opt]
+```
+
+# Connections of L [Region Name]
+
+```kdl
+Connection [Location Code] to=[location] type=[Connection_Type] bearing=[Compass] distance=[distance] climb=[feet, opt] orientation=[gloss, opt] width=[feet, opt] height=[feet, opt] { Encounter | Hazard | Mystery | Secret | Lock }
+```
+
+templates/setting/Bestiary.md
+Bestiary of [Setting Name]
+
+### [Title]
+Type: [Bestiary_Type]
+AD: [dice]
+Special: [text]
+MA: [number, opt]
+Description: [text]
+Range: [text, opt]
+Numbers: [number, opt]
+Sign: [Sign, opt]
+Disposition: [text, opt]
+templates/setting/Factions.md
+Factions of [Setting Name]
+
+### [Title]
+Form: [Name_Form]
+AD: [dice]
+Want: [Want]
+Identity: [text]
+Resources: [text]
+Knowledge: [text]
+Tactics: [text]
+Reactions: [text]
+Goals: [text]
+Relations: [relation]
+Fields: [entry Bestiary, list]
+templates/setting/Hoards.md
+Hoards of [Setting Name]
+
+### [Title]
+Found at: [place]
+Owner: [entry Bestiary Factions Named Creatures]
+Items: [finds]
+templates/setting/Keys.md
+Keys of [Setting Name]
+
+| Name | Form | Found at | Opens | Feature | Apart | Connection |
+|---|---|---|---|---|---|---|
+| [text] | [Key_Form] | [place] | [place] | [text] | [Apart] | [Key_Link, list] |
+templates/setting/Language.md
+Tongues of [Setting Name]
+
+## [Title]
+Spoken by: [Speakers]
+Consonants: [text]
+Vowels: [text]
+Syllable: [text]
+Affixes: [text]
+Roots: [text]
+Coined here: [text, opt]
+templates/setting/LocalProcedures.md
+Local Procedures of [Setting Name]
+
+### [Title]
+Kind: [Proc_Kind]
+Extends: [Extends]
+Found at: [place]
+Roll: [Roll_Die]
+Stakes: [text]
+Results: [text]
+Tell: [text]
+templates/setting/Lore.md
+Lore of [Setting Name]
+
+### [Title]
+Form: [Lore_Form]
+Found at: [place]
+Voice: [text]
+Does: [Lore_Does, list]
+Text: [text]
+templates/setting/MagicalTomes.md
+Magical Tomes of [Setting Name]
+
+### [Title]
+Found at: [place]
+Teaches: [text]
+Reading: [Reading]
+templates/setting/NamedCreatures.md
+Named Creatures of [Setting Name]
+
+### [Title]
+Form: [Name_Form]
+Type: [Bestiary_Type]
+AD: [dice]
+Special: [text]
+MA: [number, opt]
+Appears at: [place]
+Reacts: [text]
+Wants: [text]
+Knows: [text, opt]
+Description: [text]
+templates/setting/UniqueTreasures.md
+Unique Treasures of [Setting Name]
+
+### [Title]
+Found at: [place]
+Does: [Does]
+Cost: [Cost, list]
+Origin: [Origin]
+Description: [text]
+== 4a M
+templates/region/Tables.md
+## DANGEROUS
+# Locations of M [Region Name]
+
+```kdl
+Location [Location Code] name=[string] tags=[tag, list] type=[kind]
+```
+
+# Purpose of M [Region Name]
+
+```kdl
+Purpose [Location Code] unique=[string, opt] pressure=[string, opt] signs=[location, opt, list]
+```
+
+# Dressing of M [Region Name]
+
+```kdl
+Dressing [Location Code] obvious=[string] former=[gloss, opt] condition=[tag, opt] ambiance=[gloss, opt] width=[feet] length=[feet] height=[feet, opt] shape=[Room_Shape, opt] layout=[string] mark=[entry Factions, opt, list] left=[entry History, opt, list]
+```
+
+# Challenges of M [Region Name]
+
+```kdl
+Encounter [Location Code] doing=[string] reaction=[Reaction] answers=[time, opt] want=[string, opt] know=[string, opt] left=[gloss, opt] far=[gloss, opt] { Creature | NamedCreature | Faction }
+Hazard [Location Code] type=[Hazard_Type] damage=[Damage_Type] test=[Test] wound=[Wound_Type, opt] condition=[gloss, opt] { Secret }
+Mystery [Location Code] type=[Mystery_Type] effect=[string] { Secret }
+```
+
+# Rewards of M [Region Name]
+
+```kdl
+Reward [Location Code] container=[gloss] contents=[pull Contents_Type] { Encounter | Hazard | Mystery | Secret | Lock }
+```
+
+# Procedures of M [Region Name]
+
+```kdl
+Procedure [Location Code] procedure=[entry Local Procedures]
+```
+
+# Blocks of M [Region Name]
+
+```kdl
+Block M.[a-z] name=[string] locations=[location, list] width=[feet, opt] height=[feet, opt]
+```
+
+# Connections of M [Region Name]
+
+```kdl
+Connection [Location Code] to=[location] type=[Connection_Type] bearing=[Compass] distance=[distance] climb=[feet, opt] orientation=[gloss, opt] width=[feet, opt] height=[feet, opt] { Encounter | Hazard | Mystery | Secret | Lock }
+```
+
+templates/setting/Bestiary.md
+Bestiary of [Setting Name]
+
+### [Title]
+Type: [Bestiary_Type]
+AD: [dice]
+Special: [text]
+MA: [number, opt]
+Description: [text]
+Range: [text, opt]
+Numbers: [number, opt]
+Sign: [Sign, opt]
+Disposition: [text, opt]
+templates/setting/Factions.md
+Factions of [Setting Name]
+
+### [Title]
+Form: [Name_Form]
+AD: [dice]
+Want: [Want]
+Identity: [text]
+Resources: [text]
+Knowledge: [text]
+Tactics: [text]
+Reactions: [text]
+Goals: [text]
+Relations: [relation]
+Fields: [entry Bestiary, list]
+templates/setting/Hoards.md
+Hoards of [Setting Name]
+
+### [Title]
+Found at: [place]
+Owner: [entry Bestiary Factions Named Creatures]
+Items: [finds]
+templates/setting/Keys.md
+Keys of [Setting Name]
+
+| Name | Form | Found at | Opens | Feature | Apart | Connection |
+|---|---|---|---|---|---|---|
+| [text] | [Key_Form] | [place] | [place] | [text] | [Apart] | [Key_Link, list] |
+templates/setting/Language.md
+Tongues of [Setting Name]
+
+## [Title]
+Spoken by: [Speakers]
+Consonants: [text]
+Vowels: [text]
+Syllable: [text]
+Affixes: [text]
+Roots: [text]
+Coined here: [text, opt]
+templates/setting/LocalProcedures.md
+Local Procedures of [Setting Name]
+
+### [Title]
+Kind: [Proc_Kind]
+Extends: [Extends]
+Found at: [place]
+Roll: [Roll_Die]
+Stakes: [text]
+Results: [text]
+Tell: [text]
+templates/setting/Lore.md
+Lore of [Setting Name]
+
+### [Title]
+Form: [Lore_Form]
+Found at: [place]
+Voice: [text]
+Does: [Lore_Does, list]
+Text: [text]
+templates/setting/MagicalTomes.md
+Magical Tomes of [Setting Name]
+
+### [Title]
+Found at: [place]
+Teaches: [text]
+Reading: [Reading]
+templates/setting/NamedCreatures.md
+Named Creatures of [Setting Name]
+
+### [Title]
+Form: [Name_Form]
+Type: [Bestiary_Type]
+AD: [dice]
+Special: [text]
+MA: [number, opt]
+Appears at: [place]
+Reacts: [text]
+Wants: [text]
+Knows: [text, opt]
+Description: [text]
+templates/setting/UniqueTreasures.md
+Unique Treasures of [Setting Name]
+
+### [Title]
+Found at: [place]
+Does: [Does]
+Cost: [Cost, list]
+Origin: [Origin]
+Description: [text]
+== 4b 
+templates/region/Location.md: its own ## Template is the shape
+== 4b A
+templates/region/Location.md: its own ## Template is the shape
+== 4b B
+templates/region/Location.md: its own ## Template is the shape
+== 4b C
+templates/region/Location.md: its own ## Template is the shape
+== 4b D
+templates/region/Location.md: its own ## Template is the shape
+== 4b E
+templates/region/Location.md: its own ## Template is the shape
+== 4b F
+templates/region/Location.md: its own ## Template is the shape
+== 4b G
+templates/region/Location.md: its own ## Template is the shape
+== 4b H
+templates/region/Location.md: its own ## Template is the shape
+== 4b I
+templates/region/Location.md: its own ## Template is the shape
+== 4b J
+templates/region/Location.md: its own ## Template is the shape
+== 4b K
+templates/region/Location.md: its own ## Template is the shape
+== 4b L
+templates/region/Location.md: its own ## Template is the shape
+== 4b M
+templates/region/Location.md: its own ## Template is the shape
+== 4c 
+STEPS.md has no step '4c' citing a template
+== 4c A
+STEPS.md has no step '4c' citing a template
+== 4c B
+STEPS.md has no step '4c' citing a template
+== 4c C
+STEPS.md has no step '4c' citing a template
+== 4c D
+STEPS.md has no step '4c' citing a template
+== 4c E
+STEPS.md has no step '4c' citing a template
+== 4c F
+STEPS.md has no step '4c' citing a template
+== 4c G
+STEPS.md has no step '4c' citing a template
+== 4c H
+STEPS.md has no step '4c' citing a template
+== 4c I
+STEPS.md has no step '4c' citing a template
+== 4c J
+STEPS.md has no step '4c' citing a template
+== 4c K
+STEPS.md has no step '4c' citing a template
+== 4c L
+STEPS.md has no step '4c' citing a template
+== 4c M
+STEPS.md has no step '4c' citing a template
+== 4d 
+templates/setting/Lore.md
+Lore of [Setting Name]
+
+### [Title]
+Form: [Lore_Form]
+Found at: [place]
+Voice: [text]
+Does: [Lore_Does, list]
+Text: [text]
+templates/setting/Quests.md
+Quests of [Setting Name]
+
+| Name | Ask | Giver | Reluctance | Object | Obstacle | Terms | Points to |
+|---|---|---|---|---|---|---|---|
+| [text] | [Ask] | [text] | [Reluctance] | [text] | [Obstacle] | [Pay] | [place] |
+templates/setting/Rumours.md
+Rumours of [Setting Name]
+
+| # | Rumour | T/P/F/U | Settled at |
+|---|---|---|---|
+| [number] | [text] | [Truth_Mark] | [place] |
+templates/setting/Truths.md
+Truths of [Setting Name]
+
+| Truth | Handle | Codes |
+|---|---|---|
+| [text] | [text] | [place] |
+== 4d A
+templates/setting/Lore.md
+Lore of [Setting Name]
+
+### [Title]
+Form: [Lore_Form]
+Found at: [place]
+Voice: [text]
+Does: [Lore_Does, list]
+Text: [text]
+templates/setting/Quests.md
+Quests of [Setting Name]
+
+| Name | Ask | Giver | Reluctance | Object | Obstacle | Terms | Points to |
+|---|---|---|---|---|---|---|---|
+| [text] | [Ask] | [text] | [Reluctance] | [text] | [Obstacle] | [Pay] | [place] |
+templates/setting/Rumours.md
+Rumours of [Setting Name]
+
+| # | Rumour | T/P/F/U | Settled at |
+|---|---|---|---|
+| [number] | [text] | [Truth_Mark] | [place] |
+templates/setting/Truths.md
+Truths of [Setting Name]
+
+| Truth | Handle | Codes |
+|---|---|---|
+| [text] | [text] | [place] |
+== 4d B
+templates/setting/Lore.md
+Lore of [Setting Name]
+
+### [Title]
+Form: [Lore_Form]
+Found at: [place]
+Voice: [text]
+Does: [Lore_Does, list]
+Text: [text]
+templates/setting/Quests.md
+Quests of [Setting Name]
+
+| Name | Ask | Giver | Reluctance | Object | Obstacle | Terms | Points to |
+|---|---|---|---|---|---|---|---|
+| [text] | [Ask] | [text] | [Reluctance] | [text] | [Obstacle] | [Pay] | [place] |
+templates/setting/Rumours.md
+Rumours of [Setting Name]
+
+| # | Rumour | T/P/F/U | Settled at |
+|---|---|---|---|
+| [number] | [text] | [Truth_Mark] | [place] |
+templates/setting/Truths.md
+Truths of [Setting Name]
+
+| Truth | Handle | Codes |
+|---|---|---|
+| [text] | [text] | [place] |
+== 4d C
+templates/setting/Lore.md
+Lore of [Setting Name]
+
+### [Title]
+Form: [Lore_Form]
+Found at: [place]
+Voice: [text]
+Does: [Lore_Does, list]
+Text: [text]
+templates/setting/Quests.md
+Quests of [Setting Name]
+
+| Name | Ask | Giver | Reluctance | Object | Obstacle | Terms | Points to |
+|---|---|---|---|---|---|---|---|
+| [text] | [Ask] | [text] | [Reluctance] | [text] | [Obstacle] | [Pay] | [place] |
+templates/setting/Rumours.md
+Rumours of [Setting Name]
+
+| # | Rumour | T/P/F/U | Settled at |
+|---|---|---|---|
+| [number] | [text] | [Truth_Mark] | [place] |
+templates/setting/Truths.md
+Truths of [Setting Name]
+
+| Truth | Handle | Codes |
+|---|---|---|
+| [text] | [text] | [place] |
+== 4d D
+templates/setting/Lore.md
+Lore of [Setting Name]
+
+### [Title]
+Form: [Lore_Form]
+Found at: [place]
+Voice: [text]
+Does: [Lore_Does, list]
+Text: [text]
+templates/setting/Quests.md
+Quests of [Setting Name]
+
+| Name | Ask | Giver | Reluctance | Object | Obstacle | Terms | Points to |
+|---|---|---|---|---|---|---|---|
+| [text] | [Ask] | [text] | [Reluctance] | [text] | [Obstacle] | [Pay] | [place] |
+templates/setting/Rumours.md
+Rumours of [Setting Name]
+
+| # | Rumour | T/P/F/U | Settled at |
+|---|---|---|---|
+| [number] | [text] | [Truth_Mark] | [place] |
+templates/setting/Truths.md
+Truths of [Setting Name]
+
+| Truth | Handle | Codes |
+|---|---|---|
+| [text] | [text] | [place] |
+== 4d E
+templates/setting/Lore.md
+Lore of [Setting Name]
+
+### [Title]
+Form: [Lore_Form]
+Found at: [place]
+Voice: [text]
+Does: [Lore_Does, list]
+Text: [text]
+templates/setting/Quests.md
+Quests of [Setting Name]
+
+| Name | Ask | Giver | Reluctance | Object | Obstacle | Terms | Points to |
+|---|---|---|---|---|---|---|---|
+| [text] | [Ask] | [text] | [Reluctance] | [text] | [Obstacle] | [Pay] | [place] |
+templates/setting/Rumours.md
+Rumours of [Setting Name]
+
+| # | Rumour | T/P/F/U | Settled at |
+|---|---|---|---|
+| [number] | [text] | [Truth_Mark] | [place] |
+templates/setting/Truths.md
+Truths of [Setting Name]
+
+| Truth | Handle | Codes |
+|---|---|---|
+| [text] | [text] | [place] |
+== 4d F
+templates/setting/Lore.md
+Lore of [Setting Name]
+
+### [Title]
+Form: [Lore_Form]
+Found at: [place]
+Voice: [text]
+Does: [Lore_Does, list]
+Text: [text]
+templates/setting/Quests.md
+Quests of [Setting Name]
+
+| Name | Ask | Giver | Reluctance | Object | Obstacle | Terms | Points to |
+|---|---|---|---|---|---|---|---|
+| [text] | [Ask] | [text] | [Reluctance] | [text] | [Obstacle] | [Pay] | [place] |
+templates/setting/Rumours.md
+Rumours of [Setting Name]
+
+| # | Rumour | T/P/F/U | Settled at |
+|---|---|---|---|
+| [number] | [text] | [Truth_Mark] | [place] |
+templates/setting/Truths.md
+Truths of [Setting Name]
+
+| Truth | Handle | Codes |
+|---|---|---|
+| [text] | [text] | [place] |
+== 4d G
+templates/setting/Lore.md
+Lore of [Setting Name]
+
+### [Title]
+Form: [Lore_Form]
+Found at: [place]
+Voice: [text]
+Does: [Lore_Does, list]
+Text: [text]
+templates/setting/Quests.md
+Quests of [Setting Name]
+
+| Name | Ask | Giver | Reluctance | Object | Obstacle | Terms | Points to |
+|---|---|---|---|---|---|---|---|
+| [text] | [Ask] | [text] | [Reluctance] | [text] | [Obstacle] | [Pay] | [place] |
+templates/setting/Rumours.md
+Rumours of [Setting Name]
+
+| # | Rumour | T/P/F/U | Settled at |
+|---|---|---|---|
+| [number] | [text] | [Truth_Mark] | [place] |
+templates/setting/Truths.md
+Truths of [Setting Name]
+
+| Truth | Handle | Codes |
+|---|---|---|
+| [text] | [text] | [place] |
+== 4d H
+templates/setting/Lore.md
+Lore of [Setting Name]
+
+### [Title]
+Form: [Lore_Form]
+Found at: [place]
+Voice: [text]
+Does: [Lore_Does, list]
+Text: [text]
+templates/setting/Quests.md
+Quests of [Setting Name]
+
+| Name | Ask | Giver | Reluctance | Object | Obstacle | Terms | Points to |
+|---|---|---|---|---|---|---|---|
+| [text] | [Ask] | [text] | [Reluctance] | [text] | [Obstacle] | [Pay] | [place] |
+templates/setting/Rumours.md
+Rumours of [Setting Name]
+
+| # | Rumour | T/P/F/U | Settled at |
+|---|---|---|---|
+| [number] | [text] | [Truth_Mark] | [place] |
+templates/setting/Truths.md
+Truths of [Setting Name]
+
+| Truth | Handle | Codes |
+|---|---|---|
+| [text] | [text] | [place] |
+== 4d I
+templates/setting/Lore.md
+Lore of [Setting Name]
+
+### [Title]
+Form: [Lore_Form]
+Found at: [place]
+Voice: [text]
+Does: [Lore_Does, list]
+Text: [text]
+templates/setting/Quests.md
+Quests of [Setting Name]
+
+| Name | Ask | Giver | Reluctance | Object | Obstacle | Terms | Points to |
+|---|---|---|---|---|---|---|---|
+| [text] | [Ask] | [text] | [Reluctance] | [text] | [Obstacle] | [Pay] | [place] |
+templates/setting/Rumours.md
+Rumours of [Setting Name]
+
+| # | Rumour | T/P/F/U | Settled at |
+|---|---|---|---|
+| [number] | [text] | [Truth_Mark] | [place] |
+templates/setting/Truths.md
+Truths of [Setting Name]
+
+| Truth | Handle | Codes |
+|---|---|---|
+| [text] | [text] | [place] |
+== 4d J
+templates/setting/Lore.md
+Lore of [Setting Name]
+
+### [Title]
+Form: [Lore_Form]
+Found at: [place]
+Voice: [text]
+Does: [Lore_Does, list]
+Text: [text]
+templates/setting/Quests.md
+Quests of [Setting Name]
+
+| Name | Ask | Giver | Reluctance | Object | Obstacle | Terms | Points to |
+|---|---|---|---|---|---|---|---|
+| [text] | [Ask] | [text] | [Reluctance] | [text] | [Obstacle] | [Pay] | [place] |
+templates/setting/Rumours.md
+Rumours of [Setting Name]
+
+| # | Rumour | T/P/F/U | Settled at |
+|---|---|---|---|
+| [number] | [text] | [Truth_Mark] | [place] |
+templates/setting/Truths.md
+Truths of [Setting Name]
+
+| Truth | Handle | Codes |
+|---|---|---|
+| [text] | [text] | [place] |
+== 4d K
+templates/setting/Lore.md
+Lore of [Setting Name]
+
+### [Title]
+Form: [Lore_Form]
+Found at: [place]
+Voice: [text]
+Does: [Lore_Does, list]
+Text: [text]
+templates/setting/Quests.md
+Quests of [Setting Name]
+
+| Name | Ask | Giver | Reluctance | Object | Obstacle | Terms | Points to |
+|---|---|---|---|---|---|---|---|
+| [text] | [Ask] | [text] | [Reluctance] | [text] | [Obstacle] | [Pay] | [place] |
+templates/setting/Rumours.md
+Rumours of [Setting Name]
+
+| # | Rumour | T/P/F/U | Settled at |
+|---|---|---|---|
+| [number] | [text] | [Truth_Mark] | [place] |
+templates/setting/Truths.md
+Truths of [Setting Name]
+
+| Truth | Handle | Codes |
+|---|---|---|
+| [text] | [text] | [place] |
+== 4d L
+templates/setting/Lore.md
+Lore of [Setting Name]
+
+### [Title]
+Form: [Lore_Form]
+Found at: [place]
+Voice: [text]
+Does: [Lore_Does, list]
+Text: [text]
+templates/setting/Quests.md
+Quests of [Setting Name]
+
+| Name | Ask | Giver | Reluctance | Object | Obstacle | Terms | Points to |
+|---|---|---|---|---|---|---|---|
+| [text] | [Ask] | [text] | [Reluctance] | [text] | [Obstacle] | [Pay] | [place] |
+templates/setting/Rumours.md
+Rumours of [Setting Name]
+
+| # | Rumour | T/P/F/U | Settled at |
+|---|---|---|---|
+| [number] | [text] | [Truth_Mark] | [place] |
+templates/setting/Truths.md
+Truths of [Setting Name]
+
+| Truth | Handle | Codes |
+|---|---|---|
+| [text] | [text] | [place] |
+== 4d M
+templates/setting/Lore.md
+Lore of [Setting Name]
+
+### [Title]
+Form: [Lore_Form]
+Found at: [place]
+Voice: [text]
+Does: [Lore_Does, list]
+Text: [text]
+templates/setting/Quests.md
+Quests of [Setting Name]
+
+| Name | Ask | Giver | Reluctance | Object | Obstacle | Terms | Points to |
+|---|---|---|---|---|---|---|---|
+| [text] | [Ask] | [text] | [Reluctance] | [text] | [Obstacle] | [Pay] | [place] |
+templates/setting/Rumours.md
+Rumours of [Setting Name]
+
+| # | Rumour | T/P/F/U | Settled at |
+|---|---|---|---|
+| [number] | [text] | [Truth_Mark] | [place] |
+templates/setting/Truths.md
+Truths of [Setting Name]
+
+| Truth | Handle | Codes |
+|---|---|---|
+| [text] | [text] | [place] |
+== 4e 
+templates/region/Brief.md
+## DANGEROUS
+[Region Code] [Region Name]
+
+Overview: [text]
+
+Approach: [text]
+
+Conditions: [text]
+
+Entrances:
+- [Location Code] - [...]
+
+Prizes:
+- [Location Code] - [...]
+
+Places:
+- [Location Code] - [...]
+
+Tables:
+[die, if rolled] [table name]
+1. [...]
+...
+6. [...]
+
+Drawn beside it, never written: Inhabitants, Loot, Alarm, Procedures, Leads, Secrets
+
+## SAFE
+[Region Code] [Region Name]
+
+Overview: [text]
+
+View: [text]
+
+Approach: [text]
+
+Law: [text]
+
+Arrival:
+- [Location Code] - [...]
+
+Plan: [text]
+
+Places:
+- [Location Code] - [...]
+
+Tables:
+[die, if rolled] [table name]
+1. [...]
+...
+6. [...]
+
+Drawn beside it, never written: Inhabitants, Services, Leads, Secrets
+
+## WILD
+[Region Code] [Region Name]
+
+Overview: [text]
+
+Approach: [text]
+
+Terrain: [text]
+
+Ways:
+- [Location Code] - [...]
+
+Landmarks:
+- [Location Code] - [...]
+
+Places:
+- [Location Code] - [...]
+
+Tables:
+[die, if rolled] [table name]
+1. [...]
+...
+6. [...]
+
+Drawn beside it, never written: Inhabitants, Procedures, Leads, Secrets
+
+== 4e A
+templates/region/Brief.md
+## SAFE
+A [Region Name]
+
+Overview: [text]
+
+View: [text]
+
+Approach: [text]
+
+Law: [text]
+
+Arrival:
+- A.1 - [...]
+- A.2 - [...]
+
+Plan: [text]
+
+Places:
+- A.3 - [...]
+- A.4 - [...]
+- A.5 - [...]
+- A.6 - [...]
+- A.7 - [...]
+- A.8 - [...]
+- A.9 - [...]
+- A.10 - [...]
+- A.11 - [...]
+- A.12 - [...]
+- A.13 - [...]
+
+Tables:
+[die, if rolled] [table name]
+1. [...]
+...
+6. [...]
+
+Drawn beside it, never written: Inhabitants, Services, Leads, Secrets
+
+== 4e B
+templates/region/Brief.md
+## WILD
+B [Region Name]
+
+Overview: [text]
+
+Approach: [text]
+
+Terrain: [text]
+
+Ways:
+- B.1 - [...]
+
+Landmarks:
+- B.2 - [...]
+- B.3 - [...]
+- B.4 - [...]
+- B.5 - [...]
+
+Places:
+- [Location Code] - [...]
+
+Tables:
+[die, if rolled] [table name]
+1. [...]
+...
+6. [...]
+
+Drawn beside it, never written: Inhabitants, Procedures, Leads, Secrets
+
+== 4e C
+templates/region/Brief.md
+## WILD
+C [Region Name]
+
+Overview: [text]
+
+Approach: [text]
+
+Terrain: [text]
+
+Ways:
+- C.1 - [...]
+
+Landmarks:
+- C.2 - [...]
+- C.3 - [...]
+- C.4 - [...]
+- C.5 - [...]
+- C.6 - [...]
+
+Places:
+- C.7 - [...]
+
+Tables:
+[die, if rolled] [table name]
+1. [...]
+...
+6. [...]
+
+Drawn beside it, never written: Inhabitants, Procedures, Leads, Secrets
+
+== 4e D
+templates/region/Brief.md
+## WILD
+D [Region Name]
+
+Overview: [text]
+
+Approach: [text]
+
+Terrain: [text]
+
+Ways:
+- D.1 - [...]
+
+Landmarks:
+- D.2 - [...]
+- D.3 - [...]
+- D.4 - [...]
+
+Places:
+- D.5 - [...]
+
+Tables:
+[die, if rolled] [table name]
+1. [...]
+...
+6. [...]
+
+Drawn beside it, never written: Inhabitants, Procedures, Leads, Secrets
+
+== 4e E
+templates/region/Brief.md
+## WILD
+E [Region Name]
+
+Overview: [text]
+
+Approach: [text]
+
+Terrain: [text]
+
+Ways:
+- E.1 - [...]
+
+Landmarks:
+- E.2 - [...]
+- E.3 - [...]
+- E.4 - [...]
+- E.5 - [...]
+- E.6 - [...]
+- E.7 - [...]
+- E.8 - [...]
+- E.9 - [...]
+- E.10 - [...]
+
+Places:
+- E.11 - [...]
+- E.12 - [...]
+
+Tables:
+[die, if rolled] [table name]
+1. [...]
+...
+6. [...]
+
+Drawn beside it, never written: Inhabitants, Procedures, Leads, Secrets
+
+== 4e F
+templates/region/Brief.md
+## DANGEROUS
+F [Region Name]
+
+Overview: [text]
+
+Approach: [text]
+
+Conditions: [text]
+
+Entrances:
+- F.1 - [...]
+
+Prizes:
+- F.5 - [...]
+
+Places:
+- F.2 - [...]
+- F.3 - [...]
+- F.4 - [...]
+
+Tables:
+[die, if rolled] [table name]
+1. [...]
+...
+6. [...]
+
+Drawn beside it, never written: Inhabitants, Loot, Alarm, Procedures, Leads, Secrets
+
+== 4e G
+templates/region/Brief.md
+## DANGEROUS
+G [Region Name]
+
+Overview: [text]
+
+Approach: [text]
+
+Conditions: [text]
+
+Entrances:
+- G.1 - [...]
+
+Prizes:
+- G.6 - [...]
+
+Places:
+- G.2 - [...]
+- G.3 - [...]
+- G.4 - [...]
+- G.5 - [...]
+
+Tables:
+[die, if rolled] [table name]
+1. [...]
+...
+6. [...]
+
+Drawn beside it, never written: Inhabitants, Loot, Alarm, Procedures, Leads, Secrets
+
+== 4e H
+templates/region/Brief.md
+## DANGEROUS
+H [Region Name]
+
+Overview: [text]
+
+Approach: [text]
+
+Conditions: [text]
+
+Entrances:
+- H.1 - [...]
+
+Prizes:
+- H.6 - [...]
+
+Places:
+- H.2 - [...]
+- H.3 - [...]
+- H.4 - [...]
+- H.5 - [...]
+
+Tables:
+[die, if rolled] [table name]
+1. [...]
+...
+6. [...]
+
+Drawn beside it, never written: Inhabitants, Loot, Alarm, Procedures, Leads, Secrets
+
+== 4e I
+templates/region/Brief.md
+## DANGEROUS
+I [Region Name]
+
+Overview: [text]
+
+Approach: [text]
+
+Conditions: [text]
+
+Entrances:
+- I.1 - [...]
+
+Prizes:
+- I.6 - [...]
+
+Places:
+- I.2 - [...]
+- I.3 - [...]
+- I.4 - [...]
+- I.5 - [...]
+
+Tables:
+[die, if rolled] [table name]
+1. [...]
+...
+6. [...]
+
+Drawn beside it, never written: Inhabitants, Loot, Alarm, Procedures, Leads, Secrets
+
+== 4e J
+templates/region/Brief.md
+## DANGEROUS
+J [Region Name]
+
+Overview: [text]
+
+Approach: [text]
+
+Conditions: [text]
+
+Entrances:
+- J.1 - [...]
+
+Prizes:
+- J.5 - [...]
+
+Places:
+- J.2 - [...]
+- J.3 - [...]
+- J.4 - [...]
+
+Tables:
+[die, if rolled] [table name]
+1. [...]
+...
+6. [...]
+
+Drawn beside it, never written: Inhabitants, Loot, Alarm, Procedures, Leads, Secrets
+
+== 4e K
+templates/region/Brief.md
+## DANGEROUS
+K [Region Name]
+
+Overview: [text]
+
+Approach: [text]
+
+Conditions: [text]
+
+Entrances:
+- K.1 - [...]
+
+Prizes:
+- K.5 - [...]
+
+Places:
+- K.2 - [...]
+- K.3 - [...]
+- K.4 - [...]
+
+Tables:
+[die, if rolled] [table name]
+1. [...]
+...
+6. [...]
+
+Drawn beside it, never written: Inhabitants, Loot, Alarm, Procedures, Leads, Secrets
+
+== 4e L
+templates/region/Brief.md
+## DANGEROUS
+L [Region Name]
+
+Overview: [text]
+
+Approach: [text]
+
+Conditions: [text]
+
+Entrances:
+- L.1 - [...]
+
+Prizes:
+- L.5 - [...]
+
+Places:
+- L.2 - [...]
+- L.3 - [...]
+- L.4 - [...]
+
+Tables:
+[die, if rolled] [table name]
+1. [...]
+...
+6. [...]
+
+Drawn beside it, never written: Inhabitants, Loot, Alarm, Procedures, Leads, Secrets
+
+== 4e M
+templates/region/Brief.md
+## DANGEROUS
+M [Region Name]
+
+Overview: [text]
+
+Approach: [text]
+
+Conditions: [text]
+
+Entrances:
+- M.1 - [...]
+
+Prizes:
+- M.5 - [...]
+- M.11 - [...]
+- M.12 - [...]
+
+Places:
+- M.2 - [...]
+- M.3 - [...]
+- M.4 - [...]
+- M.6 - [...]
+- M.7 - [...]
+- M.8 - [...]
+- M.9 - [...]
+- M.10 - [...]
+- M.13 - [...]
+- M.14 - [...]
+
+Tables:
+[die, if rolled] [table name]
+1. [...]
+...
+6. [...]
+
+Drawn beside it, never written: Inhabitants, Loot, Alarm, Procedures, Leads, Secrets
+
+== 5a 
+templates/checks/Template_Judgement_Check.md: its own ## Template is the shape
+== 5a A
+templates/checks/Template_Judgement_Check.md: its own ## Template is the shape
+== 5a B
+templates/checks/Template_Judgement_Check.md: its own ## Template is the shape
+== 5a C
+templates/checks/Template_Judgement_Check.md: its own ## Template is the shape
+== 5a D
+templates/checks/Template_Judgement_Check.md: its own ## Template is the shape
+== 5a E
+templates/checks/Template_Judgement_Check.md: its own ## Template is the shape
+== 5a F
+templates/checks/Template_Judgement_Check.md: its own ## Template is the shape
+== 5a G
+templates/checks/Template_Judgement_Check.md: its own ## Template is the shape
+== 5a H
+templates/checks/Template_Judgement_Check.md: its own ## Template is the shape
+== 5a I
+templates/checks/Template_Judgement_Check.md: its own ## Template is the shape
+== 5a J
+templates/checks/Template_Judgement_Check.md: its own ## Template is the shape
+== 5a K
+templates/checks/Template_Judgement_Check.md: its own ## Template is the shape
+== 5a L
+templates/checks/Template_Judgement_Check.md: its own ## Template is the shape
+== 5a M
+templates/checks/Template_Judgement_Check.md: its own ## Template is the shape
+== 5b 
+templates/checks/Schema_Judgement_Check.md: its own ## Template is the shape
+== 5b A
+templates/checks/Schema_Judgement_Check.md: its own ## Template is the shape
+== 5b B
+templates/checks/Schema_Judgement_Check.md: its own ## Template is the shape
+== 5b C
+templates/checks/Schema_Judgement_Check.md: its own ## Template is the shape
+== 5b D
+templates/checks/Schema_Judgement_Check.md: its own ## Template is the shape
+== 5b E
+templates/checks/Schema_Judgement_Check.md: its own ## Template is the shape
+== 5b F
+templates/checks/Schema_Judgement_Check.md: its own ## Template is the shape
+== 5b G
+templates/checks/Schema_Judgement_Check.md: its own ## Template is the shape
+== 5b H
+templates/checks/Schema_Judgement_Check.md: its own ## Template is the shape
+== 5b I
+templates/checks/Schema_Judgement_Check.md: its own ## Template is the shape
+== 5b J
+templates/checks/Schema_Judgement_Check.md: its own ## Template is the shape
+== 5b K
+templates/checks/Schema_Judgement_Check.md: its own ## Template is the shape
+== 5b L
+templates/checks/Schema_Judgement_Check.md: its own ## Template is the shape
+== 5b M
+templates/checks/Schema_Judgement_Check.md: its own ## Template is the shape
+== 5c 
+templates/checks/Setting_Judgement_Check.md: its own ## Template is the shape
+== 5c A
+templates/checks/Setting_Judgement_Check.md: its own ## Template is the shape
+== 5c B
+templates/checks/Setting_Judgement_Check.md: its own ## Template is the shape
+== 5c C
+templates/checks/Setting_Judgement_Check.md: its own ## Template is the shape
+== 5c D
+templates/checks/Setting_Judgement_Check.md: its own ## Template is the shape
+== 5c E
+templates/checks/Setting_Judgement_Check.md: its own ## Template is the shape
+== 5c F
+templates/checks/Setting_Judgement_Check.md: its own ## Template is the shape
+== 5c G
+templates/checks/Setting_Judgement_Check.md: its own ## Template is the shape
+== 5c H
+templates/checks/Setting_Judgement_Check.md: its own ## Template is the shape
+== 5c I
+templates/checks/Setting_Judgement_Check.md: its own ## Template is the shape
+== 5c J
+templates/checks/Setting_Judgement_Check.md: its own ## Template is the shape
+== 5c K
+templates/checks/Setting_Judgement_Check.md: its own ## Template is the shape
+== 5c L
+templates/checks/Setting_Judgement_Check.md: its own ## Template is the shape
+== 5c M
+templates/checks/Setting_Judgement_Check.md: its own ## Template is the shape
