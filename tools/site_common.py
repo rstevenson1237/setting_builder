@@ -606,6 +606,24 @@ LOC_CODE_FULL_RE = re.compile(r"([A-Z]+)\.(\d+)")
 EXITS_HEAD = tp.literal_head(str(LOCATION.line("exits").props["pattern"]))
 
 
+def quickref() -> list[tuple[str, str]]:
+    """Every d6 table a setting file's format holds, titled, its rows as written: what the
+    PDF's quick reference gathers onto one page."""
+    out = []
+    for t in tp.load_all().values():
+        tables = [n for n in t.format if n.name == "section" and n.props.get("out") == "table"]
+        for path in (ROOT / w for w in t.writes() if tables and t.prop("scope") == "setting"):
+            sections = tp.file_sections(path.read_text()) if path.exists() else {}
+            for n in tables:
+                name, body = str(n.args[0]), sections.get(str(n.args[0]), [])
+                subs = {name: body} if "each" not in n.props else \
+                    {f"{name}: {k}": v for k, v in tp.file_sections("\n".join(
+                        l.replace("### ", "## ", 1) for l in body)).items()}
+                out += [(title, "\n".join(l for l in lines if l.startswith("|")))
+                        for title, lines in subs.items() if any(l.startswith("|") for l in lines)]
+    return out
+
+
 def line_class(name: str, base: str) -> str:
     """A write-up line's classes: its own, then its format's out=, which the stylesheets set."""
     out = LOCATION.line(name).props.get("out")

@@ -151,6 +151,13 @@ def build_document(setting: sc.Setting) -> str:
 
     toc.extend(region_toc)
 
+    # ---- every d6 table on one page, at the back where a referee finds it ----
+    if quick := sc.quickref():
+        inner = "".join(f'<div class="quickref-table"><h3>{html.escape(title)}</h3>{sc.prose_html(rows, render)}</div>'
+                        for title, rows in quick)
+        parts.append(f'<section class="doc quickref" id="quickref"><h1>Quick Reference</h1>{inner}</section>')
+        toc.append(toc_entry("Quick Reference", "quickref"))
+
     toc_html = f"""
 <section class="cover toc-page">
   <h1>Contents</h1>
@@ -190,6 +197,13 @@ code { background: #f1e9da; padding: 0 3px; }
 .toc-level-1 { font-size: 10pt; }
 
 .doc { page-break-before: always; }
+.quickref { columns: 2; column-gap: 1.2em; }
+.quickref h1 { column-span: all; }
+.quickref-table { break-inside: avoid; }
+.quickref-table h3 { font-size: 10pt; margin: 0.3em 0 0.1em; }
+.quickref .data-table { font-size: 8pt; line-height: 1.25; margin: 0 0 0.3em; }
+.quickref .data-table th, .quickref .data-table td { padding: 0.1em 0.3em; }
+.quickref .data-table th:first-child { width: 2em; }
 .loc-columns { page-break-before: always; column-count: 2; column-gap: 1cm; column-rule: 0.5pt solid #cbbb98; }
 .location-doc { margin-bottom: 1.2em; }
 .location-doc h2 { font-size: 13pt; margin-top: 0; }

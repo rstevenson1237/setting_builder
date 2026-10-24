@@ -479,6 +479,17 @@ def skeleton(t: Template, schema: tb.Schema, step: str | None, code: str | None 
 D6_ROW_RE = re.compile(r"^\|\s*([1-6])\s*\|")
 
 
+def file_sections(text: str) -> dict[str, list[str]]:
+    """A markdown file's `## ` sections, each the lines under its heading."""
+    out, cur = {}, None
+    for line in text.splitlines():
+        if line.startswith("## "):
+            cur = out.setdefault(line[3:].strip(), [])
+        elif cur is not None:
+            cur.append(line)
+    return out
+
+
 def brief_value(source: str):
     """What BRIEF:[name].[property] holds, or None."""
     name, _, prop = source.removeprefix("BRIEF:").partition(".")
