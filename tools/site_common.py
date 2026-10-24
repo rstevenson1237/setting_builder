@@ -921,6 +921,25 @@ def value_html(value: str, render) -> str:
     return out + "<ul>" + "".join(f"<li>{render(i)}</li>" for i in items) + "</ul>"
 
 
+BESTIARY_FLOW = ("Description", "Range", "Numbers", "Sign", "Disposition")
+
+
+def bestiary_prose(f: dict) -> str:
+    """A Bestiary entry's Description through Disposition as two sentences, each field's words kept."""
+    lc = lambda x: x[:1].lower() + x[1:]
+    first = f["Description"].rstrip(".")
+    if f.get("Range"):
+        first += "; " + "; ".join(lc(x.strip()) for x in f["Range"].rstrip(".").split(". "))
+    second = []
+    if f.get("Numbers"):
+        second.append(f"found in groups of {f['Numbers']}" + (f", heralded by {f['Sign']}" if f.get("Sign") else ""))
+    elif f.get("Sign"):
+        second.append(f"heralded by {f['Sign']}")
+    if f.get("Disposition"):
+        second.append(lc(f["Disposition"].rstrip(".")))
+    return first + "." + (" " + second[0][:1].upper() + "; ".join(second)[1:] + "." if second else "")
+
+
 def entry_card(t: SettingTable, e: Entry, render) -> tuple[str, str]:
     """An entry's title line and its field rows: what a card and a citation's box both show."""
     enums = schema().setting_enums
@@ -935,8 +954,11 @@ def entry_card(t: SettingTable, e: Entry, render) -> tuple[str, str]:
     if dice and dice in f:
         title += f' <span class="ad">{html.escape(dice)}: {html.escape(f[dice])}</span>'
         shown.add(dice)
+    fields = e.fields
+    if t.name == "Bestiary" and "Description" in f:
+        fields = [("Description", bestiary_prose(f))] + [(k, v) for k, v in fields if k not in BESTIARY_FLOW]
     rows = "".join(f"<tr><th>{html.escape(k)}</th><td>{value_html(v, render)}</td></tr>"
-                   for k, v in e.fields if k not in shown)
+                   for k, v in fields if k not in shown)
     for m in t.members:
         if m.type == "finds" and f.get(m.name):
             cn, wt = tb.finds_total(f[m.name])
@@ -1054,13 +1076,19 @@ def coverage(setting: Setting, text: str, has_page) -> list[str]:
     """What the schema and the files hold that a rendering does not show. `text` is every
     page together, or the whole PDF; `has_page(slug)` says whether a table's page exists."""
     shown = _plain(text)
+    bare = lambda x: re.sub(r"[.;,]", "", x)    # Bestiary prose rejoins sentences, keeping every word
+    shown_bare = bare(shown)
     problems = []
     for t in setting.tables:
         if not has_page(t.page):
             problems.append(f"{t.name}: its file has no page")
         for e in t.entries:
             for label, value in e.fields:
-                if _plain(value.replace("\n- ", " ").removeprefix("- ")) not in shown:
+                v = _plain(value.replace("\n- ", " ").removeprefix("- "))
+                if t.name == "Bestiary" and label in BESTIARY_FLOW:
+                    if bare(v) not in shown_bare:
+                        problems.append(f"{t.name} / {e.title} / {label}: not shown")
+                elif v not in shown:
                     problems.append(f"{t.name} / {e.title} / {label}: not shown")
     for p in setting.prose:
         if not has_page(p.slug):
