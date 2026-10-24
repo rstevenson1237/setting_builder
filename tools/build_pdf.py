@@ -43,10 +43,14 @@ def toc_entry(title: str, anchor: str, level: int = 0) -> str:
     return f'<li class="{cls}"><a href="#{anchor}">{html.escape(title)}</a></li>'
 
 
-def connections_block(lines: list[str]) -> str:
+def connections_block(lines: list[str], setting: sc.Setting) -> str:
     if not lines:
         return ""
-    items = "".join(f"<li>{html.escape(l)}</li>" for l in lines)
+    def region_link(m):
+        return f'<a href="#{sc.anchor_id("region", m.group(1))}">{m.group(1)}</a>'
+    items = "".join(
+        f"<li>{re.sub(r'(?<![\w.])([A-Z]{1,2})(?= [A-Z])', lambda m: region_link(m) if m.group(1) in setting.regions else m.group(0), ri(l, setting))}</li>"
+        for l in lines)
     return f'<div class="connections"><h3>Connections</h3><ul>{items}</ul></div>'
 
 
@@ -75,6 +79,7 @@ def build_document(setting: sc.Setting) -> str:
             inner = sc.table_html(ts[0], render)
         else:
             inner = "".join(sc.table_html(t, render, t.heading or t.name) for t in ts)
+        inner = inner.replace(f'<div id="{slug}">', "<div>", 1)  # the section carries the id; a repeat leaves its page number unresolved
         parts.append(f'<section class="doc" id="{slug}"><h1>{html.escape(title)}</h1>{inner}</section>')
         toc.append(toc_entry(title, slug))
     for p in setting.prose:
@@ -83,7 +88,7 @@ def build_document(setting: sc.Setting) -> str:
         toc.append(toc_entry(p.title, p.slug))
 
     # ---- regions + locations ----
-    top_conn = connections_block(sc.join_lines(setting)) + sc.sheets_html("170x230mm")
+    top_conn = connections_block(sc.join_lines(setting), setting) + sc.sheets_html("170x230mm")
     region_toc: list[str] = []
     for code in setting.region_order:
         region = setting.regions[code]
@@ -101,7 +106,7 @@ def build_document(setting: sc.Setting) -> str:
             trows = "".join(f'<tr><td class="num">{n}</td><td>{ri(t, setting)}</td></tr>' for n, t in table_rows)
             table_html += f'<h3>{html.escape(table_label)}</h3><table class="data-table"><tbody>{trows}</tbody></table>'
 
-        rconn = connections_block(sc.connection_lines(code, setting))
+        rconn = connections_block(sc.connection_lines(code, setting), setting)
 
         parts.append(
             f'<section class="doc region-doc" id="{r_anchor}">'
@@ -137,17 +142,15 @@ def build_document(setting: sc.Setting) -> str:
                 f'{sc.cut_html(code, num, sc.maps_fit_pdf)}<ul class="feature-list">{feats}</ul>{exits_html}'
                 f'</section>'
             )
-            region_toc.append(toc_entry(f"{loc.code} {loc.name}", l_anchor, level=2))
 
-    toc.append(toc_entry("Regions", "regions-toc"))
     toc.extend(region_toc)
 
     toc_html = f"""
 <section class="cover toc-page">
-  <h1 id="regions-toc">Contents</h1>
-  {top_conn}
+  <h1>Contents</h1>
   <ul class="toc">{"".join(toc)}</ul>
 </section>
+<section class="doc">{top_conn}</section>
 """
     parts[toc_placeholder_index] = toc_html
 
@@ -173,13 +176,12 @@ code { background: #f1e9da; padding: 0 3px; }
 .cover-tags { font-style: italic; color: #5a4f42; }
 .cover-outline { max-width: 32em; margin: 1.5em auto 0; font-size: 12pt; }
 
-.toc-page { page-break-after: always; padding-top: 5%; text-align: left; }
-.toc { list-style: none; padding: 0; column-count: 1; }
-.toc-entry { display: flex; justify-content: space-between; border-bottom: 1pt dotted #cbbb98; padding: 0.15em 0; }
-.toc-entry a { color: #221c15; flex: 1; }
-.toc-entry a::after { content: leader(dotted) target-counter(attr(href), page); float: right; color: #766a5a; }
-.toc-level-1 { padding-left: 1.2em; font-size: 9.5pt; }
-.toc-level-2 { padding-left: 2.4em; font-size: 9pt; color: #5a4f42; }
+.toc-page { page-break-after: always; padding-top: 0; text-align: left; }
+.toc { list-style: none; padding: 0; margin: 0; line-height: 1.25; }
+.toc-entry { padding: 0.05em 0; }
+.toc-entry a { color: #221c15; display: block; }
+.toc-entry a::after { content: leader(dotted) target-counter(attr(href), page); color: #766a5a; }
+.toc-level-1 { font-size: 10pt; }
 
 .doc { page-break-before: always; }
 .location-doc { page-break-before: always; }
