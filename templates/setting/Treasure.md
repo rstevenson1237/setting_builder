@@ -5,7 +5,7 @@ Five reusable random treasure tables (Treasure Tables I-V), each a table of foun
 
 ## Context
 ```kdl
-template scope="setting" writes="setting/Treasure1.md" shape="Treasure I, Treasure II, Treasure III, Treasure IV, Treasure V"
+template scope="setting" writes="setting/Treasure1.md setting/Treasure2.md setting/Treasure3.md setting/Treasure4.md setting/Treasure5.md" shape="Treasure I, Treasure II, Treasure III, Treasure IV, Treasure V"
 read "setting/Procedures.md" part="the coin every value is stated in"
 read "setting/Setting.md"
 read "setting/History.md"

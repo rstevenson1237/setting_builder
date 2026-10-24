@@ -209,7 +209,8 @@ def report_skeleton(step: str, code: str | None) -> int:
     for n in sorted(names):
         t = tp.load(TEMPLATES / n)
         drawn = tp.skeleton(t, schema, step, code, setting) if t else None
-        print(f"templates/{n}" + ("" if drawn else ": its own ## Template is the shape"))
+        print(f"templates/{n}" + ("" if drawn else ": its own ## Template is the shape" if t is None
+                                  else ": no schema or format gives its shape"))
         if drawn:
             print(drawn)
     return 0
@@ -271,15 +272,13 @@ def parse_regions(diag: Diagnostics):
 # Location files
 # ---------------------------------------------------------------------------
 
-LOC_HEADER_RE = re.compile(r'^([A-Z]+)\.(\d+) \*\*(.+?)\*\*(?: \(([^)]+)\))? - \*(.+)\*\s*$')
-FEATURE_RE = re.compile(r'^\*\*([^*]+):\*\*\s*(.*)$')
+LOC_HEADER_RE, FEATURE_RE, EXITS_HEAD = sc.LOC_HEADER_RE, sc.FEATURE_RE, sc.EXITS_HEAD
 EXIT_PAIR_RE = re.compile(r'->\s*([A-Z]+\.\d+)\s+([^,]+)')
 EXIT_DEST_RE = re.compile(r'->\s*[A-Z]+\.\d+\s+[^,]+')
 
-# Each placed setting table's citation label, per templates/region/Location.md.
-CITE_LABELS = {"Lore": "Lore", "Keys": "Keys", "Named Creatures": "Named Creature",
-               "Unique Treasures": "Unique Treasure", "Magical Tomes": "Magical Tome",
-               "Hoards": "Hoard", "Local Procedures": "Local Procedure"}
+def cite_labels(schema) -> dict[str, str]:
+    """Each citable setting table's label: its cite= in Setting_Schema.md."""
+    return {name: str(p["cite"]) for name, p in schema.table_props.items() if "cite" in p}
 TREASURE_CITE_RE = re.compile(r'\(Treasure\s+([IVX]+),\s*d\d+\)')
 ROMAN_TABLES = {"I", "II", "III", "IV", "V"}
 
@@ -375,9 +374,13 @@ def check_location_file(diag, path, region_code, num, stub, connected, all_locat
     if not m:
         diag.error(path, f"header line does not match Location.md format: {lines[0]!r}")
         return
+    code = sc.LOC_CODE_FULL_RE.fullmatch(m["location_code"])
+    if not code:
+        diag.error(path, f"header opens with {m['location_code']!r}, which is no location code")
+        return
     check_treasure_citation_prose(diag, path, text)
     check_forced_damage(diag, path, text, conditions)
-    hcode, hnum_s, hname, hweight, htags = m.groups()
+    (hcode, hnum_s), hname, hweight, htags = code.groups(), m["location_name"], m["type"], m["tags"]
     if hcode != region_code or int(hnum_s) != num:
         diag.error(path, f"header code {hcode}.{hnum_s} does not match this file's location {region_code}.{num}")
     if not names_match(hname, stub["name"]):
@@ -419,7 +422,7 @@ def check_location_file(diag, path, region_code, num, stub, connected, all_locat
         s = raw.strip()
         if not s:
             continue
-        if s.startswith("**Exits:**"):
+        if s.startswith(EXITS_HEAD):
             exits_line = s
             continue
         fm = FEATURE_RE.match(s)
@@ -433,13 +436,13 @@ def check_location_file(diag, path, region_code, num, stub, connected, all_locat
     if not features:
         diag.error(path, "no Feature lines found (expected at least one **Name:** line)")
     if exits_line is not None and not connected:
-        diag.error(path, "has an **Exits:** line, but no Connections entry - it is reached "
+        diag.error(path, f"has an {EXITS_HEAD} line, but no Connections entry - it is reached "
                          "from the region itself")
     elif exits_line is None and connected:
-        diag.error(path, "missing **Exits:** line")
+        diag.error(path, f"missing {EXITS_HEAD} line")
     elif exits_line is not None:
         src = f"{region_code}.{num}"
-        body = exits_line[len("**Exits:**"):].strip()
+        body = exits_line[len(EXITS_HEAD):].strip()
         descs = [d.strip(" ,") for d in EXIT_DEST_RE.split(body)]
         targets = EXIT_PAIR_RE.findall(body)
         seen_desc: dict[str, str] = {}
@@ -503,13 +506,16 @@ def check_region_edge_realization(diag: Diagnostics, regions: dict, all_loc_edge
 # stale write-up is owed to 4b and reported by --pending instead.
 # ---------------------------------------------------------------------------
 
-def check_writeup_citations(diag: Diagnostics, setting, history):
+def check_writeup_citations(diag: Diagnostics, setting, history, schema):
     placed: dict[str, set] = {}
+    # the citable tables whose entries the tables place, through a place field's from=
+    cites = {t: label for t, label in cite_labels(schema).items()
+             if any(m.type == "place" and "from" in m.props for m in schema.fields.get(t, []))}
     for (table, title, _), codes in setting.placements().items():
-        if table in CITE_LABELS:
+        if table in cites:
             for c in codes:
-                placed.setdefault(c, set()).add((CITE_LABELS[table], title))
-    labels = "|".join(CITE_LABELS.values())
+                placed.setdefault(c, set()).add((cites[table], title))
+    labels = "|".join(cites.values())
     for r in setting.regions.values():
         for code in r.locations():
             path = r.dir / f"{code.split('.')[1]}.md"
@@ -548,8 +554,7 @@ def check_treasure_tables(diag: Diagnostics, brief):
     paths = [(SETTING / f"Treasure{i}.md", "Treasure") for i in range(1, 6)] + [(SETTING / "Magic.md", "Magic")]
     for path, lever in paths:
         if not path.exists():
-            diag.warn(path, "missing - not built yet")
-            continue
+            continue                    # check_top_level_files reports it
         n = brief.lever(lever)
         rolls = n.props.get("rolls") if n else None
         rownums = [int(x) for x in re.findall(r"^\|\s*(\d+)\s*\|", path.read_text(), re.M)]
@@ -1064,7 +1069,7 @@ TREASURE_TELL_RE = re.compile(
 
 
 # A hazard states what it forces in one of three expressions, per
-# setting/Procedures.md and templates/region/Location.md's Citations section. The
+# setting/Procedures.md and templates/region/Location.md's cite lines. The
 # grammar is fixed, so a malformed one is a format error like any other
 # citation. Which Conditions exist is content and varies per setting, so an
 # unrecognised Condition name only warns - Procedures.md is where a missing one
@@ -1102,8 +1107,8 @@ def check_forced_damage(diag: Diagnostics, path: Path, text: str, conditions):
             if not m:
                 diag.error(path, f"{cite!r} is not a forced-damage expression - "
                                  f"templates/region/Location.md allows only "
-                                 f"(Test of Constitution, Xd, Type), (Test of Sanity, Xd) "
-                                 f"and (Test of Fate, Condition)")
+                                 + ", ".join(str(n.props["form"]) for n in sc.LOCATION.cites
+                                             if str(n.args[0]).startswith("Test of")))
                 continue
             test, args = m.group(1), [a.strip() for a in m.group(2).split(",")]
             if test == "Constitution":
@@ -1135,41 +1140,53 @@ def check_forced_damage(diag: Diagnostics, path: Path, text: str, conditions):
                                     f"describing it in place")
 
 
-PROCEDURES_SECTIONS = ("Ruleset", "Forced Dangers", "Wounds", "Madness", "Conditions", "Coin and Prices",
-                       "Time and Distance", "Weather", "Encounters", "Carousing")
-D6_ROW_RE = re.compile(r'^\|\s*([1-6])\s*\|', re.M)
-
-
 def check_procedures(diag: Diagnostics, brief):
-    """setting/Procedures.md against templates/setting/Procedures.md and BRIEF.md's Procedures
-    lever: its sections in order, a six-row table for each Wound_Type listed, for Madness where
-    asked for, and for Weather and Carousing."""
-    path = SETTING / "Procedures.md"
-    if not path.exists():
-        return
-    text = path.read_text()
-    sections = dict(re.findall(r'^## (.+?)\n(.*?)(?=^## |\Z)', text, re.S | re.M))
+    """BRIEF.md's Procedures wounds names Wound_Types; the file's sections and tables are
+    its format's (check_formats)."""
     lever = brief.lever("Procedures")
-    wounds = str(lever.props.get("wounds", "")).split() if lever else []
-    madness = lever.props.get("madness", 0) if lever else 0
-    if not sections:
-        return          # a seed not yet written
-    order = [s for s in re.findall(r'^## (.+)$', text, re.M)]
-    want = [s for s in PROCEDURES_SECTIONS if s != "Madness" or madness]
-    if order != want:
-        diag.error(path, f"sections are {order}, expected {want}")
-    for t in wounds:
+    for t in (str(lever.props.get("wounds", "")).split() if lever else []):
         if t not in DAMAGE_TYPES:
             diag.error(tables.BRIEF, f"Procedures wounds names {t!r}, which is no Wound_Type")
-    tables_found = dict(re.findall(r'^### (.+?)\n(.*?)(?=^##|\Z)', sections.get("Wounds", ""), re.S | re.M))
-    if list(tables_found) != wounds:
-        diag.error(path, f"Wounds holds {list(tables_found)}, BRIEF.md's Procedures wounds lists {wounds}")
-    d6 = {**{f"Wounds / {k}": v for k, v in tables_found.items()},
-          **{k: sections[k] for k in ("Madness", "Encounters", "Weather", "Carousing") if k in sections}}
-    for name, body in d6.items():
-        rows = [int(x) for x in D6_ROW_RE.findall(body)]
-        if rows[:6] != [1, 2, 3, 4, 5, 6]:
-            diag.error(path, f"{name} is not a d6 table of rows 1-6: {rows}")
+
+
+def check_formats(diag: Diagnostics, schema):
+    """Each setting file a template's format shapes, against that format; the location
+    write-up's format names the fields the tools read from it."""
+    for path in sorted(TEMPLATES.glob("*/*.md")):
+        t = tp.load(path)
+        if not t or not t.format or t.prop("scope") != "setting":
+            continue
+        for w in t.writes():
+            if (SETTING.parent / w).exists():
+                for sev, msg in tp.format_problems(t, (SETTING.parent / w).read_text(), schema):
+                    (diag.warn if sev == "warn" else diag.error)(SETTING.parent / w, msg)
+    loc = sc.LOCATION
+    for line, want in (("header", {"location_code", "location_name", "type", "tags"}), ("feature", None), ("exits", None)):
+        if loc.line(line) is None:
+            diag.error(loc.path, f"its format has no {line} line, which the tools read")
+        elif want and not want <= set(loc.pattern(line).groupindex):
+            diag.error(loc.path, f"its {line} pattern lacks {sorted(want - set(loc.pattern(line).groupindex))}")
+    check_cites(diag, schema)
+
+
+def check_cites(diag: Diagnostics, schema):
+    """Each citation form against the tool that reads it: a table's cite= as the site links
+    it, and each cite line's example against its form and its reader's regex."""
+    for name, label in cite_labels(schema).items():
+        if label.lower() not in {name.lower(), name.lower().removesuffix("s")}:
+            diag.error(PATTERNS / "Setting_Schema.md", f"{name} cite={label!r} - the site links a citation "
+                                                        f"by the table's name, or that name less a final s")
+    readers = {"Bestiary": sc.BESTIARY_CITE_RE, "Roll": sc.ROLL_CITE_RE, "Test of Constitution": TEST_CITE_RE,
+               "Test of Sanity": TEST_CITE_RE, "Test of Fate": TEST_CITE_RE}
+    for path in sorted(TEMPLATES.glob("*/*.md")):
+        for n in (t.cites if (t := tp.load(path)) else []):
+            name, form, example = str(n.args[0]), str(n.props["form"]), str(n.props["example"])
+            if not tp.pattern_re(form).match(example):
+                diag.error(path, f"cite {name}: its example {example!r} is not its form {form!r}")
+            if name not in readers:
+                diag.error(path, f"cite {name}: no tool reads it - a cite is one of {', '.join(readers)}")
+            elif not readers[name].fullmatch(example):
+                diag.error(path, f"cite {name}: {example!r} is not what the tool reading it matches")
 
 
 def _check_xd(diag: Diagnostics, path: Path, cite: str, xd: str):
@@ -1217,9 +1234,10 @@ def check_rumour_settling(diag: Diagnostics):
 
 
 def check_top_level_files(diag: Diagnostics):
-    for name in ("Setting.md", "History.md", "Truths.md", "Bestiary.md",
-                 "Factions.md", "Procedures.md", "Language.md"):
-        path = SETTING / name
+    """Every file the setting's first two steps write: what they cite templates for."""
+    built = {w for sid, (names, _) in read_set().items() if sid[0] in "12"
+             for n in names if (t := tp.load(TEMPLATES / n)) for w in t.writes(sid)}
+    for path in sorted(SETTING.parent / w for w in built):
         if not path.exists():
             diag.warn(path, "missing - not built yet")
         elif not path.read_text().strip():
@@ -1428,10 +1446,11 @@ def main() -> int:
                                      f"{region_code}.{num}" in stated,
                                      all_locations, mundane_edges, hidden_edges, conditions)
 
-    check_writeup_citations(diag, setting, tables.History())
+    check_writeup_citations(diag, setting, tables.History(), schema)
     check_setting_files(diag, schema, setting.codes)
     check_treasure_tables(diag, brief)
     check_procedures(diag, brief)
+    check_formats(diag, schema)
     for problem in brief.region_problems(regions):
         diag.error(tables.BRIEF, problem)
     for problem in brief.procedure_problems(setting):

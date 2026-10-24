@@ -60,21 +60,22 @@ The PDF and site change only in phase 5, and only by proposals approved one at a
 
   ```kdl
   format {
-    line header "{code} **{name}** ({type}) - *{tags}*"   type=opt
-    line summary out=prose mark=bold-features            // read aloud; each Feature it names in bold
-    line notes   out=prose style=italic
-    each feature "**{name}:** {text}"
-    line exits   "**Exits:** {exit}, ..."  unless=no-connections
+    line header pattern="[Location Code] **[Location Name]** ([type]) - *[tags]*" hint="its three tags"
+    line summary pattern="[Player Summary]" hint="what a party sees on arriving, ..."
+    line notes pattern="*[Referee Notes]*" hint="size, shape, ..."
+    line feature pattern="**[Feature Name]:** [feature]" count="many" hint="..."
+    line exits pattern="**Exits:** [exits]" count="optional" hint="..."
   }
   ```
 
   It replaces the second copy in each place:
-  - `--skeleton` draws the format, with its hints, where it draws the `## Template` now
-  - `validate_setting.py` reads it for `LOC_HEADER_RE`, the Exits rule and
-    `PROCEDURES_SECTIONS`
-  - `site_common.py`'s `LOC_HEADER_RE` and `parse_setting` use the same header pattern,
-    compiled from the format. This is the only change to the renderers outside phase 5,
-    and the output is unchanged.
+  - `--skeleton` draws the format, with its hints, where it drew the `## Template`
+  - `validate_setting.py` reads it for `LOC_HEADER_RE`, `FEATURE_RE` and the Exits label,
+    and checks each setting file a format shapes against it, in place of
+    `PROCEDURES_SECTIONS` and the d6 checks
+  - `site_common.py`'s `LOC_HEADER_RE`, `FEATURE_RE` and Exits label are compiled from the
+    format. This is the only change to the renderers outside phase 5, and the output is
+    unchanged. `parse_setting` keeps its own lenient reading.
 
   Treasure's `TABLES` block stays prose in Instructions. It is guidance the user edits and
   no tool reads, so it has no second copy.

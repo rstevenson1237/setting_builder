@@ -31,7 +31,15 @@ ENUMS, GRAMMAR = _grammar()
 STANDING = tuple(ENUMS["Standing"])
 SCOPES, SHAPES, RUNS = tuple(ENUMS["Scope"]), tuple(ENUMS["Shape"]), tuple(ENUMS["Run"])
 NODES = tuple(GRAMMAR)
-LINES = tuple(next(c.args for c in GRAMMAR["step"].children if c.name == "one-of"))   # what a step holds
+
+
+def holds(node: str) -> tuple[str, ...]:
+    """The nodes a node's children may be, by its `one-of`."""
+    return tuple(next((c.args for c in GRAMMAR[node].children if c.name == "one-of"), ()))
+
+
+TOP = holds("fence")
+LINES = holds("step")                     # the read, run and field lines a step adds
 LENGTH_UNITS = tuple(c.name for c in GRAMMAR["field"].children if c.args[:1] == ["length"])
 
 
@@ -39,6 +47,38 @@ def members(node: str) -> dict[str, kdl.Node]:
     """A node's properties as Template_Schema.md defines them: every member but its `arg=`."""
     g = GRAMMAR[node]
     return {c.name: c for c in g.children if c.name not in ("one-of", g.props.get("arg"))}
+
+
+# -- patterns: a line as written, each [name] a field ------------------------------------
+
+FIELD_RE = re.compile(r"\[([^\]]+)\]")
+
+
+def slug(name: str) -> str:
+    return re.sub(r"\W+", "_", name).strip("_").lower()
+
+
+def pattern_re(pattern: str) -> re.Pattern:
+    """A pattern as a regex: each [name] a group named for it, matching any text (or none,
+    where it ends the line), and the literal text between them as written, its spaces any
+    run of whitespace."""
+    parts, out, seen = FIELD_RE.split(pattern), "", set()
+    for i, part in enumerate(parts):
+        if i % 2:
+            name = slug(part)
+            while name in seen:
+                name += "_"
+            seen.add(name)
+            last = not "".join(parts[i + 1:]).strip()
+            out += f"(?P<{name}>.*?)" if last else f"(?P<{name}>.+?)"
+        else:
+            out += r"\s*".join(re.escape(w) for w in re.split(r"\s+", part)) if part.strip() else (r"\s*" if part else "")
+    return re.compile("^" + out + r"\s*$")
+
+
+def literal_head(pattern: str) -> str:
+    """The literal text a pattern opens with, before its first field."""
+    return FIELD_RE.split(pattern)[0].strip()
 
 
 LENGTH_RE = re.compile(r"(\d+)?(-(\d+)?|\+)?")
@@ -68,6 +108,21 @@ class Template:
             if s.name == "step" and (step is None or str(s.args[0] if s.args else "") == step):
                 out += s.children
         return out
+
+    @property
+    def format(self) -> list[kdl.Node]:
+        return next((n.children for n in self.nodes if n.name == "format"), [])
+
+    def line(self, name: str) -> kdl.Node | None:
+        """A format line by name."""
+        return next((n for n in self.format if n.name == "line" and n.args and str(n.args[0]) == name), None)
+
+    def pattern(self, name: str) -> re.Pattern:
+        return pattern_re(str(self.line(name).props["pattern"]))
+
+    @property
+    def cites(self) -> list[kdl.Node]:
+        return [n for n in self.nodes if n.name == "cite"]
 
     def writes(self, step: str | None = None) -> list[str]:
         s = next((n for n in self.nodes if n.name == "step" and step and n.args and str(n.args[0]) == step), None)
@@ -147,7 +202,7 @@ def is_file(source: str) -> bool:
 def source_problem(x: str, schema: tb.Schema, reads: set[str]) -> str | None:
     """What is wrong with one source a field pulls from, or None where it resolves."""
     if x.startswith("BRIEF:"):
-        return None if x[6:] in brief_names() else f"{x!r} names no BRIEF.md line"
+        return None if x[6:].split(".")[0] in brief_names() else f"{x!r} names no BRIEF.md line"
     if is_file(x):
         return None if x in reads else f"{x!r} is a file the template does not read"
     return None if resolve(x, schema) else f"{x!r} names no node, table, member, field or brief field"
@@ -162,7 +217,7 @@ def line_problems(n: kdl.Node, schema: tb.Schema) -> list[str]:
         if m is None:
             out.append(f"line {n.line}: {n.name} has no {k!r} - it takes {', '.join(defined) or 'none'}")
             continue
-        typ, items = m.args[0], ENUMS.get(m.args[0])
+        typ, items = m.args[0], ENUMS.get(m.args[0]) or list(schema.setting_enums.get(m.args[0], {})) or None
         allowed = (items or []) + (list(schema.tables) if k == "shape" else [])
         for x in (names(v) if "list" in m.args else [str(v)]) if items else []:
             if x not in allowed:
@@ -179,20 +234,24 @@ def problems(t: Template, schema: tb.Schema, steps: set[str]) -> list[str]:
     if len(heads) != 1:
         return [f"its fence holds {len(heads)} template lines - it holds one"]
     out = []
-    for n in t.nodes:
-        if n.name not in NODES:
-            out.append(f"line {n.line}: {n.name!r} is not one of {', '.join(NODES)}")
-            continue
+
+    def walk(n: kdl.Node, allowed: tuple[str, ...], within: str):
+        nonlocal out
+        if n.name not in allowed:
+            out.append(f"line {n.line}: {within} holds {', '.join(allowed)} lines, not {n.name!r}")
+            return
         out += line_problems(n, schema)
-        if n.name == "step":
-            sid = str(n.args[0]) if n.args else ""
-            if sid not in steps:
-                out.append(f"line {n.line}: step {sid!r} is no STEPS.md step")
-            for c in n.children:
-                if c.name not in LINES:
-                    out.append(f"line {c.line}: a step holds {', '.join(LINES)} lines, not {c.name!r}")
-                elif c.name in NODES:
-                    out += line_problems(c, schema)
+        for c in n.children:
+            walk(c, holds(n.name), n.name)
+
+    for n in t.nodes:
+        walk(n, TOP, "a fence")
+        if n.name == "step" and (sid := str(n.args[0]) if n.args else "") not in steps:
+            out.append(f"line {n.line}: step {sid!r} is no STEPS.md step")
+    for n in t.format:
+        for k in ("when", "each"):
+            if k in n.props and (p := source_problem(str(n.props[k]), schema, set())):
+                out.append(f"line {n.line}: {n.name} {k}: {p}")
     own = [n for n in t.nodes if n.name in LINES]
     groups = [own] + [own + s.children for s in t.nodes if s.name == "step"]
     seen = set()
@@ -285,10 +344,14 @@ def _hint(m: tb.Member) -> str:
            f"{', opt' if m.opt else ''}{', list' if m.is_list else ''}]"
 
 
-def table_skeleton(schema: tb.Schema, name: str) -> str:
+def title(schema: tb.Schema, name: str) -> str:
+    return str(schema.table_props[name].get("title", f"{name} of [Setting Name]"))
+
+
+def table_skeleton(schema: tb.Schema, name: str, preface: list[str] | None = None) -> str:
     kind, file = schema.tables[name]
     props, fields = schema.table_props[name], schema.fields.get(name, [])
-    title = str(props.get("title", f"{name} of [Setting Name]"))
+    title = globals()["title"](schema, name) + ("\n\n" + "\n".join(preface) if preface else "")
     if kind == "roll" or props.get("layout") == "rows":
         head = "| " + " | ".join(m.name for m in fields) + " |"
         return "\n".join([title, "", head, "|" + "---|" * len(fields),
@@ -348,11 +411,55 @@ def region_skeleton(schema: tb.Schema, shape: str, files: list[str], rating: str
     return "\n".join(out).rstrip() + "\n"
 
 
+def fill(pattern: str, hint: str | None) -> str:
+    """A pattern as the skeleton shows it: its last field carries the hint."""
+    if not hint:
+        return pattern
+    fields = list(FIELD_RE.finditer(pattern))
+    last = fields[-1]
+    return pattern[:last.start()] + f"[{last.group(1)} - {hint}]" + pattern[last.end():]
+
+
+def table_lines(n: kdl.Node) -> list[str]:
+    """A format's table, as written."""
+    row = lambda cells: "| " + " | ".join(str(c) for c in cells) + " |"
+    head = names(n.props.get("head", ""))
+    return [row(head), "|" + "---|" * len(head)] + [row(r.args) for r in n.children if r.name == "row"]
+
+
+def draw_format(t: Template) -> list[str]:
+    out = []
+    for n in t.format:
+        p = n.props
+        if n.name == "line":
+            out.append(fill(str(p["pattern"]), p.get("hint")))
+        elif n.name == "table":
+            out += table_lines(n)
+        elif n.name == "section":
+            out += ["", f"## {n.args[0]}"]
+            if p.get("out") == "table":
+                out += ([f"### [one for each of {p['each']}]"] if "each" in p else []) + \
+                       [f"| d6 | {p.get('head', '[result]')} |", "|---|---|", "| 1 | [...] |", "| ... | ... |", "| 6 | [...] |"]
+            elif p.get("out") == "bullets":
+                out.append("- " + str(p.get("item", "[...]")))
+            else:
+                out.append("[...]")
+    return out
+
+
+def citations(t: Template, schema: tb.Schema) -> list[str]:
+    """Every citation a template's text may carry: each cite= table's, then its own cite lines."""
+    out = [f"- ({p['cite']}: [Title])" for p in schema.table_props.values() if "cite" in p]
+    return out + [f"- {n.props['form']}" + (f" - {n.props['note']}" if "note" in n.props else "") for n in t.cites]
+
+
 def skeleton(t: Template, schema: tb.Schema, step: str | None, code: str | None = None,
              setting: tb.Setting | None = None) -> str | None:
-    """What a step writes, as its schema shapes it; None where no schema does."""
+    """What a step writes, as its schema or its format shapes it; None where neither does."""
     if not t.shapes:
-        return None
+        if not t.format:
+            return None
+        return "\n".join(draw_format(t) + (["", "Citations:"] + citations(t, schema) if t.cites else []))
     rating = setting.regions[code].rating if setting and code in setting.regions else None
     out = []
     for s in t.shapes:
@@ -363,8 +470,97 @@ def skeleton(t: Template, schema: tb.Schema, step: str | None, code: str | None 
             files = stems if stems and "[Table]" not in stems else ["*"]
             out.append(region_skeleton(schema, s, files, rating, code, setting))
         else:
-            out.append(table_skeleton(schema, s))
+            out.append(table_skeleton(schema, s, draw_format(t) if t.format and s == t.shapes[0] else None))
     return "\n\n".join(out)
+
+
+# -- a written file against its format -------------------------------------------------
+
+D6_ROW_RE = re.compile(r"^\|\s*([1-6])\s*\|")
+
+
+def brief_value(source: str):
+    """What BRIEF:[name].[property] holds, or None."""
+    name, _, prop = source.removeprefix("BRIEF:").partition(".")
+    n = next((c for b in tb.brief_nodes() for c in [b, *b.children] if c.name == name), None)
+    return n.props.get(prop) if n is not None else None
+
+
+def d6_problem(what: str, body: list[str]) -> str | None:
+    rows = [int(m.group(1)) for l in body if (m := D6_ROW_RE.match(l))]
+    return None if rows[:6] == [1, 2, 3, 4, 5, 6] else f"{what} is not a d6 table of rows 1-6: {rows}"
+
+
+def section_problems(n: kdl.Node, body: list[str]) -> list[tuple[str, str]]:
+    name, p, out = str(n.args[0]), n.props, []
+    if p.get("out") == "table" and "each" in p:
+        subs, cur = {}, None
+        for l in body:
+            if l.startswith("### "):
+                cur = subs.setdefault(l[4:].strip(), [])
+            elif cur is not None:
+                cur.append(l)
+        want = str(brief_value(str(p["each"])) or "").split()
+        if list(subs) != want:
+            out.append(("error", f"{name} holds {list(subs)}, {p['each']} lists {want}"))
+        out += [("error", x) for k, v in subs.items() if (x := d6_problem(f"{name} / {k}", v))]
+    elif p.get("out") == "table":
+        out += [("error", x) for x in [d6_problem(name, body)] if x]
+    elif p.get("out") == "bullets" and "item" in p:
+        r = pattern_re(str(p["item"]))
+        out += [("warn", f"{name}: {l!r} is not {p['item']!r}") for l in body if l.startswith("- ") and not r.match(l[2:])]
+    return out
+
+
+def format_problems(t: Template, text: str, schema: tb.Schema) -> list[tuple[str, str]]:
+    """A written file against its template's format, line by line: a shaped file's title,
+    then the format, then (unshaped) nothing more. Each is (error or warn, what): a
+    bullet item off its pattern warns."""
+    lines = [l.rstrip() for l in text.splitlines() if l.strip()]
+    if not lines:
+        return []
+    out, i = [], 0
+    at = lambda: repr(lines[i]) if i < len(lines) else "the end"
+    if t.shapes:
+        if pattern_re(title(schema, t.shapes[0])).match(lines[0]):
+            i = 1
+        else:
+            out.append(("error", f"opens with {lines[0]!r}, not its title {title(schema, t.shapes[0])!r}"))
+    for n in t.format:
+        p = n.props
+        if n.name == "line":
+            r, count, got = pattern_re(str(p["pattern"])), p.get("count", "one"), 0
+            while i < len(lines) and r.match(lines[i]) and (count == "many" or not got):
+                i, got = i + 1, got + 1
+            if not got and count != "optional":
+                out.append(("error", f"has {at()} where its {n.args[0]} line, {p['pattern']!r}, stands"))
+        elif n.name == "table":
+            for want in table_lines(n):
+                if i < len(lines) and lines[i].strip() == want:
+                    i += 1
+                else:
+                    out.append(("error", f"its table runs {at()} where its format has {want!r}"))
+                    break
+        elif n.name == "section":
+            name = str(n.args[0])
+            asked = "when" not in p or brief_value(str(p["when"])) not in (None, 0, "0", "")
+            ahead = next((j for j in range(i, len(lines)) if lines[j] == f"## {name}"), None)
+            if ahead is not None and ahead > i:
+                out.append(("error", f"has {at()} where its ## {name} section stands"))
+                i = ahead
+            here = ahead is not None
+            if here != asked:
+                out.append(("error", f"holds ## {name}, which {p['when']} does not ask for" if here
+                            else f"has {at()} where its ## {name} section stands"))
+            if here:
+                body, i = [], i + 1
+                while i < len(lines) and not lines[i].startswith("## "):
+                    body.append(lines[i])
+                    i += 1
+                out += section_problems(n, body)
+    if not t.shapes and i < len(lines):
+        out.append(("error", f"holds {at()} past what its format gives"))
+    return out
 
 
 def load_all() -> dict[Path, Template]:

@@ -32,11 +32,11 @@ Read these rather than a description of them.
 ## Directories
 
 - `templates/` - one template per artifact type, each structured **Purpose / Context /
-  Instructions**, and **Template** where no schema gives its shape, in folders `setting/` and
-  `region/`, plus `checks/` for the judgement checks. A template is cited by its path, folder
-  included. A template's Context is a KDL fence naming exactly what it reads, down to the
-  members a field reads; don't pull in more than it names. `Template_Schema.md` defines
-  that fence.
+  Instructions**, in folders `setting/` and `region/`, plus `checks/` for the judgement
+  checks, whose `## Template` is the checklist each fills. A template is cited by its path,
+  folder included. A template's Context is a KDL fence naming exactly what it reads, down to
+  the members a field reads, and the `format` of a file no schema shapes; don't pull in more
+  than it names. `Template_Schema.md` defines that fence.
 - `patterns/` - the KDL schemas, mirroring `setting/`: `Common_Schema.md` (the value
   types every field is written in), `Setting_Schema.md` (every setting file's fields),
   `Region_Schema.md` (each rating's region `seed`, `brief` and `drawn`), and one per rating

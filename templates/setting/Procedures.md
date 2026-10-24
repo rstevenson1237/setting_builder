@@ -14,12 +14,22 @@ not cover.
 template scope="setting" writes="setting/Procedures.md"
 read "setting/Setting.md" once="written"
 read "setting/Truths.md" once="written"
+format {
+  line title pattern="Procedures of [Setting Name]"
+  section Ruleset
+  section "Forced Dangers"
+  section Wounds out="table" head="Wound" each="BRIEF:Procedures.wounds"
+  section Madness out="table" head="Madness" when="BRIEF:Procedures.madness"
+  section Conditions out="bullets" item="**[Name]** - [effect]; [duration]"
+  section "Coin and Prices"
+  section "Time and Distance"
+  section Weather out="table" head="Weather"
+  section Encounters out="table" head="Distance"
+  section Carousing out="table" head="Effect"
+}
 ```
 
 ## Instructions
-Sections, in order: Ruleset, Forced Dangers, Wounds, Madness, Conditions, Coin and Prices,
-Time and Distance, Weather, Encounters, Carousing.
-
 - **Ruleset** - about eight lines: the vocabulary the rest assumes (the three Action Dice,
   the Difficulty die, a 1 is a FAILURE, a 2 or 3 a COMPLICATION, a 4 or more a SUCCESS).
 - **Forced Dangers** - how a hazard states what it forces: a trigger, a Test, a count of
@@ -48,55 +58,3 @@ Time and Distance, Weather, Encounters, Carousing.
   and the six Danger bands, 6 to 1, each in a line a region's Brief can instance. The party
   size numbers appearing are set for.
 - **Carousing** - a d6 table of effects: 1 and 2 negative, 3 and 4 neutral, 5 and 6 positive.
-
-## Template
-```
-Procedures of [Setting Name]
-
-## Ruleset
-[...]
-
-## Forced Dangers
-[...]
-
-## Wounds
-### [Wound_Type]
-| d6 | Wound |
-|---|---|
-| 1 | [effect] |
-| ... | ... |
-| 6 | [effect] |
-
-## Madness
-| d6 | Madness |
-|---|---|
-| 1 | [effect] |
-| ... | ... |
-| 6 | [effect] |
-
-## Conditions
-- **[Name]** - [effect]; [duration]
-
-## Coin and Prices
-[...]
-
-## Time and Distance
-[...]
-
-## Weather
-| d6 | Weather |
-|---|---|
-| 1 | [severe weather] |
-| ... | ... |
-| 6 | [calm weather] |
-
-## Encounters
-[...]
-
-## Carousing
-| d6 | Effect |
-|---|---|
-| 1 | [negative effect] |
-| ... | ... |
-| 6 | [positive effect] |
-```

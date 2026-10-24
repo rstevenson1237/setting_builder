@@ -1,7 +1,9 @@
 # Setting Schema
 
 Every setting file in `setting/`: its fields, under the `table` line naming it, written in
-`patterns/Common_Schema.md`'s values.
+`patterns/Common_Schema.md`'s values. A table's `cite=` is the label another file cites one
+of its entries by: `(Label: Title)`. Its `flow=` names fields the site and PDF set as prose
+under the first one's label, a sentence for each group between `|`.
 
 ```kdl
 // -- GENRE.md answers, once each and in this order: Reference (the work modelled on, and
@@ -48,7 +50,7 @@ table Language doc file="setting/Language.md" heading=2 title="Tongues of [Setti
 // outside the world; Fantasy this setting's own.
 enum Bestiary_Type Men Humanoid Giant Beast Wyrm Undead Construct Horror Fey Fiend Fantasy
 enum Sign "a mark" "a track" "a sound" "a smell"
-table Bestiary entry file="setting/Bestiary.md" {
+table Bestiary entry file="setting/Bestiary.md" flow="Description Range | Numbers Sign Disposition" {
   Type Bestiary_Type
   AD dice count="1-18" bonus="-2..6"   // 1 a man's match; 2-3 superior; 4-5 larger, highly dangerous;
                                        // 6-8 supernatural; 9-12 gargantuan; 13-16 served; 17-18 a titan
@@ -61,7 +63,7 @@ table Bestiary entry file="setting/Bestiary.md" {
   Disposition text opt                 // what it does on being met, before anyone fights
 }
 
-table "Named Creatures" entry file="setting/NamedCreatures.md" {   // as an Encounter meets it
+table "Named Creatures" entry file="setting/NamedCreatures.md" cite="Named Creature" {   // as an Encounter meets it
   Form Name_Form              // of its title
   Type Bestiary_Type
   AD dice count="1-18" bonus="-2..6"
@@ -152,7 +154,7 @@ table Magic roll file="setting/Magic.md" title="Magic Table" {
   Value number
   Wt number
 }
-table Hoards entry file="setting/Hoards.md" {   // one owner, one location
+table Hoards entry file="setting/Hoards.md" cite=Hoard {   // one owner, one location
   "Found at" place from=Reward
   Owner entry Bestiary Factions "Named Creatures"   // the entry that gathered it
   Items finds
@@ -160,7 +162,7 @@ table Hoards entry file="setting/Hoards.md" {   // one owner, one location
 enum Does once class adjacent solution knowledge passage ward
 enum Cost toll noticed bound desperate foreign sought forbidden
 enum Origin event truth lost reclaimed grave unlikely unmade   // never one nothing established accounts for
-table "Unique Treasures" entry file="setting/UniqueTreasures.md" {
+table "Unique Treasures" entry file="setting/UniqueTreasures.md" cite="Unique Treasure" {
   "Found at" place from=Reward
   Does Does
   Cost Cost list none
@@ -168,7 +170,7 @@ table "Unique Treasures" entry file="setting/UniqueTreasures.md" {
   Description text            // what it is, does and costs, in a referee's words
 }
 enum Reading time tongue rite cost
-table "Magical Tomes" entry file="setting/MagicalTomes.md" {   // learned, never discharged
+table "Magical Tomes" entry file="setting/MagicalTomes.md" cite="Magical Tome" {   // learned, never discharged
   "Found at" place from=Reward
   Teaches text                // what a reader able to use it learns
   Reading Reading
@@ -181,7 +183,7 @@ table "Magical Tomes" entry file="setting/MagicalTomes.md" {   // learned, never
 enum Proc_Kind table contest variant
 enum Extends General Commerce Carousing "Gather Information" Recruitment Navigate Explore "Forage or Hunt" "Make Camp" "Track or Evade" Search Listen Rest "Opposed roll"
 enum Roll_Die Combat Skill Magic Difficulty d6   // an Action Die, the region's Difficulty die, or a d6
-table "Local Procedures" entry file="setting/LocalProcedures.md" {
+table "Local Procedures" entry file="setting/LocalProcedures.md" cite="Local Procedure" {
   Kind Proc_Kind
   Extends Extends
   "Found at" place from=Procedure
@@ -195,7 +197,7 @@ table "Local Procedures" entry file="setting/LocalProcedures.md" {
 //    lying, secondhand, late, interested, unfinished); never spoken, never omniscient.
 enum Lore_Form written cut woven drawn arranged
 enum Lore_Does purpose connection hook naming dating contradiction translation   // translation: a clue to reading a tongue's script
-table Lore entry file="setting/Lore.md" {
+table Lore entry file="setting/Lore.md" cite=Lore {
   Form Lore_Form
   "Found at" place from=Reward
   Voice text                  // whose, and how they are wrong or partial
@@ -208,7 +210,7 @@ table Lore entry file="setting/Lore.md" {
 enum Key_Form key profile fitting seal token bone word measure fragment
 enum Apart deliberate transit loot burial trust later
 enum Key_Link maker material measure tongue wear inscription record
-table Keys entry file="setting/Keys.md" layout="rows" {
+table Keys entry file="setting/Keys.md" cite=Keys layout="rows" {
   Name text
   Form Key_Form
   "Found at" place from=Reward
@@ -233,7 +235,7 @@ table Sheets entry file="setting/Sheets.md" layout="rows" {
   Area text
 }
 enum Pay fee share favour loan bait
-table Quests entry file="setting/Quests.md" layout="rows" {
+table Quests entry file="setting/Quests.md" cite=Quest layout="rows" {
   Name text
   Ask Ask
   Giver text                  // who wants it, and how a party hears of it

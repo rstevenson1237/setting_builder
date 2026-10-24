@@ -18,6 +18,7 @@ from pathlib import Path
 
 import kdl
 import tables as tb
+import templates as tp
 
 ROOT = Path(__file__).resolve().parent.parent
 SETTING = ROOT / "setting"
@@ -598,8 +599,11 @@ def map_labels() -> list[str]:
     return out
 
 
-LOC_HEADER_RE = re.compile(r'^([A-Z]+)\.(\d+) \*\*(.+?)\*\*(?: \(([^)]+)\))? - \*(.+)\*\s*$')
-FEATURE_RE = re.compile(r'^\*\*([^*]+):\*\*\s*(.*)$')
+# A write-up's lines, as templates/region/Location.md's format gives them.
+LOCATION = tp.load(tp.TEMPLATES / "region" / "Location.md")
+LOC_HEADER_RE, FEATURE_RE = LOCATION.pattern("header"), LOCATION.pattern("feature")
+LOC_CODE_FULL_RE = re.compile(r"([A-Z]+)\.(\d+)")
+EXITS_HEAD = tp.literal_head(str(LOCATION.line("exits").props["pattern"]))
 EXIT_DEST_RE = re.compile(r'^\s*([A-Z]+\.\d+)\s+(.*)$')
 
 
@@ -637,7 +641,7 @@ def parse_location_file(region_code: str, num: int) -> Location:
     path = SETTING / "region" / region_code / f"{num}.md"
     lines = path.read_text().splitlines()
     m = LOC_HEADER_RE.match(lines[0].strip())
-    _hcode, _hnum, name, weight, tags = m.groups()
+    name, weight, tags = m["location_name"], m["type"], m["tags"]
 
     body = lines[1:]
     idx = 0
@@ -656,8 +660,8 @@ def parse_location_file(region_code: str, num: int) -> Location:
         s = raw.strip()
         if not s:
             continue
-        if s.startswith("**Exits:**"):
-            exits_raw = s[len("**Exits:**"):].strip()
+        if s.startswith(EXITS_HEAD):
+            exits_raw = s[len(EXITS_HEAD):].strip()
             continue
         fm = FEATURE_RE.match(s)
         if fm:
@@ -921,23 +925,35 @@ def value_html(value: str, render) -> str:
     return out + "<ul>" + "".join(f"<li>{render(i)}</li>" for i in items) + "</ul>"
 
 
-BESTIARY_FLOW = ("Description", "Range", "Numbers", "Sign", "Disposition")
+# How a flowed field reads, beyond its own words: the styling of Setting_Schema.md's flow=.
+FLOW_PHRASE = {"Numbers": "found in groups of {}", "Sign": "heralded by {}"}
+FLOW_JOIN = {"Sign": ", "}       # joined to the clause before it by this, not "; "
+FLOW_SPLIT = {"Range"}           # each of its sentences a clause
 
 
-def bestiary_prose(f: dict) -> str:
-    """A Bestiary entry's Description through Disposition as two sentences, each field's words kept."""
+def flow(table: str) -> list[list[str]]:
+    """A table's flow=: its sentences, each the fields it is built from."""
+    return [g.split() for g in str(schema().table_props.get(table, {}).get("flow", "")).split("|") if g.split()]
+
+
+def flow_fields(table: str) -> list[str]:
+    return [k for g in flow(table) for k in g]
+
+
+def flow_prose(table: str, f: dict) -> str:
+    """An entry's flowed fields as its flow's sentences, each field's words kept."""
     lc = lambda x: x[:1].lower() + x[1:]
-    first = f["Description"].rstrip(".")
-    if f.get("Range"):
-        first += "; " + "; ".join(lc(x.strip()) for x in f["Range"].rstrip(".").split(". "))
-    second = []
-    if f.get("Numbers"):
-        second.append(f"found in groups of {f['Numbers']}" + (f", heralded by {f['Sign']}" if f.get("Sign") else ""))
-    elif f.get("Sign"):
-        second.append(f"heralded by {f['Sign']}")
-    if f.get("Disposition"):
-        second.append(lc(f["Disposition"].rstrip(".")))
-    return first + "." + (" " + second[0][:1].upper() + "; ".join(second)[1:] + "." if second else "")
+    out = []
+    for i, group in enumerate(flow(table)):
+        text = ""
+        for k in group:
+            v = f.get(k, "").rstrip(".")
+            for part in ([x.strip() for x in v.split(". ")] if k in FLOW_SPLIT else [v]) if v else []:
+                part = FLOW_PHRASE.get(k, "{}").format(part)
+                text = text + FLOW_JOIN.get(k, "; ") + lc(part) if text else part
+        if text:
+            out.append((text if i == 0 else text[:1].upper() + text[1:]) + ".")
+    return " ".join(out)
 
 
 def entry_card(t: SettingTable, e: Entry, render) -> tuple[str, str]:
@@ -955,8 +971,8 @@ def entry_card(t: SettingTable, e: Entry, render) -> tuple[str, str]:
         title += f' <span class="ad">{html.escape(dice)}: {html.escape(f[dice])}</span>'
         shown.add(dice)
     fields = e.fields
-    if t.name == "Bestiary" and "Description" in f:
-        fields = [("Description", bestiary_prose(f))] + [(k, v) for k, v in fields if k not in BESTIARY_FLOW]
+    if (flowed := flow_fields(t.name)) and flowed[0] in f:
+        fields = [(flowed[0], flow_prose(t.name, f))] + [(k, v) for k, v in fields if k not in flowed]
     rows = "".join(f"<tr><th>{html.escape(k)}</th><td>{value_html(v, render)}</td></tr>"
                    for k, v in fields if k not in shown)
     for m in t.members:
@@ -1076,7 +1092,7 @@ def coverage(setting: Setting, text: str, has_page) -> list[str]:
     """What the schema and the files hold that a rendering does not show. `text` is every
     page together, or the whole PDF; `has_page(slug)` says whether a table's page exists."""
     shown = _plain(text)
-    bare = lambda x: re.sub(r"[.;,]", "", x)    # Bestiary prose rejoins sentences, keeping every word
+    bare = lambda x: re.sub(r"[.;,]", "", x)    # flowed prose rejoins sentences, keeping every word
     shown_bare = bare(shown)
     problems = []
     for t in setting.tables:
@@ -1085,7 +1101,7 @@ def coverage(setting: Setting, text: str, has_page) -> list[str]:
         for e in t.entries:
             for label, value in e.fields:
                 v = _plain(value.replace("\n- ", " ").removeprefix("- "))
-                if t.name == "Bestiary" and label in BESTIARY_FLOW:
+                if label in flow_fields(t.name):
                     if bare(v) not in shown_bare:
                         problems.append(f"{t.name} / {e.title} / {label}: not shown")
                 elif v not in shown:
