@@ -18,4 +18,7 @@ Write the entries `BRIEF.md` asks for up front, in its mix and AD spread. The Be
 grows as the build needs it: a location or region seed that needs a creature the Bestiary
 lacks adds its entry here first, then cites it.
 
+The site and PDF flow Description through Disposition into two sentences under the label
+Description, so write Range, Sign and Disposition as clauses that read when joined by semicolons.
+
 Cut any field that does not fit the template block below.
