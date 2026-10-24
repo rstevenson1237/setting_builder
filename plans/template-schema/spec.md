@@ -2,7 +2,7 @@
 
 Proposals to approve line by line: tick, strike or amend. **Depends on** marks a proposal
 that stands only with another. Section 7 holds the open decisions, each with a
-recommendation the proposals assume.
+recommendation the proposals assume; all are decided.
 
 The measure for every proposal: **would the user reasonably want to change this
 directly?** If so, it is stated once, in a template's fence or a schema, and the tools read it
@@ -141,11 +141,11 @@ its own, using data the build already holds.
 | `timeline` | History on a rail by Age | History `When`; the PDF's unused `.timeline` rule | one view |
 | `glossary` | Language roots and coinages, set apart | Language | one view |
 | tracker | turns, light and encounter checks as a strip to tick | Procedures' Time and Distance, Encounters | one PDF section |
-| `reveal` / handout | referee-only text hidden, or a player copy without it | Rumours' `Settled at`, Secrets | **Depends on** D4 |
 
 Recommended first: `readaloud`, `quickref`, `index`. They change how the PDF is used at
 the table and need no new authored content. Running heads and backlinks need no schema word:
-the first is CSS and the second is computed, so they are left out of the list.
+the first is CSS and the second is computed, so they are left out of the list. Hidden
+referee text and player handouts are out (D4).
 
 ---
 
@@ -164,7 +164,7 @@ the first is CSS and the second is computed, so they are left out of the list.
 
 ---
 
-## 7. Open decisions
+## 7. Decisions - approved as recommended, D4 as answered
 
 - **D1. `out` defaults.** Recommended: `text` prose, `relation` and `finds` bullets, an
   enum `tag`, every other value `line`; a member overrides only where its comment already
@@ -175,5 +175,6 @@ the first is CSS and the second is computed, so they are left out of the list.
   for no visible change.
 - **D3. Bestiary flow.** Recommended: the field list goes to the schema (F3). The alternative
   leaves all of it in code and keeps `Bestiary.md`'s explanation as the second copy.
-- **D4. Who the site faces.** One referee's reference, or players too? It decides only
-  `reveal` and handouts, so it can wait for phase 5.
+- **D4. Who the site faces.** The referee only. What players get is whatever the referee
+  relays, and the referee may change it, so nothing on the site is hidden and no player
+  copy is drawn.
