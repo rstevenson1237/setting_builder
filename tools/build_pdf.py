@@ -117,6 +117,7 @@ def build_document(setting: sc.Setting) -> str:
         )
         region_toc.append(toc_entry(f"{code} {region.name}", r_anchor, level=1))
 
+        parts.append('<div class="loc-columns">')
         for num in sorted(region.locations):
             loc = region.locations[num]
             l_anchor = sc.anchor_id("location", code, num)
@@ -135,13 +136,14 @@ def build_document(setting: sc.Setting) -> str:
             else:
                 exits_html = '<h3>Exits</h3><p>None.</p>'
             parts.append(
-                f'<section class="doc location-doc" id="{l_anchor}">'
+                f'<section class="location-doc" id="{l_anchor}">'
                 f'<h2>{loc.code} {html.escape(loc.name)}{weight}</h2>'
                 f'<p class="player-summary">{ri(loc.player_summary, setting, skip_location=loc.code)}</p>'
                 f'<p class="referee-notes">{ri(loc.referee_notes, setting, skip_location=loc.code)}</p>'
                 f'{sc.cut_html(code, num, sc.maps_fit_pdf)}<ul class="feature-list">{feats}</ul>{exits_html}'
                 f'</section>'
             )
+        parts.append('</div>')
 
     toc.extend(region_toc)
 
@@ -184,7 +186,11 @@ code { background: #f1e9da; padding: 0 3px; }
 .toc-level-1 { font-size: 10pt; }
 
 .doc { page-break-before: always; }
-.location-doc { page-break-before: always; }
+.loc-columns { page-break-before: always; column-count: 2; column-gap: 1cm; column-rule: 0.5pt solid #cbbb98; }
+.location-doc { margin-bottom: 1.2em; }
+.location-doc h2 { font-size: 13pt; margin-top: 0; }
+.location-doc .feature-list, .location-doc .exit-list { font-size: 9.5pt; }
+.loc-columns .plan-figure svg { width: 100%; }
 .region-doc { page-break-before: always; }
 
 .badge { display: inline-block; font-size: 8pt; font-weight: 700; padding: 0.1em 0.6em; border-radius: 999px; color: #fff; }
