@@ -4,7 +4,8 @@ Task plan for `spec.md` once approved, run as one change in phases. Commits cite
 `template-schema P1.2`. Each phase ends with these clean, and is committed on its own:
 - `python3 tools/validate_setting.py`
 - both `--check` builds
-- `--read-set` and `--skeleton` for every step, unchanged against the baseline
+- `--read-set` and `--skeleton` for every step, unchanged against the baseline, but for
+  the change a phase sets out to make (phase 2: the `- ` hint on a bullets field)
 - the site and PDF HTML byte-equal to the baseline (phases 1-4), but for `patterns.html` and
   `schema-explorer.js` where a phase adds to the Schema Reference
 

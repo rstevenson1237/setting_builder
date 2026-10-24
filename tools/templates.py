@@ -116,6 +116,13 @@ def names(v) -> list[str]:
     return [x.strip() for x in str(v).split(",") if x.strip()]
 
 
+def member(name: str, schema: tb.Schema) -> tb.Member | None:
+    """The member a Table.Field or Node.member names, in any rating."""
+    head, _, name = name.partition(".")
+    ms = schema.fields.get(head) or next((f.nodes[head] for f in schema.folders.values() if head in f.nodes), [])
+    return next((m for m in ms if m.name == name), None)
+
+
 def resolve(name: str, schema: tb.Schema) -> bool:
     """A name a field reads: a node or setting table, or one of its members or fields; a
     brief field of any rating."""
@@ -224,6 +231,8 @@ def _line_problems(n: kdl.Node, schema: tb.Schema, reads: set[str]) -> list[str]
                 out.append(f"{where} {arg}: {u} {n.props[u]!r} is not N, N-M, N+ or -M")
         if any(u in n.props for u in LENGTH_UNITS) and "." not in arg:
             out.append(f"{where} {arg}: a length names a Table.Field")
+        if "items" in n.props and (m := member(arg, schema)) and m.out != "bullets":
+            out.append(f"{where} {arg}: items lengths a list, and it is set down as {m.out}")
         if not resolve(arg, schema):
             out.append(f"{where} {arg}: {arg!r} names no node, table, member, field or brief field")
         for x in names(n.props.get("from", "")):
@@ -285,7 +294,8 @@ def table_skeleton(schema: tb.Schema, name: str) -> str:
         return "\n".join([title, "", head, "|" + "---|" * len(fields),
                           "| " + " | ".join(_hint(m) for m in fields) + " |"])
     level = "#" * int(props.get("heading", 3))
-    return "\n".join([title, "", f"{level} [Title]"] + [f"{m.name}: {_hint(m)}" for m in fields])
+    return "\n".join([title, "", f"{level} [Title]"]
+                     + [f"{m.name}:\n- {_hint(m)}" if m.out == "bullets" else f"{m.name}: {_hint(m)}" for m in fields])
 
 
 def node_line(f: tb.Folder, node: str, key: str) -> str:
@@ -319,10 +329,10 @@ def region_skeleton(schema: tb.Schema, shape: str, files: list[str], rating: str
             holds = tb.brief_holds(setting, setting.regions[code]) if setting and code in setting.regions else {}
             out += [f"{c} [Region Name]", ""]
             for m in f.brief:
-                if m.is_list:
+                if m.out == "bullets":
                     items = holds.get(m.name) or ["[Location Code]"]
                     out += [f"{m.name}:"] + [f"- {i} - [...]" for i in items] + [""]
-                elif m.name == "Tables":
+                elif m.out == "table":
                     out += ["Tables:", "[die, if rolled] [table name]", "1. [...]", "...", "6. [...]", ""]
                 else:
                     out += [f"{m.name}: [{m.type}]", ""]

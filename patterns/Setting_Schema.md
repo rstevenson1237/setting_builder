@@ -34,9 +34,9 @@ table Language doc file="setting/Language.md" heading=2 title="Tongues of [Setti
   Vowels text
   Syllable text               // a shape no other tongue shares, as (C)V(C)
   Affixes text                // each marks one thing: place, water, smallness, plural, belonging, age, direction, negation, title
-  Roots text                  // "- root - gloss" lines naming ground, water, growth, weather, colour,
+  Roots text out=bullets      // "- root - gloss" lines naming ground, water, growth, weather, colour,
                               // body, making, exchange, light, the dead, number, direction - never abstractions
-  "Coined here" text opt      // "- Noun = root + root - what it means"
+  "Coined here" text opt out=bullets   // "- Noun = root + root - what it means"
 }
 
 // -- Creatures. One stat block is one creature, or one swarm fought as a single thing.
@@ -187,7 +187,7 @@ table "Local Procedures" entry file="setting/LocalProcedures.md" {
   "Found at" place from=Procedure
   Roll Roll_Die               // then whose it is, and what it decides
   Stakes text                 // what a party risks and what it can win, coin in cn
-  Results text                // each row or rung of the result on its own `- ` line
+  Results text out=bullets    // each row or rung of the result on its own `- ` line
   Tell text                   // what shows a party it can be done here
 }
 

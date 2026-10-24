@@ -43,6 +43,7 @@ class Member:
     args: list[str] = field(default_factory=list)      # every table an entry member names
     props: dict = field(default_factory=dict)          # range=, count=, bonus=
     none: bool = False
+    out: str = "line"                                  # how it is set down: Common_Schema.md's Out
 
 
 @dataclass
@@ -99,6 +100,7 @@ class Schema:
         self.problems: list[tuple[Path, str]] = []
         self.brief_problems: list[str] = []
         self.words, self.values, self.tables, self.folders = {}, set(), {}, {}
+        self.value_out: dict[str, str] = {}             # a value's default out=
         self.fields: dict[str, list[Member]] = {}       # a setting table's fields
         self.table_props: dict[str, dict] = {}
         self.setting_enums: dict[str, dict] = {}
@@ -136,6 +138,30 @@ class Schema:
         except SyntaxError as e:
             self.brief_problems.append(str(e))
         self._resolve()
+        self._outs()
+
+    def _outs(self):
+        """Each member's out: its own out=, else its value's, else tag for an enum and line
+        for any other."""
+        items = self.setting_enums.get("Out", {})
+        def put(m: Member, enums: dict, path: Path, where: str):
+            if m.name == "one-of":
+                return
+            m.out = str(m.props.get("out") or self.value_out.get(m.type) or ("tag" if m.type in enums else "line"))
+            if m.out not in items:
+                self.problems.append((path, f"{where}.{m.name}: out {m.out!r} is not one of {', '.join(items)}"))
+        for name, ms in self.fields.items():
+            for m in ms:
+                put(m, self.setting_enums, PATTERNS / "Setting_Schema.md", name)
+        for name, ms in self.shared_nodes.items():
+            for m in ms:
+                put(m, self.setting_enums, PATTERNS / "Region_Schema.md", name)
+        for f in self.folders.values():
+            for name, ms in f.nodes.items():
+                for m in ms:
+                    put(m, f.enums, f.path, name)
+            for m in f.brief:
+                put(m, f.enums, f.region_path or f.path, "brief")
 
     def _read(self, path: Path, enums: dict, nodes: dict) -> list[Folder]:
         """One schema file into the scope given; a name it defines shadows a wider one."""
@@ -154,6 +180,8 @@ class Schema:
                 own.add((n.name, name))
             if n.name == "value":
                 self.values.add(name)
+                if "out" in n.props:
+                    self.value_out[name] = n.props["out"]
                 if "words" in n.props:
                     self.words[name] = n.props["words"]
             elif n.name == "table":
@@ -549,6 +577,8 @@ def check_field(schema: Schema, m: Member, v: str, codes: set[str], enums: dict 
     enums = schema.setting_enums if enums is None else enums
     if m.none and _opens_with(v, ["none"]):
         return
+    if m.out == "bullets" and not re.search(r"^- ", v, re.M):
+        yield "holds no `- ` line - it is set down as one per item"
     if m.type == "place":
         p = PLACE_RE.match(v)
         if not p:

@@ -36,7 +36,7 @@ The PDF and site change only in phase 5, and only by proposals approved one at a
   Check: each `from` resolves, and a file source has its `read` line.
 
 - [ ] **T3. Output type is a schema fact: `out=`.** **Depends on** D1. `Common_Schema.md`
-  gains `enum Out line prose bullets rows table tag figure`. Each `value` declares its
+  gains `enum Out line prose bullets table tag`. Each `value` declares its
   default (`value text out=prose`, `value relation out=bullets`), and a member overrides it
   where it differs (`Roots text out=bullets`). It goes in `patterns/` and not the
   template because the same member reads the same way wherever it appears, and the
@@ -166,9 +166,10 @@ referee text and player handouts are out (D4).
 
 ## 7. Decisions - approved as recommended, D4 as answered
 
-- **D1. `out` defaults.** Recommended: `text` prose, `relation` and `finds` bullets, an
-  enum `tag`, every other value `line`; a member overrides only where its comment already
-  says otherwise (Language's `Roots` and `Coined here`, for example).
+- **D1. `out` defaults.** `text` prose, `relation` bullets, an enum `tag`, every other value
+  `line`; a member overrides only where its comment already says otherwise (Language's
+  `Roots` and `Coined here`, Local Procedures' `Results`, a brief's `holds=` and `Tables`
+  fields). `finds` stays `line`: it is one line split by `; `.
 - **D2. The special citation forms.** Recommended: the renderer keeps its three regexes, and
   the validator checks that each `cite` node's `form` matches its regex, so the two
   can't drift. The alternative, compiling the regexes from `form`, touches `render_inline`
