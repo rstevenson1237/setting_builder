@@ -72,5 +72,5 @@ setting_builder sha in its `case.md`.
   and checks `formats --json` before any map is built.
 - `tools/maps.py` writes each map's JSON, calls `check`, `fit` and `render` by `--file`, and
   reads every result as `--json`.
-- Pinned: `artgen-dist` `fbde602523a947197d0db7155d88b093d2eb2cbb` (artgen 0.10.0, built from
-  `da9eb9c`), copied whole into `tools/artgen/` at T3.1.
+- Pinned: `artgen-dist` `b36ae8968befab84f17199c648985587a6a4fb7f` (artgen 0.11.0, built from
+  `1eb8e45`), copied whole into `tools/artgen/`.
