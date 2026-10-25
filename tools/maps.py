@@ -497,12 +497,22 @@ def ground(brief_path: Path, setting: Path) -> int:
 # -- blocks: a DANGEROUS region's rooms, walked from the entrance -------------------------
 
 DOOR = {"Open": None, "Archway": None, "Broken": None, "Crude": None, "Lift": None, "Chute": None, "Iron": "portcullis"}
+GAP = {"Archway": "arch"}       # a doorless way through a shared wall, else open
 SHAPE = {"rect": "rect", "round": "circle", "octagon": "octagon", "cave": "cave"}
 APART = 10                      # feet two routes to one room may disagree by
 UNSIZED = 20                    # feet, a room's side where its Dressing states none
-EDGE = 8                        # cells of map beyond the rooms, for the corridors that leave it
+EDGE = 6                        # cells of map beyond the rooms, for the ways out of it
+EXIT = 4                        # cells a way out of the block runs past its room's wall
 MAX_CELLS = 150
 CELLS = (5, 10, 20)             # feet to a cell, the finest that fits the block
+
+
+SYNCED = ("rooms", "corridors", "walls", "overlay", "connections")   # kept by artgen's sync, hand entries and all
+
+
+def facing(dx: float, dy: float) -> str:
+    """The wall, n, e, s or w, facing a displacement in cells, y running south."""
+    return ("e" if dx > 0 else "w") if abs(dx) > abs(dy) else ("s" if dy > 0 else "n")
 
 
 def blocks_of(region) -> dict[str, kdl.Node]:
@@ -579,8 +589,8 @@ def block_map(region, block: kdl.Node) -> tuple[dict | None, list[str]]:
                  "corridorWidth": 1, "spacing": 2, "entrance": False},
          "grid": {"show": True, "size": 2, "sub": True, "clip": "floor"},
          "style": {"hatch": "band", "band": 0.9, "wall": 1}, "scale": {"perCell": cell, "unit": "ft"},
-         "numbers": True, "scaleBar": True, "compass": False,
-         "rooms": [], "corridors": [], "overlay": {"labels": [], "symbols": []}}
+         "numbers": True, "scaleBar": True, "compass": False, "furniture": {"place": "auto"},
+         "rooms": [], "corridors": [], "connections": [], "overlay": {"labels": [], "symbols": []}}
     for c in at:
         w, h, shape = size[c]
         m["rooms"].append({"id": rid(c), "shape": shape, "x": round(cx(c) - w / 2 / cell, 2),
@@ -595,6 +605,17 @@ def block_map(region, block: kdl.Node) -> tuple[dict | None, list[str]]:
         if "Secret" in kids:
             return "secret"
         return DOOR.get(str(n.props.get("type")), "door")
+
+    def touch(a, b) -> bool:
+        """Rooms a and b share a wall: they meet along one axis and overlap along the other."""
+        d = [abs(cx(a) - cx(b)) * cell, abs(cy(a) - cy(b)) * cell]
+        reach = [(size[a][k] + size[b][k]) / 2 for k in (0, 1)]
+        return size[a][2] == size[b][2] == "rect" and any(
+            abs(d[k] - reach[k]) <= cell / 4 and d[1 - k] < reach[1 - k] - cell for k in (0, 1))
+
+    def rough(*ns) -> bool:
+        return any(str(n.props.get("type")) in ("Crude", "Broken") for n in ns)
+
     def span(n) -> int:
         """Cells across a passage: the way's own width, else the block's."""
         return max(1, round(float(n.props.get("width", region.passage(block, "width"))) / cell))
@@ -610,18 +631,26 @@ def block_map(region, block: kdl.Node) -> tuple[dict | None, list[str]]:
             if v is None:
                 problems.append(f"{a} to {b} states no bearing and distance")
                 continue
-            tx = min(max(cx(a) + v[0] / cell, 1), cols - 2)
-            ty = min(max(cy(a) + v[1] / cell, 1), rows - 2)
+            ux, uy = v[0] / math.hypot(*v), v[1] / math.hypot(*v)
+            reach = min(math.hypot(*v), abs(ux) * size[a][0] / 2 + abs(uy) * size[a][1] / 2 + EXIT * cell) / cell
+            tx = min(max(cx(a) + ux * reach, 1), cols - 2)
+            ty = min(max(cy(a) + uy * reach, 1), rows - 2)
             climb = n.props.get("climb")
-            way = "up to" if climb and int(climb) > 0 else "down to" if climb and int(climb) < 0 else "to"
-            m["corridors"].append({"from": {"room": rid(a)}, "to": {"at": [round(tx, 1), round(ty, 1)]},
-                                   "width": span(n), "doors": [door(n), None], "origin": "tables"})
-            m["overlay"]["labels"].append({"text": f"{way} {b}", "x": round(tx, 1), "y": round(ty - 1, 1),
-                                           "kind": "note", "origin": "tables"})
+            way = "Up to" if climb and int(climb) > 0 else "Down to" if climb and int(climb) < 0 else "To"
+            m["corridors"].append({"from": {"room": rid(a), "side": facing(*v)}, "to": {"at": [round(tx, 1), round(ty, 1)],
+                                   "exit": {"text": f"{way} {b}"}}, "width": span(n), "doors": [door(n), None],
+                                   **({"style": "natural"} if rough(n) else {}), "origin": "tables"})
     for (a, b), ends in seen.items():
         first, second = ends.get(a), ends.get(b)
-        m["corridors"].append({"from": {"room": rid(a)}, "to": {"room": rid(b)},
+        if touch(a, b):                                  # through the wall they share
+            kind, n = first or second
+            m["connections"].append({"a": rid(a), "b": rid(b), "origin": "tables",
+                                     "kind": kind or GAP.get(str(n.props.get("type")), "open")})
+            continue
+        m["corridors"].append({"from": {"room": rid(a), "side": facing(cx(b) - cx(a), cy(b) - cy(a))},
+                               "to": {"room": rid(b), "side": facing(cx(a) - cx(b), cy(a) - cy(b))},
                                "width": max(span(n) for _, n in ends.values()), "origin": "tables",
+                               **({"style": "natural"} if rough(*(n for _, n in ends.values())) else {}),
                                "doors": [first[0] if first else None, second[0] if second else None]})
         if any(c.name == "Hazard" for _, n in ends.values() for c in n.children):
             m["overlay"]["symbols"].append({"kind": "trap", "x": round((cx(a) + cx(b)) / 2, 2),
@@ -633,6 +662,22 @@ def block_map(region, block: kdl.Node) -> tuple[dict | None, list[str]]:
 def world_for(setting: Path) -> tables.Setting:
     gazetteer = sc.parse_regions_gazetteer()
     return tables.Setting({c: g["rating"] for c, g in gazetteer.items()})
+
+
+def route_around(m: dict) -> None:
+    """Sends each corridor artgen finds running through a room, or across another corridor,
+    round the rooms in its way, and then, if it still does, by whichever walls artgen picks."""
+    with tempfile.TemporaryDirectory() as tmp:
+        file = Path(tmp) / "block.json"
+        for fix in (lambda c: c.update(route="around"),
+                    lambda c: [c[end].pop("side", None) for end in ("from", "to")]):
+            file.write_text(json.dumps(m))
+            done = artgen("dungeon", "check", "--file", file, "--json")
+            report = json.loads(done.stdout) if done.stdout.startswith("{") else {}
+            found = (re.match(r"corridors\[(\d+)\]: (runs through|crosses)", f"{w['path']}: {w['message']}")
+                     for w in report.get("warnings", []))
+            for i in {int(f.group(1)) for f in found if f}:
+                fix(m["corridors"][i])
 
 
 def write_blocks(world, only: str | None = None) -> list[str]:
@@ -647,6 +692,7 @@ def write_blocks(world, only: str | None = None) -> list[str]:
             out += [f"{bid}: {p}" for p in problems]
             if m is None:
                 continue
+            route_around(m)
             target = region.dir / f"{bid}.json"
             if target.exists():
                 with tempfile.TemporaryDirectory() as tmp:
@@ -655,6 +701,11 @@ def write_blocks(world, only: str | None = None) -> list[str]:
                     done = artgen("dungeon", "sync", "--file", target, "--from", fresh, "--origin", "tables")
                     if done.returncode:
                         out.append(f"{bid}: artgen cannot sync it: {(done.stderr or done.stdout).strip()}")
+                    else:                                 # what sync leaves alone follows the tables too
+                        synced = json.loads(target.read_text())
+                        hand = [c for c in synced.get("connections", []) if c.get("origin") != "tables"]
+                        synced.update({k: v for k, v in m.items() if k not in SYNCED}, connections=m["connections"] + hand)
+                        target.write_text(json.dumps(synced, indent=1))
             else:
                 target.write_text(json.dumps(m, indent=1))
             done = artgen("dungeon", "check", "--file", target, "--json")

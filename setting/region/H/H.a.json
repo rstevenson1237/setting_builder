@@ -1,230 +1,219 @@
 {
-  "cols": 50,
-  "rows": 43,
-  "gen": {
-    "rooms": 1,
-    "minSize": 3,
-    "maxSize": 8,
-    "caves": 0,
-    "round": 0,
-    "loops": 0,
-    "doors": 0,
-    "corridorWidth": 1,
-    "spacing": 2,
-    "entrance": false
+ "cols": 46,
+ "rows": 39,
+ "gen": {
+  "rooms": 1,
+  "minSize": 3,
+  "maxSize": 8,
+  "caves": 0,
+  "round": 0,
+  "loops": 0,
+  "doors": 0,
+  "corridorWidth": 1,
+  "spacing": 2,
+  "entrance": false
+ },
+ "grid": {
+  "show": true,
+  "size": 2,
+  "sub": true,
+  "clip": "floor"
+ },
+ "style": {
+  "hatch": "band",
+  "band": 0.9,
+  "wall": 1
+ },
+ "scale": {
+  "perCell": 5,
+  "unit": "ft"
+ },
+ "numbers": true,
+ "scaleBar": true,
+ "compass": false,
+ "id": "H-a",
+ "version": 1,
+ "seed": 1,
+ "rooms": [
+  {
+   "id": "H-1",
+   "shape": "rect",
+   "x": 32,
+   "y": 19,
+   "w": 8,
+   "h": 6,
+   "label": "H.1 The Cairn Mouth",
+   "number": 1,
+   "origin": "tables"
   },
-  "grid": {
-    "show": true,
-    "size": 2,
-    "sub": true,
-    "clip": "floor"
+  {
+   "id": "H-2",
+   "shape": "rect",
+   "x": 16,
+   "y": 18,
+   "w": 16,
+   "h": 8,
+   "label": "H.2 The Feast Hall",
+   "number": 2,
+   "origin": "tables"
   },
-  "style": {
-    "hatch": "band",
-    "band": 0.9,
-    "wall": 1
+  {
+   "id": "H-3",
+   "shape": "rect",
+   "x": 23,
+   "y": 6,
+   "w": 2,
+   "h": 12,
+   "label": "H.3 The Pens",
+   "number": 3,
+   "origin": "tables"
   },
-  "scale": {
-    "perCell": 5,
-    "unit": "ft"
+  {
+   "id": "H-4",
+   "shape": "rect",
+   "x": 20,
+   "y": 27,
+   "w": 8,
+   "h": 6,
+   "label": "H.4 The Still",
+   "number": 4,
+   "origin": "tables"
   },
-  "numbers": true,
-  "scaleBar": true,
-  "compass": false,
-  "id": "H-a",
-  "version": 1,
-  "seed": 1,
-  "rooms": [
-    {
-      "id": "H-1",
-      "shape": "rect",
-      "x": 34,
-      "y": 21,
-      "w": 8,
-      "h": 6,
-      "label": "H.1 The Cairn Mouth",
-      "number": 1,
-      "origin": "tables"
-    },
-    {
-      "id": "H-2",
-      "shape": "rect",
-      "x": 18,
-      "y": 20,
-      "w": 16,
-      "h": 8,
-      "label": "H.2 The Feast Hall",
-      "number": 2,
-      "origin": "tables"
-    },
-    {
-      "id": "H-3",
-      "shape": "rect",
-      "x": 25,
-      "y": 8,
-      "w": 2,
-      "h": 12,
-      "label": "H.3 The Pens",
-      "number": 3,
-      "origin": "tables"
-    },
-    {
-      "id": "H-4",
-      "shape": "rect",
-      "x": 22,
-      "y": 29,
-      "w": 8,
-      "h": 6,
-      "label": "H.4 The Still",
-      "number": 4,
-      "origin": "tables"
-    },
-    {
-      "id": "H-6",
-      "shape": "cave",
-      "x": 8,
-      "y": 20,
-      "w": 8,
-      "h": 8,
-      "label": "H.6 The Chief's Cave",
-      "number": 6,
-      "origin": "tables"
-    },
-    {
-      "id": "H-5",
-      "shape": "rect",
-      "x": 11,
-      "y": 31,
-      "w": 10,
-      "h": 2,
-      "label": "H.5 The Walled Stores",
-      "number": 5,
-      "origin": "tables"
-    }
-  ],
-  "corridors": [
-    {
-      "from": {
-        "room": "H-1"
-      },
-      "to": {
-        "at": [
-          42,
-          24
-        ]
-      },
-      "width": 2,
-      "doors": [
-        null,
-        null
-      ],
-      "origin": "tables"
-    },
-    {
-      "from": {
-        "room": "H-5"
-      },
-      "to": {
-        "at": [
-          16,
-          41
-        ]
-      },
-      "width": 2,
-      "doors": [
-        "secret",
-        null
-      ],
-      "origin": "tables"
-    },
-    {
-      "from": {
-        "room": "H-1"
-      },
-      "to": {
-        "room": "H-2"
-      },
-      "width": 2,
-      "origin": "tables",
-      "doors": [
-        null,
-        null
-      ]
-    },
-    {
-      "from": {
-        "room": "H-2"
-      },
-      "to": {
-        "room": "H-3"
-      },
-      "width": 2,
-      "origin": "tables",
-      "doors": [
-        "door",
-        "door"
-      ]
-    },
-    {
-      "from": {
-        "room": "H-2"
-      },
-      "to": {
-        "room": "H-4"
-      },
-      "width": 2,
-      "origin": "tables",
-      "doors": [
-        null,
-        null
-      ]
-    },
-    {
-      "from": {
-        "room": "H-2"
-      },
-      "to": {
-        "room": "H-6"
-      },
-      "width": 2,
-      "origin": "tables",
-      "doors": [
-        "door",
-        "door"
-      ]
-    },
-    {
-      "from": {
-        "room": "H-4"
-      },
-      "to": {
-        "room": "H-5"
-      },
-      "width": 2,
-      "origin": "tables",
-      "doors": [
-        null,
-        null
-      ]
-    }
-  ],
-  "overlay": {
-    "labels": [
-      {
-        "text": "to E.4",
-        "x": 42,
-        "y": 23,
-        "kind": "note",
-        "origin": "tables"
-      },
-      {
-        "text": "to G.5",
-        "x": 16,
-        "y": 40,
-        "kind": "note",
-        "origin": "tables"
-      }
-    ],
-    "symbols": []
+  {
+   "id": "H-6",
+   "shape": "cave",
+   "x": 6,
+   "y": 18,
+   "w": 8,
+   "h": 8,
+   "label": "H.6 The Chief's Cave",
+   "number": 6,
+   "origin": "tables"
+  },
+  {
+   "id": "H-5",
+   "shape": "rect",
+   "x": 9,
+   "y": 29,
+   "w": 10,
+   "h": 2,
+   "label": "H.5 The Walled Stores",
+   "number": 5,
+   "origin": "tables"
   }
+ ],
+ "corridors": [
+  {
+   "from": {
+    "room": "H-1",
+    "side": "e"
+   },
+   "to": {
+    "at": [
+     40,
+     22
+    ],
+    "exit": {
+     "text": "To E.4"
+    }
+   },
+   "width": 2,
+   "doors": [
+    null,
+    null
+   ],
+   "origin": "tables"
+  },
+  {
+   "from": {
+    "room": "H-5",
+    "side": "s"
+   },
+   "to": {
+    "at": [
+     14,
+     35
+    ],
+    "exit": {
+     "text": "To G.5"
+    }
+   },
+   "width": 2,
+   "doors": [
+    "secret",
+    null
+   ],
+   "origin": "tables"
+  },
+  {
+   "from": {
+    "room": "H-2",
+    "side": "s"
+   },
+   "to": {
+    "room": "H-4",
+    "side": "n"
+   },
+   "width": 2,
+   "origin": "tables",
+   "doors": [
+    null,
+    null
+   ]
+  },
+  {
+   "from": {
+    "room": "H-2",
+    "side": "w"
+   },
+   "to": {
+    "room": "H-6",
+    "side": "e"
+   },
+   "width": 2,
+   "origin": "tables",
+   "doors": [
+    "door",
+    "door"
+   ]
+  },
+  {
+   "from": {
+    "room": "H-4",
+    "side": "w"
+   },
+   "to": {
+    "room": "H-5",
+    "side": "e"
+   },
+   "width": 2,
+   "origin": "tables",
+   "style": "natural",
+   "doors": [
+    null,
+    null
+   ]
+  }
+ ],
+ "overlay": {
+  "labels": [],
+  "symbols": []
+ },
+ "connections": [
+  {
+   "a": "H-1",
+   "b": "H-2",
+   "origin": "tables",
+   "kind": "arch"
+  },
+  {
+   "a": "H-2",
+   "b": "H-3",
+   "origin": "tables",
+   "kind": "door"
+  }
+ ],
+ "furniture": {
+  "place": "auto"
+ }
 }

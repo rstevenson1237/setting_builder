@@ -1,219 +1,226 @@
 {
-  "cols": 128,
-  "rows": 86,
-  "gen": {
-    "rooms": 1,
-    "minSize": 3,
-    "maxSize": 8,
-    "caves": 0,
-    "round": 0,
-    "loops": 0,
-    "doors": 0,
-    "corridorWidth": 1,
-    "spacing": 2,
-    "entrance": false
+ "cols": 124,
+ "rows": 82,
+ "gen": {
+  "rooms": 1,
+  "minSize": 3,
+  "maxSize": 8,
+  "caves": 0,
+  "round": 0,
+  "loops": 0,
+  "doors": 0,
+  "corridorWidth": 1,
+  "spacing": 2,
+  "entrance": false
+ },
+ "grid": {
+  "show": true,
+  "size": 2,
+  "sub": true,
+  "clip": "floor"
+ },
+ "style": {
+  "hatch": "band",
+  "band": 0.9,
+  "wall": 1
+ },
+ "scale": {
+  "perCell": 5,
+  "unit": "ft"
+ },
+ "numbers": true,
+ "scaleBar": true,
+ "compass": false,
+ "id": "L-a",
+ "version": 1,
+ "seed": 1,
+ "rooms": [
+  {
+   "id": "L-1",
+   "shape": "rect",
+   "x": 68.48,
+   "y": 72.93,
+   "w": 3,
+   "h": 3,
+   "label": "L.1 The Barred Door",
+   "number": 1,
+   "origin": "tables"
   },
-  "grid": {
-    "show": true,
-    "size": 2,
-    "sub": true,
-    "clip": "floor"
+  {
+   "id": "L-2",
+   "shape": "rect",
+   "x": 65.98,
+   "y": 64.43,
+   "w": 8,
+   "h": 8,
+   "label": "L.2 The Winding Passages",
+   "number": 2,
+   "origin": "tables"
   },
-  "style": {
-    "hatch": "band",
-    "band": 0.9,
-    "wall": 1
+  {
+   "id": "L-3",
+   "shape": "circle",
+   "x": 107.41,
+   "y": 21,
+   "w": 10,
+   "h": 10,
+   "label": "L.3 The Statue Hall",
+   "number": 3,
+   "origin": "tables"
   },
-  "scale": {
-    "perCell": 5,
-    "unit": "ft"
+  {
+   "id": "L-4",
+   "shape": "rect",
+   "x": 6,
+   "y": 8.44,
+   "w": 12,
+   "h": 4,
+   "label": "L.4 The Collection",
+   "number": 4,
+   "origin": "tables"
   },
-  "numbers": true,
-  "scaleBar": true,
-  "compass": false,
-  "id": "L-a",
-  "version": 1,
-  "seed": 1,
-  "rooms": [
-    {
-      "id": "L-1",
-      "shape": "rect",
-      "x": 70.48,
-      "y": 74.93,
-      "w": 3,
-      "h": 3,
-      "label": "L.1 The Barred Door",
-      "number": 1,
-      "origin": "tables"
-    },
-    {
-      "id": "L-2",
-      "shape": "rect",
-      "x": 67.98,
-      "y": 66.43,
-      "w": 8,
-      "h": 8,
-      "label": "L.2 The Winding Passages",
-      "number": 2,
-      "origin": "tables"
-    },
-    {
-      "id": "L-3",
-      "shape": "circle",
-      "x": 109.41,
-      "y": 23,
-      "w": 10,
-      "h": 10,
-      "label": "L.3 The Statue Hall",
-      "number": 3,
-      "origin": "tables"
-    },
-    {
-      "id": "L-4",
-      "shape": "rect",
-      "x": 8,
-      "y": 10.44,
-      "w": 12,
-      "h": 4,
-      "label": "L.4 The Collection",
-      "number": 4,
-      "origin": "tables"
-    },
-    {
-      "id": "L-5",
-      "shape": "cave",
-      "x": 109.41,
-      "y": 8,
-      "w": 10,
-      "h": 8,
-      "label": "L.5 The Minotaur's Lair",
-      "number": 5,
-      "origin": "tables"
-    }
-  ],
-  "corridors": [
-    {
-      "from": {
-        "room": "L-1"
-      },
-      "to": {
-        "at": [
-          72,
-          78.4
-        ]
-      },
-      "width": 1,
-      "doors": [
-        "locked",
-        null
-      ],
-      "origin": "tables"
-    },
-    {
-      "from": {
-        "room": "L-5"
-      },
-      "to": {
-        "at": [
-          114.4,
-          1
-        ]
-      },
-      "width": 1,
-      "doors": [
-        null,
-        null
-      ],
-      "origin": "tables"
-    },
-    {
-      "from": {
-        "room": "L-1"
-      },
-      "to": {
-        "room": "L-2"
-      },
-      "width": 1,
-      "origin": "tables",
-      "doors": [
-        null,
-        null
-      ]
-    },
-    {
-      "from": {
-        "room": "L-2"
-      },
-      "to": {
-        "room": "L-3"
-      },
-      "width": 1,
-      "origin": "tables",
-      "doors": [
-        null,
-        null
-      ]
-    },
-    {
-      "from": {
-        "room": "L-2"
-      },
-      "to": {
-        "room": "L-4"
-      },
-      "width": 1,
-      "origin": "tables",
-      "doors": [
-        null,
-        null
-      ]
-    },
-    {
-      "from": {
-        "room": "L-3"
-      },
-      "to": {
-        "room": "L-5"
-      },
-      "width": 1,
-      "origin": "tables",
-      "doors": [
-        null,
-        null
-      ]
-    },
-    {
-      "from": {
-        "room": "L-4"
-      },
-      "to": {
-        "room": "L-5"
-      },
-      "width": 1,
-      "origin": "tables",
-      "doors": [
-        null,
-        null
-      ]
-    }
-  ],
-  "overlay": {
-    "labels": [
-      {
-        "text": "to E.8",
-        "x": 72,
-        "y": 77.4,
-        "kind": "note",
-        "origin": "tables"
-      },
-      {
-        "text": "up to M.13",
-        "x": 114.4,
-        "y": 0,
-        "kind": "note",
-        "origin": "tables"
-      }
-    ],
-    "symbols": []
+  {
+   "id": "L-5",
+   "shape": "cave",
+   "x": 107.41,
+   "y": 6,
+   "w": 10,
+   "h": 8,
+   "label": "L.5 The Minotaur's Lair",
+   "number": 5,
+   "origin": "tables"
   }
+ ],
+ "corridors": [
+  {
+   "from": {
+    "room": "L-1",
+    "side": "s"
+   },
+   "to": {
+    "at": [
+     70,
+     76.4
+    ],
+    "exit": {
+     "text": "To E.8"
+    }
+   },
+   "width": 1,
+   "doors": [
+    "locked",
+    null
+   ],
+   "origin": "tables"
+  },
+  {
+   "from": {
+    "room": "L-5",
+    "side": "n"
+   },
+   "to": {
+    "at": [
+     112.4,
+     2
+    ],
+    "exit": {
+     "text": "Up to M.13"
+    }
+   },
+   "width": 1,
+   "doors": [
+    null,
+    null
+   ],
+   "origin": "tables"
+  },
+  {
+   "from": {
+    "room": "L-1",
+    "side": "n"
+   },
+   "to": {
+    "room": "L-2",
+    "side": "s"
+   },
+   "width": 1,
+   "origin": "tables",
+   "doors": [
+    null,
+    null
+   ]
+  },
+  {
+   "from": {
+    "room": "L-2",
+    "side": "n"
+   },
+   "to": {
+    "room": "L-3",
+    "side": "s"
+   },
+   "width": 1,
+   "origin": "tables",
+   "doors": [
+    null,
+    null
+   ]
+  },
+  {
+   "from": {
+    "room": "L-2",
+    "side": "w"
+   },
+   "to": {
+    "room": "L-4",
+    "side": "e"
+   },
+   "width": 1,
+   "origin": "tables",
+   "doors": [
+    null,
+    null
+   ]
+  },
+  {
+   "from": {
+    "room": "L-3",
+    "side": "n"
+   },
+   "to": {
+    "room": "L-5",
+    "side": "s"
+   },
+   "width": 1,
+   "origin": "tables",
+   "doors": [
+    null,
+    null
+   ]
+  },
+  {
+   "from": {
+    "room": "L-4",
+    "side": "e"
+   },
+   "to": {
+    "room": "L-5",
+    "side": "w"
+   },
+   "width": 1,
+   "origin": "tables",
+   "doors": [
+    null,
+    null
+   ]
+  }
+ ],
+ "overlay": {
+  "labels": [],
+  "symbols": []
+ },
+ "connections": [],
+ "furniture": {
+  "place": "auto"
+ }
 }

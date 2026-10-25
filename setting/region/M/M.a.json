@@ -1,178 +1,162 @@
 {
-  "cols": 24,
-  "rows": 40,
-  "gen": {
-    "rooms": 1,
-    "minSize": 3,
-    "maxSize": 8,
-    "caves": 0,
-    "round": 0,
-    "loops": 0,
-    "doors": 0,
-    "corridorWidth": 1,
-    "spacing": 2,
-    "entrance": false
+ "cols": 20,
+ "rows": 36,
+ "gen": {
+  "rooms": 1,
+  "minSize": 3,
+  "maxSize": 8,
+  "caves": 0,
+  "round": 0,
+  "loops": 0,
+  "doors": 0,
+  "corridorWidth": 1,
+  "spacing": 2,
+  "entrance": false
+ },
+ "grid": {
+  "show": true,
+  "size": 2,
+  "sub": true,
+  "clip": "floor"
+ },
+ "style": {
+  "hatch": "band",
+  "band": 0.9,
+  "wall": 1
+ },
+ "scale": {
+  "perCell": 5,
+  "unit": "ft"
+ },
+ "numbers": true,
+ "scaleBar": true,
+ "compass": false,
+ "id": "M-a",
+ "version": 1,
+ "seed": 1,
+ "rooms": [
+  {
+   "id": "M-1",
+   "shape": "rect",
+   "x": 6,
+   "y": 22,
+   "w": 8,
+   "h": 8,
+   "label": "M.1 The Stair-Hall",
+   "number": 1,
+   "origin": "tables"
   },
-  "grid": {
-    "show": true,
-    "size": 2,
-    "sub": true,
-    "clip": "floor"
-  },
-  "style": {
-    "hatch": "band",
-    "band": 0.9,
-    "wall": 1
-  },
-  "scale": {
-    "perCell": 5,
-    "unit": "ft"
-  },
-  "numbers": true,
-  "scaleBar": true,
-  "compass": false,
-  "id": "M-a",
-  "version": 1,
-  "seed": 1,
-  "rooms": [
-    {
-      "id": "M-1",
-      "shape": "rect",
-      "x": 8,
-      "y": 24,
-      "w": 8,
-      "h": 8,
-      "label": "M.1 The Stair-Hall",
-      "number": 1,
-      "origin": "tables"
-    },
-    {
-      "id": "M-2",
-      "shape": "rect",
-      "x": 8,
-      "y": 8,
-      "w": 8,
-      "h": 16,
-      "label": "M.2 The Outer Shrine",
-      "number": 2,
-      "origin": "tables"
-    }
-  ],
-  "corridors": [
-    {
-      "from": {
-        "room": "M-1"
-      },
-      "to": {
-        "at": [
-          12,
-          38
-        ]
-      },
-      "width": 2,
-      "doors": [
-        null,
-        null
-      ],
-      "origin": "tables"
-    },
-    {
-      "from": {
-        "room": "M-2"
-      },
-      "to": {
-        "at": [
-          1,
-          16
-        ]
-      },
-      "width": 2,
-      "doors": [
-        "door",
-        null
-      ],
-      "origin": "tables"
-    },
-    {
-      "from": {
-        "room": "M-2"
-      },
-      "to": {
-        "at": [
-          22,
-          16
-        ]
-      },
-      "width": 2,
-      "doors": [
-        null,
-        null
-      ],
-      "origin": "tables"
-    },
-    {
-      "from": {
-        "room": "M-2"
-      },
-      "to": {
-        "at": [
-          20,
-          16
-        ]
-      },
-      "width": 2,
-      "doors": [
-        null,
-        null
-      ],
-      "origin": "tables"
-    },
-    {
-      "from": {
-        "room": "M-1"
-      },
-      "to": {
-        "room": "M-2"
-      },
-      "width": 2,
-      "origin": "tables",
-      "doors": [
-        "door",
-        "door"
-      ]
-    }
-  ],
-  "overlay": {
-    "labels": [
-      {
-        "text": "down to E.9",
-        "x": 12,
-        "y": 37,
-        "kind": "note",
-        "origin": "tables"
-      },
-      {
-        "text": "to M.3",
-        "x": 1,
-        "y": 15,
-        "kind": "note",
-        "origin": "tables"
-      },
-      {
-        "text": "to M.4",
-        "x": 22,
-        "y": 15,
-        "kind": "note",
-        "origin": "tables"
-      },
-      {
-        "text": "down to M.6",
-        "x": 20,
-        "y": 15,
-        "kind": "note",
-        "origin": "tables"
-      }
-    ],
-    "symbols": []
+  {
+   "id": "M-2",
+   "shape": "rect",
+   "x": 6,
+   "y": 6,
+   "w": 8,
+   "h": 16,
+   "label": "M.2 The Outer Shrine",
+   "number": 2,
+   "origin": "tables"
   }
+ ],
+ "corridors": [
+  {
+   "from": {
+    "room": "M-1",
+    "side": "s"
+   },
+   "to": {
+    "at": [
+     10,
+     34
+    ],
+    "exit": {
+     "text": "Down to E.9"
+    }
+   },
+   "width": 2,
+   "doors": [
+    null,
+    null
+   ],
+   "origin": "tables"
+  },
+  {
+   "from": {
+    "room": "M-2",
+    "side": "w"
+   },
+   "to": {
+    "at": [
+     2,
+     14
+    ],
+    "exit": {
+     "text": "To M.3"
+    }
+   },
+   "width": 2,
+   "doors": [
+    "door",
+    null
+   ],
+   "origin": "tables"
+  },
+  {
+   "from": {
+    "room": "M-2",
+    "side": "e"
+   },
+   "to": {
+    "at": [
+     18,
+     14
+    ],
+    "exit": {
+     "text": "To M.4"
+    }
+   },
+   "width": 2,
+   "doors": [
+    null,
+    null
+   ],
+   "origin": "tables"
+  },
+  {
+   "from": {
+    "room": "M-2",
+    "side": "e"
+   },
+   "to": {
+    "at": [
+     18,
+     14
+    ],
+    "exit": {
+     "text": "Down to M.6"
+    }
+   },
+   "width": 2,
+   "doors": [
+    null,
+    null
+   ],
+   "origin": "tables"
+  }
+ ],
+ "overlay": {
+  "labels": [],
+  "symbols": []
+ },
+ "connections": [
+  {
+   "a": "M-1",
+   "b": "M-2",
+   "origin": "tables",
+   "kind": "door"
+  }
+ ],
+ "furniture": {
+  "place": "auto"
+ }
 }
