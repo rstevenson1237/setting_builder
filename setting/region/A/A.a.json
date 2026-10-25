@@ -1,0 +1,226 @@
+{
+ "id": "A-a",
+ "version": 1,
+ "kind": "castle",
+ "seed": 1,
+ "cols": 122,
+ "rows": 98,
+ "ground": "grass",
+ "grid": {
+  "show": true,
+  "size": 2,
+  "sub": false
+ },
+ "scale": {
+  "perCell": 5,
+  "unit": "ft"
+ },
+ "numbers": true,
+ "scaleBar": true,
+ "compass": true,
+ "furniture": {
+  "place": "auto"
+ },
+ "roads": [
+  {
+   "kind": "highway",
+   "points": [
+    12.0,
+    48.0,
+    0,
+    48.0
+   ],
+   "label": "to B.1",
+   "origin": "tables"
+  },
+  {
+   "kind": "path",
+   "points": [
+    48.0,
+    12.0,
+    48.0,
+    0
+   ],
+   "label": "to C.1",
+   "origin": "tables"
+  }
+ ],
+ "water": [],
+ "walls": [
+  {
+   "kind": "curtain",
+   "points": [
+    12.0,
+    12.0,
+    110.0,
+    12.0,
+    110.0,
+    85.7,
+    12.0,
+    85.7
+   ],
+   "closed": true,
+   "origin": "tables",
+   "gates": [
+    {
+     "at": [
+      12.0,
+      48.0
+     ],
+     "kind": "gatehouse"
+    },
+    {
+     "at": [
+      48.0,
+      12.0
+     ],
+     "kind": "postern"
+    }
+   ]
+  }
+ ],
+ "buildings": [
+  {
+   "id": "A-3",
+   "kind": "inn",
+   "shape": "rect",
+   "x": 13.0,
+   "y": 22.0,
+   "w": 8.0,
+   "h": 4.0,
+   "label": "A.3 The Traveller's Inn",
+   "number": 3,
+   "origin": "tables"
+  },
+  {
+   "id": "A-4",
+   "kind": "inn",
+   "shape": "rect",
+   "x": 14.0,
+   "y": 76.0,
+   "w": 6.0,
+   "h": 4.0,
+   "label": "A.4 The Broken Wheel",
+   "number": 4,
+   "origin": "tables"
+  },
+  {
+   "id": "A-5",
+   "kind": "shop",
+   "shape": "rect",
+   "x": 34.4,
+   "y": 21.4,
+   "w": 6.0,
+   "h": 2.4,
+   "label": "A.5 The General Store",
+   "number": 5,
+   "origin": "tables"
+  },
+  {
+   "id": "A-6",
+   "kind": "smithy",
+   "shape": "rect",
+   "x": 39.1,
+   "y": 75.6,
+   "w": 5.0,
+   "h": 4.0,
+   "label": "A.6 The Armourer's Forge",
+   "number": 6,
+   "origin": "tables"
+  },
+  {
+   "id": "A-7",
+   "kind": "shop",
+   "shape": "rect",
+   "x": 58.5,
+   "y": 46.8,
+   "w": 3.0,
+   "h": 2.4,
+   "label": "A.7 The Moneychanger",
+   "number": 7,
+   "origin": "tables"
+  },
+  {
+   "id": "A-9",
+   "kind": "chapel",
+   "shape": "rect",
+   "x": 86.0,
+   "y": 46.0,
+   "w": 8.0,
+   "h": 4.0,
+   "label": "A.9 The Chapel of Law",
+   "number": 9,
+   "origin": "tables"
+  },
+  {
+   "id": "A-10",
+   "kind": "hall",
+   "shape": "rect",
+   "x": 97.0,
+   "y": 45.5,
+   "w": 10.0,
+   "h": 5.0,
+   "label": "A.10 The Commander's Hall",
+   "number": 10,
+   "origin": "tables"
+  },
+  {
+   "id": "A-11",
+   "kind": "barracks",
+   "shape": "rect",
+   "x": 83.6,
+   "y": 77.7,
+   "w": 12.0,
+   "h": 5.0,
+   "label": "A.11 The Barracks",
+   "number": 11,
+   "origin": "tables"
+  }
+ ],
+ "areas": [
+  {
+   "kind": "market",
+   "points": [
+    28.0,
+    40.0,
+    44.0,
+    40.0,
+    44.0,
+    56.0,
+    28.0,
+    56.0
+   ],
+   "label": "A.8 The Market Yard",
+   "origin": "tables"
+  }
+ ],
+ "trees": [],
+ "props": [],
+ "overlay": {
+  "labels": [
+   {
+    "text": "A.1 The Main Gate",
+    "x": 12.0,
+    "y": 46.0,
+    "kind": "note",
+    "origin": "tables"
+   },
+   {
+    "text": "A.2 The Postern",
+    "x": 48.0,
+    "y": 10.0,
+    "kind": "note",
+    "origin": "tables"
+   }
+  ],
+  "symbols": []
+ },
+ "underlay": {
+  "map": "../../Keep.json",
+  "origin": [
+   3.0,
+   3.0
+  ],
+  "scale": 0.5
+ }
+}

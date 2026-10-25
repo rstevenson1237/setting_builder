@@ -225,6 +225,42 @@
   },
   "require": [
     {
+      "id": "A-walls",
+      "kind": "terrain",
+      "origin": "tables",
+      "area": {
+        "poly": [
+          9,
+          9,
+          58,
+          9,
+          58,
+          45.9,
+          9,
+          45.9
+        ]
+      },
+      "terrain": "grass",
+      "share": 0.95
+    },
+    {
+      "id": "A-walls-clear",
+      "kind": "clear",
+      "origin": "tables",
+      "area": {
+        "poly": [
+          9,
+          9,
+          58,
+          9,
+          58,
+          45.9,
+          9,
+          45.9
+        ]
+      }
+    },
+    {
       "id": "A-ground",
       "kind": "terrain",
       "origin": "tables",

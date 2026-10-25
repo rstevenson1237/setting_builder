@@ -605,10 +605,11 @@ def _figure(svg: str | None, caption: str, key: MapKey | None = None) -> str:
 
 
 def sheets_html(fit: str, key: MapKey | None = None) -> str:
-    """Every terrain sheet whole: the play map, with its key where a link target is given."""
+    """Every terrain sheet whole but those drawn under a settlement: the play map, with its key
+    where a link target is given."""
     import maps
     return "".join(_figure(maps.sheet_svg(f.stem, fit), f"{f.stem}, drawn from the setting's tables", key)
-                   for f in sorted(SETTING.glob("*.json")))
+                   for f in sorted(SETTING.glob("*.json")) if f.stem not in maps.underlaid())
 
 
 def cut_html(code: str, num: int, fit: str) -> str:
@@ -617,8 +618,8 @@ def cut_html(code: str, num: int, fit: str) -> str:
 
 
 def drawn_html(code: str, fit: str, key: MapKey | None = None) -> str:
-    """A DANGEROUS region's block maps, from its tables by artgen. Other ratings'
-    region maps are paused (`maps.region_svg` draws one)."""
+    """A region's block maps, from its tables by artgen: a DANGEROUS region's dungeons, a SAFE
+    region's settlement. Region maps are paused (`maps.region_svg` draws one)."""
     import maps
     region = maps.world_for(SETTING).regions.get(code)
     if region is None:
@@ -628,10 +629,11 @@ def drawn_html(code: str, fit: str, key: MapKey | None = None) -> str:
 
 
 def map_labels() -> list[str]:
-    """The label of each map a build must show: every sheet, and each DANGEROUS region's blocks."""
+    """The label of each map a build must show: every sheet not under a settlement, and every
+    drawn block."""
     import maps
     world = maps.world_for(SETTING)
-    out = [f"Sheet {f.stem}" for f in sorted(SETTING.glob("*.json"))]
+    out = [f"Sheet {f.stem}" for f in sorted(SETTING.glob("*.json")) if f.stem not in maps.underlaid()]
     for r in world.regions.values():
         out += [f"Map of {bid}" for bid in maps.drawn_blocks(r) if (r.dir / f"{bid}.json").exists()]
     return out
