@@ -39,8 +39,8 @@
     "labels": [
       {
         "text": "A Roadsend Keep",
-        "x": 10.2,
-        "y": 27,
+        "x": 31,
+        "y": 28.5,
         "kind": "region",
         "origin": "tables"
       },
