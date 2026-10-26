@@ -42,7 +42,7 @@
    "y": 17,
    "w": 4,
    "h": 12,
-   "label": "M.3 The Acolytes' Cells",
+   "label": "M.3",
    "number": 3,
    "origin": "tables"
   },
@@ -53,7 +53,7 @@
    "y": 6,
    "w": 6,
    "h": 6,
-   "label": "M.5 The High Priest's Chamber",
+   "label": "M.5",
    "number": 5,
    "origin": "tables"
   },
@@ -64,7 +64,7 @@
    "y": 20.5,
    "w": 10,
    "h": 5,
-   "label": "M.4 The Refectory",
+   "label": "M.4",
    "number": 4,
    "origin": "tables"
   },
@@ -75,7 +75,7 @@
    "y": 8.4,
    "w": 1.6,
    "h": 1.2,
-   "label": "M.14 The Back Stair Door",
+   "label": "M.14",
    "number": 14,
    "origin": "tables"
   }

@@ -42,7 +42,7 @@
    "y": 34,
    "w": 4,
    "h": 2,
-   "label": "M.10 The Antechamber",
+   "label": "M.10",
    "number": 10,
    "origin": "tables"
   },
@@ -53,7 +53,7 @@
    "y": 15,
    "w": 16,
    "h": 16,
-   "label": "M.11 The Sanctum",
+   "label": "M.11",
    "number": 11,
    "origin": "tables"
   },
@@ -64,7 +64,7 @@
    "y": 6,
    "w": 6,
    "h": 6,
-   "label": "M.12 The Vault",
+   "label": "M.12",
    "number": 12,
    "origin": "tables"
   }

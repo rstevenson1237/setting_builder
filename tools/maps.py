@@ -208,7 +208,7 @@ def artgen(*args) -> subprocess.CompletedProcess:
         return subprocess.CompletedProcess(done.args, done.returncode, out.read(), done.stderr)
 
 
-def map_file(sheet: Sheet, seed: int, names: dict, regions: dict, radius: dict, home: dict, spread: dict,
+def map_file(sheet: Sheet, seed: int, regions: dict, radius: dict, home: dict, spread: dict,
              marks: list[tuple[float, float, str, str]], walled: dict[str, list[float]],
              routes: dict[str, list[list[tuple[float, float]]]]) -> dict:
     local = sheet.square <= LOCAL_SQUARE_FEET
@@ -236,7 +236,7 @@ def map_file(sheet: Sheet, seed: int, names: dict, regions: dict, radius: dict, 
                                         "origin": "tables"})
         far = [p for p in spread.get(code, []) if math.hypot(*p) > radius[code]] if area else []
         lx, ly = (x + sum(p[0] for p in far) / len(far), y + sum(p[1] for p in far) / len(far)) if far else (x + 1.2, y)
-        m["overlay"]["labels"].append({"text": f"{code} {names.get(code, '')}".strip(), "x": round(lx, 1),
+        m["overlay"]["labels"].append({"text": code, "x": round(lx, 1),
                                        "y": round(ly, 1), "kind": "region" if area else "place", "origin": "tables"})
     for code, lines in routes.items():            # on a sheet in miles, a Route a road through its stops
         for i, line in enumerate(lines):
@@ -254,7 +254,7 @@ def map_file(sheet: Sheet, seed: int, names: dict, regions: dict, radius: dict, 
                                  "terrain": str(ground.args[0]), "share": WALLED_SHARE})
         m["require"].append({"id": f"{code}-walls-clear", "kind": "clear", "origin": "tables", "area": {"poly": poly}})
     if not local:                                 # on a sheet in miles, one outline round the way in and every location
-        for code in {c[0].split("-")[0] for c in circles}:
+        for code in dict.fromkeys(c[0].split("-")[0] for c in circles):   # in the sheet's order: a later one wins
             own = [c for c in circles if c[0].split("-")[0] == code]
             m["require"].append({"id": f"{code}-ground", "kind": "terrain", "origin": "tables", "terrain": own[0][4],
                                  "area": {"poly": hull([(x + LOCATION_GROUND * 2 * math.cos(a * math.pi / 4),
@@ -355,12 +355,11 @@ def place(brief_path: Path, setting: Path) -> int:
         on = [s for s in sheets.values() if code in s.codes]
         if on:
             home[code] = min(on, key=lambda s: s.square).name
-    names = {c: r["name"] for c, r in sc.parse_regions_gazetteer().items()} if (setting / "region" / "Regions.md").exists() else {}
     radius = {}
     for code, node in brief.regions.items():
         n = tables.bounds(node.props.get("locations", 1))[1]
         radius[code] = max(3, math.ceil(math.sqrt(SQUARES_PER_LOCATION * n / math.pi)))
-    world = world_for(setting) if names else None
+    world = world_for(setting) if (setting / "region" / "Regions.md").exists() else None
     unmet, table = [], []
     for sheet in sheets.values():
         rad = {c: (radius[c] if home[c] == sheet.name else 0) for c in sheet.codes}
@@ -378,7 +377,7 @@ def place(brief_path: Path, setting: Path) -> int:
         routes = {c: lines for c in sheet.codes if sheet.square > LOCAL_SQUARE_FEET and home[c] == sheet.name
                   and world and c in world.regions and (lines := route_lines(world.regions[c], sheet))}
         problems, sheet.seed = draw_sheet(sheet, target, lambda seed, s=sheet: map_file(
-            s, seed, names, brief.regions, rad, home, spread, marks, walled, routes))
+            s, seed, brief.regions, rad, home, spread, marks, walled, routes))
         for p in problems:
             ground = brief.regions.get(p.split("-")[0])
             node = next((c for c in ground.children if c.name == "ground"), None) if ground else None
@@ -632,7 +631,6 @@ def block_map(region, block: kdl.Node) -> tuple[dict | None, list[str]]:
     unable to draw."""
     code, bid = region.code, str(block.args[0])
     members = [m.strip() for m in str(block.props["locations"]).split(",")]
-    names = {c: str(n.props.get("name", "")) for c, n in region.locations().items()}
     dress = {str(n.args[0]): n for n in region.files.get("Dressing", []) if n.args}
     ways = [n for n in region.files.get("Connections", []) if n.args and "to" in n.props]
     problems, compass = [], list(tables.Schema().setting_enums["Compass"])
@@ -697,7 +695,7 @@ def block_map(region, block: kdl.Node) -> tuple[dict | None, list[str]]:
         w, h, shape = size[c]
         m["rooms"].append({"id": rid(c), "shape": shape, "x": round(cx(c) - w / 2 / cell, 2),
                            "y": round(cy(c) - h / 2 / cell, 2), "w": max(1, round(w / cell, 2)),
-                           "h": max(1, round(h / cell, 2)), "label": f"{c} {names.get(c, '')}".strip(),
+                           "h": max(1, round(h / cell, 2)), "label": c,
                            "number": int(c.split(".")[1]), "origin": "tables"})
 
     def door(n):
@@ -845,21 +843,20 @@ def settlement_map(region, block: kdl.Node) -> tuple[dict | None, list[str]]:
     if ground:
         m["underlay"] = {"map": f"../../{sheet.name}", "origin": [round(lo[0] / square, 2), round(lo[1] / square, 2)],
                          "scale": TOWN_CELL / square}
-    name = lambda c: f"{c} {locs[c].props.get('name', '')}".strip()
     for c in inside:
         (x, y), (w, h) = cell(at[c][0] - size[c][0] / 2, at[c][1] - size[c][1] / 2), size[c]
         if kind(c) == "Market":
             m["areas"].append({"kind": "market", "points": [x, y, x + w / TOWN_CELL, y, x + w / TOWN_CELL,
                                                              y + h / TOWN_CELL, x, y + h / TOWN_CELL],
-                               "label": name(c), "origin": "tables"})
+                               "label": c, "origin": "tables"})
             continue
         word = next((NAMED[k] for k in NAMED if k in str(locs[c].props.get("name", "")).split()), None)
         m["buildings"].append({"id": c.replace(".", "-"), "kind": word or BUILDING.get(kind(c), "house"), "shape": "rect",
                                "x": x, "y": y, "w": round(w / TOWN_CELL, 1), "h": round(h / TOWN_CELL, 1),
-                               "label": name(c), "number": int(c.split(".")[1]), "origin": "tables"})
+                               "label": c, "number": int(c.split(".")[1]), "origin": "tables"})
     for c in gates:
         x, y = cell(*at[c])
-        m["overlay"]["labels"].append({"text": name(c), "x": x, "y": round(y - 2, 1), "kind": "note", "origin": "tables"})
+        m["overlay"]["labels"].append({"text": c, "x": x, "y": round(y - 2, 1), "kind": "note", "origin": "tables"})
     compass = list(tables.Schema().setting_enums["Compass"])
     for n in region.files.get("Connections", []):        # a road out of each gate to another region
         a, b = str(n.args[0]) if n.args else "", str(n.props.get("to", ""))

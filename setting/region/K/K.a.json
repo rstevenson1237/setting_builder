@@ -42,7 +42,7 @@
    "y": 14.5,
    "w": 4,
    "h": 4,
-   "label": "K.1 The Den Mouth",
+   "label": "K.1",
    "number": 1,
    "origin": "tables"
   },
@@ -53,7 +53,7 @@
    "y": 13.5,
    "w": 6,
    "h": 6,
-   "label": "K.3 The Sleeping Cave",
+   "label": "K.3",
    "number": 3,
    "origin": "tables"
   },
@@ -64,7 +64,7 @@
    "y": 6,
    "w": 5,
    "h": 5,
-   "label": "K.2 The Tithe Store",
+   "label": "K.2",
    "number": 2,
    "origin": "tables"
   },
@@ -75,7 +75,7 @@
    "y": 13.5,
    "w": 7,
    "h": 6,
-   "label": "K.5 The Leader's Cave",
+   "label": "K.5",
    "number": 5,
    "origin": "tables"
   },
@@ -86,7 +86,7 @@
    "y": 19.5,
    "w": 1,
    "h": 6,
-   "label": "K.4 The Back Stair",
+   "label": "K.4",
    "number": 4,
    "origin": "tables"
   }

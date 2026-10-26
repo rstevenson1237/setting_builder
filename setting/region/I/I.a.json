@@ -42,7 +42,7 @@
    "y": 20,
    "w": 4,
    "h": 2,
-   "label": "I.1 The Hobgoblin Gate",
+   "label": "I.1",
    "number": 1,
    "origin": "tables"
   },
@@ -53,7 +53,7 @@
    "y": 15,
    "w": 12,
    "h": 12,
-   "label": "I.2 The Drill Court",
+   "label": "I.2",
    "number": 2,
    "origin": "tables"
   },
@@ -64,7 +64,7 @@
    "y": 6,
    "w": 14,
    "h": 4,
-   "label": "I.3 The Barracks",
+   "label": "I.3",
    "number": 3,
    "origin": "tables"
   },
@@ -75,7 +75,7 @@
    "y": 28,
    "w": 6,
    "h": 2,
-   "label": "I.4 The Armoury",
+   "label": "I.4",
    "number": 4,
    "origin": "tables"
   },
@@ -86,7 +86,7 @@
    "y": 18.5,
    "w": 14,
    "h": 5,
-   "label": "I.6 The Warlord's Hall",
+   "label": "I.6",
    "number": 6,
    "origin": "tables"
   },
@@ -97,7 +97,7 @@
    "y": 27.5,
    "w": 12,
    "h": 3,
-   "label": "I.5 The Grain Stores",
+   "label": "I.5",
    "number": 5,
    "origin": "tables"
   }

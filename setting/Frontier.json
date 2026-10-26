@@ -38,35 +38,35 @@
  "overlay": {
   "labels": [
    {
-    "text": "A Roadsend Keep",
+    "text": "A",
     "x": 112.2,
     "y": 121,
     "kind": "place",
     "origin": "tables"
    },
    {
-    "text": "B The Wagon Road",
+    "text": "B",
     "x": 42.9,
     "y": 121,
     "kind": "region",
     "origin": "tables"
    },
    {
-    "text": "C The Dark Wood",
+    "text": "C",
     "x": 98.2,
     "y": 66.7,
     "kind": "region",
     "origin": "tables"
    },
    {
-    "text": "D The Black Mere",
+    "text": "D",
     "x": 68.2,
     "y": 104.4,
     "kind": "region",
     "origin": "tables"
    },
    {
-    "text": "E The Ravine",
+    "text": "E",
     "x": 114.2,
     "y": 12,
     "kind": "place",

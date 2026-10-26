@@ -42,7 +42,7 @@
    "y": 30.6,
    "w": 8,
    "h": 1,
-   "label": "M.6 The Crypt Stair",
+   "label": "M.6",
    "number": 6,
    "origin": "tables"
   },
@@ -53,7 +53,7 @@
    "y": 13,
    "w": 4,
    "h": 12,
-   "label": "M.7 The Ossuary",
+   "label": "M.7",
    "number": 7,
    "origin": "tables"
   },
@@ -64,7 +64,7 @@
    "y": 12,
    "w": 4,
    "h": 14,
-   "label": "M.8 The Makers' Niches",
+   "label": "M.8",
    "number": 8,
    "origin": "tables"
   },
@@ -75,7 +75,7 @@
    "y": 6,
    "w": 6,
    "h": 6,
-   "label": "M.9 The Priests' Tomb",
+   "label": "M.9",
    "number": 9,
    "origin": "tables"
   },
@@ -86,7 +86,7 @@
    "y": 26.49,
    "w": 2,
    "h": 2,
-   "label": "M.13 The Passage Landing",
+   "label": "M.13",
    "number": 13,
    "origin": "tables"
   }

@@ -42,7 +42,7 @@
    "y": 17,
    "w": 6,
    "h": 8,
-   "label": "J.1 The Collar Mouth",
+   "label": "J.1",
    "number": 1,
    "origin": "tables"
   },
@@ -53,7 +53,7 @@
    "y": 6,
    "w": 2,
    "h": 10,
-   "label": "J.2 The Slave Pens",
+   "label": "J.2",
    "number": 2,
    "origin": "tables"
   },
@@ -64,7 +64,7 @@
    "y": 9,
    "w": 24,
    "h": 24,
-   "label": "J.3 The Den Floor",
+   "label": "J.3",
    "number": 3,
    "origin": "tables"
   },
@@ -75,7 +75,7 @@
    "y": 35,
    "w": 6,
    "h": 4,
-   "label": "J.4 The Bone Heap",
+   "label": "J.4",
    "number": 4,
    "origin": "tables"
   },
@@ -86,7 +86,7 @@
    "y": 17,
    "w": 8,
    "h": 8,
-   "label": "J.5 The Pack-Leader's Den",
+   "label": "J.5",
    "number": 5,
    "origin": "tables"
   }

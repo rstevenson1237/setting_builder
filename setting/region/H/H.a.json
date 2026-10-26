@@ -42,7 +42,7 @@
    "y": 19,
    "w": 8,
    "h": 6,
-   "label": "H.1 The Cairn Mouth",
+   "label": "H.1",
    "number": 1,
    "origin": "tables"
   },
@@ -53,7 +53,7 @@
    "y": 18,
    "w": 16,
    "h": 8,
-   "label": "H.2 The Feast Hall",
+   "label": "H.2",
    "number": 2,
    "origin": "tables"
   },
@@ -64,7 +64,7 @@
    "y": 6,
    "w": 2,
    "h": 12,
-   "label": "H.3 The Pens",
+   "label": "H.3",
    "number": 3,
    "origin": "tables"
   },
@@ -75,7 +75,7 @@
    "y": 27,
    "w": 8,
    "h": 6,
-   "label": "H.4 The Still",
+   "label": "H.4",
    "number": 4,
    "origin": "tables"
   },
@@ -86,7 +86,7 @@
    "y": 18,
    "w": 8,
    "h": 8,
-   "label": "H.6 The Chief's Cave",
+   "label": "H.6",
    "number": 6,
    "origin": "tables"
   },
@@ -97,7 +97,7 @@
    "y": 29,
    "w": 10,
    "h": 2,
-   "label": "H.5 The Walled Stores",
+   "label": "H.5",
    "number": 5,
    "origin": "tables"
   }
