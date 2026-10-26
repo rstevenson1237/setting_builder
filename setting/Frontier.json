@@ -1,598 +1,1689 @@
 {
-  "cols": 123,
-  "rows": 132,
-  "gen": {
-    "land": "mixed",
-    "sea": 0.3,
-    "moisture": 0.5,
-    "roughness": 0.5,
-    "relief": 0.5,
-    "rivers": 3,
-    "simplify": 3,
-    "feature": 10
-  },
-  "topo": {
-    "maxElevation": 600,
-    "interval": 50,
-    "majorEvery": 4,
-    "unit": "ft",
-    "labels": false
-  },
-  "grid": {
-    "type": "square",
-    "size": 1,
-    "coords": true
-  },
-  "scale": {
-    "perCell": 200,
-    "unit": "yd"
-  },
-  "legend": true,
-  "scaleBar": true,
-  "compass": true,
-  "id": "Frontier",
-  "version": 1,
-  "preset": "regional",
-  "seed": 1,
-  "edits": [],
-  "overlay": {
-    "labels": [
-      {
-        "text": "A Roadsend Keep",
-        "x": 112.2,
-        "y": 121,
-        "kind": "place",
-        "origin": "tables"
-      },
-      {
-        "text": "B The Wagon Road",
-        "x": 109.2,
-        "y": 121,
-        "kind": "region",
-        "origin": "tables"
-      },
-      {
-        "text": "C The Dark Wood",
-        "x": 114.2,
-        "y": 118,
-        "kind": "region",
-        "origin": "tables"
-      },
-      {
-        "text": "D The Black Mere",
-        "x": 65.2,
-        "y": 121,
-        "kind": "region",
-        "origin": "tables"
-      },
-      {
-        "text": "E The Ravine",
-        "x": 114.2,
-        "y": 12,
-        "kind": "place",
-        "origin": "tables"
-      },
-      {
-        "text": "B.1",
-        "x": 3.2,
-        "y": 121,
-        "kind": "place",
-        "origin": "tables"
-      },
-      {
-        "text": "B.2",
-        "x": 56,
-        "y": 121,
-        "kind": "place",
-        "origin": "tables"
-      },
-      {
-        "text": "B.3",
-        "x": 82.4,
-        "y": 121,
-        "kind": "place",
-        "origin": "tables"
-      },
-      {
-        "text": "B.4",
-        "x": 12,
-        "y": 121,
-        "kind": "place",
-        "origin": "tables"
-      },
-      {
-        "text": "B.5",
-        "x": 64.8,
-        "y": 121,
-        "kind": "place",
-        "origin": "tables"
-      },
-      {
-        "text": "C.1",
-        "x": 113.8,
-        "y": 12.4,
-        "kind": "place",
-        "origin": "tables"
-      },
-      {
-        "text": "C.2",
-        "x": 82.7,
-        "y": 86.9,
-        "kind": "place",
-        "origin": "tables"
-      },
-      {
-        "text": "C.3",
-        "x": 122.6,
-        "y": 56.4,
-        "kind": "place",
-        "origin": "tables"
-      },
-      {
-        "text": "C.4",
-        "x": 113.8,
-        "y": 47.6,
-        "kind": "place",
-        "origin": "tables"
-      },
-      {
-        "text": "C.5",
-        "x": 113.8,
-        "y": 91.6,
-        "kind": "place",
-        "origin": "tables"
-      },
-      {
-        "text": "C.6",
-        "x": 69.8,
-        "y": 91.6,
-        "kind": "place",
-        "origin": "tables"
-      },
-      {
-        "text": "C.7",
-        "x": 76.5,
-        "y": 80.7,
-        "kind": "place",
-        "origin": "tables"
-      },
-      {
-        "text": "D.1",
-        "x": 64.8,
-        "y": 94.6,
-        "kind": "place",
-        "origin": "tables"
-      },
-      {
-        "text": "D.2",
-        "x": 67,
-        "y": 103.4,
-        "kind": "place",
-        "origin": "tables"
-      },
-      {
-        "text": "D.3",
-        "x": 77.2,
-        "y": 108.6,
-        "kind": "place",
-        "origin": "tables"
-      },
-      {
-        "text": "D.4",
-        "x": 73.6,
-        "y": 116.6,
-        "kind": "place",
-        "origin": "tables"
-      },
-      {
-        "text": "D.5",
-        "x": 62.6,
-        "y": 99,
-        "kind": "place",
-        "origin": "tables"
-      }
-    ],
-    "symbols": [
-      {
-        "kind": "castle",
-        "x": 111,
-        "y": 121,
-        "origin": "tables"
-      },
-      {
-        "kind": "poi",
-        "x": 108,
-        "y": 121,
-        "origin": "tables"
-      },
-      {
-        "kind": "poi",
-        "x": 113,
-        "y": 118,
-        "origin": "tables"
-      },
-      {
-        "kind": "poi",
-        "x": 64,
-        "y": 121,
-        "origin": "tables"
-      },
-      {
-        "kind": "poi",
-        "x": 113,
-        "y": 12,
-        "origin": "tables"
-      },
-      {
-        "kind": "poi",
-        "x": 2.4,
-        "y": 121,
-        "origin": "tables"
-      },
-      {
-        "kind": "poi",
-        "x": 55.2,
-        "y": 121,
-        "origin": "tables"
-      },
-      {
-        "kind": "ruin",
-        "x": 81.6,
-        "y": 121,
-        "origin": "tables"
-      },
-      {
-        "kind": "ruin",
-        "x": 11.2,
-        "y": 121,
-        "origin": "tables"
-      },
-      {
-        "kind": "poi",
-        "x": 64,
-        "y": 121,
-        "origin": "tables"
-      },
-      {
-        "kind": "poi",
-        "x": 113,
-        "y": 12.4,
-        "origin": "tables"
-      },
-      {
-        "kind": "camp",
-        "x": 81.9,
-        "y": 86.9,
-        "origin": "tables"
-      },
-      {
-        "kind": "camp",
-        "x": 121.8,
-        "y": 56.4,
-        "origin": "tables"
-      },
-      {
-        "kind": "ruin",
-        "x": 113,
-        "y": 47.6,
-        "origin": "tables"
-      },
-      {
-        "kind": "poi",
-        "x": 113,
-        "y": 91.6,
-        "origin": "tables"
-      },
-      {
-        "kind": "poi",
-        "x": 69,
-        "y": 91.6,
-        "origin": "tables"
-      },
-      {
-        "kind": "poi",
-        "x": 75.7,
-        "y": 80.7,
-        "origin": "tables"
-      },
-      {
-        "kind": "poi",
-        "x": 64,
-        "y": 94.6,
-        "origin": "tables"
-      },
-      {
-        "kind": "camp",
-        "x": 66.2,
-        "y": 103.4,
-        "origin": "tables"
-      },
-      {
-        "kind": "ruin",
-        "x": 76.4,
-        "y": 108.6,
-        "origin": "tables"
-      },
-      {
-        "kind": "poi",
-        "x": 72.8,
-        "y": 116.6,
-        "origin": "tables"
-      },
-      {
-        "kind": "poi",
-        "x": 61.8,
-        "y": 99,
-        "origin": "tables"
-      }
-    ]
-  },
-  "require": [
-    {
-      "id": "B-ground",
-      "kind": "terrain",
-      "origin": "tables",
-      "area": {
-        "circle": [
-          108,
-          121,
-          3
-        ]
-      },
-      "terrain": "grass",
-      "share": 0.8
-    },
-    {
-      "id": "B-ground-1",
-      "kind": "terrain",
-      "origin": "tables",
-      "area": {
-        "circle": [
-          2.4,
-          121,
-          1.5
-        ]
-      },
-      "terrain": "grass",
-      "share": 0.8
-    },
-    {
-      "id": "B-ground-2",
-      "kind": "terrain",
-      "origin": "tables",
-      "area": {
-        "circle": [
-          55.2,
-          121,
-          1.5
-        ]
-      },
-      "terrain": "grass",
-      "share": 0.8
-    },
-    {
-      "id": "B-ground-3",
-      "kind": "terrain",
-      "origin": "tables",
-      "area": {
-        "circle": [
-          81.6,
-          121,
-          1.5
-        ]
-      },
-      "terrain": "grass",
-      "share": 0.8
-    },
-    {
-      "id": "B-ground-4",
-      "kind": "terrain",
-      "origin": "tables",
-      "area": {
-        "circle": [
-          11.2,
-          121,
-          1.5
-        ]
-      },
-      "terrain": "grass",
-      "share": 0.8
-    },
-    {
-      "id": "C-ground",
-      "kind": "terrain",
-      "origin": "tables",
-      "area": {
-        "circle": [
-          113,
-          118,
-          3
-        ]
-      },
-      "terrain": "forest",
-      "share": 0.8
-    },
-    {
-      "id": "C-ground-1",
-      "kind": "terrain",
-      "origin": "tables",
-      "area": {
-        "circle": [
-          113,
-          12.4,
-          1.5
-        ]
-      },
-      "terrain": "forest",
-      "share": 0.8
-    },
-    {
-      "id": "C-ground-2",
-      "kind": "terrain",
-      "origin": "tables",
-      "area": {
-        "circle": [
-          81.9,
-          86.9,
-          1.5
-        ]
-      },
-      "terrain": "forest",
-      "share": 0.8
-    },
-    {
-      "id": "C-ground-3",
-      "kind": "terrain",
-      "origin": "tables",
-      "area": {
-        "circle": [
-          121.8,
-          56.4,
-          1.5
-        ]
-      },
-      "terrain": "forest",
-      "share": 0.8
-    },
-    {
-      "id": "C-ground-4",
-      "kind": "terrain",
-      "origin": "tables",
-      "area": {
-        "circle": [
-          113,
-          47.6,
-          1.5
-        ]
-      },
-      "terrain": "forest",
-      "share": 0.8
-    },
-    {
-      "id": "C-ground-5",
-      "kind": "terrain",
-      "origin": "tables",
-      "area": {
-        "circle": [
-          113,
-          91.6,
-          1.5
-        ]
-      },
-      "terrain": "forest",
-      "share": 0.8
-    },
-    {
-      "id": "C-ground-6",
-      "kind": "terrain",
-      "origin": "tables",
-      "area": {
-        "circle": [
-          69,
-          91.6,
-          1.5
-        ]
-      },
-      "terrain": "forest",
-      "share": 0.8
-    },
-    {
-      "id": "C-ground-7",
-      "kind": "terrain",
-      "origin": "tables",
-      "area": {
-        "circle": [
-          75.7,
-          80.7,
-          1.5
-        ]
-      },
-      "terrain": "forest",
-      "share": 0.8
-    },
-    {
-      "id": "D-ground",
-      "kind": "terrain",
-      "origin": "tables",
-      "area": {
-        "circle": [
-          64,
-          121,
-          3
-        ]
-      },
-      "terrain": "marsh",
-      "share": 0.8
-    },
-    {
-      "id": "D-ground-1",
-      "kind": "terrain",
-      "origin": "tables",
-      "area": {
-        "circle": [
-          64,
-          94.6,
-          1.5
-        ]
-      },
-      "terrain": "marsh",
-      "share": 0.8
-    },
-    {
-      "id": "D-ground-2",
-      "kind": "terrain",
-      "origin": "tables",
-      "area": {
-        "circle": [
-          66.2,
-          103.4,
-          1.5
-        ]
-      },
-      "terrain": "marsh",
-      "share": 0.8
-    },
-    {
-      "id": "D-ground-3",
-      "kind": "terrain",
-      "origin": "tables",
-      "area": {
-        "circle": [
-          76.4,
-          108.6,
-          1.5
-        ]
-      },
-      "terrain": "marsh",
-      "share": 0.8
-    },
-    {
-      "id": "D-ground-4",
-      "kind": "terrain",
-      "origin": "tables",
-      "area": {
-        "circle": [
-          72.8,
-          116.6,
-          1.5
-        ]
-      },
-      "terrain": "marsh",
-      "share": 0.8
-    },
-    {
-      "id": "D-ground-5",
-      "kind": "terrain",
-      "origin": "tables",
-      "area": {
-        "circle": [
-          61.8,
-          99,
-          1.5
-        ]
-      },
-      "terrain": "marsh",
-      "share": 0.8
-    }
+ "cols": 123,
+ "rows": 132,
+ "gen": {
+  "land": "inland",
+  "sea": 0,
+  "moisture": 0.6,
+  "roughness": 0.3,
+  "relief": 0.2,
+  "rivers": 2,
+  "simplify": 3,
+  "feature": 40
+ },
+ "topo": {
+  "maxElevation": 600,
+  "interval": 50,
+  "majorEvery": 4,
+  "unit": "ft",
+  "labels": false
+ },
+ "grid": {
+  "type": "square",
+  "size": 1,
+  "coords": false
+ },
+ "scale": {
+  "perCell": 200,
+  "unit": "yd"
+ },
+ "legend": true,
+ "scaleBar": true,
+ "compass": true,
+ "id": "Frontier",
+ "version": 1,
+ "preset": "regional",
+ "seed": 3,
+ "edits": [],
+ "overlay": {
+  "labels": [
+   {
+    "text": "A",
+    "x": 112.2,
+    "y": 121,
+    "kind": "place",
+    "origin": "tables"
+   },
+   {
+    "text": "B",
+    "x": 42.9,
+    "y": 121,
+    "kind": "region",
+    "origin": "tables"
+   },
+   {
+    "text": "C",
+    "x": 98.2,
+    "y": 66.7,
+    "kind": "region",
+    "origin": "tables"
+   },
+   {
+    "text": "D",
+    "x": 68.2,
+    "y": 104.4,
+    "kind": "region",
+    "origin": "tables"
+   },
+   {
+    "text": "E",
+    "x": 114.2,
+    "y": 12,
+    "kind": "place",
+    "origin": "tables"
+   },
+   {
+    "text": "B.1",
+    "x": 3.2,
+    "y": 121,
+    "kind": "place",
+    "origin": "tables"
+   },
+   {
+    "text": "B.2",
+    "x": 56,
+    "y": 121,
+    "kind": "place",
+    "origin": "tables"
+   },
+   {
+    "text": "B.3",
+    "x": 82.4,
+    "y": 121,
+    "kind": "place",
+    "origin": "tables"
+   },
+   {
+    "text": "B.4",
+    "x": 12,
+    "y": 121,
+    "kind": "place",
+    "origin": "tables"
+   },
+   {
+    "text": "B.5",
+    "x": 64.8,
+    "y": 121,
+    "kind": "place",
+    "origin": "tables"
+   },
+   {
+    "text": "C.1",
+    "x": 113.8,
+    "y": 12.4,
+    "kind": "place",
+    "origin": "tables"
+   },
+   {
+    "text": "C.2",
+    "x": 82.7,
+    "y": 86.9,
+    "kind": "place",
+    "origin": "tables"
+   },
+   {
+    "text": "C.3",
+    "x": 122.6,
+    "y": 56.4,
+    "kind": "place",
+    "origin": "tables"
+   },
+   {
+    "text": "C.4",
+    "x": 113.8,
+    "y": 47.6,
+    "kind": "place",
+    "origin": "tables"
+   },
+   {
+    "text": "C.5",
+    "x": 113.8,
+    "y": 91.6,
+    "kind": "place",
+    "origin": "tables"
+   },
+   {
+    "text": "C.6",
+    "x": 69.8,
+    "y": 91.6,
+    "kind": "place",
+    "origin": "tables"
+   },
+   {
+    "text": "C.7",
+    "x": 76.5,
+    "y": 80.7,
+    "kind": "place",
+    "origin": "tables"
+   },
+   {
+    "text": "D.1",
+    "x": 64.8,
+    "y": 94.6,
+    "kind": "place",
+    "origin": "tables"
+   },
+   {
+    "text": "D.2",
+    "x": 67,
+    "y": 103.4,
+    "kind": "place",
+    "origin": "tables"
+   },
+   {
+    "text": "D.3",
+    "x": 77.2,
+    "y": 108.6,
+    "kind": "place",
+    "origin": "tables"
+   },
+   {
+    "text": "D.4",
+    "x": 73.6,
+    "y": 116.6,
+    "kind": "place",
+    "origin": "tables"
+   },
+   {
+    "text": "D.5",
+    "x": 62.6,
+    "y": 99,
+    "kind": "place",
+    "origin": "tables"
+   }
+  ],
+  "symbols": [
+   {
+    "kind": "castle",
+    "x": 111,
+    "y": 121,
+    "origin": "tables"
+   },
+   {
+    "kind": "poi",
+    "x": 108,
+    "y": 121,
+    "origin": "tables"
+   },
+   {
+    "kind": "poi",
+    "x": 113,
+    "y": 118,
+    "origin": "tables"
+   },
+   {
+    "kind": "poi",
+    "x": 64,
+    "y": 121,
+    "origin": "tables"
+   },
+   {
+    "kind": "poi",
+    "x": 113,
+    "y": 12,
+    "origin": "tables"
+   },
+   {
+    "kind": "poi",
+    "x": 2.4,
+    "y": 121,
+    "origin": "tables"
+   },
+   {
+    "kind": "poi",
+    "x": 55.2,
+    "y": 121,
+    "origin": "tables"
+   },
+   {
+    "kind": "ruin",
+    "x": 81.6,
+    "y": 121,
+    "origin": "tables"
+   },
+   {
+    "kind": "ruin",
+    "x": 11.2,
+    "y": 121,
+    "origin": "tables"
+   },
+   {
+    "kind": "poi",
+    "x": 64,
+    "y": 121,
+    "origin": "tables"
+   },
+   {
+    "kind": "poi",
+    "x": 113,
+    "y": 12.4,
+    "origin": "tables"
+   },
+   {
+    "kind": "camp",
+    "x": 81.9,
+    "y": 86.9,
+    "origin": "tables"
+   },
+   {
+    "kind": "camp",
+    "x": 121.8,
+    "y": 56.4,
+    "origin": "tables"
+   },
+   {
+    "kind": "ruin",
+    "x": 113,
+    "y": 47.6,
+    "origin": "tables"
+   },
+   {
+    "kind": "poi",
+    "x": 113,
+    "y": 91.6,
+    "origin": "tables"
+   },
+   {
+    "kind": "poi",
+    "x": 69,
+    "y": 91.6,
+    "origin": "tables"
+   },
+   {
+    "kind": "poi",
+    "x": 75.7,
+    "y": 80.7,
+    "origin": "tables"
+   },
+   {
+    "kind": "poi",
+    "x": 64,
+    "y": 94.6,
+    "origin": "tables"
+   },
+   {
+    "kind": "camp",
+    "x": 66.2,
+    "y": 103.4,
+    "origin": "tables"
+   },
+   {
+    "kind": "ruin",
+    "x": 76.4,
+    "y": 108.6,
+    "origin": "tables"
+   },
+   {
+    "kind": "poi",
+    "x": 72.8,
+    "y": 116.6,
+    "origin": "tables"
+   },
+   {
+    "kind": "poi",
+    "x": 61.8,
+    "y": 99,
+    "origin": "tables"
+   }
   ]
+ },
+ "require": [
+  {
+   "id": "Frontier-temper-1",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "rock",
+   "area": {
+    "circle": [
+     6.5,
+     0.5,
+     3
+    ]
+   },
+   "share": 0.5,
+   "blend": 3
+  },
+  {
+   "id": "Frontier-temper-2",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "rock",
+   "area": {
+    "circle": [
+     9.5,
+     0.5,
+     3
+    ]
+   },
+   "share": 0.5,
+   "blend": 3
+  },
+  {
+   "id": "Frontier-temper-3",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "rock",
+   "area": {
+    "circle": [
+     12.5,
+     0.5,
+     3
+    ]
+   },
+   "share": 0.5,
+   "blend": 3
+  },
+  {
+   "id": "Frontier-temper-4",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "rock",
+   "area": {
+    "circle": [
+     15.5,
+     0.5,
+     3
+    ]
+   },
+   "share": 0.5,
+   "blend": 3
+  },
+  {
+   "id": "Frontier-temper-5",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "scrub",
+   "area": {
+    "circle": [
+     24.5,
+     0.5,
+     3
+    ]
+   },
+   "share": 0.5,
+   "blend": 3
+  },
+  {
+   "id": "Frontier-temper-6",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "scrub",
+   "area": {
+    "circle": [
+     27.5,
+     0.5,
+     3
+    ]
+   },
+   "share": 0.5,
+   "blend": 3
+  },
+  {
+   "id": "Frontier-temper-7",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "scrub",
+   "area": {
+    "circle": [
+     30.5,
+     0.5,
+     3
+    ]
+   },
+   "share": 0.5,
+   "blend": 3
+  },
+  {
+   "id": "Frontier-temper-8",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "scrub",
+   "area": {
+    "circle": [
+     33.5,
+     0.5,
+     3
+    ]
+   },
+   "share": 0.5,
+   "blend": 3
+  },
+  {
+   "id": "Frontier-temper-9",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "scrub",
+   "area": {
+    "circle": [
+     36.5,
+     0.5,
+     3
+    ]
+   },
+   "share": 0.5,
+   "blend": 3
+  },
+  {
+   "id": "Frontier-temper-10",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "rock",
+   "area": {
+    "circle": [
+     6.5,
+     3.5,
+     3
+    ]
+   },
+   "share": 0.5,
+   "blend": 3
+  },
+  {
+   "id": "Frontier-temper-11",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "rock",
+   "area": {
+    "circle": [
+     9.5,
+     3.5,
+     3
+    ]
+   },
+   "share": 0.5,
+   "blend": 3
+  },
+  {
+   "id": "Frontier-temper-12",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "scrub",
+   "area": {
+    "circle": [
+     21.5,
+     3.5,
+     3
+    ]
+   },
+   "share": 0.5,
+   "blend": 3
+  },
+  {
+   "id": "Frontier-temper-13",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "scrub",
+   "area": {
+    "circle": [
+     24.5,
+     3.5,
+     3
+    ]
+   },
+   "share": 0.5,
+   "blend": 3
+  },
+  {
+   "id": "Frontier-temper-14",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "scrub",
+   "area": {
+    "circle": [
+     27.5,
+     3.5,
+     3
+    ]
+   },
+   "share": 0.5,
+   "blend": 3
+  },
+  {
+   "id": "Frontier-temper-15",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "scrub",
+   "area": {
+    "circle": [
+     30.5,
+     3.5,
+     3
+    ]
+   },
+   "share": 0.5,
+   "blend": 3
+  },
+  {
+   "id": "Frontier-temper-16",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "scrub",
+   "area": {
+    "circle": [
+     33.5,
+     3.5,
+     3
+    ]
+   },
+   "share": 0.5,
+   "blend": 3
+  },
+  {
+   "id": "Frontier-temper-17",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "scrub",
+   "area": {
+    "circle": [
+     36.5,
+     3.5,
+     3
+    ]
+   },
+   "share": 0.5,
+   "blend": 3
+  },
+  {
+   "id": "Frontier-temper-18",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "scrub",
+   "area": {
+    "circle": [
+     39.5,
+     3.5,
+     3
+    ]
+   },
+   "share": 0.5,
+   "blend": 3
+  },
+  {
+   "id": "Frontier-temper-19",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "rock",
+   "area": {
+    "circle": [
+     6.5,
+     6.5,
+     3
+    ]
+   },
+   "share": 0.5,
+   "blend": 3
+  },
+  {
+   "id": "Frontier-temper-20",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "rock",
+   "area": {
+    "circle": [
+     9.5,
+     6.5,
+     3
+    ]
+   },
+   "share": 0.5,
+   "blend": 3
+  },
+  {
+   "id": "Frontier-temper-21",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "scrub",
+   "area": {
+    "circle": [
+     21.5,
+     6.5,
+     3
+    ]
+   },
+   "share": 0.5,
+   "blend": 3
+  },
+  {
+   "id": "Frontier-temper-22",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "scrub",
+   "area": {
+    "circle": [
+     24.5,
+     6.5,
+     3
+    ]
+   },
+   "share": 0.5,
+   "blend": 3
+  },
+  {
+   "id": "Frontier-temper-23",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "scrub",
+   "area": {
+    "circle": [
+     27.5,
+     6.5,
+     3
+    ]
+   },
+   "share": 0.5,
+   "blend": 3
+  },
+  {
+   "id": "Frontier-temper-24",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "scrub",
+   "area": {
+    "circle": [
+     30.5,
+     6.5,
+     3
+    ]
+   },
+   "share": 0.5,
+   "blend": 3
+  },
+  {
+   "id": "Frontier-temper-25",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "scrub",
+   "area": {
+    "circle": [
+     33.5,
+     6.5,
+     3
+    ]
+   },
+   "share": 0.5,
+   "blend": 3
+  },
+  {
+   "id": "Frontier-temper-26",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "scrub",
+   "area": {
+    "circle": [
+     36.5,
+     6.5,
+     3
+    ]
+   },
+   "share": 0.5,
+   "blend": 3
+  },
+  {
+   "id": "Frontier-temper-27",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "scrub",
+   "area": {
+    "circle": [
+     39.5,
+     6.5,
+     3
+    ]
+   },
+   "share": 0.5,
+   "blend": 3
+  },
+  {
+   "id": "Frontier-temper-28",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "scrub",
+   "area": {
+    "circle": [
+     21.5,
+     9.5,
+     3
+    ]
+   },
+   "share": 0.5,
+   "blend": 3
+  },
+  {
+   "id": "Frontier-temper-29",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "scrub",
+   "area": {
+    "circle": [
+     24.5,
+     9.5,
+     3
+    ]
+   },
+   "share": 0.5,
+   "blend": 3
+  },
+  {
+   "id": "Frontier-temper-30",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "scrub",
+   "area": {
+    "circle": [
+     27.5,
+     9.5,
+     3
+    ]
+   },
+   "share": 0.5,
+   "blend": 3
+  },
+  {
+   "id": "Frontier-temper-31",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "scrub",
+   "area": {
+    "circle": [
+     30.5,
+     9.5,
+     3
+    ]
+   },
+   "share": 0.5,
+   "blend": 3
+  },
+  {
+   "id": "Frontier-temper-32",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "scrub",
+   "area": {
+    "circle": [
+     33.5,
+     9.5,
+     3
+    ]
+   },
+   "share": 0.5,
+   "blend": 3
+  },
+  {
+   "id": "Frontier-temper-33",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "scrub",
+   "area": {
+    "circle": [
+     36.5,
+     9.5,
+     3
+    ]
+   },
+   "share": 0.5,
+   "blend": 3
+  },
+  {
+   "id": "Frontier-temper-34",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "scrub",
+   "area": {
+    "circle": [
+     39.5,
+     9.5,
+     3
+    ]
+   },
+   "share": 0.5,
+   "blend": 3
+  },
+  {
+   "id": "Frontier-temper-35",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "scrub",
+   "area": {
+    "circle": [
+     18.5,
+     12.5,
+     3
+    ]
+   },
+   "share": 0.5,
+   "blend": 3
+  },
+  {
+   "id": "Frontier-temper-36",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "scrub",
+   "area": {
+    "circle": [
+     21.5,
+     12.5,
+     3
+    ]
+   },
+   "share": 0.5,
+   "blend": 3
+  },
+  {
+   "id": "Frontier-temper-37",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "scrub",
+   "area": {
+    "circle": [
+     24.5,
+     12.5,
+     3
+    ]
+   },
+   "share": 0.5,
+   "blend": 3
+  },
+  {
+   "id": "Frontier-temper-38",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "scrub",
+   "area": {
+    "circle": [
+     27.5,
+     12.5,
+     3
+    ]
+   },
+   "share": 0.5,
+   "blend": 3
+  },
+  {
+   "id": "Frontier-temper-39",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "scrub",
+   "area": {
+    "circle": [
+     30.5,
+     12.5,
+     3
+    ]
+   },
+   "share": 0.5,
+   "blend": 3
+  },
+  {
+   "id": "Frontier-temper-40",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "scrub",
+   "area": {
+    "circle": [
+     33.5,
+     12.5,
+     3
+    ]
+   },
+   "share": 0.5,
+   "blend": 3
+  },
+  {
+   "id": "Frontier-temper-41",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "scrub",
+   "area": {
+    "circle": [
+     36.5,
+     12.5,
+     3
+    ]
+   },
+   "share": 0.5,
+   "blend": 3
+  },
+  {
+   "id": "Frontier-temper-42",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "scrub",
+   "area": {
+    "circle": [
+     18.5,
+     15.5,
+     3
+    ]
+   },
+   "share": 0.5,
+   "blend": 3
+  },
+  {
+   "id": "Frontier-temper-43",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "scrub",
+   "area": {
+    "circle": [
+     21.5,
+     15.5,
+     3
+    ]
+   },
+   "share": 0.5,
+   "blend": 3
+  },
+  {
+   "id": "Frontier-temper-44",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "scrub",
+   "area": {
+    "circle": [
+     24.5,
+     15.5,
+     3
+    ]
+   },
+   "share": 0.5,
+   "blend": 3
+  },
+  {
+   "id": "Frontier-temper-45",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "scrub",
+   "area": {
+    "circle": [
+     27.5,
+     15.5,
+     3
+    ]
+   },
+   "share": 0.5,
+   "blend": 3
+  },
+  {
+   "id": "Frontier-temper-46",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "scrub",
+   "area": {
+    "circle": [
+     30.5,
+     15.5,
+     3
+    ]
+   },
+   "share": 0.5,
+   "blend": 3
+  },
+  {
+   "id": "Frontier-temper-47",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "scrub",
+   "area": {
+    "circle": [
+     33.5,
+     15.5,
+     3
+    ]
+   },
+   "share": 0.5,
+   "blend": 3
+  },
+  {
+   "id": "Frontier-temper-48",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "scrub",
+   "area": {
+    "circle": [
+     36.5,
+     15.5,
+     3
+    ]
+   },
+   "share": 0.5,
+   "blend": 3
+  },
+  {
+   "id": "Frontier-temper-49",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "scrub",
+   "area": {
+    "circle": [
+     21.5,
+     18.5,
+     3
+    ]
+   },
+   "share": 0.5,
+   "blend": 3
+  },
+  {
+   "id": "Frontier-temper-50",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "scrub",
+   "area": {
+    "circle": [
+     24.5,
+     18.5,
+     3
+    ]
+   },
+   "share": 0.5,
+   "blend": 3
+  },
+  {
+   "id": "Frontier-temper-51",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "scrub",
+   "area": {
+    "circle": [
+     27.5,
+     18.5,
+     3
+    ]
+   },
+   "share": 0.5,
+   "blend": 3
+  },
+  {
+   "id": "Frontier-temper-52",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "scrub",
+   "area": {
+    "circle": [
+     30.5,
+     18.5,
+     3
+    ]
+   },
+   "share": 0.5,
+   "blend": 3
+  },
+  {
+   "id": "Frontier-temper-53",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "scrub",
+   "area": {
+    "circle": [
+     33.5,
+     18.5,
+     3
+    ]
+   },
+   "share": 0.5,
+   "blend": 3
+  },
+  {
+   "id": "Frontier-temper-54",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "scrub",
+   "area": {
+    "circle": [
+     36.5,
+     18.5,
+     3
+    ]
+   },
+   "share": 0.5,
+   "blend": 3
+  },
+  {
+   "id": "Frontier-temper-55",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "scrub",
+   "area": {
+    "circle": [
+     24.5,
+     21.5,
+     3
+    ]
+   },
+   "share": 0.5,
+   "blend": 3
+  },
+  {
+   "id": "Frontier-temper-56",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "scrub",
+   "area": {
+    "circle": [
+     27.5,
+     21.5,
+     3
+    ]
+   },
+   "share": 0.5,
+   "blend": 3
+  },
+  {
+   "id": "Frontier-temper-57",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "scrub",
+   "area": {
+    "circle": [
+     30.5,
+     21.5,
+     3
+    ]
+   },
+   "share": 0.5,
+   "blend": 3
+  },
+  {
+   "id": "Frontier-temper-58",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "scrub",
+   "area": {
+    "circle": [
+     33.5,
+     21.5,
+     3
+    ]
+   },
+   "share": 0.5,
+   "blend": 3
+  },
+  {
+   "id": "Frontier-temper-59",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "scrub",
+   "area": {
+    "circle": [
+     36.5,
+     21.5,
+     3
+    ]
+   },
+   "share": 0.5,
+   "blend": 3
+  },
+  {
+   "id": "Frontier-temper-60",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "scrub",
+   "area": {
+    "circle": [
+     24.5,
+     24.5,
+     3
+    ]
+   },
+   "share": 0.5,
+   "blend": 3
+  },
+  {
+   "id": "Frontier-temper-61",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "scrub",
+   "area": {
+    "circle": [
+     27.5,
+     24.5,
+     3
+    ]
+   },
+   "share": 0.5,
+   "blend": 3
+  },
+  {
+   "id": "Frontier-temper-62",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "scrub",
+   "area": {
+    "circle": [
+     30.5,
+     24.5,
+     3
+    ]
+   },
+   "share": 0.5,
+   "blend": 3
+  },
+  {
+   "id": "Frontier-temper-63",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "scrub",
+   "area": {
+    "circle": [
+     33.5,
+     24.5,
+     3
+    ]
+   },
+   "share": 0.5,
+   "blend": 3
+  },
+  {
+   "id": "Frontier-temper-64",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "scrub",
+   "area": {
+    "circle": [
+     36.5,
+     24.5,
+     3
+    ]
+   },
+   "share": 0.5,
+   "blend": 3
+  },
+  {
+   "id": "Frontier-temper-65",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "scrub",
+   "area": {
+    "circle": [
+     27.5,
+     27.5,
+     3
+    ]
+   },
+   "share": 0.5,
+   "blend": 3
+  },
+  {
+   "id": "Frontier-temper-66",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "scrub",
+   "area": {
+    "circle": [
+     30.5,
+     27.5,
+     3
+    ]
+   },
+   "share": 0.5,
+   "blend": 3
+  },
+  {
+   "id": "Frontier-temper-67",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "scrub",
+   "area": {
+    "circle": [
+     33.5,
+     27.5,
+     3
+    ]
+   },
+   "share": 0.5,
+   "blend": 3
+  },
+  {
+   "id": "Frontier-temper-68",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "scrub",
+   "area": {
+    "circle": [
+     30.5,
+     30.5,
+     3
+    ]
+   },
+   "share": 0.5,
+   "blend": 3
+  },
+  {
+   "id": "Frontier-temper-69",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "rock",
+   "area": {
+    "circle": [
+     24.5,
+     111.5,
+     3
+    ]
+   },
+   "share": 0.5,
+   "blend": 3
+  },
+  {
+   "id": "Frontier-temper-70",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "rock",
+   "area": {
+    "circle": [
+     27.5,
+     111.5,
+     3
+    ]
+   },
+   "share": 0.5,
+   "blend": 3
+  },
+  {
+   "id": "Frontier-temper-71",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "rock",
+   "area": {
+    "circle": [
+     30.5,
+     111.5,
+     3
+    ]
+   },
+   "share": 0.5,
+   "blend": 3
+  },
+  {
+   "id": "Frontier-temper-72",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "rock",
+   "area": {
+    "circle": [
+     33.5,
+     111.5,
+     3
+    ]
+   },
+   "share": 0.5,
+   "blend": 3
+  },
+  {
+   "id": "Frontier-temper-73",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "rock",
+   "area": {
+    "circle": [
+     21.5,
+     114.5,
+     3
+    ]
+   },
+   "share": 0.5,
+   "blend": 3
+  },
+  {
+   "id": "Frontier-temper-74",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "rock",
+   "area": {
+    "circle": [
+     30.5,
+     114.5,
+     3
+    ]
+   },
+   "share": 0.5,
+   "blend": 3
+  },
+  {
+   "id": "Frontier-temper-75",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "rock",
+   "area": {
+    "circle": [
+     33.5,
+     114.5,
+     3
+    ]
+   },
+   "share": 0.5,
+   "blend": 3
+  },
+  {
+   "id": "Frontier-temper-76",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "scrub",
+   "area": {
+    "circle": [
+     0.5,
+     126.5,
+     3
+    ]
+   },
+   "share": 0.5,
+   "blend": 3
+  },
+  {
+   "id": "Frontier-temper-77",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "rock",
+   "area": {
+    "circle": [
+     87.5,
+     129.5,
+     3
+    ]
+   },
+   "share": 0.5,
+   "blend": 3
+  },
+  {
+   "id": "Frontier-temper-78",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "rock",
+   "area": {
+    "circle": [
+     90.5,
+     129.5,
+     3
+    ]
+   },
+   "share": 0.5,
+   "blend": 3
+  },
+  {
+   "id": "B-route-1",
+   "kind": "path",
+   "path": "road",
+   "origin": "tables",
+   "points": [
+    108,
+    121,
+    99.2,
+    121,
+    81.6,
+    121,
+    64,
+    121,
+    55.2,
+    121,
+    11.2,
+    121,
+    2.4,
+    121
+   ],
+   "tolerance": 1
+  },
+  {
+   "id": "C-route-1",
+   "kind": "path",
+   "path": "road",
+   "origin": "tables",
+   "points": [
+    113,
+    118,
+    113,
+    96,
+    113,
+    91.6,
+    113,
+    87.2,
+    113,
+    56.4,
+    113,
+    47.6,
+    113,
+    12.4
+   ],
+   "tolerance": 1
+  },
+  {
+   "id": "D-route-1",
+   "kind": "path",
+   "path": "road",
+   "origin": "tables",
+   "points": [
+    64,
+    121,
+    64,
+    116.6,
+    64,
+    108.7,
+    64,
+    103.4,
+    64,
+    94.6
+   ],
+   "tolerance": 1
+  },
+  {
+   "id": "B-ground",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "grass",
+   "area": {
+    "poly": [
+     -0.6,
+     121,
+     0.3,
+     118.9,
+     2.4,
+     118,
+     108,
+     118,
+     110.1,
+     118.9,
+     111,
+     121,
+     110.1,
+     123.1,
+     108,
+     124,
+     2.4,
+     124,
+     0.3,
+     123.1
+    ]
+   },
+   "share": 0.8,
+   "blend": 4
+  },
+  {
+   "id": "C-ground",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "forest",
+   "area": {
+    "poly": [
+     66,
+     91.6,
+     66.9,
+     89.5,
+     110.9,
+     10.3,
+     113,
+     9.4,
+     115.1,
+     10.3,
+     116,
+     12.4,
+     124.8,
+     56.4,
+     116,
+     118,
+     115.1,
+     120.1,
+     113,
+     121,
+     110.9,
+     120.1,
+     66.9,
+     93.7
+    ]
+   },
+   "share": 0.8,
+   "blend": 4
+  },
+  {
+   "id": "D-ground",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "marsh",
+   "area": {
+    "poly": [
+     58.8,
+     99,
+     59.7,
+     96.9,
+     61.9,
+     92.5,
+     64,
+     91.6,
+     66.1,
+     92.5,
+     78.5,
+     106.5,
+     79.4,
+     108.6,
+     78.5,
+     110.7,
+     74.9,
+     118.7,
+     66.1,
+     123.1,
+     64,
+     124,
+     61.9,
+     123.1,
+     61,
+     121
+    ]
+   },
+   "share": 0.8,
+   "blend": 4
+  },
+  {
+   "id": "B-ford-stream",
+   "kind": "path",
+   "path": "stream",
+   "points": [
+    47,
+    92,
+    52,
+    108,
+    55.2,
+    121,
+    57,
+    132
+   ],
+   "tolerance": 1
+  }
+ ]
 }

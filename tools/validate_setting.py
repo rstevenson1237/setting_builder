@@ -892,7 +892,7 @@ def check_blocks(diag: Diagnostics, setting):
                 elif c in owner:
                     diag.error(path, f"{c} is in blocks {owner[c]} and {bid}")
                 owner[c] = bid
-            _, problems = maps.block_map(region, block)
+            _, problems = maps.block_file(region, block)
             for p in problems:
                 diag.error(path, f"{bid}: {p}")
         dress = {str(n.args[0]): n for n in region.files.get("Dressing", []) if n.args}

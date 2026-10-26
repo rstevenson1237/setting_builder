@@ -1,194 +1,204 @@
 {
-  "cols": 52,
-  "rows": 27,
-  "gen": {
-    "rooms": 1,
-    "minSize": 3,
-    "maxSize": 8,
-    "caves": 0,
-    "round": 0,
-    "loops": 0,
-    "doors": 0,
-    "corridorWidth": 1,
-    "spacing": 2,
-    "entrance": false
+ "cols": 48,
+ "rows": 23,
+ "gen": {
+  "rooms": 1,
+  "minSize": 3,
+  "maxSize": 8,
+  "caves": 0,
+  "round": 0,
+  "loops": 0,
+  "doors": 0,
+  "corridorWidth": 1,
+  "spacing": 2,
+  "entrance": false
+ },
+ "grid": {
+  "show": true,
+  "size": 2,
+  "sub": true,
+  "clip": "floor"
+ },
+ "style": {
+  "hatch": "band",
+  "band": 0.9,
+  "wall": 1
+ },
+ "scale": {
+  "perCell": 5,
+  "unit": "ft"
+ },
+ "numbers": true,
+ "scaleBar": true,
+ "compass": false,
+ "id": "F-a",
+ "version": 1,
+ "seed": 1,
+ "rooms": [
+  {
+   "id": "F-1",
+   "shape": "rect",
+   "x": 33.5,
+   "y": 8.6,
+   "w": 8,
+   "h": 1,
+   "label": "F.1",
+   "number": 1,
+   "origin": "tables"
   },
-  "grid": {
-    "show": true,
-    "size": 2,
-    "sub": true,
-    "clip": "floor"
+  {
+   "id": "F-2",
+   "shape": "rect",
+   "x": 25.5,
+   "y": 8.6,
+   "w": 8,
+   "h": 1,
+   "label": "F.2",
+   "number": 2,
+   "origin": "tables"
   },
-  "style": {
-    "hatch": "band",
-    "band": 0.9,
-    "wall": 1
+  {
+   "id": "F-3",
+   "shape": "cave",
+   "x": 14.5,
+   "y": 6,
+   "w": 6,
+   "h": 6,
+   "label": "F.3",
+   "number": 3,
+   "origin": "tables"
   },
-  "scale": {
-    "perCell": 5,
-    "unit": "ft"
+  {
+   "id": "F-4",
+   "shape": "rect",
+   "x": 15.5,
+   "y": 13.5,
+   "w": 4,
+   "h": 3,
+   "label": "F.4",
+   "number": 4,
+   "origin": "tables"
   },
-  "numbers": true,
-  "scaleBar": true,
-  "compass": false,
-  "id": "F-a",
-  "version": 1,
-  "seed": 1,
-  "rooms": [
-    {
-      "id": "F-1",
-      "shape": "rect",
-      "x": 35.5,
-      "y": 10.6,
-      "w": 8,
-      "h": 1,
-      "label": "F.1 The Rattle Passage",
-      "number": 1,
-      "origin": "tables"
-    },
-    {
-      "id": "F-2",
-      "shape": "rect",
-      "x": 27.5,
-      "y": 10.6,
-      "w": 8,
-      "h": 1,
-      "label": "F.2 The Pit Run",
-      "number": 2,
-      "origin": "tables"
-    },
-    {
-      "id": "F-3",
-      "shape": "cave",
-      "x": 16.5,
-      "y": 8,
-      "w": 6,
-      "h": 6,
-      "label": "F.3 The Burrows",
-      "number": 3,
-      "origin": "tables"
-    },
-    {
-      "id": "F-4",
-      "shape": "rect",
-      "x": 17.5,
-      "y": 15.5,
-      "w": 4,
-      "h": 3,
-      "label": "F.4 The Tribute Store",
-      "number": 4,
-      "origin": "tables"
-    },
-    {
-      "id": "F-5",
-      "shape": "rect",
-      "x": 8,
-      "y": 9.8,
-      "w": 3,
-      "h": 2.4,
-      "label": "F.5 The Chief's Den",
-      "number": 5,
-      "origin": "tables"
-    }
-  ],
-  "corridors": [
-    {
-      "from": {
-        "room": "F-1"
-      },
-      "to": {
-        "at": [
-          43.5,
-          11
-        ]
-      },
-      "width": 1,
-      "doors": [
-        null,
-        null
-      ],
-      "origin": "tables"
-    },
-    {
-      "from": {
-        "room": "F-1"
-      },
-      "to": {
-        "room": "F-2"
-      },
-      "width": 1,
-      "origin": "tables",
-      "doors": [
-        null,
-        null
-      ]
-    },
-    {
-      "from": {
-        "room": "F-2"
-      },
-      "to": {
-        "room": "F-3"
-      },
-      "width": 1,
-      "origin": "tables",
-      "doors": [
-        null,
-        null
-      ]
-    },
-    {
-      "from": {
-        "room": "F-3"
-      },
-      "to": {
-        "room": "F-4"
-      },
-      "width": 1,
-      "origin": "tables",
-      "doors": [
-        "door",
-        "door"
-      ]
-    },
-    {
-      "from": {
-        "room": "F-3"
-      },
-      "to": {
-        "room": "F-5"
-      },
-      "width": 1,
-      "origin": "tables",
-      "doors": [
-        "door",
-        "door"
-      ]
-    }
-  ],
-  "overlay": {
-    "labels": [
-      {
-        "text": "to E.2",
-        "x": 43.5,
-        "y": 10,
-        "kind": "note",
-        "origin": "tables"
-      }
-    ],
-    "symbols": [
-      {
-        "kind": "trap",
-        "x": 25.5,
-        "y": 11,
-        "origin": "tables"
-      },
-      {
-        "kind": "trap",
-        "x": 14.5,
-        "y": 11,
-        "origin": "tables"
-      }
-    ]
+  {
+   "id": "F-5",
+   "shape": "rect",
+   "x": 6,
+   "y": 7.8,
+   "w": 3,
+   "h": 2.4,
+   "label": "F.5",
+   "number": 5,
+   "origin": "tables"
   }
+ ],
+ "corridors": [
+  {
+   "from": {
+    "room": "F-1",
+    "side": "e"
+   },
+   "to": {
+    "at": [
+     41.5,
+     9
+    ],
+    "exit": {
+     "text": "To E.2"
+    }
+   },
+   "width": 1,
+   "doors": [
+    null,
+    null
+   ],
+   "origin": "tables"
+  },
+  {
+   "from": {
+    "room": "F-1",
+    "side": "w"
+   },
+   "to": {
+    "room": "F-2",
+    "side": "e"
+   },
+   "width": 1,
+   "origin": "tables",
+   "style": "natural",
+   "doors": [
+    null,
+    null
+   ]
+  },
+  {
+   "from": {
+    "room": "F-2",
+    "side": "w"
+   },
+   "to": {
+    "room": "F-3",
+    "side": "e"
+   },
+   "width": 1,
+   "origin": "tables",
+   "style": "natural",
+   "doors": [
+    null,
+    null
+   ]
+  },
+  {
+   "from": {
+    "room": "F-3",
+    "side": "s"
+   },
+   "to": {
+    "room": "F-4",
+    "side": "n"
+   },
+   "width": 1,
+   "origin": "tables",
+   "doors": [
+    "door",
+    "door"
+   ]
+  },
+  {
+   "from": {
+    "room": "F-3",
+    "side": "w"
+   },
+   "to": {
+    "room": "F-5",
+    "side": "e"
+   },
+   "width": 1,
+   "origin": "tables",
+   "doors": [
+    "door",
+    "door"
+   ]
+  }
+ ],
+ "overlay": {
+  "labels": [],
+  "symbols": [
+   {
+    "kind": "trap",
+    "x": 23.5,
+    "y": 9,
+    "origin": "tables"
+   },
+   {
+    "kind": "trap",
+    "x": 12.5,
+    "y": 9,
+    "origin": "tables"
+   }
+  ]
+ },
+ "furniture": {
+  "place": "auto"
+ },
+ "connections": []
 }

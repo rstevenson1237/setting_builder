@@ -38,9 +38,9 @@
   "overlay": {
     "labels": [
       {
-        "text": "A Roadsend Keep",
-        "x": 10.2,
-        "y": 27,
+        "text": "A",
+        "x": 31,
+        "y": 28.5,
         "kind": "region",
         "origin": "tables"
       },
@@ -224,6 +224,42 @@
     ]
   },
   "require": [
+    {
+      "id": "A-walls",
+      "kind": "terrain",
+      "origin": "tables",
+      "area": {
+        "poly": [
+          9,
+          9,
+          58,
+          9,
+          58,
+          45.9,
+          9,
+          45.9
+        ]
+      },
+      "terrain": "grass",
+      "share": 0.95
+    },
+    {
+      "id": "A-walls-clear",
+      "kind": "clear",
+      "origin": "tables",
+      "area": {
+        "poly": [
+          9,
+          9,
+          58,
+          9,
+          58,
+          45.9,
+          9,
+          45.9
+        ]
+      }
+    },
     {
       "id": "A-ground",
       "kind": "terrain",

@@ -1,230 +1,228 @@
 {
-  "cols": 47,
-  "rows": 41,
-  "gen": {
-    "rooms": 1,
-    "minSize": 3,
-    "maxSize": 8,
-    "caves": 0,
-    "round": 0,
-    "loops": 0,
-    "doors": 0,
-    "corridorWidth": 1,
-    "spacing": 2,
-    "entrance": false
+ "cols": 43,
+ "rows": 37,
+ "gen": {
+  "rooms": 1,
+  "minSize": 3,
+  "maxSize": 8,
+  "caves": 0,
+  "round": 0,
+  "loops": 0,
+  "doors": 0,
+  "corridorWidth": 1,
+  "spacing": 2,
+  "entrance": false
+ },
+ "grid": {
+  "show": true,
+  "size": 2,
+  "sub": true,
+  "clip": "floor"
+ },
+ "style": {
+  "hatch": "band",
+  "band": 0.9,
+  "wall": 1
+ },
+ "scale": {
+  "perCell": 5,
+  "unit": "ft"
+ },
+ "numbers": true,
+ "scaleBar": true,
+ "compass": false,
+ "id": "I-a",
+ "version": 1,
+ "seed": 1,
+ "rooms": [
+  {
+   "id": "I-1",
+   "shape": "rect",
+   "x": 6,
+   "y": 20,
+   "w": 4,
+   "h": 2,
+   "label": "I.1",
+   "number": 1,
+   "origin": "tables"
   },
-  "grid": {
-    "show": true,
-    "size": 2,
-    "sub": true,
-    "clip": "floor"
+  {
+   "id": "I-2",
+   "shape": "rect",
+   "x": 10,
+   "y": 15,
+   "w": 12,
+   "h": 12,
+   "label": "I.2",
+   "number": 2,
+   "origin": "tables"
   },
-  "style": {
-    "hatch": "band",
-    "band": 0.9,
-    "wall": 1
+  {
+   "id": "I-3",
+   "shape": "rect",
+   "x": 9,
+   "y": 6,
+   "w": 14,
+   "h": 4,
+   "label": "I.3",
+   "number": 3,
+   "origin": "tables"
   },
-  "scale": {
-    "perCell": 5,
-    "unit": "ft"
+  {
+   "id": "I-4",
+   "shape": "rect",
+   "x": 13,
+   "y": 28,
+   "w": 6,
+   "h": 2,
+   "label": "I.4",
+   "number": 4,
+   "origin": "tables"
   },
-  "numbers": true,
-  "scaleBar": true,
-  "compass": false,
-  "id": "I-a",
-  "version": 1,
-  "seed": 1,
-  "rooms": [
-    {
-      "id": "I-1",
-      "shape": "rect",
-      "x": 8,
-      "y": 22,
-      "w": 4,
-      "h": 2,
-      "label": "I.1 The Hobgoblin Gate",
-      "number": 1,
-      "origin": "tables"
-    },
-    {
-      "id": "I-2",
-      "shape": "rect",
-      "x": 12,
-      "y": 17,
-      "w": 12,
-      "h": 12,
-      "label": "I.2 The Drill Court",
-      "number": 2,
-      "origin": "tables"
-    },
-    {
-      "id": "I-3",
-      "shape": "rect",
-      "x": 11,
-      "y": 8,
-      "w": 14,
-      "h": 4,
-      "label": "I.3 The Barracks",
-      "number": 3,
-      "origin": "tables"
-    },
-    {
-      "id": "I-4",
-      "shape": "rect",
-      "x": 15,
-      "y": 30,
-      "w": 6,
-      "h": 2,
-      "label": "I.4 The Armoury",
-      "number": 4,
-      "origin": "tables"
-    },
-    {
-      "id": "I-6",
-      "shape": "rect",
-      "x": 25,
-      "y": 20.5,
-      "w": 14,
-      "h": 5,
-      "label": "I.6 The Warlord's Hall",
-      "number": 6,
-      "origin": "tables"
-    },
-    {
-      "id": "I-5",
-      "shape": "rect",
-      "x": 22,
-      "y": 29.5,
-      "w": 12,
-      "h": 3,
-      "label": "I.5 The Grain Stores",
-      "number": 5,
-      "origin": "tables"
-    }
-  ],
-  "corridors": [
-    {
-      "from": {
-        "room": "I-1"
-      },
-      "to": {
-        "at": [
-          6,
-          23
-        ]
-      },
-      "width": 2,
-      "doors": [
-        "door",
-        null
-      ],
-      "origin": "tables"
-    },
-    {
-      "from": {
-        "room": "I-3"
-      },
-      "to": {
-        "at": [
-          30.7,
-          1
-        ]
-      },
-      "width": 2,
-      "doors": [
-        "portcullis",
-        null
-      ],
-      "origin": "tables"
-    },
-    {
-      "from": {
-        "room": "I-1"
-      },
-      "to": {
-        "room": "I-2"
-      },
-      "width": 2,
-      "origin": "tables",
-      "doors": [
-        null,
-        null
-      ]
-    },
-    {
-      "from": {
-        "room": "I-2"
-      },
-      "to": {
-        "room": "I-3"
-      },
-      "width": 2,
-      "origin": "tables",
-      "doors": [
-        null,
-        null
-      ]
-    },
-    {
-      "from": {
-        "room": "I-2"
-      },
-      "to": {
-        "room": "I-4"
-      },
-      "width": 2,
-      "origin": "tables",
-      "doors": [
-        "door",
-        "door"
-      ]
-    },
-    {
-      "from": {
-        "room": "I-4"
-      },
-      "to": {
-        "room": "I-5"
-      },
-      "width": 2,
-      "origin": "tables",
-      "doors": [
-        "door",
-        "door"
-      ]
-    },
-    {
-      "from": {
-        "room": "I-2"
-      },
-      "to": {
-        "room": "I-6"
-      },
-      "width": 2,
-      "origin": "tables",
-      "doors": [
-        "door",
-        "door"
-      ]
-    }
-  ],
-  "overlay": {
-    "labels": [
-      {
-        "text": "to E.5",
-        "x": 6,
-        "y": 22,
-        "kind": "note",
-        "origin": "tables"
-      },
-      {
-        "text": "to J.4",
-        "x": 30.7,
-        "y": 0,
-        "kind": "note",
-        "origin": "tables"
-      }
-    ],
-    "symbols": []
+  {
+   "id": "I-6",
+   "shape": "rect",
+   "x": 23,
+   "y": 18.5,
+   "w": 14,
+   "h": 5,
+   "label": "I.6",
+   "number": 6,
+   "origin": "tables"
+  },
+  {
+   "id": "I-5",
+   "shape": "rect",
+   "x": 20,
+   "y": 27.5,
+   "w": 12,
+   "h": 3,
+   "label": "I.5",
+   "number": 5,
+   "origin": "tables"
   }
+ ],
+ "corridors": [
+  {
+   "from": {
+    "room": "I-1",
+    "side": "w"
+   },
+   "to": {
+    "at": [
+     4,
+     21
+    ],
+    "exit": {
+     "text": "To E.5"
+    }
+   },
+   "width": 2,
+   "doors": [
+    "door",
+    null
+   ],
+   "origin": "tables"
+  },
+  {
+   "from": {
+    "room": "I-3",
+    "side": "n"
+   },
+   "to": {
+    "at": [
+     23.3,
+     1
+    ],
+    "exit": {
+     "text": "To J.4"
+    }
+   },
+   "width": 2,
+   "doors": [
+    "portcullis",
+    null
+   ],
+   "origin": "tables"
+  },
+  {
+   "from": {
+    "room": "I-2",
+    "side": "n"
+   },
+   "to": {
+    "room": "I-3",
+    "side": "s"
+   },
+   "width": 2,
+   "origin": "tables",
+   "doors": [
+    null,
+    null
+   ]
+  },
+  {
+   "from": {
+    "room": "I-2",
+    "side": "s"
+   },
+   "to": {
+    "room": "I-4",
+    "side": "n"
+   },
+   "width": 2,
+   "origin": "tables",
+   "doors": [
+    "door",
+    "door"
+   ]
+  },
+  {
+   "from": {
+    "room": "I-4",
+    "side": "e"
+   },
+   "to": {
+    "room": "I-5",
+    "side": "w"
+   },
+   "width": 2,
+   "origin": "tables",
+   "doors": [
+    "door",
+    "door"
+   ]
+  },
+  {
+   "from": {
+    "room": "I-2",
+    "side": "e"
+   },
+   "to": {
+    "room": "I-6",
+    "side": "w"
+   },
+   "width": 2,
+   "origin": "tables",
+   "doors": [
+    "door",
+    "door"
+   ]
+  }
+ ],
+ "overlay": {
+  "labels": [],
+  "symbols": []
+ },
+ "connections": [
+  {
+   "a": "I-1",
+   "b": "I-2",
+   "origin": "tables",
+   "kind": "arch"
+  }
+ ],
+ "furniture": {
+  "place": "auto"
+ }
 }
