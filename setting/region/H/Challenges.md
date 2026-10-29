@@ -1,7 +1,7 @@
 # Challenges of H Zhokvod
 
 ```kdl
-Hazard H.3 type="Fire/Lava" damage="Damaging" test="Constitution" wound="Fire" { Secret trigger="stir a cauldron" tell="fat smoking" knows="the cult" }
+Hazard H.3 type="Fire/Lava" damage="Nuisance" test="Constitution" wound="Fire" { Secret trigger="stir a cauldron" tell="fat smoking" knows="the cult" }
 Encounter H.5 doing="whisper in the dark" reaction="Hostile" answers="1 turn" want="the keys found" { Faction faction="Voxkroth" present=4 members="the chosen" }
 Encounter H.6 doing="rise from the red water" reaction="Hostile" far="water lapping" { Creature bestiary="Zombie" count="3-6" }
 Encounter H.7 doing="chant round the altar" reaction="Hostile" answers="1 turn" want="a captive fed" { Faction faction="Voxkroth" present=8 members="cultists" }
