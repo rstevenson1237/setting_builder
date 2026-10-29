@@ -176,7 +176,7 @@ def block_map(region, block: kdl.Node) -> tuple[dict | None, list[str]]:
     def span(n) -> int:
         """Cells across a passage: the way's own width, else the block's."""
         return max(1, round(float(n.props.get("width", region.passage(block, "width"))) / cell))
-    seen = {}
+    seen, marked = {}, {}
     for n in ways:
         a, b = str(n.args[0]), str(n.props["to"])
         if a in at and b in at:
@@ -202,7 +202,10 @@ def block_map(region, block: kdl.Node) -> tuple[dict | None, list[str]]:
                 tight.sort(key=lambda p: -(p[0] * ux + p[1] * uy) / (math.hypot(*p) or 1))
                 spots = tight                                   # and stand it nearer the wall
                 fits = [p for p in spots if abs(p[0]) >= lw or abs(p[1]) >= NAME_HALF + STAIR_HALF]
-            sx, sy = (cx(a) + (fits or spots)[0][0], cy(a) + (fits or spots)[0][1])
+            clear = lambda ps: [p for p in ps if all(math.dist(p, q) >= 2 * STAIR_HALF for q in marked.get(a, []))]
+            spot = (clear(fits) or clear(spots) or fits or spots)[0]   # clear of a mark already in the room
+            marked.setdefault(a, []).append(spot)
+            sx, sy = cx(a) + spot[0], cy(a) + spot[1]
             climb = n.props.get("climb")
             up = bool(climb) and int(climb) > 0
             down = bool(climb) and int(climb) < 0
@@ -360,6 +363,29 @@ def walks(code: str, setting: Path = tables.SETTING) -> dict[tuple[str, str], tu
     return out
 
 
+def placed(world, code: str) -> tuple[float, float, float, float] | None:
+    """A DANGEROUS room's (east, north, width, length) from its block's centre, where its
+    Dressing places it."""
+    region = world.regions.get(code.split(".")[0])
+    if region is None or region.rating.upper() != "DANGEROUS":
+        return None
+    d = next((n for n in region.files.get("Dressing", []) if n.args and str(n.args[0]) == code), None)
+    if d is None or not all(k in d.props for k in ("east", "north", "width", "length")):
+        return None
+    return tuple(float(d.props[k]) for k in ("east", "north", "width", "length"))
+
+
+def stair(world, code: str) -> tuple[float, float, float, float] | None:
+    """The placed room a way that climbs from room `code` reaches, which `code` stands over or
+    under: blocks a climbing way joins share their centre."""
+    region = world.regions[code.split(".")[0]]
+    for n in region.files.get("Connections", []):
+        if n.args and str(n.args[0]) == code and str(n.props.get("climb", "0")).lstrip("-") not in ("", "0"):
+            if over := placed(world, str(n.props["to"])):
+                return over
+    return None
+
+
 def pack_region(code: str, seed: int = 1, again: bool = False) -> int:
     """Packs each block of a DANGEROUS region into a square and routes its passages (tools/pack.py,
     tools/route.py), keeping each way's direction as its rooms lie, or else as its bearing says.
@@ -367,12 +393,17 @@ def pack_region(code: str, seed: int = 1, again: bool = False) -> int:
     `footprint` and `router` to Blocks.md, and takes `bearing` and `distance` off each way within
     the block, which the rooms' positions now place. A block whose rooms are placed and whose
     ways all route is left where it lies, its router stamped, unless `again`."""
-    region = world_for(tables.SETTING).regions[code]
+    world = world_for(tables.SETTING)
+    region = world.regions[code]
     if region.rating.upper() != "DANGEROUS":
         print(f"{code} is {region.rating}: only a DANGEROUS region's blocks are packed")
         return 1
+    rates = tables.Brief(world.schema).packing(code)
+    if rates["fill"] is None or rates["passages"] is None:
+        print(f"BRIEF.md states no pack fill and passages for {code}")
+        return 1
     dress = {str(n.args[0]): n for n in region.files.get("Dressing", []) if n.args}
-    compass = list(tables.Schema().setting_enums["Compass"])
+    compass = list(world.schema.setting_enums["Compass"])
     files = {k: (region.dir / f"{k}.md") for k in ("Dressing", "Blocks", "Connections")}
     text = {k: f.read_text().split("\n") for k, f in files.items()}
     failed = False
@@ -389,7 +420,8 @@ def pack_region(code: str, seed: int = 1, again: bool = False) -> int:
         placed = {c: (float(dress[c].props["east"]), float(dress[c].props["north"])) for c in members
                   if "east" in dress[c].props and "north" in dress[c].props}
         found = plan_of(region, block)
-        if found and not found[2] and not again:
+        sized = rates["footprint"] is None or float(block.props.get("footprint", 0)) == rates["footprint"]
+        if found and not found[2] and sized and not again:
             print(f"{bid}: packed, and every way routes; left where it lies (--again repacks it)")
             side = None
         else:
@@ -403,7 +435,9 @@ def pack_region(code: str, seed: int = 1, again: bool = False) -> int:
                 else:
                     bearing = compass.index(str(n.props["bearing"])) * 22.5 if "bearing" in n.props else None
                 ways.append((a, b, bearing))
-            side, p, routes, energy = packing.pack(rooms, ways, seed)
+            pins = {c: over for c in members if (over := stair(world, c))}
+            side, p, routes, energy = packing.pack(rooms, ways, seed, rates["fill"], rates["passages"],
+                                                   int(rates["footprint"]) if rates["footprint"] else None, pins)
             if routes is None:
                 print(f"{bid}: no packing of {len(members)} rooms left room for every passage; try another --seed")
                 failed = True
@@ -414,8 +448,8 @@ def pack_region(code: str, seed: int = 1, again: bool = False) -> int:
             at = {c: (p.x[i] - side / 2, side / 2 - p.y[i]) for i, c in enumerate(members)}
             for i, line in enumerate(text["Dressing"]):
                 if (m := re.match(r"Dressing (\S+) ", line)) and m[1] in at:
-                    line = with_prop(line, "east", f"{round(at[m[1]][0], 1):g}", after="length")
-                    text["Dressing"][i] = with_prop(line, "north", f"{round(at[m[1]][1], 1):g}", after="east")
+                    line = with_prop(line, "east", str(round(at[m[1]][0])), after="length")
+                    text["Dressing"][i] = with_prop(line, "north", str(round(at[m[1]][1])), after="east")
             for i, line in enumerate(text["Connections"]):
                 if (m := re.match(r"Connection (\S+) to=\"(\S+)\"", line)) and m[1] in members and m[2] in members:
                     text["Connections"][i] = without(without(line, "bearing"), "distance")
@@ -432,13 +466,11 @@ def pack_region(code: str, seed: int = 1, again: bool = False) -> int:
 
 # -- problems: what the validator reports of a packed block ------------------------------
 
-PACKED = 0.3            # the share of its footprint a packed level's rooms cover, at least
-
-
 def problems(region, block: kdl.Node) -> list[tuple[str, Path, str]]:
     """What is wrong with a block whose rooms state `east` and `north`, as (level, file,
-    message): its rooms lie within its footprint's square round the block's centre and cover
-    PACKED of it, its passages were routed by this tools/route.py, a passage fits each way, a
+    message), or a warning that it is unpacked: its footprint is BRIEF.md's, its rooms lie
+    within its square round the block's centre and cover the least of BRIEF.md's fill, a room
+    a way climbs from stands over or under the room it reaches, its passages were routed by this tools/route.py, a passage fits each way, a
     way within it states no bearing or distance, and its map has nothing tools/mapcheck.py
     finds wrong."""
     bid, path = str(block.args[0]), region.dir / "Blocks.md"
@@ -447,20 +479,30 @@ def problems(region, block: kdl.Node) -> list[tuple[str, Path, str]]:
     at = {c: (float(dress[c].props["east"]), float(dress[c].props["north"])) for c in members
           if c in dress and "east" in dress[c].props and "north" in dress[c].props}
     if not at:
-        return []
+        return [("warning", path, f"{bid}'s rooms are not packed: run `python3 tools/maps.py pack {region.code}` (step 4a)")]
     if "footprint" not in block.props:
         return [("error", path, f"{bid} places its rooms but states no footprint")]
     out, side = [], float(block.props["footprint"])
+    wide = lambda c, k: float(dress[c].props["width" if k == 0 else "length"])
+    world = world_for(tables.SETTING)
+    rates = tables.Brief(world.schema).packing(region.code)
+    if rates["footprint"] is not None and side != rates["footprint"]:
+        out.append(("error", path, f"{bid}'s footprint is {side:g} feet, where BRIEF.md's pack asks {rates['footprint']:g}: "
+                                   f"run `python3 tools/maps.py pack {region.code}` (step 4a)"))
+    for c in at:
+        if (to := stair(world, c)) and not all(abs(at[c][k] - to[k]) < (wide(c, k) + to[k + 2]) / 2 for k in (0, 1)):
+            out.append(("error", path, f"{c} climbs to a room it does not stand over or under; blocks a climbing "
+                                       f"way joins share their centre (step 4a)"))
     if str(block.props.get("router")) != str(route.VERSION):
         out.append(("error", path, f"{bid} was routed by tools/route.py version {block.props.get('router', 'unstated')}, "
                                    f"not {route.VERSION}: run `python3 tools/maps.py pack {region.code}` (step 4a)"))
-    wide = lambda c, k: float(dress[c].props["width" if k == 0 else "length"])
     for c in at:
         if any(abs(at[c][k]) + wide(c, k) / 2 > side / 2 + 0.5 for k in (0, 1)):
             out.append(("error", path, f"{c} lies outside {bid}'s footprint of {side:g} feet round its centre"))
-    area = sum(wide(c, 0) * wide(c, 1) for c in at)
-    if area < PACKED * side * side:
-        out.append(("error", path, f"{bid}'s rooms cover {area / side / side:.0%} of its footprint, under {PACKED:.0%}"))
+    area, least = sum(wide(c, 0) * wide(c, 1) for c in at), (rates["fill"] or (0, 0))[0]
+    if area < least * side * side:
+        out.append(("error", path, f"{bid}'s rooms cover {area / side / side:.0%} of its footprint, under BRIEF.md's "
+                                   f"pack fill of {least:.0%}"))
     for left in plan_of(region, block)[2]:
         out.append(("error", path, f"{bid}: no passage fits the way from {left}"))
     if mapfile := built(region.code, bid)[0]:

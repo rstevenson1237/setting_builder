@@ -113,10 +113,10 @@ node Connection {
   height feet opt
   one-of Encounter Hazard Mystery Secret Lock opt
 }
-node Block {               // one level: a map of its own
+node Block {               // one level: a map of its own, sharing its centre with each block a climbing way joins it to
   name string
   locations location list
-  footprint feet opt        // the side of the square, round the block's centre, its rooms are packed in; stated where they state east and north
+  footprint feet opt        // the side of the square, round the block's centre, its rooms are packed in: BRIEF.md's pack footprint; stated where they state east and north
   router number opt         // the tools/route.py version its passages were routed by; stated with footprint
   width feet opt            // of its passages, where they differ from the seed's Conditions
   height feet opt
