@@ -1,0 +1,462 @@
+{
+ "cols": 53,
+ "rows": 53,
+ "gen": {
+  "land": "inland",
+  "sea": 0,
+  "moisture": 0.6,
+  "roughness": 0.3,
+  "relief": 0.2,
+  "rivers": 2,
+  "simplify": 3,
+  "feature": 40
+ },
+ "topo": {
+  "maxElevation": 600,
+  "interval": 50,
+  "majorEvery": 4,
+  "unit": "ft",
+  "labels": false
+ },
+ "grid": {
+  "type": "square",
+  "size": 1,
+  "coords": false
+ },
+ "scale": {
+  "perCell": 100,
+  "unit": "yd"
+ },
+ "legend": true,
+ "scaleBar": true,
+ "compass": true,
+ "id": "Sands",
+ "version": 1,
+ "preset": "regional",
+ "seed": 1,
+ "edits": [],
+ "overlay": {
+  "labels": [
+   {
+    "text": "A",
+    "x": 27.2,
+    "y": 26,
+    "kind": "region",
+    "origin": "tables"
+   }
+  ],
+  "symbols": [
+   {
+    "kind": "poi",
+    "x": 26,
+    "y": 26,
+    "origin": "tables"
+   }
+  ]
+ },
+ "require": [
+  {
+   "id": "Sands-temper-1",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "rock",
+   "area": {
+    "circle": [
+     12.5,
+     3.5,
+     3
+    ]
+   },
+   "share": 0.5,
+   "blend": 3
+  },
+  {
+   "id": "Sands-temper-2",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "rock",
+   "area": {
+    "circle": [
+     9.5,
+     6.5,
+     3
+    ]
+   },
+   "share": 0.5,
+   "blend": 3
+  },
+  {
+   "id": "Sands-temper-3",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "rock",
+   "area": {
+    "circle": [
+     12.5,
+     6.5,
+     3
+    ]
+   },
+   "share": 0.5,
+   "blend": 3
+  },
+  {
+   "id": "Sands-temper-4",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "rock",
+   "area": {
+    "circle": [
+     9.5,
+     9.5,
+     3
+    ]
+   },
+   "share": 0.5,
+   "blend": 3
+  },
+  {
+   "id": "Sands-temper-5",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "rock",
+   "area": {
+    "circle": [
+     12.5,
+     9.5,
+     3
+    ]
+   },
+   "share": 0.5,
+   "blend": 3
+  },
+  {
+   "id": "Sands-temper-6",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "rock",
+   "area": {
+    "circle": [
+     30.5,
+     9.5,
+     3
+    ]
+   },
+   "share": 0.5,
+   "blend": 3
+  },
+  {
+   "id": "Sands-temper-7",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "rock",
+   "area": {
+    "circle": [
+     33.5,
+     9.5,
+     3
+    ]
+   },
+   "share": 0.5,
+   "blend": 3
+  },
+  {
+   "id": "Sands-temper-8",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "rock",
+   "area": {
+    "circle": [
+     24.5,
+     12.5,
+     3
+    ]
+   },
+   "share": 0.5,
+   "blend": 3
+  },
+  {
+   "id": "Sands-temper-9",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "rock",
+   "area": {
+    "circle": [
+     30.5,
+     12.5,
+     3
+    ]
+   },
+   "share": 0.5,
+   "blend": 3
+  },
+  {
+   "id": "Sands-temper-10",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "rock",
+   "area": {
+    "circle": [
+     33.5,
+     12.5,
+     3
+    ]
+   },
+   "share": 0.5,
+   "blend": 3
+  },
+  {
+   "id": "Sands-temper-11",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "rock",
+   "area": {
+    "circle": [
+     21.5,
+     15.5,
+     3
+    ]
+   },
+   "share": 0.5,
+   "blend": 3
+  },
+  {
+   "id": "Sands-temper-12",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "rock",
+   "area": {
+    "circle": [
+     24.5,
+     15.5,
+     3
+    ]
+   },
+   "share": 0.5,
+   "blend": 3
+  },
+  {
+   "id": "Sands-temper-13",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "rock",
+   "area": {
+    "circle": [
+     27.5,
+     15.5,
+     3
+    ]
+   },
+   "share": 0.5,
+   "blend": 3
+  },
+  {
+   "id": "Sands-temper-14",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "rock",
+   "area": {
+    "circle": [
+     30.5,
+     15.5,
+     3
+    ]
+   },
+   "share": 0.5,
+   "blend": 3
+  },
+  {
+   "id": "Sands-temper-15",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "rock",
+   "area": {
+    "circle": [
+     21.5,
+     18.5,
+     3
+    ]
+   },
+   "share": 0.5,
+   "blend": 3
+  },
+  {
+   "id": "Sands-temper-16",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "rock",
+   "area": {
+    "circle": [
+     24.5,
+     18.5,
+     3
+    ]
+   },
+   "share": 0.5,
+   "blend": 3
+  },
+  {
+   "id": "Sands-temper-17",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "rock",
+   "area": {
+    "circle": [
+     27.5,
+     18.5,
+     3
+    ]
+   },
+   "share": 0.5,
+   "blend": 3
+  },
+  {
+   "id": "Sands-temper-18",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "rock",
+   "area": {
+    "circle": [
+     21.5,
+     21.5,
+     3
+    ]
+   },
+   "share": 0.5,
+   "blend": 3
+  },
+  {
+   "id": "Sands-temper-19",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "rock",
+   "area": {
+    "circle": [
+     24.5,
+     21.5,
+     3
+    ]
+   },
+   "share": 0.5,
+   "blend": 3
+  },
+  {
+   "id": "Sands-temper-20",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "rock",
+   "area": {
+    "circle": [
+     51.5,
+     21.5,
+     3
+    ]
+   },
+   "share": 0.5,
+   "blend": 3
+  },
+  {
+   "id": "Sands-temper-21",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "rock",
+   "area": {
+    "circle": [
+     45.5,
+     24.5,
+     3
+    ]
+   },
+   "share": 0.5,
+   "blend": 3
+  },
+  {
+   "id": "Sands-temper-22",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "rock",
+   "area": {
+    "circle": [
+     48.5,
+     24.5,
+     3
+    ]
+   },
+   "share": 0.5,
+   "blend": 3
+  },
+  {
+   "id": "Sands-temper-23",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "rock",
+   "area": {
+    "circle": [
+     51.5,
+     24.5,
+     3
+    ]
+   },
+   "share": 0.5,
+   "blend": 3
+  },
+  {
+   "id": "Sands-temper-24",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "rock",
+   "area": {
+    "circle": [
+     45.5,
+     27.5,
+     3
+    ]
+   },
+   "share": 0.5,
+   "blend": 3
+  },
+  {
+   "id": "Sands-temper-25",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "rock",
+   "area": {
+    "circle": [
+     45.5,
+     30.5,
+     3
+    ]
+   },
+   "share": 0.5,
+   "blend": 3
+  },
+  {
+   "id": "A-ground",
+   "kind": "terrain",
+   "origin": "tables",
+   "terrain": "sand",
+   "area": {
+    "poly": [
+     23,
+     26,
+     23.9,
+     23.9,
+     26,
+     23,
+     28.1,
+     23.9,
+     29,
+     26,
+     28.1,
+     28.1,
+     26,
+     29,
+     23.9,
+     28.1
+    ]
+   },
+   "share": 0.8,
+   "blend": 4
+  }
+ ]
+}
