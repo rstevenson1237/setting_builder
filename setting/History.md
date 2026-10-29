@@ -4,13 +4,13 @@ History of The Buried City
 When: ancient - many centuries ago
 Event: The cynidiceans built a city on the sands and a stepped pyramid at its centre to house the dead of their royal line.
 Left: Streets laid on a grid under the dunes, and a stepped pyramid whose walls are cut, floor to ceiling, with the cynidicean script.
-Codes:
+Codes: A.1, A.3, A.8
 
 ### The Demon Is Invited
 When: ancient - longer ago than the cynidiceans can reckon
 Event: A royal house invited a demon into its line, and the demon's priests corrupted the court, the clergy and the soldiers in turn.
 Left: Black altars cut into the lower levels, and murals in the upper ones with the demon's face scraped from them.
-Codes:
+Codes: A.6
 
 ### The Last King Is Entombed
 When: old - recorded, but not remembered
@@ -22,4 +22,4 @@ Codes:
 When: old - recorded, but not remembered
 Event: The living took the stair down to the lake city to live out their lives in dreams and masks, and the city above was left to the sand.
 Left: A stair worn smooth in the middle of every step, and a city above whose doors were never shut behind its people.
-Codes:
+Codes: A.2, A.9
