@@ -13,3 +13,10 @@ Does: ward
 Cost: sought, forbidden
 Origin: event - The Demon Is Invited
 Description: A red-lacquered ring with a drum-skin face, taken by the third lieutenant from a priestess of the Ruhiahe. The wearer is warded from the demon's corruption, so a Test of Sanity against it is made with Advantage; the cult wants it back and the Ruhiahe count it stolen.
+
+### The Binding Chain
+Found at: L.4
+Does: solution
+Cost: bound, forbidden
+Origin: lost - The Demon Is Invited
+Description: A chain of white bone links, each cut with a cynidicean sign, laid beneath the demon's seat by the royal line to bind it. A party that fastens it round the seat while the demon is wounded holds it until the chain is cut; the cult and every branch want it for their own ends.

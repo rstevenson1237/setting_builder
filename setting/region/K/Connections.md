@@ -1,7 +1,7 @@
 # Connections of K Ghulvod
 
 ```kdl
-Connection K.1 to="K.2" type="Open" bearing="east" distance="70 feet"
+Connection K.1 to="K.2" type="Open" bearing="east" distance="70 feet" { Encounter doing="stand in a king's robe" reaction="Hostile" want="no steel drawn" { Creature bestiary="Wraith" count=1 } }
 Connection K.1 to="J.6" type="Open" bearing="south" distance="40 feet" climb=20
 Connection K.2 to="K.1" type="Open" bearing="west" distance="70 feet"
 Connection K.2 to="K.3" type="Archway" bearing="east" distance="70 feet"

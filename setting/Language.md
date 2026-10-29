@@ -94,3 +94,4 @@ Coined here:
 - Krulox = krul + -ox - of the rock
 - Xothox = xoth + -ox - of the dead
 - Zhurjul = zhur + -jul - the red little one
+- Ghulox = ghul + -ox - of the bone

@@ -69,3 +69,10 @@ Found at: I.8
 Voice: A cult priest, recording the rite for the next priest and sparing no detail but its cost.
 Does: purpose, connection
 Text: A chosen is made at the warm altar and unmade at the black one; the blood from the unmaking runs down the channel to the demon's hall. Three nights in the cell, three masks, and the name given up. Those who do not return from the cell are counted fed.
+
+### The Demon's Breath
+Form: cut
+Found at: K.4
+Voice: A cult mask-maker, writing for his apprentice and not understanding what he served.
+Does: purpose, contradiction
+Text: Cut inside a mask: wear it tight, for the breath of the antechamber loosens the wits of those who go bare-faced. The demon is not a god; it eats what the cynidiceans left in the tombs, and it grows. The lieutenants say it can be bound; the Scholars say they have the way; the king's keys are not a way to bind it but a way to wake it.

@@ -1,7 +1,7 @@
 # Connections of L Dhaexvod
 
 ```kdl
-Connection L.1 to="L.2" type="Open" bearing="north" distance="80 feet"
+Connection L.1 to="L.2" type="Open" bearing="north" distance="80 feet" { Encounter doing="stand until the threshold is crossed" reaction="Hostile" want="no light carried" { Creature bestiary="Wraith" count=1 } }
 Connection L.1 to="K.5" type="Open" bearing="south" distance="40 feet" climb=20
 Connection L.2 to="L.1" type="Open" bearing="south" distance="80 feet"
 Connection L.2 to="L.3" type="Open" bearing="west" distance="80 feet"
