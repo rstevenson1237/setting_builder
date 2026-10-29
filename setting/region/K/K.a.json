@@ -140,11 +140,13 @@
   {
    "from": {
     "room": "K-1",
-    "side": "e"
+    "side": "e",
+    "offset": 2
    },
    "to": {
     "room": "K-2",
-    "side": "w"
+    "side": "w",
+    "offset": 3
    },
    "width": 1,
    "origin": "tables",
@@ -156,11 +158,13 @@
   {
    "from": {
     "room": "K-2",
-    "side": "e"
+    "side": "e",
+    "offset": 3
    },
    "to": {
     "room": "K-3",
-    "side": "w"
+    "side": "w",
+    "offset": 6
    },
    "width": 1,
    "origin": "tables",
@@ -172,11 +176,13 @@
   {
    "from": {
     "room": "K-2",
-    "side": "n"
+    "side": "n",
+    "offset": 5
    },
    "to": {
     "room": "K-4",
-    "side": "s"
+    "side": "s",
+    "offset": 3
    },
    "width": 1,
    "origin": "tables",
@@ -188,11 +194,13 @@
   {
    "from": {
     "room": "K-3",
-    "side": "e"
+    "side": "e",
+    "offset": 6
    },
    "to": {
     "room": "K-5",
-    "side": "w"
+    "side": "w",
+    "offset": 2
    },
    "width": 1,
    "origin": "tables",
@@ -203,19 +211,18 @@
   },
   {
    "from": {
-    "room": "K-3",
-    "side": "w"
+    "room": "K-3"
    },
    "to": {
-    "room": "K-4",
-    "side": "e"
+    "room": "K-4"
    },
    "width": 1,
    "origin": "tables",
    "doors": [
     "door",
     "door"
-   ]
+   ],
+   "route": "around"
   }
  ],
  "connections": [],

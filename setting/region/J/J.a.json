@@ -151,11 +151,13 @@
   {
    "from": {
     "room": "J-1",
-    "side": "e"
+    "side": "e",
+    "offset": 2
    },
    "to": {
     "room": "J-2",
-    "side": "w"
+    "side": "w",
+    "offset": 5
    },
    "width": 2,
    "origin": "tables",
@@ -167,11 +169,13 @@
   {
    "from": {
     "room": "J-2",
-    "side": "n"
+    "side": "n",
+    "offset": 6
    },
    "to": {
     "room": "J-3",
-    "side": "s"
+    "side": "s",
+    "offset": 5
    },
    "width": 2,
    "origin": "tables",
@@ -183,11 +187,13 @@
   {
    "from": {
     "room": "J-2",
-    "side": "s"
+    "side": "s",
+    "offset": 6
    },
    "to": {
     "room": "J-4",
-    "side": "n"
+    "side": "n",
+    "offset": 5
    },
    "width": 2,
    "origin": "tables",
@@ -199,11 +205,13 @@
   {
    "from": {
     "room": "J-2",
-    "side": "e"
+    "side": "e",
+    "offset": 5
    },
    "to": {
     "room": "J-5",
-    "side": "w"
+    "side": "w",
+    "offset": 3
    },
    "width": 2,
    "origin": "tables",
@@ -231,11 +239,13 @@
   {
    "from": {
     "room": "J-5",
-    "side": "e"
+    "side": "e",
+    "offset": 3
    },
    "to": {
     "room": "J-6",
-    "side": "w"
+    "side": "w",
+    "offset": 3
    },
    "width": 2,
    "origin": "tables",

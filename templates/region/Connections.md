@@ -25,6 +25,6 @@ Every location is reachable from an entrance the seed's Entries name, and a way 
 location carries the gate its folder's `join` line names. A way to another region joins only a
 region this one joins in `setting/region/Regions.md`.
 
-Where the schema holds Blocks, every location is in exactly one block, and a way that climbs
+Where the schema holds Blocks, every location is in exactly one block, its ways' bearing and distance are first estimates that `tools/maps.py pack` replaces once the Dressing states each room's size, and a way that climbs
 joins two blocks. A Block or Connection states its passages' `width` and `height` only where
 they differ from the seed's Conditions, a Connection's within both rooms' footprints.

@@ -895,6 +895,7 @@ def check_blocks(diag: Diagnostics, setting):
             for p in problems:
                 diag.error(path, f"{bid}: {p}")
         dress = {str(n.args[0]): n for n in region.files.get("Dressing", []) if n.args}
+        check_packing(diag, region, blocks, dress)
         for n in region.files.get("Connections", []):
             for k in ("width", "height"):
                 for end in (str(n.args[0]), str(n.props.get("to"))) if k in n.props else ():
@@ -910,6 +911,53 @@ def check_blocks(diag: Diagnostics, setting):
             a, b = str(n.args[0]), str(n.props.get("to"))
             if owner.get(a) and owner.get(a) == owner.get(b) and str(n.props.get("climb", "0")).lstrip("-") not in ("", "0"):
                 diag.error(region.dir / "Connections.md", f"{a} to {b} climbs within block {owner[a]}; a way that climbs joins two blocks")
+
+
+PACKED = 0.4            # the share of its footprint a packed level's rooms cover, at least
+
+
+def check_packing(diag: Diagnostics, region, blocks, dress):
+    """A block whose rooms state `east` and `north` lies within its `footprint`, covers PACKED of
+    it, and each way within it says where it runs: the compass point within a quarter turn of
+    the line between the rooms' centres, and their distance to the nearest 10 feet."""
+    import math
+    import maps
+    points = list(maps.tables.Schema().setting_enums["Compass"])
+    path = region.dir / "Blocks.md"
+    for bid, block in blocks.items():
+        members = [m.strip() for m in str(block.props.get("locations", "")).split(",") if m.strip()]
+        at = {}
+        for c in members:
+            d = dress.get(c)
+            if d is not None and "east" in d.props and "north" in d.props:
+                at[c] = (float(d.props["east"]), float(d.props["north"]))
+        if not at:
+            continue
+        side = float(block.props["footprint"]) if "footprint" in block.props else None
+        if side is None:
+            diag.error(path, f"{bid} places its rooms but states no footprint")
+            continue
+        wide = lambda c, k: float(dress[c].props["width" if k == 0 else "length"])
+        for k, name in ((0, "east-west"), (1, "north-south")):
+            lo = min(at[c][k] - wide(c, k) / 2 for c in at)
+            hi = max(at[c][k] + wide(c, k) / 2 for c in at)
+            if hi - lo > side + 0.5:
+                diag.error(path, f"{bid}'s rooms span {hi - lo:g} feet {name}, past its footprint of {side:g}")
+        area = sum(wide(c, 0) * wide(c, 1) for c in at)
+        if area < PACKED * side * side:
+            diag.error(path, f"{bid}'s rooms cover {area / side / side:.0%} of its footprint, under {PACKED:.0%}")
+        for n in region.files.get("Connections", []):
+            a, b = str(n.args[0]), str(n.props.get("to"))
+            if a not in at or b not in at or "bearing" not in n.props:
+                continue
+            dx, dy = at[b][0] - at[a][0], at[b][1] - at[a][1]
+            turn = abs((points.index(str(n.props["bearing"])) * 22.5 - math.degrees(math.atan2(dx, dy))) + 180) % 360 - 180
+            if abs(turn) > 45.01:
+                diag.error(region.dir / "Connections.md", f"{a} to {b} runs {n.props['bearing']}, but {b} lies {abs(turn):.0f} degrees off it")
+            far = maps.feet(str(n.props.get("distance", "0 feet")))
+            if abs(far - math.hypot(dx, dy)) > 10:
+                diag.error(region.dir / "Connections.md",
+                           f"{a} to {b} is {n.props.get('distance')}, but their centres are {math.hypot(dx, dy):.0f} feet apart")
 
 
 def check_reversals(diag: Diagnostics, setting):

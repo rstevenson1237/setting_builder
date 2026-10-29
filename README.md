@@ -74,7 +74,8 @@ Read these rather than a description of them.
   - `artgen/` - artgen's map and dungeon engines (`artgen-maps.js`, run with `node`), copied from
     `artgen-dist` `maps/` at the commit `plans/sheet-maps/brief-engines.md` records. Upgrade it by
     copying `maps/` at a newer commit, in a commit of its own.
-  - `maps.py` - draws maps from the setting through artgen. `place` puts each region on its sheets
+  - `pack.py` - packs a DANGEROUS block's rooms close into a square, face to face, with a short lane between the rooms that do not touch; run through `maps.py pack`.
+  - `maps.py` - draws maps from the setting through artgen. `pack` places a DANGEROUS region's rooms in a square. `place` puts each region on its sheets
     from `BRIEF.md`'s `sheet`, `ground` and `place` lines and writes `setting/Sheets.md`. `ground` writes each
     region's `Ground.md`; `draw` writes each block's map and renders sheets, regions, blocks and cuts to SVG,
     which the site and PDF builders embed.

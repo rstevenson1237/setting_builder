@@ -129,11 +129,13 @@
   {
    "from": {
     "room": "C-1",
-    "side": "n"
+    "side": "n",
+    "offset": 1
    },
    "to": {
     "room": "C-2",
-    "side": "s"
+    "side": "s",
+    "offset": 5
    },
    "width": 2,
    "origin": "tables",
@@ -145,11 +147,13 @@
   {
    "from": {
     "room": "C-2",
-    "side": "e"
+    "side": "e",
+    "offset": 5
    },
    "to": {
     "room": "C-3",
-    "side": "w"
+    "side": "w",
+    "offset": 2
    },
    "width": 2,
    "origin": "tables",
@@ -161,11 +165,13 @@
   {
    "from": {
     "room": "C-2",
-    "side": "n"
+    "side": "n",
+    "offset": 5
    },
    "to": {
     "room": "C-4",
-    "side": "s"
+    "side": "s",
+    "offset": 4
    },
    "width": 2,
    "origin": "tables",

@@ -184,11 +184,13 @@
   {
    "from": {
     "room": "I-1",
-    "side": "e"
+    "side": "e",
+    "offset": 2
    },
    "to": {
     "room": "I-2",
-    "side": "w"
+    "side": "w",
+    "offset": 3
    },
    "width": 1,
    "origin": "tables",
@@ -200,11 +202,13 @@
   {
    "from": {
     "room": "I-1",
-    "side": "n"
+    "side": "n",
+    "offset": 1
    },
    "to": {
     "room": "I-5",
-    "side": "s"
+    "side": "s",
+    "offset": 3
    },
    "width": 1,
    "origin": "tables",
@@ -217,11 +221,13 @@
   {
    "from": {
     "room": "I-2",
-    "side": "n"
+    "side": "n",
+    "offset": 5
    },
    "to": {
     "room": "I-4",
-    "side": "s"
+    "side": "s",
+    "offset": 4
    },
    "width": 1,
    "origin": "tables",
@@ -233,11 +239,13 @@
   {
    "from": {
     "room": "I-2",
-    "side": "e"
+    "side": "e",
+    "offset": 3
    },
    "to": {
     "room": "I-3",
-    "side": "w"
+    "side": "w",
+    "offset": 4
    },
    "width": 1,
    "origin": "tables",
@@ -249,11 +257,13 @@
   {
    "from": {
     "room": "I-2",
-    "side": "s"
+    "side": "s",
+    "offset": 5
    },
    "to": {
     "room": "I-7",
-    "side": "n"
+    "side": "n",
+    "offset": 3
    },
    "width": 1,
    "origin": "tables",
@@ -265,11 +275,13 @@
   {
    "from": {
     "room": "I-3",
-    "side": "n"
+    "side": "n",
+    "offset": 5
    },
    "to": {
     "room": "I-6",
-    "side": "s"
+    "side": "s",
+    "offset": 3
    },
    "width": 1,
    "origin": "tables",
@@ -281,11 +293,13 @@
   {
    "from": {
     "room": "I-3",
-    "side": "e"
+    "side": "e",
+    "offset": 4
    },
    "to": {
     "room": "I-9",
-    "side": "w"
+    "side": "w",
+    "offset": 4
    },
    "width": 1,
    "origin": "tables",
@@ -297,11 +311,13 @@
   {
    "from": {
     "room": "I-4",
-    "side": "w"
+    "side": "w",
+    "offset": 3
    },
    "to": {
     "room": "I-5",
-    "side": "e"
+    "side": "e",
+    "offset": 4
    },
    "width": 1,
    "origin": "tables",
@@ -313,11 +329,13 @@
   {
    "from": {
     "room": "I-4",
-    "side": "e"
+    "side": "e",
+    "offset": 3
    },
    "to": {
     "room": "I-6",
-    "side": "w"
+    "side": "w",
+    "offset": 3
    },
    "width": 1,
    "origin": "tables",
@@ -329,11 +347,13 @@
   {
    "from": {
     "room": "I-7",
-    "side": "w"
+    "side": "w",
+    "offset": 3
    },
    "to": {
     "room": "I-8",
-    "side": "e"
+    "side": "e",
+    "offset": 6
    },
    "width": 1,
    "origin": "tables",

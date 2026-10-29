@@ -45,6 +45,8 @@ node Dressing {
   ambiance gloss opt
   width feet                // across, west to east as the room lies; a round room's diameter
   length feet               // north to south
+  east feet opt             // where its centre lies east of the block's entrance room's, west where negative; written by `tools/maps.py pack`
+  north feet opt            // and north of it, south where negative; a block states both for every room or for none
   height feet opt           // floor to roof, where it matters at the table
   shape Room_Shape opt      // rect where unset
   layout string
@@ -114,6 +116,7 @@ node Connection {
 node Block {               // one level: a map of its own
   name string
   locations location list
+  footprint feet opt        // the side of the square its rooms are packed in; stated where they state east and north
   width feet opt            // of its passages, where they differ from the seed's Conditions
   height feet opt
 }

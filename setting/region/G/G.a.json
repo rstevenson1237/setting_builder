@@ -1,6 +1,6 @@
 {
- "cols": 106,
- "rows": 101,
+ "cols": 58,
+ "rows": 58,
  "gen": {
   "rooms": 1,
   "minSize": 3,
@@ -41,8 +41,8 @@
   {
    "id": "G-1",
    "shape": "rect",
-   "x": 44,
-   "y": 90.68,
+   "x": 16,
+   "y": 48,
    "w": 2,
    "h": 4,
    "label": "G.1",
@@ -52,8 +52,8 @@
   {
    "id": "G-2",
    "shape": "rect",
-   "x": 44,
-   "y": 68.68,
+   "x": 16,
+   "y": 30,
    "w": 2,
    "h": 16,
    "label": "G.2",
@@ -63,8 +63,8 @@
   {
    "id": "G-3",
    "shape": "rect",
-   "x": 22,
-   "y": 72.68,
+   "x": 6,
+   "y": 36,
    "w": 10,
    "h": 8,
    "label": "G.3",
@@ -74,8 +74,8 @@
   {
    "id": "G-4",
    "shape": "rect",
-   "x": 59,
-   "y": 73.68,
+   "x": 28,
+   "y": 26,
    "w": 8,
    "h": 6,
    "label": "G.4",
@@ -83,43 +83,10 @@
    "origin": "tables"
   },
   {
-   "id": "G-13",
-   "shape": "rect",
-   "x": 42,
-   "y": 52.68,
-   "w": 6,
-   "h": 16,
-   "label": "G.13",
-   "number": 13,
-   "origin": "tables"
-  },
-  {
-   "id": "G-11",
-   "shape": "rect",
-   "x": 7,
-   "y": 73.68,
-   "w": 4,
-   "h": 6,
-   "label": "G.11",
-   "number": 11,
-   "origin": "tables"
-  },
-  {
-   "id": "G-15",
-   "shape": "rect",
-   "x": 76,
-   "y": 71.68,
-   "w": 10,
-   "h": 10,
-   "label": "G.15",
-   "number": 15,
-   "origin": "tables"
-  },
-  {
    "id": "G-5",
    "shape": "rect",
-   "x": 24,
-   "y": 57.68,
+   "x": 14,
+   "y": 24,
    "w": 6,
    "h": 6,
    "label": "G.5",
@@ -129,8 +96,8 @@
   {
    "id": "G-6",
    "shape": "rect",
-   "x": 39,
-   "y": 38.68,
+   "x": 18,
+   "y": 12,
    "w": 12,
    "h": 12,
    "label": "G.6",
@@ -138,54 +105,10 @@
    "origin": "tables"
   },
   {
-   "id": "G-12",
-   "shape": "circle",
-   "x": 59,
-   "y": 56.68,
-   "w": 8,
-   "h": 8,
-   "label": "G.12",
-   "number": 12,
-   "origin": "tables"
-  },
-  {
-   "id": "G-18",
-   "shape": "rect",
-   "x": 6,
-   "y": 56.68,
-   "w": 6,
-   "h": 8,
-   "label": "G.18",
-   "number": 18,
-   "origin": "tables"
-  },
-  {
-   "id": "G-16",
-   "shape": "rect",
-   "x": 80,
-   "y": 52.68,
-   "w": 2,
-   "h": 16,
-   "label": "G.16",
-   "number": 16,
-   "origin": "tables"
-  },
-  {
-   "id": "G-9",
-   "shape": "rect",
-   "x": 41,
-   "y": 22.68,
-   "w": 8,
-   "h": 8,
-   "label": "G.9",
-   "number": 9,
-   "origin": "tables"
-  },
-  {
    "id": "G-7",
    "shape": "rect",
-   "x": 23.32,
-   "y": 23,
+   "x": 10,
+   "y": 12,
    "w": 8,
    "h": 8,
    "label": "G.7",
@@ -195,8 +118,8 @@
   {
    "id": "G-8",
    "shape": "rect",
-   "x": 58.68,
-   "y": 23,
+   "x": 30,
+   "y": 6,
    "w": 8,
    "h": 8,
    "label": "G.8",
@@ -204,31 +127,20 @@
    "origin": "tables"
   },
   {
-   "id": "G-14",
+   "id": "G-9",
    "shape": "rect",
-   "x": 98,
-   "y": 51.68,
-   "w": 2,
-   "h": 18,
-   "label": "G.14",
-   "number": 14,
-   "origin": "tables"
-  },
-  {
-   "id": "G-17",
-   "shape": "rect",
-   "x": 76,
-   "y": 40.68,
-   "w": 10,
+   "x": 30,
+   "y": 14,
+   "w": 8,
    "h": 8,
-   "label": "G.17",
-   "number": 17,
+   "label": "G.9",
+   "number": 9,
    "origin": "tables"
   },
   {
    "id": "G-10",
    "shape": "rect",
-   "x": 24.32,
+   "x": 11,
    "y": 6,
    "w": 6,
    "h": 6,
@@ -237,10 +149,98 @@
    "origin": "tables"
   },
   {
+   "id": "G-11",
+   "shape": "rect",
+   "x": 6,
+   "y": 30,
+   "w": 4,
+   "h": 6,
+   "label": "G.11",
+   "number": 11,
+   "origin": "tables"
+  },
+  {
+   "id": "G-12",
+   "shape": "circle",
+   "x": 28,
+   "y": 37,
+   "w": 8,
+   "h": 8,
+   "label": "G.12",
+   "number": 12,
+   "origin": "tables"
+  },
+  {
+   "id": "G-13",
+   "shape": "rect",
+   "x": 18,
+   "y": 32,
+   "w": 6,
+   "h": 16,
+   "label": "G.13",
+   "number": 13,
+   "origin": "tables"
+  },
+  {
+   "id": "G-14",
+   "shape": "rect",
+   "x": 50,
+   "y": 24,
+   "w": 2,
+   "h": 18,
+   "label": "G.14",
+   "number": 14,
+   "origin": "tables"
+  },
+  {
+   "id": "G-15",
+   "shape": "rect",
+   "x": 36,
+   "y": 28,
+   "w": 10,
+   "h": 10,
+   "label": "G.15",
+   "number": 15,
+   "origin": "tables"
+  },
+  {
+   "id": "G-16",
+   "shape": "rect",
+   "x": 46,
+   "y": 25,
+   "w": 2,
+   "h": 16,
+   "label": "G.16",
+   "number": 16,
+   "origin": "tables"
+  },
+  {
+   "id": "G-17",
+   "shape": "rect",
+   "x": 38,
+   "y": 17,
+   "w": 10,
+   "h": 8,
+   "label": "G.17",
+   "number": 17,
+   "origin": "tables"
+  },
+  {
+   "id": "G-18",
+   "shape": "rect",
+   "x": 8,
+   "y": 22,
+   "w": 6,
+   "h": 8,
+   "label": "G.18",
+   "number": 18,
+   "origin": "tables"
+  },
+  {
    "id": "G-19",
    "shape": "rect",
-   "x": 79.68,
-   "y": 24,
+   "x": 38,
+   "y": 6,
    "w": 2,
    "h": 6,
    "label": "G.19",
@@ -256,8 +256,8 @@
    },
    "to": {
     "at": [
-     45,
-     98.7
+     17,
+     56
     ],
     "exit": {
      "text": "Up to F.13"
@@ -277,8 +277,8 @@
    },
    "to": {
     "at": [
-     104,
-     60.7
+     56,
+     33
     ],
     "exit": {
      "text": "Down to B.1"
@@ -298,8 +298,8 @@
    },
    "to": {
     "at": [
-     80.7,
-     20
+     39,
+     2
     ],
     "exit": {
      "text": "Down to H.1"
@@ -315,11 +315,13 @@
   {
    "from": {
     "room": "G-1",
-    "side": "n"
+    "side": "n",
+    "offset": 1
    },
    "to": {
     "room": "G-2",
-    "side": "s"
+    "side": "s",
+    "offset": 1
    },
    "width": 2,
    "origin": "tables",
@@ -331,27 +333,13 @@
   {
    "from": {
     "room": "G-2",
-    "side": "w"
-   },
-   "to": {
-    "room": "G-3",
-    "side": "e"
-   },
-   "width": 2,
-   "origin": "tables",
-   "doors": [
-    null,
-    null
-   ]
-  },
-  {
-   "from": {
-    "room": "G-2",
-    "side": "e"
+    "side": "e",
+    "offset": 1
    },
    "to": {
     "room": "G-4",
-    "side": "w"
+    "side": "w",
+    "offset": 5
    },
    "width": 2,
    "origin": "tables",
@@ -362,188 +350,48 @@
   },
   {
    "from": {
-    "room": "G-11",
-    "side": "e"
+    "room": "G-13"
    },
    "to": {
-    "room": "G-3",
-    "side": "w"
+    "room": "G-5"
    },
    "width": 2,
    "origin": "tables",
    "doors": [
     null,
     null
-   ]
-  },
-  {
-   "from": {
-    "room": "G-15",
-    "side": "w"
-   },
-   "to": {
-    "room": "G-4",
-    "side": "e"
-   },
-   "width": 2,
-   "origin": "tables",
-   "doors": [
-    null,
-    null
-   ]
+   ],
+   "route": "around"
   },
   {
    "from": {
     "room": "G-13",
-    "side": "w"
-   },
-   "to": {
-    "room": "G-5",
-    "side": "e"
-   },
-   "width": 2,
-   "origin": "tables",
-   "doors": [
-    null,
-    null
-   ]
-  },
-  {
-   "from": {
-    "room": "G-18",
-    "side": "e"
-   },
-   "to": {
-    "room": "G-5",
-    "side": "w"
-   },
-   "width": 2,
-   "origin": "tables",
-   "doors": [
-    null,
-    null
-   ]
-  },
-  {
-   "from": {
-    "room": "G-13",
-    "side": "n"
+    "side": "n",
+    "offset": 3
    },
    "to": {
     "room": "G-6",
-    "side": "s"
+    "side": "s",
+    "offset": 3
    },
    "width": 2,
    "origin": "tables",
    "doors": [
     "door",
     "door"
-   ]
-  },
-  {
-   "from": {
-    "room": "G-6",
-    "side": "n"
-   },
-   "to": {
-    "room": "G-9",
-    "side": "s"
-   },
-   "width": 2,
-   "origin": "tables",
-   "doors": [
-    "door",
-    "door"
-   ]
-  },
-  {
-   "from": {
-    "room": "G-6",
-    "side": "w"
-   },
-   "to": {
-    "room": "G-7",
-    "side": "e"
-   },
-   "width": 2,
-   "origin": "tables",
-   "doors": [
-    "door",
-    "door"
-   ]
-  },
-  {
-   "from": {
-    "room": "G-6",
-    "side": "n"
-   },
-   "to": {
-    "room": "G-8",
-    "side": "s"
-   },
-   "width": 2,
-   "origin": "tables",
-   "doors": [
-    "door",
-    "door"
-   ]
-  },
-  {
-   "from": {
-    "room": "G-10",
-    "side": "s"
-   },
-   "to": {
-    "room": "G-7",
-    "side": "n"
-   },
-   "width": 2,
-   "origin": "tables",
-   "doors": [
-    "portcullis",
-    "locked"
-   ]
-  },
-  {
-   "from": {
-    "room": "G-19",
-    "side": "w"
-   },
-   "to": {
-    "room": "G-8",
-    "side": "e"
-   },
-   "width": 2,
-   "origin": "tables",
-   "doors": [
-    null,
-    null
-   ]
-  },
-  {
-   "from": {
-    "room": "G-11",
-    "side": "n"
-   },
-   "to": {
-    "room": "G-18",
-    "side": "s"
-   },
-   "width": 2,
-   "origin": "tables",
-   "doors": [
-    "door",
-    "door"
-   ]
+   ],
+   "route": "around"
   },
   {
    "from": {
     "room": "G-12",
-    "side": "w"
+    "side": "w",
+    "offset": 4
    },
    "to": {
     "room": "G-13",
-    "side": "e"
+    "side": "e",
+    "offset": 9
    },
    "width": 2,
    "origin": "tables",
@@ -555,11 +403,13 @@
   {
    "from": {
     "room": "G-12",
-    "side": "e"
+    "side": "e",
+    "offset": 4
    },
    "to": {
     "room": "G-16",
-    "side": "w"
+    "side": "w",
+    "offset": 14
    },
    "width": 2,
    "origin": "tables",
@@ -571,43 +421,13 @@
   {
    "from": {
     "room": "G-14",
-    "side": "w"
+    "side": "w",
+    "offset": 9
    },
    "to": {
     "room": "G-16",
-    "side": "e"
-   },
-   "width": 2,
-   "origin": "tables",
-   "doors": [
-    null,
-    null
-   ]
-  },
-  {
-   "from": {
-    "room": "G-15",
-    "side": "n"
-   },
-   "to": {
-    "room": "G-16",
-    "side": "s"
-   },
-   "width": 2,
-   "origin": "tables",
-   "doors": [
-    null,
-    null
-   ]
-  },
-  {
-   "from": {
-    "room": "G-16",
-    "side": "n"
-   },
-   "to": {
-    "room": "G-17",
-    "side": "s"
+    "side": "e",
+    "offset": 8
    },
    "width": 2,
    "origin": "tables",
@@ -619,11 +439,13 @@
   {
    "from": {
     "room": "G-17",
-    "side": "n"
+    "side": "n",
+    "offset": 1
    },
    "to": {
     "room": "G-19",
-    "side": "s"
+    "side": "s",
+    "offset": 1
    },
    "width": 2,
    "origin": "tables",
@@ -635,10 +457,82 @@
  ],
  "connections": [
   {
+   "a": "G-2",
+   "b": "G-3",
+   "origin": "tables",
+   "kind": "arch"
+  },
+  {
    "a": "G-13",
    "b": "G-2",
    "origin": "tables",
    "kind": "door"
+  },
+  {
+   "a": "G-11",
+   "b": "G-3",
+   "origin": "tables",
+   "kind": "arch"
+  },
+  {
+   "a": "G-15",
+   "b": "G-4",
+   "origin": "tables",
+   "kind": "arch"
+  },
+  {
+   "a": "G-18",
+   "b": "G-5",
+   "origin": "tables",
+   "kind": "arch"
+  },
+  {
+   "a": "G-6",
+   "b": "G-9",
+   "origin": "tables",
+   "kind": "door"
+  },
+  {
+   "a": "G-6",
+   "b": "G-7",
+   "origin": "tables",
+   "kind": "door"
+  },
+  {
+   "a": "G-6",
+   "b": "G-8",
+   "origin": "tables",
+   "kind": "door"
+  },
+  {
+   "a": "G-10",
+   "b": "G-7",
+   "origin": "tables",
+   "kind": "portcullis"
+  },
+  {
+   "a": "G-19",
+   "b": "G-8",
+   "origin": "tables",
+   "kind": "arch"
+  },
+  {
+   "a": "G-11",
+   "b": "G-18",
+   "origin": "tables",
+   "kind": "door"
+  },
+  {
+   "a": "G-15",
+   "b": "G-16",
+   "origin": "tables",
+   "kind": "open"
+  },
+  {
+   "a": "G-16",
+   "b": "G-17",
+   "origin": "tables",
+   "kind": "open"
   }
  ],
  "overlay": {
