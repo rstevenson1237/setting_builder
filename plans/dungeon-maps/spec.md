@@ -96,3 +96,17 @@ Each proposal names the findings it closes. `intake.md` holds how they were read
 - **S12. `plans/sheet-maps/artgen-capabilities.md`.** The keys the framework writes into a
   dungeon and settlement file, what each does as observed, the defaults that bite, and where
   report 2 holds the gaps. README's artgen line cites it.
+
+## 7. Found in the work
+
+- **S13. A drawn member leaves write-ups current.** Once Exits state no position, a pack
+  changes nothing a write-up says, yet every table line it rewrites marked the level's
+  write-ups stale with no way to clear them. A schema field flagged `drawn` is shown from its
+  table and written in no write-up: `east`, `north`, `footprint`, `router`, and every way's
+  `bearing` and `distance`. Staleness compares an entry with the one the write-up or brief was
+  written from, its drawn members left out. A write-up a form-only commit changes (one listed
+  in `.git-blame-ignore-revs`) keeps its time from before: T3's Exits rewrite had made eleven
+  stale write-ups read as current. T3, T4 and T6 are listed.
+- **S14. The packer on narrow rooms.** It failed on a room narrower than a door, which no
+  packed level held until the trial packs of F and H. Two ways out of one room drew their
+  stairs on one spot.

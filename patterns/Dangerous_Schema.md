@@ -45,8 +45,8 @@ node Dressing {
   ambiance gloss opt
   width feet                // across, west to east as the room lies; a round room's diameter
   length feet               // north to south
-  east feet opt             // where its centre lies east of its block's centre, west where negative; written by `tools/maps.py pack`
-  north feet opt            // and north of it, south where negative; a block states both for every room or for none
+  east feet opt drawn       // where its centre lies east of its block's centre, west where negative; written by `tools/maps.py pack`
+  north feet opt drawn      // and north of it, south where negative; a block states both for every room or for none
   height feet opt           // floor to roof, where it matters at the table
   shape Room_Shape opt      // rect where unset
   layout string
@@ -105,8 +105,8 @@ node Reward {
 node Connection {
   to location
   type Connection_Type
-  bearing Compass opt       // where the far end lies from this one, as designed: it places a block's rooms until they state east and north, and pack keeps it
-  distance distance opt     // with bearing; a way between two rooms that state east and north states neither
+  bearing Compass opt drawn // where the far end lies from this one, as designed: it places a block's rooms until they state east and north, and pack keeps it
+  distance distance opt drawn   // with bearing; a way between two rooms that state east and north states neither
   climb feet opt            // up, or down where negative, where the way changes level
   orientation gloss opt     // the same in words, for the reader
   width feet opt            // where it differs from its block's; within both rooms' footprints
@@ -116,8 +116,8 @@ node Connection {
 node Block {               // one level: a map of its own, sharing its centre with each block a climbing way joins it to
   name string
   locations location list
-  footprint feet opt        // the side of the square, round the block's centre, its rooms are packed in: BRIEF.md's pack footprint; stated where they state east and north
-  router number opt         // the tools/route.py version its passages were routed by; stated with footprint
+  footprint feet opt drawn  // the side of the square, round the block's centre, its rooms are packed in: BRIEF.md's pack footprint; stated where they state east and north
+  router number opt drawn   // the tools/route.py version its passages were routed by; stated with footprint
   width feet opt            // of its passages, where they differ from the seed's Conditions
   height feet opt
 }

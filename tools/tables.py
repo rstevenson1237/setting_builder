@@ -44,6 +44,7 @@ class Member:
     props: dict = field(default_factory=dict)          # range=, count=, bonus=
     none: bool = False
     out: str = "line"                                  # how it is set down: Common_Schema.md's Out
+    drawn: bool = False                                # shown from its table, never written in a write-up
 
 
 @dataclass
@@ -230,12 +231,13 @@ class Schema:
 
     @staticmethod
     def _member(c) -> Member:
-        flags = {"opt", "list", "none"}
+        flags = {"opt", "list", "none", "drawn"}
         if c.name == "one-of":
             return Member("one-of", opt="opt" in c.args, nodes=[a for a in c.args if a not in flags])
         rest = [a for a in c.args[1:] if a not in flags]
         return Member(c.name, c.args[0] if c.args else "", rest[0] if rest else None, "opt" in c.args,
-                      "list" in c.args, c.props.get("n"), [], rest, c.props, "none" in c.args)
+                      "list" in c.args, c.props.get("n"), [], rest, c.props, "none" in c.args,
+                      drawn="drawn" in c.args)
 
     def _resolve_fields(self):
         """Every setting table's fields name a value, an enum or tables that exist."""
@@ -1650,7 +1652,9 @@ class Brief:
 # file's modified time while the line is uncommitted. Without git, nothing is stale.
 # A commit that changes a line's form and not its meaning is listed in BLAME_IGNORE, so
 # `git blame` looks past it and the write-ups the line feeds stay current; a line it adds,
-# which blame cannot look past, counts as old.
+# which blame cannot look past, counts as old, and a write-up it changes keeps its time from
+# before. A line whose entry differs from the one the write-up was written from only in
+# `drawn` members has not changed for it.
 
 import os
 import subprocess
@@ -1661,6 +1665,7 @@ BLAME_IGNORE = ".git-blame-ignore-revs"
 class History:
     def __init__(self):
         self._blame: dict[Path, list[float] | None] = {}
+        self._forms: dict[tuple[str, Path], set] = {}
         ignore = ROOT / BLAME_IGNORE
         self._ignore = ["--ignore-revs-file", str(ignore)] if ignore.exists() else []
         self._ignored = {l.strip() for l in ignore.read_text().splitlines()
@@ -1686,14 +1691,44 @@ class History:
             self._blame[path] = times if out is not None else None
         return self._blame[path]
 
+    def last(self, path: Path) -> tuple[str, float] | None:
+        """The last commit, and its time, to change the file in more than form."""
+        for line in (self._git("log", "--format=%H %ct", "--", str(path.relative_to(ROOT))) or "").splitlines():
+            if line[:40] not in self._ignored:
+                return line[:40], float(line[41:])
+        return None
+
+    def rev(self, path: Path) -> str:
+        """The commit a file was last written in, or HEAD where it has changed since."""
+        if (self._git("status", "--porcelain", "--", str(path.relative_to(ROOT))) or "").strip():
+            return "HEAD"
+        return (self.last(path) or ("HEAD", 0.0))[0]
+
+    def forms(self, rev: str, path: Path, folder) -> set:
+        """Each entry of a table file as it stood at `rev`, its drawn members left out."""
+        key = (rev, path)
+        if key not in self._forms:
+            try:
+                text = self._git("show", f"{rev}:{path.relative_to(ROOT)}")
+                self._forms[key] = {form(n, folder) for n in kdl.fenced(text)} if text else set()
+            except SyntaxError:
+                self._forms[key] = set()
+        return self._forms[key]
+
     def file_time(self, path: Path) -> float | None:
         dirty = self._git("status", "--porcelain", "--", str(path.relative_to(ROOT)))
         if dirty is None:
             return None
         if dirty.strip():
             return path.stat().st_mtime
-        out = self._git("log", "-1", "--format=%ct", "--", str(path.relative_to(ROOT)))
-        return float(out) if out and out.strip() else path.stat().st_mtime
+        return got[1] if (got := self.last(path)) else path.stat().st_mtime
+
+
+def form(n: kdl.Node, folder) -> tuple:
+    """An entry as a write-up reads it: everything but its drawn members."""
+    drawn = {m.name for m in (folder.nodes.get(n.name, []) if folder else []) if m.drawn}
+    return (n.name, tuple(map(str, n.args)), tuple(sorted((k, str(v)) for k, v in n.props.items() if k not in drawn)),
+            tuple(form(c, folder) for c in n.children))
 
 
 def record_lines(path: Path, title: str) -> range:
@@ -1719,11 +1754,13 @@ def stale(setting: Setting, code: str, history: History) -> list[str]:
         return []
     deps: list[tuple[Path, range, str]] = []
     own, named = setting.entries_at(code)
+    since = history.rev(writeup)
     for where, n in own + named:
         rcode, stem = where.split("/")
-        deps.append((setting.regions[rcode].dir / f"{stem}.md", range(n.line - 1, n.line),
-                     f"{stem} {n.name} {n.args[0] if n.args else ''}".strip()))
         folder = setting.regions[rcode].folder
+        path = setting.regions[rcode].dir / f"{stem}.md"
+        if form(n, folder) not in history.forms(since, path, folder):     # else as written from, but what is drawn
+            deps.append((path, range(n.line - 1, n.line), f"{stem} {n.name} {n.args[0] if n.args else ''}".strip()))
         for node in kdl.walk([n]):
             for m in (folder.nodes.get(node.name, []) if folder else []):
                 v = node.props.get(m.name)
@@ -1751,6 +1788,14 @@ def stale_brief(region: Region, history: History) -> list[str]:
     brief = SETTING / "region" / f"{region.code}.md"
     if not brief.exists() or (written := history.file_time(brief)) is None:
         return []
-    deps = [region.dir / f"{stem}.md" for stem in region.files]
-    return sorted(p.name for p in deps if p.exists() and any(
-        tm > written for tm in history.line_times(p) or []))
+    since, out = history.rev(brief), []
+    for stem, entries in region.files.items():
+        path = region.dir / f"{stem}.md"
+        times = history.line_times(path) if path.exists() else None
+        if not times:
+            continue
+        old = history.forms(since, path, region.folder)
+        lines = {i for n in entries for i in range(n.line - 1, n.line) if form(n, region.folder) in old}
+        if any(tm > written for i, tm in enumerate(times) if i not in lines):
+            out.append(path.name)
+    return sorted(out)
