@@ -27,3 +27,17 @@ Found at: E.5
 Voice: A Scholar, writing for Sihuahet and sneering at the other two branches.
 Does: connection, contradiction
 Text: Each branch holds that it alone will free the people. The soldiers say strength, the priests say faith, we say knowledge, and all three admit the king's order was the same: to find the demon's name before the stair. The Guard keep the east hall, the Priesthood the north, the Scholars the west. None will walk through another's door.
+
+### The Noble's Will
+Form: written
+Found at: F.5
+Voice: A noble of the old court, writing for an heir, wrong about who the heir would be.
+Does: dating, naming
+Text: To my son, the house, the gold under the dais of the family crypt, and the key to my cell if the soldiers come. Do not trust the veiled guest of the last king, nor the priests who bless him. When the stair is shut, the order is: guards, priests, scholars, and no one else.
+
+### The Captain's Last Orders
+Form: written
+Found at: F.11
+Voice: The Royal Guard's missing captain, hurried and scared, scrawled on hide.
+Does: hook, connection
+Text: The stair is shut behind us. I go east to the cell, where the wall is bad. If I do not come back, send sixes, not threes. Tell the Guard the thing at the foot of the stair is awake and has been eating our scouts. Do not let the Scholars read this.
