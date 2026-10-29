@@ -48,8 +48,7 @@ A Person's name is written with its `form` per `patterns/Common_Schema.md`; a to
 name is recorded in `setting/Language.md` first. A Dressing's `mark` is the Identity of a
 faction that holds, passes through or contests the room; every faction a region's seed names in
 `who` is marked somewhere in it. A Dressing's `left` is each History event whose Left mark the
-room shows. A Hazard's `test` is Constitution with a `wound`, Fate with a `condition`, or Sanity
-from a Chaos source only. A DANGEROUS Encounter's `answers` is set where an alarm raised
+room shows. A Hazard's `test` is Constitution with a `wound`, Fate with a `condition`, or Sanity. A DANGEROUS Encounter's `answers` is set where an alarm raised
 elsewhere in the region brings it out.
 
 A `Lock` goes where the design wants a gate, on whatever node the schema lets hold one, naming

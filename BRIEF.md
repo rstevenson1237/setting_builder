@@ -39,7 +39,7 @@ files {
   Magic rolls=12
   Rumours die=12 T=4 P=3 F=3 U=2
   Bestiary specials-from=4                           // AD below which a Special is rare
-  Factions count=11 marks=2                          // marks: identity marks each shows
+  Factions count=5 marks=2                          // marks: identity marks each shows
   Quests count=5
   History events=4
   Truths count=4
@@ -77,139 +77,115 @@ dangerous {
 // -- This setting --------------------------------------------------------------
 
 setting {
-  sheet Frontier square="200 yards" extent="14 by 15 miles" regions="A B C D E"
-  sheet Ravine square="10 yards" extent="240 by 540 yards" regions="E"
-  sheet Keep square="10 feet" extent="220 by 180 yards" regions="A"
-  test "Keep on the Borderlands in play, not in text, built fresh by the framework and transcribed from nothing: a party outfits at a safe keep, walks half a day to a ravine of lairs, picks which to try, retreats to heal and sell, and comes back. The lairs hate one another and can be played against one another, and all of them pay a shrine at the ravine's head. Every location type, procedure kind and registry the framework has is used at least once."
-  outline "One frontier, crossed in a day: a keep at the end of the road from the realm; between it and the hills a wood, a mere and the road itself; in the hills a ravine whose walls hold six tribes' lairs and a maze, and above the maze a shrine."
-  pressure "Chaos is gathering in the ravine. Tribes that fought one another for years now pay the shrine's priests, and the road is where the keep first feels it: wagons lost, patrols back short. Nobody at the keep knows how many raiders there are or who commands them. The priests have two agents inside the keep."
-  history "The ravine's makers cut halls, a first shrine, and passages joining what are now separate caves, long ago."
-  history "The makers were gone, and their works empty, before any tribe came."
-  history "The keep was raised thirty years ago at the end of the realm's road."
-  history "Five years ago priests of Chaos reopened the first shrine, and the tribes began to pay it."
-  truth "The tribes distrust one another more than they fear the keep; a party can pay, ally with or provoke one against another."
-  truth "The makers' passages join caves each tribe believes are separate, and each tribe knows only its own end."
-  truth "Every tribe pays the shrine a tithe of what it raids, and a tithe unpaid is collected by the bugbears."
-  truth "Chaos is inside the walls: the shrine has agents at the keep, and the keep's own people do not know it."
-  procedures "Hazards are Tests of Constitution and Fate, and a Test of Sanity only at the shrine. Poison is Lethal at least once, in a hazard or a creature's Special."
-  tongue "the common tongue of the keep and the realm - Law's"
-  tongue "the cant of the road, the mere and the wood, spoken by outlaws, lizard-folk and anyone who looks after themselves - Neutrality's"
-  tongue "the black speech of the tribes and the shrine's priests - Chaos's"
-  tongue "the dead tongue of the ravine's makers, met only carved into its walls"
-  bestiary Kobold Goblin Orc Hobgoblin Gnoll Bugbear Owlbear Wolf Soldier "Lizard Man" Zombie   // up front; the rest added as a location needs them
-  bestiary-note "Men are the rank and file a faction fields, never one entry per human occupation. No two tribes' creatures share both an AD and a Special."
-  faction "the keep: its commander, its garrison and chapel, and the realm's claim they stand for"
-  faction "the carters' guild: the wagon crews and traders who run the road and pay for it to stay open"
-  faction "the outlaws of the wood: poachers and deserters who prey on the road's stragglers and sell to anyone"
-  faction "the lizard-folk of the mere, who hold the causeway and want strangers out of the reeds"
-  faction "the kobolds of the first cave: many, poor, cowardly, tribute-payers to the goblins"
-  faction "the goblin tribe above them: sly, numerous, at war with the orcs"
-  faction "the orc tribe: brutish, quarrelsome, at war with the goblins"
-  faction "the hobgoblin tribe: drilled and armoured, at war with the gnolls, holder of a key to the shrine"
-  faction "the gnoll tribe: raiders and slavers who sell to any buyer, at war with the hobgoblins"
-  faction "the bugbears of the dry fork: few, silent, the shrine's paid enforcers"
-  faction "the shrine's cult: priests, acolytes and the dead they keep, with two agents in the keep"
-  relations "Goblins and orcs hold each other at Hatred; so do hobgoblins and gnolls."
-  relations "The kobolds hold the goblins at Hatred (fear); the goblins hold the kobolds Neutral."
-  relations "Every tribe holds the cult at Hatred (fear) and the cult holds every tribe Tolerated; the bugbears and the cult hold each other Friendly."
-  relations "The keep holds every tribe and the lizard-folk at Antipathy, the cult and the outlaws at Hatred, and the carters Friendly; the carters hold the keep Friendly and the outlaws Hatred."
-  relations "The outlaws hold the gnolls Tolerated, the lizard-folk Antipathy and the keep Hatred (fear). Every pair not named is Neutral."
-  rumours "Twelve, each pointing at a place or person: one at each tribe, the shrine, the maze, the keep's own people, and the wood, the mere and the road. At least one is true and sounds false, and each P names which tribe or number is wrong."
-  quest "a bounty on the raiders hitting the wagons, posted by the carters' guild"
-  quest "a carter's lost wagon and its strongbox, given at the market"
-  quest "the chapel's stolen reliquary, given at the chapel"
-  quest "a party of adventurers gone into the ravine, sought by a kinsman at the tavern"
-  quest "proof that something commands the tribes, wanted by the commander and given at his hall"
+  sheet Sands square="100 yards" extent="3 by 3 miles" regions="A"
+  sheet Lake square="50 yards" extent="3 by 3 miles" regions="B"
+  test "The Lost City in play, not in text, built fresh by the framework and transcribed from nothing: a party caught in a sandstorm takes cover in a buried ruin, survives its first days on what it can find, and goes down through a pyramid that gets larger for five levels, passes factions to bargain with, and reaches a lake city of dreamers, then goes deeper still, narrowing, toward the thing that corrupted a people. Every location type, procedure kind and registry the framework has is used at least once."
+  outline "A lost city under the dunes and, beneath it, a pyramid ten levels deep: a sandstorm drives the party into the ruins, where the pyramid's tip stands from the sand ringed by three wind-swept statues. Level 1 is one trapped room whose clues open ways down. Levels 1 to 5 widen, from a puzzle room to a history, a hall of factions, living quarters and a funerary level; from level 5 a path opens to a lake city of masked dreamers. Levels 6 to 10 narrow again toward a demon below."
+  pressure "Food, water and shelter run short from the first night. Nothing outside the ruins is known to the party and nothing from outside will come for it; nothing in the ruins or under them is safe. A party can build a place of respite among the ruins or win one from a faction, and either costs what it will not spend elsewhere. The three branches of the cynidiceans each mean to break the demon's hold and will not work together, and the demon's cult is looking for the keys the lost king hid."
+  history "The cynidiceans raised a city of the sands, and a pyramid at its centre to house the dead of their line."
+  history "A demon was invited into the royal line, and its priests corrupted the court, the clergy and the soldiers in turn."
+  history "The last king and queen were interred at level 5, with a false tomb beside them to mislead the demon's servants."
+  history "The living took the stair down to the lake city to live out their lives in dreams and masks, and the city above was left to the sand."
+  truth "Every way down the pyramid is opened by something done in the room above: which way a party takes depends on what it solves, breaks or leaves alone."
+  truth "The three branches of the cynidiceans share one aim, to break the demon's hold and restore their people, and each holds that it alone has the strength and foresight to do it; none will work with the others, and each offers membership to a party that serves it."
+  truth "The lake city's people have no shared leadership and are no faction: they chose the fungus, the masks and the dream, and will not be rescued."
+  truth "The demon below is the cause of the corruption and a thing still being fed: it is the end of the descent, not a mistake that can be undone."
+  procedures "Hazards are Tests of Constitution and Fate, and a Test of Sanity at the lake city's psychosis-inducing fungi and wherever the demon's corruption reaches, from level 6 down. Food, water and shelter are tracked from the first day, and a party that has none loses Wounds to thirst and exposure. Poison is Lethal at least once, in a hazard or a creature's Special."
+  tongue "the common tongue of the party, spoken by the cynidiceans only in a broken form"
+  tongue "the speech of the cynidiceans, living and carved into every wall of the pyramid"
+  tongue "the black speech of the demon's cult and its servants"
+  bestiary Skeleton Zombie Mummy Ghoul Gargoyle "Giant Scorpion" "Giant Centipede" "Giant Spider" "Giant Rat" Stirge Hyena Soldier Wraith   // up front; the rest added as a location needs them
+  bestiary-note "Men are the rank and file a faction fields, never one entry per human occupation. No two factions' creatures share both an AD and a Special."
+  faction "the Royal Guard: the cynidiceans' former soldiers and their heirs, who hold that strength of arms will free their people"
+  faction "the Priesthood: the former female-led clergy, who hold that faith and the old rites will free their people"
+  faction "the Scholars: the learned and the practitioners of dark magic who first found the demon, who hold that knowledge of it will free their people"
+  faction "the demon's cult: priests below level 6 who feed the thing and seek the lost king's keys"
+  faction "the tomb robbers: outsiders who moved into the upper levels and trade what they take"
+  relations "The Royal Guard, the Priesthood and the Scholars each hold the other two at Antipathy, and the cult at Hatred (fear)."
+  relations "The cult holds the three branches at Hatred and the tomb robbers Tolerated."
+  relations "The tomb robbers hold the cult Hatred (fear) and the three branches Neutral. Every pair not named is Neutral."
+  rumours "Twelve, each pointing at a place or person: one at each faction, the buried city, the pyramid's tip, the lake city, the funerary level, the false tomb, the demon, and the storm. At least one is true and sounds false, and each P names which faction or number is wrong."
+  quest "water for a party's first camp, sought by a branch that will trade a guide for it"
+  quest "a tomb robber's stolen relic, given at their camp"
+  quest "the Royal Guard's missing captain, last seen on level 4"
+  quest "a mask-seller's request to find a kinsman who walked into the lake"
+  quest "proof of what feeds the demon, wanted by the Scholars"
 }
 
-region A rating=SAFE die=d8 locations=13 people=18 {
-  ground grass "a low rise cleared round the walls, the road arriving from the west and the wood's edge to the north-east"
-  outline "The keep: a hold at the road's end - the main gate on the road and a postern toward the wood, an inn and a tavern, a trader and a smith, a moneychanger, a market in the outer yard, the chapel of Law, the commander's hall and the barracks, and two places kept hidden: the cellar where the cult's two agents meet, and the commander's sally tunnel. A party outfits, hires and sells here, and hears the rumours."
-  target Location.type Gate=2 Inn=2 Merchant=2 Bank=1 Market=1 Authority=3 Secret=2
-  target Garrison of=Authority "67%"
-  procedure "A game of chance at the tavern."
-  procedure "Hiring men-at-arms and torchbearers at the market."
-  procedure "Selling what a party carries home, at the moneychanger."
+region A rating=WILD die=d6 locations=9 {
+  ground desert "dunes, drifted streets and rooftops half-buried in sand, a storm wall overhead"
+  outline "The lost city: a sand-buried ruin with the pyramid's tip standing from its centre, three wind-swept statues carved on top. A party's first shelter is here - a roofed house, a cistern, a collapsed market, a barracks wall, a temple colonnade, a dry canal - and the first tomb robbers' scouts working the rubble. It holds the first food and water a party can find, and the only ground where a party can build its own place of respite. One way in to the pyramid, the tip's door at the foot of the statues."
+  target Location.type Landmark=3 Ruin=3 Lair=1 Hidden=1 Route=1
+  procedure "Foraging for food and water among the ruins."
+  procedure "Making shelter and a place of respite."
 }
 
-region B rating=WILD die=d8 locations=5 {
-  ground grass "open grass and scrub either side of the road, a stream crossing it at the ford"
-  place A west "0.25-0.5 miles"
-  outline "The wagon road: the realm's road to the keep gate, open country where the fortnightly wagon is the only safe company - a toll post, a ford, the milestone where the last wagons were lost, a roadside shrine of Law. It leaves the map toward the realm, and meets the mere's causeway and the wood path."
-  target Location.type Landmark=4 Route=1
-  procedure "Travelling with the fortnightly wagon."
+region B rating=WILD die=d8 locations=10 {
+  ground water "a lake round which a city is built, rock and fungus gardens, a ceiling lit by glowing growths"
+  outline "The subterranean city: a cavern built round a still lake, where the cynidiceans' descendants live in a waking dream - masked as animals, feasting, reveling and eating the fungus they grow. A party reaches it by a path from level 5. Quarters, a market of drugs, the fungus gardens, a lake shore and a revel house make a city; the way back up the path and the stair down to level 6 are the party's two exits."
+  target Location.type Landmark=4 Ruin=1 Natural=2 Hidden=1 Secret=1 Route=1
+  procedure "Trading for the fungus and its drugs."
+  procedure "Joining the revels."
 }
 
-region C rating=WILD die=d6 locations=7 {
-  ground forest "old wood rising north toward the hills"
-  place A north-east "0.25-0.75 miles"
-  outline "The Dark Wood: forest between the keep and the ravine; the forest trail from the postern to the ravine's mouth is three watches' walk. In it: the outlaws' camp, a hermit's clearing, a watchtower older than the keep, a ring of standing stones, and the outlaws' hidden cache."
-  target Location.type Landmark=5 Route=1 Hidden=1
-  procedure "Forage and hunt in the wood."
+region C rating=DANGEROUS die=d12 locations=4 {
+  outline "Pyramid level 1: a single room laden with puzzles, traps and clues to the pyramid's story. Depending on how a party proceeds, one or more ways to the lower levels open: a trapped floor, a mural stair, a statue's plinth. The room is the pyramid's first lesson."
+  target Location.type High=1 Medium=2 Low=1
+  target Reward.contents Keys=1 Lore=1
 }
 
-region D rating=WILD die=d6 locations=5 {
-  ground marsh "open water, reed beds and sinking flats north of the road"
-  place B west "5 miles"
-  outline "The Black Mere: marsh beside the road, crossed by a causeway the lizard-folk allow and a pole-boat route they do not. In it: the lizard-folk's stilt village, a drowned shrine of the makers, a sinking flat, and a dry island hidden in the reeds. It joins the road and the wood."
-  target Location.type Landmark=3 Route=1 Hidden=1
-  procedure "Crossing by causeway or pole boat."
-}
-
-region E rating=WILD die=d6 locations=12 {
-  ground rock "a stream cut between steep rock walls, the hills above"
-  place C north "12 miles"
-  outline "The ravine: a stream cut through the hills, entered from the wood and climbing to its head. West wall from the mouth up: the kobold, goblin and orc caves. East wall from the mouth up: the hobgoblin and gnoll caves, then a dry fork holding the bugbear den. At the head: the maze in the cliff's foot and the stair up to the shrine. An owlbear's lair is on the east rim. Each mouth is a ledge a tribe watches. Goblins and orcs are neighbours and enemies; so are hobgoblins and gnolls."
-  target Location.type Landmark=9 Route=1 Hidden=1 Secret=1
-  procedure "Watching the cave mouths from the rim."
-}
-
-region F rating=DANGEROUS die=d8 locations=5 {
-  outline "The kobold warren: a single holding, the first mouth a party meets, on the west wall. Many small kobolds, cowardly and trap-wise, who pay tribute to the goblins above them and fear the rest. Dart and pit traps guard the way in; the chief is cunning, not strong, and a Named Creature."
-  target Location.type High=1 Medium=2 Low=2
-  target Reward.contents Hoards=1
-}
-
-region G rating=DANGEROUS die=d6 locations=6 {
-  outline "The goblin hold: a single holding above the kobolds on the west wall. Sly, numerous and well stocked, with wolves kept and the kobolds' tribute taken. Enemies of the orcs beside them, to whose warren a makers' passage joins its stores. Its boss is a Named Creature."
+region D rating=DANGEROUS die=d10 locations=6 {
+  outline "Pyramid level 2: the history of the cynidiceans told in murals, carvings and the rooms between them, in a series of trap rooms and encounters to test a party, with chances to meet the tomb robbers who have moved in and scouts of the three branches below."
   target Location.type High=1 Medium=3 Low=2
+  target Reward.contents Lore=2
+}
+
+region E rating=DANGEROUS die=d10 locations=9 {
+  outline "Pyramid level 3: a rotating room with eight exits, each chosen by the rune a party selects. The three branches of the cynidiceans - the Royal Guard, the Priesthood and the Scholars - each hold a base here, and each can be explored. By a party's actions one may offer an alliance or membership."
+  target Location.type High=2 Medium=5 Low=2
+  target Reward.contents Keys=1 Lore=1
+  procedure "Joining a faction."
+}
+
+region F rating=DANGEROUS die=d8 locations=13 {
+  outline "Pyramid level 4: the former living quarters, with strange cynidicean encounters, lairs of stronger monsters that came down from the sand, hints of the evil below, and the tomb robbers' deepest camp."
+  target Location.type High=3 Medium=6 Low=4
+  target Reward.contents Hoards=1 Lore=2
+}
+
+region G rating=DANGEROUS die=d8 locations=19 {
+  outline "Pyramid level 5: the funerary level, with the last king and queen interred, a false tomb beside them, and the areas of the former clergy. The largest level. From here a path can be opened to the subterranean city."
+  target Location.type High=4 Medium=10 Low=5
+  target Reward.contents Hoards=1 Keys=2 "Unique Treasures"=1 Lore=2
+}
+
+region H rating=DANGEROUS die=d6 locations=13 {
+  outline "Pyramid level 6: the first level of the descent, laid out in the shape of level 4 and given to the demon's cult and its sacrifices. The way up is behind a party."
+  target Location.type High=3 Medium=6 Low=4
   target Reward.contents Hoards=1 Lore=1
 }
 
-region H rating=DANGEROUS die=d6 locations=6 {
-  outline "The orc warren: a single holding at the head of the west wall - a guard cave, pens, a feast hall, the chief's cave. Brutish, quarrelsome and many, drunk by evening. Enemies of the goblins, joined to their stores by the makers' passage. Its chief is a Named Creature."
-  target Location.type High=1 Medium=3 Low=2
-  target Reward.contents Hoards=1
+region I rating=DANGEROUS die=d6 locations=9 {
+  outline "Pyramid level 7: a smaller level of altars and cells where the cult's chosen are made and unmade."
+  target Location.type High=2 Medium=5 Low=2
+  target Reward.contents Keys=1 Lore=1
 }
 
-region I rating=DANGEROUS die=d6 locations=6 {
-  outline "The hobgoblin hold: a single holding on the east wall, fortified - a drilled gate-guard, barracks, armoury, the warlord's hall. Armoured, disciplined and few. Enemies of the gnolls beside them, joined to their den by a makers' passage. They pay the shrine in goods and hold one key to it. Its warlord is a Named Creature."
-  target Location.type High=1 Medium=3 Low=2
-  target Reward.contents Hoards=1 Keys=1
-}
-
-region J rating=DANGEROUS die=d6 locations=5 {
-  outline "The gnoll den: a single holding above the hobgoblins on the east wall. Raiders and slavers who sell to any buyer and keep captives, some of them hirelings or kin of a party's. Enemies of the hobgoblins. They hold the key to the maze. Its pack-leader is a Named Creature."
-  target Location.type High=1 Medium=2 Low=2
-  target Reward.contents Hoards=1 Keys=1 Lore=1
+region J rating=DANGEROUS die=d6 locations=6 {
+  outline "Pyramid level 8: the lieutenants' halls, a short level of powerful servants who keep the way down."
+  target Location.type High=2 Medium=3 Low=1
+  target Reward.contents Hoards=1 Keys=1 "Unique Treasures"=1
 }
 
 region K rating=DANGEROUS die=d4 locations=5 {
-  outline "The bugbear den: a single holding in the dry fork. Few, silent, strong ambushers paid by the shrine to keep the fork and collect the tithe, with a back stair up to the shrine. Its leader is a Named Creature."
-  target Location.type High=1 Medium=2 Low=2
-  target Reward.contents Hoards=1 Lore=1
+  outline "Pyramid level 9: the antechamber of the demon, where the corruption is thick enough to cost Sanity."
+  target Location.type High=2 Medium=2 Low=1
+  target Reward.contents Lore=1
 }
 
-region L rating=DANGEROUS die=d4 locations=5 {
-  outline "The minotaur's maze: a single holding at the ravine head - makers' passages kept by one minotaur, a Named Creature, and what it has collected. The way up to the shrine runs out of its far end. Finding the way is the danger. It holds one key to the shrine and is itself barred by a lock."
-  target Location.type High=1 Medium=2 Low=2
-  target Reward.contents Keys=1 Lore=1
-  procedure "Finding the way through the maze."
-}
-
-region M rating=DANGEROUS die=d4 locations=14 {
-  outline "The shrine of Chaos: a collection, worked rock above the maze, in four blocks - the stair-hall and outer shrine; the priests' cells and refectory; the crypts, where the dead do not stay; the sanctum and the vault. Three ways in: the stair from the ravine head, the passage from the maze, the bugbears' back stair. Its high priest is a Named Creature; acolytes, guards and the dead hold the blocks. Locks bar the sanctum and the vault, and their keys lie in the hobgoblin hold and the maze. A Test of Sanity is called for here and nowhere else."
-  target Location.type High=3 Medium=7 Low=4
-  target Reward.contents Hoards=1 Keys=0 "Unique Treasures"=2 "Magical Tomes"=1 Lore=2
+region L rating=DANGEROUS die=d4 locations=4 {
+  outline "Pyramid level 10: the demon's chamber, a single hall where the corrupting entity feeds, and the end of the descent. Its demon is a Named Creature."
+  target Location.type High=2 Medium=1 Low=1
+  target Reward.contents "Unique Treasures"=1 "Magical Tomes"=1
 }
 ```
