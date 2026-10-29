@@ -10,7 +10,7 @@ Codes: A.1, A.3, A.8, B.5, C.1, C.2, D.2, D.5, E.2, F.5
 When: ancient - longer ago than the cynidiceans can reckon
 Event: A royal house invited a demon into its line, and the demon's priests corrupted the court, the clergy and the soldiers in turn.
 Left: Black altars cut into the lower levels, and murals in the upper ones with the demon's face scraped from them.
-Codes: A.6, B.10, C.3, D.4, D.6, E.4, E.6, F.7, F.9, G.4, G.19, H.7, H.9
+Codes: A.6, B.10, C.3, D.4, D.6, E.4, E.6, F.7, F.9, G.4, G.19, H.7, H.9, I.3, I.4, I.8, J.2, J.6
 
 ### The Last King Is Entombed
 When: old - recorded, but not remembered

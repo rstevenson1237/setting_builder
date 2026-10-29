@@ -91,3 +91,6 @@ Coined here:
 - Krothox = kroth + -ox - of the hand
 - Ghulvod = ghul + -vod - bone place
 - Dhaexvod = dhaex + -vod - place of making
+- Krulox = krul + -ox - of the rock
+- Xothox = xoth + -ox - of the dead
+- Zhurjul = zhur + -jul - the red little one

@@ -62,3 +62,10 @@ Found at: H.11
 Voice: A cult scribe, listing captives and keys in the black speech's shorthand and fearing the lieutenants.
 Does: hook, naming
 Text: A tally of captives taken from the lake city, by mask and kin; the last six lines are crossed out and marked fed. Two keys are listed as found and brought down, two as hidden by the king in tombs above. The cult counts the false tomb among the places already searched.
+
+### The Making of the Chosen
+Form: written
+Found at: I.8
+Voice: A cult priest, recording the rite for the next priest and sparing no detail but its cost.
+Does: purpose, connection
+Text: A chosen is made at the warm altar and unmade at the black one; the blood from the unmaking runs down the channel to the demon's hall. Three nights in the cell, three masks, and the name given up. Those who do not return from the cell are counted fed.

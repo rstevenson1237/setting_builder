@@ -14,3 +14,8 @@ Items: Bars of old gold stacked in the sarcophagus (500 cn, 5 wt); a king's coll
 Found at: H.7
 Owner: Voxkroth
 Items: Gold and silver gifts gathered by the cult (400 cn, 4 wt); a bronze mask rimmed with onyx (150 cn, 1 wt); a bag of gems taken from the lake city's dead (500 cn, 1 wt)
+
+### The Lieutenants' Hoard
+Found at: J.2
+Owner: Krulox
+Items: A throne's worth of gold and silver (800 cn, 8 wt); a lieutenant's collar of onyx and gold (400 cn, 2 wt); a bag of jewels taken from the lake city (600 cn, 1 wt)
