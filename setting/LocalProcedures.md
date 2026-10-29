@@ -26,3 +26,30 @@ Results:
 - Complication - The room is made safe, but the work is seen from the tip, and the tomb robbers know where the party sleeps.
 - Success - The room is shut, dry and shaded; the party Rests, and the camp holds its stores until it is left.
 Tell: A dry roofed room with a hearth, a door that can be shut and a smoke hole to the sky.
+
+### Trading for the fungus and its drugs
+Kind: variant
+Extends: Commerce
+Found at: B.3
+Roll: Skill - the party's, once a visit
+Stakes: Coin in cn paid for spore jars, 10 cn a dose, and the risk of what they do. A jar sells outside the city for nothing; the market sells only to the masked or to those who show a mask.
+Results:
+- Failure - The stall sells a cheap spore; a Test of Sanity at once, and no discount.
+- Complication - The dose is sold true, but a Scholar at the next stall marks the buyer.
+- Success - A good dose at its price, and the stallholder names what it does.
+Tell: Jars of spore and carved masks on every stall, each priced on a slate.
+
+### Joining the revels
+Kind: table
+Extends: Carousing
+Found at: B.4
+Roll: d6
+Stakes: A night's time and 10 cn for the food and drink; a Test of Sanity for every night at the feast.
+Results:
+- 1 - Wakes in a mask not their own, and cannot remember taking it off.
+- 2 - A dreamer shares a song that names a place under the city.
+- 3 - Nothing but a full belly and a headache.
+- 4 - Hears a rumour from a masked neighbour, true or false.
+- 5 - A dreamer leads the party to a quiet landing on the quay.
+- 6 - A masked stranger offers a warning about the stair below.
+Tell: Drums and singing across the lake, and lamps burning all night.
