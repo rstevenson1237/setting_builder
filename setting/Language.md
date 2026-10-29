@@ -1,4 +1,4 @@
-Tongues of The Lost City
+Tongues of The Buried City
 
 ## The Common Tongue
 Spoken by: arrived - the party, the tomb robbers, and the cynidiceans only in a broken form.

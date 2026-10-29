@@ -1,4 +1,4 @@
-Procedures of The Lost City
+Procedures of The Buried City
 
 ## Ruleset
 These procedures assume the light d6 ruleset and add only what it leaves to a setting.
