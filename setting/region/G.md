@@ -7,6 +7,7 @@ Approach: The stair from the living quarters (F.13) lands at G.1, and a long hal
 Conditions: Cut basalt, 18 feet high and 10 wide; torch and Ruhiahe lamps. A footfall carries the length of a hall; the floor is clean stone with sand drifts; the air is dry and resin-scented. Resin and linen burn hot and bright.
 
 Entrances:
+- G.14 - A sloping glowing path down to the lake city (B.1).
 
 Prizes:
 - G.7 - The king's tomb under an unbroken seal; a mummy, a hoard (Hoard: The King's Hoard) and a mask (Unique Treasure: The King's Mask).
@@ -25,7 +26,6 @@ Places:
 - G.11 - Robes on pegs round a basin.
 - G.12 - Four dry wells round a stone; the lips crack.
 - G.13 - Carved guardians on plinths; gargoyles on two.
-- G.14 - A sloping glowing path down to the lake city (B.1).
 - G.15 - Pillars round a stained altar.
 - G.16 - A narrow gallery of kneeling mourners.
 - G.18 - Six plain cells with names scratched inside.

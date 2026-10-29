@@ -55,3 +55,10 @@ Found at: G.8
 Voice: The queen's own scribe, writing for the dead and hiding the reason.
 Does: connection, hook
 Text: Cut into the bier: the king went down to the veiled guest of his own will, the queen with the children went another way. The false tomb is for the soldiers who follow; the true king lies where the seal is unbroken. A ring is left with the bones to open the stair.
+
+### The Cult's Ledger
+Form: written
+Found at: H.11
+Voice: A cult scribe, listing captives and keys in the black speech's shorthand and fearing the lieutenants.
+Does: hook, naming
+Text: A tally of captives taken from the lake city, by mask and kin; the last six lines are crossed out and marked fed. Two keys are listed as found and brought down, two as hidden by the king in tombs above. The cult counts the false tomb among the places already searched.
