@@ -39,7 +39,7 @@ files {
   Magic rolls=12
   Rumours die=12 T=4 P=3 F=3 U=2
   Bestiary specials-from=4                           // AD below which a Special is rare
-  Factions count=11 marks=2                          // marks: identity marks each shows
+  Factions count=5 marks=2                          // marks: identity marks each shows
   Quests count=5
   History events=4
   Truths count=4
@@ -81,48 +81,40 @@ setting {
   sheet Lake square="50 yards" extent="3 by 3 miles" regions="B"
   test "The Lost City in play, not in text, built fresh by the framework and transcribed from nothing: a party caught in a sandstorm takes cover in a buried ruin, survives its first days on what it can find, and goes down through a pyramid that gets larger for five levels, passes factions to bargain with, and reaches a lake city of dreamers, then goes deeper still, narrowing, toward the thing that corrupted a people. Every location type, procedure kind and registry the framework has is used at least once."
   outline "A lost city under the dunes and, beneath it, a pyramid ten levels deep: a sandstorm drives the party into the ruins, where the pyramid's tip stands from the sand ringed by three wind-swept statues. Level 1 is one trapped room whose clues open ways down. Levels 1 to 5 widen, from a puzzle room to a history, a hall of factions, living quarters and a funerary level; from level 5 a path opens to a lake city of masked dreamers. Levels 6 to 10 narrow again toward a demon below."
-  pressure "Food, water and shelter run short from the first night. The storm closes the way out for days, and nothing in the ruins or under them is safe. A party can build a place of respite among the ruins or win one from a faction, and either costs what it will not spend elsewhere. Below, the lake city's revels are spreading upward, and the demon's cult is looking for the keys the lost king hid."
+  pressure "Food, water and shelter run short from the first night. Nothing outside the ruins is known to the party and nothing from outside will come for it; nothing in the ruins or under them is safe. A party can build a place of respite among the ruins or win one from a faction, and either costs what it will not spend elsewhere. The three branches of the cynidiceans each mean to break the demon's hold and will not work together, and the demon's cult is looking for the keys the lost king hid."
   history "The cynidiceans raised a city of the sands, and a pyramid at its centre to house the dead of their line."
   history "A demon was invited into the royal line, and its priests corrupted the court, the clergy and the soldiers in turn."
   history "The last king and queen were interred at level 5, with a false tomb beside them to mislead the demon's servants."
   history "The living took the stair down to the lake city to live out their lives in dreams and masks, and the city above was left to the sand."
   truth "Every way down the pyramid is opened by something done in the room above: which way a party takes depends on what it solves, breaks or leaves alone."
-  truth "The three factions at level 3 each want the others gone, and each offers membership to a party that serves it."
-  truth "The lake city's people are not captive; they chose the fungus, the masks and the dream, and will not be rescued."
+  truth "The three branches of the cynidiceans share one aim, to break the demon's hold and restore their people, and each holds that it alone has the strength and foresight to do it; none will work with the others, and each offers membership to a party that serves it."
+  truth "The lake city's people have no shared leadership and are no faction: they chose the fungus, the masks and the dream, and will not be rescued."
   truth "The demon below is the cause of the corruption and a thing still being fed: it is the end of the descent, not a mistake that can be undone."
   procedures "Hazards are Tests of Constitution and Fate, and a Test of Sanity at the lake city's fungus and below level 6. Food, water and shelter are tracked from the first day, and a party that has none loses Wounds to thirst and exposure. Poison is Lethal at least once, in a hazard or a creature's Special."
-  tongue "the common tongue of travellers and caravans - Law's"
-  tongue "the tongue of the sands, spoken by nomads, scavengers and what lives in the dunes - Neutrality's"
-  tongue "the low speech of the demon's cult and its servants - Chaos's"
-  tongue "the old tongue of the cynidiceans, carved into every wall of the pyramid and spoken in dreams by the lake city"
+  tongue "the common tongue of the party, spoken by the cynidiceans only in a broken form - Law's"
+  tongue "the speech of the cynidiceans, living and carved into every wall of the pyramid - Neutrality's"
+  tongue "the black speech of the demon's cult and its servants - Chaos's"
   bestiary Skeleton Zombie Mummy Ghoul Gargoyle "Giant Scorpion" "Giant Centipede" "Giant Spider" "Giant Rat" Stirge Hyena Soldier Wraith   // up front; the rest added as a location needs them
   bestiary-note "Men are the rank and file a faction fields, never one entry per human occupation. No two factions' creatures share both an AD and a Special."
-  faction "the Delvers: tomb-robbers and wrecked caravanners who settled level 3 and trade what they take"
-  faction "the Wardens: the pyramid's soldier dead and the constructs that keep them, who guard level 3 and its stairs"
-  faction "the Gilded: the nobles' restless dead on level 3, courtly, hungry for the living world they lost"
-  faction "the masked of the lake city: the cynidiceans' children, dreaming and reveling, who wear animal masks and tend the fungus"
-  faction "the fungus-wrights of the lake: pharmacologists who grow and sell the drugs the dreamers seek"
-  faction "the dust priests: the last of the funerary clergy on level 5, keepers of the false tomb"
-  faction "the nomads of the sand: caravan folk who know the ruins and fear the storm that took the city"
-  faction "the sand-hunters: scorpions, centipedes and worse that came down from the dunes into the living quarters"
-  faction "the survivors of the storm: other lost travellers sheltering in the ruins above, a party's first neighbours"
+  faction "the Royal Guard: the cynidiceans' former soldiers and their heirs, who hold that strength of arms will free their people"
+  faction "the Priesthood: the former female-led clergy, who hold that faith and the old rites will free their people"
+  faction "the Scholars: the learned and the practitioners of dark magic who first found the demon, who hold that knowledge of it will free their people"
   faction "the demon's cult: priests below level 6 who feed the thing and seek the lost king's keys"
-  faction "the demon's lieutenants: the powerful who hold levels 8 to 10 and answer only to it"
-  relations "The Delvers, the Wardens and the Gilded each hold the other two at Hatred."
-  relations "The masked hold the fungus-wrights Friendly, the dust priests Neutral, and every faction of levels 3 and 6 to 10 at Antipathy."
-  relations "The demon's cult and its lieutenants hold each other Friendly and every other faction at Hatred (fear)."
-  relations "The nomads hold the Delvers Tolerated and the survivors Friendly. Every pair not named is Neutral."
-  rumours "Twelve, each pointing at a place or person: one at each of the three factions, the buried city, the pyramid's tip, the lake city, the funerary level, the false tomb, the demon, and the storm. At least one is true and sounds false, and each P names which faction or number is wrong."
-  quest "water or a way out for the survivors sheltering in the buried city"
-  quest "a Delver's stolen relic, given at their hall"
-  quest "the Wardens' missing captain, last seen on level 4"
+  faction "the tomb robbers: outsiders who moved into the upper levels and trade what they take"
+  relations "The Royal Guard, the Priesthood and the Scholars each hold the other two at Antipathy, and the cult at Hatred (fear)."
+  relations "The cult holds the three branches at Hatred and the tomb robbers Tolerated."
+  relations "The tomb robbers hold the cult Hatred (fear) and the three branches Neutral. Every pair not named is Neutral."
+  rumours "Twelve, each pointing at a place or person: one at each faction, the buried city, the pyramid's tip, the lake city, the funerary level, the false tomb, the demon, and the storm. At least one is true and sounds false, and each P names which faction or number is wrong."
+  quest "water for a party's first camp, sought by a branch that will trade a guide for it"
+  quest "a tomb robber's stolen relic, given at their camp"
+  quest "the Royal Guard's missing captain, last seen on level 4"
   quest "a mask-seller's request to find a kinsman who walked into the lake"
-  quest "proof of what feeds the demon, wanted by the dust priests"
+  quest "proof of what feeds the demon, wanted by the Scholars"
 }
 
 region A rating=WILD die=d6 locations=9 {
   ground desert "dunes, drifted streets and rooftops half-buried in sand, a storm wall overhead"
-  outline "The lost city: a sand-buried ruin with the pyramid's tip standing from its centre, three wind-swept statues carved on top. A party's first shelter is here - a roofed house, a cistern, a collapsed market, a barracks wall, a temple colonnade, a dry canal - with the survivors of other caravans sheltering in the better rooms. It holds the first food and water a party can find, and the only ground where a party can build its own place of respite. One way in to the pyramid, the tip's door at the foot of the statues."
+  outline "The lost city: a sand-buried ruin with the pyramid's tip standing from its centre, three wind-swept statues carved on top. A party's first shelter is here - a roofed house, a cistern, a collapsed market, a barracks wall, a temple colonnade, a dry canal - and the first tomb robbers' scouts working the rubble. It holds the first food and water a party can find, and the only ground where a party can build its own place of respite. One way in to the pyramid, the tip's door at the foot of the statues."
   target Location.type Landmark=3 Ruin=3 Lair=1 Hidden=1 Route=1
   procedure "Foraging for food and water among the ruins."
   procedure "Making shelter and a place of respite."
@@ -143,20 +135,20 @@ region C rating=DANGEROUS die=d12 locations=4 {
 }
 
 region D rating=DANGEROUS die=d10 locations=6 {
-  outline "Pyramid level 2: the history of the cynidiceans told in murals, carvings and the rooms between them, in a series of trap rooms and encounters to test a party, with chances to meet the factions that live below."
+  outline "Pyramid level 2: the history of the cynidiceans told in murals, carvings and the rooms between them, in a series of trap rooms and encounters to test a party, with chances to meet the tomb robbers who have moved in and scouts of the three branches below."
   target Location.type High=1 Medium=3 Low=2
   target Reward.contents Lore=2
 }
 
 region E rating=DANGEROUS die=d10 locations=9 {
-  outline "Pyramid level 3: a rotating room with eight exits, each chosen by the rune a party selects. The Delvers, the Wardens and the Gilded live here and their bases can each be explored. By a party's actions one may offer an alliance or membership."
+  outline "Pyramid level 3: a rotating room with eight exits, each chosen by the rune a party selects. The three branches of the cynidiceans - the Royal Guard, the Priesthood and the Scholars - each hold a base here, and each can be explored. By a party's actions one may offer an alliance or membership."
   target Location.type High=2 Medium=5 Low=2
   target Reward.contents Keys=1 Lore=1
   procedure "Joining a faction."
 }
 
 region F rating=DANGEROUS die=d8 locations=13 {
-  outline "Pyramid level 4: the former living quarters, with strange cynidicean encounters, lairs of stronger monsters that came down from the sand, and hints of the evil below."
+  outline "Pyramid level 4: the former living quarters, with strange cynidicean encounters, lairs of stronger monsters that came down from the sand, hints of the evil below, and the tomb robbers' deepest camp."
   target Location.type High=3 Medium=6 Low=4
   target Reward.contents Hoards=1 Lore=2
 }
