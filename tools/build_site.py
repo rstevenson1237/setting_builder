@@ -442,7 +442,7 @@ def build_location(setting: sc.Setting, out: Path, code: str, num: int) -> None:
             enum = int(ecode.split(".")[1])
             href = RESOLVER.href("location", eregion, enum, page)
             exit_items.append(
-                f'<li>{render_inline(approach, setting, page, skip_location=loc.code)} '
+                f'<li>{render_inline(sc.exit_text(loc.code, approach, ecode), setting, page, skip_location=loc.code)} '
                 f'&rarr; <a href="{href}">{ecode} {html.escape(ename)}</a></li>'
             )
         body.append(section("Exits", f'<ul class="exit-list">{"".join(exit_items)}</ul>'))

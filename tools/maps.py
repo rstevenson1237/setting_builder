@@ -23,8 +23,7 @@ ground   Reads each placed region's ground back from its home sheet and writes i
          and east, from the way in is listed and left out.
 pack     Packs each block of a DANGEROUS region into a square (tools/pack.py), routes a passage for every
          way (tools/route.py), and writes each room's `east` and `north` from its entrance, the block's
-         `footprint`, the wall each way leaves by and its length, and the same in each write-up's Exits
-         line. Reads the bearings as they stand for the directions to keep, so pack from the authored
+         `footprint`, and the wall each way leaves by and its length. Reads the bearings as they stand for the directions to keep, so pack from the authored
          ones; a seed fixes the result.
 draw     Builds each block's map, `setting/region/[Code]/[Block].json`, never committed, from its tables - a
          DANGEROUS block's a dungeon, a SAFE block's a settlement walled round its locations
@@ -438,6 +437,21 @@ def offset(node: kdl.Node) -> tuple[float, float] | None:
     except (ValueError, KeyError):
         return None
     return None
+
+
+def way(world, a: str, b: str) -> tuple[str, str] | None:
+    """Where the way from location a to b runs, as (Compass point, distance): the wall it leaves
+    a packed room by and its walk to the next room, else its Connection's bearing and distance."""
+    region = world.regions.get(a.split(".")[0])
+    if region is None:
+        return None
+    if region.rating.upper() == "DANGEROUS":
+        import dungeon
+        if (w := dungeon.walks(region.code).get((a, b))):
+            return w[0], f"{w[1]} feet"
+    n = next((n for n in region.files.get("Connections", []) if n.args and str(n.args[0]) == a
+              and str(n.props.get("to")) == b and "bearing" in n.props and "distance" in n.props), None)
+    return (str(n.props["bearing"]), str(n.props["distance"])) if n else None
 
 
 def location_marks(world, sheet: Sheet, home: dict) -> list[tuple[float, float, str, str]]:

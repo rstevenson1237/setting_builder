@@ -275,6 +275,7 @@ def parse_regions(diag: Diagnostics):
 LOC_HEADER_RE, FEATURE_RE, EXITS_HEAD = sc.LOC_HEADER_RE, sc.FEATURE_RE, sc.EXITS_HEAD
 EXIT_PAIR_RE = re.compile(r'->\s*([A-Z]+\.\d+)\s+([^,]+)')
 EXIT_DEST_RE = re.compile(r'->\s*[A-Z]+\.\d+\s+[^,]+')
+POSITION_RE = re.compile(r"\b(north|south|east|west)(-(north|south|east|west))*,\s*\d+(\.\d+)? (feet|yards|miles)\s*$")
 
 def cite_labels(schema) -> dict[str, str]:
     """Each citable setting table's label: its cite= in Setting_Schema.md."""
@@ -361,6 +362,31 @@ def check_summary_promises(diag: Diagnostics, path: Path, summary: str, lines: l
                         f"what the room contains, and the referee improvises an unkept one")
 
 
+COMPASS_RE = re.compile(r"\b(?:north|south|east|west)(?:-(?:north|south|east|west))*\b|\b[A-Z]+\.\d+\b", re.I)
+CLAUSE_RE = re.compile(r"[,;:]|\.(?=\s|$)")
+
+
+def check_directions(diag, path, src: str, lines: list[str]):
+    """The one compass word of a clause, where it is not what something faces, names the
+    direction of each way from here whose code follows it, as the site's Exits give it, to
+    within 45 degrees."""
+    import maps
+    world = maps.world_for(SETTING)
+    points = list(world.schema.setting_enums["Compass"])
+    angle = lambda word: points.index(word) * 22.5
+    for line in lines:
+        for clause in CLAUSE_RE.split(line):
+            found = list(COMPASS_RE.finditer(clause))
+            words = [m for m in found if m[0].lower() in points]
+            if len(words) != 1 or re.search(r"\bfac(e|es|ing)\s+$", clause[:words[0].start()]):
+                continue
+            word = words[0][0].lower()
+            for m in found:
+                if m.start() > words[0].start() and m[0].lower() not in points and (at := maps.way(world, src, m[0])):
+                    if abs((angle(word) - angle(at[0]) + 180) % 360 - 180) > 45:
+                        diag.warn(path, f"says {word} toward {m[0]}, but the way there runs {at[0]} - follow the map (step 4b)")
+
+
 def check_location_file(diag, path, region_code, num, stub, connected, all_locations,
                          mundane_edges, hidden_edges, conditions=None):
     """connected: the location has Connections entries, so its write-up carries Exits."""
@@ -432,6 +458,7 @@ def check_location_file(diag, path, region_code, num, stub, connected, all_locat
             feature_lines.append(s)
 
     check_summary_promises(diag, path, summary, feature_lines)
+    check_directions(diag, path, f"{region_code}.{num}", [summary, notes] + feature_lines)
 
     if not features:
         diag.error(path, "no Feature lines found (expected at least one **Name:** line)")
@@ -465,10 +492,13 @@ def check_location_file(diag, path, region_code, num, stub, connected, all_locat
                 diag.warn(path, f"Exits lists {src} -> {code} as mundane, but its Connection entry carries a Secret - confirm this is the far side of an already-triggered secret, not a template violation")
             elif not in_mundane:
                 diag.error(path, f"Exits lists {src} -> {code}, but no Connection entry runs that way")
-            key = desc.lower()
-            if key:
+            if POSITION_RE.search(desc):
+                diag.error(path, f"Exits states where -> {code} runs ({desc!r}): the tables hold it and the site "
+                                 "and PDF add it - drop it (step 4b)")
+            key = sc.exit_text(src, desc, code).lower()
+            if desc:
                 if key in seen_desc and seen_desc[key] != code:
-                    diag.warn(path, f"Exits describes both -> {seen_desc[key]} and -> {code} identically ({desc!r}) - state where each is positioned (a wall, corner, or direction) so they read as distinct")
+                    diag.warn(path, f"Exits describes both -> {seen_desc[key]} and -> {code} identically ({key!r}) - say which is which (a corner, a make) so they read as distinct")
                 else:
                     seen_desc.setdefault(key, code)
 

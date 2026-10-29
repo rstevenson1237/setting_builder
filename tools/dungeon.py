@@ -8,6 +8,7 @@ problems     what is wrong with a packed block, for the validator
 """
 from __future__ import annotations
 
+import functools
 import hashlib
 import json
 import math
@@ -323,9 +324,6 @@ def with_prop(line: str, key: str, value: str, after: str | None = None) -> str:
     return line.rstrip() + f" {key}={value}"
 
 
-EXIT_AT = re.compile(r"((?:north|south|east|west)(?:-(?:north|south|east|west))*), (\d+) feet -> ([A-Z]+\.\d+)")
-
-
 SIDE = {"n": "north", "e": "east", "s": "south", "w": "west"}
 
 
@@ -350,11 +348,24 @@ def plan_of(region, block: kdl.Node):
     return routes, rects, left
 
 
+@functools.cache
+def walks(code: str, setting: Path = tables.SETTING) -> dict[tuple[str, str], tuple[str, int]]:
+    """Each way between two rooms of a packed block of the region, both ways round: the wall it
+    leaves by and its walk to the next room's centre, to the nearest 5 feet."""
+    region = world_for(setting).regions[code]
+    out = {}
+    for block in blocks_of(region).values():
+        for rt in (found := plan_of(region, block)) and found[0] or ():
+            how = round(rt.length / 5) * 5
+            out[rt.a, rt.b], out[rt.b, rt.a] = (SIDE[rt.side_a], how), (SIDE[rt.side_b], how)
+    return out
+
+
 def pack_region(code: str, seed: int = 1) -> int:
     """Packs each block of a DANGEROUS region into a square and routes its passages (tools/pack.py,
     tools/route.py), then writes each room's `east` and `north` from the entrance to Dressing.md,
     the block's `footprint` to Blocks.md, the wall each way leaves a room by and the walk to the
-    next room to Connections.md, and the same in each write-up's Exits line."""
+    next room to Connections.md."""
     region = world_for(tables.SETTING).regions[code]
     if region.rating.upper() != "DANGEROUS":
         print(f"{code} is {region.rating}: only a DANGEROUS region's blocks are packed")
@@ -411,16 +422,6 @@ def pack_region(code: str, seed: int = 1) -> int:
                 if (m[1], m[2]) in walk:
                     line = with_prop(line, "bearing", f'"{walk[m[1], m[2]][0]}"')
                     text["Connections"][i] = with_prop(line, "distance", f'"{walk[m[1], m[2]][1]}"')
-        for c in members:
-            page = region.dir / f"{c.split('.')[1]}.md"
-            if not page.exists():
-                continue
-            def fix(m, c=c):
-                got = walk.get((c, m[3]))
-                return f"{got[0]}, {got[1]} -> {m[3]}" if got else m[0]
-            body = page.read_text()
-            page.write_text("\n".join(EXIT_AT.sub(fix, ln) if ln.startswith("**Exits:**") else ln
-                                      for ln in body.split("\n")))
     if failed:
         return 1
     for k, f in files.items():

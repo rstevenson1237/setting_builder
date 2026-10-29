@@ -754,6 +754,14 @@ def line_class(name: str, base: str) -> str:
 EXIT_DEST_RE = re.compile(r'^\s*([A-Z]+\.\d+)\s+(.*)$')
 
 
+def exit_text(src: str, approach: str, dst: str) -> str:
+    """An Exits line's approach with the way's position added from the tables: a write-up
+    states none of its own."""
+    import maps
+    at = maps.way(maps.world_for(SETTING), src, dst)
+    return f"{approach}, {at[0]}, {at[1]}" if at else approach
+
+
 def parse_exits(exits_raw: str) -> list[tuple[str, str, str]]:
     """Split a comma-separated Exits line into (approach, code, name) triples.
 
