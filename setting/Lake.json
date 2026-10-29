@@ -1,2142 +1,301 @@
 {
- "cols": 106,
- "rows": 106,
- "gen": {
-  "land": "inland",
-  "sea": 0,
-  "moisture": 0.6,
-  "roughness": 0.3,
-  "relief": 0.2,
-  "rivers": 2,
-  "simplify": 3,
-  "feature": 40
- },
- "topo": {
-  "maxElevation": 600,
-  "interval": 50,
-  "majorEvery": 4,
-  "unit": "ft",
-  "labels": false
- },
- "grid": {
-  "type": "square",
-  "size": 1,
-  "coords": false
- },
- "scale": {
-  "perCell": 50,
-  "unit": "yd"
- },
- "legend": true,
- "scaleBar": true,
- "compass": true,
- "id": "Lake",
- "version": 1,
- "preset": "regional",
- "seed": 1,
- "edits": [],
- "overlay": {
-  "labels": [
-   {
-    "text": "B",
-    "x": 53.2,
-    "y": 52,
-    "kind": "region",
-    "origin": "tables"
-   }
-  ],
-  "symbols": [
-   {
-    "kind": "poi",
-    "x": 52,
-    "y": 52,
-    "origin": "tables"
-   }
+  "cols": 50,
+  "rows": 50,
+  "gen": {
+    "land": "inland",
+    "sea": 0,
+    "moisture": 0.6,
+    "roughness": 0.3,
+    "relief": 0.2,
+    "rivers": 2,
+    "simplify": 3,
+    "feature": 40
+  },
+  "topo": {
+    "maxElevation": 600,
+    "interval": 50,
+    "majorEvery": 4,
+    "unit": "ft",
+    "labels": false
+  },
+  "grid": {
+    "type": "square",
+    "size": 1,
+    "coords": false
+  },
+  "scale": {
+    "perCell": 20,
+    "unit": "yd"
+  },
+  "legend": true,
+  "scaleBar": true,
+  "compass": true,
+  "id": "Lake",
+  "version": 1,
+  "preset": "local",
+  "seed": 1,
+  "edits": [],
+  "overlay": {
+    "labels": [
+      {
+        "text": "B",
+        "x": 24.8,
+        "y": 25.2,
+        "kind": "region",
+        "origin": "tables"
+      },
+      {
+        "text": "B.1 G",
+        "x": 26.8,
+        "y": 25,
+        "kind": "place",
+        "origin": "tables"
+      },
+      {
+        "text": "B.2",
+        "x": 26.8,
+        "y": 21,
+        "kind": "place",
+        "origin": "tables"
+      },
+      {
+        "text": "B.3",
+        "x": 31.8,
+        "y": 25,
+        "kind": "place",
+        "origin": "tables"
+      },
+      {
+        "text": "B.4",
+        "x": 31.7,
+        "y": 20.1,
+        "kind": "place",
+        "origin": "tables"
+      },
+      {
+        "text": "B.5",
+        "x": 20.8,
+        "y": 25,
+        "kind": "place",
+        "origin": "tables"
+      },
+      {
+        "text": "B.6",
+        "x": 21.5,
+        "y": 30.3,
+        "kind": "place",
+        "origin": "tables"
+      },
+      {
+        "text": "B.7",
+        "x": 26.8,
+        "y": 28.5,
+        "kind": "place",
+        "origin": "tables"
+      },
+      {
+        "text": "B.8",
+        "x": 30.7,
+        "y": 28.9,
+        "kind": "place",
+        "origin": "tables"
+      },
+      {
+        "text": "B.9",
+        "x": 24.3,
+        "y": 19,
+        "kind": "place",
+        "origin": "tables"
+      },
+      {
+        "text": "B.10 H",
+        "x": 18.5,
+        "y": 28.4,
+        "kind": "place",
+        "origin": "tables"
+      }
+    ],
+    "symbols": [
+      {
+        "kind": "poi",
+        "x": 26,
+        "y": 25,
+        "origin": "tables"
+      },
+      {
+        "kind": "cave-mouth",
+        "x": 26,
+        "y": 25,
+        "origin": "tables"
+      },
+      {
+        "kind": "camp",
+        "x": 26,
+        "y": 21,
+        "origin": "tables"
+      },
+      {
+        "kind": "camp",
+        "x": 31,
+        "y": 25,
+        "origin": "tables"
+      },
+      {
+        "kind": "camp",
+        "x": 30.9,
+        "y": 20.1,
+        "origin": "tables"
+      },
+      {
+        "kind": "ruin",
+        "x": 20,
+        "y": 25,
+        "origin": "tables"
+      },
+      {
+        "kind": "poi",
+        "x": 20.7,
+        "y": 30.3,
+        "origin": "tables"
+      },
+      {
+        "kind": "poi",
+        "x": 26,
+        "y": 28.5,
+        "origin": "tables"
+      },
+      {
+        "kind": "poi",
+        "x": 29.9,
+        "y": 28.9,
+        "origin": "tables"
+      },
+      {
+        "kind": "poi",
+        "x": 23.5,
+        "y": 19,
+        "origin": "tables"
+      },
+      {
+        "kind": "cave-mouth",
+        "x": 17.7,
+        "y": 28.4,
+        "origin": "tables"
+      }
+    ]
+  },
+  "require": [
+    {
+      "id": "B-ground",
+      "kind": "terrain",
+      "origin": "tables",
+      "area": {
+        "circle": [
+          26,
+          25,
+          4
+        ]
+      },
+      "terrain": "rock",
+      "share": 0.8
+    },
+    {
+      "id": "B-ground-1",
+      "kind": "terrain",
+      "origin": "tables",
+      "area": {
+        "circle": [
+          31,
+          25,
+          1.5
+        ]
+      },
+      "terrain": "rock",
+      "share": 0.8
+    },
+    {
+      "id": "B-ground-2",
+      "kind": "terrain",
+      "origin": "tables",
+      "area": {
+        "circle": [
+          30.9,
+          20.1,
+          1.5
+        ]
+      },
+      "terrain": "rock",
+      "share": 0.8
+    },
+    {
+      "id": "B-ground-3",
+      "kind": "terrain",
+      "origin": "tables",
+      "area": {
+        "circle": [
+          20,
+          25,
+          1.5
+        ]
+      },
+      "terrain": "rock",
+      "share": 0.8
+    },
+    {
+      "id": "B-ground-4",
+      "kind": "terrain",
+      "origin": "tables",
+      "area": {
+        "circle": [
+          20.7,
+          30.3,
+          1.5
+        ]
+      },
+      "terrain": "rock",
+      "share": 0.8
+    },
+    {
+      "id": "B-ground-5",
+      "kind": "terrain",
+      "origin": "tables",
+      "area": {
+        "circle": [
+          29.9,
+          28.9,
+          1.5
+        ]
+      },
+      "terrain": "rock",
+      "share": 0.8
+    },
+    {
+      "id": "B-ground-6",
+      "kind": "terrain",
+      "origin": "tables",
+      "area": {
+        "circle": [
+          23.5,
+          19,
+          1.5
+        ]
+      },
+      "terrain": "rock",
+      "share": 0.8
+    },
+    {
+      "id": "B-ground-7",
+      "kind": "terrain",
+      "origin": "tables",
+      "area": {
+        "circle": [
+          17.7,
+          28.4,
+          1.5
+        ]
+      },
+      "terrain": "rock",
+      "share": 0.8
+    }
   ]
- },
- "require": [
-  {
-   "id": "Lake-temper-136",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "scrub",
-   "area": {
-    "circle": [
-     81.5,
-     27.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-137",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "scrub",
-   "area": {
-    "circle": [
-     84.5,
-     30.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-134",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "scrub",
-   "area": {
-    "circle": [
-     81.5,
-     30.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-135",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "scrub",
-   "area": {
-    "circle": [
-     81.5,
-     33.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-1",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "rock",
-   "area": {
-    "circle": [
-     42.5,
-     0.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-2",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "rock",
-   "area": {
-    "circle": [
-     45.5,
-     0.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-3",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "scrub",
-   "area": {
-    "circle": [
-     72.5,
-     0.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-4",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "scrub",
-   "area": {
-    "circle": [
-     75.5,
-     0.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-5",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "rock",
-   "area": {
-    "circle": [
-     96.5,
-     0.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-6",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "rock",
-   "area": {
-    "circle": [
-     39.5,
-     3.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-7",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "rock",
-   "area": {
-    "circle": [
-     42.5,
-     3.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-8",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "rock",
-   "area": {
-    "circle": [
-     45.5,
-     3.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-9",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "rock",
-   "area": {
-    "circle": [
-     48.5,
-     3.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-10",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "scrub",
-   "area": {
-    "circle": [
-     72.5,
-     3.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-11",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "scrub",
-   "area": {
-    "circle": [
-     75.5,
-     3.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-12",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "rock",
-   "area": {
-    "circle": [
-     39.5,
-     6.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-13",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "rock",
-   "area": {
-    "circle": [
-     42.5,
-     6.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-14",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "rock",
-   "area": {
-    "circle": [
-     45.5,
-     6.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-15",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "rock",
-   "area": {
-    "circle": [
-     48.5,
-     6.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-16",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "rock",
-   "area": {
-    "circle": [
-     0.5,
-     18.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-17",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "rock",
-   "area": {
-    "circle": [
-     0.5,
-     21.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-18",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "rock",
-   "area": {
-    "circle": [
-     21.5,
-     21.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-19",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "rock",
-   "area": {
-    "circle": [
-     0.5,
-     24.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-20",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "rock",
-   "area": {
-    "circle": [
-     21.5,
-     24.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-21",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "rock",
-   "area": {
-    "circle": [
-     24.5,
-     24.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-22",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "rock",
-   "area": {
-    "circle": [
-     27.5,
-     24.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-23",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "rock",
-   "area": {
-    "circle": [
-     30.5,
-     24.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-24",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "rock",
-   "area": {
-    "circle": [
-     33.5,
-     24.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-25",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "rock",
-   "area": {
-    "circle": [
-     36.5,
-     24.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-26",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "scrub",
-   "area": {
-    "circle": [
-     87.5,
-     24.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-27",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "rock",
-   "area": {
-    "circle": [
-     24.5,
-     27.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-28",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "rock",
-   "area": {
-    "circle": [
-     27.5,
-     27.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-29",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "rock",
-   "area": {
-    "circle": [
-     30.5,
-     27.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-30",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "rock",
-   "area": {
-    "circle": [
-     33.5,
-     27.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-31",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "rock",
-   "area": {
-    "circle": [
-     36.5,
-     27.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-32",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "scrub",
-   "area": {
-    "circle": [
-     75.5,
-     27.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-33",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "scrub",
-   "area": {
-    "circle": [
-     78.5,
-     27.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-34",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "scrub",
-   "area": {
-    "circle": [
-     87.5,
-     27.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-35",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "scrub",
-   "area": {
-    "circle": [
-     90.5,
-     27.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-36",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "scrub",
-   "area": {
-    "circle": [
-     75.5,
-     30.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-37",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "scrub",
-   "area": {
-    "circle": [
-     78.5,
-     30.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-38",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "scrub",
-   "area": {
-    "circle": [
-     90.5,
-     30.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-39",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "scrub",
-   "area": {
-    "circle": [
-     72.5,
-     33.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-40",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "scrub",
-   "area": {
-    "circle": [
-     75.5,
-     33.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-41",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "scrub",
-   "area": {
-    "circle": [
-     78.5,
-     33.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-42",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "scrub",
-   "area": {
-    "circle": [
-     87.5,
-     33.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-43",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "scrub",
-   "area": {
-    "circle": [
-     90.5,
-     33.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-44",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "scrub",
-   "area": {
-    "circle": [
-     93.5,
-     33.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-45",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "scrub",
-   "area": {
-    "circle": [
-     72.5,
-     36.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-46",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "scrub",
-   "area": {
-    "circle": [
-     75.5,
-     36.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-47",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "scrub",
-   "area": {
-    "circle": [
-     78.5,
-     36.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-48",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "scrub",
-   "area": {
-    "circle": [
-     81.5,
-     36.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-49",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "scrub",
-   "area": {
-    "circle": [
-     84.5,
-     36.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-50",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "scrub",
-   "area": {
-    "circle": [
-     87.5,
-     36.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-51",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "scrub",
-   "area": {
-    "circle": [
-     90.5,
-     36.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-52",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "scrub",
-   "area": {
-    "circle": [
-     93.5,
-     36.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-53",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "scrub",
-   "area": {
-    "circle": [
-     69.5,
-     39.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-54",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "scrub",
-   "area": {
-    "circle": [
-     72.5,
-     39.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-55",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "scrub",
-   "area": {
-    "circle": [
-     75.5,
-     39.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-56",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "scrub",
-   "area": {
-    "circle": [
-     78.5,
-     39.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-57",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "scrub",
-   "area": {
-    "circle": [
-     81.5,
-     39.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-58",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "scrub",
-   "area": {
-    "circle": [
-     84.5,
-     39.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-59",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "scrub",
-   "area": {
-    "circle": [
-     87.5,
-     39.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-60",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "scrub",
-   "area": {
-    "circle": [
-     90.5,
-     39.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-61",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "scrub",
-   "area": {
-    "circle": [
-     93.5,
-     39.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-62",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "scrub",
-   "area": {
-    "circle": [
-     69.5,
-     42.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-63",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "scrub",
-   "area": {
-    "circle": [
-     72.5,
-     42.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-64",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "scrub",
-   "area": {
-    "circle": [
-     75.5,
-     42.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-65",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "scrub",
-   "area": {
-    "circle": [
-     78.5,
-     42.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-66",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "scrub",
-   "area": {
-    "circle": [
-     81.5,
-     42.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-67",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "scrub",
-   "area": {
-    "circle": [
-     84.5,
-     42.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-68",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "scrub",
-   "area": {
-    "circle": [
-     87.5,
-     42.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-69",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "scrub",
-   "area": {
-    "circle": [
-     90.5,
-     42.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-70",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "scrub",
-   "area": {
-    "circle": [
-     72.5,
-     45.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-71",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "scrub",
-   "area": {
-    "circle": [
-     75.5,
-     45.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-72",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "scrub",
-   "area": {
-    "circle": [
-     78.5,
-     45.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-73",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "scrub",
-   "area": {
-    "circle": [
-     81.5,
-     45.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-74",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "scrub",
-   "area": {
-    "circle": [
-     84.5,
-     45.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-75",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "scrub",
-   "area": {
-    "circle": [
-     87.5,
-     45.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-76",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "scrub",
-   "area": {
-    "circle": [
-     90.5,
-     45.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-77",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "scrub",
-   "area": {
-    "circle": [
-     78.5,
-     48.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-78",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "scrub",
-   "area": {
-    "circle": [
-     81.5,
-     48.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-79",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "scrub",
-   "area": {
-    "circle": [
-     84.5,
-     48.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-80",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "scrub",
-   "area": {
-    "circle": [
-     87.5,
-     48.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-81",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "scrub",
-   "area": {
-    "circle": [
-     81.5,
-     51.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-82",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "scrub",
-   "area": {
-    "circle": [
-     84.5,
-     51.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-83",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "scrub",
-   "area": {
-    "circle": [
-     87.5,
-     51.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-84",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "scrub",
-   "area": {
-    "circle": [
-     90.5,
-     51.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-85",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "scrub",
-   "area": {
-    "circle": [
-     81.5,
-     54.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-86",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "scrub",
-   "area": {
-    "circle": [
-     84.5,
-     54.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-87",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "scrub",
-   "area": {
-    "circle": [
-     87.5,
-     54.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-88",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "scrub",
-   "area": {
-    "circle": [
-     90.5,
-     54.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-89",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "scrub",
-   "area": {
-    "circle": [
-     81.5,
-     57.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-90",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "scrub",
-   "area": {
-    "circle": [
-     84.5,
-     57.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-91",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "scrub",
-   "area": {
-    "circle": [
-     87.5,
-     57.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-92",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "scrub",
-   "area": {
-    "circle": [
-     90.5,
-     57.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-93",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "scrub",
-   "area": {
-    "circle": [
-     81.5,
-     60.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-94",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "scrub",
-   "area": {
-    "circle": [
-     84.5,
-     60.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-95",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "scrub",
-   "area": {
-    "circle": [
-     87.5,
-     60.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-96",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "rock",
-   "area": {
-    "circle": [
-     9.5,
-     63.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-97",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "rock",
-   "area": {
-    "circle": [
-     12.5,
-     63.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-98",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "rock",
-   "area": {
-    "circle": [
-     15.5,
-     63.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-99",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "scrub",
-   "area": {
-    "circle": [
-     84.5,
-     63.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-100",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "scrub",
-   "area": {
-    "circle": [
-     87.5,
-     63.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-101",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "rock",
-   "area": {
-    "circle": [
-     9.5,
-     66.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-102",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "rock",
-   "area": {
-    "circle": [
-     12.5,
-     66.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-103",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "rock",
-   "area": {
-    "circle": [
-     15.5,
-     66.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-104",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "rock",
-   "area": {
-    "circle": [
-     9.5,
-     69.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-105",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "rock",
-   "area": {
-    "circle": [
-     12.5,
-     69.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-106",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "rock",
-   "area": {
-    "circle": [
-     15.5,
-     69.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-107",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "rock",
-   "area": {
-    "circle": [
-     12.5,
-     72.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-108",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "rock",
-   "area": {
-    "circle": [
-     15.5,
-     72.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-109",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "rock",
-   "area": {
-    "circle": [
-     18.5,
-     72.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-110",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "rock",
-   "area": {
-    "circle": [
-     12.5,
-     75.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-111",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "rock",
-   "area": {
-    "circle": [
-     15.5,
-     75.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-112",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "rock",
-   "area": {
-    "circle": [
-     12.5,
-     78.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-113",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "rock",
-   "area": {
-    "circle": [
-     15.5,
-     78.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-114",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "scrub",
-   "area": {
-    "circle": [
-     0.5,
-     81.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-115",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "rock",
-   "area": {
-    "circle": [
-     15.5,
-     81.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-116",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "scrub",
-   "area": {
-    "circle": [
-     0.5,
-     84.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-117",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "rock",
-   "area": {
-    "circle": [
-     15.5,
-     84.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-118",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "scrub",
-   "area": {
-    "circle": [
-     102.5,
-     84.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-119",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "scrub",
-   "area": {
-    "circle": [
-     90.5,
-     87.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-120",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "scrub",
-   "area": {
-    "circle": [
-     99.5,
-     87.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-121",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "scrub",
-   "area": {
-    "circle": [
-     102.5,
-     87.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-122",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "scrub",
-   "area": {
-    "circle": [
-     90.5,
-     90.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-123",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "rock",
-   "area": {
-    "circle": [
-     30.5,
-     99.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-124",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "rock",
-   "area": {
-    "circle": [
-     33.5,
-     99.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-125",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "rock",
-   "area": {
-    "circle": [
-     30.5,
-     102.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-126",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "rock",
-   "area": {
-    "circle": [
-     33.5,
-     102.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-127",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "rock",
-   "area": {
-    "circle": [
-     36.5,
-     102.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-128",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "rock",
-   "area": {
-    "circle": [
-     30.5,
-     105.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-129",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "rock",
-   "area": {
-    "circle": [
-     33.5,
-     105.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-130",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "rock",
-   "area": {
-    "circle": [
-     36.5,
-     105.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-131",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "rock",
-   "area": {
-    "circle": [
-     39.5,
-     105.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-132",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "rock",
-   "area": {
-    "circle": [
-     42.5,
-     105.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Lake-temper-133",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "rock",
-   "area": {
-    "circle": [
-     45.5,
-     105.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "B-ground",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "water",
-   "area": {
-    "poly": [
-     49,
-     52,
-     49.9,
-     49.9,
-     52,
-     49,
-     54.1,
-     49.9,
-     55,
-     52,
-     54.1,
-     54.1,
-     52,
-     55,
-     49.9,
-     54.1
-    ]
-   },
-   "share": 0.8,
-   "blend": 4
-  }
- ]
 }

@@ -895,6 +895,7 @@ def check_blocks(diag: Diagnostics, setting):
             for p in problems:
                 diag.error(path, f"{bid}: {p}")
         dress = {str(n.args[0]): n for n in region.files.get("Dressing", []) if n.args}
+        check_packing(diag, region, blocks, dress)
         for n in region.files.get("Connections", []):
             for k in ("width", "height"):
                 for end in (str(n.args[0]), str(n.props.get("to"))) if k in n.props else ():
@@ -912,8 +913,78 @@ def check_blocks(diag: Diagnostics, setting):
                 diag.error(region.dir / "Connections.md", f"{a} to {b} climbs within block {owner[a]}; a way that climbs joins two blocks")
 
 
+PACKED = 0.3            # the share of its footprint a packed level's rooms cover, at least
+
+
+def check_packing(diag: Diagnostics, region, blocks, dress):
+    """A block whose rooms state `east` and `north` lies within its `footprint`, covers PACKED of
+    it, has a passage routed for each way, and each way within it says the wall it leaves by and
+    how far it runs to the next room's centre, to the nearest 5 feet."""
+    import math
+    import maps
+    points = list(maps.tables.Schema().setting_enums["Compass"])
+    path = region.dir / "Blocks.md"
+    for bid, block in blocks.items():
+        members = [m.strip() for m in str(block.props.get("locations", "")).split(",") if m.strip()]
+        at = {}
+        for c in members:
+            d = dress.get(c)
+            if d is not None and "east" in d.props and "north" in d.props:
+                at[c] = (float(d.props["east"]), float(d.props["north"]))
+        if not at:
+            continue
+        side = float(block.props["footprint"]) if "footprint" in block.props else None
+        if side is None:
+            diag.error(path, f"{bid} places its rooms but states no footprint")
+            continue
+        wide = lambda c, k: float(dress[c].props["width" if k == 0 else "length"])
+        for k, name in ((0, "east-west"), (1, "north-south")):
+            lo = min(at[c][k] - wide(c, k) / 2 for c in at)
+            hi = max(at[c][k] + wide(c, k) / 2 for c in at)
+            if hi - lo > side + 0.5:
+                diag.error(path, f"{bid}'s rooms span {hi - lo:g} feet {name}, past its footprint of {side:g}")
+        area = sum(wide(c, 0) * wide(c, 1) for c in at)
+        if area < PACKED * side * side:
+            diag.error(path, f"{bid}'s rooms cover {area / side / side:.0%} of its footprint, under {PACKED:.0%}")
+        found = maps.plan_of(region, block)
+        walk = {}
+        for rt in found[0]:
+            how = round(rt.length / 5) * 5
+            walk[rt.a, rt.b], walk[rt.b, rt.a] = (maps.SIDE[rt.side_a], how), (maps.SIDE[rt.side_b], how)
+        for left in found[2]:
+            diag.error(path, f"{bid}: no passage fits the way from {left}")
+        mapfile = region.dir / f"{bid}.json"
+        if not mapfile.exists():
+            diag.error(mapfile, f"{bid} is packed but has no map file: run `python3 tools/maps.py draw`")
+            continue
+        import json
+        import mapcheck
+        stored = json.loads(mapfile.read_text())
+        fresh = maps.block_file(region, block)[0] or {}
+        mine = lambda m, k: [e for e in m.get(k, []) if e.get("origin") == "tables"]
+        if any(mine(stored, k) != mine(fresh, k) for k in ("rooms", "corridors", "connections")):
+            diag.error(mapfile, f"{bid}'s map no longer follows its tables: run `python3 tools/maps.py draw`")
+        members = {x.strip() for x in str(block.props.get("locations", "")).split(",")}
+        rid = lambda c: c.replace(".", "-")
+        joins = {frozenset((rid(str(n.args[0])), rid(str(n.props["to"])))) for n in region.files.get("Connections", [])
+                 if n.args and str(n.args[0]) in members and str(n.props.get("to")) in members}
+        leaving = sum(1 for n in region.files.get("Connections", [])
+                      if n.args and str(n.args[0]) in members and str(n.props.get("to")) not in members)
+        for d in mapcheck.check(stored, joins, leaving):
+            (diag.warn if d.startswith("label:") else diag.error)(mapfile, f"{bid}: {d}")
+        for n in region.files.get("Connections", []):
+            a, b = str(n.args[0]), str(n.props.get("to"))
+            if (a, b) not in walk:
+                continue
+            side, how = walk[a, b]
+            if str(n.props.get("bearing")) != side or abs(maps.feet(str(n.props.get("distance", "0 feet"))) - how) > 5:
+                diag.error(region.dir / "Connections.md",
+                           f"{a} to {b} should read {side}, {how} feet: it leaves {a} by its {side} wall and runs {how} feet to {b}")
+
+
 def check_reversals(diag: Diagnostics, setting):
-    """The far side of a way reverses its bearing, at the same distance and the opposite climb."""
+    """The far side of a way reverses its bearing, at the same distance and the opposite climb;
+    between packed rooms the bearing is the wall each leaves by, so only the distance is held."""
     import maps
     points = list(setting.schema.setting_enums["Compass"])
     ways = {}
@@ -927,6 +998,9 @@ def check_reversals(diag: Diagnostics, setting):
         m = ways[b, a][1]
         flip = points[(points.index(str(n.props["bearing"])) + 8) % 16]
         far = (str(m.props["bearing"]), maps.feet(str(m.props.get("distance", "0 feet"))))
+        packed = lambda c: any("east" in d.props for d in region.files.get("Dressing", []) if d.args and str(d.args[0]) == c)
+        if packed(a) and packed(b):
+            flip = far[0]
         if far != (flip, maps.feet(str(n.props.get("distance", "0 feet")))):
             diag.error(region.dir / "Connections.md", f"line {n.line}: {a} to {b} is {n.props['bearing']}, "
                        f"{n.props.get('distance')}; its far side should read {flip}, {n.props.get('distance')}")

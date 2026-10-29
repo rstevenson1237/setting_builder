@@ -1,6 +1,6 @@
 {
- "cols": 53,
- "rows": 53,
+ "cols": 48,
+ "rows": 48,
  "gen": {
   "land": "inland",
   "sea": 0,
@@ -24,7 +24,7 @@
   "coords": false
  },
  "scale": {
-  "perCell": 100,
+  "perCell": 25,
   "unit": "yd"
  },
  "legend": true,
@@ -39,17 +39,134 @@
   "labels": [
    {
     "text": "A",
-    "x": 27.2,
-    "y": 26,
+    "x": 22.6,
+    "y": 24.4,
     "kind": "region",
+    "origin": "tables"
+   },
+   {
+    "text": "A.1 C",
+    "x": 23.8,
+    "y": 23,
+    "kind": "place",
+    "origin": "tables"
+   },
+   {
+    "text": "A.2",
+    "x": 20.4,
+    "y": 26.4,
+    "kind": "place",
+    "origin": "tables"
+   },
+   {
+    "text": "A.3",
+    "x": 18.1,
+    "y": 17.3,
+    "kind": "place",
+    "origin": "tables"
+   },
+   {
+    "text": "A.4",
+    "x": 31,
+    "y": 23,
+    "kind": "place",
+    "origin": "tables"
+   },
+   {
+    "text": "A.5",
+    "x": 23.8,
+    "y": 11,
+    "kind": "place",
+    "origin": "tables"
+   },
+   {
+    "text": "A.6",
+    "x": 30.9,
+    "y": 30.1,
+    "kind": "place",
+    "origin": "tables"
+   },
+   {
+    "text": "A.7",
+    "x": 23.8,
+    "y": 36.2,
+    "kind": "place",
+    "origin": "tables"
+   },
+   {
+    "text": "A.8",
+    "x": 17.8,
+    "y": 23,
+    "kind": "place",
+    "origin": "tables"
+   },
+   {
+    "text": "A.9",
+    "x": 21.7,
+    "y": 28.2,
+    "kind": "place",
     "origin": "tables"
    }
   ],
   "symbols": [
    {
     "kind": "poi",
-    "x": 26,
-    "y": 26,
+    "x": 23,
+    "y": 23,
+    "origin": "tables"
+   },
+   {
+    "kind": "cave-mouth",
+    "x": 23,
+    "y": 23,
+    "origin": "tables"
+   },
+   {
+    "kind": "ruin",
+    "x": 19.6,
+    "y": 26.4,
+    "origin": "tables"
+   },
+   {
+    "kind": "ruin",
+    "x": 17.3,
+    "y": 17.3,
+    "origin": "tables"
+   },
+   {
+    "kind": "ruin",
+    "x": 30.2,
+    "y": 23,
+    "origin": "tables"
+   },
+   {
+    "kind": "ruin",
+    "x": 23,
+    "y": 11,
+    "origin": "tables"
+   },
+   {
+    "kind": "ruin",
+    "x": 30.1,
+    "y": 30.1,
+    "origin": "tables"
+   },
+   {
+    "kind": "camp",
+    "x": 23,
+    "y": 36.2,
+    "origin": "tables"
+   },
+   {
+    "kind": "poi",
+    "x": 17,
+    "y": 23,
+    "origin": "tables"
+   },
+   {
+    "kind": "poi",
+    "x": 20.9,
+    "y": 28.2,
     "origin": "tables"
    }
   ]
@@ -62,7 +179,7 @@
    "terrain": "rock",
    "area": {
     "circle": [
-     12.5,
+     9.5,
      3.5,
      3
     ]
@@ -77,7 +194,7 @@
    "terrain": "rock",
    "area": {
     "circle": [
-     9.5,
+     6.5,
      6.5,
      3
     ]
@@ -92,7 +209,7 @@
    "terrain": "rock",
    "area": {
     "circle": [
-     12.5,
+     9.5,
      6.5,
      3
     ]
@@ -107,8 +224,8 @@
    "terrain": "rock",
    "area": {
     "circle": [
-     9.5,
-     9.5,
+     12.5,
+     6.5,
      3
     ]
    },
@@ -122,7 +239,7 @@
    "terrain": "rock",
    "area": {
     "circle": [
-     12.5,
+     27.5,
      9.5,
      3
     ]
@@ -149,11 +266,11 @@
    "id": "Sands-temper-7",
    "kind": "terrain",
    "origin": "tables",
-   "terrain": "rock",
+   "terrain": "scrub",
    "area": {
     "circle": [
-     33.5,
-     9.5,
+     0.5,
+     12.5,
      3
     ]
    },
@@ -167,8 +284,8 @@
    "terrain": "rock",
    "area": {
     "circle": [
-     24.5,
-     12.5,
+     42.5,
+     21.5,
      3
     ]
    },
@@ -182,8 +299,8 @@
    "terrain": "rock",
    "area": {
     "circle": [
-     30.5,
-     12.5,
+     39.5,
+     24.5,
      3
     ]
    },
@@ -197,172 +314,7 @@
    "terrain": "rock",
    "area": {
     "circle": [
-     33.5,
-     12.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Sands-temper-11",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "rock",
-   "area": {
-    "circle": [
-     21.5,
-     15.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Sands-temper-12",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "rock",
-   "area": {
-    "circle": [
-     24.5,
-     15.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Sands-temper-13",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "rock",
-   "area": {
-    "circle": [
-     27.5,
-     15.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Sands-temper-14",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "rock",
-   "area": {
-    "circle": [
-     30.5,
-     15.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Sands-temper-15",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "rock",
-   "area": {
-    "circle": [
-     21.5,
-     18.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Sands-temper-16",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "rock",
-   "area": {
-    "circle": [
-     24.5,
-     18.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Sands-temper-17",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "rock",
-   "area": {
-    "circle": [
-     27.5,
-     18.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Sands-temper-18",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "rock",
-   "area": {
-    "circle": [
-     21.5,
-     21.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Sands-temper-19",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "rock",
-   "area": {
-    "circle": [
-     24.5,
-     21.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Sands-temper-20",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "rock",
-   "area": {
-    "circle": [
-     51.5,
-     21.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Sands-temper-21",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "rock",
-   "area": {
-    "circle": [
-     45.5,
+     42.5,
      24.5,
      3
     ]
@@ -371,64 +323,23 @@
    "blend": 3
   },
   {
-   "id": "Sands-temper-22",
-   "kind": "terrain",
+   "id": "A-route-1",
+   "kind": "path",
+   "path": "road",
    "origin": "tables",
-   "terrain": "rock",
-   "area": {
-    "circle": [
-     48.5,
-     24.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Sands-temper-23",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "rock",
-   "area": {
-    "circle": [
-     51.5,
-     24.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Sands-temper-24",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "rock",
-   "area": {
-    "circle": [
-     45.5,
-     27.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
-  },
-  {
-   "id": "Sands-temper-25",
-   "kind": "terrain",
-   "origin": "tables",
-   "terrain": "rock",
-   "area": {
-    "circle": [
-     45.5,
-     30.5,
-     3
-    ]
-   },
-   "share": 0.5,
-   "blend": 3
+   "points": [
+    23,
+    23,
+    23.8,
+    23,
+    21.4,
+    23,
+    20,
+    23,
+    18.6,
+    23
+   ],
+   "tolerance": 1
   },
   {
    "id": "A-ground",
@@ -437,22 +348,34 @@
    "terrain": "sand",
    "area": {
     "poly": [
+     14,
      23,
-     26,
-     23.9,
-     23.9,
-     26,
+     14.3,
+     17.3,
+     15.2,
+     15.2,
+     20.9,
+     8.9,
      23,
-     28.1,
-     23.9,
-     29,
-     26,
-     28.1,
-     28.1,
-     26,
-     29,
-     23.9,
-     28.1
+     8,
+     25.1,
+     8.9,
+     32.3,
+     20.9,
+     33.2,
+     23,
+     33.1,
+     30.1,
+     32.2,
+     32.2,
+     25.1,
+     38.3,
+     23,
+     39.2,
+     20.9,
+     38.3,
+     14.9,
+     25.1
     ]
    },
    "share": 0.8,

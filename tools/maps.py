@@ -3,6 +3,7 @@
 
   python3 tools/maps.py place [--brief PATH] [--setting DIR]
   python3 tools/maps.py ground [--brief PATH] [--setting DIR]
+  python3 tools/maps.py pack REGION [--seed N]
   python3 tools/maps.py draw [--brief PATH] [--setting DIR] [--out DIR] [--fit WxH[mm|px]]
 
 place    Reads BRIEF.md's `sheet` lines and each region's `ground` and `place` lines, puts
@@ -20,9 +21,14 @@ ground   Reads each placed region's ground back from its home sheet and writes i
          area, and, once its Locations.md exists, the ground at each location. Run again
          after the locations are written. A location with no bearing and distance, or north
          and east, from the way in is listed and left out.
+pack     Packs each block of a DANGEROUS region into a square (tools/pack.py), routes a passage for every
+         way (tools/route.py), and writes each room's `east` and `north` from its entrance, the block's
+         `footprint`, the wall each way leaves by and its length, and the same in each write-up's Exits
+         line. Reads the bearings as they stand for the directions to keep, so pack from the authored
+         ones; a seed fixes the result.
 draw     Writes each block's map, `setting/region/[Code]/[Block].json`, from its tables - a
          DANGEROUS block's a dungeon, a SAFE block's a settlement walled round its locations
-         on its home sheet - and with --out renders every sheet and block to SVG there.
+         on its home sheet, a WILD block's the same unwalled unless it states a wall - and with --out renders every sheet and block to SVG there.
          Region maps and location cuts (`region_svg`, `cut_svg`) are paused.
 """
 from __future__ import annotations
@@ -41,6 +47,9 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import kdl                      # noqa: E402,F401
+import pack as packing          # noqa: E402
+import mapcheck                 # noqa: E402
+import route                    # noqa: E402
 import site_common as sc        # noqa: E402
 import tables                   # noqa: E402
 
@@ -597,12 +606,20 @@ EDGE = 6                        # cells of map beyond the rooms, for the ways ou
 EXIT = 4                        # cells a way out of the block runs past its room's wall
 MAX_CELLS = 150
 CELLS = (5, 10, 20)             # feet to a cell, the finest that fits the block
+STAIR_INSET = 1.2               # cells between a stair mark's centre and the wall it stands by
+STAIR_HALF = 0.8                # half a stair mark, in cells
+STAIR_TIGHT = 0.5               # cells from the wall, in a room too small for anything better
+NAME_HALF = 0.7                 # half the height of a room's code alone, in cells
+LABEL_HALF = 1.5                # half the height of a room's number and code, in cells
+ROUTED_CELLS = (5, 10)          # and where its passages are routed on route.LATTICE
+ROUTED_WALL = 2.5               # a routed block's wall stroke, so a wall between two floors reads as one, its rock hatched
+                                # and a wall drawn between every two rooms that touch
 
 
 SYNCED = ("rooms", "corridors", "walls", "overlay", "connections")   # kept by artgen's sync, hand entries and all
 
 
-ENGINE = {"DANGEROUS": "dungeon", "SAFE": "settlement"}   # the artgen engine a rating's blocks draw with
+ENGINE = {"DANGEROUS": "dungeon", "SAFE": "settlement", "WILD": "settlement"}   # the artgen engine a rating's blocks draw with
 
 
 def facing(dx: float, dy: float) -> str:
@@ -615,8 +632,8 @@ def blocks_of(region) -> dict[str, kdl.Node]:
 
 
 def drawn_blocks(region) -> dict[str, kdl.Node]:
-    """The blocks drawn for a region: a DANGEROUS region's as dungeons, a SAFE region's as
-    settlements. Region and location maps are paused, and so is every WILD region's."""
+    """The blocks drawn for a region: a DANGEROUS region's as dungeons, a SAFE or WILD region's
+    as settlements. Region and location maps are paused."""
     return blocks_of(region) if region.rating.upper() in ENGINE else {}
 
 
@@ -643,7 +660,12 @@ def block_map(region, block: kdl.Node) -> tuple[dict | None, list[str]]:
         return d * math.sin(math.radians(a)), -d * math.cos(math.radians(a))
     leaving = {str(n.args[0]) for n in ways if str(n.props["to"]) not in members and str(n.args[0]) in members}
     entrance = min(leaving or members, key=lambda c: int(c.split(".")[1]))
-    at, queue, told = {entrance: (0.0, 0.0)}, [entrance], set()
+    stated = {c: (float(d.props["east"]), -float(d.props["north"])) for c in members
+              if (d := dress.get(c)) is not None and "east" in d.props and "north" in d.props}
+    if stated and len(stated) != len(members):
+        problems.append("some rooms state east and north and others do not")
+    at, queue, told = ({c: stated[c] for c in members}, [], set()) if len(stated) == len(members) \
+        else ({entrance: (0.0, 0.0)}, [entrance], set())
     for a in queue:                                      # rooms placed by walking orientations
         for n in ways:
             x, y = str(n.args[0]), str(n.props["to"])
@@ -673,13 +695,23 @@ def block_map(region, block: kdl.Node) -> tuple[dict | None, list[str]]:
         if w is None or h is None:
             problems.append(f"{c} states no width and length")
         size[c] = (float(w or UNSIZED), float(h or UNSIZED), SHAPE.get(str(d.props.get("shape", "rect")) if d else "rect", "rect"))
+    routed = len(stated) == len(members) and bool(members)
+    if routed:                                           # corners on the lattice the passages are routed on
+        first = next(iter(at))
+        shift = [(-(at[first][k] - size[first][k] / 2)) % route.LATTICE for k in (0, 1)]
+        at = {c: (at[c][0] + shift[0], at[c][1] + shift[1]) for c in at}
+        for c in at:
+            if any(abs((at[c][k] - size[c][k] / 2) / route.LATTICE - round((at[c][k] - size[c][k] / 2) / route.LATTICE)) > 1e-6
+                   for k in (0, 1)):
+                problems.append(f"{c} does not lie on the {route.LATTICE}-foot lattice")
     for i, a in enumerate(list(at)):
         for b in list(at)[i + 1:]:
             if all(abs(at[a][k] - at[b][k]) < (size[a][k] + size[b][k]) / 2 - APART / 5 for k in (0, 1)):
                 problems.append(f"{a} and {b} overlap")
     lo = [min(at[c][i] - size[c][i] / 2 for c in at) for i in (0, 1)]
     hi = [max(at[c][i] + size[c][i] / 2 for c in at) for i in (0, 1)]
-    cell = next((f for f in CELLS if max(hi[i] - lo[i] for i in (0, 1)) / f + 2 * EDGE <= MAX_CELLS), CELLS[-1])
+    fits = ROUTED_CELLS if routed else CELLS
+    cell = next((f for f in fits if max(hi[i] - lo[i] for i in (0, 1)) / f + 2 * EDGE <= MAX_CELLS), fits[-1])
     cols, rows = (max(4, math.ceil((hi[i] - lo[i]) / cell) + 2 * EDGE) for i in (0, 1))
     cx = lambda c: (at[c][0] - lo[0]) / cell + EDGE
     cy = lambda c: (at[c][1] - lo[1]) / cell + EDGE
@@ -691,6 +723,8 @@ def block_map(region, block: kdl.Node) -> tuple[dict | None, list[str]]:
          "style": {"hatch": "band", "band": 0.9, "wall": 1}, "scale": {"perCell": cell, "unit": "ft"},
          "numbers": True, "scaleBar": True, "compass": False, "furniture": {"place": "auto"},
          "rooms": [], "corridors": [], "connections": [], "overlay": {"labels": [], "symbols": []}}
+    if routed:
+        m["style"].update(wall=ROUTED_WALL, hatch="full", sharedWalls=True)
     for c in at:
         w, h, shape = size[c]
         m["rooms"].append({"id": rid(c), "shape": shape, "x": round(cx(c) - w / 2 / cell, 2),
@@ -713,6 +747,27 @@ def block_map(region, block: kdl.Node) -> tuple[dict | None, list[str]]:
         return size[a][2] == size[b][2] == "rect" and any(
             abs(d[k] - reach[k]) <= cell / 4 and d[1 - k] < reach[1 - k] - cell for k in (0, 1))
 
+    def lane(a, b):
+        """The sides and offsets in cells that run a straight corridor from room a to room b
+        where they face one another across a gap, else None."""
+        box = lambda c: (at[c][0] - size[c][0] / 2, at[c][1] - size[c][1] / 2,
+                         at[c][0] + size[c][0] / 2, at[c][1] + size[c][1] / 2)
+        p, q = box(a), box(b)
+        for k, (before, after) in enumerate((("e", "w"), ("s", "n"))):
+            lo, hi = max(p[1 - k], q[1 - k]), min(p[3 - k], q[3 - k])
+            if hi - lo < 2 * cell:
+                continue
+            if p[k + 2] <= q[k]:
+                sides = (before, after)
+            elif q[k + 2] <= p[k]:
+                sides = (after, before)
+            else:
+                continue
+            along = lambda c: round(min(max((lo + hi) / 2 - box(c)[1 - k], cell / 2), size[c][1 - k] - cell / 2) / cell, 2) \
+                if size[c][2] != "circle" else round(size[c][1 - k] / 2 / cell, 2)
+            return sides[0], along(a), sides[1], along(b)
+        return None
+
     def rough(*ns) -> bool:
         return any(str(n.props.get("type")) in ("Crude", "Broken") for n in ns)
 
@@ -726,20 +781,68 @@ def block_map(region, block: kdl.Node) -> tuple[dict | None, list[str]]:
             key = tuple(sorted((a, b)))
             ends = seen.setdefault(key, {})
             ends[a] = (door(n), n)
-        elif a in at:                                     # a way out of the block: to the map's edge
+        elif a in at:                                     # a way out of the block: a mark in its room
             v = step(n)
             if v is None:
                 problems.append(f"{a} to {b} states no bearing and distance")
                 continue
             ux, uy = v[0] / math.hypot(*v), v[1] / math.hypot(*v)
-            reach = min(math.hypot(*v), abs(ux) * size[a][0] / 2 + abs(uy) * size[a][1] / 2 + EXIT * cell) / cell
-            tx = min(max(cx(a) + ux * reach, 1), cols - 2)
-            ty = min(max(cy(a) + uy * reach, 1), rows - 2)
+            hw, hh = size[a][0] / 2 / cell, size[a][1] / 2 / cell
+            inset = lambda h: max(0.0, h - STAIR_INSET)
+            spots = [(sx_ * inset(hw), sy_ * inset(hh)) for sx_ in (-1, 0, 1) for sy_ in (-1, 0, 1) if sx_ or sy_]
+            spots.sort(key=lambda p: -(p[0] * ux + p[1] * uy) / (math.hypot(*p) or 1))     # nearest the wall it faces first
+            lw = (0.8 * len(a) + 1) / 2 + STAIR_HALF                    # clear of the room's own number and code
+            fits = [p for p in spots if abs(p[0]) >= lw or abs(p[1]) >= LABEL_HALF + STAIR_HALF]
+            if not fits:                                        # no room beside the number and code: drop the number
+                next(r for r in m["rooms"] if r["id"] == rid(a))["number"] = False
+                tight = [(sx_ * max(0.0, hw - STAIR_TIGHT), sy_ * max(0.0, hh - STAIR_TIGHT)) for sx_ in (-1, 0, 1)
+                         for sy_ in (-1, 0, 1) if sx_ or sy_]
+                tight.sort(key=lambda p: -(p[0] * ux + p[1] * uy) / (math.hypot(*p) or 1))
+                spots = tight                                   # and stand it nearer the wall
+                fits = [p for p in spots if abs(p[0]) >= lw or abs(p[1]) >= NAME_HALF + STAIR_HALF]
+            sx, sy = (cx(a) + (fits or spots)[0][0], cy(a) + (fits or spots)[0][1])
             climb = n.props.get("climb")
-            way = "Up to" if climb and int(climb) > 0 else "Down to" if climb and int(climb) < 0 else "To"
-            m["corridors"].append({"from": {"room": rid(a), "side": facing(*v)}, "to": {"at": [round(tx, 1), round(ty, 1)],
-                                   "exit": {"text": f"{way} {b}"}}, "width": span(n), "doors": [door(n), None],
-                                   **({"style": "natural"} if rough(n) else {}), "origin": "tables"})
+            up = bool(climb) and int(climb) > 0
+            down = bool(climb) and int(climb) < 0
+            m["overlay"]["symbols"].append({"kind": "stairs-up" if up else "stairs-down" if down else "arrow",
+                                            "x": round(sx, 2), "y": round(sy, 2), "scale": 1.0, "origin": "tables",
+                                            "angle": round(math.degrees(math.atan2(uy, ux)) % 360)})
+            m["overlay"]["labels"].append({"text": f"{'Up to' if up else 'Down to' if down else 'To'} {b}",
+                                           "x": round(sx, 2), "y": round(sy + 2.2, 2), "kind": "note", "origin": "tables"})
+    if routed:
+        rects = {c: route.Rect(at[c][0] - size[c][0] / 2, at[c][1] - size[c][1] / 2, size[c][0], size[c][1],
+                               size[c][2] == "circle") for c in at}
+        found, left = route.plan(rects, list(seen))
+        problems += [f"no passage fits the way from {x}" for x in left]
+        to_cell = lambda p: (round((p[0] - lo[0]) / cell + EDGE, 2), round((p[1] - lo[1]) / cell + EDGE, 2))
+        along = lambda c, side, p: round(((p[0] - rects[c].x) if side in "ns" else (p[1] - rects[c].y)) / cell, 2)
+        for rt in found:
+            ends = seen[tuple(sorted((rt.a, rt.b)))]
+            first, second = ends.get(rt.a), ends.get(rt.b)
+            rn = [n for _, n in ends.values()]
+            if rt.kind == "wall":                         # a door through the wall the rooms share
+                kind, n = first or second
+                m["connections"].append({"a": rid(rt.a), "b": rid(rt.b), "at": list(to_cell(rt.door_a)), "origin": "tables",
+                                         "kind": kind or GAP.get(str(n.props.get("type")), "open")})
+                mid = rt.door_a
+            else:
+                pts = rt.points()
+                m["corridors"].append({"from": {"room": rid(rt.a), "side": rt.side_a, "offset": along(rt.a, rt.side_a, rt.door_a)},
+                                       "to": {"room": rid(rt.b), "side": rt.side_b, "offset": along(rt.b, rt.side_b, rt.door_b)},
+                                       "via": [v for p in pts[1:-1] for v in to_cell(p)],
+                                       "width": round(route.LATTICE / cell, 2), "origin": "tables",
+                                       **({"style": "natural"} if rough(*rn) else {}),
+                                       "doors": [first[0] if first else None, second[0] if second else None]})
+                run = [math.dist(p, q) for p, q in zip(pts, pts[1:])]
+                half, mid = sum(run) / 2, pts[0]
+                for p, q, d in zip(pts, pts[1:], run):
+                    if half <= d:
+                        mid = (p[0] + (q[0] - p[0]) * half / (d or 1), p[1] + (q[1] - p[1]) * half / (d or 1))
+                        break
+                    half -= d
+            if any(c.name == "Hazard" for n in rn for c in n.children):
+                m["overlay"]["symbols"].append({"kind": "trap", "x": to_cell(mid)[0], "y": to_cell(mid)[1], "origin": "tables"})
+        return m, problems
     for (a, b), ends in seen.items():
         first, second = ends.get(a), ends.get(b)
         if touch(a, b):                                  # through the wall they share
@@ -747,8 +850,11 @@ def block_map(region, block: kdl.Node) -> tuple[dict | None, list[str]]:
             m["connections"].append({"a": rid(a), "b": rid(b), "origin": "tables",
                                      "kind": kind or GAP.get(str(n.props.get("type")), "open")})
             continue
-        m["corridors"].append({"from": {"room": rid(a), "side": facing(cx(b) - cx(a), cy(b) - cy(a))},
-                               "to": {"room": rid(b), "side": facing(cx(a) - cx(b), cy(a) - cy(b))},
+        run = lane(a, b)
+        m["corridors"].append({"from": {"room": rid(a), "side": run[0], "offset": run[1]} if run
+                               else {"room": rid(a), "side": facing(cx(b) - cx(a), cy(b) - cy(a))},
+                               "to": {"room": rid(b), "side": run[2], "offset": run[3]} if run
+                               else {"room": rid(b), "side": facing(cx(a) - cx(b), cy(a) - cy(b))},
                                "width": max(span(n) for _, n in ends.values()), "origin": "tables",
                                **({"style": "natural"} if rough(*(n for _, n in ends.values())) else {}),
                                "doors": [first[0] if first else None, second[0] if second else None]})
@@ -760,7 +866,8 @@ def block_map(region, block: kdl.Node) -> tuple[dict | None, list[str]]:
 
 # -- blocks: a SAFE region's enclosure, its buildings where its locations stand ----------
 
-TOWN_CELL = 5                   # feet to a settlement's cell
+TOWN_CELLS = (5, 10, 20)        # feet to a settlement's cell, the finest that fits
+MAX_TOWN = 240                  # cells across a settlement, artgen's limit
 TOWN_EDGE = 12                  # cells of ground beyond the wall
 WALL_GAP = 15                   # feet between the wall and the buildings it encloses
 BUILDING = {"Inn": "inn", "Merchant": "shop", "Bank": "shop", "Authority": "hall"}
@@ -769,10 +876,11 @@ NAMED = {"Chapel": "chapel", "Temple": "temple", "Shrine": "chapel", "Forge": "s
          "Tower": "tower", "Keep": "keep", "Warehouse": "warehouse", "Manor": "manor"}   # a word in its name, over its type
 WALL = ("palisade", "fence", "hedge", "drystone", "ruined")   # a word in the Block's wall, else a curtain
 POSTERN = 10                    # feet: a Gate narrower than this is a postern, else a gatehouse
+WILD_PLACE = {"Gardens": ("area", "garden"), "Shore": ("water", "lake")}   # a word in a WILD name, over its type
 
 
 def enclosure(region, block: kdl.Node) -> tuple[dict, dict, list[float] | None, list[str]]:
-    """A SAFE block's drawn locations, each at its place and with its footprint in feet east and
+    """A SAFE or WILD block's drawn locations, each at its place and with its footprint in feet east and
     south of the way in, the wall round them as west, north, east and south, running through
     each Gate, and what the tables leave unplaced. A Secret is under the ground and not drawn."""
     locs = region.locations()
@@ -803,7 +911,7 @@ def enclosure(region, block: kdl.Node) -> tuple[dict, dict, list[float] | None, 
 
 
 def settlement_map(region, block: kdl.Node) -> tuple[dict | None, list[str]]:
-    """The artgen settlement file for a SAFE region's block: each location a building at its
+    """The artgen settlement file for a SAFE or WILD region's block: each location a building at its
     place, with its footprint; a Market an open yard; a Gate a way through the wall drawn
     round the rest; a road out of each gate along its Way to another region. Its region's
     home sheet is the ground beneath it."""
@@ -813,46 +921,63 @@ def settlement_map(region, block: kdl.Node) -> tuple[dict | None, list[str]]:
     if not at:
         return None, problems
     kind = lambda c: str(locs[c].props.get("type"))
+    across = max(box[2] - box[0], box[3] - box[1]) + 2 * TOWN_EDGE * TOWN_CELLS[0]
+    step = next((c for c in TOWN_CELLS if across / c <= MAX_TOWN), TOWN_CELLS[-1])
     gates = [c for c in at if kind(c) == "Gate"]
     inside = [c for c in at if c not in gates]
     row = sheet_rows(tables.SETTING).get(code)
     sheet = tables.SETTING / f"{row['sheet']}.json" if row else None
     ground = json.loads(sheet.read_text()) if sheet and sheet.exists() else None
     square = feet(f"{ground['scale']['perCell']} {dict((v, k) for k, v in UNIT.items())[ground['scale']['unit']]}") \
-        if ground else TOWN_CELL
+        if ground else step
     way = (row["x"] * square, row["y"] * square) if ground else (0.0, 0.0)   # the way in, in feet on the sheet
-    lo = [way[0] + box[0] - TOWN_EDGE * TOWN_CELL, way[1] + box[1] - TOWN_EDGE * TOWN_CELL]
-    hi = [way[0] + box[2] + TOWN_EDGE * TOWN_CELL, way[1] + box[3] + TOWN_EDGE * TOWN_CELL]
+    lo = [way[0] + box[0] - TOWN_EDGE * step, way[1] + box[1] - TOWN_EDGE * step]
+    hi = [way[0] + box[2] + TOWN_EDGE * step, way[1] + box[3] + TOWN_EDGE * step]
     if ground:                                            # kept on the sheet beneath it
         lo = [max(0.0, lo[0]), max(0.0, lo[1])]
         hi = [min(ground["cols"] * square, hi[0]), min(ground["rows"] * square, hi[1])]
-    lo = [math.floor(v / TOWN_CELL) * TOWN_CELL for v in lo]
-    cols, rows = (math.ceil((hi[i] - lo[i]) / TOWN_CELL) for i in (0, 1))
-    cell = lambda x, y: (round((way[0] + x - lo[0]) / TOWN_CELL, 1), round((way[1] + y - lo[1]) / TOWN_CELL, 1))
+    lo = [math.floor(v / step) * step for v in lo]
+    cols, rows = (math.ceil((hi[i] - lo[i]) / step) for i in (0, 1))
+    cell = lambda x, y: (round((way[0] + x - lo[0]) / step, 1), round((way[1] + y - lo[1]) / step, 1))
     wall_kind = next((k for k in WALL if k in str(block.props.get("wall", ""))), "curtain")
     towers = next((t for t in ("round", "square") if t in str(block.props.get("towers", ""))), None)
     corners = [cell(box[0], box[1]), cell(box[2], box[1]), cell(box[2], box[3]), cell(box[0], box[3])]
     wall = {"kind": wall_kind, "points": [v for p in corners for v in p], "closed": True, "origin": "tables",
             **({"towers": {"shape": towers}} if towers else {}),
             "gates": [{"at": list(cell(*at[c])), "kind": "postern" if min(size[c]) < POSTERN else "gatehouse"} for c in gates]}
+    walled = region.rating.upper() != "WILD" or "wall" in block.props   # a WILD place is walled only where it says
     m = {"id": f"{code}-{bid.split('.')[-1]}", "version": 1, "kind": "castle", "seed": 1, "cols": cols, "rows": rows,
          "ground": "grass", "grid": {"show": True, "size": 2, "sub": False},
-         "scale": {"perCell": TOWN_CELL, "unit": "ft"}, "numbers": True, "scaleBar": True, "compass": True,
-         "furniture": {"place": "auto"}, "roads": [], "water": [], "walls": [wall], "buildings": [], "areas": [], "trees": [],
+         "scale": {"perCell": step, "unit": "ft"}, "numbers": True, "scaleBar": True, "compass": True,
+         "furniture": {"place": "auto"}, "roads": [], "water": [], "walls": [wall] if walled else [], "buildings": [], "areas": [], "trees": [],
          "props": [], "overlay": {"labels": [], "symbols": []}}
     if ground:
         m["underlay"] = {"map": f"../../{sheet.name}", "origin": [round(lo[0] / square, 2), round(lo[1] / square, 2)],
-                         "scale": TOWN_CELL / square}
+                         "scale": step / square}
     for c in inside:
         (x, y), (w, h) = cell(at[c][0] - size[c][0] / 2, at[c][1] - size[c][1] / 2), size[c]
-        if kind(c) == "Market":
-            m["areas"].append({"kind": "market", "points": [x, y, x + w / TOWN_CELL, y, x + w / TOWN_CELL,
-                                                             y + h / TOWN_CELL, x, y + h / TOWN_CELL],
-                               "label": c, "origin": "tables"})
+        words = str(locs[c].props.get("name", "")).split()
+        w, h = w / step, h / step
+        rect = [x, y, x + w, y, x + w, y + h, x, y + h]
+        wild = region.rating.upper() == "WILD"
+        placed = next((WILD_PLACE[k] for k in words if k in WILD_PLACE), None) if wild else None
+        if kind(c) == "Market" or (wild and placed is None and kind(c) == "Natural"):
+            placed = ("area", "market" if kind(c) == "Market" else "scrub")
+        if wild and kind(c) == "Route":                  # a way along the place's longer side
+            line = [x, y + h / 2, x + w, y + h / 2] if w >= h else [x + w / 2, y, x + w / 2, y + h]
+            m["roads"].append({"kind": "street", "points": line, "width": round(min(w, h), 1), "label": c, "origin": "tables"})
             continue
-        word = next((NAMED[k] for k in NAMED if k in str(locs[c].props.get("name", "")).split()), None)
+        if placed and placed[0] == "water":
+            m["water"].append({"kind": placed[1], "points": rect, "origin": "tables"})
+            m["overlay"]["labels"].append({"text": c, "x": round(x + w / 2, 1), "y": round(y + h / 2, 1), "kind": "name", "origin": "tables"})
+            continue
+        if placed:
+            m["areas"].append({"kind": placed[1], "points": rect, "label": c, "origin": "tables"})
+            continue
+        word = next((NAMED[k] for k in NAMED if k in words), None)
+        word = "ruin" if wild and kind(c) == "Ruin" else word
         m["buildings"].append({"id": c.replace(".", "-"), "kind": word or BUILDING.get(kind(c), "house"), "shape": "rect",
-                               "x": x, "y": y, "w": round(w / TOWN_CELL, 1), "h": round(h / TOWN_CELL, 1),
+                               "x": x, "y": y, "w": round(w, 1), "h": round(h, 1),
                                "label": c, "number": int(c.split(".")[1]), "origin": "tables"})
     for c in gates:
         x, y = cell(*at[c])
@@ -883,14 +1008,29 @@ def route_around(m: dict) -> None:
     with tempfile.TemporaryDirectory() as tmp:
         file = Path(tmp) / "block.json"
         for fix in (lambda c: c.update(route="around"),
-                    lambda c: [c[end].pop("side", None) for end in ("from", "to")]):
+                    lambda c: [c[end].pop(k, None) for end in ("from", "to") for k in ("side", "offset")]):
             file.write_text(json.dumps(m))
             done = artgen("dungeon", "check", "--file", file, "--json")
             report = json.loads(done.stdout) if done.stdout.startswith("{") else {}
             found = (re.match(r"corridors\[(\d+)\]: (runs through|crosses)", f"{w['path']}: {w['message']}")
                      for w in report.get("warnings", []))
             for i in {int(f.group(1)) for f in found if f}:
-                fix(m["corridors"][i])
+                if "via" not in m["corridors"][i]:                # a routed passage is already round them
+                    fix(m["corridors"][i])
+
+
+def defects(region, block: kdl.Node, m: dict) -> list[str]:
+    """What tools/mapcheck.py finds wrong in a block's map file, held to the tables' ways."""
+    members = {x.strip() for x in str(block.props["locations"]).split(",")}
+    dress = {str(n.args[0]): n for n in region.files.get("Dressing", []) if n.args}
+    if not all(c in dress and "east" in dress[c].props and "north" in dress[c].props for c in members):
+        return []                                         # not packed: its corridors are left to artgen
+    rid = lambda c: c.replace(".", "-")
+    ways = {frozenset((rid(str(n.args[0])), rid(str(n.props["to"])))) for n in region.files.get("Connections", [])
+            if n.args and str(n.args[0]) in members and str(n.props.get("to")) in members}
+    leaving = sum(1 for n in region.files.get("Connections", [])
+                  if n.args and str(n.args[0]) in members and str(n.props.get("to")) not in members)
+    return mapcheck.check(m, ways, leaving)
 
 
 def write_blocks(world, only: str | None = None) -> list[str]:
@@ -928,6 +1068,12 @@ def write_blocks(world, only: str | None = None) -> list[str]:
             done = artgen(engine, "check", "--file", target, "--json")
             for e in json.loads(done.stdout).get("errors", []) if done.stdout.startswith("{") else []:
                 out.append(f"{bid}: {e['path']}: {e['message']}")
+            if engine == "dungeon":
+                out += [f"{bid}: {d}" for d in defects(region, block, json.loads(target.read_text())) if not d.startswith("label:")]
+                with tempfile.TemporaryDirectory() as tmp:
+                    shown = artgen("dungeon", "render", "--file", target, "--format", "svg", "--fit", SITE_FIT, "--json", "--out", tmp)
+                    for left in json.loads(shown.stdout).get("unplaced", []) if shown.stdout.startswith("{") else []:
+                        out.append(f"{bid}: the note {left['text']!r} found no room on the page")
     return out
 
 
@@ -1057,6 +1203,128 @@ def cut_svg(loc: str, world, fit: str = SITE_FIT, setting: Path = tables.SETTING
     return render("map", file, fit, "--crop", f"{x0},{y0},16,16cells", label=f"Map of {loc}")
 
 
+# -- pack: a DANGEROUS level's rooms placed close in a square, and the tables made to say so -----
+
+def compass_at(dx: float, dy: float) -> str:
+    """The compass point a displacement runs toward, y running south."""
+    points = list(tables.Schema().setting_enums["Compass"])
+    return points[round((math.degrees(math.atan2(dx, -dy)) % 360) / 22.5) % 16]
+
+
+def with_prop(line: str, key: str, value: str, after: str | None = None) -> str:
+    """A KDL entry line with `key` set to `value`, in place or, where it is new, after `after` or last."""
+    if re.search(rf"\b{key}=(\"[^\"]*\"|\S+)", line):
+        return re.sub(rf"\b{key}=(\"[^\"]*\"|\S+)", f"{key}={value}", line, count=1)
+    if after and (m := re.search(rf"\b{after}=(\"[^\"]*\"|\S+)", line)):
+        return line[:m.end()] + f" {key}={value}" + line[m.end():]
+    return line.rstrip() + f" {key}={value}"
+
+
+EXIT_AT = re.compile(r"((?:north|south|east|west)(?:-(?:north|south|east|west))*), (\d+) feet -> ([A-Z]+\.\d+)")
+
+
+SIDE = {"n": "north", "e": "east", "s": "south", "w": "west"}
+
+
+def plan_of(region, block: kdl.Node):
+    """A packed block's routes, from the positions its Dressing states: (routes, rects, what no
+    passage fitted), or None where its rooms state no east and north."""
+    members = [m.strip() for m in str(block.props["locations"]).split(",")]
+    dress = {str(n.args[0]): n for n in region.files.get("Dressing", []) if n.args}
+    if not members or not all(c in dress and "east" in dress[c].props and "north" in dress[c].props
+                              and "width" in dress[c].props and "length" in dress[c].props for c in members):
+        return None
+    rects = {c: route.Rect(float(dress[c].props["east"]) - float(dress[c].props["width"]) / 2,
+                           -float(dress[c].props["north"]) - float(dress[c].props["length"]) / 2,
+                           float(dress[c].props["width"]), float(dress[c].props["length"]),
+                           str(dress[c].props.get("shape")) == "round") for c in members}
+    first = rects[members[0]]
+    shift = ((-first.x) % route.LATTICE, (-first.y) % route.LATTICE)       # corners onto the lattice, as block_map does
+    rects = {c: route.Rect(r.x + shift[0], r.y + shift[1], r.w, r.h, r.round) for c, r in rects.items()}
+    ways = [(str(n.args[0]), str(n.props["to"])) for n in region.files.get("Connections", [])
+            if n.args and str(n.args[0]) in rects and str(n.props.get("to")) in rects]
+    routes, left = route.plan(rects, ways)
+    return routes, rects, left
+
+
+def pack_region(code: str, seed: int = 1) -> int:
+    """Packs each block of a DANGEROUS region into a square and routes its passages (tools/pack.py,
+    tools/route.py), then writes each room's `east` and `north` from the entrance to Dressing.md,
+    the block's `footprint` to Blocks.md, the wall each way leaves a room by and the walk to the
+    next room to Connections.md, and the same in each write-up's Exits line."""
+    region = world_for(tables.SETTING).regions[code]
+    if region.rating.upper() != "DANGEROUS":
+        print(f"{code} is {region.rating}: only a DANGEROUS region's blocks are packed")
+        return 1
+    dress = {str(n.args[0]): n for n in region.files.get("Dressing", []) if n.args}
+    compass = list(tables.Schema().setting_enums["Compass"])
+    files = {k: (region.dir / f"{k}.md") for k in ("Dressing", "Blocks", "Connections")}
+    text = {k: f.read_text().split("\n") for k, f in files.items()}
+    sort = route.number
+    failed = False
+    for bid, block in blocks_of(region).items():
+        members = sorted((m.strip() for m in str(block.props["locations"]).split(",")), key=sort)
+        rooms, ways, leaving = [], [], []
+        for c in members:
+            d = dress.get(c)
+            if d is None or "width" not in d.props or "length" not in d.props:
+                print(f"{c} states no width and length")
+                return 1
+            rooms.append(packing.Room(c, int(d.props["width"]), int(d.props["length"]),
+                                      str(d.props.get("shape")) == "round"))
+        for n in region.files.get("Connections", []):
+            a, b = str(n.args[0]), str(n.props["to"])
+            if a in members and "bearing" in n.props:
+                if b in members:
+                    if (b, a) not in [w[:2] for w in ways]:
+                        ways.append((a, b, compass.index(str(n.props["bearing"])) * 22.5))
+                else:
+                    leaving.append(a)
+        entrance = sorted(leaving, key=sort)[0] if leaving else members[0]
+        side, p, routes, energy = packing.pack(rooms, ways, seed)
+        if routes is None:
+            print(f"{bid}: no packing of {len(members)} rooms left room for every passage; try another --seed")
+            failed = True
+            continue
+        spot = {c: (p.x[i], p.y[i]) for i, c in enumerate(members)}
+        walk = {}
+        for rt in routes:
+            how = round(rt.length / 5) * 5
+            walk[rt.a, rt.b], walk[rt.b, rt.a] = (SIDE[rt.side_a], f"{how} feet"), (SIDE[rt.side_b], f"{how} feet")
+        print(f"{bid}: {len(members)} rooms in a square {side} feet across, room "
+              f"{sum(r.w * r.h for r in rooms) / side ** 2:.0%} of it; {sum(r.kind == 'path' for r in routes)} passages, "
+              f"{sum(r.kind == 'wall' for r in routes)} shared walls, {sum(len(r.cells) for r in routes) * route.LATTICE} feet of corridor")
+        ox, oy = spot[entrance]
+        for i, line in enumerate(text["Dressing"]):
+            if m := re.match(r"Dressing (\S+) ", line):
+                if m[1] in spot:
+                    line = with_prop(line, "east", str(round(spot[m[1]][0] - ox)), after="length")
+                    text["Dressing"][i] = with_prop(line, "north", str(round(oy - spot[m[1]][1])), after="east")
+        for i, line in enumerate(text["Blocks"]):
+            if line.startswith(f"Block {bid} "):
+                text["Blocks"][i] = with_prop(line, "footprint", str(side))
+        for i, line in enumerate(text["Connections"]):
+            if m := re.match(r"Connection (\S+) to=\"(\S+)\"", line):
+                if (m[1], m[2]) in walk:
+                    line = with_prop(line, "bearing", f'"{walk[m[1], m[2]][0]}"')
+                    text["Connections"][i] = with_prop(line, "distance", f'"{walk[m[1], m[2]][1]}"')
+        for c in members:
+            page = region.dir / f"{c.split('.')[1]}.md"
+            if not page.exists():
+                continue
+            def fix(m, c=c):
+                got = walk.get((c, m[3]))
+                return f"{got[0]}, {got[1]} -> {m[3]}" if got else m[0]
+            body = page.read_text()
+            page.write_text("\n".join(EXIT_AT.sub(fix, ln) if ln.startswith("**Exits:**") else ln
+                                      for ln in body.split("\n")))
+    if failed:
+        return 1
+    for k, f in files.items():
+        f.write_text("\n".join(text[k]))
+    return 0
+
+
 def draw(brief_path: Path, setting: Path, out: Path | None, fit: str) -> int:
     world = world_for(setting)
     problems = write_blocks(world)
@@ -1076,7 +1344,9 @@ def draw(brief_path: Path, setting: Path, out: Path | None, fit: str) -> int:
 
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("command", choices=["place", "ground", "draw"])
+    ap.add_argument("command", choices=["place", "ground", "pack", "draw"])
+    ap.add_argument("region", nargs="?", help="pack: the region code")
+    ap.add_argument("--seed", type=int, default=1)
     ap.add_argument("--brief", type=Path, default=tables.BRIEF)
     ap.add_argument("--setting", type=Path, default=tables.SETTING)
     ap.add_argument("--out", type=Path)
@@ -1084,6 +1354,8 @@ def main() -> int:
     a = ap.parse_args()
     if a.command == "draw":
         return draw(a.brief, a.setting, a.out, a.fit)
+    if a.command == "pack":
+        return pack_region(a.region, a.seed)
     return (place if a.command == "place" else ground)(a.brief, a.setting)
 
 

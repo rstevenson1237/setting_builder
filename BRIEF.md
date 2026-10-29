@@ -77,8 +77,8 @@ dangerous {
 // -- This setting --------------------------------------------------------------
 
 setting {
-  sheet Sands square="100 yards" extent="3 by 3 miles" regions="A"
-  sheet Lake square="50 yards" extent="3 by 3 miles" regions="B"
+  sheet Sands square="25 yards" extent="1200 by 1200 yards" regions="A"
+  sheet Lake square="20 yards" extent="1000 by 1000 yards" regions="B"
   test "The Lost City in play, not in text, built fresh by the framework and transcribed from nothing: a party caught in a sandstorm takes cover in a buried ruin, survives its first days on what it can find, and goes down through a pyramid that gets larger for five levels, passes factions to bargain with, and reaches a lake city of dreamers, then goes deeper still, narrowing, toward the thing that corrupted a people. Every location type, procedure kind and registry the framework has is used at least once."
   outline "A lost city under the dunes and, beneath it, a pyramid ten levels deep: a sandstorm drives the party into the ruins, where the pyramid's tip stands from the sand ringed by three wind-swept statues. Level 1 is one trapped room whose clues open ways down. Levels 1 to 5 widen, from a puzzle room to a history, a hall of factions, living quarters and a funerary level; from level 5 a path opens to a lake city of masked dreamers. Levels 6 to 10 narrow again toward a demon below."
   pressure "Food, water and shelter run short from the first night. Nothing outside the ruins is known to the party and nothing from outside will come for it; nothing in the ruins or under them is safe. A party can build a place of respite among the ruins or win one from a faction, and either costs what it will not spend elsewhere. The three branches of the cynidiceans each mean to break the demon's hold and will not work together, and the demon's cult is looking for the keys the lost king hid."
@@ -121,7 +121,7 @@ region A rating=WILD die=d6 locations=9 {
 }
 
 region B rating=WILD die=d8 locations=10 {
-  ground water "a lake round which a city is built, rock and fungus gardens, a ceiling lit by glowing growths"
+  ground rock "a cavern floor of rock and fungus gardens, with a still lake at the city's heart, a ceiling lit by glowing growths"
   outline "The subterranean city: a cavern built round a still lake, where the cynidiceans' descendants live in a waking dream - masked as animals, feasting, reveling and eating the fungus they grow. A party reaches it by a path from level 5. Quarters, a market of drugs, the fungus gardens, a lake shore and a revel house make a city; the way back up the path and the stair down to level 6 are the party's two exits."
   target Location.type Landmark=7 Ruin=1 Natural=2 Lair=4 Hidden=1 Secret=1 Route=1
   procedure "Trading for the fungus and its drugs."

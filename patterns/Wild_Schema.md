@@ -44,9 +44,17 @@ node Dressing {
   former gloss opt
   condition tag opt
   ambiance gloss opt
+  width feet opt            // across, west to east, as the place lies on the map
+  length feet opt           // north to south
   layout string
   mark entry Factions list opt   // the faction whose Identity shows here
   left entry History list opt    // the event whose Left mark shows here
+}
+node Block {                // a map of its own: a place's buildings, where its locations stand, on the region's ground
+  name string
+  locations location list
+  wall gloss opt            // drawn round the locations where stated; its height and what stands on it
+  towers gloss opt          // their shape and where they stand
 }
 node Encounter {
   one-of Creature NamedCreature Faction
@@ -136,6 +144,7 @@ folder Wild type=Wild_Type {
   Dressing Dressing
   Challenges Encounter Hazard Mystery
   Procedures Procedure
+  Blocks Block opt
   Stops Stop                                       // a Route's only
   Connections Way
   Ground Ground Feature At                         // written by code
