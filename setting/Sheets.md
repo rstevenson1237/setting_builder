@@ -2,5 +2,5 @@ Sheets of The Buried City
 
 | Name | Sheet | Region | Way in | Area |
 |---|---|---|---|---|
-| Sands A | Sands | A | 26,26 | circle, radius 4 squares |
-| Lake B | Lake | B | 52,52 | circle, radius 4 squares |
+| Sands A | Sands | A | 23,23 | circle, radius 15 squares |
+| Lake B | Lake | B | 26,25 | circle, radius 10 squares |

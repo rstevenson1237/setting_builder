@@ -22,7 +22,7 @@ ground   Reads each placed region's ground back from its home sheet and writes i
          and east, from the way in is listed and left out.
 draw     Writes each block's map, `setting/region/[Code]/[Block].json`, from its tables - a
          DANGEROUS block's a dungeon, a SAFE block's a settlement walled round its locations
-         on its home sheet - and with --out renders every sheet and block to SVG there.
+         on its home sheet, a WILD block's the same unwalled unless it states a wall - and with --out renders every sheet and block to SVG there.
          Region maps and location cuts (`region_svg`, `cut_svg`) are paused.
 """
 from __future__ import annotations
@@ -602,7 +602,7 @@ CELLS = (5, 10, 20)             # feet to a cell, the finest that fits the block
 SYNCED = ("rooms", "corridors", "walls", "overlay", "connections")   # kept by artgen's sync, hand entries and all
 
 
-ENGINE = {"DANGEROUS": "dungeon", "SAFE": "settlement"}   # the artgen engine a rating's blocks draw with
+ENGINE = {"DANGEROUS": "dungeon", "SAFE": "settlement", "WILD": "settlement"}   # the artgen engine a rating's blocks draw with
 
 
 def facing(dx: float, dy: float) -> str:
@@ -615,8 +615,8 @@ def blocks_of(region) -> dict[str, kdl.Node]:
 
 
 def drawn_blocks(region) -> dict[str, kdl.Node]:
-    """The blocks drawn for a region: a DANGEROUS region's as dungeons, a SAFE region's as
-    settlements. Region and location maps are paused, and so is every WILD region's."""
+    """The blocks drawn for a region: a DANGEROUS region's as dungeons, a SAFE or WILD region's
+    as settlements. Region and location maps are paused."""
     return blocks_of(region) if region.rating.upper() in ENGINE else {}
 
 
@@ -760,7 +760,8 @@ def block_map(region, block: kdl.Node) -> tuple[dict | None, list[str]]:
 
 # -- blocks: a SAFE region's enclosure, its buildings where its locations stand ----------
 
-TOWN_CELL = 5                   # feet to a settlement's cell
+TOWN_CELLS = (5, 10, 20)        # feet to a settlement's cell, the finest that fits
+MAX_TOWN = 240                  # cells across a settlement, artgen's limit
 TOWN_EDGE = 12                  # cells of ground beyond the wall
 WALL_GAP = 15                   # feet between the wall and the buildings it encloses
 BUILDING = {"Inn": "inn", "Merchant": "shop", "Bank": "shop", "Authority": "hall"}
@@ -769,10 +770,11 @@ NAMED = {"Chapel": "chapel", "Temple": "temple", "Shrine": "chapel", "Forge": "s
          "Tower": "tower", "Keep": "keep", "Warehouse": "warehouse", "Manor": "manor"}   # a word in its name, over its type
 WALL = ("palisade", "fence", "hedge", "drystone", "ruined")   # a word in the Block's wall, else a curtain
 POSTERN = 10                    # feet: a Gate narrower than this is a postern, else a gatehouse
+WILD_PLACE = {"Gardens": ("area", "garden"), "Shore": ("water", "lake")}   # a word in a WILD name, over its type
 
 
 def enclosure(region, block: kdl.Node) -> tuple[dict, dict, list[float] | None, list[str]]:
-    """A SAFE block's drawn locations, each at its place and with its footprint in feet east and
+    """A SAFE or WILD block's drawn locations, each at its place and with its footprint in feet east and
     south of the way in, the wall round them as west, north, east and south, running through
     each Gate, and what the tables leave unplaced. A Secret is under the ground and not drawn."""
     locs = region.locations()
@@ -803,7 +805,7 @@ def enclosure(region, block: kdl.Node) -> tuple[dict, dict, list[float] | None, 
 
 
 def settlement_map(region, block: kdl.Node) -> tuple[dict | None, list[str]]:
-    """The artgen settlement file for a SAFE region's block: each location a building at its
+    """The artgen settlement file for a SAFE or WILD region's block: each location a building at its
     place, with its footprint; a Market an open yard; a Gate a way through the wall drawn
     round the rest; a road out of each gate along its Way to another region. Its region's
     home sheet is the ground beneath it."""
@@ -813,46 +815,63 @@ def settlement_map(region, block: kdl.Node) -> tuple[dict | None, list[str]]:
     if not at:
         return None, problems
     kind = lambda c: str(locs[c].props.get("type"))
+    across = max(box[2] - box[0], box[3] - box[1]) + 2 * TOWN_EDGE * TOWN_CELLS[0]
+    step = next((c for c in TOWN_CELLS if across / c <= MAX_TOWN), TOWN_CELLS[-1])
     gates = [c for c in at if kind(c) == "Gate"]
     inside = [c for c in at if c not in gates]
     row = sheet_rows(tables.SETTING).get(code)
     sheet = tables.SETTING / f"{row['sheet']}.json" if row else None
     ground = json.loads(sheet.read_text()) if sheet and sheet.exists() else None
     square = feet(f"{ground['scale']['perCell']} {dict((v, k) for k, v in UNIT.items())[ground['scale']['unit']]}") \
-        if ground else TOWN_CELL
+        if ground else step
     way = (row["x"] * square, row["y"] * square) if ground else (0.0, 0.0)   # the way in, in feet on the sheet
-    lo = [way[0] + box[0] - TOWN_EDGE * TOWN_CELL, way[1] + box[1] - TOWN_EDGE * TOWN_CELL]
-    hi = [way[0] + box[2] + TOWN_EDGE * TOWN_CELL, way[1] + box[3] + TOWN_EDGE * TOWN_CELL]
+    lo = [way[0] + box[0] - TOWN_EDGE * step, way[1] + box[1] - TOWN_EDGE * step]
+    hi = [way[0] + box[2] + TOWN_EDGE * step, way[1] + box[3] + TOWN_EDGE * step]
     if ground:                                            # kept on the sheet beneath it
         lo = [max(0.0, lo[0]), max(0.0, lo[1])]
         hi = [min(ground["cols"] * square, hi[0]), min(ground["rows"] * square, hi[1])]
-    lo = [math.floor(v / TOWN_CELL) * TOWN_CELL for v in lo]
-    cols, rows = (math.ceil((hi[i] - lo[i]) / TOWN_CELL) for i in (0, 1))
-    cell = lambda x, y: (round((way[0] + x - lo[0]) / TOWN_CELL, 1), round((way[1] + y - lo[1]) / TOWN_CELL, 1))
+    lo = [math.floor(v / step) * step for v in lo]
+    cols, rows = (math.ceil((hi[i] - lo[i]) / step) for i in (0, 1))
+    cell = lambda x, y: (round((way[0] + x - lo[0]) / step, 1), round((way[1] + y - lo[1]) / step, 1))
     wall_kind = next((k for k in WALL if k in str(block.props.get("wall", ""))), "curtain")
     towers = next((t for t in ("round", "square") if t in str(block.props.get("towers", ""))), None)
     corners = [cell(box[0], box[1]), cell(box[2], box[1]), cell(box[2], box[3]), cell(box[0], box[3])]
     wall = {"kind": wall_kind, "points": [v for p in corners for v in p], "closed": True, "origin": "tables",
             **({"towers": {"shape": towers}} if towers else {}),
             "gates": [{"at": list(cell(*at[c])), "kind": "postern" if min(size[c]) < POSTERN else "gatehouse"} for c in gates]}
+    walled = region.rating.upper() != "WILD" or "wall" in block.props   # a WILD place is walled only where it says
     m = {"id": f"{code}-{bid.split('.')[-1]}", "version": 1, "kind": "castle", "seed": 1, "cols": cols, "rows": rows,
          "ground": "grass", "grid": {"show": True, "size": 2, "sub": False},
-         "scale": {"perCell": TOWN_CELL, "unit": "ft"}, "numbers": True, "scaleBar": True, "compass": True,
-         "furniture": {"place": "auto"}, "roads": [], "water": [], "walls": [wall], "buildings": [], "areas": [], "trees": [],
+         "scale": {"perCell": step, "unit": "ft"}, "numbers": True, "scaleBar": True, "compass": True,
+         "furniture": {"place": "auto"}, "roads": [], "water": [], "walls": [wall] if walled else [], "buildings": [], "areas": [], "trees": [],
          "props": [], "overlay": {"labels": [], "symbols": []}}
     if ground:
         m["underlay"] = {"map": f"../../{sheet.name}", "origin": [round(lo[0] / square, 2), round(lo[1] / square, 2)],
-                         "scale": TOWN_CELL / square}
+                         "scale": step / square}
     for c in inside:
         (x, y), (w, h) = cell(at[c][0] - size[c][0] / 2, at[c][1] - size[c][1] / 2), size[c]
-        if kind(c) == "Market":
-            m["areas"].append({"kind": "market", "points": [x, y, x + w / TOWN_CELL, y, x + w / TOWN_CELL,
-                                                             y + h / TOWN_CELL, x, y + h / TOWN_CELL],
-                               "label": c, "origin": "tables"})
+        words = str(locs[c].props.get("name", "")).split()
+        w, h = w / step, h / step
+        rect = [x, y, x + w, y, x + w, y + h, x, y + h]
+        wild = region.rating.upper() == "WILD"
+        placed = next((WILD_PLACE[k] for k in words if k in WILD_PLACE), None) if wild else None
+        if kind(c) == "Market" or (wild and placed is None and kind(c) == "Natural"):
+            placed = ("area", "market" if kind(c) == "Market" else "scrub")
+        if wild and kind(c) == "Route":                  # a way along the place's longer side
+            line = [x, y + h / 2, x + w, y + h / 2] if w >= h else [x + w / 2, y, x + w / 2, y + h]
+            m["roads"].append({"kind": "street", "points": line, "width": round(min(w, h), 1), "label": c, "origin": "tables"})
             continue
-        word = next((NAMED[k] for k in NAMED if k in str(locs[c].props.get("name", "")).split()), None)
+        if placed and placed[0] == "water":
+            m["water"].append({"kind": placed[1], "points": rect, "origin": "tables"})
+            m["overlay"]["labels"].append({"text": c, "x": round(x + w / 2, 1), "y": round(y + h / 2, 1), "kind": "name", "origin": "tables"})
+            continue
+        if placed:
+            m["areas"].append({"kind": placed[1], "points": rect, "label": c, "origin": "tables"})
+            continue
+        word = next((NAMED[k] for k in NAMED if k in words), None)
+        word = "ruin" if wild and kind(c) == "Ruin" else word
         m["buildings"].append({"id": c.replace(".", "-"), "kind": word or BUILDING.get(kind(c), "house"), "shape": "rect",
-                               "x": x, "y": y, "w": round(w / TOWN_CELL, 1), "h": round(h / TOWN_CELL, 1),
+                               "x": x, "y": y, "w": round(w, 1), "h": round(h, 1),
                                "label": c, "number": int(c.split(".")[1]), "origin": "tables"})
     for c in gates:
         x, y = cell(*at[c])
