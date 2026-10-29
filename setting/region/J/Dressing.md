@@ -1,7 +1,7 @@
 # Dressing of J Krothox
 
 ```kdl
-Dressing J.1 obvious="A narrow landing, soot-stained, a gargoyle each side" former="a stair landing" condition="quiet" ambiance="incense, far chant" width=10 length=20 height=20 layout="Landing opening on an archway" mark="Voxkroth"
+Dressing J.1 obvious="A narrow landing, soot-stained, a gargoyle each side" former="a stair landing" condition="quiet" ambiance="incense, far chant" width=10 length=20 height=20 shape="hall" layout="Landing opening on an archway" mark="Voxkroth"
 Dressing J.2 obvious="A grand black hall hung with trophies" former="a king's hall" condition="watched" ambiance="oil lamps hissing" width=60 length=50 height=20 layout="A throne at the east end" mark="Voxkroth" left="The Demon Is Invited"
 Dressing J.3 obvious="Black silk hangings on bone hooks" former="a queen's hall" condition="hung" ambiance="silk stirring" width=50 length=40 height=20 layout="Hangings round a raised couch" mark="Voxkroth"
 Dressing J.4 obvious="Stained flags, dice, a central drum" former="a captain's hall" condition="stained" ambiance="drums and shouting" width=50 length=40 height=20 layout="A bare floor for fighting, benches round" mark="Voxkroth"

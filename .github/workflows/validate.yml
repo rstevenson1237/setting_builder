@@ -24,7 +24,7 @@ jobs:
       - uses: actions/cache@v4      # renders and artgen reads, keyed by what they were made from
         with:
           path: .maps-cache
-          key: maps-${{ hashFiles('setting/**/*.json', 'tools/artgen/VERSION') }}
+          key: maps-${{ hashFiles('setting/**', 'tools/*.py', 'tools/artgen/VERSION') }}
           restore-keys: maps-
 
       - name: Check artgen runs and reports its formats

@@ -266,9 +266,9 @@ def report_features(locs: list[Path]) -> None:
 # A write-up connects the details its tables hold into features a referee can run. The
 # table's prose is every free-text member of the location's own entries - a Dressing's
 # obvious and layout, a Reward's container, a Secret's trigger and tell, a Person's role
-# - leaving out what the header, the Exits and the citations carry mechanically. A table
-# word is carried when the write-up holds the same word, singular or plural, in any
-# tense; the rest are dropped. Synonyms read as dropped: the figure is a prompt to look
+# - leaving out what the header, the Exits and the citations carry mechanically. A write-up is
+# read as it is shown, its Exits' positions added. A table word is carried when the write-up
+# holds the same word, singular or plural, in any tense; the rest are dropped. Synonyms read as dropped: the figure is a prompt to look
 # at what a write-up left behind, not a verdict that it should have kept it.
 
 CARRY_SKIP_NODES = {"Location"}
@@ -310,6 +310,13 @@ def table_prose(setting, code: str) -> str:
     return "\n".join(out)
 
 
+def exit_positions(code: str) -> list[str]:
+    """Where each of a location's exits runs, as the site adds it to the write-up."""
+    import site_common as sc
+    loc = sc.parse_location_file(code.split(".")[0], int(code.split(".")[1]))
+    return [sc.exit_text(code, "", dst) for _, dst, _ in loc.exits]
+
+
 def carry(setting) -> dict[str, dict]:
     """Per written location: the table's prose words, the write-up's words, and the table's
     content words the write-up carries and drops, each once."""
@@ -320,7 +327,7 @@ def carry(setting) -> dict[str, dict]:
             if not path.exists():
                 continue
             prose = table_prose(setting, code)
-            text = path.read_text()
+            text = path.read_text() + "".join(f" {a}" for a in exit_positions(code))    # as it is shown
             held = set(content_stems(text)) | {stem(w) for w in re.findall(r"[a-z]+", text.lower())}
             tags = [t.strip() for t in str(r.locations()[code].props.get("tags", "")).split(",") if t.strip()]
             seen, kept, dropped = set(), [], []

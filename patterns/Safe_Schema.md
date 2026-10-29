@@ -95,8 +95,8 @@ node Garrison {             // the standing force an Authority commands
 
 node Way {
   to location
-  bearing Compass           // from this end
-  distance distance
+  bearing Compass drawn     // from this end
+  distance distance drawn
   orientation gloss opt     // the same in words, for the reader
   one-of Secret opt
 }

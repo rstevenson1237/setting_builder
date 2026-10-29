@@ -108,8 +108,8 @@ node Stop {                 // a place of interest on a Route, listed in order f
 }
 node Way {
   to location
-  bearing Compass           // from this end
-  distance distance
+  bearing Compass drawn     // from this end
+  distance distance drawn
   orientation gloss opt     // the same in words, for the reader
   one-of Secret opt
 }

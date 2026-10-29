@@ -18,13 +18,12 @@ import route
 
 GRID = route.LATTICE        # feet a room's corner moves by
 DOOR = 10                   # feet of wall facing wall that a straight lane needs
-FILL = 0.45                 # the share of the square its rooms cover, before the passages
 STEPS = 60000
 FAR = 120                   # feet between joined rooms past which the packing is penalised
-OVER, CORNER, STRAIGHT, ROUND, CLOSE, PULL, REPAIR, LABELS = 40.0, 1.0, 1.0, 3.0, 1.0, 0.00004, 6.0, 8.0
+OVER, CORNER, STRAIGHT, ROUND, CLOSE, PULL, REPAIR, LABELS, PIN = 40.0, 1.0, 1.0, 3.0, 1.0, 0.00004, 6.0, 8.0, 2.0
 LABEL_H = 15.0              # feet a room's number and code take, stacked at its centre
+NAME_H = 7.0                # and a hall's code alone
 REPAIRS, REPAIR_STEPS = 8, 20000    # rounds of re-annealing for the ways that found no passage
-WINDING = 35                # the share, in a hundred, of ways run as passages, not doors through a shared wall
 
 
 @dataclass
@@ -33,6 +32,7 @@ class Room:
     w: int
     h: int
     round: bool = False
+    hall: bool = False          # shows its code alone, so its label is shorter
 
 
 def compass_vector(bearing: float) -> tuple[float, float]:
@@ -42,20 +42,27 @@ def compass_vector(bearing: float) -> tuple[float, float]:
 
 
 class Packer:
-    def __init__(self, rooms: list[Room], ways: list[tuple[str, str, float]], side: int, seed: int = 1):
+    def __init__(self, rooms: list[Room], ways: list[tuple[str, str, float | None]], side: int, seed: int,
+                 passages: float, pins: dict[str, tuple[float, float, float, float]]):
+        """`ways` are (room, room, compass bearing to keep or None); `passages` the share of ways run
+        as passages; `pins` each room to stand over another, as its (east, north, width, length)
+        from the square's centre."""
         self.rooms, self.side = rooms, side
         self.ix = {r.code: i for i, r in enumerate(rooms)}
         self.w = [r.w for r in rooms]
         self.h = [r.h for r in rooms]
         self.round = [r.round for r in rooms]
-        self.edges: dict[tuple[int, int], tuple[float, float]] = {}     # i < j: unit vector from i to j as authored
+        self.edges: dict[tuple[int, int], tuple[float, float] | None] = {}  # i < j: unit vector from i to j to keep, if any
         for a, b, bearing in ways:
             i, j = self.ix[a], self.ix[b]
-            v = compass_vector(bearing)
+            v = compass_vector(bearing) if bearing is not None else None
+            if i > j and v:
+                v = (-v[0], -v[1])
             if i > j:
-                i, j, v = j, i, (-v[0], -v[1])
+                i, j = j, i
             self.edges[(i, j)] = v
-        self.passage = {k for k in self.edges if zlib.crc32(f"{rooms[k[0]].code}-{rooms[k[1]].code}".encode()) % 100 < WINDING}
+        self.passage = {k for k in self.edges if zlib.crc32(f"{rooms[k[0]].code}-{rooms[k[1]].code}".encode()) % 100 < passages * 100}
+        self.pins = {self.ix[c]: (side / 2 + e, side / 2 - n, w, h) for c, (e, n, w, h) in pins.items() if c in self.ix}
         self.near = [[j for j in range(len(rooms)) if (min(i, j), max(i, j)) in self.edges] for i in range(len(rooms))]
         self.trouble: dict[tuple[int, int], str] = {}   # ways no passage fitted, and how to give them room
         self.rng = random.Random(seed)
@@ -98,7 +105,8 @@ class Packer:
         if sx < 0 and sy < 0:
             return OVER * (1 + min(-sx, -sy) / GRID)
         lw = 5 * (0.8 * (len(self.rooms[i].code) + len(self.rooms[j].code)) / 2 + 1)          # their labels, side by side
-        if abs((self.x[j]) - (self.x[i] if xi is None else xi)) < lw and abs(self.y[j] - (self.y[i] if yi is None else yi)) < LABEL_H:
+        lh = sum(NAME_H if self.rooms[k].hall else LABEL_H for k in (i, j)) / 2
+        if abs((self.x[j]) - (self.x[i] if xi is None else xi)) < lw and abs(self.y[j] - (self.y[i] if yi is None else yi)) < lh:
             return LABELS + self.pair_cost(i, j, sx, sy, xi, yi)
         return self.pair_cost(i, j, sx, sy, xi, yi)
 
@@ -118,10 +126,10 @@ class Packer:
             e += ROUND
         if gap > FAR:
             e += 3 * (gap - FAR) / GRID
-        want = self.edges[(min(i, j), max(i, j))]
-        dx = (self.x[j] - (self.x[i] if xi is None else xi)) * (1 if i < j else -1)
-        dy = (self.y[j] - (self.y[i] if yi is None else yi)) * (1 if i < j else -1)
-        e += 1.2 * (1 - (dx * want[0] + dy * want[1]) / (math.hypot(dx, dy) or 1))
+        if want := self.edges[(min(i, j), max(i, j))]:
+            dx = (self.x[j] - (self.x[i] if xi is None else xi)) * (1 if i < j else -1)
+            dy = (self.y[j] - (self.y[i] if yi is None else yi)) * (1 if i < j else -1)
+            e += 1.2 * (1 - (dx * want[0] + dy * want[1]) / (math.hypot(dx, dy) or 1))
         mode = self.trouble.get((min(i, j), max(i, j)))
         if mode == "door" and not (f and gap == 0) or mode == "lane" and not (f and 2 * GRID <= gap <= 4 * GRID):
             e += REPAIR
@@ -137,14 +145,26 @@ class Packer:
                 e += OVER * ((hi - self.side) / GRID + 1)
         return e
 
+    def pin(self, i, x=None, y=None) -> float:
+        """How far room i stands from the room it is pinned over, if any."""
+        if i not in self.pins:
+            return 0.0
+        tx, ty, _, _ = self.pins[i]
+        return PIN * math.hypot((self.x[i] if x is None else x) - tx, (self.y[i] if y is None else y) - ty) / GRID
+
+    def over(self) -> bool:
+        """Whether every pinned room overlaps, in plan, the room it is pinned over."""
+        return all(abs(self.x[i] - tx) < (self.w[i] + w) / 2 and abs(self.y[i] - ty) < (self.h[i] + h) / 2
+                   for i, (tx, ty, w, h) in self.pins.items())
+
     def local(self, i, x=None, y=None) -> float:
         cx, cy = (self.x[i] if x is None else x) - self.side / 2, (self.y[i] if y is None else y) - self.side / 2
-        return self.inside(i, x, y) + PULL * (cx * cx + cy * cy) / GRID ** 2 * 100 \
+        return self.inside(i, x, y) + self.pin(i, x, y) + PULL * (cx * cx + cy * cy) / GRID ** 2 * 100 \
             + sum(self.pair(i, j, x, y) for j in range(len(self.w)) if j != i)
 
     def total(self) -> float:
         n = len(self.w)
-        return sum(self.inside(i) + PULL * 100 * ((self.x[i] - self.side / 2) ** 2 + (self.y[i] - self.side / 2) ** 2) / GRID ** 2
+        return sum(self.inside(i) + self.pin(i) + PULL * 100 * ((self.x[i] - self.side / 2) ** 2 + (self.y[i] - self.side / 2) ** 2) / GRID ** 2
                    for i in range(n)) + sum(self.pair(i, j) for i in range(n) for j in range(i + 1, n))
 
     # -- search --------------------------------------------------------------------------
@@ -167,12 +187,13 @@ class Packer:
         side = rng.choice("nesw")
         gap = rng.choice((0, 0, GRID, 2 * GRID))
         sign = -1 if side in "nw" else 1
+        slide = lambda a, b: max(0, (a + b) // 2 - DOOR)  # how far it may slide along j and still share a door's width
         if side in "ns":
             y = self.y[j] + sign * ((self.h[j] + self.h[i]) / 2 + gap)
-            x = self.x[j] + rng.randint(-(self.w[j] + self.w[i]) // 2 + DOOR, (self.w[j] + self.w[i]) // 2 - DOOR)
+            x = self.x[j] + rng.randint(-slide(self.w[j], self.w[i]), slide(self.w[j], self.w[i]))
         else:
             x = self.x[j] + sign * ((self.w[j] + self.w[i]) / 2 + gap)
-            y = self.y[j] + rng.randint(-(self.h[j] + self.h[i]) // 2 + DOOR, (self.h[j] + self.h[i]) // 2 - DOOR)
+            y = self.y[j] + rng.randint(-slide(self.h[j], self.h[i]), slide(self.h[j], self.h[i]))
         return self.snap(i, x, y)
 
     def anneal(self, steps: int = STEPS, t0: float = 3.0, again: bool = False):
@@ -225,23 +246,23 @@ class Packer:
                                    self.round[i]) for i, r in enumerate(self.rooms)}
 
 
-def squares(rooms: list[Room]) -> list[int]:
-    """Sides to try, in feet, from where the rooms fill FILL of the square upward."""
+def squares(rooms: list[Room], fill: tuple[float, float]) -> list[int]:
+    """Sides to try, in feet, from where the rooms cover the most of the square `fill` allows to
+    where they cover the least."""
     area = sum(r.w * r.h for r in rooms)
-    base = math.ceil(math.sqrt(area / FILL) / GRID) * GRID
-    base = max(base, max(max(r.w, r.h) for r in rooms) + 2 * GRID)
-    return [base + GRID * k for k in range(0, 10)]
+    base = max(math.ceil(math.sqrt(area / fill[1]) / GRID) * GRID, max(max(r.w, r.h) for r in rooms) + 2 * GRID)
+    return list(range(base, max(base, math.floor(math.sqrt(area / fill[0]) / GRID) * GRID) + 1, GRID))
 
 
 def attempt(args):
     """One packing from one seed, re-annealed round the ways that found no passage until every way has one."""
-    rooms, ways, side, seed = args
-    p = Packer(rooms, ways, side, seed)
+    rooms, ways, side, seed, passages, pins = args
+    p = Packer(rooms, ways, side, seed, passages, pins)
     p.anneal()
     pairs = [(a, b) for a, b, _ in ways]
     for _ in range(REPAIRS):
         found, left = route.plan(p.rects(), pairs)
-        if not left and p.clear():
+        if not left and p.clear() and p.over():
             return True, p.total(), p.x, p.y
         for name in left:
             a, b = (p.ix[c] for c in name.split(" to "))
@@ -252,17 +273,19 @@ def attempt(args):
     return False, p.total(), p.x, p.y
 
 
-def pack(rooms, ways, seed=1, tries=12):
-    """The lowest-energy packing, over a few seeds at each side in turn, stopping at the first
-    side where some seed leaves every way a passage: (side, packer, routes, energy), routes None
-    where no side did."""
-    pairs = [(a, b) for a, b, _ in ways]
+def pack(rooms, ways, seed: int, fill: tuple[float, float], passages: float, footprint: int | None = None,
+         pins: dict | None = None, tries: int = 12):
+    """The lowest-energy packing, over a few seeds at each side in turn - `footprint` alone where
+    it is given - stopping at the first side where some seed leaves every way a passage and
+    every pinned room over its pin: (side, packer, routes, energy), routes None where no side did."""
+    pairs, pins = [(a, b) for a, b, _ in ways], pins or {}
+    side = footprint
     with ProcessPoolExecutor() as pool:
-        for side in squares(rooms):
-            runs = [r for r in pool.map(attempt, [(rooms, ways, side, seed * 1000 + k) for k in range(tries)]) if r[0]]
+        for side in [footprint] if footprint else squares(rooms, fill):
+            runs = [r for r in pool.map(attempt, [(rooms, ways, side, seed * 1000 + k, passages, pins) for k in range(tries)]) if r[0]]
             if runs:
                 ok, e, x, y = min(runs, key=lambda r: r[1])
-                p = Packer(rooms, ways, side)
+                p = Packer(rooms, ways, side, seed, passages, pins)
                 p.x, p.y = x, y
                 return side, p, route.plan(p.rects(), pairs)[0], e
     return side, None, None, 0.0

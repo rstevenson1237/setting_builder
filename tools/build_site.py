@@ -49,11 +49,8 @@ def nav_links(setting: sc.Setting) -> list[tuple[str, str]]:
 # The judgement-check checklists rendered on checklists.html are parsed straight out of
 # these templates' own Instructions sections, so the site never carries a second copy of
 # wording that could drift from templates/checks/*_Judgement_Check.md.
-CHECKLIST_SOURCES = [
-    ("templates/checks/Template_Judgement_Check.md", "Template Judgement Check", "template"),
-    ("templates/checks/Schema_Judgement_Check.md", "Schema Judgement Check", "schema"),
-    ("templates/checks/Setting_Judgement_Check.md", "Setting Judgement Check", "setting"),
-]
+CHECKLIST_SOURCES = [(f"templates/checks/{p.name}", p.stem.replace("_", " "), p.stem.split("_")[0].lower())
+                     for p in sorted((ROOT / "templates" / "checks").glob("*_Judgement_Check.md"))]
 
 
 # ---------------------------------------------------------------------------
@@ -442,7 +439,7 @@ def build_location(setting: sc.Setting, out: Path, code: str, num: int) -> None:
             enum = int(ecode.split(".")[1])
             href = RESOLVER.href("location", eregion, enum, page)
             exit_items.append(
-                f'<li>{render_inline(approach, setting, page, skip_location=loc.code)} '
+                f'<li>{render_inline(sc.exit_text(loc.code, approach, ecode), setting, page, skip_location=loc.code)} '
                 f'&rarr; <a href="{href}">{ecode} {html.escape(ename)}</a></li>'
             )
         body.append(section("Exits", f'<ul class="exit-list">{"".join(exit_items)}</ul>'))

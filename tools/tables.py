@@ -44,6 +44,7 @@ class Member:
     props: dict = field(default_factory=dict)          # range=, count=, bonus=
     none: bool = False
     out: str = "line"                                  # how it is set down: Common_Schema.md's Out
+    drawn: bool = False                                # shown from its table, never written in a write-up
 
 
 @dataclass
@@ -230,12 +231,13 @@ class Schema:
 
     @staticmethod
     def _member(c) -> Member:
-        flags = {"opt", "list", "none"}
+        flags = {"opt", "list", "none", "drawn"}
         if c.name == "one-of":
             return Member("one-of", opt="opt" in c.args, nodes=[a for a in c.args if a not in flags])
         rest = [a for a in c.args[1:] if a not in flags]
         return Member(c.name, c.args[0] if c.args else "", rest[0] if rest else None, "opt" in c.args,
-                      "list" in c.args, c.props.get("n"), [], rest, c.props, "none" in c.args)
+                      "list" in c.args, c.props.get("n"), [], rest, c.props, "none" in c.args,
+                      drawn="drawn" in c.args)
 
     def _resolve_fields(self):
         """Every setting table's fields name a value, an enum or tables that exist."""
@@ -1167,6 +1169,8 @@ BRIEF = ROOT / "BRIEF.md"
 ARTGEN = Path(__file__).resolve().parent / "artgen" / "artgen-maps.js"
 EXTENT_RE = re.compile(r"(\d+(?:\.\d+)?) by (\d+(?:\.\d+)?) (\w+)")
 SPAN_RE = re.compile(r"(\d+(?:\.\d+)?)(?:-(\d+(?:\.\d+)?))? (\w+)")
+FILL_RE = re.compile(r"(\d+)-(\d+)%")
+UNIT_FEET = {"feet": 1, "yards": 3, "miles": 5280}
 PROCEDURES = "Procedures"      # a region's own count, from its `procedure` lines, never a type's rate
 
 
@@ -1250,6 +1254,7 @@ class Brief:
     def __init__(self, schema: Schema, path: Path = BRIEF):
         self.schema, self.path, self.problems = schema, path, list(schema.brief_problems)
         self.targets, self.regions = [], {}
+        self.packs: dict[str, kdl.Node] = {}            # a rating's pack line, by its name, and a region's, by its code
         self.files = self.setting = None
         self.sheets: dict[str, kdl.Node] = {}
         try:
@@ -1263,8 +1268,10 @@ class Brief:
                 for c in n.children:
                     if c.name == "target":
                         self._add(c, folders[n.name], None)
+                    elif c.name == "pack":
+                        self._pack(c, n.name, False)
                     elif c.name not in ("rate", "words"):
-                        p(f"{n.name} holds rate, words and target lines, not {c.name!r}")
+                        p(f"{n.name} holds rate, words, target and pack lines, not {c.name!r}")
             elif n.name == "region":
                 code = str(n.args[0]) if n.args else ""
                 rating = str(n.props.get("rating", "")).title()
@@ -1275,6 +1282,8 @@ class Brief:
                 for c in n.children:
                     if c.name == "target":
                         self._add(c, rating, code)
+                    elif c.name == "pack":
+                        self._pack(c, code, True)
                 if "locations" in n.props:
                     if bounds(n.props["locations"]) is None:
                         p("locations= is a count or range")
@@ -1344,6 +1353,35 @@ class Brief:
                         p(f"place is another region, a Compass direction and a distance: "
                           f'place A north "0-1 miles"')
         return out
+
+    def _pack(self, n: kdl.Node, key: str, region: bool):
+        """A `pack` line: fill="N-M%", passages="N%" and, in a region, footprint, a distance."""
+        p = lambda msg: self.problems.append(f"line {n.line}: {msg}")
+        for k, v in n.props.items():
+            v = str(v)
+            if k == "fill" and (m := FILL_RE.fullmatch(v)) and int(m[1]) <= int(m[2]) <= 100:
+                continue
+            if k == "passages" and PERCENT_RE.fullmatch(v) and int(v[:-1]) <= 100:
+                continue
+            if k == "footprint" and region and not unit_problem("distance", v, self.schema.setting_enums):
+                continue
+            p(f'pack takes fill="N-M%" and passages="N%"{", and footprint, a distance" if region else ""}, not {k}={v!r}')
+        self.packs[key] = n
+
+    def packing(self, code: str) -> dict:
+        """How a region's blocks are packed: its rating's pack line, then its own, as `fill`, the
+        (least, most) share of its square its rooms cover, `passages`, the share of its ways run
+        as passages, and `footprint` in feet; a value no line states is None."""
+        rating = str(self.regions[code].props.get("rating", "")).lower() if code in self.regions else ""
+        got = {}
+        for key in (rating, code):
+            if key in self.packs:
+                got.update({k: str(v) for k, v in self.packs[key].props.items()})
+        fill = FILL_RE.fullmatch(got.get("fill", ""))
+        span = DISTANCE_RE.fullmatch(got.get("footprint", ""))
+        return {"fill": (int(fill[1]) / 100, int(fill[2]) / 100) if fill else None,
+                "passages": int(got["passages"][:-1]) / 100 if PERCENT_RE.fullmatch(got.get("passages", "")) else None,
+                "footprint": float(span[1]) * UNIT_FEET.get(span[2], 1) if span else None}
 
     def _add(self, n: kdl.Node, rating: str, region: str | None):
         if t := self._read(n, rating, region):
@@ -1614,7 +1652,9 @@ class Brief:
 # file's modified time while the line is uncommitted. Without git, nothing is stale.
 # A commit that changes a line's form and not its meaning is listed in BLAME_IGNORE, so
 # `git blame` looks past it and the write-ups the line feeds stay current; a line it adds,
-# which blame cannot look past, counts as old.
+# which blame cannot look past, counts as old, and a write-up it changes keeps its time from
+# before. A line whose entry differs from the one the write-up was written from only in
+# `drawn` members has not changed for it.
 
 import os
 import subprocess
@@ -1625,6 +1665,7 @@ BLAME_IGNORE = ".git-blame-ignore-revs"
 class History:
     def __init__(self):
         self._blame: dict[Path, list[float] | None] = {}
+        self._forms: dict[tuple[str, Path], set] = {}
         ignore = ROOT / BLAME_IGNORE
         self._ignore = ["--ignore-revs-file", str(ignore)] if ignore.exists() else []
         self._ignored = {l.strip() for l in ignore.read_text().splitlines()
@@ -1650,14 +1691,44 @@ class History:
             self._blame[path] = times if out is not None else None
         return self._blame[path]
 
+    def last(self, path: Path) -> tuple[str, float] | None:
+        """The last commit, and its time, to change the file in more than form."""
+        for line in (self._git("log", "--format=%H %ct", "--", str(path.relative_to(ROOT))) or "").splitlines():
+            if line[:40] not in self._ignored:
+                return line[:40], float(line[41:])
+        return None
+
+    def rev(self, path: Path) -> str:
+        """The commit a file was last written in, or HEAD where it has changed since."""
+        if (self._git("status", "--porcelain", "--", str(path.relative_to(ROOT))) or "").strip():
+            return "HEAD"
+        return (self.last(path) or ("HEAD", 0.0))[0]
+
+    def forms(self, rev: str, path: Path, folder) -> set:
+        """Each entry of a table file as it stood at `rev`, its drawn members left out."""
+        key = (rev, path)
+        if key not in self._forms:
+            try:
+                text = self._git("show", f"{rev}:{path.relative_to(ROOT)}")
+                self._forms[key] = {form(n, folder) for n in kdl.fenced(text)} if text else set()
+            except SyntaxError:
+                self._forms[key] = set()
+        return self._forms[key]
+
     def file_time(self, path: Path) -> float | None:
         dirty = self._git("status", "--porcelain", "--", str(path.relative_to(ROOT)))
         if dirty is None:
             return None
         if dirty.strip():
             return path.stat().st_mtime
-        out = self._git("log", "-1", "--format=%ct", "--", str(path.relative_to(ROOT)))
-        return float(out) if out and out.strip() else path.stat().st_mtime
+        return got[1] if (got := self.last(path)) else path.stat().st_mtime
+
+
+def form(n: kdl.Node, folder) -> tuple:
+    """An entry as a write-up reads it: everything but its drawn members."""
+    drawn = {m.name for m in (folder.nodes.get(n.name, []) if folder else []) if m.drawn}
+    return (n.name, tuple(map(str, n.args)), tuple(sorted((k, str(v)) for k, v in n.props.items() if k not in drawn)),
+            tuple(form(c, folder) for c in n.children))
 
 
 def record_lines(path: Path, title: str) -> range:
@@ -1683,11 +1754,13 @@ def stale(setting: Setting, code: str, history: History) -> list[str]:
         return []
     deps: list[tuple[Path, range, str]] = []
     own, named = setting.entries_at(code)
+    since = history.rev(writeup)
     for where, n in own + named:
         rcode, stem = where.split("/")
-        deps.append((setting.regions[rcode].dir / f"{stem}.md", range(n.line - 1, n.line),
-                     f"{stem} {n.name} {n.args[0] if n.args else ''}".strip()))
         folder = setting.regions[rcode].folder
+        path = setting.regions[rcode].dir / f"{stem}.md"
+        if form(n, folder) not in history.forms(since, path, folder):     # else as written from, but what is drawn
+            deps.append((path, range(n.line - 1, n.line), f"{stem} {n.name} {n.args[0] if n.args else ''}".strip()))
         for node in kdl.walk([n]):
             for m in (folder.nodes.get(node.name, []) if folder else []):
                 v = node.props.get(m.name)
@@ -1715,6 +1788,14 @@ def stale_brief(region: Region, history: History) -> list[str]:
     brief = SETTING / "region" / f"{region.code}.md"
     if not brief.exists() or (written := history.file_time(brief)) is None:
         return []
-    deps = [region.dir / f"{stem}.md" for stem in region.files]
-    return sorted(p.name for p in deps if p.exists() and any(
-        tm > written for tm in history.line_times(p) or []))
+    since, out = history.rev(brief), []
+    for stem, entries in region.files.items():
+        path = region.dir / f"{stem}.md"
+        times = history.line_times(path) if path.exists() else None
+        if not times:
+            continue
+        old = history.forms(since, path, region.folder)
+        lines = {i for n in entries for i in range(n.line - 1, n.line) if form(n, region.folder) in old}
+        if any(tm > written for i, tm in enumerate(times) if i not in lines):
+            out.append(path.name)
+    return sorted(out)

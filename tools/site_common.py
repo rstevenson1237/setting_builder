@@ -635,7 +635,7 @@ def map_labels() -> list[str]:
     world = maps.world_for(SETTING)
     out = [f"Sheet {f.stem}" for f in sorted(SETTING.glob("*.json")) if f.stem not in maps.underlaid()]
     for r in world.regions.values():
-        out += [f"Map of {bid}" for bid in maps.drawn_blocks(r) if (r.dir / f"{bid}.json").exists()]
+        out += [f"Map of {bid}" for bid in maps.drawn_blocks(r) if maps.built(r.code, bid)[0]]
     return out
 
 
@@ -752,6 +752,14 @@ def line_class(name: str, base: str) -> str:
     out = LOCATION.line(name).props.get("out")
     return base + (f" {out}" if out else "")
 EXIT_DEST_RE = re.compile(r'^\s*([A-Z]+\.\d+)\s+(.*)$')
+
+
+def exit_text(src: str, approach: str, dst: str) -> str:
+    """An Exits line's approach with the way's position added from the tables: a write-up
+    states none of its own."""
+    import maps
+    at = maps.way(maps.world_for(SETTING), src, dst)
+    return f"{approach}, {at[0]}, {at[1]}" if at else approach
 
 
 def parse_exits(exits_raw: str) -> list[tuple[str, str, str]]:

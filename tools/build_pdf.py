@@ -132,7 +132,7 @@ def build_document(setting: sc.Setting) -> str:
             )
             if loc.exits:
                 exit_items = "".join(
-                    f'<li>{ri(approach, setting, skip_location=loc.code)} &rarr; '
+                    f'<li>{ri(sc.exit_text(loc.code, approach, ecode), setting, skip_location=loc.code)} &rarr; '
                     f'<a href="#{sc.anchor_id("location", ecode.split(".")[0], int(ecode.split(".")[1]))}">{ecode} {html.escape(ename)}</a></li>'
                     for approach, ecode, ename in loc.exits
                 )
