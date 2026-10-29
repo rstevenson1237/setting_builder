@@ -28,7 +28,7 @@ with it, a compass direction, and a distance or `"N-M unit"` from that region's 
 A `pack` line is how a DANGEROUS block's rooms are packed into a square: `fill`, the share of
 the square they cover, from the least the validator holds to the most the packer starts from;
 `passages`, the share of its ways run as passages rather than doors through a shared wall;
-and, in a region, `footprint`, the square's side. Levels joined by a stair share a centre.
+and, in a region, `footprint`, the square's side.
 
 ```kdl
 // -- Framework levers ----------------------------------------------------------

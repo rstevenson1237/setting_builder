@@ -4,7 +4,7 @@ block_map    the artgen dungeon file for a block, from its Dressing, Connections
 plan_of      a packed block's routes, from the positions its Dressing states
 pack_region  `python3 tools/maps.py pack`: a region's blocks packed and routed (tools/pack.py,
              tools/route.py), and the positions written to its tables
-problems     what is wrong with a packed block, for the validator
+problems     what is wrong with a block, for the validator
 """
 from __future__ import annotations
 
@@ -468,13 +468,13 @@ def pack_region(code: str, seed: int = 1, again: bool = False) -> int:
 # -- problems: what the validator reports of a packed block ------------------------------
 
 def problems(region, block: kdl.Node) -> list[tuple[str, Path, str]]:
-    """What is wrong with a block whose rooms state `east` and `north`, as (level, file,
-    message): a room is a hall where it is one passage wide and twice as long, and only
-    there; and, once packed, else a warning that it is not, its footprint is BRIEF.md's, its rooms lie
-    within its square round the block's centre and cover the least of BRIEF.md's fill, a room
-    a way climbs from stands over or under the room it reaches, its passages were routed by this tools/route.py, a passage fits each way, a
-    way within it states no bearing or distance, and its map has nothing tools/mapcheck.py
-    finds wrong."""
+    """What is wrong with a block, as (level, file, message). A room is a hall where it is one
+    passage wide and at least twice as long, and only there. An unpacked block is a warning.
+    A packed one has BRIEF.md's footprint, its rooms inside that square round the block's
+    centre and covering the least of BRIEF.md's fill, each room a way climbs from over or
+    under the room it reaches, passages routed by this tools/route.py and fitting every way,
+    no bearing or distance on a way within it, and nothing tools/mapcheck.py finds wrong.
+    """
     bid, path = str(block.args[0]), region.dir / "Blocks.md"
     dress = {str(n.args[0]): n for n in region.files.get("Dressing", []) if n.args}
     members = [m.strip() for m in str(block.props.get("locations", "")).split(",") if m.strip()]
