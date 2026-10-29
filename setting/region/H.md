@@ -16,7 +16,7 @@ Prizes:
 
 Places:
 - H.2 - A straight sooty corridor, a black hand every ten paces.
-- H.3 - Greasy slabs and cauldrons; fat that burns.
+- H.3 - Greasy slabs and cauldrons; stirring one throws burning fat.
 - H.4 - Eight barred cells with captives from the lake city.
 - H.5 - Narrow beds, masks on pegs, four of the chosen whispering.
 - H.6 - A basin of red water; zombies rise from it.
