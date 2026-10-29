@@ -606,6 +606,11 @@ EDGE = 6                        # cells of map beyond the rooms, for the ways ou
 EXIT = 4                        # cells a way out of the block runs past its room's wall
 MAX_CELLS = 150
 CELLS = (5, 10, 20)             # feet to a cell, the finest that fits the block
+STAIR_INSET = 1.2               # cells between a stair mark's centre and the wall it stands by
+STAIR_HALF = 0.8                # half a stair mark, in cells
+STAIR_TIGHT = 0.5               # cells from the wall, in a room too small for anything better
+NAME_HALF = 0.7                 # half the height of a room's code alone, in cells
+LABEL_HALF = 1.5                # half the height of a room's number and code, in cells
 ROUTED_CELLS = (5, 10)          # and where its passages are routed on route.LATTICE
 ROUTED_WALL = 2.5               # a routed block's wall stroke, so a wall between two floors reads as one, its rock hatched
                                 # and a wall drawn between every two rooms that touch
@@ -782,19 +787,25 @@ def block_map(region, block: kdl.Node) -> tuple[dict | None, list[str]]:
                 problems.append(f"{a} to {b} states no bearing and distance")
                 continue
             ux, uy = v[0] / math.hypot(*v), v[1] / math.hypot(*v)
-            to_wall = min(size[a][0] / 2 / abs(ux) if ux else 1e9, size[a][1] / 2 / abs(uy) if uy else 1e9)
-            back = max(0.0, to_wall - 2 * cell)
-            sx, sy = cx(a) + ux * back / cell, cy(a) + uy * back / cell
-            long = 0 if size[a][0] >= size[a][1] else 1          # in a narrow hall the stair stands at its end
-            if to_wall < 3 * cell and size[a][long] >= 6 * cell:
-                end = size[a][long] / 2 - 2 * cell
-                sx, sy = (cx(a) + (end / cell if (ux if long == 0 else uy) >= 0 else -end / cell), cy(a)) if long == 0 \
-                    else (cx(a), cy(a) + (end / cell if uy >= 0 else -end / cell))
+            hw, hh = size[a][0] / 2 / cell, size[a][1] / 2 / cell
+            inset = lambda h: max(0.0, h - STAIR_INSET)
+            spots = [(sx_ * inset(hw), sy_ * inset(hh)) for sx_ in (-1, 0, 1) for sy_ in (-1, 0, 1) if sx_ or sy_]
+            spots.sort(key=lambda p: -(p[0] * ux + p[1] * uy) / (math.hypot(*p) or 1))     # nearest the wall it faces first
+            lw = (0.8 * len(a) + 1) / 2 + STAIR_HALF                    # clear of the room's own number and code
+            fits = [p for p in spots if abs(p[0]) >= lw or abs(p[1]) >= LABEL_HALF + STAIR_HALF]
+            if not fits:                                        # no room beside the number and code: drop the number
+                next(r for r in m["rooms"] if r["id"] == rid(a))["number"] = False
+                tight = [(sx_ * max(0.0, hw - STAIR_TIGHT), sy_ * max(0.0, hh - STAIR_TIGHT)) for sx_ in (-1, 0, 1)
+                         for sy_ in (-1, 0, 1) if sx_ or sy_]
+                tight.sort(key=lambda p: -(p[0] * ux + p[1] * uy) / (math.hypot(*p) or 1))
+                spots = tight                                   # and stand it nearer the wall
+                fits = [p for p in spots if abs(p[0]) >= lw or abs(p[1]) >= NAME_HALF + STAIR_HALF]
+            sx, sy = (cx(a) + (fits or spots)[0][0], cy(a) + (fits or spots)[0][1])
             climb = n.props.get("climb")
             up = bool(climb) and int(climb) > 0
             down = bool(climb) and int(climb) < 0
             m["overlay"]["symbols"].append({"kind": "stairs-up" if up else "stairs-down" if down else "arrow",
-                                            "x": round(sx, 2), "y": round(sy, 2), "scale": 1.4, "origin": "tables",
+                                            "x": round(sx, 2), "y": round(sy, 2), "scale": 1.0, "origin": "tables",
                                             "angle": round(math.degrees(math.atan2(uy, ux)) % 360)})
             m["overlay"]["labels"].append({"text": f"{'Up to' if up else 'Down to' if down else 'To'} {b}",
                                            "x": round(sx, 2), "y": round(sy + 2.2, 2), "kind": "note", "origin": "tables"})
@@ -1059,6 +1070,10 @@ def write_blocks(world, only: str | None = None) -> list[str]:
                 out.append(f"{bid}: {e['path']}: {e['message']}")
             if engine == "dungeon":
                 out += [f"{bid}: {d}" for d in defects(region, block, json.loads(target.read_text())) if not d.startswith("label:")]
+                with tempfile.TemporaryDirectory() as tmp:
+                    shown = artgen("dungeon", "render", "--file", target, "--format", "svg", "--fit", SITE_FIT, "--json", "--out", tmp)
+                    for left in json.loads(shown.stdout).get("unplaced", []) if shown.stdout.startswith("{") else []:
+                        out.append(f"{bid}: the note {left['text']!r} found no room on the page")
     return out
 
 

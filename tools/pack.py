@@ -21,7 +21,8 @@ DOOR = 10                   # feet of wall facing wall that a straight lane need
 FILL = 0.45                 # the share of the square its rooms cover, before the passages
 STEPS = 60000
 FAR = 120                   # feet between joined rooms past which the packing is penalised
-OVER, CORNER, STRAIGHT, ROUND, CLOSE, PULL, REPAIR = 40.0, 1.0, 1.0, 3.0, 1.0, 0.00004, 6.0
+OVER, CORNER, STRAIGHT, ROUND, CLOSE, PULL, REPAIR, LABELS = 40.0, 1.0, 1.0, 3.0, 1.0, 0.00004, 6.0, 8.0
+LABEL_H = 15.0              # feet a room's number and code take, stacked at its centre
 REPAIRS, REPAIR_STEPS = 8, 20000    # rounds of re-annealing for the ways that found no passage
 WINDING = 35                # the share, in a hundred, of ways run as passages, not doors through a shared wall
 
@@ -96,6 +97,12 @@ class Packer:
         sx, sy = max(b[0] - a[2], a[0] - b[2]), max(b[1] - a[3], a[1] - b[3])
         if sx < 0 and sy < 0:
             return OVER * (1 + min(-sx, -sy) / GRID)
+        lw = 5 * (0.8 * (len(self.rooms[i].code) + len(self.rooms[j].code)) / 2 + 1)          # their labels, side by side
+        if abs((self.x[j]) - (self.x[i] if xi is None else xi)) < lw and abs(self.y[j] - (self.y[i] if yi is None else yi)) < LABEL_H:
+            return LABELS + self.pair_cost(i, j, sx, sy, xi, yi)
+        return self.pair_cost(i, j, sx, sy, xi, yi)
+
+    def pair_cost(self, i, j, sx, sy, xi=None, yi=None) -> float:
         joined = (min(i, j), max(i, j)) in self.edges
         if not joined:
             return 0.0

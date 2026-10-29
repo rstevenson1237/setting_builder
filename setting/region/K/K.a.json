@@ -46,7 +46,7 @@
    "w": 2,
    "h": 4,
    "label": "K.1",
-   "number": 1,
+   "number": false,
    "origin": "tables"
   },
   {
@@ -90,7 +90,7 @@
    "w": 4,
    "h": 4,
    "label": "K.5",
-   "number": 5,
+   "number": false,
    "origin": "tables"
   }
  ],
@@ -189,14 +189,14 @@
    {
     "text": "Up to J.6",
     "x": 7,
-    "y": 25.2,
+    "y": 26.7,
     "kind": "note",
     "origin": "tables"
    },
    {
     "text": "Down to L.1",
     "x": 49,
-    "y": 25.2,
+    "y": 23.7,
     "kind": "note",
     "origin": "tables"
    }
@@ -205,16 +205,16 @@
    {
     "kind": "stairs-up",
     "x": 7,
-    "y": 23,
-    "scale": 1.4,
+    "y": 24.5,
+    "scale": 1,
     "origin": "tables",
     "angle": 90
    },
    {
     "kind": "stairs-down",
     "x": 49,
-    "y": 23,
-    "scale": 1.4,
+    "y": 21.5,
+    "scale": 1,
     "origin": "tables",
     "angle": 270
    }

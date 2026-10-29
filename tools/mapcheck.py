@@ -10,7 +10,7 @@ file's rooms, corridors (ports on room walls, bends between them, a width) and c
   another); a passage whose end is not on its room's wall; a room no way reaches; ways the
   tables name that the map lacks, and passages it draws that they do not name; and a stair
   or mark outside its room. Labels laid over one another come back as `label: ...`, the one
-  kind a reader can still read round.
+  kind a reader can still read round; notes are left to artgen, which places them clear.
 """
 from __future__ import annotations
 
@@ -19,7 +19,7 @@ import math
 SIDES = {"n": (0, -1), "e": (1, 0), "s": (0, 1), "w": (-1, 0)}
 OPEN = (None, "open", "arch")          # a way with no door in it, still drawn on a wall
 LABEL_H = 3.0                          # cells: a room's number and code, stacked at its centre
-NOTE_H = 1.6                           # a note's height, in cells
+NAME_H = 1.4                           # and its code alone, where the number is left off
 
 
 def inside(shape: str, r: dict, x: float, y: float) -> bool:
@@ -210,7 +210,7 @@ def check(m: dict, ways: set[frozenset] | None = None, exits: int | None = None)
             rid = [r for r, rm in rooms.items() if inside(rm.get("shape", "rect"), rm, s["x"], s["y"])]
             if not rid:
                 out.append(f"{s['kind']} at {(s['x'], s['y'])} is outside every room")
-            notes.append((s["x"], s["y"], 2.0, 2.0, s["kind"]))
+            notes.append((s["x"], s["y"], 1.6, 1.6, s["kind"]))
     if exits is not None:
         got = sum(1 for s in m.get("overlay", {}).get("symbols", []) if s.get("kind", "").startswith("stairs") or s.get("kind") == "arrow")
         if got != exits:
@@ -219,9 +219,7 @@ def check(m: dict, ways: set[frozenset] | None = None, exits: int | None = None)
     for rid, r in rooms.items():
         text = r.get("label") or ""
         w = max(2.2, 0.8 * len(text) + 1)
-        boxes.append((r["x"] + r["w"] / 2, r["y"] + r["h"] / 2, w, LABEL_H, f"label of {rid}"))
-    for l in m.get("overlay", {}).get("labels", []):
-        boxes.append((l["x"], l["y"], 0.75 * len(l["text"]) + 0.5, NOTE_H, f"note {l['text']!r}"))
+        boxes.append((r["x"] + r["w"] / 2, r["y"] + r["h"] / 2, w, LABEL_H if r.get("number") is not False else NAME_H, f"label of {rid}"))
     boxes += notes
     for i, a in enumerate(boxes):
         for b in boxes[i + 1:]:

@@ -46,7 +46,7 @@
    "w": 2,
    "h": 4,
    "label": "C.1",
-   "number": 1,
+   "number": false,
    "origin": "tables"
   },
   {
@@ -161,14 +161,14 @@
    {
     "text": "Up to A.1",
     "x": 11,
-    "y": 32.2,
+    "y": 33.7,
     "kind": "note",
     "origin": "tables"
    },
    {
     "text": "Down to D.1",
     "x": 11,
-    "y": 10.2,
+    "y": 9.4,
     "kind": "note",
     "origin": "tables"
    }
@@ -177,16 +177,16 @@
    {
     "kind": "stairs-up",
     "x": 11,
-    "y": 30,
-    "scale": 1.4,
+    "y": 31.5,
+    "scale": 1,
     "origin": "tables",
     "angle": 90
    },
    {
     "kind": "stairs-down",
     "x": 11,
-    "y": 8,
-    "scale": 1.4,
+    "y": 7.2,
+    "scale": 1,
     "origin": "tables",
     "angle": 270
    },

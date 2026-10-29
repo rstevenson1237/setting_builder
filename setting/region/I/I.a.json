@@ -46,7 +46,7 @@
    "w": 2,
    "h": 4,
    "label": "I.1",
-   "number": 1,
+   "number": false,
    "origin": "tables"
   },
   {
@@ -327,14 +327,14 @@
    {
     "text": "Up to H.12",
     "x": 9,
-    "y": 26.2,
+    "y": 27.7,
     "kind": "note",
     "origin": "tables"
    },
    {
     "text": "Down to J.1",
     "x": 51,
-    "y": 24.2,
+    "y": 23.4,
     "kind": "note",
     "origin": "tables"
    }
@@ -343,16 +343,16 @@
    {
     "kind": "stairs-up",
     "x": 9,
-    "y": 24,
-    "scale": 1.4,
+    "y": 25.5,
+    "scale": 1,
     "origin": "tables",
     "angle": 90
    },
    {
     "kind": "stairs-down",
     "x": 51,
-    "y": 22,
-    "scale": 1.4,
+    "y": 21.2,
+    "scale": 1,
     "origin": "tables",
     "angle": 270
    }

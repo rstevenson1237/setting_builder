@@ -1,6 +1,6 @@
 {
- "cols": 60,
- "rows": 60,
+ "cols": 56,
+ "rows": 62,
  "gen": {
   "rooms": 1,
   "minSize": 3,
@@ -42,19 +42,19 @@
   {
    "id": "G-1",
    "shape": "rect",
-   "x": 22,
-   "y": 36,
+   "x": 24,
+   "y": 44,
    "w": 2,
    "h": 4,
    "label": "G.1",
-   "number": 1,
+   "number": false,
    "origin": "tables"
   },
   {
    "id": "G-2",
    "shape": "rect",
-   "x": 20,
-   "y": 30,
+   "x": 22,
+   "y": 34,
    "w": 2,
    "h": 16,
    "label": "G.2",
@@ -64,8 +64,8 @@
   {
    "id": "G-3",
    "shape": "rect",
-   "x": 6,
-   "y": 46,
+   "x": 24,
+   "y": 48,
    "w": 10,
    "h": 8,
    "label": "G.3",
@@ -75,8 +75,8 @@
   {
    "id": "G-4",
    "shape": "rect",
-   "x": 22,
-   "y": 40,
+   "x": 24,
+   "y": 34,
    "w": 8,
    "h": 6,
    "label": "G.4",
@@ -87,7 +87,7 @@
    "id": "G-5",
    "shape": "rect",
    "x": 16,
-   "y": 22,
+   "y": 26,
    "w": 6,
    "h": 6,
    "label": "G.5",
@@ -97,7 +97,7 @@
   {
    "id": "G-6",
    "shape": "rect",
-   "x": 24,
+   "x": 16,
    "y": 6,
    "w": 12,
    "h": 12,
@@ -108,8 +108,8 @@
   {
    "id": "G-7",
    "shape": "rect",
-   "x": 14,
-   "y": 12,
+   "x": 6,
+   "y": 14,
    "w": 8,
    "h": 8,
    "label": "G.7",
@@ -119,8 +119,8 @@
   {
    "id": "G-8",
    "shape": "rect",
-   "x": 36,
-   "y": 12,
+   "x": 28,
+   "y": 16,
    "w": 8,
    "h": 8,
    "label": "G.8",
@@ -130,7 +130,7 @@
   {
    "id": "G-9",
    "shape": "rect",
-   "x": 28,
+   "x": 14,
    "y": 18,
    "w": 8,
    "h": 8,
@@ -141,8 +141,8 @@
   {
    "id": "G-10",
    "shape": "rect",
-   "x": 16,
-   "y": 6,
+   "x": 8,
+   "y": 8,
    "w": 6,
    "h": 6,
    "label": "G.10",
@@ -153,7 +153,7 @@
    "id": "G-11",
    "shape": "rect",
    "x": 16,
-   "y": 36,
+   "y": 40,
    "w": 4,
    "h": 6,
    "label": "G.11",
@@ -164,7 +164,7 @@
    "id": "G-12",
    "shape": "circle",
    "x": 32,
-   "y": 26,
+   "y": 28,
    "w": 8,
    "h": 8,
    "label": "G.12",
@@ -185,8 +185,8 @@
   {
    "id": "G-14",
    "shape": "rect",
-   "x": 46,
-   "y": 22,
+   "x": 48,
+   "y": 28,
    "w": 2,
    "h": 18,
    "label": "G.14",
@@ -196,8 +196,8 @@
   {
    "id": "G-15",
    "shape": "rect",
-   "x": 30,
-   "y": 38,
+   "x": 36,
+   "y": 40,
    "w": 10,
    "h": 10,
    "label": "G.15",
@@ -207,8 +207,8 @@
   {
    "id": "G-16",
    "shape": "rect",
-   "x": 44,
-   "y": 22,
+   "x": 46,
+   "y": 26,
    "w": 2,
    "h": 16,
    "label": "G.16",
@@ -218,8 +218,8 @@
   {
    "id": "G-17",
    "shape": "rect",
-   "x": 44,
-   "y": 14,
+   "x": 36,
+   "y": 20,
    "w": 10,
    "h": 8,
    "label": "G.17",
@@ -229,8 +229,8 @@
   {
    "id": "G-18",
    "shape": "rect",
-   "x": 14,
-   "y": 28,
+   "x": 16,
+   "y": 32,
    "w": 6,
    "h": 8,
    "label": "G.18",
@@ -240,12 +240,12 @@
   {
    "id": "G-19",
    "shape": "rect",
-   "x": 48,
-   "y": 6,
+   "x": 36,
+   "y": 12,
    "w": 2,
    "h": 6,
    "label": "G.19",
-   "number": 19,
+   "number": false,
    "origin": "tables"
   }
  ],
@@ -254,14 +254,39 @@
    "from": {
     "room": "G-17",
     "side": "n",
-    "offset": 5
+    "offset": 3
    },
    "to": {
     "room": "G-19",
-    "side": "s",
-    "offset": 1
+    "side": "e",
+    "offset": 5
    },
-   "via": [],
+   "via": [
+    39,
+    17
+   ],
+   "width": 2,
+   "origin": "tables",
+   "doors": [
+    null,
+    null
+   ]
+  },
+  {
+   "from": {
+    "room": "G-3",
+    "side": "w",
+    "offset": 5
+   },
+   "to": {
+    "room": "G-11",
+    "side": "s",
+    "offset": 3
+   },
+   "via": [
+    19,
+    53
+   ],
    "width": 2,
    "origin": "tables",
    "doors": [
@@ -278,7 +303,7 @@
    "to": {
     "room": "G-7",
     "side": "e",
-    "offset": 3
+    "offset": 1
    },
    "via": [],
    "width": 2,
@@ -290,16 +315,19 @@
   },
   {
    "from": {
-    "room": "G-12",
+    "room": "G-4",
     "side": "e",
     "offset": 5
    },
    "to": {
-    "room": "G-16",
-    "side": "w",
-    "offset": 9
+    "room": "G-15",
+    "side": "n",
+    "offset": 1
    },
-   "via": [],
+   "via": [
+    37,
+    39
+   ],
    "width": 2,
    "origin": "tables",
    "doors": [
@@ -311,7 +339,7 @@
    "from": {
     "room": "G-12",
     "side": "w",
-    "offset": 5
+    "offset": 3
    },
    "to": {
     "room": "G-13",
@@ -328,85 +356,16 @@
   },
   {
    "from": {
-    "room": "G-8",
-    "side": "n",
-    "offset": 7
-   },
-   "to": {
-    "room": "G-19",
-    "side": "w",
+    "room": "G-12",
+    "side": "e",
     "offset": 5
-   },
-   "via": [
-    43,
-    11
-   ],
-   "width": 2,
-   "origin": "tables",
-   "doors": [
-    null,
-    null
-   ]
-  },
-  {
-   "from": {
-    "room": "G-3",
-    "side": "n",
-    "offset": 9
-   },
-   "to": {
-    "room": "G-11",
-    "side": "w",
-    "offset": 5
-   },
-   "via": [
-    15,
-    41
-   ],
-   "width": 2,
-   "origin": "tables",
-   "doors": [
-    null,
-    null
-   ]
-  },
-  {
-   "from": {
-    "room": "G-15",
-    "side": "n",
-    "offset": 9
    },
    "to": {
     "room": "G-16",
     "side": "w",
-    "offset": 15
+    "offset": 7
    },
-   "via": [
-    39,
-    37
-   ],
-   "width": 2,
-   "origin": "tables",
-   "doors": [
-    null,
-    null
-   ]
-  },
-  {
-   "from": {
-    "room": "G-2",
-    "side": "s",
-    "offset": 1
-   },
-   "to": {
-    "room": "G-3",
-    "side": "e",
-    "offset": 1
-   },
-   "via": [
-    21,
-    47
-   ],
+   "via": [],
    "width": 2,
    "origin": "tables",
    "doors": [
@@ -417,21 +376,21 @@
  ],
  "connections": [
   {
+   "a": "G-2",
+   "b": "G-4",
+   "at": [
+    24.0,
+    37.0
+   ],
+   "origin": "tables",
+   "kind": "arch"
+  },
+  {
    "a": "G-14",
    "b": "G-16",
    "at": [
-    46.0,
-    30.0
-   ],
-   "origin": "tables",
-   "kind": "open"
-  },
-  {
-   "a": "G-1",
-   "b": "G-2",
-   "at": [
-    22.0,
-    38.0
+    48.0,
+    35.0
    ],
    "origin": "tables",
    "kind": "open"
@@ -440,8 +399,8 @@
    "a": "G-5",
    "b": "G-18",
    "at": [
-    18.0,
-    28.0
+    19.0,
+    32.0
    ],
    "origin": "tables",
    "kind": "arch"
@@ -450,87 +409,67 @@
    "a": "G-7",
    "b": "G-10",
    "at": [
-    19.0,
-    12.0
+    11.0,
+    14.0
    ],
    "origin": "tables",
    "kind": "locked"
-  },
-  {
-   "a": "G-5",
-   "b": "G-13",
-   "at": [
-    22.0,
-    25.0
-   ],
-   "origin": "tables",
-   "kind": "arch"
-  },
-  {
-   "a": "G-16",
-   "b": "G-17",
-   "at": [
-    45.0,
-    22.0
-   ],
-   "origin": "tables",
-   "kind": "open"
   },
   {
    "a": "G-11",
    "b": "G-18",
    "at": [
     18.0,
-    36.0
+    40.0
    ],
    "origin": "tables",
    "kind": "door"
   },
   {
-   "a": "G-4",
-   "b": "G-15",
+   "a": "G-8",
+   "b": "G-19",
    "at": [
-    30.0,
-    43.0
+    36.0,
+    17.0
    ],
    "origin": "tables",
    "kind": "arch"
   },
   {
-   "a": "G-2",
-   "b": "G-4",
+   "a": "G-5",
+   "b": "G-13",
    "at": [
     22.0,
-    43.0
+    29.0
    ],
    "origin": "tables",
    "kind": "arch"
   },
   {
-   "a": "G-2",
-   "b": "G-13",
+   "a": "G-1",
+   "b": "G-2",
    "at": [
-    22.0,
-    32.0
+    24.0,
+    46.0
    ],
    "origin": "tables",
-   "kind": "door"
+   "kind": "open"
   },
   {
-   "a": "G-6",
-   "b": "G-13",
+   "a": "G-16",
+   "b": "G-17",
    "at": [
-    26.0,
-    18.0
+    46.0,
+    27.0
    ],
    "origin": "tables",
-   "kind": "door"
+   "kind": "open"
   },
   {
    "a": "G-6",
    "b": "G-9",
    "at": [
-    32.0,
+    19.0,
     18.0
    ],
    "origin": "tables",
@@ -538,35 +477,75 @@
   },
   {
    "a": "G-6",
-   "b": "G-8",
+   "b": "G-13",
    "at": [
-    36.0,
-    15.0
+    25.0,
+    18.0
    ],
    "origin": "tables",
    "kind": "door"
+  },
+  {
+   "a": "G-2",
+   "b": "G-3",
+   "at": [
+    24.0,
+    49.0
+   ],
+   "origin": "tables",
+   "kind": "arch"
+  },
+  {
+   "a": "G-6",
+   "b": "G-8",
+   "at": [
+    28.0,
+    17.0
+   ],
+   "origin": "tables",
+   "kind": "door"
+  },
+  {
+   "a": "G-2",
+   "b": "G-13",
+   "at": [
+    23.0,
+    34.0
+   ],
+   "origin": "tables",
+   "kind": "door"
+  },
+  {
+   "a": "G-15",
+   "b": "G-16",
+   "at": [
+    46.0,
+    41.0
+   ],
+   "origin": "tables",
+   "kind": "open"
   }
  ],
  "overlay": {
   "labels": [
    {
     "text": "Up to F.13",
-    "x": 23,
-    "y": 40.2,
+    "x": 25,
+    "y": 49.7,
     "kind": "note",
     "origin": "tables"
    },
    {
     "text": "Down to B.1",
-    "x": 47,
-    "y": 26.2,
+    "x": 49,
+    "y": 31.4,
     "kind": "note",
     "origin": "tables"
    },
    {
     "text": "Down to H.1",
-    "x": 49,
-    "y": 10.2,
+    "x": 37,
+    "y": 14.7,
     "kind": "note",
     "origin": "tables"
    }
@@ -574,25 +553,25 @@
   "symbols": [
    {
     "kind": "stairs-up",
-    "x": 23,
-    "y": 38,
-    "scale": 1.4,
+    "x": 25,
+    "y": 47.5,
+    "scale": 1,
     "origin": "tables",
     "angle": 90
    },
    {
     "kind": "stairs-down",
-    "x": 47,
-    "y": 24,
-    "scale": 1.4,
+    "x": 49,
+    "y": 29.2,
+    "scale": 1,
     "origin": "tables",
     "angle": 360
    },
    {
     "kind": "stairs-down",
-    "x": 49,
-    "y": 8,
-    "scale": 1.4,
+    "x": 37,
+    "y": 12.5,
+    "scale": 1,
     "origin": "tables",
     "angle": 270
    }

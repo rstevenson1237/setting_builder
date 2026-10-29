@@ -46,7 +46,7 @@
    "w": 4,
    "h": 4,
    "label": "L.1",
-   "number": 1,
+   "number": false,
    "origin": "tables"
   },
   {
@@ -161,7 +161,7 @@
    {
     "text": "Up to K.5",
     "x": 26,
-    "y": 46.2,
+    "y": 47.7,
     "kind": "note",
     "origin": "tables"
    }
@@ -170,8 +170,8 @@
    {
     "kind": "stairs-up",
     "x": 26,
-    "y": 44,
-    "scale": 1.4,
+    "y": 45.5,
+    "scale": 1,
     "origin": "tables",
     "angle": 90
    }
