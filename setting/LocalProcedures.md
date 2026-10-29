@@ -53,3 +53,15 @@ Results:
 - 5 - A dreamer leads the party to a quiet landing on the quay.
 - 6 - A masked stranger offers a warning about the stair below.
 Tell: Drums and singing across the lake, and lamps burning all night.
+
+### Joining a faction
+Kind: contest
+Extends: Recruitment
+Found at: E.2
+Roll: Skill - the party's, once to a branch
+Stakes: A service done for the branch, and the enmity of the other two. A member is given the branch's guide, its stores and its hall to rest in.
+Results:
+- Failure - The branch refuses the party and asks it to leave the level.
+- Complication - The branch accepts, but sets a service first: a message, a rescue, a sealed door.
+- Success - The branch gives the party its word, its sign and one guide, and the other two send watchers within a day.
+Tell: Three halls open off a turning room, each hung with its own colours and its own bell.

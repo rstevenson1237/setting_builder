@@ -20,3 +20,10 @@ Found at: D.6
 Voice: A court painter, working from memory after the fall and softening what he saw.
 Does: purpose, hook
 Text: Nine paintings, west to east. A king at table with a veiled guest; the guest unveiled, its face blacked out; priests with candles; soldiers in masks; a queen leading children to a stair; a king alone with a bronze disc. The last panel shows a stair going down and an arrow pointing at the floor.
+
+### The Three Claims
+Form: written
+Found at: E.5
+Voice: A Scholar, writing for Sihuahet and sneering at the other two branches.
+Does: connection, contradiction
+Text: Each branch holds that it alone will free the people. The soldiers say strength, the priests say faith, we say knowledge, and all three admit the king's order was the same: to find the demon's name before the stair. The Guard keep the east hall, the Priesthood the north, the Scholars the west. None will walk through another's door.
