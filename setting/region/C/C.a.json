@@ -87,48 +87,6 @@
   {
    "from": {
     "room": "C-1",
-    "side": "s"
-   },
-   "to": {
-    "at": [
-     11,
-     34
-    ],
-    "exit": {
-     "text": "Up to A.1"
-    }
-   },
-   "width": 2,
-   "doors": [
-    null,
-    null
-   ],
-   "origin": "tables"
-  },
-  {
-   "from": {
-    "room": "C-4",
-    "side": "n"
-   },
-   "to": {
-    "at": [
-     11,
-     2
-    ],
-    "exit": {
-     "text": "Down to D.1"
-    }
-   },
-   "width": 2,
-   "doors": [
-    "secret",
-    null
-   ],
-   "origin": "tables"
-  },
-  {
-   "from": {
-    "room": "C-1",
     "side": "n",
     "offset": 1
    },
@@ -199,8 +157,39 @@
  ],
  "connections": [],
  "overlay": {
-  "labels": [],
+  "labels": [
+   {
+    "text": "Up to A.1",
+    "x": 11,
+    "y": 32.2,
+    "kind": "note",
+    "origin": "tables"
+   },
+   {
+    "text": "Down to D.1",
+    "x": 11,
+    "y": 10.2,
+    "kind": "note",
+    "origin": "tables"
+   }
+  ],
   "symbols": [
+   {
+    "kind": "stairs-up",
+    "x": 11,
+    "y": 30,
+    "scale": 1.4,
+    "origin": "tables",
+    "angle": 90
+   },
+   {
+    "kind": "stairs-down",
+    "x": 11,
+    "y": 8,
+    "scale": 1.4,
+    "origin": "tables",
+    "angle": 270
+   },
    {
     "kind": "trap",
     "x": 11,

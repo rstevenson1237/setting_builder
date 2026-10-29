@@ -142,48 +142,6 @@
   {
    "from": {
     "room": "I-1",
-    "side": "s"
-   },
-   "to": {
-    "at": [
-     9,
-     30
-    ],
-    "exit": {
-     "text": "Up to H.12"
-    }
-   },
-   "width": 1,
-   "doors": [
-    null,
-    null
-   ],
-   "origin": "tables"
-  },
-  {
-   "from": {
-    "room": "I-9",
-    "side": "n"
-   },
-   "to": {
-    "at": [
-     51,
-     16
-    ],
-    "exit": {
-     "text": "Down to J.1"
-    }
-   },
-   "width": 1,
-   "doors": [
-    "locked",
-    null
-   ],
-   "origin": "tables"
-  },
-  {
-   "from": {
-    "room": "I-1",
     "side": "e",
     "offset": 2
    },
@@ -365,7 +323,39 @@
  ],
  "connections": [],
  "overlay": {
-  "labels": [],
-  "symbols": []
+  "labels": [
+   {
+    "text": "Up to H.12",
+    "x": 9,
+    "y": 26.2,
+    "kind": "note",
+    "origin": "tables"
+   },
+   {
+    "text": "Down to J.1",
+    "x": 51,
+    "y": 24.2,
+    "kind": "note",
+    "origin": "tables"
+   }
+  ],
+  "symbols": [
+   {
+    "kind": "stairs-up",
+    "x": 9,
+    "y": 24,
+    "scale": 1.4,
+    "origin": "tables",
+    "angle": 90
+   },
+   {
+    "kind": "stairs-down",
+    "x": 51,
+    "y": 22,
+    "scale": 1.4,
+    "origin": "tables",
+    "angle": 270
+   }
+  ]
  }
 }

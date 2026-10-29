@@ -87,27 +87,6 @@
   {
    "from": {
     "room": "L-1",
-    "side": "s"
-   },
-   "to": {
-    "at": [
-     26,
-     50
-    ],
-    "exit": {
-     "text": "Up to K.5"
-    }
-   },
-   "width": 4,
-   "doors": [
-    null,
-    null
-   ],
-   "origin": "tables"
-  },
-  {
-   "from": {
-    "room": "L-1",
     "side": "n",
     "offset": 2
    },
@@ -178,7 +157,24 @@
  ],
  "connections": [],
  "overlay": {
-  "labels": [],
-  "symbols": []
+  "labels": [
+   {
+    "text": "Up to K.5",
+    "x": 26,
+    "y": 46.2,
+    "kind": "note",
+    "origin": "tables"
+   }
+  ],
+  "symbols": [
+   {
+    "kind": "stairs-up",
+    "x": 26,
+    "y": 44,
+    "scale": 1.4,
+    "origin": "tables",
+    "angle": 90
+   }
+  ]
  }
 }
