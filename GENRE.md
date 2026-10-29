@@ -14,29 +14,30 @@ The answers to the genre questions in `patterns/Setting_Schema.md`, one per ques
   are found, never bought; most finds are a potion, a scroll or a weapon a little better
   than it should be, and anything greater is rare and remembered. The lake city's fungi
   are the one thing sold that works like magic.
-- **Authority** - None: no realm, garrison or law reaches the buried city. What order
-  exists is held by factions inside the pyramid, each over its own halls, and none can
-  be appealed to against another.
-- **Allegiance** - Law, Neutrality and Chaos. Law is travellers and caravans and whoever
-  keeps faith with them; Chaos is the demon's cult, its lieutenants, and what they serve;
-  Neutrality is the sands, the beasts and anyone who looks after themselves. Each
+- **Authority** - None: the buried city is an oasis cut off from the world, with no road,
+  realm or law reaching it. What order exists is held by three branches of the
+  cynidiceans over their own halls, each claiming to speak for the whole people.
+- **Allegiance** - Law, Neutrality and Chaos. Law is the party and those who keep faith
+  with it; Chaos is the demon's cult and what it serves; Neutrality is the cynidiceans,
+  the beasts and anyone who looks after themselves. The cynidiceans speak their own
+  tongue and a broken common. Each
   alignment is also a spoken tongue, so a stranger's side is read from the words they
   know, the company they keep, and what they do on meeting - never from a label.
-- **Population density** - Scarce above, crowded below: a few survivors in the ruins, the
-  pyramid's factions and monsters packed into its levels, and a whole city of dreamers
+- **Population density** - Scarce above, crowded below: the ruins empty, the
+  pyramid's branches, cult and monsters packed into its levels, and a whole city of dreamers
   around an underground lake. Nowhere is empty and nowhere is safe.
 - **Decay** - Total, and the setting's subject. The city is drowned in sand, the pyramid
   is worn by time and held by the dead, and the people who made both have given up the
   living world for masks and dreams. What is whole was made to be unreachable.
 - **Player characters** - Adventurers of the seven classes - fighter, cleric, magic-user,
   thief, dwarf, elf, halfling - strangers to each other and the place, caught by a
-  sandstorm with what they carry and no one expecting them. Nobody sent them and nobody
-  will come for them. Food, water and shelter come first.
+  sandstorm with what they carry and no way they know back out. Nobody sent them and
+  nobody will come for them. Food, water and shelter come first.
 - **Reward** - Treasure, and surviving to use it: what a party takes from the pyramid
   matters only if it also holds water, food and a place to rest. Allies and standing
   with the factions are worth as much as gold, and magic items are the rarer prize.
-- **Naming** - Plain and descriptive, in the common tongue, for what travellers and
-  survivors name: the buried house, the dry cistern, the Delvers' hall. Coined names,
+- **Naming** - Plain and descriptive, in the common tongue, for what the party
+  names: the buried house, the dry cistern, the robbers' camp. Coined names,
   drawn from the tongues seeded in `setting/Language.md`, belong to the old - the pyramid,
   its levels, its kings and priests - and to the non-human, what a creature calls itself.
 
