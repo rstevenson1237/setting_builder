@@ -73,7 +73,8 @@ Read these rather than a description of them.
     nothing; the thresholds are the validator's.
   - `artgen/` - artgen's map and dungeon engines (`artgen-maps.js`, run with `node`), copied from
     `artgen-dist` `maps/` at the commit `plans/sheet-maps/brief-engines.md` records. Upgrade it by
-    copying `maps/` at a newer commit, in a commit of its own.
+    copying `maps/` at a newer commit, in a commit of its own. What the framework writes into its files,
+    and how each key behaves, is `plans/sheet-maps/artgen-capabilities.md`.
   - `dungeon.py` - a DANGEROUS block: its map, its passages, `pack`, and what the validator reports of it.
   - `pack.py` - packs a DANGEROUS block's rooms close into a square, touching where a door through the shared wall will do and a passage apart where not, re-annealing until every way has one; run through `maps.py pack`.
   - `route.py` - routes each way as a door through a shared wall or a winding passage on a 10-foot lattice, a door where it meets a wall.
