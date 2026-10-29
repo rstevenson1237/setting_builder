@@ -1,0 +1,226 @@
+{
+ "cols": 57,
+ "rows": 35,
+ "gen": {
+  "rooms": 1,
+  "minSize": 3,
+  "maxSize": 8,
+  "caves": 0,
+  "round": 0,
+  "loops": 0,
+  "doors": 0,
+  "corridorWidth": 1,
+  "spacing": 2,
+  "entrance": false
+ },
+ "grid": {
+  "show": true,
+  "size": 2,
+  "sub": true,
+  "clip": "floor"
+ },
+ "style": {
+  "hatch": "band",
+  "band": 0.9,
+  "wall": 1
+ },
+ "scale": {
+  "perCell": 5,
+  "unit": "ft"
+ },
+ "numbers": true,
+ "scaleBar": true,
+ "compass": false,
+ "id": "K-a",
+ "version": 1,
+ "seed": 1,
+ "furniture": {
+  "place": "auto"
+ },
+ "rooms": [
+  {
+   "id": "K-1",
+   "shape": "rect",
+   "x": 6,
+   "y": 21,
+   "w": 2,
+   "h": 4,
+   "label": "K.1",
+   "number": 1,
+   "origin": "tables"
+  },
+  {
+   "id": "K-2",
+   "shape": "rect",
+   "x": 16,
+   "y": 20,
+   "w": 10,
+   "h": 6,
+   "label": "K.2",
+   "number": 2,
+   "origin": "tables"
+  },
+  {
+   "id": "K-3",
+   "shape": "rect",
+   "x": 29,
+   "y": 17,
+   "w": 12,
+   "h": 12,
+   "label": "K.3",
+   "number": 3,
+   "origin": "tables"
+  },
+  {
+   "id": "K-4",
+   "shape": "rect",
+   "x": 18,
+   "y": 6,
+   "w": 6,
+   "h": 6,
+   "label": "K.4",
+   "number": 4,
+   "origin": "tables"
+  },
+  {
+   "id": "K-5",
+   "shape": "rect",
+   "x": 47,
+   "y": 21,
+   "w": 4,
+   "h": 4,
+   "label": "K.5",
+   "number": 5,
+   "origin": "tables"
+  }
+ ],
+ "corridors": [
+  {
+   "from": {
+    "room": "K-1",
+    "side": "s"
+   },
+   "to": {
+    "at": [
+     7,
+     29
+    ],
+    "exit": {
+     "text": "Up to J.6"
+    }
+   },
+   "width": 1,
+   "doors": [
+    null,
+    null
+   ],
+   "origin": "tables"
+  },
+  {
+   "from": {
+    "room": "K-5",
+    "side": "n"
+   },
+   "to": {
+    "at": [
+     49,
+     17
+    ],
+    "exit": {
+     "text": "Down to L.1"
+    }
+   },
+   "width": 1,
+   "doors": [
+    null,
+    null
+   ],
+   "origin": "tables"
+  },
+  {
+   "from": {
+    "room": "K-1",
+    "side": "e"
+   },
+   "to": {
+    "room": "K-2",
+    "side": "w"
+   },
+   "width": 1,
+   "origin": "tables",
+   "doors": [
+    null,
+    null
+   ]
+  },
+  {
+   "from": {
+    "room": "K-2",
+    "side": "e"
+   },
+   "to": {
+    "room": "K-3",
+    "side": "w"
+   },
+   "width": 1,
+   "origin": "tables",
+   "doors": [
+    null,
+    null
+   ]
+  },
+  {
+   "from": {
+    "room": "K-2",
+    "side": "n"
+   },
+   "to": {
+    "room": "K-4",
+    "side": "s"
+   },
+   "width": 1,
+   "origin": "tables",
+   "doors": [
+    null,
+    null
+   ]
+  },
+  {
+   "from": {
+    "room": "K-3",
+    "side": "e"
+   },
+   "to": {
+    "room": "K-5",
+    "side": "w"
+   },
+   "width": 1,
+   "origin": "tables",
+   "doors": [
+    "portcullis",
+    "portcullis"
+   ]
+  },
+  {
+   "from": {
+    "room": "K-3",
+    "side": "w"
+   },
+   "to": {
+    "room": "K-4",
+    "side": "e"
+   },
+   "width": 1,
+   "origin": "tables",
+   "doors": [
+    "door",
+    "door"
+   ]
+  }
+ ],
+ "connections": [],
+ "overlay": {
+  "labels": [],
+  "symbols": []
+ }
+}

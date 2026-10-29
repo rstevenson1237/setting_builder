@@ -1,0 +1,206 @@
+{
+ "cols": 35,
+ "rows": 38,
+ "gen": {
+  "rooms": 1,
+  "minSize": 3,
+  "maxSize": 8,
+  "caves": 0,
+  "round": 0,
+  "loops": 0,
+  "doors": 0,
+  "corridorWidth": 1,
+  "spacing": 2,
+  "entrance": false
+ },
+ "grid": {
+  "show": true,
+  "size": 2,
+  "sub": true,
+  "clip": "floor"
+ },
+ "style": {
+  "hatch": "band",
+  "band": 0.9,
+  "wall": 1
+ },
+ "scale": {
+  "perCell": 5,
+  "unit": "ft"
+ },
+ "numbers": true,
+ "scaleBar": true,
+ "compass": false,
+ "id": "C-a",
+ "version": 1,
+ "seed": 1,
+ "furniture": {
+  "place": "auto"
+ },
+ "rooms": [
+  {
+   "id": "C-1",
+   "shape": "rect",
+   "x": 10,
+   "y": 28,
+   "w": 2,
+   "h": 4,
+   "label": "C.1",
+   "number": 1,
+   "origin": "tables"
+  },
+  {
+   "id": "C-2",
+   "shape": "rect",
+   "x": 6,
+   "y": 15,
+   "w": 10,
+   "h": 10,
+   "label": "C.2",
+   "number": 2,
+   "origin": "tables"
+  },
+  {
+   "id": "C-3",
+   "shape": "rect",
+   "x": 17,
+   "y": 18,
+   "w": 12,
+   "h": 4,
+   "label": "C.3",
+   "number": 3,
+   "origin": "tables"
+  },
+  {
+   "id": "C-4",
+   "shape": "circle",
+   "x": 7,
+   "y": 6,
+   "w": 8,
+   "h": 8,
+   "label": "C.4",
+   "number": 4,
+   "origin": "tables"
+  }
+ ],
+ "corridors": [
+  {
+   "from": {
+    "room": "C-1",
+    "side": "s"
+   },
+   "to": {
+    "at": [
+     11,
+     34
+    ],
+    "exit": {
+     "text": "Up to A.1"
+    }
+   },
+   "width": 2,
+   "doors": [
+    null,
+    null
+   ],
+   "origin": "tables"
+  },
+  {
+   "from": {
+    "room": "C-4",
+    "side": "n"
+   },
+   "to": {
+    "at": [
+     11,
+     2
+    ],
+    "exit": {
+     "text": "Down to D.1"
+    }
+   },
+   "width": 2,
+   "doors": [
+    "secret",
+    null
+   ],
+   "origin": "tables"
+  },
+  {
+   "from": {
+    "room": "C-1",
+    "side": "n"
+   },
+   "to": {
+    "room": "C-2",
+    "side": "s"
+   },
+   "width": 2,
+   "origin": "tables",
+   "doors": [
+    null,
+    null
+   ]
+  },
+  {
+   "from": {
+    "room": "C-2",
+    "side": "e"
+   },
+   "to": {
+    "room": "C-3",
+    "side": "w"
+   },
+   "width": 2,
+   "origin": "tables",
+   "doors": [
+    null,
+    null
+   ]
+  },
+  {
+   "from": {
+    "room": "C-2",
+    "side": "n"
+   },
+   "to": {
+    "room": "C-4",
+    "side": "s"
+   },
+   "width": 2,
+   "origin": "tables",
+   "doors": [
+    null,
+    null
+   ]
+  },
+  {
+   "from": {
+    "room": "C-3",
+    "side": "w"
+   },
+   "to": {
+    "room": "C-4",
+    "side": "e"
+   },
+   "width": 2,
+   "origin": "tables",
+   "doors": [
+    "door",
+    "door"
+   ]
+  }
+ ],
+ "connections": [],
+ "overlay": {
+  "labels": [],
+  "symbols": [
+   {
+    "kind": "trap",
+    "x": 11,
+    "y": 25,
+    "origin": "tables"
+   }
+  ]
+ }
+}
