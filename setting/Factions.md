@@ -8,8 +8,8 @@ Factions of The Buried City
 | 2 | Antipathy | d6 | Will only cooperate with great advantage to themselves. |
 | 1 | Hatred (or Fear) | d4 | Will only cooperate under duress, may take an opportunity to disadvantage one of their opponents, otherwise Hostility or Escape are preferred. |
 
-### The Royal Guard
-Form: common
+### Kurumisa
+Form: tongue
 AD: 4d6
 Want: cleared - the pyramid below level 5 cleared of the demon's cult, floor by floor.
 Identity: Bronze scale over white linen, a red hawk painted on every shield and doorpost; the challenge "Who holds the gate?", answered "The gate holds."
@@ -19,14 +19,14 @@ Tactics: Holds its halls in ranks, sends sixes to clear a stair, and trades a gu
 Reactions: Noticed: challenged at spear's length. Crossed: refused the hall and its guides. Injured: hunted by sixes on every stair.
 Goals: Clear the way to level 6. Recover the captain lost on level 4.
 Relations:
-- The Priesthood - Antipathy
-- The Scholars - Antipathy
-- The Demon's Cult - Hatred (fear)
+- Ruhiahe - Antipathy
+- Sihuahet - Antipathy
+- Voxkroth - Hatred (fear)
 - The Tomb Robbers - Neutral
 Fields: Soldier
 
-### The Priesthood
-Form: common
+### Ruhiahe
+Form: tongue
 AD: 3d6
 Want: sealed - the way down shut with the old rites, so the demon's servants cannot rise.
 Identity: Pale robes and a bronze bell at the belt, a sun-disc painted over every doorway; the greeting "The bell is rung", answered "And the way is shut."
@@ -36,14 +36,14 @@ Tactics: Rings the bell to call help, seals a door behind a retreat, and trades 
 Reactions: Noticed: asked to wash and state its purpose. Crossed: barred from the temple. Injured: the bell rung, and every priest on the level comes.
 Goals: Seal the stair to level 6. Find the ritual lost with the last queen.
 Relations:
-- The Royal Guard - Antipathy
-- The Scholars - Antipathy
-- The Demon's Cult - Hatred (fear)
+- Kurumisa - Antipathy
+- Sihuahet - Antipathy
+- Voxkroth - Hatred (fear)
 - The Tomb Robbers - Neutral
 Fields: Acolyte
 
-### The Scholars
-Form: common
+### Sihuahet
+Form: tongue
 AD: 3d6
 Want: knowing - how the demon was bound to the royal line, and how to unbind it.
 Identity: Ink-stained grey robes and a reed pen worn behind the ear, an eye drawn over every door; the challenge "What do you know?", answered with a question.
@@ -53,14 +53,14 @@ Tactics: Asks questions, trades knowledge for knowledge, and reads a scroll at a
 Reactions: Noticed: asked what it knows. Crossed: refused the library. Injured: the adepts hold the door and read.
 Goals: Learn the demon's name. Prove what feeds it.
 Relations:
-- The Royal Guard - Antipathy
-- The Priesthood - Antipathy
-- The Demon's Cult - Hatred (fear)
+- Kurumisa - Antipathy
+- Ruhiahe - Antipathy
+- Voxkroth - Hatred (fear)
 - The Tomb Robbers - Neutral
 Fields: Adept
 
-### The Demon's Cult
-Form: common
+### Voxkroth
+Form: tongue
 AD: 4d6
 Want: resource - the keys the last king hid, to open what the demon wants opened.
 Identity: Black cloth and a bronze mask, ash smeared on the hands, a black hand painted on a wall to claim it; the chant "It is fed", answered "It is fed."
@@ -70,9 +70,9 @@ Tactics: Chants to weaken a stranger, drags captives to an altar, and trades wit
 Reactions: Noticed: watched from the dark. Crossed: hunted down the stairs. Injured: the chant rises and every cell empties.
 Goals: Find the lost king's keys. Feed the demon.
 Relations:
-- The Royal Guard - Hatred
-- The Priesthood - Hatred
-- The Scholars - Hatred
+- Kurumisa - Hatred
+- Ruhiahe - Hatred
+- Sihuahet - Hatred
 - The Tomb Robbers - Tolerated
 Fields: Cultist
 
@@ -87,8 +87,8 @@ Tactics: Trades what it takes, ambushes a party that has been robbing it, and ru
 Reactions: Noticed: asked for a coin or a name. Crossed: ambushed in the dark. Injured: a price on the offender in every camp.
 Goals: Find a way out of the pyramid. Sell what they have found.
 Relations:
-- The Royal Guard - Neutral
-- The Priesthood - Neutral
-- The Scholars - Neutral
-- The Demon's Cult - Hatred (fear)
+- Kurumisa - Neutral
+- Ruhiahe - Neutral
+- Sihuahet - Neutral
+- Voxkroth - Hatred (fear)
 Fields: Delver

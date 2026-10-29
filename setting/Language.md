@@ -28,7 +28,7 @@ Roots:
 Coined here:
 
 ## The Cynidicean Speech
-Spoken by: present - the Royal Guard, the Priesthood, the Scholars and the lake city's dreamers, and cut into every wall of the pyramid.
+Spoken by: present - Kurumisa, Ruhiahe, Sihuahet and the lake city's dreamers, and cut into every wall of the pyramid.
 Consonants: h, k, kh, m, n, r, s, sh, t, z
 Vowels: a, i, u, aa
 Syllable: CVCV, open at the end, with a long vowel only in the first syllable
@@ -51,9 +51,12 @@ Roots:
 - anuk - a direction, north
 
 Coined here:
+- Kurumisa = kuru + misa - rock hand, the city's shield-hand
+- Ruhiahe = ruhi + -ahe - of the light
+- Sihuahet = sihu + ahet - reed of the dead
 
 ## The Black Speech
-Spoken by: side - the demon's cult and its servants.
+Spoken by: side - Voxkroth and the demon's servants.
 Consonants: gh, dh, th, zh, v, x, kr, j
 Vowels: o, u, ae
 Syllable: CVC, closed, ending in a hard stop
@@ -76,3 +79,4 @@ Roots:
 - zhok - a direction, down
 
 Coined here:
+- Voxkroth = vox + kroth - black hand

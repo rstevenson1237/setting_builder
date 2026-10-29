@@ -130,7 +130,7 @@ Type: Men
 AD: 1d6-1
 Special: Binds a Wound in a Round: a Test of Skill and the Wound is not lost.
 Description: A shaven-headed man or woman in a pale robe, a bronze bell at the belt.
-Range: The Priesthood's shrines and halls. It eats what the Priesthood grows.
+Range: Ruhiahe shrines and halls. It eats what the Ruhiahe grow.
 Numbers: 8
 Sign: a sound
 Disposition: Rings a bell to call help and fights only to cover the one who rings it.
@@ -140,7 +140,7 @@ Type: Men
 AD: 1d6+1
 Special: Reads one scroll aloud, once, as a scroll of sleep.
 Description: A lean figure in an ink-stained robe with a satchel of scrolls and a pale stick.
-Range: The Scholars' libraries and workshops. It eats what the Scholars store.
+Range: Sihuahet libraries and workshops. It eats what the Sihuahet store.
 Numbers: 6
 Sign: a smell
 Disposition: Asks questions first and reads the scroll only when the answers are wrong.
