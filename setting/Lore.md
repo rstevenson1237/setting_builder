@@ -41,3 +41,17 @@ Found at: F.11
 Voice: The Royal Guard's missing captain, hurried and scared, scrawled on hide.
 Does: hook, connection
 Text: The stair is shut behind us. I go east to the cell, where the wall is bad. If I do not come back, send sixes, not threes. Tell the Guard the thing at the foot of the stair is awake and has been eating our scouts. Do not let the Scholars read this.
+
+### The Priestesses' Rite
+Form: woven
+Found at: G.3
+Voice: A priestess, writing in the Ruhiahe tradition and leaving out what only the high priestess was told.
+Does: purpose, translation
+Text: A tapestry strip in red and white. The sun is held up by three hands and a bell is rung to close each door; the rite of sealing is three words, said in the speech of the carved walls, then the bell. The fourth hand, the one beneath, is left unwoven.
+
+### The Queen's Last Rite
+Form: cut
+Found at: G.8
+Voice: The queen's own scribe, writing for the dead and hiding the reason.
+Does: connection, hook
+Text: Cut into the bier: the king went down to the veiled guest of his own will, the queen with the children went another way. The false tomb is for the soldiers who follow; the true king lies where the seal is unbroken. A ring is left with the bones to open the stair.

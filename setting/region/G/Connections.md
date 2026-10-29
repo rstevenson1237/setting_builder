@@ -18,7 +18,7 @@ Connection G.6 to="G.9" type="Stone" bearing="north" distance="90 feet"
 Connection G.6 to="G.7" type="Stone" bearing="north-west" distance="125 feet"
 Connection G.6 to="G.8" type="Stone" bearing="north-east" distance="125 feet"
 Connection G.7 to="G.6" type="Stone" bearing="south-east" distance="125 feet"
-Connection G.7 to="G.10" type="Iron" bearing="north" distance="90 feet"
+Connection G.7 to="G.10" type="Iron" bearing="north" distance="90 feet" { Lock key="The King's Seal" }
 Connection G.8 to="G.6" type="Stone" bearing="south-west" distance="125 feet"
 Connection G.8 to="G.19" type="Archway" bearing="east" distance="90 feet"
 Connection G.9 to="G.6" type="Stone" bearing="south" distance="90 feet"
@@ -45,5 +45,5 @@ Connection G.18 to="G.11" type="Wooden" bearing="south" distance="80 feet"
 Connection G.18 to="G.5" type="Archway" bearing="east" distance="90 feet"
 Connection G.19 to="G.17" type="Open" bearing="south" distance="90 feet"
 Connection G.19 to="G.8" type="Archway" bearing="west" distance="90 feet"
-Connection G.19 to="H.1" type="Open" bearing="north" distance="40 feet" climb=-20
+Connection G.19 to="H.1" type="Open" bearing="north" distance="40 feet" climb=-20 { Lock key="The Queen's Ring" }
 ```
