@@ -113,9 +113,9 @@ setting {
 }
 
 region A rating=WILD die=d6 locations=9 {
-  ground desert "dunes, drifted streets and rooftops half-buried in sand, a storm wall overhead"
+  ground sand "dunes, drifted streets and rooftops half-buried in sand, a storm wall overhead"
   outline "The lost city: a sand-buried ruin with the pyramid's tip standing from its centre, three wind-swept statues carved on top. A party's first shelter is here - a roofed house, a cistern, a collapsed market, a barracks wall, a temple colonnade, a dry canal - and the first tomb robbers' scouts working the rubble. It holds the first food and water a party can find, and the only ground where a party can build its own place of respite. One way in to the pyramid, the tip's door at the foot of the statues."
-  target Location.type Landmark=3 Ruin=3 Lair=1 Hidden=1 Route=1
+  target Location.type Landmark=7 Ruin=6 Lair=1 Hidden=1 Route=1
   procedure "Foraging for food and water among the ruins."
   procedure "Making shelter and a place of respite."
 }
@@ -123,7 +123,7 @@ region A rating=WILD die=d6 locations=9 {
 region B rating=WILD die=d8 locations=10 {
   ground water "a lake round which a city is built, rock and fungus gardens, a ceiling lit by glowing growths"
   outline "The subterranean city: a cavern built round a still lake, where the cynidiceans' descendants live in a waking dream - masked as animals, feasting, reveling and eating the fungus they grow. A party reaches it by a path from level 5. Quarters, a market of drugs, the fungus gardens, a lake shore and a revel house make a city; the way back up the path and the stair down to level 6 are the party's two exits."
-  target Location.type Landmark=4 Ruin=1 Natural=2 Hidden=1 Secret=1 Route=1
+  target Location.type Landmark=7 Ruin=1 Natural=2 Lair=4 Hidden=1 Secret=1 Route=1
   procedure "Trading for the fungus and its drugs."
   procedure "Joining the revels."
 }
