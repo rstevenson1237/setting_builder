@@ -11,6 +11,7 @@ import heapq
 import math
 from dataclasses import dataclass, field
 
+VERSION = 1                 # raised by any change that routes placed rooms differently; a packed Block records it
 SEED = 1                    # the noise every plan is routed with, so a draw finds the passages a pack did
 LATTICE = 10                # feet, a passage's width and the grid rooms and passages lie on
 DOOR = 10                   # feet of shared wall a door needs

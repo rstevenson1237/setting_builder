@@ -48,12 +48,14 @@ class Packer:
         self.w = [r.w for r in rooms]
         self.h = [r.h for r in rooms]
         self.round = [r.round for r in rooms]
-        self.edges: dict[tuple[int, int], tuple[float, float]] = {}     # i < j: unit vector from i to j as authored
+        self.edges: dict[tuple[int, int], tuple[float, float] | None] = {}  # i < j: unit vector from i to j to keep, if any
         for a, b, bearing in ways:
             i, j = self.ix[a], self.ix[b]
-            v = compass_vector(bearing)
+            v = compass_vector(bearing) if bearing is not None else None
+            if i > j and v:
+                v = (-v[0], -v[1])
             if i > j:
-                i, j, v = j, i, (-v[0], -v[1])
+                i, j = j, i
             self.edges[(i, j)] = v
         self.passage = {k for k in self.edges if zlib.crc32(f"{rooms[k[0]].code}-{rooms[k[1]].code}".encode()) % 100 < WINDING}
         self.near = [[j for j in range(len(rooms)) if (min(i, j), max(i, j)) in self.edges] for i in range(len(rooms))]
@@ -118,10 +120,10 @@ class Packer:
             e += ROUND
         if gap > FAR:
             e += 3 * (gap - FAR) / GRID
-        want = self.edges[(min(i, j), max(i, j))]
-        dx = (self.x[j] - (self.x[i] if xi is None else xi)) * (1 if i < j else -1)
-        dy = (self.y[j] - (self.y[i] if yi is None else yi)) * (1 if i < j else -1)
-        e += 1.2 * (1 - (dx * want[0] + dy * want[1]) / (math.hypot(dx, dy) or 1))
+        if want := self.edges[(min(i, j), max(i, j))]:
+            dx = (self.x[j] - (self.x[i] if xi is None else xi)) * (1 if i < j else -1)
+            dy = (self.y[j] - (self.y[i] if yi is None else yi)) * (1 if i < j else -1)
+            e += 1.2 * (1 - (dx * want[0] + dy * want[1]) / (math.hypot(dx, dy) or 1))
         mode = self.trouble.get((min(i, j), max(i, j)))
         if mode == "door" and not (f and gap == 0) or mode == "lane" and not (f and 2 * GRID <= gap <= 4 * GRID):
             e += REPAIR

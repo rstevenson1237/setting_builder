@@ -30,7 +30,6 @@ Each proposal names the findings it closes. `intake.md` holds how they were read
   }
   node Block {
     footprint feet opt        // the side of the square, centred on the block's centre, its rooms are packed in
-    seed number opt           // the seed `tools/maps.py pack` packed it with
     router number opt         // the version of tools/route.py its passages were routed by
   }
   ```
@@ -39,13 +38,14 @@ Each proposal names the findings it closes. `intake.md` holds how they were read
   lie one over the other (S6).
 - **S4. `pack` writes positions only.** It reads the direction to keep for each way from the
   rooms' positions where they are placed, else from the way's bearing, else keeps none. It
-  writes each room's `east` and `north`, the block's `footprint`, `seed` and `router`, and
+  writes each room's `east` and `north`, the block's `footprint` and `router`, and
   removes `bearing` and `distance` from the ways inside the block. It touches no write-up. On a
   packed block whose ways all route under the current router it changes nothing but `router`;
   `--again` repacks.
 - **S5. Checks.** A way inside a packed block states no bearing or distance. A packed block
   states `router`, equal to `route.VERSION`. Every room lies inside the footprint square
   centred on the block's centre. The bearing-reversal check skips ways inside packed blocks.
+  No seed is recorded: the positions it produced are stored, and nothing derives them again.
 
 ## 3. The build's rates and the pyramid's shape (F5, F6)
 

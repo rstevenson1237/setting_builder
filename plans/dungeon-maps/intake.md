@@ -23,7 +23,7 @@ changes only what the framework does with the engine as vendored, and leaves `pa
 |---|---|
 | F1 | A way's position is stated once, in the tables. A write-up's Exits line carries none; the site and PDF add it. Prose naming a direction toward a cited room is checked against the same position. |
 | F2, F3 | `Connection.bearing` and `distance` mean one thing everywhere: where the far end lies, as designed. They are optional, and a way between two placed rooms states neither, because the rooms' positions place it and the route gives the wall and the walk. |
-| F4 | `pack` reads what it keeps from what is stored and writes only positions. A block records the seed and router version it was packed with, so a router change is one stated event per block. Packing a packed block that still routes changes nothing. |
+| F4 | `pack` reads what it keeps from what is stored and writes only positions. A block records the router version its passages were routed by, so a router change is one stated event per block. Packing a packed block that still routes changes nothing. |
 | F5 | The packer's fill and passage share are `BRIEF.md` levers. Wall weight, hatch and label sizes are how artgen draws, not what the build is built to, and stay in code (report 2, A9-A10). |
 | F6 | `BRIEF.md` states each level's footprint, so the pyramid's widening and narrowing is written down and checked. Levels share a centre, so a stair stands over the stair it meets, and `pack` places it there. |
 | F7 | `Room_Shape` gains `hall`, a room one passage wide. The content states it; the validator holds the dimensions to it; the tools draw it with its code alone. |

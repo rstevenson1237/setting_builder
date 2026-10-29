@@ -948,8 +948,7 @@ def check_blocks(diag: Diagnostics, setting):
 
 
 def check_reversals(diag: Diagnostics, setting):
-    """The far side of a way reverses its bearing, at the same distance and the opposite climb;
-    between packed rooms the bearing is the wall each leaves by, so only the distance is held."""
+    """The far side of a way reverses its bearing, at the same distance and the opposite climb."""
     import maps
     points = list(setting.schema.setting_enums["Compass"])
     ways = {}
@@ -963,9 +962,6 @@ def check_reversals(diag: Diagnostics, setting):
         m = ways[b, a][1]
         flip = points[(points.index(str(n.props["bearing"])) + 8) % 16]
         far = (str(m.props["bearing"]), maps.feet(str(m.props.get("distance", "0 feet"))))
-        packed = lambda c: any("east" in d.props for d in region.files.get("Dressing", []) if d.args and str(d.args[0]) == c)
-        if packed(a) and packed(b):
-            flip = far[0]
         if far != (flip, maps.feet(str(n.props.get("distance", "0 feet")))):
             diag.error(region.dir / "Connections.md", f"line {n.line}: {a} to {b} is {n.props['bearing']}, "
                        f"{n.props.get('distance')}; its far side should read {flip}, {n.props.get('distance')}")

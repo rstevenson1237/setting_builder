@@ -3,7 +3,7 @@
 
   python3 tools/maps.py place [--brief PATH] [--setting DIR]
   python3 tools/maps.py ground [--brief PATH] [--setting DIR]
-  python3 tools/maps.py pack REGION [--seed N]
+  python3 tools/maps.py pack REGION [--seed N] [--again]
   python3 tools/maps.py draw [--brief PATH] [--setting DIR] [--out DIR] [--fit WxH[mm|px]]
 
 place    Reads BRIEF.md's `sheet` lines and each region's `ground` and `place` lines, puts
@@ -21,10 +21,12 @@ ground   Reads each placed region's ground back from its home sheet and writes i
          area, and, once its Locations.md exists, the ground at each location. Run again
          after the locations are written. A location with no bearing and distance, or north
          and east, from the way in is listed and left out.
-pack     Packs each block of a DANGEROUS region into a square (tools/pack.py), routes a passage for every
-         way (tools/route.py), and writes each room's `east` and `north` from its entrance, the block's
-         `footprint`, and the wall each way leaves by and its length. Reads the bearings as they stand for the directions to keep, so pack from the authored
-         ones; a seed fixes the result.
+pack     Packs each block of a DANGEROUS region into a square (tools/pack.py) and routes a passage
+         for every way (tools/route.py), keeping each way's direction as its rooms lie, or else as its
+         bearing says. Writes each room's `east` and `north` from the block's centre, the block's
+         `footprint` and `router`, and takes the bearing and distance off each way within the block.
+         A block already packed whose ways all route is left as it lies; --again repacks it. A seed
+         fixes the result.
 draw     Builds each block's map, `setting/region/[Code]/[Block].json`, never committed, from its tables - a
          DANGEROUS block's a dungeon, a SAFE block's a settlement walled round its locations
          on its home sheet, a WILD block's the same unwalled unless it states a wall - and with --out renders every sheet and block to SVG there.
@@ -963,6 +965,7 @@ def main() -> int:
     ap.add_argument("command", choices=["place", "ground", "pack", "draw"])
     ap.add_argument("region", nargs="?", help="pack: the region code")
     ap.add_argument("--seed", type=int, default=1)
+    ap.add_argument("--again", action="store_true", help="pack: repack a block already packed")
     ap.add_argument("--brief", type=Path, default=tables.BRIEF)
     ap.add_argument("--setting", type=Path, default=tables.SETTING)
     ap.add_argument("--out", type=Path)
@@ -972,7 +975,7 @@ def main() -> int:
         return draw(a.brief, a.setting, a.out, a.fit)
     if a.command == "pack":
         import dungeon
-        return dungeon.pack_region(a.region, a.seed)
+        return dungeon.pack_region(a.region, a.seed, a.again)
     return (place if a.command == "place" else ground)(a.brief, a.setting)
 
 
