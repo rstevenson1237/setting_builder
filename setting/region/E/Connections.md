@@ -8,7 +8,7 @@ Connection E.2 to="E.9" type="Stone" bearing="south-south-east" distance="95 fee
 Connection E.2 to="E.3" type="Archway" bearing="east" distance="70 feet"
 Connection E.2 to="E.4" type="Archway" bearing="north" distance="70 feet"
 Connection E.2 to="E.5" type="Archway" bearing="west" distance="70 feet"
-Connection E.2 to="E.6" type="Iron" bearing="east" distance="130 feet"
+Connection E.2 to="E.6" type="Iron" bearing="east" distance="130 feet" { Lock key="The Armoury Key" }
 Connection E.2 to="E.7" type="Wooden" bearing="north" distance="140 feet"
 Connection E.2 to="E.8" type="Wooden" bearing="west" distance="140 feet"
 Connection E.3 to="E.2" type="Archway" bearing="west" distance="70 feet"

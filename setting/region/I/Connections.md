@@ -22,5 +22,5 @@ Connection I.7 to="I.2" type="Wooden" bearing="north" distance="70 feet"
 Connection I.7 to="I.8" type="Open" bearing="west" distance="70 feet"
 Connection I.8 to="I.7" type="Open" bearing="east" distance="70 feet"
 Connection I.9 to="I.3" type="Iron" bearing="west" distance="70 feet"
-Connection I.9 to="J.1" type="Open" bearing="north" distance="40 feet" climb=-20
+Connection I.9 to="J.1" type="Open" bearing="north" distance="40 feet" climb=-20 { Lock key="The Chosen's Mask" }
 ```

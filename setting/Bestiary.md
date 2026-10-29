@@ -175,3 +175,13 @@ Range: Thrones, tombs and the cult's cells. It needs nothing.
 Numbers: 1
 Sign: a sound
 Disposition: Drifts toward the nearest living thing and falls back to its tomb at the touch of daylight.
+
+### Masked Dreamer
+Type: Men
+AD: 1d6+1
+Special: none
+Description: A lean figure in a painted animal mask, sleeves stained with spore and eyes unfocused.
+Range: The lake city's quarters, quays and gardens. It eats the fungus it grows.
+Numbers: 12
+Sign: a sound
+Disposition: Parts for a wearer of a mask and follows one who goes bare-faced, humming, at a few paces.
