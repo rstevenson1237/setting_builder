@@ -25,7 +25,7 @@ from maps import ARTGEN, CACHE, UNSIZED, artgen, blocks_of, built, feet, world_f
 
 DOOR = {"Open": None, "Archway": None, "Broken": None, "Crude": None, "Lift": None, "Chute": None, "Iron": "portcullis"}
 GAP = {"Archway": "arch"}       # a doorless way through a shared wall, else open
-SHAPE = {"rect": "rect", "round": "circle", "octagon": "octagon", "cave": "cave"}
+SHAPE = {"rect": "rect", "round": "circle", "octagon": "octagon", "cave": "cave", "hall": "rect"}
 APART = 10                      # feet two routes to one room may disagree by
 EDGE = 6                        # cells of map beyond the rooms, for the ways out of it
 EXIT = 4                        # cells a way out of the block runs past its room's wall
@@ -127,12 +127,13 @@ def block_map(region, block: kdl.Node) -> tuple[dict | None, list[str]]:
          "rooms": [], "corridors": [], "connections": [], "overlay": {"labels": [], "symbols": []}}
     if routed:
         m["style"].update(wall=ROUTED_WALL, hatch="full", sharedWalls=True)
+    halls = {c for c in at if c in dress and str(dress[c].props.get("shape")) == "hall"}
     for c in at:
         w, h, shape = size[c]
         m["rooms"].append({"id": rid(c), "shape": shape, "x": round(cx(c) - w / 2 / cell, 2),
                            "y": round(cy(c) - h / 2 / cell, 2), "w": max(1, round(w / cell, 2)),
                            "h": max(1, round(h / cell, 2)), "label": c,
-                           "number": int(c.split(".")[1]), "origin": "tables"})
+                           "number": False if c in halls else int(c.split(".")[1]), "origin": "tables"})
 
     def door(n):
         kids = {k.name for k in n.children}
@@ -194,7 +195,7 @@ def block_map(region, block: kdl.Node) -> tuple[dict | None, list[str]]:
             spots = [(sx_ * inset(hw), sy_ * inset(hh)) for sx_ in (-1, 0, 1) for sy_ in (-1, 0, 1) if sx_ or sy_]
             spots.sort(key=lambda p: -(p[0] * ux + p[1] * uy) / (math.hypot(*p) or 1))     # nearest the wall it faces first
             lw = (0.8 * len(a) + 1) / 2 + STAIR_HALF                    # clear of the room's own number and code
-            fits = [p for p in spots if abs(p[0]) >= lw or abs(p[1]) >= LABEL_HALF + STAIR_HALF]
+            fits = [p for p in spots if abs(p[0]) >= lw or abs(p[1]) >= (NAME_HALF if a in halls else LABEL_HALF) + STAIR_HALF]
             if not fits:                                        # no room beside the number and code: drop the number
                 next(r for r in m["rooms"] if r["id"] == rid(a))["number"] = False
                 tight = [(sx_ * max(0.0, hw - STAIR_TIGHT), sy_ * max(0.0, hh - STAIR_TIGHT)) for sx_ in (-1, 0, 1)
@@ -416,7 +417,7 @@ def pack_region(code: str, seed: int = 1, again: bool = False) -> int:
                 print(f"{c} states no width and length")
                 return 1
             rooms.append(packing.Room(c, int(d.props["width"]), int(d.props["length"]),
-                                      str(d.props.get("shape")) == "round"))
+                                      str(d.props.get("shape")) == "round", str(d.props.get("shape")) == "hall"))
         placed = {c: (float(dress[c].props["east"]), float(dress[c].props["north"])) for c in members
                   if "east" in dress[c].props and "north" in dress[c].props}
         found = plan_of(region, block)
@@ -468,7 +469,8 @@ def pack_region(code: str, seed: int = 1, again: bool = False) -> int:
 
 def problems(region, block: kdl.Node) -> list[tuple[str, Path, str]]:
     """What is wrong with a block whose rooms state `east` and `north`, as (level, file,
-    message), or a warning that it is unpacked: its footprint is BRIEF.md's, its rooms lie
+    message): a room is a hall where it is one passage wide and twice as long, and only
+    there; and, once packed, else a warning that it is not, its footprint is BRIEF.md's, its rooms lie
     within its square round the block's centre and cover the least of BRIEF.md's fill, a room
     a way climbs from stands over or under the room it reaches, its passages were routed by this tools/route.py, a passage fits each way, a
     way within it states no bearing or distance, and its map has nothing tools/mapcheck.py
@@ -478,11 +480,20 @@ def problems(region, block: kdl.Node) -> list[tuple[str, Path, str]]:
     members = [m.strip() for m in str(block.props.get("locations", "")).split(",") if m.strip()]
     at = {c: (float(dress[c].props["east"]), float(dress[c].props["north"])) for c in members
           if c in dress and "east" in dress[c].props and "north" in dress[c].props}
+    out, across = [], region.passage(block, "width")
+    for c in members:
+        if c in dress and "width" in dress[c].props and "length" in dress[c].props:
+            narrow, long = sorted(float(dress[c].props[k]) for k in ("width", "length"))
+            fits, said = narrow <= across and long >= 2 * narrow, str(dress[c].props.get("shape")) == "hall"
+            if fits != said:
+                out.append(("error", region.dir / "Dressing.md",
+                            f"{c} is {narrow:g} by {long:g} feet, {'' if fits else 'not '}one passage ({across:g} feet) wide and "
+                            f"at least twice as long, so its shape is {'' if fits else 'not '}hall (step 4a)"))
     if not at:
-        return [("warning", path, f"{bid}'s rooms are not packed: run `python3 tools/maps.py pack {region.code}` (step 4a)")]
+        return out + [("warning", path, f"{bid}'s rooms are not packed: run `python3 tools/maps.py pack {region.code}` (step 4a)")]
     if "footprint" not in block.props:
-        return [("error", path, f"{bid} places its rooms but states no footprint")]
-    out, side = [], float(block.props["footprint"])
+        return out + [("error", path, f"{bid} places its rooms but states no footprint")]
+    side = float(block.props["footprint"])
     wide = lambda c, k: float(dress[c].props["width" if k == 0 else "length"])
     world = world_for(tables.SETTING)
     rates = tables.Brief(world.schema).packing(region.code)

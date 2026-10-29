@@ -1,8 +1,8 @@
 # Dressing of G Ahetra
 
 ```kdl
-Dressing G.1 obvious="A cold landing, a long hall beyond" former="a funerary stair" condition="still" ambiance="your own breath" width=10 length=20 east=-15 north=-75 height=18 layout="Landing opening on the long hall" left="The Last King Is Entombed"
-Dressing G.2 obvious="Wall niches, each with a wrapped body" former="hall of the dead" condition="hushed" ambiance="linen rustling" width=10 length=80 east=-25 north=-55 height=18 layout="A long hall of niches" left="The Last King Is Entombed"
+Dressing G.1 obvious="A cold landing, a long hall beyond" former="a funerary stair" condition="still" ambiance="your own breath" width=10 length=20 east=-15 north=-75 height=18 shape="hall" layout="Landing opening on the long hall" left="The Last King Is Entombed"
+Dressing G.2 obvious="Wall niches, each with a wrapped body" former="hall of the dead" condition="hushed" ambiance="linen rustling" width=10 length=80 east=-25 north=-55 height=18 shape="hall" layout="A long hall of niches" left="The Last King Is Entombed"
 Dressing G.3 obvious="Painted priestesses on the walls, incense" former="clergy hall" condition="incensed" ambiance="a soft chant" width=50 length=40 east=5 north=-105 height=18 layout="Rows of painted women facing a dais" mark="Ruhiahe"
 Dressing G.4 obvious="Stained slabs, jars of resin, hooks and blades" former="the embalmers' room" condition="resinous" ambiance="resin dripping" width=40 length=30 east=0 north=-30 height=18 layout="Slabs in two rows, tools between" left="The Demon Is Invited"
 Dressing G.5 obvious="Stacked sealed jars in rows to the roof" former="a store of organs" condition="sealed" ambiance="dry silence" width=30 length=30 east=-45 north=10 height=18 layout="Jars stacked in aisles"
@@ -14,10 +14,10 @@ Dressing G.10 obvious="Chests behind an iron door, locked" former="the treasury"
 Dressing G.11 obvious="Robes on pegs, a washing basin, benches" former="a priests' vestry" condition="cramped" ambiance="cold, still" width=20 length=30 east=-50 north=-60 height=18 layout="Pegs round the walls, basin central" mark="Ruhiahe"
 Dressing G.12 obvious="Dry wells in a circle, offerings round them" former="the wells of offering" condition="deep" ambiance="a hollow echo" width=40 length=40 east=40 north=-5 height=18 shape="round" layout="Four wells round a central stone"
 Dressing G.13 obvious="Carved guardians on both sides of the hall" former="a guardian hall" condition="watched" ambiance="stone cracking, cooling" width=30 length=80 east=-15 north=25 height=24 layout="Six guardians a side, an arch beyond"
-Dressing G.14 obvious="A sloping path, damp walls, glowing growths" former="a mourners' way" condition="damp" ambiance="dripping, a distant hum" width=10 length=90 east=105 north=-30 height=18 layout="A path slopes east and down" left="The Living Go Down to Dream"
+Dressing G.14 obvious="A sloping path, damp walls, glowing growths" former="a mourners' way" condition="damp" ambiance="dripping, a distant hum" width=10 length=90 east=105 north=-30 height=18 shape="hall" layout="A path slopes east and down" left="The Living Go Down to Dream"
 Dressing G.15 obvious="Pillars round a stained altar" former="the rites hall" condition="stained" ambiance="your voice returning" width=50 length=50 east=65 north=-70 height=24 layout="Pillars in a ring round the altar"
-Dressing G.16 obvious="A narrow gallery carved with mourners" former="a mourners' gallery" condition="quiet" ambiance="soft footfalls" width=10 length=80 east=95 north=-15 height=18 layout="A gallery of kneeling figures"
+Dressing G.16 obvious="A narrow gallery carved with mourners" former="a mourners' gallery" condition="quiet" ambiance="soft footfalls" width=10 length=80 east=95 north=-15 height=18 shape="hall" layout="A gallery of kneeling figures"
 Dressing G.17 obvious="Bones stacked in sickly heaps to the roof" former="an ossuary" condition="sickly" ambiance="gnawing, silence" width=50 length=40 east=65 north=35 height=18 layout="Bone stacks along both walls"
 Dressing G.18 obvious="Small plain cells, beds of stone" former="the clerics' cells" condition="empty" ambiance="cold, quiet" width=30 length=40 east=-45 north=-25 height=18 layout="Six cells off a passage" mark="Ruhiahe"
-Dressing G.19 obvious="A steep dark stair, warm air rising" former="a lower stair" condition="warm" ambiance="a low hum" width=10 length=30 east=45 north=80 height=18 layout="A steep stair in the north wall" left="The Demon Is Invited"
+Dressing G.19 obvious="A steep dark stair, warm air rising" former="a lower stair" condition="warm" ambiance="a low hum" width=10 length=30 east=45 north=80 height=18 shape="hall" layout="A steep stair in the north wall" left="The Demon Is Invited"
 ```

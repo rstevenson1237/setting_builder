@@ -1,7 +1,7 @@
 # Dressing of E Shenara
 
 ```kdl
-Dressing E.1 obvious="A rune-marked door on a narrow landing" former="a guard post" condition="watched" ambiance="a bell at doors" width=10 length=20 height=16 layout="Landing; one stone passage leads north" mark="Kurumisa, Ruhiahe"
+Dressing E.1 obvious="A rune-marked door on a narrow landing" former="a guard post" condition="watched" ambiance="a bell at doors" width=10 length=20 height=16 shape="hall" layout="Landing; one stone passage leads north" mark="Kurumisa, Ruhiahe"
 Dressing E.2 obvious="A round floor of raised runes, eight exits" former="a council chamber" condition="turning" ambiance="grinding stone underfoot" width=60 length=60 height=16 shape="round" layout="Eight arches round a central rune" left="The Cynidiceans Raise the City"
 Dressing E.3 obvious="Bronze scale and spears hung in ranks" former="a barracks hall" condition="ordered" ambiance="bronze, boots, orders" width=50 length=40 height=16 layout="Spear ranks; banner at the east end" mark="Kurumisa"
 Dressing E.4 obvious="Incense smoke over a painted bell" former="a temple" condition="incensed" ambiance="a bell, rung once" width=40 length=30 height=16 layout="A bell on a dais, pews facing it" mark="Ruhiahe" left="The Demon Is Invited"

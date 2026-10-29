@@ -2,7 +2,7 @@
 
 ```kdl
 Dressing F.1 obvious="A dusty landing, two soldiers at the stair" former="a stair landing" condition="quiet" ambiance="boots on stone" width=10 length=20 height=12 layout="Landing; passages east and north" mark="Kurumisa"
-Dressing F.2 obvious="A low straight corridor hung with cobweb" former="a service corridor" condition="cobwebbed" ambiance="cloth rustling" width=6 length=70 height=12 layout="One corridor running east" left="The Living Go Down to Dream"
+Dressing F.2 obvious="A low straight corridor hung with cobweb" former="a service corridor" condition="cobwebbed" ambiance="cloth rustling" width=6 length=70 height=12 shape="hall" layout="One corridor running east" left="The Living Go Down to Dream"
 Dressing F.3 obvious="Sooty ovens and greasy spits, rotten stores" former="the kitchens" condition="rotten" ambiance="a sour smell" width=40 length=30 height=12 layout="Ovens along the north wall" left="The Living Go Down to Dream"
 Dressing F.4 obvious="Tiny cells with straw and clay lamps" former="servants' cells" condition="stale" ambiance="stale air" width=30 length=40 height=12 layout="Cells off a short passage" left="The Living Go Down to Dream"
 Dressing F.5 obvious="Plastered walls with faded gold, couches of rot" former="a noble's apartments" condition="faded" ambiance="cloth hangings, muffled" width=40 length=40 height=12 layout="Three rooms linked by arches" left="The Cynidiceans Raise the City"
