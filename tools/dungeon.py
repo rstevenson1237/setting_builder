@@ -8,6 +8,7 @@ problems     what is wrong with a packed block, for the validator
 """
 from __future__ import annotations
 
+import hashlib
 import json
 import math
 import re
@@ -19,7 +20,7 @@ import mapcheck
 import pack as packing
 import route
 import tables
-from maps import UNSIZED, artgen, blocks_of, feet, world_for
+from maps import ARTGEN, CACHE, UNSIZED, artgen, blocks_of, built, feet, world_for
 
 DOOR = {"Open": None, "Archway": None, "Broken": None, "Crude": None, "Lift": None, "Chute": None, "Iron": "portcullis"}
 GAP = {"Archway": "arch"}       # a doorless way through a shared wall, else open
@@ -266,7 +267,15 @@ def block_map(region, block: kdl.Node) -> tuple[dict | None, list[str]]:
 
 def route_around(m: dict) -> None:
     """Sends each corridor artgen finds running through a room, or across another corridor,
-    round the rooms in its way, and then, if it still does, by whichever walls artgen picks."""
+    round the rooms in its way, and then, if it still does, by whichever walls artgen picks.
+    A routed passage is already round them. The answer is kept under .maps-cache."""
+    if all("via" in c for c in m["corridors"]):
+        return
+    key = hashlib.sha256((json.dumps(m) + ARTGEN.parent.joinpath("VERSION").read_text()).encode()).hexdigest()
+    kept = CACHE / f"{key}.around.json"
+    if kept.exists():
+        m["corridors"] = json.loads(kept.read_text())
+        return
     with tempfile.TemporaryDirectory() as tmp:
         file = Path(tmp) / "block.json"
         for fix in (lambda c: c.update(route="around"),
@@ -279,6 +288,8 @@ def route_around(m: dict) -> None:
             for i in {int(f.group(1)) for f in found if f}:
                 if "via" not in m["corridors"][i]:                # a routed passage is already round them
                     fix(m["corridors"][i])
+    CACHE.mkdir(exist_ok=True)
+    kept.write_text(json.dumps(m["corridors"]))
 
 
 def defects(region, block: kdl.Node, m: dict) -> list[str]:
@@ -425,7 +436,7 @@ PACKED = 0.3            # the share of its footprint a packed level's rooms cove
 def problems(region, block: kdl.Node) -> list[tuple[str, Path, str]]:
     """What is wrong with a block whose rooms state `east` and `north`, as (level, file,
     message): it lies within its `footprint`, covers PACKED of it, has a passage routed for
-    each way, draws as its map file does with nothing tools/mapcheck.py finds wrong, and each
+    each way, draws a map in which tools/mapcheck.py finds nothing wrong, and each
     way within it says the wall it leaves by and how far it runs to the next room's centre, to
     the nearest 5 feet."""
     out = []
@@ -458,16 +469,9 @@ def problems(region, block: kdl.Node) -> list[tuple[str, Path, str]]:
         walk[rt.a, rt.b], walk[rt.b, rt.a] = (SIDE[rt.side_a], how), (SIDE[rt.side_b], how)
     for left in found[2]:
         out.append(("error", path, f"{bid}: no passage fits the way from {left}"))
-    mapfile = region.dir / f"{bid}.json"
-    if not mapfile.exists():
-        return out + [("error", mapfile, f"{bid} is packed but has no map file: run `python3 tools/maps.py draw`")]
-    stored = json.loads(mapfile.read_text())
-    fresh = block_map(region, block)[0] or {}
-    mine = lambda m, k: [e for e in m.get(k, []) if e.get("origin") == "tables"]
-    if any(mine(stored, k) != mine(fresh, k) for k in ("rooms", "corridors", "connections")):
-        out.append(("error", mapfile, f"{bid}'s map no longer follows its tables: run `python3 tools/maps.py draw`"))
-    for d in defects(region, block, stored):
-        out.append(("warning" if d.startswith("label:") else "error", mapfile, f"{bid}: {d}"))
+    if mapfile := built(region.code, bid)[0]:
+        for d in defects(region, block, json.loads(mapfile.read_text())):
+            out.append(("warning" if d.startswith("label:") else "error", path, f"{bid}'s map: {d}"))
     for n in region.files.get("Connections", []):
         a, b = str(n.args[0]), str(n.props.get("to"))
         if (a, b) not in walk:

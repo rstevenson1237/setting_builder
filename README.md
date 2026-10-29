@@ -80,7 +80,7 @@ Read these rather than a description of them.
   - `mapcheck.py` - rebuilds a block map's floor and lists what is wrong with it: doors off a wall, passages through rooms or joining ones the tables do not, rooms touching where no shared walls are drawn, or unreached, stairs outside rooms, labels laid over one another. Run on every packed block by the validator.
   - `maps.py` - draws maps from the setting through artgen. `pack` places a DANGEROUS region's rooms in a square. `place` puts each region on its sheets
     from `BRIEF.md`'s `sheet`, `ground` and `place` lines and writes `setting/Sheets.md`. `ground` writes each
-    region's `Ground.md`; `draw` writes each block's map and renders sheets, regions, blocks and cuts to SVG,
+    region's `Ground.md`; `draw` builds each block's map from its tables, never committed, and renders sheets, regions, blocks and cuts to SVG,
     which the site and PDF builders embed.
   - `kdl.py` - the KDL subset the location tables are written in.
   - `tables.py` - reads every region's tables and checks them against its rating's schema.

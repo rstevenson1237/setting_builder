@@ -635,7 +635,7 @@ def map_labels() -> list[str]:
     world = maps.world_for(SETTING)
     out = [f"Sheet {f.stem}" for f in sorted(SETTING.glob("*.json")) if f.stem not in maps.underlaid()]
     for r in world.regions.values():
-        out += [f"Map of {bid}" for bid in maps.drawn_blocks(r) if (r.dir / f"{bid}.json").exists()]
+        out += [f"Map of {bid}" for bid in maps.drawn_blocks(r) if maps.built(r.code, bid)[0]]
     return out
 
 

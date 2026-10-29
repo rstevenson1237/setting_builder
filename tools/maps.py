@@ -26,7 +26,7 @@ pack     Packs each block of a DANGEROUS region into a square (tools/pack.py), r
          `footprint`, the wall each way leaves by and its length, and the same in each write-up's Exits
          line. Reads the bearings as they stand for the directions to keep, so pack from the authored
          ones; a seed fixes the result.
-draw     Writes each block's map, `setting/region/[Code]/[Block].json`, from its tables - a
+draw     Builds each block's map, `setting/region/[Code]/[Block].json`, never committed, from its tables - a
          DANGEROUS block's a dungeon, a SAFE block's a settlement walled round its locations
          on its home sheet, a WILD block's the same unwalled unless it states a wall - and with --out renders every sheet and block to SVG there.
          Region maps and location cuts (`region_svg`, `cut_svg`) are paused.
@@ -593,9 +593,6 @@ def ground(brief_path: Path, setting: Path) -> int:
 
 
 
-SYNCED = ("rooms", "corridors", "walls", "overlay", "connections")   # kept by artgen's sync, hand entries and all
-
-
 ENGINE = {"DANGEROUS": "dungeon", "SAFE": "settlement", "WILD": "settlement"}   # the artgen engine a rating's blocks draw with
 
 
@@ -760,9 +757,26 @@ def world_for(setting: Path) -> tables.Setting:
 
 
 
+@functools.cache
+def built(code: str, bid: str, setting: Path = tables.SETTING) -> tuple[Path | None, tuple[str, ...]]:
+    """A block's map file, built from its tables as `setting/region/[Code]/[Block].json`, which
+    git ignores, and written only when it changes; and what the tables leave it unable to
+    draw. The file is None where nothing can be drawn."""
+    region = world_for(setting).regions[code]
+    m, problems = block_file(region, drawn_blocks(region)[bid])
+    if m is None:
+        return None, tuple(problems)
+    if ENGINE[region.rating.upper()] == "dungeon":
+        import dungeon
+        dungeon.route_around(m)
+    target, text = region.dir / f"{bid}.json", json.dumps(m, indent=1)
+    if not target.exists() or target.read_text() != text:
+        target.write_text(text)
+    return target, tuple(problems)
+
+
 def write_blocks(world, only: str | None = None) -> list[str]:
-    """Each drawn block's map file, a dungeon's synced to the tables where one exists. Returns
-    what cannot be drawn."""
+    """Each drawn block's map file. Returns what cannot be drawn."""
     import dungeon
     out = []
     for code, region in world.regions.items():
@@ -770,29 +784,10 @@ def write_blocks(world, only: str | None = None) -> list[str]:
             continue
         engine = ENGINE.get(region.rating.upper())
         for bid, block in drawn_blocks(region).items():
-            m, problems = block_file(region, block)
+            target, problems = built(code, bid)
             out += [f"{bid}: {p}" for p in problems]
-            if m is None:
+            if target is None:
                 continue
-            target = region.dir / f"{bid}.json"
-            if engine == "dungeon":
-                dungeon.route_around(m)
-            if engine == "settlement":                    # artgen keeps no hand edits to a settlement
-                target.write_text(json.dumps(m, indent=1))
-            elif target.exists():
-                with tempfile.TemporaryDirectory() as tmp:
-                    fresh = Path(tmp) / "fresh.json"
-                    fresh.write_text(json.dumps(m, indent=1))
-                    done = artgen("dungeon", "sync", "--file", target, "--from", fresh, "--origin", "tables")
-                    if done.returncode:
-                        out.append(f"{bid}: artgen cannot sync it: {(done.stderr or done.stdout).strip()}")
-                    else:                                 # what sync leaves alone follows the tables too
-                        synced = json.loads(target.read_text())
-                        hand = [c for c in synced.get("connections", []) if c.get("origin") != "tables"]
-                        synced.update({k: v for k, v in m.items() if k not in SYNCED}, connections=m["connections"] + hand)
-                        target.write_text(json.dumps(synced, indent=1))
-            else:
-                target.write_text(json.dumps(m, indent=1))
             done = artgen(engine, "check", "--file", target, "--json")
             for e in json.loads(done.stdout).get("errors", []) if done.stdout.startswith("{") else []:
                 out.append(f"{bid}: {e['path']}: {e['message']}")
@@ -875,9 +870,10 @@ def sheet_rows(setting: Path = tables.SETTING) -> dict[str, dict]:
 def underlaid(setting: Path = tables.SETTING) -> set[str]:
     """The sheets drawn under a settlement, and so not drawn alone."""
     out = set()
-    for f in (setting / "region").glob("*/*.json"):
-        if under := json.loads(f.read_text()).get("underlay"):
-            out.add(Path(under["map"]).stem)
+    for code, region in world_for(setting).regions.items():
+        for bid in drawn_blocks(region) if ENGINE.get(region.rating.upper()) == "settlement" else ():
+            if (f := built(code, bid, setting)[0]) and (under := json.loads(f.read_text()).get("underlay")):
+                out.add(Path(under["map"]).stem)
     return out
 
 
@@ -900,9 +896,9 @@ def region_svg(code: str, fit: str = SITE_FIT, setting: Path = tables.SETTING) -
 
 
 def block_svg(code: str, bid: str, fit: str = SITE_FIT, setting: Path = tables.SETTING) -> str | None:
-    file = setting / "region" / code / f"{bid}.json"
+    file = built(code, bid, setting)[0]
     engine = ENGINE.get(world_for(setting).regions[code].rating.upper(), "dungeon")
-    return render(engine, file, fit, label=f"Map of {bid}") if file.exists() else None
+    return render(engine, file, fit, label=f"Map of {bid}") if file else None
 
 
 def cut_svg(loc: str, world, fit: str = SITE_FIT, setting: Path = tables.SETTING) -> str | None:
@@ -914,8 +910,7 @@ def cut_svg(loc: str, world, fit: str = SITE_FIT, setting: Path = tables.SETTING
         return None
     for bid, block in blocks_of(region).items():
         if loc in [m.strip() for m in str(block.props["locations"]).split(",")]:
-            file = region.dir / f"{bid}.json"
-            if file.exists():
+            if file := built(code, bid, setting)[0]:
                 return render("dungeon", file, fit, "--room", loc, "--margin", "2", label=f"Map of {loc}")
     row = sheet_rows(setting).get(code)
     node = region.locations().get(loc)
