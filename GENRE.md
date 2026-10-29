@@ -17,12 +17,11 @@ The answers to the genre questions in `patterns/Setting_Schema.md`, one per ques
 - **Authority** - None: the buried city is an oasis cut off from the world, with no road,
   realm or law reaching it. What order exists is held by three branches of the
   cynidiceans over their own halls, each claiming to speak for the whole people.
-- **Allegiance** - Law, Neutrality and Chaos. Law is the party and those who keep faith
-  with it; Chaos is the demon's cult and what it serves; Neutrality is the cynidiceans,
-  the beasts and anyone who looks after themselves. The cynidiceans speak their own
-  tongue and a broken common. Each
-  alignment is also a spoken tongue, so a stranger's side is read from the words they
-  know, the company they keep, and what they do on meeting - never from a label.
+- **Allegiance** - No side is good. The three branches of the cynidiceans want their
+  people freed and will use any means and any party to do it; the tomb robbers want
+  what the pyramid holds; the beasts want to eat. Only the demon's cult is plainly evil.
+  A stranger's side is read from the tongue they speak, the company they keep, and what
+  they do on meeting - never from a label.
 - **Population density** - Scarce above, crowded below: the ruins empty, the
   pyramid's branches, cult and monsters packed into its levels, and a whole city of dreamers
   around an underground lake. Nowhere is empty and nowhere is safe.

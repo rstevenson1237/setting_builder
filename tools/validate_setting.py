@@ -784,7 +784,7 @@ def check_hazards(diag: Diagnostics, setting, brief):
                     elif test == "Sanity":
                         if wound or cond:
                             diag.error(path, f"Hazard {where}: a Test of Sanity costs neither wound nor condition")
-                        diag.warn(path, f"Hazard {where}: a Test of Sanity is called for only by Chaos itself - confirm its source")
+                        diag.warn(path, f"Hazard {where}: a Test of Sanity is called for only by the setting's one source of madness - confirm its source")
                         cite = f"(Test of Sanity, {count.get(h.props.get('damage'), 0)}d)"
                     writeup = region.dir / f"{entry.args[0].split('.')[1]}.md"
                     if cite and writeup.exists() and cite not in writeup.read_text():
