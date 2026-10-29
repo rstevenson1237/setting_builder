@@ -90,7 +90,7 @@ setting {
   truth "The three branches of the cynidiceans share one aim, to break the demon's hold and restore their people, and each holds that it alone has the strength and foresight to do it; none will work with the others, and each offers membership to a party that serves it."
   truth "The lake city's people have no shared leadership and are no faction: they chose the fungus, the masks and the dream, and will not be rescued."
   truth "The demon below is the cause of the corruption and a thing still being fed: it is the end of the descent, not a mistake that can be undone."
-  procedures "Hazards are Tests of Constitution and Fate, and a Test of Sanity only where the demon's corruption reaches, from level 6 down; the lake city's fungus is Poison, a Test of Constitution. Food, water and shelter are tracked from the first day, and a party that has none loses Wounds to thirst and exposure. Poison is Lethal at least once, in a hazard or a creature's Special."
+  procedures "Hazards are Tests of Constitution and Fate, and a Test of Sanity at the lake city's psychosis-inducing fungi and wherever the demon's corruption reaches, from level 6 down. Food, water and shelter are tracked from the first day, and a party that has none loses Wounds to thirst and exposure. Poison is Lethal at least once, in a hazard or a creature's Special."
   tongue "the common tongue of the party, spoken by the cynidiceans only in a broken form"
   tongue "the speech of the cynidiceans, living and carved into every wall of the pyramid"
   tongue "the black speech of the demon's cult and its servants"
