@@ -607,7 +607,8 @@ EXIT = 4                        # cells a way out of the block runs past its roo
 MAX_CELLS = 150
 CELLS = (5, 10, 20)             # feet to a cell, the finest that fits the block
 ROUTED_CELLS = (5, 10)          # and where its passages are routed on route.LATTICE
-ROUTED_WALL = 2.5               # a routed block's wall stroke, so a wall between two floors reads as one, and its rock hatched
+ROUTED_WALL = 2.5               # a routed block's wall stroke, so a wall between two floors reads as one, its rock hatched
+                                # and a wall drawn between every two rooms that touch
 
 
 SYNCED = ("rooms", "corridors", "walls", "overlay", "connections")   # kept by artgen's sync, hand entries and all
@@ -718,7 +719,7 @@ def block_map(region, block: kdl.Node) -> tuple[dict | None, list[str]]:
          "numbers": True, "scaleBar": True, "compass": False, "furniture": {"place": "auto"},
          "rooms": [], "corridors": [], "connections": [], "overlay": {"labels": [], "symbols": []}}
     if routed:
-        m["style"].update(wall=ROUTED_WALL, hatch="full")
+        m["style"].update(wall=ROUTED_WALL, hatch="full", sharedWalls=True)
     for c in at:
         w, h, shape = size[c]
         m["rooms"].append({"id": rid(c), "shape": shape, "x": round(cx(c) - w / 2 / cell, 2),
@@ -808,20 +809,26 @@ def block_map(region, block: kdl.Node) -> tuple[dict | None, list[str]]:
             ends = seen[tuple(sorted((rt.a, rt.b)))]
             first, second = ends.get(rt.a), ends.get(rt.b)
             rn = [n for _, n in ends.values()]
-            pts = rt.points()
-            m["corridors"].append({"from": {"room": rid(rt.a), "side": rt.side_a, "offset": along(rt.a, rt.side_a, rt.door_a)},
-                                   "to": {"room": rid(rt.b), "side": rt.side_b, "offset": along(rt.b, rt.side_b, rt.door_b)},
-                                   "via": [v for p in pts[1:-1] for v in to_cell(p)],
-                                   "width": round(route.LATTICE / cell, 2), "origin": "tables",
-                                   **({"style": "natural"} if rough(*rn) else {}),
-                                   "doors": [first[0] if first else None, second[0] if second else None]})
-            run = [math.dist(p, q) for p, q in zip(pts, pts[1:])]
-            half, mid = sum(run) / 2, pts[0]
-            for p, q, d in zip(pts, pts[1:], run):
-                if half <= d:
-                    mid = (p[0] + (q[0] - p[0]) * half / (d or 1), p[1] + (q[1] - p[1]) * half / (d or 1))
-                    break
-                half -= d
+            if rt.kind == "wall":                         # a door through the wall the rooms share
+                kind, n = first or second
+                m["connections"].append({"a": rid(rt.a), "b": rid(rt.b), "at": list(to_cell(rt.door_a)), "origin": "tables",
+                                         "kind": kind or GAP.get(str(n.props.get("type")), "open")})
+                mid = rt.door_a
+            else:
+                pts = rt.points()
+                m["corridors"].append({"from": {"room": rid(rt.a), "side": rt.side_a, "offset": along(rt.a, rt.side_a, rt.door_a)},
+                                       "to": {"room": rid(rt.b), "side": rt.side_b, "offset": along(rt.b, rt.side_b, rt.door_b)},
+                                       "via": [v for p in pts[1:-1] for v in to_cell(p)],
+                                       "width": round(route.LATTICE / cell, 2), "origin": "tables",
+                                       **({"style": "natural"} if rough(*rn) else {}),
+                                       "doors": [first[0] if first else None, second[0] if second else None]})
+                run = [math.dist(p, q) for p, q in zip(pts, pts[1:])]
+                half, mid = sum(run) / 2, pts[0]
+                for p, q, d in zip(pts, pts[1:], run):
+                    if half <= d:
+                        mid = (p[0] + (q[0] - p[0]) * half / (d or 1), p[1] + (q[1] - p[1]) * half / (d or 1))
+                        break
+                    half -= d
             if any(c.name == "Hazard" for n in rn for c in n.children):
                 m["overlay"]["symbols"].append({"kind": "trap", "x": to_cell(mid)[0], "y": to_cell(mid)[1], "origin": "tables"})
         return m, problems
@@ -1270,8 +1277,8 @@ def pack_region(code: str, seed: int = 1) -> int:
             how = round(rt.length / 5) * 5
             walk[rt.a, rt.b], walk[rt.b, rt.a] = (SIDE[rt.side_a], f"{how} feet"), (SIDE[rt.side_b], f"{how} feet")
         print(f"{bid}: {len(members)} rooms in a square {side} feet across, room "
-              f"{sum(r.w * r.h for r in rooms) / side ** 2:.0%} of it; {len(routes)} passages, "
-              f"{sum(len(r.cells) for r in routes) * route.LATTICE} feet of corridor")
+              f"{sum(r.w * r.h for r in rooms) / side ** 2:.0%} of it; {sum(r.kind == 'path' for r in routes)} passages, "
+              f"{sum(r.kind == 'wall' for r in routes)} shared walls, {sum(len(r.cells) for r in routes) * route.LATTICE} feet of corridor")
         ox, oy = spot[entrance]
         for i, line in enumerate(text["Dressing"]):
             if m := re.match(r"Dressing (\S+) ", line):

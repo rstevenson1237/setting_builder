@@ -2,14 +2,15 @@
 
 A room is a rectangle of its Dressing's width and length whose corners lie on route.LATTICE.
 Rooms joined by a way sit near one another, touching where a door through the shared wall
-will do and a passage apart where it will not; rooms not joined may touch but leave no slit
-narrower than a passage. The packing is annealed, so a seed fixes it, and is kept only where
+will do and a passage apart where it will not; rooms not joined may touch too, their shared
+wall drawn by the map's `sharedWalls`. The packing is annealed, so a seed fixes it, and is kept only where
 route.Router fits a passage for every way.
 """
 from __future__ import annotations
 
 import math
 import random
+import zlib
 from concurrent.futures import ProcessPoolExecutor
 from dataclasses import dataclass
 
@@ -20,7 +21,9 @@ DOOR = 10                   # feet of wall facing wall that a straight lane need
 FILL = 0.45                 # the share of the square its rooms cover, before the passages
 STEPS = 60000
 FAR = 120                   # feet between joined rooms past which the packing is penalised
-OVER, STRAIGHT, PULL = 40.0, 1.0, 0.00004
+OVER, CORNER, STRAIGHT, ROUND, CLOSE, PULL, REPAIR = 40.0, 1.0, 1.0, 3.0, 1.0, 0.00004, 6.0
+REPAIRS, REPAIR_STEPS = 8, 20000    # rounds of re-annealing for the ways that found no passage
+WINDING = 35                # the share, in a hundred, of ways run as passages, not doors through a shared wall
 
 
 @dataclass
@@ -51,7 +54,9 @@ class Packer:
             if i > j:
                 i, j, v = j, i, (-v[0], -v[1])
             self.edges[(i, j)] = v
+        self.passage = {k for k in self.edges if zlib.crc32(f"{rooms[k[0]].code}-{rooms[k[1]].code}".encode()) % 100 < WINDING}
         self.near = [[j for j in range(len(rooms)) if (min(i, j), max(i, j)) in self.edges] for i in range(len(rooms))]
+        self.trouble: dict[tuple[int, int], str] = {}   # ways no passage fitted, and how to give them room
         self.rng = random.Random(seed)
         self.x = [0.0] * len(rooms)
         self.y = [0.0] * len(rooms)
@@ -89,21 +94,30 @@ class Packer:
     def pair(self, i, j, xi=None, yi=None) -> float:
         a, b = self.box(i, xi, yi), self.box(j)
         sx, sy = max(b[0] - a[2], a[0] - b[2]), max(b[1] - a[3], a[1] - b[3])
-        if sx < GRID and sy < GRID:                      # touching is as bad as overlapping: no shared walls
-            return OVER * (1 + (GRID - max(sx, sy)) / GRID)
+        if sx < 0 and sy < 0:
+            return OVER * (1 + min(-sx, -sy) / GRID)
         joined = (min(i, j), max(i, j)) in self.edges
         if not joined:
             return 0.0
         gap = max(sx, sy, 0)
         f = self.face(i, j, xi, yi)
-        e = STRAIGHT if f and gap > GRID else 0.0         # a straight lane is the dull way to join them
-        e += math.hypot(max(sx, 0), max(sy, 0)) / 60 + gap / 120
+        if (min(i, j), max(i, j)) in self.passage:       # a passage: apart, and bending where it can
+            e = CLOSE if gap < 2 * GRID else 0.0
+            e += STRAIGHT if f and gap > 0 else 0.0
+            e += math.hypot(max(sx, 0), max(sy, 0)) / 60
+        else:                                            # a door through the shared wall
+            e = gap / 80 if f else CORNER + gap / 80 + math.hypot(max(sx, 0), max(sy, 0)) / 60
+        if (self.round[i] or self.round[j]) and gap < GRID:
+            e += ROUND
         if gap > FAR:
             e += 3 * (gap - FAR) / GRID
         want = self.edges[(min(i, j), max(i, j))]
         dx = (self.x[j] - (self.x[i] if xi is None else xi)) * (1 if i < j else -1)
         dy = (self.y[j] - (self.y[i] if yi is None else yi)) * (1 if i < j else -1)
         e += 1.2 * (1 - (dx * want[0] + dy * want[1]) / (math.hypot(dx, dy) or 1))
+        mode = self.trouble.get((min(i, j), max(i, j)))
+        if mode == "door" and not (f and gap == 0) or mode == "lane" and not (f and 2 * GRID <= gap <= 4 * GRID):
+            e += REPAIR
         return e
 
     def inside(self, i, x=None, y=None) -> float:
@@ -154,12 +168,13 @@ class Packer:
             y = self.y[j] + rng.randint(-(self.h[j] + self.h[i]) // 2 + DOOR, (self.h[j] + self.h[i]) // 2 - DOOR)
         return self.snap(i, x, y)
 
-    def anneal(self, steps: int = STEPS):
+    def anneal(self, steps: int = STEPS, t0: float = 3.0, again: bool = False):
         rng, n = self.rng, len(self.w)
-        self.place()
+        if not again:
+            self.place()
         cur = self.total()
         best, best_at = cur, (self.x[:], self.y[:])
-        t0, t1 = 3.0, 0.04
+        t1 = 0.04
         for s in range(steps):
             t = t0 * (t1 / t0) ** (s / steps)
             i = rng.randrange(n)
@@ -193,10 +208,10 @@ class Packer:
         return self.total()
 
     def clear(self) -> bool:
-        """Whether no two rooms touch and every room lies in the square."""
+        """Whether no two rooms overlap and every room lies in the square."""
         n = len(self.w)
         return all(self.inside(i) == 0 for i in range(n)) and \
-            all(max(self.gaps(i, j)) >= GRID for i in range(n) for j in range(i + 1, n))
+            all(max(self.gaps(i, j)) >= 0 for i in range(n) for j in range(i + 1, n))
 
     def rects(self) -> dict[str, route.Rect]:
         return {r.code: route.Rect(self.x[i] - self.w[i] / 2, self.y[i] - self.h[i] / 2, self.w[i], self.h[i],
@@ -212,24 +227,35 @@ def squares(rooms: list[Room]) -> list[int]:
 
 
 def attempt(args):
+    """One packing from one seed, re-annealed round the ways that found no passage until every way has one."""
     rooms, ways, side, seed = args
     p = Packer(rooms, ways, side, seed)
-    e = p.anneal()
-    return e, p.x, p.y
+    p.anneal()
+    pairs = [(a, b) for a, b, _ in ways]
+    for _ in range(REPAIRS):
+        found, left = route.plan(p.rects(), pairs)
+        if not left and p.clear():
+            return True, p.total(), p.x, p.y
+        for name in left:
+            a, b = (p.ix[c] for c in name.split(" to "))
+            key = (min(a, b), max(a, b))
+            hard = p.round[a] or p.round[b] or p.trouble.get(key) == "door"
+            p.trouble[key] = "lane" if hard else "door"
+        p.anneal(REPAIR_STEPS, 1.0, again=True)
+    return False, p.total(), p.x, p.y
 
 
-def pack(rooms, ways, seed=1, tries=8):
-    """The lowest-energy packing over a few seeds at each side in turn, stopping at the first
-    where every way can be routed: (side, packer, routes, energy), routes None where none did."""
+def pack(rooms, ways, seed=1, tries=12):
+    """The lowest-energy packing, over a few seeds at each side in turn, stopping at the first
+    side where some seed leaves every way a passage: (side, packer, routes, energy), routes None
+    where no side did."""
     pairs = [(a, b) for a, b, _ in ways]
     with ProcessPoolExecutor() as pool:
         for side in squares(rooms):
-            runs = sorted(pool.map(attempt, [(rooms, ways, side, seed * 1000 + k) for k in range(tries)]),
-                          key=lambda r: r[0])
-            for e, x, y in runs[:3]:
+            runs = [r for r in pool.map(attempt, [(rooms, ways, side, seed * 1000 + k) for k in range(tries)]) if r[0]]
+            if runs:
+                ok, e, x, y = min(runs, key=lambda r: r[1])
                 p = Packer(rooms, ways, side)
                 p.x, p.y = x, y
-                found, left = route.plan(p.rects(), pairs)
-                if not left and p.clear():
-                    return side, p, found, e
-    return side, p, None, e
+                return side, p, route.plan(p.rects(), pairs)[0], e
+    return side, None, None, 0.0

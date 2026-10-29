@@ -4,7 +4,7 @@ The floor is a set of unit cells, each owned by one room or one corridor, rebuil
 file's rooms, corridors (ports on room walls, bends between them, a width) and connections
 (doors through a wall two rooms share). What is then tested is what a reader would see wrong:
 
-  rooms overlapping or touching; a corridor running through a room, or on across another corridor it
+  rooms overlapping, or touching where the map draws no shared walls; a corridor running through a room, or on across another corridor it
   does not share a room with, so joining ways nothing authored joins; a door that does not
   stand on the wall between two floors (a door in an open room, in rock, or stacked on
   another); a passage whose end is not on its room's wall; a room no way reaches; ways the
@@ -103,11 +103,12 @@ def check(m: dict, ways: set[frozenset] | None = None, exits: int | None = None)
     for cell, ids in f.room_at.items():
         if len(ids) > 1:
             out.append(f"{' and '.join(ids)} overlap at {cell}")
+    walls = m.get("style", {}).get("sharedWalls", bool(m.get("connections")))
     for (i, j), ids in f.room_at.items():
         for dx, dy in ((1, 0), (0, 1)):
             for other in f.room_at.get((i + dx, j + dy), ()):
-                if other not in ids:
-                    out.append(f"{ids[0]} and {other} touch at {(i, j)}, sharing a wall the file draws thin")
+                if other not in ids and not walls:
+                    out.append(f"{ids[0]} and {other} touch at {(i, j)}, but the map does not draw shared walls")
     out = sorted(set(out))
     # corridors: through rooms, and across or beside ones they share no room with
     ends = [{c["from"].get("room"), c["to"].get("room")} - {None} for c in m.get("corridors", [])]

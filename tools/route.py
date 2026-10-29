@@ -1,4 +1,4 @@
-"""Corridors for a packed block: each way a winding passage from one room's wall to another's.
+"""Corridors for a packed block: each way a door through a shared wall or a winding passage.
 
 Rooms are rectangles whose corners lie on a LATTICE-foot grid. A passage is a path of lattice
 cells from a cell against one room's wall to a cell against the other's, bending where it
@@ -13,6 +13,7 @@ from dataclasses import dataclass, field
 
 SEED = 1                    # the noise every plan is routed with, so a draw finds the passages a pack did
 LATTICE = 10                # feet, a passage's width and the grid rooms and passages lie on
+DOOR = 10                   # feet of shared wall a door needs
 TURN = 0.5                  # what a bend costs, in cells of path
 RUN = 4                     # cells a passage runs straight before each further cell costs
 RUN_COST = 0.2
@@ -41,6 +42,7 @@ class Rect:
 class Route:
     a: str
     b: str
+    kind: str                                       # "wall": a door through the wall the rooms share; "path"
     side_a: str = ""
     side_b: str = ""
     door_a: tuple[float, float] = (0.0, 0.0)        # on the wall, in feet
@@ -50,12 +52,29 @@ class Route:
 
     def points(self) -> list[tuple[float, float]]:
         """The way's corners from door to door, in feet."""
+        if self.kind == "wall":
+            return [self.door_a, self.door_b]
         pts = [self.door_a] + [((i + 0.5) * LATTICE, (j + 0.5) * LATTICE) for i, j in self.cells] + [self.door_b]
         keep = [pts[0]]
         for p, q, r in zip(pts, pts[1:], pts[2:]):
             if (q[0] - p[0]) * (r[1] - q[1]) != (q[1] - p[1]) * (r[0] - q[0]):
                 keep.append(q)
         return keep + [pts[-1]]
+
+
+def shared_wall(p: Rect, q: Rect):
+    """Where two rectangular rooms touch along a wall: (side of p, side of q, door point), else None."""
+    if p.round or q.round:
+        return None
+    for (ap, aq, sp, sq) in ((p.x + p.w, q.x, "e", "w"), (q.x + q.w, p.x, "w", "e")):
+        lo, hi = max(p.y, q.y), min(p.y + p.h, q.y + q.h)
+        if abs(ap - aq) < 1e-6 and hi - lo >= DOOR:
+            return sp, sq, (ap, (lo + hi) / 2)
+    for (ap, aq, sp, sq) in ((p.y + p.h, q.y, "s", "n"), (q.y + q.h, p.y, "n", "s")):
+        lo, hi = max(p.x, q.x), min(p.x + p.w, q.x + q.w)
+        if abs(ap - aq) < 1e-6 and hi - lo >= DOOR:
+            return sp, sq, ((lo + hi) / 2, ap)
+    return None
 
 
 class Router:
@@ -122,12 +141,18 @@ class Router:
         """Routes a to b, or returns None where no passage fits."""
         me = len(self.routes)
         self.ends.append((a, b))
+        wall = shared_wall(self.rooms[a], self.rooms[b])
+        if wall:
+            route = Route(a, b, "wall", wall[0], wall[1], wall[2], wall[2])
+            route.length = self.measure(route)
+            self.routes.append(route)
+            return route
         path = self.search(a, b, me)
         if path is None:
             self.ends.pop()
             return None
         cells, sa, sb = path
-        route = Route(a, b, sa, sb, self.door(a, cells[0], sa), self.door(b, cells[-1], sb), cells)
+        route = Route(a, b, "path", sa, sb, self.door(a, cells[0], sa), self.door(b, cells[-1], sb), cells)
         route.length = self.measure(route)
         for c in cells:
             self.used.setdefault(c, set()).add(me)
