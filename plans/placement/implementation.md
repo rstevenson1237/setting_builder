@@ -15,8 +15,9 @@ committed on its own.
 
 ## Risks
 
-- **CI goes red on unfinished content.** An unplaced thing is a warning. Only a contradiction
-  between two placed things is an error, so T2 to T5 pass while C-F and H-L stay unpacked.
+- **CI goes red on unfinished content.** An unplaced thing is a warning, and only a
+  contradiction between two placed things is an error. T1 found seven such errors among A and
+  B's ways (S16), so T2 cannot wire the validator until the user decides each fix.
 - **Contact on curved and concave outlines.** The sweep is computed on polygon edges, and the
   result is rounded outward to whole feet. The rounded place is then checked again for overlap,
   so a touch never rounds into one.

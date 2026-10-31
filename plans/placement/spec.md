@@ -127,3 +127,21 @@
   - In `STEPS.md`, 3b says `place` writes regions' outlines and places; 3f covers every placed
     location; 4a runs `space.py settle` after each pack.
   - The README lists `space.py` and its commands.
+
+## 5. Found in the work
+
+- **S15. Stairs state a bearing too.** Today every one of the 21 ways that climb between levels
+  states a bearing and distance as well as a climb, and the shared centre also puts its far room
+  over or under it. That is two statements of where the far room is. Until both ends are placed,
+  the dry fire checks both. Once both ends are placed, `pack` takes the bearing and distance off a
+  stair, as it does a way within a block, and S7's stair rule then holds alone.
+- **S16. A and B's own ways disagree with their locations.** The first dry fire
+  (`dryfire-before.txt`) finds three ways in WILD regions, each stated from both ends, that miss
+  where the locations' bearings put their far ends:
+  - A.2 to A.9: stated as 30 yards south-south-west; A.9 lies 163 feet south-east.
+  - B.5 to B.9: stated as 40 yards north-north-west; B.9 lies 417 feet north-north-east.
+  - B.5 to B.10: stated as 60 yards west-south-west; B.10 lies 249 feet south-west.
+
+  The dry fire also confirms in height what `intake.md` worked out by hand: H.1 to B.10 climbs
+  20 feet, where the floors differ by -10. Which number moves is a design choice for each,
+  either the way or the location, and is put to the user before T2 wires the validator.

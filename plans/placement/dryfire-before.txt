@@ -1,0 +1,170 @@
+code   kind      parent   place              in the setting   outline       floor..roof  by
+A      region    setting  0,0,0              0,0,0            circle 1125   0..0         origin
+A.a    block     A        0,0,0              0,0,0            -             0..0         region's origin
+A.1    location  A.a      0,0,0              0,0,0            rect 40 40    0..0         way in
+A.2    location  A.a      -254.6,-254.6,0    -254.6,-254.6,0  rect 30 25    0..0         bearing and distance
+A.3    location  A.a      -424.3,424.3,0     -424.3,424.3,0   rect 40 40    0..0         bearing and distance
+A.4    location  A.a      540,0,0            540,0,0          rect 90 70    0..0         bearing and distance
+A.5    location  A.a      0,900,0            0,900,0          rect 120 25   0..0         bearing and distance
+A.6    location  A.a      530.3,-530.3,0     530.3,-530.3,0   rect 100 50   0..0         bearing and distance
+A.7    location  A.a      0,-990,0           0,-990,0         rect 70 60    0..0         bearing and distance
+A.8    location  A.a      -450,0,0           -450,0,0         rect 150 20   0..0         bearing and distance
+A.9    location  A.a      -160.7,-388,0      -160.7,-388,0    rect 20 15    0..0         bearing and distance
+A.8/1  stop      A        60,0,?             60,0,?           -             ?            bearing and distance
+A.8/2  stop      A        -120,0,?           -120,0,?         -             ?            bearing and distance
+A.8/3  stop      A        -225,0,?           -225,0,?         -             ?            bearing and distance
+A.8/4  stop      A        -330,0,?           -330,0,?         -             ?            bearing and distance
+B      region    setting  ?,?,-125           ?,?,-125         circle 600    -125..-125   height from G.14 to B.1
+B.a    block     B        0,0,0              ?,?,-125         -             -125..-125   region's origin
+B.1    location  B.a      0,0,0              ?,?,-125         rect 40 25    -125..-125   way in
+B.2    location  B.a      0,240,0            ?,?,-125         rect 110 40   -125..-125   bearing and distance
+B.3    location  B.a      300,0,0            ?,?,-125         rect 80 60    -125..-125   bearing and distance
+B.4    location  B.a      297,297,0          ?,?,-125         rect 100 50   -125..-125   bearing and distance
+B.5    location  B.a      -360,0,0           ?,?,-125         rect 70 50    -125..-125   bearing and distance
+B.6    location  B.a      -318.2,-318.2,-50  ?,?,-175         rect 120 80   -175..-175   bearing and distance
+B.7    location  B.a      0,-210,0           ?,?,-125         rect 220 170  -125..-125   bearing and distance
+B.8    location  B.a      233.3,-233.3,0     ?,?,-125         rect 120 20   -125..-125   bearing and distance
+B.9    location  B.a      -149.2,360.3,50    ?,?,-75          rect 25 20    -75..-75     bearing and distance
+B.10   location  B.a      -498.9,-206.6,0    ?,?,-125         rect 15 15    -125..-125   bearing and distance
+B.8/1  stop      B        63.6,-63.6,?       ?,?,?            -             ?            bearing and distance
+B.8/2  stop      B        0,-180,?           ?,?,?            -             ?            bearing and distance
+B.8/3  stop      B        270,0,?            ?,?,?            -             ?            bearing and distance
+B.8/4  stop      B        -254.6,-254.6,?    ?,?,?            -             ?            bearing and distance
+C      region    setting  ?,?,-15            ?,?,-15          -             -15..-15     height from C.1 to A.1
+C.a    block     C        0,0,0              ?,?,-15          -             -15..5       first block
+C.1    location  C.a      ?,?,0              ?,?,-15          rect 10 20    -15..5       -
+C.2    location  C.a      ?,?,0              ?,?,-15          rect 50 50    -15..5       -
+C.3    location  C.a      ?,?,0              ?,?,-15          rect 60 20    -15..5       -
+C.4    location  C.a      ?,?,0              ?,?,-15          circle 20     -15..5       -
+D      region    setting  ?,?,-35            ?,?,-35          -             -35..-35     height from C.4 to D.1
+D.a    block     D        0,0,0              ?,?,-35          -             -35..-15     first block
+D.1    location  D.a      ?,?,0              ?,?,-35          rect 10 20    -35..-20     -
+D.2    location  D.a      ?,?,0              ?,?,-35          rect 40 30    -35..-20     -
+D.3    location  D.a      ?,?,0              ?,?,-35          rect 30 30    -35..-20     -
+D.4    location  D.a      ?,?,0              ?,?,-35          rect 40 40    -35..-20     -
+D.5    location  D.a      ?,?,0              ?,?,-35          rect 30 40    -35..-20     -
+D.6    location  D.a      ?,?,0              ?,?,-35          rect 60 50    -35..-15     -
+E      region    setting  ?,?,-55            ?,?,-55          -             -55..-55     height from D.6 to E.1
+E.a    block     E        0,0,0              ?,?,-55          -             -55..-39     first block
+E.1    location  E.a      ?,?,0              ?,?,-55          rect 10 20    -55..-39     -
+E.2    location  E.a      ?,?,0              ?,?,-55          circle 30     -55..-39     -
+E.3    location  E.a      ?,?,0              ?,?,-55          rect 50 40    -55..-39     -
+E.4    location  E.a      ?,?,0              ?,?,-55          rect 40 30    -55..-39     -
+E.5    location  E.a      ?,?,0              ?,?,-55          rect 40 30    -55..-39     -
+E.6    location  E.a      ?,?,0              ?,?,-55          rect 30 30    -55..-39     -
+E.7    location  E.a      ?,?,0              ?,?,-55          rect 30 30    -55..-39     -
+E.8    location  E.a      ?,?,0              ?,?,-55          rect 30 30    -55..-39     -
+E.9    location  E.a      ?,?,0              ?,?,-55          rect 20 20    -55..-39     -
+F      region    setting  ?,?,-75            ?,?,-75          -             -75..-75     height from E.9 to F.1
+F.a    block     F        0,0,0              ?,?,-75          -             -75..-51     first block
+F.1    location  F.a      ?,?,0              ?,?,-75          rect 10 20    -75..-63     -
+F.2    location  F.a      ?,?,0              ?,?,-75          rect 6 70     -75..-63     -
+F.3    location  F.a      ?,?,0              ?,?,-75          rect 40 30    -75..-63     -
+F.4    location  F.a      ?,?,0              ?,?,-75          rect 30 40    -75..-63     -
+F.5    location  F.a      ?,?,0              ?,?,-75          rect 40 40    -75..-63     -
+F.6    location  F.a      ?,?,0              ?,?,-75          rect 40 30    -75..-63     -
+F.7    location  F.a      ?,?,0              ?,?,-75          rect 50 40    -75..-51     -
+F.8    location  F.a      ?,?,0              ?,?,-75          rect 30 30    -75..-67     -
+F.9    location  F.a      ?,?,0              ?,?,-75          rect 40 40    -75..-63     -
+F.10   location  F.a      ?,?,0              ?,?,-75          rect 50 40    -75..-63     -
+F.11   location  F.a      ?,?,0              ?,?,-75          rect 10 10    -75..-63     -
+F.12   location  F.a      ?,?,0              ?,?,-75          rect 30 30    -75..-63     -
+F.13   location  F.a      ?,?,0              ?,?,-75          rect 10 70    -75..-63     -
+G      region    setting  ?,?,-95            ?,?,-95          -             -95..-95     height from F.13 to G.1
+G.a    block     G        0,0,0              ?,?,-95          rect 250 250  -95..-71     first block
+G.1    location  G.a      -15,-75,0          ?,?,-95          rect 10 20    -95..-77     east and north
+G.2    location  G.a      -25,-55,0          ?,?,-95          rect 10 80    -95..-77     east and north
+G.3    location  G.a      5,-105,0           ?,?,-95          rect 50 40    -95..-77     east and north
+G.4    location  G.a      0,-30,0            ?,?,-95          rect 40 30    -95..-77     east and north
+G.5    location  G.a      -45,10,0           ?,?,-95          rect 30 30    -95..-77     east and north
+G.6    location  G.a      -30,95,0           ?,?,-95          rect 60 60    -95..-71     east and north
+G.7    location  G.a      -90,65,0           ?,?,-95          rect 40 40    -95..-71     east and north
+G.8    location  G.a      20,55,0            ?,?,-95          rect 40 40    -95..-71     east and north
+G.9    location  G.a      -50,45,0           ?,?,-95          rect 40 40    -95..-71     east and north
+G.10   location  G.a      -85,100,0          ?,?,-95          rect 30 30    -95..-77     east and north
+G.11   location  G.a      -50,-60,0          ?,?,-95          rect 20 30    -95..-77     east and north
+G.12   location  G.a      40,-5,0            ?,?,-95          circle 20     -95..-77     east and north
+G.13   location  G.a      -15,25,0           ?,?,-95          rect 30 80    -95..-71     east and north
+G.14   location  G.a      105,-30,0          ?,?,-95          rect 10 90    -95..-77     east and north
+G.15   location  G.a      65,-70,0           ?,?,-95          rect 50 50    -95..-71     east and north
+G.16   location  G.a      95,-15,0           ?,?,-95          rect 10 80    -95..-77     east and north
+G.17   location  G.a      65,35,0            ?,?,-95          rect 50 40    -95..-77     east and north
+G.18   location  G.a      -45,-25,0          ?,?,-95          rect 30 40    -95..-77     east and north
+G.19   location  G.a      45,80,0            ?,?,-95          rect 10 30    -95..-77     east and north
+H      region    setting  ?,?,-115           ?,?,-115         -             -115..-115   height from G.19 to H.1
+H.a    block     H        0,0,0              ?,?,-115         -             -115..-91    first block
+H.1    location  H.a      ?,?,0              ?,?,-115         rect 10 20    -115..-101   -
+H.2    location  H.a      ?,?,0              ?,?,-115         rect 8 70     -115..-101   -
+H.3    location  H.a      ?,?,0              ?,?,-115         rect 40 30    -115..-101   -
+H.4    location  H.a      ?,?,0              ?,?,-115         rect 30 40    -115..-101   -
+H.5    location  H.a      ?,?,0              ?,?,-115         rect 40 40    -115..-101   -
+H.6    location  H.a      ?,?,0              ?,?,-115         rect 30 30    -115..-101   -
+H.7    location  H.a      ?,?,0              ?,?,-115         rect 50 40    -115..-91    -
+H.8    location  H.a      ?,?,0              ?,?,-115         rect 30 30    -115..-101   -
+H.9    location  H.a      ?,?,0              ?,?,-115         rect 60 50    -115..-91    -
+H.10   location  H.a      ?,?,0              ?,?,-115         rect 30 30    -115..-101   -
+H.11   location  H.a      ?,?,0              ?,?,-115         rect 40 30    -115..-101   -
+H.12   location  H.a      ?,?,0              ?,?,-115         rect 10 20    -115..-101   -
+H.13   location  H.a      ?,?,0              ?,?,-115         rect 8 70     -115..-101   -
+I      region    setting  ?,?,-135           ?,?,-135         -             -135..-135   height from H.12 to I.1
+I.a    block     I        0,0,0              ?,?,-135         -             -135..-119   first block
+I.1    location  I.a      ?,?,0              ?,?,-135         rect 10 20    -135..-123   -
+I.2    location  I.a      ?,?,0              ?,?,-135         rect 50 30    -135..-123   -
+I.3    location  I.a      ?,?,0              ?,?,-135         rect 50 40    -135..-119   -
+I.4    location  I.a      ?,?,0              ?,?,-135         rect 40 30    -135..-123   -
+I.5    location  I.a      ?,?,0              ?,?,-135         rect 30 40    -135..-123   -
+I.6    location  I.a      ?,?,0              ?,?,-135         rect 30 30    -135..-123   -
+I.7    location  I.a      ?,?,0              ?,?,-135         rect 30 30    -135..-123   -
+I.8    location  I.a      ?,?,0              ?,?,-135         rect 10 60    -135..-123   -
+I.9    location  I.a      ?,?,0              ?,?,-135         rect 20 40    -135..-119   -
+J      region    setting  ?,?,-155           ?,?,-155         -             -155..-155   height from I.9 to J.1
+J.a    block     J        0,0,0              ?,?,-155         -             -155..-135   first block
+J.1    location  J.a      ?,?,0              ?,?,-155         rect 10 20    -155..-135   -
+J.2    location  J.a      ?,?,0              ?,?,-155         rect 60 50    -155..-135   -
+J.3    location  J.a      ?,?,0              ?,?,-155         rect 50 40    -155..-135   -
+J.4    location  J.a      ?,?,0              ?,?,-155         rect 50 40    -155..-135   -
+J.5    location  J.a      ?,?,0              ?,?,-155         rect 40 30    -155..-135   -
+J.6    location  J.a      ?,?,0              ?,?,-155         rect 30 30    -155..-135   -
+K      region    setting  ?,?,-175           ?,?,-175         -             -175..-175   height from J.6 to K.1
+K.a    block     K        0,0,0              ?,?,-175         -             -175..-165   first block
+K.1    location  K.a      ?,?,0              ?,?,-175         rect 10 20    -175..-165   -
+K.2    location  K.a      ?,?,0              ?,?,-175         rect 50 30    -175..-165   -
+K.3    location  K.a      ?,?,0              ?,?,-175         rect 60 60    -175..-165   -
+K.4    location  K.a      ?,?,0              ?,?,-175         rect 30 30    -175..-165   -
+K.5    location  K.a      ?,?,0              ?,?,-175         rect 20 20    -175..-165   -
+L      region    setting  ?,?,-195           ?,?,-195         -             -195..-195   height from K.5 to L.1
+L.a    block     L        0,0,0              ?,?,-195         -             -195..-165   first block
+L.1    location  L.a      ?,?,0              ?,?,-195         rect 20 20    -195..-165   -
+L.2    location  L.a      ?,?,0              ?,?,-195         rect 60 80    -195..-165   -
+L.3    location  L.a      ?,?,0              ?,?,-195         circle 20     -195..-165   -
+L.4    location  L.a      ?,?,0              ?,?,-195         rect 40 40    -195..-165   -
+
+WARNING: setting/region/Regions.md: B has no place in plan: no sheet or join reaches it from a placed region
+WARNING: setting/region/Regions.md: C has no place in plan: no sheet or join reaches it from a placed region
+WARNING: setting/region/C/Blocks.md: C.a's rooms have no place in plan: they are not packed
+WARNING: setting/region/Regions.md: D has no place in plan: no sheet or join reaches it from a placed region
+WARNING: setting/region/D/Blocks.md: D.a's rooms have no place in plan: they are not packed
+WARNING: setting/region/Regions.md: E has no place in plan: no sheet or join reaches it from a placed region
+WARNING: setting/region/E/Blocks.md: E.a's rooms have no place in plan: they are not packed
+WARNING: setting/region/Regions.md: F has no place in plan: no sheet or join reaches it from a placed region
+WARNING: setting/region/F/Blocks.md: F.a's rooms have no place in plan: they are not packed
+WARNING: setting/region/Regions.md: G has no place in plan: no sheet or join reaches it from a placed region
+WARNING: setting/region/Regions.md: H has no place in plan: no sheet or join reaches it from a placed region
+WARNING: setting/region/H/Blocks.md: H.a's rooms have no place in plan: they are not packed
+WARNING: setting/region/Regions.md: I has no place in plan: no sheet or join reaches it from a placed region
+WARNING: setting/region/I/Blocks.md: I.a's rooms have no place in plan: they are not packed
+WARNING: setting/region/Regions.md: J has no place in plan: no sheet or join reaches it from a placed region
+WARNING: setting/region/J/Blocks.md: J.a's rooms have no place in plan: they are not packed
+WARNING: setting/region/Regions.md: K has no place in plan: no sheet or join reaches it from a placed region
+WARNING: setting/region/K/Blocks.md: K.a's rooms have no place in plan: they are not packed
+WARNING: setting/region/Regions.md: L has no place in plan: no sheet or join reaches it from a placed region
+WARNING: setting/region/L/Blocks.md: L.a's rooms have no place in plan: they are not packed
+ERROR: setting/region/A/Connections.md: line 5: A.2 to A.9 runs south-south-west 30 yards, where A.9 lies south-east 163 feet from A.2
+ERROR: setting/region/A/Connections.md: line 6: A.9 to A.2 runs north-north-east 30 yards, where A.2 lies north-west 163 feet from A.9
+ERROR: setting/region/B/Connections.md: line 5: B.5 to B.9 runs north-north-west 40 yards, where B.9 lies north-north-east 417 feet from B.5
+ERROR: setting/region/B/Connections.md: line 6: B.9 to B.5 runs south-south-east 40 yards, where B.5 lies south-south-west 417 feet from B.9
+ERROR: setting/region/B/Connections.md: line 7: B.5 to B.10 runs west-south-west 60 yards, where B.10 lies south-west 249 feet from B.5
+ERROR: setting/region/B/Connections.md: line 8: B.10 to B.5 runs east-north-east 60 yards, where B.5 lies north-east 249 feet from B.10
+ERROR: setting/region/H/Connections.md: line 7: H.1 to B.10 climbs 20 feet, where their floors differ by -10
+
+139 things, 11 placed in full in the setting; 7 error(s), 20 warning(s)
