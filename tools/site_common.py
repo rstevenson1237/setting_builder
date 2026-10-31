@@ -1080,6 +1080,17 @@ def value_html(value: str, render) -> str:
     return out + "<ul>" + "".join(f"<li>{render(i)}</li>" for i in items) + "</ul>"
 
 
+def folded(table: str) -> set[str]:
+    """The fields a template's own field of the same table is written from: the site and PDF
+    show that field in their place."""
+    out = set()
+    for t in tp.load_all().values():
+        for n in t.part():
+            if n.name == "field" and n.args and str(n.args[0]).partition(".")[0] == table:
+                out |= {x.partition(".")[2] for x in tp.names(n.props.get("from", "")) if x.partition(".")[0] == table}
+    return out
+
+
 def statline(table: str) -> list[str]:
     """A table's stat=: the fields set on one line under an entry's title."""
     return str(schema().table_props.get(table, {}).get("stat", "")).split()
@@ -1092,7 +1103,7 @@ def entry_card(t: SettingTable, e: Entry, render, omit: tuple[str, ...] = ()) ->
     dice = next((m.name for m in t.members if m.type == "dice"), None)
     tag = next((m.name for m in t.members if m.type in enums and not m.is_list), None)
     f = dict(e.fields)
-    shown = set(omit)
+    shown = set(omit) | folded(t.name)
     title = html.escape(e.title)
     if tag and len(f.get(tag, "").split()) <= 3 and tag in f:
         title += f' <span class="typetag">({html.escape(f[tag])})</span>'
@@ -1283,6 +1294,8 @@ def coverage(setting: Setting, text: str, has_page) -> list[str]:
             problems.append(f"{t.name}: its file has no page")
         for e in t.entries:
             for label, value in e.fields:
+                if label in folded(t.name):
+                    continue
                 v = _plain(value.replace("\n- ", " ").removeprefix("- "))
                 if v not in shown:
                     problems.append(f"{t.name} / {e.title} / {label}: not shown")

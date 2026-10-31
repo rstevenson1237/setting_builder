@@ -53,15 +53,19 @@ table Language doc file="setting/Language.md" heading=2 title="Tongues of [Setti
 // Construct a made thing; Horror no natural kind; Fey bound by its own rules; Fiend from
 // outside the world; Fantasy this setting's own.
 enum Bestiary_Type Men Humanoid Giant Beast Wyrm Undead Construct Horror Fey Fiend Fantasy
+enum Sign "a mark" "a track" "a sound" "a smell"
 table Bestiary entry file="setting/Bestiary.md" stat="AD MA Numbers Special" {
   Type Bestiary_Type
   AD dice count="1-18" bonus="-2..6"   // 1 a man's match; 2-3 superior; 4-5 larger, highly dangerous;
                                        // 6-8 supernatural; 9-12 gargantuan; 13-16 served; 17-18 a titan
   Special text                         // what its dice do not say, a line per ability, or `none`
   MA number range="2-6" opt            // targets threatened at once, about AD/4; omitted at 1
+  Sight text                           // what a party sees when it comes into view
+  Range text opt                       // where it lives and what it eats
   Numbers number opt                   // how many one lair or band holds
-  Description text                     // the referee's read of it: what reaches a party first, what they see,
-                                       // where it lives and what it eats, what it does on being met
+  Sign Sign opt                        // what reaches a party before it does
+  Disposition text opt                 // what it does on being met, before anyone fights
+  Description text                     // the referee's read of it, written from Sight, Range, Sign and Disposition
 }
 
 table "Named Creatures" entry file="setting/NamedCreatures.md" cite="Named Creature" stat="AD MA Special" {   // as an Encounter meets it
