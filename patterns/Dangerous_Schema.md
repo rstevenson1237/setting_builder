@@ -47,6 +47,7 @@ node Dressing {
   length feet               // north to south
   xyz point opt drawn       // its centre from its block's, its floor from the block's floor; written by `tools/maps.py pack`;
                             // a block states it for every room or for none
+  against anchor opt drawn  // touching another room of its block, its xyz then a slide across the side and a gap along it
   outline outline opt drawn // where it is no rect or round room: its extent is its width and length
   height feet opt           // floor to roof, where it matters at the table
   shape Room_Shape opt      // rect where unset
@@ -119,6 +120,7 @@ node Block {               // one level: a map of its own
   locations location list
   xyz point opt drawn       // its centre from its region's origin; the first block's is the origin, and a later one
                             // unset lies over or under the block a climbing way joins it to
+  against anchor opt drawn  // touching another block of its region, its xyz then a slide and a gap
   outline outline opt drawn // "rect S S", the square its rooms are packed in: BRIEF.md's pack footprint; stated where they state xyz
   router number opt drawn   // the tools/route.py version its passages were routed by; stated with outline
   width feet opt            // of its passages, where they differ from the seed's Conditions

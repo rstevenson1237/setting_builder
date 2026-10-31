@@ -447,7 +447,7 @@ def pack_region(code: str, seed: int = 1, again: bool = False) -> int:
                   f"{sum(r.kind == 'wall' for r in routes)} shared walls, {sum(len(r.cells) for r in routes) * route.LATTICE} feet of corridor")
             at = {c: (p.x[i] - side / 2, side / 2 - p.y[i]) for i, c in enumerate(members)}
             for i, line in enumerate(text["Dressing"]):
-                if (m := re.match(r"Dressing (\S+) ", line)) and m[1] in at:
+                if (m := re.match(r"Dressing (\S+) ", line)) and m[1] in at and "against=" not in line:   # an anchor holds its own
                     text["Dressing"][i] = with_prop(line, "xyz", f'"{round(at[m[1]][0])},{round(at[m[1]][1])}"', after="length")
             for i, line in enumerate(text["Connections"]):
                 if (m := re.match(r"Connection (\S+) to=\"(\S+)\"", line)) and m[1] in members and m[2] in members:

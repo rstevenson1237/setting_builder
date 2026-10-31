@@ -160,3 +160,9 @@
   plan from A.1 to C.1. The dry fire then found C.1, floor -15 and roof +5, rising through
   A.1's flat ground. That is the tip standing from the dunes, inside the statues' ring. Whether
   a flat location may lie over a solid that rises through it is for T6, decided with the user.
+- **S21. Anchors as built.** The sweep finds where the two outlines *last* touch along the side,
+  so a thing placed west of an L-shaped room ends up wholly west of it; to sit in the L's notch,
+  it is placed against the notch's facing side. On a plan side, the thing's z is its anchor's
+  plus its own; a SAFE or WILD location that states no z stands on its ground. A Stop takes no
+  anchor. Until T4, `pack` leaves an anchored room's line as it is, and the dry fire reports any
+  overlap with the rooms packed round it.

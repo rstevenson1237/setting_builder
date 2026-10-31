@@ -13,7 +13,10 @@ A region's origin is its way in, a DANGEROUS region's its first block's centre; 
 centre, and a SAFE or WILD block lies at its region's origin; a location's is its centre. A
 region is placed from the origin through a sheet it shares with a placed region, or a join to
 one: a way's climb places it in height, its bearing and distance in plan, and a climbing way
-between two DANGEROUS blocks sets one block's centre over the other's.
+between two DANGEROUS blocks sets one block's centre over the other's. A thing placed `against`
+a sibling starts at its origin, slides across the side by its xyz, moves out along the side
+until their outlines last touch, then takes its xyz along the side as a gap; above or below,
+its floor meets the other's roof.
 
 Prints each thing's place in its parent and in the setting, its outline and its floor and roof,
 then each problem; exits 1 on an error.
@@ -51,6 +54,9 @@ class Thing:
     height: float = 0.0
     file: Path | None = None
     line: int = 0
+    anchor: tuple | None = None     # (code, side): placed against a sibling
+    shift: list | None = None       # with an anchor, its xyz: a slide across the side, then a gap along it
+    ground: float | None = None     # a SAFE or WILD location's ground, above its region's way in
 
 
 # -- outlines, as polygons in plan ------------------------------------------------------
@@ -172,6 +178,30 @@ def meets(a: list, b: list) -> bool:
     return common(a, b) > TOUCH
 
 
+SIDES = {"north": (0, 1), "east": (1, 0), "south": (0, -1), "west": (-1, 0), "above": None, "below": None}
+
+
+def contact(p: list, q: list, u: tuple) -> float | None:
+    """How far outline q moves along u until it last touches outline p: the farthest a vertex
+    of either, run along u, meets an edge of the other. None where they never meet."""
+    hits = []
+    for points, sides, sign in ((q, p, 1), (p, q, -1)):
+        for v in points:
+            for a, b in (edges(sides) if len(sides) > 1 else ()):
+                e = (b[0] - a[0], b[1] - a[1])
+                d = (sign * u[0], sign * u[1])
+                den = d[0] * e[1] - d[1] * e[0]
+                w = (a[0] - v[0], a[1] - v[1])
+                if abs(den) < 1e-9:
+                    if abs(w[0] * e[1] - w[1] * e[0]) < 1e-9:           # along the edge: its two ends
+                        hits += [sign * (w[0] * d[0] + w[1] * d[1]), sign * ((b[0] - v[0]) * d[0] + (b[1] - v[1]) * d[1])]
+                    continue
+                t, k = (w[0] * e[1] - w[1] * e[0]) / den, (w[0] * d[1] - w[1] * d[0]) / den
+                if -1e-9 <= k <= 1 + 1e-9:
+                    hits.append(sign * t)
+    return max(hits) if hits else None
+
+
 def stacked(a: tuple, b: tuple) -> bool:
     """Two (floor, roof) spans share height, beyond touching; a flat thing shares a solid's
     inside or another flat thing's level."""
@@ -246,7 +276,8 @@ def vector(bearing: str, d: float) -> tuple[float, float]:
     return d * math.sin(a), d * math.cos(a)
 
 
-FORMS = (("way in", ("at",)), ("bearing and distance", ("bearing", "distance")), ("xyz", ("xyz",)))
+FORMS = (("way in", ("at",)), ("bearing and distance", ("bearing", "distance")), ("xyz", ("xyz",)),
+         ("against", ("against",)))
 
 
 def forms(node: kdl.Node) -> list[str]:
@@ -255,9 +286,22 @@ def forms(node: kdl.Node) -> list[str]:
     return [f for f, keys in FORMS if any(k in p for k in keys) and (f != "way in" or str(p["at"]) == "way in")]
 
 
+def twice(got: list[str]) -> bool:
+    """A place stated more than one way; xyz with an anchor is its slide and gap, not a second place."""
+    return len(set(got) - ({"xyz"} if "against" in got else set())) > 1
+
+
+def anchor_of(v) -> tuple | None:
+    """An `anchor` value as (code, side); None where it is none."""
+    if v is None or not tables.ANCHOR_RE.fullmatch(str(v)):
+        return None
+    code, side = str(v).split()
+    return code, side
+
+
 def own(node: kdl.Node) -> list | None:
     """A SAFE or WILD location's or stop's place from its block's origin, z None where it stands
-    on its ground; None where it states no one place."""
+    on its ground; None where it states no one place, or is placed against another."""
     p, got = node.props, forms(node)
     if len(got) != 1:
         return None
@@ -273,22 +317,27 @@ def own(node: kdl.Node) -> list | None:
         return None
 
 
+@functools.cache
+def settled() -> "Space":
+    """The setting's places, resolved once a run."""
+    world = maps.world_for(tables.SETTING)
+    return Space(world, tables.Brief(world.schema))
+
+
 def offset(region, node: kdl.Node) -> tuple[float, float] | None:
     """A SAFE or WILD location's or stop's (east, north) in feet from its region's way in, or None
-    where it states no place."""
-    if (o := own(node)) is None:
-        return None
-    if node.name == "Location":
-        code = str(node.args[0])
-        for block in maps.blocks_of(region).values():
-            if code in [m.strip() for m in str(block.props.get("locations", "")).split(",")]:
-                if (b := point_of(block.props.get("xyz"))):
-                    return o[0] + b[0], o[1] + b[1]
-    return o[0], o[1]
+    where it has no place."""
+    if node.name == "Location" and (t := settled().things.get(str(node.args[0]))):
+        w = settled().within(t)
+        return None if w[0] is None else (w[0], w[1])
+    return None if (o := own(node)) is None else (o[0], o[1])
 
 
 def centre(d: kdl.Node | None) -> tuple[float, float] | None:
     """A DANGEROUS room's centre (east, north) from its block's, where its Dressing places it."""
+    if d is not None and "against" in d.props:
+        t = settled().things.get(str(d.args[0]))
+        return (t.at[0], t.at[1]) if t and t.at[0] is not None else None
     c = point_of(d.props.get("xyz")) if d is not None else None
     return (c[0], c[1]) if c else None
 
@@ -301,8 +350,9 @@ class Space:
         self.joins = [(r, n) for r in world.regions.values() for n in r.files.get("Connections", [])
                       if n.args and "to" in n.props]
         self._build()
-        self._place_blocks()
-        self._place_regions()
+        while self._anchors() | self._place_blocks() | self._place_regions():
+            pass
+        self._unanchored()
         self._check()
 
     def say(self, level: str, file: Path | None, msg: str, *codes: str):
@@ -323,9 +373,11 @@ class Space:
             r = self.things[code] = Thing(code, "region", code, None, file=tables.GAZETTEER, line=g.line if g else 0)
             self._shape(r, g)
             if code == self.origin:
-                if g is not None and "xyz" in g.props and point_of(g.props["xyz"])[:2] != [0, 0]:
+                if g is not None and ("against" in g.props or "xyz" in g.props and point_of(g.props["xyz"])[:2] != [0, 0]):
                     self.say("error", r.file, f"line {r.line}: {code} is BRIEF.md's origin, so its place is 0,0,0", code)
                 r.at, r.by = [0.0, 0.0, 0.0], "origin"
+            elif self._anchored(r, g):
+                pass
             elif g is not None and (c := point_of(g.props.get("xyz"))):
                 r.at, r.by = [c[0], c[1], c[2] or 0.0], "xyz"
             danger = region.rating.upper() == "DANGEROUS"
@@ -338,10 +390,12 @@ class Space:
                 self._shape(b, block)
                 c = point_of(block.props.get("xyz"))
                 if danger and i == 0:
-                    if c:
+                    if c or "against" in block.props:
                         self.say("error", b.file, f"line {b.line}: {bid} is its region's first block, whose centre "
-                                                  f"is the region's origin: it states no xyz", bid)
+                                                  f"is the region's origin: it states no xyz or against", bid)
                     b.at, b.by = [0.0, 0.0, 0.0], "first block"
+                elif self._anchored(b, block):
+                    pass
                 elif c:
                     b.at, b.by = [c[0], c[1], c[2] or 0.0], "xyz"
                 elif not danger:
@@ -357,16 +411,16 @@ class Space:
                     p = d.props if d is not None else {}
                     t.height = float(p.get("height", conditions.props.get("height", 0) if conditions else 0))
                     c = point_of(p.get("xyz"))
-                    t.at = [c[0], c[1], c[2] or 0.0] if c else [None, None, 0.0]
-                    t.by = "xyz" if c else ""
+                    if not self._anchored(t, d):
+                        t.at = [c[0], c[1], c[2] or 0.0] if c else [None, None, 0.0]
+                        t.by = "xyz" if c else ""
                 else:
                     t.file, t.line = region.dir / "Locations.md", node.line
-                    self._own(t, node)
-                    if t.at[2] is None and loc in ground and way_in in ground:
-                        t.at[2] = float(ground[loc].props["height"]) - float(ground[way_in].props["height"])
+                    if loc in ground and way_in in ground:
+                        t.ground = float(ground[loc].props["height"]) - float(ground[way_in].props["height"])
+                    if not self._own(t, node) and t.at[2] is None:
+                        t.at[2] = t.ground
                 self._shape(t, d, of_location=True)
-            for b in (self.things[bid] for bid in maps.blocks_of(region)) if danger else ():
-                b.height = max((t.at[2] + t.height for t in self.things.values() if t.parent is b), default=0.0)
             for i, n in enumerate(region.files.get("Stops", [])):
                 if n.args:
                     s = self.things[f"{n.args[0]}/{i + 1}"] = Thing(f"{n.args[0]}/{i + 1}", "stop", code, r,
@@ -390,18 +444,99 @@ class Space:
                 self.say("error", t.file, f"{where} is {fmt(w)} by {fmt(l)} feet, where its width and length are "
                                           f"{p['width']} by {p['length']}", t.code)
 
-    def _own(self, t: Thing, node: kdl.Node):
-        """A SAFE or WILD location's or stop's place in its parent, by the one form it states."""
+    def _own(self, t: Thing, node: kdl.Node) -> bool:
+        """A SAFE or WILD location's or stop's place in its parent, by the one form it states, or
+        True where it is placed against another, to be resolved once that one is."""
         got = forms(node)
-        if len(got) > 1:
+        if twice(got):
             self.say("error", t.file, f"line {t.line}: {t.code} is placed by {' and by '.join(got)}: state one", t.code)
+        elif "against" in got:
+            return self._anchored(t, node)
         elif got and (o := own(node)) is not None:
             t.at, t.by = o, got[0]
         elif got:
             self.say("error", t.file, f"line {t.line}: {t.code} states a bearing or a distance without the other", t.code)
         else:
-            self.say("error", t.file, f'line {t.line}: {t.code} states no place: bearing and distance, xyz, or at="way in" '
-                                      f"(step 3d)", t.code)
+            self.say("error", t.file, f'line {t.line}: {t.code} states no place: bearing and distance, xyz, against, '
+                                      f'or at="way in" (step 3d)', t.code)
+        return False
+
+    def _anchored(self, t: Thing, node: kdl.Node | None) -> bool:
+        """Notes a thing placed against a sibling, its place left to resolve once the sibling's is."""
+        if node is None or "against" not in node.props:
+            return False
+        t.anchor, t.shift = anchor_of(node.props["against"]), point_of(node.props.get("xyz")) or [0.0, 0.0, None]
+        t.at, t.by = [None, None, None], ""
+        return t.anchor is not None
+
+    # -- anchors ------------------------------------------------------------------------
+
+    def reach(self, t: Thing) -> tuple[float, float]:
+        """A thing's floor and roof above its own origin: a block's lowest floor and highest roof."""
+        if t.kind != "block":
+            return 0.0, t.height
+        spans = [(m.at[2], m.at[2] + m.height) for m in self.things.values() if m.parent is t and m.at[2] is not None]
+        return (min(s[0] for s in spans), max(s[1] for s in spans)) if spans else (0.0, 0.0)
+
+    def _anchors(self) -> bool:
+        """Places each thing whose anchor is placed: across the side by its slide, then out along it
+        until the two outlines touch, then by its gap; above or below, floor on roof."""
+        changed = False
+        for t in self.things.values():
+            if t.anchor is None or t.at[0] is not None or t.by == "unplaceable":
+                continue
+            code, side = t.anchor
+            a = self.things.get(code)
+            if a is None or a is t or a.parent is not t.parent or a.kind != t.kind:
+                self.say("error", t.file, f"{'line ' + str(t.line) + ': ' if t.line else ''}{t.code} is placed against "
+                                          f"{code}, which is no {t.kind} beside it", t.code)
+                t.by = "unplaceable"
+                continue
+            if None in a.at[:2] or a.at[2] is None and side in ("above", "below"):
+                continue
+            sx, sy, sz = (v or 0.0 for v in t.shift)
+            if SIDES[side] is None:
+                x, y = a.at[0] + sx, a.at[1] + sy
+                if not meets(polygon(a.outline, a.at[0], a.at[1]), polygon(t.outline, x, y)):
+                    self.never(t, code, side)
+                    continue
+                (a0, a1), (t0, t1) = self.reach(a), self.reach(t)
+                z = a.at[2] + a1 - t0 + sz if side == "above" else a.at[2] + a0 - t1 + sz
+                t.at, t.by, changed = [x, y, z], f"against {code} {side}", True
+                continue
+            u = SIDES[side]
+            start = (a.at[0] + (sx if u[0] == 0 else 0), a.at[1] + (sy if u[1] == 0 else 0))
+            d = contact(polygon(a.outline, a.at[0], a.at[1]), polygon(t.outline, *start), u)
+            if d is None:
+                self.never(t, code, side)
+                continue
+            d = math.ceil(d - 1e-6) + (sx * u[0] + sy * u[1]) * (u[0] + u[1])
+            if t.shift[2] is None and t.ground is not None:
+                z = t.ground
+            else:
+                z = None if a.at[2] is None else a.at[2] + sz
+            t.at, t.by, changed = [start[0] + d * u[0], start[1] + d * u[1], z], f"against {code} {side}", True
+        return changed
+
+    def never(self, t: Thing, code: str, side: str):
+        self.say("error", t.file, f"{'line ' + str(t.line) + ': ' if t.line else ''}{t.code} is placed against {code} "
+                                  f"{side}, and their outlines never meet there", t.code, code)
+        t.by = "unplaceable"
+
+    def _unanchored(self):
+        """An anchor that never resolved: a loop of anchors, or one whose anchor has no place."""
+        for t in self.things.values():
+            if t.anchor is None or t.at[0] is not None or t.by == "unplaceable":
+                continue
+            seen, a = [t.code], self.things.get(t.anchor[0])
+            while a is not None and a.anchor and a.at[0] is None and a.code not in seen:
+                seen.append(a.code)
+                a = self.things.get(a.anchor[0])
+            loop = a is not None and a.code in seen
+            self.say("error" if loop else "warning", t.file,
+                     f"{'line ' + str(t.line) + ': ' if t.line else ''}{t.code} is placed against "
+                     + (f"a loop of anchors: {' against '.join(seen + [a.code])}" if loop
+                        else f"{t.anchor[0]}, which has no place"), t.code)
 
     # -- resolving places ---------------------------------------------------------------
 
@@ -433,34 +568,33 @@ class Space:
         a, b = self.things.get(str(n.args[0])), self.things.get(str(n.props["to"]))
         return (a, b) if a and b else None
 
-    def _place_blocks(self):
+    def _place_blocks(self) -> bool:
         """A DANGEROUS region's later blocks, each over or under the block a climbing way joins it to."""
-        changed = True
-        while changed:
-            changed = False
-            for region, n in self.joins:
-                if not self.stair(region, n) or not (e := self.ends(region, n)) or e[0].region != e[1].region:
-                    continue
-                for near, far, rise in ((e[0], e[1], self.climbs(n)), (e[1], e[0], -self.climbs(n))):
-                    nb, fb = near.parent, far.parent
-                    if nb is not fb and nb.at[0] is None and fb.at[0] is not None:
-                        nb.at = [fb.at[0], fb.at[1], fb.at[2] + far.at[2] + rise - near.at[2]]
-                        nb.by, changed = f"over or under {fb.code}, from {n.args[0]} to {n.props['to']}", True
+        moved = False
+        for region, n in self.joins:
+            if not self.stair(region, n) or not (e := self.ends(region, n)) or e[0].region != e[1].region:
+                continue
+            for near, far, rise in ((e[0], e[1], self.climbs(n)), (e[1], e[0], -self.climbs(n))):
+                nb, fb = near.parent, far.parent
+                if nb is not fb and nb.anchor is None and nb.at[0] is None and fb.at[0] is not None \
+                        and None not in (near.at[2], far.at[2]):
+                    nb.at = [fb.at[0], fb.at[1], fb.at[2] + far.at[2] + rise - near.at[2]]
+                    nb.by, moved = f"over or under {fb.code}, from {n.args[0]} to {n.props['to']}", True
+        return moved
 
-    def _place_regions(self):
+    def _place_regions(self) -> bool:
         """Each region's place from the origin, in plan and in height apart, by the first sheet or
         join reaching a placed region, in gazetteer and file order."""
-        regions = [self.things[c] for c in self.world.regions]
-        changed = True
-        while changed:
-            changed = False
-            for r in regions:
-                for q in regions:
-                    if q is not r and (sheet := self.shared(r, q)):
-                        changed |= self._from_sheet(r, q, sheet)
-            for region, n in self.joins:
-                if (e := self.ends(region, n)) and e[0].region != e[1].region:
-                    changed |= self._from_join(region, n, *e) | self._from_join(region, n, *e, back=True)
+        regions = [self.things[c] for c in self.world.regions if self.things[c].anchor is None]
+        moved = False
+        for r in regions:
+            for q in regions:
+                if q is not r and (sheet := self.shared(r, q)):
+                    moved |= self._from_sheet(r, q, sheet)
+        for region, n in self.joins:
+            if (e := self.ends(region, n)) and e[0].region != e[1].region:
+                moved |= self._from_join(region, n, *e) | self._from_join(region, n, *e, back=True)
+        return moved
 
     def shared(self, r: Thing, q: Thing) -> str | None:
         both = set(self.on.get(r.code, {})) & set(self.on.get(q.code, {}))
@@ -479,6 +613,8 @@ class Space:
         sign = -1 if back else 1
         near, far = (b, a) if back else (a, b)
         r, q = self.things[near.region], self.things[far.region]
+        if r.anchor is not None:
+            return False
         wn, wf, done = self.within(near), self.within(far), False
         how = f"from {n.args[0]} to {n.props['to']}"
         rise = self.climbs(n)
@@ -500,7 +636,8 @@ class Space:
     # -- what does not fit --------------------------------------------------------------
 
     def span(self, t: Thing, at: list) -> tuple[float, float] | None:
-        return None if at[2] is None else (at[2], at[2] + t.height)
+        """A thing's floor and roof, at its place `at`."""
+        return None if at[2] is None else tuple(at[2] + r for r in self.reach(t))
 
     def _check(self):
         things = list(self.things.values())
@@ -594,8 +731,9 @@ class Space:
             if only and t.region != only:
                 continue
             ab = self.absolute(t)
+            sp = self.span(t, ab)
             out.append([t.code, t.kind, t.parent.code if t.parent else "setting", point(t.at), point(ab), said(t.outline),
-                        "?" if ab[2] is None else f"{fmt(ab[2])}..{fmt(ab[2] + t.height)}", t.by or "-"])
+                        "?" if sp is None else f"{fmt(sp[0])}..{fmt(sp[1])}", t.by or "-"])
         return out
 
 

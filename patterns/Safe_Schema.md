@@ -40,6 +40,7 @@ node Location {
   bearing Compass opt drawn // from its block's origin - the region's way in, unless the block states xyz - with distance; or xyz
   distance distance opt drawn
   xyz point opt drawn       // its centre from its block's origin; z unset, it stands on its ground
+  against anchor opt drawn  // touching another location of its block, its xyz then a slide across the side and a gap along it
 }
 node Dressing {
   obvious string
@@ -104,6 +105,7 @@ node Block {               // a map of its own, and the enclosure drawn round it
   name string
   locations location list
   xyz point opt drawn       // its centre from its region's way in; unset, it lies there
+  against anchor opt drawn  // touching another block of its region, its xyz then a slide and a gap
   outline outline opt drawn
   wall gloss opt            // its height and what stands on it
   towers gloss opt          // their shape and where they stand

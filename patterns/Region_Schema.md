@@ -34,6 +34,7 @@ node Region file="setting/region/Regions.md" {   // opens with the region's code
   tag string                // one phrase, the region one step past its name
   xyz point opt drawn       // its origin - its way in, a DANGEROUS region's first block's centre - from the setting's,
                             // BRIEF.md's origin region's way in; unset, placed from a sheet or join it shares with a placed region
+  against anchor opt drawn  // in place of a place from a sheet or join: touching another region, with xyz its slide and gap
   outline outline opt drawn // its area on its home sheet; written by `tools/maps.py place`
 }
 

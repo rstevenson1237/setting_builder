@@ -30,6 +30,7 @@ RATING_TIME = {"SAFE": {"Round", "turn", "hour", "day", "week"}, "WILD": {"watch
                "DANGEROUS": {"Round", "turn"}}      # the units a time in each rating is stated in
 DISTANCE_RE = re.compile(r"(-?\d+(?:\.\d+)?) (\w+)")   # negative: south or west
 POINT_RE = re.compile(r"-?\d+,-?\d+(?:,-?\d+)?")
+ANCHOR_RE = re.compile(r"[A-Z]{1,2}(?:\.(?:\d+|[a-z]+))? (?:north|east|south|west|above|below)")
 OUTLINE_RE = re.compile(r"rect \d+ \d+|circle \d+|poly(?: -?\d+,-?\d+){3,}")
 
 
@@ -545,6 +546,9 @@ def value_problems(m: Member, v: str, enums: dict, words: dict):
     elif m.type == "point":
         if not POINT_RE.fullmatch(v):
             yield f"{v!r} is not x,y or x,y,z in whole feet"
+    elif m.type == "anchor":
+        if not ANCHOR_RE.fullmatch(v):
+            yield f"{v!r} is not a code then north, east, south, west, above or below"
     elif m.type == "outline":
         if not OUTLINE_RE.fullmatch(v):
             yield f"{v!r} is not rect W L, circle R or poly x,y x,y x,y ..., in whole feet"
