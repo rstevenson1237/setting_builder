@@ -32,7 +32,7 @@ Connection G.13 to="G.5" type="Archway"
 Connection G.13 to="G.12" type="Archway"
 Connection G.13 to="G.6" type="Stone"
 Connection G.14 to="G.16" type="Open"
-Connection G.14 to="B.1" type="Open" bearing="east" distance="60 feet" climb=-30
+Connection G.14 to="B.1" type="Open" bearing="east" distance="60 feet" climb=-10
 Connection G.15 to="G.4" type="Archway"
 Connection G.15 to="G.16" type="Open"
 Connection G.16 to="G.12" type="Open"

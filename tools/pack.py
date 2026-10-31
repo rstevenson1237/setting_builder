@@ -3,8 +3,9 @@
 A room is a rectangle of its Dressing's width and length whose corners lie on route.LATTICE.
 Rooms joined by a way sit near one another, touching where a door through the shared wall
 will do and a passage apart where it will not; rooms not joined may touch too, their shared
-wall drawn by the map's `sharedWalls`. The packing is annealed, so a seed fixes it, and is kept only where
-route.Router fits a passage for every way.
+wall drawn by the map's `sharedWalls`. A room placed against another is carried with it, never
+moved alone. The packing is annealed, so a seed fixes it, and is kept only where route.Router
+fits a passage for every way.
 """
 from __future__ import annotations
 
@@ -43,10 +44,12 @@ def compass_vector(bearing: float) -> tuple[float, float]:
 
 class Packer:
     def __init__(self, rooms: list[Room], ways: list[tuple[str, str, float | None]], side: int, seed: int,
-                 passages: float, pins: dict[str, tuple[float, float, float, float]]):
+                 passages: float, pins: dict[str, tuple[float, float, float, float]],
+                 glue: dict[str, tuple[str, float, float]] | None = None):
         """`ways` are (room, room, compass bearing to keep or None); `passages` the share of ways run
         as passages; `pins` each room to stand over another, as its (east, north, width, length)
-        from the square's centre."""
+        from the square's centre; `glue` each room placed against another, as (that room, feet
+        east, feet south of it)."""
         self.rooms, self.side = rooms, side
         self.ix = {r.code: i for i, r in enumerate(rooms)}
         self.w = [r.w for r in rooms]
@@ -68,6 +71,15 @@ class Packer:
         self.rng = random.Random(seed)
         self.x = [0.0] * len(rooms)
         self.y = [0.0] * len(rooms)
+        self.glue = {self.ix[c]: (self.ix[a], dx, dy) for c, (a, dx, dy) in (glue or {}).items()}
+        self.free = [i for i in range(len(rooms)) if i not in self.glue]
+        self.carrying = {j for j, _, _ in self.glue.values()}
+
+    def follow(self):
+        """Each room placed against another, carried to its place by it; a chain settles in as many rounds as it is long."""
+        for _ in range(len(self.glue)):
+            for i, (j, dx, dy) in self.glue.items():
+                self.x[i], self.y[i] = self.x[j] + dx, self.y[j] + dy
 
     # -- geometry ------------------------------------------------------------------------
 
@@ -180,6 +192,7 @@ class Packer:
         for k, i in enumerate(order[1:], 1):
             anchors = [j for j in self.near[i] if j in order[:k]] or order[:k]
             self.x[i], self.y[i] = self.against(i, rng.choice(anchors))
+        self.follow()
 
     def against(self, i, j):
         """A spot for room i against room j, on a side and at an offset chosen at random."""
@@ -205,7 +218,7 @@ class Packer:
         t1 = 0.04
         for s in range(steps):
             t = t0 * (t1 / t0) ** (s / steps)
-            i = rng.randrange(n)
+            i = rng.choice(self.free) if self.glue else rng.randrange(n)
             r = rng.random()
             if r < 0.55:
                 reach = max(GRID, int(50 * (1 - s / steps)))
@@ -214,7 +227,7 @@ class Packer:
                 nx, ny = self.against(i, rng.choice(self.near[i]))
             else:
                 j = rng.randrange(n)
-                if j == i:
+                if j == i or self.glue and {i, j} & (set(self.glue) | self.carrying):
                     continue
                 before = self.local(i) + self.local(j) - self.pair(i, j)
                 old = (self.x[i], self.y[i], self.x[j], self.y[j])
@@ -226,10 +239,21 @@ class Packer:
                 else:
                     self.x[i], self.y[i], self.x[j], self.y[j] = old
                 continue
-            before, after = self.local(i), self.local(i, nx, ny)
-            if after - before <= 0 or rng.random() < math.exp(-(after - before) / t):
+            if i in self.carrying:                       # it moves the rooms placed against it
+                old = (self.x[:], self.y[:])
+                before = self.total()
                 self.x[i], self.y[i] = nx, ny
-                cur += after - before
+                self.follow()
+                after = self.total()
+                if after - before <= 0 or rng.random() < math.exp(-(after - before) / t):
+                    cur += after - before
+                else:
+                    self.x, self.y = old
+            else:
+                before, after = self.local(i), self.local(i, nx, ny)
+                if after - before <= 0 or rng.random() < math.exp(-(after - before) / t):
+                    self.x[i], self.y[i] = nx, ny
+                    cur += after - before
             if cur < best - 1e-9:
                 best, best_at = cur, (self.x[:], self.y[:])
         self.x, self.y = best_at[0][:], best_at[1][:]
@@ -256,8 +280,8 @@ def squares(rooms: list[Room], fill: tuple[float, float]) -> list[int]:
 
 def attempt(args):
     """One packing from one seed, re-annealed round the ways that found no passage until every way has one."""
-    rooms, ways, side, seed, passages, pins = args
-    p = Packer(rooms, ways, side, seed, passages, pins)
+    rooms, ways, side, seed, passages, pins, glue = args
+    p = Packer(rooms, ways, side, seed, passages, pins, glue)
     p.anneal()
     pairs = [(a, b) for a, b, _ in ways]
     for _ in range(REPAIRS):
@@ -274,7 +298,7 @@ def attempt(args):
 
 
 def pack(rooms, ways, seed: int, fill: tuple[float, float], passages: float, footprint: int | None = None,
-         pins: dict | None = None, tries: int = 12):
+         pins: dict | None = None, tries: int = 12, glue: dict | None = None):
     """The lowest-energy packing, over a few seeds at each side in turn - `footprint` alone where
     it is given - stopping at the first side where some seed leaves every way a passage and
     every pinned room over its pin: (side, packer, routes, energy), routes None where no side did."""
@@ -282,10 +306,11 @@ def pack(rooms, ways, seed: int, fill: tuple[float, float], passages: float, foo
     side = footprint
     with ProcessPoolExecutor() as pool:
         for side in [footprint] if footprint else squares(rooms, fill):
-            runs = [r for r in pool.map(attempt, [(rooms, ways, side, seed * 1000 + k, passages, pins) for k in range(tries)]) if r[0]]
+            runs = [r for r in pool.map(attempt, [(rooms, ways, side, seed * 1000 + k, passages, pins, glue)
+                                                  for k in range(tries)]) if r[0]]
             if runs:
                 ok, e, x, y = min(runs, key=lambda r: r[1])
-                p = Packer(rooms, ways, side, seed, passages, pins)
+                p = Packer(rooms, ways, side, seed, passages, pins, glue)
                 p.x, p.y = x, y
                 return side, p, route.plan(p.rects(), pairs)[0], e
     return side, None, None, 0.0

@@ -22,6 +22,12 @@ value dice                    // Nd6 or Nd6+M; count= and bonus= bound it
 value percent                 // N%
 value feet                    // a whole number of feet, negative where a climb goes down
 value distance                // a number then a Distance_Unit: 40 feet, 1.5 miles
+value point                   // "x,y" or "x,y,z": whole feet east, north and up of its frame's origin; west, south
+                              // and down where negative; z is 0 where unstated
+value anchor                  // "CODE side": a sibling - a region, block or location under the same parent - then
+                              // north, east, south, west, above or below
+value outline                 // "rect W L", "circle R" or "poly x,y x,y x,y ...": feet round the thing's origin; a
+                              // poly is simple, with three points or more
 value finds                   // finds split by "; ", each prose then "(N cn, N wt)"
 value coin                    // N cn or N-M cn, low to high; or pennies
 value time                    // N or N-M, then a Time_Unit: 2 turns, 1 watch

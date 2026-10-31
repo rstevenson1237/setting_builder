@@ -79,6 +79,7 @@ Read these rather than a description of them.
   - `pack.py` - packs a DANGEROUS block's rooms close into a square, touching where a door through the shared wall will do and a passage apart where not, re-annealing until every way has one; run through `maps.py pack`.
   - `route.py` - routes each way as a door through a shared wall or a winding passage on a 10-foot lattice, a door where it meets a wall.
   - `mapcheck.py` - rebuilds a block map's floor and lists what is wrong with it: doors off a wall, passages through rooms or joining ones the tables do not, rooms touching where no shared walls are drawn, or unreached, stairs outside rooms, labels laid over one another. Run on every packed block by the validator.
+  - `space.py` - the dry fire: every region, block and location at a point in one space from the origin region's way in, x east, y north, z up, in feet, and what does not fit - unplaced things, overlaps, things outside their parent's outline, and ways whose climb, bearing or distance disagree with where their ends lie.
   - `maps.py` - draws maps from the setting through artgen. `pack` places a DANGEROUS region's rooms in a square. `place` puts each region on its sheets
     from `BRIEF.md`'s `sheet`, `ground` and `place` lines and writes `setting/Sheets.md`. `ground` writes each
     region's `Ground.md`; `draw` builds each block's map from its tables, never committed, and renders sheets, regions, blocks and cuts to SVG,
@@ -97,6 +98,8 @@ python3 tools/validate_setting.py --location CODE       # one location's entries
 python3 tools/validate_setting.py --read-set [STEP]     # what a step reads, per its templates' fences
 python3 tools/validate_setting.py --skeleton STEP [REGION]   # the shape of what a step writes
 python3 tools/validate_setting.py --brief setting|REGION # BRIEF.md as a setting or region step reads it
+python3 tools/space.py [--only REGION]      # the dry fire: every place in the setting, and what does not fit
+python3 tools/space.py settle [REGION]      # write each region's place where its sheet or joins give it
 python3 tools/metrics.py                    # corpus, tells, budget and read-set report
 python3 tools/metrics.py --tells [PATH]     # every tell hit, listed, over any markdown
 python3 tools/metrics.py --carry [CODE]     # the table words each write-up carries and drops

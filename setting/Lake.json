@@ -39,78 +39,78 @@
     "labels": [
       {
         "text": "B",
-        "x": 24.8,
-        "y": 25.2,
+        "x": 24.1,
+        "y": 24.5,
         "kind": "region",
         "origin": "tables"
       },
       {
         "text": "B.1 G",
         "x": 26.8,
-        "y": 25,
+        "y": 24,
         "kind": "place",
         "origin": "tables"
       },
       {
         "text": "B.2",
         "x": 26.8,
-        "y": 21,
+        "y": 20,
         "kind": "place",
         "origin": "tables"
       },
       {
         "text": "B.3",
         "x": 31.8,
-        "y": 25,
+        "y": 24,
         "kind": "place",
         "origin": "tables"
       },
       {
         "text": "B.4",
         "x": 31.7,
-        "y": 20.1,
+        "y": 19.1,
         "kind": "place",
         "origin": "tables"
       },
       {
         "text": "B.5",
         "x": 20.8,
-        "y": 25,
+        "y": 24,
         "kind": "place",
         "origin": "tables"
       },
       {
         "text": "B.6",
         "x": 21.5,
-        "y": 30.3,
+        "y": 29.3,
         "kind": "place",
         "origin": "tables"
       },
       {
         "text": "B.7",
         "x": 26.8,
-        "y": 28.5,
+        "y": 27.5,
         "kind": "place",
         "origin": "tables"
       },
       {
         "text": "B.8",
         "x": 30.7,
-        "y": 28.9,
+        "y": 27.9,
         "kind": "place",
         "origin": "tables"
       },
       {
         "text": "B.9",
-        "x": 24.3,
-        "y": 19,
+        "x": 20,
+        "y": 22.1,
         "kind": "place",
         "origin": "tables"
       },
       {
         "text": "B.10 H",
-        "x": 18.5,
-        "y": 28.4,
+        "x": 18,
+        "y": 25.1,
         "kind": "place",
         "origin": "tables"
       }
@@ -119,67 +119,67 @@
       {
         "kind": "poi",
         "x": 26,
-        "y": 25,
+        "y": 24,
         "origin": "tables"
       },
       {
         "kind": "cave-mouth",
         "x": 26,
-        "y": 25,
+        "y": 24,
         "origin": "tables"
       },
       {
         "kind": "camp",
         "x": 26,
-        "y": 21,
+        "y": 20,
         "origin": "tables"
       },
       {
         "kind": "camp",
         "x": 31,
-        "y": 25,
+        "y": 24,
         "origin": "tables"
       },
       {
         "kind": "camp",
         "x": 30.9,
-        "y": 20.1,
+        "y": 19.1,
         "origin": "tables"
       },
       {
         "kind": "ruin",
         "x": 20,
-        "y": 25,
+        "y": 24,
         "origin": "tables"
       },
       {
         "kind": "poi",
         "x": 20.7,
-        "y": 30.3,
+        "y": 29.3,
         "origin": "tables"
       },
       {
         "kind": "poi",
         "x": 26,
-        "y": 28.5,
+        "y": 27.5,
         "origin": "tables"
       },
       {
         "kind": "poi",
         "x": 29.9,
-        "y": 28.9,
+        "y": 27.9,
         "origin": "tables"
       },
       {
         "kind": "poi",
-        "x": 23.5,
-        "y": 19,
+        "x": 19.2,
+        "y": 22.1,
         "origin": "tables"
       },
       {
         "kind": "cave-mouth",
-        "x": 17.7,
-        "y": 28.4,
+        "x": 17.2,
+        "y": 25.1,
         "origin": "tables"
       }
     ]
@@ -192,7 +192,7 @@
       "area": {
         "circle": [
           26,
-          25,
+          24,
           4
         ]
       },
@@ -206,7 +206,7 @@
       "area": {
         "circle": [
           31,
-          25,
+          24,
           1.5
         ]
       },
@@ -220,7 +220,7 @@
       "area": {
         "circle": [
           30.9,
-          20.1,
+          19.1,
           1.5
         ]
       },
@@ -234,7 +234,7 @@
       "area": {
         "circle": [
           20,
-          25,
+          24,
           1.5
         ]
       },
@@ -248,7 +248,7 @@
       "area": {
         "circle": [
           20.7,
-          30.3,
+          29.3,
           1.5
         ]
       },
@@ -262,7 +262,7 @@
       "area": {
         "circle": [
           29.9,
-          28.9,
+          27.9,
           1.5
         ]
       },
@@ -275,8 +275,8 @@
       "origin": "tables",
       "area": {
         "circle": [
-          23.5,
-          19,
+          19.2,
+          22.1,
           1.5
         ]
       },
@@ -289,8 +289,8 @@
       "origin": "tables",
       "area": {
         "circle": [
-          17.7,
-          28.4,
+          17.2,
+          25.1,
           1.5
         ]
       },

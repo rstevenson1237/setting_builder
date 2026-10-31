@@ -45,8 +45,10 @@ node Dressing {
   ambiance gloss opt
   width feet                // across, west to east as the room lies; a round room's diameter
   length feet               // north to south
-  east feet opt drawn       // where its centre lies east of its block's centre, west where negative; written by `tools/maps.py pack`
-  north feet opt drawn      // and north of it, south where negative; a block states both for every room or for none
+  xyz point opt drawn       // its centre from its block's, its floor from the block's floor; written by `tools/maps.py pack`;
+                            // a block states it for every room or for none
+  against anchor opt drawn  // touching another room of its block, its xyz then a slide across the side and a gap along it
+  outline outline opt drawn // where it is no rect or round room: its extent is its width and length
   height feet opt           // floor to roof, where it matters at the table
   shape Room_Shape opt      // rect where unset
   layout string
@@ -105,19 +107,22 @@ node Reward {
 node Connection {
   to location
   type Connection_Type
-  bearing Compass opt drawn // where the far end lies from this one, as designed: it places a block's rooms until they state east and north, and pack keeps it
-  distance distance opt drawn   // with bearing; a way between two rooms that state east and north states neither
+  bearing Compass opt drawn // where the far end lies from this one, as designed: it places a block's rooms until they state xyz, and pack keeps it
+  distance distance opt drawn   // with bearing; a way between two rooms of a block that state xyz states neither
   climb feet opt            // up, or down where negative, where the way changes level
   orientation gloss opt     // the same in words, for the reader
   width feet opt            // where it differs from its block's; within both rooms' footprints
   height feet opt
   one-of Encounter Hazard Mystery Secret Lock opt
 }
-node Block {               // one level: a map of its own, sharing its centre with each block a climbing way joins it to
+node Block {               // one level: a map of its own
   name string
   locations location list
-  footprint feet opt drawn  // the side of the square, round the block's centre, its rooms are packed in: BRIEF.md's pack footprint; stated where they state east and north
-  router number opt drawn   // the tools/route.py version its passages were routed by; stated with footprint
+  xyz point opt drawn       // its centre from its region's origin; the first block's is the origin, and a later one
+                            // unset lies over or under the block a climbing way joins it to
+  against anchor opt drawn  // touching another block of its region, its xyz then a slide and a gap
+  outline outline opt drawn // "rect S S", the square its rooms are packed in: BRIEF.md's pack footprint; stated where they state xyz
+  router number opt drawn   // the tools/route.py version its passages were routed by; stated with outline
   width feet opt            // of its passages, where they differ from the seed's Conditions
   height feet opt
 }

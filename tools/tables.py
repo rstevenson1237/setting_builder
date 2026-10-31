@@ -29,6 +29,9 @@ TIME_RE = re.compile(r"(\d+)(?:-(\d+))? ([A-Za-z]+)")
 RATING_TIME = {"SAFE": {"Round", "turn", "hour", "day", "week"}, "WILD": {"watch", "day"},
                "DANGEROUS": {"Round", "turn"}}      # the units a time in each rating is stated in
 DISTANCE_RE = re.compile(r"(-?\d+(?:\.\d+)?) (\w+)")   # negative: south or west
+POINT_RE = re.compile(r"-?\d+,-?\d+(?:,-?\d+)?")
+ANCHOR_RE = re.compile(r"[A-Z]{1,2}(?:\.(?:\d+|[a-z]+))? (?:north|east|south|west|above|below)")
+OUTLINE_RE = re.compile(r"rect \d+ \d+|circle \d+|poly(?: -?\d+,-?\d+){3,}")
 
 
 @dataclass
@@ -540,6 +543,15 @@ def value_problems(m: Member, v: str, enums: dict, words: dict):
     elif m.type in ("feet", "distance"):
         if msg := unit_problem(m.type, v, enums):
             yield msg
+    elif m.type == "point":
+        if not POINT_RE.fullmatch(v):
+            yield f"{v!r} is not x,y or x,y,z in whole feet"
+    elif m.type == "anchor":
+        if not ANCHOR_RE.fullmatch(v):
+            yield f"{v!r} is not a code then north, east, south, west, above or below"
+    elif m.type == "outline":
+        if not OUTLINE_RE.fullmatch(v):
+            yield f"{v!r} is not rect W L, circle R or poly x,y x,y x,y ..., in whole feet"
     elif m.type == "percent":
         if not PERCENT_RE.fullmatch(v) or int(v[:-1]) > 100:
             yield f"{v!r} is not a percentage"
@@ -635,7 +647,8 @@ def gazetteer_problems(schema: Schema, nodes: list[kdl.Node]) -> list[tuple[int,
                 out.append((n.line, f"Region {code} has no member {k!r}"))
         for m in members:
             if m.name not in n.props:
-                out.append((n.line, f"Region {code} lacks {m.name}"))
+                if not m.opt:
+                    out.append((n.line, f"Region {code} lacks {m.name}"))
             elif m.type == "region":
                 for j in (x.strip() for x in str(n.props[m.name]).split(",")):
                     other = nodes[codes.index(j)] if j in codes else None
@@ -1255,7 +1268,7 @@ class Brief:
         self.schema, self.path, self.problems = schema, path, list(schema.brief_problems)
         self.targets, self.regions = [], {}
         self.packs: dict[str, kdl.Node] = {}            # a rating's pack line, by its name, and a region's, by its code
-        self.files = self.setting = None
+        self.files = self.setting = self.origin = None
         self.sheets: dict[str, kdl.Node] = {}
         try:
             nodes = brief_nodes(path)
@@ -1308,6 +1321,10 @@ class Brief:
         compass = self.schema.setting_enums.get("Compass", {})
         terrains = self.terrains()
         for n in (self.setting.children if self.setting else []):
+            if n.name == "origin":
+                self.origin = str(n.args[0]) if n.args else ""
+                if self.origin not in self.regions:
+                    out.append(f"line {n.line}: origin names a region, the one whose way in is (0,0,0)")
             if n.name != "sheet":
                 continue
             p = lambda msg, n=n: out.append(f"line {n.line}: {msg}")
