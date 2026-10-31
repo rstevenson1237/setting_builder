@@ -81,7 +81,7 @@ Read these rather than a description of them.
   - `mapcheck.py` - rebuilds a block map's floor and lists what is wrong with it: doors off a wall, passages through rooms or joining ones the tables do not, rooms touching where no shared walls are drawn, or unreached, stairs outside rooms, labels laid over one another. Run on every packed block by the validator.
   - `space.py` - the dry fire: every region, block and location at a point in one space from the origin region's way in, x east, y north, z up, in feet, and what does not fit - unplaced things, overlaps, things outside their parent's outline, and ways whose climb, bearing or distance disagree with where their ends lie.
   - `maps.py` - draws maps from the setting through artgen. `pack` places a DANGEROUS region's rooms in a square. `place` puts each region on its sheets
-    from `BRIEF.md`'s `sheet`, `ground` and `place` lines and writes `setting/Sheets.md`. `ground` writes each
+    from `BRIEF.md`'s `sheet`, `ground` and `place` lines and writes `setting/Sheets.md` and each region's `outline` and `xyz`. `ground` writes each
     region's `Ground.md`; `draw` builds each block's map from its tables, never committed, and renders sheets, regions, blocks and cuts to SVG,
     which the site and PDF builders embed.
   - `kdl.py` - the KDL subset the location tables are written in.
