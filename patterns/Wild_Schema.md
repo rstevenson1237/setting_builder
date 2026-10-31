@@ -34,10 +34,9 @@ node Location {
   tags tag list n=3
   type kind
   at string opt             // "way in" where it stands at the region's way in; else prose for the reader
-  bearing Compass opt       // from the region's way in, with distance; or north and east
-  distance distance opt
-  north distance opt        // how far north of the way in, south where negative
-  east distance opt         // and east, west where negative
+  bearing Compass opt drawn // from its block's origin - the region's way in, unless the block states xyz - with distance; or xyz
+  distance distance opt drawn
+  xyz point opt drawn       // its centre from its block's origin; z unset, it stands on its ground
 }
 node Dressing {
   obvious string
@@ -46,6 +45,7 @@ node Dressing {
   ambiance gloss opt
   width feet opt            // across, west to east, as the place lies on the map
   length feet opt           // north to south
+  outline outline opt drawn // where it is no rectangle: its extent is its width and length
   layout string
   mark entry Factions list opt   // the faction whose Identity shows here
   left entry History list opt    // the event whose Left mark shows here
@@ -53,6 +53,8 @@ node Dressing {
 node Block {                // a map of its own: a place's buildings, where its locations stand, on the region's ground
   name string
   locations location list
+  xyz point opt drawn       // its centre from its region's way in; unset, it lies there
+  outline outline opt drawn
   wall gloss opt            // drawn round the locations where stated; its height and what stands on it
   towers gloss opt          // their shape and where they stand
 }
@@ -97,11 +99,10 @@ node Procedure {
 }
 node Stop {                 // a place of interest on a Route, listed in order from where the route starts
   feature gloss             // the Feature its write-up gives it
-  at string opt             // as a Location's at, and its bearing, distance, north and east
-  bearing Compass opt
-  distance distance opt
-  north distance opt
-  east distance opt
+  at string opt             // as a Location's at, and its bearing, distance and xyz, from its region's way in
+  bearing Compass opt drawn
+  distance distance opt drawn
+  xyz point opt drawn
   sight string              // what a party finds there and can do
   to location opt           // where a path from it leads, in this region or another: a Route is then a
                             // slice through the region, the stops its way to what lies off it

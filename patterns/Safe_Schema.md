@@ -37,10 +37,9 @@ node Location {
   tags tag list n=3
   type kind
   at string opt             // "way in" where it stands at the region's way in; else prose for the reader
-  bearing Compass opt       // from the region's way in, with distance; or north and east
-  distance distance opt
-  north distance opt        // how far north of the way in, south where negative
-  east distance opt         // and east, west where negative
+  bearing Compass opt drawn // from its block's origin - the region's way in, unless the block states xyz - with distance; or xyz
+  distance distance opt drawn
+  xyz point opt drawn       // its centre from its block's origin; z unset, it stands on its ground
 }
 node Dressing {
   obvious string
@@ -50,6 +49,7 @@ node Dressing {
   width feet opt            // across, west to east as the room lies; a round room's diameter
   length feet opt           // north to south
   height feet opt           // floor to roof, where it matters at the table
+  outline outline opt drawn // where it is no rectangle: its extent is its width and length
   shape Room_Shape opt      // rect where unset
   layout string
   mark entry Factions list opt   // the faction whose Identity shows here
@@ -103,6 +103,8 @@ node Way {
 node Block {               // a map of its own, and the enclosure drawn round its locations
   name string
   locations location list
+  xyz point opt drawn       // its centre from its region's way in; unset, it lies there
+  outline outline opt drawn
   wall gloss opt            // its height and what stands on it
   towers gloss opt          // their shape and where they stand
 }

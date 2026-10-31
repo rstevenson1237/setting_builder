@@ -20,6 +20,7 @@ import kdl
 import mapcheck
 import pack as packing
 import route
+import space
 import tables
 from maps import ARTGEN, CACHE, UNSIZED, artgen, blocks_of, built, feet, world_for
 
@@ -62,10 +63,9 @@ def block_map(region, block: kdl.Node) -> tuple[dict | None, list[str]]:
         return d * math.sin(math.radians(a)), -d * math.cos(math.radians(a))
     leaving = {str(n.args[0]) for n in ways if str(n.props["to"]) not in members and str(n.args[0]) in members}
     entrance = min(leaving or members, key=lambda c: int(c.split(".")[1]))
-    stated = {c: (float(d.props["east"]), -float(d.props["north"])) for c in members
-              if (d := dress.get(c)) is not None and "east" in d.props and "north" in d.props}
+    stated = {c: (at[0], -at[1]) for c in members if (at := space.centre(dress.get(c)))}
     if stated and len(stated) != len(members):
-        problems.append("some rooms state east and north and others do not")
+        problems.append("some rooms state xyz and others do not")
     at, queue, told = ({c: stated[c] for c in members}, [], set()) if len(stated) == len(members) \
         else ({entrance: (0.0, 0.0)}, [entrance], set())
     for a in queue:                                      # rooms placed by walking orientations
@@ -301,7 +301,7 @@ def defects(region, block: kdl.Node, m: dict) -> list[str]:
     """What tools/mapcheck.py finds wrong in a block's map file, held to the tables' ways."""
     members = {x.strip() for x in str(block.props["locations"]).split(",")}
     dress = {str(n.args[0]): n for n in region.files.get("Dressing", []) if n.args}
-    if not all(c in dress and "east" in dress[c].props and "north" in dress[c].props for c in members):
+    if not all(space.centre(dress.get(c)) for c in members):
         return []                                         # not packed: its corridors are left to artgen
     rid = lambda c: c.replace(".", "-")
     ways = {frozenset((rid(str(n.args[0])), rid(str(n.props["to"])))) for n in region.files.get("Connections", [])
@@ -332,14 +332,14 @@ SIDE = {"n": "north", "e": "east", "s": "south", "w": "west"}
 
 def plan_of(region, block: kdl.Node):
     """A packed block's routes, from the positions its Dressing states: (routes, rects, what no
-    passage fitted), or None where its rooms state no east and north."""
+    passage fitted), or None where its rooms state no xyz."""
     members = [m.strip() for m in str(block.props["locations"]).split(",")]
     dress = {str(n.args[0]): n for n in region.files.get("Dressing", []) if n.args}
-    if not members or not all(c in dress and "east" in dress[c].props and "north" in dress[c].props
-                              and "width" in dress[c].props and "length" in dress[c].props for c in members):
+    if not members or not all(space.centre(dress.get(c)) and "width" in dress[c].props and "length" in dress[c].props
+                              for c in members):
         return None
-    rects = {c: route.Rect(float(dress[c].props["east"]) - float(dress[c].props["width"]) / 2,
-                           -float(dress[c].props["north"]) - float(dress[c].props["length"]) / 2,
+    rects = {c: route.Rect(space.centre(dress[c])[0] - float(dress[c].props["width"]) / 2,
+                           -space.centre(dress[c])[1] - float(dress[c].props["length"]) / 2,
                            float(dress[c].props["width"]), float(dress[c].props["length"]),
                            str(dress[c].props.get("shape")) == "round") for c in members}
     first = rects[members[0]]
@@ -371,9 +371,9 @@ def placed(world, code: str) -> tuple[float, float, float, float] | None:
     if region is None or region.rating.upper() != "DANGEROUS":
         return None
     d = next((n for n in region.files.get("Dressing", []) if n.args and str(n.args[0]) == code), None)
-    if d is None or not all(k in d.props for k in ("east", "north", "width", "length")):
+    if not (at := space.centre(d)) or not all(k in d.props for k in ("width", "length")):
         return None
-    return tuple(float(d.props[k]) for k in ("east", "north", "width", "length"))
+    return at[0], at[1], float(d.props["width"]), float(d.props["length"])
 
 
 def stair(world, code: str) -> tuple[float, float, float, float] | None:
@@ -390,8 +390,8 @@ def stair(world, code: str) -> tuple[float, float, float, float] | None:
 def pack_region(code: str, seed: int = 1, again: bool = False) -> int:
     """Packs each block of a DANGEROUS region into a square and routes its passages (tools/pack.py,
     tools/route.py), keeping each way's direction as its rooms lie, or else as its bearing says.
-    Writes each room's `east` and `north` from the block's centre to Dressing.md and the block's
-    `footprint` and `router` to Blocks.md, and takes `bearing` and `distance` off each way within
+    Writes each room's `xyz` from the block's centre to Dressing.md and the block's
+    `outline` and `router` to Blocks.md, and takes `bearing` and `distance` off each way within
     the block, which the rooms' positions now place. A block whose rooms are placed and whose
     ways all route is left where it lies, its router stamped, unless `again`."""
     world = world_for(tables.SETTING)
@@ -418,10 +418,9 @@ def pack_region(code: str, seed: int = 1, again: bool = False) -> int:
                 return 1
             rooms.append(packing.Room(c, int(d.props["width"]), int(d.props["length"]),
                                       str(d.props.get("shape")) == "round", str(d.props.get("shape")) == "hall"))
-        placed = {c: (float(dress[c].props["east"]), float(dress[c].props["north"])) for c in members
-                  if "east" in dress[c].props and "north" in dress[c].props}
+        placed = {c: at for c in members if (at := space.centre(dress[c]))}
         found = plan_of(region, block)
-        sized = rates["footprint"] is None or float(block.props.get("footprint", 0)) == rates["footprint"]
+        sized = rates["footprint"] is None or side_of(block) == rates["footprint"]
         if found and not found[2] and sized and not again:
             print(f"{bid}: packed, and every way routes; left where it lies (--again repacks it)")
             side = None
@@ -449,15 +448,14 @@ def pack_region(code: str, seed: int = 1, again: bool = False) -> int:
             at = {c: (p.x[i] - side / 2, side / 2 - p.y[i]) for i, c in enumerate(members)}
             for i, line in enumerate(text["Dressing"]):
                 if (m := re.match(r"Dressing (\S+) ", line)) and m[1] in at:
-                    line = with_prop(line, "east", str(round(at[m[1]][0])), after="length")
-                    text["Dressing"][i] = with_prop(line, "north", str(round(at[m[1]][1])), after="east")
+                    text["Dressing"][i] = with_prop(line, "xyz", f'"{round(at[m[1]][0])},{round(at[m[1]][1])}"', after="length")
             for i, line in enumerate(text["Connections"]):
                 if (m := re.match(r"Connection (\S+) to=\"(\S+)\"", line)) and m[1] in members and m[2] in members:
                     text["Connections"][i] = without(without(line, "bearing"), "distance")
         for i, line in enumerate(text["Blocks"]):
             if line.startswith(f"Block {bid} "):
-                line = with_prop(line, "footprint", str(side)) if side else line
-                text["Blocks"][i] = with_prop(line, "router", str(route.VERSION), after="footprint")
+                line = with_prop(line, "outline", f'"rect {side} {side}"') if side else line
+                text["Blocks"][i] = with_prop(line, "router", str(route.VERSION), after="outline")
     if failed:
         return 1
     for k, f in files.items():
@@ -467,19 +465,24 @@ def pack_region(code: str, seed: int = 1, again: bool = False) -> int:
 
 # -- problems: what the validator reports of a packed block ------------------------------
 
+def side_of(block: kdl.Node) -> float | None:
+    """The side of the square a packed block's rooms lie in: its outline, a "rect S S"."""
+    o = space.outline_value(block.props.get("outline"))
+    return o[1] if o and o[0] == "rect" and o[1] == o[2] else None
+
+
 def problems(region, block: kdl.Node) -> list[tuple[str, Path, str]]:
     """What is wrong with a block, as (level, file, message). A room is a hall where it is one
     passage wide and at least twice as long, and only there. An unpacked block is a warning.
-    A packed one has BRIEF.md's footprint, its rooms inside that square round the block's
-    centre and covering the least of BRIEF.md's fill, each room a way climbs from over or
-    under the room it reaches, passages routed by this tools/route.py and fitting every way,
-    no bearing or distance on a way within it, and nothing tools/mapcheck.py finds wrong.
+    A packed one has BRIEF.md's footprint as its outline, its rooms covering the least of
+    BRIEF.md's fill, passages routed by this tools/route.py and fitting every way, no bearing
+    or distance on a way within it, and nothing tools/mapcheck.py finds wrong. Where its rooms
+    lie, against its outline and the blocks a stair joins it to, is tools/space.py's.
     """
     bid, path = str(block.args[0]), region.dir / "Blocks.md"
     dress = {str(n.args[0]): n for n in region.files.get("Dressing", []) if n.args}
     members = [m.strip() for m in str(block.props.get("locations", "")).split(",") if m.strip()]
-    at = {c: (float(dress[c].props["east"]), float(dress[c].props["north"])) for c in members
-          if c in dress and "east" in dress[c].props and "north" in dress[c].props}
+    at = {c: xy for c in members if (xy := space.centre(dress.get(c)))}
     out, across = [], region.passage(block, "width")
     for c in members:
         if c in dress and "width" in dress[c].props and "length" in dress[c].props:
@@ -491,25 +494,18 @@ def problems(region, block: kdl.Node) -> list[tuple[str, Path, str]]:
                             f"at least twice as long, so its shape is {'' if fits else 'not '}hall (step 4a)"))
     if not at:
         return out + [("warning", path, f"{bid}'s rooms are not packed: run `python3 tools/maps.py pack {region.code}` (step 4a)")]
-    if "footprint" not in block.props:
-        return out + [("error", path, f"{bid} places its rooms but states no footprint")]
-    side = float(block.props["footprint"])
+    side = side_of(block)
+    if side is None:
+        return out + [("error", path, f'{bid} places its rooms but states no outline "rect S S", the square they are packed in')]
     wide = lambda c, k: float(dress[c].props["width" if k == 0 else "length"])
     world = world_for(tables.SETTING)
     rates = tables.Brief(world.schema).packing(region.code)
     if rates["footprint"] is not None and side != rates["footprint"]:
-        out.append(("error", path, f"{bid}'s footprint is {side:g} feet, where BRIEF.md's pack asks {rates['footprint']:g}: "
+        out.append(("error", path, f"{bid}'s square is {side:g} feet, where BRIEF.md's pack footprint asks {rates['footprint']:g}: "
                                    f"run `python3 tools/maps.py pack {region.code}` (step 4a)"))
-    for c in at:
-        if (to := stair(world, c)) and not all(abs(at[c][k] - to[k]) < (wide(c, k) + to[k + 2]) / 2 for k in (0, 1)):
-            out.append(("error", path, f"{c} climbs to a room it does not stand over or under; blocks a climbing "
-                                       f"way joins share their centre (step 4a)"))
     if str(block.props.get("router")) != str(route.VERSION):
         out.append(("error", path, f"{bid} was routed by tools/route.py version {block.props.get('router', 'unstated')}, "
                                    f"not {route.VERSION}: run `python3 tools/maps.py pack {region.code}` (step 4a)"))
-    for c in at:
-        if any(abs(at[c][k]) + wide(c, k) / 2 > side / 2 + 0.5 for k in (0, 1)):
-            out.append(("error", path, f"{c} lies outside {bid}'s footprint of {side:g} feet round its centre"))
     area, least = sum(wide(c, 0) * wide(c, 1) for c in at), (rates["fill"] or (0, 0))[0]
     if area < least * side * side:
         out.append(("error", path, f"{bid}'s rooms cover {area / side / side:.0%} of its footprint, under BRIEF.md's "

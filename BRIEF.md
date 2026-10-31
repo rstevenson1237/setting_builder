@@ -24,6 +24,8 @@ The maps are asked for here. `setting` holds a `sheet` per terrain map: its name
 is on none. A region on a sheet may hold one `ground` line, a terrain its area must have, then
 prose the writing reads and the solver does not, and `place` lines: another region on a sheet
 with it, a compass direction, and a distance or `"N-M unit"` from that region's way in.
+`origin` names the region whose way in, at its ground, is (0,0,0): every region, block and
+location has a place from it, x east, y north, z up, in feet.
 
 A `pack` line is how a DANGEROUS block's rooms are packed into a square: `fill`, the share of
 the square they cover, from the least the validator holds to the most the packer starts from;
@@ -83,6 +85,7 @@ dangerous {
 // -- This setting --------------------------------------------------------------
 
 setting {
+  origin A
   sheet Sands square="25 yards" extent="1200 by 1200 yards" regions="A"
   sheet Lake square="20 yards" extent="1000 by 1000 yards" regions="B"
   test "The Lost City in play, not in text, built fresh by the framework and transcribed from nothing: a party caught in a sandstorm takes cover in a buried ruin, survives its first days on what it can find, and goes down through a pyramid that gets larger for five levels, passes factions to bargain with, and reaches a lake city of dreamers, then goes deeper still, narrowing, toward the thing that corrupted a people. Every location type, procedure kind and registry the framework has is used at least once."

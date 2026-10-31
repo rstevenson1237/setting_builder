@@ -19,12 +19,12 @@ place    Reads BRIEF.md's `sheet` lines and each region's `ground` and `place` l
 ground   Reads each placed region's ground back from its home sheet and writes its
          `Ground.md`: the region's way in and terrain, the rivers, roads and hills in its
          area, and, once its Locations.md exists, the ground at each location. Run again
-         after the locations are written. A location with no bearing and distance, or north
-         and east, from the way in is listed and left out.
+         after the locations are written. A location with no bearing and distance, or xyz, from
+         the way in is listed and left out.
 pack     Packs each block of a DANGEROUS region into a square (tools/pack.py) and routes a passage
          for every way (tools/route.py), keeping each way's direction as its rooms lie, or else as its
-         bearing says. Writes each room's `east` and `north` from the block's centre, the block's
-         `footprint` and `router`, and takes the bearing and distance off each way within the block.
+         bearing says. Writes each room's `xyz` from the block's centre, the block's `outline` and
+         `router`, and takes the bearing and distance off each way within the block.
          A block already packed whose ways all route is left as it lies; --again repacks it. A seed
          fixes the result.
 draw     Builds each block's map, `setting/region/[Code]/[Block].json`, never committed, from its tables - a
@@ -49,6 +49,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import kdl                      # noqa: E402,F401
 import site_common as sc        # noqa: E402
+import space                    # noqa: E402
 import tables                   # noqa: E402
 
 ARTGEN = Path(__file__).resolve().parent / "artgen" / "artgen-maps.js"
@@ -367,7 +368,7 @@ def place(brief_path: Path, setting: Path) -> int:
         n = tables.bounds(node.props.get("locations", 1))[1]
         radius[code] = max(3, math.ceil(math.sqrt(SQUARES_PER_LOCATION * n / math.pi)))
     world = world_for(setting) if (setting / "region" / "Regions.md").exists() else None
-    unmet, table = [], []
+    unmet, table, outlines = [], [], {}
     for sheet in sheets.values():
         rad = {c: (radius[c] if home[c] == sheet.name else 0) for c in sheet.codes}
         spread = {c: located(world, c, sheet.square) for c in sheet.codes if home[c] == sheet.name}
@@ -391,14 +392,22 @@ def place(brief_path: Path, setting: Path) -> int:
             unmet.append(f"{'line ' + str(node.line) + ': ' if node else ''}{sheet.name}: {p}")
         for code in sheet.codes:
             x, y = sheet.at[code]
-            table.append(f"| {sheet.name} {code} | {sheet.name} | {code} | {x},{y} | "
-                         f"{'circle, radius ' + str(area[code]) + ' squares' if area[code] else 'mark'} |")
+            table.append(f"| {sheet.name} {code} | {sheet.name} | {code} | {x},{y} |")
+            if area[code]:
+                outlines[code] = f"circle {round(area[code] * sheet.square)}"
     title = "Sheets"
     if (reg := setting / "region" / "Regions.md").exists():
         first = reg.read_text().splitlines()[0]
         title = "Sheets of " + first.split(" of ", 1)[1] if " of " in first else title
     (setting / "Sheets.md").write_text(
-        f"{title}\n\n| Name | Sheet | Region | Way in | Area |\n|---|---|---|---|---|\n" + "\n".join(table) + "\n")
+        f"{title}\n\n| Name | Sheet | Region | Way in |\n|---|---|---|---|\n" + "\n".join(table) + "\n")
+    if reg.exists():
+        import dungeon
+        lines = reg.read_text().split("\n")
+        for i, line in enumerate(lines):
+            if (m := re.match(r"Region (\S+) ", line)) and m[1] in outlines:
+                lines[i] = dungeon.with_prop(line, "outline", f'"{outlines[m[1]]}"')
+        reg.write_text("\n".join(lines))
     for u in unmet:
         print(f"UNMET: {u}")
     print(f"{len(sheets)} sheet(s) placed, {len(unmet)} request(s) unmet")
@@ -420,25 +429,6 @@ def said(ft: float) -> str:
     else:
         n, unit = max(10, round(ft / 10) * 10), "feet"
     return f"{n:g} {unit}"
-
-
-def offset(node: kdl.Node) -> tuple[float, float] | None:
-    """A location's (east, north) in feet from its region's way in, or None when it states
-    no bearing and distance, or north and east."""
-    p = node.props
-    if str(p.get("at", "")) == "way in":
-        return 0.0, 0.0
-    num = lambda v: (-1 if str(v).startswith("-") else 1) * feet(str(v).lstrip("-"))
-    try:
-        if "bearing" in p and "distance" in p:
-            a = list(tables.Schema().setting_enums["Compass"]).index(str(p["bearing"])) * 22.5
-            d = num(p["distance"])
-            return d * math.sin(math.radians(a)), d * math.cos(math.radians(a))
-        if "north" in p or "east" in p:
-            return num(p["east"]) if "east" in p else 0.0, num(p["north"]) if "north" in p else 0.0
-    except (ValueError, KeyError):
-        return None
-    return None
 
 
 def way(world, a: str, b: str) -> tuple[str, str] | None:
@@ -471,7 +461,7 @@ def location_marks(world, sheet: Sheet, home: dict) -> list[tuple[float, float, 
             continue
         x0, y0 = sheet.at[code]
         for loc, node in world.regions[code].locations().items():
-            if (o := offset(node)) is None:
+            if (o := space.offset(world.regions[code], node)) is None:
                 continue
             kind = "cave-mouth" if loc in opens else MARK.get(str(node.props.get("type")), "poi")
             label = " ".join([loc] + sorted(set(opens.get(loc, []))))
@@ -485,7 +475,7 @@ def route_lines(region, sheet: Sheet) -> list[list[tuple[float, float]]]:
     x, y = sheet.at[region.code]
     lines: dict[str, list[tuple[float, float]]] = {}
     for n in region.files.get("Stops", []):
-        if n.args and (o := offset(n)) is not None:
+        if n.args and (o := space.offset(region, n)) is not None:
             lines.setdefault(str(n.args[0]), [(x, y)]).append((x + o[0] / sheet.square, y - o[1] / sheet.square))
     return [line for line in lines.values() if len(line) > 1]
 
@@ -495,7 +485,7 @@ def located(world, code: str, square: float) -> list[tuple[float, float]]:
     region = world.regions.get(code) if world else None
     out = []
     for node in (region.locations().values() if region else []):
-        if (o := offset(node)) is not None:
+        if (o := space.offset(region, node)) is not None:
             out.append((o[0] / square, -o[1] / square))
     return out
 
@@ -531,17 +521,11 @@ def ground_texts(brief_path: Path, setting: Path) -> tuple[dict[str, str], list[
     if brief.problems or not sheets_md.exists():
         return "; ".join(brief.problems) if brief.problems else "setting/Sheets.md is missing: run `place` first"
     sheets = {n: Sheet(n, node) for n, node in brief.sheets.items()}
-    rows = sc.read_tables(sheets_md)[0].dicts()
     gazetteer = sc.parse_regions_gazetteer()
     world = tables.Setting({c: g["rating"] for c, g in gazetteer.items()})
     skipped, off, texts = [], [], {}
-    for row in rows:
-        code, area = row["Region"], row["Area"]
-        if not area.startswith("circle"):
-            continue
-        sheet = sheets[row["Sheet"]]
-        radius = int(area.split("radius")[1].split()[0])
-        x, y = (float(v) for v in row["Way in"].split(","))
+    for code, row in sheet_rows(setting).items():
+        sheet, radius, x, y = sheets[row["sheet"]], row["radius"], row["x"], row["y"]
         file = setting / f"{sheet.name}.json"
         ring = ",".join(f"{x + radius * math.cos(a * math.pi / 8):.1f},{y + radius * math.sin(a * math.pi / 8):.1f}"
                         for a in range(16))
@@ -574,7 +558,7 @@ def ground_texts(brief_path: Path, setting: Path) -> tuple[dict[str, str], list[
         located = world.regions[code].locations() if code in world.regions else {}
         spots = {}
         for loc, node in located.items():
-            o = offset(node)
+            o = space.offset(world.regions[code], node)
             if o is None:
                 skipped.append(loc)
                 continue
@@ -604,7 +588,7 @@ def ground(brief_path: Path, setting: Path) -> int:
     if off:
         print("NOTE: off its sheet: " + ", ".join(off))
     if skipped:
-        print("NOTE: no bearing and distance, or north and east, for " + ", ".join(skipped))
+        print("NOTE: no bearing and distance, or xyz, for " + ", ".join(skipped))
     return 0
 
 
@@ -660,8 +644,8 @@ def enclosure(region, block: kdl.Node) -> tuple[dict, dict, list[float] | None, 
         node = locs.get(c)
         if node is None or str(node.props.get("type")) == "Secret":
             continue
-        if (o := offset(node)) is None:
-            problems.append(f"{c} states no bearing and distance, or north and east")
+        if (o := space.offset(region, node)) is None:
+            problems.append(f"{c} states no bearing and distance, or xyz")
             continue
         d = dress.get(c)
         w, h = (d.props.get(k) if d else None for k in ("width", "length"))
@@ -871,15 +855,22 @@ def render_fresh(kind: str, file: Path, fit: str, *extra) -> str | None:
 
 
 def sheet_rows(setting: Path = tables.SETTING) -> dict[str, dict]:
-    """Per region on a sheet, its home row of Sheets.md: sheet, way in and area radius."""
+    """Per region on a sheet, its home row of Sheets.md - the finest sheet listing it - with its
+    way in there and the radius of its Region's outline, in squares."""
     path = setting / "Sheets.md"
     if not path.exists():
         return {}
+    squares = {n: Sheet(n, node).square for n, node in tables.Brief(tables.Schema()).sheets.items()}
+    outline = {str(n.args[0]): space.outline_value(n.props.get("outline")) for n in tables.gazetteer() if n.args}
     out = {}
     for d in sc.read_tables(path)[0].dicts():
-        if d["Area"].startswith("circle"):
+        code, sheet = d["Region"], d["Sheet"]
+        shape = outline.get(code)
+        if sheet not in squares or not shape or shape[0] != "circle":
+            continue
+        if code not in out or squares[sheet] < squares[out[code]["sheet"]]:
             x, y = (float(v) for v in d["Way in"].split(","))
-            out[d["Region"]] = {"sheet": d["Sheet"], "x": x, "y": y, "radius": int(d["Area"].split("radius")[1].split()[0])}
+            out[code] = {"sheet": sheet, "x": x, "y": y, "radius": round(shape[1] / squares[sheet])}
     return out
 
 
@@ -930,7 +921,7 @@ def cut_svg(loc: str, world, fit: str = SITE_FIT, setting: Path = tables.SETTING
                 return render("dungeon", file, fit, "--room", loc, "--margin", "2", label=f"Map of {loc}")
     row = sheet_rows(setting).get(code)
     node = region.locations().get(loc)
-    if not row or node is None or (o := offset(node)) is None:
+    if not row or node is None or (o := space.offset(region, node)) is None:
         return None
     file = setting / f"{row['sheet']}.json"
     sheet = json.loads(file.read_text())

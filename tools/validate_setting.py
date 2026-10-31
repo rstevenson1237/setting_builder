@@ -737,33 +737,24 @@ def check_sheets(diag: Diagnostics, brief):
 
 
 def check_places(diag: Diagnostics, setting, brief):
-    """A WILD or SAFE location on a sheet states where it lies, on that sheet and, to a
-    warning, inside its region's area."""
+    """A WILD or SAFE location on a sheet lies on that sheet; and the dry fire, `tools/space.py`:
+    every region, block and location at its place in one space, and what does not fit."""
     import maps
+    import space
     for code, row in maps.sheet_rows().items():
         region = setting.regions.get(code)
-        if region is None:
-            continue
         sheet = brief.sheets.get(row["sheet"])
-        if sheet is None:
+        if region is None or sheet is None:
             continue
         cell = maps.feet(sheet.props["square"])
         cols, rows = maps.Sheet(row["sheet"], sheet).cols, maps.Sheet(row["sheet"], sheet).rows
         for loc, n in region.locations().items():
-            o = maps.offset(n)
-            path = region.dir / "Locations.md"
-            if o is None:
-                diag.error(path, f"{loc} states no place: bearing and distance, north and east, or at=\"way in\"")
-                continue
-            x, y = row["x"] + o[0] / cell, row["y"] - o[1] / cell
-            if not (0 <= x < cols and 0 <= y < rows):
-                diag.error(path, f"{loc} lies off the {row['sheet']} sheet")
-            elif math.dist((x, y), (row["x"], row["y"])) > row["radius"]:
-                diag.warn(path, f"{loc} lies outside {code}'s area on the {row['sheet']} sheet")
-        for n in region.files.get("Stops", []):
-            if maps.offset(n) is None:
-                diag.error(region.dir / "Stops.md", f"line {n.line}: {n.args[0]}'s stop {n.props.get('feature')!r} "
-                                                    f"states no place: bearing and distance, or north and east")
+            if (o := space.offset(region, n)) is not None:
+                x, y = row["x"] + o[0] / cell, row["y"] - o[1] / cell
+                if not (0 <= x < cols and 0 <= y < rows):
+                    diag.error(region.dir / "Locations.md", f"{loc} lies off the {row['sheet']} sheet")
+    for level, file, msg, _ in space.Space(setting, brief).problems:
+        (diag.error if level == "error" else diag.warn)(file, msg)
 
 
 def check_hazards(diag: Diagnostics, setting, brief):
@@ -892,9 +883,8 @@ def check_history_order(diag: Diagnostics, schema):
 
 
 def check_blocks(diag: Diagnostics, setting):
-    """Every location of a region with Blocks.md is in exactly one block with a footprint
-    and a route from its entrance, no room overlaps another, and no way within a block
-    climbs."""
+    """Every location of a region with Blocks.md is in exactly one block with a route from its
+    entrance, and no way within a block climbs."""
     import maps
     for code, region in setting.regions.items():
         blocks = maps.blocks_of(region)

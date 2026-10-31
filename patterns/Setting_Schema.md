@@ -230,14 +230,13 @@ enum Ask retrieve find deliver destroy verify take collect recover message
 enum Reluctance unable burned shamed needed "turned back"
 enum Obstacle living guarded fragile watched contested misplaced misdescribed
 // -- Sheets.md: written by `tools/maps.py place`, never by hand. Where each region's way in
-//    lies on each sheet BRIEF.md asks for, in squares from the north-west corner, and the
-//    area it is given on its home sheet; a region on a coarser sheet is a mark.
+//    lies on each sheet BRIEF.md asks for, in squares from the north-west corner; its home
+//    sheet is the finest listing it, and its area there its Region's outline.
 table Sheets entry file="setting/Sheets.md" layout="rows" {
   Name text                   // the sheet and the region, as "Frontier C"
   Sheet text
   Region text
   "Way in" text
-  Area text
 }
 enum Pay fee share favour loan bait
 table Quests entry file="setting/Quests.md" cite=Quest layout="rows" {
