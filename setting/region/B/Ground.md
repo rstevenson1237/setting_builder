@@ -12,5 +12,5 @@ At B.6 ground="rock" height="500" slope="gentle"
 At B.7 ground="rock" height="550" slope="gentle"
 At B.8 ground="rock" height="550" slope="gentle"
 At B.9 ground="rock" height="550" slope="steep"
-At B.10 ground="rock" height="550" slope="gentle"
+At B.10 ground="rock" height="600" slope="steep"
 ```
