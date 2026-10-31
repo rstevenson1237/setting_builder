@@ -1080,35 +1080,15 @@ def value_html(value: str, render) -> str:
     return out + "<ul>" + "".join(f"<li>{render(i)}</li>" for i in items) + "</ul>"
 
 
-# How a flowed field reads, beyond its own words: the styling of Setting_Schema.md's flow=.
-FLOW_PHRASE = {"Numbers": "found in groups of {}", "Sign": "heralded by {}"}
-FLOW_JOIN = {"Sign": ", "}       # joined to the clause before it by this, not "; "
-FLOW_SPLIT = {"Range"}           # each of its sentences a clause
-
-
-def flow(table: str) -> list[list[str]]:
-    """A table's flow=: its sentences, each the fields it is built from."""
-    return [g.split() for g in str(schema().table_props.get(table, {}).get("flow", "")).split("|") if g.split()]
-
-
-def flow_fields(table: str) -> list[str]:
-    return [k for g in flow(table) for k in g]
-
-
-def flow_prose(table: str, f: dict) -> str:
-    """An entry's flowed fields as its flow's sentences, each field's words kept."""
-    lc = lambda x: x[:1].lower() + x[1:]
-    out = []
-    for i, group in enumerate(flow(table)):
-        text = ""
-        for k in group:
-            v = f.get(k, "").rstrip(".")
-            for part in ([x.strip() for x in v.split(". ")] if k in FLOW_SPLIT else [v]) if v else []:
-                part = FLOW_PHRASE.get(k, "{}").format(part)
-                text = text + FLOW_JOIN.get(k, "; ") + lc(part) if text else part
-        if text:
-            out.append((text if i == 0 else text[:1].upper() + text[1:]) + ".")
-    return " ".join(out)
+def folded(table: str) -> set[str]:
+    """The fields a template's own field of the same table is written from: the site and PDF
+    show that field in their place."""
+    out = set()
+    for t in tp.load_all().values():
+        for n in t.part():
+            if n.name == "field" and n.args and str(n.args[0]).partition(".")[0] == table:
+                out |= {x.partition(".")[2] for x in tp.names(n.props.get("from", "")) if x.partition(".")[0] == table}
+    return out
 
 
 def statline(table: str) -> list[str]:
@@ -1123,7 +1103,7 @@ def entry_card(t: SettingTable, e: Entry, render, omit: tuple[str, ...] = ()) ->
     dice = next((m.name for m in t.members if m.type == "dice"), None)
     tag = next((m.name for m in t.members if m.type in enums and not m.is_list), None)
     f = dict(e.fields)
-    shown = set(omit)
+    shown = set(omit) | folded(t.name)
     title = html.escape(e.title)
     if tag and len(f.get(tag, "").split()) <= 3 and tag in f:
         title += f' <span class="typetag">({html.escape(f[tag])})</span>'
@@ -1136,8 +1116,6 @@ def entry_card(t: SettingTable, e: Entry, render, omit: tuple[str, ...] = ()) ->
     line = lambda v: "; ".join(l.removeprefix("- ").strip() for l in v.splitlines() if l.strip())
     strip = " · ".join(f'<span class="stat"><b>{html.escape(k)}</b> {render(line(f[k]))}</span>' for k in stat)
     fields = e.fields
-    if (flowed := flow_fields(t.name)) and flowed[0] in f:
-        fields = [(flowed[0], flow_prose(t.name, f))] + [(k, v) for k, v in fields if k not in flowed]
     rows = (f'<tr class="statline"><td colspan="2">{strip}</td></tr>' if stat else "") + \
         "".join(f"<tr><th>{html.escape(k)}</th><td>{value_html(v, render)}</td></tr>"
                 for k, v in fields if k not in shown)
@@ -1310,19 +1288,16 @@ def coverage(setting: Setting, text: str, has_page) -> list[str]:
     """What the schema and the files hold that a rendering does not show. `text` is every
     page together, or the whole PDF; `has_page(slug)` says whether a table's page exists."""
     shown = _plain(text)
-    bare = lambda x: re.sub(r"[.;,]", "", x)    # flowed prose rejoins sentences, keeping every word
-    shown_bare = bare(shown)
     problems = []
     for t in setting.tables:
         if not has_page(t.page):
             problems.append(f"{t.name}: its file has no page")
         for e in t.entries:
             for label, value in e.fields:
+                if label in folded(t.name):
+                    continue
                 v = _plain(value.replace("\n- ", " ").removeprefix("- "))
-                if label in flow_fields(t.name):
-                    if bare(v) not in shown_bare:
-                        problems.append(f"{t.name} / {e.title} / {label}: not shown")
-                elif v not in shown:
+                if v not in shown:
                     problems.append(f"{t.name} / {e.title} / {label}: not shown")
     for p in setting.prose:
         if not has_page(p.slug):

@@ -610,8 +610,7 @@ def check_rumours(diag: Diagnostics):
 
 
 # A stat line's AD field is "Xd6+N" per patterns/Setting_Schema.md; its Type and MA
-# are fields of their own, and an MA left out is 1. The bonus is optional here so a
-# partially written file still parses; its absence is a finding, not a parse failure.
+# are fields of their own, and an MA left out is 1. A bonus left out is none.
 AD_RE = re.compile(r"^(?P<ad>\d+)d6\s*(?P<mod>[+-]\s*\d+)?$")
 
 
@@ -634,31 +633,20 @@ def parse_statblocks(path: Path):
 
 
 def check_statblocks(diag: Diagnostics, path: Path, label: str, expect_special: bool):
-    """The modifier and MA against their averages. patterns/Setting_Schema.md bounds each
+    """The bonus and MA against their baselines. patterns/Setting_Schema.md bounds each
     value; this warns only on a *systematic* absence of deviation - a file where nothing
-    carries a modifier, or everything sits on its average, has not decided anything."""
+    carries a bonus, or every MA sits on its average, has not decided anything."""
     if not path.exists():
         diag.warn(path, "missing - not built yet")
         return
     blocks = [b for b in parse_statblocks(path) if b["ad"] is not None]
     if not blocks:
         return
-    no_mod = no_special = 0
-    for b in blocks:
-        no_mod += b["mod"] is None
-        if expect_special and not b["special"]:
-            no_special += 1
-    n = len(blocks)
-    if no_mod:
-        diag.warn(path, f"{no_mod}/{n} entries state no modifier - it is written on every "
-                        f"entry, because its distance from the average (AD/3, rounded up) "
-                        f"is what it is for")
-    # A file that sits exactly on both averages every time has thrown the
-    # fields away just as surely as one that omits them.
-    rated = [b for b in blocks if b["mod"] is not None]
-    if len(rated) >= 4 and all(b["mod"] == -(-b["ad"] // 3) for b in rated):
-        diag.warn(path, "every modifier sits exactly on its average - deviation is the "
-                        "information the field carries")
+    no_special = sum(1 for b in blocks if expect_special and not b["special"])
+    # No bonus is the baseline; a bonus or penalty is what tells one creature from another.
+    if len(blocks) >= 4 and not any(b["mod"] for b in blocks):
+        diag.warn(path, "no entry carries a bonus or penalty - the baseline is none, and "
+                        "deviation from it is the information the field carries")
     rated = [b for b in blocks if b["ma"] is not None]
     if len(rated) >= 4 and all(b["ma"] == -(-b["ad"] // 4) for b in rated):
         diag.warn(path, "every MA sits exactly on its average - deviation is the "

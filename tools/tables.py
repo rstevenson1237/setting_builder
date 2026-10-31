@@ -250,7 +250,7 @@ class Schema:
                     if t not in self.tables:
                         self.problems.append((path, f"{name}.{m.name}: unknown table {t!r}"))
         for name, props in self.table_props.items():
-            for prop in ("flow", "stat", "timeline", "glossary"):
+            for prop in ("stat", "timeline", "glossary"):
                 for k in (str(props.get(prop, "")).replace("|", " ").split() if prop != "glossary"
                           else [str(props[prop])] if prop in props else []):
                     if k not in {m.name for m in self.fields.get(name, [])}:

@@ -4,20 +4,45 @@
   var header = document.querySelector(".site-header");
   function syncHeaderOffset() {
     if (header) {
-      document.documentElement.style.setProperty("--header-offset", (header.offsetHeight + 12) + "px");
+      var root = document.documentElement.style;
+      root.setProperty("--header-offset", (header.offsetHeight + 12) + "px");
+      root.setProperty("--header-height", header.offsetHeight + "px");
     }
   }
   syncHeaderOffset();
   window.addEventListener("resize", syncHeaderOffset);
+  if (header && window.ResizeObserver) { new ResizeObserver(syncHeaderOffset).observe(header); }
 
+  // The navigation is a sidebar. The header's button collapses it on a wide screen, remembered
+  // between pages, and opens it over the page on a narrow one, closed again by a link or Escape.
   var toggle = document.querySelector(".nav-toggle");
-  var nav = document.querySelector(".site-nav");
-  if (toggle && nav) {
-    toggle.addEventListener("click", function () {
-      var open = nav.classList.toggle("open");
-      toggle.setAttribute("aria-expanded", open ? "true" : "false");
-      syncHeaderOffset();
+  var narrow = window.matchMedia("(max-width: 720px)");
+  var NAV_KEY = "setting-nav-collapsed";
+  function navShown() {
+    return narrow.matches ? document.body.classList.contains("nav-open") : !document.body.classList.contains("nav-collapsed");
+  }
+  function showNav(on) {
+    document.body.classList.toggle(narrow.matches ? "nav-open" : "nav-collapsed", narrow.matches ? on : !on);
+    if (toggle) { toggle.setAttribute("aria-expanded", on ? "true" : "false"); }
+    if (!narrow.matches) {
+      try { localStorage.setItem(NAV_KEY, on ? "" : "1"); } catch (e) { /* storage unavailable - not remembered */ }
+    }
+    syncHeaderOffset();
+  }
+  try { if (localStorage.getItem(NAV_KEY) === "1") { document.body.classList.add("nav-collapsed"); } } catch (e) { /* default */ }
+  if (toggle) {
+    toggle.setAttribute("aria-expanded", navShown() ? "true" : "false");
+    toggle.addEventListener("click", function () { showNav(!navShown()); });
+    narrow.addEventListener("change", function () { toggle.setAttribute("aria-expanded", navShown() ? "true" : "false"); });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && narrow.matches && navShown()) { showNav(false); toggle.focus(); }
     });
+    var sideNav = document.querySelector(".site-nav");
+    if (sideNav) {
+      sideNav.addEventListener("click", function (e) {
+        if (narrow.matches && e.target.closest("a")) { showNav(false); }
+      });
+    }
   }
 
   // The dice overlay loads on first use. Table and creature rolls go through rollDie, which
@@ -305,18 +330,23 @@
   }
   function between(lo, hi) { return lo + Math.floor(Math.random() * (hi - lo + 1)); }
 
-  // A pill that rolls one d6, with the result beside it.
-  function dieRoller(who) {
+  // A pill that rolls one d6 plus the creature's bonus, with the total beside it.
+  function dieRoller(who, bonus) {
     var wrap = el("span", "ad-roller");
     var pill = el("button", "ad-roll", "Roll");
     pill.type = "button";
-    pill.setAttribute("aria-label", "Roll a d6 for " + who);
+    var sign = bonus ? (bonus > 0 ? "+" : "\u2212") + Math.abs(bonus) : "";
+    pill.setAttribute("aria-label", "Roll a d6" + sign + " for " + who);
     var out = el("span", "ad-roll-result");
     out.setAttribute("aria-live", "polite");
     pill.addEventListener("click", function () {
       pill.disabled = true;
       out.textContent = "";
-      rollDie(6).then(function (n) { out.textContent = n; pill.disabled = false; });
+      rollDie(6).then(function (n) {
+        out.textContent = n + (bonus || 0);
+        out.title = bonus ? n + " " + sign + " = " + (n + bonus) : "";
+        pill.disabled = false;
+      });
     });
     wrap.appendChild(pill);
     wrap.appendChild(out);
@@ -327,6 +357,7 @@
     var dice = /^(\d+)d6/.exec(ad || "");
     var n = dice ? parseInt(dice[1], 10) : 1;
     var bonus = /d6([+-]\d+)/.exec(ad || "");
+    var mod = bonus ? parseInt(bonus[1], 10) : 0;
     var wrap = el("div", "ad-track");
     for (var i = 1; i <= count; i++) {
       var row = el("div", "ad-row");
@@ -344,7 +375,7 @@
       }
       row.appendChild(dots);
       if (bonus) { row.appendChild(el("span", "ad-bonus", bonus[1])); }
-      row.appendChild(dieRoller(name + " " + i));
+      row.appendChild(dieRoller(name + " " + i, mod));
       wrap.appendChild(row);
     }
     return wrap;
