@@ -9,9 +9,7 @@ template scope="setting" writes="setting/Bestiary.md" shape="Bestiary"
 read "setting/Setting.md"
 read "setting/History.md"
 read "setting/Truths.md"
-field "Bestiary.Description" sentences="1"
-field "Bestiary.Range" sentences="1-2"
-field "Bestiary.Disposition" sentences="1"
+field "Bestiary.Description" sentences="3-4"
 ```
 
 ## Instructions
@@ -21,8 +19,8 @@ Write the entries `BRIEF.md` asks for up front, in its mix and AD spread. The Be
 grows as the build needs it: a location or region seed that needs a creature the Bestiary
 lacks adds its entry here first, then cites it.
 
-The site and PDF restate the fields the schema's `flow=` names as one block of referee prose, so
-write each as a bare phrase: `Description` a noun phrase, `Range` a place then, if it feeds, "it
-eats ...", `Disposition` a verb phrase that takes "it" before it.
+Write `Description` as one paragraph for the referee, in this order: what reaches a party before the
+creature does, what they see, where it lives and what it eats, what it does on being met. It
+leaves `Numbers`, `AD` and `Special` to their own fields.
 
 Cut any field the schema does not name.

@@ -2,8 +2,7 @@
 
 Every setting file in `setting/`: its fields, under the `table` line naming it, written in
 `patterns/Common_Schema.md`'s values. A table's `cite=` is the label another file cites one
-of its entries by: `(Label: Title)`. Its `flow=` names fields the site and PDF restate, in that
-order, as one block of referee-facing prose rather than copying them; its `stat=`, fields set
+of its entries by: `(Label: Title)`. Its `stat=`, fields set
 on one line under the entry's title, as a referee scans a stat block; its `timeline=`, a field
 the site and PDF set its entries on a rail by, in the file's order, marking each era its
 enum opens with; its `glossary=`, a field whose `- ` items, each a term then ` = ` or ` - `,
@@ -54,18 +53,15 @@ table Language doc file="setting/Language.md" heading=2 title="Tongues of [Setti
 // Construct a made thing; Horror no natural kind; Fey bound by its own rules; Fiend from
 // outside the world; Fantasy this setting's own.
 enum Bestiary_Type Men Humanoid Giant Beast Wyrm Undead Construct Horror Fey Fiend Fantasy
-enum Sign "a mark" "a track" "a sound" "a smell"
-table Bestiary entry file="setting/Bestiary.md" flow="Sign Description Disposition Range Numbers" stat="AD MA Special" {
+table Bestiary entry file="setting/Bestiary.md" stat="AD MA Numbers Special" {
   Type Bestiary_Type
   AD dice count="1-18" bonus="-2..6"   // 1 a man's match; 2-3 superior; 4-5 larger, highly dangerous;
                                        // 6-8 supernatural; 9-12 gargantuan; 13-16 served; 17-18 a titan
   Special text                         // what its dice do not say, a line per ability, or `none`
   MA number range="2-6" opt            // targets threatened at once, about AD/4; omitted at 1
-  Description text                     // what a party sees when it comes into view
-  Range text opt                       // where it lives and what it eats
   Numbers number opt                   // how many one lair or band holds
-  Sign Sign opt                        // what reaches a party before it does
-  Disposition text opt                 // what it does on being met, before anyone fights
+  Description text                     // the referee's read of it: what reaches a party first, what they see,
+                                       // where it lives and what it eats, what it does on being met
 }
 
 table "Named Creatures" entry file="setting/NamedCreatures.md" cite="Named Creature" stat="AD MA Special" {   // as an Encounter meets it
