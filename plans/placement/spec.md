@@ -73,7 +73,9 @@
     outlines never meet.
   - *Outline:* an outline that is not well formed, or a poly whose extent disagrees with its
     width and length.
-  - *Overlap:* two siblings that overlap, or two locations anywhere in the setting that overlap.
+  - *Overlap:* two blocks anywhere in the setting that overlap, or two locations of one region.
+    Regions may overlap: a DANGEROUS region can lie within a SAFE one within a WILD one, its rooms
+    under or through their ground. A block with no outline is a point and overlaps nothing.
     Touching is not overlapping.
   - *Outside:* a child that is not inside its parent's outline, where the parent states one.
   - *Join:* a Connection or Way whose two ends are placed but whose geometry disagrees with it:
@@ -158,11 +160,24 @@
   G into `xyz` and `outline` is listed in `.git-blame-ignore-revs`.
 - **S20. The pyramid's tip stands out of the sand.** A trial pack of C (reverted) placed C in
   plan from A.1 to C.1. The dry fire then found C.1, floor -15 and roof +5, rising through
-  A.1's flat ground. That is the tip standing from the dunes, inside the statues' ring. Whether
-  a flat location may lie over a solid that rises through it is for T6, decided with the user.
+  A.1's flat ground. That is the tip standing from the dunes, inside the statues' ring. The user
+  decided that regions may overlap and blocks may not; S7's overlap rule now says so.
 - **S21. Anchors as built.** The sweep finds where the two outlines *last* touch along the side,
   so a thing placed west of an L-shaped room ends up wholly west of it; to sit in the L's notch,
   it is placed against the notch's facing side. On a plan side, the thing's z is its anchor's
   plus its own; a SAFE or WILD location that states no z stands on its ground. A Stop takes no
   anchor. Until T4, `pack` leaves an anchored room's line as it is, and the dry fire reports any
   overlap with the rooms packed round it.
+- **S22. Settling and stairs as built.** The dry fire derives every region place it can, and
+  `settle` writes those that are complete, rounded to whole feet. `pack` settles its region
+  before packing and again after; `place` settles once it has written the sheets. A region's
+  plan comes through a stair whether or not the stair states a bearing, and the stair puts one
+  block's centre over the other's. Stair pins are measured from where both rooms lie, else from
+  the far room's place in its own block, since the two blocks share a centre until placed. When a
+  pack leaves a stair with both rooms placed, it takes the bearing and distance off both sides of
+  that stair, including the far region's line. The map then stands the stair mark by the wall
+  facing the room it climbs to, or the north wall where the two rooms are concentric. A room
+  placed `against` another keeps its line, and the packer carries it as a fixed offset from its
+  anchor, measured by the dry fire's own `touching`. Pack refuses an anchor that names another
+  level, an `above` or `below` anchor, outlines that never meet, or a slide or gap that leaves
+  the room's corners off the 10-foot lattice.

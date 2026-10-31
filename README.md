@@ -99,6 +99,7 @@ python3 tools/validate_setting.py --read-set [STEP]     # what a step reads, per
 python3 tools/validate_setting.py --skeleton STEP [REGION]   # the shape of what a step writes
 python3 tools/validate_setting.py --brief setting|REGION # BRIEF.md as a setting or region step reads it
 python3 tools/space.py [--only REGION]      # the dry fire: every place in the setting, and what does not fit
+python3 tools/space.py settle [REGION]      # write each region's place where its sheet or joins give it
 python3 tools/metrics.py                    # corpus, tells, budget and read-set report
 python3 tools/metrics.py --tells [PATH]     # every tell hit, listed, over any markdown
 python3 tools/metrics.py --carry [CODE]     # the table words each write-up carries and drops

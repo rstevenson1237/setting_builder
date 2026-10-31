@@ -177,6 +177,15 @@ def block_map(region, block: kdl.Node) -> tuple[dict | None, list[str]]:
     def span(n) -> int:
         """Cells across a passage: the way's own width, else the block's."""
         return max(1, round(float(n.props.get("width", region.passage(block, "width"))) / cell))
+    def toward(n):
+        """A placed stair's way, east and south: toward the room it climbs to, else north."""
+        if str(n.props.get("climb", "0")).lstrip("-") in ("", "0"):
+            return None
+        far, here = space.settled().pin(str(n.args[0])), space.centre(dress.get(str(n.args[0])))
+        if far is None or here is None:
+            return None
+        v = (far[0] - here[0], here[1] - far[1])
+        return v if math.hypot(*v) >= 1 else (0.0, -1.0)
     seen, marked = {}, {}
     for n in ways:
         a, b = str(n.args[0]), str(n.props["to"])
@@ -185,7 +194,7 @@ def block_map(region, block: kdl.Node) -> tuple[dict | None, list[str]]:
             ends = seen.setdefault(key, {})
             ends[a] = (door(n), n)
         elif a in at:                                     # a way out of the block: a mark in its room
-            v = step(n)
+            v = step(n) or toward(n)
             if v is None:
                 problems.append(f"{a} to {b} states no bearing and distance")
                 continue
@@ -364,27 +373,53 @@ def walks(code: str, setting: Path = tables.SETTING) -> dict[tuple[str, str], tu
     return out
 
 
-def placed(world, code: str) -> tuple[float, float, float, float] | None:
-    """A DANGEROUS room's (east, north, width, length) from its block's centre, where its
-    Dressing places it."""
-    region = world.regions.get(code.split(".")[0])
-    if region is None or region.rating.upper() != "DANGEROUS":
-        return None
-    d = next((n for n in region.files.get("Dressing", []) if n.args and str(n.args[0]) == code), None)
-    if not (at := space.centre(d)) or not all(k in d.props for k in ("width", "length")):
-        return None
-    return at[0], at[1], float(d.props["width"]), float(d.props["length"])
+def glued(region, members: list[str], dress: dict) -> tuple[dict, list[str]]:
+    """Each room of a block placed against another, as (that room, feet east, feet south of it)
+    for the packer, where the dry fire would place it; and why any cannot be packed so."""
+    glue, why = {}, []
+    for c in members:
+        d = dress[c]
+        if "against" not in d.props:
+            continue
+        a = space.anchor_of(d.props["against"])
+        if a is None or a[0] not in members or a[1] in ("above", "below"):
+            why.append(f"{c} is placed against {d.props['against']}: a level is packed flat, against another of its rooms")
+            continue
+        xy = space.touching(space.outline_of(dress[a[0]]), (0.0, 0.0), space.outline_of(d), a[1],
+                            space.point_of(d.props.get("xyz")) or [0.0, 0.0, None])
+        if xy is None:
+            why.append(f"{c} is placed against {a[0]} {a[1]}, and their outlines never meet there")
+            continue
+        corner = [xy[k] + (float(dress[a[0]].props[n]) - float(d.props[n])) / 2 for k, n in ((0, "width"), (1, "length"))]
+        if any(round(v, 6) % route.LATTICE for v in corner):
+            why.append(f"{c}'s place against {a[0]} puts its corners off the {route.LATTICE}-foot lattice: "
+                       f"keep its slide and gap on it")
+            continue
+        glue[c] = (a[0], xy[0], -xy[1])
+    return glue, why
 
 
-def stair(world, code: str) -> tuple[float, float, float, float] | None:
-    """The placed room a way that climbs from room `code` reaches, which `code` stands over or
-    under: blocks a climbing way joins share their centre."""
-    region = world.regions[code.split(".")[0]]
-    for n in region.files.get("Connections", []):
-        if n.args and str(n.args[0]) == code and str(n.props.get("climb", "0")).lstrip("-") not in ("", "0"):
-            if over := placed(world, str(n.props["to"])):
-                return over
-    return None
+def unbear_stairs(code: str) -> list[str]:
+    """Takes the bearing and distance off each stair to or from the region whose two rooms are
+    both placed, on both its sides: it stands one room over the other, which their places say."""
+    s, out = space.settled(), []
+    for region in s.world.regions.values():
+        path = region.dir / "Connections.md"
+        lines, changed = path.read_text().split("\n") if path.exists() else [], False
+        for n in region.files.get("Connections", []):
+            a, b = str(n.args[0]), str(n.props.get("to"))
+            if code not in (a.split(".")[0], b.split(".")[0]) or not s.stair(region, n) \
+                    or "bearing" not in n.props and "distance" not in n.props:
+                continue
+            if all((t := s.things.get(c)) and t.at[0] is not None for c in (a, b)):
+                lines[n.line - 1] = without(without(lines[n.line - 1], "bearing"), "distance")
+                changed = True
+                out.append(f"{a} to {b}")
+        if changed:
+            path.write_text("\n".join(lines))
+    if out:
+        space.refresh()
+    return out
 
 
 def pack_region(code: str, seed: int = 1, again: bool = False) -> int:
@@ -393,7 +428,12 @@ def pack_region(code: str, seed: int = 1, again: bool = False) -> int:
     Writes each room's `xyz` from the block's centre to Dressing.md and the block's
     `outline` and `router` to Blocks.md, and takes `bearing` and `distance` off each way within
     the block, which the rooms' positions now place. A block whose rooms are placed and whose
-    ways all route is left where it lies, its router stamped, unless `again`."""
+    ways all route is left where it lies, its router stamped, unless `again`. A room placed
+    against another keeps its line and is carried with it. A stair whose two rooms are now
+    placed loses its bearing and distance. The region is settled before (over
+    the block a stair reaches) and after (where a way with a bearing puts it): tools/space.py."""
+    for line in space.settle(code):
+        print(f"settled {line}")
     world = world_for(tables.SETTING)
     region = world.regions[code]
     if region.rating.upper() != "DANGEROUS":
@@ -435,9 +475,14 @@ def pack_region(code: str, seed: int = 1, again: bool = False) -> int:
                 else:
                     bearing = compass.index(str(n.props["bearing"])) * 22.5 if "bearing" in n.props else None
                 ways.append((a, b, bearing))
-            pins = {c: over for c in members if (over := stair(world, c))}
+            pins = {c: over for c in members if (over := space.settled().pin(c))}
+            glue, why = glued(region, members, dress)
+            if why:
+                print("\n".join(why))
+                return 1
             side, p, routes, energy = packing.pack(rooms, ways, seed, rates["fill"], rates["passages"],
-                                                   int(rates["footprint"]) if rates["footprint"] else None, pins)
+                                                   int(rates["footprint"]) if rates["footprint"] else None, pins,
+                                                   glue=glue)
             if routes is None:
                 print(f"{bid}: no packing of {len(members)} rooms left room for every passage; try another --seed")
                 failed = True
@@ -460,6 +505,11 @@ def pack_region(code: str, seed: int = 1, again: bool = False) -> int:
         return 1
     for k, f in files.items():
         f.write_text("\n".join(text[k]))
+    space.refresh()
+    for line in space.settle(code):
+        print(f"settled {line}")
+    if stairs := unbear_stairs(code):
+        print(f"stairs now placed, their bearings taken off: {', '.join(stairs)}")
     return 0
 
 

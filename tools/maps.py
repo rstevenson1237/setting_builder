@@ -14,8 +14,10 @@ place    Reads BRIEF.md's `sheet` lines and each region's `ground` and `place` l
          miles, over one outline round them all, each Route a road through its stops, and
          no snow or desert. Every location is a keyed mark on its home sheet; one a
          DANGEROUS region opens from is a cave mouth keyed with that region too. Writes
-         `setting/[Sheet].json` per sheet and `setting/Sheets.md`. A request that cannot be
-         met is reported by its BRIEF.md line, and exits 1.
+         `setting/[Sheet].json` per sheet and `setting/Sheets.md`, each region's area as its
+         outline in Regions.md, and the place of each region its sheet or joins now give
+         (tools/space.py settle). A request that cannot be met is reported by its BRIEF.md
+         line, and exits 1.
 ground   Reads each placed region's ground back from its home sheet and writes its
          `Ground.md`: the region's way in and terrain, the rivers, roads and hills in its
          area, and, once its Locations.md exists, the ground at each location. Run again
@@ -24,9 +26,11 @@ ground   Reads each placed region's ground back from its home sheet and writes i
 pack     Packs each block of a DANGEROUS region into a square (tools/pack.py) and routes a passage
          for every way (tools/route.py), keeping each way's direction as its rooms lie, or else as its
          bearing says. Writes each room's `xyz` from the block's centre, the block's `outline` and
-         `router`, and takes the bearing and distance off each way within the block.
-         A block already packed whose ways all route is left as it lies; --again repacks it. A seed
-         fixes the result.
+         `router`, and takes the bearing and distance off each way within the block. A room placed
+         `against` another is carried with it. The region is settled before packing, over the
+         block a stair reaches, and after, where a way with a bearing puts it; a stair whose two
+         rooms are then placed loses its bearing and distance. A block already packed whose ways
+         all route is left as it lies; --again repacks it. A seed fixes the result.
 draw     Builds each block's map, `setting/region/[Code]/[Block].json`, never committed, from its tables - a
          DANGEROUS block's a dungeon, a SAFE block's a settlement walled round its locations
          on its home sheet, a WILD block's the same unwalled unless it states a wall - and with --out renders every sheet and block to SVG there.
@@ -408,6 +412,9 @@ def place(brief_path: Path, setting: Path) -> int:
             if (m := re.match(r"Region (\S+) ", line)) and m[1] in outlines:
                 lines[i] = dungeon.with_prop(line, "outline", f'"{outlines[m[1]]}"')
         reg.write_text("\n".join(lines))
+        space.refresh()
+        for line in space.settle():
+            print(f"settled {line}")
     for u in unmet:
         print(f"UNMET: {u}")
     print(f"{len(sheets)} sheet(s) placed, {len(unmet)} request(s) unmet")

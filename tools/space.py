@@ -2,6 +2,7 @@
 """Every region, block and location at a point in one space, and what does not fit: the dry fire.
 
   python3 tools/space.py [--only REGION]
+  python3 tools/space.py settle [REGION]
 
 x runs east, y north and z up, in feet, from the origin region's way in at its ground: BRIEF.md's
 `origin`, else the first region in the gazetteer. Each thing stands at a place in its parent's
@@ -19,13 +20,15 @@ until their outlines last touch, then takes its xyz along the side as a gap; abo
 its floor meets the other's roof.
 
 Prints each thing's place in its parent and in the setting, its outline and its floor and roof,
-then each problem; exits 1 on an error.
+then each problem; exits 1 on an error. `settle` writes into Regions.md the place of each region
+that states none but whose sheet or joins give it in full, and never moves one that states one.
 """
 from __future__ import annotations
 
 import argparse
 import functools
 import math
+import re
 import sys
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -202,6 +205,20 @@ def contact(p: list, q: list, u: tuple) -> float | None:
     return max(hits) if hits else None
 
 
+def touching(a: tuple | None, at: tuple, t: tuple | None, side: str, shift: list) -> tuple[float, float] | None:
+    """Where a thing of outline t lands placed against one of outline a at `at` on a plan side:
+    slid across the side by its shift, out along it until the outlines last touch, rounded
+    outward to whole feet, then out by its shift along the side. None where they never meet."""
+    u = SIDES[side]
+    sx, sy = shift[0] or 0.0, shift[1] or 0.0
+    start = (at[0] + (sx if u[0] == 0 else 0), at[1] + (sy if u[1] == 0 else 0))
+    d = contact(polygon(a, *at), polygon(t, *start), u)
+    if d is None:
+        return None
+    d = math.ceil(d - 1e-6) + (sx * u[0] + sy * u[1]) * (u[0] + u[1])
+    return start[0] + d * u[0], start[1] + d * u[1]
+
+
 def stacked(a: tuple, b: tuple) -> bool:
     """Two (floor, roof) spans share height, beyond touching; a flat thing shares a solid's
     inside or another flat thing's level."""
@@ -322,6 +339,34 @@ def settled() -> "Space":
     """The setting's places, resolved once a run."""
     world = maps.world_for(tables.SETTING)
     return Space(world, tables.Brief(world.schema))
+
+
+def refresh():
+    """Forget the tables read so far, after a tool has written them."""
+    maps.world_for.cache_clear()
+    maps.built.cache_clear()
+    settled.cache_clear()
+
+
+def settle(only: str | None = None) -> list[str]:
+    """Writes `xyz` into Regions.md for each region that states no place of its own but whose
+    sheet or joins place it in full, rounded to whole feet; never moves a region that states
+    one. Returns what it wrote."""
+    import dungeon
+    s, wrote = settled(), {}
+    for code, t in s.things.items():
+        if t.kind == "region" and code != s.origin and not t.anchor and t.by != "xyz" and None not in t.at \
+                and (only is None or code == only):
+            wrote[code] = (",".join(str(round(v)) for v in t.at), t.by)
+    if not wrote:
+        return []
+    lines = tables.GAZETTEER.read_text().split("\n")
+    for i, line in enumerate(lines):
+        if (m := re.match(r"Region (\S+) ", line)) and m[1] in wrote:
+            lines[i] = dungeon.with_prop(line, "xyz", f'"{wrote[m[1]][0]}"')
+    tables.GAZETTEER.write_text("\n".join(lines))
+    refresh()
+    return [f"{code} at {xyz}, from its {by}" for code, (xyz, by) in wrote.items()]
 
 
 def offset(region, node: kdl.Node) -> tuple[float, float] | None:
@@ -504,18 +549,14 @@ class Space:
                 z = a.at[2] + a1 - t0 + sz if side == "above" else a.at[2] + a0 - t1 + sz
                 t.at, t.by, changed = [x, y, z], f"against {code} {side}", True
                 continue
-            u = SIDES[side]
-            start = (a.at[0] + (sx if u[0] == 0 else 0), a.at[1] + (sy if u[1] == 0 else 0))
-            d = contact(polygon(a.outline, a.at[0], a.at[1]), polygon(t.outline, *start), u)
-            if d is None:
+            if (xy := touching(a.outline, (a.at[0], a.at[1]), t.outline, side, t.shift)) is None:
                 self.never(t, code, side)
                 continue
-            d = math.ceil(d - 1e-6) + (sx * u[0] + sy * u[1]) * (u[0] + u[1])
             if t.shift[2] is None and t.ground is not None:
                 z = t.ground
             else:
                 z = None if a.at[2] is None else a.at[2] + sz
-            t.at, t.by, changed = [start[0] + d * u[0], start[1] + d * u[1], z], f"against {code} {side}", True
+            t.at, t.by, changed = [xy[0], xy[1], z], f"against {code} {side}", True
         return changed
 
     def never(self, t: Thing, code: str, side: str):
@@ -633,6 +674,24 @@ class Space:
             r.by, done = (r.by + "; " if r.by else "") + f"plan {how}", True
         return done
 
+    def pin(self, code: str) -> tuple[float, float, float, float] | None:
+        """The room a way that climbs from room `code` reaches, as (east, north, width, length) from
+        the centre of `code`'s block: from where both lie, else from the far room's own block,
+        whose centre a stair's two blocks share until placed."""
+        t = self.things.get(code)
+        region = self.world.regions.get(t.region) if t else None
+        for n in region.files.get("Connections", []) if region else []:
+            if not n.args or str(n.args[0]) != code or not self.stair(region, n):
+                continue
+            f = self.things.get(str(n.props["to"]))
+            if f is None or f.at[0] is None or f.outline is None:
+                continue
+            near, far = self.frame(t.parent, f)
+            x, y = (far[0] - near[0], far[1] - near[1]) if None not in near[:2] + far[:2] else (f.at[0], f.at[1])
+            w, l = (2 * f.outline[1],) * 2 if f.outline[0] == "circle" else f.outline[1:3]
+            return x, y, w, l
+        return None
+
     # -- what does not fit --------------------------------------------------------------
 
     def span(self, t: Thing, at: list) -> tuple[float, float] | None:
@@ -652,18 +711,19 @@ class Space:
                     self.say("warning", self.things[bid].file, f"{bid} has no place: it states no xyz, and no climbing "
                                                                f"way joins it to a placed block (step 4a)", bid)
         self._overlaps([t for t in things if t.kind == "location"])
-        self._overlaps([t for t in things if t.kind == "block"])
-        self._overlaps([t for t in things if t.kind == "region"])
+        self._overlaps([t for t in things if t.kind == "block" and t.outline is not None])
         self._outside(things)
         self._ways()
         self._sheets()
 
     def _overlaps(self, group: list[Thing]):
+        """No two blocks anywhere overlap, nor two locations of one region. Regions may: a
+        DANGEROUS region can lie within a SAFE one within a WILD one, its rooms under their ground."""
         for i, a in enumerate(group):
             for b in group[i + 1:]:
-                if a.kind == "block" and a.region != b.region:
+                if a.kind == "location" and a.region != b.region:
                     continue
-                pa, pb = self.frame(a, b) if a.kind != "region" else (a.at, b.at)
+                pa, pb = self.frame(a, b)
                 if None in pa[:2] + pb[:2] or not meets(polygon(a.outline, *pa[:2]), polygon(b.outline, *pb[:2])):
                     continue
                 sa, sb = self.span(a, pa), self.span(b, pb)
@@ -739,8 +799,14 @@ class Space:
 
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
+    ap.add_argument("settle", nargs="?", choices=["settle"], help="write each region's place where it is derived")
+    ap.add_argument("region", nargs="?", help="with settle, that region alone")
     ap.add_argument("--only", metavar="REGION", help="one region's rows, and the problems touching it")
     args = ap.parse_args()
+    if args.settle:
+        wrote = settle(args.region)
+        print("\n".join(wrote) if wrote else "every region is placed already, or cannot be yet")
+        return 0
     world = maps.world_for(tables.SETTING)
     space = Space(world, tables.Brief(world.schema))
     rows = space.rows(args.only)
