@@ -1082,7 +1082,7 @@ def value_html(value: str, render) -> str:
 
 # A flowed field is restated for the referee, not copied: each field has the sentence it
 # becomes, and the fields run in the order Setting_Schema.md's flow= gives.
-FLOW_LABEL = "Referee"
+FLOW_LABEL = "Description"
 _PROPER: set[str] | None = None
 
 
