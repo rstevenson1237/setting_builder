@@ -4,7 +4,7 @@
 Connection H.1 to="H.2" type="Open" bearing="east" distance="70 feet"
 Connection H.1 to="H.10" type="Wooden" bearing="north" distance="70 feet"
 Connection H.1 to="G.19" type="Open" bearing="south" distance="40 feet" climb=20
-Connection H.1 to="B.10" type="Iron" bearing="west" distance="30 feet" climb=20
+Connection H.1 to="B.10" type="Iron" bearing="west" distance="30 feet" climb=10
 Connection H.2 to="H.1" type="Open" bearing="west" distance="70 feet"
 Connection H.2 to="H.3" type="Open" bearing="north" distance="70 feet"
 Connection H.2 to="H.4" type="Crude" bearing="east" distance="70 feet"

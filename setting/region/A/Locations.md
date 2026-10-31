@@ -9,5 +9,5 @@ Location A.5 name="The Barracks Wall" tags="tall, broken, shaded" type="Ruin" be
 Location A.6 name="The Temple Colonnade" tags="pillared, scoured, watched" type="Ruin" bearing="south-east" distance="250 yards"
 Location A.7 name="The Scouts' Camp" tags="trampled, tented, watched" type="Lair" bearing="south" distance="330 yards"
 Location A.8 name="The Dry Canal" tags="sunken, straight, sand-filled" type="Route" bearing="west" distance="150 yards"
-Location A.9 name="The Sealed Cellar" tags="cool, shut, dry" type="Hidden" bearing="south-south-west" distance="140 yards"
+Location A.9 name="The Sealed Cellar" tags="cool, shut, dry" type="Hidden" xyz="-289,-338"
 ```

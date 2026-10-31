@@ -66,7 +66,8 @@
   whatever joins it. The validator reports each problem at the step that owns the thing.
 - **S7. Problems.**
   - *Unplaced:* a thing with no place. For a DANGEROUS block not yet packed, or a region with
-    no placed join, this is a warning owed to 4a. For a SAFE or WILD location, it is owed to 3d.
+    no placed join, this is a warning owed to 4a. For a SAFE or WILD location or stop, it is an
+    error owed to 3d, as it was before.
   - *Placed twice:* a thing that states more than one of S3's forms.
   - *Anchor:* an anchor that names no sibling, that loops back through other anchors, or whose
     outlines never meet.
@@ -145,3 +146,17 @@
   The dry fire also confirms in height what `intake.md` worked out by hand: H.1 to B.10 climbs
   20 feet, where the floors differ by -10. Which number moves is a design choice for each,
   either the way or the location, and is put to the user before T2 wires the validator.
+- **S17. A location's bearing and distance are drawn.** On a SAFE or WILD Location or Stop,
+  `bearing` and `distance` are `drawn`, as a Way's already are. A place is shown from the tables
+  and written in no write-up, so moving a location does not make its write-up stale.
+- **S18. `place` writes outlines already in T2.** Once `Sheets.md` lost its Area column, `place`
+  had to write each sheet region's `outline` in T2 rather than T4, and a home sheet is read as
+  the finest sheet listing the region. `check_places` keeps only its off-the-sheet check; the
+  dry fire owns the rest.
+- **S19. The migration is a form-only commit.** Old entries hold `east` and `north`, which the
+  new drawn set no longer leaves out, so G's write-ups read as stale. The commit that rewrites
+  G into `xyz` and `outline` is listed in `.git-blame-ignore-revs`.
+- **S20. The pyramid's tip stands out of the sand.** A trial pack of C (reverted) placed C in
+  plan from A.1 to C.1. The dry fire then found C.1, floor -15 and roof +5, rising through
+  A.1's flat ground. That is the tip standing from the dunes, inside the statues' ring. Whether
+  a flat location may lie over a solid that rises through it is for T6, decided with the user.
