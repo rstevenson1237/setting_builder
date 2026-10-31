@@ -2,7 +2,7 @@
 
 ```kdl
 Connection G.1 to="G.2" type="Open"
-Connection G.1 to="F.13" type="Open" bearing="south" distance="40 feet" climb=20
+Connection G.1 to="F.13" type="Open" climb=24
 Connection G.2 to="G.1" type="Open"
 Connection G.2 to="G.3" type="Archway"
 Connection G.2 to="G.4" type="Archway"
@@ -45,5 +45,5 @@ Connection G.18 to="G.11" type="Wooden"
 Connection G.18 to="G.5" type="Archway"
 Connection G.19 to="G.17" type="Open"
 Connection G.19 to="G.8" type="Archway"
-Connection G.19 to="H.1" type="Open" bearing="north" distance="40 feet" climb=-20 { Lock key="The Queen's Ring" }
+Connection G.19 to="H.1" type="Open" climb=-24 { Lock key="The Queen's Ring" }
 ```

@@ -1,16 +1,16 @@
 # Connections of K Ghulvod
 
 ```kdl
-Connection K.1 to="K.2" type="Open" bearing="east" distance="70 feet" { Encounter doing="stand in a king's robe" reaction="Hostile" want="no steel drawn" { Creature bestiary="Wraith" count=1 } }
-Connection K.1 to="J.6" type="Open" bearing="south" distance="40 feet" climb=20
-Connection K.2 to="K.1" type="Open" bearing="west" distance="70 feet"
-Connection K.2 to="K.3" type="Archway" bearing="east" distance="70 feet"
-Connection K.2 to="K.4" type="Open" bearing="north" distance="70 feet"
-Connection K.3 to="K.2" type="Archway" bearing="west" distance="70 feet"
-Connection K.3 to="K.5" type="Iron" bearing="east" distance="70 feet"
-Connection K.3 to="K.4" type="Stone" bearing="north-west" distance="100 feet"
-Connection K.4 to="K.2" type="Open" bearing="south" distance="70 feet"
-Connection K.4 to="K.3" type="Stone" bearing="south-east" distance="100 feet"
-Connection K.5 to="K.3" type="Iron" bearing="west" distance="70 feet"
-Connection K.5 to="L.1" type="Open" bearing="north" distance="40 feet" climb=-20
+Connection K.1 to="K.2" type="Open" { Encounter doing="stand in a king's robe" reaction="Hostile" want="no steel drawn" { Creature bestiary="Wraith" count=1 } }
+Connection K.1 to="J.6" type="Open" climb=20
+Connection K.2 to="K.1" type="Open"
+Connection K.2 to="K.3" type="Archway"
+Connection K.2 to="K.4" type="Open"
+Connection K.3 to="K.2" type="Archway"
+Connection K.3 to="K.5" type="Iron"
+Connection K.3 to="K.4" type="Stone"
+Connection K.4 to="K.2" type="Open"
+Connection K.4 to="K.3" type="Stone"
+Connection K.5 to="K.3" type="Iron"
+Connection K.5 to="L.1" type="Open" climb=-30
 ```

@@ -17,8 +17,8 @@ field "Location.bearing" from="Feature.bearing, Feature.distance, At.ground"
 
 ## Instructions
 Write the count `BRIEF.md` sets for the region, in its targets' type mix, each placed from the
-region's way in by bearing and distance, or north and east, so the region reads as one plan,
-distances in the region's units, on ground `Ground.md` shows can hold it.
+region's way in by bearing and distance, by `xyz`, or `against` a placed sibling, so the region
+reads as one plan, distances in the region's units, on ground `Ground.md` shows can hold it.
 
 A location's name carries no form: it is common, or points at a coinage `setting/Language.md`
 already records, and never coins one.

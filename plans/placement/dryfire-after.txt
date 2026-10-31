@@ -1,0 +1,143 @@
+code   kind      parent   place              in the setting      outline       floor..roof  by
+A      region    setting  0,0,0              0,0,0               circle 1125   0..0         origin
+A.a    block     A        0,0,0              0,0,0               -             0..0         region's way in
+A.1    location  A.a      0,0,0              0,0,0               rect 40 40    0..0         way in
+A.2    location  A.a      -254.6,-254.6,0    -254.6,-254.6,0     rect 30 25    0..0         bearing and distance
+A.3    location  A.a      -424.3,424.3,0     -424.3,424.3,0      rect 40 40    0..0         bearing and distance
+A.4    location  A.a      540,0,0            540,0,0             rect 90 70    0..0         bearing and distance
+A.5    location  A.a      0,900,0            0,900,0             rect 120 25   0..0         bearing and distance
+A.6    location  A.a      530.3,-530.3,0     530.3,-530.3,0      rect 100 50   0..0         bearing and distance
+A.7    location  A.a      0,-990,0           0,-990,0            rect 70 60    0..0         bearing and distance
+A.8    location  A.a      -450,0,0           -450,0,0            rect 150 20   0..0         bearing and distance
+A.9    location  A.a      -289,-338,0        -289,-338,0         rect 20 15    0..0         xyz
+A.8/1  stop      A        60,0,?             60,0,?              -             ?            bearing and distance
+A.8/2  stop      A        -120,0,?           -120,0,?            -             ?            bearing and distance
+A.8/3  stop      A        -225,0,?           -225,0,?            -             ?            bearing and distance
+A.8/4  stop      A        -330,0,?           -330,0,?            -             ?            bearing and distance
+B      region    setting  140,40,-113        140,40,-113         circle 600    -113..-113   xyz
+B.a    block     B        0,0,0              140,40,-113         -             -163..-63    region's way in
+B.1    location  B.a      0,0,0              140,40,-113         rect 40 25    -113..-113   way in
+B.2    location  B.a      0,240,0            140,280,-113        rect 110 40   -113..-113   bearing and distance
+B.3    location  B.a      300,0,0            440,40,-113         rect 80 60    -113..-113   bearing and distance
+B.4    location  B.a      297,297,0          437,337,-113        rect 100 50   -113..-113   bearing and distance
+B.5    location  B.a      -360,0,0           -220,40,-113        rect 70 50    -113..-113   bearing and distance
+B.6    location  B.a      -318.2,-318.2,-50  -178.2,-278.2,-163  rect 120 80   -163..-163   bearing and distance
+B.7    location  B.a      0,-210,0           140,-170,-113       rect 220 170  -113..-113   bearing and distance
+B.8    location  B.a      233.3,-233.3,0     373.3,-193.3,-113   rect 120 20   -113..-113   bearing and distance
+B.9    location  B.a      -406,111,0         -266,151,-113       rect 25 20    -113..-113   xyz
+B.10   location  B.a      -150,110,50        -10,150,-63         rect 15 15    -63..-63     xyz
+B.8/1  stop      B        63.6,-63.6,?       203.6,-23.6,?       -             ?            bearing and distance
+B.8/2  stop      B        0,-180,?           140,-140,?          -             ?            bearing and distance
+B.8/3  stop      B        270,0,?            410,40,?            -             ?            bearing and distance
+B.8/4  stop      B        -254.6,-254.6,?    -114.6,-214.6,?     -             ?            bearing and distance
+C      region    setting  -25,70,-15         -25,70,-15          -             -15..-15     xyz
+C.a    block     C        0,0,0              -25,70,-15          rect 120 120  -15..5       first block
+C.1    location  C.a      25,-50,0           0,20,-15            rect 10 20    -15..5       xyz
+C.2    location  C.a      -25,-15,0          -50,55,-15          rect 50 50    -15..5       xyz
+C.3    location  C.a      30,0,0             5,70,-15            rect 60 20    -15..5       xyz
+C.4    location  C.a      -10,40,0           -35,110,-15         circle 20     -15..5       xyz
+D      region    setting  -25,70,-35         -25,70,-35          -             -35..-35     xyz
+D.a    block     D        0,0,0              -25,70,-35          rect 140 140  -35..-15     first block
+D.1    location  D.a      -15,40,0           -40,110,-35         rect 10 20    -35..-20     xyz
+D.2    location  D.a      10,45,0            -15,115,-35         rect 40 30    -35..-20     xyz
+D.3    location  D.a      -35,25,0           -60,95,-35          rect 30 30    -35..-20     xyz
+D.4    location  D.a      50,50,0            25,120,-35          rect 40 40    -35..-20     xyz
+D.5    location  D.a      -5,10,0            -30,80,-35          rect 30 40    -35..-20     xyz
+D.6    location  D.a      40,5,0             15,75,-35           rect 60 50    -35..-15     xyz
+E      region    setting  -25,70,-55         -25,70,-55          -             -55..-55     xyz
+E.a    block     E        0,0,0              -25,70,-55          rect 170 170  -55..-39     first block
+E.1    location  E.a      40,5,0             15,75,-55           rect 10 20    -55..-39     xyz
+E.2    location  E.a      -5,-15,0           -30,55,-55          circle 30     -55..-39     xyz
+E.3    location  E.a      20,45,0            -5,115,-55          rect 50 40    -55..-39     xyz
+E.4    location  E.a      -25,40,0           -50,110,-55         rect 40 30    -55..-39     xyz
+E.5    location  E.a      -35,-70,0          -60,0,-55           rect 40 30    -55..-39     xyz
+E.6    location  E.a      60,30,0            35,100,-55          rect 30 30    -55..-39     xyz
+E.7    location  E.a      -20,70,0           -45,140,-55         rect 30 30    -55..-39     xyz
+E.8    location  E.a      -70,-50,0          -95,20,-55          rect 30 30    -55..-39     xyz
+E.9    location  E.a      35,-75,0           10,-5,-55           rect 20 20    -55..-39     xyz
+F      region    setting  -25,70,-79         -25,70,-79          -             -79..-79     xyz
+F.a    block     F        0,0,0              -25,70,-79          rect 200 200  -79..-55     first block
+F.1    location  F.a      35,-70,0           10,0,-79            rect 10 20    -79..-67     xyz
+F.2    location  F.a      3,-15,0            -22,55,-79          rect 6 70     -79..-67     xyz
+F.3    location  F.a      -10,55,0           -35,125,-79         rect 40 30    -79..-67     xyz
+F.4    location  F.a      25,-10,0           0,60,-79            rect 30 40    -79..-67     xyz
+F.5    location  F.a      30,30,0            5,100,-79           rect 40 40    -79..-67     xyz
+F.6    location  F.a      -10,85,0           -35,155,-79         rect 40 30    -79..-67     xyz
+F.7    location  F.a      65,-10,0           40,60,-79           rect 50 40    -79..-55     xyz
+F.8    location  F.a      65,25,0            40,95,-79           rect 30 30    -79..-71     xyz
+F.9    location  F.a      30,70,0            5,140,-79           rect 40 40    -79..-67     xyz
+F.10   location  F.a      -75,20,0           -100,90,-79         rect 50 40    -79..-67     xyz
+F.11   location  F.a      55,65,0            30,135,-79          rect 10 10    -79..-67     xyz
+F.12   location  F.a      -35,25,0           -60,95,-79          rect 30 30    -79..-67     xyz
+F.13   location  F.a      -15,-65,0          -40,5,-79           rect 10 70    -79..-67     xyz
+G      region    setting  -25,70,-103        -25,70,-103         -             -103..-103   xyz
+G.a    block     G        0,0,0              -25,70,-103         rect 250 250  -103..-79    first block
+G.1    location  G.a      -15,-75,0          -40,-5,-103         rect 10 20    -103..-85    xyz
+G.2    location  G.a      -25,-55,0          -50,15,-103         rect 10 80    -103..-85    xyz
+G.3    location  G.a      5,-105,0           -20,-35,-103        rect 50 40    -103..-85    xyz
+G.4    location  G.a      0,-30,0            -25,40,-103         rect 40 30    -103..-85    xyz
+G.5    location  G.a      -45,10,0           -70,80,-103         rect 30 30    -103..-85    xyz
+G.6    location  G.a      -30,95,0           -55,165,-103        rect 60 60    -103..-79    xyz
+G.7    location  G.a      -90,65,0           -115,135,-103       rect 40 40    -103..-79    xyz
+G.8    location  G.a      20,55,0            -5,125,-103         rect 40 40    -103..-79    xyz
+G.9    location  G.a      -50,45,0           -75,115,-103        rect 40 40    -103..-79    xyz
+G.10   location  G.a      -85,100,0          -110,170,-103       rect 30 30    -103..-85    xyz
+G.11   location  G.a      -50,-60,0          -75,10,-103         rect 20 30    -103..-85    xyz
+G.12   location  G.a      40,-5,0            15,65,-103          circle 20     -103..-85    xyz
+G.13   location  G.a      -15,25,0           -40,95,-103         rect 30 80    -103..-79    xyz
+G.14   location  G.a      105,-30,0          80,40,-103          rect 10 90    -103..-85    xyz
+G.15   location  G.a      65,-70,0           40,0,-103           rect 50 50    -103..-79    xyz
+G.16   location  G.a      95,-15,0           70,55,-103          rect 10 80    -103..-85    xyz
+G.17   location  G.a      65,35,0            40,105,-103         rect 50 40    -103..-85    xyz
+G.18   location  G.a      -45,-25,0          -70,45,-103         rect 30 40    -103..-85    xyz
+G.19   location  G.a      45,80,0            20,150,-103         rect 10 30    -103..-85    xyz
+H      region    setting  -25,70,-127        -25,70,-127         -             -127..-127   xyz
+H.a    block     H        0,0,0              -25,70,-127         rect 200 200  -127..-103   first block
+H.1    location  H.a      45,80,0            20,150,-127         rect 10 20    -127..-113   xyz
+H.2    location  H.a      14,-35,0           -11,35,-127         rect 8 70     -127..-113   xyz
+H.3    location  H.a      -40,25,0           -65,95,-127         rect 40 30    -127..-113   xyz
+H.4    location  H.a      35,-40,0           10,30,-127          rect 30 40    -127..-113   xyz
+H.5    location  H.a      0,30,0             -25,100,-127        rect 40 40    -127..-113   xyz
+H.6    location  H.a      -35,55,0           -60,125,-127        rect 30 30    -127..-113   xyz
+H.7    location  H.a      75,-40,0           50,30,-127          rect 50 40    -127..-103   xyz
+H.8    location  H.a      85,5,0             60,75,-127          rect 30 30    -127..-113   xyz
+H.9    location  H.a      10,75,0            -15,145,-127        rect 60 50    -127..-103   xyz
+H.10   location  H.a      -65,65,0           -90,135,-127        rect 30 30    -127..-113   xyz
+H.11   location  H.a      80,35,0            55,105,-127         rect 40 30    -127..-113   xyz
+H.12   location  H.a      15,-90,0           -10,-20,-127        rect 10 20    -127..-113   xyz
+H.13   location  H.a      -86,65,0           -111,135,-127       rect 8 70     -127..-113   xyz
+I      region    setting  -25,70,-147        -25,70,-147         -             -147..-147   xyz
+I.a    block     I        0,0,0              -25,70,-147         rect 170 170  -147..-131   first block
+I.1    location  I.a      10,-75,0           -15,-5,-147         rect 10 20    -147..-135   xyz
+I.2    location  I.a      10,-50,0           -15,20,-147         rect 50 30    -147..-135   xyz
+I.3    location  I.a      60,-65,0           35,5,-147           rect 50 40    -147..-131   xyz
+I.4    location  I.a      15,-20,0           -10,50,-147         rect 40 30    -147..-135   xyz
+I.5    location  I.a      -20,-15,0          -45,55,-147         rect 30 40    -147..-135   xyz
+I.6    location  I.a      50,-30,0           25,40,-147          rect 30 30    -147..-135   xyz
+I.7    location  I.a      -30,-60,0          -55,10,-147         rect 30 30    -147..-135   xyz
+I.8    location  I.a      -50,-55,0          -75,15,-147         rect 10 60    -147..-135   xyz
+I.9    location  I.a      75,-25,0           50,45,-147          rect 20 40    -147..-131   xyz
+J      region    setting  -25,70,-167        -25,70,-167         -             -167..-167   xyz
+J.a    block     J        0,0,0              -25,70,-167         rect 160 160  -167..-147   first block
+J.1    location  J.a      75,-30,0           50,40,-167          rect 10 20    -167..-147   xyz
+J.2    location  J.a      -50,-15,0          -75,55,-167         rect 60 50    -167..-147   xyz
+J.3    location  J.a      5,60,0             -20,130,-167        rect 50 40    -167..-147   xyz
+J.4    location  J.a      25,-60,0           0,10,-167           rect 50 40    -167..-147   xyz
+J.5    location  J.a      20,25,0            -5,95,-167          rect 40 30    -167..-147   xyz
+J.6    location  J.a      55,25,0            30,95,-167          rect 30 30    -167..-147   xyz
+K      region    setting  -25,70,-187        -25,70,-187         -             -187..-187   xyz
+K.a    block     K        0,0,0              -25,70,-187         rect 140 140  -187..-177   first block
+K.1    location  K.a      55,20,0            30,90,-187          rect 10 20    -187..-177   xyz
+K.2    location  K.a      -35,5,0            -60,75,-187         rect 50 30    -187..-177   xyz
+K.3    location  K.a      20,0,0             -5,70,-187          rect 60 60    -187..-177   xyz
+K.4    location  K.a      -25,35,0           -50,105,-187        rect 30 30    -187..-177   xyz
+K.5    location  K.a      60,0,0             35,70,-187          rect 20 20    -187..-177   xyz
+L      region    setting  -25,70,-217        -25,70,-217         -             -217..-217   xyz
+L.a    block     L        0,0,0              -25,70,-217         rect 140 140  -217..-187   first block
+L.1    location  L.a      60,0,0             35,70,-217          rect 20 20    -217..-187   xyz
+L.2    location  L.a      20,20,0            -5,90,-217          rect 60 80    -217..-187   xyz
+L.3    location  L.a      -40,0,0            -65,70,-217         circle 20     -217..-187   xyz
+L.4    location  L.a      -30,50,0           -55,120,-217        rect 40 40    -217..-187   xyz
+
+
+139 things, 131 placed in full in the setting; 0 error(s), 0 warning(s)
