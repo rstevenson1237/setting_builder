@@ -1,8 +1,8 @@
 Regional Gazetteer of The Buried City
 
 ```kdl
-Region A name="The Drifted Streets" form=common gloss=none rating=WILD die=d6 joins="C" tag="Sand to the rooftops, a pyramid's tip above"
-Region B name="Zamiun" form=tongue gloss="well-water" rating=WILD die=d8 joins="G, H" tag="A city of masks round a still lake"
+Region A name="The Drifted Streets" form=common gloss=none rating=WILD die=d6 joins="C" tag="Sand to the rooftops, a pyramid's tip above" outline="circle 1125"
+Region B name="Zamiun" form=tongue gloss="well-water" rating=WILD die=d8 joins="G, H" tag="A city of masks round a still lake" outline="circle 600"
 Region C name="Kashura" form=tongue gloss="place of making" rating=DANGEROUS die=d12 joins="A, D" tag="One room; each way down is earned"
 Region D name="Sihura" form=tongue gloss="place of reeds" rating=DANGEROUS die=d10 joins="C, E" tag="The cynidiceans' history, carved in order"
 Region E name="Shenara" form=tongue gloss="place of three" rating=DANGEROUS die=d10 joins="D, F" tag="Three halls, three claims, a turning room"
