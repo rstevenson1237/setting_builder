@@ -19,6 +19,8 @@
   --max-width-wide: 1180px;
   --radius: 8px;
   --header-offset: 150px;
+  --header-height: 3.2rem;
+  --sidebar-width: 15rem;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -42,7 +44,7 @@ html { scroll-behavior: smooth; }
 
 /* Keeps an anchor target clear of the sticky header instead of scrolling it
    underneath. --header-offset is kept in sync with the header's real height
-   by app.js (it changes with viewport width and the mobile menu). */
+   by app.js (it changes with viewport width). */
 [id] { scroll-margin-top: var(--header-offset); }
 
 body {
@@ -100,13 +102,12 @@ code {
 }
 
 .header-bar {
-  max-width: var(--max-width);
-  margin: 0 auto;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 0.7rem 1.25rem;
+  gap: 0.75rem;
+  padding: 0.5rem 1rem;
 }
+.brand { margin-right: auto; }
 
 .brand {
   font-weight: bold;
@@ -116,7 +117,7 @@ code {
 }
 
 .nav-toggle {
-  display: none;
+  display: flex;
   flex-direction: column;
   justify-content: center;
   gap: 4px;
@@ -134,20 +135,31 @@ code {
   margin: 0 6px;
 }
 
+/* The sidebar sits under the header and beside the page. The header's button collapses it
+   on a wide screen and opens it as a drawer over the page on a narrow one. */
 .site-nav {
-  max-width: var(--max-width);
-  margin: 0 auto;
-  padding: 0 1.25rem 0.6rem;
+  position: fixed;
+  top: var(--header-height);
+  bottom: 0;
+  left: 0;
+  width: var(--sidebar-width);
+  overflow-y: auto;
+  padding: 0.8rem 1rem 2rem;
+  background: var(--bg-alt);
+  border-right: 1px solid var(--line);
+  z-index: 10;
 }
+.site-body { padding-left: var(--sidebar-width); }
+body.nav-collapsed .site-nav { display: none; }
+body.nav-collapsed .site-body { padding-left: 0; }
 
 .nav-list {
   list-style: none;
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.2rem 0.9rem;
-  margin: 0;
+  flex-direction: column;
+  gap: 0.45rem;
+  margin: 0.8rem 0 0;
   padding: 0;
-  align-items: center;
 }
 
 .nav-list a {
@@ -158,13 +170,13 @@ code {
 .nav-list a:hover, .nav-list a.active { color: var(--accent); }
 
 .pdf-link {
+  display: inline-block;
   border: 1px solid var(--accent-soft);
   border-radius: 6px;
   padding: 0.15rem 0.6rem;
   color: var(--accent) !important;
 }
 
-.nav-dropdown { position: relative; }
 .dropdown-toggle {
   background: none;
   border: none;
@@ -177,29 +189,13 @@ code {
 .dropdown-toggle:hover { color: var(--accent); }
 .dropdown-menu {
   list-style: none;
-  margin: 0;
-  padding: 0.4rem 0;
-  position: absolute;
-  top: 100%;
-  left: 0;
-  background: var(--card-bg);
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  min-width: 220px;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+  margin: 0.4rem 0 0;
+  padding: 0 0 0 0.8rem;
   display: none;
-  /* Otherwise it paints below the search box, which sits later in the
-     header markup at the same (auto) stacking level and can cover it. */
-  z-index: 25;
 }
 .nav-dropdown.open .dropdown-menu { display: block; }
-.dropdown-menu li a {
-  display: block;
-  padding: 0.35rem 0.8rem;
-  white-space: nowrap;
-}
+.dropdown-menu li { margin-bottom: 0.3rem; }
 
-.nav-search { position: relative; margin-top: 0.5rem; max-width: 340px; }
 .nav-search input {
   width: 100%;
   padding: 0.4rem 0.6rem;
@@ -213,17 +209,11 @@ code {
   list-style: none;
   margin: 0.3rem 0 0;
   padding: 0;
-  position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
   background: var(--card-bg);
   border: 1px solid var(--line);
   border-radius: var(--radius);
   max-height: 320px;
   overflow-y: auto;
-  z-index: 30;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
 }
 .search-results li a {
   display: flex;
@@ -242,12 +232,10 @@ code {
 }
 
 @media (max-width: 720px) {
-  .nav-toggle { display: flex; }
-  .site-nav { display: none; }
-  .site-nav.open { display: block; }
-  .nav-list { flex-direction: column; align-items: flex-start; gap: 0.55rem; }
-  .dropdown-menu { position: static; box-shadow: none; display: none; border: none; padding-left: 0.8rem; }
-  .nav-dropdown.open .dropdown-menu { display: block; }
+  .site-nav { display: none; z-index: 19; width: min(var(--sidebar-width), 85vw); box-shadow: 0 6px 18px rgba(0,0,0,0.3); }
+  body.nav-open .site-nav { display: block; }
+  body.nav-collapsed.nav-open .site-nav { display: block; }
+  .site-body, body.nav-collapsed .site-body { padding-left: 0; }
 }
 
 /* -------------------------------------------------- content components */
@@ -824,6 +812,7 @@ a.cite[aria-expanded="true"] { background: var(--bg-alt); border-radius: 3px; }
 
 @media (max-width: 720px) {
   .header-bar { flex-wrap: wrap; gap: 0.5rem; }
+  .brand { margin-right: 0; }
   .dice-pill { order: 3; flex: 1 1 100%; justify-content: center; border-radius: 18px; padding: 0.3rem 0.5rem; }
 }
 

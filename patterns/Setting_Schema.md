@@ -2,8 +2,8 @@
 
 Every setting file in `setting/`: its fields, under the `table` line naming it, written in
 `patterns/Common_Schema.md`'s values. A table's `cite=` is the label another file cites one
-of its entries by: `(Label: Title)`. Its `flow=` names fields the site and PDF set as prose
-under the first one's label, a sentence for each group between `|`; its `stat=`, fields set
+of its entries by: `(Label: Title)`. Its `flow=` names fields the site and PDF restate, in that
+order, as one block of referee-facing prose rather than copying them; its `stat=`, fields set
 on one line under the entry's title, as a referee scans a stat block; its `timeline=`, a field
 the site and PDF set its entries on a rail by, in the file's order, marking each era its
 enum opens with; its `glossary=`, a field whose `- ` items, each a term then ` = ` or ` - `,
@@ -46,7 +46,8 @@ table Language doc file="setting/Language.md" heading=2 title="Tongues of [Setti
 }
 
 // -- Creatures. One stat block is one creature, or one swarm fought as a single thing.
-//    AD is d6 only; a tougher creature gets more dice or a bigger bonus. A proper name
+//    AD is d6 only, with no bonus as the baseline; a tougher creature gets more dice, and a bonus
+//    or penalty tells one creature from another at the same dice. A proper name
 //    means a Named Creature; ordinary wildlife is a WILD region's Terrain, not an entry.
 // Men human; Humanoid a non-human people; Giant a people over twice human size; Beast an
 // animal, natural or grown past it; Wyrm a great reptile; Undead a dead thing not stopped;
@@ -54,7 +55,7 @@ table Language doc file="setting/Language.md" heading=2 title="Tongues of [Setti
 // outside the world; Fantasy this setting's own.
 enum Bestiary_Type Men Humanoid Giant Beast Wyrm Undead Construct Horror Fey Fiend Fantasy
 enum Sign "a mark" "a track" "a sound" "a smell"
-table Bestiary entry file="setting/Bestiary.md" flow="Description Range | Numbers Sign Disposition" stat="AD MA Special" {
+table Bestiary entry file="setting/Bestiary.md" flow="Sign Description Disposition Range Numbers" stat="AD MA Special" {
   Type Bestiary_Type
   AD dice count="1-18" bonus="-2..6"   // 1 a man's match; 2-3 superior; 4-5 larger, highly dangerous;
                                        // 6-8 supernatural; 9-12 gargantuan; 13-16 served; 17-18 a titan

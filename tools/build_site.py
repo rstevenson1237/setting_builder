@@ -130,28 +130,28 @@ def nav_html(setting: sc.Setting, current_page: str) -> str:
     return f"""
 <header class="site-header">
   <div class="header-bar">
-    <a class="brand" href="{rel_asset(current_page, 'index.html')}">{html.escape(setting.name)}</a>
-    <div class="dice-pill" role="group" aria-label="Dice roller"></div>
-    <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+    <button class="nav-toggle" aria-label="Toggle navigation" aria-controls="site-nav" aria-expanded="true">
       <span></span><span></span><span></span>
     </button>
+    <a class="brand" href="{rel_asset(current_page, 'index.html')}">{html.escape(setting.name)}</a>
+    <div class="dice-pill" role="group" aria-label="Dice roller"></div>
   </div>
-  <nav class="site-nav">
-    <ul class="nav-list">
-      {''.join(items)}
-      <li class="nav-dropdown">
-        <button class="dropdown-toggle" aria-expanded="false">Regions ▾</button>
-        <ul class="dropdown-menu">{''.join(region_items)}</ul>
-      </li>
-      <li><a class="pdf-link" href="{pdf_rel}" download>⬇ Download PDF</a></li>
-    </ul>
-    <div class="nav-search">
-      <input type="search" id="site-search" placeholder="Search the setting…" autocomplete="off"
-             data-index="{search_rel}">
-      <ul id="search-results" class="search-results" hidden></ul>
-    </div>
-  </nav>
 </header>
+<nav class="site-nav" id="site-nav" aria-label="Site">
+  <div class="nav-search">
+    <input type="search" id="site-search" placeholder="Search the setting…" autocomplete="off"
+           data-index="{search_rel}">
+    <ul id="search-results" class="search-results" hidden></ul>
+  </div>
+  <ul class="nav-list">
+    {''.join(items)}
+    <li class="nav-dropdown">
+      <button class="dropdown-toggle" aria-expanded="false">Regions ▾</button>
+      <ul class="dropdown-menu">{''.join(region_items)}</ul>
+    </li>
+    <li><a class="pdf-link" href="{pdf_rel}" download>⬇ Download PDF</a></li>
+  </ul>
+</nav>
 """
 
 
@@ -179,12 +179,14 @@ def page_shell(setting: sc.Setting, current_page: str, title: str, body: str, de
 <body data-cites="{rel_asset(current_page, 'cites.json')}">
 <a class="skip-link" href="#content">Skip to content</a>
 {nav_html(setting, current_page)}
+<div class="site-body">
 <main class="{main_class}" id="content" tabindex="-1">
 {body}
 </main>
 <footer class="site-footer">
   <p>{footer}</p>
 </footer>
+</div>
 <script src="{js_rel}"></script>
 {extra_tags}
 </body>

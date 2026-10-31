@@ -2,7 +2,7 @@ Bestiary of The Buried City
 
 ### Skeleton
 Type: Undead
-AD: 1d6-1
+AD: 1d6-2
 Special: Disadvantage on Fire Missiles against it; it never tires or flees.
 Description: Bones in rotted wrappings, a bronze blade or nothing in hand.
 Range: Tombs, halls and stairs of the pyramid; it eats nothing.
@@ -12,7 +12,7 @@ Disposition: Walks its post until something living comes within sight, then clos
 
 ### Zombie
 Type: Undead
-AD: 1d6+1
+AD: 1d6
 Special: Always strikes last in a Round; stops only when it takes a Wound.
 Description: A swollen, grey-skinned corpse in the rags of a priest or servant.
 Range: Cisterns, crypts and the lower halls; it eats nothing.
@@ -22,7 +22,7 @@ Disposition: Shambles toward the nearest warm body and ignores anything else.
 
 ### Mummy
 Type: Undead
-AD: 3d6+2
+AD: 3d6+1
 Special: Its touch leaves Diseased unless a Test of Constitution is passed; a Wound of Fire is rolled twice.
 MA: 2
 Description: A tall dry body wrapped in resin-stiff linen, gold leaf flaking from its face.
@@ -33,7 +33,7 @@ Disposition: Waits in its tomb and rises only when its seal is broken, then purs
 
 ### Ghoul
 Type: Undead
-AD: 2d6+1
+AD: 2d6
 Special: A hit Holds the target unless a Test of Constitution is passed.
 MA: 2
 Description: A gaunt grey man-shape on all fours with a split jaw and black nails.
@@ -44,7 +44,7 @@ Disposition: Rushes whoever disturbs its feeding and drags the fallen back to it
 
 ### Gargoyle
 Type: Construct
-AD: 3d6+1
+AD: 3d6
 Special: Looks like carved stone until it moves; edged weapons strike it at Disadvantage.
 MA: 2
 Description: A crouching winged figure of black stone with a lion's head and clawed hands.
@@ -55,7 +55,7 @@ Disposition: Holds a doorway and strikes anyone who crosses it without the right
 
 ### Giant Scorpion
 Type: Beast
-AD: 2d6+2
+AD: 2d6+1
 Special: Its sting is a Lethal Poison: a first-level character who fails any Test of Constitution against it dies.
 MA: 2
 Description: A sand-pale scorpion the size of a dog, its tail raised over its back.
@@ -66,7 +66,7 @@ Disposition: Lies buried and strikes whatever steps within reach, then withdraws
 
 ### Giant Centipede
 Type: Beast
-AD: 1d6+1
+AD: 1d6
 Special: Its bite is a Nuisance Poison: one failed Test of Constitution costs a Wound of Poison.
 Description: A reddish centipede as long as a man's leg, its legs clicking on stone.
 Range: Wall cracks, rubble and dark halls. It eats rats and carrion.
@@ -76,7 +76,7 @@ Disposition: Strikes from a crack in the wall and retreats into it.
 
 ### Giant Spider
 Type: Beast
-AD: 2d6+1
+AD: 2d6
 Special: Its web Holds whoever touches it until a Test of Constitution frees them.
 MA: 2
 Description: A hairy grey spider with a body as big as a man's torso, hanging in a web across a doorway.
@@ -97,7 +97,7 @@ Disposition: Swarms what it outnumbers and flees what it does not, back into its
 
 ### Stirge
 Type: Beast
-AD: 1d6-1
+AD: 1d6-2
 Special: A hit clings and drains: a Wound each Round until it is killed.
 Description: A bat-winged thing with a long hollow beak and a rust-red body the size of a cat.
 Range: Caves and ceilings of the lower halls. It eats blood.
@@ -107,7 +107,7 @@ Disposition: Drops from the ceiling on the warmest target and flies off when ful
 
 ### Hyena
 Type: Beast
-AD: 1d6+1
+AD: 1d6
 Special: none
 Description: A spotted, sloped-backed dog with a heavy jaw and a laugh in its throat.
 Range: Dunes and the ruined city's edges. It eats carrion and whatever tires.
@@ -117,7 +117,7 @@ Disposition: Trails a party at a distance and rushes anything that lags behind.
 
 ### Soldier
 Type: Men
-AD: 1d6+1
+AD: 1d6
 Special: none
 Description: A man in leather and bronze with a spear and a round shield, a faction's colour at his wrist.
 Range: Held halls and camps. He eats what his faction gives him.
@@ -127,7 +127,7 @@ Disposition: Challenges a stranger at spear's length and calls for orders before
 
 ### Acolyte
 Type: Men
-AD: 1d6-1
+AD: 1d6-2
 Special: Binds a Wound in a Round: a Test of Skill and the Wound is not lost.
 Description: A shaven-headed man or woman in a pale robe, a bronze bell at the belt.
 Range: Ruhiahe shrines and halls. It eats what the Ruhiahe grow.
@@ -137,7 +137,7 @@ Disposition: Rings a bell to call help and fights only to cover the one who ring
 
 ### Adept
 Type: Men
-AD: 1d6+1
+AD: 1d6
 Special: Reads one scroll aloud, once, as a scroll of sleep.
 Description: A lean figure in an ink-stained robe with a satchel of scrolls and a pale stick.
 Range: Sihuahet libraries and workshops. It eats what the Sihuahet store.
@@ -147,7 +147,7 @@ Disposition: Asks questions first and reads the scroll only when the answers are
 
 ### Cultist
 Type: Men
-AD: 1d6+1
+AD: 1d6
 Special: Chants: while two or more chant, a party within earshot rolls a Test of Sanity at 1d.
 Description: A figure in black cloth with a bronze mask and ash on the hands.
 Range: The cult's halls, below the sixth level. It eats what is left at the altar.
@@ -157,7 +157,7 @@ Disposition: Chants on sight of a stranger and drags captives toward the altar.
 
 ### Delver
 Type: Men
-AD: 1d6+1
+AD: 1d6
 Special: Fights Disadvantaged in the dark but reads a trap's trigger on a Test of Skill.
 Description: A sand-browned outsider in patched leather with a rope coil and a crowbar.
 Range: The upper levels and ruined streets. It eats what it steals.
@@ -167,7 +167,7 @@ Disposition: Trades with a party that waves a coin and ambushes one that waves a
 
 ### Wraith
 Type: Undead
-AD: 4d6+3
+AD: 4d6+1
 Special: Passes through stone; only enchanted weapons harm it, and a failed Test of Constitution against its touch costs a Wound.
 MA: 2
 Description: A tall pale figure in a king's robe with no face under its crown.
@@ -178,7 +178,7 @@ Disposition: Drifts toward the nearest living thing and falls back to its tomb a
 
 ### Masked Dreamer
 Type: Men
-AD: 1d6+1
+AD: 1d6
 Special: none
 Description: A lean figure in a painted animal mask, sleeves stained with spore and eyes unfocused.
 Range: The lake city's quarters, quays and gardens. It eats the fungus it grows.

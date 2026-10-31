@@ -21,7 +21,8 @@ Write the entries `BRIEF.md` asks for up front, in its mix and AD spread. The Be
 grows as the build needs it: a location or region seed that needs a creature the Bestiary
 lacks adds its entry here first, then cites it.
 
-The site and PDF set the fields the schema's `flow=` names as sentences under the first
-one's label, so write each after the first as a clause that reads when joined by semicolons.
+The site and PDF restate the fields the schema's `flow=` names as one block of referee prose, so
+write each as a bare phrase: `Description` a noun phrase, `Range` a place then, if it feeds, "it
+eats ...", `Disposition` a verb phrase that takes "it" before it.
 
 Cut any field the schema does not name.

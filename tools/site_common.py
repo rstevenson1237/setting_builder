@@ -1080,35 +1080,57 @@ def value_html(value: str, render) -> str:
     return out + "<ul>" + "".join(f"<li>{render(i)}</li>" for i in items) + "</ul>"
 
 
-# How a flowed field reads, beyond its own words: the styling of Setting_Schema.md's flow=.
-FLOW_PHRASE = {"Numbers": "found in groups of {}", "Sign": "heralded by {}"}
-FLOW_JOIN = {"Sign": ", "}       # joined to the clause before it by this, not "; "
-FLOW_SPLIT = {"Range"}           # each of its sentences a clause
+# A flowed field is restated for the referee, not copied: each field has the sentence it
+# becomes, and the fields run in the order Setting_Schema.md's flow= gives.
+FLOW_LABEL = "Referee"
+_PROPER: set[str] | None = None
 
 
-def flow(table: str) -> list[list[str]]:
-    """A table's flow=: its sentences, each the fields it is built from."""
-    return [g.split() for g in str(schema().table_props.get(table, {}).get("flow", "")).split("|") if g.split()]
+def _proper_words() -> set[str]:
+    """Capitalised words the setting writes mid-sentence and never in lower case: names,
+    which keep their capital."""
+    global _PROPER
+    if _PROPER is None:
+        text = " ".join(p.read_text() for p in SETTING.glob("*.md"))
+        lower = set(re.findall(r"\b[a-z][a-z'-]*\b", text))
+        _PROPER = {w for w in re.findall(r"(?<=[a-z,;] )[A-Z][A-Za-z'-]*", text) if w.lower() not in lower}
+    return _PROPER
+
+
+def _lc(x: str) -> str:
+    word = re.match(r"[A-Za-z'-]+", x)
+    return x if word and word.group() in _proper_words() else x[:1].lower() + x[1:]
+
+
+def _sentence(x: str) -> str:
+    return x[:1].upper() + x[1:] + "."
 
 
 def flow_fields(table: str) -> list[str]:
-    return [k for g in flow(table) for k in g]
+    """A table's flow=: the fields restated as one block of referee prose, in order."""
+    return str(schema().table_props.get(table, {}).get("flow", "")).split()
 
 
 def flow_prose(table: str, f: dict) -> str:
-    """An entry's flowed fields as its flow's sentences, each field's words kept."""
-    lc = lambda x: x[:1].lower() + x[1:]
+    """An entry's flowed fields restated for the referee: how the party first learns of it,
+    what they see, what it does on being met, then where it lives and how many there are."""
+    get = lambda k: f.get(k, "").strip().rstrip(".") if k in flow_fields(table) else ""
     out = []
-    for i, group in enumerate(flow(table)):
-        text = ""
-        for k in group:
-            v = f.get(k, "").rstrip(".")
-            for part in ([x.strip() for x in v.split(". ")] if k in FLOW_SPLIT else [v]) if v else []:
-                part = FLOW_PHRASE.get(k, "{}").format(part)
-                text = text + FLOW_JOIN.get(k, "; ") + lc(part) if text else part
-        if text:
-            out.append((text if i == 0 else text[:1].upper() + text[1:]) + ".")
-    return " ".join(out)
+    if sign := get("Sign"):
+        out.append(f"It announces itself by {sign}")
+    if desc := get("Description"):
+        out.append(f"The party sees {_lc(desc)}")
+    if disp := get("Disposition"):
+        out.append(f"When met, it {_lc(disp)}")
+    if rng := get("Range"):
+        place, rest = (re.split(r"[;.] +", rng, maxsplit=1) + [""])[:2]
+        diet = re.match(r"(?:it|he|she|they) (eats|needs) (.*)", rest.strip(), re.I)
+        out.append(f"Its range is {_lc(place)}" + (f", and it {diet.group(1)} {diet.group(2)}" if diet else ""))
+        if rest and not diet:
+            out.append(rest.strip())
+    if num := get("Numbers"):
+        out.append("Met alone" if num == "1" else f"A lair or band holds {num}")
+    return " ".join(_sentence(x) for x in out)
 
 
 def statline(table: str) -> list[str]:
@@ -1137,7 +1159,7 @@ def entry_card(t: SettingTable, e: Entry, render, omit: tuple[str, ...] = ()) ->
     strip = " · ".join(f'<span class="stat"><b>{html.escape(k)}</b> {render(line(f[k]))}</span>' for k in stat)
     fields = e.fields
     if (flowed := flow_fields(t.name)) and flowed[0] in f:
-        fields = [(flowed[0], flow_prose(t.name, f))] + [(k, v) for k, v in fields if k not in flowed]
+        fields = [(FLOW_LABEL, flow_prose(t.name, f))] + [(k, v) for k, v in fields if k not in flowed]
     rows = (f'<tr class="statline"><td colspan="2">{strip}</td></tr>' if stat else "") + \
         "".join(f"<tr><th>{html.escape(k)}</th><td>{value_html(v, render)}</td></tr>"
                 for k, v in fields if k not in shown)
@@ -1310,8 +1332,9 @@ def coverage(setting: Setting, text: str, has_page) -> list[str]:
     """What the schema and the files hold that a rendering does not show. `text` is every
     page together, or the whole PDF; `has_page(slug)` says whether a table's page exists."""
     shown = _plain(text)
-    bare = lambda x: re.sub(r"[.;,]", "", x)    # flowed prose rejoins sentences, keeping every word
-    shown_bare = bare(shown)
+    words = lambda x: set(re.findall(r"[a-z0-9'-]+", x))
+    shown_words = words(shown)
+    pronouns = {"it", "he", "she", "they"}    # restating a clause may drop its subject
     problems = []
     for t in setting.tables:
         if not has_page(t.page):
@@ -1320,7 +1343,7 @@ def coverage(setting: Setting, text: str, has_page) -> list[str]:
             for label, value in e.fields:
                 v = _plain(value.replace("\n- ", " ").removeprefix("- "))
                 if label in flow_fields(t.name):
-                    if bare(v) not in shown_bare:
+                    if words(v) - pronouns - shown_words:
                         problems.append(f"{t.name} / {e.title} / {label}: not shown")
                 elif v not in shown:
                     problems.append(f"{t.name} / {e.title} / {label}: not shown")
