@@ -35,7 +35,8 @@ SHAPES = ("rect", "cave", "round", "octagon", "hexagon", "poly")   # a cave is r
 def outline_of(shape: str, w: float, h: float, points=None) -> list[tuple[float, float]]:
     """A room's outline in feet east and south of its box's centre. A round room is its box's
     ellipse; an octagon cuts its box's corners so a square one is regular; a hexagon has flat
-    north and south walls and points east and west; a poly is its own points."""
+    north and south walls and points east and west; a poly is its own points. Each runs clockwise
+    on the page, as artgen draws a wall."""
     a, b = w / 2, h / 2
     if shape == "round":
         return [(a * math.cos(2 * math.pi * i / CIRCLE), b * math.sin(2 * math.pi * i / CIRCLE)) for i in range(CIRCLE)]
@@ -45,7 +46,8 @@ def outline_of(shape: str, w: float, h: float, points=None) -> list[tuple[float,
     if shape == "hexagon":
         return [(-a / 2, -b), (a / 2, -b), (a, 0.0), (a / 2, b), (-a / 2, b), (-a, 0.0)]
     if shape == "poly" and points:
-        return [(float(x), float(y)) for x, y in points]
+        p = [(float(x), float(y)) for x, y in points]
+        return p if sum(x0 * y1 - x1 * y0 for (x0, y0), (x1, y1) in zip(p, p[1:] + p[:1])) > 0 else p[::-1]
     return [(-a, -b), (a, -b), (a, b), (-a, b)]
 
 
@@ -75,6 +77,13 @@ def kernel(poly: list[tuple[float, float]]) -> list[tuple[float, float]]:
         if len(out) < 3:
             return []
     return out
+
+
+def edge(p, a, b) -> float:
+    """Feet from point p to the segment from a to b."""
+    L2 = (b[0] - a[0]) ** 2 + (b[1] - a[1]) ** 2
+    t = max(0.0, min(1.0, ((p[0] - a[0]) * (b[0] - a[0]) + (p[1] - a[1]) * (b[1] - a[1])) / L2)) if L2 else 0.0
+    return math.dist(p, (a[0] + t * (b[0] - a[0]), a[1] + t * (b[1] - a[1])))
 
 
 def bearing(dx: float, dy: float) -> float:
@@ -164,16 +173,21 @@ class Footprint:
 
     @functools.cached_property
     def hub(self) -> tuple[float, float] | None:
-        """The point a door off the lattice is seen from: its centre, where that sees every wall,
-        else the middle of what does; None where no point does."""
+        """The point a way is drawn from to a door: of the points that see every wall, the one
+        clearest of the walls, up to half a passage, and nearest the centre; None where no point
+        sees every wall."""
         if self.shape != "poly":
             return self.centre
         k = kernel(self.outline)
         if not k:
             return None
-        if holds(k, *self.centre):
-            return self.centre
-        return sum(p[0] for p in k) / len(k), sum(p[1] for p in k) / len(k)
+        step, c = LATTICE / 4, self.centre
+        xs, ys = [p[0] for p in k], [p[1] for p in k]
+        seen = [c] + [(x0 + i * step, y0 + j * step) for x0, y0 in [(min(xs), min(ys))]
+                      for i in range(int((max(xs) - x0) / step) + 1) for j in range(int((max(ys) - y0) / step) + 1)]
+        seen = [p for p in seen if holds(k, *p) and self.holds(*p)]
+        clear = lambda p: min(LATTICE / 2, min(edge(p, a, b) for a, b in zip(self.outline, self.outline[1:] + self.outline[:1])))
+        return max(seen, key=lambda p: (round(clear(p), 6), -math.dist(p, c))) if seen else None
 
     def cross(self, inner: tuple[float, float], outer: tuple[float, float]) -> tuple[float, float]:
         """Where the line from a point it holds to one it does not crosses its wall."""

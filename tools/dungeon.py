@@ -53,6 +53,21 @@ def footprint(d: kdl.Node | None, x: float = 0.0, y: float = 0.0) -> route.Footp
     return route.Footprint(x, y, w, h, "rect" if shape == "hall" else shape)
 
 
+DIRECTION = re.compile(r"\b(north|south|east|west)", re.I)
+
+
+def turns(region, c: str, dress: dict) -> bool:
+    """Whether the packer may turn or mirror a room: nothing about it names a direction - its
+    Dressing, its write-up, a wall a way of its names, a room set against it or it against one -
+    and it is no hexagon, whose flat walls run north and south."""
+    d = dress[c]
+    page = region.dir / f"{c.split('.')[1]}.md"
+    words = " ".join(str(v) for v in d.props.values()) + (page.read_text() if page.exists() else "")
+    walled = any(str(n.args[0]) == c and "wall" in n.props for n in region.files.get("Connections", []) if n.args)
+    held = "against" in d.props or any((space.anchor_of(e.props.get("against")) or ("",))[0] == c for e in dress.values())
+    return not (DIRECTION.search(words) or walled or held or str(d.props.get("shape")) == "hexagon")
+
+
 def walls_of(region, members) -> dict[tuple[str, str], float]:
     """The wall each way within a block names at the room it leaves, as a bearing in degrees."""
     compass = space.compass()
@@ -454,7 +469,8 @@ def pack_region(code: str, seed: int = 1, again: bool = False, tries: int = 12) 
     `outline` and `router` to Blocks.md, and takes `bearing` and `distance` off each way within
     the block, which the rooms' positions now place. A block whose rooms are placed and whose
     ways all route within BRIEF.md's detour is left where it lies, its router stamped, unless
-    `again`. Of `tries` packings, the one whose ways walk least is kept. A room placed
+    `again`. Of `tries` packings, the one whose ways walk least is kept. A room that turns
+    (`turns`) is written as it now lies: its width and length, and its outline. A room placed
     against another keeps its line and is carried with it. A stair whose two rooms are now
     placed loses its bearing and distance. The region is settled before (over
     the block a stair reaches) and after (where a way with a bearing puts it): tools/space.py."""
@@ -484,7 +500,7 @@ def pack_region(code: str, seed: int = 1, again: bool = False, tries: int = 12) 
                 return 1
             fp = footprint(d)
             rooms.append(packing.Room(c, int(d.props["width"]), int(d.props["length"]), fp.shape, fp.points,
-                                      str(d.props.get("shape")) == "hall"))
+                                      str(d.props.get("shape")) == "hall", turns(region, c, dress)))
         placed = {c: at for c in members if (at := space.centre(dress[c]))}
         found = plan_of(region, block)
         sized = rates["footprint"] is None or side_of(block) == rates["footprint"]
@@ -521,9 +537,18 @@ def pack_region(code: str, seed: int = 1, again: bool = False, tries: int = 12) 
                   f"{sum(r.w * r.h for r in rooms) / side ** 2:.0%} of it; {sum(r.kind == 'path' for r in routes)} passages, "
                   f"{sum(r.kind == 'wall' for r in routes)} shared walls, {sum(len(r.cells) for r in routes) * route.LATTICE} feet of corridor")
             at = {c: (p.x[i] - side / 2, side / 2 - p.y[i]) for i, c in enumerate(members)}
+            lies = {c: p.lies[i][p.o[i]][:3] for i, c in enumerate(members) if p.o[i]}
+            if lies:
+                print(f"{bid}: turned {', '.join(lies)}")
             for i, line in enumerate(text["Dressing"]):
+                if (m := re.match(r"Dressing (\S+) ", line)) and m[1] in lies:   # as it now lies
+                    w, h, pts = lies[m[1]]
+                    line = with_prop(with_prop(line, "width", str(w)), "length", str(h))
+                    if pts:
+                        line = with_prop(line, "outline", '"poly ' + " ".join(f"{x + 0:g},{0 - y:g}" for x, y in pts) + '"')
+                    text["Dressing"][i] = line
                 if (m := re.match(r"Dressing (\S+) ", line)) and m[1] in at and "against=" not in line:   # an anchor holds its own
-                    text["Dressing"][i] = with_prop(line, "xyz", f'"{round(at[m[1]][0])},{round(at[m[1]][1])}"', after="length")
+                    text["Dressing"][i] = with_prop(text["Dressing"][i], "xyz", f'"{round(at[m[1]][0])},{round(at[m[1]][1])}"', after="length")
             for i, line in enumerate(text["Connections"]):
                 if (m := re.match(r"Connection (\S+) to=\"(\S+)\"", line)) and m[1] in members and m[2] in members:
                     text["Connections"][i] = without(without(line, "bearing"), "distance")
