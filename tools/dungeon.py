@@ -35,8 +35,7 @@ CELLS = (5, 10, 20)             # feet to a cell, the finest that fits the block
 STAIR_INSET = 1.2               # cells between a stair mark's centre and the wall it stands by
 STAIR_HALF = 0.8                # half a stair mark, in cells
 STAIR_TIGHT = 0.5               # cells from the wall, in a room too small for anything better
-NAME_HALF = 0.7                 # half the height of a room's code alone, in cells
-LABEL_HALF = 1.5                # half the height of a room's number and code, in cells
+NAME_HALF = 0.7                 # half the height of a room's code, in cells
 ROUTED_CELLS = (5, 10)          # and where its passages are routed on route.LATTICE
 ROUTED_WALL = 2.5               # a routed block's wall stroke, so a wall between two floors reads as one, its rock hatched
                                 # and a wall drawn between every two rooms that touch
@@ -123,17 +122,15 @@ def block_map(region, block: kdl.Node) -> tuple[dict | None, list[str]]:
                  "corridorWidth": 1, "spacing": 2, "entrance": False},
          "grid": {"show": True, "size": 2, "sub": True, "clip": "floor"},
          "style": {"hatch": "band", "band": 0.9, "wall": 1}, "scale": {"perCell": cell, "unit": "ft"},
-         "numbers": True, "scaleBar": True, "compass": False, "furniture": {"place": "auto"},
+         "numbers": False, "scaleBar": True, "compass": False, "furniture": {"place": "outside"},
          "rooms": [], "corridors": [], "connections": [], "overlay": {"labels": [], "symbols": []}}
     if routed:
         m["style"].update(wall=ROUTED_WALL, hatch="full", sharedWalls=True)
-    halls = {c for c in at if c in dress and str(dress[c].props.get("shape")) == "hall"}
     for c in at:
         w, h, shape = size[c]
         m["rooms"].append({"id": rid(c), "shape": shape, "x": round(cx(c) - w / 2 / cell, 2),
                            "y": round(cy(c) - h / 2 / cell, 2), "w": max(1, round(w / cell, 2)),
-                           "h": max(1, round(h / cell, 2)), "label": c,
-                           "number": False if c in halls else int(c.split(".")[1]), "origin": "tables"})
+                           "h": max(1, round(h / cell, 2)), "label": c, "number": False, "origin": "tables"})
 
     def door(n):
         kids = {k.name for k in n.children}
@@ -203,14 +200,13 @@ def block_map(region, block: kdl.Node) -> tuple[dict | None, list[str]]:
             inset = lambda h: max(0.0, h - STAIR_INSET)
             spots = [(sx_ * inset(hw), sy_ * inset(hh)) for sx_ in (-1, 0, 1) for sy_ in (-1, 0, 1) if sx_ or sy_]
             spots.sort(key=lambda p: -(p[0] * ux + p[1] * uy) / (math.hypot(*p) or 1))     # nearest the wall it faces first
-            lw = (0.8 * len(a) + 1) / 2 + STAIR_HALF                    # clear of the room's own number and code
-            fits = [p for p in spots if abs(p[0]) >= lw or abs(p[1]) >= (NAME_HALF if a in halls else LABEL_HALF) + STAIR_HALF]
-            if not fits:                                        # no room beside the number and code: drop the number
-                next(r for r in m["rooms"] if r["id"] == rid(a))["number"] = False
+            lw = (0.8 * len(a) + 1) / 2 + STAIR_HALF                    # clear of the room's own code
+            fits = [p for p in spots if abs(p[0]) >= lw or abs(p[1]) >= NAME_HALF + STAIR_HALF]
+            if not fits:                                        # no room beside the code: stand it nearer the wall
                 tight = [(sx_ * max(0.0, hw - STAIR_TIGHT), sy_ * max(0.0, hh - STAIR_TIGHT)) for sx_ in (-1, 0, 1)
                          for sy_ in (-1, 0, 1) if sx_ or sy_]
                 tight.sort(key=lambda p: -(p[0] * ux + p[1] * uy) / (math.hypot(*p) or 1))
-                spots = tight                                   # and stand it nearer the wall
+                spots = tight
                 fits = [p for p in spots if abs(p[0]) >= lw or abs(p[1]) >= NAME_HALF + STAIR_HALF]
             clear = lambda ps: [p for p in ps if all(math.dist(p, q) >= 2 * STAIR_HALF for q in marked.get(a, []))]
             spot = (clear(fits) or clear(spots) or fits or spots)[0]   # clear of a mark already in the room

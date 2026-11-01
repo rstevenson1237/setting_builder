@@ -21,12 +21,13 @@ as observed. What artgen lacks, and what the framework built round it, is
 |---|---|
 | `scale.perCell`, `unit` | Feet a cell. A corridor's `width` and every position are in cells, so a 10-ft passage is 2 on a 5-ft grid. |
 | `rooms[]` `shape` | `rect`, `circle`, `octagon`, `cave`; the framework draws a `hall` as `rect`. |
-| `rooms[]` `number` | A badge above the code, both at the room's centre and never moved. `false` drops the badge. |
+| `rooms[]` `number` | A badge above the code, both at the room's centre and never moved. The framework writes `false`: the code alone labels a room. |
 | `corridors[]` `from`/`to` | `{room, side n|e|s|w, offset}`: `offset` is cells along that wall from the room's x or y. With no offset, artgen picks one. |
 | `corridors[]` `via` | Bends, as flat `x, y` pairs: with ports, enough to draw any right-angled route exactly. |
 | `corridors[]` `route` | `auto`, `hv`, `vh`, `straight`, `around`. These are hints, and `around` can still cross rooms. |
 | `corridors[]` `doors` | `[from, to]` kinds or `null`. `style: "natural"` draws a rough-cut passage. |
 | `connections[]` | `{a, b, at, kind}`: a door or opening in the wall two touching rooms share. |
+| `furniture.place` | Dungeon and settlement. `over`, `outside` or `auto`: where the scale bar, compass, legend and title stand. The framework writes `outside`, so none lies on the map; `auto` moves only what covers content. |
 | `style.sharedWalls` | A wall between touching rooms. When unset it is on only if the file has a `connection` or a `block`, so set it explicitly. |
 | `style.wall` | One stroke factor for outlines and partitions alike. The framework uses 2.5 on a packed level. |
 | `style.hatch` | `band` leaves voids inside a dense level; `full` hatches all the rock. |
@@ -46,7 +47,7 @@ as observed. What artgen lacks, and what the framework built round it, is
 | Key | What it does |
 |---|---|
 | `kind` | `hamlet`, `village`, `town`, `city`, `castle`. The framework writes `castle`, with its own walls. |
-| `buildings[]` | `{id, kind, shape, x, y, w, h, label, number}`, with `kind` from the names the engine draws (inn, shop, hall, chapel, ...). |
+| `buildings[]` | `{id, kind, shape, x, y, w, h, label}`, with `kind` from the names the engine draws (inn, shop, hall, chapel, ...). |
 | `walls[]` | `{kind, points, closed, gates: [{at, kind postern|gatehouse}], towers: {shape}}`. |
 | `roads[]`, `water[]`, `areas[]` | Polylines and polygons in cells, each with a `kind`. |
 | `underlay` | `{map, origin, scale}`: a terrain map drawn beneath, its path relative to the file. |
