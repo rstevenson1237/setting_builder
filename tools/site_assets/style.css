@@ -177,6 +177,7 @@ body.nav-collapsed .site-body { padding-left: 0; }
   color: var(--accent) !important;
 }
 
+.nav-head { display: flex; align-items: baseline; justify-content: space-between; gap: 0.4rem; }
 .dropdown-toggle {
   background: none;
   border: none;
@@ -184,17 +185,22 @@ body.nav-collapsed .site-body { padding-left: 0; }
   font: inherit;
   font-size: 0.92rem;
   cursor: pointer;
-  padding: 0;
+  padding: 0 0.25rem;
 }
+.dropdown-label { padding: 0; text-align: left; width: 100%; display: flex; justify-content: space-between; align-items: baseline; }
 .dropdown-toggle:hover { color: var(--accent); }
+.dropdown-toggle span { display: inline-block; transition: transform 0.15s; }
+.nav-dropdown:not(.open) .dropdown-toggle span { transform: rotate(-90deg); }
 .dropdown-menu {
   list-style: none;
-  margin: 0.4rem 0 0;
+  margin: 0.4rem 0 0.2rem;
   padding: 0 0 0 0.8rem;
+  border-left: 1px solid var(--line);
   display: none;
 }
 .nav-dropdown.open .dropdown-menu { display: block; }
 .dropdown-menu li { margin-bottom: 0.3rem; }
+.dropdown-menu a { font-size: 0.86rem; }
 
 .nav-search input {
   width: 100%;
@@ -374,11 +380,6 @@ body.nav-collapsed .site-body { padding-left: 0; }
 .index-list { list-style: none; padding: 0; columns: 2 18rem; column-gap: 2rem; }
 .index-list li { break-inside: avoid; margin-bottom: 0.35rem; }
 .index-via { color: var(--ink-soft); font-style: italic; font-size: 0.9em; }
-.map-key { font-size: 0.9rem; margin: 0.6rem 0 1.4rem; }
-.map-key h4 { font-size: 0.9rem; margin: 0.6rem 0 0.2rem; }
-.map-key ul { list-style: none; padding: 0; margin: 0; columns: 3 12rem; column-gap: 1.5rem; }
-.map-key li { break-inside: avoid; }
-.map-key-type { color: var(--ink-soft); font-style: italic; font-size: 0.9em; }
 .statline td { background: var(--bg-alt); border: 1px solid var(--line); padding: 0.35rem 0.6rem; font-size: 0.92rem; }
 .statline .stat b { color: var(--accent); margin-right: 0.15rem; }
 .glossary { border: 1px solid var(--line); border-radius: var(--radius); background: var(--bg-alt); padding: 0.4rem 1.1rem 0.8rem; margin-top: 1.5rem; }
@@ -435,6 +436,8 @@ body.nav-collapsed .site-body { padding-left: 0; }
 .checklist-item:has(input:checked) { opacity: 0.6; }
 .checklist-item:has(input:checked) span { text-decoration: line-through; }
 .diagram svg { max-width: 100%; height: auto; }
+.diagram a { cursor: pointer; }
+.diagram a:hover text, .diagram a:focus text { text-decoration: underline; }
 .plan-figure { margin: 0; color: var(--ink); }
 .plan-figure svg { display: block; max-width: 100%; height: auto; margin: 0 auto; }
 .plan-figure figcaption, .diagram-text { font-size: 0.85rem; color: var(--ink-soft); margin-top: 0.4rem; }

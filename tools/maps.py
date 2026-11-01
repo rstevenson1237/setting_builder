@@ -709,8 +709,8 @@ def settlement_map(region, block: kdl.Node) -> tuple[dict | None, list[str]]:
     walled = region.rating.upper() != "WILD" or "wall" in block.props   # a WILD place is walled only where it says
     m = {"id": f"{code}-{bid.split('.')[-1]}", "version": 1, "kind": "castle", "seed": 1, "cols": cols, "rows": rows,
          "ground": "grass", "grid": {"show": True, "size": 2, "sub": False},
-         "scale": {"perCell": step, "unit": "ft"}, "numbers": True, "scaleBar": True, "compass": True,
-         "furniture": {"place": "auto"}, "roads": [], "water": [], "walls": [wall] if walled else [], "buildings": [], "areas": [], "trees": [],
+         "scale": {"perCell": step, "unit": "ft"}, "numbers": False, "scaleBar": True, "compass": True,
+         "furniture": {"place": "outside"}, "roads": [], "water": [], "walls": [wall] if walled else [], "buildings": [], "areas": [], "trees": [],
          "props": [], "overlay": {"labels": [], "symbols": []}}
     if ground:
         m["underlay"] = {"map": f"../../{sheet.name}", "origin": [round(lo[0] / square, 2), round(lo[1] / square, 2)],
@@ -739,7 +739,7 @@ def settlement_map(region, block: kdl.Node) -> tuple[dict | None, list[str]]:
         word = "ruin" if wild and kind(c) == "Ruin" else word
         m["buildings"].append({"id": c.replace(".", "-"), "kind": word or BUILDING.get(kind(c), "house"), "shape": "rect",
                                "x": x, "y": y, "w": round(w, 1), "h": round(h, 1),
-                               "label": c, "number": int(c.split(".")[1]), "origin": "tables"})
+                               "label": c, "origin": "tables"})
     for c in gates:
         x, y = cell(*at[c])
         m["overlay"]["labels"].append({"text": c, "x": x, "y": round(y - 2, 1), "kind": "note", "origin": "tables"})
@@ -782,6 +782,17 @@ def built(code: str, bid: str, setting: Path = tables.SETTING) -> tuple[Path | N
     return target, tuple(problems)
 
 
+def clutter(m: dict) -> list[str]:
+    """What a block's map file draws twice or lays over its ground: a number badge beside a
+    code, or scale, compass and title standing on the map."""
+    out = []
+    if (m.get("furniture") or {}).get("place") != "outside":
+        out.append("the scale and compass stand on the map, not outside it")
+    if m.get("numbers") is not False or any(r.get("number") not in (None, False) for r in m.get("rooms", []) + m.get("buildings", [])):
+        out.append("a number badge sits beside the code that labels it")
+    return out
+
+
 def write_blocks(world, only: str | None = None) -> list[str]:
     """Each drawn block's map file. Returns what cannot be drawn."""
     import dungeon
@@ -795,6 +806,7 @@ def write_blocks(world, only: str | None = None) -> list[str]:
             out += [f"{bid}: {p}" for p in problems]
             if target is None:
                 continue
+            out += [f"{bid}: {d}" for d in clutter(json.loads(target.read_text()))]
             done = artgen(engine, "check", "--file", target, "--json")
             for e in json.loads(done.stdout).get("errors", []) if done.stdout.startswith("{") else []:
                 out.append(f"{bid}: {e['path']}: {e['message']}")
@@ -825,6 +837,57 @@ def own_ids(svg: str, prefix: str) -> str:
 CACHE = Path(__file__).resolve().parent.parent / ".maps-cache"
 
 
+def furniture_outside(svg: str) -> str:
+    """A terrain map with its legend, scale bar and compass in a band under it. The map engine
+    draws them over the ground and has no setting to put them elsewhere, as the dungeon and
+    settlement engines do."""
+    vb = re.search(r'viewBox="([-\d.]+) ([-\d.]+) ([-\d.]+) ([-\d.]+)"', svg)
+    if not vb:
+        return svg
+    x0, y0, w, h = map(float, vb.groups())
+    found = []                                              # (name, start, end) of each top-level furniture group
+    for name in ("legend", "scale", "compass"):
+        if not (m := re.search(rf'<g id="{name}"[ >]', svg)):
+            continue
+        depth, at = 0, m.start()
+        for t in re.finditer(r"<g[ >]|</g>", svg[at:]):
+            depth += 1 if t.group().startswith("<g") else -1
+            if not depth:
+                found.append((name, at, at + t.end()))
+                break
+    if not found:
+        return svg
+    box = {}                                                # name -> (left, top, width, height)
+    for name, a, b in found:
+        part = svg[a:b]
+        if name == "compass":
+            c = re.search(r'<circle cx="([-\d.]+)" cy="([-\d.]+)" r="([-\d.]+)"', part)
+            n = re.search(r'<text x="[-\d.]+" y="([-\d.]+)" font-size="([-\d.]+)"', part)
+            cx, cy, r = map(float, c.groups())
+            top = float(n.group(1)) - float(n.group(2))
+            box[name] = (cx - r, top, 2 * r, cy + r - top)
+        else:
+            r = re.search(r'<rect x="([-\d.]+)" y="([-\d.]+)" width="([-\d.]+)" height="([-\d.]+)"', part)
+            box[name] = tuple(map(float, r.groups()))
+    pad = box["scale"][0] - x0 if "scale" in box else 12 * w / 560
+    band = max(b[3] for b in box.values()) + 2 * pad
+    paper = re.search(r'<rect [^>]*fill="(#[0-9a-f]+)"', svg[found[0][1]:]).group(1)
+    left = {"scale": x0 + pad, "legend": x0 + w - pad - box.get("legend", (0, 0, 0))[2]}
+    if "compass" in box:
+        free = [left["scale"] + box["scale"][2] if "scale" in box else x0 + pad, left["legend"] if "legend" in box else x0 + w - pad]
+        left["compass"] = (free[0] + free[1] - box["compass"][2]) / 2
+    moved = "".join(f'<g transform="translate({left[n] - box[n][0]:.1f} {y0 + h + pad - box[n][1]:.1f})">{svg[a:b]}</g>'
+                    for n, a, b in found)
+    for _, a, b in sorted(found, reverse=True, key=lambda f: f[1]):
+        svg = svg[:a] + svg[b:]
+    ink = re.search(r'stroke="(#[0-9a-f]+)"', moved).group(1)
+    strip = (f'<rect x="{x0}" y="{y0 + h}" width="{w}" height="{band:.1f}" fill="{paper}"/>'
+             f'<path d="M{x0} {y0 + h}h{w}" stroke="{ink}" stroke-width="1.5"/>')
+    svg = svg.replace("</svg>", strip + moved + "</svg>")
+    svg = svg.replace(vb.group(0), f'viewBox="{x0:g} {y0:g} {w:g} {h + band:.1f}"', 1)
+    return re.sub(r'(<svg [^>]*?\bheight=")([\d.]+)', lambda m: f"{m.group(1)}{float(m.group(2)) * (h + band) / h:.1f}", svg, 1)
+
+
 def render(kind: str, file: Path, fit: str, *extra, label: str = "") -> str | None:
     """One render as SVG. A render takes seconds, so it is kept under .maps-cache, keyed by
     the map file, the map drawn under it, the engine and the arguments."""
@@ -841,6 +904,8 @@ def render(kind: str, file: Path, fit: str, *extra, label: str = "") -> str | No
             return None
         CACHE.mkdir(exist_ok=True)
         kept.write_text(svg)
+    if kind == "map":
+        svg = furniture_outside(svg)
     name = re.sub(r"[^\w-]", "-", label or file.stem)
     svg = own_ids(svg, name)
     if label:

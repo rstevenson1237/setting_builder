@@ -562,51 +562,37 @@ def parse_locations_gazetteer(region_code: str) -> dict[int, dict]:
 
 # -- Maps, drawn by tools/maps.py ---------------------------------------------------
 
-MapKey = tuple["Setting", "LinkResolver", str]     # what a key links with: the setting, a resolver, the page
-MAP_TEXT_RE = re.compile(r"<text[^>]*>([^<]*)</text>")
-MAP_LABEL_RE = re.compile(r"((?:up |down )?to )?([A-Z]+\.\d+)\b")
+MapKey = tuple["Setting", "LinkResolver", str]     # what a map's labels link with: the setting, a resolver, the page
+MAP_TEXT_RE = re.compile(r"<text\b[^>]*>(.*?)</text>", re.S)
+MAP_CODE_RE = re.compile(r"(?<![\w.])([A-Z]+)(?:\.(\d+))?(?![\w.])")
 
 
-def map_key(svg: str, key: MapKey) -> str:
-    """The key beside a drawn map: each location its labels show, linked, with its name and
-    type, by region; then each location a way off the map leads to."""
+def link_labels(svg: str, key: MapKey) -> str:
+    """The svg with each location code and region code its labels show a link to that location or region."""
     setting, resolver, page = key
-    shown, leads = {}, {}
-    for raw in MAP_TEXT_RE.findall(svg):
-        if (m := MAP_LABEL_RE.match(html.unescape(raw).strip())) and m.group(2) in setting.all_locations:
-            (leads if m.group(1) else shown)[m.group(2)] = True
-    order = {c: i for i, c in enumerate(setting.region_order)}
-    where = lambda code: (order.get(code.split(".")[0], len(order)), int(code.split(".")[1]))
 
-    def item(code: str) -> str:
-        loc = setting.all_locations[code]
-        href = resolver.href("location", loc.region, loc.num, page)
-        kind = f' <span class="map-key-type">{html.escape(loc.weight)}</span>' if loc.weight else ""
-        return f'<li><a href="{href}">{code}</a> {html.escape(loc.name)}{kind}</li>'
+    def code(m: re.Match) -> str:
+        kind, args = ("location", (m.group(1), int(m.group(2)))) if m.group(2) else ("region", (m.group(1),))
+        known = f"{m.group(1)}.{m.group(2)}" in setting.all_locations if m.group(2) else m.group(1) in setting.regions
+        return f'<a href="{html.escape(resolver.href(kind, *args, page))}">{m.group(0)}</a>' if known else m.group(0)
 
-    regions: dict[str, list[str]] = {}
-    for code in sorted(shown, key=where):
-        regions.setdefault(code.split(".")[0], []).append(code)
-    out = []
-    for r, codes in regions.items():
-        head = f'<h4><a href="{resolver.href("region", r, page)}">{r} {html.escape(setting.regions[r].name)}</a></h4>' \
-            if len(regions) > 1 else ""
-        out.append(head + "<ul>" + "".join(map(item, codes)) + "</ul>")
-    if off := sorted(set(leads) - set(shown), key=where):
-        out.append("<h4>Leading off it</h4><ul>" + "".join(map(item, off)) + "</ul>")
-    return f'<div class="map-key">{"".join(out)}</div>' if out else ""
+    def text(m: re.Match) -> str:
+        parts = re.split(r"(<[^>]+>)", m.group(1))
+        linked = "".join(p if p.startswith("<") else MAP_CODE_RE.sub(code, p) for p in parts)
+        return m.group(0)[:m.start(1) - m.start()] + linked + m.group(0)[m.end(1) - m.start():]
+
+    return MAP_TEXT_RE.sub(text, svg)
 
 
 def _figure(svg: str | None, caption: str, key: MapKey | None = None) -> str:
     if not svg:
         return ""
-    return (f'<figure class="diagram plan-figure">{svg}<figcaption>{html.escape(caption)}</figcaption></figure>'
-            + (map_key(svg, key) if key else ""))
+    return f'<figure class="diagram plan-figure">{link_labels(svg, key) if key else svg}<figcaption>{html.escape(caption)}</figcaption></figure>'
 
 
 def sheets_html(fit: str, key: MapKey | None = None) -> str:
-    """Every terrain sheet whole but those drawn under a settlement: the play map, with its key
-    where a link target is given."""
+    """Every terrain sheet whole but those drawn under a settlement: the play map, its labels
+    linked where a link target is given."""
     import maps
     return "".join(_figure(maps.sheet_svg(f.stem, fit), f"{f.stem}, drawn from the setting's tables", key)
                    for f in sorted(SETTING.glob("*.json")) if f.stem not in maps.underlaid())

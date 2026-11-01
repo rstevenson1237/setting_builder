@@ -18,8 +18,7 @@ import math
 
 SIDES = {"n": (0, -1), "e": (1, 0), "s": (0, 1), "w": (-1, 0)}
 OPEN = (None, "open", "arch")          # a way with no door in it, still drawn on a wall
-LABEL_H = 3.0                          # cells: a room's number and code, stacked at its centre
-NAME_H = 1.4                           # and its code alone, where the number is left off
+NAME_H = 1.4                           # cells: a room's code, at its centre
 
 
 def inside(shape: str, r: dict, x: float, y: float) -> bool:
@@ -219,7 +218,7 @@ def check(m: dict, ways: set[frozenset] | None = None, exits: int | None = None)
     for rid, r in rooms.items():
         text = r.get("label") or ""
         w = max(2.2, 0.8 * len(text) + 1)
-        boxes.append((r["x"] + r["w"] / 2, r["y"] + r["h"] / 2, w, LABEL_H if r.get("number") is not False else NAME_H, f"label of {rid}"))
+        boxes.append((r["x"] + r["w"] / 2, r["y"] + r["h"] / 2, w, NAME_H, f"label of {rid}"))
     boxes += notes
     for i, a in enumerate(boxes):
         for b in boxes[i + 1:]:

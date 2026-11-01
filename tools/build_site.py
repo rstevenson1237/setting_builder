@@ -111,18 +111,36 @@ def render_inline(text: str, setting: sc.Setting, current_page: str, skip_locati
     return sc.render_inline(text, setting, RESOLVER, current_page, skip_location=skip_location, no_links=no_links)
 
 
-def nav_html(setting: sc.Setting, current_page: str) -> str:
-    items = []
-    for href, label in nav_links(setting):
-        rel = rel_asset(current_page, href)
-        active = " class=\"active\"" if href == current_page else ""
-        items.append(f'<li><a href="{rel}"{active}>{label}</a></li>')
+def nav_group(label: str, items: str, open_: bool, head_href: str | None = None, current: bool = False) -> str:
+    """A sidebar group that opens to its items. With a `head_href` the label is itself a link, so
+    the group's own page is one click away and the arrow only opens the list."""
+    arrow = (f'<button class="dropdown-toggle" aria-expanded="{str(open_).lower()}" aria-label="Show {html.escape(label)}">'
+             '<span aria-hidden="true">▾</span></button>')
+    head = (f'<a href="{head_href}"{" class=\"active\"" if current else ""}>{label}</a>' + arrow if head_href else
+            f'<button class="dropdown-toggle dropdown-label" aria-expanded="{str(open_).lower()}">{label} <span aria-hidden="true">▾</span></button>')
+    return (f'<li class="nav-dropdown{" open" if open_ else ""}"><div class="nav-head">{head}</div>'
+            f'<ul class="dropdown-menu">{items}</ul></li>')
 
-    region_items = []
+
+def nav_html(setting: sc.Setting, current_page: str) -> str:
+    links = nav_links(setting)
+    setting_items = "".join(
+        f'<li><a href="{rel_asset(current_page, href)}"{" class=\"active\"" if href == current_page else ""}>{label}</a></li>'
+        for href, label in links[1:])
+    entries = [f'<li><a href="{rel_asset(current_page, "index.html")}"'
+               f'{" class=\"active\"" if current_page == "index.html" else ""}>Home</a></li>',
+               nav_group("Setting", setting_items, any(h == current_page for h, _ in links[1:]))]
     for code in setting.region_order:
         region = setting.regions[code]
-        rel = RESOLVER.href("region", code, current_page)
-        region_items.append(f'<li><a href="{rel}">{code} {html.escape(region.name)}</a></li>')
+        here = current_page.startswith(f"region/{code}/")
+        locations = "".join(
+            f'<li><a href="{RESOLVER.href("location", code, num, current_page)}"'
+            f'{" class=\"active\"" if current_page == f"region/{code}/{num}.html" else ""}>'
+            f'{loc.code} {html.escape(loc.name)}</a></li>'
+            for num, loc in sorted(region.locations.items()))
+        entries.append(nav_group(f"{code} {html.escape(region.name)}", locations, here,
+                                 head_href=RESOLVER.href("region", code, current_page),
+                                 current=current_page == f"region/{code}/index.html"))
 
     pdf_rel = rel_asset(current_page, pdf_filename(setting))
     search_rel = rel_asset(current_page, "search-index.json")
@@ -144,11 +162,7 @@ def nav_html(setting: sc.Setting, current_page: str) -> str:
     <ul id="search-results" class="search-results" hidden></ul>
   </div>
   <ul class="nav-list">
-    {''.join(items)}
-    <li class="nav-dropdown">
-      <button class="dropdown-toggle" aria-expanded="false">Regions ▾</button>
-      <ul class="dropdown-menu">{''.join(region_items)}</ul>
-    </li>
+    {''.join(entries)}
     <li><a class="pdf-link" href="{pdf_rel}" download>⬇ Download PDF</a></li>
   </ul>
 </nav>
