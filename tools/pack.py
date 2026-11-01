@@ -299,38 +299,48 @@ def squares(rooms: list[Room], fill: tuple[float, float]) -> list[int]:
 
 
 def attempt(args):
-    """One packing from one seed, re-annealed round the ways that found no passage until every way has one."""
-    rooms, ways, side, seed, passages, pins, glue, walls = args
+    """One packing from one seed, re-annealed round the ways that found no passage or walk more than
+    `detour` out of their way, until none do: whether every way found one, how the best that did
+    reads - its ways over `detour`, then the feet they all walk - and its energy and rooms' places."""
+    rooms, ways, side, seed, passages, pins, glue, walls, detour = args
     p = Packer(rooms, ways, side, seed, passages, pins, glue)
     p.anneal()
-    pairs = [(a, b) for a, b, _ in ways]
+    pairs, best = [(a, b) for a, b, _ in ways], None
     for _ in range(REPAIRS):
-        found, left = route.plan(p.rects(), pairs, walls)
+        rects = p.rects()
+        found, left = route.plan(rects, pairs, walls)
+        far = [] if left else route.detours(found, rects, detour)
         if not left and p.clear() and p.over():
-            return True, p.total(), p.x, p.y
-        for name in left:
+            score = (len(far), sum(r.length for r in found))
+            if best is None or score < best[1]:
+                best = (True, score, p.total(), p.x[:], p.y[:])
+            if not far:
+                break
+        for name in left + [f"{r.a} to {r.b}" for r, _ in far]:
             a, b = (p.ix[c] for c in name.split(" to "))
             key = (min(a, b), max(a, b))
             hard = p.round[a] or p.round[b] or p.trouble.get(key) == "door"
             p.trouble[key] = "lane" if hard else "door"
         p.anneal(REPAIR_STEPS, 1.0, again=True)
-    return False, p.total(), p.x, p.y
+    return best or (False, None, p.total(), p.x, p.y)
 
 
 def pack(rooms, ways, seed: int, fill: tuple[float, float], passages: float, footprint: int | None = None,
-         pins: dict | None = None, tries: int = 12, glue: dict | None = None, walls: dict | None = None):
-    """The lowest-energy packing, over a few seeds at each side in turn - `footprint` alone where
-    it is given - stopping at the first side where some seed leaves every way a passage, each by
-    the wall `walls` names, and every pinned room over its pin: (side, packer, routes, energy),
-    routes None where no side did."""
+         pins: dict | None = None, tries: int = 12, glue: dict | None = None, walls: dict | None = None,
+         detour: float | None = None):
+    """The best packing over `tries` seeds at each side in turn - `footprint` alone where it is
+    given - stopping at the first side where some seed leaves every way a passage, each by the
+    wall `walls` names, and every pinned room over its pin. Best is fewest ways walking more than
+    `detour` feet out of their way, then fewest feet walked, then lowest energy:
+    (side, packer, routes, energy), routes None where no side did."""
     pairs, pins = [(a, b) for a, b, _ in ways], pins or {}
     side = footprint
     with ProcessPoolExecutor() as pool:
         for side in [footprint] if footprint else squares(rooms, fill):
-            runs = [r for r in pool.map(attempt, [(rooms, ways, side, seed * 1000 + k, passages, pins, glue, walls)
+            runs = [r for r in pool.map(attempt, [(rooms, ways, side, seed * 1000 + k, passages, pins, glue, walls, detour)
                                                   for k in range(tries)]) if r[0]]
             if runs:
-                ok, e, x, y = min(runs, key=lambda r: r[1])
+                ok, _, e, x, y = min(runs, key=lambda r: (r[1], r[2]))
                 p = Packer(rooms, ways, side, seed, passages, pins, glue)
                 p.x, p.y = x, y
                 return side, p, route.plan(p.rects(), pairs, walls)[0], e

@@ -447,13 +447,14 @@ def unbear_stairs(code: str) -> list[str]:
     return out
 
 
-def pack_region(code: str, seed: int = 1, again: bool = False) -> int:
+def pack_region(code: str, seed: int = 1, again: bool = False, tries: int = 12) -> int:
     """Packs each block of a DANGEROUS region into a square and routes its passages (tools/pack.py,
     tools/route.py), keeping each way's direction as its rooms lie, or else as its bearing says.
     Writes each room's `xyz` from the block's centre to Dressing.md and the block's
     `outline` and `router` to Blocks.md, and takes `bearing` and `distance` off each way within
     the block, which the rooms' positions now place. A block whose rooms are placed and whose
-    ways all route is left where it lies, its router stamped, unless `again`. A room placed
+    ways all route within BRIEF.md's detour is left where it lies, its router stamped, unless
+    `again`. Of `tries` packings, the one whose ways walk least is kept. A room placed
     against another keeps its line and is carried with it. A stair whose two rooms are now
     placed loses its bearing and distance. The region is settled before (over
     the block a stair reaches) and after (where a way with a bearing puts it): tools/space.py."""
@@ -487,8 +488,9 @@ def pack_region(code: str, seed: int = 1, again: bool = False) -> int:
         placed = {c: at for c in members if (at := space.centre(dress[c]))}
         found = plan_of(region, block)
         sized = rates["footprint"] is None or side_of(block) == rates["footprint"]
-        if found and not found[2] and sized and not again:
-            print(f"{bid}: packed, and every way routes; left where it lies (--again repacks it)")
+        far = {(r.a, r.b) for r, _ in route.detours(found[0], found[1], rates["detour"])} if found else set()
+        if found and not found[2] and sized and not far and not again:
+            print(f"{bid}: packed, and every way routes within its detour; left where it lies (--again repacks it)")
             side = None
         else:
             ways, walls = [], walls_of(region, members)
@@ -498,7 +500,7 @@ def pack_region(code: str, seed: int = 1, again: bool = False) -> int:
                     continue
                 if (a, b) in walls or (b, a) in walls:      # the far room lies out past the wall it names
                     bearing = walls[a, b] if (a, b) in walls else (walls[b, a] + 180) % 360
-                elif a in placed and b in placed:
+                elif a in placed and b in placed and (a, b) not in far and (b, a) not in far:   # a detour's line is no guide
                     bearing = math.degrees(math.atan2(placed[b][0] - placed[a][0], placed[b][1] - placed[a][1])) % 360
                 else:
                     bearing = compass.index(str(n.props["bearing"])) * 22.5 if "bearing" in n.props else None
@@ -510,7 +512,7 @@ def pack_region(code: str, seed: int = 1, again: bool = False) -> int:
                 return 1
             side, p, routes, energy = packing.pack(rooms, ways, seed, rates["fill"], rates["passages"],
                                                    int(rates["footprint"]) if rates["footprint"] else None, pins,
-                                                   glue=glue, walls=walls)
+                                                   tries=tries, glue=glue, walls=walls, detour=rates["detour"])
             if routes is None:
                 print(f"{bid}: no packing of {len(members)} rooms left room for every passage; try another --seed")
                 failed = True
@@ -597,8 +599,12 @@ def problems(region, block: kdl.Node) -> list[tuple[str, Path, str]]:
     if area < least * side * side:
         out.append(("error", path, f"{bid}'s rooms cover {area / side / side:.0%} of its footprint, under BRIEF.md's "
                                    f"pack fill of {least:.0%}"))
-    for left in plan_of(region, block)[2]:
-        out.append(("error", path, f"{bid}: no passage fits the way from {left}"))
+    routes, rects, left = plan_of(region, block)
+    for way in left:
+        out.append(("error", path, f"{bid}: no passage fits the way from {way}"))
+    for rt, extra in route.detours(routes, rects, rates["detour"]):
+        out.append(("warning", path, f"{bid}: the way from {rt.a} to {rt.b} walks {extra:.0f} feet out of its way, past "
+                                     f"BRIEF.md's pack detour of {rates['detour']:g}: run `python3 tools/maps.py pack {region.code}` (step 4a)"))
     if mapfile := built(region.code, bid)[0]:
         for d in defects(region, block, json.loads(mapfile.read_text())):
             out.append(("warning" if d.startswith("label:") else "error", path, f"{bid}'s map: {d}"))

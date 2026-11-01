@@ -30,7 +30,8 @@ location has a place from it, x east, y north, z up, in feet.
 A `pack` line is how a DANGEROUS block's rooms are packed into a square: `fill`, the share of
 the square they cover, from the least the validator holds to the most the packer starts from;
 `passages`, the share of its ways run as passages rather than doors through a shared wall;
-and, in a region, `footprint`, the square's side.
+`detour`, the most a way may walk beyond the straight line between its rooms' centres; and, in
+a region, `footprint`, the square's side.
 
 ```kdl
 // -- Framework levers ----------------------------------------------------------
@@ -79,7 +80,7 @@ dangerous {
   target Location.type High="17%" Medium="50%" Low="33%"
   target Hazard.damage Nuisance="40%" Damaging="40%" Lethal="20%"
   target Reward.contents Keys="10%" Lore="15%"
-  pack fill="30-45%" passages="35%"
+  pack fill="30-45%" passages="35%" detour="100 feet"
 }
 
 // -- This setting --------------------------------------------------------------

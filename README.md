@@ -76,8 +76,8 @@ Read these rather than a description of them.
     copying `maps/` at a newer commit, in a commit of its own. What the framework writes into its files,
     and how each key behaves, is `plans/sheet-maps/artgen-capabilities.md`.
   - `dungeon.py` - a DANGEROUS block: its map, its passages, `pack`, and what the validator reports of it.
-  - `pack.py` - packs a DANGEROUS block's rooms close into a square, touching where a door through the shared wall will do and a passage apart where not, re-annealing until every way has one; run through `maps.py pack`.
-  - `route.py` - routes each way as a door through a shared wall or a winding passage on a 10-foot lattice, a door where it meets a wall: at the wall its Connection names, where it names one.
+  - `pack.py` - packs a DANGEROUS block's rooms close into a square, touching where a door through the shared wall will do and a passage apart where not, re-annealing until every way has one within BRIEF.md's detour, and keeping of its tries the one whose ways walk least; run through `maps.py pack`.
+  - `route.py` - routes each way as a door through a shared wall or a winding passage on a 10-foot lattice, a door where it meets a wall: at the wall its Connection names, where it names one. Passages from one room may join and part but never run side by side.
   - `mapcheck.py` - rebuilds a block map's floor and lists what is wrong with it: doors off a wall, passages through rooms or joining ones the tables do not, rooms touching where no shared walls are drawn, or unreached, stairs outside rooms, labels laid over one another. Run on every packed block by the validator.
   - `space.py` - the dry fire: every region, block and location at a point in one space from the origin region's way in, x east, y north, z up, in feet, and what does not fit - unplaced things, overlaps, things outside their parent's outline, and ways whose climb, bearing or distance disagree with where their ends lie.
   - `maps.py` - draws maps from the setting through artgen. `pack` places a DANGEROUS region's rooms in a square. `place` puts each region on its sheets

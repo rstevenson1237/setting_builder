@@ -3,7 +3,8 @@
 A room is a footprint whose box has its corners on a LATTICE-foot grid; its floor is the
 lattice cells whose centres its outline holds. A passage is a path of free cells from a cell
 against one room's wall to a cell against the other's, bending where it likes, never touching
-another way's passage but where the two leave one room, and never running through a room.
+another way's passage but where the two leave one room, and never running through a room. Two
+passages leaving one room may join and part again, but never run side by side.
 Its door stands on the wall between the room and the path's first cell: square across it
 where that wall runs along the lattice, else where the line from the room's hub to that cell
 crosses the wall. A way that names its wall, as a bearing from the room's centre, leaves by a
@@ -16,7 +17,7 @@ import heapq
 import math
 from dataclasses import dataclass, field
 
-VERSION = 2                 # raised by any change that routes placed rooms differently; a packed Block records it
+VERSION = 3                 # raised by any change that routes placed rooms differently; a packed Block records it
 SEED = 1                    # the noise every plan is routed with, so a draw finds the passages a pack did
 LATTICE = 10                # feet, a passage's width and the grid rooms and passages lie on
 TURN = 0.5                  # what a bend costs, in cells of path
@@ -353,6 +354,16 @@ class Router:
                     return False
         return True
 
+    def beside(self, c, n, me: int) -> bool:
+        """Whether a step from cell c (None at a door) to cell n runs beside the passage of another
+        way from the same room, rather than joining it or leaving it."""
+        def touches(cell, u, but):
+            return any(u in self.used.get((cell[0] + dx, cell[1] + dy), ()) for dx, dy in STEPS.values()
+                       if (cell[0] + dx, cell[1] + dy) != but)
+        near = {u for dx, dy in STEPS.values() for u in self.used.get((n[0] + dx, n[1] + dy), ())}
+        return any(u not in self.used.get(n, ()) and touches(n, u, c)
+                   and (c is None or u in self.used.get(c, ()) or touches(c, u, n)) for u in near if u != me)
+
     # -- one way -------------------------------------------------------------------------
 
     def add(self, a: str, b: str, want_a: float | None = None, want_b: float | None = None) -> Route | None:
@@ -402,7 +413,8 @@ class Router:
         heap, best, back = [], {}, {}
         for slot in starts:
             c = slot.cell
-            if self.free(c, me) and self.against.get(c, set()) <= {a} | ({b} if c in goals else set()):
+            if self.free(c, me) and not self.beside(None, c, me) \
+                    and self.against.get(c, set()) <= {a} | ({b} if c in goals else set()):
                 state = (c, None, 0)
                 cost = 1 + self.noise(c)
                 if state in best and best[state] <= cost:
@@ -427,7 +439,7 @@ class Router:
                 return cells[::-1], entry, goals[c]
             for nd, (dx, dy) in STEPS.items():
                 n = (c[0] + dx, c[1] + dy)
-                if d and nd == TURNED[d] or not self.free(n, me):
+                if d and nd == TURNED[d] or not self.free(n, me) or self.beside(c, n, me):
                     continue
                 if self.against.get(n, set()) > ({b} if n in goals else set()):
                     continue                          # a floor laid against a wall but at a door would read as part of the room
@@ -451,6 +463,13 @@ class Router:
 
 def number(code: str) -> int:
     return int(code.split(".")[1])
+
+
+def detours(routes: list[Route], rooms: dict[str, Footprint], limit: float | None) -> list[tuple[Route, float]]:
+    """Each way that walks more than `limit` feet beyond the straight line between its rooms'
+    centres, with how far beyond."""
+    out = [(r, r.length - math.dist(rooms[r.a].centre, rooms[r.b].centre)) for r in routes]
+    return [(r, extra) for r, extra in out if limit is not None and extra > limit]
 
 
 def plan(rooms: dict[str, Footprint], ways, walls: dict | None = None) -> tuple[list[Route], list[str]]:
