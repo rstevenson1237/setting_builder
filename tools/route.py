@@ -59,6 +59,21 @@ def holds(poly: list[tuple[float, float]], x: float, y: float) -> bool:
     return inside
 
 
+def raster(poly: list[tuple[float, float]], whole: bool = False) -> frozenset[tuple[int, int]]:
+    """The lattice cells an outline reaches into, or with `whole`, those it holds entirely."""
+    xs, ys, e = [p[0] for p in poly], [p[1] for p in poly], 1e-3 * LATTICE
+    out = set()
+    for i in range(math.floor(min(xs) / LATTICE), math.ceil(max(xs) / LATTICE)):
+        for j in range(math.floor(min(ys) / LATTICE), math.ceil(max(ys) / LATTICE)):
+            if whole:
+                marks = [(u * LATTICE + (e if u == i else -e), v * LATTICE + (e if v == j else -e)) for u in (i, i + 1) for v in (j, j + 1)]
+            else:
+                marks = [((i + (k + 0.5) / 4) * LATTICE, (j + (m + 0.5) / 4) * LATTICE) for k in range(4) for m in range(4)]
+            if (all if whole else any)(holds(poly, *p) for p in marks):
+                out.add((i, j))
+    return frozenset(out)
+
+
 def kernel(poly: list[tuple[float, float]]) -> list[tuple[float, float]]:
     """The part of an outline from which every point of it can be seen: empty where none can."""
     turn = sum(x0 * y1 - x1 * y0 for (x0, y0), (x1, y1) in zip(poly, poly[1:] + poly[:1]))
@@ -318,8 +333,9 @@ def shared_wall(p: Footprint, q: Footprint, want_p: float | None = None, want_q:
 
 
 class Router:
-    def __init__(self, rooms: dict[str, Footprint], seed: int = 1, margin: int = 2):
-        self.rooms, self.seed = rooms, seed
+    def __init__(self, rooms: dict[str, Footprint], seed: int = 1, margin: int = 2, ground: frozenset | None = None):
+        """`ground`: the cells a passage may take, where the block bounds them."""
+        self.rooms, self.seed, self.ground = rooms, seed, ground
         spans = [r.span for r in rooms.values()]
         self.lo = (min(s[0] for s in spans) - margin, min(s[1] for s in spans) - margin)
         self.hi = (max(s[2] for s in spans) + margin, max(s[3] for s in spans) + margin)
@@ -360,7 +376,7 @@ class Router:
         return bool(set(self.ends[i]) & set(self.ends[j]))
 
     def free(self, c, me: int) -> bool:
-        if c in self.solid or not self.inside(c):
+        if c in self.solid or not self.inside(c) or self.ground is not None and c not in self.ground:
             return False
         for d in ((0, 0), (1, 0), (-1, 0), (0, 1), (0, -1)):
             for u in self.used.get((c[0] + d[0], c[1] + d[1]), ()):
@@ -486,13 +502,14 @@ def detours(routes: list[Route], rooms: dict[str, Footprint], limit: float | Non
     return [(r, extra) for r, extra in out if limit is not None and extra > limit]
 
 
-def plan(rooms: dict[str, Footprint], ways, walls: dict | None = None) -> tuple[list[Route], list[str]]:
+def plan(rooms: dict[str, Footprint], ways, walls: dict | None = None,
+         ground: frozenset | None = None) -> tuple[list[Route], list[str]]:
     """Each way, as a pair of room codes in either order, routed shortest first, each end by the
-    wall `walls` names for it as (room, far room) -> bearing: the routes, and the ways no
-    passage fitted."""
+    wall `walls` names for it as (room, far room) -> bearing, and through `ground` where the
+    block bounds its passages: the routes, and the ways no passage fitted."""
     walls = walls or {}
     pairs = sorted({tuple(sorted(w, key=number)) for w in ways},
                    key=lambda w: (round(math.dist((rooms[w[0]].x, rooms[w[0]].y), (rooms[w[1]].x, rooms[w[1]].y))), w))
-    router = Router(rooms, SEED)
+    router = Router(rooms, SEED, ground=ground)
     left = [f"{a} to {b}" for a, b in pairs if router.add(a, b, walls.get((a, b)), walls.get((b, a))) is None]
     return router.routes, left

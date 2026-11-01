@@ -605,7 +605,7 @@ ENGINE = {"DANGEROUS": "dungeon", "SAFE": "settlement", "WILD": "settlement"}   
 
 
 def blocks_of(region) -> dict[str, kdl.Node]:
-    return {str(n.args[0]): n for n in region.files.get("Blocks", []) if n.args}
+    return {str(n.args[0]): n for n in region.files.get("Blocks", []) if n.args and n.name == "Block"}
 
 
 def drawn_blocks(region) -> dict[str, kdl.Node]:

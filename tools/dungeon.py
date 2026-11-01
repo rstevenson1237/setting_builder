@@ -68,6 +68,46 @@ def turns(region, c: str, dress: dict) -> bool:
     return not (DIRECTION.search(words) or walled or held or str(d.props.get("shape")) == "hexagon")
 
 
+def rocks_of(region, bid: str) -> list[kdl.Node]:
+    return [n for n in region.files.get("Blocks", []) if n.name == "Rock" and n.args and str(n.args[0]) == bid]
+
+
+def frame_of(block: kdl.Node) -> float | None:
+    """The side of the square a block's rooms are packed in: its "rect S S", or the least square
+    on the lattice, round its centre, holding its poly."""
+    o = space.outline_value(block.props.get("outline"))
+    if o and o[0] == "poly":
+        return 2 * math.ceil(max(abs(v) for q in o[1] for v in q) / route.LATTICE) * route.LATTICE
+    return side_of(block)
+
+
+def ground(region, block: kdl.Node, origin: tuple[float, float], side: float | None = None) -> frozenset | None:
+    """The lattice cells a block's rooms and passages may take - its outline, less its Rock - in a
+    frame whose y runs south and where its centre stands at `origin`; None where it bounds
+    neither: a square with no Rock."""
+    o = space.outline_value(block.props.get("outline"))
+    if side is not None and not (o and o[0] == "poly"):
+        o = ("rect", side, side)
+    rocks = rocks_of(region, str(block.args[0]))
+    if o is None or o[0] != "poly" and not rocks:
+        return None
+    frame = lambda poly: [(x + origin[0], origin[1] - y) for x, y in poly]
+    cells = route.raster(frame(space.polygon(o, 0.0, 0.0)), whole=True)
+    for r in rocks:
+        at = space.point_of(r.props.get("xyz")) or [0.0, 0.0]
+        if (shape := space.outline_value(r.props.get("outline"))) is not None:
+            cells -= route.raster(frame(space.polygon(shape, at[0], at[1])))
+    return cells
+
+
+def shift_of(dress: dict, members: list[str]) -> tuple[float, float]:
+    """How far east and south a packed block's rooms move, from its centre with y running south,
+    to stand their corners on the lattice."""
+    d = dress[members[0]]
+    x, y = space.centre(d)
+    return ((float(d.props["width"]) / 2 - x) % route.LATTICE, (float(d.props["length"]) / 2 + y) % route.LATTICE)
+
+
 def walls_of(region, members) -> dict[tuple[str, str], float]:
     """The wall each way within a block names at the room it leaves, as a bearing in degrees."""
     compass = space.compass()
@@ -133,8 +173,7 @@ def block_map(region, block: kdl.Node) -> tuple[dict | None, list[str]]:
         size[c] = (float(w or UNSIZED), float(h or UNSIZED), footprint(d))
     routed = len(stated) == len(members) and bool(members)
     if routed:                                           # corners on the lattice the passages are routed on
-        first = next(iter(at))
-        shift = [(-(at[first][k] - size[first][k] / 2)) % route.LATTICE for k in (0, 1)]
+        shift = shift_of(dress, members)
         at = {c: (at[c][0] + shift[0], at[c][1] + shift[1]) for c in at}
         for c in at:
             if any(abs((at[c][k] - size[c][k] / 2) / route.LATTICE - round((at[c][k] - size[c][k] / 2) / route.LATTICE)) > 1e-6
@@ -263,7 +302,12 @@ def block_map(region, block: kdl.Node) -> tuple[dict | None, list[str]]:
             m["overlay"]["labels"].append({"text": f"{'Up to' if up else 'Down to' if down else 'To'} {b}",
                                            "x": round(sx, 2), "y": round(sy + 2.2, 2), "kind": "note", "origin": "tables"})
     if routed:
-        found, left = route.plan(rects, list(seen), walls_of(region, members))
+        found, left = route.plan(rects, list(seen), walls_of(region, members), ground(region, block, shift))
+        for r in rocks_of(region, bid):                  # what fills each Rock, at its middle
+            at_ = space.point_of(r.props.get("xyz")) or [0.0, 0.0]
+            m["overlay"]["labels"].append({"text": str(r.props.get("what", "")), "kind": "note", "origin": "tables",
+                                           "x": round((at_[0] + shift[0] - lo[0]) / cell + EDGE, 2),
+                                           "y": round((shift[1] - at_[1] - lo[1]) / cell + EDGE, 2)})
         problems += [f"no passage fits the way from {x}" for x in left]
         to_cell = lambda p: (round((p[0] - lo[0]) / cell + EDGE, 2), round((p[1] - lo[1]) / cell + EDGE, 2))
         along = lambda c, side, p: round(((p[0] - rects[c].x) if side in "ns" else (p[1] - rects[c].y)) / cell, 2)
@@ -387,12 +431,11 @@ def plan_of(region, block: kdl.Node):
         return None
     corner = lambda c: (space.centre(dress[c])[0] - float(dress[c].props["width"]) / 2,
                         -space.centre(dress[c])[1] - float(dress[c].props["length"]) / 2)
-    first = corner(members[0])
-    shift = ((-first[0]) % route.LATTICE, (-first[1]) % route.LATTICE)     # corners onto the lattice, as block_map does
+    shift = shift_of(dress, members)                 # corners onto the lattice, as block_map does
     rects = {c: footprint(dress[c], corner(c)[0] + shift[0], corner(c)[1] + shift[1]) for c in members}
     ways = [(str(n.args[0]), str(n.props["to"])) for n in region.files.get("Connections", [])
             if n.args and str(n.args[0]) in rects and str(n.props.get("to")) in rects]
-    routes, left = route.plan(rects, ways, walls_of(region, members))
+    routes, left = route.plan(rects, ways, walls_of(region, members), ground(region, block, shift))
     return routes, rects, left
 
 
@@ -503,7 +546,8 @@ def pack_region(code: str, seed: int = 1, again: bool = False, tries: int = 12) 
                                       str(d.props.get("shape")) == "hall", turns(region, c, dress)))
         placed = {c: at for c in members if (at := space.centre(dress[c]))}
         found = plan_of(region, block)
-        sized = rates["footprint"] is None or side_of(block) == rates["footprint"]
+        poly = (o := space.outline_value(block.props.get("outline"))) is not None and o[0] == "poly"   # the design's own ground
+        sized = poly or rates["footprint"] is None or side_of(block) == rates["footprint"]
         far = {(r.a, r.b) for r, _ in route.detours(found[0], found[1], rates["detour"])} if found else set()
         if found and not found[2] and sized and not far and not again:
             print(f"{bid}: packed, and every way routes within its detour; left where it lies (--again repacks it)")
@@ -527,8 +571,9 @@ def pack_region(code: str, seed: int = 1, again: bool = False, tries: int = 12) 
                 print("\n".join(why))
                 return 1
             side, p, routes, energy = packing.pack(rooms, ways, seed, rates["fill"], rates["passages"],
-                                                   int(rates["footprint"]) if rates["footprint"] else None, pins,
-                                                   tries=tries, glue=glue, walls=walls, detour=rates["detour"])
+                                                   frame_of(block) if poly else int(rates["footprint"]) if rates["footprint"] else None,
+                                                   pins, tries=tries, glue=glue, walls=walls, detour=rates["detour"],
+                                                   ground=lambda s: ground(region, block, (s / 2, s / 2), s))
             if routes is None:
                 print(f"{bid}: no packing of {len(members)} rooms left room for every passage; try another --seed")
                 failed = True
@@ -554,7 +599,7 @@ def pack_region(code: str, seed: int = 1, again: bool = False, tries: int = 12) 
                     text["Connections"][i] = without(without(line, "bearing"), "distance")
         for i, line in enumerate(text["Blocks"]):
             if line.startswith(f"Block {bid} "):
-                line = with_prop(line, "outline", f'"rect {side} {side}"') if side else line
+                line = with_prop(line, "outline", f'"rect {side} {side}"') if side and not poly else line
                 text["Blocks"][i] = with_prop(line, "router", str(route.VERSION), after="outline")
     if failed:
         return 1
@@ -608,23 +653,30 @@ def problems(region, block: kdl.Node) -> list[tuple[str, Path, str]]:
                                 f"{c}'s outline has no point that sees all of it, so a way cannot be drawn to every wall (step 4a)"))
     if not at:
         return out + [("warning", path, f"{bid}'s rooms are not packed: run `python3 tools/maps.py pack {region.code}` (step 4a)")]
-    side = side_of(block)
-    if side is None:
-        return out + [("error", path, f'{bid} places its rooms but states no outline "rect S S", the square they are packed in')]
+    side, o = side_of(block), space.outline_value(block.props.get("outline"))
+    poly = bool(o and o[0] == "poly")
+    if side is None and not poly:
+        return out + [("error", path, f'{bid} places its rooms but states no outline, "rect S S" or a poly, that they are packed in')]
     wide = lambda c, k: float(dress[c].props["width" if k == 0 else "length"])
     world = world_for(tables.SETTING)
     rates = tables.Brief(world.schema).packing(region.code)
-    if rates["footprint"] is not None and side != rates["footprint"]:
+    if not poly and rates["footprint"] is not None and side != rates["footprint"]:
         out.append(("error", path, f"{bid}'s square is {side:g} feet, where BRIEF.md's pack footprint asks {rates['footprint']:g}: "
                                    f"run `python3 tools/maps.py pack {region.code}` (step 4a)"))
     if str(block.props.get("router")) != str(route.VERSION):
         out.append(("error", path, f"{bid} was routed by tools/route.py version {block.props.get('router', 'unstated')}, "
                                    f"not {route.VERSION}: run `python3 tools/maps.py pack {region.code}` (step 4a)"))
+    g = ground(region, block, shift_of(dress, members))
+    room = len(g) * route.LATTICE ** 2 if g is not None else side * side
     area, least = sum(wide(c, 0) * wide(c, 1) for c in at), (rates["fill"] or (0, 0))[0]
-    if area < least * side * side:
-        out.append(("error", path, f"{bid}'s rooms cover {area / side / side:.0%} of its footprint, under BRIEF.md's "
+    if area < least * room:
+        out.append(("error", path, f"{bid}'s rooms cover {area / room:.0%} of its ground, under BRIEF.md's "
                                    f"pack fill of {least:.0%}"))
     routes, rects, left = plan_of(region, block)
+    for c, f in rects.items():
+        if g is not None and (off := f.touched - g):
+            out.append(("error", region.dir / "Dressing.md", f"{c} reaches {len(off)} lattice cells outside {bid}'s outline or "
+                                                            f"on its Rock: run `python3 tools/maps.py pack {region.code}` (step 4a)"))
     for way in left:
         out.append(("error", path, f"{bid}: no passage fits the way from {way}"))
     for rt, extra in route.detours(routes, rects, rates["detour"]):

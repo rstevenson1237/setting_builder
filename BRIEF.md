@@ -31,7 +31,7 @@ A `pack` line is how a DANGEROUS block's rooms are packed into a square: `fill`,
 the square they cover, from the least the validator holds to the most the packer starts from;
 `passages`, the share of its ways run as passages rather than doors through a shared wall;
 `detour`, the most a way may walk beyond the straight line between its rooms' centres; and, in
-a region, `footprint`, the square's side.
+a region, `footprint`, the square's side, where a block draws no outline of its own.
 
 ```kdl
 // -- Framework levers ----------------------------------------------------------

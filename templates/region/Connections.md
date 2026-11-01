@@ -30,6 +30,7 @@ joins two blocks. A stair between blocks states a `climb` and no bearing or dist
 other; a sloping way states a `climb`, a bearing and a distance. Within a block, a way's bearing
 and distance are where the design wants the far room; `tools/maps.py pack` keeps the bearing
 where it can and takes both off once the rooms are placed. A way states its `wall` where the
-design fixes where it leaves its room. A Block or Connection states its
+design fixes where it leaves its room. A Block states a `poly` outline where its level is no
+square, and a Rock entry for each stretch of it no room or passage takes. A Block or Connection states its
 passages' `width` and `height` only where they differ from the seed's Conditions, a
 Connection's within both rooms' outlines.

@@ -7,6 +7,8 @@ passage apart where it will not; rooms not joined may touch too, their shared
 wall drawn by the map's `sharedWalls`. A room placed against another is carried with it, never
 moved alone. A room that turns may lie in any quarter turn or mirror of itself, and a room may
 be set into the corners another's floor leaves empty, where touching floors earn their contact.
+Where the block gives its ground - an outline of its own, or rock no room may take - every
+room's floor lies on it.
 The packing is annealed, so a seed fixes it, and is kept only where route.Router fits a passage
 for every way.
 """
@@ -73,12 +75,13 @@ def compass_vector(bearing: float) -> tuple[float, float]:
 class Packer:
     def __init__(self, rooms: list[Room], ways: list[tuple[str, str, float | None]], side: int, seed: int,
                  passages: float, pins: dict[str, tuple[float, float, float, float]],
-                 glue: dict[str, tuple[str, float, float]] | None = None):
+                 glue: dict[str, tuple[str, float, float]] | None = None, ground: frozenset | None = None):
         """`ways` are (room, room, compass bearing to keep or None); `passages` the share of ways run
         as passages; `pins` each room to stand over another, as its (east, north, width, length)
         from the square's centre; `glue` each room placed against another, as (that room, feet
-        east, feet south of it)."""
-        self.rooms, self.side = rooms, side
+        east, feet south of it); `ground` the lattice cells of the square its rooms may take, where
+        not all of them."""
+        self.rooms, self.side, self.ground = rooms, side, ground
         self.ix = {r.code: i for i, r in enumerate(rooms)}
         self.round = [r.round for r in rooms]
         self.lies = []                                  # each room's forms, as (width, length, points, floor, holes)
@@ -216,6 +219,9 @@ class Packer:
     def inside(self, i, x=None, y=None) -> float:
         a = self.box(i, x, y)
         e = 0.0
+        if self.ground is not None:                     # its floor on the block's ground
+            di, dj = round(a[0] / GRID), round(a[1] / GRID)
+            e += OVER * sum((u + di, v + dj) not in self.ground for u, v in self.floor[i])
         for lo, hi in ((a[0], a[2]), (a[1], a[3])):
             if lo < 0:
                 e += OVER * (-lo / GRID + 1)
@@ -377,13 +383,13 @@ def attempt(args):
     """One packing from one seed, re-annealed round the ways that found no passage or walk more than
     `detour` out of their way, until none do: whether every way found one, how the best that did
     reads - its ways over `detour`, then the feet they all walk - and its energy and rooms' places."""
-    rooms, ways, side, seed, passages, pins, glue, walls, detour = args
-    p = Packer(rooms, ways, side, seed, passages, pins, glue)
+    rooms, ways, side, seed, passages, pins, glue, walls, detour, ground = args
+    p = Packer(rooms, ways, side, seed, passages, pins, glue, ground)
     p.anneal()
     pairs, best = [(a, b) for a, b, _ in ways], None
     for _ in range(REPAIRS):
         rects = p.rects()
-        found, left = route.plan(rects, pairs, walls)
+        found, left = route.plan(rects, pairs, walls, ground)
         far = [] if left else route.detours(found, rects, detour)
         if not left and p.clear() and p.over():
             score = (len(far), sum(r.length for r in found))
@@ -402,23 +408,25 @@ def attempt(args):
 
 def pack(rooms, ways, seed: int, fill: tuple[float, float], passages: float, footprint: int | None = None,
          pins: dict | None = None, tries: int = 12, glue: dict | None = None, walls: dict | None = None,
-         detour: float | None = None):
+         detour: float | None = None, ground=None):
     """The best packing over `tries` seeds at each side in turn - `footprint` alone where it is
     given - stopping at the first side where some seed leaves every way a passage, each by the
     wall `walls` names, and every pinned room over its pin. Best is fewest ways walking more than
-    `detour` feet out of their way, then fewest feet walked, then lowest energy:
+    `detour` feet out of their way, then fewest feet walked, then lowest energy. `ground`, given a
+    side, names the cells of that square its rooms and passages may take, or None for all:
     (side, packer, routes, energy), routes None where no side did."""
     pairs, pins = [(a, b) for a, b, _ in ways], pins or {}
     side = footprint
     with ProcessPoolExecutor() as pool:
         for side in [footprint] if footprint else squares(rooms, fill):
-            runs = [r for r in pool.map(attempt, [(rooms, ways, side, seed * 1000 + k, passages, pins, glue, walls, detour)
+            g = ground(side) if ground else None
+            runs = [r for r in pool.map(attempt, [(rooms, ways, side, seed * 1000 + k, passages, pins, glue, walls, detour, g)
                                                   for k in range(tries)]) if r[0]]
             if runs:
                 ok, _, e, x, y, o = min(runs, key=lambda r: (r[1], r[2]))
-                p = Packer(rooms, ways, side, seed, passages, pins, glue)
+                p = Packer(rooms, ways, side, seed, passages, pins, glue, g)
                 p.x, p.y = x, y
                 for i, k in enumerate(o):
                     p.lie(i, k)
-                return side, p, route.plan(p.rects(), pairs, walls)[0], e
+                return side, p, route.plan(p.rects(), pairs, walls, g)[0], e
     return side, None, None, 0.0
