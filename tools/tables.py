@@ -1372,7 +1372,7 @@ class Brief:
         return out
 
     def _pack(self, n: kdl.Node, key: str, region: bool):
-        """A `pack` line: fill="N-M%", passages="N%" and, in a region, footprint, a distance."""
+        """A `pack` line: fill="N-M%", passages="N%", detour, a distance, and, in a region, footprint, a distance."""
         p = lambda msg: self.problems.append(f"line {n.line}: {msg}")
         for k, v in n.props.items():
             v = str(v)
@@ -1380,25 +1380,25 @@ class Brief:
                 continue
             if k == "passages" and PERCENT_RE.fullmatch(v) and int(v[:-1]) <= 100:
                 continue
-            if k == "footprint" and region and not unit_problem("distance", v, self.schema.setting_enums):
+            if (k == "detour" or k == "footprint" and region) and not unit_problem("distance", v, self.schema.setting_enums):
                 continue
-            p(f'pack takes fill="N-M%" and passages="N%"{", and footprint, a distance" if region else ""}, not {k}={v!r}')
+            p(f'pack takes fill="N-M%", passages="N%" and detour, a distance{", and footprint, a distance" if region else ""}, not {k}={v!r}')
         self.packs[key] = n
 
     def packing(self, code: str) -> dict:
         """How a region's blocks are packed: its rating's pack line, then its own, as `fill`, the
         (least, most) share of its square its rooms cover, `passages`, the share of its ways run
-        as passages, and `footprint` in feet; a value no line states is None."""
+        as passages, and `detour` and `footprint` in feet; a value no line states is None."""
         rating = str(self.regions[code].props.get("rating", "")).lower() if code in self.regions else ""
         got = {}
         for key in (rating, code):
             if key in self.packs:
                 got.update({k: str(v) for k, v in self.packs[key].props.items()})
         fill = FILL_RE.fullmatch(got.get("fill", ""))
-        span = DISTANCE_RE.fullmatch(got.get("footprint", ""))
+        ft = lambda k: float(m[1]) * UNIT_FEET.get(m[2], 1) if (m := DISTANCE_RE.fullmatch(got.get(k, ""))) else None
         return {"fill": (int(fill[1]) / 100, int(fill[2]) / 100) if fill else None,
                 "passages": int(got["passages"][:-1]) / 100 if PERCENT_RE.fullmatch(got.get("passages", "")) else None,
-                "footprint": float(span[1]) * UNIT_FEET.get(span[2], 1) if span else None}
+                "detour": ft("detour"), "footprint": ft("footprint")}
 
     def _add(self, n: kdl.Node, rating: str, region: str | None):
         if t := self._read(n, rating, region):

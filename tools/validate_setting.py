@@ -902,6 +902,9 @@ def check_blocks(diag: Diagnostics, setting):
             _, problems = maps.block_file(region, block)
             for p in problems:
                 diag.error(path, f"{bid}: {p}")
+        for n in region.files.get("Blocks", []):
+            if n.name == "Rock" and n.args and str(n.args[0]) not in blocks:
+                diag.error(path, f"line {n.line}: a Rock in {n.args[0]}, which is no block")
         dress = {str(n.args[0]): n for n in region.files.get("Dressing", []) if n.args}
         if region.rating.upper() == "DANGEROUS":
             import dungeon

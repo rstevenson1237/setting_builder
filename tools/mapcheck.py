@@ -1,8 +1,10 @@
 """Defects in a dungeon map file, found by rebuilding its floor and testing it.
 
 The floor is a set of unit cells, each owned by one room or one corridor, rebuilt from the
-file's rooms, corridors (ports on room walls, bends between them, a width) and connections
-(doors through a wall two rooms share). What is then tested is what a reader would see wrong:
+file's rooms, corridors (ports on room walls, or a room's hub and the bends out of it, then
+bends between them, a width) and connections (doors through a wall two rooms share). A
+corridor drawn from a room's hub starts at its door, where it crosses the room's wall, and
+may run slanting from there to its first bend. What is then tested is what a reader would see wrong:
 
   rooms overlapping, or touching where the map draws no shared walls; a corridor running through a room, or on across another corridor it
   does not share a room with, so joining ways nothing authored joins; a door that does not
@@ -24,7 +26,19 @@ NAME_H = 1.4                           # cells: a room's code, at its centre
 def inside(shape: str, r: dict, x: float, y: float) -> bool:
     if shape == "circle":
         return math.hypot(x - r["x"] - r["w"] / 2, y - r["y"] - r["h"] / 2) <= min(r["w"], r["h"]) / 2 + 1e-6
+    if shape == "poly":
+        p, hit = r["points"], False
+        for i in range(0, len(p), 2):
+            x0, y0, x1, y1 = p[i], p[i + 1], p[i - 2], p[i - 1]
+            if (y0 > y) != (y1 > y) and x < (x1 - x0) * (y - y0) / (y1 - y0) + x0:
+                hit = not hit
+        return hit
     return r["x"] - 1e-6 <= x <= r["x"] + r["w"] + 1e-6 and r["y"] - 1e-6 <= y <= r["y"] + r["h"] + 1e-6
+
+
+def hubbed(e: dict) -> bool:
+    """A corridor end drawn from its room's hub rather than a port on a side."""
+    return "room" in e and e.get("side") is None
 
 
 def port(r: dict, end: dict) -> tuple[float, float] | None:
@@ -55,9 +69,12 @@ class Floor:
             self.lines.append(pts)
             half = float(c.get("width", 1)) / 2
             boxes = []
-            for p, q in zip(pts, pts[1:]):
+            for n, (p, q) in enumerate(zip(pts, pts[1:])):
                 if p[0] != q[0] and p[1] != q[1]:
-                    self.errors.append(f"corridor {k} bends diagonally between {p} and {q}")
+                    if not (n == 0 and hubbed(c["from"]) or n == len(pts) - 2 and hubbed(c["to"])):
+                        self.errors.append(f"corridor {k} bends diagonally between {p} and {q}")
+                        continue
+                    self.slant(k, p, q, half)
                     continue
                 horizontal = p[1] == q[1]
                 boxes.append((min(p[0], q[0]) - (0 if horizontal else half), min(p[1], q[1]) - (half if horizontal else 0),
@@ -69,23 +86,55 @@ class Floor:
                         if x0 <= i + 0.5 <= x1 and y0 <= j + 0.5 <= y1 and k not in self.corr_at.get((i, j), []):
                             self.corr_at.setdefault((i, j), []).append(k)
 
+    def slant(self, k: int, p, q, half: float):
+        """The cells a slanting run's floor holds the centres of."""
+        L = math.dist(p, q)
+        ux, uy = (q[0] - p[0]) / L, (q[1] - p[1]) / L
+        for i in range(math.floor(min(p[0], q[0]) - half), math.ceil(max(p[0], q[0]) + half)):
+            for j in range(math.floor(min(p[1], q[1]) - half), math.ceil(max(p[1], q[1]) + half)):
+                dx, dy = i + 0.5 - p[0], j + 0.5 - p[1]
+                if 0 <= dx * ux + dy * uy <= L and abs(dx * uy - dy * ux) <= half and k not in self.corr_at.get((i, j), []):
+                    self.corr_at.setdefault((i, j), []).append(k)
+
+    def door(self, room: str, pts: list) -> list | None:
+        """A path drawn from a room's hub, from where it first crosses the room's wall."""
+        r = self.rooms[room]
+        shape, prev = r.get("shape", "rect"), (r["x"] + r["w"] / 2, r["y"] + r["h"] / 2)
+        for n, p in enumerate(pts):
+            if not inside(shape, r, *p):
+                lo, hi = 0.0, 1.0
+                for _ in range(30):
+                    t = (lo + hi) / 2
+                    lo, hi = (t, hi) if inside(shape, r, prev[0] + (p[0] - prev[0]) * t, prev[1] + (p[1] - prev[1]) * t) else (lo, t)
+                return [(prev[0] + (p[0] - prev[0]) * lo, prev[1] + (p[1] - prev[1]) * lo)] + pts[n:]
+            prev = p
+        return None
+
     def line(self, k: int, c: dict) -> list[tuple[float, float]]:
-        ends = []
+        via = c.get("via", [])
+        pts = [(via[i], via[i + 1]) for i in range(0, len(via) - 1, 2)]
         for name in ("from", "to"):
             e = c[name]
-            if "room" in e and e["room"] in self.rooms:
+            if name == "to":
+                pts.reverse()
+            if hubbed(e) and e["room"] in self.rooms:
+                out = self.door(e["room"], pts)
+                if out is None:
+                    self.errors.append(f"corridor {k} {name} {e['room']} never leaves its room")
+                    out = [(self.rooms[e["room"]]["x"], self.rooms[e["room"]]["y"])] + pts
+                pts = out
+            elif "room" in e and e["room"] in self.rooms:
                 p = port(self.rooms[e["room"]], e)
                 if p is None:
                     self.errors.append(f"corridor {k} {name} {e['room']} states no side and offset")
                     p = (self.rooms[e["room"]]["x"], self.rooms[e["room"]]["y"])
-                ends.append(p)
+                pts = [p] + pts
             elif "at" in e:
-                ends.append(tuple(e["at"]))
+                pts = [tuple(e["at"])] + pts
             else:
                 self.errors.append(f"corridor {k} {name} is not a room or a point")
-                ends.append((0.0, 0.0))
-        via = c.get("via", [])
-        return [ends[0]] + [(via[i], via[i + 1]) for i in range(0, len(via) - 1, 2)] + [ends[1]]
+                pts = [(0.0, 0.0)] + pts
+        return pts[::-1]
 
     def owners(self, x: float, y: float) -> tuple[tuple[str, ...], tuple[int, ...]]:
         c = (math.floor(x), math.floor(y))
@@ -111,11 +160,16 @@ def check(m: dict, ways: set[frozenset] | None = None, exits: int | None = None)
     out = sorted(set(out))
     # corridors: through rooms, and across or beside ones they share no room with
     ends = [{c["from"].get("room"), c["to"].get("room")} - {None} for c in m.get("corridors", [])]
+    hubs = {(k, e["room"], f.lines[k][0 if name == "from" else -1]) for k, c in enumerate(m.get("corridors", []))
+            for name, e in (("from", c["from"]), ("to", c["to"])) if hubbed(e)}
     for cell, ks in f.corr_at.items():
         for k in ks:
             for rid in f.room_at.get(cell, ()):
                 if rid not in ends[k]:
                     out.append(f"corridor {k} runs through {rid} at {cell}")
+                elif any(h[0] == k and h[1] == rid and math.dist(h[2], (cell[0] + 0.5, cell[1] + 0.5))
+                         <= float(m["corridors"][k].get("width", 1)) for h in hubs):
+                    continue                              # a slanting door's floor meets its wall askew
                 else:
                     out.append(f"corridor {k} runs into {rid} at {cell}, past its wall")
     seen = set()
@@ -145,22 +199,25 @@ def check(m: dict, ways: set[frozenset] | None = None, exits: int | None = None)
 
     for k, c in enumerate(m.get("corridors", [])):
         pts = f.lines[k]
-        for end, kind, p in ((c["from"], (c.get("doors") or [None, None])[0], pts[0]),
-                             (c["to"], (c.get("doors") or [None, None])[1], pts[-1])):
+        for end, kind, p, q in ((c["from"], (c.get("doors") or [None, None])[0], pts[0], pts[1]),
+                                (c["to"], (c.get("doors") or [None, None])[1], pts[-1], pts[-2])):
             if "room" in end and end["room"] in rooms:
                 r = rooms[end["room"]]
                 on = (abs(p[0] - r["x"]) < 1e-6 or abs(p[0] - r["x"] - r["w"]) < 1e-6 or abs(p[1] - r["y"]) < 1e-6 or abs(p[1] - r["y"] - r["h"]) < 1e-6)
-                if not on or not (r["x"] - 1e-6 <= p[0] <= r["x"] + r["w"] + 1e-6 and r["y"] - 1e-6 <= p[1] <= r["y"] + r["h"] + 1e-6):
+                if not hubbed(end) and (not on or not (r["x"] - 1e-6 <= p[0] <= r["x"] + r["w"] + 1e-6 and r["y"] - 1e-6 <= p[1] <= r["y"] + r["h"] + 1e-6)):
                     out.append(f"corridor {k} leaves {end['room']} from {p}, not on its wall")
                     continue
                 # the door is the wall between the room and the corridor's first cell
                 label = f"door of corridor {k} at {end['room']}"
                 ok = False
-                for dx, dy in SIDES.values():
-                    a = f.owners(p[0] - dx * 0.5, p[1] - dy * 0.5)
-                    b = f.owners(p[0] + dx * 0.5, p[1] + dy * 0.5)
-                    if end["room"] in a[0] and k in b[1] and not b[0]:
-                        ok = True
+                L = math.dist(p, q) or 1
+                probes = list(SIDES.values()) + ([((q[0] - p[0]) / L, (q[1] - p[1]) / L)] if hubbed(end) else [])
+                for dx, dy in probes:
+                    for reach in (0.5, 1.0) if hubbed(end) else (0.5,):
+                        a = f.owners(p[0] - dx * reach, p[1] - dy * reach)
+                        b = f.owners(p[0] + dx * reach, p[1] + dy * reach)
+                        if end["room"] in a[0] and k in b[1] and not b[0]:
+                            ok = True
                 if not ok:
                     out.append(f"{label} at {tuple(round(v, 1) for v in p)} does not stand on a wall between the room and the corridor")
                 for x, y, o in stands:

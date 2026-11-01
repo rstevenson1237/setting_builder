@@ -41,7 +41,8 @@ value entry                   // a title on each table the member names
 value pull                    // a roll table's name, or "Table: Title" for an entry table
 value relation out=bullets    // lines "- [Faction] - [Relation]", then any prose: one line for each other faction
 
-enum Room_Shape rect round octagon cave hall   // hall: one passage wide and at least twice as long, a DANGEROUS room's only
+enum Room_Shape rect round octagon hexagon cave hall   // in its width and length; a hexagon walled flat north and south;
+                                                       // hall: one passage wide and at least twice as long, a DANGEROUS room's only
 enum Compass north north-north-east north-east east-north-east east east-south-east south-east south-south-east south south-south-west south-west west-south-west west west-north-west north-west north-north-west
 enum Distance_Unit feet yards miles
 enum Ground_Type deep water marsh sand desert grass scrub forest rock snow   // the terrains a sheet draws

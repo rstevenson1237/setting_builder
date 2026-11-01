@@ -10,10 +10,12 @@ isolated is marked.
 
 | Gap | Consumer workaround | Size |
 |---|---|---|
-| No layout from a graph | `pack.py` (annealing, repair loop, label spacing) | 268 lines |
-| No obstacle-aware corridor router | `route.py` (lattice A*, wall clearance, sharing, noise) | 240 lines |
-| Geometry not exposed | `mapcheck.py` (rebuilds floor, ports, via, doors) | 228 lines |
+| No layout from a graph | `pack.py` (annealing, repair loop, label spacing, turns, nesting, ground) | 432 lines |
+| No obstacle-aware corridor router | `route.py` (lattice A*, wall clearance, sharing, noise, named walls) | 515 lines |
+| Geometry not exposed | `mapcheck.py` (rebuilds floor, ports, via, slanted runs, doors) | 284 lines |
 | No in-room exit | symbol + note + angle placement in `block_map` | about 40 lines |
+| Ports run through the room's anchor (A13) | a hub and lead points per room, written into `via` | about 50 lines |
+| Room shapes fixed in cells (A15) | every shape but rect, circle and cave written as a `poly` | about 20 lines |
 
 ## Findings
 
@@ -73,17 +75,21 @@ through-room and crossing warnings that the consumer then patched by dropping `s
 A* router. Related corridors that merge on purpose (two ways leaving one room) trigger "crosses
 corridor with no junction (the floors join there)" although the junction is intended; an endpoint of
 the form `{corridor: id}` exists but nothing builds a junction automatically.
+A router a consumer would now also need: a door at a named point on a wall, a slanted run from a
+curved or diagonal wall onto the grid, ground the route must stay on, and related corridors that
+may join and part but not run side by side.
 Option: `link --route maze` with clearance, bend cost, share-with-siblings and a seed; and treat
 related corridors' overlap as a junction.
 
 ### A8. The generator makes layouts, not layouts to a brief
 `dungeon gen --layout scatter|dense|blocks` places random rooms. There is no input for "these rooms,
 at these sizes, joined as this graph, inside this footprint". `pack.py` supplies that: energy terms
-for overlap, touching, face-to-face alignment, door-versus-passage mix, round-room clearance and
-label spacing, a repair loop that re-anneals round ways that found no passage, and a square sized
-from a target fill. It runs about 30 s in Python on four cores; the same search in the engine would be
-faster and shared by every consumer. Option: `dungeon layout --graph g.json --footprint square
---fill 0.45 --passages 0.35 --seed n`, returning a map file.
+for overlap, touching, face-to-face alignment, door-versus-passage mix, round-room clearance,
+label spacing and shared wall between floors; moves that turn, mirror and nest rooms; a repair loop
+that re-anneals round ways that found no passage or detour; ground bounded by an outline and keep-out
+areas; and a square sized from a target fill. It runs about 30 s in Python on four cores; the same search in the engine would be
+faster and shared by every consumer. Option: `dungeon layout --graph g.json --footprint square|poly
+--keep-out poly --fill 0.45 --passages 0.35 --seed n`, returning a map file.
 
 ### A9. Rock rendering has two modes and neither suits a dense level
 `hatch: band` leaves white voids inside a dense map that read as unmapped space; `full` fills the
@@ -107,15 +113,58 @@ key and `exit`. `check` reports errors by path, which helps, but there is no sch
 reference. Every one of A1-A3 was found by experiment. Option: `artgen schema dungeon|map|settlement`
 (JSON Schema) and one reference page per engine with an example per key.
 
-### A13. Not isolated
+### A13. A port runs through the room's anchor
+A port `{room, side, offset}` starts at the anchor's row or column (`sidePort`: `[along, g.cy]` or
+`[g.cx, along]`) and runs out through the wall. `{room}` with no side starts at the anchor itself. A
+poly room's anchor (`roomAnchor`) is a point within 1.5 cells of no wall, nearest the box's centre.
+In an L, nothing keeps it in the part that sees every wall, so a port to the far arm crosses the
+notch and draws a passage over rock. If the path's first point is outside the outline, `exitPoint`
+returns null and no door is drawn, with no warning. A `{at: [x, y]}` end can start at the wall,
+but it drops the room: `render --room` no longer crops round it and `facts` no longer counts it.
+The consumer finds the point that sees every wall, clear of walls by half a passage, and writes
+`{room}` with that point and one just inside the door at the head of `via`.
+Option: `{room, at: [x, y]}`, a port at a point on the wall that keeps the room link; or
+`rooms[].anchor`; and a `check` warning where a port's first point is outside its room.
+
+### A14. A door is set square to the path, not to the wall
+A door takes the angle of the path segment that crosses the outline (`exitPoint`). On a straight
+wall the routes cross square, so this holds; on a round or octagonal wall, a door is flush only
+where the path crosses along the radius. The consumer arranges that, running the last stretch from
+the room's hub to the first cell of the grid. Option: set a door along the outline's tangent at the
+crossing.
+
+### A15. Room shapes are fixed in cells, and the dungeon has no hexagon
+An octagon's cut is `round(min(w, h) * 0.3 * 2) / 2` cells, so its walls move with `perCell` and
+snap to half cells, and a consumer routing in feet cannot predict them. `rooms[].shape` takes `rect`,
+`circle`, `octagon`, `cave` and `poly`; a hexagon exists only through `block add`, as a poly. The
+consumer draws every other shape as a `poly` of its own outline in feet. Option: shapes defined in
+map units with stated proportions (an octagon's cut as a ratio), `hexagon` with an orientation in
+`rooms[]`, and the formulas in the reference (A12).
+
+### A16. A level has no outline and no keep-out areas
+A dungeon map has no polygon for the ground a level occupies, nor for rock within it (a shaft, a
+collapse). Rock is hatched everywhere outside the floor, so a level's outline is not drawn, and a
+keep-out area shows only as an overlay note at its centre. Option: `bounds` (a polygon the hatch and
+grid are clipped to, its edge drawn) and `areas: [{points, kind: rock | void, label}]`.
+
+### A17. Not isolated
 - Whether `dungeon sync` preserves stale fields when an entry's end changes from a side port to a
   waypointed one: files were deleted and regenerated instead of tested.
 - Whether a missing partition between touching rooms (seen once, between rooms meeting at a partial
   overlap, in a layout that was not kept) is an engine fault or a consequence of corner meetings.
   A fresh test of partial overlaps drew complete walls.
+- Whether a door wider than its wall is drawn whole. One pack failed the consumer's door test where
+  a 10-ft passage met the end of a 6-ft hall, and the layout was not kept to retest.
+- Whether a poly's winding matters. A mirrored L drew a broken wall at its inner corner; the cause
+  was the consumer's port through that corner (A13). The consumer writes every poly clockwise
+  anyway, and artgen with an anticlockwise poly was not tested on its own.
 
 ## What worked and should be kept
 - `corridor.via` and port `offset`: enough to draw any orthogonal route exactly.
+- A slanted first segment from `{room}`: a door off the grid, on a round or octagonal wall, comes out
+  flush when the segment runs along the radius.
+- `poly` rooms with `sharedWalls`: walls and openings along a shared straight edge, as for rects.
+- Two corridors that share cells draw as one floor, so a junction can be laid by overlap.
 - `style.sharedWalls: true` once set: clean walls and doors through shared edges.
 - `facts` overlaps and unreached rooms; `render --json` `unplaced`.
 - `perCell` freedom and the `underlay` option for settlements over a terrain sheet.
@@ -125,8 +174,10 @@ reference. Every one of A1-A3 was found by experiment. Option: `artgen schema du
 1. A5 + A6: expose geometry in `facts`, add door/adjacency/touching checks. Retires most of `mapcheck.py`.
 2. A1 + A2: partition between any two adjacent units; `sharedWalls` default on. Removes the 10-ft
    rock rule and recovers density.
-3. A3: movable, checked room labels.
-4. A12: schema export and a reference page; cheap, and it prevents the rework in report 1, F11.
-5. A8 + A7: layout from a graph and a corridor router. The largest piece, and the one that removes
+3. A13 + A14: a port at a point on the wall, and doors along the wall. Small, and it retires the hub
+   and lead points the consumer writes into every `via`.
+4. A3: movable, checked room labels.
+5. A12: schema export and a reference page; cheap, and it prevents the rework in report 1, F11.
+6. A8 + A7: layout from a graph and a corridor router. The largest piece, and the one that removes
    `pack.py` and `route.py` from the framework.
-6. A4, A9, A10, A11: smaller drawing options.
+7. A4, A9, A10, A11, A15, A16: smaller drawing options.

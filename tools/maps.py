@@ -605,7 +605,7 @@ ENGINE = {"DANGEROUS": "dungeon", "SAFE": "settlement", "WILD": "settlement"}   
 
 
 def blocks_of(region) -> dict[str, kdl.Node]:
-    return {str(n.args[0]): n for n in region.files.get("Blocks", []) if n.args}
+    return {str(n.args[0]): n for n in region.files.get("Blocks", []) if n.args and n.name == "Block"}
 
 
 def drawn_blocks(region) -> dict[str, kdl.Node]:
@@ -1029,6 +1029,7 @@ def main() -> int:
     ap.add_argument("region", nargs="?", help="pack: the region code")
     ap.add_argument("--seed", type=int, default=1)
     ap.add_argument("--again", action="store_true", help="pack: repack a block already packed")
+    ap.add_argument("--tries", type=int, default=12, help="pack: packings tried, the one whose ways walk least kept")
     ap.add_argument("--brief", type=Path, default=tables.BRIEF)
     ap.add_argument("--setting", type=Path, default=tables.SETTING)
     ap.add_argument("--out", type=Path)
@@ -1038,7 +1039,7 @@ def main() -> int:
         return draw(a.brief, a.setting, a.out, a.fit)
     if a.command == "pack":
         import dungeon
-        return dungeon.pack_region(a.region, a.seed, a.again)
+        return dungeon.pack_region(a.region, a.seed, a.again, a.tries)
     return (place if a.command == "place" else ground)(a.brief, a.setting)
 
 

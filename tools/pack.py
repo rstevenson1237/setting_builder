@@ -1,11 +1,16 @@
 """Packs a DANGEROUS block's rooms close into a square, with room between them for passages.
 
-A room is a rectangle of its Dressing's width and length whose corners lie on route.LATTICE.
-Rooms joined by a way sit near one another, touching where a door through the shared wall
-will do and a passage apart where it will not; rooms not joined may touch too, their shared
+A room is a footprint of its Dressing's width and length whose box's corners lie on
+route.LATTICE; two rooms overlap where their floors reach into one lattice cell. Rooms joined
+by a way sit near one another, touching where a door through the shared wall will do and a
+passage apart where it will not; rooms not joined may touch too, their shared
 wall drawn by the map's `sharedWalls`. A room placed against another is carried with it, never
-moved alone. The packing is annealed, so a seed fixes it, and is kept only where route.Router
-fits a passage for every way.
+moved alone. A room that turns may lie in any quarter turn or mirror of itself, and a room may
+be set into the corners another's floor leaves empty, where touching floors earn their contact.
+Where the block gives its ground - an outline of its own, or rock no room may take - every
+room's floor lies on it.
+The packing is annealed, so a seed fixes it, and is kept only where route.Router fits a passage
+for every way.
 """
 from __future__ import annotations
 
@@ -22,6 +27,8 @@ DOOR = 10                   # feet of wall facing wall that a straight lane need
 STEPS = 60000
 FAR = 120                   # feet between joined rooms past which the packing is penalised
 OVER, CORNER, STRAIGHT, ROUND, CLOSE, PULL, REPAIR, LABELS, PIN = 40.0, 1.0, 1.0, 3.0, 1.0, 0.00004, 6.0, 8.0, 2.0
+CONTACT = 0.25              # taken off for each lattice cell's edge two floors share, where either is no box
+TURN, NEST = 0.06, 0.06     # the share of moves that turn a room, and that set one into another's empty corners
 LABEL_H = 15.0              # feet a room's number and code take, stacked at its centre
 NAME_H = 7.0                # and a hall's code alone
 REPAIRS, REPAIR_STEPS = 8, 20000    # rounds of re-annealing for the ways that found no passage
@@ -32,8 +39,31 @@ class Room:
     code: str
     w: int
     h: int
-    round: bool = False
+    shape: str = "rect"         # one of route.SHAPES
+    points: tuple | None = None  # a poly's outline, feet east and south of its centre
     hall: bool = False          # shows its code alone, so its label is shorter
+    turns: bool = False         # may lie in any quarter turn or mirror of itself
+
+    @property
+    def round(self) -> bool:
+        return self.shape == "round"
+
+    def forms(self) -> list[tuple[int, int, tuple | None]]:
+        """Each way the room may lie, as (width, length, points), as drawn first; each differs."""
+        out, seen = [], set()
+        for k in range(4 if self.turns else 1):
+            for mirror in (False, True) if self.turns else (False,):
+                pts = self.points
+                if pts:
+                    pts = tuple((-x, y) for x, y in pts) if mirror else pts
+                    for _ in range(k):
+                        pts = tuple((-y, x) for x, y in pts)
+                w, h = (self.w, self.h) if k % 2 == 0 else (self.h, self.w)
+                key = (w, h, frozenset((round(x, 6), round(y, 6)) for x, y in pts) if pts else None)
+                if key not in seen:
+                    seen.add(key)
+                    out.append((w, h, pts))
+        return out
 
 
 def compass_vector(bearing: float) -> tuple[float, float]:
@@ -45,16 +75,29 @@ def compass_vector(bearing: float) -> tuple[float, float]:
 class Packer:
     def __init__(self, rooms: list[Room], ways: list[tuple[str, str, float | None]], side: int, seed: int,
                  passages: float, pins: dict[str, tuple[float, float, float, float]],
-                 glue: dict[str, tuple[str, float, float]] | None = None):
+                 glue: dict[str, tuple[str, float, float]] | None = None, ground: frozenset | None = None):
         """`ways` are (room, room, compass bearing to keep or None); `passages` the share of ways run
         as passages; `pins` each room to stand over another, as its (east, north, width, length)
         from the square's centre; `glue` each room placed against another, as (that room, feet
-        east, feet south of it)."""
-        self.rooms, self.side = rooms, side
+        east, feet south of it); `ground` the lattice cells of the square its rooms may take, where
+        not all of them."""
+        self.rooms, self.side, self.ground = rooms, side, ground
         self.ix = {r.code: i for i, r in enumerate(rooms)}
-        self.w = [r.w for r in rooms]
-        self.h = [r.h for r in rooms]
         self.round = [r.round for r in rooms]
+        self.lies = []                                  # each room's forms, as (width, length, points, floor, holes)
+        for r in rooms:
+            forms = []
+            for w, h, pts in r.forms():
+                f = route.Footprint(0, 0, w, h, r.shape, pts)
+                i0, j0, i1, j1 = f.span
+                holes = [(i, j) for i in range(i0, i1 + 1) for j in range(j0, j1 + 1) if (i, j) not in f.touched]
+                forms.append((w, h, pts, f.touched, holes))
+            self.lies.append(forms)
+        self.boxed = [route.Footprint(0, 0, r.w, r.h, r.shape, r.points).square for r in rooms]
+        n = len(rooms)
+        self.o, self.w, self.h, self.pts, self.floor = [0] * n, [0] * n, [0] * n, [None] * n, [None] * n
+        for i in range(len(rooms)):
+            self.lie(i, 0)
         self.edges: dict[tuple[int, int], tuple[float, float] | None] = {}  # i < j: unit vector from i to j to keep, if any
         for a, b, bearing in ways:
             i, j = self.ix[a], self.ix[b]
@@ -74,6 +117,13 @@ class Packer:
         self.glue = {self.ix[c]: (self.ix[a], dx, dy) for c, (a, dx, dy) in (glue or {}).items()}
         self.free = [i for i in range(len(rooms)) if i not in self.glue]
         self.carrying = {j for j, _, _ in self.glue.values()}
+        self.turners = [i for i in self.free if len(self.lies[i]) > 1 and i not in self.carrying]
+        self.notched = [j for j in range(len(rooms)) if any(f[4] for f in self.lies[j])]
+
+    def lie(self, i: int, k: int):
+        """Room i laid in its k-th form."""
+        self.o[i] = k
+        self.w[i], self.h[i], self.pts[i], self.floor[i], _ = self.lies[i][k]
 
     def follow(self):
         """Each room placed against another, carried to its place by it; a chain settles in as many rounds as it is long."""
@@ -111,23 +161,42 @@ class Packer:
 
     # -- energy --------------------------------------------------------------------------
 
+    def shared(self, i, j, xi=None, yi=None) -> int:
+        """How many lattice cells both rooms' floors reach into."""
+        a, b = self.box(i, xi, yi), self.box(j)
+        di, dj = round((b[0] - a[0]) / GRID), round((b[1] - a[1]) / GRID)
+        theirs = self.floor[j]
+        return sum((u - di, v - dj) in theirs for u, v in self.floor[i])
+
+    def contact(self, i, j, xi=None, yi=None) -> int:
+        """How many lattice cells' edges the two rooms' floors share."""
+        a, b = self.box(i, xi, yi), self.box(j)
+        di, dj = round((b[0] - a[0]) / GRID), round((b[1] - a[1]) / GRID)
+        theirs = self.floor[j]
+        return sum((u + dx - di, v + dy - dj) in theirs for u, v in self.floor[i] for dx, dy in route.STEPS.values())
+
     def pair(self, i, j, xi=None, yi=None) -> float:
         a, b = self.box(i, xi, yi), self.box(j)
         sx, sy = max(b[0] - a[2], a[0] - b[2]), max(b[1] - a[3], a[1] - b[3])
         if sx < 0 and sy < 0:
-            return OVER * (1 + min(-sx, -sy) / GRID)
+            if self.boxed[i] and self.boxed[j]:
+                return OVER * (1 + min(-sx, -sy) / GRID)
+            if n := self.shared(i, j, xi, yi):
+                return OVER * (1 + math.sqrt(n))
+        touching = self.contact(i, j, xi, yi) if sx <= 0 and sy <= 0 and not (self.boxed[i] and self.boxed[j]) else 0
         lw = 5 * (0.8 * (len(self.rooms[i].code) + len(self.rooms[j].code)) / 2 + 1)          # their labels, side by side
         lh = sum(NAME_H if self.rooms[k].hall else LABEL_H for k in (i, j)) / 2
+        e = -CONTACT * touching + self.pair_cost(i, j, sx, sy, xi, yi, touching)
         if abs((self.x[j]) - (self.x[i] if xi is None else xi)) < lw and abs(self.y[j] - (self.y[i] if yi is None else yi)) < lh:
-            return LABELS + self.pair_cost(i, j, sx, sy, xi, yi)
-        return self.pair_cost(i, j, sx, sy, xi, yi)
+            return LABELS + e
+        return e
 
-    def pair_cost(self, i, j, sx, sy, xi=None, yi=None) -> float:
+    def pair_cost(self, i, j, sx, sy, xi=None, yi=None, touching=0) -> float:
         joined = (min(i, j), max(i, j)) in self.edges
         if not joined:
             return 0.0
         gap = max(sx, sy, 0)
-        f = self.face(i, j, xi, yi)
+        f = self.face(i, j, xi, yi) or touching and ("set in", 0)
         if (min(i, j), max(i, j)) in self.passage:       # a passage: apart, and bending where it can
             e = CLOSE if gap < 2 * GRID else 0.0
             e += STRAIGHT if f and gap > 0 else 0.0
@@ -150,6 +219,9 @@ class Packer:
     def inside(self, i, x=None, y=None) -> float:
         a = self.box(i, x, y)
         e = 0.0
+        if self.ground is not None:                     # its floor on the block's ground
+            di, dj = round(a[0] / GRID), round(a[1] / GRID)
+            e += OVER * sum((u + di, v + dj) not in self.ground for u, v in self.floor[i])
         for lo, hi in ((a[0], a[2]), (a[1], a[3])):
             if lo < 0:
                 e += OVER * (-lo / GRID + 1)
@@ -214,18 +286,44 @@ class Packer:
         if not again:
             self.place()
         cur = self.total()
-        best, best_at = cur, (self.x[:], self.y[:])
+        best, best_at = cur, (self.x[:], self.y[:], self.o[:])
         t1 = 0.04
         for s in range(steps):
             t = t0 * (t1 / t0) ** (s / steps)
+            if self.turners and rng.random() < TURN:     # a room turned or mirrored where it stands
+                i = rng.choice(self.turners)
+                old = (self.o[i], self.x[i], self.y[i])
+                before = self.local(i)
+                self.lie(i, rng.choice([k for k in range(len(self.lies[i])) if k != old[0]]))
+                self.x[i], self.y[i] = self.snap(i, old[1], old[2])
+                after = self.local(i)
+                if after - before <= 0 or rng.random() < math.exp(-(after - before) / t):
+                    cur += after - before
+                    if cur < best - 1e-9:
+                        best, best_at = cur, (self.x[:], self.y[:], self.o[:])
+                else:
+                    self.lie(i, old[0])
+                    self.x[i], self.y[i] = old[1], old[2]
+                continue
             i = rng.choice(self.free) if self.glue else rng.randrange(n)
-            r = rng.random()
+            if self.notched and rng.random() < NEST:      # set into a corner another room's floor leaves empty
+                j = rng.choice(self.notched)
+                holes = self.lies[j][self.o[j]][4]
+                if j == i or i in self.carrying or not holes:
+                    continue
+                hi, hj = rng.choice(holes)
+                ci, cj = rng.randrange(max(1, round(self.w[i] / GRID))), rng.randrange(max(1, round(self.h[i] / GRID)))
+                nx, ny = self.snap(i, self.x[j] - self.w[j] / 2 + (hi - ci) * GRID + self.w[i] / 2,
+                                   self.y[j] - self.h[j] / 2 + (hj - cj) * GRID + self.h[i] / 2)
+                r = 1.0
+            else:
+                r = rng.random()
             if r < 0.55:
                 reach = max(GRID, int(50 * (1 - s / steps)))
                 nx, ny = self.snap(i, self.x[i] + rng.randint(-reach, reach), self.y[i] + rng.randint(-reach, reach))
             elif r < 0.9 and self.near[i]:
                 nx, ny = self.against(i, rng.choice(self.near[i]))
-            else:
+            elif r < 1.0:
                 j = rng.randrange(n)
                 if j == i or self.glue and {i, j} & (set(self.glue) | self.carrying):
                     continue
@@ -255,19 +353,22 @@ class Packer:
                     self.x[i], self.y[i] = nx, ny
                     cur += after - before
             if cur < best - 1e-9:
-                best, best_at = cur, (self.x[:], self.y[:])
+                best, best_at = cur, (self.x[:], self.y[:], self.o[:])
         self.x, self.y = best_at[0][:], best_at[1][:]
+        for i, k in enumerate(best_at[2]):
+            self.lie(i, k)
         return self.total()
 
     def clear(self) -> bool:
         """Whether no two rooms overlap and every room lies in the square."""
         n = len(self.w)
         return all(self.inside(i) == 0 for i in range(n)) and \
-            all(max(self.gaps(i, j)) >= 0 for i in range(n) for j in range(i + 1, n))
+            all(max(self.gaps(i, j)) >= 0 or not (self.boxed[i] and self.boxed[j]) and not self.shared(i, j)
+                for i in range(n) for j in range(i + 1, n))
 
-    def rects(self) -> dict[str, route.Rect]:
-        return {r.code: route.Rect(self.x[i] - self.w[i] / 2, self.y[i] - self.h[i] / 2, self.w[i], self.h[i],
-                                   self.round[i]) for i, r in enumerate(self.rooms)}
+    def rects(self) -> dict[str, route.Footprint]:
+        return {r.code: route.Footprint(self.x[i] - self.w[i] / 2, self.y[i] - self.h[i] / 2, self.w[i], self.h[i],
+                                        r.shape, self.pts[i]) for i, r in enumerate(self.rooms)}
 
 
 def squares(rooms: list[Room], fill: tuple[float, float]) -> list[int]:
@@ -279,38 +380,53 @@ def squares(rooms: list[Room], fill: tuple[float, float]) -> list[int]:
 
 
 def attempt(args):
-    """One packing from one seed, re-annealed round the ways that found no passage until every way has one."""
-    rooms, ways, side, seed, passages, pins, glue = args
-    p = Packer(rooms, ways, side, seed, passages, pins, glue)
+    """One packing from one seed, re-annealed round the ways that found no passage or walk more than
+    `detour` out of their way, until none do: whether every way found one, how the best that did
+    reads - its ways over `detour`, then the feet they all walk - and its energy and rooms' places."""
+    rooms, ways, side, seed, passages, pins, glue, walls, detour, ground = args
+    p = Packer(rooms, ways, side, seed, passages, pins, glue, ground)
     p.anneal()
-    pairs = [(a, b) for a, b, _ in ways]
+    pairs, best = [(a, b) for a, b, _ in ways], None
     for _ in range(REPAIRS):
-        found, left = route.plan(p.rects(), pairs)
+        rects = p.rects()
+        found, left = route.plan(rects, pairs, walls, ground)
+        far = [] if left else route.detours(found, rects, detour)
         if not left and p.clear() and p.over():
-            return True, p.total(), p.x, p.y
-        for name in left:
+            score = (len(far), sum(r.length for r in found))
+            if best is None or score < best[1]:
+                best = (True, score, p.total(), p.x[:], p.y[:], p.o[:])
+            if not far:
+                break
+        for name in left + [f"{r.a} to {r.b}" for r, _ in far]:
             a, b = (p.ix[c] for c in name.split(" to "))
             key = (min(a, b), max(a, b))
             hard = p.round[a] or p.round[b] or p.trouble.get(key) == "door"
             p.trouble[key] = "lane" if hard else "door"
         p.anneal(REPAIR_STEPS, 1.0, again=True)
-    return False, p.total(), p.x, p.y
+    return best or (False, None, p.total(), p.x, p.y, p.o)
 
 
 def pack(rooms, ways, seed: int, fill: tuple[float, float], passages: float, footprint: int | None = None,
-         pins: dict | None = None, tries: int = 12, glue: dict | None = None):
-    """The lowest-energy packing, over a few seeds at each side in turn - `footprint` alone where
-    it is given - stopping at the first side where some seed leaves every way a passage and
-    every pinned room over its pin: (side, packer, routes, energy), routes None where no side did."""
+         pins: dict | None = None, tries: int = 12, glue: dict | None = None, walls: dict | None = None,
+         detour: float | None = None, ground=None):
+    """The best packing over `tries` seeds at each side in turn - `footprint` alone where it is
+    given - stopping at the first side where some seed leaves every way a passage, each by the
+    wall `walls` names, and every pinned room over its pin. Best is fewest ways walking more than
+    `detour` feet out of their way, then fewest feet walked, then lowest energy. `ground`, given a
+    side, names the cells of that square its rooms and passages may take, or None for all:
+    (side, packer, routes, energy), routes None where no side did."""
     pairs, pins = [(a, b) for a, b, _ in ways], pins or {}
     side = footprint
     with ProcessPoolExecutor() as pool:
         for side in [footprint] if footprint else squares(rooms, fill):
-            runs = [r for r in pool.map(attempt, [(rooms, ways, side, seed * 1000 + k, passages, pins, glue)
+            g = ground(side) if ground else None
+            runs = [r for r in pool.map(attempt, [(rooms, ways, side, seed * 1000 + k, passages, pins, glue, walls, detour, g)
                                                   for k in range(tries)]) if r[0]]
             if runs:
-                ok, e, x, y = min(runs, key=lambda r: r[1])
-                p = Packer(rooms, ways, side, seed, passages, pins, glue)
+                ok, _, e, x, y, o = min(runs, key=lambda r: (r[1], r[2]))
+                p = Packer(rooms, ways, side, seed, passages, pins, glue, g)
                 p.x, p.y = x, y
-                return side, p, route.plan(p.rects(), pairs)[0], e
+                for i, k in enumerate(o):
+                    p.lie(i, k)
+                return side, p, route.plan(p.rects(), pairs, walls, g)[0], e
     return side, None, None, 0.0

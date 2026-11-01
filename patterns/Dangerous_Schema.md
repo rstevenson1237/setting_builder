@@ -48,7 +48,8 @@ node Dressing {
   xyz point opt drawn       // its centre from its block's, its floor from the block's floor; written by `tools/maps.py pack`;
                             // a block states it for every room or for none
   against anchor opt drawn  // touching another room of its block, its xyz then a slide across the side and a gap along it
-  outline outline opt drawn // where it is no rect or round room: its extent is its width and length
+  outline outline opt drawn // a "poly" where no shape draws the room: its extent its width and length, centred
+                            // on its place, and some point within it sees all of it
   height feet opt           // floor to roof, where it matters at the table
   shape Room_Shape opt      // rect where unset
   layout string
@@ -110,6 +111,8 @@ node Connection {
   bearing Compass opt drawn // where the far end lies from this one, as designed: it places a block's rooms until they state xyz, and pack keeps it
   distance distance opt drawn   // with bearing; a way between two rooms of a block that state xyz states neither
   climb feet opt            // up, or down where negative, where the way changes level
+  wall Compass opt drawn    // where it leaves this room: the door stands where the line from the room's centre on this
+                            // bearing meets its wall, or as near as a door fits
   orientation gloss opt     // the same in words, for the reader
   width feet opt            // where it differs from its block's; within both rooms' footprints
   height feet opt
@@ -121,10 +124,16 @@ node Block {               // one level: a map of its own
   xyz point opt drawn       // its centre from its region's origin; the first block's is the origin, and a later one
                             // unset lies over or under the block a climbing way joins it to
   against anchor opt drawn  // touching another block of its region, its xyz then a slide and a gap
-  outline outline opt drawn // "rect S S", the square its rooms are packed in: BRIEF.md's pack footprint; stated where they state xyz
+  outline outline opt drawn // the ground its rooms are packed in: the square "rect S S", BRIEF.md's pack footprint, or a
+                            // "poly" the design draws round its centre, which pack keeps; stated where they state xyz
   router number opt drawn   // the tools/route.py version its passages were routed by; stated with outline
   width feet opt            // of its passages, where they differ from the seed's Conditions
   height feet opt
+}
+node Rock {                // ground within a block that no room or passage takes: a shaft, a collapse, a solid core
+  what gloss                // what fills it, written on its map
+  outline outline           // feet round its xyz
+  xyz point opt             // its centre from its block's; the block's centre where unstated
 }
 node Secret {              // what sets off or opens the thing it sits on, and what gives it away
   trigger gloss
@@ -143,7 +152,7 @@ folder Dangerous type=Dangerous_Type {
   Challenges Encounter Hazard Mystery
   Rewards Reward
   Procedures Procedure
-  Blocks Block
+  Blocks Block Rock
   Connections Connection
 }
 ```

@@ -20,9 +20,9 @@ as observed. What artgen lacks, and what the framework built round it, is
 | Key | What it does |
 |---|---|
 | `scale.perCell`, `unit` | Feet a cell. A corridor's `width` and every position are in cells, so a 10-ft passage is 2 on a 5-ft grid. |
-| `rooms[]` `shape` | `rect`, `circle`, `octagon`, `cave`; the framework draws a `hall` as `rect`. |
+| `rooms[]` `shape` | `rect`, `circle`, `octagon`, `cave`, or `poly` with `points`. The framework writes any shape but rect, round and cave as a `poly` of its own outline, so its walls stand where `tools/route.py` put the doors. |
 | `rooms[]` `number` | A badge above the code, both at the room's centre and never moved. The framework writes `false`: the code alone labels a room. |
-| `corridors[]` `from`/`to` | `{room, side n|e|s|w, offset}`: `offset` is cells along that wall from the room's x or y. With no offset, artgen picks one. |
+| `corridors[]` `from`/`to` | `{room, side n|e|s|w, offset}`: `offset` is cells along that wall from the room's x or y. With no offset, artgen picks one. `{room}` alone runs from the room's anchor through `via`, its door where the path first leaves the outline, square to the path: the framework's end for a room that is not a rect. |
 | `corridors[]` `via` | Bends, as flat `x, y` pairs: with ports, enough to draw any right-angled route exactly. |
 | `corridors[]` `route` | `auto`, `hv`, `vh`, `straight`, `around`. These are hints, and `around` can still cross rooms. |
 | `corridors[]` `doors` | `[from, to]` kinds or `null`. `style: "natural"` draws a rough-cut passage. |
