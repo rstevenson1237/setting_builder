@@ -29,6 +29,7 @@ Where the schema holds Blocks, every location is in exactly one block and a way 
 joins two blocks. A stair between blocks states a `climb` and no bearing or distance, the two rooms one over the
 other; a sloping way states a `climb`, a bearing and a distance. Within a block, a way's bearing
 and distance are where the design wants the far room; `tools/maps.py pack` keeps the bearing
-where it can and takes both off once the rooms are placed. A Block or Connection states its
+where it can and takes both off once the rooms are placed. A way states its `wall` where the
+design fixes where it leaves its room. A Block or Connection states its
 passages' `width` and `height` only where they differ from the seed's Conditions, a
 Connection's within both rooms' outlines.

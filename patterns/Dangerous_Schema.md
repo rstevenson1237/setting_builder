@@ -48,7 +48,8 @@ node Dressing {
   xyz point opt drawn       // its centre from its block's, its floor from the block's floor; written by `tools/maps.py pack`;
                             // a block states it for every room or for none
   against anchor opt drawn  // touching another room of its block, its xyz then a slide across the side and a gap along it
-  outline outline opt drawn // where it is no rect or round room: its extent is its width and length
+  outline outline opt drawn // a "poly" where no shape draws the room: its extent its width and length, centred
+                            // on its place, and some point within it sees all of it
   height feet opt           // floor to roof, where it matters at the table
   shape Room_Shape opt      // rect where unset
   layout string
@@ -110,6 +111,8 @@ node Connection {
   bearing Compass opt drawn // where the far end lies from this one, as designed: it places a block's rooms until they state xyz, and pack keeps it
   distance distance opt drawn   // with bearing; a way between two rooms of a block that state xyz states neither
   climb feet opt            // up, or down where negative, where the way changes level
+  wall Compass opt drawn    // where it leaves this room: the door stands where the line from the room's centre on this
+                            // bearing meets its wall, or as near as a door fits
   orientation gloss opt     // the same in words, for the reader
   width feet opt            // where it differs from its block's; within both rooms' footprints
   height feet opt

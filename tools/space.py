@@ -36,6 +36,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import kdl                      # noqa: E402
 import maps                     # noqa: E402
+import route                    # noqa: E402
 import site_common as sc        # noqa: E402
 import tables                   # noqa: E402
 
@@ -254,14 +255,17 @@ def outline_value(v) -> tuple | None:
 
 
 def outline_of(dress: kdl.Node | None) -> tuple | None:
-    """A location's outline: its own, else its width and length, a circle where it is round."""
+    """A location's outline: its own, else its shape's in its width and length."""
     p = dress.props if dress is not None else {}
     if "outline" in p:
         return outline_value(p["outline"])
     if "width" not in p or "length" not in p:
         return None
     w, l = float(p["width"]), float(p["length"])
-    return ("circle", w / 2) if str(p.get("shape")) == "round" else ("rect", w, l)
+    shape = str(p.get("shape"))
+    if shape in ("octagon", "hexagon"):
+        return "poly", [(x, -y) for x, y in route.outline_of(shape, w, l)]
+    return ("circle", w / 2) if shape == "round" else ("rect", w, l)
 
 
 def said(outline: tuple | None) -> str:

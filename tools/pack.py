@@ -1,8 +1,9 @@
 """Packs a DANGEROUS block's rooms close into a square, with room between them for passages.
 
-A room is a rectangle of its Dressing's width and length whose corners lie on route.LATTICE.
-Rooms joined by a way sit near one another, touching where a door through the shared wall
-will do and a passage apart where it will not; rooms not joined may touch too, their shared
+A room is a footprint of its Dressing's width and length whose box's corners lie on
+route.LATTICE; two rooms overlap where their floors reach into one lattice cell. Rooms joined
+by a way sit near one another, touching where a door through the shared wall will do and a
+passage apart where it will not; rooms not joined may touch too, their shared
 wall drawn by the map's `sharedWalls`. A room placed against another is carried with it, never
 moved alone. The packing is annealed, so a seed fixes it, and is kept only where route.Router
 fits a passage for every way.
@@ -32,8 +33,13 @@ class Room:
     code: str
     w: int
     h: int
-    round: bool = False
+    shape: str = "rect"         # one of route.SHAPES
+    points: tuple | None = None  # a poly's outline, feet east and south of its centre
     hall: bool = False          # shows its code alone, so its label is shorter
+
+    @property
+    def round(self) -> bool:
+        return self.shape == "round"
 
 
 def compass_vector(bearing: float) -> tuple[float, float]:
@@ -55,6 +61,9 @@ class Packer:
         self.w = [r.w for r in rooms]
         self.h = [r.h for r in rooms]
         self.round = [r.round for r in rooms]
+        fps = [route.Footprint(0, 0, r.w, r.h, r.shape, r.points) for r in rooms]
+        self.floor = [f.touched for f in fps]           # the cells its floor reaches, from its box's corner
+        self.boxed = [f.square for f in fps]
         self.edges: dict[tuple[int, int], tuple[float, float] | None] = {}  # i < j: unit vector from i to j to keep, if any
         for a, b, bearing in ways:
             i, j = self.ix[a], self.ix[b]
@@ -111,11 +120,21 @@ class Packer:
 
     # -- energy --------------------------------------------------------------------------
 
+    def shared(self, i, j, xi=None, yi=None) -> int:
+        """How many lattice cells both rooms' floors reach into."""
+        a, b = self.box(i, xi, yi), self.box(j)
+        di, dj = round((b[0] - a[0]) / GRID), round((b[1] - a[1]) / GRID)
+        theirs = self.floor[j]
+        return sum((u - di, v - dj) in theirs for u, v in self.floor[i])
+
     def pair(self, i, j, xi=None, yi=None) -> float:
         a, b = self.box(i, xi, yi), self.box(j)
         sx, sy = max(b[0] - a[2], a[0] - b[2]), max(b[1] - a[3], a[1] - b[3])
         if sx < 0 and sy < 0:
-            return OVER * (1 + min(-sx, -sy) / GRID)
+            if self.boxed[i] and self.boxed[j]:
+                return OVER * (1 + min(-sx, -sy) / GRID)
+            if n := self.shared(i, j, xi, yi):
+                return OVER * (1 + math.sqrt(n))
         lw = 5 * (0.8 * (len(self.rooms[i].code) + len(self.rooms[j].code)) / 2 + 1)          # their labels, side by side
         lh = sum(NAME_H if self.rooms[k].hall else LABEL_H for k in (i, j)) / 2
         if abs((self.x[j]) - (self.x[i] if xi is None else xi)) < lw and abs(self.y[j] - (self.y[i] if yi is None else yi)) < lh:
@@ -263,11 +282,12 @@ class Packer:
         """Whether no two rooms overlap and every room lies in the square."""
         n = len(self.w)
         return all(self.inside(i) == 0 for i in range(n)) and \
-            all(max(self.gaps(i, j)) >= 0 for i in range(n) for j in range(i + 1, n))
+            all(max(self.gaps(i, j)) >= 0 or not (self.boxed[i] and self.boxed[j]) and not self.shared(i, j)
+                for i in range(n) for j in range(i + 1, n))
 
-    def rects(self) -> dict[str, route.Rect]:
-        return {r.code: route.Rect(self.x[i] - self.w[i] / 2, self.y[i] - self.h[i] / 2, self.w[i], self.h[i],
-                                   self.round[i]) for i, r in enumerate(self.rooms)}
+    def rects(self) -> dict[str, route.Footprint]:
+        return {r.code: route.Footprint(self.x[i] - self.w[i] / 2, self.y[i] - self.h[i] / 2, self.w[i], self.h[i],
+                                        r.shape, r.points) for i, r in enumerate(self.rooms)}
 
 
 def squares(rooms: list[Room], fill: tuple[float, float]) -> list[int]:
@@ -280,12 +300,12 @@ def squares(rooms: list[Room], fill: tuple[float, float]) -> list[int]:
 
 def attempt(args):
     """One packing from one seed, re-annealed round the ways that found no passage until every way has one."""
-    rooms, ways, side, seed, passages, pins, glue = args
+    rooms, ways, side, seed, passages, pins, glue, walls = args
     p = Packer(rooms, ways, side, seed, passages, pins, glue)
     p.anneal()
     pairs = [(a, b) for a, b, _ in ways]
     for _ in range(REPAIRS):
-        found, left = route.plan(p.rects(), pairs)
+        found, left = route.plan(p.rects(), pairs, walls)
         if not left and p.clear() and p.over():
             return True, p.total(), p.x, p.y
         for name in left:
@@ -298,19 +318,20 @@ def attempt(args):
 
 
 def pack(rooms, ways, seed: int, fill: tuple[float, float], passages: float, footprint: int | None = None,
-         pins: dict | None = None, tries: int = 12, glue: dict | None = None):
+         pins: dict | None = None, tries: int = 12, glue: dict | None = None, walls: dict | None = None):
     """The lowest-energy packing, over a few seeds at each side in turn - `footprint` alone where
-    it is given - stopping at the first side where some seed leaves every way a passage and
-    every pinned room over its pin: (side, packer, routes, energy), routes None where no side did."""
+    it is given - stopping at the first side where some seed leaves every way a passage, each by
+    the wall `walls` names, and every pinned room over its pin: (side, packer, routes, energy),
+    routes None where no side did."""
     pairs, pins = [(a, b) for a, b, _ in ways], pins or {}
     side = footprint
     with ProcessPoolExecutor() as pool:
         for side in [footprint] if footprint else squares(rooms, fill):
-            runs = [r for r in pool.map(attempt, [(rooms, ways, side, seed * 1000 + k, passages, pins, glue)
+            runs = [r for r in pool.map(attempt, [(rooms, ways, side, seed * 1000 + k, passages, pins, glue, walls)
                                                   for k in range(tries)]) if r[0]]
             if runs:
                 ok, e, x, y = min(runs, key=lambda r: r[1])
                 p = Packer(rooms, ways, side, seed, passages, pins, glue)
                 p.x, p.y = x, y
-                return side, p, route.plan(p.rects(), pairs)[0], e
+                return side, p, route.plan(p.rects(), pairs, walls)[0], e
     return side, None, None, 0.0
