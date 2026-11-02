@@ -76,8 +76,8 @@ Read these rather than a description of them.
   - `artgen/` - artgen's map, dungeon and settlement engines (`artgen-maps.js`, run with `node`),
     installed with artgen's map skills and commands by the `artgen-dist` installer's `maps` module;
     `MANIFEST.json` records the release and every installed file. How the framework uses it, and how
-    to upgrade it: the `setting-maps` skill. What the framework writes into its files, and how each
-    key behaves: `plans/sheet-maps/artgen-capabilities.md`.
+    to upgrade it: the `setting-maps` skill. What the framework writes into its files, and why:
+    `plans/sheet-maps/artgen-capabilities.md`.
   - `dungeon.py` - a DANGEROUS block: its map, its passages, `pack`, and what the validator reports of it.
   - `pack.py` - packs a DANGEROUS block's rooms close into a square, touching where a door through the shared wall will do and a passage apart where not, re-annealing until every way has one within BRIEF.md's detour, and keeping of its tries the one whose ways walk least. It turns or mirrors a room whose words name no direction, and sets rooms into the corners an L or a round room leaves empty. A block's own poly outline and its Rock bound where rooms and passages go; run through `maps.py pack`.
   - `route.py` - routes each way as a door through a shared wall or a winding passage on a 10-foot lattice, a door where it meets a wall: at the wall its Connection names, where it names one. Passages from one room may join and part but never run side by side.

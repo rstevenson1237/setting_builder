@@ -27,8 +27,8 @@ step that fixes them.
 - `tools/artgen/` is artgen's `maps` module. Its CLI is `node tools/artgen/artgen-maps.js`,
   always with `--file <path>`: this repo has no `art/` project. The converters call it through
   `maps.artgen()`.
-- What a file can say: artgen's `dungeon-map`, `settlement-map` and `terrain-map` skills and
-  `--help`. What the framework writes, and how each key behaves as observed:
+- What a file can say: artgen's `dungeon-map`, `settlement-map` and `terrain-map` skills, and
+  `schema <kind> --keys` for how each key behaves. What the framework writes, and why:
   `plans/sheet-maps/artgen-capabilities.md`. The skills' project steps (`new <id>`, `brief`,
   `version`, `review`, `approve`, `ui`) need `art/` and do not apply here.
 - To read a map without drawing it: `dungeon facts`, `map facts --at x,y`, `check`, each with
@@ -50,10 +50,10 @@ repo or prints a link to. That repo turns it into a consumer fixture each releas
 ## Upgrading artgen
 
 ```sh
-npx -y github:rstevenson1237/image_tools#artgen-dist update --notes <scratch dir>/notes.md
+npx -y github:rstevenson1237/image_tools#artgen-dist update --no-scaffold --notes <scratch dir>/notes.md
 ```
 
-It replaces the files as installed and keeps any edited here (`status` lists them; this repo's
-CLAUDE.md section is one). In a commit of its own, run the validator and both `--check`s, compare
+It replaces the files as installed, keeps any edited here (`status` lists them), and with
+`--no-scaffold` makes no `art/` project. In a commit of its own, run the validator and both `--check`s, compare
 a site build from before and after, and check `artgen-capabilities.md` against the new engine.
 Map caches key on the bundle's hash (`maps.BUILD`), so a new build draws everything again.
