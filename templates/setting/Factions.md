@@ -23,6 +23,8 @@ format {
 
 ## Instructions
 List the factions `BRIEF.md` names, each following its fields in `patterns/Setting_Schema.md`.
+A faction whose title is coined carries a `Gloss`, what the common tongue calls it, taken
+from `BRIEF.md`'s line for it; prose that names the faction to a party uses the gloss.
 
 Each entry's Relations lists every other faction once, by the Relation it holds toward that
 faction; where `BRIEF.md` names one, that is the Relation. A parenthetical in the table is a

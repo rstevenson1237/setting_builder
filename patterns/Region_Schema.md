@@ -11,10 +11,10 @@ each region, by rating, beside its tables:
   when they change: the seed's fields as prose, then one list field per `holds=`, each
   item opening with the codes it is about. `holds=` names location types, `entrance`
   (a location joined to a region that is not DANGEROUS) or `rest`; each location is held
-  by the first field naming it, and named by exactly that one. How long each field or item
-  runs is `BRIEF.md`'s `words`.
-- what is `drawn` from the tables beside the brief, never written: Inhabitants, Services,
-  Procedures, Loot, Alarm, Leads, Secrets.
+  by the first field naming it, and named by exactly that one; a list field that holds no
+  location is left out. How long each field or item runs is `BRIEF.md`'s `words`.
+- what is `drawn` from the seed and the tables beside the brief, never written: Conditions,
+  Inhabitants, Services, Procedures, Loot, Alarm, Leads, Secrets.
 
 Every brief sentence carries something usable at the table - a name, count, price, place,
 distance or ruling; why a place exists or how it feels is cut. A brief is read beside the
@@ -40,8 +40,9 @@ node Region file="setting/region/Regions.md" {   // opens with the region's code
 
 enum Safe_Kind steading thorp village town seat hold   // a household; a few; trades; a market and authority;
                                                         // a greater power's seat; a garrison with folk under its walls
-enum Terrain hills mountains plains forest swamp desert jungle coast   // one, or two in combination
-enum Dangerous_Kind collection "single holding"   // a worked complex in blocks, sized by its die; one occupant's home, sized by what it holds
+enum Terrain hills mountains plains forest swamp desert jungle coast underground   // one, or two in combination; underground: a cavern or delving under the surface
+enum Dangerous_Kind collection "single holding"   // a worked complex in blocks, sized by its die; one occupant's home, sized by what it holds -
+                                                  // a lair or a seat, never a complex of rooms with no master
 
 node Rung {                 // what the situation does next, true whether or not a party engages
   if string                 // what sets it off
@@ -51,7 +52,8 @@ node Entry {                // a way in
   name gloss
   from string opt           // where it opens from
   stands text               // who or what stands at it or watches it
-  takes text opt            // what passing takes
+  takes text opt            // what passing takes; a word, key or token it takes is a Lock on the
+                            // way's Connection, naming a Key that says where it is found
   refused text opt          // what befalls the turned away
 }
 
@@ -90,12 +92,11 @@ region Dangerous {
   brief {
     Overview text           // the Seed and both Rungs, each with what sets it off
     Approach text           // every Entry
-    Conditions text
     Entrances text list out=bullets holds=entrance   // how it shows from outside
     Prizes text list out=bullets holds=High     // what holds it, and its prize
     Places text list out=bullets holds=rest     // what is noticed or heard there, a secret shown only as what a party can notice
-    Tables text out=table   // Danger, 6 noticing to 1 acting
+    Tables text out=table   // d6 Danger: its rows numbered 6 (noticing) down to 1 (acting), in that order
   }
-  drawn Inhabitants Loot Alarm Procedures Leads Secrets
+  drawn Conditions Inhabitants Loot Alarm Procedures Leads Secrets
 }
 ```

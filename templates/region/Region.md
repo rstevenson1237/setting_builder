@@ -10,8 +10,9 @@ template scope="[Region Code]" writes="setting/region/[Region Code]/Seed.md" sha
 read "setting/Setting.md"
 read "setting/History.md"
 read "setting/Truths.md"
-read "setting/Bestiary.md"
-read "setting/Factions.md"
+read "setting/Bestiary.md" part="titles"
+read "setting/Factions.md" part="titles"
+read "setting/region/[Region Code]/Seed.md" part="the Entries of each region this one joins, where written"
 read "setting/region/Regions.md"
 read "setting/Procedures.md" part="Time and Distance, Weather"
 field "Seed.who" from="Bestiary, Factions"
@@ -32,3 +33,8 @@ answered here.
 
 Cut anything repeated from `setting/region/Regions.md` or `setting/History.md`, and any
 value stating what the referee should conclude or the players should do.
+
+An Entry from a region this one joins is the same way seen from this side: its door, lock
+and what passing takes agree with the joined region's Entry for it, and a way a party can
+walk back up is never written as shut. A Ruling states only what this ground changes from
+`setting/Procedures.md`'s Time and Distance.

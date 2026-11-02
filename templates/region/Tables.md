@@ -13,10 +13,10 @@ read "setting/region/[Region Code]/Ground.md"
 read "setting/region/[Region Code]/Locations.md"
 read "setting/region/[Region Code]/Connections.md"
 read "setting/region/[Region Code]/[Table].md"
-read "setting/Bestiary.md"
-read "setting/Factions.md"
-read "setting/History.md"
-read "setting/Language.md"
+read "setting/Bestiary.md" part="titles, Numbers and Disposition"
+read "setting/Factions.md" part="titles, Identity and Fields"
+read "setting/History.md" part="titles and Left"
+read "setting/Language.md" part="roots and Coined here"
 read "setting/Procedures.md" part="Forced Dangers, Conditions, Wounds"
 run "--pending [Region Code]"
 field "Encounter" from="Seed.who"
@@ -41,10 +41,11 @@ Where the schema holds Blocks, each Dressing states the `width` and `length` its
 Each room gets the entries its type's `rate` line in `BRIEF.md` gives, choosing within a range
 for a reason its tags give, and toward `BRIEF.md`'s targets. The occupants the seed's `who`
 names are placed as Encounters - in a SAFE region as People, Named Creatures and Faction members, and a
-Garrison at an Authority - and a `procedure` line in the region's node of `BRIEF.md` as a
+Garrison at an Authority; in a WILD region one person a party deals with by name, as a quest's
+giver, is a Person - and a `procedure` line in the region's node of `BRIEF.md` as a
 Procedure entry at the location it fits, any type and at most one a location. A room a
 Purpose's `signs` names carries a sign of it. An entry that will not fit its room is a finding
-for 5c, never moved or dropped here.
+for the Setting Judgement Check, never moved or dropped here.
 
 A Person's name is written with its `form` per `patterns/Common_Schema.md`; a tongue or family
 name is recorded in `setting/Language.md` first. A Dressing's `mark` is the Identity of a

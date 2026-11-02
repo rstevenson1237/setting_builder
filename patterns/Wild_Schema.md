@@ -14,6 +14,17 @@ enum Hazard_Type {
 }
 enum Mystery_Type "Standing Stone" Cairn Spring Pool "Old Tree" Shrine "Carved Rock" Ring
 
+node Person {               // as SAFE's: one named person a party can deal with
+  name string
+  form Name_Form
+  role gloss
+  personality gloss
+  wants string              // of a stranger, and what it offers for it
+  knows string              // what a party can learn from them
+  member entry Factions opt // the faction they belong to, where they belong to one
+  quest entry Quests opt    // the quest they give; left empty until Quests.md is written (step 4d)
+}
+
 node Seed {
   terrain Terrain
   comes text                // what a party sees crossing in, and what brings anyone
@@ -22,7 +33,8 @@ node Seed {
   crossing time opt         // the best route, end to end
   off time opt              // and off it
 }
-node Ruling {               // per setting/Procedures.md's Time and Distance; ground is never a location
+node Ruling {               // what this ground changes from setting/Procedures.md's Time and Distance, never
+                            // a restatement of it; ground is never a location
   on gloss                  // the road, off it, the worst ground, night, fog, a fire
   buys text                 // what an action buys there, what loses a party and what finds the way
 }
@@ -147,6 +159,7 @@ folder Wild type=Wild_Type {
   Dressing Dressing
   Challenges Encounter Hazard Mystery
   Procedures Procedure
+  People Person opt                                // one named person a party can deal with, where no faction speaks for them
   Blocks Block opt
   Stops Stop                                       // a Route's only
   Connections Way

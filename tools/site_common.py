@@ -407,6 +407,23 @@ def _inhabitants(r, setting) -> list[str]:
     return out
 
 
+def _conditions(r) -> list[str]:
+    """The seed's Conditions, one line a member, as every room holds them unless it says otherwise."""
+    c = r.seed("Conditions")
+    if c is None:
+        return []
+    p = c.props
+    out = []
+    if p.get("material"):
+        out.append(f"{str(p['material'])[0].upper()}{str(p['material'])[1:]}"
+                   + (f", {p['height']} feet high" if p.get("height") else "")
+                   + (f", passages {p['width']} feet wide" if p.get("width") else ""))
+    for k, label in (("light", "Light"), ("sound", "Sound"), ("footing", "Footing"), ("air", "Air"), ("fire", "Fire")):
+        if p.get(k):
+            out.append(f"{label}: {p[k]}")
+    return out
+
+
 def _procedures(r) -> list[str]:
     return [f"{n.args[0]} (Local Procedure: {n.props.get('procedure')})" for n in r.files.get("Procedures", []) if n.args]
 
@@ -481,7 +498,7 @@ def _secrets(r) -> list[str]:
     return out
 
 
-DRAWERS = {"Inhabitants": _inhabitants, "Services": lambda r, s: _services(r), "Procedures": lambda r, s: _procedures(r),
+DRAWERS = {"Conditions": lambda r, s: _conditions(r), "Inhabitants": _inhabitants, "Services": lambda r, s: _services(r), "Procedures": lambda r, s: _procedures(r),
            "Loot": lambda r, s: _loot(r), "Alarm": lambda r, s: _alarm(r), "Leads": lambda r, s: _leads(r),
            "Secrets": lambda r, s: _secrets(r)}
 

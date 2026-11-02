@@ -17,7 +17,10 @@ field "Language.Coined here" from="Person.name, Person.form, Named Creatures.For
 
 ## Instructions
 Each tongue states who speaks it, its consonants and vowels, its syllable shape, its
-affixes, and its roots, for each tongue `BRIEF.md` names.
+affixes, and its roots, for each tongue `BRIEF.md` names. Consonants and vowels are written
+as the letters a name spells them with, digraphs included; the syllable opens with its
+pattern, in C, V and parentheses round what is optional, which every root fits once or more.
+Every root, affix and coinage is spelled from its own tongue's letters alone.
 
 A coinage is recorded only for a name that coins it: a being's name (person, creature or
 faction) whose Name_Form is `tongue` or `family`, or the setting's or a region's name whose

@@ -52,7 +52,8 @@ enum Feature_Kind river road hill hollow
 enum Damage_Type Nuisance Damaging Lethal     // the count of Tests a hazard asks: 1, 2 or 3
 enum Reaction Hostile Wary Fearful Neutral Friendly
 enum Test Constitution Fate Sanity
-enum Wound_Type Piercing Crushing Poison Fire Frost Blast   // each has a Wound table in Procedures.md
+enum Wound_Type Piercing Crushing Poison Fire Frost Blast Exposure Suffocation   // each BRIEF.md lists has a Wound table in Procedures.md;
+                                                                              // Exposure: thirst, hunger, heat; Suffocation: drowning, smoke, foul air
 
 // Names. A coined name is recorded in Language.md; only these fields coin. A location's name
 // carries no form: it may point at a coinage already recorded, and never coins one.
