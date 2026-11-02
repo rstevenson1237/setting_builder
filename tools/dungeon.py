@@ -17,7 +17,6 @@ import tempfile
 from pathlib import Path
 
 import kdl
-import mapcheck
 import space
 import tables
 from maps import BUILD, CACHE, UNSIZED, artgen, blocks_of, built, feet, world_for
@@ -85,15 +84,15 @@ def shift_of(dress: dict, members: list[str]) -> tuple[float, float]:
     return ((float(d.props["width"]) / 2 - x) % LATTICE, (float(d.props["length"]) / 2 + y) % LATTICE)
 
 
-def engine(command: str, m: dict) -> dict:
+def engine(command: str, m: dict, *args: str) -> dict:
     """`artgen dungeon facts` or `check` of a map file, as JSON; kept under .maps-cache."""
-    key = hashlib.sha256((command + json.dumps(m, sort_keys=True) + BUILD).encode()).hexdigest()
+    key = hashlib.sha256((" ".join((command, *args)) + json.dumps(m, sort_keys=True) + BUILD).encode()).hexdigest()
     kept = CACHE / f"{key}.{command}.json"
     if kept.exists():
         return json.loads(kept.read_text())
     with tempfile.TemporaryDirectory() as tmp:
         (file := Path(tmp) / "block.json").write_text(json.dumps(m))
-        done = artgen("dungeon", command, "--file", file, "--json")
+        done = artgen("dungeon", command, "--file", file, "--json", *args)
     out = json.loads(done.stdout) if done.stdout.startswith("{") else {}
     CACHE.mkdir(exist_ok=True)
     kept.write_text(json.dumps(out))
@@ -424,23 +423,39 @@ def route_around(m: dict) -> None:
     kept.write_text(json.dumps(m["corridors"]))
 
 
-def defects(region, block: kdl.Node, m: dict) -> list[str]:
-    """What tools/mapcheck.py finds wrong in a block's map file, held to the tables' ways."""
+FAULTS = ("door-off-wall,through-room,corridors-cross,way-no-passage,reenters-room,port-outside-room,rooms-overlap,"
+          "in-keep-out,outside-bounds,maze-no-route")
+SEEN = ("rooms-merge", "doors-stacked", "label-overlap")    # warnings of `check` the validator passes on
+REPACK = ("in-keep-out", "outside-bounds")                   # a stale packing: `pack` places the rooms again
+
+
+def defects(region, block: kdl.Node, m: dict) -> list[tuple[str, str]]:
+    """What is wrong with a packed block's map file, as (level, message): `artgen dungeon check`'s
+    faults, then its `facts` held to the tables' ways."""
     members = {x.strip() for x in str(block.props["locations"]).split(",")}
     dress = {str(n.args[0]): n for n in region.files.get("Dressing", []) if n.args}
     if not all(space.centre(dress.get(c)) for c in members):
         return []                                         # not packed: its corridors are left to artgen
+    found = engine("check", m, "--errors", FAULTS)
+    out = [("error", f"{x['path']}: {x['message']}" + (f": run `python3 tools/maps.py pack {region.code}` (step 4a)" if x.get("id") in REPACK else ""))
+           for x in found.get("errors", [])]
+    out += [("warning", f"{x['path']}: {x['message']}") for x in found.get("warnings", []) if x.get("id") in SEEN]
+    facts = engine("facts", m)
+    wrong = [f"{r} is reached by no way" for r in facts.get("unreached", [])]
     rid = lambda c: c.replace(".", "-")
     ways = {frozenset((rid(str(n.args[0])), rid(str(n.props["to"])))) for n in region.files.get("Connections", [])
             if n.args and str(n.args[0]) in members and str(n.props.get("to")) in members}
+    joined = {frozenset((c["from"].get("room"), c["to"].get("room"))) for c in facts.get("corridors", [])}
+    joined |= {frozenset((r["id"], c["to"])) for r in facts.get("rooms", []) for c in r.get("connections") or []}
+    wrong += [f"the tables join {a} and {b}, but the map draws no way between them" for a, b in sorted(map(sorted, ways - joined))]
+    wrong += [f"the map joins {a} and {b}, which the tables do not" for a, b in sorted(map(sorted, joined - ways))]
     leaving = sum(1 for n in region.files.get("Connections", [])
                   if n.args and str(n.args[0]) in members and str(n.props.get("to")) not in members)
-    drawn = engine("facts", m).get("corridors", [])          # each maze passage as drawn, from its rooms' hubs
-    m = {**m, "style": {"sharedWalls": True, **m["style"]}, "corridors": [
-        {**{k: v for k, v in c.items() if k not in ("route", "from", "to")}, "from": {"room": c["from"]["room"]},
-         "to": {"room": c["to"]["room"]}, "via": f["path"]}
-        if c.get("route") == "maze" and len(f.get("path", [])) >= 4 else c for c, f in zip(m["corridors"], drawn)]}
-    return mapcheck.check(m, ways, leaving)
+    marks = len(facts.get("exits", [])) + sum(1 for s in m.get("overlay", {}).get("symbols", [])
+                                              if s.get("kind", "").startswith("stairs") or s.get("kind") == "arrow")
+    if marks != leaving:
+        wrong.append(f"the tables take {leaving} ways out of the block, the map marks {marks}")
+    return out + [("error", w) for w in wrong]
 
 
 # -- pack: a DANGEROUS level's rooms placed close in a square, and the tables made to say so -----
@@ -791,7 +806,7 @@ def problems(region, block: kdl.Node) -> list[tuple[str, Path, str]]:
     A packed one has BRIEF.md's footprint as its outline, its rooms covering the least of
     BRIEF.md's fill, a passage on its map for every way and within BRIEF.md's detour, its rooms
     within its outline and off its Rock, no bearing or distance on a way within it, and nothing
-    tools/mapcheck.py finds wrong. Where its rooms
+    wrong with its map (`defects`). Where its rooms
     lie, against its outline and the blocks a stair joins it to, is tools/space.py's.
     """
     bid, path = str(block.args[0]), region.dir / "Blocks.md"
@@ -839,12 +854,8 @@ def problems(region, block: kdl.Node) -> list[tuple[str, Path, str]]:
         out.append(("warning", path, f"{bid}: the way from {a} to {b} walks {extra:.0f} feet out of its way, past "
                                      f"BRIEF.md's pack detour of {rates['detour']:g}: run `python3 tools/maps.py pack {region.code}` (step 4a)"))
     if mapfile := built(region.code, bid)[0]:
-        for x in engine("check", json.loads(mapfile.read_text())).get("warnings", []):
-            if x.get("id") in ("outside-bounds", "in-keep-out"):
-                out.append(("error", path, f"{bid}'s map: {x['message']}: run `python3 tools/maps.py pack {region.code}` (step 4a)"))
-    if mapfile := built(region.code, bid)[0]:
-        for d in defects(region, block, json.loads(mapfile.read_text())):
-            out.append(("warning" if d.startswith("label:") else "error", path, f"{bid}'s map: {d}"))
+        for level, d in defects(region, block, json.loads(mapfile.read_text())):
+            out.append((level, path, f"{bid}'s map: {d}"))
     for n in region.files.get("Connections", []):
         if str(n.args[0]) in at and str(n.props.get("to")) in at and ("bearing" in n.props or "distance" in n.props):
             out.append(("error", region.dir / "Connections.md",

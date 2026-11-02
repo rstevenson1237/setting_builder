@@ -2,7 +2,7 @@
 
 ## Purpose
 A review of each DANGEROUS block's map by eye, for what `tools/validate_setting.py` and
-`tools/mapcheck.py` cannot see: whether the drawing reads as the place the tables describe.
+`artgen dungeon check` cannot see: whether the drawing reads as the place the tables describe.
 Saved as `setting/checks/MapJudgementCheck.md`.
 
 ## Context
