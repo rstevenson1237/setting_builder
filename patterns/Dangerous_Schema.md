@@ -49,7 +49,7 @@ node Dressing {
                             // a block states it for every room or for none
   against anchor opt drawn  // touching another room of its block, its xyz then a slide across the side and a gap along it
   outline outline opt drawn // a "poly" where no shape draws the room: its extent its width and length, centred
-                            // on its place, and some point within it sees all of it
+                            // on its place
   height feet opt           // floor to roof, where it matters at the table
   shape Room_Shape opt      // rect where unset
   layout string
@@ -126,7 +126,6 @@ node Block {               // one level: a map of its own
   against anchor opt drawn  // touching another block of its region, its xyz then a slide and a gap
   outline outline opt drawn // the ground its rooms are packed in: the square "rect S S", BRIEF.md's pack footprint, or a
                             // "poly" the design draws round its centre, which pack keeps; stated where they state xyz
-  router number opt drawn   // the tools/route.py version its passages were routed by; stated with outline
   width feet opt            // of its passages, where they differ from the seed's Conditions
   height feet opt
 }

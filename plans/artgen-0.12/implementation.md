@@ -71,12 +71,8 @@ detour, `check` clean, 1.4 to 9.6 s a block. That is image_tools' fixture `setti
   routes them, so the map draws the passages `pack` measured.
 - `walks()` (each way's wall and walk, for Ground and the dry fire) reads `dungeon facts`: each corridor's `path` and its doors.
   `route.detours` becomes the validator's own sum over `path`.
-- Blocks' `router` (Dangerous_Schema line 129) records the `tools/route.py` version. Either record the mapgen version that packed
-  the block (`artgen-maps.js --version`) or drop the field. **The user's call.**
+- Blocks' `router` is dropped: a stale packing shows as a way the map no longer routes.
 - **Retire** `tools/route.py`.
-- **Repack.** T2's `pack` is not yet run on the tables: `route.py` cannot route what the engine lays with clearance 0 (G.2-G.13,
-  H.3-H.10 at seed 1). Once the map and the validator read the engine's passages, run `maps.py pack R --again` for C to L in
-  order, so each stair's `over` follows the level above. H at seed 1 leaves two ways 2 feet past their detour; try seeds.
 
 ## T4 - `mapcheck.py` retired
 
@@ -104,8 +100,7 @@ plus two comparisons against the tables:
   from that wall, turns it toward the wall, puts the note beside it, and moves the room's label clear.
 - **Shapes.** `DRAWN` maps `octagon` to `octagon` with `cut: 0.2929` (`1/(2+√2)`, regular, as `route.py` drew it) and `hexagon` to
   `hexagon`. Only `poly` outlines stay polygons.
-- **Ground.** A block's own poly outline becomes `bounds`. Each Rock becomes `areas: [{points, kind: rock, label: <what>}]` in
-  place of an overlay note. Consider `style.rock: solid` (report A9: the reference maps use solid ground); **the user's call**.
+- **Ground.** T3 writes a poly outline as `bounds` and each Rock as a rock `areas` entry. Consider `style.rock: solid` (report A9: the reference maps use solid ground); **the user's call**.
   `style.partition` can replace `wall: 2.5` if only the walls between floors need the weight.
 
 ## T6 - docs, skill, metrics
@@ -117,9 +112,8 @@ plus two comparisons against the tables:
 
 ## Open decisions for the user
 
-1. Blocks' `router` field: record the mapgen version, or drop it (T3).
-2. Solid rock or hatching for packed levels (T5).
-3. With the engine reaching about 55% fill at the smallest square BRIEF.md's `fill` allows, whether to lower BRIEF.md's pack footprints.
+1. Solid rock or hatching for packed levels (T5).
+2. With the engine reaching about 55% fill at the smallest square BRIEF.md's `fill` allows, whether to lower BRIEF.md's pack footprints.
    That is a design change to the setting, not part of this move.
 
 ## Risks

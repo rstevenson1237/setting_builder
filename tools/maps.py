@@ -25,8 +25,8 @@ ground   Reads each placed region's ground back from its home sheet and writes i
          the way in is listed and left out.
 pack     Lays each block of a DANGEROUS region out in its footprint (`artgen dungeon layout`), a door
          or a passage for every way, keeping each way's direction as its rooms lie, or else as its
-         bearing says. Writes each room's `xyz` from the block's centre, the block's `outline` and
-         `router`, and takes the bearing and distance off each way within the block. A room placed
+         bearing says. Writes each room's `xyz` from the block's centre and the block's `outline`, and
+         takes the bearing and distance off each way within the block. A room placed
          `against` another is carried with it, and one whose way out states a bearing and distance
          keeps its place. The region is settled before packing, over the block a stair reaches,
          and after, where a way with a bearing puts it; a stair whose two rooms are then placed
