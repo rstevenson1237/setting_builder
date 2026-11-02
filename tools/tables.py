@@ -12,7 +12,7 @@ ROOT = Path(__file__).resolve().parent.parent
 SETTING = ROOT / "setting"
 PATTERNS = ROOT / "patterns"
 SHARED = ("Common", "Setting", "Region")   # the shared schemas, widest first; every other is a rating's
-DRAWN = ("Inhabitants", "Services", "Procedures", "Loot", "Alarm", "Leads", "Secrets")   # site_common.drawn
+DRAWN = ("Conditions", "Inhabitants", "Services", "Procedures", "Loot", "Alarm", "Leads", "Secrets")   # site_common.drawn
 
 CODE_RE = re.compile(r"([A-Z]+)\.(\d+)")
 BLOCK_RE = re.compile(r"([A-Z]+)\.([a-z]+)")
@@ -467,6 +467,49 @@ def coinages(path: Path = LANGUAGE) -> tuple[dict[str, tuple[str, str]], list[st
     return known, problems
 
 
+SYLLABLE_RE = re.compile(r"[CV()]+")
+
+
+def spelled(word: str, consonants: list[str], vowels: list[str]) -> str | None:
+    """A word as the C and V of its tongue's letters, digraphs first, or None where a letter
+    is none of them."""
+    letters = sorted([(c, "C") for c in consonants] + [(v, "V") for v in vowels], key=lambda x: -len(x[0]))
+    out, i = "", 0
+    while i < len(word):
+        hit = next(((s, k) for s, k in letters if s and word.startswith(s, i)), None)
+        if hit is None:
+            return None
+        out, i = out + hit[1], i + len(hit[0])
+    return out
+
+
+def spelling_problems(path: Path = LANGUAGE) -> list[str]:
+    """Every root, affix and coinage spelled from its own tongue's consonants and vowels, and
+    every root fitting its syllable's pattern once or more."""
+    import site_common as sc
+    if not path.exists():
+        return []
+    out = []
+    for r in sc.read_records(path, 2):
+        split = lambda f: [x.strip().lower() for x in r.get(f).split(",") if x.strip()]
+        cons, vows = split("Consonants"), split("Vowels")
+        head = SYLLABLE_RE.match(r.get("Syllable").strip())
+        shape = re.compile("(?:" + head.group(0).replace("(C)", "C?").replace("(V)", "V?") + ")+") if head else None
+        if not head:
+            out.append(f"{r.name}: Syllable opens with no pattern of C, V and (optional) parts")
+        words = [("root", l[2:].split(" - ")[0].strip().lower()) for l in r.get("Roots").split("\n") if l.startswith("- ")]
+        words += [("affix", a.split(" - ")[0].strip().strip("-").lower()) for a in r.get("Affixes").split(";") if a.strip()]
+        words += [("coinage", m.group(1).strip().lower()) for l in r.get("Coined here").split("\n") if l.strip()
+                  if (m := COINAGE_RE.fullmatch(l.removeprefix("- ").strip()))]
+        for kind, w in words:
+            cv = spelled(w, cons, vows)
+            if cv is None:
+                out.append(f"{r.name}: {kind} {w!r} is spelled with a letter none of its consonants or vowels")
+            elif kind == "root" and shape and not shape.fullmatch(cv):
+                out.append(f"{r.name}: root {w!r} ({cv}) does not fit its syllable {head.group(0)}")
+    return out
+
+
 def tongues_alike(path: Path = LANGUAGE) -> list[str]:
     """What two tongues share that no two may: a syllable shape or a consonant inventory."""
     import site_common as sc
@@ -812,7 +855,7 @@ class Setting:
         Y", and a common name holds none. A place is common or tongue. A location's name
         carries no form: it may point at a coinage and never coins one."""
         known, problems = coinages()
-        for msg in problems + tongues_alike():
+        for msg in problems + tongues_alike() + spelling_problems():
             yield "error", LANGUAGE, msg
         used: set[str] = set()
         has = lambda name: [n for n in known if re.search(rf"\b{re.escape(n)}\b", name, re.I)]

@@ -2,14 +2,10 @@ E Pyramid Level 3 - The Turning Hall
 
 Overview: A turning hall, a round drum of passage that always joins two of its eight arches on opposite sides, and off it the three branches' halls, a decayed store, a hidden strongroom, a stirge roost and the way down. A party comes down to bargain, to be made a member (Local Procedure: Joining a faction) and to choose its next way. Kurumisa hold E.3, E.6 and E.10, Ruhiahe E.4, E.7 and E.11, Sihuahet E.5, E.8 and E.12. Serving one branch sends the other two watchers within a day; when the drum turns, one branch's passage opens where another's did.
 
-Approach: The stair from the history level (D.6) lands at E.1, a rune-marked door the Royal Guard hold by day and the Priesthood by night. A word in the cynidicean speech passes. A party turned back is followed to the stair by whoever watched.
-
-Conditions: Polished sandstone, 16 feet high and 10 wide; branch lamps only. A bell rings at every door; the floor is smooth with raised runes; the air is dry and scented with incense. A draught draws smoke off.
-
-Entrances:
+Approach: The stair from the history level (D.6) lands at E.1, a rune-marked door the Royal Guard hold by day and the Priesthood by night. The word *kuru*, cut under the last panel in D.6, passes it (Keys: The Door Word). A party turned back is followed to the stair by whoever watched.
 
 Prizes:
-- E.2 - The turning drum: four pairs of runes inside turn it to join two arches, and each arch shows its own rune; its rim crushes whoever stands across the gap, and a reliquary sits in its wall (Treasure III, d20).
+- E.2 - The turning drum: four pairs of runes inside turn it to join two arches, and each arch shows its own rune; its rim crushes whoever stands across the gap, and a bronze casket sits in its wall (Treasure III, d20).
 - E.3 - The Guard hall, forty soldiers in sixes, a captain's chest (Treasure II, d20) and skeletons at the banner.
 - E.15 - A light well choked with droppings; stirges on the ledges and bones with packs (Treasure II, d20).
 
@@ -29,9 +25,9 @@ Places:
 
 Tables:
 d6 Danger
-1. A bell rung at a distant door.
-2. Incense drifts from the temple's passage.
-3. Orders and boots from the Guard hall.
-4. Pens scratch behind a door.
-5. A branch's watcher steps out of an arch.
-6. The drum grinds and turns; a different passage stands open.
+6. A bell rung at a distant door.
+5. Incense drifts from the temple's passage.
+4. Orders and boots from the Guard hall.
+3. Pens scratch behind a door.
+2. A branch's watcher steps out of an arch.
+1. The drum grinds and turns; a different passage stands open.

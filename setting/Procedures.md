@@ -13,7 +13,7 @@ A hazard states a trigger, a Test, a count of Tests and a penalty. A Test of Con
 
 One failed Test costs a Wound. A Wound past a character's Maximum is death, and a first-level Maximum is low: one or two Wounds fell a first-level character. Poison is save or die at that level: a first-level character who fails any Test of a Lethal Poison dies, and takes no Wound. A Test of Sanity is called for only by the demon's corruption and the lake city's fungi, never by an ordinary creature.
 
-A party with no water for a day, or no food for three, takes a Wound for each further day; a night in the open sand without shelter takes one Test of Fate for Exposed.
+A party with no water for a day, or no food for three, takes a Wound of Exposure for each further day; a night in the open sand without shelter takes one Test of Fate for Exposed. Drowning, smoke and foul air cost Wounds of Suffocation.
 
 ## Wounds
 ### Piercing
@@ -55,6 +55,26 @@ A party with no water for a day, or no food for three, takes a Wound for each fu
 | 4 | Seared eyes - Disadvantage on Search and Fire Missiles. |
 | 5 | Blistered feet - moves at half pace and Disadvantage on Maneuver to run. |
 | 6 | Skin that will not take a bandage - Disadvantage on every Test of Constitution against fire. |
+
+### Exposure
+| d6 | Wound |
+|---|---|
+| 1 | Cracked lips and a swollen tongue - Disadvantage on Interaction. |
+| 2 | Wasted muscle - Disadvantage on Feat of Strength, and carries no more than 5 wt. |
+| 3 | Sun-blind - Disadvantage on Search in daylight or lamplight. |
+| 4 | Kidneys gone bad - Parched after any day on less than a full skin. |
+| 5 | Heat-struck - Exhausted after any watch of travel in the sun. |
+| 6 | Hollowed out - the first Rest each day restores nothing without food. |
+
+### Suffocation
+| d6 | Wound |
+|---|---|
+| 1 | Torn lungs - Disadvantage on Chase or Flee. |
+| 2 | Water in the chest - Disadvantage on Tests of Constitution against cold and wet. |
+| 3 | Grey spells - Disadvantage on the first roll of any fight. |
+| 4 | Short breath - cannot hold a breath past one Round. |
+| 5 | Ringing ears - Disadvantage on Listen. |
+| 6 | Slow wits - Disadvantage on Tests of Sanity. |
 
 ## Madness
 | d6 | Madness |

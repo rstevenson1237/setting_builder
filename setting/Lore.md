@@ -26,7 +26,7 @@ Form: written
 Found at: E.5
 Voice: A Scholar, writing for Sihuahet and sneering at the other two branches.
 Does: connection, contradiction
-Text: Each branch holds that it alone will free the people. The soldiers say strength, the priests say faith, we say knowledge, and all three admit the king's order was the same: to find the demon's name before the stair. The Guard keep the east hall, the Priesthood the north, the Scholars the west. None will walk through another's door.
+Text: Each branch holds that it alone will free the people. The soldiers say strength, the priests say faith, we say knowledge, and all three admit the king's order was the same: to find the demon's name before the stair. The Guard hold the turning hall's north arch, the Scholars the south, and the Priesthood the north-west. None will walk through another's door.
 
 ### The Noble's Will
 Form: written
@@ -40,7 +40,7 @@ Form: written
 Found at: F.11
 Voice: The Royal Guard's missing captain, hurried and scared, scrawled on hide.
 Does: hook, connection
-Text: The stair is shut behind us. I go east to the cell, where the wall is bad. If I do not come back, send sixes, not threes. Tell the Guard the thing at the foot of the stair is awake and has been eating our scouts. Do not let the Scholars read this.
+Text: The stair is shut behind us. I go east to the cell, where the wall is bad. If I do not come back, send sixes, not threes. Tell the Guard the things in the crypt are awake and have been eating our scouts. Do not let the Scholars read this.
 
 ### The Priestesses' Rite
 Form: woven
@@ -54,7 +54,7 @@ Form: cut
 Found at: G.8
 Voice: The queen's own scribe, writing for the dead and hiding the reason.
 Does: connection, hook
-Text: Cut into the bier: the king went down to the veiled guest of his own will, the queen with the children went another way. The false tomb is for the soldiers who follow; the true king lies where the seal is unbroken. A ring is left with the bones to open the stair.
+Text: Cut into the bier: the king gave himself to the veiled guest of his own will and was laid here when it had done with him; the queen with the children went another way. The false tomb is for the soldiers who follow; the true king lies where the seal is unbroken. A ring is left with the bones to open the stair.
 
 ### The Cult's Ledger
 Form: written

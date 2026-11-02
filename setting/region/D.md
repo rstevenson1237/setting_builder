@@ -4,12 +4,8 @@ Overview: Four areas of halls and cells on the second level, joined by winding p
 
 Approach: The folding stair from the tile floor (C.2) lands at D.1, where two Royal Guard soldiers patrol the archway and the robbers' watch sits behind a door: a coin or a name passes, or the watchers raise the camp. The hidden stair from the mural wall (C.3) lands at D.8 on a darted sill. The plinth stair (C.4) lands at D.10 in knee-deep dust over a pit.
 
-Conditions: Carved sandstone, 15 feet high and 10 wide; torch only. Stone carries a shout down every hall; dust over smooth stone underfoot; the air dry and oil-scented. Smoke from a fire drifts up the stairs.
-
-Entrances:
-
 Prizes:
-- D.6 - A painted gallery guarded by skeletons, the gallery area's challenge; a niche behind the paint (Lore: The Gallery of the Fall) and a stair behind the last panel.
+- D.6 - A painted gallery guarded by skeletons, the gallery area's challenge; a niche behind the paint (Lore: The Gallery of the Fall), a word cut under the last panel's frame (Keys: The Door Word) and a stair behind the panel.
 - D.7 - The robbers' camp behind a coffin barricade, the robbers' area's challenge; six to eight delvers sell the ways down above, and a strongbox (Treasure II, d20).
 
 Places:
@@ -26,9 +22,9 @@ Places:
 
 Tables:
 d6 Danger
-1. A bell far off, and torchlight under a door.
-2. Dust stirs and a wet dragging sound comes closer.
-3. Lamplight and laughter from the robbers' camp.
-4. Rats gnaw wood somewhere in the winding passage.
-5. A scout of one branch watches from an arch.
-6. Skeletons rise and move as one.
+6. A bell far off, and torchlight under a door.
+5. Dust stirs and a wet dragging sound comes closer.
+4. Lamplight and laughter from the robbers' camp.
+3. Rats gnaw wood somewhere in the winding passage.
+2. A scout of one branch watches from an arch.
+1. Skeletons rise and move as one.

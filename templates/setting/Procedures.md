@@ -32,7 +32,7 @@ format {
 ```
 
 ## Instructions
-- **Ruleset** - about eight lines: the vocabulary the rest assumes (the three Action Dice,
+- **Ruleset** - the vocabulary the rest assumes (the three Action Dice,
   the Difficulty die, a 1 is a FAILURE, a 2 or 3 a COMPLICATION, a 4 or more a SUCCESS).
 - **Forced Dangers** - how a hazard states what it forces: a trigger, a Test, a count of
   Tests, a penalty. A Test of Constitution rolls the Combat die and a penalty is a Wound of
@@ -46,15 +46,14 @@ format {
 - **Conditions** - every Condition a Test of Fate or a Wound row names.
 - **Coin and Prices** - the common silver coin, cn, is the unit of every value in the
   setting; a hundred cn weigh 1 wt. Name each other coin the setting knows and its ratio to
-  cn, the fee for changing one (3%) and for reselling goods (10-20%), and what copper pennies
+  cn, the fee for changing one and for reselling goods, at `BRIEF.md`'s `exchange` and `resale`, and what copper pennies
   cover untracked. Then the ordinary goods and services a Purchase prices against, and a
   hireling's wage by the day, each in cn.
 - **Time and Distance** - what each region type measures in, and the miles a watch covers on
   a road, off it and through the worst ground; its Tracker line gives a DANGEROUS turn and
   how long a light lasts, which the PDF's turn tracker is drawn from.
-- **Weather** - a 1 is severe (travel impossible), 2 and 3 are poor, 4 to 6 are calm; the
-  setting writes what each is.
+- **Weather** - spread as `BRIEF.md`'s `weather` sets; the setting writes what each is.
 - **Encounters** - distance, 1 an instant surprise to 6 signs or tracks only,
   and the six Danger bands, 6 to 1, each in a line a region's Brief can instance. The party
   size numbers appearing are set for.
-- **Carousing** - 1 and 2 negative, 3 and 4 neutral, 5 and 6 positive.
+- **Carousing** - spread as `BRIEF.md`'s `carousing` sets.

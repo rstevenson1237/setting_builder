@@ -387,6 +387,9 @@ def check_directions(diag, path, src: str, lines: list[str]):
                         diag.warn(path, f"says {word} toward {m[0]}, but the way there runs {at[0]} - follow the map (step 4b)")
 
 
+FACTION_OCCUPANT_RE = re.compile(r"\((?:Hostile|Wary|Fearful|Neutral|Friendly), [^,()]+, Faction ?: [^)]+\)")
+
+
 def check_location_file(diag, path, region_code, num, stub, connected, all_locations,
                          mundane_edges, hidden_edges, conditions=None):
     """connected: the location has Connections entries, so its write-up carries Exits."""
@@ -458,6 +461,18 @@ def check_location_file(diag, path, region_code, num, stub, connected, all_locat
             feature_lines.append(s)
 
     check_summary_promises(diag, path, summary, feature_lines)
+    if re.search(r"\b(?:you|your|yours|yourself)\b", summary, re.I):
+        diag.error(path, "the Player Summary speaks to the players as 'you' - it is read aloud in the third person")
+    for s in feature_lines:
+        if (occ := FACTION_OCCUPANT_RE.search(s)):
+            diag.error(path, f"{s.split(':**')[0].strip('*')} cites its faction's members as {occ.group(0)!r} - "
+                             f"members cite the first of the faction's Fields, as (Reaction, N, Bestiary : Entry)")
+        fm = FEATURE_RE.match(s)
+        head = re.sub(r"^(?:the|a|an)\s+", "", fm.group(1), flags=re.I).split()[-1].lower().rstrip("s") if fm else ""
+        opening = s.split(":**", 1)[-1].split()[:4]
+        if head and len(head) > 2 and any(w.lower().strip(",.;").rstrip("s") == head for w in opening):
+            diag.warn(path, f"{fm.group(1)}: opens by repeating its name - a Feature's body says what it is, "
+                            f"never its name again; owed to step 4b")
     check_directions(diag, path, f"{region_code}.{num}", [summary, notes] + feature_lines)
 
     if not features:
@@ -607,6 +622,24 @@ def check_rumours(diag: Diagnostics):
            if re.match(r"^\|\s*\d+\s*\|", l) and re.search(r"\|\s*[TPFU]\s*\|", l)]
     if len(tpf) != len(rownums):
         diag.warn(path, "not every rumour row carries a T/P/F/U mark")
+    for line in tpf:
+        cells = [c.strip() for c in line.strip().strip("|").split("|")]
+        mark = next((i for i, c in enumerate(cells) if c in "TPFU" and len(c) == 1), None)
+        if mark is not None and cells[mark] == "U" and mark + 1 < len(cells) \
+                and not cells[mark + 1].lower().startswith("none"):
+            diag.error(path, f"rumour {cells[0]} is U but settled at {cells[mark + 1][:30]!r} - a U is one the "
+                             f"build neither confirms nor denies, settled at none")
+
+
+def check_faction_glosses(diag: Diagnostics, schema):
+    """A faction whose title is coined carries a Gloss, what the common tongue calls it; a
+    plain title carries none."""
+    for title, _line, v in tables.setting_entries(schema, "Factions") or []:
+        coined, gloss = v.get("Form", "").split(" ")[0] == "tongue", v.get("Gloss", "").strip()
+        if coined and not gloss:
+            diag.error(SETTING / "Factions.md", f"{title} is a tongue title with no Gloss - what the common tongue calls it")
+        elif gloss and not coined:
+            diag.error(SETTING / "Factions.md", f"{title} is a plain title with a Gloss - only a coined title takes one")
 
 
 # A stat line's AD field is "Xd6+N" per patterns/Setting_Schema.md; its Type and MA
@@ -990,6 +1023,8 @@ def check_region_fields(diag: Diagnostics, path: Path, r, holds: dict[str, list[
             continue
         text = sc.parse_field(lines, m.name)
         items = [l for l in text.split("\n") if l.startswith("- ")] if m.is_list else [text]
+        if m.is_list and not items:
+            diag.error(path, f"{m.name} holds nothing - a list field that holds no location is left out")
         cap = folder.words.get(m.name)
         for item in items if cap else ():
             n = len(re.sub(r"^- [A-Z., and0-9]*?- ", "", item).split())
@@ -1026,6 +1061,10 @@ def check_region_fields(diag: Diagnostics, path: Path, r, holds: dict[str, list[
                 count += 1
         if found_tables:
             rows.append(count)
+        numbers = [int(x) for x in re.findall(r"^\s*(\d+)[.)]\s", "\n".join(lines[start + 1:]), re.M)]
+        if r.rating == "DANGEROUS" and numbers and numbers != [6, 5, 4, 3, 2, 1]:
+            diag.error(path, f"the Danger table runs {', '.join(map(str, numbers))} - it runs 6 (noticing) "
+                             f"down to 1 (acting), as Procedures.md's Danger bands do")
         if found_tables != 1:
             diag.error(path, f"Tables holds {found_tables} table(s) - "
                              f"{folder.region_path.name} asks for one")
@@ -1476,6 +1515,7 @@ def main() -> int:
     for problem in brief.procedure_problems(setting):
         diag.warn(tables.BRIEF, problem)
     check_rumours(diag)
+    check_faction_glosses(diag, schema)
     check_top_level_files(diag)
     check_statblocks(diag, SETTING / "Bestiary.md", "Bestiary", expect_special=True)
     check_statblocks(diag, SETTING / "NamedCreatures.md", "Named Creature", expect_special=True)

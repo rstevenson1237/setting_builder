@@ -17,7 +17,6 @@ field "View" from="View"
 field "Approach" from="Entry, Seed.crossing, Seed.off"
 field "Law" from="Law"
 field "Terrain" from="Seed.terrain, Ruling"
-field "Conditions" from="Conditions"
 field "Arrival" from="Dressing.obvious, Dressing.layout"
 field "Plan" from="Block, Way, Location.type"
 field "Ways" from="Stop.feature, Stop.distance, Stop.to, Dressing.obvious"
@@ -32,7 +31,11 @@ field "Tables" from="Encounter.doing, Encounter.reaction, Hazard, Rung"
 Write every field of the rating's `brief`, in its order, from the seed and the tables
 alone. The seed's fields are its nodes as prose, each member once. A list field holds an
 item for each location its `holds=` gives it, in code order, as `--skeleton 4e [Region
-Code]` lists them. What `drawn` names is never written here.
+Code]` lists them; one that holds none is left out. What `drawn` names - the Conditions
+among it - is never written here.
+
+A DANGEROUS region's Danger table is numbered 6 to 1 in that order, as
+`setting/Procedures.md`'s bands run: 6 a sign a party notices, 1 the thing that acts.
 
 Every fact about a location names it by code. A fact no entry holds is an entry to add to
 the tables, not a line here. A setting entry is cited by its table's `cite=`: `(Named

@@ -3,7 +3,7 @@
 ```kdl
 Connection J.1 to="J.2" type="Archway" { Encounter doing="flank the door" reaction="Hostile" far="stone grating" { Creature bestiary="Gargoyle" count=2 } }
 Connection J.1 to="I.9" type="Open" climb=20
-Connection J.2 to="J.1" type="Archway"
+Connection J.2 to="J.1" type="Archway" { Lock key="The Lieutenants' Word" }
 Connection J.2 to="J.3" type="Stone"
 Connection J.2 to="J.4" type="Stone"
 Connection J.2 to="J.5" type="Archway"

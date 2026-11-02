@@ -4,8 +4,6 @@ Overview: The pyramid's largest level, the funerary level, with the last king an
 
 Approach: The stair from the living quarters (F.13) lands at G.1, and a long hall of wrapped dead (G.2) lies beyond. A party must walk the hall in silence; turned back, it walks the hall again.
 
-Conditions: Cut basalt, 18 feet high and 10 wide; torch and Ruhiahe lamps. A footfall carries the length of a hall; the floor is clean stone with sand drifts; the air is dry and resin-scented. Resin and linen burn hot and bright.
-
 Entrances:
 - G.14 - A sloping glowing path up from the lake city (B.1); at its top the great bronze doors are buried in fallen stone, and a worn stone beside them swings on a pin.
 
@@ -15,7 +13,7 @@ Prizes:
 - G.9 - The false tomb with a cut seal; a spiked lid and a seal ring (Keys: The King's Seal).
 - G.17 - An ossuary of sickly heaps; ghouls and a bone ring (Keys: The Queen's Ring).
 - G.20 - The lake hall, its two-storey doors heaped shut with fallen stone; skeletons in ranks before them, a toll chest (Treasure III, d20), and wet tracks from the side door.
-- G.22 - A gilded eight-sided chapel: lighting its sun-bowl fills it with daylight the dead will not enter, and then its font heals a Wound; a censer hangs from the dome (Magic, d12).
+- G.22 - A gilded eight-sided chapel: lighting its sun-bowl fills it with daylight the dead will not enter, and then its font heals a Wound, once for each drinker; a censer hangs from the dome (Magic, d12).
 
 Places:
 - G.1 - A cold landing opening on the hall of niches.
@@ -23,7 +21,7 @@ Places:
 - G.3 - Painted priestesses and chant; six priestesses and a tapestry (Lore: The Priestesses' Rite).
 - G.4 - Stained slabs and resin; zombies and a sealed jar.
 - G.5 - Jars to the roof, sealed with wax.
-- G.6 - A gilded antechamber with four tomb doors and a ring of kings' statues.
+- G.6 - A gilded antechamber with five carved doors and a ring of kings' statues.
 - G.10 - Chests behind an iron door; poisoned darts in the lids.
 - G.11 - Robes on pegs round a basin.
 - G.12 - Four dry wells round a stone in an eight-sided room; the lips crack.
@@ -31,7 +29,7 @@ Places:
 - G.15 - Pillars round a stained altar.
 - G.16 - A narrow gallery of kneeling mourners.
 - G.18 - Six plain cells with names scratched inside.
-- G.19 - A steep warm stair down, skeletons at an arch locked with a bone plate.
+- G.19 - A steep warm stair down, skeletons at an arch whose bone plate locks behind whoever passes.
 - G.21 - A narrow niche off the lake hall, feet worn to a blank wall, a smeared stone at shoulder height.
 - G.23 - A floor split down a central seam under two hanging bronze pans.
 - G.24 - A narrow passage of painted mourners, pinholes in their palms.
@@ -43,9 +41,9 @@ Places:
 
 Tables:
 d6 Danger
-1. Linen rustling far along a hall.
-2. A soft chant behind a painted wall.
-3. Resin dripping, then a dragging foot.
-4. Stone cracking on a plinth.
-5. A seal ticking as it weakens.
-6. The dead walk toward the stair.
+6. Linen rustling far along a hall.
+5. A soft chant behind a painted wall.
+4. Resin dripping, then a dragging foot.
+3. Stone cracking on a plinth.
+2. A seal ticking as it weakens.
+1. The dead walk toward the stair.

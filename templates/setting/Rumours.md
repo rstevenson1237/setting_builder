@@ -22,6 +22,10 @@ confirms, denies, or corrects this rumour, filled from what that location holds.
 also names **which half is false**, in a clause, because "partially true" without that is
 a mark the referee cannot act on.
 
+A `U` is one the build neither confirms nor denies: its Settled at is `none`, then where a
+party would look, and nothing written there answers it. A rumour the build does settle is
+T, P or F.
+
 A rumour that points off the map says so - `Settled at: none` - a decision on
 the page. Without it, a deliberate lead beyond
 the edge of the setting and a dangling reference to something nobody ever wrote read

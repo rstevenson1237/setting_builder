@@ -60,7 +60,7 @@ table Bestiary entry file="setting/Bestiary.md" stat="AD MA Numbers Special" {
                                        // 6-8 supernatural; 9-12 gargantuan; 13-16 served; 17-18 a titan
   Special text                         // what its dice do not say, a line per ability, or `none`
   MA number range="2-6" opt            // targets threatened at once, about AD/4; omitted at 1
-  Sight text                           // what a party sees when it comes into view
+  Sight text                           // what a party sees of any creature of the kind when it comes into view
   Range text opt                       // where it lives and what it eats
   Numbers number opt                   // how many one lair or band holds
   Sign Sign opt                        // what reaches a party before it does
@@ -88,6 +88,7 @@ enum Want route resource person cleared sealed legitimacy debt rival knowing hid
 enum Relation Friendly Tolerated Neutral Antipathy Hatred   // 5 to 1, each with a die: d12 d10 d8 d6 d4
 table Factions entry file="setting/Factions.md" cite=Faction {
   Form Name_Form              // of its title
+  Gloss gloss opt             // what the common tongue calls it, written wherever it is named in prose; a tongue title's only
   AD dice bonus="0..0"
   Want Want                   // concrete enough to be interfered with
   Identity text               // repeated identically everywhere: colour, device, habit, arms, mark, phrase, tongue
@@ -111,14 +112,16 @@ table History entry file="setting/History.md" timeline=When {
   Codes place from=Dressing none
 }
 table Truths entry file="setting/Truths.md" layout="rows" {
-  Truth text                  // the rule in one sentence, not its mood
+  Truth text                  // the rule in one sentence, not its mood; where two files answer one
+                              // question differently, the answer the referee holds is set here
   Handle text                 // an act a referee could adjudicate
   Codes place none
 }
 
 // -- Rumours: no speaker built in, and never what the players should do. A P names its
 //    false half (elsewhere, count, taken, person, creature, cause, age, survivor); U is
-//    the referee's by design. Each points at a region, location, person, creature,
+//    the referee's by design: nothing in the build confirms or denies it, and its Settled
+//    at is none. Each points at a region, location, person, creature,
 //    treasure, event, truth, faction, route or price.
 enum Truth_Mark T P F U
 table Rumours roll file="setting/Rumours.md" {

@@ -52,7 +52,10 @@ files {
   History events=4
   Truths count=4
   Language affixes="3-5" roots="15-20"               // per tongue
-  Procedures wounds="Piercing Crushing Poison Fire" madness=6   // a Wound table per Wound_Type listed; madness: 6 for a d6 Madness table, 0 for none
+  Procedures wounds="Piercing Crushing Poison Fire Exposure Suffocation" madness=6 exchange="3%" resale="20%" {   // a Wound table per Wound_Type listed; madness: 6 for a d6 Madness table, 0 for none
+    weather "1 severe, travel impossible; 2 and 3 poor; 4 to 6 calm"
+    carousing "1 and 2 against the carouser; 3 and 4 nothing; 5 and 6 for them"
+  }
 }
 
 safe {
@@ -76,7 +79,7 @@ dangerous {
   rate High Purpose=1 Dressing=1 Challenges="1-2" Rewards="1-2"
   rate Medium Dressing=1 Challenges=1 Rewards="0-1"
   rate Low Dressing=1 Rewards="0-1"
-  words Overview=100 Approach=70 Conditions=70 Entrances=60 Prizes=50 Places=35 Tables=25
+  words Overview=100 Approach=70 Entrances=60 Prizes=50 Places=35 Tables=25
   target Location.type High="17%" Medium="50%" Low="33%"
   target Hazard.damage Nuisance="40%" Damaging="40%" Lethal="20%"
   target Reward.contents Keys="10%" Lore="15%"

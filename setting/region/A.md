@@ -1,13 +1,13 @@
 A The Drifted Streets
 
-Overview: Sand lies drifted to the rooftops of a gridded city, a stepped pyramid's tip standing from its centre ringed by three wind-worn statues. A party comes in out of the storm for shelter, then food and water. Tomb robbers (Bestiary: Delver) work the rubble, six at A.7 and two at the statues by day (A.1), their water low. A day with no water costs each character a Test of Constitution at dawn; once the tip's door opens (A.1) the scouts reach the statues within the watch. Hyenas, scorpions, centipedes and rats hold the rest. A party can make camp (Local Procedure: Making shelter and a place of respite) or forage (Local Procedure: Foraging for food and water among the ruins).
+Overview: Sand lies drifted to the rooftops of a gridded city, a stepped pyramid's tip standing from its centre ringed by three wind-worn statues. A party comes in out of the storm for shelter, then food and water. Tomb robbers (Bestiary: Delver) work the rubble, six at A.7 and two at the statues by day (A.1), their water low. A day with no water costs each character a Test of Constitution at dawn, a Wound of Exposure; once the tip's door opens (A.1) the scouts reach the statues within the watch. A party can make camp (Local Procedure: Making shelter and a place of respite) or forage (Local Procedure: Foraging for food and water among the ruins).
 
 Approach: Out of the open dunes, in the storm, a party crosses the storm wall: a watch of blind travel, the sand taking any track left behind, and nobody to meet it. The city shows only when a party is in its streets. The way out is the tip's door at the statues (A.1), which leads to the pyramid (C.1). Crossing the region end to end takes a watch; leaving it by the dunes takes three.
 
-Terrain: Desert, sand, drifted streets and half-buried roofs. A watch covers 4 miles on a cleared street, 2 over drifted sand and 1 over deep dune, with a Test of Constitution against thirst each watch there. At night and in the storm sight is a few paces, and a lit fire is seen from the tip.
+Terrain: Desert, sand, drifted streets and half-buried roofs. On a cleared street tracks show for a day and a party can be followed by them; over drifted sand a party loses its tracks within a turn, and so does anyone following it. Each watch on deep dune costs a Test of Constitution against thirst, a Wound of Exposure. At night and in the storm sight is a few paces, and a lit fire is seen from the tip.
 
 Ways:
-- A.8 - The Dry Canal runs west from the ruins, a mile and a half of sunken channel: the canal head (20 yards), the sunken bridge (40 yards), the drowned shrine (75 yards) and the scorched camp (110 yards). A storm climbs from the west and costs a Test of Fate against Exposed.
+- A.8 - The Dry Canal runs west from the ruins, a sunken channel lost under the dunes past its last stop: the canal head (20 yards), the sunken bridge (40 yards), the drowned shrine (75 yards) and the scorched camp (110 yards). A storm climbs from the west and costs a Test of Fate against Exposed.
 
 Landmarks:
 - A.1 - Three wind-worn statues round the tip, a bronze door half-open south; two delvers watch it by day.

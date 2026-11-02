@@ -22,7 +22,10 @@ Write the entries `BRIEF.md` asks for up front, in its mix and AD spread. The Be
 grows as the build needs it: a location or region seed that needs a creature the Bestiary
 lacks adds its entry here first, then cites it.
 
-Write the other fields first, then `Description`: two or three sentences for the referee that
+`Sight` is what every creature of the kind looks like; one creature's look - a crown, a
+robe, a wound - is its Encounter's, written at its location.
+
+Write the other fields first, then `Description`, at the length its field line sets, for the referee that
 restate them as one read, in the order a party meets the creature - what reaches it first, what
 it sees, where it lives and what it eats, what it does on being met - adding nothing the fields
 do not say. The site and PDF show `Description` in place of the fields it is written from.

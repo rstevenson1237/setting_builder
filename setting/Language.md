@@ -2,7 +2,7 @@ Tongues of The Buried City
 
 ## The Common Tongue
 Spoken by: arrived - the party, the tomb robbers, and the cynidiceans only in a broken form.
-Consonants: b, d, f, g, h, k, l, m, n, p, r, s, t, w, y
+Consonants: b, c, d, f, g, h, k, l, m, n, p, r, s, t, th, v, w, y
 Vowels: a, e, i, o, u
 Syllable: (C)(C)V(C)(C), closed or open, English-shaped
 Affixes: -ton - place; -mere - water; -er - belonging; -ling - smallness; un- - negation
@@ -30,8 +30,8 @@ Coined here:
 ## The Cynidicean Speech
 Spoken by: present - Kurumisa, Ruhiahe, Sihuahet and the lake city's dreamers, and cut into every wall of the pyramid.
 Consonants: h, k, kh, m, n, r, s, sh, t, z
-Vowels: a, i, u, aa
-Syllable: CVCV, open at the end, with a long vowel only in the first syllable
+Vowels: a, e, i, u, aa
+Syllable: (C)VCV(C), two syllables to a root, open but for a closing consonant, with a long vowel only in the first syllable
 Affixes: -ra - place; -un - water; -it - smallness; -ahe - belonging; ne- - negation
 Roots:
 - mehe - sand
@@ -58,9 +58,9 @@ Coined here:
 
 ## The Black Speech
 Spoken by: side - Voxkroth and the demon's servants.
-Consonants: gh, dh, th, zh, v, x, kr, j
+Consonants: gh, dh, th, zh, d, k, kr, l, r, v, x, j
 Vowels: o, u, ae
-Syllable: CVC, closed, ending in a hard stop
+Syllable: CVC, closed, a root one syllable
 Affixes: -ox - belonging; ur- - negation; -vod - place; -jul - smallness
 Roots:
 - ghoth - sand

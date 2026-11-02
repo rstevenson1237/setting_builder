@@ -32,7 +32,7 @@ Kind: variant
 Extends: Commerce
 Found at: B.3
 Roll: Skill - the party's, once a visit
-Stakes: Coin in cn paid for spore jars, 10 cn a dose, and the risk of what they do. A jar sells outside the city for nothing; the market sells only to the masked or to those who show a mask.
+Stakes: Coin in cn paid for spore jars, 10 cn a dose, and the risk of what they do. Three are sold: grey cap, a full night's Rest in an hour, then a Test of Sanity; red spore, Advantage on every Test of Constitution for a turn, then a Wound of Exposure; blue jelly, sight in the dark for a watch, then Parched. A jar sells outside the city for nothing; the market sells only to the masked or to those who show a mask.
 Results:
 - Failure - The stall sells a cheap spore; a Test of Sanity at once, and no discount.
 - Complication - The dose is sold true, but a Scholar at the next stall marks the buyer.
