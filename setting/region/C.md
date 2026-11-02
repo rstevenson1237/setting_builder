@@ -1,10 +1,8 @@
 C Pyramid Level 1 - The Trapped Rooms
 
-Overview: A tight complex of small trapped rooms round a hall tiled in coloured squares, at the foot of the pyramid's tip, its walls carved with the cynidiceans' story. A party comes in out of the sand to shelter and stays to find a way down. Giant centipedes (C.2), a gargoyle and skeletons (C.4) hold it. Touching the plinth brings the skeletons off the wall and the gargoyle off its perch; opening a way down wrongly fires its trap and sets the hall's tiles clicking for a turn.
+Overview: A tight complex of small trapped rooms round a hall tiled in coloured squares, at the foot of the pyramid's tip, its walls carved with the cynidiceans' story. Three hidden ways lead down, each trapped, each opened by something done in a room. Giant centipedes (C.2), a gargoyle and skeletons (C.4) hold it. Touching the plinth brings the skeletons off the wall and the gargoyle off its perch; opening a way down wrongly fires its trap and sets the hall's tiles clicking for a turn.
 
 Approach: The tip's door (C.1) stands below the statues of A.1: a gargoyle crouches over the lintel and a trapped tile lies on the threshold. Passing the threshold sets off its tiles. Those outside have only the storm.
-
-Conditions: Carved sandstone, 20 feet high and 10 wide; sun-shafts by day, no light by night. Hard walls carry every sound; the tiled floor is trapped; the air is dry and still. Smoke from a fire rises up the tip's shaft.
 
 Entrances:
 - C.1 - A half-open bronze door on a tiled sill, sunlight along the floor; blue tiles sit lower than red.
@@ -20,9 +18,9 @@ Places:
 
 Tables:
 d6 Danger
-1. Wind through the door gap, and sand across the sill.
-2. A faint click as a tile shifts underfoot.
-3. A skeleton's armour ringing against stone.
-4. A centipede slides out from between tiles.
-5. The gargoyle shifts on its perch.
-6. The plinth grinds and the tiles of the hall shift.
+6. Wind through the door gap, and sand across the sill.
+5. A faint click as a tile shifts underfoot.
+4. A skeleton's armour ringing against stone.
+3. A centipede slides out from between tiles.
+2. The gargoyle shifts on its perch.
+1. The plinth grinds and the tiles of the hall shift.

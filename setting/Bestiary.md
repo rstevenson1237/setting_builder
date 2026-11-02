@@ -164,11 +164,11 @@ Type: Men
 AD: 1d6
 Special: Chants: while two or more chant, a party within earshot rolls a Test of Sanity at 1d.
 Sight: A figure in black cloth with a bronze mask and ash on the hands.
-Range: The cult's halls, below the sixth level. It eats what is left at the altar.
+Range: The cult's halls, from the sixth level down. It eats what is left at the altar.
 Numbers: 8
 Sign: a sound
 Disposition: Chants on sight of a stranger and drags captives toward the altar.
-Description: A sound comes first, then a figure in black cloth with a bronze mask and ash on the hands. Cultists live in the cult's halls below the sixth level on what is left at the altar, chanting on sight of a stranger and dragging captives toward the altar.
+Description: A sound comes first, then a figure in black cloth with a bronze mask and ash on the hands. Cultists live in the cult's halls from the sixth level down on what is left at the altar, chanting on sight of a stranger and dragging captives toward the altar.
 
 ### Delver
 Type: Men
@@ -186,12 +186,12 @@ Type: Undead
 AD: 4d6+1
 Special: Passes through stone; only enchanted weapons harm it, and a failed Test of Constitution against its touch costs a Wound.
 MA: 2
-Sight: A tall pale figure in a king's robe with no face under its crown.
+Sight: A tall pale shape in rotted grave-clothes, no face under its hood, cold coming off it.
 Range: Thrones, tombs and the cult's cells. It needs nothing.
 Numbers: 1
 Sign: a sound
 Disposition: Drifts toward the nearest living thing and falls back to its tomb at the touch of daylight.
-Description: A sound comes first, then a tall pale figure in a king's robe with no face under its crown. It needs nothing and keeps to thrones, tombs and the cult's cells, drifting toward the nearest living thing and falling back to its tomb at the touch of daylight.
+Description: A sound comes first, then a tall pale shape in rotted grave-clothes, no face under its hood, cold coming off it. It needs nothing and keeps to thrones, tombs and the cult's cells, drifting toward the nearest living thing and falling back to its tomb at the touch of daylight.
 
 ### Masked Dreamer
 Type: Men

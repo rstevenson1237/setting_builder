@@ -15,5 +15,5 @@ Encounter H.13 doing="cling to the weeping faces" reaction="Hostile" far="thin w
 Hazard H.14 type="Gas" damage="Lethal" test="Constitution" wound="Poison" { Secret trigger="the door swings shut" tell="soot line, waist high" knows="the cult" fact="the censers fill the sealed room" }
 Encounter H.16 doing="sleep between rites" reaction="Hostile" answers="1 turn" { Creature bestiary="Cultist" count="4-6" }
 Hazard H.18 type="Attack" damage="Damaging" test="Fate" condition="Held" { Secret trigger="walk without the sign" tell="hands polished, wrists" knows="the cult" fact="a black hand shown stills them" }
-Encounter H.19 doing="huddle behind the bars" reaction="Fearful" want="freedom and the lake" know="the cult's rounds" { Creature bestiary="Masked Dreamer" count="6-10" }
+Encounter H.19 doing="huddle behind bars, one in a heron mask" reaction="Fearful" want="freedom and the lake" know="the cult's rounds" { Creature bestiary="Masked Dreamer" count="6-10" }
 ```

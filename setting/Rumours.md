@@ -12,5 +12,5 @@ Rumours of The Buried City
 | 8 | Down a path from the tombs lies a city where nobody dies, its people masked as beasts. | P | G.14, B.2 - the city and the masks are real; the half that nobody dies is false |
 | 9 | The way into the dead king's treasury is hidden in the tomb of a king who is not there. | T | G.9, G.7 |
 | 10 | The false tomb beside the king's is the real one, and the true king lies in it. | F | G.9 - it is hollow, the king lies in G.7 |
-| 11 | The demon can be bound by a chain the old kings laid under its seat. | U | none - a party would look at L.4 |
+| 11 | The demon below was once a cynidicean, a prince of the line, and still answers to his name. | U | none - a party would look at L.4 |
 | 12 | The storm above has not lifted since the city was buried, and nothing that goes into it comes back. | U | none - a party would look at A.1 |

@@ -8,7 +8,8 @@ Encounter F.7 doing="wait in the web" reaction="Hostile" { Creature bestiary="Gi
 Encounter F.8 doing="lie buried in the sand" reaction="Hostile" { Creature bestiary="Giant Scorpion" count="1-3" }
 Encounter F.9 doing="feast on the dead" reaction="Hostile" far="gnawing, low muttering" { Creature bestiary="Ghoul" count="3-6" }
 Encounter F.10 doing="gamble and mend gear" reaction="Wary" answers="1 turn" want="a way out of the pyramid" know="Which rooms are trapped" { Faction faction="The Tomb Robbers" present=8 members="delvers and a fiddler" }
-Encounter F.11 doing="shuffle in the cell's dark" reaction="Hostile" left="soldiers' scale" { Creature bestiary="Zombie" count="2-4" }
+Encounter F.10 doing="sing at the robbers' fire for food" reaction="Neutral" want="to go back down to the lake" know="which tomb door the dead king lies behind" { Creature bestiary="Masked Dreamer" count=1 }
+Encounter F.11 doing="shamble, one wearing the captain's plumed helm" reaction="Hostile" left="soldiers' scale" { Creature bestiary="Zombie" count="2-4" }
 Encounter F.12 doing="hold the inner door" reaction="Wary" want="the captain found" know="Where the captain went" { Faction faction="Kurumisa" present=4 members="four soldiers" }
 Hazard F.14 type="Water" damage="Damaging" test="Constitution" wound="Fire" { Secret trigger="turn the bronze valve" tell="scale-crusted vents" knows="nobody" fact="the bath floods scalding to the waist" }
 Hazard F.16 type="Gas" damage="Nuisance" test="Fate" condition="Blinded" { Secret trigger="disturb the sacks" tell="white dust, stinging eyes" knows="nobody" }

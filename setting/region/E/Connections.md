@@ -1,7 +1,7 @@
 # Connections of E Pyramid Level 3 - The Turning Hall
 
 ```kdl
-Connection E.1 to="E.2" type="Archway"
+Connection E.1 to="E.2" type="Archway" { Lock key="The Door Word" }
 Connection E.1 to="D.6" type="Open" climb=20
 Connection E.2 to="E.1" type="Archway" wall="east"
 Connection E.2 to="E.3" type="Archway" wall="north"

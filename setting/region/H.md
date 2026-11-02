@@ -1,19 +1,17 @@
 H Pyramid Level 6 - The Cult's Halls
 
-Overview: The first level of the descent, laid out in the shape of level four and given over to the demon's cult and its sacrifices. A party comes down a stair that has no way back up, for the cult's keys and altars. The cult is hunting the lost king's keys and has taken captives from the lake city. Killing a cultist raises the chant and brings cultists from every cell; freeing a captive makes the cult track the party back to the stair.
+Overview: The first level of the descent, laid out in the shape of level four and given over to the demon's cult and its sacrifices. A party comes down from the tombs with the queen's ring, or from the lake city by a door the dreamers bar again behind it, for the cult's keys and altars. The cult is hunting the lost king's keys and has taken captives from the lake city. Killing a cultist raises the chant and brings cultists from every cell; freeing a captive makes the cult track the party back to the stair.
 
-Approach: A bronze door at the head of the stair from the funerary level (G.19) is unbarred from below, and the way up is shut behind a party. A party must be willing to lose its way back; none is refused, the way back is the way in.
-
-Conditions: Dark basalt, 14 feet high and 8 wide; oil lamps burn black. A footfall is lost and a chant carries; the floor is wet and bloodied; the air is close and smells of smoke. Smoke clings and does not clear.
+Approach: The stair from the funerary level (G.19) passes an arch with a bone lock-plate that swings shut and locks behind whoever passes; the queen's ring opens it from either side (Keys: The Queen's Ring), and without it the way down is the black stair from the lake city (B.10). Its door is barred again behind a party, so coming back up means knocking for a dreamer or breaking it.
 
 Entrances:
-- H.1 - A black landing; the way up shuts behind a party and a bronze door west leads to the lake city (B.10).
+- H.1 - A black landing at the foot of two stairs, one to the tombs' locked arch and one north-west to the lake city's barred door; a black hand on the wall.
 
 Prizes:
 - H.7 - A black altar with bones stacked round it; eight cultists and a hollow with the cult's gifts (Hoard: The Altar's Offerings).
 - H.9 - Bronze masks to the roof; meeting their eyes costs the mind, and a store lies behind (Treasure IV, d20).
-- H.11 - Inked scrolls, skeletons among the tables and a ticking cabinet (Lore: The Cult's Ledger).
-- H.19 - A barred pen packed with masked captives from the lake city; they plead and know the cult's rounds, and hide trinkets in the straw (Treasure II, d20).
+- H.11 - Inked scrolls, skeletons among the tables and a ticking cabinet holding a ledger (Lore: The Cult's Ledger) and a chalked slate (Keys: The Lieutenants' Word).
+- H.19 - A barred pen packed with masked captives from the lake city, one in a heron mask; they plead and know the cult's rounds, and hide trinkets in the straw (Treasure II, d20).
 
 Places:
 - H.2 - A straight sooty corridor, a black hand every ten paces.
@@ -34,9 +32,9 @@ Places:
 
 Tables:
 d6 Danger
-1. A chant faint in the smoke.
-2. A footfall lost in the dark.
-3. Whispers from hanging masks.
-4. Moaning from below a grating.
-5. Cultists answering from every cell.
-6. The stair behind the party shuts.
+6. A chant faint in the smoke.
+5. A footfall lost in the dark.
+4. Whispers from hanging masks.
+3. Moaning from below a grating.
+2. Cultists answering from every cell.
+1. The stair behind the party shuts.

@@ -10,6 +10,7 @@ Factions of The Buried City
 
 ### Kurumisa
 Form: tongue
+Gloss: the Royal Guard
 AD: 4d6
 Want: cleared - the pyramid below level 5 cleared of the demon's cult, floor by floor.
 Identity: Bronze scale over white linen, a red hawk painted on every shield and doorpost; the challenge "Who holds the gate?", answered "The gate holds."
@@ -27,10 +28,11 @@ Fields: Soldier
 
 ### Ruhiahe
 Form: tongue
+Gloss: the Priesthood
 AD: 3d6
 Want: sealed - the way down shut with the old rites, so the demon's servants cannot rise.
 Identity: Pale robes and a bronze bell at the belt, a sun-disc painted over every doorway; the greeting "The bell is rung", answered "And the way is shut."
-Resources: A temple on level 3, a cistern of clean water, a dozen acolytes and a store of oil and incense.
+Resources: A temple on level 3 under a high priestess, a cistern of clean water, a dozen acolytes and a store of oil and incense.
 Knowledge: The rites that seal a door and the order they are said in. Not where the lost king lies.
 Tactics: Rings the bell to call help, seals a door behind a retreat, and trades water for a service.
 Reactions: Noticed: asked to wash and state its purpose. Crossed: barred from the temple. Injured: the bell rung, and every priest on the level comes.
@@ -44,6 +46,7 @@ Fields: Acolyte
 
 ### Sihuahet
 Form: tongue
+Gloss: the Scholars
 AD: 3d6
 Want: knowing - how the demon was bound to the royal line, and how to unbind it.
 Identity: Ink-stained grey robes and a reed pen worn behind the ear, an eye drawn over every door; the challenge "What do you know?", answered with a question.
@@ -61,8 +64,9 @@ Fields: Adept
 
 ### Voxkroth
 Form: tongue
+Gloss: the cult
 AD: 4d6
-Want: resource - the keys the last king hid, to open what the demon wants opened.
+Want: resource - the keys the last king hid: the queen's ring opens the arch between the tombs and the cult's halls, and the tombs' dead can then be carried down to feed the demon.
 Identity: Black cloth and a bronze mask, ash smeared on the hands, a black hand painted on a wall to claim it; the chant "It is fed", answered "It is fed."
 Resources: Cells and altars on levels 6 and 7, a score of cultists, the lieutenants' halls on level 8 and the demon's favour.
 Knowledge: Where the demon is and what it wants. Not what the three branches will do.

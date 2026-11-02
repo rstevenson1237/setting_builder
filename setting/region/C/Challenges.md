@@ -5,5 +5,5 @@ Encounter C.2 doing="nest in the tile gaps" reaction="Hostile" { Creature bestia
 Mystery C.3 type="Fresco" effect="a stair swings open behind the panels" { Secret trigger="read panels in order" tell="numerals on panels" knows="the Scholars" }
 Encounter C.4 doing="crouch over the plinth" reaction="Hostile" { Creature bestiary="Gargoyle" count="1-2" }
 Encounter C.4 doing="stand rows against the wall" reaction="Hostile" answers="1 turn" left="armour bronze-green" { Creature bestiary="Skeleton" count="6-12" }
-Hazard C.5 type="Pit" damage="Lethal" test="Constitution" wound="Crushing" { Secret trigger="the door shuts" tell="sand drifts, roof slots" knows="the tomb robbers" fact="the floor plug drains the sand" }
+Hazard C.5 type="Pit" damage="Lethal" test="Constitution" wound="Suffocation" { Secret trigger="the door shuts" tell="sand drifts, roof slots" knows="the tomb robbers" fact="the floor plug drains the sand" }
 ```

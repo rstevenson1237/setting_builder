@@ -2,11 +2,7 @@ J Pyramid Level 8 - The Lieutenants' Halls
 
 Overview: A short level of halls where the cult's lieutenants keep the way down. A party comes for the lieutenants' hoard and the way past them. The lieutenants fear the demon more than they hate each other and have begun to talk. Killing a lieutenant makes the others close ranks and bar the stair; bargaining with one is learned by the others within the day.
 
-Approach: The stair from the cells (I.9) lands at J.1, a gargoyle on each side of the door. The door moves only for the word the lieutenants use; a party without it is struck.
-
-Conditions: Polished basalt, 20 feet high and 10 wide; oil lamps. A hall rings with a footfall; the floor is smooth and worn in grooves; the air is thick with incense. Incense burns with a bitter smoke.
-
-Entrances:
+Approach: The stair from the cells (I.9) lands at J.1, a gargoyle on each side of the door. They still only for the lieutenants' word, *vox*, chalked on a slate in H.11 (Keys: The Lieutenants' Word); a party without it is struck, or slips by the servants' passage (J.8) past its darts.
 
 Prizes:
 - J.2 - A grand black hall hung with trophies; Krulox on a throne of bones and a hoard in its base (Hoard: The Lieutenants' Hoard).
@@ -23,9 +19,9 @@ Places:
 
 Tables:
 d6 Danger
-1. Bitter incense drifting from a hall.
-2. A drum and shouting from the third hall.
-3. Silk stirring where no air moves.
-4. Stone grating at the door.
-5. The lieutenants' voices raised and lowered.
-6. The stair is barred behind the party.
+6. Bitter incense drifting from a hall.
+5. A drum and shouting from the third hall.
+4. Silk stirring where no air moves.
+3. Stone grating at the door.
+2. The lieutenants' voices raised and lowered.
+1. The stair is barred behind the party.

@@ -14,7 +14,7 @@ Connection C.3 to="C.6" type="Open" { Hazard type="Dart" damage="Nuisance" test=
 Connection C.3 to="D.8" type="Stone" climb=-20 { Hazard type="Hammer" damage="Nuisance" test="Constitution" wound="Crushing" { Secret trigger="tread the third step" tell="a groove overhead" knows="the Scholars" fact="panels read in order open it" } }
 Connection C.4 to="C.2" type="Open"
 Connection C.4 to="C.3" type="Stone"
-Connection C.4 to="D.10" type="Stone" climb=-20 { Hazard type="Gas" damage="Damaging" test="Constitution" wound="Poison" { Secret trigger="turn the plinth sunwise" tell="scraped arc, plinth foot" knows="the Scholars" fact="turned against the sun, it opens" } }
+Connection C.4 to="D.10" type="Stone" climb=-20 { Hazard type="Gas" damage="Damaging" test="Constitution" wound="Poison" { Secret trigger="turn the plinth sunwise" tell="scraped arc, plinth foot" knows="the tomb robbers" fact="turned against the sun, it opens" } }
 Connection C.5 to="C.2" type="Wooden"
 Connection C.6 to="C.3" type="Open"
 ```

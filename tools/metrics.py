@@ -46,6 +46,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 import kdl  # noqa: E402
+import tables  # noqa: E402
 from validate_setting import (  # noqa: E402
     CITATION_RE,
     FEATURE_RE,
@@ -468,6 +469,12 @@ def uses(setting) -> dict[tuple[str, str], set[str]]:
                         for item in ([x.strip() for x in str(v).split(",")] if m.is_list else [str(v)]):
                             table, _, title = item.partition(": ") if m.type == "pull" else (m.arg, "", item)
                             out.setdefault((table, title), set()).add(code)
+    # a faction's members met at a location are the first Bestiary entry its Fields names
+    fields = {title: v.get("Fields", "").split(",")[0].strip()
+              for title, _line, v in tables.setting_entries(setting.schema, "Factions") or []}
+    for (table, title), codes in list(out.items()):
+        if table == "Factions" and fields.get(title) not in (None, "", "none"):
+            out.setdefault(("Bestiary", fields[title]), set()).update(codes)
     return out
 
 

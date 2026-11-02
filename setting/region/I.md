@@ -2,11 +2,7 @@ I Pyramid Level 7 - The Altars of Making
 
 Overview: A smaller level of altars and cells where the cult's chosen are made and unmade. A party comes for the keys the cult is hunting and to learn what is fed. The cult unmakes its chosen faster than it can make them. Freeing a chosen marks the party and opens every cell at once; fouling an altar brings the lieutenants' word within the hour.
 
-Approach: The stair from the first level (H.12) lands at I.1, beside a black hand on the wall and a pair of Voxkroth guards. A party must show a mask or a mark; none is refused.
-
-Conditions: Black basalt, 12 feet high and 6 wide; oil lamps, smoking. The chant carries from every cell; the floor is slick stone; the air is heavy and smoky. Smoke fills the level quickly.
-
-Entrances:
+Approach: The stair from the cult's halls (H.12) lands at I.1, beside a black hand on the wall and a pair of guards (Faction: Voxkroth). A party must show a mask or a mark; none is refused.
 
 Prizes:
 - I.3 - A black altar over a drain; six priests chant, zombies lie on the benches and a bowl holds coin (Treasure III, d20).
@@ -28,9 +24,9 @@ Places:
 
 Tables:
 d6 Danger
-1. A chant carried through the smoke.
-2. Chains rattling in the hall of cells.
-3. A rhythmic knock from the altar.
-4. Muttering behind a locked door.
-5. Water running slow in the dark.
-6. Every cell opens at once.
+6. A chant carried through the smoke.
+5. Chains rattling in the hall of cells.
+4. A rhythmic knock from the altar.
+3. Muttering behind a locked door.
+2. Water running slow in the dark.
+1. Every cell opens at once.
