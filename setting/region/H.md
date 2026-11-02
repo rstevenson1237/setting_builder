@@ -1,4 +1,4 @@
-H Zhokvod
+H Pyramid Level 6 - The Cult's Halls
 
 Overview: The first level of the descent, laid out in the shape of level four and given over to the demon's cult and its sacrifices. A party comes down a stair that has no way back up, for the cult's keys and altars. The cult is hunting the lost king's keys and has taken captives from the lake city. Killing a cultist raises the chant and brings cultists from every cell; freeing a captive makes the cult track the party back to the stair.
 
@@ -13,6 +13,7 @@ Prizes:
 - H.7 - A black altar with bones stacked round it; eight cultists and a hollow with the cult's gifts (Hoard: The Altar's Offerings).
 - H.9 - Bronze masks to the roof; meeting their eyes costs the mind, and a store lies behind (Treasure IV, d20).
 - H.11 - Inked scrolls, skeletons among the tables and a ticking cabinet (Lore: The Cult's Ledger).
+- H.19 - A barred pen packed with masked captives from the lake city; they plead and know the cult's rounds, and hide trinkets in the straw (Treasure II, d20).
 
 Places:
 - H.2 - A straight sooty corridor, a black hand every ten paces.
@@ -24,6 +25,12 @@ Places:
 - H.10 - A smoky guard room; six to eight cultists.
 - H.12 - A steep cold stair down, warm air rising.
 - H.13 - A narrow gallery of weeping faces; stirges cling to them.
+- H.14 - Censers on chains, walls black to the waist, a wedge by the door.
+- H.15 - Rusted shackles on three walls; one ring turns in its socket (Treasure I, d20).
+- H.16 - Pallets in four rows, black robes on pegs; four to six cultists asleep.
+- H.17 - A sloping channel of fouled water to a grating; a slimed, cracked lip at the cistern door.
+- H.18 - Black hands carved from both walls, polished at the wrist; a lidded bin at the far end.
+- H.20 - Bins of grey ash from the altar fires.
 
 Tables:
 d6 Danger

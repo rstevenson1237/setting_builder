@@ -1,4 +1,4 @@
-# Connections of F Zamira
+# Connections of F Pyramid Level 4 - The Living Quarters
 
 ```kdl
 Connection F.1 to="F.2" type="Open"
@@ -35,4 +35,26 @@ Connection F.12 to="F.10" type="Crude"
 Connection F.12 to="F.3" type="Open"
 Connection F.13 to="F.4" type="Open"
 Connection F.13 to="G.1" type="Open" climb=-24
+Connection F.5 to="F.14" type="Wooden"
+Connection F.14 to="F.5" type="Wooden"
+Connection F.14 to="F.17" type="Open"
+Connection F.17 to="F.14" type="Open"
+Connection F.9 to="F.17" type="Archway"
+Connection F.17 to="F.9" type="Archway"
+Connection F.5 to="F.15" type="Wooden"
+Connection F.15 to="F.5" type="Wooden"
+Connection F.6 to="F.15" type="Open"
+Connection F.15 to="F.6" type="Open"
+Connection F.3 to="F.16" type="Open"
+Connection F.16 to="F.3" type="Open"
+Connection F.16 to="F.20" type="Wooden"
+Connection F.20 to="F.16" type="Wooden"
+Connection F.6 to="F.20" type="Open"
+Connection F.20 to="F.6" type="Open"
+Connection F.7 to="F.18" type="Open" { Hazard type="Pit" damage="Nuisance" test="Constitution" wound="Crushing" { Secret trigger="tread the cracked flag" tell="a cracked flag" knows="nobody" } }
+Connection F.18 to="F.7" type="Open"
+Connection F.18 to="F.19" type="Crude"
+Connection F.19 to="F.18" type="Crude"
+Connection F.8 to="F.19" type="Broken"
+Connection F.19 to="F.8" type="Broken"
 ```

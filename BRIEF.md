@@ -80,7 +80,7 @@ dangerous {
   target Location.type High="17%" Medium="50%" Low="33%"
   target Hazard.damage Nuisance="40%" Damaging="40%" Lethal="20%"
   target Reward.contents Keys="10%" Lore="15%"
-  pack fill="30-45%" passages="35%" detour="100 feet"
+  pack fill="35-55%" passages="40%" detour="150 feet"
 }
 
 // -- This setting --------------------------------------------------------------
@@ -90,7 +90,7 @@ setting {
   sheet Sands square="25 yards" extent="1200 by 1200 yards" regions="A"
   sheet Lake square="20 yards" extent="1000 by 1000 yards" regions="B"
   test "The Lost City in play, not in text, built fresh by the framework and transcribed from nothing: a party caught in a sandstorm takes cover in a buried ruin, survives its first days on what it can find, and goes down through a pyramid that gets larger for five levels, passes factions to bargain with, and reaches a lake city of dreamers, then goes deeper still, narrowing, toward the thing that corrupted a people. Every location type, procedure kind and registry the framework has is used at least once."
-  outline "A lost city under the dunes and, beneath it, a pyramid ten levels deep: a sandstorm drives the party into the ruins, where the pyramid's tip stands from the sand ringed by three wind-swept statues. Level 1 is one trapped room whose clues open ways down. Levels 1 to 5 widen, from a puzzle room to a history, a hall of factions, living quarters and a funerary level; from level 5 a path opens to a lake city of masked dreamers. Levels 6 to 10 narrow again toward a demon below."
+  outline "A lost city under the dunes and, beneath it, a pyramid ten levels deep: a sandstorm drives the party into the ruins, where the pyramid's tip stands from the sand ringed by three wind-swept statues. Level 1 is one tight complex of trapped rooms whose clues open three hidden ways down. Levels 1 to 5 widen, from puzzle rooms to a history, a hall of factions, living quarters and a funerary level; from level 5 a path opens to a lake city of masked dreamers. Levels 6 to 10 narrow again toward a demon below."
   pressure "Food, water and shelter run short from the first night. Nothing outside the ruins is known to the party and nothing from outside will come for it; nothing in the ruins or under them is safe. A party can build a place of respite among the ruins or win one from a faction, and either costs what it will not spend elsewhere. The three branches of the cynidiceans each mean to break the demon's hold and will not work together, and the demon's cult is looking for the keys the lost king hid."
   history "The cynidiceans raised a city of the sands, and a pyramid at its centre to house the dead of their line."
   history "A demon was invited into the royal line, and its priests corrupted the court, the clergy and the soldiers in turn."
@@ -138,74 +138,74 @@ region B rating=WILD die=d8 locations=10 {
   procedure "Joining the revels."
 }
 
-region C rating=DANGEROUS die=d12 locations=4 {
-  outline "Pyramid level 1: a single room laden with puzzles, traps and clues to the pyramid's story. Depending on how a party proceeds, one or more ways to the lower levels open: a trapped floor, a mural stair, a statue's plinth. The room is the pyramid's first lesson."
-  pack footprint="120 feet"
-  target Location.type High=1 Medium=2 Low=1
+region C rating=DANGEROUS die=d12 locations=6 {
+  outline "Pyramid level 1: a tightly packed complex of small rooms round one tiled hall, laden with puzzles, nuisance traps, one room that is itself a trap, and clues to the pyramid's story. Three ways down, each hidden and each trapped - a trapped floor, a mural stair, a statue's plinth - and each comes out in a different area of level 2. The complex is the pyramid's first lesson."
+  pack footprint="100 feet"
+  target Location.type High=1 Medium=3 Low=2
   target Reward.contents Keys=1 Lore=1
 }
 
-region D rating=DANGEROUS die=d10 locations=6 {
-  outline "Pyramid level 2: the history of the cynidiceans told in murals, carvings and the rooms between them, in a series of trap rooms and encounters to test a party, with chances to meet the tomb robbers who have moved in and scouts of the three branches below."
-  pack footprint="140 feet"
-  target Location.type High=1 Medium=3 Low=2
+region D rating=DANGEROUS die=d10 locations=12 {
+  outline "Pyramid level 2: the history of the cynidiceans told in murals, carvings and the rooms between them, in four areas joined by winding passages, each with its own challenge: the tomb robbers' halls, where they have moved in; the founders' halls and their naming puzzle; the scraped halls and their dead; and the gallery of the fall, locked and guarded, over the way down. Each of level 1's three ways down comes out in a different area, and scouts of the three branches below walk them all. Nuisance traps line the passages and two rooms are traps in themselves."
+  pack footprint="120 feet"
+  target Location.type High=2 Medium=6 Low=4
   target Reward.contents Lore=2
 }
 
-region E rating=DANGEROUS die=d10 locations=9 {
-  outline "Pyramid level 3: a rotating room with eight exits, each chosen by the rune a party selects. The three branches of the cynidiceans - the Royal Guard, the Priesthood and the Scholars - each hold a base here, and each can be explored. By a party's actions one may offer an alliance or membership."
-  pack footprint="170 feet"
-  target Location.type High=2 Medium=5 Low=2
+region E rating=DANGEROUS die=d10 locations=15 {
+  outline "Pyramid level 3: a turning hall, a round section of passage that always joins two of its eight passages on opposite sides; runes shown in pairs inside it turn it to the pair pressed, and the arch of each passage shows its own rune. The eight passages lead to a complex of rooms for each of the three branches of the cynidiceans - the Royal Guard, the Priesthood and the Scholars - a trapped corridor to the level below, a short room from the level above, a long decayed store, a secret room joining the store to the hall with treasure in it, and a lair. By a party's actions one branch may offer an alliance or membership."
+  pack footprint="140 feet"
+  target Location.type High=3 Medium=7 Low=5
   target Reward.contents Keys=1 Lore=1
   procedure "Joining a faction."
 }
 
-region F rating=DANGEROUS die=d8 locations=13 {
+region F rating=DANGEROUS die=d8 locations=20 {
   outline "Pyramid level 4: the former living quarters, with strange cynidicean encounters, lairs of stronger monsters that came down from the sand, hints of the evil below, and the tomb robbers' deepest camp."
-  pack footprint="200 feet"
-  target Location.type High=3 Medium=6 Low=4
+  pack footprint="180 feet"
+  target Location.type High=4 Medium=10 Low=6
   target Reward.contents Hoards=1 Lore=2
 }
 
-region G rating=DANGEROUS die=d8 locations=19 {
-  outline "Pyramid level 5: the funerary level, with the last king and queen interred, a false tomb beside them, and the areas of the former clergy. The largest level. From here a path can be opened to the subterranean city."
-  pack footprint="250 feet"
-  target Location.type High=4 Medium=10 Low=5
+region G rating=DANGEROUS die=d8 locations=29 {
+  outline "Pyramid level 5: the funerary level, with the last king and queen interred, a false tomb beside them, the areas of the former clergy, and at its centre a great chapel whose mystical effects a party can set off. The largest level. A great hall once led down to the subterranean city; its doors are blocked shut, and a secret door beside it is now the way those coming up from the city take."
+  pack footprint="240 feet"
+  target Location.type High=6 Medium=14 Low=9
   target Reward.contents Hoards=1 Keys=2 "Unique Treasures"=1 Lore=2
 }
 
-region H rating=DANGEROUS die=d6 locations=13 {
+region H rating=DANGEROUS die=d6 locations=20 {
   outline "Pyramid level 6: the first level of the descent, laid out in the shape of level 4 and given to the demon's cult and its sacrifices. The way up is behind a party."
-  pack footprint="200 feet"
-  target Location.type High=3 Medium=6 Low=4
+  pack footprint="210 feet"
+  target Location.type High=4 Medium=9 Low=7
   target Reward.contents Hoards=1 Lore=1
 }
 
-region I rating=DANGEROUS die=d6 locations=9 {
+region I rating=DANGEROUS die=d6 locations=14 {
   outline "Pyramid level 7: a smaller level of altars and cells where the cult's chosen are made and unmade."
-  pack footprint="170 feet"
-  target Location.type High=2 Medium=5 Low=2
+  pack footprint="160 feet"
+  target Location.type High=2 Medium=8 Low=4
   target Reward.contents Keys=1 Lore=1
 }
 
-region J rating=DANGEROUS die=d6 locations=6 {
+region J rating=DANGEROUS die=d6 locations=9 {
   outline "Pyramid level 8: the lieutenants' halls, a short level of powerful servants who keep the way down."
-  pack footprint="160 feet"
-  target Location.type High=2 Medium=3 Low=1
+  pack footprint="140 feet"
+  target Location.type High=3 Medium=4 Low=2
   target Reward.contents Hoards=1 Keys=1 "Unique Treasures"=1
 }
 
-region K rating=DANGEROUS die=d4 locations=5 {
+region K rating=DANGEROUS die=d4 locations=8 {
   outline "Pyramid level 9: the antechamber of the demon, where the corruption is thick enough to cost Sanity."
-  pack footprint="140 feet"
-  target Location.type High=2 Medium=2 Low=1
+  pack footprint="130 feet"
+  target Location.type High=3 Medium=3 Low=2
   target Reward.contents Lore=1
 }
 
-region L rating=DANGEROUS die=d4 locations=4 {
+region L rating=DANGEROUS die=d4 locations=6 {
   outline "Pyramid level 10: the demon's chamber, a single hall where the corrupting entity feeds, and the end of the descent. Its demon is a Named Creature."
-  pack footprint="140 feet"
-  target Location.type High=2 Medium=1 Low=1
+  pack footprint="130 feet"
+  target Location.type High=2 Medium=2 Low=2
   target Reward.contents "Unique Treasures"=1 "Magical Tomes"=1
 }
 ```

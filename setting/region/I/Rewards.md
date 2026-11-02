@@ -1,4 +1,4 @@
-# Rewards of I Voxvod
+# Rewards of I Pyramid Level 7 - The Altars of Making
 
 ```kdl
 Reward I.3 container="an altar bowl" contents="Treasure III"
@@ -7,4 +7,6 @@ Reward I.6 container="grave goods crate" contents="Treasure I"
 Reward I.7 container="a shelf of masks" contents="Keys: The Chosen's Mask"
 Reward I.8 container="a sealed bottle" contents="Lore: The Making of the Chosen"
 Reward I.9 container="guards' chest" contents="Treasure IV"
+Reward I.12 container="buried in the ash" contents="Treasure II"
+Reward I.13 container="a priest's coffer" contents="Treasure III"
 ```

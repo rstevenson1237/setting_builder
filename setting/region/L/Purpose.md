@@ -1,4 +1,4 @@
-# Purpose of L Dhaexvod
+# Purpose of L Pyramid Level 10 - The Demon's Hall
 
 ```kdl
 Purpose L.3 unique="the pit where the dead are poured" pressure="the demon is fed every day" signs="L.2"

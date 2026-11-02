@@ -1,4 +1,4 @@
-# Procedures of J Krothox
+# Procedures of J Pyramid Level 8 - The Lieutenants' Halls
 
 ```kdl
 ```

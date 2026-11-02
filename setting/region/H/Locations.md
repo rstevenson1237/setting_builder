@@ -1,4 +1,4 @@
-# Locations of H Zhokvod
+# Locations of H Pyramid Level 6 - The Cult's Halls
 
 ```kdl
 Location H.1 name="The Stair Landing" tags="black, close, smoking" type="Low"
@@ -14,4 +14,11 @@ Location H.10 name="The Cult Guard Room" tags="armed, smoky, tense" type="Medium
 Location H.11 name="The Scriptorium" tags="inked, locked, dim" type="High"
 Location H.12 name="The Descent Landing" tags="steep, cold, dark" type="Low"
 Location H.13 name="The Weeping Gallery" tags="narrow, wailing, damp" type="Medium"
+Location H.14 name="The Smoke Room" tags="sealed, sooted, choking" type="Medium"
+Location H.15 name="The Shackle Room" tags="chained, rusted, quiet" type="Low"
+Location H.16 name="The Cult Dormitory" tags="crowded, snoring, black" type="Medium"
+Location H.17 name="The Drain" tags="narrow, slick, reeking" type="Low"
+Location H.18 name="The Hall of Hands" tags="narrow, grasping, black" type="Medium"
+Location H.19 name="The Captives' Pen" tags="packed, barred, pleading" type="High"
+Location H.20 name="The Ash Store" tags="grey, choked, pricked" type="Low"
 ```

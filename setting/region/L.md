@@ -1,4 +1,4 @@
-L Dhaexvod
+L Pyramid Level 10 - The Demon's Hall
 
 Overview: The demon's hall, a single chamber where the corrupting thing feeds and the end of the descent. A party comes to end it or is brought to be fed to it. The demon is fed every day, on the cynidiceans' own dead. Wounding it brings every cultist on the level at once; interrupting the feeding drives its servants harder and spreads the corruption upward.
 
@@ -15,6 +15,8 @@ Prizes:
 Places:
 - L.1 - A warm threshold, two wraiths on either side.
 - L.2 - A wide slick floor sloping west; eight cultists kneel and feed it.
+- L.5 - Skulls stacked to the roof either side of a path, jaws moving, whispering in the black speech.
+- L.6 - A crumbling ledge over the red pit, steam through its cracks, a stair down its side.
 
 Tables:
 d6 Danger

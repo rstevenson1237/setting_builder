@@ -1,5 +1,5 @@
-# Blocks of J Krothox
+# Blocks of J Pyramid Level 8 - The Lieutenants' Halls
 
 ```kdl
-Block J.a name="Krothox" locations="J.1, J.2, J.3, J.4, J.5, J.6" outline="rect 160 160"
+Block J.a name="Pyramid Level 8 - The Lieutenants' Halls" locations="J.1, J.2, J.3, J.4, J.5, J.6, J.7, J.8, J.9" outline="rect 140 140"
 ```

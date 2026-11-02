@@ -1,4 +1,4 @@
-# Challenges of G Ahetra
+# Challenges of G Pyramid Level 5 - The Tombs
 
 ```kdl
 Encounter G.2 doing="stand in the niches" reaction="Hostile" far="linen rustling" { Creature bestiary="Skeleton" count="6-12" }
@@ -15,4 +15,11 @@ Hazard G.14 type="Water" damage="Nuisance" test="Fate" condition="Exposed" { Sec
 Mystery G.15 type="Altar" effect="the dead stir where blood is spilled" { Secret trigger="spill blood on it" tell="old brown stains" knows="Ruhiahe" }
 Encounter G.17 doing="feast among the bones" reaction="Hostile" far="gnawing" { Creature bestiary="Ghoul" count="3-6" }
 Encounter G.19 doing="guard the stair" reaction="Hostile" { Creature bestiary="Skeleton" count="3-6" }
+Encounter G.20 doing="stand ranked before the doors" reaction="Hostile" answers="1 turn" left="old bronze scale" { Creature bestiary="Skeleton" count="4-8" }
+Mystery G.22 type="Altar" effect="daylight fills it; the dead stay out" { Secret trigger="light the sun-bowl" tell="oil channels, sooty bowl" knows="Ruhiahe" }
+Mystery G.22 type="Fountain" effect="a drink heals one Wound, once a day" { Secret trigger="drink, the bowl lit" tell="dry font, sun carvings" knows="Ruhiahe" }
+Hazard G.23 type="Pit" damage="Damaging" test="Constitution" wound="Crushing" { Secret trigger="weight on one half" tell="a central seam" knows="nobody" fact="equal weight on each half holds it" }
+Hazard G.26 type="Water" damage="Damaging" test="Constitution" wound="Crushing" { Secret trigger="lift the bier's lid" tell="tide line, wet drains" knows="nobody" fact="the room floods to the roof" }
+Hazard G.28 type="Gas" damage="Nuisance" test="Fate" condition="Blinded" { Secret trigger="take down a mask" tell="powder heaped below" knows="Ruhiahe" }
+Encounter G.29 doing="rest on mats before the climb" reaction="Neutral" want="fungus, lamp oil, quiet" know="the side door and the path" { Creature bestiary="Masked Dreamer" count="2-4" }
 ```
