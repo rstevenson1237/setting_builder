@@ -224,6 +224,16 @@ def block_map(region, block: kdl.Node) -> tuple[dict | None, list[str]]:
             return "secret"
         return DOOR.get(str(n.props.get("type")), "door")
 
+    def strongest(*ends):
+        """The one door a shared wall draws for a way, from either side's entry: a lock, then a
+        secret, then whatever the first side states."""
+        got = [e for e in ends if e]
+        return next((e for k in ("locked", "secret") for e in got if e[0] == k), got[0])
+
+    def opening(kind):
+        """A corridor's end: its door, else an arch, so a wall still parts passage from room."""
+        return kind or "arch"
+
     def touch(a, b) -> bool:
         """Rooms a and b share a wall: they meet along one axis and overlap along the other."""
         d = [abs(cx(a) - cx(b)) * cell, abs(cy(a) - cy(b)) * cell]
@@ -281,9 +291,10 @@ def block_map(region, block: kdl.Node) -> tuple[dict | None, list[str]]:
                 continue
             climb = int(n.props.get("climb") or 0)
             room = next(r for r in m["rooms"] if r["id"] == rid(a))
+            gate = {"locked": ", locked", "secret": ", hidden"}.get(door(n), "")
             room.setdefault("exits", []).append({"kind": "stairs-up" if climb > 0 else "stairs-down" if climb < 0 else "arrow",
                                                  "side": wall_for(room, v),
-                                                 "text": f"{'Up to' if climb > 0 else 'Down to' if climb < 0 else 'To'} {b}"})
+                                                 "text": f"{'Up to' if climb > 0 else 'Down to' if climb < 0 else 'To'} {b}{gate}"})
     if routed:
         north = lambda x, y: to_cell(x + shift[0], shift[1] - y)      # feet east and north of the block's centre
         if (o := space.outline_value(block.props.get("outline"))) and o[0] == "poly":
@@ -339,7 +350,7 @@ def block_map(region, block: kdl.Node) -> tuple[dict | None, list[str]]:
             rn = [n for _, n in ends.values()]
             hazard = any(c.name == "Hazard" for n in rn for c in n.children)
             if door := shared(a, b):                     # a door through the wall they share
-                kind, n = first or second
+                kind, n = strongest(first, second)
                 m["connections"].append({"a": rid(a), "b": rid(b), "at": to_cell(*door), "origin": "tables",
                                          "kind": kind or GAP.get(str(n.props.get("type")), "open")})
                 traps += [("connection", len(m["connections"]) - 1)] if hazard else []
@@ -347,8 +358,16 @@ def block_map(region, block: kdl.Node) -> tuple[dict | None, list[str]]:
             m["corridors"].append({"from": end(a, named.get((a, b))), "to": end(b, named.get((b, a))), "route": "maze",
                                    "width": round(LATTICE / cell, 2), "origin": "tables",
                                    **({"style": "natural"} if rough(*rn) else {}),
-                                   "doors": [first[0] if first else None, second[0] if second else None]})
+                                   "doors": [opening(first[0] if first else None), opening(second[0] if second else None)]})
             traps += [("corridor", len(m["corridors"]) - 1)] if hazard else []
+        added = [(i, k) for i, c in enumerate(m["corridors"]) for k in (0, 1) if c["doors"][k] == "arch"]
+        if added:                                        # an added arch that meets another corridor's end is left open
+            f = engine("facts", m)
+            ends = [(f["corridors"][i]["path"][0:2], f["corridors"][i]["path"][-2:]) for i in range(len(m["corridors"]))]
+            for i, k in added:
+                here = ends[i][k]
+                if any(math.dist(here, ends[j][q]) < 1 for j in range(len(ends)) for q in (0, 1) if (j, q) != (i, k)):
+                    m["corridors"][i]["doors"][k] = None
         if traps:                                        # a trap at the middle of its way, as artgen draws it
             f = engine("facts", m)
             for kind, i in traps:
@@ -369,7 +388,7 @@ def block_map(region, block: kdl.Node) -> tuple[dict | None, list[str]]:
     for (a, b), ends in seen.items():
         first, second = ends.get(a), ends.get(b)
         if touch(a, b):                                  # through the wall they share
-            kind, n = first or second
+            kind, n = strongest(first, second)
             m["connections"].append({"a": rid(a), "b": rid(b), "origin": "tables",
                                      "kind": kind or GAP.get(str(n.props.get("type")), "open")})
             continue

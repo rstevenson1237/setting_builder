@@ -26,7 +26,7 @@ Form: written
 Found at: E.5
 Voice: A Scholar, writing for Sihuahet and sneering at the other two branches.
 Does: connection, contradiction
-Text: Each branch holds that it alone will free the people. The soldiers say strength, the priests say faith, we say knowledge, and all three admit the king's order was the same: to find the demon's name before the stair. The Guard keep the east hall, the Priesthood the north, the Scholars the west. None will walk through another's door.
+Text: Each branch holds that it alone will free the people. The soldiers say strength, the priests say faith, we say knowledge, and all three admit the king's order was the same: to find the demon's name before the stair. The Guard hold the turning hall's north arch, the Scholars the south, and the Priesthood the north-west. None will walk through another's door.
 
 ### The Noble's Will
 Form: written
