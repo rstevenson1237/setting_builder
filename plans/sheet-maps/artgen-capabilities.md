@@ -1,7 +1,7 @@
 # artgen capabilities - what the framework writes, and how it behaves
 
-Against artgen-maps 0.11.0, the commit `brief-engines.md` records and `tools/artgen/VERSION`
-holds. `node tools/artgen/artgen-maps.js --help` lists the commands; this note lists what
+Against the artgen-maps build `node tools/artgen/artgen-maps.js --version` prints.
+`node tools/artgen/artgen-maps.js --help` lists the commands; this note lists what
 `tools/maps.py` and `tools/dungeon.py` put in a file instead, and what a render does with it,
 as observed. What artgen lacks, and what the framework built round it, is
 `plans/dungeon-maps/report-artgen.md`. Check each line again when the engine is upgraded.

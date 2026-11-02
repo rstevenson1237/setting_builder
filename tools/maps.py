@@ -57,6 +57,7 @@ import space                    # noqa: E402
 import tables                   # noqa: E402
 
 ARTGEN = Path(__file__).resolve().parent / "artgen" / "artgen-maps.js"
+BUILD = hashlib.sha256(ARTGEN.read_bytes()).hexdigest()   # the build itself: VERSION outlives many builds
 FEET = {"feet": 1, "yards": 3, "miles": 5280}
 UNIT = {"feet": "ft", "yards": "yd", "miles": "mi"}
 SQUARES_PER_LOCATION = 4        # the ground one location needs, in squares, before its locations exist
@@ -500,7 +501,7 @@ def located(world, code: str, square: float) -> list[tuple[float, float]]:
 def read_only(file: Path, *args) -> subprocess.CompletedProcess:
     """An artgen call that reads a map and changes nothing. Generating the ground takes
     seconds, so the answer is kept under .maps-cache, keyed by the map file and the call."""
-    key = hashlib.sha256("\0".join([file.read_text(), ARTGEN.parent.joinpath("VERSION").read_text(),
+    key = hashlib.sha256("\0".join([file.read_text(), BUILD,
                                     *map(str, args)]).encode()).hexdigest()
     kept = CACHE / f"{key}.json"
     if kept.exists():
@@ -893,7 +894,7 @@ def render(kind: str, file: Path, fit: str, *extra, label: str = "") -> str | No
     the map file, the map drawn under it, the engine and the arguments."""
     under = json.loads(file.read_text()).get("underlay")
     key = hashlib.sha256("\0".join([file.read_text(), (file.parent / under["map"]).read_text() if under else "",
-                                    ARTGEN.parent.joinpath("VERSION").read_text(), kind,
+                                    BUILD, kind,
                                     fit, *map(str, extra)]).encode()).hexdigest()
     kept = CACHE / f"{key}.svg"
     if kept.exists():

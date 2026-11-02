@@ -22,7 +22,7 @@ import pack as packing
 import route
 import space
 import tables
-from maps import ARTGEN, CACHE, UNSIZED, artgen, blocks_of, built, feet, world_for
+from maps import BUILD, CACHE, UNSIZED, artgen, blocks_of, built, feet, world_for
 
 DOOR = {"Open": None, "Archway": None, "Broken": None, "Crude": None, "Lift": None, "Chute": None, "Iron": "portcullis"}
 GAP = {"Archway": "arch"}       # a doorless way through a shared wall, else open
@@ -367,7 +367,7 @@ def route_around(m: dict) -> None:
     A routed passage is already round them. The answer is kept under .maps-cache."""
     if all("via" in c for c in m["corridors"]):
         return
-    key = hashlib.sha256((json.dumps(m) + ARTGEN.parent.joinpath("VERSION").read_text()).encode()).hexdigest()
+    key = hashlib.sha256((json.dumps(m) + BUILD).encode()).hexdigest()
     kept = CACHE / f"{key}.around.json"
     if kept.exists():
         m["corridors"] = json.loads(kept.read_text())

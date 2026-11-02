@@ -55,6 +55,8 @@ Read these rather than a description of them.
   the matching `templates/checks/*_Judgement_Check.md`. Nested under `setting/` so wiping the
   setting for a new build takes its judgement checks with it, rather than leaving them
   behind to bias the next one.
+- `.claude/` - Claude Code settings, skills and commands: this repo's `setting-maps`, and
+  artgen's map skills and `/artgen-*` commands, installed with `tools/artgen/`.
 - `archive/` - the previous location-level patterns, templates and tools, and closed
   `plans/`, held for review against this build. Read by no step.
 - `plans/` - proposals for framework changes not yet made: one folder per change, holding
@@ -71,10 +73,11 @@ Read these rather than a description of them.
   - `site_common.py` - the schema-driven readers and renderers shared by the two builders.
   - `metrics.py` - what the framework costs and how the corpus reads, counted. Judges
     nothing; the thresholds are the validator's.
-  - `artgen/` - artgen's map and dungeon engines (`artgen-maps.js`, run with `node`), copied from
-    `artgen-dist` `maps/` at the commit `plans/sheet-maps/brief-engines.md` records. Upgrade it by
-    copying `maps/` at a newer commit, in a commit of its own. What the framework writes into its files,
-    and how each key behaves, is `plans/sheet-maps/artgen-capabilities.md`.
+  - `artgen/` - artgen's map, dungeon and settlement engines (`artgen-maps.js`, run with `node`),
+    installed with artgen's map skills and commands by the `artgen-dist` installer's `maps` module;
+    `MANIFEST.json` records the release and every installed file. How the framework uses it, and how
+    to upgrade it: the `setting-maps` skill. What the framework writes into its files, and how each
+    key behaves: `plans/sheet-maps/artgen-capabilities.md`.
   - `dungeon.py` - a DANGEROUS block: its map, its passages, `pack`, and what the validator reports of it.
   - `pack.py` - packs a DANGEROUS block's rooms close into a square, touching where a door through the shared wall will do and a passage apart where not, re-annealing until every way has one within BRIEF.md's detour, and keeping of its tries the one whose ways walk least. It turns or mirrors a room whose words name no direction, and sets rooms into the corners an L or a round room leaves empty. A block's own poly outline and its Rock bound where rooms and passages go; run through `maps.py pack`.
   - `route.py` - routes each way as a door through a shared wall or a winding passage on a 10-foot lattice, a door where it meets a wall: at the wall its Connection names, where it names one. Passages from one room may join and part but never run side by side.
