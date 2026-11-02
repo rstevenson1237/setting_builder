@@ -1,4 +1,4 @@
-# Dressing of J Krothox
+# Dressing of J Pyramid Level 8 - The Lieutenants' Halls
 
 ```kdl
 Dressing J.1 obvious="A narrow landing, soot-stained, a gargoyle each side" former="a stair landing" condition="quiet" ambiance="incense, far chant" width=10 length=20 xyz="75,-50" height=20 shape="hall" layout="Landing opening on an archway" mark="Voxkroth"

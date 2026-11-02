@@ -1,4 +1,4 @@
-K Ghulvod
+K Pyramid Level 9 - The Antechamber
 
 Overview: The demon's antechamber, where the air itself costs Sanity. A party comes to prepare for the last hall. The demon's breath thickens the air and the cult wears its masks tighter each day. A party that lingers pays a Test of Sanity every hour; a mask torn brings a scream that the whole level hears.
 

@@ -1,4 +1,4 @@
-# Connections of G Ahetra
+# Connections of G Pyramid Level 5 - The Tombs
 
 ```kdl
 Connection G.1 to="G.2" type="Open"

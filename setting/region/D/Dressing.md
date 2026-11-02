@@ -1,4 +1,4 @@
-# Dressing of D Sihura
+# Dressing of D Pyramid Level 2 - The Halls of History
 
 ```kdl
 Dressing D.1 obvious="A narrow landing under a carved lintel" former="a guard post" condition="watched" ambiance="torchlight, low voices" width=10 length=20 xyz="-25,40" height=15 layout="Stair meets landing; arches east and south" mark="Kurumisa"

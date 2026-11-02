@@ -1,4 +1,4 @@
-# Rewards of F Zamira
+# Rewards of F Pyramid Level 4 - The Living Quarters
 
 ```kdl
 Reward F.5 container="a lacquered chest" contents="Lore: The Noble's Will"

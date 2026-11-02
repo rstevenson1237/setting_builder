@@ -1,4 +1,4 @@
-# Locations of E Shenara
+# Locations of E Pyramid Level 3 - The Turning Hall
 
 ```kdl
 Location E.1 name="The Stair Landing" tags="dim, watched, narrow" type="Low"

@@ -1,4 +1,4 @@
-# Connections of E Shenara
+# Connections of E Pyramid Level 3 - The Turning Hall
 
 ```kdl
 Connection E.1 to="E.2" type="Stone"

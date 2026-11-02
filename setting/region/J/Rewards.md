@@ -1,4 +1,4 @@
-# Rewards of J Krothox
+# Rewards of J Pyramid Level 8 - The Lieutenants' Halls
 
 ```kdl
 Reward J.2 container="the throne's base" contents="Hoards: The Lieutenants' Hoard"

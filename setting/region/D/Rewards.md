@@ -1,4 +1,4 @@
-# Rewards of D Sihura
+# Rewards of D Pyramid Level 2 - The Halls of History
 
 ```kdl
 Reward D.5 container="a carver's tool chest" contents="Lore: The Carver's Count"

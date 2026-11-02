@@ -1,4 +1,4 @@
-# Dressing of L Dhaexvod
+# Dressing of L Pyramid Level 10 - The Demon's Hall
 
 ```kdl
 Dressing L.1 obvious="A warm threshold, two wraiths standing" former="the last stair" condition="glowing" ambiance="a pulse, felt" width=20 length=20 xyz="60,0" height=30 layout="Threshold opening north" mark="Voxkroth"

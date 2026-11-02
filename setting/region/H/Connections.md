@@ -1,4 +1,4 @@
-# Connections of H Zhokvod
+# Connections of H Pyramid Level 6 - The Cult's Halls
 
 ```kdl
 Connection H.1 to="H.2" type="Open"

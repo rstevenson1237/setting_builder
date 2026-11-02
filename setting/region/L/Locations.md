@@ -1,4 +1,4 @@
-# Locations of L Dhaexvod
+# Locations of L Pyramid Level 10 - The Demon's Hall
 
 ```kdl
 Location L.1 name="The Threshold" tags="warm, thick, glowing" type="Low"

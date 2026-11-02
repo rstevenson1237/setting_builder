@@ -1,4 +1,4 @@
-G Ahetra
+G Pyramid Level 5 - The Tombs
 
 Overview: The pyramid's largest level, the funerary level, with the last king and queen interred, a false tomb beside them and the former clergy's halls. A party comes for the king's hoard, the keys he hid and the path to the lake city (G.14). Ruhiahe hold G.3, G.11 and G.18. Skeletons, zombies, ghouls, gargoyles, a mummy and a wraith hold the rest. Breaking a seal raises a mummy that follows the one who broke it; opening the path to the lake city lets the walking dead follow it down.
 

@@ -1,4 +1,4 @@
-# Purpose of J Krothox
+# Purpose of J Pyramid Level 8 - The Lieutenants' Halls
 
 ```kdl
 Purpose J.2 unique="the first lieutenant's hall and hoard" pressure="the lieutenants close ranks on a killing" signs="J.1, J.5"

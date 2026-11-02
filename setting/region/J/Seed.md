@@ -1,4 +1,4 @@
-# Seed of J Krothox
+# Seed of J Pyramid Level 8 - The Lieutenants' Halls
 
 ```kdl
 Seed J kind="collection" comes="A short level of halls where the cult's lieutenants keep the way down. A party comes for the lieutenants' hoard and the way past them." who="Voxkroth, Gargoyle, Mummy, Wraith" changing="The lieutenants fear the demon more than they hate each other and have begun to talk."

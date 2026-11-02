@@ -1,4 +1,4 @@
-# Locations of D Sihura
+# Locations of D Pyramid Level 2 - The Halls of History
 
 ```kdl
 Location D.1 name="The Stair Landing" tags="dusty, watched, narrow" type="Low"

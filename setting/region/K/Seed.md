@@ -1,4 +1,4 @@
-# Seed of K Ghulvod
+# Seed of K Pyramid Level 9 - The Antechamber
 
 ```kdl
 Seed K kind="collection" comes="The demon's antechamber, where the air itself costs Sanity. A party comes to prepare for the last hall." who="Voxkroth, Wraith, Ghoul, Gargoyle" changing="The demon's breath thickens the air, and the cult wears its masks tighter each day."

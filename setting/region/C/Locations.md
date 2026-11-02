@@ -1,4 +1,4 @@
-# Locations of C Kashura
+# Locations of C Pyramid Level 1 - The Trapped Rooms
 
 ```kdl
 Location C.1 name="The Threshold" tags="trapped, sunlit, narrow" type="Low"

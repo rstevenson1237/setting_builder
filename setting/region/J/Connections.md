@@ -1,4 +1,4 @@
-# Connections of J Krothox
+# Connections of J Pyramid Level 8 - The Lieutenants' Halls
 
 ```kdl
 Connection J.1 to="J.2" type="Archway" { Encounter doing="flank the door" reaction="Hostile" far="stone grating" { Creature bestiary="Gargoyle" count=2 } }

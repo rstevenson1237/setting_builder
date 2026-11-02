@@ -1,4 +1,4 @@
-# Rewards of K Ghulvod
+# Rewards of K Pyramid Level 9 - The Antechamber
 
 ```kdl
 Reward K.3 container="niche in the gate" contents="Treasure V"

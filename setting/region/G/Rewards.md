@@ -1,4 +1,4 @@
-# Rewards of G Ahetra
+# Rewards of G Pyramid Level 5 - The Tombs
 
 ```kdl
 Reward G.3 container="a sealed prayer niche" contents="Lore: The Priestesses' Rite"

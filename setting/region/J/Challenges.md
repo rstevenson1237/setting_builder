@@ -1,4 +1,4 @@
-# Challenges of J Krothox
+# Challenges of J Pyramid Level 8 - The Lieutenants' Halls
 
 ```kdl
 Encounter J.2 doing="sit the throne" reaction="Hostile" answers="1 turn" { NamedCreature named="Krulox" presence="100%" }

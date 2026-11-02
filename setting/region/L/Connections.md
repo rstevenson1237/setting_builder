@@ -1,4 +1,4 @@
-# Connections of L Dhaexvod
+# Connections of L Pyramid Level 10 - The Demon's Hall
 
 ```kdl
 Connection L.1 to="L.2" type="Open" { Encounter doing="stand until the threshold is crossed" reaction="Hostile" want="no light carried" { Creature bestiary="Wraith" count=1 } }

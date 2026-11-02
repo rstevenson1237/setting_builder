@@ -1,4 +1,4 @@
-# Purpose of K Ghulvod
+# Purpose of K Pyramid Level 9 - The Antechamber
 
 ```kdl
 Purpose K.3 unique="the hall where the air costs Sanity" pressure="each hour lingered costs a Test of Sanity" signs="K.2, K.4"

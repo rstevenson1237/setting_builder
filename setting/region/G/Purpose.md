@@ -1,4 +1,4 @@
-# Purpose of G Ahetra
+# Purpose of G Pyramid Level 5 - The Tombs
 
 ```kdl
 Purpose G.7 unique="the last king's sealed tomb and hoard" pressure="the seals weaken and the dead walk" signs="G.6, G.10"

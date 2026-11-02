@@ -1,4 +1,4 @@
-# Purpose of E Shenara
+# Purpose of E Pyramid Level 3 - The Turning Hall
 
 ```kdl
 Purpose E.2 unique="the room that turns to the chosen rune" pressure="one branch's door stands where another's did" signs="E.1, E.9"

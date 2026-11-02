@@ -1,4 +1,4 @@
-# Challenges of E Shenara
+# Challenges of E Pyramid Level 3 - The Turning Hall
 
 ```kdl
 Mystery E.2 type="Flooring" effect="the room turns to face the chosen rune" { Secret trigger="press a rune" tell="runes sit raised" knows="all three branches" }

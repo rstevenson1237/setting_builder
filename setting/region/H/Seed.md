@@ -1,4 +1,4 @@
-# Seed of H Zhokvod
+# Seed of H Pyramid Level 6 - The Cult's Halls
 
 ```kdl
 Seed H kind="collection" comes="The first level of the descent, laid out in the shape of level four and given over to the demon's cult and its sacrifices. A party comes down a stair that has no way back up, for the cult's keys and altars." who="Voxkroth, Skeleton, Zombie, Ghoul, Stirge" changing="The cult is hunting for the lost king's keys and has taken captives from the lake city."

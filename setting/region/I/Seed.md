@@ -1,4 +1,4 @@
-# Seed of I Voxvod
+# Seed of I Pyramid Level 7 - The Altars of Making
 
 ```kdl
 Seed I kind="collection" comes="A smaller level of altars and cells where the cult's chosen are made and unmade. A party comes for the keys the cult is hunting, and to learn what is fed." who="Voxkroth, Zombie, Ghoul, Wraith" changing="The cult is unmaking its chosen faster than it can make them."

@@ -1,4 +1,4 @@
-# Dressing of K Ghulvod
+# Dressing of K Pyramid Level 9 - The Antechamber
 
 ```kdl
 Dressing K.1 obvious="Dim landing, a wraith in a robe" former="a stair landing" condition="silent" ambiance="sound swallowed whole" width=10 length=20 xyz="55,30" height=10 layout="Landing opening west" mark="Voxkroth"

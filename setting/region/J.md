@@ -1,4 +1,4 @@
-J Krothox
+J Pyramid Level 8 - The Lieutenants' Halls
 
 Overview: A short level of halls where the cult's lieutenants keep the way down. A party comes for the lieutenants' hoard and the way past them. The lieutenants fear the demon more than they hate each other and have begun to talk. Killing a lieutenant makes the others close ranks and bar the stair; bargaining with one is learned by the others within the day.
 

@@ -1,4 +1,4 @@
-# Seed of C Kashura
+# Seed of C Pyramid Level 1 - The Trapped Rooms
 
 ```kdl
 Seed C kind="single holding" comes="A single trapped room at the foot of the pyramid's tip, its floor tiled in coloured squares, its walls carved with the cynidiceans' story. A party comes in out of the sand to shelter, and stays to find a way down." who="Gargoyle, Skeleton, Giant Centipede" changing="The ways down are shut, and each opens only by something done in the room."

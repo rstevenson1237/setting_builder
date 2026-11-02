@@ -1,4 +1,4 @@
-# Purpose of H Zhokvod
+# Purpose of H Pyramid Level 6 - The Cult's Halls
 
 ```kdl
 Purpose H.7 unique="the altar where captives are fed" pressure="the cult drags captives from the lake city" signs="H.4, H.8"

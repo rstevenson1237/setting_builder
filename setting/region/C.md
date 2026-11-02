@@ -1,4 +1,4 @@
-C Kashura
+C Pyramid Level 1 - The Trapped Rooms
 
 Overview: A single trapped room at the foot of the pyramid's tip, its floor tiled in coloured squares, its walls carved with the cynidiceans' story. A party comes in out of the sand to shelter and stays to find a way down. Giant centipedes (C.2), a gargoyle and skeletons (C.4) hold it. Moving the plinth (C.4) opens a stair and shifts the trapped floor; reading the panels in order (C.3) swings a hidden stair open.
 

@@ -1,4 +1,4 @@
-# Connections of K Ghulvod
+# Connections of K Pyramid Level 9 - The Antechamber
 
 ```kdl
 Connection K.1 to="K.2" type="Open" { Encounter doing="stand in a king's robe" reaction="Hostile" want="no steel drawn" { Creature bestiary="Wraith" count=1 } }

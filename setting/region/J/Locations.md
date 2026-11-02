@@ -1,4 +1,4 @@
-# Locations of J Krothox
+# Locations of J Pyramid Level 8 - The Lieutenants' Halls
 
 ```kdl
 Location J.1 name="The Stair Landing" tags="smoke-stained, narrow, quiet" type="Low"

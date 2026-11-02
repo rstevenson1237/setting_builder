@@ -1,4 +1,4 @@
-# Locations of F Zamira
+# Locations of F Pyramid Level 4 - The Living Quarters
 
 ```kdl
 Location F.1 name="The Stair Landing" tags="dusty, narrow, quiet" type="Low"

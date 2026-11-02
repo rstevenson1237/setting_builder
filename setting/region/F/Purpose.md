@@ -1,4 +1,4 @@
-# Purpose of F Zamira
+# Purpose of F Pyramid Level 4 - The Living Quarters
 
 ```kdl
 Purpose F.7 unique="the spider hall over the gallery stair" pressure="monsters near the stair come out" signs="F.4, F.13"

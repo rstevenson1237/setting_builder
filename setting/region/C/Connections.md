@@ -1,4 +1,4 @@
-# Connections of C Kashura
+# Connections of C Pyramid Level 1 - The Trapped Rooms
 
 ```kdl
 Connection C.1 to="C.2" type="Open" { Hazard type="Pit" damage="Damaging" test="Constitution" wound="Piercing" { Secret trigger="step on a tile" tell="tiles sit lower" knows="the tomb robbers" } }

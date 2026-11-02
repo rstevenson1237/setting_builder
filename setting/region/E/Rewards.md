@@ -1,4 +1,4 @@
-# Rewards of E Shenara
+# Rewards of E Pyramid Level 3 - The Turning Hall
 
 ```kdl
 Reward E.2 container="reliquary on the dais" contents="Treasure III"

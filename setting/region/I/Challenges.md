@@ -1,4 +1,4 @@
-# Challenges of I Voxvod
+# Challenges of I Pyramid Level 7 - The Altars of Making
 
 ```kdl
 Encounter I.2 doing="walk the hall of cells" reaction="Wary" answers="1 turn" want="a mask or a mark shown" { Faction faction="Voxkroth" present=4 members="guards" }

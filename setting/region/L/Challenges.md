@@ -1,4 +1,4 @@
-# Challenges of L Dhaexvod
+# Challenges of L Pyramid Level 10 - The Demon's Hall
 
 ```kdl
 Encounter L.2 doing="kneel and feed the floor" reaction="Hostile" answers="1 turn" want="the party fed to the demon" { Faction faction="Voxkroth" present=8 members="cultists" }

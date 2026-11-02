@@ -1,4 +1,4 @@
-# Dressing of F Zamira
+# Dressing of F Pyramid Level 4 - The Living Quarters
 
 ```kdl
 Dressing F.1 obvious="A dusty landing, two soldiers at the stair" former="a stair landing" condition="quiet" ambiance="boots on stone" width=10 length=20 xyz="35,-60" height=12 layout="Landing; passages north and west" mark="Kurumisa"

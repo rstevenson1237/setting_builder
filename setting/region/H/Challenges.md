@@ -1,4 +1,4 @@
-# Challenges of H Zhokvod
+# Challenges of H Pyramid Level 6 - The Cult's Halls
 
 ```kdl
 Hazard H.3 type="Fire/Lava" damage="Nuisance" test="Constitution" wound="Fire" { Secret trigger="stir a cauldron" tell="fat smoking" knows="the cult" }

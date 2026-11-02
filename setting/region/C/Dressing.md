@@ -1,4 +1,4 @@
-# Dressing of C Kashura
+# Dressing of C Pyramid Level 1 - The Trapped Rooms
 
 ```kdl
 Dressing C.1 obvious="Bronze door half open on a tiled sill" former="the tip's door" condition="sunlit" ambiance="wind through the gap" width=10 length=20 xyz="25,-50" height=20 shape="hall" layout="Tiled threshold; the room opens north" left="The Cynidiceans Raise the City"

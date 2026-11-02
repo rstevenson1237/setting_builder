@@ -1,4 +1,4 @@
-# Seed of G Ahetra
+# Seed of G Pyramid Level 5 - The Tombs
 
 ```kdl
 Seed G kind="collection" comes="The pyramid's largest level, the funerary level, with the last king and queen interred, a false tomb beside them and the former clergy's halls. A party comes for the king's hoard, the keys he hid, and the path to the lake city." who="Mummy, Skeleton, Ghoul, Wraith, Zombie, Gargoyle, Ruhiahe" changing="The tomb's seals are weakening, and the dead have begun to walk toward the stair."

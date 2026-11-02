@@ -1,4 +1,4 @@
-# Rewards of I Voxvod
+# Rewards of I Pyramid Level 7 - The Altars of Making
 
 ```kdl
 Reward I.3 container="an altar bowl" contents="Treasure III"

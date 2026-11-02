@@ -1,4 +1,4 @@
-# Challenges of C Kashura
+# Challenges of C Pyramid Level 1 - The Trapped Rooms
 
 ```kdl
 Encounter C.2 doing="nest in the tile gaps" reaction="Hostile" { Creature bestiary="Giant Centipede" count="2-4" }

@@ -1,4 +1,4 @@
-# Locations of K Ghulvod
+# Locations of K Pyramid Level 9 - The Antechamber
 
 ```kdl
 Location K.1 name="The Stair Landing" tags="thick, dim, silent" type="Low"

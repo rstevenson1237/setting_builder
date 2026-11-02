@@ -55,11 +55,6 @@ Coined here:
 - Ruhiahe = ruhi + -ahe - of the light
 - Sihuahet = sihu + ahet - reed of the dead
 - Zamiun = zami + -un - well-water
-- Kashura = kashu + -ra - place of making
-- Sihura = sihu + -ra - place of reeds
-- Shenara = shena + -ra - place of three
-- Zamira = zami + -ra - place of the well
-- Ahetra = ahet + -ra - place of the dead
 
 ## The Black Speech
 Spoken by: side - Voxkroth and the demon's servants.
@@ -86,11 +81,6 @@ Roots:
 
 Coined here:
 - Voxkroth = vox + kroth - black hand
-- Zhokvod = zhok + -vod - down place
-- Voxvod = vox + -vod - black place
-- Krothox = kroth + -ox - of the hand
-- Ghulvod = ghul + -vod - bone place
-- Dhaexvod = dhaex + -vod - place of making
 - Krulox = krul + -ox - of the rock
 - Xothox = xoth + -ox - of the dead
 - Zhurjul = zhur + -jul - the red little one

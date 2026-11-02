@@ -1,4 +1,4 @@
-# Locations of G Ahetra
+# Locations of G Pyramid Level 5 - The Tombs
 
 ```kdl
 Location G.1 name="The Stair Landing" tags="still, cold, dim" type="Low"

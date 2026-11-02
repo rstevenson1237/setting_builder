@@ -1,4 +1,4 @@
-# Locations of H Zhokvod
+# Locations of H Pyramid Level 6 - The Cult's Halls
 
 ```kdl
 Location H.1 name="The Stair Landing" tags="black, close, smoking" type="Low"

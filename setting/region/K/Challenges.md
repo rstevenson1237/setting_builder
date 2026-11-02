@@ -1,4 +1,4 @@
-# Challenges of K Ghulvod
+# Challenges of K Pyramid Level 9 - The Antechamber
 
 ```kdl
 Encounter K.2 doing="crouch in the wailing dark" reaction="Hostile" far="faint wailing" { Creature bestiary="Ghoul" count="3-6" }

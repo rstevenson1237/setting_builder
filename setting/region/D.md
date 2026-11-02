@@ -1,4 +1,4 @@
-D Sihura
+D Pyramid Level 2 - The Halls of History
 
 Overview: Halls and cells of the second level where murals, carvings and the rooms between them tell the cynidiceans' history in order. A party comes down to read it and to find the way on. The tomb robbers hold the watch (D.3); Kurumisa, Ruhiahe and Sihuahet scouts hold the halls. Killing a robber sends six within the hour; defacing a mural brings a scout from one branch to see who did it.
 

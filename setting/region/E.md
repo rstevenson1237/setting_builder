@@ -1,4 +1,4 @@
-E Shenara
+E Pyramid Level 3 - The Turning Hall
 
 Overview: A rotating room with eight exits, each chosen by the rune a party selects, and round it the halls of the three branches. A party comes down to bargain, to be made a member (Local Procedure: Joining a faction) and to choose its next way. Kurumisa hold E.3, Ruhiahe E.4 and E.7, Sihuahet E.5 and E.8; gargoyles and skeletons guard the rest. Serving one branch sends the other two watchers within a day; when the room turns, the exit a party faces changes and one branch's door stands where another's did.
 

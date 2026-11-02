@@ -1,4 +1,4 @@
-# Rewards of H Zhokvod
+# Rewards of H Pyramid Level 6 - The Cult's Halls
 
 ```kdl
 Reward H.7 container="inside the black altar" contents="Hoards: The Altar's Offerings"

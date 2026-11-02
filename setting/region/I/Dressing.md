@@ -1,4 +1,4 @@
-# Dressing of I Voxvod
+# Dressing of I Pyramid Level 7 - The Altars of Making
 
 ```kdl
 Dressing I.1 obvious="Narrow landing, a black hand on the wall" former="a stair landing" condition="smoky" ambiance="a faint chant" width=10 length=20 xyz="10,-65" height=12 layout="Landing; passages north and west" mark="Voxkroth"

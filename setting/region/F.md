@@ -1,4 +1,4 @@
-F Zamira
+F Pyramid Level 4 - The Living Quarters
 
 Overview: The fourth level's living quarters, cells and kitchens, left as their cynidicean owners left them, with lairs of stronger monsters that came down from the sand and the tomb robbers' deepest camp (F.10). A party comes for the quarters' stores and the lairs' hoards. Robbing the camp sends it hunting the thief through the quarters; following the captain's trail brings out the monsters nearest the stair.
 

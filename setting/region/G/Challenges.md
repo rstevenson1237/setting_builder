@@ -1,4 +1,4 @@
-# Challenges of G Ahetra
+# Challenges of G Pyramid Level 5 - The Tombs
 
 ```kdl
 Encounter G.2 doing="stand in the niches" reaction="Hostile" far="linen rustling" { Creature bestiary="Skeleton" count="6-12" }

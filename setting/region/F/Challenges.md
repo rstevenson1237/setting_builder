@@ -1,4 +1,4 @@
-# Challenges of F Zamira
+# Challenges of F Pyramid Level 4 - The Living Quarters
 
 ```kdl
 Hazard F.3 type="Fire/Lava" damage="Damaging" test="Constitution" wound="Fire" { Secret trigger="light an oven" tell="soot-black flue" knows="nobody" }

@@ -1,4 +1,4 @@
-# Seed of E Shenara
+# Seed of E Pyramid Level 3 - The Turning Hall
 
 ```kdl
 Seed E kind="collection" comes="A rotating room with eight exits, each chosen by the rune a party selects, and round it the halls of the three branches. A party comes down to bargain, to be made a member, and to choose its next way." who="Kurumisa, Ruhiahe, Sihuahet, Gargoyle, Skeleton" changing="Each branch means to break the demon's hold and none will work with another, and each has begun to court a party that arrives."

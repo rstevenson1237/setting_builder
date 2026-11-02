@@ -1,4 +1,4 @@
-# Connections of D Sihura
+# Connections of D Pyramid Level 2 - The Halls of History
 
 ```kdl
 Connection D.1 to="D.2" type="Archway" { Encounter doing="patrol the archway" reaction="Wary" want="the hall cleared of robbers" { Faction faction="Kurumisa" present=2 members="two soldiers" } }

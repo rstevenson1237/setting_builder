@@ -1,4 +1,4 @@
-# Seed of L Dhaexvod
+# Seed of L Pyramid Level 10 - The Demon's Hall
 
 ```kdl
 Seed L kind="single holding" comes="The demon's hall, a single chamber where the corrupting thing feeds and the end of the descent. A party comes to end it, or is brought to be fed to it." who="Voxkroth, Wraith, Mummy" changing="The demon is fed every day, and what feeds it is the cynidiceans' own dead."

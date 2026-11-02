@@ -1,4 +1,4 @@
-I Voxvod
+I Pyramid Level 7 - The Altars of Making
 
 Overview: A smaller level of altars and cells where the cult's chosen are made and unmade. A party comes for the keys the cult is hunting and to learn what is fed. The cult unmakes its chosen faster than it can make them. Freeing a chosen marks the party and opens every cell at once; fouling an altar brings the lieutenants' word within the hour.
 

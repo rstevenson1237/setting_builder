@@ -1,4 +1,4 @@
-H Zhokvod
+H Pyramid Level 6 - The Cult's Halls
 
 Overview: The first level of the descent, laid out in the shape of level four and given over to the demon's cult and its sacrifices. A party comes down a stair that has no way back up, for the cult's keys and altars. The cult is hunting the lost king's keys and has taken captives from the lake city. Killing a cultist raises the chant and brings cultists from every cell; freeing a captive makes the cult track the party back to the stair.
 

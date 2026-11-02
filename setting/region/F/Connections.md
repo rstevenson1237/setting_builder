@@ -1,4 +1,4 @@
-# Connections of F Zamira
+# Connections of F Pyramid Level 4 - The Living Quarters
 
 ```kdl
 Connection F.1 to="F.2" type="Open"

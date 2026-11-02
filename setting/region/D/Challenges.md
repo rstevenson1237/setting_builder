@@ -1,4 +1,4 @@
-# Challenges of D Sihura
+# Challenges of D Pyramid Level 2 - The Halls of History
 
 ```kdl
 Encounter D.2 doing="pray before the founders" reaction="Wary" want="the rites kept" { Faction faction="Ruhiahe" present=2 members="two acolytes" }

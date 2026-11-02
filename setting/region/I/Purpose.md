@@ -1,4 +1,4 @@
-# Purpose of I Voxvod
+# Purpose of I Pyramid Level 7 - The Altars of Making
 
 ```kdl
 Purpose I.3 unique="the altar where the chosen are unmade" pressure="chosen are unmade faster than made" signs="I.2, I.6"

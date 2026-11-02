@@ -1,4 +1,4 @@
-# Connections of I Voxvod
+# Connections of I Pyramid Level 7 - The Altars of Making
 
 ```kdl
 Connection I.1 to="I.2" type="Open"

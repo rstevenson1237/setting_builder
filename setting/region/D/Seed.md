@@ -1,4 +1,4 @@
-# Seed of D Sihura
+# Seed of D Pyramid Level 2 - The Halls of History
 
 ```kdl
 Seed D kind="collection" comes="Halls and cells of the second level where murals, carvings and the rooms between them tell the cynidiceans' history in order. A party comes down the stair to read it and to find the way on." who="The Tomb Robbers, Kurumisa, Ruhiahe, Sihuahet, Skeleton, Giant Rat, Zombie" changing="The tomb robbers have moved into the upper halls and the three branches' scouts have begun to come up from below."

@@ -1,4 +1,4 @@
-# Dressing of H Zhokvod
+# Dressing of H Pyramid Level 6 - The Cult's Halls
 
 ```kdl
 Dressing H.1 obvious="A black landing, smoke clinging to the roof" former="a funerary stair" condition="close" ambiance="a faint chant" width=10 length=20 xyz="45,80" height=14 layout="Landing; passages north and west" mark="Voxkroth"

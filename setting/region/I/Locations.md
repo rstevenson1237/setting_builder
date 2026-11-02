@@ -1,4 +1,4 @@
-# Locations of I Voxvod
+# Locations of I Pyramid Level 7 - The Altars of Making
 
 ```kdl
 Location I.1 name="The Stair Landing" tags="smoky, narrow, quiet" type="Low"

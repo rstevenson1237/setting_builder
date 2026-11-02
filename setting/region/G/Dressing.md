@@ -1,4 +1,4 @@
-# Dressing of G Ahetra
+# Dressing of G Pyramid Level 5 - The Tombs
 
 ```kdl
 Dressing G.1 obvious="A cold landing, a long hall beyond" former="a funerary stair" condition="still" ambiance="your own breath" width=10 length=20 xyz="0,-65" height=18 shape="hall" layout="Landing opening on the long hall" left="The Last King Is Entombed"

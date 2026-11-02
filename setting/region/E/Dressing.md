@@ -1,4 +1,4 @@
-# Dressing of E Shenara
+# Dressing of E Pyramid Level 3 - The Turning Hall
 
 ```kdl
 Dressing E.1 obvious="A rune-marked door on a narrow landing" former="a guard post" condition="watched" ambiance="a bell at doors" width=10 length=20 xyz="40,5" height=16 shape="hall" layout="Landing; one stone passage leads west" mark="Kurumisa, Ruhiahe"
