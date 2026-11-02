@@ -23,16 +23,13 @@ from maps import BUILD, CACHE, UNSIZED, artgen, blocks_of, built, feet, world_fo
 
 DOOR = {"Open": None, "Archway": None, "Broken": None, "Crude": None, "Lift": None, "Chute": None, "Iron": "portcullis"}
 GAP = {"Archway": "arch"}       # a doorless way through a shared wall, else open
-DRAWN = {"rect": "rect", "cave": "cave", "round": "circle"}    # artgen's shape for a footprint's, else a poly of its outline
+DRAWN = {"rect": "rect", "cave": "cave", "round": "circle", "octagon": "octagon", "hexagon": "hexagon"}   # artgen's shape, else a poly
+CUT = 1 / (2 + math.sqrt(2))   # an octagon's corner cut, a share of its shorter side: regular when square
 APART = 10                      # feet two routes to one room may disagree by
 EDGE = 6                        # cells of map beyond the rooms, for the ways out of it
 EXIT = 4                        # cells a way out of the block runs past its room's wall
 MAX_CELLS = 150
 CELLS = (5, 10, 20)             # feet to a cell, the finest that fits the block
-STAIR_INSET = 1.2               # cells between a stair mark's centre and the wall it stands by
-STAIR_HALF = 0.8                # half a stair mark, in cells
-STAIR_TIGHT = 0.5               # cells from the wall, in a room too small for anything better
-NAME_HALF = 0.7                 # half the height of a room's code, in cells
 ROUTED_CELLS = (5, 10)          # feet to a cell, where its passages are routed
 ROUTED_WALL = 2.5               # a routed block's wall stroke, so a wall between two floors reads as one, its rock hatched
 LATTICE = 10                    # feet: a passage's width, and the grid a packed block's rooms lie on
@@ -110,6 +107,20 @@ def walls_of(region, members) -> dict[tuple[str, str], float]:
 def facing(dx: float, dy: float) -> str:
     """The wall, n, e, s or w, facing a displacement in cells, y running south."""
     return ("e" if dx > 0 else "w") if abs(dx) > abs(dy) else ("s" if dy > 0 else "n")
+
+WALLS = {"n": (0, -1), "e": (1, 0), "s": (0, 1), "w": (-1, 0)}
+ACROSS = 4                      # cells across a room that holds marks by two opposite walls apart
+
+
+def wall_for(room: dict, v: tuple[float, float]) -> str:
+    """The wall a way out of a room is marked by: the one facing it best that no other mark in the
+    room stands by, nor faces across a room too narrow to hold both apart. v runs east and south."""
+    taken = {e["side"] for e in room.get("exits", [])}
+    ranked = sorted(WALLS, key=lambda k: -(WALLS[k][0] * v[0] + WALLS[k][1] * v[1]))
+    opposite = lambda k: "nesw"["nesw".index(k) - 2]
+    across = lambda k: room["w"] if k in "ew" else room["h"]
+    return next((k for k in ranked if k not in taken and not (opposite(k) in taken and across(k) < ACROSS)), ranked[0])
+
 
 def block_map(region, block: kdl.Node) -> tuple[dict | None, list[str]]:
     """The artgen dungeon file for one block of a region, and what the tables leave it
@@ -199,7 +210,8 @@ def block_map(region, block: kdl.Node) -> tuple[dict | None, list[str]]:
         drawn = DRAWN.get(shape, "poly")
         m["rooms"].append({"id": rid(c), "shape": drawn, "x": round(cx(c) - w / 2 / cell, 2),
                            "y": round(cy(c) - h / 2 / cell, 2), "w": max(1, round(w / cell, 2)),
-                           "h": max(1, round(h / cell, 2)), "label": c, "number": False, "origin": "tables"})
+                           "h": max(1, round(h / cell, 2)), "label": c, "number": False, "origin": "tables",
+                           **({"cut": round(CUT, 4)} if drawn == "octagon" else {})})
         if drawn == "poly":
             m["rooms"][-1]["points"] = [v for x, y in space.shape_outline(shape, w, h, pts)
                                         for v in to_cell(at[c][0] + x, at[c][1] + y)]
@@ -255,7 +267,7 @@ def block_map(region, block: kdl.Node) -> tuple[dict | None, list[str]]:
             return None
         v = (far[0] - here[0], here[1] - far[1])
         return v if math.hypot(*v) >= 1 else (0.0, -1.0)
-    seen, marked = {}, {}
+    seen = {}
     for n in ways:
         a, b = str(n.args[0]), str(n.props["to"])
         if a in at and b in at:
@@ -267,31 +279,11 @@ def block_map(region, block: kdl.Node) -> tuple[dict | None, list[str]]:
             if v is None:
                 problems.append(f"{a} to {b} states no bearing and distance")
                 continue
-            ux, uy = v[0] / math.hypot(*v), v[1] / math.hypot(*v)
-            hw, hh = size[a][0] / 2 / cell, size[a][1] / 2 / cell
-            inset = lambda h: max(0.0, h - STAIR_INSET)
-            spots = [(sx_ * inset(hw), sy_ * inset(hh)) for sx_ in (-1, 0, 1) for sy_ in (-1, 0, 1) if sx_ or sy_]
-            spots.sort(key=lambda p: -(p[0] * ux + p[1] * uy) / (math.hypot(*p) or 1))     # nearest the wall it faces first
-            lw = (0.8 * len(a) + 1) / 2 + STAIR_HALF                    # clear of the room's own code
-            fits = [p for p in spots if abs(p[0]) >= lw or abs(p[1]) >= NAME_HALF + STAIR_HALF]
-            if not fits:                                        # no room beside the code: stand it nearer the wall
-                tight = [(sx_ * max(0.0, hw - STAIR_TIGHT), sy_ * max(0.0, hh - STAIR_TIGHT)) for sx_ in (-1, 0, 1)
-                         for sy_ in (-1, 0, 1) if sx_ or sy_]
-                tight.sort(key=lambda p: -(p[0] * ux + p[1] * uy) / (math.hypot(*p) or 1))
-                spots = tight
-                fits = [p for p in spots if abs(p[0]) >= lw or abs(p[1]) >= NAME_HALF + STAIR_HALF]
-            clear = lambda ps: [p for p in ps if all(math.dist(p, q) >= 2 * STAIR_HALF for q in marked.get(a, []))]
-            spot = (clear(fits) or clear(spots) or fits or spots)[0]   # clear of a mark already in the room
-            marked.setdefault(a, []).append(spot)
-            sx, sy = cx(a) + spot[0], cy(a) + spot[1]
-            climb = n.props.get("climb")
-            up = bool(climb) and int(climb) > 0
-            down = bool(climb) and int(climb) < 0
-            m["overlay"]["symbols"].append({"kind": "stairs-up" if up else "stairs-down" if down else "arrow",
-                                            "x": round(sx, 2), "y": round(sy, 2), "scale": 1.0, "origin": "tables",
-                                            "angle": round(math.degrees(math.atan2(uy, ux)) % 360)})
-            m["overlay"]["labels"].append({"text": f"{'Up to' if up else 'Down to' if down else 'To'} {b}",
-                                           "x": round(sx, 2), "y": round(sy + 2.2, 2), "kind": "note", "origin": "tables"})
+            climb = int(n.props.get("climb") or 0)
+            room = next(r for r in m["rooms"] if r["id"] == rid(a))
+            room.setdefault("exits", []).append({"kind": "stairs-up" if climb > 0 else "stairs-down" if climb < 0 else "arrow",
+                                                 "side": wall_for(room, v),
+                                                 "text": f"{'Up to' if climb > 0 else 'Down to' if climb < 0 else 'To'} {b}"})
     if routed:
         north = lambda x, y: to_cell(x + shift[0], shift[1] - y)      # feet east and north of the block's centre
         if (o := space.outline_value(block.props.get("outline"))) and o[0] == "poly":
@@ -451,8 +443,7 @@ def defects(region, block: kdl.Node, m: dict) -> list[tuple[str, str]]:
     wrong += [f"the map joins {a} and {b}, which the tables do not" for a, b in sorted(map(sorted, joined - ways))]
     leaving = sum(1 for n in region.files.get("Connections", [])
                   if n.args and str(n.args[0]) in members and str(n.props.get("to")) not in members)
-    marks = len(facts.get("exits", [])) + sum(1 for s in m.get("overlay", {}).get("symbols", [])
-                                              if s.get("kind", "").startswith("stairs") or s.get("kind") == "arrow")
+    marks = sum(len(r.get("exits") or []) for r in facts.get("rooms", []))
     if marks != leaving:
         wrong.append(f"the tables take {leaving} ways out of the block, the map marks {marks}")
     return out + [("error", w) for w in wrong]
