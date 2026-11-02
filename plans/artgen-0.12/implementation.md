@@ -18,15 +18,14 @@ it and retires the code report 2 lists. Commits cite tasks as `artgen-0.12 T1`. 
 
 ## T0 - prerequisites and baseline
 
-- **The release tag.** This session could not push it. Until someone runs
-  `git tag -a artgen-v0.12.0 98ac9cb -m "artgen 0.12.0" && git push origin artgen-v0.12.0` in image_tools (or makes a release
-  named `artgen-v0.12.0` on `main` in the GitHub UI), there is no `#artgen-dist-v0.12.0` to pin and no release notes. T1 does not
-  need it: `#artgen-dist` follows `main`.
+- **The release tag.** `artgen-v0.12.0` (`98ac9cb`) and `artgen-dist-v0.12.0` (`9ae8487`) are in image_tools, so T1 can pin
+  `#artgen-dist-v0.12.0`.
 - **The build.** `git ls-remote https://github.com/rstevenson1237/image_tools refs/heads/artgen-dist`, then
   `artgen-dist` `maps/VERSION` must read `0.12.0`. The artgen-dist workflow publishes it from the merge; if its run failed, fix
   that in image_tools first.
 - **Baseline.** `python3 tools/metrics.py > plans/artgen-0.12/metrics-before.txt`; keep the validator's output and a site build
-  (`build_site.py --out <scratch>/before`) to diff against after T1.
+  (`build_site.py --out <scratch>/before`) and block maps (`maps.py draw --out <scratch>/maps-before`) to diff against after
+  T1. Scratch does not outlive the session; a later one rebuilds them from T0's commit.
 
 ## T1 - install 0.12
 
