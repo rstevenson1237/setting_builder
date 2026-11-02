@@ -351,10 +351,9 @@ def block_map(region, block: kdl.Node) -> tuple[dict | None, list[str]]:
             traps += [("corridor", len(m["corridors"]) - 1)] if hazard else []
         if traps:                                        # a trap at the middle of its way, as artgen draws it
             f = engine("facts", m)
-            doors = {d["connection"]: d["at"] for d in f.get("doors", []) if d.get("connection") is not None}
             for kind, i in traps:
-                if kind == "connection":
-                    x, y = doors.get(i, (0, 0))
+                if kind == "connection":                 # in the opening through the shared wall
+                    x, y = m["connections"][i]["at"]
                 else:
                     path = f["corridors"][i]["path"]
                     pts = list(zip(path[::2], path[1::2]))
