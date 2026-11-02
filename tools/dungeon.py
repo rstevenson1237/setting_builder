@@ -2,8 +2,8 @@
 
 block_map    the artgen dungeon file for a block, from its Dressing, Connections and Blocks
 plan_of      a packed block's routes, from the positions its Dressing states
-pack_region  `python3 tools/maps.py pack`: a region's blocks packed and routed (tools/pack.py,
-             tools/route.py), and the positions written to its tables
+pack_region  `python3 tools/maps.py pack`: a region's blocks laid out by `artgen dungeon layout`,
+             and the positions written to its tables
 problems     what is wrong with a block, for the validator
 """
 from __future__ import annotations
@@ -18,7 +18,6 @@ from pathlib import Path
 
 import kdl
 import mapcheck
-import pack as packing
 import route
 import space
 import tables
@@ -505,18 +504,105 @@ def unbear_stairs(code: str) -> list[str]:
     return out
 
 
+CELL = 5                        # feet to a cell in a layout graph
+MARGIN = 2                      # cells artgen's layout leaves round the footprint
+
+
+def held_of(region, members: list[str], dress: dict) -> dict[str, tuple[float, float]]:
+    """Each placed room of a block with a way out of it that states a bearing and distance, at its
+    place: the place beyond was set from it, so it keeps that place."""
+    return {c: at for n in region.files.get("Connections", [])
+            if n.args and (c := str(n.args[0])) in members and str(n.props.get("to")) not in members
+            and "bearing" in n.props and "distance" in n.props and (at := space.centre(dress.get(c)))}
+
+
+def graph_of(region, block: kdl.Node, rates: dict, seed: int, tries: int, far: set) -> dict | str:
+    """A block's layout graph for `artgen dungeon layout`, in 5-foot cells: its rooms, each way
+    with the bearing it keeps - out past the wall it names, else as its rooms lie unless that
+    way detours, else as its Connection says - and its ground; or why it cannot be packed. A room
+    held (`held_of`) stands over its own place, and one a stair comes down into over that room."""
+    members = sorted((m.strip() for m in str(block.props["locations"]).split(",")), key=route.number)
+    dress = {str(n.args[0]): n for n in region.files.get("Dressing", []) if n.args}
+    compass = space.compass()
+    o = space.outline_value(block.props.get("outline"))
+    poly = o[1] if o and o[0] == "poly" else None
+    side = None if poly else rates["footprint"]
+    held = held_of(region, members, dress)
+    pins = {c: over for c in members if (over := space.settled().pin(c))}
+    pins |= {c: (x, y, float(dress[c].props["width"]), float(dress[c].props["length"])) for c, (x, y) in held.items()}
+    rocks = [(space.point_of(r.props.get("xyz")) or [0.0, 0.0], s) for r in rocks_of(region, str(block.args[0]))
+             if (s := space.outline_value(r.props.get("outline"))) is not None]
+    if side is None and not poly and (pins or rocks):
+        return "BRIEF.md states no pack footprint, and a stair or Rock needs the square's frame"
+    glue, why = glued(region, members, dress)
+    if why:
+        return "\n".join(why)
+    ox, oy = (min(x for x, _ in poly), min(-y for _, y in poly)) if poly else (-(side or 0) / 2,) * 2
+    frame = lambda x, y: [round((x - ox) / CELL, 3), round((-y - oy) / CELL, 3)]     # feet east, north -> cells
+    rooms = []
+    for c in members:
+        d = dress.get(c)
+        if d is None or "width" not in d.props or "length" not in d.props:
+            return f"{c} states no width and length"
+        fp = footprint(d)
+        r = {"id": c, "w": int(d.props["width"]) / CELL, "h": int(d.props["length"]) / CELL, "shape": fp.shape,
+             "hall": str(d.props.get("shape")) == "hall", "turns": turns(region, c, dress)}
+        if fp.points:
+            r["points"] = [v / CELL for p in fp.points for v in p]
+        if c in glue:
+            r["against"] = {"room": glue[c][0], "dx": glue[c][1] / CELL, "dy": glue[c][2] / CELL}
+        if c in pins:
+            e, n, w, h = pins[c]
+            x, y = frame(e - w / 2, n + h / 2)
+            r["over"] = {"x": x, "y": y, "w": w / CELL, "h": h / CELL}
+        rooms.append(r)
+    placed = {c: at for c in members if (at := space.centre(dress[c]))}
+    walls, ways, seen = walls_of(region, members), [], set()
+    for n in region.files.get("Connections", []):
+        a, b = str(n.args[0]), str(n.props.get("to"))
+        if a not in members or b not in members:
+            continue
+        if frozenset((a, b)) in seen:                    # the second of a pair says only its own wall
+            if (a, b) in walls:
+                ways.append({"a": a, "b": b, "wall": walls[a, b]})
+            continue
+        seen.add(frozenset((a, b)))
+        if (a, b) in walls or (b, a) in walls:           # the far room lies out past the wall it names
+            bearing = walls[a, b] if (a, b) in walls else (walls[b, a] + 180) % 360
+        elif a in placed and b in placed and not {(a, b), (b, a)} & far:   # a detour's line is no guide
+            bearing = math.degrees(math.atan2(placed[b][0] - placed[a][0], placed[b][1] - placed[a][1])) % 360
+        else:
+            bearing = compass.index(str(n.props["bearing"])) * 22.5 if "bearing" in n.props else None
+        ways.append({"a": a, "b": b, **({"bearing": bearing} if bearing is not None else {}),
+                     **({"wall": walls[a, b]} if (a, b) in walls else {})})
+    g = {"id": f"{region.code}-{str(block.args[0]).split('.')[-1]}", "rooms": rooms, "ways": ways,
+         "width": route.LATTICE / CELL, "scale": {"perCell": CELL, "unit": "ft"}, "fill": list(rates["fill"]),
+         "passages": rates["passages"], "seed": seed, "tries": tries, "margin": MARGIN}
+    if rates["detour"] is not None:
+        g["detour"] = rates["detour"] / CELL
+    if poly:
+        g["footprint"] = [v for x, y in poly for v in frame(x, y)]
+    elif side:
+        g["footprint"] = side / CELL
+    if rocks:
+        g["keepOut"] = [[v for x, y in space.polygon(s, at[0], at[1]) for v in frame(x, y)] for at, s in rocks]
+    return g
+
+
 def pack_region(code: str, seed: int = 1, again: bool = False, tries: int = 12) -> int:
-    """Packs each block of a DANGEROUS region into a square and routes its passages (tools/pack.py,
-    tools/route.py), keeping each way's direction as its rooms lie, or else as its bearing says.
-    Writes each room's `xyz` from the block's centre to Dressing.md and the block's
-    `outline` and `router` to Blocks.md, and takes `bearing` and `distance` off each way within
-    the block, which the rooms' positions now place. A block whose rooms are placed and whose
-    ways all route within BRIEF.md's detour is left where it lies, its router stamped, unless
-    `again`. Of `tries` packings, the one whose ways walk least is kept. A room that turns
-    (`turns`) is written as it now lies: its width and length, and its outline. A room placed
-    against another keeps its line and is carried with it. A stair whose two rooms are now
-    placed loses its bearing and distance. The region is settled before (over
-    the block a stair reaches) and after (where a way with a bearing puts it): tools/space.py."""
+    """Packs each block of a DANGEROUS region with `artgen dungeon layout`: its rooms close in its
+    footprint, each way a door through a shared wall or a passage within BRIEF.md's detour,
+    keeping each way's direction as its rooms lie, or else as its bearing says. Writes each
+    room's `xyz` from the block's centre to Dressing.md and the block's `outline` and `router` to
+    Blocks.md, and takes `bearing` and `distance` off each way within the block, which the rooms'
+    positions now place. A block whose rooms are placed and whose ways all route within BRIEF.md's
+    detour is left where it lies, its router stamped, unless `again`. Of `tries` packings, the one
+    whose ways walk least is kept. A room that turns (`turns`) is written as it now lies: its
+    width and length, and its outline. A room placed against another keeps its line and is
+    carried with it. A room with a way out of the block that states a bearing and distance keeps
+    its place. A stair whose two rooms are now placed loses its bearing and distance. The
+    region is settled before (over the block a stair reaches) and after (where a way with a
+    bearing puts it): tools/space.py."""
     for line in space.settle(code):
         print(f"settled {line}")
     world = world_for(tables.SETTING)
@@ -528,69 +614,68 @@ def pack_region(code: str, seed: int = 1, again: bool = False, tries: int = 12) 
     if rates["fill"] is None or rates["passages"] is None:
         print(f"BRIEF.md states no pack fill and passages for {code}")
         return 1
-    dress = {str(n.args[0]): n for n in region.files.get("Dressing", []) if n.args}
-    compass = list(world.schema.setting_enums["Compass"])
     files = {k: (region.dir / f"{k}.md") for k in ("Dressing", "Blocks", "Connections")}
     text = {k: f.read_text().split("\n") for k, f in files.items()}
     failed = False
     for bid, block in blocks_of(region).items():
-        members = sorted((m.strip() for m in str(block.props["locations"]).split(",")), key=route.number)
-        rooms = []
-        for c in members:
-            d = dress.get(c)
-            if d is None or "width" not in d.props or "length" not in d.props:
-                print(f"{c} states no width and length")
-                return 1
-            fp = footprint(d)
-            rooms.append(packing.Room(c, int(d.props["width"]), int(d.props["length"]), fp.shape, fp.points,
-                                      str(d.props.get("shape")) == "hall", turns(region, c, dress)))
-        placed = {c: at for c in members if (at := space.centre(dress[c]))}
+        members = [m.strip() for m in str(block.props["locations"]).split(",")]
         found = plan_of(region, block)
         poly = (o := space.outline_value(block.props.get("outline"))) is not None and o[0] == "poly"   # the design's own ground
         sized = poly or rates["footprint"] is None or side_of(block) == rates["footprint"]
         far = {(r.a, r.b) for r, _ in route.detours(found[0], found[1], rates["detour"])} if found else set()
+        side = None
         if found and not found[2] and sized and not far and not again:
             print(f"{bid}: packed, and every way routes within its detour; left where it lies (--again repacks it)")
-            side = None
         else:
-            ways, walls = [], walls_of(region, members)
-            for n in region.files.get("Connections", []):
-                a, b = str(n.args[0]), str(n.props["to"])
-                if a not in members or b not in members or (b, a) in [w[:2] for w in ways]:
-                    continue
-                if (a, b) in walls or (b, a) in walls:      # the far room lies out past the wall it names
-                    bearing = walls[a, b] if (a, b) in walls else (walls[b, a] + 180) % 360
-                elif a in placed and b in placed and (a, b) not in far and (b, a) not in far:   # a detour's line is no guide
-                    bearing = math.degrees(math.atan2(placed[b][0] - placed[a][0], placed[b][1] - placed[a][1])) % 360
-                else:
-                    bearing = compass.index(str(n.props["bearing"])) * 22.5 if "bearing" in n.props else None
-                ways.append((a, b, bearing))
-            pins = {c: over for c in members if (over := space.settled().pin(c))}
-            glue, why = glued(region, members, dress)
-            if why:
-                print("\n".join(why))
+            g = graph_of(region, block, rates, seed, tries, far)
+            if isinstance(g, str):
+                print(g)
                 return 1
-            side, p, routes, energy = packing.pack(rooms, ways, seed, rates["fill"], rates["passages"],
-                                                   frame_of(block) if poly else int(rates["footprint"]) if rates["footprint"] else None,
-                                                   pins, tries=tries, glue=glue, walls=walls, detour=rates["detour"],
-                                                   ground=lambda s: ground(region, block, (s / 2, s / 2), s))
-            if routes is None:
-                print(f"{bid}: no packing of {len(members)} rooms left room for every passage; try another --seed")
+            with tempfile.TemporaryDirectory() as tmp:
+                (Path(tmp) / "graph.json").write_text(json.dumps(g))
+                done = artgen("dungeon", "layout", "--file", Path(tmp) / "level.json", "--graph", Path(tmp) / "graph.json",
+                              "--seed", seed, "--json", "--force")
+            if done.returncode:
+                print(f"{bid}: {done.stderr.strip() or done.stdout.strip()}")
                 failed = True
                 continue
-            print(f"{bid}: {len(members)} rooms in a square {side} feet across, room "
-                  f"{sum(r.w * r.h for r in rooms) / side ** 2:.0%} of it; {sum(r.kind == 'path' for r in routes)} passages, "
-                  f"{sum(r.kind == 'wall' for r in routes)} shared walls, {sum(len(r.cells) for r in routes) * route.LATTICE} feet of corridor")
-            at = {c: (p.x[i] - side / 2, side / 2 - p.y[i]) for i, c in enumerate(members)}
-            lies = {c: p.lies[i][p.o[i]][:3] for i, c in enumerate(members) if p.o[i]}
+            out = json.loads(done.stdout)
+            report, laid = out["report"], {r["label"]: r for r in out["dungeon"]["rooms"]}
+            side = report["side"] * CELL
+            ox, oy = (min(x for x, _ in o[1]), min(-y for _, y in o[1])) if poly else (-side / 2,) * 2
+            at = {c: ((r["x"] + r["w"] / 2 - MARGIN) * CELL + ox, -((r["y"] + r["h"] / 2 - MARGIN) * CELL + oy))
+                  for c, r in laid.items()}
+            dress = {str(n.args[0]): n for n in region.files.get("Dressing", []) if n.args}
+            moved = [c for c, xy in held_of(region, members, dress).items() if math.dist(xy, at[c]) > 0.5]
+            if report["left"] or moved:
+                print(f"{bid}: " + "; ".join([f"no passage fits the way from {w}" for w in report["left"]] +
+                                             [f"{c} left the place its way out of the block holds" for c in moved])
+                      + "; try another --seed")
+                failed = True
+                continue
+            print(f"{bid}: {len(members)} rooms in {'its outline' if poly else f'a square {side:g} feet across'}, room "
+                  f"{report['fill']:.0%} of it; {report['passages']} passages, {report['walls']} shared walls, "
+                  f"{report['corridorCells'] * route.LATTICE} feet of corridor")
+            lies = {}                                     # a turned room, as it now lies
+            for c, r in laid.items():
+                w, h = round(r["w"] * CELL), round(r["h"] * CELL)
+                pts = [((x - r["x"] - r["w"] / 2) * CELL, (r["y"] + r["h"] / 2 - y) * CELL)
+                       for x, y in zip(r["points"][::2], r["points"][1::2])] if "points" in r else None
+                was = space.outline_value(dress[c].props.get("outline"))
+                if (w, h) != (int(dress[c].props["width"]), int(dress[c].props["length"])) or pts and (was is None or \
+                        [tuple(round(v, 3) for v in q) for q in was[1]] != [tuple(round(v, 3) for v in q) for q in pts]):
+                    lies[c] = (w, h, pts)
+            for d in report["detours"]:
+                print(f"{bid}: the way from {d['a']} to {d['b']} walks {d['extra'] * CELL:.0f} feet out of its way, past "
+                      f"BRIEF.md's pack detour of {rates['detour']:g}; try another --seed")
             if lies:
                 print(f"{bid}: turned {', '.join(lies)}")
             for i, line in enumerate(text["Dressing"]):
-                if (m := re.match(r"Dressing (\S+) ", line)) and m[1] in lies:   # as it now lies
+                if (m := re.match(r"Dressing (\S+) ", line)) and m[1] in lies:
                     w, h, pts = lies[m[1]]
                     line = with_prop(with_prop(line, "width", str(w)), "length", str(h))
                     if pts:
-                        line = with_prop(line, "outline", '"poly ' + " ".join(f"{x + 0:g},{0 - y:g}" for x, y in pts) + '"')
+                        line = with_prop(line, "outline", '"poly ' + " ".join(f"{x + 0:g},{y + 0:g}" for x, y in pts) + '"')
                     text["Dressing"][i] = line
                 if (m := re.match(r"Dressing (\S+) ", line)) and m[1] in at and "against=" not in line:   # an anchor holds its own
                     text["Dressing"][i] = with_prop(text["Dressing"][i], "xyz", f'"{round(at[m[1]][0])},{round(at[m[1]][1])}"', after="length")
@@ -599,7 +684,7 @@ def pack_region(code: str, seed: int = 1, again: bool = False, tries: int = 12) 
                     text["Connections"][i] = without(without(line, "bearing"), "distance")
         for i, line in enumerate(text["Blocks"]):
             if line.startswith(f"Block {bid} "):
-                line = with_prop(line, "outline", f'"rect {side} {side}"') if side and not poly else line
+                line = with_prop(line, "outline", f'"rect {side:g} {side:g}"') if side and not poly else line
                 text["Blocks"][i] = with_prop(line, "router", str(route.VERSION), after="outline")
     if failed:
         return 1

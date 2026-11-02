@@ -23,13 +23,14 @@ ground   Reads each placed region's ground back from its home sheet and writes i
          area, and, once its Locations.md exists, the ground at each location. Run again
          after the locations are written. A location with no bearing and distance, or xyz, from
          the way in is listed and left out.
-pack     Packs each block of a DANGEROUS region into a square (tools/pack.py) and routes a passage
-         for every way (tools/route.py), keeping each way's direction as its rooms lie, or else as its
+pack     Lays each block of a DANGEROUS region out in its footprint (`artgen dungeon layout`), a door
+         or a passage for every way, keeping each way's direction as its rooms lie, or else as its
          bearing says. Writes each room's `xyz` from the block's centre, the block's `outline` and
          `router`, and takes the bearing and distance off each way within the block. A room placed
-         `against` another is carried with it. The region is settled before packing, over the
-         block a stair reaches, and after, where a way with a bearing puts it; a stair whose two
-         rooms are then placed loses its bearing and distance. A block already packed whose ways
+         `against` another is carried with it, and one whose way out states a bearing and distance
+         keeps its place. The region is settled before packing, over the block a stair reaches,
+         and after, where a way with a bearing puts it; a stair whose two rooms are then placed
+         loses its bearing and distance. A block already packed whose ways
          all route is left as it lies; --again repacks it. A seed fixes the result.
 draw     Builds each block's map, `setting/region/[Code]/[Block].json`, never committed, from its tables - a
          DANGEROUS block's a dungeon, a SAFE block's a settlement walled round its locations

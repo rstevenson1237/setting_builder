@@ -74,6 +74,9 @@ detour, `check` clean, 1.4 to 9.6 s a block. That is image_tools' fixture `setti
 - Blocks' `router` (Dangerous_Schema line 129) records the `tools/route.py` version. Either record the mapgen version that packed
   the block (`artgen-maps.js --version`) or drop the field. **The user's call.**
 - **Retire** `tools/route.py`.
+- **Repack.** T2's `pack` is not yet run on the tables: `route.py` cannot route what the engine lays with clearance 0 (G.2-G.13,
+  H.3-H.10 at seed 1). Once the map and the validator read the engine's passages, run `maps.py pack R --again` for C to L in
+  order, so each stair's `over` follows the level above. H at seed 1 leaves two ways 2 feet past their detour; try seeds.
 
 ## T4 - `mapcheck.py` retired
 

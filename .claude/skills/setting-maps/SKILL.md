@@ -1,6 +1,6 @@
 ---
 name: setting-maps
-description: How this framework draws its maps with artgen - the sheets, each region's ground, a DANGEROUS block as a dungeon and a SAFE or WILD block as a settlement - all built from the tables by tools/maps.py. Use when a step places regions, writes Ground.md, packs a block or draws maps; when a map looks wrong or the validator reports one; when changing tools/maps.py, dungeon.py, pack.py, route.py or mapcheck.py; when something artgen draws should be reported upstream; or when upgrading artgen.
+description: How this framework draws its maps with artgen - the sheets, each region's ground, a DANGEROUS block as a dungeon and a SAFE or WILD block as a settlement - all built from the tables by tools/maps.py. Use when a step places regions, writes Ground.md, packs a block or draws maps; when a map looks wrong or the validator reports one; when changing tools/maps.py, dungeon.py, route.py or mapcheck.py; when something artgen draws should be reported upstream; or when upgrading artgen.
 ---
 
 # Maps
