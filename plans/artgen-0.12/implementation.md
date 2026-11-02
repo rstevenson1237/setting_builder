@@ -18,15 +18,14 @@ it and retires the code report 2 lists. Commits cite tasks as `artgen-0.12 T1`. 
 
 ## T0 - prerequisites and baseline
 
-- **The release tag.** This session could not push it. Until someone runs
-  `git tag -a artgen-v0.12.0 98ac9cb -m "artgen 0.12.0" && git push origin artgen-v0.12.0` in image_tools (or makes a release
-  named `artgen-v0.12.0` on `main` in the GitHub UI), there is no `#artgen-dist-v0.12.0` to pin and no release notes. T1 does not
-  need it: `#artgen-dist` follows `main`.
+- **The release tag.** `artgen-v0.12.0` (`98ac9cb`) and `artgen-dist-v0.12.0` (`9ae8487`) are in image_tools, so T1 can pin
+  `#artgen-dist-v0.12.0`.
 - **The build.** `git ls-remote https://github.com/rstevenson1237/image_tools refs/heads/artgen-dist`, then
   `artgen-dist` `maps/VERSION` must read `0.12.0`. The artgen-dist workflow publishes it from the merge; if its run failed, fix
   that in image_tools first.
 - **Baseline.** `python3 tools/metrics.py > plans/artgen-0.12/metrics-before.txt`; keep the validator's output and a site build
-  (`build_site.py --out <scratch>/before`) to diff against after T1.
+  (`build_site.py --out <scratch>/before`) and block maps (`maps.py draw --out <scratch>/maps-before`) to diff against after
+  T1. Scratch does not outlive the session; a later one rebuilds them from T0's commit.
 
 ## T1 - install 0.12
 
@@ -72,8 +71,7 @@ detour, `check` clean, 1.4 to 9.6 s a block. That is image_tools' fixture `setti
   routes them, so the map draws the passages `pack` measured.
 - `walks()` (each way's wall and walk, for Ground and the dry fire) reads `dungeon facts`: each corridor's `path` and its doors.
   `route.detours` becomes the validator's own sum over `path`.
-- Blocks' `router` (Dangerous_Schema line 129) records the `tools/route.py` version. Either record the mapgen version that packed
-  the block (`artgen-maps.js --version`) or drop the field. **The user's call.**
+- Blocks' `router` is dropped: a stale packing shows as a way the map no longer routes.
 - **Retire** `tools/route.py`.
 
 ## T4 - `mapcheck.py` retired
@@ -102,8 +100,7 @@ plus two comparisons against the tables:
   from that wall, turns it toward the wall, puts the note beside it, and moves the room's label clear.
 - **Shapes.** `DRAWN` maps `octagon` to `octagon` with `cut: 0.2929` (`1/(2+√2)`, regular, as `route.py` drew it) and `hexagon` to
   `hexagon`. Only `poly` outlines stay polygons.
-- **Ground.** A block's own poly outline becomes `bounds`. Each Rock becomes `areas: [{points, kind: rock, label: <what>}]` in
-  place of an overlay note. Consider `style.rock: solid` (report A9: the reference maps use solid ground); **the user's call**.
+- **Ground.** T3 writes a poly outline as `bounds` and each Rock as a rock `areas` entry. Consider `style.rock: solid` (report A9: the reference maps use solid ground); **the user's call**.
   `style.partition` can replace `wall: 2.5` if only the walls between floors need the weight.
 
 ## T6 - docs, skill, metrics
@@ -115,9 +112,8 @@ plus two comparisons against the tables:
 
 ## Open decisions for the user
 
-1. Blocks' `router` field: record the mapgen version, or drop it (T3).
-2. Solid rock or hatching for packed levels (T5).
-3. With the engine reaching about 55% fill at the smallest square BRIEF.md's `fill` allows, whether to lower BRIEF.md's pack footprints.
+1. Solid rock or hatching for packed levels (T5).
+2. With the engine reaching about 55% fill at the smallest square BRIEF.md's `fill` allows, whether to lower BRIEF.md's pack footprints.
    That is a design change to the setting, not part of this move.
 
 ## Risks

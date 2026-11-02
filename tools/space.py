@@ -36,7 +36,6 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import kdl                      # noqa: E402
 import maps                     # noqa: E402
-import route                    # noqa: E402
 import site_common as sc        # noqa: E402
 import tables                   # noqa: E402
 
@@ -254,6 +253,25 @@ def outline_value(v) -> tuple | None:
     return (kind, *(float(x) for x in rest))
 
 
+
+def shape_outline(shape: str, w: float, h: float, points=None) -> list[tuple[float, float]]:
+    """A room's outline in feet east and south of its box's centre, clockwise on the page as
+    artgen draws a wall. A round room is its box's ellipse in 64 sides; an octagon cuts its box's
+    corners so a square one is regular; a hexagon has flat north and south walls and points east
+    and west; a poly is its own points."""
+    a, b = w / 2, h / 2
+    if shape == "round":
+        return [(a * math.cos(math.pi * i / 32), b * math.sin(math.pi * i / 32)) for i in range(64)]
+    if shape == "octagon":
+        c = min(w, h) / (2 + math.sqrt(2))
+        return [(-a + c, -b), (a - c, -b), (a, -b + c), (a, b - c), (a - c, b), (-a + c, b), (-a, b - c), (-a, -b + c)]
+    if shape == "hexagon":
+        return [(-a / 2, -b), (a / 2, -b), (a, 0.0), (a / 2, b), (-a / 2, b), (-a, 0.0)]
+    if shape == "poly" and points:
+        p = [(float(x), float(y)) for x, y in points]
+        return p if sum(x0 * y1 - x1 * y0 for (x0, y0), (x1, y1) in zip(p, p[1:] + p[:1])) > 0 else p[::-1]
+    return [(-a, -b), (a, -b), (a, b), (-a, b)]
+
 def outline_of(dress: kdl.Node | None) -> tuple | None:
     """A location's outline: its own, else its shape's in its width and length."""
     p = dress.props if dress is not None else {}
@@ -264,7 +282,7 @@ def outline_of(dress: kdl.Node | None) -> tuple | None:
     w, l = float(p["width"]), float(p["length"])
     shape = str(p.get("shape"))
     if shape in ("octagon", "hexagon"):
-        return "poly", [(x, -y) for x, y in route.outline_of(shape, w, l)]
+        return "poly", [(x, -y) for x, y in shape_outline(shape, w, l)]
     return ("circle", w / 2) if shape == "round" else ("rect", w, l)
 
 
