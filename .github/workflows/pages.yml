@@ -20,7 +20,7 @@ on:
       - "tools/schema_graph.py"
       - "tools/maps.py"
       - "tools/dungeon.py"
-      - "tools/route.py"
+      - "tools/space.py"
       - "tools/artgen/**"
       - "tools/site_assets/**"
       - "tools/requirements-pdf.txt"

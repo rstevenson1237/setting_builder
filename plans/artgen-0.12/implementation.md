@@ -112,7 +112,7 @@ plus two comparisons against the tables:
 
 ## Open decisions for the user
 
-1. Solid rock or hatching for packed levels (T5).
+1. Solid rock or hatching for packed levels (T5): hatching, the user's call.
 2. With the engine reaching about 55% fill at the smallest square BRIEF.md's `fill` allows, whether to lower BRIEF.md's pack footprints.
    That is a design change to the setting, not part of this move.
 

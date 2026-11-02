@@ -813,7 +813,7 @@ def write_blocks(world, only: str | None = None) -> list[str]:
             for e in json.loads(done.stdout).get("errors", []) if done.stdout.startswith("{") else []:
                 out.append(f"{bid}: {e['path']}: {e['message']}")
             if engine == "dungeon":
-                out += [f"{bid}: {d}" for d in dungeon.defects(region, block, json.loads(target.read_text())) if not d.startswith("label:")]
+                out += [f"{bid}: {d}" for level, d in dungeon.defects(region, block, json.loads(target.read_text())) if level == "error"]
                 with tempfile.TemporaryDirectory() as tmp:
                     shown = artgen("dungeon", "render", "--file", target, "--format", "svg", "--fit", SITE_FIT, "--json", "--out", tmp)
                     for left in json.loads(shown.stdout).get("unplaced", []) if shown.stdout.startswith("{") else []:

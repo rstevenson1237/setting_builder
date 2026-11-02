@@ -1,6 +1,6 @@
 ---
 name: setting-maps
-description: How this framework draws its maps with artgen - the sheets, each region's ground, a DANGEROUS block as a dungeon and a SAFE or WILD block as a settlement - all built from the tables by tools/maps.py. Use when a step places regions, writes Ground.md, packs a block or draws maps; when a map looks wrong or the validator reports one; when changing tools/maps.py, dungeon.py or mapcheck.py; when something artgen draws should be reported upstream; or when upgrading artgen.
+description: How this framework draws its maps with artgen - the sheets, each region's ground, a DANGEROUS block as a dungeon and a SAFE or WILD block as a settlement - all built from the tables by tools/maps.py. Use when a step places regions, writes Ground.md, packs a block or draws maps; when a map looks wrong or the validator reports one; when changing tools/maps.py or dungeon.py; when something artgen draws should be reported upstream; or when upgrading artgen.
 ---
 
 # Maps
@@ -31,21 +31,28 @@ step that fixes them.
   `schema <kind> --keys` for how each key behaves. What the framework writes, and why:
   `plans/sheet-maps/artgen-capabilities.md`. The skills' project steps (`new <id>`, `brief`,
   `version`, `review`, `approve`, `ui`) need `art/` and do not apply here.
+- `pack` lays a block out with `dungeon layout --graph`; its `report` (`left`, `detours`) is what
+  the validator holds to BRIEF.md's detour.
+- The validator reads a block's file back with `dungeon check --errors <ids>` (the ids are
+  `dungeon.FAULTS`; `schema dungeon --checks` lists them all) and `dungeon facts` (each passage's
+  `path`, its doors, `unreached`, each room's `exits`), held to the tables' ways.
 - To read a map without drawing it: `dungeon facts`, `map facts --at x,y`, `check`, each with
   `--json`. To look at one: `render --file F --format png --out <scratch dir>`, then view the PNG.
 
 ## When artgen is wrong
 
-Gaps already reported are in `plans/dungeon-maps/report-artgen.md`. For a new one, write a
-feedback bundle outside `setting/`:
+Gaps already reported are image_tools' issues labelled `artgen-feedback`. For a new one:
 
 ```sh
-node tools/artgen/artgen-maps.js report --file setting/region/G/G.a.json --note "what is wrong" --out <scratch dir>
+node tools/artgen/artgen-maps.js report --file setting/region/G/G.a.json --note "what is wrong" --made-by "python3 tools/maps.py draw"
 ```
 
-It holds the file, the render, the versions, `case.md` and `ISSUE.md`, and sends nothing. Show
-the user; only when they agree, run it again with `--issue`, which opens the issue on the artgen
-repo or prints a link to. That repo turns it into a consumer fixture each release is tested on.
+It writes `artgen-feedback/<date>-<id>/` (ignored by git): the file, the render, the versions,
+`case.md` and `ISSUE.md`, and sends nothing. Show the user; only when they agree, run it again
+with `--issue`, which opens the issue on the artgen repo with `GH_TOKEN` or `GITHUB_TOKEN`, or
+prints a link without one. A cloud session's token is not one GitHub's API takes (it answers 401):
+there, give the user the link, with `ISSUE.md`'s body to paste where it is too long for one. That repo
+turns each report into a consumer fixture each release is tested on.
 
 ## Upgrading artgen
 
