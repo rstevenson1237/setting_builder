@@ -14,4 +14,11 @@ Location F.10 name="The Robbers' Deep Camp" tags="lit, crowded, barricaded" type
 Location F.11 name="The Captain's Cell" tags="cold, barred, small" type="Medium"
 Location F.12 name="The Guard Room" tags="bare, benched, barred" type="Medium"
 Location F.13 name="The Stair Gallery" tags="long, draughty, steep" type="Low"
+Location F.14 name="The Steam Baths" tags="sunken, scaled, hissing" type="Medium"
+Location F.15 name="The Nursery" tags="small, painted, still" type="Low"
+Location F.16 name="The Laundry" tags="dusty, white, stinging" type="Medium"
+Location F.17 name="The Hall of Chimes" tags="hung, humming, close" type="Medium"
+Location F.18 name="The Children's Way" tags="winding, low, cracked" type="Low"
+Location F.19 name="The Hyena Den" tags="reeking, gnawed, loud" type="High"
+Location F.20 name="The Wine Cellar" tags="cool, racked, sour" type="Medium"
 ```

@@ -11,4 +11,7 @@ Reward G.9 container="the false sarcophagus" contents="Keys: The King's Seal"
 Reward G.10 container="the largest chest" contents="Treasure V"
 Reward G.12 container="the wells' bottoms" contents="Treasure III"
 Reward G.17 container="a skull, bone heap" contents="Keys: The Queen's Ring"
+Reward G.20 container="a toll chest" contents="Treasure III"
+Reward G.22 container="a gilded censer" contents="Magic"
+Reward G.25 container="a false-bottomed jar" contents="Treasure I"
 ```

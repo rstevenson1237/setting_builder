@@ -1,6 +1,6 @@
 C Pyramid Level 1 - The Trapped Rooms
 
-Overview: A single trapped room at the foot of the pyramid's tip, its floor tiled in coloured squares, its walls carved with the cynidiceans' story. A party comes in out of the sand to shelter and stays to find a way down. Giant centipedes (C.2), a gargoyle and skeletons (C.4) hold it. Moving the plinth (C.4) opens a stair and shifts the trapped floor; reading the panels in order (C.3) swings a hidden stair open.
+Overview: A tight complex of small trapped rooms round a hall tiled in coloured squares, at the foot of the pyramid's tip, its walls carved with the cynidiceans' story. A party comes in out of the sand to shelter and stays to find a way down. Giant centipedes (C.2), a gargoyle and skeletons (C.4) hold it. Touching the plinth brings the skeletons off the wall and the gargoyle off its perch; opening a way down wrongly fires its trap and sets the hall's tiles clicking for a turn.
 
 Approach: The tip's door (C.1) stands below the statues of A.1: a gargoyle crouches over the lintel and a trapped tile lies on the threshold. Passing the threshold sets off its tiles. Those outside have only the storm.
 
@@ -10,11 +10,13 @@ Entrances:
 - C.1 - A half-open bronze door on a tiled sill, sunlight along the floor; blue tiles sit lower than red.
 
 Prizes:
-- C.4 - A round room with a carved plinth guarded by a gargoyle and skeletons; a bronze disc inside (Keys: The Sun-Disc Key) and a stair beneath.
+- C.4 - A round room with a carved plinth guarded by a gargoyle and skeletons; a bronze disc inside (Keys: The Sun-Disc Key) and a gassed stair beneath to D.10.
 
 Places:
-- C.2 - A floor of red, blue and white tiles; a faint click underfoot, centipedes in the gaps.
-- C.3 - Twelve carved panels with numerals; a rolled hide in a niche (Lore: The Story of the Panels).
+- C.2 - A floor of red, blue and white tiles, centipedes in the gaps; twelve numbered tiles fold into a spiked stair to D.1.
+- C.3 - Twelve carved panels with numerals and a rolled hide in a niche (Lore: The Story of the Panels); a hidden stair with a swinging block to D.8.
+- C.5 - A bare cell, sand in the corners, slots in the roof and a bronze plug in the floor.
+- C.6 - A low niche of clay bowls on a pinholed ledge (Treasure I, d20).
 
 Tables:
 d6 Danger
@@ -23,4 +25,4 @@ d6 Danger
 3. A skeleton's armour ringing against stone.
 4. A centipede slides out from between tiles.
 5. The gargoyle shifts on its perch.
-6. The plinth grinds and the floor tilts.
+6. The plinth grinds and the tiles of the hall shift.

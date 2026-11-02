@@ -20,6 +20,11 @@ Places:
 - I.6 - Bones stacked to the roof; a crate of grave goods.
 - I.7 - Masks, robes and paints; a gas trap on the paint shelf and a worn mask (Keys: The Chosen's Mask).
 - I.8 - A channel of slow red water; ghouls wade it and a bottle holds a priest's notes (Lore: The Making of the Chosen).
+- I.10 - Stone tubs of black water, frost on the rims; warm jugs by the door.
+- I.11 - A bare room, its floor scored at the walls, a black hand by the iron door.
+- I.12 - A railed pit of warm ash, a rake on the rail (Treasure II, d20).
+- I.13 - Four black-curtained cells; three to five priests and a coffer (Treasure III, d20).
+- I.14 - A narrow black passage with pocked walls; its middle flag sits proud.
 
 Tables:
 d6 Danger

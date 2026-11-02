@@ -12,6 +12,7 @@ Prizes:
 - F.7 - A hall hung with web; giant spiders in the web and a bundle of a dead delver's gear (Treasure II, d20).
 - F.9 - A crypt of heaped bones; ghouls feed on the dead and a hoard lies beneath the dais (Hoard: The Ghoul's Hoard).
 - F.10 - Lamps and barricades; eight delvers and a strongbox (Treasure IV, d20).
+- F.19 - A reeking heap of bones in an old guard room; hyenas from the sand and their torn packs (Treasure II, d20).
 
 Places:
 - F.1 - A dusty landing; two soldiers of Kurumisa at the head of the stair.
@@ -24,6 +25,12 @@ Places:
 - F.11 - A barred cell, bars cut through; zombies in soldiers' scale and a note (Lore: The Captain's Last Orders).
 - F.12 - A barred guard room; four soldiers of Kurumisa hold the inner door.
 - F.13 - A long gallery of steps going down, wind from below.
+- F.14 - A dry sunken bath, scale-crusted vents and a bronze valve; a hiss behind the walls.
+- F.15 - Six small beds round a painted toy box (Treasure I, d20).
+- F.16 - Stone troughs and slumped sacks; white dust that stings the eyes.
+- F.17 - Rows of bronze chimes over a bench; a hum just under hearing.
+- F.18 - A low winding passage, a cracked flag at its mouth, claw marks over children's scratches.
+- F.20 - Racks of broken amphorae; giant rats and one sealed jar (Treasure I, d20).
 
 Tables:
 d6 Danger

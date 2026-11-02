@@ -5,4 +5,6 @@ Location L.1 name="The Threshold" tags="warm, thick, glowing" type="Low"
 Location L.2 name="The Feeding Floor" tags="stained, wide, slick" type="Medium"
 Location L.3 name="The Offering Pit" tags="deep, red, steaming" type="High"
 Location L.4 name="The Demon's Seat" tags="raised, black, humming" type="High"
+Location L.5 name="The Bone Gallery" tags="whispering, stacked, narrow" type="Medium"
+Location L.6 name="The Offering Ledge" tags="narrow, hot, crumbling" type="Low"
 ```

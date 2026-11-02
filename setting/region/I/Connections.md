@@ -23,4 +23,18 @@ Connection I.7 to="I.8" type="Open"
 Connection I.8 to="I.7" type="Open"
 Connection I.9 to="I.3" type="Iron"
 Connection I.9 to="J.1" type="Open" climb=-20 { Lock key="The Chosen's Mask" }
+Connection I.7 to="I.10" type="Wooden"
+Connection I.10 to="I.7" type="Wooden"
+Connection I.5 to="I.11" type="Iron"
+Connection I.11 to="I.5" type="Iron"
+Connection I.6 to="I.12" type="Open"
+Connection I.12 to="I.6" type="Open"
+Connection I.9 to="I.13" type="Wooden"
+Connection I.13 to="I.9" type="Wooden"
+Connection I.3 to="I.13" type="Open"
+Connection I.13 to="I.3" type="Open"
+Connection I.1 to="I.14" type="Open" { Hazard type="Dart" damage="Nuisance" test="Constitution" wound="Piercing" { Secret trigger="tread the middle flag" tell="pocked walls" knows="the cult" } }
+Connection I.14 to="I.1" type="Open"
+Connection I.14 to="I.11" type="Iron"
+Connection I.11 to="I.14" type="Iron"
 ```

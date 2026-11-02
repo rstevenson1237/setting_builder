@@ -12,4 +12,8 @@ Encounter H.10 doing="drill and watch the stair" reaction="Wary" answers="1 turn
 Encounter H.11 doing="stand among the tables" reaction="Hostile" { Creature bestiary="Skeleton" count="4-8" }
 Hazard H.11 type="Attack" damage="Damaging" test="Sanity" { Secret trigger="open the cabinet" tell="cabinet ticks" knows="the cult" }
 Encounter H.13 doing="cling to the weeping faces" reaction="Hostile" far="thin wailing wings" { Creature bestiary="Stirge" count="3-6" }
+Hazard H.14 type="Gas" damage="Lethal" test="Constitution" wound="Poison" { Secret trigger="the door swings shut" tell="soot line, waist high" knows="the cult" fact="the censers fill the sealed room" }
+Encounter H.16 doing="sleep between rites" reaction="Hostile" answers="1 turn" { Creature bestiary="Cultist" count="4-6" }
+Hazard H.18 type="Attack" damage="Damaging" test="Fate" condition="Held" { Secret trigger="walk without the sign" tell="hands polished, wrists" knows="the cult" fact="a black hand shown stills them" }
+Encounter H.19 doing="huddle behind the bars" reaction="Fearful" want="freedom and the lake" know="the cult's rounds" { Creature bestiary="Masked Dreamer" count="6-10" }
 ```

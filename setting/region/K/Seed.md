@@ -1,7 +1,7 @@
 # Seed of K Pyramid Level 9 - The Antechamber
 
 ```kdl
-Seed K kind="collection" comes="The demon's antechamber, where the air itself costs Sanity. A party comes to prepare for the last hall." who="Voxkroth, Wraith, Ghoul, Gargoyle" changing="The demon's breath thickens the air, and the cult wears its masks tighter each day."
+Seed K kind="collection" comes="The demon's antechamber, where the air itself costs Sanity. A party comes to prepare for the last hall." who="Voxkroth, Wraith, Ghoul, Gargoyle, Skeleton" changing="The demon's breath thickens the air, and the cult wears its masks tighter each day."
 Rung K if="a party lingers" then="The corruption deepens and each hour costs a Test of Sanity."
 Rung K if="a mask is torn" then="A cultist screams and the whole level hears."
 Entry K name="the stair from above" from="the lieutenants' halls" stands="A wraith in a king's robe on the landing." takes="A party must pass without drawing steel." refused="None."

@@ -9,4 +9,7 @@ Encounter I.5 doing="mutter behind the doors" reaction="Hostile" far="muttering"
 Hazard I.7 type="Gas" damage="Damaging" test="Constitution" wound="Poison" { Secret trigger="open the paint shelf" tell="sweet smell" knows="nobody" }
 Encounter I.8 doing="wade the red channel" reaction="Hostile" far="water running slow" { Creature bestiary="Ghoul" count="3-6" }
 Encounter I.9 doing="stand either side of the gate" reaction="Wary" answers="1 turn" want="a mask shown" { Faction faction="Voxkroth" present=4 members="gate guards" }
+Hazard I.10 type="Water" damage="Nuisance" test="Fate" condition="Exposed" { Secret trigger="touch the black water" tell="frost on the tubs" knows="the cult" }
+Hazard I.11 type="Hammer" damage="Lethal" test="Constitution" wound="Crushing" { Secret trigger="the door shuts" tell="floor scored, walls" knows="the cult" fact="the black hand stops the walls" }
+Encounter I.13 doing="pray behind the curtains" reaction="Hostile" answers="1 turn" { Creature bestiary="Cultist" count="3-5" }
 ```

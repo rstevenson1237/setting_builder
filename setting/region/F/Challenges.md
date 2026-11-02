@@ -10,4 +10,9 @@ Encounter F.9 doing="feast on the dead" reaction="Hostile" far="gnawing, low mut
 Encounter F.10 doing="gamble and mend gear" reaction="Wary" answers="1 turn" want="a way out of the pyramid" know="Which rooms are trapped" { Faction faction="The Tomb Robbers" present=8 members="delvers and a fiddler" }
 Encounter F.11 doing="shuffle in the cell's dark" reaction="Hostile" left="soldiers' scale" { Creature bestiary="Zombie" count="2-4" }
 Encounter F.12 doing="hold the inner door" reaction="Wary" want="the captain found" know="Where the captain went" { Faction faction="Kurumisa" present=4 members="four soldiers" }
+Hazard F.14 type="Water" damage="Damaging" test="Constitution" wound="Fire" { Secret trigger="turn the bronze valve" tell="scale-crusted vents" knows="nobody" fact="the bath floods scalding to the waist" }
+Hazard F.16 type="Gas" damage="Nuisance" test="Fate" condition="Blinded" { Secret trigger="disturb the sacks" tell="white dust, stinging eyes" knows="nobody" }
+Hazard F.17 type="Field" damage="Damaging" test="Constitution" wound="Crushing" { Secret trigger="strike any chime" tell="chimes hung in rows" knows="the Scholars" fact="the hum swells until it flattens" }
+Encounter F.19 doing="crunch bones in the heap" reaction="Hostile" far="yipping and laughter" { Creature bestiary="Hyena" count="3-6" }
+Encounter F.20 doing="nest among the racks" reaction="Hostile" far="scuttling" { Creature bestiary="Giant Rat" count="4-8" }
 ```
