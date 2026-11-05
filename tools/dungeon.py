@@ -629,6 +629,38 @@ def held_of(region, members: list[str], dress: dict) -> dict[str, tuple[float, f
             and "bearing" in n.props and "distance" in n.props and (at := space.centre(dress.get(c)))}
 
 
+def framed(poly: list | None, side: float | None):
+    """The function that turns a place in feet, east and north of a block's centre, into cells from the
+    footprint's top-left: the polygon's own corner, else the centre of a square of `side` feet."""
+    ox, oy = (min(x for x, _ in poly), min(-y for _, y in poly)) if poly else (-(side or 0) / 2,) * 2
+    return lambda x, y: [round((x - ox) / CELL, 3), round((-y - oy) / CELL, 3)]
+
+
+def held_over(pin: tuple, frame) -> dict:
+    """A room that must stand over a box, (east, north, width, length) of its block's centre in feet, as a graph's `over`."""
+    e, n, w, h = pin
+    x, y = frame(e - w / 2, n + h / 2)
+    return {"x": x, "y": y, "w": w / CELL, "h": h / CELL}
+
+
+def graph_shell(gid: str, rooms: list, ways: list, rates: dict, seed: int, tries: int, poly: list | None,
+                side: float | None, rocks: list, frame) -> dict:
+    """A layout graph round its rooms and ways: BRIEF.md's fill, passages and detour, and the ground - the
+    polygon or the square - with each Rock's outline kept out. `rocks` are ((x, y), outline) in feet."""
+    g = {"id": gid, "rooms": rooms, "ways": ways,
+         "width": LATTICE / CELL, "scale": {"perCell": CELL, "unit": "ft"}, "fill": list(rates["fill"]),
+         "passages": rates["passages"], "seed": seed, "tries": tries, "margin": MARGIN}
+    if rates["detour"] is not None:
+        g["detour"] = rates["detour"] / CELL
+    if poly:
+        g["footprint"] = [v for x, y in poly for v in frame(x, y)]
+    elif side:
+        g["footprint"] = side / CELL
+    if rocks:
+        g["keepOut"] = [[v for x, y in space.polygon(s, at[0], at[1]) for v in frame(x, y)] for at, s in rocks]
+    return g
+
+
 def graph_of(region, block: kdl.Node, rates: dict, seed: int, tries: int, far: set) -> dict | str:
     """A block's layout graph for `artgen dungeon layout`, in 5-foot cells: its rooms, each way
     with the bearing it keeps - out past the wall it names, else as its rooms lie unless that
@@ -650,8 +682,7 @@ def graph_of(region, block: kdl.Node, rates: dict, seed: int, tries: int, far: s
     glue, why = glued(region, members, dress)
     if why:
         return "\n".join(why)
-    ox, oy = (min(x for x, _ in poly), min(-y for _, y in poly)) if poly else (-(side or 0) / 2,) * 2
-    frame = lambda x, y: [round((x - ox) / CELL, 3), round((-y - oy) / CELL, 3)]     # feet east, north -> cells
+    frame = framed(poly, side)
     rooms = []
     for c in members:
         d = dress.get(c)
@@ -665,9 +696,7 @@ def graph_of(region, block: kdl.Node, rates: dict, seed: int, tries: int, far: s
         if c in glue:
             r["against"] = {"room": glue[c][0], "dx": glue[c][1] / CELL, "dy": glue[c][2] / CELL}
         if c in pins:
-            e, n, w, h = pins[c]
-            x, y = frame(e - w / 2, n + h / 2)
-            r["over"] = {"x": x, "y": y, "w": w / CELL, "h": h / CELL}
+            r["over"] = held_over(pins[c], frame)
         rooms.append(r)
     placed = {c: at for c in members if (at := space.centre(dress[c]))}
     walls, ways, seen = walls_of(region, members), [], set()
@@ -688,18 +717,7 @@ def graph_of(region, block: kdl.Node, rates: dict, seed: int, tries: int, far: s
             bearing = compass.index(str(n.props["bearing"])) * 22.5 if "bearing" in n.props else None
         ways.append({"a": a, "b": b, **({"bearing": bearing} if bearing is not None else {}),
                      **({"wall": walls[a, b]} if (a, b) in walls else {})})
-    g = {"id": f"{region.code}-{str(block.args[0]).split('.')[-1]}", "rooms": rooms, "ways": ways,
-         "width": LATTICE / CELL, "scale": {"perCell": CELL, "unit": "ft"}, "fill": list(rates["fill"]),
-         "passages": rates["passages"], "seed": seed, "tries": tries, "margin": MARGIN}
-    if rates["detour"] is not None:
-        g["detour"] = rates["detour"] / CELL
-    if poly:
-        g["footprint"] = [v for x, y in poly for v in frame(x, y)]
-    elif side:
-        g["footprint"] = side / CELL
-    if rocks:
-        g["keepOut"] = [[v for x, y in space.polygon(s, at[0], at[1]) for v in frame(x, y)] for at, s in rocks]
-    return g
+    return graph_shell(f"{region.code}-{str(block.args[0]).split('.')[-1]}", rooms, ways, rates, seed, tries, poly, side, rocks, frame)
 
 
 def pack_region(code: str, seed: int = 1, again: bool = False, tries: int = 12) -> int:

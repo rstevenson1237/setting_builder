@@ -44,6 +44,17 @@ In reply to image_tools `docs/DUNGEON-DESIGN.md` (`86e957d`), checked against ar
 | R9 | `style.palette.rock` colours the hatch too, and the `dark` and `blueprint` presets keep walls between touching rooms visible | Found choosing a house look: a sand palette leaves the hatch grey, and both presets draw walls in the rock's colour, so touching rooms run together |
 | R10 | A settlement drawn `--theme bw` draws its ground in black and white | In 0.13 its ground stays coloured |
 
+## What the prototype has shown so far
+
+- T5, `tools/design.py expand`. Each of the six layouts expanded and `dungeon layout` routed every
+  way, bounded and unbounded. A cell row with a bearing on each way (cells north and south of the hall)
+  came out as a row; a spine and ring hub did not keep its ring: the hub's eight door points are
+  sockets the solver does not see (R2, R4). The expander checks that joined sockets face one
+  another and match in width, which the engine should (R1).
+- A stair into a room (`over`) is placed in the footprint's frame, so an unbounded design that
+  has one cannot be expressed: the least square is not known before the solve. R3 should let `over` be
+  given from the origin, or the engine report the side it will use.
+
 ## What setting_builder will send as fixtures
 
 Its layouts, the designs for its pilot level (E) and for C, and the graphs `design.py expand`

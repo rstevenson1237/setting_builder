@@ -130,6 +130,13 @@ def context_section(text: str) -> str:
     return m.group(1) if m else ""
 
 
+def check_layouts(diag: Diagnostics):
+    """Every layout of layouts/ against patterns/Layout_Schema.md."""
+    import design
+    for path, msg in design.read_layouts()[1]:
+        diag.error(path, msg)
+
+
 def check_read_set(diag: Diagnostics, schema):
     if not STEPS_MD.exists():
         return
@@ -1437,6 +1444,7 @@ def main() -> int:
     diag = Diagnostics()
     schema = tables.Schema()
     check_read_set(diag, schema)
+    check_layouts(diag)
     for path, problem in schema.problems:
         diag.error(path, problem)
     brief = tables.Brief(schema)
