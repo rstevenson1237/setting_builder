@@ -40,7 +40,7 @@ In reply to image_tools `docs/DUNGEON-DESIGN.md` (`86e957d`), checked against ar
 | R5 | `dungeon design`: a design brief plus layouts become a graph; N seeds; scoring (count, fill, routing, dead ends, spacing, symmetry); a contact sheet | setting_builder's `design.py solve` is the prototype |
 | R6 | `dungeon pattern extract` (proposal §4.3) | Grows the library from drawn maps |
 | R7 | The measuring half of trace (proposal §4.3) | As the proposal says |
-| R8 | (pending T6) a settlement laid out from a graph, or a statement that `dungeon layout` is the way to do it | setting_builder wants SAFE/WILD blocks designed the same way |
+| R8 | A settlement laid out from a graph: buildings with streets between them that run past several, a gate, a wall, and spacing that is a target and not a result | The spike (`spike-settlement.md`): `dungeon layout` packs buildings wall to wall, turns six of eight streets into shared walls, and compresses locations the tables place 360 to 1000 ft apart into a 300 to 430 ft square |
 | R9 | `style.palette.rock` colours the hatch too, and the `dark` and `blueprint` presets keep walls between touching rooms visible | Found choosing a house look: a sand palette leaves the hatch grey, and both presets draw walls in the rock's colour, so touching rooms run together |
 | R10 | A settlement drawn `--theme bw` draws its ground in black and white | In 0.13 its ground stays coloured |
 
