@@ -638,6 +638,7 @@ NAMED = {"Chapel": "chapel", "Temple": "temple", "Shrine": "chapel", "Forge": "s
          "Tower": "tower", "Keep": "keep", "Warehouse": "warehouse", "Manor": "manor"}   # a word in its name, over its type
 WALL = ("palisade", "fence", "hedge", "drystone", "ruined")   # a word in the Block's wall, else a curtain
 POSTERN = 10                    # feet: a Gate narrower than this is a postern, else a gatehouse
+VOID_GROUND = "yard"            # the area a Void is drawn as: open ground, with nothing standing on it
 WILD_PLACE = {"Gardens": ("area", "garden"), "Shore": ("water", "lake")}   # a word in a WILD name, over its type
 UNSIZED = 20                    # feet, a place's side where its Dressing states none
 
@@ -742,6 +743,12 @@ def settlement_map(region, block: kdl.Node) -> tuple[dict | None, list[str]]:
         m["buildings"].append({"id": c.replace(".", "-"), "kind": word or BUILDING.get(kind(c), "house"), "shape": "rect",
                                "x": x, "y": y, "w": round(w, 1), "h": round(h, 1),
                                "label": c, "origin": "tables"})
+    for v in (n for n in region.files.get("Blocks", []) if n.name == "Void" and n.args and str(n.args[0]) == bid):
+        centre = space.point_of(v.props.get("xyz")) or [0.0, 0.0]
+        if shape := space.outline_value(v.props.get("outline")):   # open ground: nothing stands on it
+            m["areas"].append({"kind": VOID_GROUND, "points": [c for x, y in space.polygon(shape, centre[0], centre[1])
+                                                              for c in cell(x, -y)],
+                               "label": str(v.props.get("what", "")), "origin": "tables"})
     for c in gates:
         x, y = cell(*at[c])
         m["overlay"]["labels"].append({"text": c, "x": x, "y": round(y - 2, 1), "kind": "note", "origin": "tables"})

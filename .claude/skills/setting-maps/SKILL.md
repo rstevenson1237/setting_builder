@@ -14,7 +14,7 @@ the converter, then built again.
 | Step | Command | Writes |
 |---|---|---|
 | 3b | `python3 tools/maps.py place` | `setting/Sheets.md`, `setting/[Sheet].json`, each region's `outline` and `xyz` |
-| 3b, 3f | `python3 tools/maps.py ground` | each placed region's `Ground.md` |
+| 3b, 3g | `python3 tools/maps.py ground` | each placed region's `Ground.md` |
 | 4a | `python3 tools/maps.py pack [Code]`, then `python3 tools/space.py settle [Code]` | each room's `xyz`, each block's `outline` |
 | any | `python3 tools/maps.py draw [--out DIR]` | `setting/region/[Code]/[Block].json`, and the SVGs with `--out` |
 

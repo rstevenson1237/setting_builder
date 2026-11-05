@@ -21,7 +21,7 @@ Read these rather than a description of them.
   Edited directly by the user; a request in the user's own prompt carries the same weight.
 - `STYLE.md` - the tests every line at every level must pass.
 - `STEPS.md` - the authoritative, sequential build log. Every artifact created follows a
-  numbered step here (e.g. `3d`) naming its template. Step ids grow by
+  numbered step here (e.g. `3e`) naming its template. Step ids grow by
   suffix and are never renumbered without explicit user request - `templates/` cite step
   ids and `tools/validate_setting.py` resolves those citations against this file (including
   its compile-list regex), so a renumber means updating both alongside every prose citation.

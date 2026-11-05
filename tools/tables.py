@@ -1035,20 +1035,20 @@ class Setting:
         if any(c.line != n.line for c in kdl.walk(n.children)):
             yield "error", f"{n.name} spans several lines - an entry is one line"
         code = n.args[0] if len(n.args) == 1 else None
-        block = stem == "Blocks"
+        block = stem == "Blocks" or stem == "Design" and n.name not in ("Place", "Link")   # a design's lines open with a block, but a Place and a Link with a location
         if stem == "Seed" or stem == "Ground" and n.name != "At":
             if code != r.code:
                 yield "error", f"{n.name} opens with {n.args} - it opens with the region code {r.code}"
         elif code is None or not (BLOCK_RE if block else CODE_RE).fullmatch(str(code)) or not str(code).startswith(r.code + "."):
             yield "error", (f"{n.name} opens with {n.args} - an entry opens with one {r.code} "
                             f"{'block id, a lower-case letter after the dot' if block else 'location code'}")
-        elif stem not in ("Locations", "Blocks") and code not in r.locations():
+        elif stem not in ("Locations", "Blocks", "Design") and code not in r.locations():
             yield "error", f"{n.name} names {code}, which Locations.md does not hold"
         missing = list(self._check_node(r, n))
         owed = [m for m in missing if isinstance(m, str)]
         yield from (m for m in missing if not isinstance(m, str))
         if owed:
-            step = {"Locations": "3d", "Seed": "3c"}.get(stem, "4a")
+            step = {"Design": "3d", "Locations": "3e", "Seed": "3c"}.get(stem, "4a")
             yield "warning", f"{n.name} {n.args[0] if n.args else ''} is a stub owed to step {step} - lacks {', '.join(owed)}"
 
     def _check_node(self, r: Region, n: kdl.Node, within: str = ""):

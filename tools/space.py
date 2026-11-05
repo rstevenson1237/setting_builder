@@ -3,6 +3,7 @@
 
   python3 tools/space.py [--only REGION]
   python3 tools/space.py settle [REGION]
+  python3 tools/space.py from CODE to CODE
 
 x runs east, y north and z up, in feet, from the origin region's way in at its ground: BRIEF.md's
 `origin`, else the first region in the gazetteer. Each thing stands at a place in its parent's
@@ -19,9 +20,13 @@ a sibling starts at its origin, slides across the side by its xyz, moves out alo
 until their outlines last touch, then takes its xyz along the side as a gap; above or below,
 its floor meets the other's roof.
 
+A void is ground in a SAFE or WILD block that no location takes: a location whose outline meets one is a problem.
+
 Prints each thing's place in its parent and in the setting, its outline and its floor and roof,
 then each problem; exits 1 on an error. `settle` writes into Regions.md the place of each region
 that states none but whose sheet or joins give it in full, and never moves one that states one.
+`from` prints how far, in what direction and how far up or down one region, block or location lies
+from another, by their places in the setting.
 """
 from __future__ import annotations
 
@@ -493,6 +498,14 @@ class Space:
                     s = self.things[f"{n.args[0]}/{i + 1}"] = Thing(f"{n.args[0]}/{i + 1}", "stop", code, r,
                                                                     file=region.dir / "Stops.md", line=n.line)
                     self._own(s, n)
+            for i, n in enumerate(n for n in region.files.get("Blocks", []) if n.name == "Void" and n.args):
+                if (up := self.things.get(str(n.args[0]))) is None or up.kind != "block":
+                    continue
+                c = point_of(n.props.get("xyz")) or [0.0, 0.0, 0.0]
+                v = self.things[f"{n.args[0]}/void{i + 1}"] = Thing(f"{n.args[0]}/void{i + 1}", "void", code, up, [c[0], c[1], c[2] or 0.0],
+                                                                    "xyz" if "xyz" in n.props else "block's centre",
+                                                                    file=region.dir / "Blocks.md", line=n.line)
+                self._shape(v, n)
 
     def _shape(self, t: Thing, node: kdl.Node | None, of_location: bool = False):
         """A thing's outline, and what is wrong with it: a poly with no area or crossing itself,
@@ -525,7 +538,7 @@ class Space:
             self.say("error", t.file, f"line {t.line}: {t.code} states a bearing or a distance without the other", t.code)
         else:
             self.say("error", t.file, f'line {t.line}: {t.code} states no place: bearing and distance, xyz, against, '
-                                      f'or at="way in" (step 3d)', t.code)
+                                      f'or at="way in" (step 3e)', t.code)
         return False
 
     def _anchored(self, t: Thing, node: kdl.Node | None) -> bool:
@@ -735,6 +748,7 @@ class Space:
         self._overlaps([t for t in things if t.kind == "location"])
         self._overlaps([t for t in things if t.kind == "block" and t.outline is not None])
         self._outside(things)
+        self._voids([t for t in things if t.kind == "void"], [t for t in things if t.kind == "location"])
         self._ways()
         self._sheets()
 
@@ -766,6 +780,13 @@ class Space:
             if (len(p) == 1 and not inside(p[0], q)) or (len(p) > 1 and area(p) - common(p, q) > TOUCH):
                 self.say("error", t.file, f"{'line ' + str(t.line) + ': ' if t.line else ''}{t.code} lies outside "
                                           f"{up.code}'s {said(up.outline)}", t.code)
+
+    def _voids(self, voids: list[Thing], locations: list[Thing]):
+        """No location of a block stands in one of its voids."""
+        for v in voids:
+            for t in locations:
+                if t.parent is v.parent and None not in t.at[:2] and meets(polygon(t.outline, *t.at[:2]), polygon(v.outline, *v.at[:2])):
+                    self.say("error", t.file, f"{t.code} stands in {v.parent.code}'s void (Blocks.md line {v.line})", t.code)
 
     def _ways(self):
         for region, n in self.joins:
@@ -819,7 +840,37 @@ class Space:
         return out
 
 
+def between(space: "Space", a: str, b: str) -> str:
+    """How far, which way and how far up or down `b` lies from `a`; an error where either has no place."""
+    ends = []
+    for code in (a, b):
+        t = space.things.get(code)
+        if t is None:
+            raise ValueError(f"{code} is no region, block or location of this setting")
+        ends.append(space.absolute(t))
+        if None in ends[-1]:
+            raise ValueError(f"{code} has no place in the setting yet: run `python3 tools/space.py --only {t.region}` for why")
+    (x0, y0, z0), (x1, y1, z1) = ends
+    dx, dy, dz = x1 - x0, y1 - y0, z1 - z0
+    d = math.hypot(dx, dy)
+    deg = math.degrees(math.atan2(dx, dy)) % 360
+    way = "no bearing: the same plan place" if d < 0.5 else f"{compass()[round(deg / 22.5) % 16]} ({deg:.0f} degrees)"
+    climb = "level" if abs(dz) < 0.5 else f"{fmt(abs(dz))} feet {'up' if dz > 0 else 'down'}"
+    return f"{a} to {b}: {fmt(round(d))} feet {way}, {climb}; {fmt(round(math.sqrt(d * d + dz * dz)))} feet in a straight line"
+
+
 def main() -> int:
+    if sys.argv[1:2] == ["from"]:
+        if len(sys.argv) != 5 or sys.argv[3] != "to":
+            print("usage: space.py from CODE to CODE")
+            return 2
+        world = maps.world_for(tables.SETTING)
+        try:
+            print(between(Space(world, tables.Brief(world.schema)), sys.argv[2], sys.argv[4]))
+        except ValueError as e:
+            print(f"ERROR: {e}")
+            return 1
+        return 0
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("settle", nargs="?", choices=["settle"], help="write each region's place where it is derived")
     ap.add_argument("region", nargs="?", help="with settle, that region alone")

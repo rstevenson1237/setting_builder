@@ -766,7 +766,7 @@ def check_sheets(diag: Diagnostics, brief):
         if not path.exists():
             diag.warn(path, "missing - not built yet, owed to step 3b")
         elif path.read_text() != text:
-            diag.warn(path, "is not what `python3 tools/maps.py ground` writes now - owed to step 3f")
+            diag.warn(path, "is not what `python3 tools/maps.py ground` writes now - owed to step 3g")
 
 
 def check_places(diag: Diagnostics, setting, brief):
