@@ -60,6 +60,11 @@ In reply to image_tools `docs/DUNGEON-DESIGN.md` (`86e957d`), checked against ar
   passage, half of them still came out as rooms sharing a wall, a median gap of 0 ft against a wanted
   10 to 30. R3 and R5 should make spacing a constraint, not a score. The packing's passages are
   `via` polylines with more than one bend, which the hull of a grown level has to follow.
+- T9, region E. A level designed beside placed levels has its stair rooms pinned, and solved so it routed
+  fewer seeds and crossed passages (R3: `over` given from an origin, or growth that takes the neighbours
+  as they come). Two passages leaving one room may cross by `check`'s rules, which no hub reads as a
+  spoke: the engine should report it (R5). A socket's bearing is soft, so the layout it expands from is not held
+  (R2), and a design needs opposite sockets as a constraint, which E.2's prose asks for.
 
 ## What setting_builder will send as fixtures
 

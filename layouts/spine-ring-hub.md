@@ -5,8 +5,8 @@ eight points: where every way of a level turns.
 
 ```kdl
 Layout spine-ring-hub name="A spine through a ring hub" tags="hub, spine, axial, turning" source="drawn from map 2"
-Param name=spine range="70-120"
-Param name=ring range="20-30"
+Param name=spine range="40-120"
+Param name=ring range="20-40"
 Part role=spine shape=hall width="10" length=spine
 Part role=hub shape=round width=ring length=ring focal=focal
 Tie a=hub b=spine kind=door

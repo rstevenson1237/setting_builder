@@ -31,8 +31,10 @@ one repeats none of it.
 
 - Codes are `[Code].1` to `[Code].N` across the region, as `Locations.md` will number them; each
   `Bind` and `Fill` gives the type of its locations, in `BRIEF.md`'s mix.
-- A way out of the block, a stair into a room of it, is placed in the design's frame: state an `outline` for
-  such a block. A design with none grows from its centre, and `accept` writes the `hull` it filled.
+- A stair into a room of the block pins that room over the level it meets, in the design's frame: state an
+  `outline` for such a block. A design with none grows from its centre, and `accept` writes the `hull` it filled.
+  Where the levels a stair joins are not yet placed, `solve` and `accept` take `--free` to ignore them, and
+  `python3 tools/maps.py pack --again` places them around this level.
 - `fill`, `spacing`, `passages` and `detour` come from `BRIEF.md`'s `design` line, then `pack` line, and
   a `Design` line overrides only what it names.
 - A SAFE or WILD block is fixed geometry, not solved: write each location's `Place` and each street's

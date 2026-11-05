@@ -163,6 +163,7 @@ region D rating=DANGEROUS die=d10 locations=12 {
 }
 
 region E rating=DANGEROUS die=d10 locations=15 {
+  design spacing="10-30 feet"
   outline "Pyramid level 3: a turning hall, a round section of passage that always joins two of its eight passages on opposite sides; runes shown in pairs inside it turn it to the pair pressed, and the arch of each passage shows its own rune. The eight passages lead to a complex of rooms for each of the three branches of the cynidiceans - the Royal Guard, the Priesthood and the Scholars - a trapped corridor to the level below, a short room from the level above, a long decayed store, a secret room joining the store to the hall with treasure in it, and a lair. By a party's actions one branch may offer an alliance or membership."
   pack footprint="140 feet"
   target Location.type High=3 Medium=7 Low=5

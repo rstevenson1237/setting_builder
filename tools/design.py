@@ -3,7 +3,7 @@
 
   python3 tools/design.py layouts                  # the library: id, tags, parameters, sockets
   python3 tools/design.py expand CODE [BLOCK]      # a design as a `dungeon layout` graph, JSON
-  python3 tools/design.py solve CODE [BLOCK] [--seeds N] [--keep K]   # N packings scored, the best K drawn
+  python3 tools/design.py solve CODE [BLOCK] [--seeds N] [--keep K] [--free]   # N packings scored, the best K drawn
   python3 tools/design.py accept CODE [BLOCK] --seed S                # write that packing's places into Design.md
   python3 tools/design.py check [CODE]             # a design and its tables, against one another
 
@@ -47,6 +47,7 @@ import tables                   # noqa: E402
 LAYOUTS = tables.ROOT / "layouts"
 GRID = 5                        # feet: a layout states sizes on this grid
 ROOM = 20                       # feet: a fill room's side, where its Fill states none
+LATTICE = dungeon.LATTICE       # feet: rooms are sized in whole steps of it, so each lies on the lattice at a whole-foot place
 RING = 24                       # sides of the polygon a circular outline is given as
 SHAPES = {"rect": "rect", "cave": "cave", "round": "round", "octagon": "octagon", "hexagon": "hexagon", "hall": "rect"}
 NODES = {"Layout": {"name", "tags", "source"}, "Param": {"name", "range"},
@@ -166,8 +167,8 @@ def mid(lo: int, hi: int, grid: int = 1) -> int:
 class Expand:
     """One block's design as the `dungeon layout` graph: `graph`, or `problems`."""
 
-    def __init__(self, region, brief: tables.Brief, bid: str, seed: int = 1, tries: int = 12):
-        self.region, self.bid, self.problems = region, bid, []        # problems: (file, message)
+    def __init__(self, region, brief: tables.Brief, bid: str, seed: int = 1, tries: int = 12, free: bool = False):
+        self.region, self.bid, self.free, self.problems = region, bid, free, []        # problems: (file, message)
         self.graph = None
         self.compass = space.compass()
         self.layouts, bad = read_layouts()
@@ -212,7 +213,7 @@ class Expand:
         given = dict(re.findall(r"([\w-]+)=(\d+)", str(n.props.get("params", ""))))
         values = {}
         for name, (lo, hi) in lay.params.items():
-            values[name] = int(given.pop(name)) if name in given else mid(lo, hi, GRID if hi >= 10 else 1)
+            values[name] = int(given.pop(name)) if name in given else mid(lo, hi, LATTICE if hi >= LATTICE else 1)
             if not lo <= values[name] <= hi:
                 self.say(n, f"{name}={values[name]} is outside {lay.id}'s range {lo}-{hi}")
         if given:
@@ -247,7 +248,7 @@ class Expand:
             elif c not in self.locations:
                 self.say(n, f"{c} is not one of the design's locations")
             else:
-                self.size[c] = (self.number(lay, values, part["width"], GRID), self.number(lay, values, part["length"], GRID))
+                self.size[c] = (self.number(lay, values, part["width"], LATTICE), self.number(lay, values, part["length"], LATTICE))
                 self.shape[c] = part.get("shape", "rect")
                 self.fixed.add(c)
 
@@ -260,11 +261,15 @@ class Expand:
             else:
                 self.size[c] = (int(n.props.get("width", ROOM)), int(n.props.get("length", ROOM)))
                 self.shape[c] = "rect"
+                if any(v % LATTICE for v in self.size[c]):
+                    self.say(n, f"{c} is {self.size[c][0]} by {self.size[c][1]} ft: a room is sized in whole {LATTICE} ft steps")
 
     def tie(self, a: str, b: str, bearing: float | None):
         key = frozenset((a, b))
         if a != b and key not in self.ways:
             self.ways[key] = {"a": a, "b": b, **({"bearing": bearing} if bearing is not None else {})}
+        elif a != b and bearing is not None and "bearing" not in self.ways[key]:     # a Join gives a Tie's way its direction
+            self.ways[key].update(a=a, b=b, bearing=bearing)
 
     def ties(self, uid: str, lay: Layout):
         look = lambda role: self.rooms.get((uid, role), [])
@@ -334,7 +339,7 @@ class Expand:
             return self.say(node, "BRIEF.md states no pack fill and passages") or None
         poly, side = self.poly, self.side = ground(space.outline_value(node.props.get("outline")))
         frame = dungeon.framed(poly, side)
-        pins = {c: p for c in self.locations if (p := space.settled().pin(c))}
+        pins = {} if self.free else {c: p for c in self.locations if (p := space.settled().pin(c))}   # free: the levels a stair joins are placed after this one
         rocks = [(space.point_of(v.props.get("xyz")) or [0.0, 0.0], s) for v in voids
                  if (s := space.outline_value(v.props.get("outline"))) is not None]
         if (pins or rocks) and not (poly or side):
@@ -391,9 +396,9 @@ def overlay(rates: dict, got: dict[str, str]):
             rates["detour"] = float(m[2])
 
 
-def expand(region, bid: str, seed: int = 1, tries: int = 12) -> Expand:
+def expand(region, bid: str, seed: int = 1, tries: int = 12, free: bool = False) -> Expand:
     world = maps.world_for(tables.SETTING)
-    return Expand(region, tables.Brief(world.schema), bid, seed, tries)
+    return Expand(region, tables.Brief(world.schema), bid, seed, tries, free)
 
 
 
@@ -401,8 +406,9 @@ def expand(region, bid: str, seed: int = 1, tries: int = 12) -> Expand:
 
 CELL, MARGIN = dungeon.CELL, dungeon.MARGIN
 # What a miss costs, in points off a hundred: a point per share of a percent of fill, per 2 feet of spacing,
-# per way past its detour, and per 5 feet of symmetry or straightness.
-COST = {"fill": 100.0, "spacing": 0.5, "detour": 5.0, "symmetry": 0.2, "straight": 0.2}
+# per way past its detour, per finding of artgen's own `dungeon check` (two doors on one spot, a passage through a
+# room), per lattice cell two passages leaving one room share, a crossing or a run side by side, and per 5 feet of symmetry or straightness.
+COST = {"fill": 100.0, "spacing": 0.5, "detour": 5.0, "symmetry": 0.2, "straight": 0.2, "check": 6.0, "shared": 10.0}
 
 
 def layout(graph: dict, seed: int) -> dict | str:
@@ -453,6 +459,28 @@ def straight(rooms: list[dict]) -> float:
     return min(statistics.pstdev(r["at"][1 - k] for r in rooms) for k in (0, 1))
 
 
+def runs(d: dict) -> list[tuple[str, str, set]]:
+    """Each passage of a packing as the lattice cells its centre line crosses, with its two rooms."""
+    out = []
+    for k in d["corridors"]:
+        via = k.get("via") or []
+        pts = [tuple(k["from"]["port"]), *(list(zip(via[::2], via[1::2])) if via and not isinstance(via[0], (list, tuple)) else map(tuple, via)),
+               tuple(k["to"]["port"])]
+        cells = set()
+        for (x0, y0), (x1, y1) in zip(pts, pts[1:]):
+            n = max(1, round(max(abs(x1 - x0), abs(y1 - y0))))
+            cells |= {(round(x0 + (x1 - x0) * i / n), round(y0 + (y1 - y0) * i / n)) for i in range(n + 1)}
+        out.append((k["from"]["room"], k["to"]["room"], cells))
+    return out
+
+
+def shared(d: dict) -> int:
+    """The lattice cells that passages leaving one room share, where they cross or run together: artgen lets passages
+    that leave one room join, and a hub's passages read as spokes only where they do not."""
+    got = runs(d)
+    return sum(len(a[2] & b[2]) for i, a in enumerate(got) for b in got[i + 1:] if {a[0], a[1]} & {b[0], b[1]})
+
+
 def judge(ex: Expand, out: dict, rooms: dict[str, dict]) -> tuple[float, dict, list[str]]:
     """A packing's score out of a hundred, what was measured, and where it falls short."""
     rep = out["report"]
@@ -464,6 +492,15 @@ def judge(ex: Expand, out: dict, rooms: dict[str, dict]) -> tuple[float, dict, l
     degree = {c: sum(c in k for k in ex.ways) for c in ex.locations}
     seen["dead ends"] = sum(d == 1 for d in degree.values()) / max(1, len(degree))
     cost, notes = 0.0, []
+    found = dungeon.engine("check", out["dungeon"])
+    if findings := found.get("errors", []) + found.get("warnings", []):
+        seen["check"] = len(findings)
+        cost += COST["check"] * len(findings)
+        notes += sorted({f"{f['id']} ({sum(g['id'] == f['id'] for g in findings)})" for f in findings})
+    if n := shared(out["dungeon"]):
+        seen["shared"] = n
+        cost += COST["shared"] * n
+        notes.append(f"passages from one room cross or run together over {n} lattice cell(s)")
     if (miss := max(0.0, lo - rep["fill"], rep["fill"] - hi)) > 0:
         cost += COST["fill"] * miss
         notes.append(f"fill {rep['fill']:.0%} is {'under' if rep['fill'] < lo else 'over'} {lo:.0%}-{hi:.0%}")
@@ -530,8 +567,8 @@ def ground_of(ex: Expand, cand: dict) -> list[tuple[int, int]]:
     return [(round(x), round(y)) for x, y in hull(out)]
 
 
-def solved(region, bid: str, seeds: int, tries: int = 12) -> tuple[Expand, list[dict]]:
-    ex = expand(region, bid, 1, tries)
+def solved(region, bid: str, seeds: int, tries: int = 12, free: bool = False) -> tuple[Expand, list[dict]]:
+    ex = expand(region, bid, 1, tries, free)
     if ex.graph is None:
         return ex, []
     with concurrent.futures.ThreadPoolExecutor(max_workers=min(seeds, 8)) as pool:   # each packing is its own artgen process
@@ -565,11 +602,11 @@ def sheet(ex: Expand, kept: list[dict], folder: Path) -> Path:
     return out
 
 
-def solve(region, bid: str, seeds: int, keep: int, folder: Path | None) -> int:
+def solve(region, bid: str, seeds: int, keep: int, folder: Path | None, free: bool = False) -> int:
     if region.rating.upper() != "DANGEROUS":
         print(f"{bid}: a {region.rating} block is fixed geometry, not solved: write its Place lines in Design.md")
         return 1
-    ex, found = solved(region, bid, seeds)
+    ex, found = solved(region, bid, seeds, free=free)
     for path, msg in ex.problems:
         print(f"ERROR: {path.relative_to(tables.ROOT)}: {msg}", file=sys.stderr)
     if ex.graph is None:
@@ -603,11 +640,11 @@ def solve(region, bid: str, seeds: int, keep: int, folder: Path | None) -> int:
 
 # -- accepting one -------------------------------------------------------------------
 
-def accept(region, bid: str, seed: int) -> int:
+def accept(region, bid: str, seed: int, free: bool = False) -> int:
     if region.rating.upper() != "DANGEROUS":
         print(f"{bid}: a {region.rating} block is fixed geometry: write its Place lines in Design.md")
         return 1
-    ex = expand(region, bid, seed)
+    ex = expand(region, bid, seed, free=free)
     for path, msg in ex.problems:
         print(f"ERROR: {path.relative_to(tables.ROOT)}: {msg}", file=sys.stderr)
     if ex.graph is None:
@@ -815,16 +852,20 @@ def main() -> int:
     e.add_argument("block", nargs="?", help="a block id, where the region has designs for several")
     e.add_argument("--seed", type=int, default=1)
     e.add_argument("--tries", type=int, default=12)
+    free = dict(action="store_true", help="ignore the places of the levels a stair joins: they are placed after this one")
+    e.add_argument("--free", **free)
     v = sub.add_parser("solve", help="N packings scored, the best K drawn on a contact sheet")
     v.add_argument("code")
     v.add_argument("block", nargs="?")
     v.add_argument("--seeds", type=int, default=12)
     v.add_argument("--keep", type=int, default=3)
     v.add_argument("--out", type=Path, help="where the drawings go; default a folder of the system's temporary directory")
+    v.add_argument("--free", **free)
     a = sub.add_parser("accept", help="write one packing's places into Design.md")
     a.add_argument("code")
     a.add_argument("block", nargs="?")
     a.add_argument("--seed", type=int, required=True)
+    a.add_argument("--free", **free)
     c = sub.add_parser("check", help="every approved design against its tables")
     c.add_argument("code", nargs="?")
     args = ap.parse_args()
@@ -847,10 +888,10 @@ def main() -> int:
         print(f"ERROR: {args.code} holds {'no design' if not blocks else 'designs for ' + ', '.join(blocks) + ': name one'}", file=sys.stderr)
         return 1
     if args.command == "solve":
-        return solve(region, bid, args.seeds, args.keep, args.out)
+        return solve(region, bid, args.seeds, args.keep, args.out, args.free)
     if args.command == "accept":
-        return accept(region, bid, args.seed)
-    done = expand(region, bid, args.seed, args.tries)
+        return accept(region, bid, args.seed, args.free)
+    done = expand(region, bid, args.seed, args.tries, args.free)
     for path, msg in done.problems:
         print(f"ERROR: {path.relative_to(tables.ROOT)}: {msg}", file=sys.stderr)
     if done.graph is not None:
