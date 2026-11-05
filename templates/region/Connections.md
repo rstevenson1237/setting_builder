@@ -10,6 +10,7 @@ template scope="[Region Code]" writes="setting/region/[Region Code]/Connections.
 read "setting/region/[Region Code]/Seed.md"
 read "setting/region/Regions.md" part="the regions this one joins"
 read "setting/region/[Region Code]/Locations.md"
+read "setting/region/[Region Code]/Design.md" once="written"
 field "Way.to" from="Entry.from, Location.type"
 field "Connection.to" from="Entry.from, Location.type"
 field "Connection.width" from="Conditions.width"
@@ -24,6 +25,9 @@ bearing. What stands in a way - an Encounter, Hazard, Mystery, Secret or Lock - 
 Every location is reachable from an entrance the seed's Entries name, and a way into a gated
 location carries the gate its folder's `join` line names. A way to another region joins only a
 region this one joins in `setting/region/Regions.md`.
+
+Where `Design.md` holds a design for a block, its `Link`s are the block's ways, one entry for each
+side of each, and its `Void`s are the block's `Rock` or `Void` entries; what stands in a way is not the design's.
 
 Where the schema holds Blocks, every location is in exactly one block and a way that climbs
 joins two blocks. A stair between blocks states a `climb` and no bearing or distance, the two rooms one over the

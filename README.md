@@ -39,24 +39,26 @@ Read these rather than a description of them.
   than it names. `Template_Schema.md` defines that fence.
 - `patterns/` - the KDL schemas, mirroring `setting/`: `Common_Schema.md` (the value
   types every field is written in), `Setting_Schema.md` (every setting file's fields),
-  `Region_Schema.md` (each rating's region `seed`, `brief` and `drawn`), and one per rating
+  `Region_Schema.md` (each rating's region `seed`, `brief`, `drawn` and `Design`), `Layout_Schema.md` (a layout), and one per rating
   (`Safe_Schema.md`, `Wild_Schema.md`, `Dangerous_Schema.md`) defining its location tables
   and every node they hold, shared with no other rating.
+- `layouts/` - the library of layouts, motifs of rooms and ways (a cell row, a ring hub, a suite) a
+  block's design is built from, one file each, `patterns/Layout_Schema.md`'s.
 - `setting/` - the generated setting, mirroring the template set in the order STEPS.md lays
   out: setting-level artifacts, Treasure Tables I-V, the two living artifacts
   (`Procedures.md`, `Language.md`), the registries (`Lore.md`, `Keys.md`, `Quests.md`,
   `NamedCreatures.md`, `UniqueTreasures.md`, `LocalProcedures.md`), and `region/`, holding the Regional Gazetteer
   and one folder per region.
 - `setting/region/[Code]/` - one region: its seed, `Seed.md`, the table files its rating's
-  schema names, and one `[LocationCode].md` per location, written from the tables. Its
+  schema names, `Design.md` where its `BRIEF.md` node asks for a design, and one `[LocationCode].md` per location, written from the tables. Its
   brief sits beside it at `setting/region/[Code].md`, written last.
 - `setting/checks/` - output of the judgement checks (STEPS.md step 5): non-mechanical
   review passes `tools/validate_setting.py` can't do, following the checklist format in
   the matching `templates/checks/*_Judgement_Check.md`. Nested under `setting/` so wiping the
   setting for a new build takes its judgement checks with it, rather than leaving them
   behind to bias the next one.
-- `.claude/` - Claude Code settings, skills and commands: this repo's `setting-maps`, and
-  artgen's map skills and `/artgen-*` commands, installed with `tools/artgen/`.
+- `.claude/` - Claude Code settings, skills and commands: this repo's `setting-maps` and
+  `block-design`, and artgen's map skills and `/artgen-*` commands, installed with `tools/artgen/`.
 - `archive/` - the previous location-level patterns, templates and tools, and closed
   `plans/`, held for review against this build. Read by no step.
 - `plans/` - proposals for framework changes not yet made: one folder per change, holding
@@ -79,7 +81,8 @@ Read these rather than a description of them.
     to upgrade it: the `setting-maps` skill. What the framework writes into its files, and why:
     `plans/sheet-maps/artgen-capabilities.md`.
   - `dungeon.py` - a DANGEROUS block in artgen's dungeon engine. `pack` hands `dungeon layout` the block's rooms and ways as a graph, with BRIEF.md's footprint, fill and detour and the block's outline and Rock, and writes the rooms' places back to the tables. Its map file is the rooms at those places, a door where two touch and a maze-routed passage where not, each way out of the block a stair in its room, the outline as bounds and the Rock as rock. The validator reads the file back through `dungeon check` and `dungeon facts`, held to the tables' ways.
-  - `space.py` - the dry fire: every region, block and location at a point in one space from the origin region's way in, x east, y north, z up, in feet, and what does not fit - unplaced things, overlaps, things outside their parent's outline, and ways whose climb, bearing or distance disagree with where their ends lie.
+  - `design.py` - step 3d: a block's `Design`, built from `layouts/`, expanded into the graph `dungeon layout` packs, solved over several seeds and scored, one packing accepted into `Design.md`, and an approved design held to the tables.
+  - `space.py` - the dry fire: every region, block and location at a point in one space from the origin region's way in, x east, y north, z up, in feet, and what does not fit - unplaced things, overlaps, things outside their parent's outline, and ways whose climb, bearing or distance disagree with where their ends lie. `from` states one place from another.
   - `maps.py` - draws maps from the setting through artgen. `pack` places a DANGEROUS region's rooms in a square. `place` puts each region on its sheets
     from `BRIEF.md`'s `sheet`, `ground` and `place` lines and writes `setting/Sheets.md` and each region's `outline` and `xyz`. `ground` writes each
     region's `Ground.md`; `draw` builds each block's map from its tables, never committed, and renders sheets, regions, blocks and cuts to SVG,
@@ -100,6 +103,8 @@ python3 tools/validate_setting.py --skeleton STEP [REGION]   # the shape of what
 python3 tools/validate_setting.py --brief setting|REGION # BRIEF.md as a setting or region step reads it
 python3 tools/space.py [--only REGION]      # the dry fire: every place in the setting, and what does not fit
 python3 tools/space.py settle [REGION]      # write each region's place where its sheet or joins give it
+python3 tools/space.py from CODE to CODE     # how far, which way and how far up or down one place lies from another
+python3 tools/design.py layouts|expand|solve|accept|check   # step 3d: a block's design, from layouts
 python3 tools/metrics.py                    # corpus, tells, budget and read-set report
 python3 tools/metrics.py --tells [PATH]     # every tell hit, listed, over any markdown
 python3 tools/metrics.py --carry [CODE]     # the table words each write-up carries and drops

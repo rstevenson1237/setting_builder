@@ -721,19 +721,20 @@ def agree(region, bid: str, g: dict) -> list[tuple[str, str]]:
         want = space.point_of(p.props.get("xyz"))
         size = box(space.outline_value(p.props.get("outline")))
         mine[c] = {"at": want[:2], "w": size[0], "l": size[1]}
-        have = dress.get(c) if danger else locs.get(c)
+        have, owes = (dress.get(c), "4a") if danger else (locs.get(c), "3e")        # a DANGEROUS room's place is its Dressing's
         if c not in locs or have is None:
-            out.append(("warning", f"{c} is not in {'Locations.md' if c not in locs else 'Dressing.md'} yet, and the design places it - owed to step 3e"))
+            out.append(("warning", f"{c} is not in {'Locations.md' if c not in locs else 'Dressing.md'} yet, and the design places it - "
+                                   f"owed to step {'3e' if c not in locs else '4a'}"))
             continue
         got = space.point_of(have.props.get("xyz"))
         if got is None or math.dist(got[:2], want[:2]) > TOL:
-            out.append(("error", f"{c} lies at {at(got)} in the tables and at {at(want)} in the design - owed to step 3e"))
+            out.append(("error", f"{c} lies at {at(got)} in the tables and at {at(want)} in the design - owed to step {owes}, or 3d if the design is wrong"))
         d = dress.get(c)
         if d is not None and "width" in d.props and "length" in d.props:
             if abs(float(d.props["width"]) - size[0]) > TOL or abs(float(d.props["length"]) - size[1]) > TOL:
-                out.append(("error", f"{c} is {d.props['width']} by {d.props['length']} in Dressing.md and {size[0]:g} by {size[1]:g} in the design - owed to step 3e"))
+                out.append(("error", f"{c} is {d.props['width']} by {d.props['length']} in Dressing.md and {size[0]:g} by {size[1]:g} in the design - owed to step 4a, or 3d if the design is wrong"))
         if str(d.props.get("shape", "rect") if d is not None else "rect") != str(p.props.get("shape", "rect")):
-            out.append(("error", f"{c} is shape {d.props.get('shape', 'rect') if d is not None else 'rect'} in Dressing.md and {p.props.get('shape', 'rect')} in the design - owed to step 3e"))
+            out.append(("error", f"{c} is shape {d.props.get('shape', 'rect') if d is not None else 'rect'} in Dressing.md and {p.props.get('shape', 'rect')} in the design - owed to step 4a, or 3d if the design is wrong"))
     wanted = {}
     for n in g["lines"]:
         if n.name in ("Bind", "Fill"):

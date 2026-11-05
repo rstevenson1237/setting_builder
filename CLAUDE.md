@@ -9,7 +9,8 @@ Loaded on every request; it holds only what must be re-checked each time.
   and their reasons belong in git history.
 - Extend `tools/validate_setting.py` alongside any new artifact type or template rule.
 - Maps are built from the tables by `tools/maps.py` and never edited by hand: the
-  `setting-maps` skill says how, and when artgen's own map skills apply.
+  `setting-maps` skill says how, and when artgen's own map skills apply. A designed block's tables
+  follow its approved design (step 3d, the `block-design` skill); its map is still built from the tables.
 
 <!-- artgen:begin — managed by the artgen installer; `update` rewrites this section -->
 ## Sending feedback back to artgen
