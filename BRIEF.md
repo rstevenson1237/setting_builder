@@ -25,7 +25,8 @@ is on none. A region on a sheet may hold one `ground` line, a terrain its area m
 prose the writing reads and the solver does not, and `place` lines: another region on a sheet
 with it, a compass direction, and a distance or `"N-M unit"` from that region's way in.
 `origin` names the region whose way in, at its ground, is (0,0,0): every region, block and
-location has a place from it, x east, y north, z up, in feet.
+location has a place from it, x east, y north, z up, in feet. `maps` holds one `look` line
+per map kind, how every map of that kind is drawn; a key a line leaves out keeps today's drawing.
 
 A `pack` line is how a DANGEROUS block's rooms are packed into a square: `fill`, the share of
 the square they cover, from the least the validator holds to the most the packer starts from;
@@ -84,6 +85,12 @@ dangerous {
   target Hazard.damage Nuisance="40%" Damaging="40%" Lethal="20%"
   target Reward.contents Keys="10%" Lore="15%"
   pack fill="35-55%" passages="40%" detour="150 feet"
+}
+
+maps {
+  look dungeon hatch=none rock=solid wall=1.5 numbers=plain doors=bar rock-color="#a9824c" floor="#f6ecd6" ink="#3a2a18" grid="#c9b48c" wall-color="#3a2a18"
+  look settlement theme=color
+  look terrain theme=color
 }
 
 // -- This setting --------------------------------------------------------------

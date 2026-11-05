@@ -17,6 +17,7 @@ import tempfile
 from pathlib import Path
 
 import kdl
+import maps
 import space
 import tables
 from maps import BUILD, CACHE, UNSIZED, artgen, blocks_of, built, feet, world_for
@@ -109,6 +110,26 @@ def facing(dx: float, dy: float) -> str:
     return ("e" if dx > 0 else "w") if abs(dx) > abs(dy) else ("s" if dy > 0 else "n")
 
 
+LOOK_STYLE = {"hatch": "hatch", "rock": "rock", "numbers": "numbers", "doors": "doors", "preset": "preset"}
+LOOK_PALETTE = {"rock-color": "rock", "floor": "floor", "ink": "ink", "grid": "grid", "wall-color": "wall"}
+
+
+def looked(style: dict) -> dict:
+    """A block's style with BRIEF.md's dungeon look over it. A preset fills what the look leaves
+    unset, so the hatch, band and wall this module draws by default give way to it."""
+    want = maps.look("dungeon")
+    if "preset" in want:
+        for k in ("hatch", "band", "wall"):
+            if k not in want:
+                style.pop(k, None)
+    style.update({LOOK_STYLE[k]: v for k, v in want.items() if k in LOOK_STYLE})
+    if "wall" in want:
+        style["wall"] = float(want["wall"])
+    if palette := {LOOK_PALETTE[k]: v for k, v in want.items() if k in LOOK_PALETTE}:
+        style["palette"] = palette
+    return style
+
+
 def block_map(region, block: kdl.Node) -> tuple[dict | None, list[str]]:
     """The artgen dungeon file for one block of a region, and what the tables leave it
     unable to draw."""
@@ -192,6 +213,7 @@ def block_map(region, block: kdl.Node) -> tuple[dict | None, list[str]]:
          "rooms": [], "corridors": [], "connections": [], "overlay": {"labels": [], "symbols": []}}
     if routed:
         m["style"].update(wall=ROUTED_WALL, hatch="full")
+    m["style"] = looked(m["style"])
     for c in at:
         w, h, (shape, pts) = size[c]
         drawn = DRAWN.get(shape, "poly")

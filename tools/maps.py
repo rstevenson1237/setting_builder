@@ -895,7 +895,7 @@ def render(kind: str, file: Path, fit: str, *extra, label: str = "") -> str | No
     the map file, the map drawn under it, the engine and the arguments."""
     under = json.loads(file.read_text()).get("underlay")
     key = hashlib.sha256("\0".join([file.read_text(), (file.parent / under["map"]).read_text() if under else "",
-                                    BUILD, kind,
+                                    BUILD, kind, str(theme(kind)),
                                     fit, *map(str, extra)]).encode()).hexdigest()
     kept = CACHE / f"{key}.svg"
     if kept.exists():
@@ -915,11 +915,23 @@ def render(kind: str, file: Path, fit: str, *extra, label: str = "") -> str | No
     return svg
 
 
+def look(kind: str, path: Path | None = None) -> dict[str, str]:
+    """What BRIEF.md's `maps` node says of how every map of a kind is drawn - dungeon,
+    settlement or terrain - and nothing for a key it leaves out."""
+    path = path or tables.BRIEF
+    return tables.read_looks(path)[0].get(kind, {}) if path.exists() else {}
+
+
+def theme(kind: str) -> str | None:
+    """The theme a sheet (kind `map`) or settlement is drawn in, None for a dungeon."""
+    return look({"map": "terrain", "settlement": "settlement"}[kind]).get("theme", "color") if kind in ("map", "settlement") else None
+
+
 def render_fresh(kind: str, file: Path, fit: str, *extra) -> str | None:
     with tempfile.TemporaryDirectory() as tmp:
         args = [kind, "render", "--file", file, "--format", "svg", "--fit", fit, "--out", tmp, *extra]
-        if kind in ("map", "settlement"):
-            args += ["--theme", "color"]
+        if t := theme(kind):
+            args += ["--theme", t]
         if artgen(*args).returncode:
             return None
         svgs = sorted(Path(tmp).glob("*.svg"))

@@ -1219,7 +1219,8 @@ class Setting:
 # measured against the setting files they govern.
 #
 # `setting` holds `sheet` lines and a region `ground` and `place` lines, requests for the
-# maps; Brief.map_problems reads them.
+# maps; Brief.map_problems reads them. `maps` holds one `look` line per map kind, how every
+# map of that kind is drawn; `read_looks` reads them.
 
 BRIEF = ROOT / "BRIEF.md"
 ARTGEN = Path(__file__).resolve().parent / "artgen" / "artgen-maps.js"
@@ -1232,6 +1233,46 @@ PROCEDURES = "Procedures"      # a region's own count, from its `procedure` line
 
 def brief_nodes(path: Path = BRIEF) -> list[kdl.Node]:
     return kdl.fenced(path.read_text()) if path.exists() else []
+
+
+COLOUR_RE = re.compile(r"#[0-9a-fA-F]{6}")
+LOOKS = {                                  # a `maps` look line's keys, by map kind: its values, or a colour or number
+    "dungeon": {"hatch": ("band", "full", "none"), "rock": ("hatch", "solid", "none"), "numbers": ("badge", "plain"),
+                "doors": ("bar", "square"), "preset": ("dark", "blueprint"), "wall": "number",
+                "rock-color": "colour", "floor": "colour", "ink": "colour", "grid": "colour", "wall-color": "colour"},
+    "settlement": {"theme": ("color", "bw")},
+    "terrain": {"theme": ("color", "bw")},
+}
+
+
+def read_looks(path: Path = BRIEF) -> tuple[dict[str, dict[str, str]], list[str]]:
+    """The `look` lines of BRIEF.md's `maps` node, as the keys each states per map kind, and what
+    they get wrong. A key a line leaves out keeps the drawing it had."""
+    looks, problems = {}, []
+    try:
+        nodes = [n for n in brief_nodes(path) if n.name == "maps"]
+    except SyntaxError:
+        return looks, problems
+    for n in nodes:
+        for c in n.children:
+            p = lambda msg, c=c: problems.append(f"line {c.line}: {msg}")
+            kind = str(c.args[0]) if c.args else ""
+            if c.name != "look" or kind not in LOOKS:
+                p(f"maps holds look lines for {', '.join(LOOKS)}, not {c.name} {kind}".rstrip())
+                continue
+            for k, v in c.props.items():
+                v, want = str(v), LOOKS[kind].get(k)
+                if want is None:
+                    p(f"look {kind} takes {', '.join(LOOKS[kind])}, not {k}")
+                elif want == "colour" and not COLOUR_RE.fullmatch(v):
+                    p(f"look {kind} {k}={v!r} is not a colour, #rrggbb")
+                elif want == "number" and not (re.fullmatch(r"\d+(\.\d+)?", v) and 0.2 <= float(v) <= 4):
+                    p(f"look {kind} {k}={v!r} is not a number from 0.2 to 4")
+                elif isinstance(want, tuple) and v not in want:
+                    p(f"look {kind} {k}={v!r} is not one of {', '.join(want)}")
+                else:
+                    looks.setdefault(kind, {})[k] = v
+    return looks, problems
 
 
 SLICE_SETTING = ("test", "outline", "pressure", "architecture", "construction")   # what a region's slice keeps of `setting`
@@ -1313,6 +1354,8 @@ class Brief:
         self.packs: dict[str, kdl.Node] = {}            # a rating's pack line, by its name, and a region's, by its code
         self.files = self.setting = self.origin = None
         self.sheets: dict[str, kdl.Node] = {}
+        self.looks, looks_problems = read_looks(path)
+        self.problems += looks_problems
         try:
             nodes = brief_nodes(path)
         except SyntaxError:
@@ -1348,8 +1391,8 @@ class Brief:
                                                    {"": str(n.props["locations"])}, None, code))
             elif n.name in ("files", "setting"):
                 setattr(self, n.name, n)
-            else:
-                p(f"{n.name!r} is not files, setting, region or {', '.join(folders)}")
+            elif n.name != "maps":
+                p(f"{n.name!r} is not files, maps, setting, region or {', '.join(folders)}")
         self.problems += self.map_problems()
 
     def terrains(self) -> list[str]:
