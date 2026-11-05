@@ -3,6 +3,9 @@
 
   python3 tools/design.py layouts                  # the library: id, tags, parameters, sockets
   python3 tools/design.py expand CODE [BLOCK]      # a design as a `dungeon layout` graph, JSON
+  python3 tools/design.py solve CODE [BLOCK] [--seeds N] [--keep K]   # N packings scored, the best K drawn
+  python3 tools/design.py accept CODE [BLOCK] --seed S                # write that packing's places into Design.md
+  python3 tools/design.py check [CODE]             # a design and its tables, against one another
 
 A design (`setting/region/[Code]/Design.md`, `patterns/Region_Schema.md`) names the layouts a block
 uses (`layouts/`, `patterns/Layout_Schema.md`), binds each layout's roles to location codes, joins
@@ -11,16 +14,27 @@ a role's rooms are its bound locations, sized at the middle of the layout's rang
 rooms of two roles, a Join the rooms at two sockets or a socket and a location, a fill room the
 size its Fill states. The ground is the design's `outline`, else left to the least square its `fill`
 allows; its voids are kept out. Where the design leaves `fill`, `passages` or `detour` unset BRIEF.md's
-`pack` line gives them. Prints the graph on stdout and every problem on stderr, and exits 1 on any.
+`design` line, then its `pack` line, gives them. Prints the graph on stdout and every problem on stderr, and exits 1 on any.
+
+`solve` packs the graph over N seeds, scores each against the design (the rooms are all there, the share of the
+ground they cover, the passage between joined rooms against `spacing`, the ways that walk past the detour,
+and the symmetry or straightness a layout asks for), and draws the best K in the house look on one contact
+sheet with a table of scores. `accept` writes one packing's `Place` and `Link` lines, its seed and score, and,
+for a design that states no outline, the `hull`; it never writes `approved`, which only the user's word sets,
+and takes away one the design had. `check` holds an approved design and the tables to one another. SAFE and WILD
+blocks are fixed geometry, not solved: their `Place` lines are written by hand, and `check` holds them too.
 """
 from __future__ import annotations
 
 import argparse
+import concurrent.futures
 import dataclasses
 import json
 import math
 import re
+import statistics
 import sys
+import tempfile
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -153,15 +167,15 @@ class Expand:
     """One block's design as the `dungeon layout` graph: `graph`, or `problems`."""
 
     def __init__(self, region, brief: tables.Brief, bid: str, seed: int = 1, tries: int = 12):
-        self.region, self.bid, self.problems = region, bid, []
+        self.region, self.bid, self.problems = region, bid, []        # problems: (file, message)
         self.graph = None
         self.compass = space.compass()
         self.layouts, bad = read_layouts()
-        self.problems += [f"{path.relative_to(tables.ROOT)}: {msg}" for path, msg in bad]
+        self.problems += bad
         lines = [n for n in region.files.get("Design", []) if n.args]
         self.node = next((n for n in lines if n.name == "Design" and str(n.args[0]) == bid), None)
         if self.node is None:
-            self.problems.append(f"{region.code} holds no Design for {bid}")
+            self.problems.append((region.dir / "Design.md", f"{region.code} holds no Design for {bid}"))
             return
         mine = lambda name: [n for n in lines if n.name == name and str(n.args[0]) == bid]
         self.locations = words(self.node.props.get("locations"))
@@ -178,7 +192,7 @@ class Expand:
             self.fill(n)
         unbound = [c for c in self.locations if c not in self.size]
         if unbound:
-            self.problems.append(f"{', '.join(unbound)} of {bid} are in no Bind or Fill")
+            self.problems.append((region.dir / "Design.md", f"{', '.join(unbound)} of {bid} are in no Bind or Fill"))
         self.ways: dict[frozenset, dict] = {}
         for uid, (lay, _) in self.uses.items():
             self.ties(uid, lay)
@@ -189,7 +203,7 @@ class Expand:
             self.graph = self.build(brief, mine("Void"), seed, tries)
 
     def say(self, n: kdl.Node, msg: str):
-        self.problems.append(f"{self.region.dir.relative_to(tables.ROOT)}/Design.md: line {n.line}: {msg}")
+        self.problems.append((self.region.dir / "Design.md", f"line {n.line}: {msg}"))
 
     def use(self, n: kdl.Node):
         uid, lay = str(n.props.get("id")), self.layouts.get(str(n.props.get("layout")))
@@ -302,23 +316,23 @@ class Expand:
                                f"{self.compass[round(by / 22.5)]} {wy} ft: sockets joined face one another and match in width")
         self.tie(x, y, bx)
 
+    def constrained(self) -> list[tuple[str, list[str]]]:
+        """Each constraint of a used layout, with the rooms of the roles it holds between."""
+        out = []
+        for uid, (lay, _) in self.uses.items():
+            for c in lay.constraints:
+                roles = words(c.get("parts")) or list(lay.parts)
+                out.append((c["kind"], [code for r in roles for code in self.rooms.get((uid, r), [])]))
+        return out
+
     def build(self, brief: tables.Brief, voids: list, seed: int, tries: int) -> dict | None:
         node = self.node
+        self.settings = settings(brief, self.region.code, node)
         rates = brief.packing(self.region.code)
-        if (m := re.fullmatch(r"(\d+)-(\d+)%", str(node.props.get("fill", "")))):
-            rates["fill"] = (int(m[1]) / 100, int(m[2]) / 100)
-        if "passages" in node.props:
-            rates["passages"] = int(str(node.props["passages"])[:-1]) / 100
-        if "detour" in node.props:
-            rates["detour"] = maps.feet(str(node.props["detour"]))
-        if (m := re.fullmatch(r"(\d+)-(\d+) feet", str(node.props.get("spacing", "")))):   # the passage wanted between rooms
-            if "passages" not in node.props and int(m[1]) >= 10:
-                rates["passages"] = 1.0
-            if "detour" not in node.props:
-                rates["detour"] = float(m[2])
+        overlay(rates, self.settings)
         if rates["fill"] is None or rates["passages"] is None:
             return self.say(node, "BRIEF.md states no pack fill and passages") or None
-        poly, side = ground(space.outline_value(node.props.get("outline")))
+        poly, side = self.poly, self.side = ground(space.outline_value(node.props.get("outline")))
         frame = dungeon.framed(poly, side)
         pins = {c: p for c in self.locations if (p := space.settled().pin(c))}
         rocks = [(space.point_of(v.props.get("xyz")) or [0.0, 0.0], s) for v in voids
@@ -350,9 +364,431 @@ def ground(o: tuple | None) -> tuple[list | None, float | None]:
     return (o[1] if o[0] == "poly" else space.polygon(o, 0, 0)), None
 
 
+SETTINGS = ("fill", "spacing", "passages", "detour")
+
+
+def settings(brief: tables.Brief, code: str, node: kdl.Node | None) -> dict[str, str]:
+    """A block design's settings: BRIEF.md's `design` line for its region, then the Design line's own."""
+    line = brief.designs.get(code)
+    got = {k: str(v) for k, v in (line.props.items() if line is not None else ()) if k in SETTINGS}
+    got.update({k: str(v) for k, v in (node.props.items() if node is not None else ()) if k in SETTINGS})
+    return got
+
+
+def overlay(rates: dict, got: dict[str, str]):
+    """Settings over the rates a `pack` line gives. `spacing`, the passage wanted between joined rooms, sets
+    `passages` (all, where it asks for 10 ft or more) and `detour` (its most) where `got` does not."""
+    if m := tables.FILL_RE.fullmatch(got.get("fill", "")):
+        rates["fill"] = (int(m[1]) / 100, int(m[2]) / 100)
+    if "passages" in got:
+        rates["passages"] = int(got["passages"][:-1]) / 100
+    if "detour" in got:
+        rates["detour"] = maps.feet(got["detour"])
+    if m := tables.SPACING_RE.fullmatch(got.get("spacing", "")):
+        if "passages" not in got and int(m[1]) >= 10:
+            rates["passages"] = 1.0
+        if "detour" not in got:
+            rates["detour"] = float(m[2])
+
+
 def expand(region, bid: str, seed: int = 1, tries: int = 12) -> Expand:
     world = maps.world_for(tables.SETTING)
     return Expand(region, tables.Brief(world.schema), bid, seed, tries)
+
+
+
+# -- solving: packings, scored ---------------------------------------------------------
+
+CELL, MARGIN = dungeon.CELL, dungeon.MARGIN
+# What a miss costs, in points off a hundred: a point per share of a percent of fill, per 2 feet of spacing,
+# per way past its detour, and per 5 feet of symmetry or straightness.
+COST = {"fill": 100.0, "spacing": 0.5, "detour": 5.0, "symmetry": 0.2, "straight": 0.2}
+
+
+def layout(graph: dict, seed: int) -> dict | str:
+    """`artgen dungeon layout` over the graph at a seed: its report and dungeon, or why it failed."""
+    with tempfile.TemporaryDirectory() as tmp:
+        (Path(tmp) / "graph.json").write_text(json.dumps(dict(graph, seed=seed)))
+        done = maps.artgen("dungeon", "layout", "--file", Path(tmp) / "level.json", "--graph", Path(tmp) / "graph.json",
+                           "--seed", seed, "--json", "--force")
+    return json.loads(done.stdout) if not done.returncode and done.stdout.startswith("{") else (done.stderr or done.stdout).strip()
+
+
+def laid(ex: Expand, out: dict) -> dict[str, dict]:
+    """Each room of a packing, as feet east and north of the block's centre: `at`, `w`, `l`, and a poly's `points`."""
+    side = out["report"]["side"] * CELL
+    ox, oy = (min(x for x, _ in ex.poly), min(-y for _, y in ex.poly)) if ex.poly else (-side / 2,) * 2
+    rooms = {}
+    for r in out["dungeon"]["rooms"]:
+        code = r["label"]
+        rooms[code] = {"at": (round((r["x"] + r["w"] / 2 - MARGIN) * CELL + ox), round(-((r["y"] + r["h"] / 2 - MARGIN) * CELL + oy))),
+                       "w": round(r["w"] * CELL), "l": round(r["h"] * CELL),
+                       **({"points": [((x - r["x"] - r["w"] / 2) * CELL, (r["y"] + r["h"] / 2 - y) * CELL)
+                                      for x, y in zip(r["points"][::2], r["points"][1::2])]} if "points" in r else {})}
+    return rooms
+
+
+def gap(a: dict, b: dict) -> float:
+    """The feet between two rooms' boxes: nothing where they touch or overlap."""
+    return math.hypot(*(max(0.0, abs(a["at"][k] - b["at"][k]) - ((a["w"], a["l"])[k] + (b["w"], b["l"])[k]) / 2) for k in (0, 1)))
+
+
+def mirror(rooms: list[dict]) -> float:
+    """How far, on average, a room's reflection across the best vertical or horizontal line through the group's
+    centre lies from a room of its own size, in feet."""
+    best = None
+    for k in (0, 1):
+        axis = statistics.mean(r["at"][k] for r in rooms)
+        miss = []
+        for r in rooms:
+            want = [r["at"][0], r["at"][1]]
+            want[k] = 2 * axis - want[k]
+            miss.append(min(math.dist(want, o["at"]) for o in rooms if (o["w"], o["l"]) in ((r["w"], r["l"]), (r["l"], r["w"]))))
+        best = min(best, statistics.mean(miss)) if best is not None else statistics.mean(miss)
+    return best
+
+
+def straight(rooms: list[dict]) -> float:
+    """The spread, in feet, of a group's centres across the line they run along best."""
+    return min(statistics.pstdev(r["at"][1 - k] for r in rooms) for k in (0, 1))
+
+
+def judge(ex: Expand, out: dict, rooms: dict[str, dict]) -> tuple[float, dict, list[str]]:
+    """A packing's score out of a hundred, what was measured, and where it falls short."""
+    rep = out["report"]
+    lo, hi = ex.graph["fill"]
+    seen = {"fill": rep["fill"], "corridor": rep["corridorCells"] * dungeon.LATTICE, "passages": rep["passages"],
+            "walls": rep["walls"], "detours": len(rep["detours"])}
+    gaps = [gap(rooms[w["a"]], rooms[w["b"]]) for w in ex.ways.values() if w["a"] in rooms and w["b"] in rooms]
+    seen["spacing"] = statistics.median(gaps) if gaps else 0.0
+    degree = {c: sum(c in k for k in ex.ways) for c in ex.locations}
+    seen["dead ends"] = sum(d == 1 for d in degree.values()) / max(1, len(degree))
+    cost, notes = 0.0, []
+    if (miss := max(0.0, lo - rep["fill"], rep["fill"] - hi)) > 0:
+        cost += COST["fill"] * miss
+        notes.append(f"fill {rep['fill']:.0%} is {'under' if rep['fill'] < lo else 'over'} {lo:.0%}-{hi:.0%}")
+    if m := tables.SPACING_RE.fullmatch(ex.settings.get("spacing", "")):
+        if (miss := max(0.0, int(m[1]) - seen["spacing"], seen["spacing"] - int(m[2]))) > 0:
+            cost += COST["spacing"] * miss
+            notes.append(f"median gap {seen['spacing']:.0f} ft, wanted {m[1]}-{m[2]}")
+    if rep["detours"]:
+        cost += COST["detour"] * len(rep["detours"])
+        notes.append(f"{len(rep['detours'])} way(s) walk past the detour")
+    for kind, codes in ex.constrained():
+        group = [rooms[c] for c in codes if c in rooms]
+        if len(group) > 1:
+            off = (mirror if kind == "mirror" else straight)(group)
+            seen["symmetry" if kind == "mirror" else "straight"] = off
+            cost += COST["symmetry" if kind == "mirror" else "straight"] * off
+            if off >= 5:
+                notes.append(f"{kind} off by {off:.0f} ft")
+    return max(0.0, 100.0 - cost), seen, notes
+
+
+def candidate(ex: Expand, seed: int) -> dict | None:
+    out = layout(ex.graph, seed)
+    if isinstance(out, str):
+        return {"seed": seed, "error": out}
+    if out["report"]["left"]:
+        return {"seed": seed, "error": f"no passage fits the way from {', '.join(out['report']['left'])}"}
+    rooms = laid(ex, out)
+    score, seen, notes = judge(ex, out, rooms)
+    return {"seed": seed, "out": out, "rooms": rooms, "score": score, "seen": seen, "notes": notes}
+
+
+def hull(points: list[tuple[float, float]]) -> list[tuple[float, float]]:
+    """The convex hull of points, anticlockwise (Andrew's monotone chain)."""
+    pts = sorted(set(points))
+    if len(pts) < 3:
+        return pts
+    turn = lambda o, a, b: (a[0] - o[0]) * (b[1] - o[1]) - (a[1] - o[1]) * (b[0] - o[0])
+    lower, upper = [], []
+    for seq, out in ((pts, lower), (pts[::-1], upper)):
+        for p in seq:
+            while len(out) >= 2 and turn(out[-2], out[-1], p) <= 0:
+                out.pop()
+            out.append(p)
+    return lower[:-1] + upper[:-1]
+
+
+def ground_of(ex: Expand, cand: dict) -> list[tuple[int, int]]:
+    """The hull of the floor a packing holds, in feet round the block's centre: its rooms' corners, and each passage's
+    run with half its width either side."""
+    d, out = cand["out"]["dungeon"], []
+    for c, r in cand["rooms"].items():
+        pts = r.get("points") or [(-r["w"] / 2, -r["l"] / 2), (r["w"] / 2, -r["l"] / 2), (r["w"] / 2, r["l"] / 2), (-r["w"] / 2, r["l"] / 2)]
+        out += [(r["at"][0] + x, r["at"][1] + y) for x, y in pts]
+    side = cand["out"]["report"]["side"] * CELL
+    ox, oy = (min(x for x, _ in ex.poly), min(-y for _, y in ex.poly)) if ex.poly else (-side / 2,) * 2
+    for k in d["corridors"]:
+        via = k.get("via") or []
+        pts = [k["from"]["port"], *(list(zip(via[::2], via[1::2])) if via and not isinstance(via[0], (list, tuple)) else via), k["to"]["port"]]
+        half = k.get("width", 2) * CELL / 2
+        for x, y in pts:
+            ex_, ey = (x - MARGIN) * CELL + ox, -((y - MARGIN) * CELL + oy)
+            out += [(ex_ + dx, ey + dy) for dx in (-half, half) for dy in (-half, half)]
+    return [(round(x), round(y)) for x, y in hull(out)]
+
+
+def solved(region, bid: str, seeds: int, tries: int = 12) -> tuple[Expand, list[dict]]:
+    ex = expand(region, bid, 1, tries)
+    if ex.graph is None:
+        return ex, []
+    with concurrent.futures.ThreadPoolExecutor(max_workers=min(seeds, 8)) as pool:   # each packing is its own artgen process
+        found = list(pool.map(lambda s: candidate(ex, s), range(1, seeds + 1)))
+    return ex, found
+
+
+def sheet(ex: Expand, kept: list[dict], folder: Path) -> Path:
+    """Each kept packing drawn in the house look, as PNG and SVG, and one contact sheet of them."""
+    folder.mkdir(parents=True, exist_ok=True)
+    panels = []
+    for c in kept:
+        m = c["out"]["dungeon"]
+        m["style"] = dungeon.looked(m.get("style") or {})
+        f = folder / f"seed-{c['seed']}.json"
+        f.write_text(json.dumps(m))
+        maps.artgen("dungeon", "render", "--file", f, "--format", "both", "--fit", "800x800px", "--out", folder)
+        panels.append(maps.own_ids((folder / f"seed-{c['seed']}.svg").read_text(), f"s{c['seed']}"))
+    box = [float(v) for v in re.search(r'viewBox="([^"]+)"', panels[0]).group(1).split()]
+    w, h = 800, 800 * box[3] / box[2]
+    body = ""
+    for i, (c, svg) in enumerate(zip(kept, panels)):
+        svg = re.sub(r'(<svg\b[^>]*?)\swidth="[^"]*"', r"\1", svg, count=1)
+        svg = re.sub(r'(<svg\b[^>]*?)\sheight="[^"]*"', r"\1", svg, count=1)
+        body += svg.replace("<svg ", f'<svg x="{i * (w + 20) + 10}" y="40" width="{w}" height="{h:.0f}" ', 1)
+        body += (f'<text x="{i * (w + 20) + 10}" y="26" font-family="sans-serif" font-size="20">'
+                 f'seed {c["seed"]} - score {c["score"]:.0f}</text>')
+    out = folder / "contact.svg"
+    out.write_text(f'<svg xmlns="http://www.w3.org/2000/svg" width="{len(kept) * (w + 20) + 10:.0f}" height="{h + 60:.0f}" '
+                   f'style="background:#fff">{body}</svg>')
+    return out
+
+
+def solve(region, bid: str, seeds: int, keep: int, folder: Path | None) -> int:
+    if region.rating.upper() != "DANGEROUS":
+        print(f"{bid}: a {region.rating} block is fixed geometry, not solved: write its Place lines in Design.md")
+        return 1
+    ex, found = solved(region, bid, seeds)
+    for path, msg in ex.problems:
+        print(f"ERROR: {path.relative_to(tables.ROOT)}: {msg}", file=sys.stderr)
+    if ex.graph is None:
+        return 1
+    good, seen = [], set()
+    for c in sorted((c for c in found if "out" in c), key=lambda c: -c["score"]):   # a packing another seed also found is listed once
+        if (key := json.dumps({k: (v["at"], v["w"], v["l"]) for k, v in c["rooms"].items()}, sort_keys=True)) not in seen:
+            seen.add(key)
+            good.append(c)
+    for c in found:
+        if "error" in c:
+            print(f"seed {c['seed']}: {c['error']}")
+    if not good:
+        print(f"{bid}: no seed of {seeds} routes every way; widen the outline, lower the fill, or join fewer rooms")
+        return 1
+    kept = good[:keep]
+    folder = folder or Path(tempfile.gettempdir()) / f"design-{bid}"
+    contact = sheet(ex, kept, folder)
+    cols = ("seed", "score", "fill", "gap ft", "corridor ft", "detours", "dead ends", "")
+    print("  ".join(c.ljust(w) for c, w in zip(cols, (4, 5, 5, 6, 11, 7, 9, 0))))
+    for c in good:
+        s = c["seen"]
+        row = (str(c["seed"]), f"{c['score']:.0f}", f"{s['fill']:.0%}", f"{s['spacing']:.0f}", f"{s['corridor']:.0f}", str(s["detours"]),
+               f"{s['dead ends']:.0%}", "; ".join(c["notes"]) or "meets the design")
+        print("  ".join(v.ljust(w) for v, w in zip(row, (4, 5, 5, 6, 11, 7, 9, 0))) + ("   <- drawn" if c in kept else ""))
+    routed = sum("out" in c for c in found)
+    print(f"\n{routed} of {seeds} seeds route every way, as {len(good)} different packings. Contact sheet: {contact}\n"
+          f"Then: python3 tools/design.py accept {region.code} {bid} --seed N")
+    return 0
+
+
+# -- accepting one -------------------------------------------------------------------
+
+def accept(region, bid: str, seed: int) -> int:
+    if region.rating.upper() != "DANGEROUS":
+        print(f"{bid}: a {region.rating} block is fixed geometry: write its Place lines in Design.md")
+        return 1
+    ex = expand(region, bid, seed)
+    for path, msg in ex.problems:
+        print(f"ERROR: {path.relative_to(tables.ROOT)}: {msg}", file=sys.stderr)
+    if ex.graph is None:
+        return 1
+    cand = candidate(ex, seed)
+    if "error" in cand:
+        print(f"{bid}: seed {seed} does not route every way: {cand['error']}")
+        return 1
+    d = cand["out"]["dungeon"]
+    code = lambda rid: rid.replace("-", ".")
+    pairs = {tuple(sorted((code(c["a"]), code(c["b"])), key=dungeon.number)): "door" for c in d["connections"]}
+    pairs |= {tuple(sorted((code(k["from"]["room"]), code(k["to"]["room"])), key=dungeon.number)): "passage" for k in d["corridors"]}
+    lines = []
+    for c in ex.locations:
+        r = cand["rooms"][c]
+        box = "poly " + " ".join(f"{x:g},{y:g}" for x, y in r["points"]) if "points" in r else f"rect {r['w']} {r['l']}"
+        lines.append(f'Place {c} xyz="{r["at"][0]},{r["at"][1]}" outline="{box}" shape={ex.shape[c]}')
+    lines += [f'Link {a} to="{b}" kind={kind}' for (a, b), kind in sorted(pairs.items(), key=lambda p: (dungeon.number(p[0][0]), dungeon.number(p[0][1])))]
+    path = region.dir / "Design.md"
+    text, fence = path.read_text().split("\n"), False
+    kept, mine, last, had = [], set(ex.locations), None, False
+    for i, line in enumerate(text):
+        if line.strip() == "```kdl":
+            fence = True
+        elif line.strip() == "```":
+            fence, last = False, len(kept)
+        elif fence and (m := re.match(r"(Place|Link) (\S+)", line)) and m[2] in mine:
+            continue
+        elif fence and line.startswith(f"Design {bid} "):
+            had = "approved=" in line
+            line = dungeon.without(dungeon.without(dungeon.without(dungeon.without(line, "approved"), "seed"), "score"), "hull")
+            line = dungeon.with_prop(dungeon.with_prop(line, "seed", str(seed)), "score", f'"{cand["score"]:.0f}"')
+            if not ex.node.props.get("outline"):
+                line = dungeon.with_prop(line, "hull", '"poly ' + " ".join(f"{x},{y}" for x, y in ground_of(ex, cand)) + '"')
+        kept.append(line)
+    kept[last:last] = lines
+    path.write_text("\n".join(kept))
+    print(f"{bid}: seed {seed}, score {cand['score']:.0f}: {len(ex.locations)} places and {len(pairs)} ways written to {path.relative_to(tables.ROOT)}"
+          + ("; its approval is cleared, for the user to give again" if had else "") + "\nThe user approves it, then steps 3e and 3f write the tables to agree.")
+    return 0
+
+
+# -- the design and its tables ---------------------------------------------------------
+
+TOL = 0.5                       # feet two places may differ by and agree
+
+
+def groups(region) -> dict[str, dict]:
+    """A region's Design.md by block: its Design line, and every other line stating that block, a Place and a Link by the
+    block whose locations they name."""
+    out = {str(n.args[0]): {"design": n, "lines": [], "places": {}, "links": []}
+           for n in region.files.get("Design", []) if n.name == "Design" and n.args}
+    owner = {c: bid for bid, g in out.items() for c in words(g["design"].props.get("locations"))}
+    for n in region.files.get("Design", []):
+        if not n.args or n.name == "Design":
+            continue
+        bid = owner.get(str(n.args[0])) if n.name in ("Place", "Link") else str(n.args[0])
+        if bid in out:
+            out[bid]["lines"].append(n)
+            if n.name == "Place":
+                out[bid]["places"][str(n.args[0])] = n
+            elif n.name == "Link":
+                out[bid]["links"].append(n)
+    return out
+
+
+def box(outline: tuple | None) -> tuple[float, float] | None:
+    """The width and length of an outline's box."""
+    if outline is None:
+        return None
+    if outline[0] == "circle":
+        return 2 * outline[1], 2 * outline[1]
+    if outline[0] == "rect":
+        return outline[1], outline[2]
+    xs, ys = [x for x, _ in outline[1]], [y for _, y in outline[1]]
+    return max(xs) - min(xs), max(ys) - min(ys)
+
+
+def touching(a: dict, b: dict) -> bool:
+    """Whether two placed rooms share a wall: their boxes meet along one axis and overlap along the other."""
+    d = [abs(a["at"][k] - b["at"][k]) for k in (0, 1)]
+    reach = [((a["w"], a["l"])[k] + (b["w"], b["l"])[k]) / 2 for k in (0, 1)]
+    return any(abs(d[k] - reach[k]) <= TOL * 5 and d[1 - k] < reach[1 - k] - CELL for k in (0, 1))
+
+
+def at(p: list | None) -> str:
+    return f"{p[0]:g},{p[1]:g}" if p else "no xyz"
+
+
+def agree(region, bid: str, g: dict) -> list[tuple[str, str]]:
+    """What an approved design and the region's tables disagree on, as (level, message), each naming the step that fixes
+    it: a missing entry is a warning, a different one an error."""
+    out = []
+    node, path = g["design"], f"{bid}"
+    members = set(words(node.props.get("locations")))
+    danger = region.rating.upper() == "DANGEROUS"
+    locs, dress = region.locations(), {str(n.args[0]): n for n in region.files.get("Dressing", []) if n.args}
+    ways = [n for n in region.files.get("Connections", []) if n.args and "to" in n.props]
+    block = tables_blocks(region).get(bid)
+    if block is None:
+        out.append(("warning", f"{bid} is no block in Blocks.md yet, and the design places {len(members)} locations in it - owed to step 3f"))
+    elif set(words(block.props.get("locations"))) != members:
+        out.append(("error", f"{bid} holds {', '.join(sorted(words(block.props.get('locations')), key=dungeon.number))} in Blocks.md and "
+                             f"{', '.join(sorted(members, key=dungeon.number))} in its design - owed to step 3f, or 3d if the design is wrong"))
+    mine = {}
+    for c in sorted(members, key=dungeon.number):
+        p = g["places"].get(c)
+        if p is None:
+            out.append(("error", f"the design approves {bid} and places no {c}: solve and accept it - owed to step 3d"))
+            continue
+        want = space.point_of(p.props.get("xyz"))
+        size = box(space.outline_value(p.props.get("outline")))
+        mine[c] = {"at": want[:2], "w": size[0], "l": size[1]}
+        have = dress.get(c) if danger else locs.get(c)
+        if c not in locs or have is None:
+            out.append(("warning", f"{c} is not in {'Locations.md' if c not in locs else 'Dressing.md'} yet, and the design places it - owed to step 3e"))
+            continue
+        got = space.point_of(have.props.get("xyz"))
+        if got is None or math.dist(got[:2], want[:2]) > TOL:
+            out.append(("error", f"{c} lies at {at(got)} in the tables and at {at(want)} in the design - owed to step 3e"))
+        d = dress.get(c)
+        if d is not None and "width" in d.props and "length" in d.props:
+            if abs(float(d.props["width"]) - size[0]) > TOL or abs(float(d.props["length"]) - size[1]) > TOL:
+                out.append(("error", f"{c} is {d.props['width']} by {d.props['length']} in Dressing.md and {size[0]:g} by {size[1]:g} in the design - owed to step 3e"))
+        if str(d.props.get("shape", "rect") if d is not None else "rect") != str(p.props.get("shape", "rect")):
+            out.append(("error", f"{c} is shape {d.props.get('shape', 'rect') if d is not None else 'rect'} in Dressing.md and {p.props.get('shape', 'rect')} in the design - owed to step 3e"))
+    wanted = {}
+    for n in g["lines"]:
+        if n.name in ("Bind", "Fill"):
+            for c in words(n.props.get("locations")):
+                if c in locs and str(n.props.get("type")) != str(locs[c].props.get("type")):
+                    out.append(("error", f"{c} is type {locs[c].props.get('type')} in Locations.md and {n.props.get('type')} in the design - owed to step 3e, or 3d if the design is wrong"))
+    for n in g["links"]:
+        a, b = str(n.args[0]), str(n.props.get("to"))
+        wanted[frozenset((a, b))] = (a, b, str(n.props.get("kind")))
+        if str(n.props.get("kind")) == "door" and a in mine and b in mine and not touching(mine[a], mine[b]):
+            out.append(("error", f"the design joins {a} and {b} by a door, and they share no wall - owed to step 3d"))
+    stated = {(str(n.args[0]), str(n.props["to"])) for n in ways if str(n.args[0]) in members and str(n.props["to"]) in members}
+    for k, (a, b, _) in wanted.items():
+        for x, y in ((a, b), (b, a)):
+            if (x, y) not in stated:
+                unwritten = not any(c in q for q in stated for c in (x, y))     # neither end has a way yet: owed, not wrong
+                out.append(("warning" if unwritten else "error",
+                            f"the design joins {a} and {b}, and Connections.md lacks {x} to {y} - owed to step 3f"))
+    for x, y in sorted(stated):
+        if frozenset((x, y)) not in wanted:
+            out.append(("error", f"Connections.md joins {x} and {y}, which the design does not - owed to step 3f, or 3d if the design lacks it"))
+    voids = {(space.outline_value(n.props.get("outline")), tuple(space.point_of(n.props.get("xyz")) or [0.0, 0.0])[:2]) for n in g["lines"] if n.name == "Void"}
+    held = {(space.outline_value(n.props.get("outline")), tuple(space.point_of(n.props.get("xyz")) or [0.0, 0.0])[:2])
+            for n in region.files.get("Blocks", []) if n.args and str(n.args[0]) == bid and n.name == ("Rock" if danger else "Void")}
+    atp = lambda p: f"{p[0]:g},{p[1]:g}"
+    for kind, a, b in (("Void", voids, held), (("Rock" if danger else "Void"), held, voids)):
+        for o, xy in sorted(a - b, key=str):
+            out.append(("error", f"{bid} has a {kind} {space.said(o)} at {atp(list(xy))} in {'its design' if a is voids else 'Blocks.md'} and none in {'Blocks.md' if a is voids else 'its design'} - owed to step 3f"))
+    return out
+
+
+def tables_blocks(region) -> dict[str, kdl.Node]:
+    return maps.blocks_of(region)
+
+
+def check(world, brief) -> list[tuple[str, Path, str]]:
+    """Every region's designs and tables against one another: (level, file, message). A region whose BRIEF.md node asks
+    for a design and has none approved is owed to step 3d; each approved design is held to the tables."""
+    out = []
+    for code, region in world.regions.items():
+        path = region.dir / "Design.md"
+        made = groups(region)
+        if code in brief.designs and not any(g["design"].props.get("approved") for g in made.values()):
+            out.append(("warning", path if path.exists() else region.dir, f"BRIEF.md asks region {code} for a design, and none is approved - owed to step 3d"))
+        for bid, g in made.items():
+            node, approved = g["design"], bool(g["design"].props.get("approved"))
+            for k in SETTINGS:
+                if k in node.props and (bad := tables.design_setting(k, str(node.props[k]))):
+                    out.append(("error", path, f"line {node.line}: Design {bid} {bad}"))
+            if region.rating.upper() == "DANGEROUS" and any(n.name in ("Use", "Bind", "Fill") for n in g["lines"]):
+                ex = expand(region, bid)
+                out += [("error" if approved else "warning", f, f"{m} - owed to step 3d") for f, m in ex.problems]
+            if approved:
+                out += [(level, path, msg) for level, msg in agree(region, bid, g)]
+    return out
 
 
 # -- the commands ----------------------------------------------------------------------
@@ -378,10 +814,28 @@ def main() -> int:
     e.add_argument("block", nargs="?", help="a block id, where the region has designs for several")
     e.add_argument("--seed", type=int, default=1)
     e.add_argument("--tries", type=int, default=12)
+    v = sub.add_parser("solve", help="N packings scored, the best K drawn on a contact sheet")
+    v.add_argument("code")
+    v.add_argument("block", nargs="?")
+    v.add_argument("--seeds", type=int, default=12)
+    v.add_argument("--keep", type=int, default=3)
+    v.add_argument("--out", type=Path, help="where the drawings go; default a folder of the system's temporary directory")
+    a = sub.add_parser("accept", help="write one packing's places into Design.md")
+    a.add_argument("code")
+    a.add_argument("block", nargs="?")
+    a.add_argument("--seed", type=int, required=True)
+    c = sub.add_parser("check", help="every approved design against its tables")
+    c.add_argument("code", nargs="?")
     args = ap.parse_args()
     if args.command == "layouts":
         return show_layouts()
     world = maps.world_for(tables.SETTING)
+    if args.command == "check":
+        found = [f for f in check(world, tables.Brief(world.schema)) if not args.code or f"/region/{args.code}/" in str(f[1])]
+        for level, path, msg in found:
+            print(f"{level.upper()}: {Path(path).relative_to(tables.ROOT)}: {msg}")
+        print(f"{sum(f[0] == 'error' for f in found)} error(s), {sum(f[0] == 'warning' for f in found)} warning(s)")
+        return 1 if any(f[0] == "error" for f in found) else 0
     region = world.regions.get(args.code)
     if region is None:
         print(f"ERROR: {args.code} is no region of this setting", file=sys.stderr)
@@ -391,9 +845,13 @@ def main() -> int:
     if bid is None:
         print(f"ERROR: {args.code} holds {'no design' if not blocks else 'designs for ' + ', '.join(blocks) + ': name one'}", file=sys.stderr)
         return 1
+    if args.command == "solve":
+        return solve(region, bid, args.seeds, args.keep, args.out)
+    if args.command == "accept":
+        return accept(region, bid, args.seed)
     done = expand(region, bid, args.seed, args.tries)
-    for p in done.problems:
-        print(f"ERROR: {p}", file=sys.stderr)
+    for path, msg in done.problems:
+        print(f"ERROR: {path.relative_to(tables.ROOT)}: {msg}", file=sys.stderr)
     if done.graph is not None:
         print(json.dumps(done.graph, indent=1))
     return 1 if done.problems else 0

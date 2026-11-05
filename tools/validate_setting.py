@@ -130,6 +130,13 @@ def context_section(text: str) -> str:
     return m.group(1) if m else ""
 
 
+def check_designs(diag: Diagnostics, setting, brief):
+    """Every region's block designs against its tables: step 3d owes a region whose BRIEF.md node asks for one."""
+    import design
+    for level, path, msg in design.check(setting, brief):
+        (diag.error if level == "error" else diag.warn)(path, msg)
+
+
 def check_layouts(diag: Diagnostics):
     """Every layout of layouts/ against patterns/Layout_Schema.md."""
     import design
@@ -1394,6 +1401,10 @@ def report_pending(region_filter: str | None) -> int:
     for sev, path, msg in setting.check():
         if (sev == "warning" or "Coined here" in msg) and (Path(path) == scope or scope in Path(path).parents):
             owed.setdefault(rel(path), []).append(msg)
+    import design
+    for sev, path, msg in design.check(setting, tables.Brief(setting.schema)):
+        if sev == "warning" and (Path(path) == scope or scope in Path(path).parents):
+            owed.setdefault(rel(path), []).append(msg)
     history = tables.History()
     for r in setting.regions.values():
         for code in r.locations():
@@ -1535,6 +1546,7 @@ def main() -> int:
     check_sheets(diag, brief)
     check_places(diag, setting, brief)
     check_blocks(diag, setting)
+    check_designs(diag, setting, brief)
     check_hazards(diag, setting, brief)
     check_listed_prices(diag, setting)
     check_numbers(diag, setting, schema)

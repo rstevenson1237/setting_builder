@@ -59,6 +59,7 @@ node Design {               // a block's design, opening with its id: `layouts/`
   spacing string opt        // the passage wanted between joined rooms, "N-M feet"; sets passages and detour where they are unset
   passages percent opt      // the share of ways run as passages; unset, BRIEF.md's pack
   detour distance opt       // the most a way may walk beyond the straight line; unset, BRIEF.md's pack
+  hull outline opt drawn    // where it states no outline, the ground the solved rooms and ways hold, which Blocks.md draws
   seed number opt drawn     // the solver's seed for the places below
   score string opt drawn    // that candidate's score against the design
   approved string opt       // the date the user approved it; only their word sets it

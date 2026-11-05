@@ -749,6 +749,10 @@ def pack_region(code: str, seed: int = 1, again: bool = False, tries: int = 12) 
     text = {k: f.read_text().split("\n") for k, f in files.items()}
     failed = False
     for bid, block in blocks_of(region).items():
+        if bid in maps.designed(region):
+            print(f"{bid} has an approved design: its places come from step 3d (`python3 tools/design.py`), not `pack`")
+            failed = True
+            continue
         members = [m.strip() for m in str(block.props["locations"]).split(",")]
         found = faults(region, block, rates["detour"])
         poly = (o := space.outline_value(block.props.get("outline"))) is not None and o[0] == "poly"   # the design's own ground

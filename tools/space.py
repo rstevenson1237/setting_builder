@@ -361,6 +361,14 @@ def own(node: kdl.Node) -> list | None:
         return None
 
 
+def design_places(region) -> dict[str, list]:
+    """The place, in its block's frame, of each location an approved design places."""
+    held = {c.strip() for n in region.files.get("Design", []) if n.name == "Design" and n.props.get("approved")
+            for c in str(n.props.get("locations", "")).split(",")}
+    return {str(n.args[0]): p for n in region.files.get("Design", [])
+            if n.name == "Place" and n.args and str(n.args[0]) in held and (p := point_of(n.props.get("xyz")))}
+
+
 @functools.cache
 def settled() -> "Space":
     """The setting's places, resolved once a run."""
@@ -475,6 +483,7 @@ class Space:
                 for m in str(block.props.get("locations", "")).split(","):
                     home[m.strip()] = b
             conditions = region.seed("Conditions")
+            designed = design_places(region)                 # an approved design places a location its tables have not yet
             for loc, node in region.locations().items():
                 d = dress.get(loc)
                 t = self.things[loc] = Thing(loc, "location", code, home.get(loc, r))
@@ -482,15 +491,23 @@ class Space:
                     t.file, t.line = region.dir / "Dressing.md", d.line if d is not None else 0
                     p = d.props if d is not None else {}
                     t.height = float(p.get("height", conditions.props.get("height", 0) if conditions else 0))
-                    c = point_of(p.get("xyz"))
+                    c, by = point_of(p.get("xyz")), "xyz"
+                    if c is None and loc in designed:
+                        c, by = designed[loc], "design"
+                    elif c and loc in designed and math.dist(c[:2], designed[loc][:2]) > 0.5:
+                        self.say("error", t.file, f"{loc} lies at {fmt(c[0])},{fmt(c[1])} in the tables and at "
+                                                  f"{fmt(designed[loc][0])},{fmt(designed[loc][1])} in its design", loc)
                     if not self._anchored(t, d):
                         t.at = [c[0], c[1], c[2] or 0.0] if c else [None, None, 0.0]
-                        t.by = "xyz" if c else ""
+                        t.by = by if c else ""
                 else:
                     t.file, t.line = region.dir / "Locations.md", node.line
                     if loc in ground and way_in in ground:
                         t.ground = float(ground[loc].props["height"]) - float(ground[way_in].props["height"])
-                    if not self._own(t, node) and t.at[2] is None:
+                    if loc in designed and not forms(node):   # its tables state no place: the design's is
+                        t.at, t.by = [designed[loc][0], designed[loc][1], None], "design"
+                        t.at[2] = t.ground
+                    elif not self._own(t, node) and t.at[2] is None:
                         t.at[2] = t.ground
                 self._shape(t, d, of_location=True)
             for i, n in enumerate(region.files.get("Stops", [])):

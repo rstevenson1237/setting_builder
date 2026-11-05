@@ -1227,6 +1227,22 @@ ARTGEN = Path(__file__).resolve().parent / "artgen" / "artgen-maps.js"
 EXTENT_RE = re.compile(r"(\d+(?:\.\d+)?) by (\d+(?:\.\d+)?) (\w+)")
 SPAN_RE = re.compile(r"(\d+(?:\.\d+)?)(?:-(\d+(?:\.\d+)?))? (\w+)")
 FILL_RE = re.compile(r"(\d+)-(\d+)%")
+SPACING_RE = re.compile(r"(\d+)-(\d+) feet")
+
+
+def design_setting(key: str, v: str) -> str | None:
+    """What is wrong with one setting of a design, a `Design` line's or BRIEF.md's `design` line: fill="N-M%",
+    spacing="N-M feet", passages="N%" or detour, a distance."""
+    if key == "fill" and (m := FILL_RE.fullmatch(v)) and int(m[1]) <= int(m[2]) <= 100:
+        return None
+    if key == "spacing" and (m := SPACING_RE.fullmatch(v)) and int(m[1]) <= int(m[2]):
+        return None
+    if key == "passages" and PERCENT_RE.fullmatch(v) and int(v[:-1]) <= 100:
+        return None
+    if key == "detour" and not unit_problem("distance", v, {"Distance_Unit": {"feet": 0, "yards": 0, "miles": 0}}):
+        return None
+    return f'takes fill="N-M%", spacing="N-M feet", passages="N%" and detour, a distance, not {key}={v!r}'
+
 UNIT_FEET = {"feet": 1, "yards": 3, "miles": 5280}
 PROCEDURES = "Procedures"      # a region's own count, from its `procedure` lines, never a type's rate
 
@@ -1352,6 +1368,7 @@ class Brief:
         self.schema, self.path, self.problems = schema, path, list(schema.brief_problems)
         self.targets, self.regions = [], {}
         self.packs: dict[str, kdl.Node] = {}            # a rating's pack line, by its name, and a region's, by its code
+        self.designs: dict[str, kdl.Node] = {}          # a region's design line, by its code: its blocks are designed at step 3d
         self.files = self.setting = self.origin = None
         self.sheets: dict[str, kdl.Node] = {}
         self.looks, looks_problems = read_looks(path)
@@ -1383,6 +1400,8 @@ class Brief:
                         self._add(c, rating, code)
                     elif c.name == "pack":
                         self._pack(c, code, True)
+                    elif c.name == "design":
+                        self._design(c, code)
                 if "locations" in n.props:
                     if bounds(n.props["locations"]) is None:
                         p("locations= is a count or range")
@@ -1470,6 +1489,14 @@ class Brief:
                 continue
             p(f'pack takes fill="N-M%", passages="N%" and detour, a distance{", and footprint, a distance" if region else ""}, not {k}={v!r}')
         self.packs[key] = n
+
+    def _design(self, n: kdl.Node, code: str):
+        """A `design` line: the settings every block design of the region starts from, `fill`, `passages`, `detour`
+        and `spacing`, as a Design line states them; any it leaves out keep the `pack` line's."""
+        for k, v in n.props.items():
+            if problem := design_setting(k, str(v)):
+                self.problems.append(f"line {n.line}: design {problem}")
+        self.designs[code] = n
 
     def packing(self, code: str) -> dict:
         """How a region's blocks are packed: its rating's pack line, then its own, as `fill`, the

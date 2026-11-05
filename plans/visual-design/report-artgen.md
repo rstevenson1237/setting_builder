@@ -54,6 +54,12 @@ In reply to image_tools `docs/DUNGEON-DESIGN.md` (`86e957d`), checked against ar
 - A stair into a room (`over`) is placed in the footprint's frame, so an unbounded design that
   has one cannot be expressed: the least square is not known before the solve. R3 should let `over` be
   given from the origin, or the engine report the side it will use.
+- T7, `tools/design.py solve`. Over twelve seeds a small design gives a handful of packings that differ
+  little, scored on fill, the gap between joined rooms against a wanted `spacing`, detours and
+  symmetry. `passages` 1.0 and `spacing` are only hints to the annealer: with every way asked to be a
+  passage, half of them still came out as rooms sharing a wall, a median gap of 0 ft against a wanted
+  10 to 30. R3 and R5 should make spacing a constraint, not a score. The packing's passages are
+  `via` polylines with more than one bend, which the hull of a grown level has to follow.
 
 ## What setting_builder will send as fixtures
 

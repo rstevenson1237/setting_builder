@@ -610,6 +610,11 @@ def blocks_of(region) -> dict[str, kdl.Node]:
     return {str(n.args[0]): n for n in region.files.get("Blocks", []) if n.args and n.name == "Block"}
 
 
+def designed(region) -> set[str]:
+    """The blocks of a region whose design the user has approved: their places come from step 3d."""
+    return {str(n.args[0]) for n in region.files.get("Design", []) if n.name == "Design" and n.args and n.props.get("approved")}
+
+
 def drawn_blocks(region) -> dict[str, kdl.Node]:
     """The blocks drawn for a region: a DANGEROUS region's as dungeons, a SAFE or WILD region's
     as settlements. Region and location maps are paused."""
