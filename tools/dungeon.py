@@ -108,19 +108,6 @@ def facing(dx: float, dy: float) -> str:
     """The wall, n, e, s or w, facing a displacement in cells, y running south."""
     return ("e" if dx > 0 else "w") if abs(dx) > abs(dy) else ("s" if dy > 0 else "n")
 
-WALLS = {"n": (0, -1), "e": (1, 0), "s": (0, 1), "w": (-1, 0)}
-ACROSS = 4                      # cells across a room that holds marks by two opposite walls apart
-
-
-def wall_for(room: dict, v: tuple[float, float]) -> str:
-    """The wall a way out of a room is marked by: the one facing it best that no other mark in the
-    room stands by, nor faces across a room too narrow to hold both apart. v runs east and south."""
-    taken = {e["side"] for e in room.get("exits", [])}
-    ranked = sorted(WALLS, key=lambda k: -(WALLS[k][0] * v[0] + WALLS[k][1] * v[1]))
-    opposite = lambda k: "nesw"["nesw".index(k) - 2]
-    across = lambda k: room["w"] if k in "ew" else room["h"]
-    return next((k for k in ranked if k not in taken and not (opposite(k) in taken and across(k) < ACROSS)), ranked[0])
-
 
 def block_map(region, block: kdl.Node) -> tuple[dict | None, list[str]]:
     """The artgen dungeon file for one block of a region, and what the tables leave it
@@ -293,7 +280,7 @@ def block_map(region, block: kdl.Node) -> tuple[dict | None, list[str]]:
             room = next(r for r in m["rooms"] if r["id"] == rid(a))
             gate = {"locked": ", locked", "secret": ", hidden"}.get(door(n), "")
             room.setdefault("exits", []).append({"kind": "stairs-up" if climb > 0 else "stairs-down" if climb < 0 else "arrow",
-                                                 "side": wall_for(room, v),
+                                                 "side": facing(*v),
                                                  "text": f"{'Up to' if climb > 0 else 'Down to' if climb < 0 else 'To'} {b}{gate}"})
     if routed:
         north = lambda x, y: to_cell(x + shift[0], shift[1] - y)      # feet east and north of the block's centre
@@ -434,7 +421,7 @@ def route_around(m: dict) -> None:
 
 
 FAULTS = ("door-off-wall,through-room,corridors-cross,way-no-passage,reenters-room,port-outside-room,rooms-overlap,"
-          "in-keep-out,outside-bounds,maze-no-route")
+          "in-keep-out,outside-bounds,maze-no-route,note-off-floor,marks-overlap,end-in-room,offset-moved,junction-at-bend")
 SEEN = ("rooms-merge", "doors-stacked", "label-overlap")    # warnings of `check` the validator passes on
 REPACK = ("in-keep-out", "outside-bounds")                   # a stale packing: `pack` places the rooms again
 

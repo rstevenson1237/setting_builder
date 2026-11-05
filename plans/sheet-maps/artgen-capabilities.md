@@ -15,7 +15,7 @@ the choices `tools/dungeon.py` and `tools/maps.py` make. What artgen lacks, and 
 | `corridors[]` | Where two rooms do not touch: `route: "maze"`, `width: 2`, its ends `{room, side}` or `{room, port}` at the wall the Connection names, else `{room}`. Written shortest first, as `dungeon layout` routed them, so the map draws the passages `pack` measured. |
 | `connections[]` | A door or opening where two rooms touch. |
 | `furniture.place` | `outside`, so nothing stands on the map. |
-| `rooms[].exits` | Each way out of the block, a stair or arrow by the wall facing it, with a note naming the way. Two in one room take different walls, and not opposite ones of a room under 4 cells across. |
+| `rooms[].exits` | Each way out of the block, a stair or arrow by the wall facing it, with a note naming the way. artgen keeps the notes on the floor and spreads marks sharing a wall. |
 | `bounds`, `areas[]` | A block's poly outline, and each of its Rock as a `rock` area. |
 | `style` | On a packed level `wall: 2.5` and `hatch: full`; shared walls are on by default. |
 | `overlay` | A trap in the middle of its way, or in its doorway. |
