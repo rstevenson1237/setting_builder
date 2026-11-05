@@ -1,7 +1,9 @@
 # Report to artgen - designing levels, from setting_builder (draft)
 
-Status: draft, not sent. T10 of `implementation.md` brings it up to date and sends it only on the
-user's word.
+Status: draft, not sent. Everything is built in setting_builder first. This report gathers
+what the prototype and the pilot show belongs in artgen; T10 of `implementation.md` finishes it,
+and it is sent only on the user's word. Once artgen releases what it takes, setting_builder
+upgrades and moves onto it (spec S14).
 
 In reply to image_tools `docs/DUNGEON-DESIGN.md` (`86e957d`), checked against artgen 0.13.0
 (`0056fe4`).
@@ -39,6 +41,8 @@ In reply to image_tools `docs/DUNGEON-DESIGN.md` (`86e957d`), checked against ar
 | R6 | `dungeon pattern extract` (proposal §4.3) | Grows the library from drawn maps |
 | R7 | The measuring half of trace (proposal §4.3) | As the proposal says |
 | R8 | (pending T6) a settlement laid out from a graph, or a statement that `dungeon layout` is the way to do it | setting_builder wants SAFE/WILD blocks designed the same way |
+| R9 | `style.palette.rock` colours the hatch too, and the `dark` and `blueprint` presets keep walls between touching rooms visible | Found choosing a house look: a sand palette leaves the hatch grey, and both presets draw walls in the rock's colour, so touching rooms run together |
+| R10 | A settlement drawn `--theme bw` draws its ground in black and white | In 0.13 its ground stays coloured |
 
 ## What setting_builder will send as fixtures
 

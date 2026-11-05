@@ -29,14 +29,15 @@ The task plan for `spec.md`, written for the agent that builds it. Commits cite 
 | T1 | S10 | Install artgen 0.13 | `tools/artgen/`, `.claude/`, `CLAUDE.md`, `tools/dungeon.py`, `tools/maps.py`, `plans/sheet-maps/artgen-capabilities.md` |
 | T2 | S12 | Claude Code settings | `.claude/settings.json` |
 | T3 | S11 | House look (STOP) | `BRIEF.md`, `tools/tables.py`, `tools/dungeon.py`, `tools/maps.py`, `tools/validate_setting.py` |
-| T4 | S1, S2, S4, S6, S9 | Schemas, step ids, `Void`, `space.py from` | `patterns/`, `tools/validate_setting.py`, `tools/tables.py`, `tools/space.py`, `tools/schema_graph.py` |
+| T4 | S1, S2, S4, S6, S9 | Step renumber, schemas, `Void`, `space.py from` | `STEPS.md`, `patterns/`, `tools/validate_setting.py`, `tools/tables.py`, `tools/space.py`, `tools/metrics.py`, `tools/schema_graph.py`, `.claude/skills/setting-maps/`, `README.md` |
 | T5 | S4, S7 | Layout library, `design.py layouts` and `expand` | `layouts/`, `tools/design.py` |
 | T6 | S7 | SAFE/WILD solver spike (STOP) | `plans/visual-design/spike-settlement.md` |
 | T7 | S3, S5, S7 | `solve`, `accept`, `check`; the validator holds tables to designs | `tools/design.py`, `tools/validate_setting.py`, `tools/maps.py`, `tools/space.py` |
 | T8 | S1, S8, S13 | Templates, steps, skill, docs | `templates/region/`, `templates/checks/Map_Judgement_Check.md`, `STEPS.md`, `.claude/skills/block-design/`, `CLAUDE.md`, `README.md` |
 | T9 | all | Pilot: design region E (STOP twice) | `BRIEF.md`, `setting/region/E/` |
-| T10 | | artgen report (STOP) | `plans/visual-design/report-artgen.md` |
+| T10 | S14 | Finish the artgen report (STOP) | `plans/visual-design/report-artgen.md` |
 | T11 | | Close | `metrics-after.txt`, this folder |
+| later | S14 | Move onto the artgen release that takes the engine half: a new plan, once it exists | |
 
 ## T0 - baseline
 
@@ -77,29 +78,35 @@ The task plan for `spec.md`, written for the agent that builds it. Commits cite 
 
 ## T3 - the house look
 
-1. Read `BRIEF.md`'s intro and `setting` node, and `tools/tables.py` `Brief`. Add a `look` line
-   per map kind to the `setting` node's grammar (spec S11), with a sentence in `BRIEF.md`'s
-   intro saying what it is. A missing `look` keeps today's drawing exactly.
-2. Find every fixed style value: `dungeon.py` (`"style": {"hatch": "band", ...}`, `ROUTED_WALL`)
+The options are in spec S11 and `looks/`. The user picks the default; if `intake.md` does not yet
+record their pick, **STOP** and ask, showing `looks/`.
+
+1. Read `BRIEF.md`'s intro and framework levers, and `tools/tables.py` `Brief`. Add the `maps`
+   node and its `look` lines (spec S11), with one sentence in `BRIEF.md`'s intro saying what they
+   are and that a key left out keeps today's drawing.
+2. Find every fixed style value: `dungeon.py` (the `style` dict in `block_map`, `ROUTED_WALL`)
    and `maps.py` (`--theme color` in `render_fresh`, and the settlement and terrain renders). Read
-   them from `look`, falling back to today's values.
-3. Render three candidate looks in scratch on block `G.a` (the largest level) and `A.a` (a WILD
-   settlement), each at 1600x1600px and at the PDF's 110x150mm: (a) today's black on white with
-   `numbers: plain` and `doors: square`; (b) the `dark` preset; (c) a sand palette for the
-   Lost City (warm rock, pale floor, dark brown ink) with the settlement `color` theme. Check each
-   is legible at the PDF size.
-4. **STOP.** Send the user the six PNGs and a one-line note on each. Wait for their pick or
-   their changes.
-5. Write their pick into `BRIEF.md`. Extend `tools/validate_setting.py` to reject an unknown preset,
-   theme or a palette value that is not `#rrggbb`. Diff the site build against T0. Commit.
+   each from `look`, falling back to today's value. Map `rock-color`, `floor`, `ink`, `grid` and
+   `wall-color` to artgen's `style.palette` keys.
+3. Write the user's pick into `BRIEF.md`. Draw every map at 1600x1600px and at the PDF's
+   110x150mm, and check that codes, stairs and notes read at both sizes.
+4. Prove the fallback: with the `maps` node removed, a site build is byte for byte T0's.
+5. Extend `tools/validate_setting.py` to reject an unknown key, preset or theme, and a colour that
+   is not `#rrggbb`. Commit.
 
 ## T4 - schemas, step ids, voids, one place from another
 
-- **Step ids.** In `tools/validate_setting.py`, let `TEMPLATE_STEP_CITE_RE` and `STEP_BODY_RE`
-  take a suffix of one or more letters (`[a-z]+`). Check every other place that parses a step id
-  (`grep -rn "\[a-z\]" tools/`), including `--pending`, `--read-set` and `--skeleton`. Then add
-  step 3ca to `STEPS.md` as one line (its full wording comes in T8) and confirm the validator
-  resolves it.
+- **Renumber steps 3d to 3f** (the user asked for it; spec S1). In `STEPS.md`, add the new 3d
+  (one line; its full wording comes in T8) and renumber 3d to 3e, 3e to 3f, 3f to 3g. Move every
+  citation with them. On `7f3d6cd` they are: `tools/tables.py` (`"Locations": "3d"`),
+  `tools/space.py` (`(step 3d)`), `tools/validate_setting.py` (`owed to step 3f`),
+  `tools/metrics.py` (`Ground.md (3d, 4e; ...)` and its comment), the `setting-maps` skill
+  (`| 3b, 3f |`) and `README.md` (the example `3d`). Search again with
+  `grep -rnE "\b3[d-f]\b" --include=*.md --include=*.py . | grep -v "^./archive"` and the same for
+  `plans/` you are writing. Leave alone every `3d` that is a count of Tests (`Test of ..., 3d,
+  ...`) and the validator's `1d-3d` messages. Archived and closed plans keep their old ids.
+- Confirm `--pending`, `--read-set 3e` and `--skeleton 3e E` give what `--read-set 3d` and
+  `--skeleton 3d E` gave before the renumber.
 - **Design node.** In `patterns/Region_Schema.md`, define `Design` (spec S2) as a region file,
   `setting/region/[Code]/Design.md`, for any rating. Make `tools/tables.py` read and check it like
   the other table files. Fields marked `drawn` are the ones `design.py accept` writes.
@@ -154,8 +161,8 @@ The task plan for `spec.md`, written for the agent that builds it. Commits cite 
 - `design.py check`: the agreement rules in spec S3, returning findings the validator prints with
   the step that owes each.
 - Validator: call `design.check`. A region with `design` in BRIEF.md and no approved design is a
-  warning owed by 3ca; `--pending` lists it.
-- `maps.py pack` refuses a block with an approved design and names 3ca.
+  warning owed by 3d; `--pending` lists it.
+- `maps.py pack` refuses a block with an approved design and names 3d.
 - `space.py` reads design places, so a design and a table that disagree on a place show in the
   dry fire as well as in the validator.
 - Prove each agreement error fires on a scratch copy of the setting (change one `xyz`, drop one
@@ -168,17 +175,17 @@ The task plan for `spec.md`, written for the agent that builds it. Commits cite 
   and `layouts/`, and writes `Design.md`.
 - `templates/region/Locations.md` and `Connections.md`: read `Design.md` where it exists. Codes,
   types, places, shapes and ways come from it; names, write-ups and what stands in a way do not.
-- `STEPS.md`: the full wording of 3ca (design the blocks of each region whose `BRIEF.md` node
+- `STEPS.md`: the full wording of 3d (design the blocks of each region whose `BRIEF.md` node
   has `design`: write the design, solve, show the user the candidates, accept their pick), and the
   4a note that a designed block is not packed. Change no other step id.
 - `templates/checks/Map_Judgement_Check.md`: one item, per designed block, "the drawing reads
   as the approved design".
 - `.claude/skills/block-design/SKILL.md` (spec S8). Its description says when to use it: step
-  3ca, choosing layouts, or changing a design. Give the commands and the order; point at the
+  3d, choosing layouts, or changing a design. Give the commands and the order; point at the
   `dungeon-map` skill for artgen keys and at `layouts/` for the library.
 - `CLAUDE.md`: amend the maps line (spec S13). `README.md`: `layouts/`, `Design.md`,
   `tools/design.py`, the skill, `space.py from`.
-- Run `python3 tools/validate_setting.py --read-set 3ca` and `--skeleton 3ca E` and check the output.
+- Run `python3 tools/validate_setting.py --read-set 3d` and `--skeleton 3d E` and check the output.
   Commit.
 
 ## T9 - pilot on region E
@@ -198,10 +205,15 @@ Region E (level 3) is a turning hall with eight passages to three faction comple
 5. Run `space.py settle E` and the dry fire; fix what it reports in the content.
 6. Commit. Record in this folder what the pilot changed and what it showed about the layouts.
 
-## T10 - the artgen report
+## T10 - finish the artgen report
 
-- `report-artgen.md` in this folder is a draft. Bring it up to date with what T5 to T9 found:
-  which layouts needed which constraints, how unbounded designs behaved, the SAFE/WILD spike.
+Everything is built here first; the report is how the prototype decides what artgen takes
+(spec S14).
+
+- `report-artgen.md` in this folder is a draft. Add to it as each task finds something, and finish
+  it here: which layouts needed which constraints, how unbounded designs behaved, the SAFE/WILD
+  spike, what `design.py` does that the engine should, and what should stay framework-specific.
+  Mark each request with the evidence from this repo (a design, a graph, a render).
 - **STOP.** Show the user the report. Only on their word, open it as an issue on
   `rstevenson1237/image_tools` with the label `artgen-feedback`, or give them the text to paste.
 
@@ -222,5 +234,5 @@ Region E (level 3) is a turning hall with eight passages to three faction comple
   a point. Accept that for now; the report asks for growth.
 - **The pilot changes content.** E's write-ups were checked at step 5. Rewriting E's places can
   make them stale. The STOPs in T9 keep the user in charge of how far that goes.
-- **Step-id regex.** Widening it could match prose by accident. Check that the set of resolved
-  citations before and after is the same, plus 3ca.
+- **The renumber.** A missed citation points at the wrong step. The validator resolves template
+  citations against `STEPS.md`, but not prose in tools; the grep in T4 is the check.

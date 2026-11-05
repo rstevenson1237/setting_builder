@@ -33,22 +33,24 @@ Checked against image_tools at `0056fe4` (artgen 0.13.0) and this repo at `7f3d6
 | The concept-to-brief work belongs with this repo | True, with two corrections | The words above clash. Pins (`over`, `xyz`), voids (`Rock` becomes `keepOut`) and 3D places (`tools/space.py`) already exist here, so the design step builds on them. |
 | An unset footprint lets the solver grow the level | Partly | `Graph.footprint` unset means "the least square `fill` allows". That is compact, not grown from a point. True growth is an engine feature (see the report). |
 
-The proposal's split of work holds. The user chose to prototype the engine half here first
-(`intake.md`). The parts that belong in the engine are written up for image_tools in
-`report-artgen.md`, which is sent only when the user agrees.
+The proposal's split of work holds, but the order changes: everything is built here first
+(`intake.md`). What the prototype and the pilot show belongs in the engine is written into
+`report-artgen.md` as the work goes, and sent only when the user agrees. Once artgen ships it, the
+framework upgrades and moves onto it (S14).
 
 ## S1. A design step, optional per region
 
 - A region's `BRIEF.md` node may hold one `design` line. With it, the region's blocks are
-  designed at a new step **3ca**, after its seed (3c) and before `Locations.md` (3d). Without it,
-  the region is built as today.
-- The step-id pattern in `tools/validate_setting.py` (`TEMPLATE_STEP_CITE_RE`, `STEP_BODY_RE`)
-  takes a suffix of one or more letters, so `3ca` sits between `3c` and `3d` and no step is
-  renumbered.
-- 3ca writes `setting/region/[Code]/Design.md`, following `templates/region/Design.md`. Steps 3d
-  and 3e read it when it exists and write the tables to agree with it.
+  designed at a new step **3d**, after its seed (3c) and before `Locations.md`. Without it, the
+  region is built as today.
+- The steps after it are renumbered, as the user asked: `Locations.md` becomes 3e,
+  `Connections.md` 3f, and the second `maps.py ground` 3g. Every citation moves with them
+  (implementation T4 lists them). "3d" is also a count of Tests in the content (`Test of
+  Constitution, 3d, Piercing`), and those are not step ids.
+- 3d writes `setting/region/[Code]/Design.md`, following `templates/region/Design.md`. Steps 3e
+  and 3f read it when it exists and write the tables to agree with it.
 - A designed DANGEROUS block is not packed at 4a: its places come from the design. `maps.py pack`
-  refuses a designed block and names 3ca.
+  refuses a designed block and names 3d.
 
 ## S2. The design file
 
@@ -82,9 +84,9 @@ For each block with an approved design, the validator reports an **error** when:
 - a design void has no matching `Rock` (DANGEROUS) or `Void` (SAFE/WILD) entry, or the other way
   round.
 
-It reports a **warning**, owed by 3ca, for a region whose `BRIEF.md` node has `design` but has no
-approved design. `--pending` lists it. Each error names the step that fixes it: 3ca when the
-design is wrong, 3d or 3e when the tables are.
+It reports a **warning**, owed by 3d, for a region whose `BRIEF.md` node has `design` but has no
+approved design. `--pending` lists it. Each error names the step that fixes it: 3d when the
+design is wrong, 3e or 3f when the tables are.
 
 `tools/space.py` reads design places through the same code as table places, so the dry fire
 covers designs.
@@ -145,7 +147,7 @@ geometry stated in the layout.
 
 ## S8. The design skill
 
-`.claude/skills/block-design/SKILL.md`, this repo's, beside `setting-maps`. It runs 3ca:
+`.claude/skills/block-design/SKILL.md`, this repo's, beside `setting-maps`. It runs 3d:
 
 1. Read the region's `BRIEF.md` node, its seed and `GENRE.md`. Ask the user only what they leave
    open, in at most three questions.
@@ -153,7 +155,7 @@ geometry stated in the layout.
    places.
 3. Run `design.py solve`. Show the user the contact sheet and the score table.
 4. Run `design.py accept` for the user's pick. Set `approved` only on their word.
-5. Hand over to 3d and 3e.
+5. Hand over to 3e and 3f.
 
 It names the existing `dungeon-map` skill for the meaning of every artgen key, and repeats none
 of it.
@@ -171,12 +173,35 @@ to `dungeon.FAULTS`. Bring `plans/sheet-maps/artgen-capabilities.md` up to date.
 
 ## S11. The house look
 
-- `BRIEF.md`'s `setting` node gains one `look` line per map kind (`dungeon`, `settlement`,
-  `terrain`): a dungeon preset and palette, door and number style, and the settlement and terrain
-  theme. `tables.Brief` reads it. `tools/dungeon.py` and `tools/maps.py` apply it in place of
-  today's fixed values. With no `look` line, maps draw as they do today.
-- The values are chosen by the user from candidates rendered on one dungeon level and one
-  settlement, and the PDF size is checked for legibility.
+- `BRIEF.md`'s framework levers gain a `maps` node with one `look` line per map kind, written at
+  the default the user picks and changed there like any other lever:
+
+  ```kdl
+  maps {
+    look dungeon hatch=none rock=solid wall=1.5 numbers=plain doors=square rock-color="#a9824c" floor="#f6ecd6" ink="#3a2a18" grid="#c9b48c" wall-color="#3a2a18"
+    look settlement theme=color
+    look terrain theme=color
+  }
+  ```
+
+  (the values shown are option B below). A dungeon `look` may also name `preset=dark|blueprint`,
+  whose values fill what the line leaves unset. A key left out keeps today's drawing, so a
+  `BRIEF.md` with no `maps` node draws every map as it does now.
+- `tables.Brief` reads it; `tools/dungeon.py` and `tools/maps.py` apply it in place of today's
+  fixed values (`dungeon.py`'s `style`, `ROUTED_WALL`; `maps.py`'s `--theme color`). The validator
+  rejects an unknown key, preset or theme, and a colour that is not `#rrggbb`.
+- The options, rendered with artgen 0.13 on level 5 (`G.a`), the Drifted Streets (`A.a`) and the
+  Sands sheet, are in `looks/`:
+
+  | Option | Dungeon | Note |
+  |---|---|---|
+  | A. Classic | today's grey hatched rock, black walls, with plain numerals and square doors | prints anywhere |
+  | B. Sand | solid ochre rock, cream floors, dark brown ink and walls | the Lost City's colours; prints as mid-grey rock in black and white |
+  | C. Sand on hatch | cream floors and brown ink over today's hatch | the hatch stays grey: `palette.rock` does not colour it |
+  | D. `dark` or `blueprint` preset | solid dark or blue rock, white floors | the walls take the rock's colour, so walls between touching rooms vanish and rooms run together; usable only with `wall-color` set to the ink |
+
+  Settlements and terrain keep `color` (today) or take `bw`. In 0.13 a settlement drawn `bw`
+  still has coloured ground, which goes in the report.
 
 ## S12. Claude Code settings
 
@@ -190,7 +215,22 @@ The rule syntax is checked against the current Claude Code documentation before 
 - `CLAUDE.md`: the maps line says that a designed block's tables follow its approved design, and
   that drawn maps are still built from the tables.
 - `README.md`: `layouts/`, `tools/design.py`, the `block-design` skill and `Design.md`.
-- `STEPS.md`: step 3ca, and 3d, 3e and 4a for designed regions.
+- `STEPS.md`: the new step 3d, the renumbered 3e to 3g, and 4a for designed regions.
 - `templates/region/Locations.md` and `Connections.md` read `Design.md` where it exists.
 - `templates/checks/Map_Judgement_Check.md`: one item per designed block, "the drawing reads as
   the approved design".
+
+## S14. Moving onto artgen once it has the engine half
+
+Built here first, the prototype decides what artgen should take. When the user is satisfied with
+the prototype and the pilot:
+
+1. The report (`report-artgen.md`) is finished from what the work showed and sent on the user's
+   word.
+2. image_tools builds what it takes, and releases it.
+3. The framework upgrades to that release, as the `setting-maps` skill says, and moves each piece
+   onto the engine: `design.py` shrinks to what is framework-specific, `layouts/` moves or stays as
+   the report settles, and every design solves to the same places it did before the move (or the
+   user approves the difference).
+
+That last phase is a plan of its own, written when the release exists.

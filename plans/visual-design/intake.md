@@ -47,6 +47,23 @@
 | Item 5: layouts per block | Several per block, chained by sockets; one per block is the simplest case. |
 | Item 1: the source of truth once a design is approved | A committed design file per block. The tables are written from it, the validator fails when they disagree, and drawn maps are still built from the tables. |
 
+## Second follow-up, verbatim
+
+> confirming that we are building everything here, feedback from the process and our prototype
+> will identify what makes sense to port back to artgen and write that into the report. Once user
+> is satisfied then artgen can be upgraded and our work here reintegrated?
+>
+> Two letter steps seem overboard. Just change the steps.
+>
+> Yes we can pick the default, give me options. This should be tweakable in brief.md
+
+Read as: everything is built here; the report is written from what the work shows and sent when
+the user is satisfied; a later plan moves the framework onto the artgen release (spec S14). The
+design step is a new 3d and the steps after it are renumbered (spec S1). The look is a `maps`
+lever in `BRIEF.md`, at a default the user picks from the options in spec S11 and `looks/`.
+
+The user's pick of default look: *(not yet given; T3 asks)*.
+
 ## How it is read
 
 | Asked | Read as |
