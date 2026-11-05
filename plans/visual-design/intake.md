@@ -62,7 +62,7 @@ the user is satisfied; a later plan moves the framework onto the artgen release 
 design step is a new 3d and the steps after it are renumbered (spec S1). The look is a `maps`
 lever in `BRIEF.md`, at a default the user picks from the options in spec S11 and `looks/`.
 
-The user's pick of default look: *(not yet given; T3 asks)*.
+The user's pick of default look: option B (Sand) for dungeons, `color` for settlements and terrain - the recommendation, accepted.
 
 ## How it is read
 

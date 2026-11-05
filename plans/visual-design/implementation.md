@@ -78,8 +78,9 @@ The task plan for `spec.md`, written for the agent that builds it. Commits cite 
 
 ## T3 - the house look
 
-The options are in spec S11 and `looks/`. The user picks the default; if `intake.md` does not yet
-record their pick, **STOP** and ask, showing `looks/`.
+The options are in spec S11 and `looks/`. The user picked option B (Sand) for dungeons and
+`color` for settlements and terrain (`intake.md`): write the `maps` node exactly as spec S11
+shows it.
 
 1. Read `BRIEF.md`'s intro and framework levers, and `tools/tables.py` `Brief`. Add the `maps`
    node and its `look` lines (spec S11), with one sentence in `BRIEF.md`'s intro saying what they
