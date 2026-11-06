@@ -23,7 +23,7 @@ spaced and how direct.
 
 A DANGEROUS block is built from layouts: a `Use` for each one the seed's shape for the block
 calls for (`python3 tools/design.py layouts` lists them by tag), a `Bind` giving each role the
-codes and the one type it asks for, a `Join` for each pair of sockets meant to meet, a `Fill` for
+codes and their types, a `Join` for each pair of sockets meant to meet, a `Fill` for
 each location no layout holds, and a `Void` for ground no room takes. The type mix is `BRIEF.md`'s
 for the region. A SAFE or WILD block is fixed geometry: write its `Place` for each location and
 its `Link` for each street yourself, from the region's ground and outline, with no layouts.

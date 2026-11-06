@@ -30,7 +30,7 @@ one repeats none of it.
 ## What a design holds
 
 - Codes are `[Code].1` to `[Code].N` across the region, as `Locations.md` will number them; each
-  `Bind` and `Fill` gives the type of its locations, in `BRIEF.md`'s mix.
+  `Bind` and `Fill` gives the type of its locations, one for all or one each, in `BRIEF.md`'s mix.
 - A stair into a room of the block pins that room over the level it meets, in the design's frame: state an
   `outline` for such a block. A design with none grows from its centre, and `accept` writes the `hull` it filled.
   Where the levels a stair joins are not yet placed, `solve` and `accept` take `--free` to ignore them, and

@@ -236,6 +236,8 @@ class Expand:
             return self.say(n, f"Bind names use {uid!r} and role {role!r}, which no Use of this design holds")
         lay, values = self.uses[uid]
         codes = words(n.props.get("locations"))
+        if len(words(n.props.get("type"))) not in (1, len(codes)):
+            return self.say(n, f"{uid}'s role {role} has {len(codes)} locations and {len(words(n.props.get('type')))} types: one type, or one each")
         if (uid, role) in self.rooms:
             return self.say(n, f"{uid}'s role {role} is bound twice")
         if len(codes) != self.count(lay, values, role):
@@ -253,6 +255,8 @@ class Expand:
                 self.fixed.add(c)
 
     def fill(self, n: kdl.Node):
+        if len(words(n.props.get("type"))) not in (1, len(words(n.props.get("locations")))):
+            self.say(n, "a Fill states one type for its locations, or one each")
         for c in words(n.props.get("locations")):
             if c in self.size:
                 self.say(n, f"{c} is bound twice")
@@ -711,6 +715,12 @@ def groups(region) -> dict[str, dict]:
     return out
 
 
+def kinds_of(n: kdl.Node) -> dict[str, str]:
+    """The type each location of a Bind or Fill line asks for: its one type for all, or one each in order."""
+    codes, types = words(n.props.get("locations")), words(n.props.get("type"))
+    return {c: t for c, t in zip(codes, types * len(codes) if len(types) == 1 else types)}
+
+
 def box(outline: tuple | None) -> tuple[float, float] | None:
     """The width and length of an outline's box."""
     if outline is None:
@@ -775,9 +785,9 @@ def agree(region, bid: str, g: dict) -> list[tuple[str, str]]:
     wanted = {}
     for n in g["lines"]:
         if n.name in ("Bind", "Fill"):
-            for c in words(n.props.get("locations")):
-                if c in locs and str(n.props.get("type")) != str(locs[c].props.get("type")):
-                    out.append(("error", f"{c} is type {locs[c].props.get('type')} in Locations.md and {n.props.get('type')} in the design - owed to step 3e, or 3d if the design is wrong"))
+            for c, t in kinds_of(n).items():
+                if c in locs and str(locs[c].props.get("type")) != t:
+                    out.append(("error", f"{c} is type {locs[c].props.get('type')} in Locations.md and {t} in the design - owed to step 3e, or 3d if the design is wrong"))
     for n in g["links"]:
         a, b = str(n.args[0]), str(n.props.get("to"))
         wanted[frozenset((a, b))] = (a, b, str(n.props.get("kind")))

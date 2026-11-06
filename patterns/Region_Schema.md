@@ -73,11 +73,11 @@ node Bind {                 // a role of a Use given its locations
   use tag
   role tag
   locations location list
-  type kind                 // the type of every location of the role
+  type kind list            // one type for every location of the role, or one for each, in order
 }
 node Fill {                 // locations no layout binds: plain rooms the solver places
   locations location list
-  type kind
+  type kind list            // as a Bind's
   width feet opt            // each room's across and along; unset, the solver's size for the type
   length feet opt
 }
