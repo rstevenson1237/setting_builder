@@ -884,9 +884,12 @@ def show_layouts() -> int:
     layouts, problems = read_layouts()
     for lay in layouts.values():
         print(f"{lay.id}  [{', '.join(lay.tags)}]  {lay.name}")
-        print(f"    parameters: {', '.join(f'{k} {lo}-{hi}' for k, (lo, hi) in lay.params.items()) or '-'}")
-        print(f"    roles:      {', '.join(f'{r}' + (f' x{p['count']}' if 'count' in p else '') for r, p in lay.parts.items())}")
-        print(f"    sockets:    {', '.join(f'{s['name']} ({s['bearing']}, {s['width']} ft)' for s in lay.sockets.values()) or '-'}")
+        params = ", ".join(f"{k} {lo}-{hi}" for k, (lo, hi) in lay.params.items()) or "-"
+        roles = ", ".join(r + (f" x{p['count']}" if "count" in p else "") for r, p in lay.parts.items())
+        sockets = ", ".join(f"{s['name']} ({s['bearing']}, {s['width']} ft)" for s in lay.sockets.values()) or "-"
+        print(f"    parameters: {params}")
+        print(f"    roles:      {roles}")
+        print(f"    sockets:    {sockets}")
     for path, msg in problems:
         print(f"ERROR: {path.relative_to(tables.ROOT)}: {msg}", file=sys.stderr)
     return 1 if problems else 0
