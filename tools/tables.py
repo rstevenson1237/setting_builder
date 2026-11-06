@@ -1228,6 +1228,7 @@ EXTENT_RE = re.compile(r"(\d+(?:\.\d+)?) by (\d+(?:\.\d+)?) (\w+)")
 SPAN_RE = re.compile(r"(\d+(?:\.\d+)?)(?:-(\d+(?:\.\d+)?))? (\w+)")
 FILL_RE = re.compile(r"(\d+)-(\d+)%")
 SPACING_RE = re.compile(r"(\d+)-(\d+) feet")
+PAD_RE = re.compile(r"(\d+) feet")
 
 
 def design_setting(key: str, v: str) -> str | None:
@@ -1239,9 +1240,11 @@ def design_setting(key: str, v: str) -> str | None:
         return None
     if key == "passages" and PERCENT_RE.fullmatch(v) and int(v[:-1]) <= 100:
         return None
+    if key == "pad" and (m := PAD_RE.fullmatch(v)) and int(m[1]) % 5 == 0:
+        return None
     if key == "detour" and not unit_problem("distance", v, {"Distance_Unit": {"feet": 0, "yards": 0, "miles": 0}}):
         return None
-    return f'takes fill="N-M%", spacing="N-M feet", passages="N%" and detour, a distance, not {key}={v!r}'
+    return f'takes fill="N-M%", spacing="N-M feet", passages="N%", detour, a distance, and pad="N feet", not {key}={v!r}'
 
 UNIT_FEET = {"feet": 1, "yards": 3, "miles": 5280}
 PROCEDURES = "Procedures"      # a region's own count, from its `procedure` lines, never a type's rate

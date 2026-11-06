@@ -731,16 +731,25 @@ class Space:
         the centre of `code`'s block: from where both lie, else from the far room's own block,
         whose centre a stair's two blocks share until placed."""
         t = self.things.get(code)
-        region = self.world.regions.get(t.region) if t else None
-        for n in region.files.get("Connections", []) if region else []:
-            if not n.args or str(n.args[0]) != code or not self.stair(region, n):
+        region = self.world.regions.get(t.region if t else code.split(".")[0])
+        ways = [(region, n, str(n.props["to"])) for n in region.files.get("Connections", []) if n.args and str(n.args[0]) == code] if region else []
+        ways += [(r, n, str(n.args[0])) for r in self.world.regions.values() if r is not region        # a level written first reaches
+                 for n in r.files.get("Connections", []) if n.args and str(n.props.get("to")) == code]   # one not yet written
+        for r, n, far in ways:
+            if not self.stair(r, n):
                 continue
-            f = self.things.get(str(n.props["to"]))
+            f = self.things.get(far)
             if f is None or f.at[0] is None or f.outline is None:
                 continue
-            near, far = self.frame(t.parent, f)
+            if t is None:                       # a room not yet written: its block is its region's first, centred on the region's origin
+                near, far = self.absolute(self.things[code.split(".")[0]]), self.absolute(f)
+            else:
+                near, far = self.frame(t.parent, f)
             x, y = (far[0] - near[0], far[1] - near[1]) if None not in near[:2] + far[:2] else (f.at[0], f.at[1])
-            w, l = (2 * f.outline[1],) * 2 if f.outline[0] == "circle" else f.outline[1:3]
+            if f.outline[0] == "poly":          # a polygon room: the box it fits in
+                w, l = (max(v) - min(v) for v in zip(*f.outline[1]))
+            else:
+                w, l = (2 * f.outline[1],) * 2 if f.outline[0] == "circle" else f.outline[1:3]
             return x, y, w, l
         return None
 

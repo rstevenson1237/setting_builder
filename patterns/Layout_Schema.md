@@ -34,6 +34,8 @@ node Tie {                  // a way between two roles: the rooms of one and of 
   a tag                     // a role; the same role twice joins each room to the next
   b tag
   kind Link_Kind
+  of_a tag opt              // first, last or a number: the one room of a role with several that the way ends at
+  of_b tag opt
 }
 node Socket {               // where the layout joins another, or leaves the block
   name tag

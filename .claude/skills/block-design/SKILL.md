@@ -35,8 +35,11 @@ one repeats none of it.
   `outline` for such a block. A design with none grows from its centre, and `accept` writes the `hull` it filled.
   Where the levels a stair joins are not yet placed, `solve` and `accept` take `--free` to ignore them, and
   `python3 tools/maps.py pack --again` places them around this level.
-- `fill`, `spacing`, `passages` and `detour` come from `BRIEF.md`'s `design` line, then `pack` line, and
-  a `Design` line overrides only what it names.
+- `fill`, `spacing`, `passages`, `detour` and `pad` come from `BRIEF.md`'s `design` line, then `pack` line, and
+  a `Design` line overrides only what it names. The solver only hints at `passages` and `spacing`: it packs
+  rooms wall to wall. For a passage between rooms, give `pad="5 feet"` or more: each room is grown by it in the solve, so
+  rooms that touch there stand twice it apart in the tables, and the map draws a passage. A `Bind` or `Fill` may
+  state its own `pad`, where one stretch of a level is to be dense. A `Fill` may state a `shape` or a `poly` `outline`.
 - A SAFE or WILD block is fixed geometry, not solved: write each location's `Place` and each street's
   `Link` yourself, and `check` holds the tables to them.
 - An approved design's places are the tables': `python3 tools/maps.py pack` refuses its block.

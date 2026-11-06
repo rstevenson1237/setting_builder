@@ -57,6 +57,7 @@ node Design {               // a block's design, opening with its id: `layouts/`
   outline outline opt       // the ground its rooms fill; unset, they grow out from xyz and the outline is the hull of what they hold
   fill string opt           // the share of the outline the rooms cover, "N-M%"; unset, BRIEF.md's pack
   spacing string opt        // the passage wanted between joined rooms, "N-M feet"; sets passages and detour where they are unset
+  pad string opt            // "N feet": each room is grown by it on every side in the solve, so rooms that touch there stand twice it apart
   passages percent opt      // the share of ways run as passages; unset, BRIEF.md's pack
   detour distance opt       // the most a way may walk beyond the straight line; unset, BRIEF.md's pack
   hull outline opt drawn    // where it states no outline, the ground the solved rooms and ways hold, which Blocks.md draws
@@ -74,12 +75,16 @@ node Bind {                 // a role of a Use given its locations
   role tag
   locations location list
   type kind list            // one type for every location of the role, or one for each, in order
+  pad string opt            // "N feet", in place of the design's for these rooms
 }
 node Fill {                 // locations no layout binds: plain rooms the solver places
   locations location list
   type kind list            // as a Bind's
   width feet opt            // each room's across and along; unset, the solver's size for the type
   length feet opt
+  pad string opt            // as a Bind's
+  shape Room_Shape opt      // rect where unset
+  outline outline opt       // a "poly" where no shape draws the room: its extent is its width and length
 }
 node Join {                 // a socket of one Use to a socket of another, or to a location of another block
   from string               // "use.socket"

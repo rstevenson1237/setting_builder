@@ -13,7 +13,8 @@ their sockets and leaves the rest of its locations to fill. `expand` turns it in
 a role's rooms are its bound locations, sized at the middle of the layout's range, a Tie joins the
 rooms of two roles, a Join the rooms at two sockets or a socket and a location, a fill room the
 size its Fill states. The ground is the design's `outline`, else left to the least square its `fill`
-allows; its voids are kept out. Where the design leaves `fill`, `passages` or `detour` unset BRIEF.md's
+allows; its voids are kept out. A `pad` grows each room in the solve and `Place` states the room itself, so the
+rooms stand a passage apart in the tables. Where the design leaves `fill`, `passages` or `detour` unset BRIEF.md's
 `design` line, then its `pack` line, gives them. Prints the graph on stdout and every problem on stderr, and exits 1 on any.
 
 `solve` packs the graph over N seeds, scores each against the design (the rooms are all there, the share of the
@@ -51,7 +52,7 @@ LATTICE = dungeon.LATTICE       # feet: rooms are sized in whole steps of it, so
 RING = 24                       # sides of the polygon a circular outline is given as
 SHAPES = {"rect": "rect", "cave": "cave", "round": "round", "octagon": "octagon", "hexagon": "hexagon", "hall": "rect"}
 NODES = {"Layout": {"name", "tags", "source"}, "Param": {"name", "range"},
-         "Part": {"role", "shape", "width", "length", "count", "at", "focal"}, "Tie": {"a", "b", "kind"},
+         "Part": {"role", "shape", "width", "length", "count", "at", "focal"}, "Tie": {"a", "b", "kind", "of_a", "of_b"},
          "Socket": {"name", "part", "of", "bearing", "width"}, "Constraint": {"kind", "parts"}}
 RANGE_RE = re.compile(r"(\d+)(?:-(\d+))?")
 
@@ -131,6 +132,8 @@ def read_layout(path: Path, compass: list[str], shapes) -> tuple[Layout | None, 
         elif n.name == "Tie":
             if q.get("a") not in roles or q.get("b") not in roles or q.get("kind") not in ("door", "passage"):
                 p(n, "a Tie joins two roles of the layout, as a door or a passage")
+            if any(k in q and q[k] not in ("first", "last") and not q[k].isdigit() for k in ("of_a", "of_b")):
+                p(n, "of_a and of_b are first, last or a number")
             lay.ties.append(q)
         elif n.name == "Socket":
             if not q.get("name") or q["name"] in lay.sockets or q.get("part") not in roles \
@@ -160,6 +163,14 @@ def read_layouts(root: Path = LAYOUTS) -> tuple[dict[str, Layout], list[tuple[Pa
 
 # -- a design, as a graph --------------------------------------------------------------
 
+def pick(rooms: list[str], which: str | None) -> list[str]:
+    """The rooms of a role a Tie ends at: all of them, or the first, the last or the Nth."""
+    if which is None or not rooms:
+        return rooms
+    i = len(rooms) - 1 if which == "last" else int(which) - 1 if which.isdigit() else 0
+    return [rooms[i]] if 0 <= i < len(rooms) else []
+
+
 def mid(lo: int, hi: int, grid: int = 1) -> int:
     return max(grid, int((lo + hi) / 2 / grid + 0.5) * grid)
 
@@ -186,6 +197,8 @@ class Expand:
         self.rooms: dict[tuple[str, str], list[str]] = {}      # (use, role) -> the locations bound to it
         self.size: dict[str, tuple[int, int]] = {}
         self.shape: dict[str, str] = {}
+        self.points: dict[str, list] = {}                      # a fill room's poly outline, in feet round its centre
+        self.pads: dict[str, int] = {}                         # a room's own pad, where its Bind or Fill states one
         self.fixed: set[str] = set()                           # rooms a layout shapes, which may not turn
         for n in mine("Bind"):
             self.bind(n)
@@ -253,6 +266,7 @@ class Expand:
                 self.size[c] = (self.number(lay, values, part["width"], LATTICE), self.number(lay, values, part["length"], LATTICE))
                 self.shape[c] = part.get("shape", "rect")
                 self.fixed.add(c)
+                self.own_pad(n, c)
 
     def fill(self, n: kdl.Node):
         if len(words(n.props.get("type"))) not in (1, len(words(n.props.get("locations")))):
@@ -264,9 +278,27 @@ class Expand:
                 self.say(n, f"{c} is not one of the design's locations")
             else:
                 self.size[c] = (int(n.props.get("width", ROOM)), int(n.props.get("length", ROOM)))
-                self.shape[c] = "rect"
+                self.shape[c] = str(n.props.get("shape", "rect"))
+                self.own_pad(n, c)
+                if self.shape[c] not in SHAPES:
+                    self.say(n, f"{c} is shape {self.shape[c]}: one of {', '.join(SHAPES)}")
+                if (o := space.outline_value(n.props.get("outline"))) is not None:      # a poly where no shape draws the room
+                    if o[0] != "poly":
+                        self.say(n, f"{c}'s outline is a poly, or its width and length")
+                    else:
+                        self.points[c] = o[1]
+                        xs, ys = [x for x, _ in o[1]], [y for _, y in o[1]]
+                        self.size[c] = (round(max(xs) - min(xs)), round(max(ys) - min(ys)))
                 if any(v % LATTICE for v in self.size[c]):
                     self.say(n, f"{c} is {self.size[c][0]} by {self.size[c][1]} ft: a room is sized in whole {LATTICE} ft steps")
+
+    def own_pad(self, n: kdl.Node, c: str):
+        """A Bind's or Fill's own `pad`, which a room it names takes in place of the design's."""
+        if "pad" in n.props:
+            if m := tables.PAD_RE.fullmatch(str(n.props["pad"])):
+                self.pads[c] = int(m[1])
+            else:
+                self.say(n, 'pad is "N feet"')
 
     def tie(self, a: str, b: str, bearing: float | None):
         key = frozenset((a, b))
@@ -278,7 +310,7 @@ class Expand:
     def ties(self, uid: str, lay: Layout):
         look = lambda role: self.rooms.get((uid, role), [])
         for t in lay.ties:
-            a, b = look(t["a"]), look(t["b"])
+            a, b = pick(look(t["a"]), t.get("of_a")), pick(look(t["b"]), t.get("of_b"))
             if t["a"] == t["b"]:
                 at = lay.parts[t["a"]].get("at", "").partition(" ")
                 bearing = self.compass.index(at[2]) * 22.5 if at[0] == t["a"] else None
@@ -337,6 +369,7 @@ class Expand:
     def build(self, brief: tables.Brief, voids: list, seed: int, tries: int) -> dict | None:
         node = self.node
         self.settings = settings(brief, self.region.code, node)
+        self.pad = int(m[1]) if (m := tables.PAD_RE.fullmatch(self.settings.get("pad", ""))) else 0
         rates = brief.packing(self.region.code)
         overlay(rates, self.settings)
         if rates["fill"] is None or rates["passages"] is None:
@@ -352,8 +385,11 @@ class Expand:
         rooms = []
         for c in self.locations:
             w, h = self.size[c]
-            r = {"id": c, "w": w / GRID, "h": h / GRID, "shape": SHAPES[self.shape[c]], "hall": self.shape[c] == "hall",
+            grown = 0 if c in self.points else 2 * self.pads.get(c, self.pad)       # a poly is not grown; a room is, so rooms that touch in the solve stand twice the pad apart
+            r = {"id": c, "w": (w + grown) / GRID, "h": (h + grown) / GRID, "shape": "poly" if c in self.points else SHAPES[self.shape[c]], "hall": self.shape[c] == "hall",
                  "turns": c not in self.fixed and not any("bearing" in way for k, way in self.ways.items() if c in k)}
+            if c in self.points:
+                r["points"] = [v for x, y in self.points[c] for v in (x / GRID, -y / GRID)]
             if c in pins:
                 r["over"] = dungeon.held_over(pins[c], frame)
             rooms.append(r)
@@ -373,7 +409,7 @@ def ground(o: tuple | None) -> tuple[list | None, float | None]:
     return (o[1] if o[0] == "poly" else space.polygon(o, 0, 0)), None
 
 
-SETTINGS = ("fill", "spacing", "passages", "detour")
+SETTINGS = ("fill", "spacing", "passages", "detour", "pad")
 
 
 def settings(brief: tables.Brief, code: str, node: kdl.Node | None) -> dict[str, str]:
@@ -386,7 +422,8 @@ def settings(brief: tables.Brief, code: str, node: kdl.Node | None) -> dict[str,
 
 def overlay(rates: dict, got: dict[str, str]):
     """Settings over the rates a `pack` line gives. `spacing`, the passage wanted between joined rooms, sets
-    `passages` (all, where it asks for 10 ft or more) and `detour` (its most) where `got` does not."""
+    `passages` (all, where it asks for 10 ft or more) and `detour` (its most) where `got` does not. `pad` is
+    read by `Expand`: it grows each room in the solve, so rooms that touch there stand apart."""
     if m := tables.FILL_RE.fullmatch(got.get("fill", "")):
         rates["fill"] = (int(m[1]) / 100, int(m[2]) / 100)
     if "passages" in got:
@@ -432,7 +469,7 @@ def laid(ex: Expand, out: dict) -> dict[str, dict]:
     for r in out["dungeon"]["rooms"]:
         code = r["label"]
         rooms[code] = {"at": (round((r["x"] + r["w"] / 2 - MARGIN) * CELL + ox), round(-((r["y"] + r["h"] / 2 - MARGIN) * CELL + oy))),
-                       "w": round(r["w"] * CELL), "l": round(r["h"] * CELL),
+                       "w": round(r["w"] * CELL) - (0 if "points" in r else 2 * ex.pads.get(code, ex.pad)), "l": round(r["h"] * CELL) - (0 if "points" in r else 2 * ex.pads.get(code, ex.pad)),
                        **({"points": [((x - r["x"] - r["w"] / 2) * CELL, (r["y"] + r["h"] / 2 - y) * CELL)
                                       for x, y in zip(r["points"][::2], r["points"][1::2])]} if "points" in r else {})}
     return rooms
@@ -661,6 +698,8 @@ def accept(region, bid: str, seed: int, free: bool = False) -> int:
     code = lambda rid: rid.replace("-", ".")
     pairs = {tuple(sorted((code(c["a"]), code(c["b"])), key=dungeon.number)): "door" for c in d["connections"]}
     pairs |= {tuple(sorted((code(k["from"]["room"]), code(k["to"]["room"])), key=dungeon.number)): "passage" for k in d["corridors"]}
+    mine = {c: {"at": r["at"], "w": r["w"], "l": r["l"]} for c, r in cand["rooms"].items()}
+    pairs = {k: "door" if touching(mine[k[0]], mine[k[1]]) else "passage" for k in pairs}      # a padded room's door is a passage across the pad
     lines = []
     for c in ex.locations:
         r = cand["rooms"][c]
