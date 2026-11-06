@@ -36,6 +36,8 @@ artgen, in the terms of `plans/dungeon-maps/report-artgen.md`.
   a central hall central, a far tomb far.
 - **It plays** - a party meets choices where the seed implies them: loops, a second way to a
   prize, a dead end where one is meant.
+- **The drawing reads as the approved design** - for a block with a `Design.md`, the layouts it
+  used can be seen in the map, and its voids and the rooms it bound to a role stand where the design put them.
 
 ## Template
 ```
@@ -48,6 +50,7 @@ artgen, in the terms of `plans/dungeon-maps/report-artgen.md`.
 - Prose follows the map: [Confirmed / Needs Attention - location, and its source]
 - The level keeps its shape: [Confirmed / Needs Attention - note, and its source]
 - It plays: [Confirmed / Needs Attention - note, and its source]
+- The drawing reads as the approved design: [Confirmed / Needs Attention - where it departs, and its source; leave out for a block with no design]
 
 [repeat per block]
 

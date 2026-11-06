@@ -12,6 +12,7 @@ read "setting/region/Regions.md" part="this region's die"
 read "setting/region/[Region Code]/Ground.md"
 read "setting/region/[Region Code]/Locations.md"
 read "setting/region/[Region Code]/Connections.md"
+read "setting/region/[Region Code]/Design.md" once="written"
 read "setting/region/[Region Code]/[Table].md"
 read "setting/Bestiary.md" part="titles, Numbers and Disposition"
 read "setting/Factions.md" part="titles, Identity and Fields"
@@ -36,7 +37,7 @@ Write each table file its folder names that the region lacks, and add to each Co
 entry what stands in its way. Purpose first, where the folder has one;
 then each table in one pass.
 
-Where the schema holds Blocks, each Dressing states the `width` and `length` its block is drawn from, and an `outline` where no `shape` draws the room. `tools/maps.py pack` may turn or mirror a room whose Dressing and write-up name no direction; one naming a direction keeps its orientation.
+Where the schema holds Blocks, each Dressing states the `width` and `length` its block is drawn from, and an `outline` where no `shape` draws the room. `tools/maps.py pack` may turn or mirror a room whose Dressing and write-up name no direction; one naming a direction keeps its orientation. Where `Design.md` holds an approved design for the block, each Dressing's `xyz`, `width`, `length` and `shape` are its `Place`'s, and `pack` does not run.
 
 Each room gets the entries its type's `rate` line in `BRIEF.md` gives, choosing within a range
 for a reason its tags give, and toward `BRIEF.md`'s targets. The occupants the seed's `who`

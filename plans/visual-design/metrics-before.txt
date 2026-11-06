@@ -1,0 +1,387 @@
+CORPUS
+  regions            : 12 (A, B, C, D, E, F, G, H, I, J, K, L)
+  keyed locations    : 158
+  words              : 20,983
+  words per location : 133
+    A:  9 locations,  1,757 words
+    B: 10 locations,  1,672 words
+    C:  6 locations,  1,263 words
+    D: 12 locations,  1,897 words
+    E: 15 locations,  2,051 words
+    F: 20 locations,  2,437 words
+    G: 29 locations,  3,419 words
+    H: 20 locations,  2,221 words
+    I: 14 locations,  1,582 words
+    J:  9 locations,  1,041 words
+    K:  8 locations,    923 words
+    L:  6 locations,    720 words
+
+FEATURES
+  Features           : 407
+  words per Feature  : mean 18.0, max 70 (body with citation)
+  prose words        : mean 15.5, max 59 (citation stripped)
+  segments           : mean 1.9, max 6
+  sentences          : mean 1.34, max 4
+  longest            : setting/region/C/2.md 'The Numbered Tiles'
+
+CARRY
+  all          table 5,301 words, write-up 20,983,  4.0x longer; dropped 418 of 2879 table words (14%); tags carried 474 of 474
+  A            table   311 words, write-up  1,757,  5.6x longer; dropped 22 of 191 table words (11%); tags carried 27 of 27
+  B            table   376 words, write-up  1,672,  4.4x longer; dropped 19 of 213 table words (8%); tags carried 30 of 30
+  C            table   272 words, write-up  1,263,  4.6x longer; dropped 24 of 146 table words (16%); tags carried 18 of 18
+  D            table   472 words, write-up  1,897,  4.0x longer; dropped 46 of 270 table words (17%); tags carried 36 of 36
+  E            table   515 words, write-up  2,051,  4.0x longer; dropped 30 of 266 table words (11%); tags carried 45 of 45
+  F            table   614 words, write-up  2,437,  4.0x longer; dropped 58 of 346 table words (16%); tags carried 60 of 60
+  G            table   933 words, write-up  3,419,  3.7x longer; dropped 79 of 488 table words (16%); tags carried 87 of 87
+  H            table   626 words, write-up  2,221,  3.5x longer; dropped 56 of 344 table words (16%); tags carried 60 of 60
+  I            table   421 words, write-up  1,582,  3.8x longer; dropped 30 of 208 table words (14%); tags carried 42 of 42
+  J            table   280 words, write-up  1,041,  3.7x longer; dropped 17 of 158 table words (10%); tags carried 27 of 27
+  K            table   285 words, write-up    923,  3.2x longer; dropped 21 of 147 table words (14%); tags carried 24 of 24
+  L            table   196 words, write-up    720,  3.7x longer; dropped 16 of 102 table words (15%); tags carried 18 of 18
+  most dropped:
+    D.6    10 of 43: royal, line's, scouts, come, kings', faces, story's, read, east, scholars
+    D.7    8 of 30: shout, brings, more, storehouse, offerings, fire, central, found
+    G.7    8 of 22: weaken, dead, walk, central, leaf, flaking, round, neck
+    A.1    7 of 23: ring, royal, gate, points, statues', past, trapped
+    G.8    7 of 19: scented, dead, walk, toward, central, round, hover
+
+HEADCOUNT
+  Factions
+    Voxkroth                          38 in 7 room(s)
+    Kurumisa                          12 in 3 room(s)
+    Ruhiahe                           12 in 3 room(s)
+    Sihuahet                           8 in 3 room(s)
+    The Tomb Robbers                   8 in 1 room(s)
+  Bestiary
+    Skeleton                       41-82 in 9 room(s)
+    Masked Dreamer                 43-49 in 6 room(s)
+    Zombie                         17-34 in 5 room(s)
+    Ghoul                          15-30 in 5 room(s)
+    Giant Rat                      19-27 in 4 room(s)
+    Stirge                         16-26 in 4 room(s)
+    Cultist                        17-25 in 4 room(s)
+    Delver                         16-20 in 4 room(s)
+    Gargoyle                        6-10 in 5 room(s)
+    Hyena                           7-10 in 2 room(s)
+    Giant Centipede                  6-8 in 3 room(s)
+    Wraith                           5-7 in 5 room(s)
+    Giant Scorpion                   3-5 in 2 room(s)
+    Giant Spider                     3-4 in 2 room(s)
+    Mummy                            3-4 in 3 room(s)
+
+RECURRENCE
+  Bestiary            18 entries, 0 in 0 or 1 location
+  Factions             5 entries, 0 in 0 or 1 location
+  Named Creatures      4 entries, 4 in 0 or 1 location: Ghulox (L.4), Krulox (J.2), Xothox (J.3), Zhurjul (J.4)
+  Lore                11 entries, 11 in 0 or 1 location: The Captain's Last Orders (F.11), The Carver's Count (D.5), The Cult's Ledger (H.11), The Demon's Breath (K.4), The Gallery of the Fall (D.6), The Making of the Chosen (I.8), The Noble's Will (F.5), The Priestesses' Rite (G.3), The Queen's Last Rite (G.8), The Story of the Panels (C.3), The Three Claims (E.5)
+  Keys                 8 entries, 0 in 0 or 1 location
+  Unique Treasures     3 entries, 3 in 0 or 1 location: The Binding Chain (L.4), The King's Mask (G.7), The Red Ward (J.4)
+  Magical Tomes        1 entries, 1 in 0 or 1 location: The Book of the Binding (L.3)
+  Hoards               4 entries, 4 in 0 or 1 location: The Altar's Offerings (H.7), The Ghoul's Hoard (F.9), The King's Hoard (G.7), The Lieutenants' Hoard (J.2)
+  Local Procedures     5 entries, 5 in 0 or 1 location: Foraging for food and water among the ruins (A.3), Joining a faction (E.2), Joining the revels (B.4), Making shelter and a place of respite (A.2), Trading for the fungus and its drugs (B.3)
+
+FRAMES
+  opens "a black hand" in 5 rooms: I.13, K.1, K.2, K.3, L.1
+  opens "a red hawk" in 3 rooms: D.1, E.1, E.3
+  opens "N of stone" in 2 rooms: B.5, F.3
+  opens "N of the" in 2 rooms: F.12, G.3
+  opens "N to N" in 2 rooms: D.3, D.7
+  opens "a rope coil" in 2 rooms: A.1, C.4
+  opens "bronze on the" in 2 rooms: H.7, I.3
+  opens "painted with a" in 2 rooms: B.2, E.4
+  ends  "within a turn" in 7 rooms: H.7, I.2, I.3, I.9, J.2, J.4, K.4
+  ends  "on the wall" in 4 rooms: D.5, E.7, K.1, L.1
+  ends  "a hawk's head" in 2 rooms: E.3, E.8
+  ends  "a light shows" in 2 rooms: I.5, K.2
+  ends  "a party passes" in 2 rooms: H.18, L.5
+  ends  "an alarm sounds" in 2 rooms: C.4, D.6
+  ends  "and sell it" in 2 rooms: C.2, C.4
+  ends  "every dreamer hears" in 2 rooms: B.10, H.1
+  ends  "for a turn" in 2 rooms: F.16, I.10
+  ends  "guide for supplies" in 2 rooms: D.1, E.3
+  ends  "over the door" in 2 rooms: D.7, G.3
+  ends  "stair going down" in 2 rooms: A.2, D.6
+  ends  "step over it" in 2 rooms: C.3, D.8
+  ends  "the cult's claim" in 2 rooms: H.2, J.1
+  ends  "the cynidicean script" in 2 rooms: C.3, G.8
+  ends  "the gate holds" in 2 rooms: D.1, F.1
+
+TELLS
+  rather than      :    0   the trailing clause, per PR #41
+  absence claim    :    2   absence across time or space
+  conclusion tell  :    1   the players' conclusion written down, per STYLE.md
+  gloss            :    5   a term carrying its own definition
+                     'rather than' is in 0 of 407 Features
+
+MIX
+  A:
+     connections      3 - Way 3 (100%)
+     challenges       8 - Encounter 6 (75%), Hazard 2 (25%)
+     hazard damage    2 - Damaging 2 (100%)
+     reactions        6 - Hostile 4 (66%), Wary 2 (33%)
+     rewards          0 - none
+     owed           stubs 0, write-ups missing 0, stale 0
+  B:
+     connections      6 - Way 6 (100%)
+     challenges      10 - Encounter 8 (80%), Hazard 2 (20%)
+     hazard damage    2 - Damaging 1 (50%), Nuisance 1 (50%)
+     reactions        8 - Hostile 4 (50%), Friendly 2 (25%), Neutral 1 (12%), Wary 1 (12%)
+     rewards          0 - none
+     owed           stubs 0, write-ups missing 0, stale 0
+  C:
+     connections     16 - Open 6 (37%), Stone 5 (31%), Archway 3 (18%), Wooden 2 (12%)
+     challenges       5 - Encounter 3 (60%), Mystery 1 (20%), Hazard 1 (20%)
+     hazard damage    1 - Lethal 1 (100%)
+     reactions        3 - Hostile 3 (100%)
+     rewards          3 - Lore 1 (33%), Keys 1 (33%), Treasure I 1 (33%)
+     owed           stubs 0, write-ups missing 0, stale 0
+  D:
+     connections     28 - Stone 11 (39%), Open 11 (39%), Archway 4 (14%), Wooden 2 (7%)
+     challenges       9 - Encounter 5 (55%), Hazard 3 (33%), Mystery 1 (11%)
+     hazard damage    3 - Damaging 2 (66%), Lethal 1 (33%)
+     reactions        8 - Wary 5 (62%), Hostile 3 (37%)
+     rewards          5 - Lore 2 (40%), Keys 1 (20%), Treasure II 1 (20%), Treasure I 1 (20%)
+     owed           stubs 0, write-ups missing 0, stale 0
+  E:
+     connections     32 - Archway 14 (43%), Open 8 (25%), Stone 4 (12%), Wooden 4 (12%), Iron 2 (6%)
+     challenges      12 - Encounter 7 (58%), Hazard 4 (33%), Mystery 1 (8%)
+     hazard damage    4 - Damaging 2 (50%), Nuisance 2 (50%)
+     reactions        7 - Hostile 4 (57%), Wary 2 (28%), Neutral 1 (14%)
+     rewards          7 - Treasure II 3 (42%), Treasure III 1 (14%), Lore 1 (14%), Keys 1 (14%), Treasure IV 1 (14%)
+     owed           stubs 0, write-ups missing 0, stale 0
+  F:
+     connections     56 - Open 26 (46%), Wooden 10 (17%), Broken 6 (10%), Archway 6 (10%), Crude 6 (10%), Stone 2 (3%)
+     challenges      15 - Encounter 10 (66%), Hazard 5 (33%)
+     hazard damage    5 - Damaging 3 (60%), Lethal 1 (20%), Nuisance 1 (20%)
+     reactions       10 - Hostile 7 (70%), Wary 2 (20%), Neutral 1 (10%)
+     rewards          9 - Treasure I 3 (33%), Lore 2 (22%), Treasure II 2 (22%), Hoards 1 (11%), Treasure IV 1 (11%)
+     owed           stubs 0, write-ups missing 0, stale 0
+  G:
+     connections     71 - Archway 26 (36%), Open 19 (26%), Stone 18 (25%), Wooden 6 (8%), Iron 2 (2%)
+     challenges      21 - Encounter 10 (47%), Hazard 7 (33%), Mystery 4 (19%)
+     hazard damage    7 - Damaging 3 (42%), Lethal 2 (28%), Nuisance 2 (28%)
+     reactions       10 - Hostile 8 (80%), Wary 1 (10%), Neutral 1 (10%)
+     rewards         13 - Lore 2 (15%), Treasure I 2 (15%), Keys 2 (15%), Treasure III 2 (15%), Treasure II 1 (7%), Hoards 1 (7%), Unique Treasures 1 (7%), Treasure V 1 (7%), Magic 1 (7%)
+     owed           stubs 0, write-ups missing 0, stale 0
+  H:
+     connections     51 - Open 16 (31%), Wooden 10 (19%), Crude 10 (19%), Iron 7 (13%), Archway 4 (7%), Stone 2 (3%), Broken 2 (3%)
+     challenges      15 - Encounter 9 (60%), Hazard 5 (33%), Mystery 1 (6%)
+     hazard damage    5 - Damaging 3 (60%), Nuisance 1 (20%), Lethal 1 (20%)
+     reactions        9 - Hostile 7 (77%), Wary 1 (11%), Fearful 1 (11%)
+     rewards          8 - Treasure II 2 (25%), Hoards 1 (12%), Treasure III 1 (12%), Treasure IV 1 (12%), Lore 1 (12%), Keys 1 (12%), Treasure I 1 (12%)
+     owed           stubs 0, write-ups missing 0, stale 0
+  I:
+     connections     36 - Open 14 (38%), Wooden 8 (22%), Iron 6 (16%), Archway 4 (11%), Crude 2 (5%), Stone 2 (5%)
+     challenges      11 - Encounter 7 (63%), Hazard 4 (36%)
+     hazard damage    4 - Damaging 2 (50%), Nuisance 1 (25%), Lethal 1 (25%)
+     reactions        7 - Hostile 5 (71%), Wary 2 (28%)
+     rewards          8 - Treasure III 2 (25%), Treasure IV 2 (25%), Treasure I 1 (12%), Keys 1 (12%), Lore 1 (12%), Treasure II 1 (12%)
+     owed           stubs 0, write-ups missing 0, stale 0
+  J:
+     connections     26 - Stone 12 (46%), Archway 6 (23%), Wooden 4 (15%), Open 2 (7%), Iron 2 (7%)
+     challenges       7 - Encounter 6 (85%), Hazard 1 (14%)
+     hazard damage    1 - Damaging 1 (100%)
+     reactions        7 - Hostile 6 (85%), Wary 1 (14%)
+     rewards          5 - Hoards 1 (20%), Keys 1 (20%), Unique Treasures 1 (20%), Treasure V 1 (20%), Treasure III 1 (20%)
+     owed           stubs 0, write-ups missing 0, stale 0
+  K:
+     connections     20 - Open 8 (40%), Archway 6 (30%), Iron 2 (10%), Stone 2 (10%), Wooden 2 (10%)
+     challenges       7 - Encounter 4 (57%), Hazard 2 (28%), Mystery 1 (14%)
+     hazard damage    2 - Damaging 2 (100%)
+     reactions        5 - Hostile 5 (100%)
+     rewards          5 - Treasure V 1 (20%), Lore 1 (20%), Treasure IV 1 (20%), Treasure II 1 (20%), Treasure III 1 (20%)
+     owed           stubs 0, write-ups missing 0, stale 0
+  L:
+     connections     17 - Open 13 (76%), Archway 2 (11%), Stone 2 (11%)
+     challenges       5 - Encounter 3 (60%), Hazard 2 (40%)
+     hazard damage    2 - Lethal 1 (50%), Nuisance 1 (50%)
+     reactions        4 - Hostile 4 (100%)
+     rewards          2 - Magical Tomes 1 (50%), Unique Treasures 1 (50%)
+     owed           stubs 0, write-ups missing 0, stale 0
+
+TARGETS
+  A: Location.type Landmark 7 -> 7
+  A: Location.type Ruin 6 -> 6
+  A: Location.type Lair 1 -> 1
+  A: Location.type Hidden 1 -> 1
+  A: Location.type Route 1 -> 1
+  A: Location count 9 -> 9
+  B: Location.type Landmark 7 -> 7
+  B: Location.type Ruin 1 -> 1
+  B: Location.type Natural 2 -> 2
+  B: Location.type Lair 4 -> 4
+  B: Location.type Hidden 1 -> 1
+  B: Location.type Secret 1 -> 1
+  B: Location.type Route 1 -> 1
+  B: Location count 10 -> 10
+  C: Location.type High 1 -> 1
+  C: Location.type Medium 3 -> 3
+  C: Location.type Low 2 -> 2
+  C: Hazard.damage Nuisance 40% -> 3 (50%, 3 of 6)
+  C: Hazard.damage Damaging 40% -> 2 (33%, 2 of 6)
+  C: Hazard.damage Lethal 20% -> 1 (16%, 1 of 6)
+  C: Reward.contents Keys 1 -> 1
+  C: Reward.contents Lore 1 -> 1
+  C: Location count 6 -> 6
+  D: Location.type High 2 -> 2
+  D: Location.type Medium 6 -> 6
+  D: Location.type Low 4 -> 4
+  D: Hazard.damage Nuisance 40% -> 2 (40%, 2 of 5)
+  D: Hazard.damage Damaging 40% -> 2 (40%, 2 of 5)
+  D: Hazard.damage Lethal 20% -> 1 (20%, 1 of 5)
+  D: Reward.contents Keys 10% -> 1 (20%, 1 of 5)
+  D: Reward.contents Lore 2 -> 2
+  D: Location count 12 -> 12
+  E: Location.type High 3 -> 3
+  E: Location.type Medium 7 -> 7
+  E: Location.type Low 5 -> 5
+  E: Hazard.damage Nuisance 40% -> 2 (40%, 2 of 5)
+  E: Hazard.damage Damaging 40% -> 2 (40%, 2 of 5)
+  E: Hazard.damage Lethal 20% -> 1 (20%, 1 of 5)
+  E: Reward.contents Keys 1 -> 1
+  E: Reward.contents Lore 1 -> 1
+  E: Location count 15 -> 15
+  F: Location.type High 4 -> 4
+  F: Location.type Medium 10 -> 10
+  F: Location.type Low 6 -> 6
+  F: Hazard.damage Nuisance 40% -> 2 (33%, 2 of 6)
+  F: Hazard.damage Damaging 40% -> 3 (50%, 3 of 6)
+  F: Hazard.damage Lethal 20% -> 1 (16%, 1 of 6)
+  F: Reward.contents Keys 10% -> 0 (0%, 0 of 9)
+  F: Reward.contents Hoards 1 -> 1
+  F: Reward.contents Lore 2 -> 2
+  F: Location count 20 -> 20
+  G: Location.type High 6 -> 6
+  G: Location.type Medium 14 -> 14
+  G: Location.type Low 9 -> 9
+  G: Hazard.damage Nuisance 40% -> 3 (37%, 3 of 8)
+  G: Hazard.damage Damaging 40% -> 3 (37%, 3 of 8)
+  G: Hazard.damage Lethal 20% -> 2 (25%, 2 of 8)
+  G: Reward.contents Hoards 1 -> 1
+  G: Reward.contents Keys 2 -> 2
+  G: Reward.contents Unique Treasures 1 -> 1
+  G: Reward.contents Lore 2 -> 2
+  G: Location count 29 -> 29
+  H: Location.type High 4 -> 4
+  H: Location.type Medium 9 -> 9
+  H: Location.type Low 7 -> 7
+  H: Hazard.damage Nuisance 40% -> 3 (42%, 3 of 7)
+  H: Hazard.damage Damaging 40% -> 3 (42%, 3 of 7)
+  H: Hazard.damage Lethal 20% -> 1 (14%, 1 of 7)
+  H: Reward.contents Keys 10% -> 1 (12%, 1 of 8)
+  H: Reward.contents Hoards 1 -> 1
+  H: Reward.contents Lore 1 -> 1
+  H: Location count 20 -> 20
+  I: Location.type High 2 -> 2
+  I: Location.type Medium 8 -> 8
+  I: Location.type Low 4 -> 4
+  I: Hazard.damage Nuisance 40% -> 2 (40%, 2 of 5)
+  I: Hazard.damage Damaging 40% -> 2 (40%, 2 of 5)
+  I: Hazard.damage Lethal 20% -> 1 (20%, 1 of 5)
+  I: Reward.contents Keys 1 -> 1
+  I: Reward.contents Lore 1 -> 1
+  I: Location count 14 -> 14
+  J: Location.type High 3 -> 3
+  J: Location.type Medium 4 -> 4
+  J: Location.type Low 2 -> 2
+  J: Hazard.damage Nuisance 40% -> 1 (50%, 1 of 2)
+  J: Hazard.damage Damaging 40% -> 1 (50%, 1 of 2)
+  J: Hazard.damage Lethal 20% -> 0 (0%, 0 of 2)
+  J: Reward.contents Hoards 1 -> 1
+  J: Reward.contents Keys 1 -> 1
+  J: Reward.contents Unique Treasures 1 -> 1
+  J: Reward.contents Lore 15% -> 0 (0%, 0 of 5)
+  J: Location count 9 -> 9
+  K: Location.type High 3 -> 3
+  K: Location.type Medium 3 -> 3
+  K: Location.type Low 2 -> 2
+  K: Hazard.damage Nuisance 40% -> 1 (33%, 1 of 3)
+  K: Hazard.damage Damaging 40% -> 2 (66%, 2 of 3)
+  K: Hazard.damage Lethal 20% -> 0 (0%, 0 of 3)
+  K: Reward.contents Keys 10% -> 0 (0%, 0 of 5)
+  K: Reward.contents Lore 1 -> 1
+  K: Location count 8 -> 8
+  L: Location.type High 2 -> 2
+  L: Location.type Medium 2 -> 2
+  L: Location.type Low 2 -> 2
+  L: Hazard.damage Nuisance 40% -> 1 (33%, 1 of 3)
+  L: Hazard.damage Damaging 40% -> 1 (33%, 1 of 3)
+  L: Hazard.damage Lethal 20% -> 1 (33%, 1 of 3)
+  L: Reward.contents Keys 10% -> 0 (0%, 0 of 2)
+  L: Reward.contents Lore 15% -> 0 (0%, 0 of 2)
+  L: Reward.contents Unique Treasures 1 -> 1
+  L: Reward.contents Magical Tomes 1 -> 1
+  L: Location count 6 -> 6
+  Treasure I mean: 0-500 -> 40
+  Treasure II quality poor: 10% -> 2 of 20
+  Treasure II quality normal: 50% -> 10 of 20
+  Treasure II quality fine: 30% -> 6 of 20
+  Treasure II quality masterwork: 5% -> 1 of 20
+  Treasure II quality cursed: 5% -> 1 of 20
+  Treasure II fine price: 3-10x of 100 -> 6 of 6 in range
+  Treasure II masterwork price: 10-100x of 100 -> 1 of 1 in range
+  Treasure II fine with an effect: 33% -> 2 of 6
+  Treasure I highest: 100x mean -> 7.5x
+  Treasure II highest: 100x mean -> 10.1x
+  Treasure III highest: 100x mean -> 3.8x
+  Treasure IV highest: 100x mean -> 3.0x
+  Treasure V highest: 100x mean -> 2.5x
+  Rumours rows: 12 -> 12
+  Rumours marked T: 4 -> 4
+  Rumours marked P: 3 -> 3
+  Rumours marked F: 3 -> 3
+  Rumours marked U: 2 -> 2
+  Factions entries: 5 -> 5
+  History entries: 4 -> 4
+  Quests entries: 5 -> 5
+  Truths entries: 4 -> 4
+  Language tongues: 3 -> 3
+  Language The Common Tongue affixes: 3-5 -> 5
+  Language The Common Tongue roots: 15-20 -> 16
+  Language The Cynidicean Speech affixes: 3-5 -> 5
+  Language The Cynidicean Speech roots: 15-20 -> 15
+  Language The Black Speech affixes: 3-5 -> 4
+  Language The Black Speech roots: 15-20 -> 15
+  Bestiary up front Skeleton: present -> present
+  Bestiary up front Zombie: present -> present
+  Bestiary up front Mummy: present -> present
+  Bestiary up front Ghoul: present -> present
+  Bestiary up front Gargoyle: present -> present
+  Bestiary up front Giant Scorpion: present -> present
+  Bestiary up front Giant Centipede: present -> present
+  Bestiary up front Giant Spider: present -> present
+  Bestiary up front Giant Rat: present -> present
+  Bestiary up front Stirge: present -> present
+  Bestiary up front Hyena: present -> present
+  Bestiary up front Soldier: present -> present
+  Bestiary up front Wraith: present -> present
+
+BUDGET
+  authorities    :    4 files,   3,091 words
+  templates/     :   30 files,   9,279 words
+  patterns/      :    6 files,   6,989 words
+  setting/       :  303 files,  54,619 words
+  setting/checks/ :    4 files,   6,814 words   (neither framework nor setting)
+  tools/         :   12 files,  10,264 lines
+  framework      : 19,359 words
+  setting        : 54,619 words
+  ratio          : 0.35 words of framework per word of setting
+
+READ SET (step 4b)
+  CLAUDE.md                :    341
+  README.md                :  1,496
+  GENRE.md                 :    582
+  STYLE.md                 :    134
+  templates/region/Location.md :    633
+  setting/Truths.md        :    279
+  setting/Procedures.md    :  2,082
+  setting/Language.md      :    523
+  BRIEF.md region slice    :    782-888 across 12 regions, mean 826
+  region seed              :    135-303 across 12 regions, mean 204
+  fixed context            :  7,100 (with the mean region slice and seed)
+  Ground.md (3d, 4e; not summed) :     70-94 across 2 regions, mean 82
+
+  templates/region/Location.md :    633
+  patterns/Common_Schema.md :    709
+  in context               :  8,442
+

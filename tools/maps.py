@@ -610,6 +610,11 @@ def blocks_of(region) -> dict[str, kdl.Node]:
     return {str(n.args[0]): n for n in region.files.get("Blocks", []) if n.args and n.name == "Block"}
 
 
+def designed(region) -> set[str]:
+    """The blocks of a region whose design the user has approved: their places come from step 3d."""
+    return {str(n.args[0]) for n in region.files.get("Design", []) if n.name == "Design" and n.args and n.props.get("approved")}
+
+
 def drawn_blocks(region) -> dict[str, kdl.Node]:
     """The blocks drawn for a region: a DANGEROUS region's as dungeons, a SAFE or WILD region's
     as settlements. Region and location maps are paused."""
@@ -638,6 +643,7 @@ NAMED = {"Chapel": "chapel", "Temple": "temple", "Shrine": "chapel", "Forge": "s
          "Tower": "tower", "Keep": "keep", "Warehouse": "warehouse", "Manor": "manor"}   # a word in its name, over its type
 WALL = ("palisade", "fence", "hedge", "drystone", "ruined")   # a word in the Block's wall, else a curtain
 POSTERN = 10                    # feet: a Gate narrower than this is a postern, else a gatehouse
+VOID_GROUND = "yard"            # the area a Void is drawn as: open ground, with nothing standing on it
 WILD_PLACE = {"Gardens": ("area", "garden"), "Shore": ("water", "lake")}   # a word in a WILD name, over its type
 UNSIZED = 20                    # feet, a place's side where its Dressing states none
 
@@ -742,6 +748,12 @@ def settlement_map(region, block: kdl.Node) -> tuple[dict | None, list[str]]:
         m["buildings"].append({"id": c.replace(".", "-"), "kind": word or BUILDING.get(kind(c), "house"), "shape": "rect",
                                "x": x, "y": y, "w": round(w, 1), "h": round(h, 1),
                                "label": c, "origin": "tables"})
+    for v in (n for n in region.files.get("Blocks", []) if n.name == "Void" and n.args and str(n.args[0]) == bid):
+        centre = space.point_of(v.props.get("xyz")) or [0.0, 0.0]
+        if shape := space.outline_value(v.props.get("outline")):   # open ground: nothing stands on it
+            m["areas"].append({"kind": VOID_GROUND, "points": [c for x, y in space.polygon(shape, centre[0], centre[1])
+                                                              for c in cell(x, -y)],
+                               "label": str(v.props.get("what", "")), "origin": "tables"})
     for c in gates:
         x, y = cell(*at[c])
         m["overlay"]["labels"].append({"text": c, "x": x, "y": round(y - 2, 1), "kind": "note", "origin": "tables"})
@@ -777,6 +789,7 @@ def built(code: str, bid: str, setting: Path = tables.SETTING) -> tuple[Path | N
         return None, tuple(problems)
     if ENGINE[region.rating.upper()] == "dungeon":
         import dungeon
+        dungeon.spread_ends(m)
         dungeon.route_around(m)
     target, text = region.dir / f"{bid}.json", json.dumps(m, indent=1)
     if not target.exists() or target.read_text() != text:
@@ -895,7 +908,7 @@ def render(kind: str, file: Path, fit: str, *extra, label: str = "") -> str | No
     the map file, the map drawn under it, the engine and the arguments."""
     under = json.loads(file.read_text()).get("underlay")
     key = hashlib.sha256("\0".join([file.read_text(), (file.parent / under["map"]).read_text() if under else "",
-                                    BUILD, kind,
+                                    BUILD, kind, str(theme(kind)),
                                     fit, *map(str, extra)]).encode()).hexdigest()
     kept = CACHE / f"{key}.svg"
     if kept.exists():
@@ -915,11 +928,23 @@ def render(kind: str, file: Path, fit: str, *extra, label: str = "") -> str | No
     return svg
 
 
+def look(kind: str, path: Path | None = None) -> dict[str, str]:
+    """What BRIEF.md's `maps` node says of how every map of a kind is drawn - dungeon,
+    settlement or terrain - and nothing for a key it leaves out."""
+    path = path or tables.BRIEF
+    return tables.read_looks(path)[0].get(kind, {}) if path.exists() else {}
+
+
+def theme(kind: str) -> str | None:
+    """The theme a sheet (kind `map`) or settlement is drawn in, None for a dungeon."""
+    return look({"map": "terrain", "settlement": "settlement"}[kind]).get("theme", "color") if kind in ("map", "settlement") else None
+
+
 def render_fresh(kind: str, file: Path, fit: str, *extra) -> str | None:
     with tempfile.TemporaryDirectory() as tmp:
         args = [kind, "render", "--file", file, "--format", "svg", "--fit", fit, "--out", tmp, *extra]
-        if kind in ("map", "settlement"):
-            args += ["--theme", "color"]
+        if t := theme(kind):
+            args += ["--theme", t]
         if artgen(*args).returncode:
             return None
         svgs = sorted(Path(tmp).glob("*.svg"))

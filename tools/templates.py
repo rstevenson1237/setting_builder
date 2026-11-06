@@ -404,9 +404,10 @@ def region_skeleton(schema: tb.Schema, shape: str, files: list[str], rating: str
             for stem in [s for s in f.files if s not in ("Seed", "Ground")] if files == ["*"] else files:
                 if stem not in f.files:
                     continue
-                key = f"{c}.[a-z]" if stem == "Blocks" else "[Location Code]"
+                block, place = f"{c}.[a-z]", "[Location Code]"       # a Design's lines open with a block, but a Place and a Link with a location
                 out += [f"# {stem} of {c} [Region Name]", "", "```kdl"] + \
-                       [node_line(f, n, key) for n in f.files[stem]] + ["```", ""]
+                       [node_line(f, n, block if stem == "Blocks" or stem == "Design" and n not in ("Place", "Link") else place)
+                        for n in f.files[stem]] + ["```", ""]
         out.append("")
     return "\n".join(out).rstrip() + "\n"
 

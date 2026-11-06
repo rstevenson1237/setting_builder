@@ -130,6 +130,20 @@ def context_section(text: str) -> str:
     return m.group(1) if m else ""
 
 
+def check_designs(diag: Diagnostics, setting, brief):
+    """Every region's block designs against its tables: step 3d owes a region whose BRIEF.md node asks for one."""
+    import design
+    for level, path, msg in design.check(setting, brief):
+        (diag.error if level == "error" else diag.warn)(path, msg)
+
+
+def check_layouts(diag: Diagnostics):
+    """Every layout of layouts/ against patterns/Layout_Schema.md."""
+    import design
+    for path, msg in design.read_layouts()[1]:
+        diag.error(path, msg)
+
+
 def check_read_set(diag: Diagnostics, schema):
     if not STEPS_MD.exists():
         return
@@ -766,7 +780,7 @@ def check_sheets(diag: Diagnostics, brief):
         if not path.exists():
             diag.warn(path, "missing - not built yet, owed to step 3b")
         elif path.read_text() != text:
-            diag.warn(path, "is not what `python3 tools/maps.py ground` writes now - owed to step 3f")
+            diag.warn(path, "is not what `python3 tools/maps.py ground` writes now - owed to step 3g")
 
 
 def check_places(diag: Diagnostics, setting, brief):
@@ -1387,6 +1401,10 @@ def report_pending(region_filter: str | None) -> int:
     for sev, path, msg in setting.check():
         if (sev == "warning" or "Coined here" in msg) and (Path(path) == scope or scope in Path(path).parents):
             owed.setdefault(rel(path), []).append(msg)
+    import design
+    for sev, path, msg in design.check(setting, tables.Brief(setting.schema)):
+        if sev == "warning" and (Path(path) == scope or scope in Path(path).parents):
+            owed.setdefault(rel(path), []).append(msg)
     history = tables.History()
     for r in setting.regions.values():
         for code in r.locations():
@@ -1437,6 +1455,7 @@ def main() -> int:
     diag = Diagnostics()
     schema = tables.Schema()
     check_read_set(diag, schema)
+    check_layouts(diag)
     for path, problem in schema.problems:
         diag.error(path, problem)
     brief = tables.Brief(schema)
@@ -1527,6 +1546,7 @@ def main() -> int:
     check_sheets(diag, brief)
     check_places(diag, setting, brief)
     check_blocks(diag, setting)
+    check_designs(diag, setting, brief)
     check_hazards(diag, setting, brief)
     check_listed_prices(diag, setting)
     check_numbers(diag, setting, schema)

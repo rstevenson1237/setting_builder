@@ -1035,20 +1035,20 @@ class Setting:
         if any(c.line != n.line for c in kdl.walk(n.children)):
             yield "error", f"{n.name} spans several lines - an entry is one line"
         code = n.args[0] if len(n.args) == 1 else None
-        block = stem == "Blocks"
+        block = stem == "Blocks" or stem == "Design" and n.name not in ("Place", "Link")   # a design's lines open with a block, but a Place and a Link with a location
         if stem == "Seed" or stem == "Ground" and n.name != "At":
             if code != r.code:
                 yield "error", f"{n.name} opens with {n.args} - it opens with the region code {r.code}"
         elif code is None or not (BLOCK_RE if block else CODE_RE).fullmatch(str(code)) or not str(code).startswith(r.code + "."):
             yield "error", (f"{n.name} opens with {n.args} - an entry opens with one {r.code} "
                             f"{'block id, a lower-case letter after the dot' if block else 'location code'}")
-        elif stem not in ("Locations", "Blocks") and code not in r.locations():
+        elif stem not in ("Locations", "Blocks", "Design") and code not in r.locations():
             yield "error", f"{n.name} names {code}, which Locations.md does not hold"
         missing = list(self._check_node(r, n))
         owed = [m for m in missing if isinstance(m, str)]
         yield from (m for m in missing if not isinstance(m, str))
         if owed:
-            step = {"Locations": "3d", "Seed": "3c"}.get(stem, "4a")
+            step = {"Design": "3d", "Locations": "3e", "Seed": "3c"}.get(stem, "4a")
             yield "warning", f"{n.name} {n.args[0] if n.args else ''} is a stub owed to step {step} - lacks {', '.join(owed)}"
 
     def _check_node(self, r: Region, n: kdl.Node, within: str = ""):
@@ -1188,10 +1188,13 @@ class Setting:
     # -- one location ---------------------------------------------------------
 
     def entries_at(self, code: str) -> tuple[list, list]:
-        """(file, entry) for every entry this location holds, and for every entry naming it."""
+        """(file, entry) for every entry this location holds, and for every entry naming it. A design is upstream of the
+        tables a write-up follows, so its entries are not counted."""
         own, named = [], []
         for r in self.regions.values():
             for stem, entries in r.files.items():
+                if stem == "Design":
+                    continue
                 for n in entries:
                     if n.args and n.args[0] == code:
                         own.append((f"{r.code}/{stem}", n))
@@ -1219,19 +1222,79 @@ class Setting:
 # measured against the setting files they govern.
 #
 # `setting` holds `sheet` lines and a region `ground` and `place` lines, requests for the
-# maps; Brief.map_problems reads them.
+# maps; Brief.map_problems reads them. `maps` holds one `look` line per map kind, how every
+# map of that kind is drawn; `read_looks` reads them.
 
 BRIEF = ROOT / "BRIEF.md"
 ARTGEN = Path(__file__).resolve().parent / "artgen" / "artgen-maps.js"
 EXTENT_RE = re.compile(r"(\d+(?:\.\d+)?) by (\d+(?:\.\d+)?) (\w+)")
 SPAN_RE = re.compile(r"(\d+(?:\.\d+)?)(?:-(\d+(?:\.\d+)?))? (\w+)")
 FILL_RE = re.compile(r"(\d+)-(\d+)%")
+SPACING_RE = re.compile(r"(\d+)-(\d+) feet")
+PAD_RE = re.compile(r"(\d+) feet")
+
+
+def design_setting(key: str, v: str) -> str | None:
+    """What is wrong with one setting of a design, a `Design` line's or BRIEF.md's `design` line: fill="N-M%",
+    spacing="N-M feet", passages="N%" or detour, a distance."""
+    if key == "fill" and (m := FILL_RE.fullmatch(v)) and int(m[1]) <= int(m[2]) <= 100:
+        return None
+    if key == "spacing" and (m := SPACING_RE.fullmatch(v)) and int(m[1]) <= int(m[2]):
+        return None
+    if key == "passages" and PERCENT_RE.fullmatch(v) and int(v[:-1]) <= 100:
+        return None
+    if key == "pad" and (m := PAD_RE.fullmatch(v)) and int(m[1]) % 5 == 0:
+        return None
+    if key == "detour" and not unit_problem("distance", v, {"Distance_Unit": {"feet": 0, "yards": 0, "miles": 0}}):
+        return None
+    return f'takes fill="N-M%", spacing="N-M feet", passages="N%", detour, a distance, and pad="N feet", not {key}={v!r}'
+
 UNIT_FEET = {"feet": 1, "yards": 3, "miles": 5280}
 PROCEDURES = "Procedures"      # a region's own count, from its `procedure` lines, never a type's rate
 
 
 def brief_nodes(path: Path = BRIEF) -> list[kdl.Node]:
     return kdl.fenced(path.read_text()) if path.exists() else []
+
+
+COLOUR_RE = re.compile(r"#[0-9a-fA-F]{6}")
+LOOKS = {                                  # a `maps` look line's keys, by map kind: its values, or a colour or number
+    "dungeon": {"hatch": ("band", "full", "none"), "rock": ("hatch", "solid", "none"), "numbers": ("badge", "plain"),
+                "doors": ("bar", "square"), "preset": ("dark", "blueprint"), "wall": "number",
+                "rock-color": "colour", "floor": "colour", "ink": "colour", "grid": "colour", "wall-color": "colour"},
+    "settlement": {"theme": ("color", "bw")},
+    "terrain": {"theme": ("color", "bw")},
+}
+
+
+def read_looks(path: Path = BRIEF) -> tuple[dict[str, dict[str, str]], list[str]]:
+    """The `look` lines of BRIEF.md's `maps` node, as the keys each states per map kind, and what
+    they get wrong. A key a line leaves out keeps the drawing it had."""
+    looks, problems = {}, []
+    try:
+        nodes = [n for n in brief_nodes(path) if n.name == "maps"]
+    except SyntaxError:
+        return looks, problems
+    for n in nodes:
+        for c in n.children:
+            p = lambda msg, c=c: problems.append(f"line {c.line}: {msg}")
+            kind = str(c.args[0]) if c.args else ""
+            if c.name != "look" or kind not in LOOKS:
+                p(f"maps holds look lines for {', '.join(LOOKS)}, not {c.name} {kind}".rstrip())
+                continue
+            for k, v in c.props.items():
+                v, want = str(v), LOOKS[kind].get(k)
+                if want is None:
+                    p(f"look {kind} takes {', '.join(LOOKS[kind])}, not {k}")
+                elif want == "colour" and not COLOUR_RE.fullmatch(v):
+                    p(f"look {kind} {k}={v!r} is not a colour, #rrggbb")
+                elif want == "number" and not (re.fullmatch(r"\d+(\.\d+)?", v) and 0.2 <= float(v) <= 4):
+                    p(f"look {kind} {k}={v!r} is not a number from 0.2 to 4")
+                elif isinstance(want, tuple) and v not in want:
+                    p(f"look {kind} {k}={v!r} is not one of {', '.join(want)}")
+                else:
+                    looks.setdefault(kind, {})[k] = v
+    return looks, problems
 
 
 SLICE_SETTING = ("test", "outline", "pressure", "architecture", "construction")   # what a region's slice keeps of `setting`
@@ -1311,8 +1374,11 @@ class Brief:
         self.schema, self.path, self.problems = schema, path, list(schema.brief_problems)
         self.targets, self.regions = [], {}
         self.packs: dict[str, kdl.Node] = {}            # a rating's pack line, by its name, and a region's, by its code
+        self.designs: dict[str, kdl.Node] = {}          # a region's design line, by its code: its blocks are designed at step 3d
         self.files = self.setting = self.origin = None
         self.sheets: dict[str, kdl.Node] = {}
+        self.looks, looks_problems = read_looks(path)
+        self.problems += looks_problems
         try:
             nodes = brief_nodes(path)
         except SyntaxError:
@@ -1340,6 +1406,8 @@ class Brief:
                         self._add(c, rating, code)
                     elif c.name == "pack":
                         self._pack(c, code, True)
+                    elif c.name == "design":
+                        self._design(c, code)
                 if "locations" in n.props:
                     if bounds(n.props["locations"]) is None:
                         p("locations= is a count or range")
@@ -1348,8 +1416,8 @@ class Brief:
                                                    {"": str(n.props["locations"])}, None, code))
             elif n.name in ("files", "setting"):
                 setattr(self, n.name, n)
-            else:
-                p(f"{n.name!r} is not files, setting, region or {', '.join(folders)}")
+            elif n.name != "maps":
+                p(f"{n.name!r} is not files, maps, setting, region or {', '.join(folders)}")
         self.problems += self.map_problems()
 
     def terrains(self) -> list[str]:
@@ -1427,6 +1495,14 @@ class Brief:
                 continue
             p(f'pack takes fill="N-M%", passages="N%" and detour, a distance{", and footprint, a distance" if region else ""}, not {k}={v!r}')
         self.packs[key] = n
+
+    def _design(self, n: kdl.Node, code: str):
+        """A `design` line: the settings every block design of the region starts from, `fill`, `passages`, `detour`
+        and `spacing`, as a Design line states them; any it leaves out keep the `pack` line's."""
+        for k, v in n.props.items():
+            if problem := design_setting(k, str(v)):
+                self.problems.append(f"line {n.line}: design {problem}")
+        self.designs[code] = n
 
     def packing(self, code: str) -> dict:
         """How a region's blocks are packed: its rating's pack line, then its own, as `fill`, the
@@ -1851,7 +1927,7 @@ def stale_brief(region: Region, history: History) -> list[str]:
     since, out = history.rev(brief), []
     for stem, entries in region.files.items():
         path = region.dir / f"{stem}.md"
-        times = history.line_times(path) if path.exists() else None
+        times = history.line_times(path) if path.exists() and stem != "Design" else None
         if not times:
             continue
         old = history.forms(since, path, region.folder)

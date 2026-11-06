@@ -10,6 +10,7 @@ template scope="[Region Code]" writes="setting/region/[Region Code]/Locations.md
 read "setting/region/[Region Code]/Seed.md"
 read "setting/region/Regions.md" part="this region's die"
 read "setting/region/[Region Code]/Ground.md"
+read "setting/region/[Region Code]/Design.md" once="written"
 read "setting/Language.md"
 field "Location.name" from="Language.Coined here"
 field "Location.bearing" from="Feature.bearing, Feature.distance, At.ground"
@@ -19,6 +20,9 @@ field "Location.bearing" from="Feature.bearing, Feature.distance, At.ground"
 Write the count `BRIEF.md` sets for the region, in its targets' type mix, each placed from the
 region's way in by bearing and distance, by `xyz`, or `against` a placed sibling, so the region
 reads as one plan, distances in the region's units, on ground `Ground.md` shows can hold it.
+
+Where `Design.md` holds a design for a block, its codes, its types and, for a SAFE or WILD block, its
+places are the block's: write them as it states them, and write only what it does not state.
 
 A location's name carries no form: it is common, or points at a coinage `setting/Language.md`
 already records, and never coins one.
