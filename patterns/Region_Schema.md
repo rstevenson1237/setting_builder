@@ -86,9 +86,9 @@ node Fill {                 // locations no layout binds: plain rooms the solver
   shape Room_Shape opt      // rect where unset
   outline outline opt       // a "poly" where no shape draws the room: its extent is its width and length
 }
-node Join {                 // a socket of one Use to a socket of another, or to a location of another block
-  from string               // "use.socket"
-  to string                 // "use.socket", or a location code
+node Join {                 // a way between two ends: a Use's socket, or a location code
+  from string               // "use.socket", or a location code
+  to string                 // as from; a location of another block is a way out of this one
 }
 node Void {                 // ground within the block that no location or way takes; in DANGEROUS the block's Rock
   what gloss                // what fills it, written on its map

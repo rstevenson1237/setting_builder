@@ -1188,10 +1188,13 @@ class Setting:
     # -- one location ---------------------------------------------------------
 
     def entries_at(self, code: str) -> tuple[list, list]:
-        """(file, entry) for every entry this location holds, and for every entry naming it."""
+        """(file, entry) for every entry this location holds, and for every entry naming it. A design is upstream of the
+        tables a write-up follows, so its entries are not counted."""
         own, named = [], []
         for r in self.regions.values():
             for stem, entries in r.files.items():
+                if stem == "Design":
+                    continue
                 for n in entries:
                     if n.args and n.args[0] == code:
                         own.append((f"{r.code}/{stem}", n))
@@ -1924,7 +1927,7 @@ def stale_brief(region: Region, history: History) -> list[str]:
     since, out = history.rev(brief), []
     for stem, entries in region.files.items():
         path = region.dir / f"{stem}.md"
-        times = history.line_times(path) if path.exists() else None
+        times = history.line_times(path) if path.exists() and stem != "Design" else None
         if not times:
             continue
         old = history.forms(since, path, region.folder)
