@@ -8,6 +8,8 @@ problems     what is wrong with a block, for the validator
 """
 from __future__ import annotations
 
+import collections
+import copy
 import functools
 import hashlib
 import json
@@ -334,8 +336,14 @@ def block_map(region, block: kdl.Node) -> tuple[dict | None, list[str]]:
                         best, mid = hi - lo, (p[0] + ex * (lo + hi) / 2 / n, p[1] + ey * (lo + hi) / 2 / n)
             return mid
 
-        def end(c, bearing):
-            """A passage's end at room c: by the wall its Connection names, else where artgen likes."""
+        def end(c, bearing, far, ports=False):
+            """A passage's end at room c: by the wall its Connection names, else where artgen likes - but with `ports`, for a
+            room no box draws, on its outline toward room `far`, since artgen ends a passage at such a room's centre."""
+            if bearing is None and ports and not square(c):
+                dx, dy = at[far][0] - at[c][0], at[far][1] - at[c][1]
+                bearing = math.degrees(math.atan2(dx, -dy)) % 360
+                nearest = round(bearing / 90) * 90 % 360                       # a cardinal port lies on the passage lattice, an oblique one may not
+                bearing = nearest if abs((bearing - nearest + 180) % 360 - 180) < 35 else round(bearing / 45) * 45 % 360
             if bearing is None:
                 return {"room": rid(c)}
             if bearing % 90 == 0 and square(c):
@@ -352,7 +360,7 @@ def block_map(region, block: kdl.Node) -> tuple[dict | None, list[str]]:
             return {"room": rid(c), "port": to_cell(at[c][0] + x, at[c][1] + y)}
 
         corner = lambda c: (at[c][0] - size[c][0] / 2, at[c][1] - size[c][1] / 2)
-        traps = []
+        traps, recipe = [], []
         for a, b in sorted(seen, key=lambda k: (round(math.dist(corner(k[0]), corner(k[1]))), number(k[0]), number(k[1]))):
             ends = seen[a, b]                            # shortest first, as `dungeon layout` routes them
             first, second = ends.get(a), ends.get(b)
@@ -364,11 +372,27 @@ def block_map(region, block: kdl.Node) -> tuple[dict | None, list[str]]:
                                          "kind": kind or GAP.get(str(n.props.get("type")), "open")})
                 traps += [("connection", len(m["connections"]) - 1)] if hazard else []
                 continue
-            m["corridors"].append({"from": end(a, named.get((a, b))), "to": end(b, named.get((b, a))), "route": "maze",
+            recipe.append((a, b))
+            m["corridors"].append({"from": end(a, named.get((a, b)), b), "to": end(b, named.get((b, a)), a), "route": "maze",
                                    "width": round(LATTICE / cell, 2), "origin": "tables",
                                    **({"style": "natural"} if rough(*rn) else {}),
                                    "doors": [opening(first[0] if first else None), opening(second[0] if second else None)]})
             traps += [("corridor", len(m["corridors"]) - 1)] if hazard else []
+        if any(not square(c) for c in at):               # a passage that runs on to a room's centre by a diagonal leg: on a port instead, if the map is no worse
+            f = engine("facts", m)
+            def diagonal(i, k):
+                p = f["corridors"][i]["path"]
+                (x0, y0), (x1, y1) = (p[0:2], p[2:4]) if k == 0 else (p[-2:], p[-4:-2])
+                return abs(x1 - x0) > 0.01 and abs(y1 - y0) > 0.01
+            shared = [(i, k) for i, (a, b) in enumerate(recipe) for k, c in enumerate((a, b)) if not square(c) and diagonal(i, k)]
+            for room in dict.fromkeys(recipe[i][k] for i, k in shared):         # room by room, each kept if the map is no worse
+                again = copy.deepcopy(m)
+                for i, k in (s for s in shared if recipe[s[0]][s[1]] == room):
+                    a, b = recipe[i]
+                    here, far = (a, b) if k == 0 else (b, a)
+                    again["corridors"][i]["from" if k == 0 else "to"] = end(here, named.get((here, far)), far, ports=True)
+                if findings(again) <= findings(m):
+                    m = again
         added = [(i, k) for i, c in enumerate(m["corridors"]) for k in (0, 1) if c["doors"][k] == "arch"]
         if added:                                        # an added arch that meets another corridor's end is left open
             f = engine("facts", m)
@@ -413,6 +437,46 @@ def block_map(region, block: kdl.Node) -> tuple[dict | None, list[str]]:
             m["overlay"]["symbols"].append({"kind": "trap", "x": round((cx(a) + cx(b)) / 2, 2),
                                             "y": round((cy(a) + cy(b)) / 2, 2), "origin": "tables"})
     return m, problems
+
+
+def findings(m: dict) -> int:
+    """What artgen's `check` finds wrong with a map: errors and warnings."""
+    found = engine("check", m)
+    return len(found.get("errors", [])) + len(found.get("warnings", []))
+
+
+def spread_ends(m: dict) -> None:
+    """Passages that leave one wall of a rectangular room are a passage's width apart: where artgen drew two of them over
+    each other (their doors stack, or stand in the other's floor), each is given its own place along the wall, evenly.
+    A wall too short for them is left as it is. The answer is kept under .maps-cache."""
+    rooms = {r["id"]: r for r in m["rooms"] if r.get("shape") in ("rect", "cave")}
+    found = engine("check", m)
+    hit = {int(i) for x in found.get("errors", []) + found.get("warnings", []) if x.get("id") in ("doors-stacked", "door-off-wall")
+           for i in re.findall(r"corridors\[(\d+)\]", x.get("path", "") + " " + x["message"])}
+    if not hit:
+        return
+    f = engine("facts", m)
+    ends = collections.defaultdict(list)              # (room, side) -> [(position along the wall, corridor, end)]
+    for i, c in enumerate(m["corridors"]):
+        path = f["corridors"][i]["path"]
+        for end, pt, nxt in (("from", path[0:2], path[2:4]), ("to", path[-2:], path[-4:-2])):
+            r = rooms.get(c[end].get("room"))
+            if r is None or len(path) < 4:
+                continue
+            dx, dy = nxt[0] - pt[0], nxt[1] - pt[1]               # the way it heads off: its path starts at the room's anchor
+            side = ("e" if dx > 0 else "w") if abs(dx) >= abs(dy) else ("s" if dy > 0 else "n")
+            ends[r["id"], side].append((pt[1] - r["y"] if side in "ew" else pt[0] - r["x"], i, end))
+    again = copy.deepcopy(m)
+    for (rid_, side), group in ends.items():
+        r = rooms[rid_]
+        length = r["h"] if side in "ew" else r["w"]
+        width = max(m["corridors"][i].get("width", 2) for _, i, _ in group)
+        if len(group) < 2 or not any(i in hit for _, i, _ in group) or length / len(group) < width:
+            continue
+        for slot, (_, i, end) in enumerate(sorted(group)):
+            again["corridors"][i][end] = {"room": rid_, "side": side, "offset": round((slot + 0.5) * length / len(group), 2)}
+    if findings(again) < findings(m):                 # kept only where artgen then finds less
+        m["corridors"] = again["corridors"]
 
 
 def route_around(m: dict) -> None:
