@@ -2,8 +2,7 @@
 
 How each key behaves is artgen's to say: `node tools/artgen/artgen-maps.js schema <dungeon|settlement|map> --keys`,
 `schema dungeon --checks` for the ids `dungeon check` gives, and image_tools' `docs/DUNGEON.md`. This note lists only
-the choices `tools/dungeon.py` and `tools/maps.py` make. What artgen lacks, and what the framework built round it, is
-`plans/dungeon-maps/report-artgen.md`.
+the choices `tools/dungeon.py` and `tools/maps.py` make.
 
 ## Dungeon (`dungeon.block_map`)
 

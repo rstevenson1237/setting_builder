@@ -77,9 +77,8 @@ Read these rather than a description of them.
     nothing; the thresholds are the validator's.
   - `artgen/` - artgen's map, dungeon and settlement engines (`artgen-maps.js`, run with `node`),
     installed with artgen's map skills and commands by the `artgen-dist` installer's `maps` module;
-    `MANIFEST.json` records the release and every installed file. How the framework uses it, and how
-    to upgrade it: the `setting-maps` skill. What the framework writes into its files, and why:
-    `plans/sheet-maps/artgen-capabilities.md`.
+    `MANIFEST.json` records the release and every installed file. How the framework uses it, what it
+    writes into each file and why, and how to upgrade it: the `setting-maps` skill.
   - `dungeon.py` - a DANGEROUS block in artgen's dungeon engine. `pack` hands `dungeon layout` the block's rooms and ways as a graph, with BRIEF.md's footprint, fill and detour and the block's outline and Rock, and writes the rooms' places back to the tables. Its map file is the rooms at those places, a door where two touch and a maze-routed passage where not, each way out of the block a stair in its room, the outline as bounds and the Rock as rock. The validator reads the file back through `dungeon check` and `dungeon facts`, held to the tables' ways.
   - `design.py` - step 3d: a block's `Design`, built from `layouts/`, expanded into the graph `dungeon layout` packs, solved over several seeds and scored, one packing accepted into `Design.md`, and an approved design held to the tables.
   - `space.py` - the dry fire: every region, block and location at a point in one space from the origin region's way in, x east, y north, z up, in feet, and what does not fit - unplaced things, overlaps, things outside their parent's outline, and ways whose climb, bearing or distance disagree with where their ends lie. `from` states one place from another.

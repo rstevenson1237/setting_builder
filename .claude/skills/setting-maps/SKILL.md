@@ -29,7 +29,7 @@ step that fixes them.
   `maps.artgen()`.
 - What a file can say: artgen's `dungeon-map`, `settlement-map` and `terrain-map` skills, and
   `schema <kind> --keys` for how each key behaves. What the framework writes, and why:
-  `plans/sheet-maps/artgen-capabilities.md`. The skills' project steps (`new <id>`, `brief`,
+  `references/what-we-write.md`. The skills' project steps (`new <id>`, `brief`,
   `version`, `review`, `approve`, `ui`) need `art/` and do not apply here.
 - `pack` lays a block out with `dungeon layout --graph`; its `report` (`left`, `detours`) is what
   the validator holds to BRIEF.md's detour.
