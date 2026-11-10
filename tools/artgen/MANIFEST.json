@@ -1,28 +1,29 @@
 {
-  "version": "0.13.0",
-  "build": "0056fe4",
+  "version": "0.14.0",
+  "build": "c659e8f",
   "modules": {
-    "core": "0.13.0",
-    "maps": "0.13.0"
+    "core": "0.14.0",
+    "maps": "0.14.0"
   },
   "files": {
     ".claude/commands/artgen-image.md": "1367b7b955e4183f",
     ".claude/commands/artgen-report.md": "d146ac6e9a6e7e16",
     ".claude/commands/artgen-upstream.md": "5ea07c711a9f4909",
-    "tools/artgen/VERSION": "d84c9e596c7d6a94",
+    "tools/artgen/VERSION": "065582655aacd6fc",
     "tools/artgen/fonts/AlegreyaSans-Bold.ttf": "13883398da53d847",
     "tools/artgen/fonts/AlegreyaSans-Italic.ttf": "1b14be0cfa4e195e",
     "tools/artgen/fonts/AlegreyaSans-Regular.ttf": "9baa653a3d8a210a",
     "tools/artgen/fonts/OFL.txt": "0677891e6a143f29",
-    "tools/artgen/package.json": "fc6dacab6477802f",
+    "tools/artgen/package.json": "e8950ffa1dc35735",
     "tools/artgen/resvg.wasm": "22bf6e9f9a100d97",
     ".claude/commands/artgen-dungeon.md": "50139c2798033427",
     ".claude/commands/artgen-map.md": "e9761c50c8dde955",
     ".claude/commands/artgen-settlement.md": "c2cbb814a69662a7",
-    ".claude/skills/dungeon-map/SKILL.md": "27be90d8316b2d2c",
-    ".claude/skills/settlement-map/SKILL.md": "58953e8304434b03",
+    ".claude/skills/dungeon-design/SKILL.md": "a172f13b493f8487",
+    ".claude/skills/dungeon-map/SKILL.md": "7ed5be250c4d564b",
+    ".claude/skills/settlement-map/SKILL.md": "eab6d71b75e26a30",
     ".claude/skills/terrain-map/SKILL.md": "c5510ec0d25d8206",
-    "tools/artgen/artgen-maps.js": "db1500963700cff5"
+    "tools/artgen/artgen-maps.js": "5926aef28944b691"
   },
   "sources": {
     ".claude/commands/artgen-image.md": "packages/artgen-dist/content/core/commands/image.md",
@@ -31,6 +32,7 @@
     ".claude/commands/artgen-dungeon.md": "packages/artgen-dist/content/maps/commands/dungeon.md",
     ".claude/commands/artgen-map.md": "packages/artgen-dist/content/maps/commands/map.md",
     ".claude/commands/artgen-settlement.md": "packages/artgen-dist/content/maps/commands/settlement.md",
+    ".claude/skills/dungeon-design/SKILL.md": "packages/artgen-dist/content/maps/skills/dungeon-design/SKILL.md",
     ".claude/skills/dungeon-map/SKILL.md": "packages/artgen-dist/content/maps/skills/dungeon-map/SKILL.md",
     ".claude/skills/settlement-map/SKILL.md": "packages/artgen-dist/content/maps/skills/settlement-map/SKILL.md",
     ".claude/skills/terrain-map/SKILL.md": "packages/artgen-dist/content/maps/skills/terrain-map/SKILL.md"
