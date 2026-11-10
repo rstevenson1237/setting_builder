@@ -138,10 +138,10 @@ def check_designs(diag: Diagnostics, setting, brief):
 
 
 def check_layouts(diag: Diagnostics):
-    """Every layout of layouts/ against patterns/Layout_Schema.md."""
+    """Every layout of layouts/ against artgen's layout schema: the engine refuses the folder on the first it rejects."""
     import design
-    for path, msg in design.read_layouts()[1]:
-        diag.error(path, msg)
+    if design.layouts()[0] is None:
+        diag.error(design.LAYOUTS, design.layouts()[1])
 
 
 def check_read_set(diag: Diagnostics, schema):

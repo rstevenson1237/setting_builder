@@ -789,7 +789,6 @@ def built(code: str, bid: str, setting: Path = tables.SETTING) -> tuple[Path | N
         return None, tuple(problems)
     if ENGINE[region.rating.upper()] == "dungeon":
         import dungeon
-        dungeon.spread_ends(m)
         dungeon.route_around(m)
     target, text = region.dir / f"{bid}.json", json.dumps(m, indent=1)
     if not target.exists() or target.read_text() != text:

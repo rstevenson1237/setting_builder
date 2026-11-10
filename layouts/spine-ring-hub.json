@@ -1,0 +1,24 @@
+{
+  "id": "spine-ring-hub",
+  "name": "One spine off a ring hub with a way on each of its eight points",
+  "tags": ["hub", "spine", "axial", "turning"],
+  "source": { "kind": "drawn", "origin": "map 2" },
+  "params": { "spine": { "default": 16, "min": 8, "max": 24 }, "ring": { "default": 6, "min": 4, "max": 8 } },
+  "parts": [
+    { "role": "spine", "shape": "hall", "w": 2, "h": "$spine" },
+    { "role": "hub", "shape": "round", "w": "$ring", "h": "$ring", "focal": true }
+  ],
+  "ties": [{ "a": "hub", "b": "spine", "kind": "door" }],
+  "sockets": [
+    { "name": "spine-n", "part": "spine", "bearing": "n" },
+    { "name": "spine-s", "part": "spine", "bearing": "s" },
+    { "name": "hub-n", "part": "hub", "bearing": "n" },
+    { "name": "hub-ne", "part": "hub", "bearing": "ne" },
+    { "name": "hub-e", "part": "hub", "bearing": "e" },
+    { "name": "hub-se", "part": "hub", "bearing": "se" },
+    { "name": "hub-s", "part": "hub", "bearing": "s" },
+    { "name": "hub-sw", "part": "hub", "bearing": "sw" },
+    { "name": "hub-w", "part": "hub", "bearing": "w" },
+    { "name": "hub-nw", "part": "hub", "bearing": "nw" }
+  ]
+}

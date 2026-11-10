@@ -2,7 +2,7 @@
 
 ```kdl
 Design E.a locations="E.1, E.2, E.3, E.4, E.5, E.6, E.7, E.8, E.9, E.10, E.11, E.12, E.13, E.14, E.15" outline="rect 140 140" seed=1 score="94" approved="2026-11-05"
-Use E.a id=ring layout=spine-ring-hub params="spine=50 ring=40"
+Use E.a id=ring layout=spine-ring-hub params="spine=10 ring=8"
 Use E.a id=guard layout=cell-row params="per-row=1"
 Use E.a id=temple layout=cell-row params="per-row=1"
 Use E.a id=scholars layout=cell-row params="per-row=1"
