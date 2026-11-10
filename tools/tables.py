@@ -1790,7 +1790,9 @@ class Brief:
 # `git blame` looks past it and the write-ups the line feeds stay current; a line it adds,
 # which blame cannot look past, counts as old, and a write-up it changes keeps its time from
 # before. A line whose entry differs from the one the write-up was written from only in
-# `drawn` members has not changed for it.
+# `drawn` members has not changed for it. A write-up or brief read again and found current
+# needs no edit: a commit with a `Checked: <path>, <path>` trailer naming it gives it that
+# commit's time.
 
 import os
 import subprocess
@@ -1802,6 +1804,7 @@ class History:
     def __init__(self):
         self._blame: dict[Path, list[float] | None] = {}
         self._forms: dict[tuple[str, Path], set] = {}
+        self._checked: dict[str, float] | None = None
         ignore = ROOT / BLAME_IGNORE
         self._ignore = ["--ignore-revs-file", str(ignore)] if ignore.exists() else []
         self._ignored = {l.strip() for l in ignore.read_text().splitlines()
@@ -1851,13 +1854,24 @@ class History:
                 self._forms[key] = set()
         return self._forms[key]
 
+    def checked(self, path: Path) -> float:
+        """The time of the last commit whose `Checked:` trailer names the file, else 0."""
+        if self._checked is None:
+            self._checked = {}
+            out = self._git("log", "--format=%ct%x09%(trailers:key=Checked,valueonly,separator=%x2C)") or ""
+            for line in out.splitlines():
+                when, _, names = line.partition("\t")
+                for name in filter(None, (n.strip() for n in names.split(","))):
+                    self._checked[name] = max(self._checked.get(name, 0.0), float(when))
+        return self._checked.get(str(path.relative_to(ROOT)), 0.0)
+
     def file_time(self, path: Path) -> float | None:
         dirty = self._git("status", "--porcelain", "--", str(path.relative_to(ROOT)))
         if dirty is None:
             return None
         if dirty.strip():
             return path.stat().st_mtime
-        return got[1] if (got := self.last(path)) else path.stat().st_mtime
+        return max(got[1] if (got := self.last(path)) else path.stat().st_mtime, self.checked(path))
 
 
 def form(n: kdl.Node, folder) -> tuple:

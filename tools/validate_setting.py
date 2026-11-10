@@ -1431,6 +1431,8 @@ def report_pending(region_filter: str | None) -> int:
             print(f"  {msg}")
     if not owed:
         print("Nothing pending.")
+    elif any("is stale" in m for ms in owed.values() for m in ms):
+        print("\nA stale file read again and still true needs no edit: commit with a `Checked: <its path>` trailer.")
     return 0
 
 
