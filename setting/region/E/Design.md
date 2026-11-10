@@ -1,7 +1,7 @@
 # Design of E Pyramid Level 3 - The Turning Hall
 
 ```kdl
-Design E.a locations="E.1, E.2, E.3, E.4, E.5, E.6, E.7, E.8, E.9, E.10, E.11, E.12, E.13, E.14, E.15" outline="rect 140 140" seed=7 score="100" approved="2026-11-10"
+Design E.a locations="E.1, E.2, E.3, E.4, E.5, E.6, E.7, E.8, E.9, E.10, E.11, E.12, E.13, E.14, E.15" outline="rect 140 140" fill="35-65%" seed=7 score="100" approved="2026-11-10"
 Use E.a id=ring layout=spine-ring-hub params="spine=10 ring=8"
 Use E.a id=guard layout=cell-row params="per-row=1"
 Use E.a id=temple layout=cell-row params="per-row=1"
