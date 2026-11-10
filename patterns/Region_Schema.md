@@ -17,9 +17,9 @@ each region, by rating, beside its tables:
   Inhabitants, Services, Procedures, Loot, Alarm, Leads, Secrets.
 - its `design`, `setting/region/[Code]/Design.md`, for a region whose `BRIEF.md` node has a
   `design` line: what its blocks are to look like, written at step 3d before `Locations.md`.
-  Each block is one `Design`, then the `Use`, `Bind`, `Fill`, `Join` and `Void` lines that
-  state it, and, once solved, a `Place` for each location and a `Link` for each way inside the
-  block. Once the user approves a design, the tables are written to agree with it.
+  Each block is one `Design`, then the lines that state it - in DANGEROUS `Use`, `Bind`, `Fill`,
+  `Join` and `Void`; in SAFE and WILD `Fill`, `Tie`, `Street` and `Void` - and, once solved, a
+  `Place` for each location and, in DANGEROUS, a `Link` for each way inside the block. Once the user approves a design, the tables are written to agree with it.
 
 Every brief sentence carries something usable at the table - a name, count, price, place,
 distance or ruling; why a place exists or how it feels is cut. A brief is read beside the
@@ -85,6 +85,16 @@ node Fill {                 // locations no layout binds: plain rooms the solver
   pad string opt            // as a Bind's
   shape Room_Shape opt      // rect where unset
   outline outline opt       // a "poly" where no shape draws the room: its extent is its width and length
+}
+node Tie {                  // SAFE and WILD: one location a bearing and distance from another, which the solver holds
+  from location
+  to location
+  bearing Compass
+  distance distance
+}
+node Street {               // SAFE and WILD: a street, the buildings it runs past in order from its start
+  past location list
+  kind gloss opt            // a road kind; a street where unset
 }
 node Join {                 // a way between two ends: a Use's socket, or a location code
   from string               // "use.socket", or a location code

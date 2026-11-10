@@ -44,8 +44,10 @@ designs, seeds and scores behave; this one says only how this repo drives them. 
   most is how far joined rooms may stand. The engine scores what `dungeon check` finds, ways left unrouted,
   bearings strayed and detours; `solve` adds a note where fill falls outside the design's.
 - A `Fill` may state a `shape`, or a `poly` `outline` where no shape draws the room.
-- A SAFE or WILD block is fixed geometry, not solved: write each location's `Place` and each street's
-  `Link` yourself, and `check` holds the tables to them.
+- A SAFE or WILD block is a settlement, laid out by `settlement layout`: a `Fill` per location, a `Tie` for
+  each place a bearing and distance from another, a `Street` for each street with the buildings it runs past;
+  its first location stands at the block's centre. `solve` and `accept` work as for a level. Where every place
+  is already tied, as in a ruin field, the solve gives back the ties: it is worth it for a town with streets.
 - An approved design's places are the tables': `python3 tools/maps.py pack` refuses its block.
 
 ## A layout of this repo's own

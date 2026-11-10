@@ -17,8 +17,9 @@ voids kept out, its settings over BRIEF.md's `design` and `pack` lines. The engi
 
 `accept` writes one seed's `Place` and `Link` lines, its seed and score and, for a design that states no outline,
 the `hull`; it never writes `approved`, which only the user's word sets, and takes away one the design had.
-`check` holds an approved design and the tables to one another. SAFE and WILD blocks are fixed geometry, not solved:
-their `Place` lines are written by hand, and `check` holds them too.
+`check` holds an approved design and the tables to one another. A SAFE or WILD block is a settlement: its `Fill`,
+`Tie` and `Street` lines are artgen's settlement graph, laid out by `settlement layout` seed by seed and scored on
+the faults it reports and how far each tie strays.
 """
 from __future__ import annotations
 
@@ -283,8 +284,7 @@ def problems_out(ex: Expand) -> bool:
 
 def solve(region, bid: str, seeds: int, keep: int, folder: Path | None, free: bool = False) -> int:
     if region.rating.upper() != "DANGEROUS":
-        print(f"{bid}: a {region.rating} block is fixed geometry, not solved: write its Place lines in Design.md")
-        return 1
+        return settle_solve(region, bid, seeds, keep, folder)
     ex = expand(region, bid, 1, free=free)
     if problems_out(ex):
         return 1
@@ -311,8 +311,7 @@ def solve(region, bid: str, seeds: int, keep: int, folder: Path | None, free: bo
 
 def accept(region, bid: str, seed: int, free: bool = False) -> int:
     if region.rating.upper() != "DANGEROUS":
-        print(f"{bid}: a {region.rating} block is fixed geometry: write its Place lines in Design.md")
-        return 1
+        return settle_accept(region, bid, seed)
     ex = expand(region, bid, seed, free=free)
     if problems_out(ex):
         return 1
@@ -338,9 +337,19 @@ def accept(region, bid: str, seed: int, free: bool = False) -> int:
                                   for x, y in zip(pts[::2], pts[1::2]))) if pts else f"rect {r['w']} {r['l']}"
         lines.append(f'Place {c} xyz="{r["at"][0]},{r["at"][1]}" outline="{box}" shape={ex.shape[c]}')
     lines += [f'Link {a} to="{b}" kind={kind}' for (a, b), kind in sorted(pairs.items(), key=lambda p: (dungeon.number(p[0][0]), dungeon.number(p[0][1])))]
+    hull = None
+    if not ex.node.props.get("outline") and rep.get("hull"):
+        h = rep["hull"]
+        hull = '"poly ' + " ".join("%d,%d" % at(x, y) for x, y in zip(h[::2], h[1::2])) + '"'
+    write_places(region, bid, ex.locations, lines, seed, score, hull, f"{len(ex.locations)} places and {len(pairs)} ways")
+    return 0
+
+
+def write_places(region, bid: str, locations: list[str], lines: list[str], seed: int, score, hull: str | None, what: str):
+    """A design's Place and Link lines for its block replaced by `lines`, its seed and score set, and its approval cleared."""
     path = region.dir / "Design.md"
     text, fence = path.read_text().split("\n"), False
-    kept, mine, last, had = [], set(ex.locations), None, False
+    kept, mine, last, had = [], set(locations), None, False
     for line in text:
         if line.strip() == "```kdl":
             fence = True
@@ -355,14 +364,148 @@ def accept(region, bid: str, seed: int, free: bool = False) -> int:
             line = dungeon.with_prop(line, "seed", str(seed))
             if score is not None:
                 line = dungeon.with_prop(line, "score", f'"{score}"')
-            if not ex.node.props.get("outline") and rep.get("hull"):
-                h = rep["hull"]
-                line = dungeon.with_prop(line, "hull", '"poly ' + " ".join("%d,%d" % at(x, y) for x, y in zip(h[::2], h[1::2])) + '"')
+            if hull:
+                line = dungeon.with_prop(line, "hull", hull)
         kept.append(line)
     kept[last:last] = lines
     path.write_text("\n".join(kept))
-    print(f"{bid}: seed {seed}, score {score}: {len(ex.locations)} places and {len(pairs)} ways written to {path.relative_to(tables.ROOT)}"
+    print(f"{bid}: seed {seed}, score {score}: {what} written to {path.relative_to(tables.ROOT)}"
           + ("; its approval is cleared, for the user to give again" if had else "") + "\nThe user approves it, then steps 3e and 3f write the tables to agree.")
+
+
+# -- a SAFE or WILD block: a settlement laid out to a graph -----------------------------
+
+SETTLE_CELLS = (5, 10, 20)      # feet to a cell, the finest that keeps the settlement within the engine's sheet
+SETTLE_MOST = 200               # cells across the engine draws a settlement in, with room for its margin
+
+
+class Settle:
+    """A SAFE or WILD block's design as artgen's settlement graph (`artgen schema settlement-graph`): each Fill a
+    building or open area, each Tie one place a bearing and distance from another, each Street the buildings it runs
+    past in order. The design's first location stands at the block's centre; every other place is from it."""
+
+    def __init__(self, region, bid: str):
+        self.region, self.bid, self.problems, self.graph = region, bid, [], None
+        lines = [n for n in region.files.get("Design", []) if n.args]
+        self.node = next((n for n in lines if n.name == "Design" and str(n.args[0]) == bid), None)
+        if self.node is None:
+            self.problems.append((region.dir / "Design.md", f"{region.code} holds no Design for {bid}"))
+            return
+        mine = lambda name: [n for n in lines if n.name == name and str(n.args[0]) == bid]
+        say = lambda n, msg: self.problems.append((region.dir / "Design.md", f"line {n.line}: {msg}"))
+        self.locations = words(self.node.props.get("locations"))
+        compass = space.compass()
+        size, kinds = {}, {}
+        for n in mine("Fill"):
+            codes, types = words(n.props.get("locations")), words(n.props.get("type"))
+            if len(types) not in (1, len(codes)):
+                say(n, "a Fill states one type for its locations, or one each")
+                continue
+            for c, t in zip(codes, types * len(codes) if len(types) == 1 else types):
+                if c not in self.locations or c in size:
+                    say(n, f"{c} is not one of the design's locations, or is filled twice")
+                    continue
+                size[c] = (int(n.props.get("width", ROOM)), int(n.props.get("length", ROOM)))
+                kinds[c] = t
+        if unfilled := [c for c in self.locations if c not in size]:
+            self.problems.append((region.dir / "Design.md", f"{', '.join(unfilled)} of {bid} are in no Fill"))
+        ties = []
+        for n in mine("Tie"):
+            a, b = str(n.props.get("from")), str(n.props.get("to"))
+            if a not in size or b not in size or str(n.props.get("bearing")) not in compass or "distance" not in n.props:
+                say(n, "a Tie joins two of the design's locations, with a Compass bearing and a distance")
+                continue
+            ties.append((a, b, compass.index(str(n.props["bearing"])) * 22.5, maps.feet(str(n.props["distance"]))))
+        if self.problems:
+            return
+        span = max([d for *_, d in ties] + [max(max(v) for v in size.values())]) * 2
+        self.cell = next((c for c in SETTLE_CELLS if span / c <= SETTLE_MOST), SETTLE_CELLS[-1])
+        wild = region.rating.upper() == "WILD"
+        kind = lambda t: "market" if t == "Market" else "ruin" if wild and t == "Ruin" else maps.BUILDING.get(t, "house")
+        self.graph = {"id": f"{region.code}-{bid.split('.')[-1]}", "kind": "village", "ground": "sand" if wild else "grass",
+                      "scale": {"perCell": self.cell, "unit": "ft"}, "wall": False if wild and "wall" not in self.node.props else {"kind": "stone"},
+                      "buildings": [{"id": c, "w": max(1, round(w / self.cell, 1)), "h": max(1, round(h / self.cell, 1)), "kind": kind(kinds[c]),
+                                     "turns": not any(c in t[:2] for t in ties)} for c, (w, h) in size.items()],
+                      "ties": [{"a": a, "b": b, "bearing": br, "distance": round(d / self.cell, 1), "hold": True} for a, b, br, d in ties],
+                      "streets": [{"past": words(n.props.get("past")), **({"kind": str(n.props["kind"])} if "kind" in n.props else {})}
+                                  for n in mine("Street")]}
+        if not self.graph["streets"]:
+            del self.graph["streets"]
+
+    def run(self, seed: int, folder: Path) -> dict | str:
+        """`artgen settlement layout` at a seed, its file kept in `folder`: its output, or why it failed."""
+        f = folder / f"seed-{seed}.json"
+        (folder / "graph.json").write_text(json.dumps(dict(self.graph, seed=seed)))
+        done = maps.artgen("settlement", "layout", "--file", f, "--graph", folder / "graph.json", "--seed", seed, "--json", "--force")
+        return json.loads(done.stdout) if not done.returncode and done.stdout.startswith("{") else (done.stderr or done.stdout).strip()
+
+    def places(self, out: dict) -> dict[str, tuple[int, int, int, int]]:
+        """Each building's centre, east and north in feet of the first location's, and its width and length."""
+        got = {p["id"]: p for p in out["report"]["places"]}
+        o, k = got[self.locations[0]], self.cell
+        return {c: (round((p["cx"] - o["cx"]) * k), round(-(p["cy"] - o["cy"]) * k),
+                    round(2 * (p["cx"] - p["x"]) * k), round(2 * (p["cy"] - p["y"]) * k)) for c, p in got.items()}
+
+
+def settle_score(out: dict) -> tuple[int, str]:
+    """Out of 100: ten off for each fault the engine reports, and one for each foot or degree a tie is off."""
+    rep = out["report"]
+    faults = rep.get("faults", [])
+    off = sum(abs(t.get("distance", 0) - t.get("want", 0)) + abs((t.get("bearing", 0) - t.get("wantBearing", 0) + 180) % 360 - 180)
+              for t in rep.get("ties", []))
+    return max(0, round(100 - 10 * len(faults) - off)), "; ".join(faults) or "every tie held"
+
+
+def settle_solve(region, bid: str, seeds: int, keep: int, folder: Path | None) -> int:
+    st = Settle(region, bid)
+    for path, msg in st.problems:
+        print(f"ERROR: {path.relative_to(tables.ROOT)}: {msg}", file=sys.stderr)
+    if st.graph is None:
+        return 1
+    folder = folder or Path(tempfile.gettempdir()) / f"design-{bid}"
+    folder.mkdir(parents=True, exist_ok=True)
+    found = []
+    print("seed  score")
+    for seed in range(1, seeds + 1):
+        out = st.run(seed, folder)
+        if isinstance(out, str):
+            print(f"{seed:<4}  -      {out.splitlines()[0]}")
+            continue
+        score, note = settle_score(out)
+        found.append((score, seed))
+        print(f"{seed:<4}  {score:<5}  {note}")
+    if not found:
+        return 1
+    kept = [s for _, s in sorted(found, key=lambda f: (-f[0], f[1]))[:keep]]
+    panels = []
+    for s in kept:
+        maps.artgen("settlement", "render", "--file", folder / f"seed-{s}.json", "--format", "svg", "--fit", "800x800px", "--out", folder)
+        panels.append((s, maps.own_ids((folder / f"seed-{s}.color.svg").read_text(), f"s{s}")))
+    body = ""
+    for i, (s, svg) in enumerate(panels):
+        svg = re.sub(r'(<svg\b[^>]*?)\s(width|height)="[^"]*"', r"\1", re.sub(r'(<svg\b[^>]*?)\s(width|height)="[^"]*"', r"\1", svg, count=1), count=1)
+        body += svg.replace("<svg ", f'<svg x="{i * 820 + 10}" y="40" width="800" height="800" ', 1)
+        body += f'<text x="{i * 820 + 10}" y="26" font-family="sans-serif" font-size="20">seed {s} - score {dict((b, a) for a, b in found)[s]}</text>'
+    sheet = folder / "contact.svg"
+    sheet.write_text(f'<svg xmlns="http://www.w3.org/2000/svg" width="{len(panels) * 820 + 10}" height="860" style="background:#fff">{body}</svg>')
+    print(f"\n{len(found)} of {seeds} seeds laid out. Contact sheet: {sheet}\nThen: python3 tools/design.py accept {region.code} {bid} --seed N")
+    return 0
+
+
+def settle_accept(region, bid: str, seed: int) -> int:
+    st = Settle(region, bid)
+    for path, msg in st.problems:
+        print(f"ERROR: {path.relative_to(tables.ROOT)}: {msg}", file=sys.stderr)
+    if st.graph is None:
+        return 1
+    with tempfile.TemporaryDirectory() as tmp:
+        out = st.run(seed, Path(tmp))
+    if isinstance(out, str):
+        print(f"{bid}: seed {seed}: {out}")
+        return 1
+    score, _ = settle_score(out)
+    lines = [f'Place {c} xyz="{x},{y}" outline="rect {w} {l}" shape=rect' for c, (x, y, w, l) in st.places(out).items()]
+    write_places(region, bid, st.locations, lines, seed, score, None, f"{len(lines)} places")
     return 0
 
 
