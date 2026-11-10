@@ -138,10 +138,10 @@ def check_designs(diag: Diagnostics, setting, brief):
 
 
 def check_layouts(diag: Diagnostics):
-    """Every layout of layouts/ against patterns/Layout_Schema.md."""
+    """Every layout of layouts/ against artgen's layout schema: the engine refuses the folder on the first it rejects."""
     import design
-    for path, msg in design.read_layouts()[1]:
-        diag.error(path, msg)
+    if design.layouts()[0] is None:
+        diag.error(design.LAYOUTS, design.layouts()[1])
 
 
 def check_read_set(diag: Diagnostics, schema):
@@ -805,45 +805,54 @@ def check_places(diag: Diagnostics, setting, brief):
 
 
 def check_hazards(diag: Diagnostics, setting, brief):
-    """A Hazard's cost follows its Test: Constitution a `wound` the setting rolls, Fate a
-    `condition` Procedures.md names, Sanity neither. Its write-up cites that cost."""
+    """A Hazard's cost follows its Test, and so does a Mystery's that asks one: Constitution a `wound`
+    the setting rolls, Fate a `condition` Procedures.md names, Sanity neither. Its write-up cites that
+    cost, and cites no Test that no Hazard or Mystery of its location asks."""
     lever = brief.lever("Procedures")
     wounds = str(lever.props.get("wounds", "")).split() if lever else []
     conditions = procedures_conditions()
     count = {"Nuisance": 1, "Damaging": 2, "Lethal": 3}
+    asked: dict[Path, set[str]] = {}
     for code, region in setting.regions.items():
         for stem, entries in region.files.items():
             path = region.dir / f"{stem}.md"
             for entry in entries:
-                for h in (n for n in kdl.walk([entry]) if n.name == "Hazard"):
-                    where = entry.args[0]
+                for h in (n for n in kdl.walk([entry]) if n.name == "Hazard" or n.name == "Mystery" and "test" in n.props):
+                    where, what = entry.args[0], h.name
                     test, wound, cond = (h.props.get(k) for k in ("test", "wound", "condition"))
                     cite = None
                     if test == "Constitution":
                         if not wound:
-                            diag.error(path, f"Hazard {where}: a Test of Constitution costs a wound")
+                            diag.error(path, f"{what} {where}: a Test of Constitution costs a wound")
                         elif wound not in wounds:
-                            diag.error(path, f"Hazard {where}: wound {wound!r} is not among BRIEF.md's Procedures wounds, {' '.join(wounds)}")
+                            diag.error(path, f"{what} {where}: wound {wound!r} is not among BRIEF.md's Procedures wounds, {' '.join(wounds)}")
                         elif cond:
-                            diag.error(path, f"Hazard {where}: a Test of Constitution costs a wound, not a condition")
+                            diag.error(path, f"{what} {where}: a Test of Constitution costs a wound, not a condition")
                         else:
                             cite = f"(Test of Constitution, {count.get(h.props.get('damage'), 0)}d, {wound})"
                     elif test == "Fate":
                         if not cond:
-                            diag.error(path, f"Hazard {where}: a Test of Fate costs a condition")
+                            diag.error(path, f"{what} {where}: a Test of Fate costs a condition")
                         elif wound:
-                            diag.error(path, f"Hazard {where}: a Test of Fate costs a condition, not a wound")
+                            diag.error(path, f"{what} {where}: a Test of Fate costs a condition, not a wound")
                         else:
                             if conditions is not None and cond not in conditions:
-                                diag.error(path, f"Hazard {where}: condition {cond!r} is not named in Procedures.md's Conditions")
+                                diag.error(path, f"{what} {where}: condition {cond!r} is not named in Procedures.md's Conditions")
                             cite = f"(Test of Fate, {cond})"
                     elif test == "Sanity":
                         if wound or cond:
-                            diag.error(path, f"Hazard {where}: a Test of Sanity costs neither wound nor condition")
+                            diag.error(path, f"{what} {where}: a Test of Sanity costs neither wound nor condition")
                         cite = f"(Test of Sanity, {count.get(h.props.get('damage'), 0)}d)"
                     writeup = region.dir / f"{entry.args[0].split('.')[1]}.md"
+                    if cite:
+                        asked.setdefault(writeup, set()).add(cite)
                     if cite and writeup.exists() and cite not in writeup.read_text():
-                        diag.error(writeup, f"does not cite {cite}, which {where}'s Hazard states")
+                        diag.error(writeup, f"does not cite {cite}, which {where}'s {what} states")
+        for code in region.locations():
+            writeup = region.dir / f"{code.split('.')[1]}.md"
+            if writeup.exists():
+                for cite in sorted({m.group(0) for m in TEST_CITE_RE.finditer(writeup.read_text())} - asked.get(writeup, set())):
+                    diag.error(writeup, f"cites {cite}, which no Hazard or Mystery of {code} asks")
 
 
 def check_listed_prices(diag: Diagnostics, setting):
@@ -1431,6 +1440,8 @@ def report_pending(region_filter: str | None) -> int:
             print(f"  {msg}")
     if not owed:
         print("Nothing pending.")
+    elif any("is stale" in m for ms in owed.values() for m in ms):
+        print("\nA stale file read again and still true needs no edit: commit with a `Checked: <its path>` trailer.")
     return 0
 
 

@@ -8,8 +8,6 @@ problems     what is wrong with a block, for the validator
 """
 from __future__ import annotations
 
-import collections
-import copy
 import functools
 import hashlib
 import json
@@ -336,14 +334,8 @@ def block_map(region, block: kdl.Node) -> tuple[dict | None, list[str]]:
                         best, mid = hi - lo, (p[0] + ex * (lo + hi) / 2 / n, p[1] + ey * (lo + hi) / 2 / n)
             return mid
 
-        def end(c, bearing, far, ports=False):
-            """A passage's end at room c: by the wall its Connection names, else where artgen likes - but with `ports`, for a
-            room no box draws, on its outline toward room `far`, since artgen ends a passage at such a room's centre."""
-            if bearing is None and ports and not square(c):
-                dx, dy = at[far][0] - at[c][0], at[far][1] - at[c][1]
-                bearing = math.degrees(math.atan2(dx, -dy)) % 360
-                nearest = round(bearing / 90) * 90 % 360                       # a cardinal port lies on the passage lattice, an oblique one may not
-                bearing = nearest if abs((bearing - nearest + 180) % 360 - 180) < 35 else round(bearing / 45) * 45 % 360
+        def end(c, bearing):
+            """A passage's end at room c: by the wall its Connection names, else where artgen likes."""
             if bearing is None:
                 return {"room": rid(c)}
             if bearing % 90 == 0 and square(c):
@@ -360,7 +352,7 @@ def block_map(region, block: kdl.Node) -> tuple[dict | None, list[str]]:
             return {"room": rid(c), "port": to_cell(at[c][0] + x, at[c][1] + y)}
 
         corner = lambda c: (at[c][0] - size[c][0] / 2, at[c][1] - size[c][1] / 2)
-        traps, recipe = [], []
+        traps = []
         for a, b in sorted(seen, key=lambda k: (round(math.dist(corner(k[0]), corner(k[1]))), number(k[0]), number(k[1]))):
             ends = seen[a, b]                            # shortest first, as `dungeon layout` routes them
             first, second = ends.get(a), ends.get(b)
@@ -372,27 +364,11 @@ def block_map(region, block: kdl.Node) -> tuple[dict | None, list[str]]:
                                          "kind": kind or GAP.get(str(n.props.get("type")), "open")})
                 traps += [("connection", len(m["connections"]) - 1)] if hazard else []
                 continue
-            recipe.append((a, b))
-            m["corridors"].append({"from": end(a, named.get((a, b)), b), "to": end(b, named.get((b, a)), a), "route": "maze",
+            m["corridors"].append({"from": end(a, named.get((a, b))), "to": end(b, named.get((b, a))), "route": "maze",
                                    "width": round(LATTICE / cell, 2), "origin": "tables",
                                    **({"style": "natural"} if rough(*rn) else {}),
                                    "doors": [opening(first[0] if first else None), opening(second[0] if second else None)]})
             traps += [("corridor", len(m["corridors"]) - 1)] if hazard else []
-        if any(not square(c) for c in at):               # a passage that runs on to a room's centre by a diagonal leg: on a port instead, if the map is no worse
-            f = engine("facts", m)
-            def diagonal(i, k):
-                p = f["corridors"][i]["path"]
-                (x0, y0), (x1, y1) = (p[0:2], p[2:4]) if k == 0 else (p[-2:], p[-4:-2])
-                return abs(x1 - x0) > 0.01 and abs(y1 - y0) > 0.01
-            shared = [(i, k) for i, (a, b) in enumerate(recipe) for k, c in enumerate((a, b)) if not square(c) and diagonal(i, k)]
-            for room in dict.fromkeys(recipe[i][k] for i, k in shared):         # room by room, each kept if the map is no worse
-                again = copy.deepcopy(m)
-                for i, k in (s for s in shared if recipe[s[0]][s[1]] == room):
-                    a, b = recipe[i]
-                    here, far = (a, b) if k == 0 else (b, a)
-                    again["corridors"][i]["from" if k == 0 else "to"] = end(here, named.get((here, far)), far, ports=True)
-                if findings(again) <= findings(m):
-                    m = again
         added = [(i, k) for i, c in enumerate(m["corridors"]) for k in (0, 1) if c["doors"][k] == "arch"]
         if added:                                        # an added arch that meets another corridor's end is left open
             f = engine("facts", m)
@@ -439,44 +415,74 @@ def block_map(region, block: kdl.Node) -> tuple[dict | None, list[str]]:
     return m, problems
 
 
-def findings(m: dict) -> int:
-    """What artgen's `check` finds wrong with a map: errors and warnings."""
-    found = engine("check", m)
-    return len(found.get("errors", [])) + len(found.get("warnings", []))
+COMPASS_SIDE = {"n": 0, "e": 90, "s": 180, "w": 270}
 
 
-def spread_ends(m: dict) -> None:
-    """Passages that leave one wall of a rectangular room are a passage's width apart: where artgen drew two of them over
-    each other (their doors stack, or stand in the other's floor), each is given its own place along the wall, evenly.
-    A wall too short for them is left as it is. The answer is kept under .maps-cache."""
-    rooms = {r["id"]: r for r in m["rooms"] if r.get("shape") in ("rect", "cave")}
-    found = engine("check", m)
-    hit = {int(i) for x in found.get("errors", []) + found.get("warnings", []) if x.get("id") in ("doors-stacked", "door-off-wall")
-           for i in re.findall(r"corridors\[(\d+)\]", x.get("path", "") + " " + x["message"])}
-    if not hit:
+def spoke_routes(m: dict) -> None:
+    """Routes a block's passages in the engine, every room held where the tables put it: `dungeon layout` with each
+    room `at` its place keeps passages that leave one room apart (`spokes`), which the map's own maze routing does
+    not. Each corridor keeps its doors and its wall, and takes the engine's ports and bends. Only for a map whose own
+    routing `check` faults, and kept only where every way routes and `check` then finds less: elsewhere the map's
+    own routing is the shorter. The answer is kept under .maps-cache."""
+    if not m.get("corridors"):
         return
-    f = engine("facts", m)
-    ends = collections.defaultdict(list)              # (room, side) -> [(position along the wall, corridor, end)]
-    for i, c in enumerate(m["corridors"]):
-        path = f["corridors"][i]["path"]
-        for end, pt, nxt in (("from", path[0:2], path[2:4]), ("to", path[-2:], path[-4:-2])):
-            r = rooms.get(c[end].get("room"))
-            if r is None or len(path) < 4:
-                continue
-            dx, dy = nxt[0] - pt[0], nxt[1] - pt[1]               # the way it heads off: its path starts at the room's anchor
-            side = ("e" if dx > 0 else "w") if abs(dx) >= abs(dy) else ("s" if dy > 0 else "n")
-            ends[r["id"], side].append((pt[1] - r["y"] if side in "ew" else pt[0] - r["x"], i, end))
-    again = copy.deepcopy(m)
-    for (rid_, side), group in ends.items():
-        r = rooms[rid_]
-        length = r["h"] if side in "ew" else r["w"]
-        width = max(m["corridors"][i].get("width", 2) for _, i, _ in group)
-        if len(group) < 2 or not any(i in hit for _, i, _ in group) or length / len(group) < width:
-            continue
-        for slot, (_, i, end) in enumerate(sorted(group)):
-            again["corridors"][i][end] = {"room": rid_, "side": side, "offset": round((slot + 0.5) * length / len(group), 2)}
-    if findings(again) < findings(m):                 # kept only where artgen then finds less
-        m["corridors"] = again["corridors"]
+    key = hashlib.sha256((json.dumps(m) + BUILD).encode()).hexdigest()
+    kept = CACHE / f"{key}.spokes.json"
+    if kept.exists():
+        m["corridors"] = json.loads(kept.read_text())
+        return
+    if not (lambda f: f.get("errors") or f.get("warnings"))(engine("check", m)):
+        CACHE.mkdir(exist_ok=True)
+        kept.write_text(json.dumps(m["corridors"]))
+        return
+    rooms = {r["id"]: r for r in m["rooms"]}
+
+    def wall(end: dict) -> float | None:
+        r = rooms[end["room"]]
+        if "port" in end:
+            (px, py), cx, cy = end["port"], r["x"] + r["w"] / 2, r["y"] + r["h"] / 2
+            return round(math.degrees(math.atan2(px - cx, cy - py))) % 360
+        return COMPASS_SIDE.get(end.get("side", "")[:1])
+
+    ways = []
+    for c in m["corridors"]:
+        w = {"a": c["from"]["room"], "b": c["to"]["room"], "run": "passage"}
+        for k, end in (("wall", c["from"]), ("wallB", c["to"])):
+            if (x := wall(end)) is not None:
+                w[k] = x
+        ways.append(w)
+    ways += [{"a": c["a"], "b": c["b"], "run": "wall"} for c in m["connections"]]
+    box = [0, 0, m["cols"], 0, m["cols"], m["rows"], 0, m["rows"]]
+    g = {"id": m["id"], "ways": ways, "width": LATTICE / m["scale"]["perCell"], "scale": m["scale"], "margin": 0,
+         "footprint": m.get("bounds") or box, "spokes": True, "fill": [0.05, 0.95], "passages": 1, "tries": 4,
+         "rooms": [{"id": r["id"], "w": r["w"], "h": r["h"], "shape": {"circle": "round"}.get(r["shape"], r["shape"]),
+                    "at": {"x": r["x"], "y": r["y"]}, **({"points": r["points"]} if "points" in r else {})} for r in m["rooms"]]}
+    if rock := [a["points"] for a in m.get("areas", []) if a.get("kind") == "rock"]:
+        g["keepOut"] = rock
+    with tempfile.TemporaryDirectory() as tmp:
+        (Path(tmp) / "g.json").write_text(json.dumps(g))
+        done = artgen("dungeon", "layout", "--file", Path(tmp) / "out.json", "--graph", Path(tmp) / "g.json", "--json", "--force")
+    out = json.loads(done.stdout) if not done.returncode and done.stdout.startswith("{") else None
+    again = json.loads(json.dumps(m["corridors"]))
+    if out is not None and not out["report"]["left"]:
+        laid = {frozenset((c["from"]["room"], c["to"]["room"])): c for c in out["dungeon"]["corridors"]}
+        for c in again:
+            e = laid.get(frozenset((c["from"]["room"], c["to"]["room"])))
+            if e is None:
+                break
+            via = list(zip(e.get("via", [])[::2], e.get("via", [])[1::2]))
+            ours, theirs = (e["from"], e["to"]) if e["from"]["room"] == c["from"]["room"] else (e["to"], e["from"])
+            if ours is not e["from"]:
+                via.reverse()
+            c.update({"from": {"room": c["from"]["room"], "port": ours["port"]}, "to": {"room": c["to"]["room"], "port": theirs["port"]},
+                      "via": [v for p in via for v in p]})
+            c.pop("route", None)
+        else:
+            found = lambda corr: (lambda f: len(f.get("errors", [])) + len(f.get("warnings", [])))(engine("check", dict(m, corridors=corr)))
+            if found(again) < found(m["corridors"]):
+                m["corridors"] = again
+    CACHE.mkdir(exist_ok=True)
+    kept.write_text(json.dumps(m["corridors"]))
 
 
 def route_around(m: dict) -> None:
@@ -508,7 +514,7 @@ def route_around(m: dict) -> None:
 
 FAULTS = ("door-off-wall,through-room,corridors-cross,way-no-passage,reenters-room,port-outside-room,rooms-overlap,"
           "in-keep-out,outside-bounds,maze-no-route,note-off-floor,marks-overlap,end-in-room,offset-moved,junction-at-bend")
-SEEN = ("rooms-merge", "doors-stacked", "label-overlap")    # warnings of `check` the validator passes on
+SEEN = ("rooms-merge", "doors-stacked", "label-overlap", "passages-tangle")    # warnings of `check` the validator passes on
 REPACK = ("in-keep-out", "outside-bounds")                   # a stale packing: `pack` places the rooms again
 
 

@@ -7,8 +7,6 @@ buildings are, how they join and where they lie, drawn and approved before any l
 ## Context
 ```kdl
 template scope="[Region Code]" writes="setting/region/[Region Code]/Design.md" shape="tables"
-read "patterns/Layout_Schema.md"
-read "layouts"
 read "setting/region/[Region Code]/Seed.md"
 read "setting/region/Regions.md" part="this region's die"
 read "setting/region/[Region Code]/Ground.md"
@@ -22,11 +20,13 @@ block a shape. `BRIEF.md`'s `design` line and the Design line's own settings say
 spaced and how direct.
 
 A DANGEROUS block is built from layouts: a `Use` for each one the seed's shape for the block
-calls for (`python3 tools/design.py layouts` lists them by tag), a `Bind` giving each role the
+calls for (`python3 tools/design.py layouts` lists artgen's and this repo's `layouts/`), a `Bind` giving each role the
 codes and their types, a `Join` for each pair of sockets meant to meet, a `Fill` for
 each location no layout holds, and a `Void` for ground no room takes. The type mix is `BRIEF.md`'s
-for the region. A SAFE or WILD block is fixed geometry: write its `Place` for each location and
-its `Link` for each street yourself, from the region's ground and outline, with no layouts.
+for the region. A SAFE or WILD block is a settlement, with no layouts: a `Fill` for each location,
+its footprint and type; a `Tie` for each place set a bearing and distance from another, from the
+region's ground and outline; a `Street` for each street, the buildings it runs past in order.
+Its first location stands at the block's centre.
 
 `solve` and `accept` write each `Place` and `Link` and the seed and score; none of them writes
 `approved`, which is the user's word.

@@ -17,9 +17,9 @@ each region, by rating, beside its tables:
   Inhabitants, Services, Procedures, Loot, Alarm, Leads, Secrets.
 - its `design`, `setting/region/[Code]/Design.md`, for a region whose `BRIEF.md` node has a
   `design` line: what its blocks are to look like, written at step 3d before `Locations.md`.
-  Each block is one `Design`, then the `Use`, `Bind`, `Fill`, `Join` and `Void` lines that
-  state it, and, once solved, a `Place` for each location and a `Link` for each way inside the
-  block. Once the user approves a design, the tables are written to agree with it.
+  Each block is one `Design`, then the lines that state it - in DANGEROUS `Use`, `Bind`, `Fill`,
+  `Join` and `Void`; in SAFE and WILD `Fill`, `Tie`, `Street` and `Void` - and, once solved, a
+  `Place` for each location and, in DANGEROUS, a `Link` for each way inside the block. Once the user approves a design, the tables are written to agree with it.
 
 Every brief sentence carries something usable at the table - a name, count, price, place,
 distance or ruling; why a place exists or how it feels is cut. A brief is read beside the
@@ -51,24 +51,24 @@ enum Dangerous_Kind collection "single holding"   // a worked complex in blocks,
 
 enum Link_Kind door passage   // a door through a wall two rooms share; a passage between rooms that do not touch
 
-node Design {               // a block's design, opening with its id: `layouts/` motifs, chained, round the rooms they leave to the solver
+node Design {               // a block's design, opening with its id: layouts, chained, round the rooms they leave to the solver
   locations location list   // every location of the block; Locations.md holds exactly these
   xyz point opt             // its centre from its region's origin, as Blocks.md's
   outline outline opt       // the ground its rooms fill; unset, they grow out from xyz and the outline is the hull of what they hold
   fill string opt           // the share of the outline the rooms cover, "N-M%"; unset, BRIEF.md's pack
-  spacing string opt        // the passage wanted between joined rooms, "N-M feet"; sets passages and detour where they are unset
-  pad string opt            // "N feet": each room is grown by it on every side in the solve, so rooms that touch there stand twice it apart
+  spacing string opt        // the passage wanted between joined rooms, "N-M feet"; sets passages and detour where they are unset, and its most is how far joined rooms may stand apart
+  pad string opt            // "N feet" kept clear round each room, so joined rooms stand twice it apart, a passage between
   passages percent opt      // the share of ways run as passages; unset, BRIEF.md's pack
   detour distance opt       // the most a way may walk beyond the straight line; unset, BRIEF.md's pack
   hull outline opt drawn    // where it states no outline, the ground the solved rooms and ways hold, which Blocks.md draws
   seed number opt drawn     // the solver's seed for the places below
-  score string opt drawn    // that candidate's score against the design
+  score string opt drawn    // the engine's score for that seed, out of 100
   approved string opt       // the date the user approved it; only their word sets it
 }
 node Use {                  // a layout in the block, opening with the block's id
   id tag                    // its name in the block, which a Bind and a Join cite
-  layout string             // its id in layouts/
-  params string opt         // "name=N" pairs, each within its layout's Param range
+  layout string             // a layout's id, as `tools/design.py layouts` lists them
+  params string opt         // "name=N" pairs, in the layout's own terms and range (sizes in 5 ft cells)
 }
 node Bind {                 // a role of a Use given its locations
   use tag
@@ -85,6 +85,16 @@ node Fill {                 // locations no layout binds: plain rooms the solver
   pad string opt            // as a Bind's
   shape Room_Shape opt      // rect where unset
   outline outline opt       // a "poly" where no shape draws the room: its extent is its width and length
+}
+node Tie {                  // SAFE and WILD: one location a bearing and distance from another, which the solver holds
+  from location
+  to location
+  bearing Compass
+  distance distance
+}
+node Street {               // SAFE and WILD: a street, the buildings it runs past in order from its start
+  past location list
+  kind gloss opt            // a road kind; a street where unset
 }
 node Join {                 // a way between two ends: a Use's socket, or a location code
   from string               // "use.socket", or a location code

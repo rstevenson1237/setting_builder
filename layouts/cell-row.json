@@ -1,0 +1,21 @@
+{
+  "id": "cell-row",
+  "name": "A row of cells off a hall that is a room",
+  "tags": ["cells", "hall", "rooms"],
+  "source": { "kind": "drawn", "origin": "map 1, rooms 7 to 12" },
+  "params": { "per-row": { "default": 2, "min": 1, "max": 4 } },
+  "parts": [
+    { "role": "hall", "shape": "rect", "w": [8, 12], "h": [2, 6] },
+    { "role": "north-cell", "shape": "rect", "w": [2, 6], "h": [2, 6], "count": "$per-row", "at": { "part": "hall", "side": "n" } },
+    { "role": "south-cell", "shape": "rect", "w": [2, 6], "h": [2, 6], "count": "$per-row", "at": { "part": "hall", "side": "s" } }
+  ],
+  "ties": [
+    { "a": "hall", "b": "north-cell", "kind": "door" },
+    { "a": "hall", "b": "south-cell", "kind": "door" }
+  ],
+  "sockets": [
+    { "name": "west", "part": "hall", "bearing": "w" },
+    { "name": "east", "part": "hall", "bearing": "e" }
+  ],
+  "constraints": [{ "mirror": ["north-cell", "south-cell"], "about": "hall", "along": "ew" }]
+}

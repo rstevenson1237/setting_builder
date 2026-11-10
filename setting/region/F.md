@@ -34,5 +34,5 @@ d6 Danger
 5. A sour smell from the kitchens.
 4. A thin beating of wings among the hangings.
 3. Dice and a fiddle through a barricade.
-2. Gnawing and low muttering from the east.
+2. Gnawing and low muttering from the north.
 1. The camp's sentries rise to hunt the thief.

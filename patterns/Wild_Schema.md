@@ -105,6 +105,10 @@ node Hazard {              // ground or weather: it shows itself before it bites
 node Mystery {
   type Mystery_Type
   effect string
+  test Test opt            // where it asks one; then a Hazard's damage, wound and condition rules hold
+  damage Damage_Type opt
+  wound Wound_Type opt
+  condition gloss opt
   act gloss                // what sets it off
   tell gloss
 }
@@ -164,7 +168,7 @@ folder Wild type=Wild_Type {
   Stops Stop                                       // a Route's only
   Connections Way
   Ground Ground Feature At                         // written by code
-  Design Design Use Bind Fill Join Void Place Link opt
+  Design Design Fill Tie Street Void Place opt
   top Landmark Route  // reached from the region itself, so never joined to one another
   join Hidden Landmark Route  // a type connects only to these within its region
   join Secret Landmark Route gate=Secret  // and the Way into it carries a Secret

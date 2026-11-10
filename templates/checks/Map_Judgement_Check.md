@@ -18,7 +18,7 @@ Run this once the loop has exited, in a context that drew none of the maps. Reco
 per block as Confirmed or Needs Attention, with a note, in the order below; the Template block
 lists the same items in the same order. Every Needs Attention names its likely source: a table
 line, a `BRIEF.md` line, a tool (`tools/dungeon.py`), or
-artgen, in the terms of `plans/dungeon-maps/report-artgen.md`.
+artgen, sent upstream as the `setting-maps` skill says.
 
 ### Per block
 

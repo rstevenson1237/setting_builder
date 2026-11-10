@@ -146,7 +146,7 @@ folder Safe type=Safe_Type {
   Blocks Block Void opt                            // Void: ground in a Block that no location takes, drawn as open ground
   Connections Way
   Ground Ground Feature At                         // written by code
-  Design Design Use Bind Fill Join Void Place Link opt
+  Design Design Fill Tie Street Void Place opt
   top Inn Merchant Bank Market Authority Gate   // reached from the region itself, so never joined to one another
   join Secret Inn Merchant Bank Market Authority Gate gate=Secret   // the only type that connects within its region, and the Way into it carries a Secret
 }
