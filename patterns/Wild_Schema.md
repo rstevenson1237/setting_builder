@@ -105,6 +105,10 @@ node Hazard {              // ground or weather: it shows itself before it bites
 node Mystery {
   type Mystery_Type
   effect string
+  test Test opt            // where it asks one; then a Hazard's damage, wound and condition rules hold
+  damage Damage_Type opt
+  wound Wound_Type opt
+  condition gloss opt
   act gloss                // what sets it off
   tell gloss
 }

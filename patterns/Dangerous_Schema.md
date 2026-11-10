@@ -98,6 +98,10 @@ node Hazard {
 node Mystery {
   type Mystery_Type
   effect string
+  test Test opt             // where it asks one; then a Hazard's damage, wound and condition rules hold
+  damage Damage_Type opt
+  wound Wound_Type opt
+  condition gloss opt
   one-of Secret
 }
 node Reward {
