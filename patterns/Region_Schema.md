@@ -17,9 +17,10 @@ each region, by rating, beside its tables:
   Inhabitants, Services, Procedures, Loot, Alarm, Leads, Secrets.
 - its `design`, `setting/region/[Code]/Design.md`, for a region whose `BRIEF.md` node has a
   `design` line: what its blocks are to look like, written at step 3d before `Locations.md`.
-  Each block is one `Design`, then the lines that state it - in DANGEROUS `Use`, `Bind`, `Fill`,
-  `Join` and `Void`; in SAFE and WILD `Fill`, `Tie`, `Street` and `Void` - and, once solved, a
-  `Place` for each location and, in DANGEROUS, a `Link` for each way inside the block. Once the user approves a design, the tables are written to agree with it.
+  Each block is one `Design`, then the lines that state it - in DANGEROUS either a layout engine's
+  `Use`, `Bind`, `Fill`, `Join` and `Void`, or a plan's `Layout`, `Room`, `Route` and `Void`; in SAFE
+  and WILD `Fill`, `Tie`, `Street` and `Void` - and, once solved, a `Place` for each location and,
+  in DANGEROUS, a `Link` for each way inside the block. Once the user approves a design, the tables are written to agree with it.
 
 Every brief sentence carries something usable at the table - a name, count, price, place,
 distance or ruling; why a place exists or how it feels is cut. A brief is read beside the
@@ -50,6 +51,9 @@ enum Dangerous_Kind collection "single holding"   // a worked complex in blocks,
                                                   // a lair or a seat, never a complex of rooms with no master
 
 enum Link_Kind door passage   // a door through a wall two rooms share; a passage between rooms that do not touch
+enum Facing north south east west north-east south-east south-west north-west   // the side of its parent a thing keeps to
+enum Side n s e w           // the half of that side: w or e on a north or south one, n or s on an east or west one
+enum Arrange cluster row column grid spine ring   // how a layout sets its rooms against one another
 
 node Design {               // a block's design, opening with its id: layouts, chained, round the rooms they leave to the solver
   locations location list   // every location of the block; Locations.md holds exactly these
@@ -64,6 +68,43 @@ node Design {               // a block's design, opening with its id: layouts, c
   seed number opt drawn     // the solver's seed for the places below
   score string opt drawn    // the engine's score for that seed, out of 100
   approved string opt       // the date the user approved it; only their word sets it
+  facing Facing opt         // a plan: the side of the region it keeps to, where it states no xyz
+  side Side opt
+  width feet opt            // a plan: its passages' width, 5 or 10; 10 where unset
+}
+node Layout {               // a plan: a group of rooms set against one another, placed in the block as one, opening with the block's id
+  id tag                    // its name, which a Room and a Route cite
+  arrange Arrange opt       // cluster where unset; a spine's or ring's first room (or entry) is its hall or hub
+  gap feet opt              // between its rooms; 0, sharing walls, where unset
+  xyz point opt             // its centre from the block's; unset, where its routes run best
+  facing Facing opt         // unset xyz: the side of the block it keeps to
+  side Side opt
+  entry location opt        // the room a route to the layout reaches, and a spine's hall or a ring's hub
+  links string opt          // auto: the arrangement joins its rooms; none: only routes join its locations
+  cols number opt           // a grid's rooms a row
+  align Side opt            // a row's or column's rooms lined up on one side; centred where unset
+  door string opt           // the door between its rooms: a door kind; door where unset
+}
+node Room {                 // a plan: one location, opening with its code, or rooms no location holds, opening with the block's id
+  layout tag opt            // the layout it is part of; the block's own where unset
+  width feet opt            // across and along, in 10 ft steps; 20 where unset
+  length feet opt
+  shape string opt          // a Room_Shape, or diamond: a square turned on its point; rect where unset
+  xyz point opt             // its centre from its layout's, or the block's
+  facing Facing opt         // unset xyz: the side of its parent it keeps to; in a ring, the hub's side it stands on
+  side Side opt
+  count number opt          // opening with the block's id: how many such rooms
+  label string opt          // a name for a room no location holds
+}
+node Route {                // a plan: a way between two or more ends, opening with the block's id; every goal it states gives way to a route that works
+  ends text                 // "end, end, ...": each a location, a layout, this block (its edge) or a location of another block, then
+                            // ":facing" - the wall it leaves by, a layout's or block's outermost on that side - then ":side", its half
+  length string opt         // short (where unset), long (as long as fits), or N 10 ft squares, or "N feet"; of its first two ends
+  kind Link_Kind opt        // door: through a wall the first two ends share, set against one another; passage where unset
+  door string opt           // the door at each end, one kind or one an end: door, secret, locked, portcullis, arch, double, open, none
+  width feet opt            // 5 or 10; the Design's where unset
+  stair string opt          // up or down: a way out of the block drawn as a stair in its room; a block over or under is one unasked
+  label string opt
 }
 node Use {                  // a layout in the block, opening with the block's id
   id tag                    // its name in the block, which a Bind and a Join cite

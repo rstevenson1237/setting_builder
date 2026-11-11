@@ -17,7 +17,8 @@ voids kept out, its settings over BRIEF.md's `design` and `pack` lines. The engi
 
 `accept` writes one seed's `Place` and `Link` lines, its seed and score and, for a design that states no outline,
 the `hull`; it never writes `approved`, which only the user's word sets, and takes away one the design had.
-`check` holds an approved design and the tables to one another. A SAFE or WILD block is a settlement: its `Fill`,
+`check` holds an approved design and the tables to one another. A block whose design is a plan (`Layout`, `Room` and
+`Route` lines) is solved by `tools/plan.py`, which `solve` and `accept` hand it to. A SAFE or WILD block is a settlement: its `Fill`,
 `Tie` and `Street` lines are artgen's settlement graph, laid out by `settlement layout` seed by seed and scored on
 the faults it reports and how far each tie strays.
 """
@@ -35,6 +36,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import dungeon                  # noqa: E402
 import kdl                      # noqa: E402
 import maps                     # noqa: E402
+import plan                     # noqa: E402
 import space                    # noqa: E402
 import tables                   # noqa: E402
 
@@ -649,7 +651,10 @@ def check(world, brief) -> list[tuple[str, Path, str]]:
             for k in SETTINGS:
                 if k in node.props and (bad := tables.design_setting(k, str(node.props[k]))):
                     out.append(("error", path, f"line {node.line}: Design {bid} {bad}"))
-            if region.rating.upper() == "DANGEROUS" and any(n.name in ("Use", "Bind", "Fill") for n in g["lines"]):
+            if region.rating.upper() == "DANGEROUS" and bid in plan.plans_of(region):   # a plan: its faults, and ways it leaves unrouted
+                said, unrouted = plan.problems_of(region, bid)
+                out += [("error" if approved else "warning", path, f"Design {bid}: {m} - owed to step 3d") for m in said + unrouted]
+            elif region.rating.upper() == "DANGEROUS" and any(n.name in ("Use", "Bind", "Fill") for n in g["lines"]):
                 ex = expand(region, bid)
                 out += [("error" if approved else "warning", f, f"{m} - owed to step 3d") for f, m in ex.problems]
             if approved:
@@ -687,7 +692,7 @@ def main() -> int:
     a = sub.add_parser("accept", help="write one seed's places into Design.md")
     a.add_argument("code")
     a.add_argument("block", nargs="?")
-    a.add_argument("--seed", type=int, required=True)
+    a.add_argument("--seed", type=int, help="the seed to accept; a plan takes none")
     a.add_argument("--free", **free)
     c = sub.add_parser("check", help="every approved design against its tables")
     c.add_argument("code", nargs="?")
@@ -710,9 +715,18 @@ def main() -> int:
     if bid is None:
         print(f"ERROR: {args.code} holds {'no design' if not blocks else 'designs for ' + ', '.join(blocks) + ': name one'}", file=sys.stderr)
         return 1
+    if bid in plan.plans_of(region):                     # a plan is solved by tools/plan.py
+        if args.command == "expand":
+            print(f"{bid} is a plan: `python3 tools/plan.py solve {args.code} {bid}` shows it", file=sys.stderr)
+            return 1
+        return plan.main([args.command, args.code, bid] + (["--out", str(args.out)] if getattr(args, "out", None) else [])
+                         + (["--free"] if args.free else []))
     if args.command == "solve":
         return solve(region, bid, args.seeds, args.keep, args.out, args.free)
     if args.command == "accept":
+        if args.seed is None:
+            print("ERROR: accept takes --seed N", file=sys.stderr)
+            return 1
         return accept(region, bid, args.seed, args.free)
     done = expand(region, bid, args.seed, args.tries, args.free)
     for path, msg in done.problems:

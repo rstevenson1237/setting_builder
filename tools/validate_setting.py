@@ -137,6 +137,17 @@ def check_designs(diag: Diagnostics, setting, brief):
         (diag.error if level == "error" else diag.warn)(path, msg)
 
 
+def check_plan_examples(diag: Diagnostics):
+    """Every example plan of the block-plan skill solves with every way routed: what the skill shows, the solver does."""
+    import plan
+    for f in sorted(plan.EXAMPLES.glob("*.md")):
+        lines = plan.lines_of(f)
+        for bid in plan.planned(lines):
+            s, said = plan.solve(lines, bid, others=plan.others_of(lines))
+            for m in said + (s.failed if s else ["no solve"]):
+                diag.error(f, f"{bid}: {m}")
+
+
 def check_layouts(diag: Diagnostics):
     """Every layout of layouts/ against artgen's layout schema: the engine refuses the folder on the first it rejects."""
     import design
@@ -1558,6 +1569,7 @@ def main() -> int:
     check_places(diag, setting, brief)
     check_blocks(diag, setting)
     check_designs(diag, setting, brief)
+    check_plan_examples(diag)
     check_hazards(diag, setting, brief)
     check_listed_prices(diag, setting)
     check_numbers(diag, setting, schema)

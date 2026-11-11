@@ -1035,7 +1035,8 @@ class Setting:
         if any(c.line != n.line for c in kdl.walk(n.children)):
             yield "error", f"{n.name} spans several lines - an entry is one line"
         code = n.args[0] if len(n.args) == 1 else None
-        block = stem == "Blocks" or stem == "Design" and n.name not in ("Place", "Link")   # a design's lines open with a block, but a Place and a Link with a location
+        block = stem == "Blocks" or stem == "Design" and n.name not in ("Place", "Link") and not (   # a design's lines open with a block,
+            n.name == "Room" and code is not None and CODE_RE.fullmatch(str(code)))   # a Place, a Link and a location's Room with a location
         if stem == "Seed" or stem == "Ground" and n.name != "At":
             if code != r.code:
                 yield "error", f"{n.name} opens with {n.args} - it opens with the region code {r.code}"

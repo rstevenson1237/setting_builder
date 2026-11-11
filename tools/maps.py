@@ -626,6 +626,9 @@ def block_file(region, block: kdl.Node) -> tuple[dict | None, list[str]]:
     unable to draw."""
     if region.rating.upper() == "DANGEROUS":
         import dungeon
+        import plan
+        if str(block.args[0]) in designed(region) & set(plan.plans_of(region)):   # an approved plan draws its own routes
+            return plan.block_map(region, block)
         return dungeon.block_map(region, block)
     return settlement_map(region, block)
 

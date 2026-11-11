@@ -157,6 +157,6 @@ folder Dangerous type=Dangerous_Type {
   Procedures Procedure
   Blocks Block Rock
   Connections Connection
-  Design Design Use Bind Fill Join Void Place Link opt
+  Design Design Use Bind Fill Join Layout Room Route Void Place Link opt
 }
 ```

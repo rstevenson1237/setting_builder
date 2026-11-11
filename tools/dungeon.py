@@ -534,13 +534,21 @@ def defects(region, block: kdl.Node, m: dict) -> list[tuple[str, str]]:
     rid = lambda c: c.replace(".", "-")
     ways = {frozenset((rid(str(n.args[0])), rid(str(n.props["to"])))) for n in region.files.get("Connections", [])
             if n.args and str(n.args[0]) in members and str(n.props.get("to")) in members}
-    joined = {frozenset((c["from"].get("room"), c["to"].get("room"))) for c in facts.get("corridors", [])}
+    root, nets = {}, {}                                   # passages joined to one another join every room they reach
+    for c in m.get("corridors", []):
+        cid = c.get("id") or id(c)
+        root[cid] = root.get(c["to"].get("corridor"), c["to"].get("corridor")) or cid
+        nets.setdefault(root[cid], set()).update(e["room"] for e in (c["from"], c["to"]) if e.get("room"))
+    joined = {frozenset((a, b)) for net in nets.values() for a in net for b in net if a < b}
     joined |= {frozenset((r["id"], c["to"])) for r in facts.get("rooms", []) for c in r.get("connections") or []}
+    codes = {rid(c) for c in members}                     # a room no location holds is the map's own
+    joined = {j for j in joined if j <= codes}
     wrong += [f"the tables join {a} and {b}, but the map draws no way between them" for a, b in sorted(map(sorted, ways - joined))]
     wrong += [f"the map joins {a} and {b}, which the tables do not" for a, b in sorted(map(sorted, joined - ways))]
     leaving = sum(1 for n in region.files.get("Connections", [])
                   if n.args and str(n.args[0]) in members and str(n.props.get("to")) not in members)
-    marks = sum(len(r.get("exits") or []) for r in facts.get("rooms", []))
+    marks = sum(len(r.get("exits") or []) for r in facts.get("rooms", [])) + \
+        sum(1 for c in m.get("corridors", []) if "exit" in c["to"] or "exit" in c["from"])
     if marks != leaving:
         wrong.append(f"the tables take {leaving} ways out of the block, the map marks {marks}")
     return out + [("error", w) for w in wrong]
@@ -947,6 +955,11 @@ def problems(region, block: kdl.Node) -> list[tuple[str, Path, str]]:
     wide = lambda c, k: float(dress[c].props["width" if k == 0 else "length"])
     world = world_for(tables.SETTING)
     rates = tables.Brief(world.schema).packing(region.code)
+    import plan
+    planned = bid in maps.designed(region) & set(plan.plans_of(region))   # an approved plan states its own ground and fill
+    if planned:
+        head = next(n for n in region.files.get("Design", []) if n.name == "Design" and n.args and str(n.args[0]) == bid)
+        rates = {**rates, "footprint": None, "fill": plan.Plan.fill_of(head.props.get("fill")), "detour": None}
     if not poly and rates["footprint"] is not None and side != rates["footprint"]:
         out.append(("error", path, f"{bid}'s square is {side:g} feet, where BRIEF.md's pack footprint asks {rates['footprint']:g}: "
                                    f"run `python3 tools/maps.py pack {region.code}` (step 4a)"))
@@ -956,8 +969,8 @@ def problems(region, block: kdl.Node) -> list[tuple[str, Path, str]]:
     covered, least = sum(wide(c, 0) * wide(c, 1) for c in at), (rates["fill"] or (0, 0))[0]
     if covered < least * room:
         out.append(("error", path, f"{bid}'s rooms cover {covered / room:.0%} of its ground, under BRIEF.md's "
-                                   f"pack fill of {least:.0%}"))
-    left, far = faults(region, block, rates["detour"]) or ([], [])
+                                   f"{'design' if planned else 'pack'} fill of {least:.0%}"))
+    left, far = ([], []) if planned else faults(region, block, rates["detour"]) or ([], [])   # a plan's ways: its map's
     for way in left:
         out.append(("error", path, f"{bid}: no passage fits the way from {way}: run `python3 tools/maps.py pack {region.code}` (step 4a)"))
     for a, b, extra in far:
