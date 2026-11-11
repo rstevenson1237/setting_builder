@@ -29,5 +29,5 @@ Route L.a ends="cloister:north, odd"
 Route L.a ends="L.4, L.7, L.8"
 Route L.a ends="L.8, L.9" kind=door
 Route L.a ends="L.9, L.10"
-Route L.a ends="L.10, L.a:south" door=none
+Route L.a ends="L.4, L.a:north" door=none
 ```

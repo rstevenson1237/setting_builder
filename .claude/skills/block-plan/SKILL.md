@@ -13,9 +13,10 @@ tables then follow the accepted places, and the map is built from the plan.
 
 Every place, facing, side and length is a goal. The solver keeps a plan that routes every way over one that meets
 a goal, and says each goal it missed: read the report before showing the map. A way that finds no path first gives up
-its own walls, then joins a passage from its other end (never at a door or on a spoke), then crosses another passage
-as a crossroads, then is routed first and every way again; only then does the whole plan set its goals aside. A level of many rooms wants a block no larger than its fill asks: spare ground
-spreads the areas to the edges and lengthens every passage.
+its own walls, then joins a passage from its other end where that joins no room the way does not (never at a door
+or on a spoke), then is routed first and every way again; only then does the whole plan set its goals aside - sides,
+facings, lengths, then a larger block, then passages that cross. A level of many rooms wants a block no larger than
+its fill asks: spare ground spreads the areas to the edges and lengthens every passage.
 
 ## The lines
 
@@ -57,10 +58,13 @@ The examples in `examples/` are each solved by the validator: start from the one
 
 ## Order
 
-1. Write the plan from the region's brief node and `Seed.md`. `python3 tools/plan.py solve --file F.md` tries a
+1. Write the plan from the region's brief node and `Seed.md`; `python3 tools/plan.py draft [Code]` writes a first
+   one from tables that already stand. `python3 tools/plan.py solve --file F.md` tries a
    plan outside the setting; `python3 tools/design.py solve [Code]` solves the region's and draws it.
 2. Read the report: `UNROUTED` and `goal missed` lines say what to change - a larger outline, a facing that
    fights another, a length the ground cannot give. A note says which goals were set aside to route every way.
-3. Show the user the drawing; `python3 tools/design.py accept [Code]` writes the `Place` and `Link` lines.
+3. Show the user the drawing; `python3 tools/design.py accept [Code]` writes the `Place`, `Link` and `Part` lines.
+   Once approved the plan is solved again exactly as accepted, and `python3 tools/plan.py apply [Code]` writes its
+   places into the tables at 4a.
 4. A stair's room is held over the room it meets on a placed level. Plan the first level of a chain with `--free`,
    then place its neighbours from it.

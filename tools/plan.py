@@ -4,6 +4,8 @@
   python3 tools/plan.py solve CODE [BLOCK] [--out DIR] [--seeds N]    # a region's planned blocks, from Design.md
   python3 tools/plan.py solve --file PLAN.md [BLOCK] [--out DIR]     # any file of plan lines, for trying one out
   python3 tools/plan.py accept CODE BLOCK                            # write the solved places and ways into Design.md
+  python3 tools/plan.py draft CODE [--places]                        # a plan from the region's tables as they stand
+  python3 tools/plan.py apply CODE                                   # step 4a's share: an approved plan's places into the tables
   --free: a region's stair rooms are not held over the rooms they meet, for the first level of a chain
 
 A plan is a block's `Design` line with `Layout`, `Room` and `Route` lines in place of a layout engine's `Use` and
@@ -11,8 +13,9 @@ A plan is a block's `Design` line with `Layout`, `Room` and `Route` lines in pla
 x east and y north of the parent's centre; the solver works on the map's 10 ft squares. Every place, facing, side
 and length is a goal, never a rule: the solver tries `--seeds` orders of placing, routes every way in each, and keeps
 the one that routes most and misses fewest goals, then reports each goal it missed. A plan that still leaves a
-way unrouted relaxes its goals in turn - sides, facings, then lengths - then lets passages cross, then grows the
-block, and says which it did.
+way unrouted relaxes its goals in turn - sides, facings, then lengths - then grows the block, then lets passages
+cross, and says which it did. An approved plan is solved again exactly as accepted: its `Place` lines hold each
+room and only its recorded seed is tried.
 """
 from __future__ import annotations
 
@@ -399,7 +402,7 @@ def arrange(lay: Layout, rng: random.Random) -> tuple[dict[str, tuple[int, int]]
                 vy = 0
             x = {1: hub.w + gap + push, -1: -gap - r.w - push, 0: (hub.w - r.w) // 2}[vx]
             y = {1: hub.h + gap + push, -1: -gap - r.h - push, 0: (hub.h - r.h) // 2}[vy]
-            if vx and vy and hub.shape in CORNERED and r.shape in CORNERED:
+            if vx and vy and hub.shape in CORNERED:      # a diagonal point: a straight spoke from the hub
                 x = hub.w + gap + push if vx > 0 else -gap - r.w - push      # corner to corner on the diagonal
                 y = hub.h + gap + push if vy > 0 else -gap - r.h - push
                 lay.diagonal.add((hub.key, r.key))
@@ -439,8 +442,11 @@ def arrange(lay: Layout, rng: random.Random) -> tuple[dict[str, tuple[int, int]]
                 continue
             at[r.key] = best[1:3]
             links.append((best[3], r.key))
+    if all(r.origin is not None for r in rs):           # every room placed by hand: the layout is drawn as stated
+        at = {r.key: (math.floor(r.origin[0] / SQ - r.w / 2 + 1e-9), math.floor(-r.origin[1] / SQ - r.h / 2 + 1e-9))
+              for r in rs}                              # all the same way: a half square is half a square for every room
     for r in rs:                                        # a room's own place in the layout overrides the arrangement
-        if r.origin is not None and r.key in at:
+        if r.origin is not None and r.key in at and not all(q.origin is not None for q in rs):
             xs = [at[k][0] for k in at]
             ys = [at[k][1] for k in at]
             xe = [at[k][0] + lay_room(rs, k).w for k in at]
@@ -728,7 +734,7 @@ class Solver:
                             self.cell_in[i][j] = False
         self.owner: dict[tuple[int, int], tuple[str, str]] = {}
         self.links: list[tuple[str, str, str]] = []      # (a, b, door) through a shared wall
-        self.reserved, self.routing, self.slant, self.spokes = {}, None, False, set()
+        self.reserved, self.routing, self.slant, self.spokes, self.doorways = {}, None, False, set(), {}
         self.corridors: list[dict] = []
         self.failed: list[str] = []
         self.length_error = 0
@@ -789,7 +795,7 @@ class Solver:
             h = max(at[r.key][1] + r.h for r in lay.rooms)
             origin = lay.origin
             held = next((r for r in lay.rooms if r.key in p.pins), None)
-            if origin is None and held:                 # a stair's room over the room it meets: the layout moves with it
+            if held:                                    # a held room - over a stair, or where it was accepted - wins                 # a stair's room over the room it meets: the layout moves with it
                 e, n = p.pins[held.key]
                 origin = (e - (at[held.key][0] + held.w / 2 - w / 2) * SQ, n + (at[held.key][1] + held.h / 2 - h / 2) * SQ)
             out.append(Item(lay.id, w, h, at, origin, lay.facing, lay.side))
@@ -798,7 +804,7 @@ class Solver:
                 self.inner.append(Route([End(a), End(b)], "short", kind, [lay.door], p.width, inner=True, line=lay.line))
         for r in p.rooms.values():
             if r.layout is None:
-                out.append(Item(r.key, r.w, r.h, {r.key: (0, 0)}, r.origin or p.pins.get(r.key), r.facing, r.side))
+                out.append(Item(r.key, r.w, r.h, {r.key: (0, 0)}, p.pins.get(r.key) or r.origin, r.facing, r.side))
         return out
 
     def place(self, items: list[Item], first: set = frozenset()) -> None:
@@ -841,8 +847,8 @@ class Solver:
         for it in order:
             best = None
             if it.origin is not None:
-                i = round(cx + (it.origin[0] - self.ox) / SQ - it.w / 2)
-                j = round(cy - (it.origin[1] - self.oy) / SQ - it.h / 2)
+                i = math.floor(cx + (it.origin[0] - self.ox) / SQ - it.w / 2 + .5)   # halves up, all one way
+                j = math.floor(cy - (it.origin[1] - self.oy) / SQ - it.h / 2 + .5)
                 cands = [(i, j)] + [(i + di, j + dj) for d in range(1, 6) for di in range(-d, d + 1)
                                     for dj in range(-d, d + 1) if max(abs(di), abs(dj)) == d]
             else:
@@ -1029,7 +1035,6 @@ class Solver:
     def walls(self, rooms: list[Room], facing, side, plain: bool, outer: bool = False) -> list:
         """Door squares round these rooms: outside a wall, on the facing wall where one is asked, and on the
         half of it the side asks; where none is free, the nearest the ask allows."""
-        keys = {r.key for r in rooms}
         cand = []
         for r in rooms:
             if r.at is None:                            # not placed: it has no walls yet
@@ -1121,7 +1126,18 @@ class Solver:
                 if t > 0 and -1e-9 <= u <= 1 + 1e-9 and (best is None or t > best):
                     best = t
             return cx + ux * (best or 0), cy + uy * (best or 0)
-        a, b = rim(hub, centre(r)), rim(r, centre(hub))
+        def flat_side(x: Room, toward):
+            """A square-cornered room's door on a spoke: the middle of its wall that faces the far room best."""
+            cx, cy = centre(x)
+            w, h = x.w * K / 2, x.h * K / 2
+            sides = [(cx, cy - h, "north"), (cx + w, cy, "east"), (cx, cy + h, "south"), (cx - w, cy, "west")]
+            good = [q for q in sides if opens(x, q[2])] or sides
+            return min(good, key=lambda q: math.dist(q[:2], toward))[:2]
+        squared = lambda x: x.shape not in CORNERED
+        a = flat_side(hub, centre(r)) if squared(hub) else rim(hub, centre(r))
+        b = flat_side(r, a) if squared(r) else rim(r, centre(hub))
+        if squared(hub):
+            a = flat_side(hub, b)
         self.spokes.add(rid)                            # no crossroads on a spoke: its doors are at its ends
         steps = max(4, int(math.dist(a, b) * 2))
         nx, ny = (a[1] - b[1]) / (math.dist(a, b) or 1), (b[0] - a[0]) / (math.dist(a, b) or 1)
@@ -1132,7 +1148,7 @@ class Solver:
                 y = a[1] + (b[1] - a[1]) * t / steps + ny * off
                 sq = (int(x // K) - EDGE, int(y // K) - EDGE)
                 if sq not in self.owner:
-                    self.take([sq], rid)
+                    self.take([sq], rid, doors=False)
         pa, pb = [round(v, 2) for v in a], [round(v, 2) for v in b]
         self.corridors.append({"id": rid, "from": {"room": rid_of(hub.key), "port": pa}, "to": {"room": rid_of(r.key), "port": pb},
                                "via": pa + pb, "width": round(rt.width / CELL, 2), "origin": "plan", "doors": [door, door]})
@@ -1142,19 +1158,30 @@ class Solver:
             return False
         own = self.owner.get(c)
         return own is None or own[0] == "corr" and (own[1] in join or own[1] in self.crossable or
-                                                    "cross" in self.relax and own[1] != rid and own[1] not in self.spokes)
+                                                    "cross" in self.relax and own[1] != rid and own[1] not in self.spokes
+                                                    and c not in self.doorways)   # never through another's doorway
 
     def crowded(self, c, rid, join=frozenset()) -> bool:
         """A square beside another passage's, where a passage would run into it."""
-        if "cross" in self.relax:
-            return False
+        if "cross" in self.relax:                       # a crossroads, but never beside another's doorway
+            return any(self.doorways.get((c[0] + vx, c[1] + vy), rid) != rid for vx, vy in FACING.values())
         return any(o != rid and o not in join and o not in self.crossable for o in self.beside.get(c, ()))
 
     def search(self, starts, goals, rid, banned=frozenset(), join=frozenset(), field_only=False):
         """Least-cost path on the lattice from any start (square, step out of its wall) to any goal square: a step costs
         1, a diagonal one 1.5, a half turn 0.8 more and a turn 2 more, a square beside a room's wall 1.5 more, a crossing
         20. A diagonal step needs both squares it cuts the corner of clear, and never leaves a door or meets one."""
-        goals = set(goals)
+        def rooms_by(q):
+            return {o[1] for vx, vy in FACING.values() if (o := self.owner.get((q[0] + vx, q[1] + vy))) and o[0] == "room"}
+
+        def stacked(g):                                 # a door beside another's into the same room: drawn on top of it
+            for vx, vy in FACING.values():
+                d = (g[0] + vx, g[1] + vy)
+                if self.doorways.get(d, rid) not in (rid, *join) and rooms_by(g) & rooms_by(d):
+                    return True
+            return False
+        goals = {g for g in goals if not stacked(g)}
+        starts = [(sq, step) for sq, step in starts if not stacked(sq)]
         first = {sq for sq, _ in starts}
         moves = STEPS8 if self.slant else list(FACING.values())
         dist, prev, heap = {}, {}, []
@@ -1263,7 +1290,11 @@ class Solver:
             self.length_error += abs(run_of(best) - want)
         return best
 
-    def take(self, path, rid):
+    def take(self, path, rid, doors: bool = True, joins: bool = False):
+        if path and doors:                              # a passage's doorways: its ends, but where it meets a trunk
+            self.doorways.setdefault(path[0], rid)
+            if not joins:
+                self.doorways.setdefault(path[-1], rid)
         for a, b in zip(path, path[1:]):                # a diagonal step cuts across two corners: they are its too
             if a[0] != b[0] and a[1] != b[1]:
                 for c in ((b[0], a[1]), (a[0], b[1])):
@@ -1384,15 +1415,6 @@ class Solver:
         if path is None and ka != "exit" and kb != "exit" and len(ends) == 2:
             if self.branch(rid, a, b, ka, wa, kb, wb, r, door, label):
                 return
-        if path is None and "cross" not in self.relax and wa and wb:   # last, a crossroads with other passages
-            self.relax = self.relax | {"cross"}
-            loose = [End(e.target) if e.target != p.bid else e for e in (a, b)]
-            (ka, wa), (kb, wb) = (self.resolve(e, None) for e in loose)
-            path = self.run(rid, wa, wb, "short") if wa and wb else None
-            self.relax = self.relax - {"cross"}
-            if path is not None:
-                a, b = loose
-                self.missed.append(f"{label}: no way of its own, so it crosses another passage")
         if path is None:
             self.failed.append(f"{label}: no way from {a.target} to {b.target}")
             return
@@ -1426,18 +1448,32 @@ class Solver:
             if path is None:
                 self.failed.append(f"{label}: no way from {e.target} to the passage")
                 continue
-            self.take(path, bid)
+            self.take(path, bid, joins=True)
             joint = next(c for c in trunk if abs(c[0] - path[-1][0]) + abs(c[1] - path[-1][1]) == 1)
             self.corridors.append(self.corridor(bid, path, (ke, we, door(e) if ke != "exit" else None, e), ("join", joint, None, rid), r))
+
+    def ends_of(self, e: End) -> set:
+        """The rooms, by map id, the plan routes this end to: its own and every other end of a route it is an end of."""
+        p = self.plan
+        rooms_of = lambda t: {rid_of(t)} if t in p.rooms else {rid_of(q.key) for q in p.layouts[t].rooms} if t in p.layouts else set()
+        out = rooms_of(e.target)
+        for r in p.routes + self.inner:
+            if any(x.target == e.target for x in r.ends):
+                for x in r.ends:
+                    out |= rooms_of(x.target)
+        return out
 
     def branch(self, rid, a, b, ka, wa, kb, wb, r, door, label) -> bool:
         """Where no passage of its own fits, one end's way off a passage that already leaves the other end."""
         for (x, kx, wx, dx), (y, ky, wy) in (((b, kb, wb, 1), (a, ka, wa)), ((a, ka, wa, 0), (b, kb, wb))):
             rooms = {rid_of(y.target)} if y.target in self.plan.rooms else \
                 {rid_of(q.key) for q in self.plan.layouts[y.target].rooms} if y.target in self.plan.layouts else set()
+            mine = self.ends_of(x)
             for c in list(self.corridors):
                 if "corridor" in c["to"] or c["id"] in self.spokes or not ({c["from"].get("room"), c["to"].get("room")} & rooms):
                     continue
+                if not {e["room"] for e in (c["from"], c["to"]) if "room" in e} <= mine | rooms:
+                    continue                            # it would join rooms the plan does not
                 trunk = {q for q, o in self.owner.items() if o == ("corr", c["id"])}
                 ends = {(int(x // K) - EDGE + vx, int(y // K) - EDGE + vy) for x, y in (c["via"][:2], c["via"][-2:])
                         for vx, vy in [(0, 0)] + STEPS8}       # not at its doors
@@ -1446,7 +1482,7 @@ class Solver:
                 path, _ = self.search([(sq, step) for sq, _, step in wx], goals, rid, join=frozenset({c["id"]}))
                 if path is None:
                     continue
-                self.take(path, rid)
+                self.take(path, rid, joins=True)
                 joint = next(q for q in trunk if abs(q[0] - path[-1][0]) + abs(q[1] - path[-1][1]) == 1)
                 self.corridors.append(self.corridor(rid, path, (kx, wx, door(x), x), ("join", joint, None, c["id"]), r))
                 self.missed.append(f"{label}: no wall of its own left free, so {x.target} joins the passage at {y.target}")
@@ -1517,17 +1553,17 @@ class Solver:
         for _ in range(4):                              # a way left unrouted is routed first, and every way again
             self.owner, self.corridors, self.failed, self.missed = dict(base[0]), list(base[1]), list(base[2]), list(base[3])
             self.beside, self.links, self.stairs, self.stuck, self.length_error, self.crossed = {}, [], [], [], 0, 0
-            self.spokes = set()
+            self.spokes, self.doorways = set(), {}
             self.route_all(first)
             got = (len(self.failed), self.crossed, len(self.missed), self.length_error)
             if best is None or got < best[0]:
                 best = (got, dict(self.owner), list(self.corridors), list(self.failed), list(self.missed), dict(self.beside),
-                        list(self.links), list(self.stairs), self.length_error, self.crossed)
+                        list(self.links), list(self.stairs), self.length_error, self.crossed, dict(self.doorways), set(self.spokes))
             if not self.stuck:
                 break
             first = list(dict.fromkeys(self.stuck + first))
         (_, self.owner, self.corridors, self.failed, self.missed, self.beside, self.links, self.stairs,
-         self.length_error, self.crossed) = best
+         self.length_error, self.crossed, self.doorways, self.spokes) = best
         self.check_hints()
         self.find_parts()
         return self
@@ -1580,7 +1616,7 @@ class Solver:
             if r and r.at:
                 x = (r.at[0] + r.w / 2 - self.gw / 2) * SQ + self.ox
                 y = (self.gh / 2 - r.at[1] - r.h / 2) * SQ + self.oy
-                if abs(x - e) >= r.w * SQ / 2 or abs(y - n) >= r.h * SQ / 2:
+                if abs(x - e) > r.w * SQ / 2 or abs(y - n) > r.h * SQ / 2:
                     self.missed.append(f"{k} stands at {x:g},{y:g}, not over the room its stair meets at {e:g},{n:g}: "
                                        f"solve this level --free, then place the next")
         cells = sum(1 for col in self.cell_in for c in col if c)
@@ -1683,12 +1719,12 @@ SAID = {"side": "sides set aside", "facing": "facings set aside", "length": "len
 
 
 def solve(lines: list[kdl.Node], bid: str, seeds: int = 16, others: dict | None = None,
-          pins: dict | None = None) -> tuple[Solver | None, list[str]]:
+          pins: dict | None = None, only: int | None = None) -> tuple[Solver | None, list[str]]:
     """The best attempt at a block's plan: over seeds, then down the ladder of goals set aside until every
     way routes; with the plan's own problems."""
     best = None
     for relax in LADDER:
-        for seed in range(1, seeds + 1):
+        for seed in [only] if only else range(1, seeds + 1):
             try:
                 plan = Plan(bid, lines, others, pins)
             except ValueError as e:
@@ -1843,21 +1879,57 @@ def plans_of(region) -> list[str]:
 
 
 def pins_of(lines, bid: str) -> dict:
-    """Each room of the block a stair joins to a placed room of another level: the centre of the box it stands over."""
+    """Each room of the block with a stair to a level already designed and approved: the centre of the box it stands
+    over there. A stair to a level not yet designed holds nothing: that level is placed from this one."""
+    import maps
     import space
     head = next((n for n in lines if n.name == "Design" and n.args and str(n.args[0]) == bid), None)
+    world = maps.world_for(maps.tables.SETTING)
+    settled = lambda c: (r := world.regions.get(c.split(".")[0])) is not None and any(
+        c in words(n.props.get("locations")) for n in r.files.get("Design", []) if n.name == "Design" and n.props.get("approved"))
     out = {}
     for c in words(head.props.get("locations")) if head else []:
-        if pin := space.settled().pin(c):
+        region = world.regions.get(c.split(".")[0])
+        if region is None:                              # a plan tried outside the setting
+            continue
+        far = [str(n.props["to"]) for n in region.files.get("Connections", []) if n.args and str(n.args[0]) == c
+               and n.props.get("climb") and str(n.props.get("to")) not in words(head.props.get("locations"))]
+        if any(settled(f) for f in far) and (pin := space.settled().pin(c)):
             out[c] = (pin[0], pin[1])
     return out
+
+
+def accepted(lines, bid: str) -> tuple[dict, int | None] | None:
+    """An approved plan as it was accepted: each location held at its Place, and its seed - so its map is what was
+    approved, whatever the levels round it have done since."""
+    head = next((n for n in lines if n.name == "Design" and n.args and str(n.args[0]) == bid), None)
+    if head is None or not head.props.get("approved"):
+        return None
+    held = set(words(head.props.get("locations")))
+    pins = {str(n.args[0]): tuple(float(v) for v in str(n.props["xyz"]).split(",")[:2])
+            for n in lines if n.name == "Place" and n.args and str(n.args[0]) in held and n.props.get("xyz")}
+    return pins, int(head.props["seed"]) if str(head.props.get("seed", "")).isdigit() else None
+
+
+SOLVED: dict = {}                  # one solve a run for each plan as its lines stand
+
+
+def solved(lines, bid: str):
+    """A region's planned block, solved: as accepted where it is approved, else held over the levels its stairs meet."""
+    key = (bid, repr([(n.name, n.args, sorted(n.props.items())) for n in lines]))
+    if key not in SOLVED:
+        if got := accepted(lines, bid):
+            SOLVED[key] = solve(lines, bid, others=others_of(lines), pins=got[0], only=got[1])
+        else:
+            SOLVED[key] = solve(lines, bid, others=others_of(lines), pins=pins_of(lines, bid))
+    return SOLVED[key]
 
 
 def problems_of(region, bid: str) -> tuple[list[str], list[str]]:
     """A planned block's faults - what the plan states wrongly, past what the schema's types catch - and the ways no
     solve routes."""
     lines = region.files.get("Design", [])
-    s, said = solve(lines, bid, others=others_of(lines), pins=pins_of(lines, bid))
+    s, said = solved(lines, bid)
     said = [m for m in said if not s or m not in s.plan.typed]
     return said, (s.failed if s else ["no solve"])
 
@@ -1867,7 +1939,7 @@ def block_map(region, block: kdl.Node) -> tuple[dict | None, list[str]]:
     import dungeon
     lines = region.files.get("Design", [])
     bid = str(block.args[0])
-    s, said = solve(lines, bid, others=others_of(lines), pins=pins_of(lines, bid))
+    s, said = solved(lines, bid)
     if s is None:
         return None, said
     m = dungeon_file(s, look=False)
@@ -1899,9 +1971,103 @@ def block_map(region, block: kdl.Node) -> tuple[dict | None, list[str]]:
     return m, said + s.failed
 
 
+def draft(code: str, places: bool = False) -> str:
+    """A plan of a region's blocks from its tables as they stand: each location a Room at its Dressing's size and shape,
+    each way a Route - a door where its rooms share a wall on today's map, a stair where it climbs, a way out of the block
+    where it leaves - for step 3d to shape with layouts, shapes and facings."""
+    import maps
+    world = maps.world_for(maps.tables.SETTING)
+    region = world.regions[code]
+    dress = {str(n.args[0]): n for n in region.files.get("Dressing", []) if n.args}
+    ways = [n for n in region.files.get("Connections", []) if n.args and "to" in n.props]
+    out = ["```kdl"]
+    for bid, block in maps.blocks_of(region).items():
+        members = words(block.props.get("locations"))
+        m = maps.built(code, bid)[0]
+        shared = {frozenset((x["a"], x["b"])) for x in __import__("json").loads(m.read_text()).get("connections", [])} if m else set()
+        o = f' outline="{block.props["outline"]}"' if block.props.get("outline") else ""
+        out.append(f'Design {bid} locations="{", ".join(members)}"{o} fill="30-45%"')
+        for c in members:
+            d = dress.get(c)
+            size = f' width={d.props["width"]} length={d.props["length"]}' if d is not None and "width" in d.props else ""
+            shape = f' shape={d.props["shape"]}' if d is not None and d.props.get("shape") not in (None, "rect") else ""
+            at = f' xyz="{",".join(str(d.props["xyz"]).split(",")[:2])}"' if places and d is not None and d.props.get("xyz") else ""
+            out.append(f"Room {c}{size}{shape}{at}")
+        seen = set()
+        for n in ways:
+            a, b = str(n.args[0]), str(n.props["to"])
+            if a not in members or frozenset((a, b)) in seen:
+                continue
+            seen.add(frozenset((a, b)))
+            if b in members:
+                kind = " kind=door" if frozenset((rid_of(a), rid_of(b))) in shared else ""
+                out.append(f'Route {bid} ends="{a}, {b}"{kind}')
+            else:
+                climb = int(n.props.get("climb") or 0)
+                stair = f" stair={'up' if climb > 0 else 'down'}" if climb else ""
+                out.append(f'Route {bid} ends="{a}, {b}"{stair}')
+    return "\n".join(out + ["```"])
+
+
+def apply(code: str) -> list[str]:
+    """Step 4a's share of an approved plan, as `maps.py pack` does for a packed block: each location's place, size and
+    shape into Dressing.md, the block's outline into Blocks.md, and off its Connections inside the block each wall,
+    bearing and distance, which its map gives."""
+    import dungeon
+    import maps
+    world = maps.world_for(maps.tables.SETTING)
+    region = world.regions[code]
+    lines = region.files.get("Design", [])
+    approved = {str(n.args[0]): n for n in lines if n.name == "Design" and n.args and n.props.get("approved")}
+    done = []
+    for bid, head in approved.items():
+        if bid not in planned(lines):
+            continue
+        members = set(words(head.props.get("locations")))
+        places = {str(n.args[0]): n for n in lines if n.name == "Place" and n.args and str(n.args[0]) in members}
+        path = region.dir / "Dressing.md"
+        text = []
+        for line in path.read_text().splitlines():
+            m = re.match(r"Dressing (\S+) ", line)
+            if m and (pl := places.get(m[1])):
+                bits = str(pl.props["outline"]).split()
+                for k in ("xyz", "width", "length", "shape", "outline"):
+                    line = dungeon.without(line, k)
+                if bits[0] == "rect":
+                    w, l = bits[1], bits[2]
+                else:
+                    pts = [tuple(float(v) for v in q.split(",")) for q in bits[1:]]
+                    w = f"{max(x for x, _ in pts) - min(x for x, _ in pts):g}"
+                    l = f"{max(y for _, y in pts) - min(y for _, y in pts):g}"
+                line = dungeon.with_prop(line, "width", w)
+                line = dungeon.with_prop(line, "length", l)
+                line = dungeon.with_prop(line, "xyz", f'"{pl.props["xyz"]}"')
+                if bits[0] == "poly":
+                    line = dungeon.with_prop(line, "outline", f'"{pl.props["outline"]}"')
+                elif str(pl.props.get("shape", "rect")) != "rect":
+                    line = dungeon.with_prop(line, "shape", str(pl.props["shape"]))
+                done.append(f"{m[1]}: placed")
+            text.append(line)
+        path.write_text("\n".join(text) + "\n")
+        if head.props.get("outline"):
+            path = region.dir / "Blocks.md"
+            path.write_text("\n".join(dungeon.with_prop(l, "outline", f'"{head.props["outline"]}"')
+                                      if l.startswith(f"Block {bid} ") else l for l in path.read_text().splitlines()) + "\n")
+        path = region.dir / "Connections.md"
+        text = []
+        for line in path.read_text().splitlines():
+            m = re.match(r'Connection (\S+) to="?([^"\s]+)"?', line)
+            if m and m[1] in members and m[2] in members:
+                for k in ("wall", "bearing", "distance"):
+                    line = dungeon.without(line, k)
+            text.append(line)
+        path.write_text("\n".join(text) + "\n")
+    return done
+
+
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("command", choices=["solve", "accept"])
+    ap.add_argument("command", choices=["solve", "accept", "draft", "apply"])
     ap.add_argument("code", nargs="?")
     ap.add_argument("block", nargs="?")
     ap.add_argument("--file", type=Path)
@@ -1909,7 +2075,15 @@ def main(argv=None) -> int:
     ap.add_argument("--seeds", type=int, default=16)
     ap.add_argument("--no-render", action="store_true")
     ap.add_argument("--free", action="store_true", help="ignore where the levels a stair joins put its rooms")
+    ap.add_argument("--places", action="store_true", help="draft: each room where the tables place it now")
     a = ap.parse_args(argv)
+    if a.command == "draft":
+        print(draft(a.code, a.places))
+        return 0
+    if a.command == "apply":
+        done = apply(a.code)
+        print(f"{a.code}: {len(done)} locations placed in Dressing.md" if done else f"{a.code} has no approved plan")
+        return 0 if done else 1
     if a.file:
         lines, where, block = lines_of(a.file), a.file, a.code
     else:
@@ -1928,7 +2102,9 @@ def main(argv=None) -> int:
     out = a.out or Path(tempfile.gettempdir()) / "plans"
     bad = 0
     for b in blocks:
-        s, problems = solve(lines, b, a.seeds, others_of(lines), None if a.file or a.free else pins_of(lines, b))
+        held = None if a.file else accepted(lines, b)   # an approved plan keeps the places it was approved with
+        s, problems = solve(lines, b, a.seeds, others_of(lines), held[0], only=held[1]) if held else \
+            solve(lines, b, a.seeds, others_of(lines), None if a.file or a.free else pins_of(lines, b))
         for x in problems:
             print(f"  plan: {x}")
         if s is None:

@@ -18,8 +18,7 @@ Room W.5 layout=officers width=20 length=20
 Room W.6 width=20 length=30 facing=south side=w
 Room W.7 width=20 length=20 facing=east
 Route W.a ends="W.1:north, bunks" door=arch
-Route W.a ends="W.1:east, officers, W.6"
-Route W.a ends="W.6, W.7" length=long
+Route W.a ends="W.1:east, officers, W.6, W.7"
 Route W.a ends="W.a:west, W.1:west" door=none
 
 Design W.b locations="W.8, W.9, W.10, W.11, W.12, W.13" xyz="240,0,0" outline="rect 140 160" fill="20-35%"

@@ -106,6 +106,8 @@ python3 tools/space.py settle [REGION]      # write each region's place where it
 python3 tools/space.py from CODE to CODE     # how far, which way and how far up or down one place lies from another
 python3 tools/design.py layouts|expand|solve|accept|check   # step 3d: a block's design, from layouts
 python3 tools/plan.py solve CODE|--file F.md [BLOCK]   # step 3d: a block's design as a plan - layouts, rooms, routes
+python3 tools/plan.py draft CODE            # a first plan from the region's tables as they stand
+python3 tools/plan.py apply CODE            # step 4a: an approved plan's places into the tables
 python3 tools/metrics.py                    # corpus, tells, budget and read-set report
 python3 tools/metrics.py --tells [PATH]     # every tell hit, listed, over any markdown
 python3 tools/metrics.py --carry [CODE]     # the table words each write-up carries and drops

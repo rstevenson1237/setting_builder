@@ -143,7 +143,7 @@ def check_plan_examples(diag: Diagnostics):
     for f in sorted(plan.EXAMPLES.glob("*.md")):
         lines = plan.lines_of(f)
         for bid in plan.planned(lines):
-            s, said = plan.solve(lines, bid, others=plan.others_of(lines))
+            s, said = plan.solve(lines, bid, seeds=3, others=plan.others_of(lines))   # that it routes, not its best seed
             for m in said + (s.failed if s else ["no solve"]):
                 diag.error(f, f"{bid}: {m}")
 

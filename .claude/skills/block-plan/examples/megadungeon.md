@@ -60,7 +60,7 @@ Room M.34 layout=crossing width=20 length=20 shape=diamond facing=north-east
 Room M.35 layout=crossing width=20 length=20 shape=diamond facing=south-east
 Room M.36 layout=crossing width=20 length=20 shape=diamond facing=south-west
 Room M.37 layout=crossing width=20 length=20 shape=diamond facing=north-west
-Room M.38 width=60 length=60 shape=cross
+Room M.38 width=60 length=60
 Room M.69 width=30 length=30 shape=ell
 
 // the east: the great cave and its lesser caves, the stair tower
@@ -126,8 +126,7 @@ Route M.a ends="cloister:south, M.25:north"
 Route M.a ends="M.25:south, crypts:north"
 Route M.a ends="M.33:west, M.38:east" door=arch
 Route M.a ends="M.38, M.69" kind=door door=secret
-Route M.a ends="M.38:west, M.25:east"
-Route M.a ends="M.37, M.38:north"
+Route M.a ends="M.38, M.25:east, M.37"
 
 // the east
 Route M.a ends="M.31:east, M.39:west" door=arch
@@ -135,8 +134,7 @@ Route M.a ends="M.39:north, M.44:south"
 Route M.a ends="M.35, M.40"
 
 // the south
-Route M.a ends="M.32:south, gallery:north" door=arch
-Route M.a ends="gallery, warren-w:east, warren-e:west"
+Route M.a ends="M.32:south, gallery:north, warren-w:east, warren-e:west" door=arch
 Route M.a ends="crypts:south, warren-w:north"
 Route M.a ends="M.36, M.65:north"
 Route M.a ends="M.65:south, M.66"

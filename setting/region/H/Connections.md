@@ -4,7 +4,7 @@
 Connection H.1 to="H.2" type="Open"
 Connection H.1 to="H.10" type="Wooden"
 Connection H.1 to="G.19" type="Open" climb=24 { Lock key="The Queen's Ring" }
-Connection H.1 to="B.10" type="Iron" bearing="north-west" distance="93 feet" climb=64
+Connection H.1 to="B.10" type="Iron" bearing="north" distance="30 feet" climb=64
 Connection H.2 to="H.1" type="Open"
 Connection H.2 to="H.3" type="Open"
 Connection H.2 to="H.4" type="Crude"

@@ -3,14 +3,14 @@
 ```kdl
 Connection E.1 to="E.2" type="Archway" { Lock key="The Door Word" }
 Connection E.1 to="D.6" type="Open" climb=20
-Connection E.2 to="E.1" type="Archway" wall="east"
-Connection E.2 to="E.3" type="Archway" wall="north"
-Connection E.2 to="E.15" type="Archway" wall="north-east"
-Connection E.2 to="E.9" type="Archway" wall="south-east"
-Connection E.2 to="E.5" type="Archway" wall="south"
-Connection E.2 to="E.14" type="Stone" wall="south-west" { Secret trigger="the pair pressed" tell="a blank, runed wall" knows="the Scholars" fact="its arch is walled behind plaster" }
-Connection E.2 to="E.13" type="Archway" wall="west"
-Connection E.2 to="E.4" type="Archway" wall="north-west"
+Connection E.2 to="E.1" type="Archway"
+Connection E.2 to="E.3" type="Archway"
+Connection E.2 to="E.15" type="Archway"
+Connection E.2 to="E.9" type="Archway"
+Connection E.2 to="E.5" type="Archway"
+Connection E.2 to="E.14" type="Stone" { Secret trigger="the pair pressed" tell="a blank, runed wall" knows="the Scholars" fact="its arch is walled behind plaster" }
+Connection E.2 to="E.13" type="Archway"
+Connection E.2 to="E.4" type="Archway"
 Connection E.3 to="E.2" type="Archway"
 Connection E.3 to="E.6" type="Iron" { Lock key="The Armoury Key" }
 Connection E.3 to="E.10" type="Open"
