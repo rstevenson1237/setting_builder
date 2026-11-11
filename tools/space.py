@@ -272,6 +272,8 @@ def shape_outline(shape: str, w: float, h: float, points=None) -> list[tuple[flo
         return [(-a + c, -b), (a - c, -b), (a, -b + c), (a, b - c), (a - c, b), (-a + c, b), (-a, b - c), (-a, -b + c)]
     if shape == "hexagon":
         return [(-a / 2, -b), (a / 2, -b), (a, 0.0), (a / 2, b), (-a / 2, b), (-a, 0.0)]
+    if shape == "diamond":
+        return [(0.0, -b), (a, 0.0), (0.0, b), (-a, 0.0)]
     if shape == "poly" and points:
         p = [(float(x), float(y)) for x, y in points]
         return p if sum(x0 * y1 - x1 * y0 for (x0, y0), (x1, y1) in zip(p, p[1:] + p[:1])) > 0 else p[::-1]

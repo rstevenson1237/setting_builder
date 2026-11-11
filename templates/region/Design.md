@@ -23,7 +23,10 @@ A DANGEROUS block is built from layouts: a `Use` for each one the seed's shape f
 calls for (`python3 tools/design.py layouts` lists artgen's and this repo's `layouts/`), a `Bind` giving each role the
 codes and their types, a `Join` for each pair of sockets meant to meet, a `Fill` for
 each location no layout holds, and a `Void` for ground no room takes. The type mix is `BRIEF.md`'s
-for the region. A SAFE or WILD block is a settlement, with no layouts: a `Fill` for each location,
+for the region. A DANGEROUS block may instead be a plan, where the seed states its shape closely - a hub with its
+spokes, an axis, wings: a `Layout` for each group of rooms set against one another, a `Room` for
+each location, a `Route` for each way with the walls it leaves by and how long it runs, following
+the `block-plan` skill. A SAFE or WILD block is a settlement, with no layouts: a `Fill` for each location,
 its footprint and type; a `Tie` for each place set a bearing and distance from another, from the
 region's ground and outline; a `Street` for each street, the buildings it runs past in order.
 Its first location stands at the block's centre.

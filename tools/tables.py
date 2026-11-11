@@ -30,6 +30,7 @@ RATING_TIME = {"SAFE": {"Round", "turn", "hour", "day", "week"}, "WILD": {"watch
                "DANGEROUS": {"Round", "turn"}}      # the units a time in each rating is stated in
 DISTANCE_RE = re.compile(r"(-?\d+(?:\.\d+)?) (\w+)")   # negative: south or west
 POINT_RE = re.compile(r"-?\d+,-?\d+(?:,-?\d+)?")
+RUN_RE = re.compile(r"short|long|\d+|\d+ feet")
 ANCHOR_RE = re.compile(r"[A-Z]{1,2}(?:\.(?:\d+|[a-z]+))? (?:north|east|south|west|above|below)")
 OUTLINE_RE = re.compile(r"rect \d+ \d+|circle \d+|poly(?: -?\d+,-?\d+){3,}")
 
@@ -586,6 +587,9 @@ def value_problems(m: Member, v: str, enums: dict, words: dict):
     elif m.type in ("feet", "distance"):
         if msg := unit_problem(m.type, v, enums):
             yield msg
+    elif m.type == "run":
+        if not RUN_RE.fullmatch(v):
+            yield f"{v!r} is not short, long, a count of squares or \"N feet\""
     elif m.type == "point":
         if not POINT_RE.fullmatch(v):
             yield f"{v!r} is not x,y or x,y,z in whole feet"
@@ -1035,7 +1039,8 @@ class Setting:
         if any(c.line != n.line for c in kdl.walk(n.children)):
             yield "error", f"{n.name} spans several lines - an entry is one line"
         code = n.args[0] if len(n.args) == 1 else None
-        block = stem == "Blocks" or stem == "Design" and n.name not in ("Place", "Link")   # a design's lines open with a block, but a Place and a Link with a location
+        block = stem == "Blocks" or stem == "Design" and n.name not in ("Place", "Link", "Part") and not (   # a design's lines open with a block,
+            n.name == "Room" and code is not None and CODE_RE.fullmatch(str(code)))   # a Place, a Link and a location's Room with a location
         if stem == "Seed" or stem == "Ground" and n.name != "At":
             if code != r.code:
                 yield "error", f"{n.name} opens with {n.args} - it opens with the region code {r.code}"
@@ -1189,11 +1194,13 @@ class Setting:
 
     def entries_at(self, code: str) -> tuple[list, list]:
         """(file, entry) for every entry this location holds, and for every entry naming it. A design is upstream of the
-        tables a write-up follows, so its entries are not counted."""
+        tables a write-up follows, so its entries are not counted - but for its Parts, rooms of the location no table
+        addresses, which its write-up holds."""
         own, named = [], []
         for r in self.regions.values():
             for stem, entries in r.files.items():
                 if stem == "Design":
+                    own += [(f"{r.code}/{stem}", n) for n in entries if n.name == "Part" and n.args and n.args[0] == code]
                     continue
                 for n in entries:
                     if n.args and n.args[0] == code:

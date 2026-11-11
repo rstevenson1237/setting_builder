@@ -137,6 +137,17 @@ def check_designs(diag: Diagnostics, setting, brief):
         (diag.error if level == "error" else diag.warn)(path, msg)
 
 
+def check_plan_examples(diag: Diagnostics):
+    """Every example plan of the block-plan skill solves with every way routed: what the skill shows, the solver does."""
+    import plan
+    for f in sorted(plan.EXAMPLES.glob("*.md")):
+        lines = plan.lines_of(f)
+        for bid in plan.planned(lines):
+            s, said = plan.solve(lines, bid, seeds=3, others=plan.others_of(lines))   # that it routes, not its best seed
+            for m in said + (s.failed if s else ["no solve"]):
+                diag.error(f, f"{bid}: {m}")
+
+
 def check_layouts(diag: Diagnostics):
     """Every layout of layouts/ against artgen's layout schema: the engine refuses the folder on the first it rejects."""
     import design
@@ -1534,6 +1545,12 @@ def main() -> int:
                 check_location_file(diag, fpath, region_code, num, stub,
                                      f"{region_code}.{num}" in stated,
                                      all_locations, mundane_edges, hidden_edges, conditions)
+        for n in setting.regions[region_code].files.get("Design", []) if region_code in setting.regions else []:
+            if n.name == "Part" and n.args:                 # a location's part is a Feature of its write-up
+                label = f"{n.args[0]}{n.props.get('id', '')}"
+                fpath = rdir / f"{str(n.args[0]).split('.')[1]}.md"
+                if fpath.exists() and not re.search(rf"\b{re.escape(label)}\b", fpath.read_text()):
+                    diag.warn(fpath, f"holds no Feature for its part {label}, a room of it the map draws - owed to step 4b")
 
     check_writeup_citations(diag, setting, tables.History(), schema)
     check_setting_files(diag, schema, setting.codes)
@@ -1558,6 +1575,7 @@ def main() -> int:
     check_places(diag, setting, brief)
     check_blocks(diag, setting)
     check_designs(diag, setting, brief)
+    check_plan_examples(diag)
     check_hazards(diag, setting, brief)
     check_listed_prices(diag, setting)
     check_numbers(diag, setting, schema)

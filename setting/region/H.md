@@ -5,7 +5,7 @@ Overview: The first level of the descent, laid out in the shape of level four an
 Approach: The stair from the funerary level (G.19) passes an arch with a bone lock-plate that swings shut and locks behind whoever passes; the queen's ring opens it from either side (Keys: The Queen's Ring), and without it the way down is the black stair from the lake city (B.10). Its door is barred again behind a party, so coming back up means knocking for a dreamer or breaking it.
 
 Entrances:
-- H.1 - A black landing at the foot of two stairs, one to the tombs' locked arch and one north-west to the lake city's barred door; a black hand on the wall.
+- H.1 - A black landing at the foot of two stairs, one to the tombs' locked arch and one north to the lake city's barred door; a black hand on the wall.
 
 Prizes:
 - H.7 - A black altar with bones stacked round it; eight cultists and a hollow with the cult's gifts (Hoard: The Altar's Offerings).

@@ -526,21 +526,30 @@ def defects(region, block: kdl.Node, m: dict) -> list[tuple[str, str]]:
     if not all(space.centre(dress.get(c)) for c in members):
         return []                                         # not packed: its corridors are left to artgen
     found = engine("check", m, "--errors", FAULTS)
+    leaving = {f"corridors[{k}]" for k, c in enumerate(m.get("corridors", [])) if "exit" in c["to"] or "exit" in c["from"]}
     out = [("error", f"{x['path']}: {x['message']}" + (f": run `python3 tools/maps.py pack {region.code}` (step 4a)" if x.get("id") in REPACK else ""))
-           for x in found.get("errors", [])]
+           for x in found.get("errors", []) if not (x.get("id") == "outside-bounds" and x["path"] in leaving)]   # a way off the map leaves it
     out += [("warning", f"{x['path']}: {x['message']}") for x in found.get("warnings", []) if x.get("id") in SEEN]
     facts = engine("facts", m)
     wrong = [f"{r} is reached by no way" for r in facts.get("unreached", [])]
     rid = lambda c: c.replace(".", "-")
     ways = {frozenset((rid(str(n.args[0])), rid(str(n.props["to"])))) for n in region.files.get("Connections", [])
             if n.args and str(n.args[0]) in members and str(n.props.get("to")) in members}
-    joined = {frozenset((c["from"].get("room"), c["to"].get("room"))) for c in facts.get("corridors", [])}
+    root, nets = {}, {}                                   # passages joined to one another join every room they reach
+    for c in m.get("corridors", []):
+        cid = c.get("id") or id(c)
+        root[cid] = root.get(c["to"].get("corridor"), c["to"].get("corridor")) or cid
+        nets.setdefault(root[cid], set()).update(e["room"] for e in (c["from"], c["to"]) if e.get("room"))
+    joined = {frozenset((a, b)) for net in nets.values() for a in net for b in net if a < b}
     joined |= {frozenset((r["id"], c["to"])) for r in facts.get("rooms", []) for c in r.get("connections") or []}
+    codes = {rid(c) for c in members}                     # a room no location holds is the map's own
+    joined = {j for j in joined if j <= codes}
     wrong += [f"the tables join {a} and {b}, but the map draws no way between them" for a, b in sorted(map(sorted, ways - joined))]
     wrong += [f"the map joins {a} and {b}, which the tables do not" for a, b in sorted(map(sorted, joined - ways))]
     leaving = sum(1 for n in region.files.get("Connections", [])
                   if n.args and str(n.args[0]) in members and str(n.props.get("to")) not in members)
-    marks = sum(len(r.get("exits") or []) for r in facts.get("rooms", []))
+    marks = sum(len(r.get("exits") or []) for r in facts.get("rooms", [])) + \
+        sum(1 for c in m.get("corridors", []) if ("exit" in c["to"]) != ("exit" in c["from"]))   # a cleft, edge to edge, leads nowhere
     if marks != leaving:
         wrong.append(f"the tables take {leaving} ways out of the block, the map marks {marks}")
     return out + [("error", w) for w in wrong]
@@ -590,6 +599,8 @@ def passages(region, block: kdl.Node) -> list[tuple[str, str, list, list, float,
             pts = list(zip(path[::2], path[1::2]))
             out.append((label[a], label[b], list(pts[0]), list(pts[-1]), walk([centre[a], *pts, centre[b]]),
                         math.dist(centre[a], centre[b]) * cell))
+    if any(c.get("origin") == "plan" for c in m.get("corridors", [])):   # a plan's junctions join rooms; a packed map's do not
+        out += junctions(m, f, label, centre, walk, cell)
     doors = {d["connection"]: d["at"] for d in f.get("doors", []) if d.get("connection") is not None}
     for r in f.get("rooms", []):
         for k in r.get("connections", []):
@@ -597,6 +608,63 @@ def passages(region, block: kdl.Node) -> list[tuple[str, str, list, list, float,
                 seen.add(k["connection"])
                 out.append((r["label"], label[k["to"]], at, at, walk([centre[r["id"]], at, centre[k["to"]]]),
                             math.dist(centre[r["id"]], centre[k["to"]]) * cell))
+    return out
+
+
+def arc_at(poly: list, p) -> float:
+    """How far along a polyline its nearest point to p lies."""
+    best, run = (math.inf, 0.0), 0.0
+    for a, b in zip(poly, poly[1:]):
+        seg = math.dist(a, b)
+        t = 0.0 if not seg else max(0.0, min(1.0, ((p[0] - a[0]) * (b[0] - a[0]) + (p[1] - a[1]) * (b[1] - a[1])) / seg ** 2))
+        q = (a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t)
+        if math.dist(p, q) < best[0]:
+            best = (math.dist(p, q), run + seg * t)
+        run += seg
+    return best[1]
+
+
+def between(poly: list, s0: float, s1: float) -> list:
+    """The stretch of a polyline from s0 along it to s1, either way round."""
+    if s1 < s0:
+        return between(poly, s1, s0)[::-1]
+    marks, run = [0.0], 0.0
+    for a, b in zip(poly, poly[1:]):
+        run += math.dist(a, b)
+        marks.append(run)
+
+    def at(s):
+        for (a, b), lo, hi in zip(zip(poly, poly[1:]), marks, marks[1:]):
+            if s <= hi or hi == marks[-1]:
+                t = 0.0 if hi == lo else min(1.0, max(0.0, (s - lo) / (hi - lo)))
+                return a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t
+        return poly[-1]
+    return [at(s0)] + [q for q, d in zip(poly, marks) if s0 < d < s1] + [at(s1)]
+
+
+def junctions(m: dict, f: dict, label: dict, centre: dict, walk, cell: float) -> list:
+    """Each way a junction makes, as passages() gives a way: a branch passage joins its trunk, so the room it leaves
+    reaches each room at the trunk's ends, and each room another branch of that trunk leaves, along the trunk."""
+    paths = {c["index"]: list(zip(c["path"][::2], c["path"][1::2])) for c in f.get("corridors", []) if len(c.get("path", [])) >= 4}
+    ids = [c.get("id") for c in m.get("corridors", [])]
+    branches: dict[int, list] = {}
+    for k, c in enumerate(m.get("corridors", [])):
+        t = c["to"].get("corridor")
+        if t in ids and k in paths and c["from"].get("room") in centre and ids.index(t) in paths:
+            branches.setdefault(ids.index(t), []).append(k)
+    out = []
+    for t, ks in branches.items():
+        tp, trunk = paths[t], m["corridors"][t]
+        stops = [(arc_at(tp, paths[k][-1]), m["corridors"][k]["from"]["room"], paths[k]) for k in ks]
+        stops += [(0.0, trunk["from"].get("room"), [tp[0]]), (arc_at(tp, tp[-1]), trunk["to"].get("room"), [tp[-1]])]
+        stops = [x for x in stops if x[1] in centre]
+        for i, (sa, a, pa) in enumerate(stops[:len(ks)]):            # each branch to every other stop on the trunk
+            for sb, b, pb in stops[:i] + stops[i + 1:]:
+                if a == b:
+                    continue
+                pts = pa + between(tp, sa, sb) + pb[::-1]
+                out.append((label[a], label[b], list(pa[0]), list(pb[0]), walk([centre[a], *pts, centre[b]]),
+                            math.dist(centre[a], centre[b]) * cell))
     return out
 
 
@@ -622,9 +690,12 @@ def walks(code: str, setting: Path = tables.SETTING) -> dict[tuple[str, str], tu
     compass point - and its walk to the next room's centre, to the nearest 5 feet."""
     region = world_for(setting).regions[code]
     compass, out = space.compass(), {}
+    import plan
+    planned = maps.designed(region) & set(plan.plans_of(region))
     for block in blocks_of(region).values():
         members = [m.strip() for m in str(block.props["locations"]).split(",")]
-        named = {k: compass[round(v / 22.5) % 16] for k, v in walls_of(region, members).items()}
+        named = {} if str(block.args[0]) in planned else \
+            {k: compass[round(v / 22.5) % 16] for k, v in walls_of(region, members).items()}   # a plan's map gives the wall
         file = built(region.code, str(block.args[0]))[0]
         boxes = {r["label"]: r["box"]["cells"] for r in engine("facts", json.loads(file.read_text())).get("rooms", [])} if file else {}
         for a, b, door_a, door_b, how, _ in passages(region, block) or ():
@@ -947,6 +1018,11 @@ def problems(region, block: kdl.Node) -> list[tuple[str, Path, str]]:
     wide = lambda c, k: float(dress[c].props["width" if k == 0 else "length"])
     world = world_for(tables.SETTING)
     rates = tables.Brief(world.schema).packing(region.code)
+    import plan
+    planned = bid in maps.designed(region) & set(plan.plans_of(region))   # an approved plan states its own ground and fill
+    if planned:
+        head = next(n for n in region.files.get("Design", []) if n.name == "Design" and n.args and str(n.args[0]) == bid)
+        rates = {**rates, "footprint": None, "fill": plan.Plan.fill_of(head.props.get("fill")), "detour": None}
     if not poly and rates["footprint"] is not None and side != rates["footprint"]:
         out.append(("error", path, f"{bid}'s square is {side:g} feet, where BRIEF.md's pack footprint asks {rates['footprint']:g}: "
                                    f"run `python3 tools/maps.py pack {region.code}` (step 4a)"))
@@ -955,9 +1031,18 @@ def problems(region, block: kdl.Node) -> list[tuple[str, Path, str]]:
     room = (area(o[1]) if poly else side * side) - rock
     covered, least = sum(wide(c, 0) * wide(c, 1) for c in at), (rates["fill"] or (0, 0))[0]
     if covered < least * room:
-        out.append(("error", path, f"{bid}'s rooms cover {covered / room:.0%} of its ground, under BRIEF.md's "
-                                   f"pack fill of {least:.0%}"))
-    left, far = faults(region, block, rates["detour"]) or ([], [])
+        whose = "its Design line's" if planned else "BRIEF.md's pack"
+        out.append(("error", path, f"{bid}'s rooms cover {covered / room:.0%} of its ground, under {whose} fill of {least:.0%}"))
+    left, far = ([], []) if planned else faults(region, block, rates["detour"]) or ([], [])   # a plan's ways: its map's
+    if planned:                                         # a Connection's wall says what the plan's map draws
+        points, drawn = space.compass(), walks(region.code)
+        for n in region.files.get("Connections", []):
+            a, b = str(n.args[0]), str(n.props.get("to"))
+            if a in at and b in at and "wall" in n.props and (w := drawn.get((a, b))):
+                gap = abs((points.index(str(n.props["wall"])) - points.index(w[0])) * 22.5 + 180) % 360 - 180
+                if abs(gap) > 45:
+                    out.append(("error", region.dir / "Connections.md", f"line {n.line}: {a} to {b} leaves by the "
+                                f"{n.props['wall']} wall, where the plan's map draws it leaving {w[0]} - owed to step 4a"))
     for way in left:
         out.append(("error", path, f"{bid}: no passage fits the way from {way}: run `python3 tools/maps.py pack {region.code}` (step 4a)"))
     for a, b, extra in far:

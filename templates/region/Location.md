@@ -48,3 +48,6 @@ cite "Test of Fate" form="(Test of Fate, [Condition])" example="(Test of Fate, E
   Feature; its rules stay in the entry.
 - Ground, height and slope are the `At` entry in `Ground.md`; a Feature never contradicts them.
 - A location with no Connections entry has no Exits line.
+- A Part is one of the location's own rooms no table addresses - a cell, a closet, a side chamber - labelled on
+  the map with its code and letter: a Feature named for that label, with its size and the room it opens off. It
+  holds what the location's entries put there; nothing outside the location leads to it, so it is no exit.

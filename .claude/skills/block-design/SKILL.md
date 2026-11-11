@@ -6,7 +6,8 @@ description: How this framework designs a block before its locations are written
 # Block design
 
 A region whose `BRIEF.md` node has a `design` line is designed here, at step 3d, before `Locations.md`.
-Without the line, skip this. The design file is `setting/region/[Code]/Design.md`
+Without the line, skip this. A DANGEROUS block whose shape is known well enough to state - its layouts, rooms and
+routes - is designed as a plan instead: the `block-plan` skill. The design file is `setting/region/[Code]/Design.md`
 (`patterns/Region_Schema.md`, `templates/region/Design.md`). artgen's **dungeon-design** skill says how layouts,
 designs, seeds and scores behave; this one says only how this repo drives them. Its project steps (`art/`,
 `--sheet art/...`) do not apply: `tools/design.py` writes artgen's design from `Design.md` and runs the engine.

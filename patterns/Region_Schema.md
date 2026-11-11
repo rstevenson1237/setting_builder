@@ -17,9 +17,11 @@ each region, by rating, beside its tables:
   Inhabitants, Services, Procedures, Loot, Alarm, Leads, Secrets.
 - its `design`, `setting/region/[Code]/Design.md`, for a region whose `BRIEF.md` node has a
   `design` line: what its blocks are to look like, written at step 3d before `Locations.md`.
-  Each block is one `Design`, then the lines that state it - in DANGEROUS `Use`, `Bind`, `Fill`,
-  `Join` and `Void`; in SAFE and WILD `Fill`, `Tie`, `Street` and `Void` - and, once solved, a
-  `Place` for each location and, in DANGEROUS, a `Link` for each way inside the block. Once the user approves a design, the tables are written to agree with it.
+  Each block is one `Design`, then the lines that state it - in DANGEROUS either a layout engine's
+  `Use`, `Bind`, `Fill`, `Join` and `Void`, or a plan's `Layout`, `Room`, `Route` and `Void`; in SAFE
+  and WILD `Fill`, `Tie`, `Street` and `Void` - and, once solved, a `Place` for each location and,
+  in DANGEROUS, a `Link` for each way inside the block and a plan's `Part` for each of its rooms no location
+  holds. Once the user approves a design, the tables are written to agree with it.
 
 Every brief sentence carries something usable at the table - a name, count, price, place,
 distance or ruling; why a place exists or how it feels is cut. A brief is read beside the
@@ -50,6 +52,18 @@ enum Dangerous_Kind collection "single holding"   // a worked complex in blocks,
                                                   // a lair or a seat, never a complex of rooms with no master
 
 enum Link_Kind door passage   // a door through a wall two rooms share; a passage between rooms that do not touch
+enum Facing north south east west north-east south-east south-west north-west   // the side of its parent a thing keeps to
+enum Side n s e w           // the half of that side: w or e on a north or south one, n or s on an east or west one
+enum Arrange cluster row column grid spine ring split court radial   // how a layout sets its rooms against one another
+enum Plan_Shape rect hall round oval octagon hexagon diamond cave organic apse ell cross irregular   // a plan's room: a Room_Shape;
+                            // oval a round room's ellipse; organic a smooth cave; apse a rect rounded at the end away from its
+                            // facing; ell, cross and irregular a rect cut back at its corners
+enum Door_Kind door secret locked portcullis arch double open none
+enum Passage_Style built natural   // natural: rough walls
+enum Route_Line straight    // a cleft: straight from one edge of its block to another
+enum Stair up down
+enum Yes_No yes no
+enum Layout_Links auto none   // auto: its arrangement joins its rooms; none: only routes join its locations
 
 node Design {               // a block's design, opening with its id: layouts, chained, round the rooms they leave to the solver
   locations location list   // every location of the block; Locations.md holds exactly these
@@ -64,6 +78,53 @@ node Design {               // a block's design, opening with its id: layouts, c
   seed number opt drawn     // the solver's seed for the places below
   score string opt drawn    // the engine's score for that seed, out of 100
   approved string opt       // the date the user approved it; only their word sets it
+  facing Facing opt         // a plan: the side of the region it keeps to, where it states no xyz
+  side Side opt
+  width feet opt            // a plan: its passages' width, 5 or 10; 10 where unset
+  diagonals Yes_No opt      // a plan: no, and no passage runs on the diagonal; yes where unset
+}
+node Layout {               // a plan: a group of rooms set against one another, placed in the block as one, opening with the block's id
+  id tag                    // its name, which a Room and a Route cite
+  arrange Arrange opt       // cluster where unset; a spine's or ring's first room (or entry) is its hall or hub
+  gap feet opt              // between its rooms; 0, sharing walls, where unset
+  xyz point opt             // its centre from the block's; unset, where its routes run best
+  facing Facing opt         // unset xyz: the side of the block it keeps to
+  side Side opt
+  entry location opt        // the room a route to the layout reaches, and a spine's hall or a ring's hub
+  links Layout_Links opt    // auto where unset
+  cols number opt           // a grid's rooms a row
+  align Side opt            // a row's or column's rooms lined up on one side; centred where unset
+  door Door_Kind opt        // the door between its rooms; door where unset
+  width feet opt            // split and court: the ground it fills, across and along; unset, its rooms' sum
+  length feet opt
+  loops percent opt         // split: the share of its other shared walls given a door, once every room is reached; 15% where unset
+  depth feet opt            // court: from the yard to the outer wall; 20 where unset
+  sweep number opt          // radial: the degrees its rooms spread over; 360 where unset
+  bearing number opt        // radial: degrees clockwise from north at the middle of the sweep; 0 where unset
+}
+node Room {                 // a plan: one location, opening with its code, or rooms no location holds, opening with the block's id
+  layout tag opt            // the layout it is part of; the block's own where unset
+  width feet opt            // across and along, in 10 ft steps; 20 where unset
+  length feet opt
+  shape Plan_Shape opt      // rect where unset
+  xyz point opt             // its centre from its layout's, or the block's
+  facing Facing opt         // unset xyz: the side of its parent it keeps to; in a ring, the hub's side it stands on
+  side Side opt
+  count number opt          // opening with the block's id: how many such rooms
+  label string opt          // a name for a room no location holds
+}
+node Route {                // a plan: a way between two or more ends, opening with the block's id; every goal it states gives way to a route that works
+  ends text                 // "end, end, ...": each a location, a layout, this block (its edge) or a location of another block, then
+                            // ":facing" - the wall it leaves by, a layout's or block's outermost on that side - then ":side", its half
+  length run opt            // short where unset; long, as long as fits; of its first two ends
+  kind Link_Kind opt        // door: through a wall the first two ends share, set against one another; passage where unset
+  door Door_Kind list opt   // the door at each end: one for all, or one an end
+  width feet opt            // 5 or 10; the Design's where unset
+  stair Stair opt           // a way out of the block drawn as a stair in its room; a block over or under is one unasked
+  style Passage_Style opt   // built where unset
+  diagonal Yes_No opt       // no: this route keeps to straight runs; yes where unset
+  line Route_Line opt       // a cleft, laid before the rooms, which keep off it, and crossed by passages; up to 20 ft wide
+  label string opt          // a note; a cleft's, at each edge
 }
 node Use {                  // a layout in the block, opening with the block's id
   id tag                    // its name in the block, which a Bind and a Join cite
@@ -109,6 +170,15 @@ node Place {                // opening with a location code: where the solver pu
   xyz point drawn
   outline outline opt drawn // a "poly" where no shape draws the room
   shape Room_Shape opt drawn
+}
+node Part {                 // opening with a location code: one of its rooms no table addresses - a plan's room no location holds,
+                            // given to the location it opens off; its write-up holds it, and nothing outside the location leads to it
+  id tag drawn              // its letter: the location's code and it label the room on the map
+  xyz point drawn
+  outline outline drawn
+  shape Room_Shape opt drawn
+  opens string drawn        // the room it opens off: its location, or another of its parts by label
+  kind Link_Kind drawn
 }
 node Link {                 // opening with a location code: a way to another location of the block; written by `accept`
   to location drawn

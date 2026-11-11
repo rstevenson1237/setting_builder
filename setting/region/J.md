@@ -13,7 +13,7 @@ Places:
 - J.1 - A narrow landing with two gargoyles flanking the door.
 - J.3 - Black silk hangings; Xothox on a raised couch and a silk-wrapped box (Keys: The Council Seal).
 - J.4 - Stained flags over a fighting floor; Zhurjul drums and drills and a red ring hangs on the rack (Unique Treasure: The Red Ward).
-- J.5 - A long black table with three chairs; mummies sit the empty ones and an iron door east is locked (Keys: The Council Seal).
+- J.5 - A long black table with three chairs; mummies sit the empty ones and an iron door north is locked (Keys: The Council Seal).
 - J.7 - Upside-down trophies over a floor of bronze rings; the outer ring is worn smooth.
 - J.8 - A narrow passage behind the halls' hangings, voices from the halls; pinholes in the landing door's jamb.
 

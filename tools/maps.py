@@ -626,6 +626,9 @@ def block_file(region, block: kdl.Node) -> tuple[dict | None, list[str]]:
     unable to draw."""
     if region.rating.upper() == "DANGEROUS":
         import dungeon
+        import plan
+        if str(block.args[0]) in designed(region) & set(plan.plans_of(region)):   # an approved plan draws its own routes
+            return plan.block_map(region, block)
         return dungeon.block_map(region, block)
     return settlement_map(region, block)
 
@@ -787,8 +790,8 @@ def built(code: str, bid: str, setting: Path = tables.SETTING) -> tuple[Path | N
     m, problems = block_file(region, drawn_blocks(region)[bid])
     if m is None:
         return None, tuple(problems)
-    if ENGINE[region.rating.upper()] == "dungeon":
-        import dungeon
+    if ENGINE[region.rating.upper()] == "dungeon" and not any(c.get("origin") == "plan" for c in m.get("corridors", [])):
+        import dungeon                                  # a plan's passages are routed already
         dungeon.spoke_routes(m)
         dungeon.route_around(m)
     target, text = region.dir / f"{bid}.json", json.dumps(m, indent=1)
@@ -1016,8 +1019,11 @@ def cut_svg(loc: str, world, fit: str = SITE_FIT, setting: Path = tables.SETTING
         return None
     for bid, block in blocks_of(region).items():
         if loc in [m.strip() for m in str(block.props["locations"]).split(",")]:
-            if file := built(code, bid, setting)[0]:
-                return render("dungeon", file, fit, "--room", loc, "--margin", "2", label=f"Map of {loc}")
+            if file := built(code, bid, setting)[0]:          # the room and its parts, labelled with its code and a letter
+                parts = [r["label"] for r in json.loads(file.read_text()).get("rooms", [])
+                         if re.fullmatch(re.escape(loc) + "[a-z]", str(r.get("label", "")))]
+                return render("dungeon", file, fit, *[a for x in [loc] + parts for a in ("--room", x)], "--margin", "2",
+                              label=f"Map of {loc}")
     row = sheet_rows(setting).get(code)
     node = region.locations().get(loc)
     if not row or node is None or (o := space.offset(region, node)) is None:

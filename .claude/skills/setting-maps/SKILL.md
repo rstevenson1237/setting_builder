@@ -15,8 +15,8 @@ the converter, then built again.
 |---|---|---|
 | 3b | `python3 tools/maps.py place` | `setting/Sheets.md`, `setting/[Sheet].json`, each region's `outline` and `xyz` |
 | 3b, 3g | `python3 tools/maps.py ground` | each placed region's `Ground.md` |
-| 3d | `python3 tools/design.py` (the `block-design` skill) | a designed block's places, in `Design.md` |
-| 4a | `python3 tools/maps.py pack [Code]`, then `python3 tools/space.py settle [Code]` | each room's `xyz`, each block's `outline`; not for a block with an approved design |
+| 3d | `python3 tools/design.py` (the `block-design` or `block-plan` skill) | a designed block's places, in `Design.md` |
+| 4a | `python3 tools/maps.py pack [Code]`, then `python3 tools/space.py settle [Code]` | each room's `xyz`, each block's `outline`; not for a block with an approved design; `python3 tools/plan.py apply [Code]` for an approved plan |
 | any | `python3 tools/maps.py draw [--out DIR]` | `setting/region/[Code]/[Block].json`, and the SVGs with `--out` |
 
 A request `place` or `map check` reports unmet goes to `BRIEF.md`, not to a new seed. The
@@ -39,6 +39,9 @@ step that fixes them.
 with the bearing it keeps; a room `against` another, a stair's room `over` the room it meets, Rock as `keepOut`, a poly
 outline as the footprint, BRIEF.md's fill, passages and detour. The `report` (`left`, `detours`) is what the validator holds
 to BRIEF.md's detour. **A designed block** (step 3d) is an artgen design instead, laid out by `dungeon layout --design`.
+**An approved plan** (`plan.block_map`) is its own solve: rooms where the plan put them, each passage along the squares
+it was routed on (a branch joins its trunk as `{corridor}`, a way off the map is an `exit` end), each door the kind the
+tables' Connection gives it; its ground and fill are the Design line's, not the `pack` line's.
 
 **A block's map** (`dungeon.block_map`):
 
