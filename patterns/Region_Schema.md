@@ -104,7 +104,10 @@ node Route {                // a plan: a way between two or more ends, opening w
   door string opt           // the door at each end, one kind or one an end: door, secret, locked, portcullis, arch, double, open, none
   width feet opt            // 5 or 10; the Design's where unset
   stair string opt          // up or down: a way out of the block drawn as a stair in its room; a block over or under is one unasked
-  label string opt
+  style string opt          // natural: rough walls; built where unset
+  line string opt           // straight: a cleft from one edge of the block to another, laid before the rooms, which keep off it
+                            // and passages cross; up to 20 ft wide
+  label string opt          // a note; a cleft's, at each edge
 }
 node Use {                  // a layout in the block, opening with the block's id
   id tag                    // its name in the block, which a Bind and a Join cite

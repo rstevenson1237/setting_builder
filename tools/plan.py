@@ -128,6 +128,8 @@ class Route:
     label: str | None = None
     line: int = 0
     inner: bool = False         # one of a layout's own ways
+    style: str = "built"        # natural: rough walls
+    straight: bool = False      # a cleft: drawn straight from edge to edge before any room is placed, crossed by passages
 
 
 class Plan:
@@ -260,7 +262,11 @@ class Plan:
             if d not in DOORS:
                 self.say(n, f"door {d} is not one of {', '.join(DOORS)}")
         width = feet(q.get("width"), self.width)
-        if width > SQ:
+        straight = str(q.get("line", "")) == "straight"
+        if straight and any(e.target != self.bid for e in ends):
+            self.say(n, "a straight route runs from one edge of its block to another: each end is the block")
+            straight = False
+        if width > SQ * (2 if straight else 1):
             self.say(n, f"a route is at most {SQ} ft wide; a wider way is a room (shape hall)")
             width = SQ
         kind = str(q.get("kind", "passage"))
@@ -268,7 +274,7 @@ class Plan:
             self.say(n, "kind is passage or door")
             kind = "passage"
         return Route(ends, length, kind, [None if d == "none" else d for d in doors], width,
-                     q.get("stair"), q.get("label"), n.line)
+                     q.get("stair"), q.get("label"), n.line, style=str(q.get("style", "built")), straight=straight)
 
     def outline_of(self, v) -> list[tuple[float, float]]:
         """The block's outline in feet from its centre, x east, y north; grown round its rooms where it states none."""
@@ -480,10 +486,48 @@ class Solver:
                             self.cell_in[i][j] = False
         self.owner: dict[tuple[int, int], tuple[str, str]] = {}
         self.links: list[tuple[str, str, str]] = []      # (a, b, door) through a shared wall
+        self.reserved, self.routing = {}, None
         self.corridors: list[dict] = []
         self.failed: list[str] = []
         self.length_error = 0
         self.crossed = 0
+        self.crossable: set[str] = set()                 # clefts: passages cross them
+        self.cleft: set[tuple[int, int]] = set()
+
+    def lay_clefts(self) -> list[dict]:
+        """Each straight route as a cleft from one edge to the other: the squares it crosses, which no room takes."""
+        out, relax = [], self.relax
+        self.relax = relax - {"facing", "side"}         # a cleft keeps its edges whatever else gives way
+        for n, r in enumerate(x for x in self.plan.routes if x.straight):
+            rid = f"c{n + 1}"
+            pts = []
+            for e in r.ends[:2]:
+                _, ws = self.resolve(e, None)
+                if not ws:
+                    break
+                sq, pt, step = sorted(ws, key=lambda w: (w[0][0], w[0][1]))[len(ws) // 2]
+                pts.append([pt[0] + step[0] * K / 2, pt[1] + step[1] * K / 2])
+            if len(pts) < 2 or pts[0] == pts[1]:
+                self.failed.append(f"route on line {r.line}: no two edges to run the cleft between")
+                continue
+            (x0, y0), (x1, y1) = pts
+            reach = r.width / CELL / 2 + K / 2
+            steps = int(math.hypot(x1 - x0, y1 - y0) * 2) + 1
+            for t in range(steps + 1):
+                x, y = x0 + (x1 - x0) * t / steps, y0 + (y1 - y0) * t / steps
+                for i in range(int((x - reach) // K) - EDGE, int((x + reach) // K) - EDGE + 1):
+                    for j in range(int((y - reach) // K) - EDGE, int((y + reach) // K) - EDGE + 1):
+                        cx, cy = (i + EDGE) * K + K / 2, (j + EDGE) * K + K / 2
+                        if self.ok(i, j) and abs((x1 - x0) * (cy - y0) - (y1 - y0) * (cx - x0)) / math.hypot(x1 - x0, y1 - y0) < reach:
+                            self.cleft.add((i, j))
+                            self.owner[(i, j)] = ("corr", rid)
+            self.crossable.add(rid)
+            text = r.label or "Cleft"
+            out.append({"id": rid, "from": {"at": pts[0], "exit": {"text": text}}, "to": {"at": pts[1], "exit": {"text": text}},
+                        "via": [round(v, 2) for v in pts[0] + pts[1]], "width": round(r.width / CELL, 2), "origin": "plan",
+                        "style": r.style, "doors": [None, None]})
+        self.relax = relax
+        return out
 
     # -- placing ------------------------------------------------------------------
 
@@ -587,7 +631,7 @@ class Solver:
             r = self.plan.rooms[k]
             for a in range(r.w):
                 for b in range(r.h):
-                    if not self.ok(i + dx + a, j + dy + b):
+                    if not self.ok(i + dx + a, j + dy + b) or (i + dx + a, j + dy + b) in self.cleft:
                         return False
         for o in placed:
             joined = any(b == o.key and r.kind == "door" for b, r in ties[it.key])
@@ -810,7 +854,7 @@ class Solver:
             y = a[1] + (b[1] - a[1]) * t / 20
             sq = (int(x // K) - EDGE, int(y // K) - EDGE)
             if sq not in self.owner:
-                self.owner[sq] = ("corr", rid)
+                self.take([sq], rid)
         pa, pb = [round(v, 2) for v in a], [round(v, 2) for v in b]
         self.corridors.append({"id": rid, "from": {"room": rid_of(hub.key), "port": pa}, "to": {"room": rid_of(r.key), "port": pb},
                                "via": pa + pb, "width": round(rt.width / CELL, 2), "origin": "plan", "doors": [door, door]})
@@ -819,17 +863,14 @@ class Solver:
         if not self.ok(*c):
             return False
         own = self.owner.get(c)
-        return own is None or own[0] == "corr" and (own[1] in join or "cross" in self.relax and own[1] != rid)
+        return own is None or own[0] == "corr" and (own[1] in join or own[1] in self.crossable or
+                                                    "cross" in self.relax and own[1] != rid)
 
     def crowded(self, c, rid, join=frozenset()) -> bool:
         """A square beside another passage's, where a passage would run into it."""
         if "cross" in self.relax:
             return False
-        for vx, vy in FACING.values():
-            own = self.owner.get((c[0] + vx, c[1] + vy))
-            if own and own[0] == "corr" and own[1] != rid and own[1] not in join:
-                return True
-        return False
+        return any(o != rid and o not in join and o not in self.crossable for o in self.beside.get(c, ()))
 
     def search(self, starts, goals, rid, banned=frozenset(), join=frozenset(), field_only=False):
         """Least-cost path on the lattice from any start (square, step out of its wall) to any goal square:
@@ -859,9 +900,11 @@ class Solver:
                 if nxt not in goals and self.crowded(nxt, rid, join):
                     continue
                 cost = 1 + (2 if (vx, vy) != step else 0) + (1.5 if self.hugs(nxt) else 0)
+                if (ask := self.reserved.get(nxt)) and self.routing not in ask:   # before a wall another route asks for
+                    cost += 8
                 own = self.owner.get(nxt)
                 if own and own[0] == "corr" and own[1] not in join:
-                    cost += 20
+                    cost += 3 if own[1] in self.crossable else 20
                 nd = d + cost
                 if nd < dist.get((nxt, (vx, vy)), 1e18):
                     dist[(nxt, (vx, vy))] = nd
@@ -875,7 +918,7 @@ class Solver:
         return None, None
 
     def hugs(self, c) -> bool:
-        return any((o := self.owner.get((c[0] + vx, c[1] + vy))) and o[0] == "room" for vx, vy in FACING.values())
+        return c in self.hugging
 
     def run(self, rid, a_ends, b_ends, length) -> list | None:
         """The squares of a passage from a door square of a to one of b, near the length asked."""
@@ -900,7 +943,7 @@ class Solver:
         else:
             pool.sort(key=lambda w: abs(fa[w] + fb[w] - want * 1.4))
         best = path
-        for w in pool[:40]:
+        for w in pool[:24]:
             leg1, _ = self.search(starts, {w}, rid)
             if leg1 is None:
                 continue
@@ -930,6 +973,10 @@ class Solver:
 
     def take(self, path, rid):
         for c in path:
+            for vx, vy in FACING.values():               # the squares beside it, which another passage keeps off
+                self.beside.setdefault((c[0] + vx, c[1] + vy), set()).add(rid)
+            if self.owner.get(c, ("", ""))[1] in self.crossable:   # a passage over a cleft leaves it the cleft's
+                continue
             if self.owner.get(c, ("", ""))[0] == "corr" and self.owner[c][1] != rid:
                 self.crossed += 1
             self.owner[c] = ("corr", rid)
@@ -958,19 +1005,30 @@ class Solver:
                 return ((lo + hi) / 2 * K + EDGE * K, (y + EDGE) * K)
         return None
 
-    def route_all(self):
+    def route_all(self, first: list = ()):
         p = self.plan
-        todo = list(self.inner) + sorted(p.routes, key=lambda r: (r.length == "long", r.length not in ("short",), r.kind != "door"))
+        self.reserved: dict[tuple[int, int], set] = {}   # the door squares a route's end asks for, and those beside them
+        for n, r in enumerate(p.routes):
+            for e in r.ends:
+                if e.facing and (e.target in p.rooms or e.target in p.layouts):
+                    for sq, _, _ in self.resolve(e, None)[1]:
+                        for vx, vy in [(0, 0)] + list(FACING.values()):
+                            self.reserved.setdefault((sq[0] + vx, sq[1] + vy), set()).add(id(r))
+        lead = [r for k in first for r in p.routes if id(r) == k]
+        todo = list(self.inner) + lead + sorted((r for r in p.routes if not r.straight and id(r) not in first), key=lambda r: (r.length == "long", r.length not in ("short",), r.kind != "door"))
         for n, r in enumerate(todo):
             rid = f"r{n + 1}"
+            self.routing, before = id(r), len(self.failed)
             self.route(r, rid)
+            if len(self.failed) > before:
+                self.stuck.append(id(r))
 
     def route(self, r: Route, rid: str):
         p = self.plan
         label = f"route on line {r.line}" if r.line and not r.inner else f"{r.ends[0].target} to {r.ends[1].target}"
         here = lambda e: e.target in p.rooms or e.target in p.layouts
-        order = {id(e): k for k, e in enumerate(r.ends)}
-        door = lambda e: (r.doors[min(order[id(e)], len(r.doors) - 1)]) if r.doors else "door"
+        order = {e.target: k for k, e in reversed(list(enumerate(r.ends)))}
+        door = lambda e: (r.doors[min(order.get(e.target, 0), len(r.doors) - 1)]) if r.doors else "door"
         inside = [e for e in r.ends if here(e)]
         if not inside:
             return
@@ -1024,6 +1082,12 @@ class Solver:
             self.failed.append(f"{label}: no free wall at {a.target if not wa else b.target}")
             return
         path = self.run(rid, wa, wb, r.length)
+        if path is None and (a.facing or b.facing) and "facing" not in self.relax:   # this route's own walls give way first
+            loose = [End(e.target) if e.target != p.bid else e for e in (a, b)]
+            (ka, wa), (kb, wb) = (self.resolve(e, None) for e in loose)
+            if wa and wb and (path := self.run(rid, wa, wb, r.length)) is not None:
+                self.missed.append(f"{label}: no way by the walls asked, so it leaves by others")
+                a, b = loose
         if path is None and ka != "exit" and kb != "exit" and len(ends) == 2:
             if self.branch(rid, a, b, ka, wa, kb, wb, r, door, label):
                 return
@@ -1044,6 +1108,19 @@ class Solver:
                 path = path[::-1] if path else None
             else:
                 path, _ = self.search(starts, goals, bid, join=frozenset({rid}))
+            if path is None and ke != "exit":            # else a passage of its own to another end, by any wall
+                ke, we = self.resolve(End(e.target), None)
+                for o in ends[:k]:
+                    ko, wo = self.resolve(End(o.target) if o.target != p.bid else o, None)
+                    if we and wo and (path := self.run(bid, we, wo, "short")) is not None:
+                        self.take(path, bid)
+                        self.corridors.append(self.corridor(bid, path, (ke, we, door(e), e),
+                                                            (ko, wo, door(o) if ko != "exit" else None, o), r))
+                        self.missed.append(f"{label}: {e.target} finds no way to the passage, so runs to {o.target}")
+                        break
+                else:
+                    self.failed.append(f"{label}: no way from {e.target} to the passage")
+                continue
             if path is None:
                 self.failed.append(f"{label}: no way from {e.target} to the passage")
                 continue
@@ -1086,6 +1163,8 @@ class Solver:
                 return {"at": [x + step[0] * K / 2, y + step[1] * K / 2],
                         "exit": {"text": f"To {e.target}" if e.target != self.plan.bid else "Out"}}, None
             room = e.target if e.target in self.plan.rooms else self.owner_room(sq, step)
+            if self.plan.rooms[room].shape == "diamond":   # met at its point: an opening, no door
+                door = None
             return {"room": rid_of(room), "port": [round(pt[0], 2), round(pt[1], 2)]}, door
         f, df = end(a, path[0])
         t, dt = end(b, path[-1]) if b[0] != "join" else end(b, None)
@@ -1100,7 +1179,7 @@ class Solver:
         bends = [b for k, b in enumerate(bends) if not k or b != bends[k - 1]]
         via = [v for p in bends for v in p]
         c = {"id": rid, "from": f, "to": t, "via": via, "width": round(r.width / CELL, 2), "origin": "plan",
-             "doors": [df, dt]}
+             "doors": [df, dt], **({"style": "natural"} if r.style == "natural" else {})}
         if r.label:
             c["label"] = r.label
         return c
@@ -1113,7 +1192,8 @@ class Solver:
         self.stairs = []
         items, first, self.tight = self.items(), set(), False
         for k in range(4):                              # an item that found no room is placed earlier, and all again
-            self.unplaced, self.owner, self.missed = [], {}, []
+            self.unplaced, self.owner, self.missed, self.cleft, self.crossable, self.beside = [], {}, [], set(), set(), {}
+            clefts = self.lay_clefts()
             for r in self.plan.rooms.values():
                 r.at = None
             for it in items:
@@ -1124,9 +1204,25 @@ class Solver:
             first |= set(self.unplaced)
             self.tight = k >= 1
         self.notes += [f"{k} finds no room in the block" for k in self.unplaced]
+        self.hugging = {(c[0] + vx, c[1] + vy) for c, o in self.owner.items() if o[0] == "room" for vx, vy in FACING.values()}
+        self.corridors += clefts
         unplaced = [k for k, r in self.plan.rooms.items() if r.at is None]
         self.failed += [f"{k} was not placed" for k in unplaced]
-        self.route_all()
+        base = (dict(self.owner), list(self.corridors), list(self.failed), list(self.missed))
+        best, first = None, []
+        for _ in range(4):                              # a way left unrouted is routed first, and every way again
+            self.owner, self.corridors, self.failed, self.missed = dict(base[0]), list(base[1]), list(base[2]), list(base[3])
+            self.beside, self.links, self.stairs, self.stuck, self.length_error, self.crossed = {}, [], [], [], 0, 0
+            self.route_all(first)
+            got = (len(self.failed), self.crossed, len(self.missed), self.length_error)
+            if best is None or got < best[0]:
+                best = (got, dict(self.owner), list(self.corridors), list(self.failed), list(self.missed), dict(self.beside),
+                        list(self.links), list(self.stairs), self.length_error, self.crossed)
+            if not self.stuck:
+                break
+            first = list(dict.fromkeys(self.stuck + first))
+        (_, self.owner, self.corridors, self.failed, self.missed, self.beside, self.links, self.stairs,
+         self.length_error, self.crossed) = best
         self.check_hints()
         return self
 
@@ -1292,8 +1388,10 @@ def write(s: Solver, out: Path, render: bool = True) -> list[str]:
     try:
         got = json.loads(text[text.index("{"):])
         leaving = {f"corridors[{k}]" for k, c in enumerate(s.corridors) if "exit" in c["to"] or "exit" in c["from"]}
+        clefts = {f"crosses corridor {k} " for k, c in enumerate(s.corridors) if c["id"] in s.crossable}
         said += [f"  map {w.get('id', 'error')}: {w['path']}: {w['message']}" for w in got.get("errors", []) + got.get("warnings", [])
-                 if not (w.get("id") == "outside-bounds" and w["path"] in leaving)]
+                 if not (w.get("id") == "outside-bounds" and w["path"] in leaving)
+                 and not (w.get("id") == "corridors-cross" and any(c in w["message"] for c in clefts))]
     except (ValueError, KeyError):
         said.append(f"  map check: {text.strip()[:300]}")
     if render:

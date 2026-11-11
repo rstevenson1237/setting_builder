@@ -12,7 +12,10 @@ block to `tools/plan.py`; everything else in the `block-design` skill holds - th
 tables then follow the accepted places, and the map is built from the plan.
 
 Every place, facing, side and length is a goal. The solver keeps a plan that routes every way over one that meets
-a goal, and says each goal it missed: read the report before showing the map.
+a goal, and says each goal it missed: read the report before showing the map. A way that finds no path first gives up
+its own walls, then joins a passage from its other end, then is routed first and every way again; only then does the
+whole plan set its goals aside. A level of many rooms wants a block no larger than its fill asks: spare ground
+spreads the areas to the edges and lengthens every passage.
 
 ## The lines
 
@@ -31,7 +34,8 @@ All sizes and places are feet; x east, y north of the parent's centre. Rooms sta
   `:facing` after an end is the wall it leaves by - a layout's or block's outermost on that side - and `:side` the
   half of it. `length` is short, long, a count of 10 ft squares, or `"N feet"`, of the first two ends; a further end
   branches off the passage. `kind=door` sets the first two ends against one another, a door in their shared wall.
-  `door` gives each end's door, one kind or one an end.
+  `door` gives each end's door, one kind or one an end. `style=natural` gives it rough walls. `line=straight` between
+  two edges of the block is a cleft, laid before any room: rooms keep off it and passages cross it.
 - `Void` - ground no room or passage takes.
 
 The examples in `examples/` are each solved by the validator: start from the one closest to the level.
