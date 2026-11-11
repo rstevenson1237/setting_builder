@@ -1,10 +1,11 @@
 # Megadungeon
 
 One crowded level of about seventy rooms. An octagonal crossing at the centre, with its rooms on all
-eight points, joins the eight areas round it. At the north is a gate hall with cells off it, a diamond court and
-a vault grid behind a great hall. To the west are a cloister of cells, a chapter house and a column of round crypts.
-To the east are a cave, a row of lairs and a stair tower. The south holds two warrens of rooms sharing walls and
-a gallery. A natural cleft runs across it from the north-west to the lower east side, and passages cross it where they must.
+eight points, joins the eight areas round it. At the north is a gate hall with cells off it, a diamond court, and
+a block of vaults of every size behind an apsed hall. To the west are a cloister of cells round a yard, a chapter
+house and a column of crypts. To the east is a great cave with lesser caves on spokes round it, and a stair tower.
+The south holds two warrens of rooms of every size sharing walls, a gallery, and a knot of odd-shaped shrines.
+A natural cleft runs across it from the north-west to the lower east side, and passages cross it where they must.
 Ways lead out at the north gate, the east tower and the stairs up and down.
 
 ```kdl
@@ -23,27 +24,28 @@ Room M.7 layout=court width=20 length=20 facing=north
 Room M.8 layout=court width=20 length=20 facing=east
 Room M.9 layout=court width=20 length=20 facing=west
 Room M.10 layout=court width=20 length=20 facing=south
-Layout M.a id=vaults arrange=grid cols=3 facing=north side=e
-Room M.11 layout=vaults width=20 length=20
-Room M.12 layout=vaults width=20 length=20
-Room M.13 layout=vaults width=20 length=20
-Room M.14 layout=vaults width=20 length=20
-Room M.15 layout=vaults width=20 length=20
-Room M.16 layout=vaults width=20 length=20
-Room M.17 width=60 length=40
+Layout M.a id=vaults arrange=split width=70 length=40 facing=north side=e
+Room M.11 layout=vaults width=30 length=30
+Room M.12 layout=vaults
+Room M.13 layout=vaults
+Room M.14 layout=vaults
+Room M.15 layout=vaults
+Room M.16 layout=vaults
+Room M.17 width=60 length=40 shape=apse
 
 // the west: cloister, chapter house, crypts
-Layout M.a id=cloister arrange=spine entry=M.18 facing=west side=n
-Room M.18 layout=cloister width=10 length=100 shape=hall
-Room M.19 layout=cloister width=20 length=20
-Room M.20 layout=cloister width=20 length=20
-Room M.21 layout=cloister width=20 length=20
-Room M.22 layout=cloister width=20 length=20
-Room M.23 layout=cloister width=20 length=20
-Room M.24 layout=cloister width=20 length=20
+Layout M.a id=cloister arrange=court depth=20 width=90 length=90 facing=west side=n
+Room M.18 layout=cloister
+Room M.19 layout=cloister
+Room M.20 layout=cloister
+Room M.21 layout=cloister
+Room M.22 layout=cloister
+Room M.23 layout=cloister
+Room M.24 layout=cloister
+Room M.a layout=cloister count=3
 Room M.25 width=50 length=50 shape=octagon facing=west
 Layout M.a id=crypts arrange=column gap=10 facing=west side=s
-Room M.26 layout=crypts width=30 length=30 shape=round
+Room M.26 layout=crypts width=40 length=30 shape=oval
 Room M.27 layout=crypts width=30 length=30 shape=round
 Room M.28 layout=crypts width=30 length=30 shape=round
 
@@ -58,47 +60,47 @@ Room M.34 layout=crossing width=20 length=20 shape=diamond facing=north-east
 Room M.35 layout=crossing width=20 length=20 shape=diamond facing=south-east
 Room M.36 layout=crossing width=20 length=20 shape=diamond facing=south-west
 Room M.37 layout=crossing width=20 length=20 shape=diamond facing=north-west
-Room M.38 width=60 length=60
-Room M.69 width=20 length=20
+Room M.38 width=60 length=60 shape=cross
+Room M.69 width=30 length=30 shape=ell
 
-// the east: cave, lairs, stair tower
-Room M.39 width=70 length=70 shape=round facing=east
-Layout M.a id=lairs arrange=row facing=east side=s
-Room M.40 layout=lairs width=20 length=30
-Room M.41 layout=lairs width=20 length=30
-Room M.42 layout=lairs width=20 length=30
-Room M.43 layout=lairs width=20 length=30
+// the east: the great cave and its lesser caves, the stair tower
+Layout M.a id=caves arrange=radial entry=M.39 gap=10 sweep=150 bearing=180 facing=east
+Room M.39 layout=caves width=70 length=60 shape=organic
+Room M.40 layout=caves width=30 length=20 shape=organic
+Room M.41 layout=caves width=20 length=30 shape=organic
+Room M.42 layout=caves width=30 length=30 shape=organic
+Room M.43 layout=caves width=20 length=20 shape=organic
 Room M.44 width=30 length=30 shape=octagon facing=east side=n
 
 // the south: two warrens, the gallery
-Layout M.a id=warren-w arrange=grid cols=4 facing=south side=w
-Room M.45 layout=warren-w width=20 length=20
-Room M.46 layout=warren-w width=20 length=20
-Room M.47 layout=warren-w width=20 length=20
-Room M.48 layout=warren-w width=20 length=20
-Room M.49 layout=warren-w width=20 length=20
-Room M.50 layout=warren-w width=20 length=20
-Room M.51 layout=warren-w width=20 length=20
-Room M.52 layout=warren-w width=20 length=20
-Layout M.a id=warren-e arrange=grid cols=3 facing=south side=e
-Room M.53 layout=warren-e width=20 length=20
-Room M.54 layout=warren-e width=20 length=20
-Room M.55 layout=warren-e width=20 length=20
-Room M.56 layout=warren-e width=20 length=20
-Room M.57 layout=warren-e width=20 length=20
-Room M.58 layout=warren-e width=20 length=20
-Room M.a layout=warren-e count=3 width=20 length=20
-Layout M.a id=gallery arrange=row facing=south
+Layout M.a id=warren-w arrange=split width=90 length=50 facing=south side=w loops=25%
+Room M.45 layout=warren-w width=30 length=30
+Room M.46 layout=warren-w
+Room M.47 layout=warren-w
+Room M.48 layout=warren-w
+Room M.49 layout=warren-w
+Room M.50 layout=warren-w
+Room M.51 layout=warren-w
+Room M.52 layout=warren-w
+Layout M.a id=warren-e arrange=split width=70 length=60 facing=south side=e
+Room M.53 layout=warren-e
+Room M.54 layout=warren-e
+Room M.55 layout=warren-e
+Room M.56 layout=warren-e
+Room M.57 layout=warren-e
+Room M.58 layout=warren-e
+Room M.a layout=warren-e count=3
+Layout M.a id=gallery arrange=row align=n facing=south
 Room M.59 layout=gallery width=20 length=30
-Room M.60 layout=gallery width=20 length=30
-Room M.61 layout=gallery width=20 length=30
-Room M.62 layout=gallery width=20 length=30
-Room M.63 layout=gallery width=20 length=30
-Room M.64 layout=gallery width=20 length=30
+Room M.60 layout=gallery width=30 length=20
+Room M.61 layout=gallery width=20 length=40 shape=apse
+Room M.62 layout=gallery width=40 length=30
+Room M.63 layout=gallery width=20 length=20
+Room M.64 layout=gallery width=30 length=30
 Room M.65 width=10 length=60 shape=hall
-Room M.66 width=30 length=30 shape=diamond
-Room M.67 width=20 length=20 shape=round
-Room M.68 width=20 length=20
+Room M.66 width=30 length=30 shape=irregular
+Room M.67 width=30 length=20 shape=oval
+Room M.68 width=30 length=30 shape=ell
 Room M.70 width=20 length=20 facing=south side=e
 
 // the cleft, laid first: passages cross it
@@ -120,7 +122,7 @@ Route M.a ends="M.17:east, M.44:north"
 
 // the west
 Route M.a ends="M.1:south, cloister:north"
-Route M.a ends="M.18:south, M.25:north"
+Route M.a ends="cloister:south, M.25:north"
 Route M.a ends="M.25:south, crypts:north"
 Route M.a ends="M.33:west, M.38:east" door=arch
 Route M.a ends="M.38, M.69" kind=door door=secret
@@ -129,9 +131,8 @@ Route M.a ends="M.37, M.38:north"
 
 // the east
 Route M.a ends="M.31:east, M.39:west" door=arch
-Route M.a ends="M.39:south, lairs"
 Route M.a ends="M.39:north, M.44:south"
-Route M.a ends="M.35, lairs:west"
+Route M.a ends="M.35, M.40"
 
 // the south
 Route M.a ends="M.32:south, gallery:north" door=arch

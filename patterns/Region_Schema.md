@@ -53,7 +53,7 @@ enum Dangerous_Kind collection "single holding"   // a worked complex in blocks,
 enum Link_Kind door passage   // a door through a wall two rooms share; a passage between rooms that do not touch
 enum Facing north south east west north-east south-east south-west north-west   // the side of its parent a thing keeps to
 enum Side n s e w           // the half of that side: w or e on a north or south one, n or s on an east or west one
-enum Arrange cluster row column grid spine ring   // how a layout sets its rooms against one another
+enum Arrange cluster row column grid spine ring split court radial   // how a layout sets its rooms against one another
 
 node Design {               // a block's design, opening with its id: layouts, chained, round the rooms they leave to the solver
   locations location list   // every location of the block; Locations.md holds exactly these
@@ -71,6 +71,7 @@ node Design {               // a block's design, opening with its id: layouts, c
   facing Facing opt         // a plan: the side of the region it keeps to, where it states no xyz
   side Side opt
   width feet opt            // a plan: its passages' width, 5 or 10; 10 where unset
+  diagonals string opt      // a plan: no, and no passage runs on the diagonal; yes where unset
 }
 node Layout {               // a plan: a group of rooms set against one another, placed in the block as one, opening with the block's id
   id tag                    // its name, which a Room and a Route cite
@@ -84,12 +85,19 @@ node Layout {               // a plan: a group of rooms set against one another,
   cols number opt           // a grid's rooms a row
   align Side opt            // a row's or column's rooms lined up on one side; centred where unset
   door string opt           // the door between its rooms: a door kind; door where unset
+  width feet opt            // split and court: the ground it fills, across and along; unset, its rooms' sum
+  length feet opt
+  loops percent opt         // split: the share of its other shared walls given a door, once every room is reached; 15% where unset
+  depth feet opt            // court: from the yard to the outer wall; 20 where unset
+  sweep number opt          // radial: the degrees its rooms spread over; 360 where unset
+  bearing number opt        // radial: degrees clockwise from north at the middle of the sweep; 0 where unset
 }
 node Room {                 // a plan: one location, opening with its code, or rooms no location holds, opening with the block's id
   layout tag opt            // the layout it is part of; the block's own where unset
   width feet opt            // across and along, in 10 ft steps; 20 where unset
   length feet opt
-  shape string opt          // a Room_Shape, or diamond: a square turned on its point; rect where unset
+  shape string opt          // rect (where unset), hall, round, oval, octagon, hexagon, diamond, cave, organic, apse (a rect
+                            // rounded at the end away from its facing), ell, cross or irregular (a rect cut back at its corners)
   xyz point opt             // its centre from its layout's, or the block's
   facing Facing opt         // unset xyz: the side of its parent it keeps to; in a ring, the hub's side it stands on
   side Side opt
@@ -105,6 +113,7 @@ node Route {                // a plan: a way between two or more ends, opening w
   width feet opt            // 5 or 10; the Design's where unset
   stair string opt          // up or down: a way out of the block drawn as a stair in its room; a block over or under is one unasked
   style string opt          // natural: rough walls; built where unset
+  diagonal string opt       // no: this route keeps to straight runs; yes where unset
   line string opt           // straight: a cleft from one edge of the block to another, laid before the rooms, which keep off it
                             // and passages cross; up to 20 ft wide
   label string opt          // a note; a cleft's, at each edge

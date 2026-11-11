@@ -13,8 +13,8 @@ tables then follow the accepted places, and the map is built from the plan.
 
 Every place, facing, side and length is a goal. The solver keeps a plan that routes every way over one that meets
 a goal, and says each goal it missed: read the report before showing the map. A way that finds no path first gives up
-its own walls, then joins a passage from its other end, then is routed first and every way again; only then does the
-whole plan set its goals aside. A level of many rooms wants a block no larger than its fill asks: spare ground
+its own walls, then joins a passage from its other end (never at a door or on a spoke), then crosses another passage
+as a crossroads, then is routed first and every way again; only then does the whole plan set its goals aside. A level of many rooms wants a block no larger than its fill asks: spare ground
 spreads the areas to the edges and lengthens every passage.
 
 ## The lines
@@ -23,12 +23,21 @@ All sizes and places are feet; x east, y north of the parent's centre. Rooms sta
 
 - `Design` - the block: `xyz` its place in the region (z its floor), `outline` its ground (`rect W L`, `circle R`,
   `poly …`), `fill` the share the rooms should cover, `facing`/`side` where it keeps to, `width` its passages (5 or 10).
-- `Layout` - rooms set against one another and placed as one: `arrange` row, column, grid (`cols`), spine (a hall,
-  its rooms on both sides), ring (a hub, its rooms on its points; a diagonal room of a round, octagonal or diamond
-  hub and shape meets it by a diagonal passage), or cluster; `gap` between its rooms (0 shares walls, with doors);
-  `entry` the room a route to it reaches.
+- `Layout` - rooms set against one another and placed as one, by `arrange`:
+  - row, column, grid (`cols`): in line; `gap` between them (0 shares walls, with doors).
+  - spine: a hall with its rooms down both sides. ring: a hub with its rooms on its eight points; a diagonal room
+    of a curved or cornered hub and shape is reached by a straight spoke.
+  - split: a dense block, its `width` by `length` cut into rooms of every size sharing walls, a door to each and
+    `loops` of the rest. court: rooms round a yard, `depth` deep, a door from each to the next all the way round.
+    split and court size their own rooms (each a rect).
+  - radial: rooms spread evenly round a hub over `sweep` degrees about `bearing`, each on its own straight spoke.
+  - cluster (where unset): each room set against one already placed.
+  `entry` is the room a route to the layout reaches, and a spine's hall or a ring's or radial's hub.
 - `Room` - a location, opening with its code; or rooms no location holds, opening with the block's id, with `count`.
-  `layout`, `width`, `length`, `shape` (a Room_Shape or diamond), and `xyz` or `facing`/`side` within its parent.
+  `layout`, `width`, `length`, and `xyz` or `facing`/`side` within its parent. `shape`: rect, hall, round, oval,
+  octagon, hexagon, diamond, cave or organic (rough and smooth irregular), apse (rounded at the end away from its
+  facing), ell, cross or irregular (cut back at its corners, the same way each time for the same room). A door
+  stands only on a straight stretch of wall: a curved room shares no wall with another, and is met near a side's middle.
 - `Route` - a way with two or more `ends`. An end is a location, a layout, the block itself (a way off the map at
   its edge) or a location of another block (a passage toward it, or a stair where its floor is higher or lower).
   `:facing` after an end is the wall it leaves by - a layout's or block's outermost on that side - and `:side` the
@@ -37,6 +46,9 @@ All sizes and places are feet; x east, y north of the parent's centre. Rooms sta
   `door` gives each end's door, one kind or one an end. `style=natural` gives it rough walls. `line=straight` between
   two edges of the block is a cleft, laid before any room: rooms keep off it and passages cross it.
 - `Void` - ground no room or passage takes.
+
+Passages run on the 10 ft squares, straight or on the diagonal where that is shorter, never cutting a room's
+corner; `diagonals=no` on the Design, or `diagonal=no` on a Route, keeps them to straight runs.
 
 The examples in `examples/` are each solved by the validator: start from the one closest to the level.
 

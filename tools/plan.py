@@ -37,11 +37,14 @@ EDGE = 1                        # squares of rock round the block on the map
 ROOM = 20                       # feet: a room's side where it states none
 FACING = {"north": (0, -1), "south": (0, 1), "east": (1, 0), "west": (-1, 0)}
 SIDES = {"north": "we", "south": "we", "east": "ns", "west": "ns"}
-ARRANGE = ("cluster", "row", "column", "grid", "spine", "ring")
-SHAPES = {"rect": "rect", "hall": "rect", "round": "circle", "octagon": "octagon", "cave": "cave", "diamond": "poly",
-          "hexagon": "hexagon"}
-CORNERED = ("round", "octagon", "diamond", "hexagon")   # shapes whose box corners are rock: doors only near a side's middle
+ARRANGE = ("cluster", "row", "column", "grid", "spine", "ring", "split", "court", "radial")
+SHAPES = {"rect": "rect", "hall": "rect", "round": "circle", "oval": "circle", "octagon": "octagon", "hexagon": "hexagon",
+          "cave": "cave", "organic": "cave", "diamond": "poly", "ell": "poly", "cross": "poly", "apse": "poly",
+          "irregular": "poly"}                    # each shape, as artgen draws it
+CORNERED = ("round", "oval", "octagon", "diamond", "hexagon", "cave", "organic")   # box corners of rock: a ring hub's diagonals
+CURVED = ("round", "oval", "cave", "organic", "diamond")   # no stretch of wall another room can share
 DIAGONAL = {"north-east": "ne", "south-east": "se", "south-west": "sw", "north-west": "nw"}
+STEPS8 = list(FACING.values()) + [(1, -1), (1, 1), (-1, 1), (-1, -1)]   # the lattice's moves: straight, then diagonal
 DOORS = ("door", "secret", "locked", "portcullis", "arch", "double", "open", "none")
 CODE_RE = re.compile(r"[A-Z]{1,2}\.\d+")
 BLOCK_RE = re.compile(r"[A-Z]{1,2}\.[a-z]")
@@ -108,6 +111,12 @@ class Layout:
     rooms: list = field(default_factory=list)
     line: int = 0
     diagonal: set = field(default_factory=set)   # (hub, room): a straight diagonal passage, not one on the lattice
+    w: int | None = None        # split and court: the ground it fills, squares
+    h: int | None = None
+    loops: float = .15          # split: the share of its other shared walls given a door too
+    depth: int = 2              # court: rooms deep from the courtyard to the outer wall, squares
+    sweep: float = 360          # radial: degrees its rooms spread over, centred on the bearing
+    bearing: float = 0
 
 
 @dataclass
@@ -130,6 +139,7 @@ class Route:
     inner: bool = False         # one of a layout's own ways
     style: str = "built"        # natural: rough walls
     straight: bool = False      # a cleft: drawn straight from edge to edge before any room is placed, crossed by passages
+    diagonal: bool = True       # may run on the diagonal between squares
 
 
 class Plan:
@@ -155,6 +165,7 @@ class Plan:
         self.fill = self.fill_of(p.get("fill"))
         self.facing, self.side = p.get("facing"), p.get("side")
         self.width = feet(p.get("width"), SQ)
+        self.diagonals = str(p.get("diagonals", "yes")) != "no"
         self.pad = int(feet(p.get("pad"), 0) // SQ) if p.get("pad") is not None else (1 if self.fill[1] >= .4 else 2)
         self.xyz = [float(c) for c in str(p.get("xyz", "0,0,0")).split(",")] + [0.0] * 3
         self.layouts: dict[str, Layout] = {}
@@ -167,7 +178,12 @@ class Plan:
                 lay = Layout(str(q.get("id")), str(q.get("arrange", "cluster")), int(feet(q.get("gap"), 0) // SQ),
                              point(q.get("xyz")), q.get("facing"), q.get("side"), q.get("entry"),
                              str(q.get("links", "auto")), int(q["cols"]) if q.get("cols") else None,
-                             str(q.get("align", "centre")), str(q.get("door", "door")), line=n.line)
+                             str(q.get("align", "centre")), str(q.get("door", "door")), line=n.line,
+                             w=squares(feet(q["width"])) if q.get("width") else None,
+                             h=squares(feet(q["length"])) if q.get("length") else None,
+                             loops=float(str(q.get("loops", "15%")).rstrip("%")) / 100,
+                             depth=squares(feet(q.get("depth"), 2 * SQ)),
+                             sweep=float(q.get("sweep", 360)), bearing=float(q.get("bearing", 0)))
                 if lay.arrange not in ARRANGE:
                     self.say(n, f"arrange {lay.arrange} is not one of {', '.join(ARRANGE)}")
                     lay.arrange = "cluster"
@@ -274,7 +290,8 @@ class Plan:
             self.say(n, "kind is passage or door")
             kind = "passage"
         return Route(ends, length, kind, [None if d == "none" else d for d in doors], width,
-                     q.get("stair"), q.get("label"), n.line, style=str(q.get("style", "built")), straight=straight)
+                     q.get("stair"), q.get("label"), n.line, style=str(q.get("style", "built")), straight=straight,
+                     diagonal=str(q.get("diagonal", "yes")) != "no")
 
     def outline_of(self, v) -> list[tuple[float, float]]:
         """The block's outline in feet from its centre, x east, y north; grown round its rooms where it states none."""
@@ -298,7 +315,7 @@ class Plan:
 
 # -- a layout's rooms against one another --------------------------------------------------
 
-def arrange(lay: Layout) -> tuple[dict[str, tuple[int, int]], list[tuple[str, str]], list[str]]:
+def arrange(lay: Layout, rng: random.Random) -> tuple[dict[str, tuple[int, int]], list[tuple[str, str]], list[str]]:
     """Each room's top-left in the layout's own frame (squares, y south), the ways between its rooms, and what
     the arrangement could not do."""
     rs, g, notes = lay.rooms, lay.gap, []
@@ -386,6 +403,12 @@ def arrange(lay: Layout) -> tuple[dict[str, tuple[int, int]], list[tuple[str, st
             taken[way] = push + (r.w if vx else r.h) + gap
             at[r.key] = (x, y)
             links.append((hub.key, r.key))
+    elif lay.arrange == "split":
+        at, links = split(lay, rs, rng, notes)
+    elif lay.arrange == "court":
+        at, links = court(lay, rs, rng, notes)
+    elif lay.arrange == "radial":
+        at, links = radial(lay, rs, g)
     else:                                               # cluster: each room set against one already placed
         first = rs[0]
         at[first.key] = (0, 0)
@@ -430,6 +453,222 @@ def arrange(lay: Layout) -> tuple[dict[str, tuple[int, int]], list[tuple[str, st
 
 def lay_room(rs, key):
     return next(r for r in rs if r.key == key)
+
+
+def tree(rs: list[Room], at: dict, rng: random.Random, loops: float, start: str) -> list[tuple[str, str]]:
+    """Doors through the walls a dense block's rooms share: a tree reaching every room from the first, then a share
+    of the rest, so the block has loops."""
+    def shared(a, b):
+        (ax, ay), (bx, by) = at[a.key], at[b.key]
+        if ax + a.w == bx or bx + b.w == ax:
+            return min(ay + a.h, by + b.h) - max(ay, by) >= 1
+        if ay + a.h == by or by + b.h == ay:
+            return min(ax + a.w, bx + b.w) - max(ax, bx) >= 1
+        return False
+    pairs = [(a, b) for k, a in enumerate(rs) for b in rs[k + 1:] if shared(a, b)]
+    rng.shuffle(pairs)
+    reached, out, rest = {start}, [], []
+    while True:
+        step = next(((a, b) for a, b in pairs if (a.key in reached) != (b.key in reached)), None)
+        if step is None:
+            break
+        pairs.remove(step)
+        out.append((step[0].key, step[1].key))
+        reached |= {step[0].key, step[1].key}
+    rest = [(a.key, b.key) for a, b in pairs if a.key in reached and b.key in reached]
+    return out + rest[:round(len(rest) * loops)]
+
+
+def split(lay: Layout, rs: list[Room], rng: random.Random, notes: list) -> tuple[dict, list]:
+    """A dense block: its ground cut in two again and again, a larger piece more often, at a varied place, until there
+    is a piece for each room; the largest pieces to the rooms that ask for most."""
+    area = sum(r.w * r.h for r in rs)
+    W = lay.w or max(2, round(math.sqrt(area) * rng.uniform(.9, 1.25)))
+    H = lay.h or max(2, math.ceil(area / W))
+    cells, least = [(0, 0, W, H)], 2
+    while len(cells) < len(rs):
+        able = [c for c in cells if max(c[2], c[3]) >= 2 * least]
+        if not able:
+            if least == 1:
+                notes.append(f"layout {lay.id}: {W * SQ} by {H * SQ} ft holds {len(cells)} rooms, not {len(rs)}")
+                break
+            least = 1
+            continue
+        c = rng.choices(able, weights=[(c[2] * c[3]) ** 2 for c in able])[0]
+        cells.remove(c)
+        x, y, w, h = c
+        across = w > h or w == h and rng.random() < .5
+        size = w if across else h
+        cut = min(size - least, max(least, round(size * rng.choice((.25, .33, .4, .6, .67, .75)))))
+        cells += [(x, y, cut, h), (x + cut, y, w - cut, h)] if across else [(x, y, w, cut), (x, y + cut, w, h - cut)]
+    cells.sort(key=lambda c: -c[2] * c[3])
+    order = sorted(rs, key=lambda r: -r.w * r.h)
+    at = {}
+    for r, (x, y, w, h) in zip(order, cells):
+        r.w, r.h, r.shape = w, h, "rect" if r.shape not in ("rect", "hall") else r.shape
+        at[r.key] = (x, y)
+    for r in order[len(cells):]:
+        lay.rooms.remove(r)
+    placed = [r for r in rs if r.key in at]
+    start = lay.entry if lay.entry in at else placed[0].key
+    return at, tree(placed, at, rng, lay.loops, start)
+
+
+def court(lay: Layout, rs: list[Room], rng: random.Random, notes: list) -> tuple[dict, list]:
+    """Rooms round a courtyard, a ring `depth` squares thick: each side cut into rooms of varied length, a door
+    from each to the next all the way round."""
+    d, n = lay.depth, len(rs)
+    W = lay.w or max(2 * d + 2, math.ceil(n / 4 * 2.5) + 2 * d)
+    H = lay.h or W
+    sides = [("top", W), ("right", H - 2 * d), ("bottom", W), ("left", H - 2 * d)]
+    share = [max(1 if n >= 4 else 0, round(n * L / sum(L for _, L in sides))) for _, L in sides]
+    while sum(share) > n:
+        share[share.index(max(share))] -= 1
+    while sum(share) < n:
+        share[share.index(min(share))] += 1
+    at, order = {}, iter(rs)
+    for (name, L), k in zip(sides, share):
+        if not k:
+            continue
+        if k > L:
+            notes.append(f"layout {lay.id}: its {name} side holds {L} rooms, not {k}")
+            k = L
+        cuts = sorted(rng.sample(range(1, L), k - 1)) if k > 1 else []
+        runs = [(a, b - a) for a, b in zip([0] + cuts, cuts + [L])]
+        for a, length in runs:
+            r = next(order)
+            r.shape = "rect"
+            if name == "top":
+                r.w, r.h, at[r.key] = length, d, (a, 0)
+            elif name == "bottom":
+                r.w, r.h, at[r.key] = length, d, (W - a - length, H - d)
+            elif name == "right":
+                r.w, r.h, at[r.key] = d, length, (W - d, d + a)
+            else:
+                r.w, r.h, at[r.key] = d, length, (0, H - d - a - length)
+    for r in list(order):
+        lay.rooms.remove(r)
+    ring = [r.key for r in rs if r.key in at]
+    return at, list(zip(ring, ring[1:] + ring[:1])) if len(ring) > 2 else list(zip(ring, ring[1:]))
+
+
+def radial(lay: Layout, rs: list[Room], g: int) -> tuple[dict, list]:
+    """Rooms spread evenly round a hub over the sweep, centred on the bearing, far enough out not to touch, each
+    reached from the hub by a passage the router runs - straight, or on the diagonal."""
+    hub = next((r for r in rs if r.key == lay.entry), rs[0])
+    out = [r for r in rs if r is not hub]
+    if not out:
+        return {hub.key: (0, 0)}, []
+    big = max(max(r.w, r.h) for r in out)
+    whole = lay.sweep >= 359
+    step = lay.sweep / (len(out) if whole else max(1, len(out) - 1))
+    reach = max(hub.w, hub.h) / 2 + max(g, 1) + big / 2 + 1
+    while True:
+        at = {hub.key: (0, 0)}
+        for k, r in enumerate(out):
+            a = math.radians(lay.bearing - (0 if whole else lay.sweep / 2) + k * step)
+            cx, cy = hub.w / 2 + reach * math.sin(a), hub.h / 2 - reach * math.cos(a)
+            at[r.key] = (round(cx - r.w / 2), round(cy - r.h / 2))
+        boxes = [(at[r.key], r) for r in rs]
+        clash = any(p[0] - 1 < q[0] + s.w and q[0] - 1 < p[0] + r.w and p[1] - 1 < q[1] + s.h and q[1] - 1 < p[1] + r.h
+                    for k, (p, r) in enumerate(boxes) for q, s in boxes[k + 1:])
+        if not clash:
+            break
+        reach += 1
+    lay.diagonal |= {(hub.key, r.key) for r in out}       # spokes, straight at any angle
+    return at, [(hub.key, r.key) for r in out]
+
+
+# -- a room's shape: its outline, and the stretches of each wall a door can stand in -----------
+
+SIDE_OF = {"north": 0, "east": 1, "south": 2, "west": 3}
+
+
+def notches(r: Room) -> dict[str, tuple[int, int]]:
+    """The corners a rectilinear room is cut back from, each (across, along) in squares: an ell loses one quarter, a
+    cross all four corners, an irregular room some corners by chance - the same chance for the same room."""
+    rng = random.Random(f"{r.key}:{r.w}x{r.h}")
+    corners = ["nw", "ne", "se", "sw"]
+    if r.shape == "ell" and r.w >= 2 and r.h >= 2:
+        return {rng.choice(corners): (max(1, r.w // 2), max(1, r.h // 2))}
+    if r.shape == "cross" and r.w >= 3 and r.h >= 3:
+        return {c: (r.w // 3, r.h // 3) for c in corners}
+    if r.shape == "irregular" and r.w >= 2 and r.h >= 2:
+        out = {}
+        for c in corners:
+            if rng.random() < .6:
+                out[c] = (rng.randint(1, max(1, r.w // 3)), rng.randint(1, max(1, r.h // 3)))
+        return out or {rng.choice(corners): (1, 1)}
+    return {}
+
+
+def apse_side(r: Room) -> str:
+    """The side an apse rounds: away from the way the room faces, else its longer axis's far end."""
+    back = {"north": "south", "south": "north", "east": "west", "west": "east"}
+    if r.facing in back:
+        return back[r.facing]
+    return "north" if r.h >= r.w else "east"
+
+
+def outline(r: Room) -> list[tuple[float, float]] | None:
+    """A drawn-as-poly room's outline in squares from its box's top-left, y south; None where artgen draws the shape."""
+    w, h = r.w, r.h
+    if r.shape == "diamond":
+        return [(w / 2, 0), (w, h / 2), (w / 2, h), (0, h / 2)]
+    if r.shape == "apse":
+        side = apse_side(r)
+        long, short = (h, w) if side in ("north", "south") else (w, h)
+        rad = min(short / 2, long / 2)
+        arc = [(short / 2 + short / 2 * math.cos(t), rad - rad * math.sin(t))
+               for t in (math.pi * k / 12 for k in range(13))]        # across, along: the curve at along = 0
+        body = arc[::-1] + [(short, long), (0, long)]
+        flip = {"north": lambda a, b: (a, b), "south": lambda a, b: (a, h - b),
+                "west": lambda a, b: (b, a), "east": lambda a, b: (w - b, a)}[side]
+        return [flip(a, b) for a, b in body]
+    cut = notches(r)
+    if not cut:
+        return None
+    nw, ne, se, sw = (cut.get(c, (0, 0)) for c in ("nw", "ne", "se", "sw"))
+    pts = [(nw[0], 0), (w - ne[0], 0), (w - ne[0], ne[1]), (w, ne[1]), (w, h - se[1]), (w - se[0], h - se[1]),
+           (w - se[0], h), (sw[0], h), (sw[0], h - sw[1]), (0, h - sw[1]), (0, nw[1]), (nw[0], nw[1])]
+    out = []
+    for q in pts:
+        if not out or q != out[-1]:
+            out.append(q)
+    return out[:-1] if out[0] == out[-1] else out
+
+
+def opens(r: Room, side: str, shared: bool = False) -> list[int]:
+    """The squares along one side of a room's box (west to east, north to south) whose wall a door can stand in: a
+    passage's (shared False) or one through a wall another room shares (shared True)."""
+    n = r.w if side in ("north", "south") else r.h
+    every = list(range(n))
+    middle = lambda share: [k for k in every if abs(k + .5 - n / 2) <= max(.5, n * share)]
+    if r.shape in ("rect", "hall"):
+        return every
+    if r.shape in CURVED:
+        return [] if shared else middle(.2)
+    if r.shape == "octagon":
+        cut = min(r.w, r.h) / (2 + math.sqrt(2))
+        return [k for k in every if cut <= k + .5 <= n - cut] or ([] if shared else middle(0))
+    if r.shape == "hexagon":
+        return middle(.2) if side in ("north", "south") else ([] if shared else middle(0))
+    if r.shape == "apse":
+        curve = apse_side(r)
+        if side == curve:
+            return [] if shared else middle(.15)
+        if {side, curve} in ({"north", "south"}, {"east", "west"}):
+            return every
+        rad = math.ceil(min(r.w, r.h) / 2)             # the curve's reach along the sides beside it
+        near_start = curve in ("north", "west")
+        return [k for k in every if (k >= rad if near_start else k < n - rad)]
+    cut = notches(r)
+    lost = set()
+    first, last = {"north": ("nw", "ne"), "south": ("sw", "se"), "west": ("nw", "sw"), "east": ("ne", "se")}[side]
+    across = 0 if side in ("north", "south") else 1
+    lost |= set(range(cut.get(first, (0, 0))[across]))
+    lost |= set(range(n - cut.get(last, (0, 0))[across], n))
+    return [k for k in every if k not in lost]
 
 
 # -- the block on the lattice ---------------------------------------------------------------
@@ -486,7 +725,7 @@ class Solver:
                             self.cell_in[i][j] = False
         self.owner: dict[tuple[int, int], tuple[str, str]] = {}
         self.links: list[tuple[str, str, str]] = []      # (a, b, door) through a shared wall
-        self.reserved, self.routing = {}, None
+        self.reserved, self.routing, self.slant, self.spokes = {}, None, False, set()
         self.corridors: list[dict] = []
         self.failed: list[str] = []
         self.length_error = 0
@@ -537,8 +776,12 @@ class Solver:
     def items(self) -> list[Item]:
         p, out, self.inner = self.plan, [], []
         for lay in p.layouts.values():
-            at, links, notes = arrange(lay)
+            members = list(lay.rooms)
+            at, links, notes = arrange(lay, random.Random(f"{self.seed}:{lay.id}"))
             self.notes += notes
+            for r in members:                           # a room its ground had no piece for
+                if r.key not in at:
+                    p.rooms.pop(r.key, None)
             w = max(at[r.key][0] + r.w for r in lay.rooms)
             h = max(at[r.key][1] + r.h for r in lay.rooms)
             origin = lay.origin
@@ -548,7 +791,7 @@ class Solver:
                 origin = (e - (at[held.key][0] + held.w / 2 - w / 2) * SQ, n + (at[held.key][1] + held.h / 2 - h / 2) * SQ)
             out.append(Item(lay.id, w, h, at, origin, lay.facing, lay.side))
             for a, b in links:
-                kind = "diagonal" if (a, b) in lay.diagonal else "door" if lay.gap == 0 else "passage"
+                kind = "diagonal" if (a, b) in lay.diagonal else "door" if lay.gap == 0 and lay.arrange != "radial" else "passage"
                 self.inner.append(Route([End(a), End(b)], "short", kind, [lay.door], p.width, inner=True, line=lay.line))
         for r in p.rooms.values():
             if r.layout is None:
@@ -792,15 +1035,18 @@ class Solver:
                     span = [(i0 + a, j0 - 1 if f == "north" else j0 + r.h) for a in range(r.w)]
                 else:
                     span = [(i0 - 1 if f == "west" else i0 + r.w, j0 + b) for b in range(r.h)]
-                if r.shape in CORNERED and len(span) > 2:   # off the cut corners, or the curve's ends
-                    n = len(span)
-                    cut = min(r.w, r.h) / (2 + math.sqrt(2)) if r.shape == "octagon" else n * (.3 if r.shape == "round" else .4)
-                    span = [s for k, s in enumerate(span) if cut <= k + .5 <= n - cut] or span[(n - 1) // 2:n // 2 + 1]
+                good = set(opens(r, f))                  # off the cut corners, notches and curves
                 for k, (a, b) in enumerate(span):
+                    if k not in good:
+                        continue
                     own = self.owner.get((a, b))
                     if own and own[0] == "room" or not self.ok(a, b):
                         continue                         # a wall against another room, or the block's edge
-                    cand.append(((a, b), self.wall_point(a - vx, b - vy, vx, vy), (vx, vy), f, k / max(1, len(span) - 1)))
+                    pt = self.wall_point(a - vx, b - vy, vx, vy)
+                    if r.shape == "diamond" and (r.w if f in ("north", "south") else r.h) % 2:   # met at its point
+                        x0, y0 = (r.at[0] + EDGE) * K, (r.at[1] + EDGE) * K
+                        pt = (x0 + r.w * K / 2 * (1 + vx), y0 + r.h * K / 2 * (1 + vy))
+                    cand.append(((a, b), pt, (vx, vy), f, k / max(1, len(span) - 1)))
         if facing:
             mine = [c for c in cand if c[3] == facing]
             if mine and outer:                          # the most northern (or southern...) of a layout's walls
@@ -836,25 +1082,50 @@ class Solver:
         return sorted(out, key=lambda w: abs(w[1][0] + w[1][1]))[:1] if out else []
 
     def diagonal(self, rid, hub: Room, r: Room, rt: Route, door):
-        """A straight passage from the hub's corner face to the room's, on the diagonal between them."""
-        def face(x: Room, sx, sy):
-            x0, y0, w, h = (x.at[0] + EDGE) * K, (x.at[1] + EDGE) * K, x.w * K, x.h * K
-            cxx, cyy = x0 + w / 2, y0 + h / 2
+        """A straight spoke from the hub to the room, along the line between their centres: from where it leaves the
+        hub's outline to where it meets the room's, the squares it crosses taken."""
+        def centre(x: Room):
+            return (x.at[0] + EDGE + x.w / 2) * K, (x.at[1] + EDGE + x.h / 2) * K
+
+        def rim(x: Room, toward):
+            cx, cy = centre(x)
+            ux, uy = toward[0] - cx, toward[1] - cy
+            norm = math.hypot(ux, uy) or 1
+            ux, uy = ux / norm, uy / norm
+            w, h = x.w * K / 2, x.h * K / 2
+            if x.shape in ("round", "oval", "cave", "organic"):        # the ellipse its box holds
+                t = 1 / math.hypot(ux / w, uy / h)
+                return cx + ux * t, cy + uy * t
+            pts = outline(x)
             if x.shape == "octagon":
-                c = min(w, h) / (2 + math.sqrt(2))
-                return cxx + sx * (w / 2 - c / 2), cyy + sy * (h / 2 - c / 2)
-            if x.shape == "diamond":
-                return cxx + sx * w / 4, cyy + sy * h / 4
-            return cxx + sx * w / 2 * math.sqrt(.5), cyy + sy * h / 2 * math.sqrt(.5)
-        sx = 1 if r.at[0] > hub.at[0] else -1
-        sy = 1 if r.at[1] > hub.at[1] else -1
-        a, b = face(hub, sx, sy), face(r, -sx, -sy)
-        for t in range(0, 21):                          # the squares it crosses are taken
-            x = a[0] + (b[0] - a[0]) * t / 20
-            y = a[1] + (b[1] - a[1]) * t / 20
-            sq = (int(x // K) - EDGE, int(y // K) - EDGE)
-            if sq not in self.owner:
-                self.take([sq], rid)
+                c = min(x.w, x.h) * K / (2 + math.sqrt(2))
+                poly = [(-w + c, -h), (w - c, -h), (w, -h + c), (w, h - c), (w - c, h), (-w + c, h), (-w, h - c), (-w, -h + c)]
+            elif pts:
+                poly = [(a * K - w, b * K - h) for a, b in pts]
+            else:
+                poly = [(-w, -h), (w, -h), (w, h), (-w, h)]
+            best = None
+            for (x0, y0), (x1, y1) in zip(poly, poly[1:] + poly[:1]):
+                d = ux * (y1 - y0) - uy * (x1 - x0)
+                if abs(d) < 1e-9:
+                    continue
+                t = (x0 * (y1 - y0) - y0 * (x1 - x0)) / d       # along the ray
+                u = (x0 * uy - y0 * ux) / d                     # along the edge
+                if t > 0 and -1e-9 <= u <= 1 + 1e-9 and (best is None or t > best):
+                    best = t
+            return cx + ux * (best or 0), cy + uy * (best or 0)
+        a, b = rim(hub, centre(r)), rim(r, centre(hub))
+        self.spokes.add(rid)                            # no crossroads on a spoke: its doors are at its ends
+        steps = max(4, int(math.dist(a, b) * 2))
+        nx, ny = (a[1] - b[1]) / (math.dist(a, b) or 1), (b[0] - a[0]) / (math.dist(a, b) or 1)
+        half = rt.width / CELL / 2 * .9
+        for t in range(steps + 1):                      # the squares its width crosses are taken
+            for off in (-half, 0, half):
+                x = a[0] + (b[0] - a[0]) * t / steps + nx * off
+                y = a[1] + (b[1] - a[1]) * t / steps + ny * off
+                sq = (int(x // K) - EDGE, int(y // K) - EDGE)
+                if sq not in self.owner:
+                    self.take([sq], rid)
         pa, pb = [round(v, 2) for v in a], [round(v, 2) for v in b]
         self.corridors.append({"id": rid, "from": {"room": rid_of(hub.key), "port": pa}, "to": {"room": rid_of(r.key), "port": pb},
                                "via": pa + pb, "width": round(rt.width / CELL, 2), "origin": "plan", "doors": [door, door]})
@@ -864,7 +1135,7 @@ class Solver:
             return False
         own = self.owner.get(c)
         return own is None or own[0] == "corr" and (own[1] in join or own[1] in self.crossable or
-                                                    "cross" in self.relax and own[1] != rid)
+                                                    "cross" in self.relax and own[1] != rid and own[1] not in self.spokes)
 
     def crowded(self, c, rid, join=frozenset()) -> bool:
         """A square beside another passage's, where a passage would run into it."""
@@ -873,9 +1144,12 @@ class Solver:
         return any(o != rid and o not in join and o not in self.crossable for o in self.beside.get(c, ()))
 
     def search(self, starts, goals, rid, banned=frozenset(), join=frozenset(), field_only=False):
-        """Least-cost path on the lattice from any start (square, step out of its wall) to any goal square:
-        a step costs 1, a turn 2 more, a square beside a room's wall 1.5 more, a crossing 20."""
+        """Least-cost path on the lattice from any start (square, step out of its wall) to any goal square: a step costs
+        1, a diagonal one 1.5, a half turn 0.8 more and a turn 2 more, a square beside a room's wall 1.5 more, a crossing
+        20. A diagonal step needs both squares it cuts the corner of clear, and never leaves a door or meets one."""
         goals = set(goals)
+        first = {sq for sq, _ in starts}
+        moves = STEPS8 if self.slant else list(FACING.values())
         dist, prev, heap = {}, {}, []
         for sq, step in starts:
             if sq in banned or not self.free(sq, rid, join) or self.crowded(sq, rid, join):
@@ -893,13 +1167,24 @@ class Solver:
                     st = prev[st]
                     path.append(st[0])
                 return path[::-1], d
-            for vx, vy in FACING.values():
+            for vx, vy in moves:
                 nxt = (sq[0] + vx, sq[1] + vy)
                 if nxt in banned or not self.free(nxt, rid, join):
                     continue
                 if nxt not in goals and self.crowded(nxt, rid, join):
                     continue
-                cost = 1 + (2 if (vx, vy) != step else 0) + (1.5 if self.hugs(nxt) else 0)
+                turn = (vx * step[0] + vy * step[1]) / (math.hypot(vx, vy) * (math.hypot(*step) or 1)) if step != (0, 0) else 1
+                if vx and vy:
+                    if sq in first or nxt in goals or turn < -1e-9:
+                        continue
+                    if any(c in banned or not self.free(c, rid, join) or self.owner.get(c, ("", ""))[0] == "corr"
+                           and self.owner[c][1] not in join and self.owner[c][1] not in self.crossable
+                           for c in ((sq[0] + vx, sq[1]), (sq[0], sq[1] + vy))):
+                        continue
+                elif step[0] and step[1] and turn < -1e-9:
+                    continue                            # no sharper than a right angle off a diagonal
+                bend = 0 if turn > .99 else .8 if turn > .5 else 2
+                cost = (1.5 if vx and vy else 1) + bend + (1.5 if self.hugs(nxt) else 0)
                 if (ask := self.reserved.get(nxt)) and self.routing not in ask:   # before a wall another route asks for
                     cost += 8
                 own = self.owner.get(nxt)
@@ -930,10 +1215,10 @@ class Solver:
         if length == "short" or "length" in self.relax:
             return path
         want = None if length == "long" else int(length)
-        if want is not None and len(path) >= want:
-            if len(path) > want + 1:
-                self.missed.append(f"route {rid}: {len(path) * SQ} ft where {want * SQ} ft was asked, the least it can run")
-                self.length_error += len(path) - want
+        if want is not None and run_of(path) >= want:
+            if run_of(path) > want + 1:
+                self.missed.append(f"route {rid}: {run_of(path) * SQ:.0f} ft where {want * SQ} ft was asked, the least it can run")
+                self.length_error += run_of(path) - want
             return path
         fa = self.search(starts, (), rid, field_only=True)
         fb = self.search([(sq, step) for sq, _, step in b_ends], (), rid, field_only=True)
@@ -949,7 +1234,7 @@ class Solver:
                 continue
             ban = set(leg1[:-1])
             for c in leg1[:-1]:
-                ban |= {(c[0] + vx, c[1] + vy) for vx, vy in FACING.values()}
+                ban |= {(c[0] + vx, c[1] + vy) for vx, vy in STEPS8}
             ban.discard(w)
             ban -= {leg1[-1]}
             step = (leg1[-1][0] - leg1[-2][0], leg1[-1][1] - leg1[-2][1]) if len(leg1) > 1 else (0, 0)
@@ -960,18 +1245,25 @@ class Solver:
             if len(set(whole)) != len(whole):
                 continue
             if want is None:
-                if len(whole) > len(best):
+                if run_of(whole) > run_of(best):
                     best = whole
-            elif abs(len(whole) - want) < abs(len(best) - want):
+            elif abs(run_of(whole) - want) < abs(run_of(best) - want):
                 best = whole
-                if len(whole) == want:
+                if abs(run_of(whole) - want) < .5:
                     break
-        if want is not None and abs(len(best) - want) > 1:
-            self.missed.append(f"route {rid}: {len(best) * SQ} ft where {want * SQ} ft was asked")
-            self.length_error += abs(len(best) - want)
+        if want is not None and abs(run_of(best) - want) > 1:
+            self.missed.append(f"route {rid}: {run_of(best) * SQ:.0f} ft where {want * SQ} ft was asked")
+            self.length_error += abs(run_of(best) - want)
         return best
 
     def take(self, path, rid):
+        for a, b in zip(path, path[1:]):                # a diagonal step cuts across two corners: they are its too
+            if a[0] != b[0] and a[1] != b[1]:
+                for c in ((b[0], a[1]), (a[0], b[1])):
+                    if self.owner.get(c) is None:
+                        self.owner[c] = ("corr", rid)
+                    for vx, vy in FACING.values():
+                        self.beside.setdefault((c[0] + vx, c[1] + vy), set()).add(rid)
         for c in path:
             for vx, vy in FACING.values():               # the squares beside it, which another passage keeps off
                 self.beside.setdefault((c[0] + vx, c[1] + vy), set()).add(rid)
@@ -982,27 +1274,20 @@ class Solver:
             self.owner[c] = ("corr", rid)
 
     def touching(self, a: Room, b: Room):
-        """The middle of the wall rooms a and b share, in cells, where it is a square long; else None."""
+        """The middle of the longest stretch of wall rooms a and b share and a door can stand in, in cells; else None."""
         ai, aj, bi, bj = a.at[0], a.at[1], b.at[0], b.at[1]
-
-        def flat(r: Room, lo, hi, start, size) -> bool:  # the stretch is on the room's straight wall
-            if r.shape not in CORNERED:
-                return True
-            if r.shape == "round":
-                return False
-            cut = size / (2 + math.sqrt(2)) if r.shape == "octagon" else size * (.3 if r.shape == "round" else .5)
-            return lo + .5 >= start + cut - 1e-9 and hi - .5 <= start + size - cut + 1e-9 or \
-                (lo + hi) / 2 >= start + cut and (lo + hi) / 2 <= start + size - cut and r.shape != "diamond"
         if ai + a.w == bi or bi + b.w == ai:            # side by side, east and west
-            lo, hi = max(aj, bj), min(aj + a.h, bj + b.h)
-            if hi - lo >= 1 and flat(a, lo, hi, aj, a.h) and flat(b, lo, hi, bj, b.h):
-                x = max(ai, bi)
-                return ((x + EDGE) * K, (lo + hi) / 2 * K + EDGE * K)
+            west, east = (a, b) if ai + a.w == bi else (b, a)
+            rows = set(west.at[1] + k for k in opens(west, "east", True)) & set(east.at[1] + k for k in opens(east, "west", True))
+            run = longest(rows)
+            if run:
+                return ((east.at[0] + EDGE) * K, (run[0] + run[1] + 1) / 2 * K + EDGE * K)
         if aj + a.h == bj or bj + b.h == aj:
-            lo, hi = max(ai, bi), min(ai + a.w, bi + b.w)
-            if hi - lo >= 1 and flat(a, lo, hi, ai, a.w) and flat(b, lo, hi, bi, b.w):
-                y = max(aj, bj)
-                return ((lo + hi) / 2 * K + EDGE * K, (y + EDGE) * K)
+            north, south = (a, b) if aj + a.h == bj else (b, a)
+            cols = set(north.at[0] + k for k in opens(north, "south", True)) & set(south.at[0] + k for k in opens(south, "north", True))
+            run = longest(cols)
+            if run:
+                return ((run[0] + run[1] + 1) / 2 * K + EDGE * K, (south.at[1] + EDGE) * K)
         return None
 
     def route_all(self, first: list = ()):
@@ -1019,6 +1304,7 @@ class Solver:
         for n, r in enumerate(todo):
             rid = f"r{n + 1}"
             self.routing, before = id(r), len(self.failed)
+            self.slant = r.diagonal and p.diagonals
             self.route(r, rid)
             if len(self.failed) > before:
                 self.stuck.append(id(r))
@@ -1091,6 +1377,15 @@ class Solver:
         if path is None and ka != "exit" and kb != "exit" and len(ends) == 2:
             if self.branch(rid, a, b, ka, wa, kb, wb, r, door, label):
                 return
+        if path is None and "cross" not in self.relax and wa and wb:   # last, a crossroads with other passages
+            self.relax = self.relax | {"cross"}
+            loose = [End(e.target) if e.target != p.bid else e for e in (a, b)]
+            (ka, wa), (kb, wb) = (self.resolve(e, None) for e in loose)
+            path = self.run(rid, wa, wb, "short") if wa and wb else None
+            self.relax = self.relax - {"cross"}
+            if path is not None:
+                a, b = loose
+                self.missed.append(f"{label}: no way of its own, so it crosses another passage")
         if path is None:
             self.failed.append(f"{label}: no way from {a.target} to {b.target}")
             return
@@ -1134,11 +1429,13 @@ class Solver:
             rooms = {rid_of(y.target)} if y.target in self.plan.rooms else \
                 {rid_of(q.key) for q in self.plan.layouts[y.target].rooms} if y.target in self.plan.layouts else set()
             for c in list(self.corridors):
-                if "corridor" in c["to"] or not ({c["from"].get("room"), c["to"].get("room")} & rooms):
+                if "corridor" in c["to"] or c["id"] in self.spokes or not ({c["from"].get("room"), c["to"].get("room")} & rooms):
                     continue
                 trunk = {q for q, o in self.owner.items() if o == ("corr", c["id"])}
-                goals = {(q[0] + vx, q[1] + vy) for q in trunk for vx, vy in FACING.values()} - trunk
-                goals = {g for g in goals if self.free(g, rid)}
+                ends = {(int(x // K) - EDGE + vx, int(y // K) - EDGE + vy) for x, y in (c["via"][:2], c["via"][-2:])
+                        for vx, vy in [(0, 0)] + STEPS8}       # not at its doors
+                goals = {(q[0] + vx, q[1] + vy) for q in trunk - ends for vx, vy in FACING.values()} - trunk
+                goals = {g for g in goals if self.free(g, rid) and g not in ends}
                 path, _ = self.search([(sq, step) for sq, _, step in wx], goals, rid, join=frozenset({c["id"]}))
                 if path is None:
                     continue
@@ -1213,6 +1510,7 @@ class Solver:
         for _ in range(4):                              # a way left unrouted is routed first, and every way again
             self.owner, self.corridors, self.failed, self.missed = dict(base[0]), list(base[1]), list(base[2]), list(base[3])
             self.beside, self.links, self.stairs, self.stuck, self.length_error, self.crossed = {}, [], [], [], 0, 0
+            self.spokes = set()
             self.route_all(first)
             got = (len(self.failed), self.crossed, len(self.missed), self.length_error)
             if best is None or got < best[0]:
@@ -1258,6 +1556,21 @@ class Solver:
                 sum(len(c["via"]) for c in self.corridors))
 
 
+def run_of(path: list) -> float:
+    """A path's length in squares, a diagonal step its diagonal."""
+    return 1 + sum(math.dist(a, b) for a, b in zip(path, path[1:]))
+
+
+def longest(squares: set) -> tuple[int, int] | None:
+    """The first and last square of the longest unbroken run in a set of squares along one line."""
+    best, run = None, None
+    for k in sorted(squares):
+        run = (run[0], k) if run and k == run[1] + 1 else (k, k)
+        if best is None or run[1] - run[0] > best[1] - best[0]:
+            best = run
+    return best
+
+
 def rid_of(code: str) -> str:
     return code.replace(".", "-")
 
@@ -1281,9 +1594,10 @@ def dungeon_file(s: Solver, title: str | None = None, look: bool = True) -> dict
             room["label"] = ""
         if shape == "octagon":
             room["cut"] = round(1 / (2 + math.sqrt(2)), 4)
-        if r.shape == "diamond":
-            x, y, w, h = room["x"], room["y"], room["w"], room["h"]
-            room["points"] = [x + w / 2, y, x + w, y + h / 2, x + w / 2, y + h, x, y + h / 2]
+        if shape == "cave":                             # organic: the same room draws the same walls
+            room["seed"] = sum(map(ord, k)) % 997 + 1
+        if (pts := outline(r)) is not None:
+            room["points"] = [round(v, 3) for a, b in pts for v in (room["x"] + a * K, room["y"] + b * K)]
         rooms.append(room)
     for key, way, side, far in s.stairs:
         room = next(x for x in rooms if x["id"] == rid_of(key))
@@ -1437,7 +1751,12 @@ def accept_lines(s: Solver) -> list[str]:
             continue
         x = (r.at[0] + r.w / 2 - cx) * SQ + s.ox
         y = (cy - r.at[1] - r.h / 2) * SQ + s.oy
-        out.append(f'Place {k} xyz="{x:g},{y:g}" outline="rect {r.w * SQ} {r.h * SQ}" shape={r.shape}')
+        if (pts := outline(r)) is not None and r.shape != "diamond":   # a shape no Room_Shape names: its outline
+            poly = " ".join(f"{round((a - r.w / 2) * SQ)},{round((r.h / 2 - b) * SQ)}" for a, b in pts)   # whole feet
+            out.append(f'Place {k} xyz="{x:g},{y:g}" outline="poly {poly}"')
+        else:
+            out.append(f'Place {k} xyz="{x:g},{y:g}" outline="rect {r.w * SQ} {r.h * SQ}" '
+                       f'shape={ {"oval": "round", "organic": "cave"}.get(r.shape, r.shape)}')
     seen = set()
     named = lambda e: e if e in p.rooms and p.rooms[e].named else None
     pairs = [(a, b, "door") for a, b, _, _ in s.links]
