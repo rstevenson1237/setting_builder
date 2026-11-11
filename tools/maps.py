@@ -1019,8 +1019,11 @@ def cut_svg(loc: str, world, fit: str = SITE_FIT, setting: Path = tables.SETTING
         return None
     for bid, block in blocks_of(region).items():
         if loc in [m.strip() for m in str(block.props["locations"]).split(",")]:
-            if file := built(code, bid, setting)[0]:
-                return render("dungeon", file, fit, "--room", loc, "--margin", "2", label=f"Map of {loc}")
+            if file := built(code, bid, setting)[0]:          # the room and its parts, labelled with its code and a letter
+                parts = [r["label"] for r in json.loads(file.read_text()).get("rooms", [])
+                         if re.fullmatch(re.escape(loc) + "[a-z]", str(r.get("label", "")))]
+                return render("dungeon", file, fit, *[a for x in [loc] + parts for a in ("--room", x)], "--margin", "2",
+                              label=f"Map of {loc}")
     row = sheet_rows(setting).get(code)
     node = region.locations().get(loc)
     if not row or node is None or (o := space.offset(region, node)) is None:

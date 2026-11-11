@@ -34,6 +34,9 @@ All sizes and places are feet; x east, y north of the parent's centre. Rooms sta
   - cluster (where unset): each room set against one already placed.
   `entry` is the room a route to the layout reaches, and a spine's hall or a ring's or radial's hub.
 - `Room` - a location, opening with its code; or rooms no location holds, opening with the block's id, with `count`.
+  Each of those is a part of the location it opens off - the nearest reached through such rooms - labelled with that
+  code and a letter (M.53a), written by `accept` as a `Part` line and by step 4b as a Feature of that location's
+  write-up. No route names a part: only its location's own doors lead to it.
   `layout`, `width`, `length`, and `xyz` or `facing`/`side` within its parent. `shape`: rect, hall, round, oval,
   octagon, hexagon, diamond, cave or organic (rough and smooth irregular), apse (rounded at the end away from its
   facing), ell, cross or irregular (cut back at its corners, the same way each time for the same room). A door

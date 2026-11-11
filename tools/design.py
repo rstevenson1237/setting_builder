@@ -525,7 +525,7 @@ def groups(region) -> dict[str, dict]:
     for n in region.files.get("Design", []):
         if not n.args or n.name == "Design":
             continue
-        bid = owner.get(str(n.args[0])) if n.name in ("Place", "Link") else str(n.args[0])
+        bid = owner.get(str(n.args[0])) if n.name in ("Place", "Link", "Part") else str(n.args[0])
         if bid in out:
             out[bid]["lines"].append(n)
             if n.name == "Place":

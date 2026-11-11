@@ -406,7 +406,7 @@ def region_skeleton(schema: tb.Schema, shape: str, files: list[str], rating: str
                     continue
                 block, place = f"{c}.[a-z]", "[Location Code]"       # a Design's lines open with a block, but a Place and a Link with a location
                 opens = lambda n: [place, block] if stem == "Design" and n == "Room" else \
-                    [block if stem == "Blocks" or stem == "Design" and n not in ("Place", "Link") else place]   # a Room: a location, or rooms none holds
+                    [block if stem == "Blocks" or stem == "Design" and n not in ("Place", "Link", "Part") else place]   # a Room: a location, or rooms none holds
                 out += [f"# {stem} of {c} [Region Name]", "", "```kdl"] + \
                        [node_line(f, n, o) for n in f.files[stem] for o in opens(n)] + ["```", ""]
         out.append("")

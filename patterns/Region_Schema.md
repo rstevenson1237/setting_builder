@@ -20,7 +20,8 @@ each region, by rating, beside its tables:
   Each block is one `Design`, then the lines that state it - in DANGEROUS either a layout engine's
   `Use`, `Bind`, `Fill`, `Join` and `Void`, or a plan's `Layout`, `Room`, `Route` and `Void`; in SAFE
   and WILD `Fill`, `Tie`, `Street` and `Void` - and, once solved, a `Place` for each location and,
-  in DANGEROUS, a `Link` for each way inside the block. Once the user approves a design, the tables are written to agree with it.
+  in DANGEROUS, a `Link` for each way inside the block and a plan's `Part` for each of its rooms no location
+  holds. Once the user approves a design, the tables are written to agree with it.
 
 Every brief sentence carries something usable at the table - a name, count, price, place,
 distance or ruling; why a place exists or how it feels is cut. A brief is read beside the
@@ -169,6 +170,15 @@ node Place {                // opening with a location code: where the solver pu
   xyz point drawn
   outline outline opt drawn // a "poly" where no shape draws the room
   shape Room_Shape opt drawn
+}
+node Part {                 // opening with a location code: one of its rooms no table addresses - a plan's room no location holds,
+                            // given to the location it opens off; its write-up holds it, and nothing outside the location leads to it
+  id tag drawn              // its letter: the location's code and it label the room on the map
+  xyz point drawn
+  outline outline drawn
+  shape Room_Shape opt drawn
+  opens string drawn        // the room it opens off: its location, or another of its parts by label
+  kind Link_Kind drawn
 }
 node Link {                 // opening with a location code: a way to another location of the block; written by `accept`
   to location drawn

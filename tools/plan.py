@@ -1529,7 +1529,50 @@ class Solver:
         (_, self.owner, self.corridors, self.failed, self.missed, self.beside, self.links, self.stairs,
          self.length_error, self.crossed) = best
         self.check_hints()
+        self.find_parts()
         return self
+
+    def find_parts(self):
+        """Each room no location holds, as a part of the location it opens off: the nearest reached from a location
+        through such rooms alone, its letter the order it is reached in, and the room it opens off and how."""
+        p, ways = self.plan, {}
+        for a, b, _, _ in self.links:
+            ways.setdefault(a, []).append((b, "door"))
+            ways.setdefault(b, []).append((a, "door"))
+        nets: dict[str, set] = {}
+        for c in self.corridors:
+            if c["id"] in self.crossable:
+                continue
+            root = c["to"].get("corridor") or c["id"]
+            nets.setdefault(root, set()).update(e["room"].replace("-", ".") if e["room"].replace("-", ".") in p.rooms
+                                                 else e["room"] for e in (c["from"], c["to"]) if "room" in e)
+        for net in nets.values():
+            keys = [k for k in (x if x in p.rooms else next((q for q in p.rooms if rid_of(q) == x), x) for x in net)]
+            for a in keys:
+                ways.setdefault(a, []).extend((b, "passage") for b in keys if b != a)
+        self.parts: dict[str, tuple[str, str, str, str]] = {}   # room -> (location, letter, opens off, kind)
+        count: dict[str, int] = {}
+        queue = sorted(k for k, r in p.rooms.items() if r.named and r.at)
+        owner = {k: k for k in queue}
+        while queue:
+            here = queue.pop(0)
+            for there, kind in sorted(ways.get(here, []), key=lambda w: (w[1] != "door", w[0])):
+                r = p.rooms.get(there)
+                if r is None or r.named or there in owner or r.at is None:
+                    continue
+                loc = owner[here]
+                owner[there] = loc
+                count[loc] = count.get(loc, 0) + 1
+                letter = "abcdefghijklmnopqrstuvwxyz"[(count[loc] - 1) % 26]
+                self.parts[there] = (loc, letter, here if here == loc else self.parts[here][0] + self.parts[here][1], kind)
+                queue.append(there)
+        for k, r in p.rooms.items():
+            if not r.named and r.at and k not in self.parts:
+                self.notes.append(f"{k} opens off no location: no write-up holds it")
+
+    def part_label(self, key: str) -> str | None:
+        got = getattr(self, "parts", {}).get(key)
+        return got[0] + got[1] if got else None
 
     def check_hints(self):
         for k, (e, n) in self.plan.pins.items():
@@ -1595,10 +1638,8 @@ def dungeon_file(s: Solver, title: str | None = None, look: bool = True) -> dict
                 "w": r.w * K, "h": r.h * K, "number": False, "origin": "plan"}
         if r.named:
             room["label"] = r.label or k
-        elif r.label:
-            room["label"] = r.label
-        else:
-            room["label"] = ""
+        else:                                           # a part: its location's code and its letter
+            room["label"] = s.part_label(k) or r.label or ""
         if shape == "octagon":
             room["cut"] = round(1 / (2 + math.sqrt(2)), 4)
         if shape == "cave":                             # organic: the same room draws the same walls
@@ -1764,6 +1805,13 @@ def accept_lines(s: Solver) -> list[str]:
         else:
             out.append(f'Place {k} xyz="{x:g},{y:g}" outline="rect {r.w * SQ} {r.h * SQ}" '
                        f'shape={ {"oval": "round", "organic": "cave"}.get(r.shape, r.shape)}')
+    for k, (loc, letter, off, kind) in sorted(getattr(s, "parts", {}).items(), key=lambda kv: (kv[1][0], kv[1][1])):
+        r = p.rooms[k]
+        x = (r.at[0] + r.w / 2 - cx) * SQ + s.ox
+        y = (cy - r.at[1] - r.h / 2) * SQ + s.oy
+        out.append(f'Part {loc} id={letter} xyz="{x:g},{y:g}" outline="rect {r.w * SQ} {r.h * SQ}" '
+                   f'shape={ {"oval": "round", "organic": "cave"}.get(r.shape, r.shape) if r.shape in SHAPES else "rect"} '
+                   f'opens="{off}" kind={kind}')
     seen = set()
     named = lambda e: e if e in p.rooms and p.rooms[e].named else None
     pairs = [(a, b, "door") for a, b, _, _ in s.links]
@@ -1893,7 +1941,7 @@ def main(argv=None) -> int:
                 bad += 1
                 continue
             text = where.read_text()
-            fresh = [l for l in text.splitlines() if not re.match(rf"\s*(Place|Link) ({re.escape(b.split('.')[0])}\.\d+)\b", l)
+            fresh = [l for l in text.splitlines() if not re.match(rf"\s*(Place|Link|Part) ({re.escape(b.split('.')[0])}\.\d+)\b", l)
                      or not any(l.strip().split()[1] == c for c in s.plan.rooms)]
             close = max(i for i, l in enumerate(fresh) if l.strip() == "```")
             fresh[close:close] = accept_lines(s)

@@ -1545,6 +1545,12 @@ def main() -> int:
                 check_location_file(diag, fpath, region_code, num, stub,
                                      f"{region_code}.{num}" in stated,
                                      all_locations, mundane_edges, hidden_edges, conditions)
+        for n in setting.regions[region_code].files.get("Design", []) if region_code in setting.regions else []:
+            if n.name == "Part" and n.args:                 # a location's part is a Feature of its write-up
+                label = f"{n.args[0]}{n.props.get('id', '')}"
+                fpath = rdir / f"{str(n.args[0]).split('.')[1]}.md"
+                if fpath.exists() and not re.search(rf"\b{re.escape(label)}\b", fpath.read_text()):
+                    diag.warn(fpath, f"holds no Feature for its part {label}, a room of it the map draws - owed to step 4b")
 
     check_writeup_citations(diag, setting, tables.History(), schema)
     check_setting_files(diag, schema, setting.codes)

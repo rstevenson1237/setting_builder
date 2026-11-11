@@ -1039,7 +1039,7 @@ class Setting:
         if any(c.line != n.line for c in kdl.walk(n.children)):
             yield "error", f"{n.name} spans several lines - an entry is one line"
         code = n.args[0] if len(n.args) == 1 else None
-        block = stem == "Blocks" or stem == "Design" and n.name not in ("Place", "Link") and not (   # a design's lines open with a block,
+        block = stem == "Blocks" or stem == "Design" and n.name not in ("Place", "Link", "Part") and not (   # a design's lines open with a block,
             n.name == "Room" and code is not None and CODE_RE.fullmatch(str(code)))   # a Place, a Link and a location's Room with a location
         if stem == "Seed" or stem == "Ground" and n.name != "At":
             if code != r.code:
@@ -1194,11 +1194,13 @@ class Setting:
 
     def entries_at(self, code: str) -> tuple[list, list]:
         """(file, entry) for every entry this location holds, and for every entry naming it. A design is upstream of the
-        tables a write-up follows, so its entries are not counted."""
+        tables a write-up follows, so its entries are not counted - but for its Parts, rooms of the location no table
+        addresses, which its write-up holds."""
         own, named = [], []
         for r in self.regions.values():
             for stem, entries in r.files.items():
                 if stem == "Design":
+                    own += [(f"{r.code}/{stem}", n) for n in entries if n.name == "Part" and n.args and n.args[0] == code]
                     continue
                 for n in entries:
                     if n.args and n.args[0] == code:
