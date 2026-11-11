@@ -146,7 +146,7 @@ class Plan:
     """One block's plan: its outline on the lattice, its rooms and layouts, its routes, and what is wrong with it."""
 
     def __init__(self, bid: str, lines: list[kdl.Node], others: dict[str, tuple] | None = None, pins: dict | None = None):
-        self.bid, self.problems, self.others = bid, [], others or {}
+        self.bid, self.problems, self.others, self.typed = bid, [], others or {}, set()
         self.pins = pins or {}                  # a stair's room: (east, north) of the block's centre it stands over
         heads = [n for n in lines if n.name == "Design" and n.args]
         head = next((n for n in heads if str(n.args[0]) == bid), None)
@@ -185,7 +185,7 @@ class Plan:
                              depth=squares(feet(q.get("depth"), 2 * SQ)),
                              sweep=float(q.get("sweep", 360)), bearing=float(q.get("bearing", 0)))
                 if lay.arrange not in ARRANGE:
-                    self.say(n, f"arrange {lay.arrange} is not one of {', '.join(ARRANGE)}")
+                    self.say(n, f"arrange {lay.arrange} is not one of {', '.join(ARRANGE)}", typed=True)
                     lay.arrange = "cluster"
                 if lay.id in self.layouts or CODE_RE.fullmatch(lay.id) or BLOCK_RE.fullmatch(lay.id):
                     self.say(n, f"layout id {lay.id!r} is taken or reads as a location or block")
@@ -197,7 +197,7 @@ class Plan:
             code = str(n.args[0])
             shape = str(q.get("shape", "rect"))
             if shape not in SHAPES:
-                self.say(n, f"shape {shape} is not one of {', '.join(SHAPES)}")
+                self.say(n, f"shape {shape} is not one of {', '.join(SHAPES)}", typed=True)
                 shape = "rect"
             w, h = feet(q.get("width"), ROOM), feet(q.get("length"), ROOM)
             if (w % SQ or h % SQ) and code != bid:
@@ -239,8 +239,11 @@ class Plan:
         self.voids = [n for n in mine if n.name == "Void"]
         self.outline = self.outline_of(p.get("outline"))
 
-    def say(self, n: kdl.Node, msg: str):
+    def say(self, n: kdl.Node, msg: str, typed: bool = False):
+        """A fault in the plan; typed: one the schema's types catch too, which the validator reports from there."""
         self.problems.append(f"line {n.line}: {msg}")
+        if typed:
+            self.typed.add(self.problems[-1])
 
     @staticmethod
     def fill_of(v) -> tuple[float, float]:
@@ -269,14 +272,14 @@ class Plan:
         if length not in ("short", "long"):
             f = feet(length)
             if f is None:
-                self.say(n, f"length {length!r} is short, long, a count of {SQ} ft squares or \"N feet\"")
+                self.say(n, f"length {length!r} is short, long, a count of {SQ} ft squares or \"N feet\"", typed=True)
                 length = "short"
             else:
                 length = str(max(1, round(f / SQ)) if "feet" in length else int(f))
         doors = words(q.get("door", "door"))
         for d in doors:
             if d not in DOORS:
-                self.say(n, f"door {d} is not one of {', '.join(DOORS)}")
+                self.say(n, f"door {d} is not one of {', '.join(DOORS)}", typed=True)
         width = feet(q.get("width"), self.width)
         straight = str(q.get("line", "")) == "straight"
         if straight and any(e.target != self.bid for e in ends):
@@ -287,7 +290,7 @@ class Plan:
             width = SQ
         kind = str(q.get("kind", "passage"))
         if kind not in ("passage", "door"):
-            self.say(n, "kind is passage or door")
+            self.say(n, "kind is passage or door", typed=True)
             kind = "passage"
         return Route(ends, length, kind, [None if d == "none" else d for d in doors], width,
                      q.get("stair"), q.get("label"), n.line, style=str(q.get("style", "built")), straight=straight,
@@ -1029,6 +1032,8 @@ class Solver:
         keys = {r.key for r in rooms}
         cand = []
         for r in rooms:
+            if r.at is None:                            # not placed: it has no walls yet
+                continue
             i0, j0 = r.at
             for f, (vx, vy) in FACING.items():
                 if f in ("north", "south"):
@@ -1069,6 +1074,8 @@ class Solver:
         rooms = [p.rooms[e.target]] if e.target in p.rooms else p.layouts[e.target].rooms if e.target in p.layouts else []
         out = []
         for r in rooms:
+            if r.at is None:
+                continue
             i0, j0 = r.at
             for f, (vx, vy) in FACING.items():
                 if way and f != way:
@@ -1799,9 +1806,11 @@ def pins_of(lines, bid: str) -> dict:
 
 
 def problems_of(region, bid: str) -> tuple[list[str], list[str]]:
-    """A planned block's faults - what the plan states wrongly - and the ways no solve routes."""
+    """A planned block's faults - what the plan states wrongly, past what the schema's types catch - and the ways no
+    solve routes."""
     lines = region.files.get("Design", [])
     s, said = solve(lines, bid, others=others_of(lines), pins=pins_of(lines, bid))
+    said = [m for m in said if not s or m not in s.plan.typed]
     return said, (s.failed if s else ["no solve"])
 
 

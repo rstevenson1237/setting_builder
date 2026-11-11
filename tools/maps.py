@@ -790,8 +790,8 @@ def built(code: str, bid: str, setting: Path = tables.SETTING) -> tuple[Path | N
     m, problems = block_file(region, drawn_blocks(region)[bid])
     if m is None:
         return None, tuple(problems)
-    if ENGINE[region.rating.upper()] == "dungeon":
-        import dungeon
+    if ENGINE[region.rating.upper()] == "dungeon" and not any(c.get("origin") == "plan" for c in m.get("corridors", [])):
+        import dungeon                                  # a plan's passages are routed already
         dungeon.spoke_routes(m)
         dungeon.route_around(m)
     target, text = region.dir / f"{bid}.json", json.dumps(m, indent=1)

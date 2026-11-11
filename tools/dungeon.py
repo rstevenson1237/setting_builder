@@ -526,8 +526,9 @@ def defects(region, block: kdl.Node, m: dict) -> list[tuple[str, str]]:
     if not all(space.centre(dress.get(c)) for c in members):
         return []                                         # not packed: its corridors are left to artgen
     found = engine("check", m, "--errors", FAULTS)
+    leaving = {f"corridors[{k}]" for k, c in enumerate(m.get("corridors", [])) if "exit" in c["to"] or "exit" in c["from"]}
     out = [("error", f"{x['path']}: {x['message']}" + (f": run `python3 tools/maps.py pack {region.code}` (step 4a)" if x.get("id") in REPACK else ""))
-           for x in found.get("errors", [])]
+           for x in found.get("errors", []) if not (x.get("id") == "outside-bounds" and x["path"] in leaving)]   # a way off the map leaves it
     out += [("warning", f"{x['path']}: {x['message']}") for x in found.get("warnings", []) if x.get("id") in SEEN]
     facts = engine("facts", m)
     wrong = [f"{r} is reached by no way" for r in facts.get("unreached", [])]
@@ -548,7 +549,7 @@ def defects(region, block: kdl.Node, m: dict) -> list[tuple[str, str]]:
     leaving = sum(1 for n in region.files.get("Connections", [])
                   if n.args and str(n.args[0]) in members and str(n.props.get("to")) not in members)
     marks = sum(len(r.get("exits") or []) for r in facts.get("rooms", [])) + \
-        sum(1 for c in m.get("corridors", []) if "exit" in c["to"] or "exit" in c["from"])
+        sum(1 for c in m.get("corridors", []) if ("exit" in c["to"]) != ("exit" in c["from"]))   # a cleft, edge to edge, leads nowhere
     if marks != leaving:
         wrong.append(f"the tables take {leaving} ways out of the block, the map marks {marks}")
     return out + [("error", w) for w in wrong]
@@ -968,8 +969,8 @@ def problems(region, block: kdl.Node) -> list[tuple[str, Path, str]]:
     room = (area(o[1]) if poly else side * side) - rock
     covered, least = sum(wide(c, 0) * wide(c, 1) for c in at), (rates["fill"] or (0, 0))[0]
     if covered < least * room:
-        out.append(("error", path, f"{bid}'s rooms cover {covered / room:.0%} of its ground, under BRIEF.md's "
-                                   f"{'design' if planned else 'pack'} fill of {least:.0%}"))
+        whose = "its Design line's" if planned else "BRIEF.md's pack"
+        out.append(("error", path, f"{bid}'s rooms cover {covered / room:.0%} of its ground, under {whose} fill of {least:.0%}"))
     left, far = ([], []) if planned else faults(region, block, rates["detour"]) or ([], [])   # a plan's ways: its map's
     for way in left:
         out.append(("error", path, f"{bid}: no passage fits the way from {way}: run `python3 tools/maps.py pack {region.code}` (step 4a)"))

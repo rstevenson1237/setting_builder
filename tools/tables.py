@@ -30,6 +30,7 @@ RATING_TIME = {"SAFE": {"Round", "turn", "hour", "day", "week"}, "WILD": {"watch
                "DANGEROUS": {"Round", "turn"}}      # the units a time in each rating is stated in
 DISTANCE_RE = re.compile(r"(-?\d+(?:\.\d+)?) (\w+)")   # negative: south or west
 POINT_RE = re.compile(r"-?\d+,-?\d+(?:,-?\d+)?")
+RUN_RE = re.compile(r"short|long|\d+|\d+ feet")
 ANCHOR_RE = re.compile(r"[A-Z]{1,2}(?:\.(?:\d+|[a-z]+))? (?:north|east|south|west|above|below)")
 OUTLINE_RE = re.compile(r"rect \d+ \d+|circle \d+|poly(?: -?\d+,-?\d+){3,}")
 
@@ -586,6 +587,9 @@ def value_problems(m: Member, v: str, enums: dict, words: dict):
     elif m.type in ("feet", "distance"):
         if msg := unit_problem(m.type, v, enums):
             yield msg
+    elif m.type == "run":
+        if not RUN_RE.fullmatch(v):
+            yield f"{v!r} is not short, long, a count of squares or \"N feet\""
     elif m.type == "point":
         if not POINT_RE.fullmatch(v):
             yield f"{v!r} is not x,y or x,y,z in whole feet"

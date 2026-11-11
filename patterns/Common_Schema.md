@@ -22,6 +22,7 @@ value dice                    // Nd6 or Nd6+M; count= and bonus= bound it
 value percent                 // N%
 value feet                    // a whole number of feet, negative where a climb goes down
 value distance                // a number then a Distance_Unit: 40 feet, 1.5 miles
+value run                     // a passage's length: short, long, a count of 10 ft squares, or "N feet"
 value point                   // "x,y" or "x,y,z": whole feet east, north and up of its frame's origin; west, south
                               // and down where negative; z is 0 where unstated
 value anchor                  // "CODE side": a sibling - a region, block or location under the same parent - then

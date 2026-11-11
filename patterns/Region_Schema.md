@@ -54,6 +54,15 @@ enum Link_Kind door passage   // a door through a wall two rooms share; a passag
 enum Facing north south east west north-east south-east south-west north-west   // the side of its parent a thing keeps to
 enum Side n s e w           // the half of that side: w or e on a north or south one, n or s on an east or west one
 enum Arrange cluster row column grid spine ring split court radial   // how a layout sets its rooms against one another
+enum Plan_Shape rect hall round oval octagon hexagon diamond cave organic apse ell cross irregular   // a plan's room: a Room_Shape;
+                            // oval a round room's ellipse; organic a smooth cave; apse a rect rounded at the end away from its
+                            // facing; ell, cross and irregular a rect cut back at its corners
+enum Door_Kind door secret locked portcullis arch double open none
+enum Passage_Style built natural   // natural: rough walls
+enum Route_Line straight    // a cleft: straight from one edge of its block to another
+enum Stair up down
+enum Yes_No yes no
+enum Layout_Links auto none   // auto: its arrangement joins its rooms; none: only routes join its locations
 
 node Design {               // a block's design, opening with its id: layouts, chained, round the rooms they leave to the solver
   locations location list   // every location of the block; Locations.md holds exactly these
@@ -71,7 +80,7 @@ node Design {               // a block's design, opening with its id: layouts, c
   facing Facing opt         // a plan: the side of the region it keeps to, where it states no xyz
   side Side opt
   width feet opt            // a plan: its passages' width, 5 or 10; 10 where unset
-  diagonals string opt      // a plan: no, and no passage runs on the diagonal; yes where unset
+  diagonals Yes_No opt      // a plan: no, and no passage runs on the diagonal; yes where unset
 }
 node Layout {               // a plan: a group of rooms set against one another, placed in the block as one, opening with the block's id
   id tag                    // its name, which a Room and a Route cite
@@ -81,10 +90,10 @@ node Layout {               // a plan: a group of rooms set against one another,
   facing Facing opt         // unset xyz: the side of the block it keeps to
   side Side opt
   entry location opt        // the room a route to the layout reaches, and a spine's hall or a ring's hub
-  links string opt          // auto: the arrangement joins its rooms; none: only routes join its locations
+  links Layout_Links opt    // auto where unset
   cols number opt           // a grid's rooms a row
   align Side opt            // a row's or column's rooms lined up on one side; centred where unset
-  door string opt           // the door between its rooms: a door kind; door where unset
+  door Door_Kind opt        // the door between its rooms; door where unset
   width feet opt            // split and court: the ground it fills, across and along; unset, its rooms' sum
   length feet opt
   loops percent opt         // split: the share of its other shared walls given a door, once every room is reached; 15% where unset
@@ -96,8 +105,7 @@ node Room {                 // a plan: one location, opening with its code, or r
   layout tag opt            // the layout it is part of; the block's own where unset
   width feet opt            // across and along, in 10 ft steps; 20 where unset
   length feet opt
-  shape string opt          // rect (where unset), hall, round, oval, octagon, hexagon, diamond, cave, organic, apse (a rect
-                            // rounded at the end away from its facing), ell, cross or irregular (a rect cut back at its corners)
+  shape Plan_Shape opt      // rect where unset
   xyz point opt             // its centre from its layout's, or the block's
   facing Facing opt         // unset xyz: the side of its parent it keeps to; in a ring, the hub's side it stands on
   side Side opt
@@ -107,15 +115,14 @@ node Room {                 // a plan: one location, opening with its code, or r
 node Route {                // a plan: a way between two or more ends, opening with the block's id; every goal it states gives way to a route that works
   ends text                 // "end, end, ...": each a location, a layout, this block (its edge) or a location of another block, then
                             // ":facing" - the wall it leaves by, a layout's or block's outermost on that side - then ":side", its half
-  length string opt         // short (where unset), long (as long as fits), or N 10 ft squares, or "N feet"; of its first two ends
+  length run opt            // short where unset; long, as long as fits; of its first two ends
   kind Link_Kind opt        // door: through a wall the first two ends share, set against one another; passage where unset
-  door string opt           // the door at each end, one kind or one an end: door, secret, locked, portcullis, arch, double, open, none
+  door Door_Kind list opt   // the door at each end: one for all, or one an end
   width feet opt            // 5 or 10; the Design's where unset
-  stair string opt          // up or down: a way out of the block drawn as a stair in its room; a block over or under is one unasked
-  style string opt          // natural: rough walls; built where unset
-  diagonal string opt       // no: this route keeps to straight runs; yes where unset
-  line string opt           // straight: a cleft from one edge of the block to another, laid before the rooms, which keep off it
-                            // and passages cross; up to 20 ft wide
+  stair Stair opt           // a way out of the block drawn as a stair in its room; a block over or under is one unasked
+  style Passage_Style opt   // built where unset
+  diagonal Yes_No opt       // no: this route keeps to straight runs; yes where unset
+  line Route_Line opt       // a cleft, laid before the rooms, which keep off it, and crossed by passages; up to 20 ft wide
   label string opt          // a note; a cleft's, at each edge
 }
 node Use {                  // a layout in the block, opening with the block's id
