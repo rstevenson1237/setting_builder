@@ -1,7 +1,7 @@
 # Map Judgement Check - 2026-11-14, The Buried City after the block plans (8902787)
 
 Drawn with `python3 tools/maps.py draw --fit 1600x1600px`, and again at `--fit 110x150mm`
-(H and I viewed at PDF size). `maps.py draw` reports two notes it could not place on the site
+(H and I viewed at PDF size). Every locked way is drawn as a barred door. `maps.py draw` reports two notes it could not place on the site
 sheet: the room labels `F.1` and `G.1`. Every level now has an approved design (3d), so "the
 level keeps its shape" is read against `Design.md`'s outline, and the brief's `footprint` beside it.
 
@@ -15,7 +15,7 @@ level keeps its shape" is read against `Design.md`'s outline, and the brief's `f
 - The drawing reads as the approved design: Confirmed.
 
 ## Block D.a
-- Every way reads as itself: Needs Attention - the D.5-D.6 archway, locked by The Sun-Disc Key, shows no lock. Source: `tools/dungeon.py` (a Lock on an Archway is not passed to artgen; Iron ways are).
+- Every way reads as itself: Confirmed - the D.5-D.6 lock is drawn as a barred door at D.5's end.
 - Floors read apart: Needs Attention - an unlabelled floor runs between D.2, D.9, D.10 and D.3, and D.3 runs into D.4 with no wall between. Source: the D plan (rooms set against a shared floor) / `tools/plan.py`.
 - Labels and marks read: Confirmed.
 - Prose follows the map: Confirmed - D.6's rounded north end.
@@ -24,7 +24,7 @@ level keeps its shape" is read against `Design.md`'s outline, and the brief's `f
 - The drawing reads as the approved design: Confirmed.
 
 ## Block E.a
-- Every way reads as itself: Needs Attention - the E.1-E.2 archway, locked by The Door Word, shows no lock (E.3-E.6 does). Source: `tools/dungeon.py`.
+- Every way reads as itself: Confirmed - E.1-E.2 and E.3-E.6 drawn locked; two secret ways.
 - Floors read apart: Needs Attention - the E.15 passage meets the turning hall with no wall arc, and the passage from E.2 breaks E.4's rounded end. Source: artgen (a passage meeting a curved wall).
 - Labels and marks read: Confirmed.
 - Prose follows the map: Confirmed - E.4's rounded east end.
@@ -69,7 +69,7 @@ level keeps its shape" is read against `Design.md`'s outline, and the brief's `f
 - The drawing reads as the approved design: Confirmed.
 
 ## Block J.a
-- Every way reads as itself: Needs Attention - the J.2-J.1 archway, locked by The Lieutenants' Word, shows no lock. Source: `tools/dungeon.py`.
+- Every way reads as itself: Confirmed - J.2-J.1 and J.5-J.6 drawn locked.
 - Floors read apart: Confirmed.
 - Labels and marks read: Confirmed.
 - Prose follows the map: Confirmed.
@@ -96,7 +96,6 @@ level keeps its shape" is read against `Design.md`'s outline, and the brief's `f
 - The drawing reads as the approved design: Confirmed.
 
 ## Open Items
-- Mark a Lock on an Archway (D.5-D.6, E.1-E.2, J.2-J.1), as Iron ways already are. Source: `tools/dungeon.py`.
 - Make each level's outline and the brief's footprint agree: shrink L below K, or say in `BRIEF.md` that a design's outline replaces the footprint and drop the footprints. Source: `Design.md` / `BRIEF.md`.
 - Put G.22 at the level's centre, or change the seed and brief. Source: the G plan.
 - Give rooms that run into passages a wall and a gap (D.3-D.4, D's middle floor, F.6-F.3, G.13, H.4, L.2). Source: plans / `tools/plan.py`.
