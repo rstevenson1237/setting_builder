@@ -659,7 +659,27 @@ def check(world, brief) -> list[tuple[str, Path, str]]:
                 out += [("error" if approved else "warning", f, f"{m} - owed to step 3d") for f, m in ex.problems]
             if approved:
                 out += [(level, path, msg) for level, msg in agree(region, bid, g)]
+            if approved and region.rating.upper() == "DANGEROUS" and bid in plan.plans_of(region):
+                out += [("warning", path, f"Design {bid}: {m}, the nearest a coherent layout allows - step 3d") for m in plan.goals_missed(region, bid)]
+                out += sized(region, brief, bid, g["design"])
     return out
+
+
+SIZE_SLACK = (10.0, 0.10)       # feet, and a share of the target: how far a level may span from BRIEF.md's footprint unremarked
+
+
+def sized(region, brief, bid: str, node) -> list[tuple[str, Path, str]]:
+    """A planned level's drawn span against BRIEF.md's `footprint` for its region: a target the design meets as nearly
+    as a readable layout allows, so a miss is a warning."""
+    want = brief.packing(region.code).get("footprint")
+    m = plan.block_map(region, node)[0] if want else None
+    if m is None:
+        return []
+    w, h = plan.span(m)
+    if abs(max(w, h) - want) <= max(SIZE_SLACK[0], SIZE_SLACK[1] * want):
+        return []
+    return [("warning", region.dir / "Design.md", f"Design {bid} spans {w:g} by {h:g} feet, where BRIEF.md's footprint asks "
+             f"about {want:g}: shape the plan nearer it where the layout stays readable - step 3d")]
 
 
 # -- the commands ----------------------------------------------------------------------

@@ -32,7 +32,9 @@ A `pack` line is how a DANGEROUS block's rooms are packed into a square: `fill`,
 the square they cover, from the least the validator holds to the most the packer starts from;
 `passages`, the share of its ways run as passages rather than doors through a shared wall;
 `detour`, the most a way may walk beyond the straight line between its rooms' centres; and, in
-a region, `footprint`, the square's side, where a block draws no outline of its own.
+a region, `footprint`, the level's target size in feet: the side of the square a pack fills, and
+the width a designed level's drawing comes as near as a readable layout allows. A `design` line
+gives a region's designs the same settings, `fill` and `pad` among them.
 
 ```kdl
 // -- Framework levers ----------------------------------------------------------
@@ -150,7 +152,7 @@ region B rating=WILD die=d8 locations=10 {
 
 region C rating=DANGEROUS die=d12 locations=6 {
   outline "Pyramid level 1: a tightly packed complex of small rooms round one tiled hall, laden with puzzles, nuisance traps, one room that is itself a trap, and clues to the pyramid's story. Three ways down, each hidden and each trapped - a trapped floor, a mural stair, a statue's plinth - and each comes out in a different area of level 2. The complex is the pyramid's first lesson."
-  design
+  design fill="35-55%"
   pack footprint="100 feet"
   target Location.type High=1 Medium=3 Low=2
   target Reward.contents Keys=1 Lore=1
@@ -158,16 +160,16 @@ region C rating=DANGEROUS die=d12 locations=6 {
 
 region D rating=DANGEROUS die=d10 locations=12 {
   outline "Pyramid level 2: the history of the cynidiceans told in murals, carvings and the rooms between them, in four areas joined by winding passages, each with its own challenge: the tomb robbers' halls, where they have moved in; the founders' halls and their naming puzzle; the scraped halls and their dead; and the gallery of the fall, locked and guarded, over the way down. Each of level 1's three ways down comes out in a different area, and scouts of the three branches below walk them all. Nuisance traps line the passages and two rooms are traps in themselves."
-  design
-  pack footprint="120 feet"
+  design fill="25-40%"
+  pack footprint="140 feet"
   target Location.type High=2 Medium=6 Low=4
   target Reward.contents Lore=2
 }
 
 region E rating=DANGEROUS die=d10 locations=15 {
-  design spacing="10-30 feet"
+  design spacing="10-30 feet" fill="25-45%"
   outline "Pyramid level 3: a turning hall, a round section of passage that always joins two of its eight passages on opposite sides; runes shown in pairs inside it turn it to the pair pressed, and the arch of each passage shows its own rune. The eight passages lead to a complex of rooms for each of the three branches of the cynidiceans - the Royal Guard, the Priesthood and the Scholars - a trapped corridor to the level below, a short room from the level above, a long decayed store, a secret room joining the store to the hall with treasure in it, and a lair. By a party's actions one branch may offer an alliance or membership."
-  pack footprint="140 feet"
+  pack footprint="180 feet"
   target Location.type High=3 Medium=7 Low=5
   target Reward.contents Keys=1 Lore=1
   procedure "Joining a faction."
@@ -175,15 +177,15 @@ region E rating=DANGEROUS die=d10 locations=15 {
 
 region F rating=DANGEROUS die=d8 locations=20 {
   outline "Pyramid level 4: the former living quarters, with strange cynidicean encounters, lairs of stronger monsters that came down from the sand, hints of the evil below, and the tomb robbers' deepest camp."
-  design
-  pack footprint="180 feet"
+  design fill="25-40%"
+  pack footprint="220 feet"
   target Location.type High=4 Medium=10 Low=6
   target Reward.contents Hoards=1 Lore=2
 }
 
 region G rating=DANGEROUS die=d8 locations=29 {
-  outline "Pyramid level 5: the funerary level, with the last king and queen interred, a false tomb beside them, the areas of the former clergy, and at its centre a great chapel whose mystical effects a party can set off. The largest level. A great hall once led down to the subterranean city; its doors are blocked shut, and a secret door beside it is now the way those coming up from the city take."
-  design
+  outline "Pyramid level 5: the funerary level, with the last king and queen interred, a false tomb beside them, the areas of the former clergy, and in its southern half a great chapel whose mystical effects a party can set off. The largest level. A great hall once led down to the subterranean city; its doors are blocked shut, and a secret door beside it is now the way those coming up from the city take."
+  design fill="25-45%" pad="0 feet"
   pack footprint="240 feet"
   target Location.type High=6 Medium=14 Low=9
   target Reward.contents Hoards=1 Keys=2 "Unique Treasures"=1 Lore=2
@@ -191,7 +193,7 @@ region G rating=DANGEROUS die=d8 locations=29 {
 
 region H rating=DANGEROUS die=d6 locations=20 {
   outline "Pyramid level 6: the first level of the descent, laid out in the shape of level 4 and given to the demon's cult and its sacrifices. The way up is behind a party."
-  design
+  design fill="25-45%" pad="0 feet"
   pack footprint="210 feet"
   target Location.type High=4 Medium=9 Low=7
   target Reward.contents Hoards=1 Lore=1
@@ -199,7 +201,7 @@ region H rating=DANGEROUS die=d6 locations=20 {
 
 region I rating=DANGEROUS die=d6 locations=14 {
   outline "Pyramid level 7: a smaller level of altars and cells where the cult's chosen are made and unmade."
-  design
+  design fill="25-45%" pad="0 feet"
   pack footprint="160 feet"
   target Location.type High=2 Medium=8 Low=4
   target Reward.contents Keys=1 Lore=1
@@ -207,24 +209,24 @@ region I rating=DANGEROUS die=d6 locations=14 {
 
 region J rating=DANGEROUS die=d6 locations=9 {
   outline "Pyramid level 8: the lieutenants' halls, a short level of powerful servants who keep the way down."
-  design
-  pack footprint="140 feet"
+  design fill="25-45%" pad="0 feet"
+  pack footprint="150 feet"
   target Location.type High=3 Medium=4 Low=2
   target Reward.contents Hoards=1 Keys=1 "Unique Treasures"=1
 }
 
 region K rating=DANGEROUS die=d4 locations=8 {
   outline "Pyramid level 9: the antechamber of the demon, where the corruption is thick enough to cost Sanity."
-  design
-  pack footprint="130 feet"
+  design fill="25-45%" pad="0 feet"
+  pack footprint="140 feet"
   target Location.type High=3 Medium=3 Low=2
   target Reward.contents Lore=1
 }
 
 region L rating=DANGEROUS die=d4 locations=6 {
   outline "Pyramid level 10: the demon's chamber, a single hall where the corrupting entity feeds, and the end of the descent. Its demon is a Named Creature."
-  design
-  pack footprint="130 feet"
+  design fill="25-45%" pad="0 feet"
+  pack footprint="120 feet"
   target Location.type High=2 Medium=2 Low=2
   target Reward.contents "Unique Treasures"=1 "Magical Tomes"=1
 }

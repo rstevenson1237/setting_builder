@@ -5,7 +5,7 @@ wall to the north with the offering niche behind it, the sand clock to the west,
 to the east, reached from the hall and from the mural wall.
 
 ```kdl
-Design C.a locations="C.1, C.2, C.3, C.4, C.5, C.6" outline="rect 100 100" fill="35-55%" seed=1 approved="2026-11-11"
+Design C.a locations="C.1, C.2, C.3, C.4, C.5, C.6" outline="rect 100 100" seed=1 approved="2026-11-11"
 Room C.2 width=40 length=40 xyz="-10,0"
 Room C.1 width=10 length=20 shape=hall facing=south
 Room C.3 width=40 length=20 facing=north

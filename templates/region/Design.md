@@ -15,9 +15,10 @@ run "--brief [Region Code]"
 
 ## Instructions
 One `Design` for each block the region holds: its location codes, numbered 1 to N across the
-region as `Locations.md` will number them, and an `outline` where the region's brief gives its
-block a shape. `BRIEF.md`'s `design` line and the Design line's own settings say how full, how
-spaced and how direct.
+region as `Locations.md` will number them, and an `outline` near the brief's `footprint`, the
+level's target size. `BRIEF.md`'s `design` line says how full, how spaced and how direct; a
+Design line states a setting only where its block differs from the region's. A room the seed
+places (a hall at the centre, a tomb at the far end) is given that place, as its `xyz`.
 
 A DANGEROUS block is built from layouts: a `Use` for each one the seed's shape for the block
 calls for (`python3 tools/design.py layouts` lists artgen's and this repo's `layouts/`), a `Bind` giving each role the

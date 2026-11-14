@@ -5,7 +5,7 @@ the landing under the tile floor, the founders' halls under the mural stair, the
 plinth, and the gallery of the fall, locked behind the carvers' cells, over the way down.
 
 ```kdl
-Design D.a locations="D.1, D.2, D.3, D.4, D.5, D.6, D.7, D.8, D.9, D.10, D.11, D.12" outline="rect 160 160" fill="25-40%" seed=1 approved="2026-11-11"
+Design D.a locations="D.1, D.2, D.3, D.4, D.5, D.6, D.7, D.8, D.9, D.10, D.11, D.12" outline="rect 160 160" seed=1 approved="2026-11-11"
 Room D.1 width=10 length=20 shape=hall
 Room D.3 width=20 length=20
 Room D.7 width=30 length=30

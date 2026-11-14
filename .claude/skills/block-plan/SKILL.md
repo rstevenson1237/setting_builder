@@ -24,6 +24,9 @@ All sizes and places are feet; x east, y north of the parent's centre. Rooms sta
 
 - `Design` - the block: `xyz` its place in the region (z its floor), `outline` its ground (`rect W L`, `circle R`,
   `poly …`), `fill` the share the rooms should cover, `facing`/`side` where it keeps to, `width` its passages (5 or 10).
+  `fill`, `pad` and the other settings come from the region's `design` line in `BRIEF.md` where the Design states
+  none; the drawn level comes as near the brief's `footprint` as a readable layout allows, and the validator warns
+  where it misses by more than a square or a tenth.
 - `Layout` - rooms set against one another and placed as one, by `arrange`:
   - row, column, grid (`cols`): in line; `gap` between them (0 shares walls, with doors).
   - spine: a hall with its rooms down both sides. ring: a hub with its rooms on its eight points; a diagonal room

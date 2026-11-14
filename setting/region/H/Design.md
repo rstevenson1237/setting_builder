@@ -4,7 +4,7 @@ The rooms where the packing set them, the level moved to stand under the stair d
 the cult's rooms round the black corridor, sharing walls.
 
 ```kdl
-Design H.a locations="H.1, H.2, H.3, H.4, H.5, H.6, H.7, H.8, H.9, H.10, H.11, H.12, H.13, H.14, H.15, H.16, H.17, H.18, H.19, H.20" outline="poly -200,120 40,120 40,-110 -200,-110" fill="25-45%" pad="0 feet" seed=1 approved="2026-11-11"
+Design H.a locations="H.1, H.2, H.3, H.4, H.5, H.6, H.7, H.8, H.9, H.10, H.11, H.12, H.13, H.14, H.15, H.16, H.17, H.18, H.19, H.20" outline="poly -200,120 40,120 40,-110 -200,-110" seed=1 approved="2026-11-11"
 Room H.1 width=10 length=20 shape=hall xyz="15,45"
 Room H.2 width=10 length=50 shape=hall xyz="-85,30"
 Room H.3 width=40 length=30 xyz="-110,60"

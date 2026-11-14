@@ -10,7 +10,7 @@ Prizes:
 
 Places:
 - L.1 - A warm threshold, two wraiths on either side.
-- L.2 - A wide slick floor sloping west; eight cultists kneel and feed it.
+- L.2 - A wide slick floor sloping south; eight cultists kneel and feed it.
 - L.5 - Skulls stacked to the roof either side of a path, jaws moving, whispering in the black speech.
 - L.6 - A crumbling ledge over the red pit, steam through its cracks, a stair down its side.
 

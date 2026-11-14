@@ -1021,7 +1021,7 @@ def problems(region, block: kdl.Node) -> list[tuple[str, Path, str]]:
     import plan
     planned = bid in maps.designed(region) & set(plan.plans_of(region))   # an approved plan states its own ground and fill
     if planned:
-        head = next(n for n in region.files.get("Design", []) if n.name == "Design" and n.args and str(n.args[0]) == bid)
+        head = next(n for n in plan.with_brief(region.files.get("Design", []), region.code) if n.name == "Design" and n.args and str(n.args[0]) == bid)
         rates = {**rates, "footprint": None, "fill": plan.Plan.fill_of(head.props.get("fill")), "detour": None}
     if not poly and rates["footprint"] is not None and side != rates["footprint"]:
         out.append(("error", path, f"{bid}'s square is {side:g} feet, where BRIEF.md's pack footprint asks {rates['footprint']:g}: "
@@ -1031,7 +1031,7 @@ def problems(region, block: kdl.Node) -> list[tuple[str, Path, str]]:
     room = (area(o[1]) if poly else side * side) - rock
     covered, least = sum(wide(c, 0) * wide(c, 1) for c in at), (rates["fill"] or (0, 0))[0]
     if covered < least * room:
-        whose = "its Design line's" if planned else "BRIEF.md's pack"
+        whose = "its design's" if planned else "BRIEF.md's pack"
         out.append(("error", path, f"{bid}'s rooms cover {covered / room:.0%} of its ground, under {whose} fill of {least:.0%}"))
     left, far = ([], []) if planned else faults(region, block, rates["detour"]) or ([], [])   # a plan's ways: its map's
     if planned:                                         # a Connection's wall says what the plan's map draws

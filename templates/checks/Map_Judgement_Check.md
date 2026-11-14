@@ -6,7 +6,7 @@ A review of each DANGEROUS block's map by eye, for what `tools/validate_setting.
 Saved as `setting/checks/MapJudgementCheck.md`.
 
 ## Context
-- `GENRE.md`, `STYLE.md` and `BRIEF.md` - its `pack` lines and each region's outline.
+- `GENRE.md`, `STYLE.md` and `BRIEF.md` - its `pack` lines, each region's `footprint` and outline.
 - each DANGEROUS region's seed, `setting/region/[Code]/Seed.md`, its `Dressing.md`,
   `Connections.md` and `Blocks.md`, and its write-ups.
 - the maps, drawn by one command, `python3 tools/maps.py draw --out _maps --fit 1600x1600px`,
@@ -31,7 +31,7 @@ artgen, sent upstream as the `setting-maps` skill says.
   over another or over a wall.
 - **Prose follows the map** - each direction a write-up gives that names no location code (an
   arch east, a stair in the north wall) matches the map. The validator checks those that name one.
-- **The level keeps its shape** - its square sits in the sequence `BRIEF.md`'s footprints set,
+- **The level keeps its shape** - its size sits in the sequence `BRIEF.md`'s footprints set,
   its stairs stand over the stairs they meet, and its rooms lie as its seed and outline say:
   a central hall central, a far tomb far.
 - **It plays** - a party meets choices where the seed implies them: loops, a second way to a
