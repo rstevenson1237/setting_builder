@@ -7,7 +7,7 @@ lairs of what came down from the sand - spider hall, scorpion burrow, hyena den,
 on longer ways.
 
 ```kdl
-Design F.a locations="F.1, F.2, F.3, F.4, F.5, F.6, F.7, F.8, F.9, F.10, F.11, F.12, F.13, F.14, F.15, F.16, F.17, F.18, F.19, F.20" outline="rect 240 240" fill="25-40%" width=5 seed=1 approved="2026-11-11"
+Design F.a locations="F.1, F.2, F.3, F.4, F.5, F.6, F.7, F.8, F.9, F.10, F.11, F.12, F.13, F.14, F.15, F.16, F.17, F.18, F.19, F.20" outline="rect 240 240" width=5 seed=1 approved="2026-11-11"
 Room F.1 width=10 length=20
 Layout F.a id=house arrange=cluster links=none xyz="20,55"
 Room F.2 width=10 length=70 xyz="-45,-5"

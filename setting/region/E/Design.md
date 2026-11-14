@@ -5,7 +5,7 @@ north-west and south with their rooms against them, the stirge roost and the cor
 diagonals, the stair landing west, the long store east and the hidden strongroom between it and the hall.
 
 ```kdl
-Design E.a locations="E.1, E.2, E.3, E.4, E.5, E.6, E.7, E.8, E.9, E.10, E.11, E.12, E.13, E.14, E.15" outline="rect 220 220" fill="25-45%" seed=7 approved="2026-11-11"
+Design E.a locations="E.1, E.2, E.3, E.4, E.5, E.6, E.7, E.8, E.9, E.10, E.11, E.12, E.13, E.14, E.15" outline="rect 220 220" seed=7 approved="2026-11-11"
 Layout E.a id=ring arrange=ring entry=E.2 gap=10
 Room E.2 layout=ring width=60 length=60 shape=round
 Room E.3 layout=ring width=50 length=20 facing=north

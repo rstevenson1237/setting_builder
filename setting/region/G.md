@@ -1,6 +1,6 @@
 G Pyramid Level 5 - The Tombs
 
-Overview: The pyramid's largest level, the funerary level, with the last king and queen interred, a false tomb beside them, the former clergy's halls and a sun chapel at its centre (G.22). A party comes for the king's hoard, the keys he hid and the path to the lake city (G.14). Ruhiahe hold G.3, G.11 and G.18. Skeletons, zombies, ghouls, gargoyles, a mummy and a wraith hold the rest. Breaking a seal raises a mummy that follows the one who broke it; leaving the side door open lets the walking dead follow the path down.
+Overview: The pyramid's largest level, the funerary level, with the last king and queen interred, a false tomb beside them, the former clergy's halls and a sun chapel in its southern half (G.22). A party comes for the king's hoard, the keys he hid and the path to the lake city (G.14). Ruhiahe hold G.3, G.11 and G.18. Skeletons, zombies, ghouls, gargoyles, a mummy and a wraith hold the rest. Breaking a seal raises a mummy that follows the one who broke it; leaving the side door open lets the walking dead follow the path down.
 
 Approach: The stair from the living quarters (F.13) lands at G.1, and a long hall of wrapped dead (G.2) lies beyond. A party must walk the hall in silence; turned back, it walks the hall again.
 

@@ -4,7 +4,7 @@ The rooms where the packing set them, the level moved to stand under the cult's 
 and unmaking and the cells round them, sharing walls.
 
 ```kdl
-Design I.a locations="I.1, I.2, I.3, I.4, I.5, I.6, I.7, I.8, I.9, I.10, I.11, I.12, I.13, I.14" outline="poly -130,100 50,100 50,-90 -130,-90" fill="25-45%" width=5 pad="0 feet" seed=1 approved="2026-11-11"
+Design I.a locations="I.1, I.2, I.3, I.4, I.5, I.6, I.7, I.8, I.9, I.10, I.11, I.12, I.13, I.14" outline="poly -130,100 50,100 50,-90 -130,-90" width=5 seed=1 approved="2026-11-11"
 Room I.1 width=10 length=20 xyz="-55,-30"
 Room I.2 width=30 length=50 xyz="-35,-15"
 Room I.3 width=40 length=50 xyz="0,25"

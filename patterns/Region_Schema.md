@@ -68,8 +68,9 @@ enum Layout_Links auto none   // auto: its arrangement joins its rooms; none: on
 node Design {               // a block's design, opening with its id: layouts, chained, round the rooms they leave to the solver
   locations location list   // every location of the block; Locations.md holds exactly these
   xyz point opt             // its centre from its region's origin, as Blocks.md's
-  outline outline opt       // the ground its rooms fill; unset, they grow out from xyz and the outline is the hull of what they hold
-  fill string opt           // the share of the outline the rooms cover, "N-M%"; unset, BRIEF.md's pack
+  outline outline opt       // the ground its rooms fill; unset, they grow out from xyz and the outline is the hull of what they hold;
+                            // its drawing comes as near BRIEF.md's footprint as a readable layout allows
+  fill string opt           // the share of the outline the rooms cover, "N-M%"; unset, BRIEF.md's design line, then its pack
   spacing string opt        // the passage wanted between joined rooms, "N-M feet"; sets passages and detour where they are unset, and its most is how far joined rooms may stand apart
   pad string opt            // "N feet" kept clear round each room, so joined rooms stand twice it apart, a passage between
   passages percent opt      // the share of ways run as passages; unset, BRIEF.md's pack
@@ -107,7 +108,7 @@ node Room {                 // a plan: one location, opening with its code, or r
   width feet opt            // across and along, in 10 ft steps; 20 where unset
   length feet opt
   shape Plan_Shape opt      // rect where unset
-  xyz point opt             // its centre from its layout's, or the block's
+  xyz point opt             // its centre from its layout's, or the block's: a place asked for, met as nearly as a coherent layout allows
   facing Facing opt         // unset xyz: the side of its parent it keeps to; in a ring, the hub's side it stands on
   side Side opt
   count number opt          // opening with the block's id: how many such rooms

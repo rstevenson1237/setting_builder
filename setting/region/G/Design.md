@@ -5,7 +5,7 @@ niches off the landing, the octagonal tombs of the king and queen and the false 
 the round rites hall, the chapel of the sun and the wells, and the lake path out east to the lake city.
 
 ```kdl
-Design G.a locations="G.1, G.2, G.3, G.4, G.5, G.6, G.7, G.8, G.9, G.10, G.11, G.12, G.13, G.14, G.15, G.16, G.17, G.18, G.19, G.20, G.21, G.22, G.23, G.24, G.25, G.26, G.27, G.28, G.29" outline="poly -200,170 60,170 60,-120 -200,-120" fill="25-45%" pad="0 feet" seed=1 approved="2026-11-11"
+Design G.a locations="G.1, G.2, G.3, G.4, G.5, G.6, G.7, G.8, G.9, G.10, G.11, G.12, G.13, G.14, G.15, G.16, G.17, G.18, G.19, G.20, G.21, G.22, G.23, G.24, G.25, G.26, G.27, G.28, G.29" outline="poly -200,170 60,170 60,-120 -200,-120" seed=1 approved="2026-11-11"
 Room G.1 width=10 length=20 shape=hall xyz="-105,-5"
 Room G.2 width=50 length=20 xyz="-105,15"
 Room G.3 width=30 length=40 xyz="-135,-15"

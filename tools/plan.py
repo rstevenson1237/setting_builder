@@ -1914,6 +1914,28 @@ def accepted(lines, bid: str) -> tuple[dict, int | None] | None:
 SOLVED: dict = {}                  # one solve a run for each plan as its lines stand
 
 
+BRIEFED = ("fill", "pad", "spacing", "passages", "detour")   # a Design setting BRIEF.md's `design` line may give
+
+
+def with_brief(lines: list[kdl.Node], code: str) -> list[kdl.Node]:
+    """A region's Design lines with each Design's settings filled from BRIEF.md's `design` line for the region,
+    where the Design states none of its own."""
+    import tables
+    line = next((c for n in tables.brief_nodes() if n.name == "region" and n.args and str(n.args[0]) == code
+                 for c in n.children if c.name == "design"), None)
+    given = {k: v for k, v in (line.props.items() if line is not None else ()) if k in BRIEFED}
+    if not given:
+        return lines
+    out = []
+    for n in lines:
+        if n.name == "Design":
+            m = kdl.Node(n.name, n.line)
+            m.args, m.props, m.children = n.args, {**given, **n.props}, n.children
+            n = m
+        out.append(n)
+    return out
+
+
 def solved(lines, bid: str):
     """A region's planned block, solved: as accepted where it is approved, else held over the levels its stairs meet."""
     key = (bid, repr([(n.name, n.args, sorted(n.props.items())) for n in lines]))
@@ -1928,16 +1950,37 @@ def solved(lines, bid: str):
 def problems_of(region, bid: str) -> tuple[list[str], list[str]]:
     """A planned block's faults - what the plan states wrongly, past what the schema's types catch - and the ways no
     solve routes."""
-    lines = region.files.get("Design", [])
+    lines = with_brief(region.files.get("Design", []), region.code)
     s, said = solved(lines, bid)
     said = [m for m in said if not s or m not in s.plan.typed]
     return said, (s.failed if s else ["no solve"])
 
 
+def span(m: dict) -> tuple[float, float]:
+    """A drawn level's extent in feet, east and north: its rooms and the passages between them."""
+    xs, ys = [], []
+    for r in m["rooms"]:
+        xs += [r["x"], r["x"] + r["w"]]
+        ys += [r["y"], r["y"] + r["h"]]
+    for c in m["corridors"]:
+        for q in (c["from"].get("port"), c["to"].get("port"), c.get("via")):
+            if q and isinstance(q[0], (int, float)):
+                xs.append(q[0])
+                ys.append(q[1])
+    cell = SQ / 2
+    return (max(xs) - min(xs)) * cell, (max(ys) - min(ys)) * cell
+
+
+def goals_missed(region, bid: str) -> list[str]:
+    """The places a planned block's rooms asked for (a Room's xyz) that its solve could not give: each a best attempt."""
+    s, _ = solved(with_brief(region.files.get("Design", []), region.code), bid)
+    return [m for m in (s.missed if s else []) if m.endswith("from its xyz")]
+
+
 def block_map(region, block: kdl.Node) -> tuple[dict | None, list[str]]:
     """An approved plan's map: its solve, with each door the kind the tables' Connections give it."""
     import dungeon
-    lines = region.files.get("Design", [])
+    lines = with_brief(region.files.get("Design", []), region.code)
     bid = str(block.args[0])
     s, said = solved(lines, bid)
     if s is None:
@@ -2017,7 +2060,7 @@ def apply(code: str) -> list[str]:
     import maps
     world = maps.world_for(maps.tables.SETTING)
     region = world.regions[code]
-    lines = region.files.get("Design", [])
+    lines = with_brief(region.files.get("Design", []), code)
     approved = {str(n.args[0]): n for n in lines if n.name == "Design" and n.args and n.props.get("approved")}
     done = []
     for bid, head in approved.items():
@@ -2093,7 +2136,7 @@ def main(argv=None) -> int:
         if not where.exists():
             print(f"{where} does not exist", file=sys.stderr)
             return 1
-        lines, block = lines_of(where), a.block
+        lines, block = with_brief(lines_of(where), a.code), a.block
     blocks = [b for b in planned(lines) if block in (None, b)]
     if not blocks:
         print(f"{where} plans no block{' ' + block if block else ''}: a plan is a Design line with Layout, Room and Route lines",
