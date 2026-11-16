@@ -21,7 +21,7 @@ region's way in by bearing and distance, by `xyz`, or `against` a placed sibling
 reads as one plan, distances in the region's units, on ground `Ground.md` shows can hold it.
 
 A location of a SAFE or WILD region whose `BRIEF.md` node has a `design` line states no place: its design
-(step 3d) gives it one.
+(step 3e) gives it one.
 
 A location's name carries no form: it is common, or points at a coinage `setting/Language.md`
 already records, and never coins one.

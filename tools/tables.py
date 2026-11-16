@@ -1053,7 +1053,7 @@ class Setting:
         owed = [m for m in missing if isinstance(m, str)]
         yield from (m for m in missing if not isinstance(m, str))
         if owed:
-            step = {"Design": "3d", "Locations": "3e", "Seed": "3c"}.get(stem, "4a")
+            step = {"Design": "3e", "Locations": "3d", "Seed": "3c"}.get(stem, "4a")
             yield "warning", f"{n.name} {n.args[0] if n.args else ''} is a stub owed to step {step} - lacks {', '.join(owed)}"
 
     def _check_node(self, r: Region, n: kdl.Node, within: str = ""):
@@ -1373,7 +1373,7 @@ class Brief:
     def __init__(self, schema: Schema, path: Path = BRIEF):
         self.schema, self.path, self.problems = schema, path, list(schema.brief_problems)
         self.targets, self.regions = [], {}
-        self.designs: dict[str, kdl.Node] = {}          # a region's design line, by its code: its blocks are designed at step 3d
+        self.designs: dict[str, kdl.Node] = {}          # a region's design line, by its code: its blocks are designed at step 3e
         self.files = self.setting = self.origin = None
         self.sheets: dict[str, kdl.Node] = {}
         self.looks, looks_problems = read_looks(path)

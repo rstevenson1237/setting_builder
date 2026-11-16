@@ -1,12 +1,12 @@
 ---
 name: block-design
-description: How this framework designs a block before its tables are written - step 3d - from its locations, laid out, drawn and approved by the user, so Connections.md, Blocks.md and Dressing.md follow the picture. Use at step 3d, when designing a SAFE or WILD block as a settlement, when changing an approved design, or when the validator reports a design and its tables disagree. A DANGEROUS block's lines are the block-plan skill's.
+description: How this framework designs a block before its tables are written - step 3e - from its locations, laid out, drawn and approved by the user, so Connections.md, Blocks.md and Dressing.md follow the picture. Use at step 3e, when designing a SAFE or WILD block as a settlement, when changing an approved design, or when the validator reports a design and its tables disagree. A DANGEROUS block's lines are the block-plan skill's.
 ---
 
 # Block design
 
 Every DANGEROUS region, and any other region whose `BRIEF.md` node has a `design` line, is designed here, at
-step 3d, once its `Locations.md` stands. The design file is `setting/region/[Code]/Design.md`
+step 3e, once its `Locations.md` stands. The design file is `setting/region/[Code]/Design.md`
 (`patterns/Region_Schema.md`, `templates/region/Design.md`). A DANGEROUS block is a plan: the `block-plan` skill
 says how its lines are written and solved. A SAFE or WILD block is a settlement, below.
 

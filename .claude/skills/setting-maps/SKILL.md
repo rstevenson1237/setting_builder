@@ -15,7 +15,7 @@ the converter, then built again.
 |---|---|---|
 | 3b | `python3 tools/maps.py place` | `setting/Sheets.md`, `setting/[Sheet].json`, each region's `outline` and `xyz` |
 | 3b, 3g | `python3 tools/maps.py ground` | each placed region's `Ground.md` |
-| 3d | `python3 tools/design.py solve`, `accept` (the `block-design` and `block-plan` skills) | a designed block's places, in `Design.md`; `apply` writes a SAFE or WILD location's into `Locations.md` |
+| 3e | `python3 tools/design.py solve`, `accept` (the `block-design` and `block-plan` skills) | a designed block's places, in `Design.md`; `apply` writes a SAFE or WILD location's into `Locations.md` |
 | 4a | `python3 tools/design.py apply [Code]`, then `python3 tools/space.py settle [Code]` | each DANGEROUS room's `xyz`, size and shape, each block's `outline` |
 | any | `python3 tools/maps.py draw [--out DIR]` | `setting/region/[Code]/[Block].json`, and the SVGs with `--out` |
 

@@ -1,11 +1,11 @@
 ---
 name: block-plan
-description: Write a DANGEROUS block's design as a plan - the block's ground, its layouts, its rooms and the routes between them, stated in KDL and laid out by tools/plan.py. Use at step 3d for every DANGEROUS level (a hub with spokes, an axis of halls, wings joined by long passages, levels joined by stairs), when a plan leaves a way unrouted or misses a goal, or when changing an approved plan.
+description: Write a DANGEROUS block's design as a plan - the block's ground, its layouts, its rooms and the routes between them, stated in KDL and laid out by tools/plan.py. Use at step 3e for every DANGEROUS level (a hub with spokes, an axis of halls, wings joined by long passages, levels joined by stairs), when a plan leaves a way unrouted or misses a goal, or when changing an approved plan.
 ---
 
 # Block plans
 
-A plan is a DANGEROUS block's design at step 3d (`patterns/Region_Schema.md`). Its lines go in
+A plan is a DANGEROUS block's design at step 3e (`patterns/Region_Schema.md`). Its lines go in
 `setting/region/[Code]/Design.md`: the block's `Design` line, then `Layout`, `Room` and `Route` lines, and a `Void`
 for ground no room or passage takes. `tools/design.py solve` and `accept` hand the block to `tools/plan.py`; the
 `block-design` skill says how a design is approved, applied and changed.

@@ -4,7 +4,7 @@ Tick a line to approve it. W1 and W2 use what exists; W3 and W4 need a spike on 
 
 - [ ] **W1. A sheet states its ground.** `sheet Sands ... ground=sand`: the terrain artgen fills with wherever
   no region's `ground` reaches, in place of its own choice. A region's `ground` line still wins inside its area.
-- [ ] **W2. Regions A and B are designed (step 3d).** A `design` line for each in `BRIEF.md`; a `Street` for each
+- [ ] **W2. Regions A and B are designed (step 3e).** A `design` line for each in `BRIEF.md`; a `Street` for each
   street the seed names (A's grid past the ruins, B's quay round the lake), a `Tie` for each place the seed
   fixes. Solved, shown and approved as any design.
 - [ ] **W3. Fabric: what stands between the keyed places.** One line in a SAFE or WILD design,

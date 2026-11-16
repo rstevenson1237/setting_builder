@@ -21,7 +21,7 @@ Read these rather than a description of them.
   Edited directly by the user; a request in the user's own prompt carries the same weight.
 - `STYLE.md` - the tests every line at every level must pass.
 - `STEPS.md` - the authoritative, sequential build log. Every artifact created follows a
-  numbered step here (e.g. `3e`) naming its template. Step ids grow by
+  numbered step here (e.g. `3d`) naming its template. Step ids grow by
   suffix and are never renumbered without explicit user request - `templates/` cite step
   ids and `tools/validate_setting.py` resolves those citations against this file (including
   its compile-list regex), so a renumber means updating both alongside every prose citation.
@@ -77,7 +77,7 @@ Read these rather than a description of them.
     installed with artgen's map skills and commands by the `artgen-dist` installer's `maps` module;
     `MANIFEST.json` records the release and every installed file. How the framework uses it, what it
     writes into each file and why, and how to upgrade it: the `setting-maps` skill.
-  - `design.py` - step 3d: a block's `Design` solved and drawn, one solve accepted into `Design.md`, an approved design's places applied to the tables, and the design held to them. A DANGEROUS block is handed to `plan.py`; a SAFE or WILD block is laid out as a settlement by artgen over several seeds, each scored.
+  - `design.py` - step 3e: a block's `Design` solved and drawn, one solve accepted into `Design.md`, an approved design's places applied to the tables, and the design held to them. A DANGEROUS block is handed to `plan.py`; a SAFE or WILD block is laid out as a settlement by artgen over several seeds, each scored.
   - `plan.py` - a DANGEROUS block's plan: its layouts, rooms and routes placed on 10 ft squares and every route run between them, each place, facing, side and length a goal given up, and reported, before a way is left unrouted; the solve's map, and the places and ways `accept` writes.
   - `dungeon.py` - what the validator reports of a DANGEROUS block: its map read back through `dungeon check` and `dungeon facts`, held to the tables' ways.
   - `space.py` - the dry fire: every region, block and location at a point in one space from the origin region's way in, x east, y north, z up, in feet, and what does not fit - unplaced things, overlaps, things outside their parent's outline, and ways whose climb, bearing or distance disagree with where their ends lie. `from` states one place from another.
@@ -102,7 +102,7 @@ python3 tools/validate_setting.py --brief setting|REGION # BRIEF.md as a setting
 python3 tools/space.py [--only REGION]      # the dry fire: every place in the setting, and what does not fit
 python3 tools/space.py settle [REGION]      # write each region's place where its sheet or joins give it
 python3 tools/space.py from CODE to CODE     # how far, which way and how far up or down one place lies from another
-python3 tools/design.py solve|accept|apply|check CODE   # step 3d: a block's design solved, accepted, applied to the tables, held to them
+python3 tools/design.py solve|accept|apply|check CODE   # step 3e: a block's design solved, accepted, applied to the tables, held to them
 python3 tools/plan.py solve --file F.md [BLOCK]   # a plan tried outside the setting
 python3 tools/metrics.py                    # corpus, tells, budget and read-set report
 python3 tools/metrics.py --tells [PATH]     # every tell hit, listed, over any markdown

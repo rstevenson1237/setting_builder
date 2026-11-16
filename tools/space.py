@@ -557,7 +557,7 @@ class Space:
             self.say("error", t.file, f"line {t.line}: {t.code} states a bearing or a distance without the other", t.code)
         else:
             self.say("error", t.file, f'line {t.line}: {t.code} states no place: bearing and distance, xyz, against, '
-                                      f'or at="way in" (step 3e)', t.code)
+                                      f'or at="way in" (step 3d)', t.code)
         return False
 
     def _anchored(self, t: Thing, node: kdl.Node | None) -> bool:

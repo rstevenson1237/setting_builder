@@ -287,36 +287,36 @@ def agree(region, bid: str, g: dict) -> list[tuple[str, str]]:
         out.append(("warning", f"{bid} is no block in Blocks.md yet, and the design places {len(members)} locations in it - owed to step 3f"))
     elif set(words(block.props.get("locations"))) != members:
         out.append(("error", f"{bid} holds {', '.join(sorted(words(block.props.get('locations')), key=dungeon.number))} in Blocks.md and "
-                             f"{', '.join(sorted(members, key=dungeon.number))} in its design - owed to step 3f, or 3d if the design is wrong"))
+                             f"{', '.join(sorted(members, key=dungeon.number))} in its design - owed to step 3f, or 3e if the design is wrong"))
     mine = {}
     for c in sorted(members, key=dungeon.number):
         p = g["places"].get(c)
         if p is None:
-            out.append(("error", f"the design approves {bid} and places no {c}: solve and accept it - owed to step 3d"))
+            out.append(("error", f"the design approves {bid} and places no {c}: solve and accept it - owed to step 3e"))
             continue
         want = space.point_of(p.props.get("xyz"))
         size = box(space.outline_value(p.props.get("outline")))
         mine[c] = {"at": want[:2], "w": size[0], "l": size[1]}
-        have, owes = (dress.get(c), "4a") if danger else (locs.get(c), "3d")        # a DANGEROUS room's place is its Dressing's
+        have, owes = (dress.get(c), "4a") if danger else (locs.get(c), "3e")        # a DANGEROUS room's place is its Dressing's
         if c not in locs or have is None:
             out.append(("warning", f"{c} is not in {'Locations.md' if c not in locs else 'Dressing.md'} yet, and the design places it - "
-                                   f"owed to step {'3e' if c not in locs else '4a'}"))
+                                   f"owed to step {'3d' if c not in locs else '4a'}"))
             continue
         got = space.point_of(have.props.get("xyz"))
         if got is None or math.dist(got[:2], want[:2]) > TOL:
-            out.append(("error", f"{c} lies at {at(got)} in the tables and at {at(want)} in the design: run `python3 tools/design.py apply {region.code}` (step {owes}), or 3d if the design is wrong"))
+            out.append(("error", f"{c} lies at {at(got)} in the tables and at {at(want)} in the design: run `python3 tools/design.py apply {region.code}` (step {owes}), or 3e if the design is wrong"))
         d = dress.get(c)
         if d is not None and "width" in d.props and "length" in d.props:
             if abs(float(d.props["width"]) - size[0]) > TOL or abs(float(d.props["length"]) - size[1]) > TOL:
-                out.append(("error", f"{c} is {d.props['width']} by {d.props['length']} in Dressing.md and {size[0]:g} by {size[1]:g} in the design - owed to step 4a, or 3d if the design is wrong"))
+                out.append(("error", f"{c} is {d.props['width']} by {d.props['length']} in Dressing.md and {size[0]:g} by {size[1]:g} in the design - owed to step 4a, or 3e if the design is wrong"))
         if str(d.props.get("shape", "rect") if d is not None else "rect") != str(p.props.get("shape", "rect")):
-            out.append(("error", f"{c} is shape {d.props.get('shape', 'rect') if d is not None else 'rect'} in Dressing.md and {p.props.get('shape', 'rect')} in the design - owed to step 4a, or 3d if the design is wrong"))
+            out.append(("error", f"{c} is shape {d.props.get('shape', 'rect') if d is not None else 'rect'} in Dressing.md and {p.props.get('shape', 'rect')} in the design - owed to step 4a, or 3e if the design is wrong"))
     wanted = {}
     for n in g["links"]:
         a, b = str(n.args[0]), str(n.props.get("to"))
         wanted[frozenset((a, b))] = (a, b, str(n.props.get("kind")))
         if str(n.props.get("kind")) == "door" and a in mine and b in mine and not touching(mine[a], mine[b]):
-            out.append(("error", f"the design joins {a} and {b} by a door, and they share no wall - owed to step 3d"))
+            out.append(("error", f"the design joins {a} and {b} by a door, and they share no wall - owed to step 3e"))
     stated = {(str(n.args[0]), str(n.props["to"])) for n in ways if str(n.args[0]) in members and str(n.props["to"]) in members}
     for k, (a, b, _) in wanted.items():
         for x, y in ((a, b), (b, a)):
@@ -326,7 +326,7 @@ def agree(region, bid: str, g: dict) -> list[tuple[str, str]]:
                             f"the design joins {a} and {b}, and Connections.md lacks {x} to {y} - owed to step 3f"))
     for x, y in sorted(stated):
         if frozenset((x, y)) not in wanted:
-            out.append(("error", f"Connections.md joins {x} and {y}, which the design does not - owed to step 3f, or 3d if the design lacks it"))
+            out.append(("error", f"Connections.md joins {x} and {y}, which the design does not - owed to step 3f, or 3e if the design lacks it"))
     voids = {(space.outline_value(n.props.get("outline")), tuple(space.point_of(n.props.get("xyz")) or [0.0, 0.0])[:2]) for n in g["lines"] if n.name == "Void"}
     held = {(space.outline_value(n.props.get("outline")), tuple(space.point_of(n.props.get("xyz")) or [0.0, 0.0])[:2])
             for n in region.files.get("Blocks", []) if n.args and str(n.args[0]) == bid and n.name == ("Rock" if danger else "Void")}
@@ -343,7 +343,7 @@ def tables_blocks(region) -> dict[str, kdl.Node]:
 
 def check(world, brief) -> list[tuple[str, Path, str]]:
     """Every region's designs and tables against one another: (level, file, message). A DANGEROUS region, or one whose
-    BRIEF.md node asks for a design, that has its locations and no approved design is owed to step 3d; each approved
+    BRIEF.md node asks for a design, that has its locations and no approved design is owed to step 3e; each approved
     design is held to the tables."""
     out = []
     for code, region in world.regions.items():
@@ -353,7 +353,7 @@ def check(world, brief) -> list[tuple[str, Path, str]]:
         if (danger or code in brief.designs) and (region.dir / "Locations.md").exists() \
                 and not any(g["design"].props.get("approved") for g in made.values()):
             why = "a DANGEROUS region's blocks are planned" if danger else f"BRIEF.md asks region {code} for a design"
-            out.append(("warning", path if path.exists() else region.dir, f"{why}, and none is approved - owed to step 3d"))
+            out.append(("warning", path if path.exists() else region.dir, f"{why}, and none is approved - owed to step 3e"))
         for bid, g in made.items():
             node, approved = g["design"], bool(g["design"].props.get("approved"))
             for k in SETTINGS:
@@ -361,13 +361,13 @@ def check(world, brief) -> list[tuple[str, Path, str]]:
                     out.append(("error", path, f"line {node.line}: Design {bid} {bad}"))
             if region.rating.upper() == "DANGEROUS" and bid in plan.plans_of(region):   # a plan: its faults, and ways it leaves unrouted
                 said, unrouted = plan.problems_of(region, bid)
-                out += [("error" if approved else "warning", path, f"Design {bid}: {m} - owed to step 3d") for m in said + unrouted]
+                out += [("error" if approved else "warning", path, f"Design {bid}: {m} - owed to step 3e") for m in said + unrouted]
             elif region.rating.upper() == "DANGEROUS":
-                out.append(("error", path, f"line {node.line}: Design {bid} holds no Room: a DANGEROUS block is designed as a plan - owed to step 3d"))
+                out.append(("error", path, f"line {node.line}: Design {bid} holds no Room: a DANGEROUS block is designed as a plan - owed to step 3e"))
             if approved:
                 out += [(level, path, msg) for level, msg in agree(region, bid, g)]
             if approved and region.rating.upper() == "DANGEROUS" and bid in plan.plans_of(region):
-                out += [("warning", path, f"Design {bid}: {m}, the nearest a coherent layout allows - step 3d") for m in plan.goals_missed(region, bid)]
+                out += [("warning", path, f"Design {bid}: {m}, the nearest a coherent layout allows - step 3e") for m in plan.goals_missed(region, bid)]
                 out += sized(region, brief, bid, g["design"])
     return out
 
@@ -386,7 +386,7 @@ def sized(region, brief, bid: str, node) -> list[tuple[str, Path, str]]:
     if abs(max(w, h) - want) <= max(SIZE_SLACK[0], SIZE_SLACK[1] * want):
         return []
     return [("warning", region.dir / "Design.md", f"Design {bid} spans {w:g} by {h:g} feet, where BRIEF.md's footprint asks "
-             f"about {want:g}: shape the plan nearer it where the layout stays readable - step 3d")]
+             f"about {want:g}: shape the plan nearer it where the layout stays readable - step 3e")]
 
 
 # -- the commands ----------------------------------------------------------------------

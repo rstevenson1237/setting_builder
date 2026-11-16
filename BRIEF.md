@@ -28,7 +28,7 @@ with it, a compass direction, and a distance or `"N-M unit"` from that region's 
 location has a place from it, x east, y north, z up, in feet. `maps` holds one `look` line
 per map kind, how every map of that kind is drawn; a key a line leaves out keeps today's drawing.
 
-A `design` line in a region asks for its blocks to be designed before their tables are written (step 3d); a
+A `design` line in a region asks for its blocks to be designed before their tables are written (step 3e); a
 DANGEROUS region's always are. It holds `fill`, the share of a block's ground its rooms cover; `pad`, the ground
 kept clear round each room; and `footprint`, the level's target size in feet, the width its drawing comes as near
 as a readable layout allows.

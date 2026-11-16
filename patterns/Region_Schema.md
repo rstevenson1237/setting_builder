@@ -16,7 +16,7 @@ each region, by rating, beside its tables:
 - what is `drawn` from the seed and the tables beside the brief, never written: Conditions,
   Inhabitants, Services, Procedures, Loot, Alarm, Leads, Secrets.
 - its `design`, `setting/region/[Code]/Design.md`, for a DANGEROUS region and any region whose `BRIEF.md` node
-  has a `design` line: what its blocks are to look like, written at step 3d from `Locations.md`, before any other table.
+  has a `design` line: what its blocks are to look like, written at step 3e from `Locations.md`, before any other table.
   Each block is one `Design`, then the lines that state it - in DANGEROUS a plan's `Layout`, `Room`, `Route` and
   `Void`; in SAFE and WILD `Fill`, `Tie`, `Street` and `Void` - and, once solved, a `Place` for each location and,
   in DANGEROUS, a `Link` for each way inside the block and a `Part` for each of its rooms no location

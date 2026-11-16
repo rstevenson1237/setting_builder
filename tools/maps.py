@@ -601,7 +601,7 @@ def blocks_of(region) -> dict[str, kdl.Node]:
 
 
 def designed(region) -> set[str]:
-    """The blocks of a region whose design the user has approved: their places come from step 3d."""
+    """The blocks of a region whose design the user has approved: their places come from step 3e."""
     return {str(n.args[0]) for n in region.files.get("Design", []) if n.name == "Design" and n.args and n.props.get("approved")}
 
 
