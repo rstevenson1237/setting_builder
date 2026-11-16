@@ -45,7 +45,7 @@ node Dressing {
   ambiance gloss opt
   width feet                // across, west to east as the room lies; a round room's diameter
   length feet               // north to south
-  xyz point opt drawn       // its centre from its block's, its floor from the block's floor; written by `tools/maps.py pack`;
+  xyz point opt drawn       // its centre from its block's, its floor from the block's floor; its plan's, written by `tools/design.py apply`;
                             // a block states it for every room or for none
   against anchor opt drawn  // touching another room of its block, its xyz then a slide across the side and a gap along it
   outline outline opt drawn // a "poly" where no shape draws the room: its extent its width and length, centred
@@ -112,8 +112,8 @@ node Reward {
 node Connection {
   to location
   type Connection_Type
-  bearing Compass opt drawn // where the far end lies from this one, as designed: it places a block's rooms until they state xyz, and pack keeps it
-  distance distance opt drawn   // with bearing; a way between two rooms of a block that state xyz states neither
+  bearing Compass opt drawn // where the far end lies from this one, on a sloping way out of the block
+  distance distance opt drawn   // with bearing; a way between two rooms of a block states neither
   climb feet opt            // up, or down where negative, where the way changes level
   wall Compass opt drawn    // where it leaves this room: the door stands where the line from the room's centre on this
                             // bearing meets its wall, or as near as a door fits
@@ -128,8 +128,7 @@ node Block {               // one level: a map of its own
   xyz point opt drawn       // its centre from its region's origin; the first block's is the origin, and a later one
                             // unset lies over or under the block a climbing way joins it to
   against anchor opt drawn  // touching another block of its region, its xyz then a slide and a gap
-  outline outline opt drawn // the ground its rooms are packed in: the square "rect S S", BRIEF.md's pack footprint, or a
-                            // "poly" the design draws round its centre, which pack keeps; stated where they state xyz
+  outline outline opt drawn // the ground its rooms lie in, its plan's; stated where they state xyz
   width feet opt            // of its passages, where they differ from the seed's Conditions
   height feet opt
 }
@@ -157,6 +156,6 @@ folder Dangerous type=Dangerous_Type {
   Procedures Procedure
   Blocks Block Rock
   Connections Connection
-  Design Design Use Bind Fill Join Layout Room Route Void Place Link Part opt
+  Design Design Layout Room Route Void Place Link Part
 }
 ```

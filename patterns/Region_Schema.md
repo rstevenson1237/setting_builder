@@ -15,12 +15,11 @@ each region, by rating, beside its tables:
   location is left out. How long each field or item runs is `BRIEF.md`'s `words`.
 - what is `drawn` from the seed and the tables beside the brief, never written: Conditions,
   Inhabitants, Services, Procedures, Loot, Alarm, Leads, Secrets.
-- its `design`, `setting/region/[Code]/Design.md`, for a region whose `BRIEF.md` node has a
-  `design` line: what its blocks are to look like, written at step 3d before `Locations.md`.
-  Each block is one `Design`, then the lines that state it - in DANGEROUS either a layout engine's
-  `Use`, `Bind`, `Fill`, `Join` and `Void`, or a plan's `Layout`, `Room`, `Route` and `Void`; in SAFE
-  and WILD `Fill`, `Tie`, `Street` and `Void` - and, once solved, a `Place` for each location and,
-  in DANGEROUS, a `Link` for each way inside the block and a plan's `Part` for each of its rooms no location
+- its `design`, `setting/region/[Code]/Design.md`, for a DANGEROUS region and any region whose `BRIEF.md` node
+  has a `design` line: what its blocks are to look like, written at step 3d from `Locations.md`, before any other table.
+  Each block is one `Design`, then the lines that state it - in DANGEROUS a plan's `Layout`, `Room`, `Route` and
+  `Void`; in SAFE and WILD `Fill`, `Tie`, `Street` and `Void` - and, once solved, a `Place` for each location and,
+  in DANGEROUS, a `Link` for each way inside the block and a `Part` for each of its rooms no location
   holds. Once the user approves a design, the tables are written to agree with it.
 
 Every brief sentence carries something usable at the table - a name, count, price, place,
@@ -65,16 +64,13 @@ enum Stair up down
 enum Yes_No yes no
 enum Layout_Links auto none   // auto: its arrangement joins its rooms; none: only routes join its locations
 
-node Design {               // a block's design, opening with its id: layouts, chained, round the rooms they leave to the solver
+node Design {               // a block's design, opening with its id
   locations location list   // every location of the block; Locations.md holds exactly these
   xyz point opt             // its centre from its region's origin, as Blocks.md's
   outline outline opt       // the ground its rooms fill; unset, they grow out from xyz and the outline is the hull of what they hold;
                             // its drawing comes as near BRIEF.md's footprint as a readable layout allows
-  fill string opt           // the share of the outline the rooms cover, "N-M%"; unset, BRIEF.md's design line, then its pack
-  spacing string opt        // the passage wanted between joined rooms, "N-M feet"; sets passages and detour where they are unset, and its most is how far joined rooms may stand apart
+  fill string opt           // the share of the outline the rooms cover, "N-M%"; unset, BRIEF.md's design line
   pad string opt            // "N feet" kept clear round each room, so joined rooms stand twice it apart, a passage between
-  passages percent opt      // the share of ways run as passages; unset, BRIEF.md's pack
-  detour distance opt       // the most a way may walk beyond the straight line; unset, BRIEF.md's pack
   hull outline opt drawn    // where it states no outline, the ground the solved rooms and ways hold, which Blocks.md draws
   seed number opt drawn     // the solver's seed for the places below
   score string opt drawn    // the engine's score for that seed, out of 100
@@ -127,26 +123,10 @@ node Route {                // a plan: a way between two or more ends, opening w
   line Route_Line opt       // a cleft, laid before the rooms, which keep off it, and crossed by passages; up to 20 ft wide
   label string opt          // a note; a cleft's, at each edge
 }
-node Use {                  // a layout in the block, opening with the block's id
-  id tag                    // its name in the block, which a Bind and a Join cite
-  layout string             // a layout's id, as `tools/design.py layouts` lists them
-  params string opt         // "name=N" pairs, in the layout's own terms and range (sizes in 5 ft cells)
-}
-node Bind {                 // a role of a Use given its locations
-  use tag
-  role tag
+node Fill {                 // SAFE and WILD: locations as buildings the solver places, each the kind its type gives
   locations location list
-  type kind list            // one type for every location of the role, or one for each, in order
-  pad string opt            // "N feet", in place of the design's for these rooms
-}
-node Fill {                 // locations no layout binds: plain rooms the solver places
-  locations location list
-  type kind list            // as a Bind's
-  width feet opt            // each room's across and along; unset, the solver's size for the type
+  width feet opt            // each one's across and along; 20 where unset
   length feet opt
-  pad string opt            // as a Bind's
-  shape Room_Shape opt      // rect where unset
-  outline outline opt       // a "poly" where no shape draws the room: its extent is its width and length
 }
 node Tie {                  // SAFE and WILD: one location a bearing and distance from another, which the solver holds
   from location
@@ -157,10 +137,6 @@ node Tie {                  // SAFE and WILD: one location a bearing and distanc
 node Street {               // SAFE and WILD: a street, the buildings it runs past in order from its start
   past location list
   kind gloss opt            // a road kind; a street where unset
-}
-node Join {                 // a way between two ends: a Use's socket, or a location code
-  from string               // "use.socket", or a location code
-  to string                 // as from; a location of another block is a way out of this one
 }
 node Void {                 // ground within the block that no location or way takes; in DANGEROUS the block's Rock
   what gloss                // what fills it, written on its map

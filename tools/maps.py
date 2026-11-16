@@ -3,7 +3,6 @@
 
   python3 tools/maps.py place [--brief PATH] [--setting DIR]
   python3 tools/maps.py ground [--brief PATH] [--setting DIR]
-  python3 tools/maps.py pack REGION [--seed N] [--again]
   python3 tools/maps.py draw [--brief PATH] [--setting DIR] [--out DIR] [--fit WxH[mm|px]]
 
 place    Reads BRIEF.md's `sheet` lines and each region's `ground` and `place` lines, puts
@@ -23,17 +22,8 @@ ground   Reads each placed region's ground back from its home sheet and writes i
          area, and, once its Locations.md exists, the ground at each location. Run again
          after the locations are written. A location with no bearing and distance, or xyz, from
          the way in is listed and left out.
-pack     Lays each block of a DANGEROUS region out in its footprint (`artgen dungeon layout`), a door
-         or a passage for every way, keeping each way's direction as its rooms lie, or else as its
-         bearing says. Writes each room's `xyz` from the block's centre and the block's `outline`, and
-         takes the bearing and distance off each way within the block. A room placed
-         `against` another is carried with it, and one whose way out states a bearing and distance
-         keeps its place. The region is settled before packing, over the block a stair reaches,
-         and after, where a way with a bearing puts it; a stair whose two rooms are then placed
-         loses its bearing and distance. A block already packed whose ways
-         all route is left as it lies; --again repacks it. A seed fixes the result.
 draw     Builds each block's map, `setting/region/[Code]/[Block].json`, never committed, from its tables - a
-         DANGEROUS block's a dungeon, a SAFE block's a settlement walled round its locations
+         DANGEROUS block's a dungeon, from its approved plan, a SAFE block's a settlement walled round its locations
          on its home sheet, a WILD block's the same unwalled unless it states a wall - and with --out renders every sheet and block to SVG there.
          Region maps and location cuts (`region_svg`, `cut_svg`) are paused.
 """
@@ -442,7 +432,7 @@ def said(ft: float) -> str:
 
 def way(world, a: str, b: str) -> tuple[str, str] | None:
     """Where the way from location a to b runs, as (Compass point, distance): the wall it leaves
-    a packed room by and its walk to the next room, else its Connection's bearing and distance."""
+    a placed room by and its walk to the next room, else its Connection's bearing and distance."""
     region = world.regions.get(a.split(".")[0])
     if region is None:
         return None
@@ -625,11 +615,10 @@ def block_file(region, block: kdl.Node) -> tuple[dict | None, list[str]]:
     """The artgen file for one block, by its region's rating, and what the tables leave it
     unable to draw."""
     if region.rating.upper() == "DANGEROUS":
-        import dungeon
         import plan
-        if str(block.args[0]) in designed(region) & set(plan.plans_of(region)):   # an approved plan draws its own routes
+        if str(block.args[0]) in designed(region) & set(plan.plans_of(region)):
             return plan.block_map(region, block)
-        return dungeon.block_map(region, block)
+        return None, []                                  # no approved plan yet: tools/design.py reports it
     return settlement_map(region, block)
 
 
@@ -790,10 +779,6 @@ def built(code: str, bid: str, setting: Path = tables.SETTING) -> tuple[Path | N
     m, problems = block_file(region, drawn_blocks(region)[bid])
     if m is None:
         return None, tuple(problems)
-    if ENGINE[region.rating.upper()] == "dungeon" and not any(c.get("origin") == "plan" for c in m.get("corridors", [])):
-        import dungeon                                  # a plan's passages are routed already
-        dungeon.spoke_routes(m)
-        dungeon.route_around(m)
     target, text = region.dir / f"{bid}.json", json.dumps(m, indent=1)
     if not target.exists() or target.read_text() != text:
         target.write_text(text)
@@ -1058,11 +1043,7 @@ def draw(brief_path: Path, setting: Path, out: Path | None, fit: str) -> int:
 
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("command", choices=["place", "ground", "pack", "draw"])
-    ap.add_argument("region", nargs="?", help="pack: the region code")
-    ap.add_argument("--seed", type=int, default=1)
-    ap.add_argument("--again", action="store_true", help="pack: repack a block already packed")
-    ap.add_argument("--tries", type=int, default=12, help="pack: packings tried, the one whose ways walk least kept")
+    ap.add_argument("command", choices=["place", "ground", "draw"])
     ap.add_argument("--brief", type=Path, default=tables.BRIEF)
     ap.add_argument("--setting", type=Path, default=tables.SETTING)
     ap.add_argument("--out", type=Path)
@@ -1070,9 +1051,6 @@ def main() -> int:
     a = ap.parse_args()
     if a.command == "draw":
         return draw(a.brief, a.setting, a.out, a.fit)
-    if a.command == "pack":
-        import dungeon
-        return dungeon.pack_region(a.region, a.seed, a.again, a.tries)
     return (place if a.command == "place" else ground)(a.brief, a.setting)
 
 

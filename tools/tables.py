@@ -1237,24 +1237,17 @@ ARTGEN = Path(__file__).resolve().parent / "artgen" / "artgen-maps.js"
 EXTENT_RE = re.compile(r"(\d+(?:\.\d+)?) by (\d+(?:\.\d+)?) (\w+)")
 SPAN_RE = re.compile(r"(\d+(?:\.\d+)?)(?:-(\d+(?:\.\d+)?))? (\w+)")
 FILL_RE = re.compile(r"(\d+)-(\d+)%")
-SPACING_RE = re.compile(r"(\d+)-(\d+) feet")
 PAD_RE = re.compile(r"(\d+) feet")
 
 
 def design_setting(key: str, v: str) -> str | None:
-    """What is wrong with one setting of a design, a `Design` line's or BRIEF.md's `design` line: fill="N-M%",
-    spacing="N-M feet", passages="N%" or detour, a distance."""
+    """What is wrong with one setting of a design, a `Design` line's or BRIEF.md's `design` line: fill="N-M%" or
+    pad="N feet"."""
     if key == "fill" and (m := FILL_RE.fullmatch(v)) and int(m[1]) <= int(m[2]) <= 100:
-        return None
-    if key == "spacing" and (m := SPACING_RE.fullmatch(v)) and int(m[1]) <= int(m[2]):
-        return None
-    if key == "passages" and PERCENT_RE.fullmatch(v) and int(v[:-1]) <= 100:
         return None
     if key == "pad" and (m := PAD_RE.fullmatch(v)) and int(m[1]) % 5 == 0:
         return None
-    if key == "detour" and not unit_problem("distance", v, {"Distance_Unit": {"feet": 0, "yards": 0, "miles": 0}}):
-        return None
-    return f'takes fill="N-M%", spacing="N-M feet", passages="N%", detour, a distance, and pad="N feet", not {key}={v!r}'
+    return f'takes fill="N-M%" and pad="N feet", not {key}={v!r}'
 
 UNIT_FEET = {"feet": 1, "yards": 3, "miles": 5280}
 PROCEDURES = "Procedures"      # a region's own count, from its `procedure` lines, never a type's rate
@@ -1380,7 +1373,6 @@ class Brief:
     def __init__(self, schema: Schema, path: Path = BRIEF):
         self.schema, self.path, self.problems = schema, path, list(schema.brief_problems)
         self.targets, self.regions = [], {}
-        self.packs: dict[str, kdl.Node] = {}            # a rating's pack line, by its name, and a region's, by its code
         self.designs: dict[str, kdl.Node] = {}          # a region's design line, by its code: its blocks are designed at step 3d
         self.files = self.setting = self.origin = None
         self.sheets: dict[str, kdl.Node] = {}
@@ -1397,10 +1389,8 @@ class Brief:
                 for c in n.children:
                     if c.name == "target":
                         self._add(c, folders[n.name], None)
-                    elif c.name == "pack":
-                        self._pack(c, n.name, False)
                     elif c.name not in ("rate", "words"):
-                        p(f"{n.name} holds rate, words, target and pack lines, not {c.name!r}")
+                        p(f"{n.name} holds rate, words and target lines, not {c.name!r}")
             elif n.name == "region":
                 code = str(n.args[0]) if n.args else ""
                 rating = str(n.props.get("rating", "")).title()
@@ -1411,8 +1401,6 @@ class Brief:
                 for c in n.children:
                     if c.name == "target":
                         self._add(c, rating, code)
-                    elif c.name == "pack":
-                        self._pack(c, code, True)
                     elif c.name == "design":
                         self._design(c, code)
                 if "locations" in n.props:
@@ -1489,42 +1477,21 @@ class Brief:
                           f'place A north "0-1 miles"')
         return out
 
-    def _pack(self, n: kdl.Node, key: str, region: bool):
-        """A `pack` line: fill="N-M%", passages="N%", detour, a distance, and, in a region, footprint, a distance."""
-        p = lambda msg: self.problems.append(f"line {n.line}: {msg}")
-        for k, v in n.props.items():
-            v = str(v)
-            if k == "fill" and (m := FILL_RE.fullmatch(v)) and int(m[1]) <= int(m[2]) <= 100:
-                continue
-            if k == "passages" and PERCENT_RE.fullmatch(v) and int(v[:-1]) <= 100:
-                continue
-            if (k == "detour" or k == "footprint" and region) and not unit_problem("distance", v, self.schema.setting_enums):
-                continue
-            p(f'pack takes fill="N-M%", passages="N%" and detour, a distance{", and footprint, a distance" if region else ""}, not {k}={v!r}')
-        self.packs[key] = n
-
     def _design(self, n: kdl.Node, code: str):
-        """A `design` line: the settings every block design of the region starts from, `fill`, `passages`, `detour`
-        and `spacing`, as a Design line states them; any it leaves out keep the `pack` line's."""
+        """A `design` line: `fill` and `pad`, which every block design of the region starts from, and `footprint`, a
+        distance, the size its level's drawing is held near."""
         for k, v in n.props.items():
-            if problem := design_setting(k, str(v)):
+            if k == "footprint":
+                if unit_problem("distance", str(v), self.schema.setting_enums):
+                    self.problems.append(f"line {n.line}: design footprint is a distance, not {v!r}")
+            elif problem := design_setting(k, str(v)):
                 self.problems.append(f"line {n.line}: design {problem}")
         self.designs[code] = n
 
-    def packing(self, code: str) -> dict:
-        """How a region's blocks are packed: its rating's pack line, then its own, as `fill`, the
-        (least, most) share of its square its rooms cover, `passages`, the share of its ways run
-        as passages, and `detour` and `footprint` in feet; a value no line states is None."""
-        rating = str(self.regions[code].props.get("rating", "")).lower() if code in self.regions else ""
-        got = {}
-        for key in (rating, code):
-            if key in self.packs:
-                got.update({k: str(v) for k, v in self.packs[key].props.items()})
-        fill = FILL_RE.fullmatch(got.get("fill", ""))
-        ft = lambda k: float(m[1]) * UNIT_FEET.get(m[2], 1) if (m := DISTANCE_RE.fullmatch(got.get(k, ""))) else None
-        return {"fill": (int(fill[1]) / 100, int(fill[2]) / 100) if fill else None,
-                "passages": int(got["passages"][:-1]) / 100 if PERCENT_RE.fullmatch(got.get("passages", "")) else None,
-                "detour": ft("detour"), "footprint": ft("footprint")}
+    def footprint(self, code: str) -> float | None:
+        """The size, in feet, a region's `design` line asks its level to be drawn near."""
+        m = DISTANCE_RE.fullmatch(str(self.designs[code].props.get("footprint", ""))) if code in self.designs else None
+        return float(m[1]) * UNIT_FEET.get(m[2], 1) if m else None
 
     def _add(self, n: kdl.Node, rating: str, region: str | None):
         if t := self._read(n, rating, region):

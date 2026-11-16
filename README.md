@@ -42,8 +42,6 @@ Read these rather than a description of them.
   `Region_Schema.md` (each rating's region `seed`, `brief`, `drawn` and `Design`), and one per rating
   (`Safe_Schema.md`, `Wild_Schema.md`, `Dangerous_Schema.md`) defining its location tables
   and every node they hold, shared with no other rating.
-- `layouts/` - this build's own layouts, in artgen's layout format (`artgen schema layout`): each
-  is used in place of artgen's bundled layout of its id (`tools/design.py layouts` lists both).
 - `setting/` - the generated setting, mirroring the template set in the order STEPS.md lays
   out: setting-level artifacts, Treasure Tables I-V, the two living artifacts
   (`Procedures.md`, `Language.md`), the registries (`Lore.md`, `Keys.md`, `Quests.md`,
@@ -57,10 +55,10 @@ Read these rather than a description of them.
   the matching `templates/checks/*_Judgement_Check.md`. Nested under `setting/` so wiping the
   setting for a new build takes its judgement checks with it, rather than leaving them
   behind to bias the next one.
-- `.claude/` - Claude Code settings, skills and commands: this repo's `setting-maps` and
-  `block-design`, and artgen's map skills and `/artgen-*` commands, installed with `tools/artgen/`.
-- `archive/` - the previous location-level patterns, templates and tools, and closed
-  `plans/`, held for review against this build. Read by no step.
+- `.claude/` - Claude Code settings, skills and commands: this repo's `setting-maps`,
+  `block-design` and `block-plan`, and artgen's map skills and `/artgen-*` commands, installed with `tools/artgen/`.
+- `archive/` - the previous location-level patterns, templates and tools, the `layouts/` drawn for the
+  retired layout engine, and closed `plans/`, held for review against this build. Read by no step.
 - `plans/` - proposals for framework changes not yet made: one folder per change, holding
   its `intake.md`, `spec.md` and `implementation.md`. Read by no step.
 - `tools/` - exactly what content generation needs and nothing else. Stdlib-only Python, no
@@ -79,11 +77,11 @@ Read these rather than a description of them.
     installed with artgen's map skills and commands by the `artgen-dist` installer's `maps` module;
     `MANIFEST.json` records the release and every installed file. How the framework uses it, what it
     writes into each file and why, and how to upgrade it: the `setting-maps` skill.
-  - `dungeon.py` - a DANGEROUS block in artgen's dungeon engine. `pack` hands `dungeon layout` the block's rooms and ways as a graph, with BRIEF.md's footprint, fill and detour and the block's outline and Rock, and writes the rooms' places back to the tables. Its map file is the rooms at those places, a door where two touch and a maze-routed passage where not, each way out of the block a stair in its room, the outline as bounds and the Rock as rock. The validator reads the file back through `dungeon check` and `dungeon facts`, held to the tables' ways.
-  - `design.py` - step 3d: a block's `Design` written as artgen's design, which the engine expands (`dungeon design`), lays out over several seeds and scores (`dungeon layout --design --seeds`); one seed accepted into `Design.md`, and an approved design held to the tables.
-  - `plan.py` - step 3d for a block designed as a plan: its layouts, rooms and routes placed on 10 ft squares and every route run between them, each place, facing, side and length a goal given up, and reported, before a way is left unrouted; the solve's map, and the places and ways `accept` writes.
+  - `design.py` - step 3d: a block's `Design` solved and drawn, one solve accepted into `Design.md`, an approved design's places applied to the tables, and the design held to them. A DANGEROUS block is handed to `plan.py`; a SAFE or WILD block is laid out as a settlement by artgen over several seeds, each scored.
+  - `plan.py` - a DANGEROUS block's plan: its layouts, rooms and routes placed on 10 ft squares and every route run between them, each place, facing, side and length a goal given up, and reported, before a way is left unrouted; the solve's map, and the places and ways `accept` writes.
+  - `dungeon.py` - what the validator reports of a DANGEROUS block: its map read back through `dungeon check` and `dungeon facts`, held to the tables' ways.
   - `space.py` - the dry fire: every region, block and location at a point in one space from the origin region's way in, x east, y north, z up, in feet, and what does not fit - unplaced things, overlaps, things outside their parent's outline, and ways whose climb, bearing or distance disagree with where their ends lie. `from` states one place from another.
-  - `maps.py` - draws maps from the setting through artgen. `pack` places a DANGEROUS region's rooms in a square. `place` puts each region on its sheets
+  - `maps.py` - draws maps from the setting through artgen. `place` puts each region on its sheets
     from `BRIEF.md`'s `sheet`, `ground` and `place` lines and writes `setting/Sheets.md` and each region's `outline` and `xyz`. `ground` writes each
     region's `Ground.md`; `draw` builds each block's map from its tables, never committed, and renders sheets, regions, blocks and cuts to SVG,
     which the site and PDF builders embed.
@@ -104,10 +102,8 @@ python3 tools/validate_setting.py --brief setting|REGION # BRIEF.md as a setting
 python3 tools/space.py [--only REGION]      # the dry fire: every place in the setting, and what does not fit
 python3 tools/space.py settle [REGION]      # write each region's place where its sheet or joins give it
 python3 tools/space.py from CODE to CODE     # how far, which way and how far up or down one place lies from another
-python3 tools/design.py layouts|expand|solve|accept|check   # step 3d: a block's design, from layouts
-python3 tools/plan.py solve CODE|--file F.md [BLOCK]   # step 3d: a block's design as a plan - layouts, rooms, routes
-python3 tools/plan.py draft CODE            # a first plan from the region's tables as they stand
-python3 tools/plan.py apply CODE            # step 4a: an approved plan's places into the tables
+python3 tools/design.py solve|accept|apply|check CODE   # step 3d: a block's design solved, accepted, applied to the tables, held to them
+python3 tools/plan.py solve --file F.md [BLOCK]   # a plan tried outside the setting
 python3 tools/metrics.py                    # corpus, tells, budget and read-set report
 python3 tools/metrics.py --tells [PATH]     # every tell hit, listed, over any markdown
 python3 tools/metrics.py --carry [CODE]     # the table words each write-up carries and drops

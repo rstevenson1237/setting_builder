@@ -1,15 +1,14 @@
 ---
 name: block-plan
-description: Write a DANGEROUS block's design as a plan - the block's ground, its layouts, its rooms and the routes between them, stated in KDL and laid out by tools/plan.py - when a level's shape is known well enough to state, rather than left to the layout engine. Use at step 3d for a complex or hand-shaped level (a hub with spokes, an axis of halls, wings joined by long passages, levels joined by stairs), when a plan leaves a way unrouted or misses a goal, or when changing an approved plan.
+description: Write a DANGEROUS block's design as a plan - the block's ground, its layouts, its rooms and the routes between them, stated in KDL and laid out by tools/plan.py. Use at step 3d for every DANGEROUS level (a hub with spokes, an axis of halls, wings joined by long passages, levels joined by stairs), when a plan leaves a way unrouted or misses a goal, or when changing an approved plan.
 ---
 
 # Block plans
 
-A plan is one of a DANGEROUS block's two designs at step 3d (`patterns/Region_Schema.md`; the other, layouts chosen
-from artgen's library, is the `block-design` skill). Its lines go in `setting/region/[Code]/Design.md`: the block's
-`Design` line, then `Layout`, `Room`, `Route` and `Void` lines. `tools/design.py solve` and `accept` hand a planned
-block to `tools/plan.py`; everything else in the `block-design` skill holds - the user's word sets `approved`, the
-tables then follow the accepted places, and the map is built from the plan.
+A plan is a DANGEROUS block's design at step 3d (`patterns/Region_Schema.md`). Its lines go in
+`setting/region/[Code]/Design.md`: the block's `Design` line, then `Layout`, `Room` and `Route` lines, and a `Void`
+for ground no room or passage takes. `tools/design.py solve` and `accept` hand the block to `tools/plan.py`; the
+`block-design` skill says how a design is approved, applied and changed.
 
 Every place, facing, side and length is a goal. The solver keeps a plan that routes every way over one that meets
 a goal, and says each goal it missed: read the report before showing the map. A way that finds no path first gives up
@@ -61,13 +60,13 @@ The examples in `examples/` are each solved by the validator: start from the one
 
 ## Order
 
-1. Write the plan from the region's brief node and `Seed.md`; `python3 tools/plan.py draft [Code]` writes a first
-   one from tables that already stand. `python3 tools/plan.py solve --file F.md` tries a
-   plan outside the setting; `python3 tools/design.py solve [Code]` solves the region's and draws it.
+1. Write the plan from the region's brief node, `Seed.md` and `Locations.md`, each room sized for what its location
+   is. `python3 tools/plan.py solve --file F.md` tries a plan outside the setting;
+   `python3 tools/design.py solve [Code]` solves the region's and draws it.
 2. Read the report: `UNROUTED` and `goal missed` lines say what to change - a larger outline, a facing that
    fights another, a length the ground cannot give. A note says which goals were set aside to route every way.
 3. Show the user the drawing; `python3 tools/design.py accept [Code]` writes the `Place`, `Link` and `Part` lines.
-   Once approved the plan is solved again exactly as accepted, and `python3 tools/plan.py apply [Code]` writes its
+   Once approved the plan is solved again exactly as accepted, and `python3 tools/design.py apply [Code]` writes its
    places into the tables at 4a.
 4. A stair's room is held over the room it meets on a placed level. Plan the first level of a chain with `--free`,
    then place its neighbours from it.

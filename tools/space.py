@@ -9,7 +9,7 @@ x runs east, y north and z up, in feet, from the origin region's way in at its g
 `origin`, else the first region in the gazetteer. Each thing stands at a place in its parent's
 frame - a region in the setting's, a block in its region's, a location in its block's, or its
 region's where it is in none - and its absolute place adds its ancestors'. Plan (x and y) and
-height (z) are known apart: a room not yet packed stands on its block's floor at no known point.
+height (z) are known apart: a room not yet placed stands on its block's floor at no known point.
 
 A region's origin is its way in, a DANGEROUS region's its first block's centre; a block's is its
 centre, and a SAFE or WILD block lies at its region's origin; a location's is its centre. A

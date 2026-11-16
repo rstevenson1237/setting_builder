@@ -1,6 +1,6 @@
 ---
 name: setting-maps
-description: How this framework draws its maps with artgen - the sheets, each region's ground, a DANGEROUS block as a dungeon and a SAFE or WILD block as a settlement - all built from the tables by tools/maps.py, and what it writes into each artgen file and why. Use when a step places regions, writes Ground.md, packs a block or draws maps; when a map looks wrong or the validator reports one; when changing tools/maps.py or dungeon.py; when something artgen draws should be reported upstream; or when upgrading artgen.
+description: How this framework draws its maps with artgen - the sheets, each region's ground, a DANGEROUS block as a dungeon and a SAFE or WILD block as a settlement - all built from the tables by tools/maps.py, and what it writes into each artgen file and why. Use when a step places regions, writes Ground.md, applies a design or draws maps; when a map looks wrong or the validator reports one; when changing tools/maps.py, plan.py or dungeon.py; when something artgen draws should be reported upstream; or when upgrading artgen.
 ---
 
 # Maps
@@ -15,8 +15,8 @@ the converter, then built again.
 |---|---|---|
 | 3b | `python3 tools/maps.py place` | `setting/Sheets.md`, `setting/[Sheet].json`, each region's `outline` and `xyz` |
 | 3b, 3g | `python3 tools/maps.py ground` | each placed region's `Ground.md` |
-| 3d | `python3 tools/design.py` (the `block-design` or `block-plan` skill) | a designed block's places, in `Design.md` |
-| 4a | `python3 tools/maps.py pack [Code]`, then `python3 tools/space.py settle [Code]` | each room's `xyz`, each block's `outline`; not for a block with an approved design; `python3 tools/plan.py apply [Code]` for an approved plan |
+| 3d | `python3 tools/design.py solve`, `accept` (the `block-design` and `block-plan` skills) | a designed block's places, in `Design.md`; `apply` writes a SAFE or WILD location's into `Locations.md` |
+| 4a | `python3 tools/design.py apply [Code]`, then `python3 tools/space.py settle [Code]` | each DANGEROUS room's `xyz`, size and shape, each block's `outline` |
 | any | `python3 tools/maps.py draw [--out DIR]` | `setting/region/[Code]/[Block].json`, and the SVGs with `--out` |
 
 A request `place` or `map check` reports unmet goes to `BRIEF.md`, not to a new seed. The
@@ -35,28 +35,18 @@ step that fixes them.
 
 ## What the framework writes, and why
 
-**A packed block** (`maps.py pack`, `dungeon.graph_of`): a `dungeon layout --graph`, not a file. Rooms in 5 ft cells, each way
-with the bearing it keeps; a room `against` another, a stair's room `over` the room it meets, Rock as `keepOut`, a poly
-outline as the footprint, BRIEF.md's fill, passages and detour. The `report` (`left`, `detours`) is what the validator holds
-to BRIEF.md's detour. **A designed block** (step 3d) is an artgen design instead, laid out by `dungeon layout --design`.
-**An approved plan** (`plan.block_map`) is its own solve: rooms where the plan put them, each passage along the squares
-it was routed on (a branch joins its trunk as `{corridor}`, a way off the map is an `exit` end), each door the kind the
-tables' Connection gives it; its ground and fill are the Design line's, not the `pack` line's.
-
-**A block's map** (`dungeon.block_map`):
+**A DANGEROUS block's map** (`plan.block_map`) is its approved plan's solve, so a block with none is not drawn:
 
 | Key | What, and why |
 |---|---|
 | `scale.perCell` | 5 ft a cell, so a 10 ft passage is `width: 2`. |
-| `rooms[].shape` | `rect`, `circle`, `cave`, `octagon` (`cut` 1/(2+√2), so a square one is regular) and `hexagon` as themselves; a `poly` outline as a `poly`. |
-| `rooms[].number` | `false`: the code alone labels a room. |
-| `corridors[]` | Where two rooms do not touch: `route: "maze"`, `width: 2`, its ends `{room, side}` at the wall the Connection names, else `{room}`. Written shortest first, as `dungeon layout` routed them, so the map draws the passages `pack` measured. |
+| `rooms[]` | Each room where the plan put it, in its shape: `rect`, `circle`, `cave`, `octagon` (`cut` 1/(2+√2), so a square one is regular), `hexagon`, or `points` for any other. `number: false`: the code alone labels a room; a part's label is its location's code and a letter. |
+| `corridors[]` | Each passage along the squares it was routed on, `origin: "plan"`: a branch joins its trunk as `{corridor}`, a way off the map is an `exit` end, and each end's door is the kind the tables' Connection gives it. |
 | `connections[]` | A door or opening where two rooms touch. |
-| `rooms[].exits` | Each way out of the block, a stair or arrow by the wall facing it, with a note naming the way. |
-| `bounds`, `areas[]` | A block's poly outline, and each of its Rock as a `rock` area. |
-| `style` | `BRIEF.md`'s `maps` look; on a packed level `wall: 2.5` and `hatch: full`; shared walls on by default. |
-| `furniture.place` | `outside`, so nothing stands on the map. |
-| `overlay` | A trap in the middle of its way, or in its doorway. |
+| `rooms[].exits` | Each stair out of the block, by a wall of its own, with a note naming the way. |
+| `bounds` | The plan's ground. |
+| `style` | `BRIEF.md`'s `maps` look over `wall: 2.5` and `hatch: full`. |
+| `furniture.place` | `outside`, so the scale bar stands off the map. |
 
 The validator reads the file back with `dungeon check --errors <ids>` (the ids are `dungeon.FAULTS`; `dungeon.SEEN` the
 warnings it passes on) and `dungeon facts` (each passage's `path`, its doors, `unreached`, each room's `exits`), held to

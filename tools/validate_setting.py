@@ -131,7 +131,7 @@ def context_section(text: str) -> str:
 
 
 def check_designs(diag: Diagnostics, setting, brief):
-    """Every region's block designs against its tables: step 3d owes a region whose BRIEF.md node asks for one."""
+    """Every region's block designs against its tables: step 3d owes a DANGEROUS region, and any whose BRIEF.md node asks for one."""
     import design
     for level, path, msg in design.check(setting, brief):
         (diag.error if level == "error" else diag.warn)(path, msg)
@@ -146,13 +146,6 @@ def check_plan_examples(diag: Diagnostics):
             s, said = plan.solve(lines, bid, seeds=3, others=plan.others_of(lines))   # that it routes, not its best seed
             for m in said + (s.failed if s else ["no solve"]):
                 diag.error(f, f"{bid}: {m}")
-
-
-def check_layouts(diag: Diagnostics):
-    """Every layout of layouts/ against artgen's layout schema: the engine refuses the folder on the first it rejects."""
-    import design
-    if design.layouts()[0] is None:
-        diag.error(design.LAYOUTS, design.layouts()[1])
 
 
 def check_read_set(diag: Diagnostics, schema):
@@ -1477,7 +1470,6 @@ def main() -> int:
     diag = Diagnostics()
     schema = tables.Schema()
     check_read_set(diag, schema)
-    check_layouts(diag)
     for path, problem in schema.problems:
         diag.error(path, problem)
     brief = tables.Brief(schema)
