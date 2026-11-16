@@ -33,5 +33,7 @@ it gets today.
 
 ## Asked
 
-1. Is it right that WILD's Rewards and DANGEROUS's People were never declined, only not rebuilt after #68?
-2. C1 to C4: which does the next build want? Any left unticked costs nothing.
+1. C1 to C4: which does the next build want? Any left unticked costs nothing.
+
+Answered: WILD's Rewards and DANGEROUS's People were never declined. The schema was built one setting at a time,
+each proving or widening the workflow, and no build since #68 has asked for them.

@@ -31,4 +31,6 @@ Tick a line to approve it. Each is one member, one target or one check; `intake.
 ## Asked
 
 1. P3: is one way between levels the Lost City's own shape, with the target left for a later build to raise?
-2. P5 brings back one line of Compositions. Was the rest left out at #68 on purpose?
+
+Answered: Compositions were not left out at #68 on purpose. The schema was built one setting at a time, and no
+build since has asked for a multi-room chain.
