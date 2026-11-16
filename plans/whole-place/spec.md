@@ -11,18 +11,17 @@ Tick a line to approve it. V1 and V2 add no stored data; V3 and V5 each add one 
 - [ ] **V3. An underground region has a roof.** A WILD Seed whose `terrain` is underground states `height`, in
   feet. The region is then a volume, and a block of another region inside it is reported unless a way joins
   the two there.
-- [ ] **V4. A side elevation.** `python3 tools/space.py section` draws every block as a band, floor to roof,
-  across its extent east to west, each stair and sloping way a line between its ends, each region labelled. The
-  site's home page and the PDF's front matter embed it. It is the picture that shows V1 to V3's findings at once.
+- [x] **V4. A side elevation.** Built: `python3 tools/space.py section` draws every block as a band, floor to
+  roof, each location within it, a SAFE or WILD region as its floor, and each way between two blocks or regions as
+  a line between its ends. The site's home page and the PDF embed it, and both `--check`s fail a build without it.
 - [ ] **V5. One datum.** `maps.py ground` writes each `At` height from the region's way in, in the shared
   space's feet, in place of the sheet's own.
 
 ## What approval reports at once
 
-The six rows of `intake.md`, as warnings. Each is then settled in the tables or the text: move B.10 or say where
-it is; give the cavern a height and place it clear of the pyramid, or write the pyramid as standing in it.
+The open rows of `intake.md`, as warnings: the tunnel across level 5's outer passage, the stair through level 6's,
+and a stair's head with no roof to stand in.
 
 ## Asked
 
-1. Is the lake city meant to lie beside the pyramid's lower levels, or round them?
-2. V4 alone can be built first, on what `space.py` holds today. Should it be?
+1. V3 needs the cavern's height. How high is the lake city's roof?

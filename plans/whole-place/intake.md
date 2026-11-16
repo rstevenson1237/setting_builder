@@ -17,17 +17,23 @@ climb, bearing or distance disagrees with where its ends lie.
 
 ## What it cannot see, in this build
 
-| Found by hand | Why the dry fire passes it |
-|---|---|
-| The Black Stair's head (B.10) lies at z -63, four feet above F.6's ceiling and inside level 4's block. Nothing written says the lake city's stair comes up inside the pyramid. | B.10 has an outline and no height, and a WILD location is not tested against another region's block. |
-| The passage up to it from the old granary (B.5), 80 yards climbing 50 feet, crosses the footprints of levels 4 and 5. | A way between places is a bearing and a distance: it has no path. |
-| The lake cavern is a circle of radius 600 feet at z -113 with no roof. Pyramid levels 5 to 10 stand inside that circle, and its floor cuts level 6 (-127 to -103). | A region is an outline at one height. |
-| The stair from H.1 to B.10 climbs 64 feet in 30. | A way's climb is held to its ends, not to what can be walked. |
-| `Ground.md` puts the lake city's ground at height 550; the shared space puts it at z -113. | A sheet's heights are artgen's own datum. |
-| A passage within a level is drawn and never tested. | Its path is solved again at each draw and held nowhere `space.py` reads. |
+Found by hand before the lake city was moved, and what moving it settled:
 
-Each is a question the text should answer - is the lake city under the pyramid or beside it; is the Black
-Stair a stair or a shaft - before it is one for an engine.
+| Found | Now |
+|---|---|
+| The Black Stair's head (B.10) stood inside pyramid level 4, and the passage up to it crossed levels 4 and 5. | Settled: the city lies 900 feet east-north-east of the pyramid, and the stair's head with it. |
+| The lake cavern's circle held pyramid levels 5 to 10, its floor cutting level 6. | Settled: the circle stands 90 feet clear of the pyramid. |
+| The path from G.14 ran through the tombs G.6 and G.17. | The tunnel now leaves by the one bearing that crosses least, and still crosses level 5's outer passage 70 feet out. Every bearing from G.14 crosses something: clearing it means moving a Route of G's plan. |
+| The stair from H.1 climbed 64 feet in 30. | It climbs 64 in 500. Its first 10 feet run through a passage of level 6 beside the landing. |
+
+Each was found with a scratch script or by eye. Still open, and what the dry fire cannot test:
+
+| Open | Why the dry fire passes it |
+|---|---|
+| The cavern has no roof, so nothing says whether the stair's head, 50 feet above the city's floor, is in rock or in air. | A region is an outline at one height. |
+| A way between two places crossing a room or passage it does not join. | A way is a bearing and a distance: it has no path. |
+| A passage within a level crossing anything. | Its path is solved again at each draw and held nowhere `space.py` reads. |
+| `Ground.md` puts the lake city's ground at height 550; the shared space puts it at z -113. | A sheet's heights are artgen's own datum. |
 
 ## Out of scope
 

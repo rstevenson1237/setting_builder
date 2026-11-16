@@ -92,7 +92,7 @@ def build_document(setting: sc.Setting) -> str:
         toc.append(toc_entry(p.title, p.slug))
 
     # ---- regions + locations ----
-    top_conn = connections_block(sc.join_lines(setting), setting) + sc.sheets_html("170x230mm")
+    top_conn = connections_block(sc.join_lines(setting), setting) + sc.section_html() + sc.sheets_html("170x230mm")
     region_toc: list[str] = []
     for code in setting.region_order:
         region = setting.regions[code]
@@ -284,6 +284,7 @@ code { background: #f1e9da; padding: 0 3px; }
 .connections { margin-top: 0.8em; }
 .plan-figure { margin: 0.8em 0; page-break-inside: avoid; }
 .plan-figure svg { width: 11cm; display: block; }
+.plan-figure svg[aria-label="Section"] { width: 100%; height: auto; }
 .plan-figure figcaption, .plan-figure details { font-size: 9pt; color: #5a4f42; }
 .connections ul { margin: 0.2em 0 0; padding-left: 1.2em; font-size: 9.5pt; }
 
