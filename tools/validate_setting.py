@@ -131,7 +131,7 @@ def context_section(text: str) -> str:
 
 
 def check_designs(diag: Diagnostics, setting, brief):
-    """Every region's block designs against its tables: step 3d owes a region whose BRIEF.md node asks for one."""
+    """Every region's block designs against its tables: step 3e owes a DANGEROUS region, and any whose BRIEF.md node asks for one."""
     import design
     for level, path, msg in design.check(setting, brief):
         (diag.error if level == "error" else diag.warn)(path, msg)
@@ -146,13 +146,6 @@ def check_plan_examples(diag: Diagnostics):
             s, said = plan.solve(lines, bid, seeds=3, others=plan.others_of(lines))   # that it routes, not its best seed
             for m in said + (s.failed if s else ["no solve"]):
                 diag.error(f, f"{bid}: {m}")
-
-
-def check_layouts(diag: Diagnostics):
-    """Every layout of layouts/ against artgen's layout schema: the engine refuses the folder on the first it rejects."""
-    import design
-    if design.layouts()[0] is None:
-        diag.error(design.LAYOUTS, design.layouts()[1])
 
 
 def check_read_set(diag: Diagnostics, schema):
@@ -1119,7 +1112,7 @@ def check_repeated_features(diag: Diagnostics, region_code: str):
     """The same Feature sentence in two rooms of one region.
 
     A room written with its siblings in view converges on them, and the first
-    sign is a sentence copied whole. Judged at STEPS.md step 5c, which also
+    sign is a sentence copied whole. Judged at STEPS.md step 5b, which also
     reads for the near-repeats a string match cannot see.
     """
     rdir = SETTING / "region" / region_code
@@ -1136,7 +1129,7 @@ def check_repeated_features(diag: Diagnostics, region_code: str):
         if len(codes) > 1:
             diag.warn(rdir, f"the same Feature sentence in {len(codes)} rooms "
                             f"({', '.join(codes)}): {body[:70]!r}... - a room written "
-                            f"from its siblings; judged at STEPS.md step 5c")
+                            f"from its siblings; judged at STEPS.md step 5b")
 
 
 # A Feature citing a treasure table must not also say what comes up on it.
@@ -1168,7 +1161,7 @@ TREASURE_TELL_RE = re.compile(
 # exits all carry the same trigger arrow - so the only available test would
 # guess from the prose, and a warning that fires on every legitimate secret is
 # a warning nobody reads. A hazard written with no stated cost is caught at
-# STEPS.md step 5c, per templates/checks/Setting_Judgement_Check.md.
+# STEPS.md step 5b, per templates/checks/Setting_Judgement_Check.md.
 DAMAGE_TYPES = tuple(tables.Schema().setting_enums.get("Wound_Type", {}))
 ANY_TEST_CITE_RE = re.compile(r'\(Test of [^)]*\)?')
 TEST_CITE_RE = re.compile(r'\(Test of (Constitution|Sanity|Fate),\s*([^()]+)\)')
@@ -1477,7 +1470,6 @@ def main() -> int:
     diag = Diagnostics()
     schema = tables.Schema()
     check_read_set(diag, schema)
-    check_layouts(diag)
     for path, problem in schema.problems:
         diag.error(path, problem)
     brief = tables.Brief(schema)

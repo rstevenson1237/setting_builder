@@ -4,12 +4,11 @@
   python3 tools/plan.py solve CODE [BLOCK] [--out DIR] [--seeds N]    # a region's planned blocks, from Design.md
   python3 tools/plan.py solve --file PLAN.md [BLOCK] [--out DIR]     # any file of plan lines, for trying one out
   python3 tools/plan.py accept CODE BLOCK                            # write the solved places and ways into Design.md
-  python3 tools/plan.py draft CODE [--places]                        # a plan from the region's tables as they stand
   python3 tools/plan.py apply CODE                                   # step 4a's share: an approved plan's places into the tables
   --free: a region's stair rooms are not held over the rooms they meet, for the first level of a chain
 
-A plan is a block's `Design` line with `Layout`, `Room` and `Route` lines in place of a layout engine's `Use` and
-`Bind` (`patterns/Region_Schema.md`; how to write one: the `block-plan` skill). Every size and place is in feet,
+A plan is a DANGEROUS block's `Design` line with its `Layout`, `Room` and `Route` lines
+(`patterns/Region_Schema.md`; how to write one: the `block-plan` skill). Every size and place is in feet,
 x east and y north of the parent's centre; the solver works on the map's 10 ft squares. Every place, facing, side
 and length is a goal, never a rule: the solver tries `--seeds` orders of placing, routes every way in each, and keeps
 the one that routes most and misses fewest goals, then reports each goal it missed. A plan that still leaves a
@@ -1914,7 +1913,7 @@ def accepted(lines, bid: str) -> tuple[dict, int | None] | None:
 SOLVED: dict = {}                  # one solve a run for each plan as its lines stand
 
 
-BRIEFED = ("fill", "pad", "spacing", "passages", "detour")   # a Design setting BRIEF.md's `design` line may give
+BRIEFED = ("fill", "pad")   # a Design setting BRIEF.md's `design` line may give
 
 
 def with_brief(lines: list[kdl.Node], code: str) -> list[kdl.Node]:
@@ -2014,46 +2013,8 @@ def block_map(region, block: kdl.Node) -> tuple[dict | None, list[str]]:
     return m, said + s.failed
 
 
-def draft(code: str, places: bool = False) -> str:
-    """A plan of a region's blocks from its tables as they stand: each location a Room at its Dressing's size and shape,
-    each way a Route - a door where its rooms share a wall on today's map, a stair where it climbs, a way out of the block
-    where it leaves - for step 3d to shape with layouts, shapes and facings."""
-    import maps
-    world = maps.world_for(maps.tables.SETTING)
-    region = world.regions[code]
-    dress = {str(n.args[0]): n for n in region.files.get("Dressing", []) if n.args}
-    ways = [n for n in region.files.get("Connections", []) if n.args and "to" in n.props]
-    out = ["```kdl"]
-    for bid, block in maps.blocks_of(region).items():
-        members = words(block.props.get("locations"))
-        m = maps.built(code, bid)[0]
-        shared = {frozenset((x["a"], x["b"])) for x in __import__("json").loads(m.read_text()).get("connections", [])} if m else set()
-        o = f' outline="{block.props["outline"]}"' if block.props.get("outline") else ""
-        out.append(f'Design {bid} locations="{", ".join(members)}"{o} fill="30-45%"')
-        for c in members:
-            d = dress.get(c)
-            size = f' width={d.props["width"]} length={d.props["length"]}' if d is not None and "width" in d.props else ""
-            shape = f' shape={d.props["shape"]}' if d is not None and d.props.get("shape") not in (None, "rect") else ""
-            at = f' xyz="{",".join(str(d.props["xyz"]).split(",")[:2])}"' if places and d is not None and d.props.get("xyz") else ""
-            out.append(f"Room {c}{size}{shape}{at}")
-        seen = set()
-        for n in ways:
-            a, b = str(n.args[0]), str(n.props["to"])
-            if a not in members or frozenset((a, b)) in seen:
-                continue
-            seen.add(frozenset((a, b)))
-            if b in members:
-                kind = " kind=door" if frozenset((rid_of(a), rid_of(b))) in shared else ""
-                out.append(f'Route {bid} ends="{a}, {b}"{kind}')
-            else:
-                climb = int(n.props.get("climb") or 0)
-                stair = f" stair={'up' if climb > 0 else 'down'}" if climb else ""
-                out.append(f'Route {bid} ends="{a}, {b}"{stair}')
-    return "\n".join(out + ["```"])
-
-
 def apply(code: str) -> list[str]:
-    """Step 4a's share of an approved plan, as `maps.py pack` does for a packed block: each location's place, size and
+    """Step 4a's share of an approved plan: each location's place, size and
     shape into Dressing.md, the block's outline into Blocks.md, and off its Connections inside the block each wall,
     bearing and distance, which its map gives."""
     import dungeon
@@ -2110,7 +2071,7 @@ def apply(code: str) -> list[str]:
 
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("command", choices=["solve", "accept", "draft", "apply"])
+    ap.add_argument("command", choices=["solve", "accept", "apply"])
     ap.add_argument("code", nargs="?")
     ap.add_argument("block", nargs="?")
     ap.add_argument("--file", type=Path)
@@ -2118,11 +2079,7 @@ def main(argv=None) -> int:
     ap.add_argument("--seeds", type=int, default=16)
     ap.add_argument("--no-render", action="store_true")
     ap.add_argument("--free", action="store_true", help="ignore where the levels a stair joins put its rooms")
-    ap.add_argument("--places", action="store_true", help="draft: each room where the tables place it now")
     a = ap.parse_args(argv)
-    if a.command == "draft":
-        print(draft(a.code, a.places))
-        return 0
     if a.command == "apply":
         done = apply(a.code)
         print(f"{a.code}: {len(done)} locations placed in Dressing.md" if done else f"{a.code} has no approved plan")

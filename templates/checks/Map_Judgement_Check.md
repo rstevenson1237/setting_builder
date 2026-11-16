@@ -6,7 +6,7 @@ A review of each DANGEROUS block's map by eye, for what `tools/validate_setting.
 Saved as `setting/checks/MapJudgementCheck.md`.
 
 ## Context
-- `GENRE.md`, `STYLE.md` and `BRIEF.md` - its `pack` lines, each region's `footprint` and outline.
+- `GENRE.md`, `STYLE.md` and `BRIEF.md` - each region's `design` line, its `footprint` and its outline.
 - each DANGEROUS region's seed, `setting/region/[Code]/Seed.md`, its `Dressing.md`,
   `Connections.md` and `Blocks.md`, and its write-ups.
 - the maps, drawn by one command, `python3 tools/maps.py draw --out _maps --fit 1600x1600px`,
@@ -17,7 +17,7 @@ Saved as `setting/checks/MapJudgementCheck.md`.
 Run this once the loop has exited, in a context that drew none of the maps. Record each item
 per block as Confirmed or Needs Attention, with a note, in the order below; the Template block
 lists the same items in the same order. Every Needs Attention names its likely source: a table
-line, a `BRIEF.md` line, a tool (`tools/dungeon.py`), or
+line, a `BRIEF.md` line, a plan line, a tool (`tools/plan.py`), or
 artgen, sent upstream as the `setting-maps` skill says.
 
 ### Per block
@@ -36,8 +36,8 @@ artgen, sent upstream as the `setting-maps` skill says.
   a central hall central, a far tomb far.
 - **It plays** - a party meets choices where the seed implies them: loops, a second way to a
   prize, a dead end where one is meant.
-- **The drawing reads as the approved design** - for a block with a `Design.md`, the layouts it
-  used can be seen in the map, and its voids and the rooms it bound to a role stand where the design put them.
+- **The drawing reads as the approved design** - the plan's layouts can be seen in the map, and its voids
+  and the rooms it places stand where the design put them.
 
 ## Template
 ```
@@ -50,7 +50,7 @@ artgen, sent upstream as the `setting-maps` skill says.
 - Prose follows the map: [Confirmed / Needs Attention - location, and its source]
 - The level keeps its shape: [Confirmed / Needs Attention - note, and its source]
 - It plays: [Confirmed / Needs Attention - note, and its source]
-- The drawing reads as the approved design: [Confirmed / Needs Attention - where it departs, and its source; leave out for a block with no design]
+- The drawing reads as the approved design: [Confirmed / Needs Attention - where it departs, and its source]
 
 [repeat per block]
 

@@ -4,12 +4,13 @@
   python3 tools/space.py [--only REGION]
   python3 tools/space.py settle [REGION]
   python3 tools/space.py from CODE to CODE
+  python3 tools/space.py section [--out FILE.svg] [--along x|y] [--heights N]
 
 x runs east, y north and z up, in feet, from the origin region's way in at its ground: BRIEF.md's
 `origin`, else the first region in the gazetteer. Each thing stands at a place in its parent's
 frame - a region in the setting's, a block in its region's, a location in its block's, or its
 region's where it is in none - and its absolute place adds its ancestors'. Plan (x and y) and
-height (z) are known apart: a room not yet packed stands on its block's floor at no known point.
+height (z) are known apart: a room not yet placed stands on its block's floor at no known point.
 
 A region's origin is its way in, a DANGEROUS region's its first block's centre; a block's is its
 centre, and a SAFE or WILD block lies at its region's origin; a location's is its centre. A
@@ -26,11 +27,12 @@ Prints each thing's place in its parent and in the setting, its outline and its 
 then each problem; exits 1 on an error. `settle` writes into Regions.md the place of each region
 that states none but whose sheet or joins give it in full, and never moves one that states one.
 `from` prints how far, in what direction and how far up or down one region, block or location lies
-from another, by their places in the setting.
+from another, by their places in the setting. `section` draws the setting from the side.
 """
 from __future__ import annotations
 
 import argparse
+from html import escape
 import functools
 import math
 import re
@@ -557,7 +559,7 @@ class Space:
             self.say("error", t.file, f"line {t.line}: {t.code} states a bearing or a distance without the other", t.code)
         else:
             self.say("error", t.file, f'line {t.line}: {t.code} states no place: bearing and distance, xyz, against, '
-                                      f'or at="way in" (step 3e)', t.code)
+                                      f'or at="way in" (step 3d)', t.code)
         return False
 
     def _anchored(self, t: Thing, node: kdl.Node | None) -> bool:
@@ -887,6 +889,83 @@ def between(space: "Space", a: str, b: str) -> str:
     return f"{a} to {b}: {fmt(round(d))} feet {way}, {climb}; {fmt(round(math.sqrt(d * d + dz * dz)))} feet in a straight line"
 
 
+# -- the section: every placed thing seen from the side --------------------------------
+
+SECTION_WIDTH = 1400            # pixels across
+SECTION_EDGE = (150, 40, 40, 70)   # pixels left of, above, right of and below the drawing
+DEPTH_STEP = 50                 # feet between the depth marks
+
+
+def section(space: "Space", along: str | None = None, heights: float = 3.0) -> str:
+    """A side elevation of the setting as an SVG: every placed block a band from its floor to its roof, every placed
+    location within it, a SAFE or WILD region its floor, and every way between two blocks or regions a line between
+    its ends. `along` is the plan axis drawn across, `x` (east to the right) or `y` (north to the right), the one the
+    setting spreads farther on where unstated; heights are drawn `heights` times the plan's scale, and say so."""
+    names = {str(n.args[0]): str(n.props.get("name", "")) for n in tables.gazetteer() if n.args}
+    placed = [(t, ab) for t in space.things.values() if None not in (ab := space.absolute(t))]
+
+    def run(t: Thing, ab: list, k: int) -> tuple[float, float]:
+        vs = [q[k] for q in polygon(t.outline, ab[0], ab[1])]
+        return min(vs), max(vs)
+
+    if not placed:
+        return ""
+    k = "xy".index(along) if along else max((0, 1), key=lambda k: max(run(t, ab, k)[1] for t, ab in placed) - min(run(t, ab, k)[0] for t, ab in placed))
+    lo, hi = min(run(t, ab, k)[0] for t, ab in placed), max(run(t, ab, k)[1] for t, ab in placed)
+    spans = {t.code: sp for t, ab in placed if (sp := space.span(t, ab))}
+    top, bottom = max([0.0] + [sp[1] for sp in spans.values()]), min([0.0] + [sp[0] for sp in spans.values()])
+    left, above, right, below = SECTION_EDGE
+    px = (SECTION_WIDTH - left - right) / ((hi - lo) or 1)
+    X = lambda v: left + (v - lo) * px
+    Y = lambda z: above + (top - z) * px * heights
+    height = Y(bottom) + below
+    want = maps.look("dungeon")
+    ink, floor, rock = want.get("ink", "#222222"), want.get("floor", "#ffffff"), want.get("rock-color", "#dddddd")
+    out = [f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {SECTION_WIDTH} {height:.0f}" width="{SECTION_WIDTH}" height="{height:.0f}" '
+           f'role="img" aria-label="Section" font-family="sans-serif" font-size="11" fill="{ink}">',
+           f'<style>text {{ paint-order: stroke; stroke: {floor}; stroke-width: 3px; stroke-linejoin: round; }}</style>',
+           f'<rect width="{SECTION_WIDTH}" height="{height:.0f}" fill="{floor}"/>',
+           f'<rect x="{left}" y="{Y(0):.1f}" width="{SECTION_WIDTH - left - right}" height="{Y(bottom) - Y(0) + 20:.1f}" fill="{rock}"/>']
+    for z in range(0, int(bottom) - 1, -DEPTH_STEP):
+        out.append(f'<line x1="{left - 6}" y1="{Y(z):.1f}" x2="{left}" y2="{Y(z):.1f}" stroke="{ink}"/>'
+                   f'<text x="{left - 10}" y="{Y(z) + 4:.1f}" text-anchor="end">{"ground" if z == 0 else f"{z} ft"}</text>')
+    regions = [(t, ab) for t, ab in placed if t.kind == "region"]
+    for t, ab in regions:                               # a region with no block that stands: its floor, across its area
+        if space.world.regions[t.code].rating.upper() == "DANGEROUS" or t.outline is None:
+            continue
+        a, b = run(t, ab, k)
+        out.append(f'<line x1="{X(a):.1f}" y1="{Y(ab[2]):.1f}" x2="{X(b):.1f}" y2="{Y(ab[2]):.1f}" stroke="{ink}" stroke-width="1.5" stroke-dasharray="6 3"/>'
+                   f'<text x="{X(b):.1f}" y="{Y(ab[2]) - 6:.1f}" text-anchor="end">{t.code} {escape(names.get(t.code, ""))}</text>')
+    for t, ab in placed:
+        if t.kind == "block" and t.code in spans and space.world.regions[t.region].rating.upper() == "DANGEROUS":
+            (a, b), (z0, z1) = run(t, ab, k), spans[t.code]
+            out.append(f'<rect x="{X(a):.1f}" y="{Y(z1):.1f}" width="{(b - a) * px:.1f}" height="{Y(z0) - Y(z1):.1f}" fill="{floor}" fill-opacity="0.35" stroke="{ink}" stroke-width="0.6"/>'
+                       f'<text x="{X(a) - 6:.1f}" y="{(Y(z0) + Y(z1)) / 2 + 4:.1f}" text-anchor="end">{t.region} {escape(names.get(t.region, "").split(" - ")[0])}</text>')
+    for t, ab in placed:
+        if t.kind != "location":
+            continue
+        (a, b), sp = run(t, ab, k), spans.get(t.code) or (ab[2], ab[2])
+        tall = max(Y(sp[0]) - Y(sp[1]), 3)              # a place with no height is a mark on its ground
+        out.append(f'<rect x="{X(a):.1f}" y="{Y(sp[0]) - tall:.1f}" width="{max((b - a) * px, 1.5):.1f}" height="{tall:.1f}" fill="{floor}" stroke="{ink}" stroke-width="0.8"><title>{t.code}</title></rect>')
+    seen = set()
+    for region, n in space.joins:
+        if not (e := space.ends(region, n)) or frozenset(c.code for c in e) in seen:
+            continue
+        pa, pb = space.absolute(e[0]), space.absolute(e[1])
+        if None in pa + pb or e[0].parent is e[1].parent and abs(pa[2] - pb[2]) < 0.5:     # a level way within a block is its map's
+            continue
+        seen.add(frozenset(c.code for c in e))
+        out.append(f'<line x1="{X(pa[k]):.1f}" y1="{Y(pa[2]):.1f}" x2="{X(pb[k]):.1f}" y2="{Y(pb[2]):.1f}" stroke="{ink}" stroke-width="1.6"><title>{e[0].code} to {e[1].code}</title></line>')
+        if e[0].region != e[1].region and abs(pa[k] - pb[k]) * px > 40:      # a long way between regions names its ends
+            for c, q, far in ((e[0], pa, pb), (e[1], pb, pa)):
+                out.append(f'<text x="{X(q[k]):.1f}" y="{Y(q[2]) - 5:.1f}" text-anchor="{"end" if q[k] > far[k] else "start"}" font-size="10">{c.code}</text>')
+    bar = 10 ** math.floor(math.log10((hi - lo) / 4 or 1))
+    out.append(f'<line x1="{left}" y1="{height - 30:.0f}" x2="{left + bar * px:.1f}" y2="{height - 30:.0f}" stroke="{ink}" stroke-width="2"/>'
+               f'<text x="{left}" y="{height - 12:.0f}">{bar:g} feet across; heights drawn {heights:g} times as tall; '
+               f'{("west", "south")[k]} at the left, {("east", "north")[k]} at the right</text>')
+    return "\n".join(out + ["</svg>"])
+
+
 def main() -> int:
     if sys.argv[1:2] == ["from"]:
         if len(sys.argv) != 5 or sys.argv[3] != "to":
@@ -898,6 +977,19 @@ def main() -> int:
         except ValueError as e:
             print(f"ERROR: {e}")
             return 1
+        return 0
+    if sys.argv[1:2] == ["section"]:
+        ap = argparse.ArgumentParser(prog="space.py section", description="the setting seen from the side, as an SVG")
+        ap.add_argument("--out", type=Path, help="the file to write; printed where unstated")
+        ap.add_argument("--along", choices=["x", "y"], help="the plan axis drawn across; the wider where unstated")
+        ap.add_argument("--heights", type=float, default=3.0, help="how many times as tall heights are drawn")
+        a = ap.parse_args(sys.argv[2:])
+        world = maps.world_for(tables.SETTING)
+        svg = section(Space(world, tables.Brief(world.schema)), a.along, a.heights)
+        if a.out:
+            a.out.write_text(svg)
+        else:
+            print(svg)
         return 0
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("settle", nargs="?", choices=["settle"], help="write each region's place where it is derived")

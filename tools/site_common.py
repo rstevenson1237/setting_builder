@@ -615,6 +615,16 @@ def sheets_html(fit: str, key: MapKey | None = None) -> str:
                    for f in sorted(SETTING.glob("*.json")) if f.stem not in maps.underlaid())
 
 
+def section_html() -> str:
+    """The setting seen from the side, from where its tables place everything (`tools/space.py section`)."""
+    import maps
+    import space
+    import tables
+    world = maps.world_for(SETTING)
+    return _figure(space.section(space.Space(world, tables.Brief(world.schema))),
+                   "The setting from the side: every block from floor to roof, and each way between two of them")
+
+
 def cut_html(code: str, num: int, fit: str) -> str:
     """Paused: no location cut is drawn (`maps.cut_svg` draws one)."""
     return ""
@@ -632,11 +642,12 @@ def drawn_html(code: str, fit: str, key: MapKey | None = None) -> str:
 
 
 def map_labels() -> list[str]:
-    """The label of each map a build must show: every sheet not under a settlement, and every
-    drawn block."""
+    """The label of each map a build must show: the section, every sheet not under a settlement,
+    and every drawn block."""
     import maps
     world = maps.world_for(SETTING)
-    out = [f"Sheet {f.stem}" for f in sorted(SETTING.glob("*.json")) if f.stem not in maps.underlaid()]
+    out = ["Section"] if section_html() else []
+    out += [f"Sheet {f.stem}" for f in sorted(SETTING.glob("*.json")) if f.stem not in maps.underlaid()]
     for r in world.regions.values():
         out += [f"Map of {bid}" for bid in maps.drawn_blocks(r) if maps.built(r.code, bid)[0]]
     return out

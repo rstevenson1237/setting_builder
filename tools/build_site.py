@@ -261,6 +261,8 @@ def build_index(setting: sc.Setting, out: Path) -> None:
     body.append(section("Regions", f'<div class="region-list">{"".join(region_rows)}</div>'))
 
     body.append(section("Region Connections", connections_list(sc.join_lines(setting))))
+    if side := sc.section_html():
+        body.append(section("Section", side))
     if sheets := sc.sheets_html(sc.maps_fit_site, (setting, RESOLVER, page)):
         body.append(section("Sheets", sheets))
 

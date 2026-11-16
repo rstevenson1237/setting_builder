@@ -2,7 +2,7 @@
 
 Drawn with `python3 tools/maps.py draw --fit 1600x1600px`, and again at `--fit 110x150mm`
 (H and I viewed at PDF size). Every locked way is drawn as a barred door. `maps.py draw` reports two notes it could not place on the site
-sheet: the room labels `F.1` and `G.1`. Every level now has an approved design (3d), so "the
+sheet: the room labels `F.1` and `G.1`. Every level now has an approved design (3e), so "the
 level keeps its shape" is read against `Design.md`'s outline, and the brief's `footprint` beside it.
 
 ## Block C.a
