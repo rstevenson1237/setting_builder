@@ -140,7 +140,7 @@ region A rating=WILD die=d6 locations=9 {
 
 region B rating=WILD die=d8 locations=10 {
   ground rock "a cavern floor of rock and fungus gardens, with a still lake at the city's heart, a ceiling lit by glowing growths"
-  outline "The subterranean city: a cavern built round a still lake, where the cynidiceans' descendants live in a waking dream - masked as animals, feasting, reveling and eating the fungus they grow. A party reaches it by a path from level 5. Quarters, a market of drugs, the fungus gardens, a lake shore and a revel house make a city; the way back up the path and the stair down to level 6 are the party's two exits."
+  outline "The subterranean city: a cavern built round a still lake, where the cynidiceans' descendants live in a waking dream - masked as animals, feasting, reveling and eating the fungus they grow. It lies beside the pyramid and below level 5, and a party reaches it by a long sloping tunnel from that level. Quarters, a market of drugs, the fungus gardens, a lake shore and a revel house make a city; the way back up the path and the stair down to level 6 are the party's two exits."
   target Location.type Landmark=7 Ruin=1 Natural=2 Lair=4 Hidden=1 Secret=1 Route=1
   procedure "Trading for the fungus and its drugs."
   procedure "Joining the revels."
