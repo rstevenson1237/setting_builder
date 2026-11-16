@@ -36,14 +36,27 @@ taken out again.
 - **Staleness is mostly about placement.** Seven of the eight stale write-ups the last Setting Judgement Check
   lists "name no direction and still hold": a re-plan moved a wall or a room, which the prose does not carry.
 
+## What the history already held
+
+The trial repeated a finding this repository had made twice. Had the history been read first, it would not have
+been proposed.
+
+| Commit | What it found | Here |
+|---|---|---|
+| 9c1354b, read in `archive/plans/table-pipeline/spec.md` E7 | "A 173-word Feature; rooms tripling in length", because "raw material and decisions [were] handed over together". The table pass and the write-up were split to stop it. | The proposal put them back together in one pass. |
+| d75f614, 581a85c | Prose was budgeted, then the budgets calibrated against a clean-room generation. | A cap alone had been tried. |
+| f4469bd, `fixtures/control/COMPARISON.md` item 5 | Under a checker, "the cheapest fix available was to insert a comma or swap a word to satisfy the checker". | The trial's sentences were written up to the cap. |
+| ed9743f | The Feature segment and word caps were dropped. | |
+
+f4469bd is also how this repository proves a change: one fixed map, several arms, a measured table and the
+judgement items side by side. A later trial should take that shape, not one region written once.
+
 ## What remains worth a decision
 
-The proposal as made is withdrawn. Two narrower changes follow from the trial, neither built:
+The proposal as made is withdrawn. Of the two narrower changes first listed here, one was already built:
 
-- [ ] **E1.** A write-up is stale only when a field it carries changes: a Dressing's `xyz`, and a Connection's
-  `wall`, `bearing` and `distance`, stop marking it stale. The validator's direction check still holds any
-  direction the prose names.
-- [ ] **E2.** The Exits line is generated: `--skeleton` prints it for step 4b and the validator rewrites nothing,
-  but a write-up whose Exits line differs from the generated one is an error naming the line to paste.
-
-One trial, one region, written by the model that made the proposal: it is evidence, not proof either way.
+- **E1, withdrawn: staleness already leaves out placement.** A `drawn` member never marks a write-up stale
+  (placement S17, typed-fields T0.3). What does: 25 of the 38 files stale today are stale on "the region's seed"
+  alone, since any seed line dates every write-up of its region. Whether to narrow that is asked, not proposed.
+- [ ] **E2.** The Exits line is generated: `--skeleton` prints it for step 4b, and a write-up whose Exits line
+  differs from the generated one is an error naming the line to paste.

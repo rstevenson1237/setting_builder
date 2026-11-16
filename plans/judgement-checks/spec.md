@@ -20,6 +20,12 @@ Tick a line to approve it.
   mechanical - a count, an overlap, a missing citation - named as owed to `validate_setting.py`, `metrics.py`
   or `space.py`, so the next pass does not need a reader for them.
 
+- [ ] **J5. The checklists gain what this build's read-through needed**, as #64 added Greywatch's:
+  - Map check: a block's map shows what its seed says is there (streets, a wall, the thing it is named for);
+    nothing a sheet draws at a region's edge contradicts `GENRE.md`.
+  - Setting check: each faction a party is meant to deal with can be dealt with through someone or something a
+    table places; each way between two regions is one a party could walk, by the section.
+
 ## Asked
 
 1. J2 costs one more reading of the whole setting at step 5. Three routes, or one?

@@ -1,34 +1,34 @@
 # Spec - play structure
 
-Tick a line to approve it. Each is one member, one target or one check.
+Tick a line to approve it. Each is one member, one target or one check; `intake.md` gives the history each rests on.
 
-## 1. What moves
+## 1. What comes when the track runs down
 
 - [ ] **P1. `roams` on an Encounter.** One optional member: the locations it walks besides its own, or its
-  region's code for all of them. `BRIEF.md` sets the share that roam, per rating: `target Encounter.roams "25%"`.
-- [ ] **P2. The wandering table is drawn, never written.** A region's brief gains a drawn section beside
-  Inhabitants: each roaming Encounter with its citation and the room it comes from. The Danger table's rows 3 to 1
-  point at it in place of naming creatures of their own; rows 6 to 4 stay signs and sounds.
-- [ ] **P3. `Rung` on a Faction.** The node a region already holds, in `setting/Factions.md`: what the faction
-  does when a named thing happens, in the same `if` and `then`. `BRIEF.md`'s `Factions` line sets how many.
-  It states a condition, not a count of days, so the rule against clocks holds.
+  region's code for all of them. It is `presence` (bdc375e) from the other end: an occupant that is not always
+  home is somewhere. `BRIEF.md` sets the share that roam: `target Encounter.roams "25%"`.
+- [ ] **P2. The Danger table's low rows are drawn from them.** Rows 2 and 1 of a region's d6 table name a
+  roaming Encounter and the room it comes from, in place of prose written at 4e; rows 6 to 3 stay as written.
+  The track, its bands and the sizing of 666c137 are untouched.
 
 ## 2. How many ways through
 
-- [ ] **P4. Targets on the graph.** `BRIEF.md` holds them as it holds every other, and `metrics.py` reads them
-  from the Connections tables, where `TOPOLOGY` is computed now:
-  - in a DANGEROUS region: `loops`, the independent loops, and `dead-ends`, the share of its locations;
-  - between each joined pair of DANGEROUS regions: `ways`, the count;
-  - across the setting: `entrances`, the ways into DANGEROUS regions from any other, and `skips`, the ways
-    joining two DANGEROUS regions that a third lies between.
+- [ ] **P3. Graph targets in `BRIEF.md`.** The numbers `TOPOLOGY` already prints, held as every other number
+  is since #69: in a DANGEROUS region, `loops` and `dead-ends`; between each joined pair of DANGEROUS regions,
+  `ways`. Defaults set at today's readings, so nothing fails until a brief asks for more: loops 1 to 7; dead ends
+  0% to 60%; ways 1 for eight of nine joined pairs. `entrances` is not a target: few is the design (D16).
+- [ ] **P4. The key walk crosses regions and follows chains.** `_behind` starts from the setting's origin region
+  in place of each region's own entrances, and opens a lock only once it holds that lock's key, until nothing new
+  opens. A key or location never reached is an error naming the lock that bars it.
+- [ ] **P5. A way round.** A `Lock` may state `round`, where the other way in lies and what it costs: the
+  Composition's "the answer that is not the gate, and its price" (table-pipeline 9.5), as one member. A target in
+  `BRIEF.md` sets the share of locks that have one.
 
-  Today's readings, for setting the defaults against: loops 1 to 7; dead ends 0% to 60%; ways 1 for eight of nine
-  joined pairs; entrances 3 (A to C, and B to G and H); skips 0.
-- [ ] **P5. A key is reached before its lock.** The validator walks the setting from its origin region's way in,
-  taking each way whose Lock it holds the key for, until nothing new opens. A key or location never reached is
-  an error naming the lock that bars it.
+## Withdrawn after the history was read
+
+- **A `Rung` on a Faction.** A faction procedure was declined in b2-friction item 1.
 
 ## Asked
 
-1. P4's defaults: should a level be asked for two ways down, or is one way per level the Lost City's shape and
-   the target a later build's to set?
+1. P3: is one way between levels the Lost City's own shape, with the target left for a later build to raise?
+2. P5 brings back one line of Compositions. Was the rest left out at #68 on purpose?

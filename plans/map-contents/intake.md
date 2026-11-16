@@ -28,10 +28,21 @@ passage wide uses the three slots along it.
 a pit at the chapel's door, chests away from the doors. Nothing in the tables changed and nothing was placed by
 hand. Routing is untouched: the symbols are laid over a map that is already solved.
 
+## What the history holds
+
+| Commit | What it decided | Here |
+|---|---|---|
+| a50ec14 | Every Feature states "where in the room it sits": the referee had "no way to place a Feature or exit at the table". `templates/region/Location.md` still asks it. | Position is written today, in prose, at step 4b, after the tables. |
+| `archive/plans/sheet-maps/brief-symbols.md` (A6) | "Every mark a player or referee must tell apart has its own symbol in the key." | The symbols this plan uses were asked of artgen for that reason. |
+| 6b64172 (#92) | Region maps and location cuts were paused, "to restore later". | A location's page has no map of its room. |
+| e8b67ef (#107) | The scale, compass and legend stand outside the map; a code labels each room and links to it. | M4 follows it. |
+| 8902787 (#116) | Levels became plans. | When the trap and Rock marks stopped being drawn. |
+
 ## What the rule cannot do
 
-- Say where the prose says. A write-up naming a wall ("a casket set in the north wall") can disagree with a
-  slot chosen by rule. A search for a named wall, end, side or corner finds 7 of 407 Features placing their thing by compass.
+- Follow the prose. 152 of 407 Features say where their thing sits - under the banner, against three walls, at
+  the gate - and 18 of those by compass. A slot chosen by rule is blind to all of it, and the prose is written
+  after the tables, so today nothing upstream holds a position for a rule to read.
 - Draw what has no symbol: a Mirror, a Fresco, a Tapestry, a Button or Lever, Flooring, and every Encounter.
 - Draw furniture a Dressing's `layout` describes in words.
 

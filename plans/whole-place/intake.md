@@ -15,6 +15,19 @@ region, ways between regions routed, and a side elevation. `spec.md` numbers eac
 0 errors. It reports what is unplaced, what overlaps or lies outside its parent's outline, and a way whose
 climb, bearing or distance disagrees with where its ends lie.
 
+## What the history holds
+
+`archive/plans/placement/` built the shared space this plan extends, and settled three things this plan's first
+draft got wrong.
+
+| Where | What it decided | Here |
+|---|---|---|
+| placement spec, S20 | The pyramid's tip rises through region A's ground: "regions may overlap and blocks may not". | A region inside another is allowed. V3 is opt-in for that reason. |
+| placement spec, section 1 | "SAFE and WILD locations and regions are flat (height 0) at their z"; a location that states no z "stands on its ground: its `At` height minus the `At` height of its region's way in". | The two heights are one datum already. V5 is withdrawn. |
+| placement intake, out of scope | "Terrain"; "Drawing from the space". | The elevation is the first drawing made from the space. |
+| placement spec, S16 | The first dry fire found B.5 to B.10 and H.1 to B.10 disagreeing with their ends, and put each to the user. | The Black Stair has been wrong before; a stated way is where the errors are. |
+| placement spec, S17 | A place is "shown from the tables and written in no write-up". | The write-ups name no bearing or distance for the tunnel or the stair. |
+
 ## What it cannot see, in this build
 
 Found by hand before the lake city was moved, and what moving it settled:
@@ -33,7 +46,6 @@ Each was found with a scratch script or by eye. Still open, and what the dry fir
 | The cavern has no roof, so nothing says whether the stair's head, 50 feet above the city's floor, is in rock or in air. | A region is an outline at one height. |
 | A way between two places crossing a room or passage it does not join. | A way is a bearing and a distance: it has no path. |
 | A passage within a level crossing anything. | Its path is solved again at each draw and held nowhere `space.py` reads. |
-| `Ground.md` puts the lake city's ground at height 550; the shared space puts it at z -113. | A sheet's heights are artgen's own datum. |
 
 ## Out of scope
 
