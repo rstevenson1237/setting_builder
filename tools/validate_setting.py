@@ -875,6 +875,15 @@ def check_listed_prices(diag: Diagnostics, setting):
                           f"Purchase {n.args[0]}: {n.props.get('item')!r} is priced listed, and Procedures.md's Coin and Prices lists nothing like it")
 
 
+def check_outdoor_lore(diag: Diagnostics, setting, schema):
+    """Lore found at a WILD location is cut, never written: nothing on paper lasts outdoors."""
+    wild = {c for r in setting.regions.values() if r.rating.upper() == "WILD" for c in r.locations()}
+    for title, line, v in tables.setting_entries(schema, "Lore") or []:
+        at = [c for c in re.findall(r"[A-Z]+\.\d+", v.get("Found at", "")) if c in wild]
+        if at and v.get("Form", "").split(" - ")[0].strip() == "written":
+            diag.warn(SETTING / "Lore.md", f"line {line}: {title!r} is found at {', '.join(at)}, a WILD location, and is written - lore outdoors is cut")
+
+
 def check_numbers(diag: Diagnostics, setting, schema):
     """In a single holding, the count of a creature - its Encounters' `count`, and the `present`
     of each Faction whose Fields name it alone - lies within the Bestiary's Numbers. A faction
@@ -1570,6 +1579,7 @@ def main() -> int:
     check_plan_examples(diag)
     check_hazards(diag, setting, brief)
     check_listed_prices(diag, setting)
+    check_outdoor_lore(diag, setting, schema)
     check_numbers(diag, setting, schema)
     check_history_order(diag, schema)
     check_lengths(diag, schema)

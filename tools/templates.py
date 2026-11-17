@@ -401,7 +401,9 @@ def region_skeleton(schema: tb.Schema, shape: str, files: list[str], rating: str
                     out += [f"{m.name}: [{m.type}]", ""]
             out.append(f"Drawn beside it, never written: {', '.join(f.drawn)}")
         else:
-            for stem in [s for s in f.files if s not in ("Seed", "Ground")] if files == ["*"] else files:
+            rated = {s for r in f.rates.values() for s in r}
+            unwanted = {s for s in rated if all(r.get(s, (0, 0))[1] == 0 for r in f.rates.values())}   # no type's rate gives one
+            for stem in [s for s in f.files if s not in ("Seed", "Ground", *unwanted)] if files == ["*"] else files:
                 if stem not in f.files:
                     continue
                 block, place = f"{c}.[a-z]", "[Location Code]"       # a Design's lines open with a block, but a Place and a Link with a location

@@ -429,12 +429,18 @@ def _procedures(r) -> list[str]:
 
 
 def _services(r) -> list[str]:
+    """Every Purchase: a Purchases entry, or what a Named Creature sells where it is met."""
     out = []
-    for n in r.files.get("Purchases", []):
-        p = n.props
-        price = "at the listed price" if p.get("price") == "listed" else p.get("price")
-        out.append(f"{n.args[0]} {p.get('item')} - {price}{' ' + p['per'] if p.get('per') else ''}"
-                   + (f" ({p['limit']})" if p.get("limit") else ""))
+    for stem in r.files:
+        for top in r.files[stem]:
+            for n in kdl.walk([top]):
+                for c in [c for c in n.children if c.name == "Purchase"] if n.name == "NamedCreature" else \
+                         [n] if n is top and n.name == "Purchase" else []:
+                    p = c.props
+                    who = f" (Named Creature: {n.props.get('named')}) sells" if c is not n else ""
+                    price = "at the listed price" if p.get("price") == "listed" else p.get("price")
+                    out.append(f"{top.args[0]}{who} {p.get('item')} - {price}{' ' + p['per'] if p.get('per') else ''}"
+                               + (f" ({p['limit']})" if p.get("limit") else ""))
     return out + _procedures(r)
 
 
@@ -473,12 +479,17 @@ def _leads(r) -> list[str]:
         here = [c for c in re.findall(r"[A-Z]+\.\d+", v.get("Settled at", "")) if c in codes]
         if here:
             out.append(f"Rumour {v.get('#')} ({v.get('T/P/F/U', '').split()[0] if v.get('T/P/F/U') else '?'}) - settled at {', '.join(here)}")
-    givers = {str(n.props["quest"]): n for n in r.files.get("People", []) if n.props.get("quest")}
+    givers = {str(n.props["quest"]): f"{n.props.get('name')} at {n.args[0]}"
+              for n in r.files.get("People", []) if n.props.get("quest")}
+    for title, _line, v in tb.setting_entries(sch, "Named Creatures") or []:
+        here = [c for c in re.findall(r"[A-Z]+\.\d+", v.get("Appears at", "")) if c in codes]
+        if v.get("Quest", "").strip() and here:
+            givers[v["Quest"].strip()] = f"(Named Creature: {title}) at {', '.join(here)}"
     for title, _line, v in tb.setting_entries(sch, "Quests") or []:
         here = [c for c in re.findall(r"[A-Z]+\.\d+", v.get("Points to", "")) if c in codes]
         g = givers.get(title)
         if here or g is not None:
-            out.append(f"(Quest: {title}) - " + _also(g is not None and f"given by {g.props.get('name')} at {g.args[0]}",
+            out.append(f"(Quest: {title}) - " + _also(g is not None and f"given by {g}",
                                                       here and f"points to {', '.join(here)}"))
     return out
 

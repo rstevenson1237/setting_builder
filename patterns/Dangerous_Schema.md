@@ -7,6 +7,7 @@ brief are `patterns/Region_Schema.md`'s.
 enum Dangerous_Type High Medium Low
 enum Connection_Type Open Archway Broken Crude Wooden Banded Stone Iron Lift Chute   // Lift and Chute: a dwarven machine, with `climb` for the rise
 enum Contents_Type "Treasure I" "Treasure II" "Treasure III" "Treasure IV" "Treasure V" Magic Hoards Lore Keys "Unique Treasures" "Magical Tomes"
+enum Purchase_Type menu service sale   // food and drink by the portion; a thing done for a party; goods handed over
 enum Mystery_Type Altar Statue Fountain Fresco Tapestry Throne "Button/Lever/Switch/Keyhole" Mirror Flooring
 enum Hazard_Type {
   Mechanical Pit Spike Dart Hammer Gas
@@ -73,6 +74,14 @@ node Creature {
 node NamedCreature {
   named entry "Named Creatures"
   presence percent
+  one-of Purchase opt       // what it sells a party; a DANGEROUS region keeps no shop
+}
+node Purchase {
+  type Purchase_Type
+  item string
+  price price
+  per gloss opt             // what one price buys: "a night", "each"
+  limit gloss opt           // the stock, hours or terms that cap it
 }
 node Faction {
   faction entry Factions

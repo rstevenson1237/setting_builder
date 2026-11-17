@@ -48,19 +48,19 @@ files {
 }
 
 safe {
-  rate Inn Dressing=1 Purchases="2-4" People="2-3"
-  rate Merchant Dressing=1 Purchases="2-4" People="1-2"
-  rate Bank Market Dressing=1 Purchases="1-3" People="1-2"
-  rate Authority Dressing=1 Purchases="0-2" People="1-3" Garrison="0-1"
-  rate Gate Dressing=1 Purchases="0-1" People="1-2"
-  rate Secret Dressing=1 Purchases="0-1" People="0-1"
+  rate Inn Dressing=1 Purchases="2-4" People="2-3" Rewards=0
+  rate Merchant Dressing=1 Purchases="2-4" People="1-2" Rewards=0
+  rate Bank Market Dressing=1 Purchases="1-3" People="1-2" Rewards=0
+  rate Authority Dressing=1 Purchases="0-2" People="1-3" Garrison="0-1" Rewards=0
+  rate Gate Dressing=1 Purchases="0-1" People="1-2" Rewards=0
+  rate Secret Dressing=1 Purchases="0-1" People="0-1" Rewards=0 Challenges=0
   words Overview=120 View=90 Approach=90 Law=70 Arrival=50 Plan=90 Places=35 Tables=25
 }
 
 wild {
-  rate Lair Dressing=1 Challenges=1
-  rate Ruin Natural Hidden Secret Dressing=1 Challenges="0-1"
-  rate Route Dressing=1 Challenges="0-1" Stops="3-6"
+  rate Lair Dressing=1 Challenges=1 Rewards=0 Purchases=0
+  rate Ruin Natural Hidden Secret Dressing=1 Challenges="0-1" Rewards=0 Purchases=0
+  rate Route Dressing=1 Challenges="0-1" Stops="3-6" Rewards=0 Purchases=0
   words Overview=120 Approach=80 Terrain=110 Ways=120 Landmarks=40 Places=40 Tables=25
 }
 

@@ -188,7 +188,7 @@ region Safe {
                                     // or heard there, a secret shown only as what a party can notice
     Tables text out=table   // d6 Events
   }
-  drawn Inhabitants Services Leads Secrets
+  drawn Inhabitants Services Loot Leads Secrets
 }
 
 region Wild {
@@ -202,7 +202,7 @@ region Wild {
     Places text list out=bullets holds=rest     // what is noticed or heard there, a secret shown only as what a party can notice
     Tables text out=table   // d6 Encounter
   }
-  drawn Inhabitants Procedures Leads Secrets
+  drawn Inhabitants Services Loot Procedures Leads Secrets
 }
 
 region Dangerous {
@@ -215,6 +215,6 @@ region Dangerous {
     Places text list out=bullets holds=rest     // what is noticed or heard there, a secret shown only as what a party can notice
     Tables text out=table   // d6 Danger: its rows numbered 6 (noticing) down to 1 (acting), in that order
   }
-  drawn Conditions Inhabitants Loot Alarm Procedures Leads Secrets
+  drawn Conditions Inhabitants Services Loot Alarm Procedures Leads Secrets
 }
 ```
