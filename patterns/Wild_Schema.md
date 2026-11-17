@@ -13,6 +13,8 @@ enum Hazard_Type {
   Weather Storm Fog Cold Heat
 }
 enum Mystery_Type "Standing Stone" Cairn Spring Pool "Old Tree" Shrine "Carved Rock" Ring
+enum Contents_Type "Treasure I" "Treasure II" "Treasure III" "Treasure IV" "Treasure V" Magic Hoards Lore Keys "Unique Treasures" "Magical Tomes"
+enum Purchase_Type menu service sale   // food and drink by the portion; a thing done for a party; goods handed over
 
 node Person {               // as SAFE's: one named person a party can deal with
   name string
@@ -112,6 +114,18 @@ node Mystery {
   act gloss                // what sets it off
   tell gloss
 }
+node Reward {              // nothing is pristine outdoors
+  container gloss           // and what weather has done to it
+  contents pull Contents_Type   // its Lore cut, never written
+  one-of Encounter Hazard Mystery Secret opt
+}
+node Purchase {
+  type Purchase_Type
+  item string
+  price price
+  per gloss opt             // what one price buys: "a night", "each"
+  limit gloss opt           // the stock, hours or terms that cap it
+}
 node Procedure {
   procedure entry "Local Procedures"
 }
@@ -162,6 +176,8 @@ folder Wild type=Wild_Type {
   Locations Location
   Dressing Dressing
   Challenges Encounter Hazard Mystery
+  Rewards Reward opt
+  Purchases Purchase opt
   Procedures Procedure
   People Person opt                                // one named person a party can deal with, where no faction speaks for them
   Blocks Block Void opt                            // Void: ground in a Block that no location takes, drawn as open ground

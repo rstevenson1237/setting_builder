@@ -1,16 +1,22 @@
 # Safe Schema
 
 A SAFE region's tables: every location reached from the region itself except a Secret,
-what can be bought there and who is found there - people, named creatures and the members
-of a faction - with a garrison at an Authority. Its seed and brief are
+what can be bought and stolen there and who is found there - people, named creatures and the
+members of a faction - with a garrison at an Authority, and what guards a Secret. Its seed and brief are
 `patterns/Region_Schema.md`'s.
 
 ```kdl
 enum Safe_Type Inn Merchant Bank Market Authority Gate Secret
 // Gate: a way across the region's edge, where what stands at the Approach stands. Secret: a
 // place or thing kept hidden, reached only by the Way that hangs it from another location.
-value price                    // a coin; N% of the sum; or listed, at Procedures.md's prices
 enum Purchase_Type menu service sale   // food and drink by the portion; a thing done for a party; goods handed over
+enum Contents_Type "Treasure I" "Treasure II" "Treasure III" "Treasure IV" "Treasure V" Magic Hoards Lore Keys "Unique Treasures" "Magical Tomes"
+enum Hazard_Type {
+  Mechanical Pit Spike Dart Hammer Gas
+  Magical Runes Field Attack
+  Environmental "Fire/Lava" Water Ice "Ravine/Climb" "Broken/Weak Floor"
+}
+enum Mystery_Type Altar Statue Fountain Fresco Tapestry Throne "Button/Lever/Switch/Keyhole" Mirror Flooring
 
 node Seed {
   kind Safe_Kind
@@ -86,6 +92,41 @@ node Faction {              // members met here in the ordinary run of the place
   present number
   members string
 }
+node Reward {              // what is there to be stolen: the vault, the treasury
+  container gloss
+  contents pull Contents_Type
+  one-of Secret opt
+}
+node Encounter {
+  one-of Creature NamedCreature Faction
+  doing string
+  reaction Reaction
+  want string opt
+  know string opt
+  left gloss opt
+  far gloss opt
+}
+node Creature {
+  bestiary entry Bestiary
+  count number
+}
+node Hazard {
+  type Hazard_Type
+  damage Damage_Type
+  test Test
+  wound Wound_Type opt      // required for a Constitution Test: one of BRIEF.md's Procedures wounds
+  condition gloss opt       // required for a Fate Test: a name in Procedures.md's Conditions
+  one-of Secret
+}
+node Mystery {
+  type Mystery_Type
+  effect string
+  test Test opt             // where it asks one; then a Hazard's damage, wound and condition rules hold
+  damage Damage_Type opt
+  wound Wound_Type opt
+  condition gloss opt
+  one-of Secret
+}
 node Garrison {             // the standing force an Authority commands
   faction entry Factions
   present number            // under arms and within call
@@ -142,6 +183,8 @@ folder Safe type=Safe_Type {
   Purchases Purchase
   People Person NamedCreature Faction
   Garrison Garrison                                // an Authority's only
+  Rewards Reward opt
+  Challenges Encounter Hazard Mystery opt          // a Secret's only
   Procedures Procedure
   Blocks Block Void opt                            // Void: ground in a Block that no location takes, drawn as open ground
   Connections Way

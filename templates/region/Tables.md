@@ -33,8 +33,8 @@ field "Lock.key" from="Keys.Found at"
 ```
 
 ## Instructions
-Write each table file its folder names that the region lacks, and add to each Connections
-entry what stands in its way. Purpose first, where the folder has one;
+Write each table file its folder names that the region lacks and some type's `rate` gives an
+entry, and add to each Connections entry what stands in its way. Purpose first, where the folder has one;
 then each table in one pass.
 
 Where the schema holds Blocks, each Dressing states the `width` and `length` its block is drawn from, and an
@@ -45,7 +45,8 @@ Each room gets the entries its type's `rate` line in `BRIEF.md` gives, choosing 
 for a reason its tags give, and toward `BRIEF.md`'s targets. The occupants the seed's `who`
 names are placed as Encounters - in a SAFE region as People, Named Creatures and Faction members, and a
 Garrison at an Authority; in a WILD region one person a party deals with by name, as a quest's
-giver, is a Person - and a `procedure` line in the region's node of `BRIEF.md` as a
+giver, is a Person; in a DANGEROUS region that one is a Named Creature, its entry's Asks what it
+bargains for and a Purchase under it what it sells - and a `procedure` line in the region's node of `BRIEF.md` as a
 Procedure entry at the location it fits, any type and at most one a location. A room a
 Purpose's `signs` names carries a sign of it. An entry that will not fit its room is a finding
 for the Setting Judgement Check, never moved or dropped here.

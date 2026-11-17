@@ -77,7 +77,10 @@ table "Named Creatures" entry file="setting/NamedCreatures.md" cite="Named Creat
   "Appears at" place from=NamedCreature
   Reacts text                 // what it does on meeting a party
   Wants text                  // a standing goal, stated without the party
+  Asks text opt               // what it wants of a party, and what it offers for it
   Knows text opt
+  Member entry Factions opt   // the faction it leads or belongs to
+  Quest entry Quests opt      // the quest it gives; left empty until Quests.md is written (step 4d)
   Description text            // one to three sentences, as a Bestiary entry's
 }
 

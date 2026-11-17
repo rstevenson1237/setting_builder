@@ -31,6 +31,7 @@ value outline                 // "rect W L", "circle R" or "poly x,y x,y x,y ...
                               // poly is simple, with three points or more
 value finds                   // finds split by "; ", each prose then "(N cn, N wt)"
 value coin                    // N cn or N-M cn, low to high; or pennies
+value price                   // a coin; N% of the sum; or listed, at Procedures.md's prices
 value time                    // N or N-M, then a Time_Unit: 2 turns, 1 watch
 value location                // a location code
 value region                  // a region code
