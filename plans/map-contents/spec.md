@@ -41,10 +41,11 @@ Nothing changes until a line is ticked. `intake.md` holds the prototype each lin
   It also hands players the whole level, which play exists to map; a handout of what a party has seen is per room,
   and waits on the paused location cuts.
 
-- [ ] **M6. An exit says where it leaves, in M2's words.** Step 4b's Exits line drops "its position left to the
-  tables" and gives each door, opening and stair its place on the drawn map: "a wooden door in the west end of the
+- [x] **M6. An exit says where it leaves, in M2's words.** The site and PDF, which already add each exit's position
+  to the Exits line, give each door, opening and stair its place on the drawn map: "a wooden door in the west end of the
   north wall -> E.11 The Priestesses' Cells", "stairs down against the south wall -> F.1 The Stair Landing". The place is
-  read from the map, where the plan's `:facing:side` put it, so it cannot disagree; nothing is added to the tables.
+  read from the map, where the plan's `:facing:side` put it, so it cannot disagree; a write-up states none, and
+  nothing is added to the tables.
 
 Not proposed: placing furniture from a Dressing's `layout`, symbols for Encounters, a thing placed beside another
 thing, or any size or rotation.

@@ -44,9 +44,15 @@ step that fixes them.
 | `corridors[]` | Each passage along the squares it was routed on, `origin: "plan"`: a branch joins its trunk as `{corridor}`, a way off the map is an `exit` end, and each end's door is the kind the tables' Connection gives it. |
 | `connections[]` | A door or opening where two rooms touch. |
 | `rooms[].exits` | Each stair out of the block, by a wall of its own, with a note naming the way. |
+| `areas[]` | Each `Rock` of the block, as rock. |
+| `overlay.symbols` | `maps.furnish`: a trap inside a room by the door of each way holding a Hazard; each Mystery, Hazard and Reward as the symbol its type names (`maps.MYSTERY_MARK`, `HAZARD_MARK`, `CONTAINER_MARK`), where its `at` and `against` say, else by rule, clear of the rest and of a small room's code. |
+| `legend` | The key of the symbols drawn. |
 | `bounds` | The plan's ground. |
 | `style` | `BRIEF.md`'s `maps` look over `wall: 2.5` and `hatch: full`. |
-| `furniture.place` | `outside`, so the scale bar stands off the map. |
+| `furniture.place` | `outside`, so the scale bar and legend stand off the map, in a band `maps.fitted` sets beside or below it to suit the render's box. |
+
+A stated place reads out as `maps.place_said` gives it, and a door or stair's as `maps.wall_said`: the site and PDF
+add the second to each exit (`site_common.exit_text`).
 
 The validator reads the file back with `dungeon check --errors <ids>` (the ids are `dungeon.FAULTS`; `dungeon.SEEN` the
 warnings it passes on) and `dungeon facts` (each passage's `path`, its doors, `unreached`, each room's `exits`), held to

@@ -25,6 +25,7 @@ ground   Reads each placed region's ground back from its home sheet and writes i
 draw     Builds each block's map, `setting/region/[Code]/[Block].json`, never committed, from its tables - a
          DANGEROUS block's a dungeon, from its approved plan, a SAFE block's a settlement walled round its locations
          on its home sheet, a WILD block's the same unwalled unless it states a wall - and with --out renders every sheet and block to SVG there.
+         A DANGEROUS block's map draws what its rooms hold, and its legend (`furnish`).
          Region maps and location cuts (`region_svg`, `cut_svg`) are paused.
 """
 from __future__ import annotations
@@ -445,6 +446,21 @@ def way(world, a: str, b: str) -> tuple[str, str] | None:
     return (str(n.props["bearing"]), str(n.props["distance"])) if n else None
 
 
+def way_said(world, a: str, b: str) -> tuple[str | None, list[str]]:
+    """Where the way from location a to b leaves a's room, as the referee reads it out, and what follows it: a
+    walk to the next room of its block, else its Connection's bearing and distance."""
+    region = world.regions.get(a.split(".")[0])
+    said, rest = None, []
+    if region is not None and region.rating.upper() == "DANGEROUS":
+        import dungeon
+        if (w := dungeon.walks(region.code).get((a, b))):
+            return w[2], [f"{w[1]} feet"]
+        said = dungeon.stairs(region.code).get((a, b))
+    if (at := way(world, a, b)):
+        rest = list(at)
+    return said, rest
+
+
 def location_marks(world, sheet: Sheet, home: dict) -> list[tuple[float, float, str, str]]:
     """Each location on its home sheet as a keyed mark; where a DANGEROUS region opens from
     one, a cave mouth keyed with that region's code too."""
@@ -617,7 +633,10 @@ def block_file(region, block: kdl.Node) -> tuple[dict | None, list[str]]:
     if region.rating.upper() == "DANGEROUS":
         import plan
         if str(block.args[0]) in designed(region) & set(plan.plans_of(region)):
-            return plan.block_map(region, block)
+            m, problems = plan.block_map(region, block)
+            if m is not None:
+                furnish(region, m)
+            return m, problems
         return None, []                                  # no approved plan yet: tools/design.py reports it
     return settlement_map(region, block)
 
@@ -630,6 +649,11 @@ MAX_TOWN = 240                  # cells across a settlement, artgen's limit
 TOWN_EDGE = 12                  # cells of ground beyond the wall
 WALL_GAP = 15                   # feet between the wall and the buildings it encloses
 BUILDING = {"Inn": "inn", "Merchant": "shop", "Bank": "shop", "Authority": "hall"}
+MYSTERY_MARK = {"Altar": "altar", "Statue": "statue", "Fountain": "fountain", "Throne": "throne"}   # a type with none draws none
+HAZARD_MARK = {"Pit": "pit", "Water": "pool", "Fire/Lava": "fire", "Broken/Weak Floor": "rubble", "Ravine/Climb": "pit",
+               **dict.fromkeys(("Mechanical", "Spike", "Dart", "Hammer", "Gas", "Runes", "Field", "Attack"), "trap")}
+CONTAINER_MARK = {"coffin": "coffin", "sarcophag": "coffin", "tomb": "coffin", "barrel": "barrel", "crate": "crate",
+                  "bones": "bones", "skull": "bones"}   # a word in a Reward's container, else a chest
 NAMED = {"Chapel": "chapel", "Temple": "temple", "Shrine": "chapel", "Forge": "smithy", "Smithy": "smithy",
          "Barracks": "barracks", "Hall": "hall", "Tavern": "tavern", "Stable": "stable", "Mill": "mill",
          "Tower": "tower", "Keep": "keep", "Warehouse": "warehouse", "Manor": "manor"}   # a word in its name, over its type
@@ -763,6 +787,178 @@ def settlement_map(region, block: kdl.Node) -> tuple[dict | None, list[str]]:
     return m, problems
 
 
+# -- what a DANGEROUS room holds, drawn where it stands ------------------------------------
+# A place in a room is a part of it (`at`), a wall it stands against (`against`), or both: toward that end of the wall.
+# Map cells run east in x and south in y.
+
+TOWARD = {"north": (0, -1), "north-east": (1, -1), "east": (1, 0), "south-east": (1, 1),
+          "south": (0, 1), "south-west": (-1, 1), "west": (-1, 0), "north-west": (-1, -1)}
+SIDE_WORD = {"n": "north", "e": "east", "s": "south", "w": "west"}
+CURVED = ("circle", "cave")     # a room with no straight walls, so no wall ends
+CLEAR = 1.6                     # cells between two symbols, or a symbol and a stair or door
+INSET = 1.0                     # cells from a wall to a symbol against it
+LABEL_ROOM = 6                  # cells: a room no wider keeps its centre for its code
+
+
+def place_said(at: str | None, against: str | None, shape: str = "rect") -> str:
+    """A stated place in a room, as the referee reads it out."""
+    if against and at:
+        return f"against the {at} end of the {against} wall"
+    if against:
+        return f"in the {against} corner" if "-" in against and shape == "rect" else f"against the {against} wall"
+    return "in the centre of the room" if at == "centre" else f"in the {at} part of the room"
+
+
+def place_fault(at: str | None, against: str | None, shape: str = "rect") -> str | None:
+    """Why a stated place has no single spelling, or None: with `against`, `at` is a point along that wall, and a
+    corner or a curved room has no ends."""
+    if not (at and against):
+        return None
+    if "-" in against or shape in CURVED:
+        what = "corner" if "-" in against and shape == "rect" else "wall"
+        return f"the {against} {what} of {'an' if shape[0] in 'aeiou' else 'a'} {shape} room has no ends: state `against` alone"
+    ends = ("west", "east") if against in ("north", "south") else ("north", "south")
+    return None if at in ends else f"the {against} wall's ends are {' and '.join(ends)}"
+
+
+def wall_said(shape: str, box: dict, point, side: str | None = None, verb: str = "in") -> str:
+    """Where a door or stair stands on its room's wall: a side of the room's box, and the end of it where it stands
+    in an outer third of a wall at least 30 feet long; on a wall off the box, its compass point from the centre."""
+    x, y = point
+    near = {"w": abs(x - box["x"]), "e": abs(x - box["x"] - box["w"]), "n": abs(y - box["y"]), "s": abs(y - box["y"] - box["h"])}
+    side = side or next((s for s, d in near.items() if d < 0.3), None)
+    if side is None or shape in CURVED:
+        cx, cy = box["x"] + box["w"] / 2, box["y"] + box["h"] / 2
+        word = space.compass()[round(math.degrees(math.atan2(x - cx, cy - y)) % 360 / 45) * 2 % 16]
+        return f"{verb} the {word} wall"
+    along, length, start = (x, box["w"], box["x"]) if side in "ns" else (y, box["h"], box["y"])
+    ends = ("west", "east") if side in "ns" else ("north", "south")
+    t = (along - start) / length if length else 0.5
+    end = ends[0] if t < 1 / 3 else ends[1] if t > 2 / 3 else None
+    wall = f"the {SIDE_WORD[side]} wall"
+    return f"{verb} the {end} end of {wall}" if end and length >= 6 else f"{verb} {wall}"
+
+
+def spot(room: dict, at: str | None, against: str | None) -> tuple[float, float]:
+    """A stated place as a point in a room drawn on a map file, kept on its floor."""
+    x0, y0, w, h = room["x"], room["y"], room["w"], room["h"]
+    cx, cy = x0 + w / 2, y0 + h / 2
+    if against:
+        dx, dy = TOWARD[against]
+        if room["shape"] in CURVED or (room["shape"] != "rect" and dx and dy):
+            k = math.hypot(dx, dy)
+            px, py = cx + dx / k * (w / 2 - INSET), cy + dy / k * (h / 2 - INSET)
+        else:
+            inset_x, inset_y = min(INSET, w / 2), min(INSET, h / 2)
+            px = cx + dx * (w / 2 - inset_x) if dx else cx
+            py = cy + dy * (h / 2 - inset_y) if dy else cy
+            if at:
+                ax, ay = TOWARD[at]
+                px, py = px + ax * w * 0.3, py + ay * h * 0.3
+    elif at and at != "centre":
+        dx, dy = TOWARD[at]
+        inset = 0.34 if room["shape"] == "rect" else 0.30
+        px, py = cx + dx * w * inset, cy + dy * h * inset
+    else:
+        px, py = cx, cy
+    if w <= 2 or h <= 2:                                  # a room one passage wide: along its middle
+        px, py = (cx, py) if w <= 2 else (px, cy)
+    if pts := room.get("points"):
+        poly = list(zip(pts[::2], pts[1::2]))
+        for _ in range(10):                              # drawn back toward the centre until on the floor
+            if space.inside((px, py), poly, 0.8):
+                break
+            px, py = px + (cx - px) * 0.25, py + (cy - py) * 0.25
+    return round(px, 2), round(py, 2)
+
+
+def held(region) -> dict[str, list[kdl.Node]]:
+    """Each location's Mysteries, Hazards and Rewards, as its tables give them."""
+    out: dict[str, list[kdl.Node]] = {}
+    for n in region.files.get("Challenges", []) + region.files.get("Rewards", []):
+        if n.args and n.name in ("Mystery", "Hazard", "Reward"):
+            out.setdefault(str(n.args[0]), []).append(n)
+    return out
+
+
+def mark_of(n: kdl.Node) -> str | None:
+    if n.name == "Mystery":
+        return MYSTERY_MARK.get(str(n.props.get("type")))
+    if n.name == "Hazard":
+        return HAZARD_MARK.get(str(n.props.get("type")))
+    words = str(n.props.get("container", "")).lower()
+    return next((v for k, v in CONTAINER_MARK.items() if k in words), "chest")
+
+
+def furnish(region, m: dict) -> None:
+    """A DANGEROUS block's map with what its rooms hold: a trap at the door of each way holding a Hazard, then each
+    Mystery, Hazard and Reward as the symbol its type names - where its `at` and `against` say, else a Mystery nearest
+    the centre, a Hazard by the nearest door and a Reward farthest from every door, each clear of the rest and of a
+    small room's code - and the legend. A room with no place left for one draws none."""
+    import dungeon
+    f = dungeon.engine("facts", m)
+    rooms = {r["label"]: r for r in m["rooms"]}
+    rid = {r["id"]: r["label"] for r in m["rooms"]}
+    doors: dict[str, list] = {c: [] for c in rooms}
+    taken: dict[str, list] = {c: [] for c in rooms}
+    door_to: dict[tuple[str, str], tuple[float, float]] = {}
+    for r in f.get("rooms", []):
+        for d in r.get("doors", []):
+            doors[r["label"]].append(tuple(d["at"]))
+            if d.get("to") in rid:
+                door_to.setdefault((r["label"], rid[d["to"]]), tuple(d["at"]))
+        for e in r.get("exits") or []:
+            taken[r["label"]].append(tuple(e["at"]))
+            if (far := re.search(r"to (\S+)", e.get("text", ""))):
+                door_to.setdefault((r["label"], far[1]), tuple(e["at"]))
+    for x in m.get("connections", []):
+        a, b = rid.get(x["a"]), rid.get(x["b"])
+        if a and b:
+            doors[a].append(tuple(x["at"]))
+            doors[b].append(tuple(x["at"]))
+            door_to.setdefault((a, b), tuple(x["at"]))
+            door_to.setdefault((b, a), tuple(x["at"]))
+    symbols = m["overlay"]["symbols"]
+    for n in region.files.get("Connections", []):          # a trap on a way: inside its room, by its door
+        a, b = (str(n.args[0]), str(n.props.get("to"))) if n.args else ("", "")
+        if a in rooms and (door := door_to.get((a, b))) and any(k.name == "Hazard" for k in n.children):
+            r = rooms[a]
+            cx, cy = r["x"] + r["w"] / 2, r["y"] + r["h"] / 2
+            k = math.dist(door, (cx, cy)) or 1
+            p = (round(door[0] + (cx - door[0]) / k * CLEAR, 2), round(door[1] + (cy - door[1]) / k * CLEAR, 2))
+            symbols.append({"kind": "trap", "x": p[0], "y": p[1], "origin": "tables"})
+            taken[a].append(p)
+    for code, items in held(region).items():
+        r = rooms.get(code)
+        if r is None:
+            continue
+        if min(r["w"], r["h"]) <= LABEL_ROOM:              # a small room's centre is its code's
+            taken[code].append((r["x"] + r["w"] / 2, r["y"] + r["h"] / 2))
+        stated = [n for n in items if "at" in n.props or "against" in n.props]
+        ruled = sorted((n for n in items if n not in stated), key=lambda n: ("Mystery", "Hazard", "Reward").index(n.name))
+        for n in stated:
+            if kind := mark_of(n):
+                p = spot(r, n.props.get("at"), n.props.get("against"))
+                symbols.append({"kind": kind, "x": p[0], "y": p[1], "origin": "tables"})
+                taken[code].append(p)
+        slots = [spot(r, at, None) for at in ["centre", *TOWARD]]
+        near = lambda p: min((math.dist(p, d) for d in doors[code]), default=0)
+        for n in ruled:
+            kind = mark_of(n)
+            free = [p for p in dict.fromkeys(slots) if all(math.dist(p, q) >= CLEAR for q in taken[code] + doors[code])]
+            if not kind or not free:
+                continue
+            if n.name == "Mystery":
+                p = min(free, key=lambda p: math.dist(p, slots[0]))
+            elif n.name == "Hazard":
+                p = min(free, key=lambda p: (near(p), p == slots[0]))
+            else:
+                p = max([q for q in free if q != slots[0]] or free, key=near)
+            symbols.append({"kind": kind, "x": p[0], "y": p[1], "origin": "tables"})
+            taken[code].append(p)
+    m["legend"] = True
+
+
 @functools.cache
 def world_for(setting: Path) -> tables.Setting:
     gazetteer = sc.parse_regions_gazetteer()
@@ -816,7 +1012,8 @@ def write_blocks(world, only: str | None = None) -> list[str]:
             if engine == "dungeon":
                 out += [f"{bid}: {d}" for level, d in dungeon.defects(region, block, json.loads(target.read_text())) if level == "error"]
                 with tempfile.TemporaryDirectory() as tmp:
-                    shown = artgen("dungeon", "render", "--file", target, "--format", "svg", "--fit", SITE_FIT, "--json", "--out", tmp)
+                    shown = artgen("dungeon", "render", "--file", fitted(target, BLOCK_FIT, tmp), "--format", "svg", "--fit", BLOCK_FIT,
+                                   "--json", "--out", tmp)
                     for left in json.loads(shown.stdout).get("unplaced", []) if shown.stdout.startswith("{") else []:
                         out.append(f"{bid}: the note {left['text']!r} found no room on the page")
     return out
@@ -825,6 +1022,7 @@ def write_blocks(world, only: str | None = None) -> list[str]:
 # -- renders --------------------------------------------------------------------
 
 SITE_FIT = "720x560px"
+BLOCK_FIT = "880x680px"         # a block's map on the site: the page's width, room for its codes and its legend
 PDF_FIT = "110x150mm"
 
 
@@ -928,8 +1126,23 @@ def theme(kind: str) -> str | None:
     return look({"map": "terrain", "settlement": "settlement"}[kind]).get("theme", "color") if kind in ("map", "settlement") else None
 
 
+def fitted(file: Path, fit: str, tmp: str) -> Path:
+    """A dungeon file with its band of scale and legend on the side that leaves its map largest in the fit box:
+    beside a map narrower than the box, below one wider."""
+    m = json.loads(file.read_text())
+    if (m.get("furniture") or {}).get("place") != "outside" or "cols" not in m:
+        return file
+    w, h = (float(v) for v in re.findall(r"[\d.]+", fit)[:2])
+    beside = m["cols"] / m["rows"] < w / h and fit.endswith("px")   # a band beside a map in mm draws no map (artgen 0.14)
+    m["furniture"]["side"] = "right" if beside else "bottom"
+    (out := Path(tmp) / "fitted" / file.name).parent.mkdir(exist_ok=True)
+    out.write_text(json.dumps(m))
+    return out
+
+
 def render_fresh(kind: str, file: Path, fit: str, *extra) -> str | None:
     with tempfile.TemporaryDirectory() as tmp:
+        file = fitted(file, fit, tmp) if kind == "dungeon" else file
         args = [kind, "render", "--file", file, "--format", "svg", "--fit", fit, "--out", tmp, *extra]
         if t := theme(kind):
             args += ["--theme", t]
@@ -989,7 +1202,7 @@ def region_svg(code: str, fit: str = SITE_FIT, setting: Path = tables.SETTING) -
     return render("map", file, fit, "--crop", f"{x0},{y0},{x1 - x0},{y1 - y0}cells", label=f"Map of region {code}")
 
 
-def block_svg(code: str, bid: str, fit: str = SITE_FIT, setting: Path = tables.SETTING) -> str | None:
+def block_svg(code: str, bid: str, fit: str = BLOCK_FIT, setting: Path = tables.SETTING) -> str | None:
     file = built(code, bid, setting)[0]
     engine = ENGINE.get(world_for(setting).regions[code].rating.upper(), "dungeon")
     return render(engine, file, fit, label=f"Map of {bid}") if file else None
@@ -1024,7 +1237,7 @@ def cut_svg(loc: str, world, fit: str = SITE_FIT, setting: Path = tables.SETTING
 
 
 
-def draw(brief_path: Path, setting: Path, out: Path | None, fit: str) -> int:
+def draw(brief_path: Path, setting: Path, out: Path | None, fit: str | None) -> int:
     world = world_for(setting)
     problems = write_blocks(world)
     if out:
@@ -1032,10 +1245,10 @@ def draw(brief_path: Path, setting: Path, out: Path | None, fit: str) -> int:
         put = lambda name, svg: svg and (out / name).write_text(svg)
         for f in sorted(setting.glob("*.json")):
             if f.stem not in underlaid(setting):
-                put(f"{f.stem}.svg", sheet_svg(f.stem, fit, setting))
+                put(f"{f.stem}.svg", sheet_svg(f.stem, fit or SITE_FIT, setting))
         for code, region in world.regions.items():
             for bid in drawn_blocks(region):
-                put(f"{bid}.svg", block_svg(code, bid, fit, setting))
+                put(f"{bid}.svg", block_svg(code, bid, fit or BLOCK_FIT, setting))
     for p in problems:
         print(f"UNDRAWN: {p}")
     return 1 if problems else 0
@@ -1047,7 +1260,7 @@ def main() -> int:
     ap.add_argument("--brief", type=Path, default=tables.BRIEF)
     ap.add_argument("--setting", type=Path, default=tables.SETTING)
     ap.add_argument("--out", type=Path)
-    ap.add_argument("--fit", default=SITE_FIT)
+    ap.add_argument("--fit", help=f"default {SITE_FIT} a sheet, {BLOCK_FIT} a block")
     a = ap.parse_args()
     if a.command == "draw":
         return draw(a.brief, a.setting, a.out, a.fit)

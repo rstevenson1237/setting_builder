@@ -1977,8 +1977,9 @@ def goals_missed(region, bid: str) -> list[str]:
 
 
 def block_map(region, block: kdl.Node) -> tuple[dict | None, list[str]]:
-    """An approved plan's map: its solve, with each door the kind the tables' Connections give it."""
+    """An approved plan's map: its solve, with each door the kind the tables' Connections give it, and each Rock."""
     import dungeon
+    import space
     lines = with_brief(region.files.get("Design", []), region.code)
     bid = str(block.args[0])
     s, said = solved(lines, bid)
@@ -2010,6 +2011,13 @@ def block_map(region, block: kdl.Node) -> tuple[dict | None, list[str]]:
         got = ways.get((code(x["a"]), code(x["b"]))) or ways.get((code(x["b"]), code(x["a"])))
         if (code(x["a"]), code(x["b"])) in ways or (code(x["b"]), code(x["a"])) in ways:
             x["kind"] = got or dungeon.GAP.get("Archway", "open")
+    cx, cy = s.gw / 2, s.gh / 2
+    cell = lambda x, y: (round((cx + (x - s.ox) / SQ + EDGE) * K, 2), round((cy - (y - s.oy) / SQ + EDGE) * K, 2))
+    for r in dungeon.rocks_of(region, bid):              # feet round its xyz, from the block's centre
+        xy = space.point_of(r.props.get("xyz")) or [0.0, 0.0]
+        if (shape := space.outline_value(r.props.get("outline"))) is not None:
+            m.setdefault("areas", []).append({"points": [v for p in space.polygon(shape, xy[0], xy[1]) for v in cell(*p)],
+                                              "kind": "rock", "label": str(r.props.get("what", "")), "origin": "tables"})
     return m, said + s.failed
 
 

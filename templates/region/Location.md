@@ -15,8 +15,8 @@ format {
   line header pattern="[Location Code] **[Location Name]** ([type]) - *[tags]*" hint="its three tags"
   line summary pattern="[Player Summary]" out="readaloud" hint="what a party sees on arriving, to be read aloud in the third person, with each Feature it names in **bold**"
   line notes pattern="*[Referee Notes]*" hint="size, shape, and what the referee needs to run the location"
-  line feature pattern="**[Feature Name]:** [feature]" count="many" hint="the feature, where it sits, and any act on it with its effect, never opening by repeating its name; a hidden exit is written here, in the Feature that hides it"
-  line exits pattern="**Exits:** [exits]" count="optional" hint="each exit as \"[make and condition] -> [Location Code] [Location Name]\", its position left to the tables; an exit off the map ends \"-> [where it leads]\" and comes last"
+  line feature pattern="**[Feature Name]:** [feature]" count="many" hint="the feature, where it sits - where its entry states `at` or `against`, in the words `maps.place_said` gives them - and any act on it with its effect, never opening by repeating its name; a hidden exit is written here, in the Feature that hides it"
+  line exits pattern="**Exits:** [exits]" count="optional" hint="each exit as \"[make and condition] -> [Location Code] [Location Name]\", where it leaves the room and how far it runs left to the map, which the site and PDF add; an exit off the map ends \"-> [where it leads]\" and comes last"
 }
 cite Bestiary form="([Demeanor], [Number appearing], Bestiary : [Entry Name])" example="(Wary, 6, Bestiary : Soldier)" note="Demeanor the item its reaction opens with; Number appearing its Creature count, or a Faction's present, citing the first of the faction's Fields"
 cite Roll form="([Table], d[N])" example="(Treasure I, d20)" note="Treasure I-V or Magic; N the table's rolls"

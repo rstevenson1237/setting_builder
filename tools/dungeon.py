@@ -225,21 +225,44 @@ def junctions(m: dict, f: dict, label: dict, centre: dict, walk, cell: float) ->
 
 
 @functools.cache
-def walks(code: str, setting: Path = tables.SETTING) -> dict[tuple[str, str], tuple[str, int]]:
+def walks(code: str, setting: Path = tables.SETTING) -> dict[tuple[str, str], tuple[str, int, str]]:
     """Each way between two rooms of a block of the region, both ways round: the wall it leaves by - the side its
-    door stands on, else its door's compass point - and its walk to the next room's centre, to the nearest 5 feet."""
+    door stands on, else its door's compass point - its walk to the next room's centre, to the nearest 5 feet, and
+    where its door stands, as `maps.wall_said` reads it out."""
     region = maps.world_for(setting).regions[code]
     compass, out = space.compass(), {}
     for block in blocks_of(region).values():
         file = built(region.code, str(block.args[0]))[0]
-        boxes = {r["label"]: r["box"]["cells"] for r in engine("facts", json.loads(file.read_text())).get("rooms", [])} if file else {}
+        rooms = {r["label"]: r for r in engine("facts", json.loads(file.read_text())).get("rooms", [])} if file else {}
         for a, b, door_a, door_b, how, _ in passages(region, block) or ():
             for here, there, (x, y) in ((a, b, door_a), (b, a, door_b)):
-                r = boxes[here]
+                r = rooms[here]["box"]["cells"]
                 side = next((s for s, hit in (("w", abs(x - r["x"])), ("e", abs(x - r["x"] - r["w"])),
                                               ("n", abs(y - r["y"])), ("s", abs(y - r["y"] - r["h"]))) if hit < 1e-6), None)
                 toward = math.degrees(math.atan2(x - r["x"] - r["w"] / 2, r["y"] + r["h"] / 2 - y)) % 360
-                out[here, there] = (SIDE.get(side) or compass[round(toward / 22.5) % 16], round(how / 5) * 5)
+                out[here, there] = (SIDE.get(side) or compass[round(toward / 22.5) % 16], round(how / 5) * 5,
+                                    maps.wall_said(rooms[here]["shape"], r, (x, y)))
+    return out
+
+
+@functools.cache
+def stairs(code: str, setting: Path = tables.SETTING) -> dict[tuple[str, str], str]:
+    """Each stair out of a block of the region, from its room to the location it reaches: the wall it stands
+    against, as `maps.wall_said` reads it out."""
+    region = maps.world_for(setting).regions[code]
+    out = {}
+    for block in blocks_of(region).values():
+        if not (file := built(region.code, str(block.args[0]))[0]):
+            continue
+        m = json.loads(file.read_text())
+        seen = {r["label"]: r for r in engine("facts", m).get("rooms", [])}
+        for room in m.get("rooms", []):
+            r = seen.get(room.get("label"))
+            drawn = {f.get("text"): f["at"] for f in (r or {}).get("exits") or []}
+            for e in room.get("exits", []):
+                if (far := re.search(r"to (\S+)", e.get("text", ""))) and e.get("text") in drawn:
+                    out[room["label"], far[1]] = maps.wall_said(r["shape"], r["box"]["cells"], drawn[e["text"]], e["side"],
+                                                                       "against")
     return out
 
 
