@@ -5,7 +5,7 @@ gardens, the walk and the market, a street runs north from the gate to the quart
 lane runs west to the old granary and the loft behind it.
 
 ```kdl
-Design B.a locations="B.1, B.2, B.3, B.4, B.5, B.6, B.7, B.8, B.9, B.10" seed=9 score="80"
+Design B.a locations="B.1, B.2, B.3, B.4, B.5, B.6, B.7, B.8, B.9, B.10" seed=9 score="80" approved="2026-11-18"
 Fill B.a locations="B.1" width=40 length=25
 Fill B.a locations="B.2" width=110 length=40
 Fill B.a locations="B.3" width=80 length=60

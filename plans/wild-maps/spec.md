@@ -10,7 +10,7 @@ Tick a line to approve it. Each was tried; what the trial proved stands under it
 - [ ] **W2. Regions A and B are designed (step 3e).** A `design` line for each in `BRIEF.md`; a `Street` for each
   street the seed names (A's grid past the ruins, B's quay round the lake), a `Tie` for each place the seed
   fixes. Solved, shown and approved as any design.
-  *Built, accepted, not approved* (A seed 1, score 70; B seed 9, score 80). With streets, `settlement layout` broke
+  *Built, approved and applied* (A seed 1, score 70; B seed 9, score 80). With streets, `settlement layout` broke
   every tie (it turns the whole layout to straighten a street); so every place the ties reach, or the tables place by
   `xyz`, now stands fixed and the solve lays only the streets. A's faults are its grid's crossings and A.1 touching
   the pyramid's tip; B's are the quay's bends round the lake. An approved design's streets are drawn on the map.

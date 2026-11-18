@@ -242,10 +242,12 @@ def settle_apply(region) -> list[str]:
     text = []
     for line in path.read_text().splitlines():
         m = re.match(r"Location (\S+) ", line)
-        if m and (p := places.get(m[1])):
+        if m and (p := places.get(m[1])) and 'at="way in"' not in line:   # the way in is its place already
+            had = space.point_of(re.search(r'xyz="([^"]*)"', line)[1]) if 'xyz="' in line else None
+            up = f",{had[2]:g}" if had and len(had) > 2 and had[2] else ""     # its height stays the tables'
             for k in ("bearing", "distance", "against"):
                 line = dungeon.without(line, k)
-            line = dungeon.with_prop(line, "xyz", f'"{p.props["xyz"]}"')
+            line = dungeon.with_prop(line, "xyz", f'"{p.props["xyz"]}{up}"')
             done.append(f"{m[1]}: placed")
         text.append(line)
     path.write_text("\n".join(text) + "\n")
@@ -329,7 +331,7 @@ def agree(region, bid: str, g: dict) -> list[tuple[str, str]]:
             out.append(("warning", f"{c} is not in {'Locations.md' if c not in locs else 'Dressing.md'} yet, and the design places it - "
                                    f"owed to step {'3d' if c not in locs else '4a'}"))
             continue
-        got = space.point_of(have.props.get("xyz"))
+        got = space.point_of(have.props.get("xyz")) if danger else list(space.offset(region, have) or []) or None
         if got is None or math.dist(got[:2], want[:2]) > TOL:
             out.append(("error", f"{c} lies at {at(got)} in the tables and at {at(want)} in the design: run `python3 tools/design.py apply {region.code}` (step {owes}), or 3e if the design is wrong"))
         d = dress.get(c)
@@ -351,7 +353,7 @@ def agree(region, bid: str, g: dict) -> list[tuple[str, str]]:
                 unwritten = not any(c in q for q in stated for c in (x, y))     # neither end has a way yet: owed, not wrong
                 out.append(("warning" if unwritten else "error",
                             f"the design joins {a} and {b}, and Connections.md lacks {x} to {y} - owed to step 3f"))
-    for x, y in sorted(stated):
+    for x, y in sorted(stated) if danger else []:          # only a plan states its ways, as Links
         if frozenset((x, y)) not in wanted:
             out.append(("error", f"Connections.md joins {x} and {y}, which the design does not - owed to step 3f, or 3e if the design lacks it"))
     voids = {(space.outline_value(n.props.get("outline")), tuple(space.point_of(n.props.get("xyz")) or [0.0, 0.0])[:2]) for n in g["lines"] if n.name == "Void"}

@@ -5,7 +5,7 @@ through them from the barracks to the scouts' camp, a cross street runs east fro
 market, and two side streets run past the ruins west and east of them.
 
 ```kdl
-Design A.a locations="A.1, A.2, A.3, A.4, A.5, A.6, A.7, A.8, A.9" seed=1 score="70"
+Design A.a locations="A.1, A.2, A.3, A.4, A.5, A.6, A.7, A.8, A.9" seed=1 score="70" approved="2026-11-18"
 Fill A.a locations="A.1" width=40 length=40
 Fill A.a locations="A.2" width=30 length=25
 Fill A.a locations="A.3" width=40 length=40
