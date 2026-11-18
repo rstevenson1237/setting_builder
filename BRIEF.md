@@ -13,7 +13,7 @@ It never overrides a schema's rules or `STYLE.md`.
 A share is `"N%"`, at least that share of entries rounded down to whole entries, or `"<=N%"`,
 at most; a count is `N`, a range `"N-M"`, or `"N+"`, at least. A region's target replaces the
 rating's only for the values it names. A quoted line is prose, read by the
-step that writes what it names. A `target` is measured by `tools/metrics.py`; a `rate` is
+step that writes what it names. The `test` line's `walks` is how many times step 5e walks it. A `target` is measured by `tools/metrics.py`; a `rate` is
 how many entries each location of a type holds in a table file; `words` is how long each
 field of a region's brief runs, or each item of a list field and each row of a table.
 An `architecture` or `construction` line in `setting` is how its SAFE or DANGEROUS regions are
@@ -97,7 +97,7 @@ setting {
   origin A
   sheet Sands square="25 yards" extent="1200 by 1200 yards" regions="A"
   sheet Lake square="20 yards" extent="1000 by 1000 yards" regions="B"
-  test "The Lost City in play, not in text, built fresh by the framework and transcribed from nothing: a party caught in a sandstorm takes cover in a buried ruin, survives its first days on what it can find, and goes down through a pyramid that gets larger for five levels, passes factions to bargain with, and reaches a lake city of dreamers, then goes deeper still, narrowing, toward the thing that corrupted a people. Every location type, procedure kind and registry the framework has is used at least once."
+  test walks=3 "The Lost City in play, not in text, built fresh by the framework and transcribed from nothing: a party caught in a sandstorm takes cover in a buried ruin, survives its first days on what it can find, and goes down through a pyramid that gets larger for five levels, passes factions to bargain with, and reaches a lake city of dreamers, then goes deeper still, narrowing, toward the thing that corrupted a people. Every location type, procedure kind and registry the framework has is used at least once."
   outline "A lost city under the dunes and, beneath it, a pyramid ten levels deep: a sandstorm drives the party into the ruins, where the pyramid's tip stands from the sand ringed by three wind-swept statues. Level 1 is one tight complex of trapped rooms whose clues open three hidden ways down. Levels 1 to 5 widen, from puzzle rooms to a history, a hall of factions, living quarters and a funerary level; from level 5 a path opens to a lake city of masked dreamers. Levels 6 to 10 narrow again toward a demon below."
   pressure "Food, water and shelter run short from the first night. Nothing outside the ruins is known to the party and nothing from outside will come for it; nothing in the ruins or under them is safe. A party can build a place of respite among the ruins or win one from a faction, and either costs what it will not spend elsewhere. The three branches of the cynidiceans each mean to break the demon's hold and will not work together, and the demon's cult is looking for the keys the lost king hid."
   history "The cynidiceans raised a city of the sands, and a pyramid at its centre to house the dead of their line."

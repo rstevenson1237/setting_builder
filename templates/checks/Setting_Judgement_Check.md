@@ -13,27 +13,33 @@ Consult when running this check - deliberately broader than any single generatio
 - each region's `setting/region/[Code]/Locations.md`, its table files and its location files, each write-up with its entries from `python3 tools/validate_setting.py --location [Location Code]`.
 - `setting/Bestiary.md`, `setting/Factions.md`, `setting/Lore.md`, `setting/Keys.md`, `setting/NamedCreatures.md`, `setting/UniqueTreasures.md`, `setting/MagicalTomes.md`, `setting/Hoards.md`, `setting/LocalProcedures.md`, `setting/Rumours.md`, `setting/Quests.md` - recurring elements that should be tying levels together rather than sitting isolated.
 - the output of `python3 tools/validate_setting.py`, `python3 tools/metrics.py` and `python3 tools/metrics.py --tells setting/`.
+- the setting from the side, `python3 tools/space.py section --out section.svg`.
 
 ## Instructions
 Run this once the loop has exited and the briefs are written, in a context that wrote none
-of the content. This check reads across levels, location up. Record
-each item as Confirmed or Needs Attention, with a note, in the order below; the Template
-block lists the same items in the same order.
+of the content. This check reads across levels, location up, for the items below. Record
+findings only, each with a note: an item with nothing to report is not written, and a region
+with none is named in the Confirmed line. A finding a tool could make - a count, an overlap,
+a missing citation - is also listed under Owed to a tool, so the next pass need not read for it.
 
 **Record against the content as generated, before anything is fixed.** This pass is a
-diagnosis of the framework as much as of the setting: every Needs Attention names its
+diagnosis of the framework as much as of the setting: every finding names its
 likely source - a schema line, a template line, a `BRIEF.md` line, or the generator
 alone - so a defect an edit later hides has already been traced to what produced it. Its
 findings are the evidence `templates/checks/Schema_Judgement_Check.md` starts from.
 
 ### Setting-level, once per pass
 
-- **The brief was delivered** - take `BRIEF.md` line by line. For each request, name where the setting delivers it, or record that it does not. A count asked for is counted; a shape asked for (entrances per block, a gap left for the referee, a mix of peoples) is checked against the graph and the rooms, not the brief's claim about them.
-- **Genre held across levels** - take `GENRE.md`'s answers one by one and name where the setting delivers each: the Magic level answer in what the Treasure tables actually hold, the Lethality answer in what a hazard or creature can do, the Reward answer in what a party can carry home and sell, the Naming answer in the names on the map. Record any answer given differently at a lower level - a mechanic the reference does not have, a kind of creature it does not lean on, a history deeper than it wants - and any authored plot where a situation should be.
+- **The brief was delivered** - take `BRIEF.md` line by line, and record each request the setting does not deliver. A count asked for is counted; a shape asked for (entrances per block, a gap left for the referee, a mix of peoples) is checked against the graph and the rooms, not the brief's claim about them.
+- **Genre held across levels** - take `GENRE.md`'s answers one by one and look for each where the setting should deliver it: the Magic level answer in what the Treasure tables actually hold, the Lethality answer in what a hazard or creature can do, the Reward answer in what a party can carry home and sell, the Naming answer in the names on the map. Record any answer given differently at a lower level - a mechanic the reference does not have, a kind of creature it does not lean on, a history deeper than it wants - and any authored plot where a situation should be.
 - **The tests, hardest at the top** - apply `STYLE.md`'s tests, as written there, to every sentence of the setting-level files and each region's seed and brief, line by line. They fail most often above the location level, because a location has to be run at a table and a seed does not.
 - **Discrete and discoverable, not vague** - is content built from concrete, specific, discoverable details (a named object, a specific trigger, a specific creature or faction presence) that a player can find and act on, rather than an atmospheric motif repeated without ever cashing out into something discoverable?
 - **Every secret has its answer** - does every secret, mystery and undecided question in the setting-level files, the seeds and briefs, and the registries carry the fact the referee holds as true, or stand in `setting/Truths.md` as a mystery or an open gap held on purpose? A question the players may never answer is fine; one the referee cannot answer, and that nothing marks as deliberate, is a decision handed to whoever improvises first.
 - **Nothing contradicts** - does any fact in one file disagree with another: a place said not to exist beside the location that is it, a building placed in two baileys, a person alive in one region and gone in another?
+- **Every faction can be dealt with** - each faction a party is meant to bargain, trade or
+  fight with is met through someone or something a table places, by name.
+- **Every way between regions can be walked** - each way joining two regions is one a party
+  could walk by the section: its climb, its length and what it passes through.
 - **Everything recurs, nothing is orphaned** - is every Bestiary entry, faction, Named Creature, Lore, Key, Unique Treasure and coined name met in at least one location, and do the ones met in several stay consistent and build on each other? Is everything a seed or brief offers (a person, an occupant, a prize) somewhere a party can reach?
 - **Vocabulary is precise, and precise is not decorative** - the one register audit nothing mechanical can perform, since `tools/validate_setting.py` can count a segment but cannot tell a term used correctly from one used approximately. Three failures, in rising order of cost. A **gloss** - a specialist term followed by its own definition, which pays for the same fact twice and is the tell that the writer did not trust the word (*Corbelled Ceiling: the ceiling steps inward in courses rather than arching*). A **decoration** - an archaic or elevated word that names no referent a party could be shown, which is mood wearing a scholar's coat and is already cut by `STYLE.md`'s first test. And the one that matters most, a **misuse** - a term applied to the wrong thing, which is worse than the plain word would have been, because a referee who half-knows it will describe the wrong thing to the players and the error reaches the table.
 
@@ -58,27 +64,15 @@ findings are the evidence `templates/checks/Schema_Judgement_Check.md` starts fr
 ```
 # Setting Judgement Check - [Date or revision note]
 
+Confirmed on every item: [the setting level, if it has no finding, and every region not named below]
+
 ## Setting-level
-- The brief was delivered: [Confirmed / Needs Attention - per line, and its source]
-- Genre held across levels: [Confirmed / Needs Attention - per answer, and its source]
-- The tests, hardest at the top: [Confirmed / Needs Attention - note]
-- Discrete and discoverable, not vague: [Confirmed / Needs Attention - note]
-- Every secret has its answer: [Confirmed / Needs Attention - note]
-- Nothing contradicts: [Confirmed / Needs Attention - note]
-- Everything recurs, nothing is orphaned: [Confirmed / Needs Attention - note]
-- Vocabulary precise, not decorative: [Confirmed / Needs Attention - note]
+- [item]: [note, and its source]
 
 ## Region [Code]
-- Region reinforces the setting: [Confirmed / Needs Attention - note]
-- Locations reinforce this region: [Confirmed / Needs Attention - note]
-- Entries match: [Confirmed / Needs Attention - location, and its source]
-- Prices fit the list: [Confirmed / Needs Attention - location, and its source]
-- One room: [Confirmed / Needs Attention - location, and its source]
-- Distinct: [Confirmed / Needs Attention - locations, and its source]
-- Said once: [Confirmed / Needs Attention - locations, and its source]
-- The tests, at the location: [Confirmed / Needs Attention - locations, and its source]
+- [item]: [location, note, and its source]
 
-[repeat per region]
+[repeat per region with a finding]
 
 ## Room to Grow
 - [Claim, and where it's made] - [what's missing, specific enough to act on]
@@ -86,6 +80,8 @@ findings are the evidence `templates/checks/Schema_Judgement_Check.md` starts fr
 - [Coinage untracked or unused]
 
 ## Open Items
-- [Anything flagged Needs Attention, carried forward as an action item, with its source:
-  schema, template, brief, or generator]
+- [Each finding, as an action, with its source: schema, template, brief, or generator]
+
+## Owed to a tool
+- [A finding a tool could make] - [tools/validate_setting.py, tools/metrics.py or tools/space.py]
 ```

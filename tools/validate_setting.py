@@ -188,6 +188,56 @@ def check_read_set(diag: Diagnostics, schema):
             diag.error(path, "Context is conditional on a step outside its step lines")
 
 
+CHECKS = SETTING / "checks"
+OWED_HEAD = "## Owed to a tool"
+CONFIRMED_RE = re.compile(r"^- [^:\n]+: Confirmed\b", re.M)
+
+
+def check_check_templates(diag: Diagnostics):
+    """Every judgement check's Template closes by naming the findings a tool could make."""
+    for path in sorted((TEMPLATES / "checks").glob("*_Judgement_Check.md")):
+        if OWED_HEAD not in path.read_text().partition("## Template")[2]:
+            diag.error(path, f"its Template has no {OWED_HEAD!r} section")
+
+
+def walks_asked() -> int | None:
+    """How many times step 5e walks BRIEF.md's `test` line."""
+    test = next((c for n in tables.brief_nodes() if n.name == "setting" for c in n.children if c.name == "test"), None)
+    v = test.props.get("walks") if test else None
+    return int(v) if v is not None and re.fullmatch(r"[1-9][0-9]*", str(v)) else None
+
+
+def check_judgement_outputs(diag: Diagnostics, codes: set[str]):
+    """A judgement check records findings and nothing else; the walk's routes and findings name real places and steps."""
+    if not CHECKS.is_dir():
+        return
+    bodies = step_bodies()
+    for path in sorted(CHECKS.glob("*.md")):
+        owner = next((s for s, b in bodies.items() if f"setting/checks/{path.name}" in b), "5")
+        if n := len(CONFIRMED_RE.findall(path.read_text())):
+            diag.warn(path, f"{n} item line(s) read Confirmed - a check records findings only; owed to step {owner}")
+    walk = CHECKS / "WalkJudgementCheck.md"
+    if not walk.exists():
+        return
+    text = walk.read_text()
+    section = lambda h: (re.search(rf"^## {h}\n(.*?)(?=^## |\Z)", text, re.S | re.M) or [None, ""])[1]
+    routes = re.findall(r"^\d+\.\s+(.+)$", section("Routes"), re.M)
+    want = walks_asked()
+    if want is None:
+        diag.error(tables.BRIEF, "the setting's test line has no walks=N, the times step 5e walks it")
+    elif len(routes) != want:
+        diag.error(walk, f"holds {len(routes)} route(s); BRIEF.md's test line asks for walks={want}")
+    for i, route in enumerate(routes, 1):
+        for c in sorted({c for c in re.findall(r"[A-Z]+\.\d+", route)} - codes):
+            diag.error(walk, f"route {i} names {c}, which no Locations.md holds")
+    for line in re.findall(r"^- (.+)$", section("Findings"), re.M):
+        code = re.match(r"([A-Z]+\.\d+)\b", line)
+        if not code or code.group(1) not in codes:
+            diag.error(walk, f"finding opens with no known location code: {line[:60]}")
+        if not set(re.findall(r"\b([1-9][0-9]*[a-z])\b", line)) & set(bodies):
+            diag.error(walk, f"finding names no STEPS.md step that owes it: {line[:60]}")
+
+
 def check_brief_slices(diag: Diagnostics):
     """Each slice --brief prints holds its nodes as BRIEF.md does, `setting` cut to the
     lines a region's slice keeps."""
@@ -1509,6 +1559,7 @@ def main() -> int:
     diag = Diagnostics()
     schema = tables.Schema()
     check_read_set(diag, schema)
+    check_check_templates(diag)
     for path, problem in schema.problems:
         diag.error(path, problem)
     brief = tables.Brief(schema)
@@ -1615,6 +1666,7 @@ def main() -> int:
     check_history_order(diag, schema)
     check_lengths(diag, schema)
     check_reversals(diag, setting)
+    check_judgement_outputs(diag, setting.codes)
 
     # A location reached from the region itself is no part of the stated graph.
     top = {c for r in setting.regions.values() for c, n in r.locations().items()
