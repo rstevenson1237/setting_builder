@@ -19,11 +19,11 @@ Tick a line to approve it. Each was tried; what the trial proved stands under it
   design's seed.
   *Built, on the framework's side.* The spike: `settlement gen` keeps placed buildings but lays its own town across
   them; `settlement layout` collapses unkeyed buildings between fixed places to the centre. So `maps.fabric` lots
-  each street front from the design's seed, clear of every place and street. The engine's gap is a report for artgen.
+  each street front from the design's seed, clear of every place and street. The engine's gap is image_tools#67.
 - [ ] **W4. An underground region's edge is drawn.** Its outline as a cavern wall, the ground beyond it rock.
   *Needs artgen.* The sheet's half is W1 (`ground=rock`). On the block map, the nearest pieces the engine has - a
   closed drystone wall, rubble beyond it - read as a walled field, and a rock underlay hatches the cavern floor too.
-  The report asks for a cavern wall kind with solid rock beyond it.
+  Reported as image_tools#66: a cavern wall kind with solid rock beyond it.
 - [ ] **W5. What opens from the region is drawn on it.** The outline of each block of a joined region that
   breaks this region's ground - the pyramid's tip on A's map - as a ghosted shape with its code.
   *Built.* Any other region's block whose floor lies below the region's way in, its roof above, inside its outline:
