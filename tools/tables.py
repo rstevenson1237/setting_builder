@@ -1444,6 +1444,8 @@ class Brief:
             m = EXTENT_RE.fullmatch(str(n.props.get("extent", "")))
             if not m or m.group(3) not in units:
                 p(f"sheet {name} extent is W by H then {' | '.join(units)}")
+            if "ground" in n.props and str(n.props["ground"]) not in terrains:
+                p(f"sheet {name} ground is a terrain: {' | '.join(terrains)}")
             codes = str(n.props.get("regions", "")).split()
             if not codes:
                 p(f"sheet {name} lists no regions")

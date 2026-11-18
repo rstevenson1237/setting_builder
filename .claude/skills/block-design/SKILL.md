@@ -28,10 +28,12 @@ says how its lines are written and solved. A SAFE or WILD block is a settlement,
 - A `Fill` for each location's footprint, a `Tie` for each place a bearing and distance from another, a `Street`
   for each street with the buildings it runs past; its first location stands at the block's centre. Each
   building is the kind its location's type gives.
-- `solve` lays it out over twelve seeds (`artgen settlement layout`) and scores each on the faults the engine
-  reports and how far each tie strays; the contact sheet shows the best three.
-- Where every place is already tied, as in a ruin field, the solve gives back the ties: it is worth it for a town
-  with streets.
+- A `Fabric` line for what stands between the keyed places: unkeyed buildings of one kind along the streets, at a
+  share of their front, drawn and never keyed.
+- Every place the ties reach from the first, or the tables place by `xyz`, stands where they put it, as does a block
+  of another region through the ground; `solve` lays out the rest and the streets over twelve seeds (`artgen
+  settlement layout`), scores each on the faults the engine reports and how far each tie strays, and the contact
+  sheet shows the best three. Streets that cross are a fault to the engine and a grid to a city.
 
 ## When a design changes
 

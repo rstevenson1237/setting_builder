@@ -20,8 +20,9 @@ An `architecture` or `construction` line in `setting` is how its SAFE or DANGERO
 built, so a region states only where it differs.
 
 The maps are asked for here. `setting` holds a `sheet` per terrain map: its name, `square`
-(a distance), `extent` (`"W by H unit"`) and `regions`, the codes it holds; a DANGEROUS region
-is on none. A region on a sheet may hold one `ground` line, a terrain its area must have, then
+(a distance), `extent` (`"W by H unit"`), `regions`, the codes it holds, and optionally `ground`,
+the terrain it is wherever no region's ground reaches; a DANGEROUS region is on none.
+A region on a sheet may hold one `ground` line, a terrain its area must have, then
 prose the writing reads and the solver does not, and `place` lines: another region on a sheet
 with it, a compass direction, and a distance or `"N-M unit"` from that region's way in.
 `origin` names the region whose way in, at its ground, is (0,0,0): every region, block and
@@ -95,8 +96,8 @@ maps {
 
 setting {
   origin A
-  sheet Sands square="25 yards" extent="1200 by 1200 yards" regions="A"
-  sheet Lake square="20 yards" extent="1000 by 1000 yards" regions="B"
+  sheet Sands square="25 yards" extent="1200 by 1200 yards" regions="A" ground=sand
+  sheet Lake square="20 yards" extent="1000 by 1000 yards" regions="B" ground=rock
   test walks=3 "The Lost City in play, not in text, built fresh by the framework and transcribed from nothing: a party caught in a sandstorm takes cover in a buried ruin, survives its first days on what it can find, and goes down through a pyramid that gets larger for five levels, passes factions to bargain with, and reaches a lake city of dreamers, then goes deeper still, narrowing, toward the thing that corrupted a people. Every location type, procedure kind and registry the framework has is used at least once."
   outline "A lost city under the dunes and, beneath it, a pyramid ten levels deep: a sandstorm drives the party into the ruins, where the pyramid's tip stands from the sand ringed by three wind-swept statues. Level 1 is one tight complex of trapped rooms whose clues open three hidden ways down. Levels 1 to 5 widen, from puzzle rooms to a history, a hall of factions, living quarters and a funerary level; from level 5 a path opens to a lake city of masked dreamers. Levels 6 to 10 narrow again toward a demon below."
   pressure "Food, water and shelter run short from the first night. Nothing outside the ruins is known to the party and nothing from outside will come for it; nothing in the ruins or under them is safe. A party can build a place of respite among the ruins or win one from a faction, and either costs what it will not spend elsewhere. The three branches of the cynidiceans each mean to break the demon's hold and will not work together, and the demon's cult is looking for the keys the lost king hid."
@@ -131,6 +132,7 @@ setting {
 }
 
 region A rating=WILD die=d6 locations=9 {
+  design footprint="2000 feet"
   ground sand "dunes, drifted streets and rooftops half-buried in sand, a storm wall overhead"
   outline "The lost city: a sand-buried ruin with the pyramid's tip standing from its centre, three wind-swept statues carved on top. A party's first shelter is here - a roofed house, a cistern, a collapsed market, a barracks wall, a temple colonnade, a dry canal - and the first tomb robbers' scouts working the rubble. It holds the first food and water a party can find, and the only ground where a party can build its own place of respite. One way in to the pyramid, the tip's door at the foot of the statues."
   target Location.type Landmark=7 Ruin=6 Lair=1 Hidden=1 Route=1
@@ -139,6 +141,7 @@ region A rating=WILD die=d6 locations=9 {
 }
 
 region B rating=WILD die=d8 locations=10 {
+  design footprint="1000 feet"
   ground rock "a cavern floor of rock and fungus gardens, with a still lake at the city's heart, a ceiling lit by glowing growths"
   outline "The subterranean city: a cavern built round a still lake, where the cynidiceans' descendants live in a waking dream - masked as animals, feasting, reveling and eating the fungus they grow. It lies beside the pyramid and below level 5, and a party reaches it by a long sloping tunnel from that level. Quarters, a market of drugs, the fungus gardens, a lake shore and a revel house make a city; the way back up the path and the stair down to level 6 are the party's two exits."
   target Location.type Landmark=7 Ruin=1 Natural=2 Lair=4 Hidden=1 Secret=1 Route=1
