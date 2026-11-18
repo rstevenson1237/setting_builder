@@ -19,7 +19,7 @@ It never overrides a schema's rules or `STYLE.md`.
 A share is `"N%"`, at least that share of entries rounded down to whole entries, or `"<=N%"`,
 at most; a count is `N`, a range `"N-M"`, or `"N+"`, at least. A region's target replaces the
 rating's only for the values it names. A quoted line is prose, read by the
-step that writes what it names. A `target` is measured by `tools/metrics.py`; a `rate` is
+step that writes what it names. The `test` line's `walks` is how many times step 5e walks it. A `target` is measured by `tools/metrics.py`; a `rate` is
 how many entries each location of a type holds in a table file; `words` is how long each
 field of a region's brief runs, or each item of a list field and each row of a table.
 An `architecture` or `construction` line in `setting` is how its SAFE or DANGEROUS regions are
@@ -88,7 +88,7 @@ setting {
   sheet Frontier square="200 yards" extent="22 by 10 miles" regions="A B C D E"
   sheet Hold square="20 yards" extent="1.6 by 1.2 miles" regions="E I"
   sheet Village square="10 feet" extent="200 by 150 yards" regions="A"
-  test "Drakenhold in play, not in text: a party outfits at a dwindling river village, walks the Ironwood to a ruined dwarf-hold, and chooses a way in - the broken Trade Hall doors, the Skybridge, a servants' passage - then climbs and descends three peaks of halls where the right rod, tile or spoken name opens what force cannot. A sleeping dragon that no party can fight lies in the second peak's heart, and the way to ruin him lies in a tomb on the third. Every location type, procedure kind and registry the framework has is used at least once."
+  test walks=3 "Drakenhold in play, not in text: a party outfits at a dwindling river village, walks the Ironwood to a ruined dwarf-hold, and chooses a way in - the broken Trade Hall doors, the Skybridge, a servants' passage - then climbs and descends three peaks of halls where the right rod, tile or spoken name opens what force cannot. A sleeping dragon that no party can fight lies in the second peak's heart, and the way to ruin him lies in a tomb on the third. Every location type, procedure kind and registry the framework has is used at least once."
   outline "One mountain hold of three peaks, a day from the last village: Thornhaven at the river and the Ironwood's edge; the wood trail, the goblin camps and the river crossing between it and the hold; the ruined Outer City below the peaks; and fifteen levels of halls, vaults, crypts and lost caverns, where runes, rods, tiles and names are the locks and the dwarves' machines are the roads."
   pressure "Something under Drakenhold is stirring again. Evil comes up from the lost caverns, the kobolds still carry tribute to a dragon that has slept for ten years, and Thornhaven feels it first: strays gone from the wood's edge, a witch who blames the village, and a rougher class drifting in on a rumour of hoards. Nobody there knows what wakes Vermakith, and nobody knows where the stolen artifact went."
   history "The hold's founders carved three halls into three peaks and found the caverns under them; it was dwarven work for twelve centuries."

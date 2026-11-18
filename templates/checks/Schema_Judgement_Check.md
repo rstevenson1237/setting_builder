@@ -14,7 +14,7 @@ Consult when running this check:
 
 ## Instructions
 Record **findings only**, each as Needs Attention with the file, the item and a note. A
-schema with no finding is covered by the Confirmed line. `tools/validate_setting.py`
+schema with no finding is covered by the Confirmed line. A finding a tool could make - a count, an overlap, a missing citation - is also listed under Owed to a tool. `tools/validate_setting.py`
 enforces every field, enum and range; this check judges what they ask for.
 
 Across the schemas:
@@ -49,4 +49,7 @@ Confirmed on every item: [every file not named below]
 
 ## Open Items
 - [Each finding, as an action, with its source: field, enum, range, comment, or gap]
+
+## Owed to a tool
+- [A finding a tool could make] - [tools/validate_setting.py, tools/metrics.py or tools/space.py]
 ```

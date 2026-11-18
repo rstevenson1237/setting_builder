@@ -38,3 +38,4 @@ that owes it, and `--pending` lists what each still owes.
    - 5b. Create or update `setting/checks/SettingJudgementCheck.md`, following `templates/checks/Setting_Judgement_Check.md`.
    - 5c. Create or update `setting/checks/SchemaJudgementCheck.md`, following `templates/checks/Schema_Judgement_Check.md`, starting from 5b's findings traced to a schema.
    - 5d. Create or update `setting/checks/MapJudgementCheck.md`, following `templates/checks/Map_Judgement_Check.md`.
+   - 5e. Create or update `setting/checks/WalkJudgementCheck.md`, following `templates/checks/Walk_Judgement_Check.md`.
