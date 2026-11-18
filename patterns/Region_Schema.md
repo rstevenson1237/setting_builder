@@ -18,7 +18,7 @@ each region, by rating, beside its tables:
 - its `design`, `setting/region/[Code]/Design.md`, for a DANGEROUS region and any region whose `BRIEF.md` node
   has a `design` line: what its blocks are to look like, written at step 3e from `Locations.md`, before any other table.
   Each block is one `Design`, then the lines that state it - in DANGEROUS a plan's `Layout`, `Room`, `Route` and
-  `Void`; in SAFE and WILD `Fill`, `Tie`, `Street` and `Void` - and, once solved, a `Place` for each location and,
+  `Void`; in SAFE and WILD `Fill`, `Tie`, `Street`, `Fabric` and `Void` - and, once solved, a `Place` for each location and,
   in DANGEROUS, a `Link` for each way inside the block and a `Part` for each of its rooms no location
   holds. Once the user approves a design, the tables are written to agree with it.
 
@@ -137,6 +137,10 @@ node Tie {                  // SAFE and WILD: one location a bearing and distanc
 node Street {               // SAFE and WILD: a street, the buildings it runs past in order from its start
   past location list
   kind gloss opt            // a road kind; a street where unset
+}
+node Fabric {               // SAFE and WILD: what stands between the keyed places, drawn and never keyed, opening with the block's id
+  kind gloss                // a building kind: ruin, house, ...
+  share percent             // the share of each street's front it lines, laid out from the design's seed
 }
 node Void {                 // ground within the block that no location or way takes; in DANGEROUS the block's Rock
   what gloss                // what fills it, written on its map

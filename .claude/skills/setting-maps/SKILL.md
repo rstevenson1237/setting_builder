@@ -60,7 +60,14 @@ the tables' ways. The location cuts are `render --room CODE --margin N`.
 
 **A SAFE or WILD block** (`maps.settlement_map`): `kind: castle` with the block's own walls where it has them, rather than
 the engine's; each location as a `buildings[]`, `areas[]`, `water[]` or `roads[]` entry by its type and the words of its
-name, a Gate as the wall's gate; the home sheet's terrain map as the `underlay`.
+name, a Gate as the wall's gate; the home sheet's terrain map as the `underlay`, and the region's ground as the
+settlement's. With an approved design (`maps.design_layout`): its streets as its seed laid them, and each `Fabric`
+line's unkeyed buildings along them (`maps.fabric`), laid by the framework because the engine fills round no
+building already placed. A block of another region that stands through the region's ground (`maps.breaking`), as
+the pyramid's tip through the sand, is an open `square` with its code, which the design's streets and fabric keep off.
+
+A sheet with a `ground` is painted that terrain, then each region's ground over its area, with no generated river.
+An underground region's edge is not drawn: the engine has no cavern wall, a report for artgen.
 
 ## When artgen is wrong
 

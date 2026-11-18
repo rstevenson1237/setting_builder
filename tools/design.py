@@ -84,7 +84,8 @@ SETTLE_MOST = 200               # cells across the engine draws a settlement in,
 class Settle:
     """A SAFE or WILD block's design as artgen's settlement graph (`artgen schema settlement-graph`): each Fill a
     building or open area, each Tie one place a bearing and distance from another, each Street the buildings it runs
-    past in order. The design's first location stands at the block's centre; every other place is from it."""
+    past in order. The design's first location stands at the block's centre; every place the ties reach from it stands
+    where they put it, and the solve lays out the rest and the streets."""
 
     def __init__(self, region, bid: str):
         self.region, self.bid, self.problems, self.graph = region, bid, [], None
@@ -116,19 +117,44 @@ class Settle:
             ties.append((a, b, compass.index(str(n.props["bearing"])) * 22.5, maps.feet(str(n.props["distance"]))))
         if self.problems:
             return
+        self.size = size
         span = max([d for *_, d in ties] + [max(max(v) for v in size.values())]) * 2
         self.cell = next((c for c in SETTLE_CELLS if span / c <= SETTLE_MOST), SETTLE_CELLS[-1])
         wild = region.rating.upper() == "WILD"
         kind = lambda t: "market" if t == "Market" else "ruin" if wild and t == "Ruin" else maps.BUILDING.get(t, "house")
+        self.fixed = {self.locations[0]: (0.0, 0.0)}    # each place the ties reach from the first, east and south in feet
+        first = space.point_of(region.locations()[self.locations[0]].props.get("xyz")) or [0.0, 0.0]
+        for c in self.locations[1:]:                    # and each the tables place by xyz and no tie names
+            xyz = space.point_of(region.locations()[c].props.get("xyz"))
+            if xyz and not any(c in t[:2] for t in ties):
+                self.fixed[c] = (xyz[0] - first[0], first[1] - xyz[1])
+        for _ in ties:
+            for a, b, br, d in ties:
+                if a in self.fixed and b not in self.fixed:
+                    r = math.radians(br)
+                    self.fixed[b] = (self.fixed[a][0] + d * math.sin(r), self.fixed[a][1] - d * math.cos(r))
+        way = space.offset(region, region.locations()[self.locations[0]]) or (0.0, 0.0)
+        stands = {c: (v, size[c]) for c, v in self.fixed.items()}   # and each block of another region through its ground
+        for b, poly in maps.breaking(region.code):
+            xs, ys = [x for x, _ in poly], [y for _, y in poly]
+            stands[b] = (((min(xs) + max(xs)) / 2 - way[0], way[1] - (min(ys) + max(ys)) / 2), (max(xs) - min(xs), max(ys) - min(ys)))
+        lo = [min(v[k] - z[k] / 2 for v, z in stands.values()) for k in (0, 1)]
+        at = lambda c: {"x": round((stands[c][0][0] - stands[c][1][0] / 2 - lo[0]) / self.cell, 1),
+                        "y": round((stands[c][0][1] - stands[c][1][1] / 2 - lo[1]) / self.cell, 1)}
         self.graph = {"id": f"{region.code}-{bid.split('.')[-1]}", "kind": "village", "ground": "sand" if wild else "grass",
                       "scale": {"perCell": self.cell, "unit": "ft"}, "wall": False if wild and "wall" not in self.node.props else {"kind": "stone"},
                       "buildings": [{"id": c, "w": max(1, round(w / self.cell, 1)), "h": max(1, round(h / self.cell, 1)), "kind": kind(kinds[c]),
-                                     "turns": not any(c in t[:2] for t in ties)} for c, (w, h) in size.items()],
-                      "ties": [{"a": a, "b": b, "bearing": br, "distance": round(d / self.cell, 1), "hold": True} for a, b, br, d in ties],
+                                     **({"at": at(c)} if c in self.fixed else {"turns": not any(c in t[:2] for t in ties)})}
+                                    for c, (w, h) in size.items()]
+                                   + [{"id": b, "w": round(z[0] / self.cell, 1), "h": round(z[1] / self.cell, 1), "kind": "square", "at": at(b)}
+                                      for b, (_, z) in stands.items() if b not in size],
+                      "ties": [{"a": a, "b": b, "bearing": br, "distance": round(d / self.cell, 1), "hold": True} for a, b, br, d in ties
+                               if not {a, b} <= set(self.fixed)],
                       "streets": [{"past": words(n.props.get("past")), **({"kind": str(n.props["kind"])} if "kind" in n.props else {})}
                                   for n in mine("Street")]}
-        if not self.graph["streets"]:
-            del self.graph["streets"]
+        for k in ("streets", "ties"):
+            if not self.graph[k]:
+                del self.graph[k]
 
     def run(self, seed: int, folder: Path) -> dict | str:
         """`artgen settlement layout` at a seed, its file kept in `folder`: its output, or why it failed."""
@@ -141,8 +167,9 @@ class Settle:
         """Each building's centre, east and north in feet of the first location's, and its width and length."""
         got = {p["id"]: p for p in out["report"]["places"]}
         o, k = got[self.locations[0]], self.cell
-        return {c: (round((p["cx"] - o["cx"]) * k), round(-(p["cy"] - o["cy"]) * k),
-                    round(2 * (p["cx"] - p["x"]) * k), round(2 * (p["cy"] - p["y"]) * k)) for c, p in got.items()}
+        return {c: (round(self.fixed[c][0]), round(-self.fixed[c][1]), *self.size[c]) if c in self.fixed else
+                (round((p["cx"] - o["cx"]) * k), round(-(p["cy"] - o["cy"]) * k),
+                 round(2 * (p["cx"] - p["x"]) * k), round(2 * (p["cy"] - p["y"]) * k)) for c, p in got.items() if c in self.size}
 
 
 def settle_score(out: dict) -> tuple[int, str]:
@@ -359,6 +386,11 @@ def check(world, brief) -> list[tuple[str, Path, str]]:
             for k in SETTINGS:
                 if k in node.props and (bad := tables.design_setting(k, str(node.props[k]))):
                     out.append(("error", path, f"line {node.line}: Design {bid} {bad}"))
+            for n in (n for n in g["lines"] if n.name == "Fabric"):
+                if str(n.props.get("kind")) not in maps.BUILDING_KINDS:
+                    out.append(("error", path, f"line {n.line}: Fabric {bid} kind is a building kind: {' | '.join(maps.BUILDING_KINDS)} - step 3e"))
+                if not any(m.name == "Street" for m in g["lines"]):
+                    out.append(("warning", path, f"line {n.line}: Fabric {bid} lines the design's streets, and it has none - step 3e"))
             if region.rating.upper() == "DANGEROUS" and bid in plan.plans_of(region):   # a plan: its faults, and ways it leaves unrouted
                 said, unrouted = plan.problems_of(region, bid)
                 out += [("error" if approved else "warning", path, f"Design {bid}: {m} - owed to step 3e") for m in said + unrouted]

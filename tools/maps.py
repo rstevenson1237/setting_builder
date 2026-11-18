@@ -11,7 +11,8 @@ place    Reads BRIEF.md's `sheet` lines and each region's `ground` and `place` l
          farthest location, and asks artgen for terrain meeting its ground at the way in
          and at each location, where no other region's ground meets it - on a sheet in
          miles, over one outline round them all, each Route a road through its stops, and
-         no snow or desert. Every location is a keyed mark on its home sheet; one a
+         no snow or desert; on a sheet with a `ground`, that terrain wherever no region's reaches,
+         and no river. Every location is a keyed mark on its home sheet; one a
          DANGEROUS region opens from is a cave mouth keyed with that region too. Writes
          `setting/[Sheet].json` per sheet and `setting/Sheets.md`, each region's area as its
          outline in Regions.md, and the place of each region its sheet or joins now give
@@ -24,7 +25,8 @@ ground   Reads each placed region's ground back from its home sheet and writes i
          the way in is listed and left out.
 draw     Builds each block's map, `setting/region/[Code]/[Block].json`, never committed, from its tables - a
          DANGEROUS block's a dungeon, from its approved plan, a SAFE block's a settlement walled round its locations
-         on its home sheet, a WILD block's the same unwalled unless it states a wall - and with --out renders every sheet and block to SVG there.
+         on its home sheet, a WILD block's the same unwalled unless it states a wall, with an approved design's streets
+         and fabric and any block of another region through its ground - and with --out renders every sheet and block to SVG there.
          A DANGEROUS block's map draws what its rooms hold, and its legend (`furnish`).
          Region maps and location cuts (`region_svg`, `cut_svg`) are paused.
 """
@@ -87,6 +89,7 @@ class Sheet:
         self.unit = str(node.props["square"]).split()[1]
         self.per_cell = float(str(node.props["square"]).split()[0])
         self.at: dict[str, tuple[int, int]] = {}
+        self.ground = str(node.props["ground"]) if "ground" in node.props else None   # wherever no region's ground reaches
         self.seed = 0
 
 
@@ -267,6 +270,17 @@ def map_file(sheet: Sheet, seed: int, regions: dict, radius: dict, home: dict, s
                                                         for _, x, y, *_ in own for a in range(8)])},
                                  "share": GROUND_SHARE, "blend": BLEND})
         circles = []
+    if sheet.ground:                              # the sheet's ground everywhere, each region's own painted over its area
+        whole = {"poly": [0, 0, sheet.cols, 0, sheet.cols, sheet.rows, 0, sheet.rows]}
+        m["edits"] = [{"op": "paint", "terrain": sheet.ground, "shape": whole, "origin": "tables"}]
+        m["edits"] += [{"op": "paint", "terrain": r["terrain"], "shape": r["area"], "origin": "tables"}
+                       for r in m["require"] if r["kind"] == "terrain"]
+        m["edits"] += [{"op": "paint", "terrain": c[4], "shape": {"circle": list(c[1:4])}, "origin": "tables"}
+                       for c in circles if c[0].endswith("-ground") or not clash(c)]
+        m["require"] += [{"id": c[0], "kind": "terrain", "origin": "tables", "area": {"circle": list(c[1:4])},
+                          "terrain": c[4], "share": GROUND_SHARE} for c in circles if c[0].endswith("-ground") or not clash(c)]
+        m["require"].append({"id": f"{sheet.name}-dry", "kind": "clear", "origin": "tables", "area": whole})
+        circles = []
     for c in circles:                             # a location's ground yields where another region's meets it
         if c[0].endswith("-ground") or not clash(c):
             m["require"].append({"id": c[0], "kind": "terrain", "origin": "tables", "area": {"circle": list(c[1:4])},
@@ -328,7 +342,7 @@ def draw_sheet(sheet: Sheet, target: Path, build) -> tuple[list[str], int]:
                 if done.returncode:
                     return [f"artgen cannot sync {sheet.name}: {done.stderr.strip() or done.stdout.strip()}"], seed
                 fresh = joined
-            if sheet.square > LOCAL_SQUARE_FEET:
+            if sheet.square > LOCAL_SQUARE_FEET and not sheet.ground:
                 temper(fresh)
             done = artgen("map", "check", "--file", fresh, "--json")
             report = json.loads(done.stdout) if done.stdout.strip().startswith("{") else None
@@ -661,6 +675,10 @@ WALL = ("palisade", "fence", "hedge", "drystone", "ruined")   # a word in the Bl
 POSTERN = 10                    # feet: a Gate narrower than this is a postern, else a gatehouse
 VOID_GROUND = "yard"            # the area a Void is drawn as: open ground, with nothing standing on it
 WILD_PLACE = {"Gardens": ("area", "garden"), "Shore": ("water", "lake")}   # a word in a WILD name, over its type
+BUILDING_KINDS = ("house", "cottage", "shop", "inn", "tavern", "smithy", "temple", "chapel", "hall", "barn", "stable", "mill",
+                  "warehouse", "keep", "tower", "gatehouse", "barracks", "manor", "ruin")   # artgen's settlement buildings
+GHOST = "square"                # the area another region's block is drawn as where it breaks this one's ground
+TOWN_GROUND = {"sand": "sand", "desert": "sand", "rock": "stone", "snow": "snow"}   # a settlement's ground by its region's terrain
 UNSIZED = 20                    # feet, a place's side where its Dressing states none
 
 
@@ -693,6 +711,33 @@ def enclosure(region, block: kdl.Node) -> tuple[dict, dict, list[float] | None, 
         k = min(range(4), key=lambda k: abs(box[k] - (x, y)[k % 2]))
         box[k] = (x, y)[k % 2]
     return at, size, box, problems
+
+
+@functools.lru_cache(maxsize=None)
+def breaking(code: str) -> list[tuple[str, list[tuple[float, float]]]]:
+    """Each block of another region that stands through this region's ground - its floor below the way in, its roof
+    above, inside its outline - and its outline in feet east and north of the way in."""
+    sp = space.settled()
+    me = sp.things.get(code)
+    here = sp.absolute(me) if me else [None]
+    if None in here:
+        return []
+    out = []
+    for t in sp.things.values():
+        if t.kind != "block" or t.region == code or t.outline is None or None in (at := sp.absolute(t)):
+            continue
+        floor, roof = sp.reach(t)
+        poly = space.polygon(t.outline, at[0] - here[0], at[1] - here[1])
+        if at[2] + floor < here[2] < at[2] + roof and space.meets(poly, space.polygon(me.outline, 0.0, 0.0)):
+            out.append((t.code, poly))
+    return out
+
+
+def region_ground(code: str) -> str | None:
+    """The terrain a region's BRIEF.md `ground` line asks for."""
+    node = tables.Brief(tables.Schema()).regions.get(code)
+    ground = next((c for c in node.children if c.name == "ground"), None) if node else None
+    return str(ground.args[0]) if ground and ground.args else None
 
 
 def settlement_map(region, block: kdl.Node) -> tuple[dict | None, list[str]]:
@@ -732,7 +777,7 @@ def settlement_map(region, block: kdl.Node) -> tuple[dict | None, list[str]]:
             "gates": [{"at": list(cell(*at[c])), "kind": "postern" if min(size[c]) < POSTERN else "gatehouse"} for c in gates]}
     walled = region.rating.upper() != "WILD" or "wall" in block.props   # a WILD place is walled only where it says
     m = {"id": f"{code}-{bid.split('.')[-1]}", "version": 1, "kind": "castle", "seed": 1, "cols": cols, "rows": rows,
-         "ground": "grass", "grid": {"show": True, "size": 2, "sub": False},
+         "ground": TOWN_GROUND.get(region_ground(code), "grass"), "grid": {"show": True, "size": 2, "sub": False},
          "scale": {"perCell": step, "unit": "ft"}, "numbers": False, "scaleBar": True, "compass": True,
          "furniture": {"place": "outside"}, "roads": [], "water": [], "walls": [wall] if walled else [], "buildings": [], "areas": [], "trees": [],
          "props": [], "overlay": {"labels": [], "symbols": []}}
@@ -770,6 +815,21 @@ def settlement_map(region, block: kdl.Node) -> tuple[dict | None, list[str]]:
             m["areas"].append({"kind": VOID_GROUND, "points": [c for x, y in space.polygon(shape, centre[0], centre[1])
                                                               for c in cell(x, -y)],
                                "label": str(v.props.get("what", "")), "origin": "tables"})
+    clear, kept = dict(at), dict(size)                    # what fabric keeps clear of
+    for b, poly in breaking(code):                        # another region's block standing through this one's ground
+        m["areas"].append({"kind": GHOST, "points": [v for x, y in poly for v in cell(x, -y)], "origin": "tables"})
+        xs, ys = [x for x, _ in poly], [-y for _, y in poly]
+        clear[b], kept[b] = ((min(xs) + max(xs)) / 2, (min(ys) + max(ys)) / 2), (max(xs) - min(xs), max(ys) - min(ys))
+        x, y = cell(*clear[b])
+        m["overlay"]["labels"].append({"text": b, "x": x, "y": y, "kind": "name", "origin": "tables"})
+    streets = design_streets(region, bid, at)
+    for kind, line in streets:                            # an approved design's streets, as its seed laid them
+        m["roads"].append({"kind": kind, "points": [v for p in line for v in cell(*p)], "origin": "tables"})
+    for i, b in enumerate(fabric(region, bid, clear, kept, streets)):   # and what stands between its places
+        (x, y), w, h = cell(b["x"] - b["w"] / 2, b["y"] - b["h"] / 2), b["w"] / step, b["h"] / step
+        if 0 <= x and x + w <= cols and 0 <= y and y + h <= rows:
+            m["buildings"].append({"id": f"fabric-{i + 1}", "kind": b["kind"], "shape": "rect", "x": x, "y": y, "w": round(w, 1), "h": round(h, 1),
+                                   "angle": b["angle"], "number": False, "origin": "tables"})
     for c in gates:
         x, y = cell(*at[c])
         m["overlay"]["labels"].append({"text": c, "x": x, "y": round(y - 2, 1), "kind": "note", "origin": "tables"})
@@ -785,6 +845,82 @@ def settlement_map(region, block: kdl.Node) -> tuple[dict | None, list[str]]:
                                "points": [x, y, round(far[0], 1), round(far[1], 1)], "label": f"to {b}",
                                "origin": "tables"})
     return m, problems
+
+
+FABRIC_LOT = 30                 # feet of street front each fabric building is given
+FABRIC_SIZE = (15, 25)          # feet: the least and most a fabric building's side
+STREET_HALF = 10                # feet from a street's middle to its edge
+SETBACK = 5                     # feet from a street's edge to the fabric along it
+KEEP_CLEAR = 10                 # feet kept clear round each location
+
+
+def design_layout(region, bid: str):
+    """An approved SAFE or WILD design laid out at its seed: its graph and artgen's settlement file, kept under
+    .maps-cache. None where the block has no approved design."""
+    import design
+    g = design.groups(region).get(bid)
+    if not g or not g["design"].props.get("approved") or "seed" not in g["design"].props:
+        return None, None
+    st = design.Settle(region, bid)
+    if st.graph is None:
+        return None, None
+    seed = int(g["design"].props["seed"])
+    kept = CACHE / (hashlib.sha256((json.dumps(st.graph, sort_keys=True) + BUILD + str(seed)).encode()).hexdigest() + ".layout.json")
+    if not kept.exists():
+        with tempfile.TemporaryDirectory() as tmp:
+            if isinstance(st.run(seed, Path(tmp)), str):
+                return st, None
+            CACHE.mkdir(exist_ok=True)
+            kept.write_text((Path(tmp) / f"seed-{seed}.json").read_text())
+    return st, json.loads(kept.read_text())
+
+
+def design_streets(region, bid: str, at: dict) -> list[tuple[str, list[tuple[float, float]]]]:
+    """Each street of a block's approved design, as its seed laid it: its kind, and its points in feet east and south
+    of the way in, the frame `at` holds each location's place in."""
+    st, f = design_layout(region, bid)
+    first = st.locations[0] if st else None
+    b = next((b for b in (f or {}).get("buildings", []) if b.get("id") == str(first).replace(".", "-")), None)
+    if b is None or first not in at:
+        return []
+    k = f["scale"]["perCell"]
+    cx, cy = b["x"] + b["w"] / 2, b["y"] + b["h"] / 2
+    return [(r.get("kind", "street"), [(at[first][0] + (r["points"][i] - cx) * k, at[first][1] + (r["points"][i + 1] - cy) * k)
+                                       for i in range(0, len(r["points"]), 2)])
+            for r in f["roads"] if r.get("origin") == "graph"]
+
+
+def fabric(region, bid: str, at: dict, size: dict, streets: list) -> list[dict]:
+    """The unkeyed buildings a design's `Fabric` lines stand along its streets: on each side of each street, a lot every
+    FABRIC_LOT feet, built on at the line's share, from the design's seed, clear of every location and street. Each is
+    its kind, its centre in feet east and south of the way in, its size, and its angle along the street."""
+    import design
+    g = design.groups(region).get(bid)
+    lines = [n for n in (g["lines"] if g and g["design"].props.get("approved") else []) if n.name == "Fabric"]
+    rng = random.Random(int(g["design"].props.get("seed", 1)) if g else 1)
+    segs = [(a, b) for _, line in streets for a, b in zip(line, line[1:]) if a != b]
+    near = lambda p, a, b: math.dist(p, (a[0] + (t := max(0.0, min(1.0, ((p[0] - a[0]) * (b[0] - a[0]) + (p[1] - a[1]) * (b[1] - a[1]))
+                                                                  / math.dist(a, b) ** 2))) * (b[0] - a[0]), a[1] + t * (b[1] - a[1])))
+    out = []
+    for n in lines:
+        share = float(str(n.props.get("share", "0%")).rstrip("%")) / 100
+        for a, b in segs:
+            run, ux, uy = math.dist(a, b), (b[0] - a[0]) / math.dist(a, b), (b[1] - a[1]) / math.dist(a, b)
+            for i in range(int(run // FABRIC_LOT)):
+                for side in (-1, 1):
+                    if rng.random() >= share:
+                        continue
+                    w, h = (rng.uniform(*FABRIC_SIZE) for _ in range(2))
+                    d, back = (i + 0.5) * FABRIC_LOT, side * (STREET_HALF + SETBACK + h / 2)
+                    c = (a[0] + ux * d - uy * back, a[1] + uy * d + ux * back)
+                    r = math.hypot(w, h) / 2
+                    if any(near(c, p, q) < STREET_HALF + r - 1 for p, q in segs) \
+                            or any(abs(c[0] - at[k][0]) < size[k][0] / 2 + r + KEEP_CLEAR and abs(c[1] - at[k][1]) < size[k][1] / 2 + r + KEEP_CLEAR for k in at) \
+                            or any(math.dist(c, (o["x"], o["y"])) < r + math.hypot(o["w"], o["h"]) / 2 for o in out):
+                        continue
+                    out.append({"kind": str(n.props.get("kind", "house")), "x": c[0], "y": c[1], "w": w, "h": h,
+                                "angle": round(math.degrees(math.atan2(uy, ux)), 1)})
+    return out
 
 
 # -- what a DANGEROUS room holds, drawn where it stands ------------------------------------

@@ -34,83 +34,197 @@
   "version": 1,
   "preset": "local",
   "seed": 1,
-  "edits": [],
+  "edits": [
+    {
+      "op": "paint",
+      "terrain": "rock",
+      "shape": {
+        "poly": [
+          0,
+          0,
+          50,
+          0,
+          50,
+          50,
+          0,
+          50
+        ]
+      },
+      "origin": "tables"
+    },
+    {
+      "op": "paint",
+      "terrain": "rock",
+      "shape": {
+        "circle": [
+          25,
+          24,
+          4
+        ]
+      },
+      "origin": "tables"
+    },
+    {
+      "op": "paint",
+      "terrain": "rock",
+      "shape": {
+        "circle": [
+          30,
+          24,
+          1.5
+        ]
+      },
+      "origin": "tables"
+    },
+    {
+      "op": "paint",
+      "terrain": "rock",
+      "shape": {
+        "circle": [
+          29.9,
+          19.1,
+          1.5
+        ]
+      },
+      "origin": "tables"
+    },
+    {
+      "op": "paint",
+      "terrain": "rock",
+      "shape": {
+        "circle": [
+          19,
+          24,
+          1.5
+        ]
+      },
+      "origin": "tables"
+    },
+    {
+      "op": "paint",
+      "terrain": "rock",
+      "shape": {
+        "circle": [
+          19.7,
+          29.3,
+          1.5
+        ]
+      },
+      "origin": "tables"
+    },
+    {
+      "op": "paint",
+      "terrain": "rock",
+      "shape": {
+        "circle": [
+          28.9,
+          27.9,
+          1.5
+        ]
+      },
+      "origin": "tables"
+    },
+    {
+      "op": "paint",
+      "terrain": "rock",
+      "shape": {
+        "circle": [
+          18.2,
+          22.1,
+          1.5
+        ]
+      },
+      "origin": "tables"
+    },
+    {
+      "op": "paint",
+      "terrain": "rock",
+      "shape": {
+        "circle": [
+          20.5,
+          27.6,
+          1.5
+        ]
+      },
+      "origin": "tables"
+    }
+  ],
   "overlay": {
     "labels": [
       {
         "text": "B",
-        "x": 24.1,
-        "y": 24.5,
+        "x": 23.8,
+        "y": 24.9,
         "kind": "region",
         "origin": "tables"
       },
       {
         "text": "B.1 G",
-        "x": 26.8,
+        "x": 25.8,
         "y": 24,
         "kind": "place",
         "origin": "tables"
       },
       {
         "text": "B.2",
-        "x": 26.8,
+        "x": 25.8,
         "y": 20,
         "kind": "place",
         "origin": "tables"
       },
       {
         "text": "B.3",
-        "x": 31.8,
+        "x": 30.8,
         "y": 24,
         "kind": "place",
         "origin": "tables"
       },
       {
         "text": "B.4",
-        "x": 31.7,
+        "x": 30.7,
         "y": 19.1,
         "kind": "place",
         "origin": "tables"
       },
       {
         "text": "B.5",
-        "x": 20.8,
+        "x": 19.8,
         "y": 24,
         "kind": "place",
         "origin": "tables"
       },
       {
         "text": "B.6",
-        "x": 21.5,
+        "x": 20.5,
         "y": 29.3,
         "kind": "place",
         "origin": "tables"
       },
       {
         "text": "B.7",
-        "x": 26.8,
+        "x": 25.8,
         "y": 27.5,
         "kind": "place",
         "origin": "tables"
       },
       {
         "text": "B.8",
-        "x": 30.7,
+        "x": 29.7,
         "y": 27.9,
         "kind": "place",
         "origin": "tables"
       },
       {
         "text": "B.9",
-        "x": 20,
+        "x": 19,
         "y": 22.1,
         "kind": "place",
         "origin": "tables"
       },
       {
         "text": "B.10 H",
-        "x": 18,
-        "y": 25.1,
+        "x": 21.3,
+        "y": 27.6,
         "kind": "place",
         "origin": "tables"
       }
@@ -118,68 +232,68 @@
     "symbols": [
       {
         "kind": "poi",
-        "x": 26,
+        "x": 25,
         "y": 24,
         "origin": "tables"
       },
       {
         "kind": "cave-mouth",
-        "x": 26,
+        "x": 25,
         "y": 24,
         "origin": "tables"
       },
       {
         "kind": "camp",
-        "x": 26,
+        "x": 25,
         "y": 20,
         "origin": "tables"
       },
       {
         "kind": "camp",
-        "x": 31,
+        "x": 30,
         "y": 24,
         "origin": "tables"
       },
       {
         "kind": "camp",
-        "x": 30.9,
+        "x": 29.9,
         "y": 19.1,
         "origin": "tables"
       },
       {
         "kind": "ruin",
-        "x": 20,
+        "x": 19,
         "y": 24,
         "origin": "tables"
       },
       {
         "kind": "poi",
-        "x": 20.7,
+        "x": 19.7,
         "y": 29.3,
         "origin": "tables"
       },
       {
         "kind": "poi",
-        "x": 26,
+        "x": 25,
         "y": 27.5,
         "origin": "tables"
       },
       {
         "kind": "poi",
-        "x": 29.9,
+        "x": 28.9,
         "y": 27.9,
         "origin": "tables"
       },
       {
         "kind": "poi",
-        "x": 19.2,
+        "x": 18.2,
         "y": 22.1,
         "origin": "tables"
       },
       {
         "kind": "cave-mouth",
-        "x": 17.2,
-        "y": 25.1,
+        "x": 20.5,
+        "y": 27.6,
         "origin": "tables"
       }
     ]
@@ -191,7 +305,7 @@
       "origin": "tables",
       "area": {
         "circle": [
-          26,
+          25,
           24,
           4
         ]
@@ -205,7 +319,7 @@
       "origin": "tables",
       "area": {
         "circle": [
-          31,
+          30,
           24,
           1.5
         ]
@@ -219,7 +333,7 @@
       "origin": "tables",
       "area": {
         "circle": [
-          30.9,
+          29.9,
           19.1,
           1.5
         ]
@@ -233,7 +347,7 @@
       "origin": "tables",
       "area": {
         "circle": [
-          20,
+          19,
           24,
           1.5
         ]
@@ -247,7 +361,7 @@
       "origin": "tables",
       "area": {
         "circle": [
-          20.7,
+          19.7,
           29.3,
           1.5
         ]
@@ -261,7 +375,7 @@
       "origin": "tables",
       "area": {
         "circle": [
-          29.9,
+          28.9,
           27.9,
           1.5
         ]
@@ -275,7 +389,7 @@
       "origin": "tables",
       "area": {
         "circle": [
-          19.2,
+          18.2,
           22.1,
           1.5
         ]
@@ -289,13 +403,30 @@
       "origin": "tables",
       "area": {
         "circle": [
-          17.2,
-          25.1,
+          20.5,
+          27.6,
           1.5
         ]
       },
       "terrain": "rock",
       "share": 0.8
+    },
+    {
+      "id": "Lake-dry",
+      "kind": "clear",
+      "origin": "tables",
+      "area": {
+        "poly": [
+          0,
+          0,
+          50,
+          0,
+          50,
+          50,
+          0,
+          50
+        ]
+      }
     }
   ]
 }

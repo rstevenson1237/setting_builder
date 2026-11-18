@@ -20,8 +20,9 @@ An `architecture` or `construction` line in `setting` is how its SAFE or DANGERO
 built, so a region states only where it differs.
 
 The maps are asked for here. `setting` holds a `sheet` per terrain map: its name, `square`
-(a distance), `extent` (`"W by H unit"`) and `regions`, the codes it holds; a DANGEROUS region
-is on none. A region on a sheet may hold one `ground` line, a terrain its area must have, then
+(a distance), `extent` (`"W by H unit"`), `regions`, the codes it holds, and optionally `ground`,
+the terrain it is wherever no region's ground reaches; a DANGEROUS region is on none.
+A region on a sheet may hold one `ground` line, a terrain its area must have, then
 prose the writing reads and the solver does not, and `place` lines: another region on a sheet
 with it, a compass direction, and a distance or `"N-M unit"` from that region's way in.
 

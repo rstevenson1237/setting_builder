@@ -25,7 +25,8 @@ A DANGEROUS block is a plan, following the `block-plan` skill: a `Layout` for ea
 another, a `Room` for each location, a `Route` for each way with the walls it leaves by and how long it runs, and
 a `Void` for ground no room takes. A SAFE or WILD block is a settlement: a `Fill` for each location's footprint; a
 `Tie` for each place set a bearing and distance from another, from the region's ground and outline; a `Street`
-for each street, the buildings it runs past in order. Its first location stands at the block's centre.
+for each street, the buildings it runs past in order; a `Fabric` for what the seed says stands between them (a
+gridded city's ruins, a town's houses). Its first location stands at the block's centre.
 
 `solve` and `accept` write each `Place`, `Link` and `Part` and the seed and score; none of them writes
 `approved`, which is the user's word.
