@@ -8,6 +8,8 @@ enum Dangerous_Type High Medium Low
 enum Connection_Type Open Archway Broken Crude Wooden Banded Stone Iron Lift Chute   // Lift and Chute: a dwarven machine, with `climb` for the rise
 enum Contents_Type "Treasure I" "Treasure II" "Treasure III" "Treasure IV" "Treasure V" Magic Hoards Lore Keys "Unique Treasures" "Magical Tomes"
 enum Purchase_Type menu service sale   // food and drink by the portion; a thing done for a party; goods handed over
+enum Part centre north north-east east south-east south south-west west north-west
+enum Side north north-east east south-east south south-west west north-west
 enum Mystery_Type Altar Statue Fountain Fresco Tapestry Throne "Button/Lever/Switch/Keyhole" Mirror Flooring
 enum Hazard_Type {
   Mechanical Pit Spike Dart Hammer Gas
@@ -102,6 +104,8 @@ node Hazard {
   test Test
   wound Wound_Type opt      // required for a Constitution Test: one of BRIEF.md's Procedures wounds
   condition gloss opt       // required for a Fate Test: a name in Procedures.md's Conditions
+  at Part opt               // where it stands in its room, set in from the walls; unstated, its map's rule places it
+  against Side opt          // the wall it stands against, found as a Connection's `wall` is; with `at`, that end of it
   one-of Secret
 }
 node Mystery {
@@ -111,11 +115,15 @@ node Mystery {
   damage Damage_Type opt
   wound Wound_Type opt
   condition gloss opt
+  at Part opt               // where it stands in its room, set in from the walls; unstated, its map's rule places it
+  against Side opt          // the wall it stands against, found as a Connection's `wall` is; with `at`, that end of it
   one-of Secret
 }
 node Reward {
   container gloss
   contents pull Contents_Type
+  at Part opt               // where it stands in its room, set in from the walls; unstated, its map's rule places it
+  against Side opt          // the wall it stands against, found as a Connection's `wall` is; with `at`, that end of it
   one-of Encounter Hazard Mystery Secret Lock opt
 }
 node Connection {

@@ -293,7 +293,8 @@ def parse_regions(diag: Diagnostics):
 LOC_HEADER_RE, FEATURE_RE, EXITS_HEAD = sc.LOC_HEADER_RE, sc.FEATURE_RE, sc.EXITS_HEAD
 EXIT_PAIR_RE = re.compile(r'->\s*([A-Z]+\.\d+)\s+([^,]+)')
 EXIT_DEST_RE = re.compile(r'->\s*[A-Z]+\.\d+\s+[^,]+')
-POSITION_RE = re.compile(r"\b(north|south|east|west)(-(north|south|east|west))*,\s*\d+(\.\d+)? (feet|yards|miles)\s*$")
+POSITION_RE = re.compile(r"\b(north|south|east|west)(-(north|south|east|west))*,\s*\d+(\.\d+)? (feet|yards|miles)\s*$"
+                         r"|\b(in|against) the ((north|south|east|west) end of the )?(north|south|east|west)(-(east|west))? wall\s*$")
 
 def cite_labels(schema) -> dict[str, str]:
     """Each citable setting table's label: its cite= in Setting_Schema.md."""
@@ -526,7 +527,7 @@ def check_location_file(diag, path, region_code, num, stub, connected, all_locat
             elif not in_mundane:
                 diag.error(path, f"Exits lists {src} -> {code}, but no Connection entry runs that way")
             if POSITION_RE.search(desc):
-                diag.error(path, f"Exits states where -> {code} runs ({desc!r}): the tables hold it and the site "
+                diag.error(path, f"Exits states where -> {code} runs ({desc!r}): the map holds it and the site "
                                  "and PDF add it - drop it (step 4b)")
             key = sc.exit_text(src, desc, code).lower()
             if desc:
@@ -857,6 +858,35 @@ def check_hazards(diag: Diagnostics, setting, brief):
             if writeup.exists():
                 for cite in sorted({m.group(0) for m in TEST_CITE_RE.finditer(writeup.read_text())} - asked.get(writeup, set())):
                     diag.error(writeup, f"cites {cite}, which no Hazard or Mystery of {code} asks")
+
+
+def check_room_places(diag: Diagnostics, setting):
+    """A Mystery, Hazard or Reward that states where it stands - `at`, `against` - is an entry of its location, has
+    one spelling for the place, and its write-up reads it out as `maps.place_said` gives it."""
+    import maps
+    import plan
+    for code, region in setting.regions.items():
+        dress = {str(n.args[0]): n for n in region.files.get("Dressing", []) if n.args}
+        for stem, entries in region.files.items():
+            path = region.dir / f"{stem}.md"
+            for entry in entries:
+                for n in kdl.walk([entry]):
+                    if n.name not in ("Mystery", "Hazard", "Reward") or not ("at" in n.props or "against" in n.props):
+                        continue
+                    where, at, against = str(entry.args[0]), n.props.get("at"), n.props.get("against")
+                    if n is not entry:
+                        diag.error(path, f"{n.name} in {entry.name} {where} states where it stands: only an entry of "
+                                         "Challenges or Rewards stands in its room")
+                        continue
+                    d = dress.get(where)
+                    shape = plan.SHAPES.get(str(d.props.get("shape", "rect")) if d else "rect", "rect")
+                    if fault := maps.place_fault(at, against, shape):
+                        diag.error(path, f"{n.name} {where}: {fault}")
+                        continue
+                    writeup = region.dir / f"{where.split('.')[1]}.md"
+                    said = maps.place_said(at, against, shape)
+                    if writeup.exists() and said not in writeup.read_text().lower():
+                        diag.error(writeup, f"its {n.name}'s place, stated in {stem}.md, is read out as {said!r} (step 4b)")
 
 
 def check_listed_prices(diag: Diagnostics, setting):
@@ -1578,6 +1608,7 @@ def main() -> int:
     check_designs(diag, setting, brief)
     check_plan_examples(diag)
     check_hazards(diag, setting, brief)
+    check_room_places(diag, setting)
     check_listed_prices(diag, setting)
     check_outdoor_lore(diag, setting, schema)
     check_numbers(diag, setting, schema)

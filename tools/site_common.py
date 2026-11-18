@@ -24,6 +24,7 @@ ROOT = Path(__file__).resolve().parent.parent
 SETTING = ROOT / "setting"
 
 maps_fit_site, maps_fit_pdf = "720x560px", "110x150mm"
+maps_fit_block = "880x680px"   # maps.BLOCK_FIT
 ARTICLES = ("the ", "a ", "an ")
 
 
@@ -780,11 +781,11 @@ EXIT_DEST_RE = re.compile(r'^\s*([A-Z]+\.\d+)\s+(.*)$')
 
 
 def exit_text(src: str, approach: str, dst: str) -> str:
-    """An Exits line's approach with the way's position added from the tables: a write-up
-    states none of its own."""
+    """An Exits line's approach with the way's position added from the map and tables - where it leaves the room,
+    then its walk or bearing and distance: a write-up states none of its own."""
     import maps
-    at = maps.way(maps.world_for(SETTING), src, dst)
-    return f"{approach}, {at[0]}, {at[1]}" if at else approach
+    said, rest = maps.way_said(maps.world_for(SETTING), src, dst)
+    return ", ".join([" ".join(p for p in (approach, said) if p), *rest]).strip(", ")
 
 
 def parse_exits(exits_raw: str) -> list[tuple[str, str, str]]:
