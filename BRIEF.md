@@ -23,8 +23,8 @@ The maps are asked for here. `setting` holds a `sheet` per terrain map: its name
 (a distance), `extent` (`"W by H unit"`), `regions`, the codes it holds, and optionally `ground`,
 the terrain it is wherever no region's ground reaches, or `land=island`, one generated island in a sea,
 its land shared among its regions; a DANGEROUS region is on none.
-A region on a sheet may hold one `ground` line, a terrain its area must have, then
-prose the writing reads and the solver does not, and `place` lines: another region on a sheet
+A region on a sheet may hold one `ground` line, a terrain its area must have, optionally a `height`
+its area stands at (a distance or `"N-M unit"` above the sea), then prose the writing reads and the solver does not, and `place` lines: another region on a sheet
 with it, a compass direction, and a distance or `"N-M unit"` from that region's way in.
 `origin` names the region whose way in, at its ground, is (0,0,0): every region, block and
 location has a place from it, x east, y north, z up, in feet. `maps` holds one `look` line
@@ -159,7 +159,7 @@ region C rating=WILD die=d8 locations=10 {
 }
 
 region D rating=WILD die=d10 locations=12 {
-  ground forest "jungle-covered hills, ridges and ravines, grassy clearings where the dinosaurs graze"
+  ground forest height="400-2000 feet" "jungle-covered hills, ridges and ravines, grassy clearings where the dinosaurs graze"
   outline "The hill jungle: the island's centre, where cave men hunt from caves in the ridges and dinosaurs graze the clearings and hunt the trails. No village claims it; a party crossing between the shores crosses it. Small and medium lairs of fantastic beasts and humanoids are scattered through it, and the way into the troglodytes' warren is here."
   target Location.type Lair="4+" Natural="2+"
 }

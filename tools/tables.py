@@ -1470,6 +1470,10 @@ class Brief:
                         p(f"ground opens with a terrain: {' | '.join(terrains)}")
                     if len(grounds) > 1 and c is not grounds[0]:
                         p("has more than one ground line")
+                    span = SPAN_RE.fullmatch(str(c.props["height"])) if "height" in c.props else None
+                    if "height" in c.props and (not span or span.group(3) not in units
+                                                or float(span.group(2) or span.group(1)) < float(span.group(1))):
+                        p('ground height is a distance or a range, low to high, of its area: height="300-1200 feet"')
                 elif c.name == "place":
                     other = str(c.args[0]) if c.args else ""
                     span = SPAN_RE.fullmatch(str(c.args[2])) if len(c.args) == 3 else None

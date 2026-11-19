@@ -13,7 +13,7 @@ place    Reads BRIEF.md's `sheet` lines and each region's `ground` and `place` l
          miles, over one outline round them all, each Route a road through its stops, and
          no snow or desert; on a sheet with a `ground`, that terrain wherever no region's reaches,
          and no river; on a sheet with land=island, one island artgen generates, each region's way
-         in on its land and its ground over its share of it, a square in from the coast. Every location is a keyed mark on its home sheet; one a
+         in on its land and its ground over its share of it, half a square in from the coast. Every location is a keyed mark on its home sheet; one a
          DANGEROUS region opens from is a cave mouth keyed with that region too. Writes
          `setting/[Sheet].json` per sheet and `setting/Sheets.md`, each region's area as its
          outline in Regions.md, and the place of each region its sheet or joins now give
@@ -67,8 +67,12 @@ SYNCED_MAP = ("edits", "require", "overlay")   # kept by artgen's map sync, hand
 REGIONAL = {"land": "inland", "sea": 0.0, "moisture": 0.6, "roughness": 0.3, "relief": 0.2, "rivers": 2,
             "simplify": 3, "feature": 40}  # broad country, few rivers and no sea, for a sheet in miles
 ISLAND = {**REGIONAL, "land": "island", "sea": 0.55, "moisture": 0.8, "roughness": 0.4, "relief": 0.5, "rivers": 3, "feature": 8}   # a sheet with land=island: the sea round one island
+ISLAND_STEP = 2                 # an island's land is read, and shared among its regions, in squares this many to a sheet's square
 ISLAND_BLEND = 2                # squares over which a region's ground fades, inside an island's coast
 BORDER_WAVE = 0.3              # how far a border between two regions on an island wanders, as a share of their reach
+BORDER_WARP = 2.5               # and how far, in squares, the ground is pushed about before it is shared, so no border runs straight
+HEADROOM = 1.25                 # the highest ground a sheet draws, over the highest a region's ground asks for
+CONTOURS = 20                   # contour lines from sea level to a raised sheet's highest ground
 TEMPERED = {"snow": "rock", "desert": "scrub"}   # what a sheet in miles draws in their place
 TEMPER_STEP = 3                 # squares between the points a sheet's ground is tempered at
 TEMPER_TRIES = 3
@@ -159,9 +163,9 @@ def solve(sheet: Sheet, radius: dict[str, float], requests: list[Request],
         if land is not None:
             for code in codes:
                 x, y = at[code]
-                c += sum(4 for dx, dy in [(0, 0)] + spread.get(code, []) if (math.floor(x + dx), math.floor(y + dy)) not in land)
-                c += sum(0.5 for k in range(8) if (math.floor(x + 0.7 * radius[code] * math.cos(k * math.pi / 4)),
-                                                   math.floor(y + 0.7 * radius[code] * math.sin(k * math.pi / 4))) not in land)
+                c += sum(4 for dx, dy in [(0, 0)] + spread.get(code, []) if not on_land(land, x + dx, y + dy))
+                c += sum(0.5 for k in range(8) if not on_land(land, x + 0.7 * radius[code] * math.cos(k * math.pi / 4),
+                                                              y + 0.7 * radius[code] * math.sin(k * math.pi / 4)))
         return c
 
     best, best_cost = None, math.inf
@@ -218,40 +222,48 @@ def solve(sheet: Sheet, radius: dict[str, float], requests: list[Request],
                 out.append(f"{'line ' + ', '.join(lines) + ': ' if lines else ''}{a} and {b} cannot lie apart "
                            f"on {sheet.name}: their places leave no room")
     if land is not None:
-        out += [f"{c}'s way in is in the sea on {sheet.name}" for c in codes if sheet.at[c] not in land]
+        out += [f"{c}'s way in is in the sea on {sheet.name}" for c in codes if not on_land(land, *sheet.at[c])]
     return out
 
 
+def on_land(land: set, x: float, y: float) -> bool:
+    """A point of the sheet on an island's land, read in ISLAND_STEP squares."""
+    return (math.floor(x * ISLAND_STEP), math.floor(y * ISLAND_STEP)) in land
+
+
 def land_cells(sheet: Sheet, seed: int) -> set[tuple[int, int]]:
-    """The squares of an island sheet's generated land at a seed, before any region asks for its ground."""
+    """The land of an island sheet at a seed, before any region asks for its ground, in ISLAND_STEP squares."""
     with tempfile.TemporaryDirectory() as tmp:
         base = Path(tmp) / f"{sheet.name}.json"
         base.write_text(json.dumps({"id": sheet.name, "version": 1, "preset": "regional", "seed": seed,
                                     "cols": sheet.cols, "rows": sheet.rows, "gen": dict(ISLAND),
                                     "topo": {"maxElevation": 600, "interval": 50, "majorEvery": 4, "unit": "ft"},
                                     "edits": [], "require": [], "overlay": {"labels": [], "symbols": []}}))
-        cells = [(x, y) for y in range(sheet.rows) for x in range(sheet.cols)]
-        got = facts(base, "--at", *[f"{x + 0.5},{y + 0.5}" for x, y in cells])["points"]
+        cells = [(x, y) for y in range(sheet.rows * ISLAND_STEP) for x in range(sheet.cols * ISLAND_STEP)]
+        got = facts(base, "--at", *[f"{(x + 0.5) / ISLAND_STEP:g},{(y + 0.5) / ISLAND_STEP:g}" for x, y in cells])["points"]
     return {c for c, p in zip(cells, got) if p["terrain"] not in ("water", "deep")}
 
 
 def island_areas(sheet: Sheet, land: set, radius: dict, spread: dict, seed: int) -> dict[str, list[float]]:
-    """Each region's area on an island, as a poly of sheet squares: the land a square in from the coast,
+    """Each region's area on an island, as a poly on the sheet: the land a step in from the coast,
     each square to the region nearest it for its size - from its way in or a located place - along a
     wandering border, its largest piece."""
     inner = {(x, y) for x, y in land if all((x + dx, y + dy) in land for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1)))}
     codes = [c for c in sheet.codes if radius[c]]
     rng = random.Random(seed)
     wave = {c: [(rng.uniform(-0.6, 0.6), rng.uniform(-0.6, 0.6), rng.uniform(0, 2 * math.pi)) for _ in range(3)] for c in codes}
+    warp = [[(rng.uniform(-1, 1) * f, rng.uniform(-1, 1) * f, rng.uniform(0, 2 * math.pi)) for f in (0.15, 0.3, 0.6)] for _ in "xy"]
     reach = {c: [sheet.at[c]] + [(sheet.at[c][0] + dx, sheet.at[c][1] + dy) for dx, dy in spread.get(c, [])] for c in codes}
 
     def far(c, x, y):
+        x, y = (x + BORDER_WARP * sum(math.sin(fx * x + fy * y + ph) / (i + 1) for i, (fx, fy, ph) in enumerate(warp[0])) / 1.8,
+                y + BORDER_WARP * sum(math.sin(fx * x + fy * y + ph) / (i + 1) for i, (fx, fy, ph) in enumerate(warp[1])) / 1.8)
         d = min(math.dist((x, y), p) for p in reach[c]) / radius[c]
         return d * (1 + BORDER_WAVE * sum(math.sin(fx * x + fy * y + ph) for fx, fy, ph in wave[c]) / 3)
 
     own = {c: set() for c in codes}
     for x, y in inner:
-        own[min(codes, key=lambda c: far(c, x + 0.5, y + 0.5))].add((x, y))
+        own[min(codes, key=lambda c: far(c, (x + 0.5) / ISLAND_STEP, (y + 0.5) / ISLAND_STEP))].add((x, y))
     out = {}
     for c in codes:
         pieces, left = [], set(own[c])
@@ -260,8 +272,8 @@ def island_areas(sheet: Sheet, land: set, radius: dict, spread: dict, seed: int)
             left -= pieces[-1]
         if pieces:
             most = max(pieces, key=len)
-            out[c] = cell_outline(unpinched(most, max(most, key=lambda q: sum(n in most for n in (
-                (q[0] + 1, q[1]), (q[0] - 1, q[1]), (q[0], q[1] + 1), (q[0], q[1] - 1))))))
+            out[c] = [v / ISLAND_STEP for v in cell_outline(unpinched(most, max(most, key=lambda q: sum(n in most for n in (
+                (q[0] + 1, q[1]), (q[0] - 1, q[1]), (q[0], q[1] + 1), (q[0], q[1] - 1))))))]
     return out
 
 
@@ -376,6 +388,16 @@ def map_file(sheet: Sheet, seed: int, regions: dict, radius: dict, home: dict, s
                                                         for _, x, y, *_ in own for a in range(8)])},
                                  "share": GROUND_SHARE, "blend": BLEND})
         circles = []
+    for r in [r for r in m["require"] if r["kind"] == "terrain" and r["id"].endswith("-ground")]:
+        ground = next(c for c in regions[r["id"][:-len("-ground")]].children if c.name == "ground")
+        if "height" in ground.props:              # its ground's height over the same area, the contours raised to hold it
+            low, high = (feet(f"{v} {span.group(3)}") for span in [tables.SPAN_RE.fullmatch(str(ground.props["height"]))]
+                         for v in (span.group(1), span.group(2) or span.group(1)))
+            m["require"].append({"id": r["id"][:-len("-ground")] + "-height", "kind": "height", "origin": "tables",
+                                 "area": r["area"], "low": round(low), "high": round(high), "blend": r.get("blend", BLEND)})
+            if not local and high > m["topo"]["maxElevation"]:
+                top = math.ceil(high * HEADROOM / 100) * 100
+                m["topo"].update(maxElevation=top, interval=max(50, round(top / CONTOURS / 50) * 50), majorEvery=5)
     if sheet.ground:                              # the sheet's ground everywhere, each region's own painted over its area
         whole = {"poly": [0, 0, sheet.cols, 0, sheet.cols, sheet.rows, 0, sheet.rows]}
         m["edits"] = [{"op": "paint", "terrain": sheet.ground, "shape": whole, "origin": "tables"}]

@@ -68,7 +68,7 @@ the pyramid's tip through the sand, is an open `square` with its code, which the
 
 A sheet with a `ground` is painted that terrain, then each region's ground over its area, with no generated river.
 A sheet with `land=island` is artgen's island at each seed tried: its land is read back, the regions placed on it, the
-land a square in from the coast shared among them by nearness for their size along wandering borders, and each region's
+land half a square in from the coast shared among them by nearness for their size along wandering borders, and each region's
 ground asked for over its share, which is its outline; a terrain asked for over the sea would raise land there.
 An underground region's edge is not drawn: the engine has no cavern wall (image_tools#66).
 
