@@ -12,7 +12,7 @@ It never overrides a schema's rules or `STYLE.md`.
 
 A share is `"N%"`, at least that share of entries rounded down to whole entries, or `"<=N%"`,
 at most; a count is `N`, a range `"N-M"`, or `"N+"`, at least. A region's target replaces the
-rating's only for the values it names. A quoted line is prose, read by the
+rating's only for the values it names, and a rating's share is measured across all its regions together. A quoted line is prose, read by the
 step that writes what it names. The `test` line's `walks` is how many times step 5e walks it. A `target` is measured by `tools/metrics.py`; a `rate` is
 how many entries each location of a type holds in a table file; `words` is how long each
 field of a region's brief runs, or each item of a list field and each row of a table.
