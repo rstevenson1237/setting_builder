@@ -11,7 +11,7 @@ Room J.4 width=50 length=40 shape=cave facing=south
 Room J.5 width=20 length=20 shape=cave facing=west
 Room J.6 width=20 length=20 shape=cave facing=east
 Room J.7 width=30 length=30 shape=cave facing=south
-Room J.8 width=10 length=20 shape=cave
+Room J.8 width=20 length=20 shape=cave
 Route J.a ends="J.1:north, J.a:north" door=none style=natural
 Route J.a ends="J.1, J.2" style=natural
 Route J.a ends="J.1, J.3" style=natural
@@ -27,7 +27,7 @@ Place J.4 xyz="-5,-10" outline="rect 50 40" shape=cave
 Place J.5 xyz="-50,0" outline="rect 20 20" shape=cave
 Place J.6 xyz="40,-30" outline="rect 20 20" shape=cave
 Place J.7 xyz="-5,-55" outline="rect 30 30" shape=cave
-Place J.8 xyz="-35,-50" outline="rect 10 20" shape=cave
+Place J.8 xyz="-40,-50" outline="rect 20 20" shape=cave
 Link J.1 to="J.2" kind=passage
 Link J.1 to="J.3" kind=passage
 Link J.1 to="J.4" kind=passage

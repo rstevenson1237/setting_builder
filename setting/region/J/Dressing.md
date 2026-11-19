@@ -8,5 +8,5 @@ Dressing J.4 obvious="Broad fouled cavern crowded with hide beds" condition="cro
 Dressing J.5 obvious="Deep wet pit barred with root-logs" condition="barred" ambiance="weeping, dripping, chains" layout="pit, root-log bars, drip pool, rope lift" width=20 length=20 xyz="-50,0" shape=cave
 Dressing J.6 obvious="Heaped bones and refuse in a dry cave" condition="stinking" ambiance="dry rattle, flies" layout="bone heaps, refuse slope, low roof" width=20 length=20 xyz="40,-30" shape=cave
 Dressing J.7 obvious="Raised hide-hung cave, a throne of bones" condition="rank" ambiance="heavy breathing, stench" layout="raised floor, bone throne, hide hangings, back wall" width=30 length=30 xyz="-5,-55" shape=cave
-Dressing J.8 obvious="Narrow cave heaped with stolen goods" condition="hidden" ambiance="faint draught, silence" layout="narrow cave, loot heaps, pressed stone" width=10 length=20 xyz="-35,-50" shape=cave
+Dressing J.8 obvious="Narrow cave heaped with stolen goods" condition="hidden" ambiance="faint draught, silence" layout="narrow cave, loot heaps, pressed stone" width=20 length=20 xyz="-40,-50" shape=cave
 ```
