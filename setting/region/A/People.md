@@ -1,0 +1,26 @@
+# People of A Puluni
+
+```kdl
+Person A.1 name="Hunapawa" form="tongue" role="gate warden" personality="stern, exact, tired" wants="Every bundle shown; offers the chiefs' word" knows="The hour the visitor comes; last night's tracks" member="Pulunita"
+NamedCreature A.1 named="Kunotewa" presence="100%"
+Person A.2 name="Dagget Orme" form="common" role="the party's ship's master" personality="blunt, impatient, honest" wants="Every soul aboard on the sailing day" knows="The wreck coast seen from the sea"
+Person A.2 name="Tuhaki" form="tongue" role="beach-watch drummer" personality="sharp-eyed, boastful, young" wants="Tales of the ship's home country" knows="Which boats crossed the lagoon last night" member="Pulunita"
+Person A.3 name="Vakopawa" form="tongue" role="watch-canoe captain" personality="grim, tireless, careful" wants="Spears for the night canoes; pays guide-lore" knows="The channels the raiders use, and when" member="Pulunita"
+Faction A.3 faction="Pulunita" present=8 members="paddlers and spearmen of four watch canoes"
+Person A.4 name="Kewimano" form="tongue" role="guest-house keeper" personality="warm, nosy, shrewd" wants="Trade goods and news of the ship's land" knows="Who lodges here; who hired which guide" member="Pulunita"
+Person A.4 name="Ellis Marr" form="common" role="treasure hunters' deserter" personality="furtive, charming, scared" wants="Passage home on the party's ship, unnoticed" knows="Half the hunters' map and their camps" member="The Treasure Hunters"
+Person A.5 name="Pulutuha" form="tongue" role="market warden" personality="fair, loud, tireless" wants="Honest weights and no blades drawn" knows="Every price and every trader's name" member="Pulunita"
+Faction A.5 faction="Pulunita" present=40 members="bartering gardeners, fishers and potters"
+Person A.6 name="Nalotewa" form="tongue" role="canoe-builder" personality="slow, proud, exacting" wants="Iron blades and adzes, worked metal" knows="Every canoe's faults; how raiders slip past" member="Pulunita"
+Faction A.6 faction="Pulunita" present=6 members="hireable paddlers and apprentices"
+Person A.7 name="Hanuhato" form="tongue" role="guides' hall master" personality="dry, honest, superstitious" wants="Fee paid before leaving; none past the posts" knows="Trails north, camps, the cave men's ridges" member="Pulunita"
+Faction A.7 faction="Pulunita" present=5 members="guides waiting for hire, none for the east"
+Person A.8 name="Lokapawa" form="tongue" role="fish-store keeper" personality="gossipy, penny-wise, kind" wants="Iron or cloth, not coin" knows="Which huts burned, who is missing" member="Pulunita"
+Person A.9 name="Lokatiwa" form="tongue" role="coin-changer" personality="exact, wary, silent" wants="Old coin, weighed honestly, fees paid" knows="Whose coin is stolen; the chiefs' debts" member="Pulunita"
+Person A.10 name="Pulumano" form="tongue" role="senior chief" personality="slow, proud, haunted" wants="Raids ended, captives home; pays in canoes" knows="The war's start, the egg-stone's story" member="Pulunita"
+Person A.10 name="Kunotiwa" form="tongue" role="elder of the council" personality="mild, watchful, sorrowful" wants="The egg-stone returned, in secret" knows="The niche behind the hearth, the stone's story" member="Pulunita"
+Person A.10 name="Hatokali" form="tongue" role="council speaker" personality="smooth, patient, unblinking" wants="The egg-stone kept; no deal with lizards" knows="What each chief fears; the cult's errands" member="Tuuzesh"
+Person A.11 name="Tuhahuna" form="tongue" role="watch captain" personality="blunt, loud, brave" wants="Strong spears for the night watch" knows="Where raiders landed last; the watch rota" member="Pulunita"
+Person A.11 name="Khethsheek" form="tongue" role="captive lizard man" personality="proud, patient, hungry" wants="Freedom; offers the swamp's channels and hummocks" knows="Enclaves' hummocks, the captives' sale-road" member="Theshik"
+Person A.12 name="Kewikali" form="tongue" role="egg-stone keeper" personality="old, patient, singing" wants="The stone left alone and warm" knows="The stone warms when lizard men come" member="Pulunita"
+```

@@ -55,6 +55,31 @@ Coined here:
 - Pulunita = pulu + -ni + -ta - the people of the stone place
 - Lemuni = lemu + -ni - the river place
 - Lemunita = lemu + -ni + -ta - the people of the river place
+- Hunapawa = huna + pawa - the fire-hand
+- Tuhaki = tuha + -ki - the little rain
+- Vakopawa = vako + pawa - the swamp-hand
+- Kewimano = kewi + mano - the red vine
+- Pulutuha = pulu + tuha - the rock-rain
+- Nalotewa = nalo + tewa - the tree-maker
+- Hanuhato = hanu + hato - the north-ground
+- Lokapawa = loka + pawa - the trade-hand
+- Lokatiwa = loka + tiwa - the white trade
+- Pulumano = pulu + mano - the red rock
+- Kunotiwa = kuno + tiwa - the white bone
+- Hatokali = hato + kali - the three grounds
+- Tuhahuna = tuha + huna - the rain-fire
+- Kewikali = kewi + kali - the three vines
+- Kunotewa = kuno + tewa - the bone-maker
+- Hanukuno = hanu + kuno - the north-bone
+- Nalokewi = nalo + kewi - the tree-vine
+- Lemuhuna = lemu + huna - the river-fire
+- Kewituha = kewi + tuha - the vine-rain
+- Lemumano = lemu + mano - the red river
+- Pawakewi = pawa + kewi - the hand-vine
+- Hanukali = hanu + kali - the three norths
+- Lemuki = lemu + -ki - the little river
+- Tiwahato = tiwa + hato - the white ground
+- Vakomano = vako + mano - the red swamp
 
 ## The Serpent Speech
 Spoken by: present - the snake people and their cult, the lizard men as an old soldiers' tongue, and cut into every stair of the pyramid.
@@ -83,6 +108,9 @@ Roots:
 Coined here:
 - Theshik = thesh + -ik - the little scales
 - Tuuzesh = tuuz + -esh - the serpent's own
+- Khethsheek = kheth + sheek - the fire-head
+- Thazsheek = thaz + sheek - the gold-head
+- Zuuthtuuz = zuuth + tuuz - the black serpent
 
 ## The Mer Speech
 Spoken by: present - the mer people, sung under water and spoken in air only as a broken trade-talk.
@@ -110,3 +138,5 @@ Roots:
 - vaol - the deep
 Coined here:
 - Nealeu = neal + -eu - the sea folk
+- Loalvae = loal + -vae - the little pearl
+- Nealvaol = neal + vaol - the sea deep
