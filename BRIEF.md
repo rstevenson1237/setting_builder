@@ -26,8 +26,9 @@ its land shared among its regions; a DANGEROUS region is on none.
 A region on a sheet may hold one `ground` line, a terrain its area must have, optionally a `height`
 its area stands at (a distance or `"N-M unit"` above the sea), then prose the writing reads and the solver does not, and `place` lines: another region on a sheet
 with it, a compass direction, and a distance or `"N-M unit"` from that region's way in.
-`origin` names the region whose way in, at its ground, is (0,0,0): every region, block and
-location has a place from it, x east, y north, z up, in feet. `maps` holds one `look` line
+`origin` names the master map, the sheet whose centre at the sea is (0,0,0), x east, y north, z up, in
+feet; without one, the regions state their places from a point of their own. A WILD region's `height`
+is also the elevation its locations keep to. `maps` holds one `look` line
 per map kind, how every map of that kind is drawn; a key a line leaves out keeps today's drawing.
 
 A `design` line in a region asks for its blocks to be designed before their tables are written (step 3e); a
@@ -96,7 +97,7 @@ maps {
 // -- This setting --------------------------------------------------------------
 
 setting {
-  origin A
+  origin Island
   sheet Island square="1 miles" extent="24 by 54 miles" regions="A B C D E F G" land=island
   test walks=3 "A jungle island in play, not in text, built fresh by the framework and transcribed from nothing: a party lands at the southern villages behind their great wall with a ship that will not wait forever and a partial map marking the serpent crown, trades for a guide, and crosses swamp, coast and hills to the northern villages and back, past cave men, dinosaurs, lizard men at war, mer people in the wrecks and pirates on the same hunt, across forbidden ground to a stepped pyramid where a cult of snake people, with bound men in both peoples' villages, is waking its god. Every location type, procedure kind and registry the framework has is used at least once."
   outline "A large island of jungle-covered hills ringed by reef. Two networks of tribal villages hold its coasts, one on the south shore and one on the north, and neither crosses the hills between. The centre is hill jungle where cave men hunt and dinosaurs graze and kill. Lizard men hold the southern swamps and are at war with the southern villages; mer people hold the sea caves and the wrecks on the western reef. In the eastern jungle a stepped pyramid stands over the trees, held by the last of the snake people and the cult of the god they serve. Small and medium lairs of beasts and humanoids are scattered through every wild region, and pirates and treasure hunters land wherever they please."

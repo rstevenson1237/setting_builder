@@ -244,7 +244,8 @@ def settle_apply(region) -> list[str]:
         m = re.match(r"Location (\S+) ", line)
         if m and (p := places.get(m[1])) and 'at="way in"' not in line:   # the way in is its place already
             had = space.point_of(re.search(r'xyz="([^"]*)"', line)[1]) if 'xyz="' in line else None
-            up = f",{had[2]:g}" if had and len(had) > 2 and had[2] else ""     # its height stays the tables'
+            z = had[2] if had and had[2] is not None else None if region.rating.upper() == "WILD" else 0.0
+            up = "" if z is None else f",{z:g}"     # its height stays the tables'; a WILD one's is its ground's
             for k in ("bearing", "distance", "against"):
                 line = dungeon.without(line, k)
             line = dungeon.with_prop(line, "xyz", f'"{p.props["xyz"]}{up}"')

@@ -17,7 +17,8 @@ field "Location.bearing" from="Feature.bearing, Feature.distance, At.ground"
 
 ## Instructions
 Write the count `BRIEF.md` sets for the region, in its targets' type mix, each placed from the
-region's way in by bearing and distance, by `xyz`, or `against` a placed sibling, so the region
+region's way in by bearing and distance, by `xyz` (x,y,z; a WILD one on the master map x,y, its ground
+giving its height), or `against` a placed sibling, so the region
 reads as one plan, distances in the region's units, on ground `Ground.md` shows can hold it.
 
 A location of a SAFE or WILD region whose `BRIEF.md` node has a `design` line states no place: its design

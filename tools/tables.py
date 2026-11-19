@@ -587,6 +587,10 @@ def value_problems(m: Member, v: str, enums: dict, words: dict):
     elif m.type in ("feet", "distance"):
         if msg := unit_problem(m.type, v, enums):
             yield msg
+    elif m.type == "span":
+        sp = SPAN_RE.fullmatch(v)
+        if not sp or sp.group(3) not in enums.get("Distance_Unit", {}):
+            yield f"{v!r} is not a distance or \"N-M unit\""
     elif m.type == "run":
         if not RUN_RE.fullmatch(v):
             yield f"{v!r} is not short, long, a count of squares or \"N feet\""
@@ -1428,9 +1432,7 @@ class Brief:
         terrains = self.terrains()
         for n in (self.setting.children if self.setting else []):
             if n.name == "origin":
-                self.origin = str(n.args[0]) if n.args else ""
-                if self.origin not in self.regions:
-                    out.append(f"line {n.line}: origin names a region, the one whose way in is (0,0,0)")
+                self.origin, origin_line = (str(n.args[0]) if n.args else ""), n.line
             if n.name != "sheet":
                 continue
             p = lambda msg, n=n: out.append(f"line {n.line}: {msg}")
@@ -1485,6 +1487,8 @@ class Brief:
                     if len(c.args) != 3 or str(c.args[1]) not in compass or not span or span.group(3) not in units:
                         p(f"place is another region, a Compass direction and a distance: "
                           f'place A north "0-1 miles"')
+        if self.origin is not None and self.origin not in self.sheets:
+            out.append(f"line {origin_line}: origin names a sheet, the master map whose centre at the sea is (0,0,0)")
         return out
 
     def _design(self, n: kdl.Node, code: str):

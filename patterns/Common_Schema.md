@@ -22,9 +22,10 @@ value dice                    // Nd6 or Nd6+M; count= and bonus= bound it
 value percent                 // N%
 value feet                    // a whole number of feet, negative where a climb goes down
 value distance                // a number then a Distance_Unit: 40 feet, 1.5 miles
+value span                    // a distance, or a range of one: 400-2000 feet
 value run                     // a passage's length: short, long, a count of 10 ft squares, or "N feet"
-value point                   // "x,y" or "x,y,z": whole feet east, north and up of its frame's origin; west, south
-                              // and down where negative; z is 0 where unstated
+value point                   // "x,y" or "x,y,z": whole feet east, north and up of its parent's origin - the setting's
+                              // the master map's centre at the sea; west, south and down where negative
 value anchor                  // "CODE side": a sibling - a region, block or location under the same parent - then
                               // north, east, south, west, above or below
 value outline                 // "rect W L", "circle R" or "poly x,y x,y x,y ...": feet round the thing's origin; a

@@ -15,7 +15,7 @@ or a referee must invent to keep it going. Saved as `setting/checks/WalkJudgemen
 
 ## Instructions
 Run this once the loop has exited, in a context that wrote none of the setting. Walk the `test`
-line's route from the origin region's way in as many times as `walks` asks, each walk taking a
+line's route from where its party begins as many times as `walks` asks, each walk taking a
 choice the others did not wherever the text offers one. Record findings only, each with the
 location's code, its likely source - a table line, a write-up, a seed, a `BRIEF.md` line, a map
 or a tool - and the step that owes it. A finding a tool could make - a count, an overlap, a missing citation - is also listed under Owed to a tool.

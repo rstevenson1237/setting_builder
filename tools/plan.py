@@ -2042,6 +2042,7 @@ def apply(code: str) -> list[str]:
             m = re.match(r"Dressing (\S+) ", line)
             if m and (pl := places.get(m[1])):
                 bits = str(pl.props["outline"]).split()
+                had = re.search(r'xyz="-?\d+,-?\d+,(-?\d+)"', line)       # its floor stays the tables'
                 for k in ("xyz", "width", "length", "shape", "outline"):
                     line = dungeon.without(line, k)
                 if bits[0] == "rect":
@@ -2052,7 +2053,7 @@ def apply(code: str) -> list[str]:
                     l = f"{max(y for _, y in pts) - min(y for _, y in pts):g}"
                 line = dungeon.with_prop(line, "width", w)
                 line = dungeon.with_prop(line, "length", l)
-                line = dungeon.with_prop(line, "xyz", f'"{pl.props["xyz"]}"')
+                line = dungeon.with_prop(line, "xyz", f'"{pl.props["xyz"]},{had[1] if had else 0}"')
                 if bits[0] == "poly":
                     line = dungeon.with_prop(line, "outline", f'"{pl.props["outline"]}"')
                 elif str(pl.props.get("shape", "rect")) != "rect":

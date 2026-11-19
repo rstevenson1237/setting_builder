@@ -38,9 +38,9 @@ node Region file="setting/region/Regions.md" {   // opens with the region's code
   die Region_Die            // BRIEF.md's, per Procedures.md
   joins region list         // every region it borders, and the WILD region a DANGEROUS one opens from; a join is mutual
   tag string                // one phrase, the region one step past its name
-  xyz point opt drawn       // its origin - its way in, a DANGEROUS region's first block's centre - from the setting's,
-                            // BRIEF.md's origin region's way in; unset, placed from a sheet or join it shares with a placed region
-  against anchor opt drawn  // in place of a place from a sheet or join: touching another region, with xyz its slide and gap
+  xyz point opt drawn       // its way in from the setting's origin: x,y,z for a SAFE or DANGEROUS region, x,y for a WILD one;
+                            // written by `tools/space.py settle` from its sheet and joins
+  elevation span opt        // a WILD region's: the heights its locations keep to, from BRIEF.md's ground height
   outline outline opt drawn // its area on its home sheet; written by `tools/maps.py place`
 }
 

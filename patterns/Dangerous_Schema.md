@@ -48,7 +48,7 @@ node Dressing {
   ambiance gloss opt
   width feet                // across, west to east as the room lies; a round room's diameter
   length feet               // north to south
-  xyz point opt drawn       // its centre from its block's, its floor from the block's floor; its plan's, written by `tools/design.py apply`;
+  xyz point opt drawn       // x,y,z: its centre from its block's, its floor from the block's floor; its plan's, written by `tools/design.py apply`;
                             // a block states it for every room or for none
   against anchor opt drawn  // touching another room of its block, its xyz then a slide across the side and a gap along it
   outline outline opt drawn // a "poly" where no shape draws the room: its extent its width and length, centred
@@ -142,8 +142,8 @@ node Connection {
 node Block {               // one level: a map of its own
   name string
   locations location list
-  xyz point opt drawn       // its centre from its region's origin; the first block's is the origin, and a later one
-                            // unset lies over or under the block a climbing way joins it to
+  xyz point opt drawn       // x,y,z: its centre from its region's origin, the first block's usually 0,0,0; written by
+                            // `tools/space.py settle`, a later one over or under the block a climbing way joins it to
   against anchor opt drawn  // touching another block of its region, its xyz then a slide and a gap
   outline outline opt drawn // the ground its rooms lie in, its plan's; stated where they state xyz
   width feet opt            // of its passages, where they differ from the seed's Conditions

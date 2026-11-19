@@ -16,8 +16,8 @@ place    Reads BRIEF.md's `sheet` lines and each region's `ground` and `place` l
          in on its land and its ground over its share of it, half a square in from the coast. Every location is a keyed mark on its home sheet; one a
          DANGEROUS region opens from is a cave mouth keyed with that region too. Writes
          `setting/[Sheet].json` per sheet and `setting/Sheets.md`, each region's area as its
-         outline in Regions.md, and the place of each region its sheet or joins now give
-         (tools/space.py settle). A request that cannot be met is reported by its BRIEF.md
+         outline in Regions.md and a WILD region's ground height as its elevation, and the place
+         of each region its sheet or joins now give (tools/space.py settle). A request that cannot be met is reported by its BRIEF.md
          line, and exits 1.
 ground   Reads each placed region's ground back from its home sheet and writes its
          `Ground.md`: the region's way in and terrain, the rivers, roads and hills in its
@@ -564,7 +564,11 @@ def place(brief_path: Path, setting: Path) -> int:
         lines = reg.read_text().split("\n")
         for i, line in enumerate(lines):
             if (m := re.match(r"Region (\S+) ", line)) and m[1] in outlines:
-                lines[i] = dungeon.with_prop(line, "outline", f'"{outlines[m[1]]}"')
+                lines[i] = line = dungeon.with_prop(line, "outline", f'"{outlines[m[1]]}"')
+            ground = next((c for c in brief.regions[m[1]].children if c.name == "ground"), None) \
+                if m and m[1] in brief.regions else None
+            if ground is not None and "height" in ground.props and "rating=WILD" in line:   # the elevation its locations keep to
+                lines[i] = dungeon.with_prop(line, "elevation", f'"{ground.props["height"]}"')
         reg.write_text("\n".join(lines))
         space.refresh()
         for line in space.settle():
