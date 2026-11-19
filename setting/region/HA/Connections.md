@@ -1,0 +1,28 @@
+# Connections of HA The Pyramid's Upper Temple
+
+```kdl
+Connection HA.1 to="HA.2" type="Archway"
+Connection HA.2 to="HA.1" type="Archway"
+Connection HA.2 to="HA.3" type="Archway"
+Connection HA.3 to="HA.2" type="Archway"
+Connection HA.3 to="HA.4" type="Archway"
+Connection HA.4 to="HA.3" type="Archway"
+Connection HA.3 to="HA.6" type="Open"
+Connection HA.6 to="HA.3" type="Open"
+Connection HA.4 to="HA.5" type="Open"
+Connection HA.5 to="HA.4" type="Open"
+Connection HA.4 to="HA.8" type="Archway"
+Connection HA.8 to="HA.4" type="Archway"
+Connection HA.5 to="HA.7" type="Archway"
+Connection HA.7 to="HA.5" type="Archway"
+Connection HA.6 to="HA.9" type="Open"
+Connection HA.9 to="HA.6" type="Open"
+Connection HA.7 to="HA.10" type="Open"
+Connection HA.10 to="HA.7" type="Open"
+Connection HA.8 to="HA.10" type="Open"
+Connection HA.10 to="HA.8" type="Open"
+Connection HA.8 to="HA.9" type="Open"
+Connection HA.9 to="HA.8" type="Open"
+Connection HA.1 to="E.9" type="Open" bearing="south" distance="100 feet" climb=-100 wall="south" orientation="down the stair"
+Connection HA.10 to="HB.1" type="Open" climb=-100 orientation="down the shaft stair"
+```
