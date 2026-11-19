@@ -182,3 +182,15 @@ Numbers: 4
 Sign: a sound
 Disposition: Strikes whatever disturbs its hiding place, then backs into it.
 Description: A dry rustle in the leaf-litter reaches a party first. A reddish-brown many-legged worm as long as a man's leg, it eats insects, rats and anything that sleeps in rotting logs, caves and vine-choked ruins. It strikes whatever disturbs its hiding place, then backs into it.
+
+### Troglodyte
+Type: Humanoid
+AD: 2d6
+Special: Its stench sickens: a character in melee with it takes a Test of Constitution or rolls at Disadvantage for the fight.
+MA: 2
+Sight: Grey-skinned, lizard-faced cave dwellers with a crest down the back, in loincloths, with stone knives and clubs.
+Range: Sinkholes and caves in the hill jungle, where they eat cave men, cave fish and whatever falls in.
+Numbers: 8
+Sign: a smell
+Disposition: Waits in the dark and takes a party's rear, dragging off whatever it can hold.
+Description: A rank, rotten smell reaches a party first. Grey-skinned, lizard-faced cave dwellers with a crest down the back, in loincloths, with stone knives and clubs, they eat cave men, cave fish and whatever falls into the sinkholes and caves of the hill jungle. They wait in the dark and take a party's rear, dragging off whatever they can hold.

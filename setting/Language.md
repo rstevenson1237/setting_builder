@@ -51,7 +51,9 @@ Roots:
 - kali - a number, three
 - hanu - a direction, north
 Coined here:
+- Puluni = pulu + -ni - the stone place
 - Pulunita = pulu + -ni + -ta - the people of the stone place
+- Lemuni = lemu + -ni - the river place
 - Lemunita = lemu + -ni + -ta - the people of the river place
 
 ## The Serpent Speech
