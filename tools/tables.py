@@ -1446,6 +1446,10 @@ class Brief:
                 p(f"sheet {name} extent is W by H then {' | '.join(units)}")
             if "ground" in n.props and str(n.props["ground"]) not in terrains:
                 p(f"sheet {name} ground is a terrain: {' | '.join(terrains)}")
+            if "land" in n.props and str(n.props["land"]) != "island":
+                p(f"sheet {name} land is island: one island, its coast generated, in a sea")
+            if "land" in n.props and "ground" in n.props:
+                p(f"sheet {name} has land and ground: an island's ground off its regions is the sea")
             codes = str(n.props.get("regions", "")).split()
             if not codes:
                 p(f"sheet {name} lists no regions")
@@ -1466,6 +1470,10 @@ class Brief:
                         p(f"ground opens with a terrain: {' | '.join(terrains)}")
                     if len(grounds) > 1 and c is not grounds[0]:
                         p("has more than one ground line")
+                    span = SPAN_RE.fullmatch(str(c.props["height"])) if "height" in c.props else None
+                    if "height" in c.props and (not span or span.group(3) not in units
+                                                or float(span.group(2) or span.group(1)) < float(span.group(1))):
+                        p('ground height is a distance or a range, low to high, of its area: height="300-1200 feet"')
                 elif c.name == "place":
                     other = str(c.args[0]) if c.args else ""
                     span = SPAN_RE.fullmatch(str(c.args[2])) if len(c.args) == 3 else None

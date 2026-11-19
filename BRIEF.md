@@ -21,9 +21,10 @@ built, so a region states only where it differs.
 
 The maps are asked for here. `setting` holds a `sheet` per terrain map: its name, `square`
 (a distance), `extent` (`"W by H unit"`), `regions`, the codes it holds, and optionally `ground`,
-the terrain it is wherever no region's ground reaches; a DANGEROUS region is on none.
-A region on a sheet may hold one `ground` line, a terrain its area must have, then
-prose the writing reads and the solver does not, and `place` lines: another region on a sheet
+the terrain it is wherever no region's ground reaches, or `land=island`, one generated island in a sea,
+its land shared among its regions; a DANGEROUS region is on none.
+A region on a sheet may hold one `ground` line, a terrain its area must have, optionally a `height`
+its area stands at (a distance or `"N-M unit"` above the sea), then prose the writing reads and the solver does not, and `place` lines: another region on a sheet
 with it, a compass direction, and a distance or `"N-M unit"` from that region's way in.
 `origin` names the region whose way in, at its ground, is (0,0,0): every region, block and
 location has a place from it, x east, y north, z up, in feet. `maps` holds one `look` line
@@ -48,13 +49,13 @@ files {
   Magic rolls=12
   Rumours die=12 T=4 P=3 F=3 U=2
   Bestiary specials-from=4                           // AD below which a Special is rare
-  Factions count=5 marks=2                          // marks: identity marks each shows
-  Quests count=5
+  Factions count=7 marks=2                          // marks: identity marks each shows
+  Quests count=7
   History events=4
-  Truths count=4
+  Truths count=5
   Language affixes="3-5" roots="15-20"               // per tongue
   Procedures wounds="Piercing Crushing Poison Fire Exposure Suffocation" madness=6 exchange="3%" resale="20%" {   // a Wound table per Wound_Type listed; madness: 6 for a d6 Madness table, 0 for none
-    weather "1 severe, travel impossible; 2 and 3 poor; 4 to 6 calm"
+    weather "1 storm, no boat puts out and travel inland is halved; 2 and 3 rain; 4 to 6 hot and still"
     carousing "1 and 2 against the carouser; 3 and 4 nothing; 5 and 6 for them"
   }
 }
@@ -96,127 +97,129 @@ maps {
 
 setting {
   origin A
-  sheet Sands square="25 yards" extent="1200 by 1200 yards" regions="A" ground=sand
-  sheet Lake square="20 yards" extent="1000 by 1000 yards" regions="B" ground=rock
-  test walks=3 "The Lost City in play, not in text, built fresh by the framework and transcribed from nothing: a party caught in a sandstorm takes cover in a buried ruin, survives its first days on what it can find, and goes down through a pyramid that gets larger for five levels, passes factions to bargain with, and reaches a lake city of dreamers, then goes deeper still, narrowing, toward the thing that corrupted a people. Every location type, procedure kind and registry the framework has is used at least once."
-  outline "A lost city under the dunes and, beneath it, a pyramid ten levels deep: a sandstorm drives the party into the ruins, where the pyramid's tip stands from the sand ringed by three wind-swept statues. Level 1 is one tight complex of trapped rooms whose clues open three hidden ways down. Levels 1 to 5 widen, from puzzle rooms to a history, a hall of factions, living quarters and a funerary level; from level 5 a path opens to a lake city of masked dreamers. Levels 6 to 10 narrow again toward a demon below."
-  pressure "Food, water and shelter run short from the first night. Nothing outside the ruins is known to the party and nothing from outside will come for it; nothing in the ruins or under them is safe. A party can build a place of respite among the ruins or win one from a faction, and either costs what it will not spend elsewhere. The three branches of the cynidiceans each mean to break the demon's hold and will not work together, and the demon's cult is looking for the keys the lost king hid."
-  history "The cynidiceans raised a city of the sands, and a pyramid at its centre to house the dead of their line."
-  history "A demon was invited into the royal line, and its priests corrupted the court, the clergy and the soldiers in turn."
-  history "The last king and queen were interred at level 5, with a false tomb beside them to mislead the demon's servants."
-  history "The living took the stair down to the lake city to live out their lives in dreams and masks, and the city above was left to the sand."
-  truth "Every way down the pyramid is opened by something done in the room above: which way a party takes depends on what it solves, breaks or leaves alone."
-  truth "The three branches of the cynidiceans share one aim, to break the demon's hold and restore their people, and each holds that it alone has the strength and foresight to do it; none will work with the others, and each offers membership to a party that serves it."
-  truth "The lake city's people have no shared leadership and are no faction: they chose the fungus, the masks and the dream, and will not be rescued."
-  truth "The demon below is the cause of the corruption and a thing still being fed: it is the end of the descent, not a mistake that can be undone."
-  procedures "Hazards are Tests of Constitution and Fate, and a Test of Sanity at the lake city's psychosis-inducing fungi and wherever the demon's corruption reaches, from level 6 down. Food, water and shelter are tracked from the first day, and a party that has none loses Wounds to thirst and exposure. Poison is Lethal at least once, in a hazard or a creature's Special."
-  tongue "the common tongue of the party, spoken by the cynidiceans only in a broken form"
-  tongue "the speech of the cynidiceans, living and carved into every wall of the pyramid"
-  tongue "the black speech of the demon's cult and its servants"
-  bestiary Skeleton Zombie Mummy Ghoul Gargoyle "Giant Scorpion" "Giant Centipede" "Giant Spider" "Giant Rat" Stirge Hyena Soldier Wraith   // up front; the rest added as a location needs them
-  bestiary-note "Men are the rank and file a faction fields, never one entry per human occupation. No two factions' creatures share both an AD and a Special."
-  faction "the Royal Guard: the cynidiceans' former soldiers and their heirs, who hold that strength of arms will free their people"
-  faction "the Priesthood: the former female-led clergy, who hold that faith and the old rites will free their people"
-  faction "the Scholars: the learned and the practitioners of dark magic who first found the demon, who hold that knowledge of it will free their people"
-  faction "the demon's cult: priests below level 6 who feed the thing and seek the lost king's keys"
-  faction "the tomb robbers: outsiders who moved into the upper levels and trade what they take"
-  relations "The Royal Guard, the Priesthood and the Scholars each hold the other two at Antipathy, and the cult at Hatred (fear)."
-  relations "The cult holds the three branches at Hatred and the tomb robbers Tolerated."
-  relations "The tomb robbers hold the cult Hatred (fear) and the three branches Neutral. Every pair not named is Neutral."
-  rumours "Twelve, each pointing at a place or person: one at each faction, the buried city, the pyramid's tip, the lake city, the funerary level, the false tomb, the demon, and the storm. At least one is true and sounds false, and each P names which faction or number is wrong."
-  quest "water for a party's first camp, sought by a branch that will trade a guide for it"
-  quest "a tomb robber's stolen relic, given at their camp"
-  quest "the Royal Guard's missing captain, last seen on level 4"
-  quest "a mask-seller's request to find a kinsman who walked into the lake"
-  quest "proof of what feeds the demon, wanted by the Scholars"
+  sheet Island square="1 miles" extent="24 by 54 miles" regions="A B C D E F G" land=island
+  test walks=3 "A jungle island in play, not in text, built fresh by the framework and transcribed from nothing: a party lands at the southern villages behind their great wall with a ship that will not wait forever and a partial map marking the serpent crown, trades for a guide, and crosses swamp, coast and hills to the northern villages and back, past cave men, dinosaurs, lizard men at war, mer people in the wrecks and pirates on the same hunt, across forbidden ground to a stepped pyramid where a cult of snake people, with bound men in both peoples' villages, is waking its god. Every location type, procedure kind and registry the framework has is used at least once."
+  outline "A large island of jungle-covered hills ringed by reef. Two networks of tribal villages hold its coasts, one on the south shore and one on the north, and neither crosses the hills between. The centre is hill jungle where cave men hunt and dinosaurs graze and kill. Lizard men hold the southern swamps and are at war with the southern villages; mer people hold the sea caves and the wrecks on the western reef. In the eastern jungle a stepped pyramid stands over the trees, held by the last of the snake people and the cult of the god they serve. Small and medium lairs of beasts and humanoids are scattered through every wild region, and pirates and treasure hunters land wherever they please."
+  pressure "The party's ship lies off the southern villages and sails home on a day set at landing, with or without them. The southern villages are losing the swamp war: each raid takes captives, and the lizard men sell them on to the pyramid. The snake people are feeding their god to wake it, buying captives from the lizard men and the pirates alike, and each sacrifice makes the pyramid's cult bolder. A pirate crew and a rival band of treasure hunters are on the island after the same gold, and either will take a party's map, boat or life for it. Those the cult takes and does not kill come home bound: they look and speak as before, wear a scale-mark hidden on the skin, and do what the snake people ask; some already sit in the chiefs' councils, north and south. Behind their wall the southern villages are safe from the island, and each night something huge comes to the wall's gate and is fed."
+  history "The snake people raised the stepped pyramid and ruled the island from it, with the lizard men for soldiers and the tribes for labour and sacrifice."
+  history "The tribes rose and burned the snake people's towns; the snake people withdrew into the pyramid and dwindled, and the lizard men went back to the swamps they had been set to hold."
+  history "The victors split over the spoils into a northern people and a southern one, and the hill jungle between them was left to the beasts and the cave men."
+  history "Ships began to break on the western reef; the mer people took the wrecks for their own, and pirates and treasure hunters followed the tales of the gold the reef and the pyramid hold."
+  truth "The northern and southern villages speak one tongue and keep one story of the rising, and each blames the other for what was lost after it; each will trade with strangers, and neither will carry a stranger's word to the other."
+  truth "The lizard men's war is over an egg-stone of their god the southern villages took in the rising and keep in their chief's house: returned, it ends the raids, and the southern chiefs will not give it up."
+  truth "The mer people keep what the reef takes and trade only for what the sea cannot give them, iron and fire-worked things, and they want the pirates' anchorage gone from their water."
+  truth "The eastern jungle is forbidden ground to both peoples since the rising: no guide will cross into it, a villager who does is cast out, and a party known to have gone there loses its standing in the villages that learn of it."
+  truth "The snake people's god is a living thing asleep under the pyramid, and each sacrifice brings it nearer waking; it is the end of the pyramid, not a thing a party can bargain with."
+  procedures "Hazards are Tests of Constitution and Fate. Overland travel is by the day through jungle, swamp and hill, with an encounter check each watch; a party without a guide loses its way on a failed Test. Disease from the swamps and the jungle water is a Fate Test with a lasting Condition. Poison is Lethal at least once, in a hazard or a creature's Special. Boats are hired at the villages and the anchorage, and the reef wrecks any that crosses it without someone who knows the passages."
+  tongue "the common tongue of the party, spoken by the pirates and the treasure hunters and by a few traders in each village"
+  tongue "the speech of the island tribes, north and south, the same tongue with two accents and two words for each other"
+  tongue "the hissing speech of the snake people, carved on the pyramid and spoken by the lizard men as an old soldiers' tongue"
+  tongue "the speech of the mer people, sung under water and spoken in air only as a broken trade-talk"
+  bestiary Caveman "Lizard Man" Merman "Snake Man" Pirate Tyrannosaurus Triceratops Pterodactyl "Giant Crab" "Giant Leech" Crocodile "Giant Python" "Giant Centipede"   // up front; the rest added as a location needs them
+  bestiary-note "Men are the rank and file a faction fields, never one entry per human occupation. Dinosaurs are beasts, met as a hazard to avoid as often as a fight. No two factions' creatures share both an AD and a Special."
+  faction "the southern villages: the larger tribe, stockaded on the south shore, at war with the lizard men and the party's first hosts"
+  faction "the northern villages: the smaller tribe, fishers and hill hunters on the north shore, who trade with no one from the south"
+  faction "the lizard men: enclaves in the southern swamps, the snake people's old soldiers, raiding the southern villages for the egg-stone and for captives"
+  faction "the mer people: the sea caves and the wrecks of the western reef, keepers of the reef's treasure"
+  faction "the snake people's cult: the last snake people and the men they have bound, in the stepped pyramid and hidden in both peoples' villages, feeding their god"
+  faction "the pirates: one crew at an anchorage on the western coast, trading captives to the pyramid and hunting the reef's gold"
+  faction "the treasure hunters: a rival expedition from the party's own homeland, after the pyramid's gold with a map of their own"
+  relations "The southern and northern villages hold each other at Antipathy. The southern villages and the lizard men hold each other at Hatred. Both villages hold the cult at Hatred (fear)."
+  relations "The cult holds the lizard men and the pirates Tolerated, as suppliers, and every other faction at Hatred. The lizard men hold the cult Neutral. The mer people hold the pirates at Hatred and the villages Neutral."
+  relations "The pirates and the treasure hunters hold each other at Antipathy. Every pair not named is Neutral."
+  rumours "Twelve, each pointing at a place or person: one at each faction, the pyramid, the god beneath it, the egg-stone, the reef's wrecks, and the cave men's hills. At least one is true and sounds false, and each P names which faction or place is wrong."
+  quest "the serpent crown, the snake emperors' crown of gold coiled round a green stone the size of a fist, marked on the party's partial map and kept in the god's sanctum"
+  quest "captives taken in the last swamp raid, sought by the southern villages, who pay in guides and canoes"
+  quest "a lost northern hunting party, last seen in the hill jungle, given at the northern villages"
+  quest "the egg-stone, carried back to the lizard men to end the war, wanted by a southern elder who will not say so to the chiefs"
+  quest "the pirates' anchorage driven from the western coast, asked by the mer people for a wreck's treasure"
+  quest "a treasure hunter who deserted with half their map, sought by the treasure hunters' leader"
+  quest "proof of what the cult feeds its god, wanted by the northern villages before they will send a war party"
 }
 
-region A rating=WILD die=d6 locations=9 {
-  design footprint="2000 feet"
-  ground sand "dunes, drifted streets and rooftops half-buried in sand, a storm wall overhead"
-  outline "The lost city: a sand-buried ruin with the pyramid's tip standing from its centre, three wind-swept statues carved on top. A party's first shelter is here - a roofed house, a cistern, a collapsed market, a barracks wall, a temple colonnade, a dry canal - and the first tomb robbers' scouts working the rubble. It holds the first food and water a party can find, and the only ground where a party can build its own place of respite. One way in to the pyramid, the tip's door at the foot of the statues."
-  target Location.type Landmark=7 Ruin=6 Lair=1 Hidden=1 Route=1
-  procedure "Foraging for food and water among the ruins."
-  procedure "Making shelter and a place of respite."
+region A rating=SAFE die=d6 locations=12 {
+  ground grass "gardens, palm groves and cleared ground on the south shore, a lagoon behind a reef, stockades of sharpened logs"
+  place D south "18-24 miles"
+  outline "The southern villages: three stockaded villages on the south shore of a peninsula, cut off from the rest of the island by a great wall of stone and logs across its neck, built by their ancestors after the rising, with one great gate. The villages are joined by a shore path and canoes on the lagoon. The largest holds the chiefs' house, where the egg-stone is kept, and the beach where strangers' boats land and the party's ship lies at anchor. Guides, canoes, food and a guest house are had here for trade. The lizard men raid by water round the wall's ends, and the war is felt in burned huts and the watch on the lagoon; at the gate the villages leave food each night for the huge thing that comes to it."
+  design footprint="600 feet"
+  target Location.type Gate="1+"
+  procedure "Hiring a guide and canoes."
+  procedure "Passing the wall's gate, opened by the chiefs' word."
 }
 
-region B rating=WILD die=d8 locations=10 {
-  design footprint="1000 feet"
-  ground rock "a cavern floor of rock and fungus gardens, with a still lake at the city's heart, a ceiling lit by glowing growths"
-  outline "The subterranean city: a cavern built round a still lake, where the cynidiceans' descendants live in a waking dream - masked as animals, feasting, reveling and eating the fungus they grow. It lies beside the pyramid and below level 5, and a party reaches it by a long sloping tunnel from that level. Quarters, a market of drugs, the fungus gardens, a lake shore and a revel house make a city; the way back up the path and the stair down to level 6 are the party's two exits."
-  target Location.type Landmark=7 Ruin=1 Natural=2 Lair=4 Hidden=1 Secret=1 Route=1
-  procedure "Trading for the fungus and its drugs."
-  procedure "Joining the revels."
+region B rating=WILD die=d8 locations=9 {
+  ground marsh "mangrove and reed swamp, black channels, hummocks and drowned trees"
+  place A north-east "6-9 miles"
+  outline "The southern swamps: the lizard men's enclaves on hummocks in the mangroves, the war's ground between them and the southern villages, and the channels the raiding parties use. Small lairs of leeches, crocodiles and worse sit between the enclaves."
+  target Location.type Lair="3+" Natural="2+"
 }
 
-region C rating=DANGEROUS die=d12 locations=6 {
-  outline "Pyramid level 1: a tightly packed complex of small rooms round one tiled hall, laden with puzzles, nuisance traps, one room that is itself a trap, and clues to the pyramid's story. Three ways down, each hidden and each trapped - a trapped floor, a mural stair, a statue's plinth - and each comes out in a different area of level 2. The complex is the pyramid's first lesson."
-  design fill="35-55%" footprint="100 feet"
-  target Location.type High=1 Medium=3 Low=2
-  target Reward.contents Keys=1 Lore=1
+region C rating=WILD die=d8 locations=10 {
+  ground sand "beaches, sea cliffs and caves, and the western reef awash with broken hulls"
+  place D south-west "7-10 miles"
+  outline "The wreck coast: the western shore and its reef, where the mer people hold sea caves and the wrecks of a dozen ships, the pirates keep an anchorage in a cove, and the treasure hunters have a beach camp. The way into the drowned galleon is here."
+  target Location.type Lair="2+" Ruin="3+"
+  procedure "Diving the wrecks and the sea caves."
 }
 
-region D rating=DANGEROUS die=d10 locations=12 {
-  outline "Pyramid level 2: the history of the cynidiceans told in murals, carvings and the rooms between them, in four areas joined by winding passages, each with its own challenge: the tomb robbers' halls, where they have moved in; the founders' halls and their naming puzzle; the scraped halls and their dead; and the gallery of the fall, locked and guarded, over the way down. Each of level 1's three ways down comes out in a different area, and scouts of the three branches below walk them all. Nuisance traps line the passages and two rooms are traps in themselves."
-  design fill="25-40%" footprint="140 feet"
-  target Location.type High=2 Medium=6 Low=4
-  target Reward.contents Lore=2
+region D rating=WILD die=d10 locations=12 {
+  ground forest height="400-2000 feet" "jungle-covered hills, ridges and ravines, grassy clearings where the dinosaurs graze"
+  outline "The hill jungle: the island's centre, where cave men hunt from caves in the ridges and dinosaurs graze the clearings and hunt the trails. No village claims it; a party crossing between the shores crosses it. Small and medium lairs of fantastic beasts and humanoids are scattered through it, and the way into the troglodytes' warren is here."
+  target Location.type Lair="4+" Natural="2+"
 }
 
-region E rating=DANGEROUS die=d10 locations=15 {
-  design fill="25-45%" footprint="180 feet"
-  outline "Pyramid level 3: a turning hall, a round section of passage that always joins two of its eight passages on opposite sides; runes shown in pairs inside it turn it to the pair pressed, and the arch of each passage shows its own rune. The eight passages lead to a complex of rooms for each of the three branches of the cynidiceans - the Royal Guard, the Priesthood and the Scholars - a trapped corridor to the level below, a short room from the level above, a long decayed store, a secret room joining the store to the hall with treasure in it, and a lair. By a party's actions one branch may offer an alliance or membership."
-  target Location.type High=3 Medium=7 Low=5
-  target Reward.contents Keys=1 Lore=1
-  procedure "Joining a faction."
+region E rating=WILD die=d8 locations=9 {
+  ground forest "low jungle under a closed canopy, vine-choked ruins of the snake people's towns, a slow brown river"
+  place D east "5-8 miles"
+  outline "The eastern jungle: forbidden ground, the overgrown towns of the snake people's empire around the stepped pyramid, which stands over the canopy and is seen from the hills. Boundary posts carved with serpents mark its edge, where guides turn back. Cult patrols and bound men walk its roads, and small lairs fill the ruins. The way into the pyramid is here."
+  target Location.type Ruin="3+" Lair="2+"
 }
 
-region F rating=DANGEROUS die=d8 locations=20 {
-  outline "Pyramid level 4: the former living quarters, with strange cynidicean encounters, lairs of stronger monsters that came down from the sand, hints of the evil below, and the tomb robbers' deepest camp."
-  design fill="25-40%" footprint="220 feet"
-  target Location.type High=4 Medium=10 Low=6
-  target Reward.contents Hoards=1 Lore=2
+region F rating=SAFE die=d6 locations=10 {
+  ground grass "fishing beaches, terraced gardens and stilt-houses at a river mouth on the north shore"
+  place D north "14-18 miles"
+  outline "The northern villages: two villages at a river mouth and a hunters' camp up the river, smaller and warier than the south. Fish, hill guides and word of the hill jungle are had here, at a higher price for anyone who has come from the south."
+  design footprint="500 feet"
 }
 
-region G rating=DANGEROUS die=d8 locations=29 {
-  outline "Pyramid level 5: the funerary level, with the last king and queen interred, a false tomb beside them, the areas of the former clergy, and in its southern half a great chapel whose mystical effects a party can set off. The largest level. A great hall once led down to the subterranean city; its doors are blocked shut, and a secret door beside it is now the way those coming up from the city take."
-  design fill="25-45%" pad="0 feet" footprint="240 feet"
-  target Location.type High=6 Medium=14 Low=9
-  target Reward.contents Hoards=1 Keys=2 "Unique Treasures"=1 Lore=2
+region G rating=WILD die=d6 locations=8 {
+  ground scrub "windward headlands of scrub and grass above cliffs, the rim of an old volcanic crater"
+  place F south-west "6-9 miles"
+  outline "The northern headlands: the island's windward corner, with a crater rim, sea-bird cliffs and the treasure hunters' second landing. Small lairs of flying beasts and a humanoid band's camp hold the high ground."
+  target Location.type Lair="2+" Landmark="2+"
 }
 
-region H rating=DANGEROUS die=d6 locations=20 {
-  outline "Pyramid level 6: the first level of the descent, laid out in the shape of level 4 and given to the demon's cult and its sacrifices. The way up is behind a party."
-  design fill="25-45%" pad="0 feet" footprint="210 feet"
-  target Location.type High=4 Medium=9 Low=7
-  target Reward.contents Hoards=1 Lore=1
-}
-
-region I rating=DANGEROUS die=d6 locations=14 {
-  outline "Pyramid level 7: a smaller level of altars and cells where the cult's chosen are made and unmade."
-  design fill="25-45%" pad="0 feet" footprint="160 feet"
-  target Location.type High=2 Medium=8 Low=4
-  target Reward.contents Keys=1 Lore=1
-}
-
-region J rating=DANGEROUS die=d6 locations=9 {
-  outline "Pyramid level 8: the lieutenants' halls, a short level of powerful servants who keep the way down."
-  design fill="25-45%" pad="0 feet" footprint="150 feet"
-  target Location.type High=3 Medium=4 Low=2
-  target Reward.contents Hoards=1 Keys=1 "Unique Treasures"=1
-}
-
-region K rating=DANGEROUS die=d4 locations=8 {
-  outline "Pyramid level 9: the antechamber of the demon, where the corruption is thick enough to cost Sanity."
-  design fill="25-45%" pad="0 feet" footprint="140 feet"
-  target Location.type High=3 Medium=3 Low=2
+region HA rating=DANGEROUS die=d10 locations=10 {
+  outline "The stepped pyramid, its upper temple: the terraces, the stair and the shrine on top, held by the cult's bound men and the first of the snake people. Its way in opens from the eastern jungle, and a shaft and a stair lead down."
+  design fill="25-45%" footprint="140 feet"
+  target Location.type High=2 Medium=5 Low=3
   target Reward.contents Lore=1
 }
 
-region L rating=DANGEROUS die=d4 locations=6 {
-  outline "Pyramid level 10: the demon's chamber, a single hall where the corrupting entity feeds, and the end of the descent. Its demon is a Named Creature."
-  design fill="25-45%" pad="0 feet" footprint="120 feet"
-  target Location.type High=2 Medium=2 Low=2
+region HB rating=DANGEROUS die=d8 locations=14 {
+  outline "The stepped pyramid, the cult's halls: the snake people's living halls, the captives' pens and the cult's treasury, inside the pyramid's body."
+  design fill="25-45%" footprint="180 feet"
+  target Location.type High=3 Medium=7 Low=4
+  target Reward.contents Hoards=1 Keys=1 Lore=1
+}
+
+region HC rating=DANGEROUS die=d6 locations=8 {
+  outline "The stepped pyramid, the god's sanctum: the sacrifice hall and the cavern below the pyramid where the god sleeps, and the serpent crown on the last emperor's bones. Its god is a Named Creature, and the crown its Unique Treasure."
+  design fill="25-45%" pad="0 feet" footprint="140 feet"
+  target Location.type High=3 Medium=3 Low=2
   target Reward.contents "Unique Treasures"=1 "Magical Tomes"=1
+}
+
+region I rating=DANGEROUS die=d6 locations=7 {
+  outline "The drowned galleon: a medium lair, a great ship sunk across a reef gap off the wreck coast, its hold half in air, held by the mer people and a sea beast they keep, with the reef's best treasure aboard."
+  design fill="35-55%" footprint="120 feet"
+  target Location.type High=2 Medium=3 Low=2
+  target Reward.contents Hoards=1
+}
+
+region J rating=DANGEROUS die=d6 locations=8 {
+  outline "The troglodytes' warren: a medium lair in a sinkhole in the hill jungle, caves held by a troglodyte band that raids cave men and travellers alike."
+  design fill="35-55%" footprint="120 feet"
+  target Location.type High=2 Medium=4 Low=2
 }
 ```
