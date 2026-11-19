@@ -21,7 +21,8 @@ built, so a region states only where it differs.
 
 The maps are asked for here. `setting` holds a `sheet` per terrain map: its name, `square`
 (a distance), `extent` (`"W by H unit"`), `regions`, the codes it holds, and optionally `ground`,
-the terrain it is wherever no region's ground reaches; a DANGEROUS region is on none.
+the terrain it is wherever no region's ground reaches, or `land=island`, one generated island in a sea,
+its land shared among its regions; a DANGEROUS region is on none.
 A region on a sheet may hold one `ground` line, a terrain its area must have, then
 prose the writing reads and the solver does not, and `place` lines: another region on a sheet
 with it, a compass direction, and a distance or `"N-M unit"` from that region's way in.
@@ -96,7 +97,7 @@ maps {
 
 setting {
   origin A
-  sheet Island square="1 miles" extent="24 by 24 miles" regions="A B C D E F G" ground=deep
+  sheet Island square="1 miles" extent="24 by 54 miles" regions="A B C D E F G" land=island
   test walks=3 "A jungle island in play, not in text, built fresh by the framework and transcribed from nothing: a party lands at the southern villages with a ship that will not wait forever, trades for a guide, and crosses swamp, coast and hills to the northern villages and back, past cave men, dinosaurs, lizard men at war, mer people in the wrecks and pirates on the same hunt, to a stepped pyramid where a cult of snake people is waking its god. Every location type, procedure kind and registry the framework has is used at least once."
   outline "A large island of jungle-covered hills ringed by reef. Two networks of tribal villages hold its coasts, one on the south shore and one on the north, and neither crosses the hills between. The centre is hill jungle where cave men hunt and dinosaurs graze and kill. Lizard men hold the southern swamps and are at war with the southern villages; mer people hold the sea caves and the wrecks on the western reef. In the eastern jungle a stepped pyramid stands over the trees, held by the last of the snake people and the cult of the god they serve. Small and medium lairs of beasts and humanoids are scattered through every wild region, and pirates and treasure hunters land wherever they please."
   pressure "The party's ship lies off the southern villages and sails home on a day set at landing, with or without them. The southern villages are losing the swamp war: each raid takes captives, and the lizard men sell them on to the pyramid. The snake people are feeding their god to wake it, buying captives from the lizard men and the pirates alike, and each sacrifice makes the pyramid's cult bolder. A pirate crew and a rival band of treasure hunters are on the island after the same gold, and either will take a party's map, boat or life for it."
@@ -136,7 +137,7 @@ setting {
 
 region A rating=SAFE die=d6 locations=12 {
   ground grass "gardens, palm groves and cleared ground on the south shore, a lagoon behind a reef, stockades of sharpened logs"
-  place D south "4-5 miles"
+  place D south "18-24 miles"
   outline "The southern villages: three stockaded villages along the south shore, joined by a shore path and canoes on the lagoon. The largest holds the chiefs' house, where the egg-stone is kept, and the beach where strangers' boats land and the party's ship lies at anchor. Guides, canoes, food and a guest house are had here for trade; the war with the lizard men is felt in the burned huts and the watch on the swamp side."
   design footprint="600 feet"
   procedure "Hiring a guide and canoes."
@@ -144,14 +145,14 @@ region A rating=SAFE die=d6 locations=12 {
 
 region B rating=WILD die=d8 locations=9 {
   ground marsh "mangrove and reed swamp, black channels, hummocks and drowned trees"
-  place D east-south-east "4-5 miles"
+  place A north-east "6-9 miles"
   outline "The southern swamps: the lizard men's enclaves on hummocks in the mangroves, the war's ground between them and the southern villages, and the channels the raiding parties use. Small lairs of leeches, crocodiles and worse sit between the enclaves."
   target Location.type Lair="3+" Natural="2+"
 }
 
 region C rating=WILD die=d8 locations=10 {
   ground sand "beaches, sea cliffs and caves, and the western reef awash with broken hulls"
-  place D west-south-west "4-5 miles"
+  place D south-west "7-10 miles"
   outline "The wreck coast: the western shore and its reef, where the mer people hold sea caves and the wrecks of a dozen ships, the pirates keep an anchorage in a cove, and the treasure hunters have a beach camp. The way into the drowned galleon is here."
   target Location.type Lair="2+" Ruin="3+"
   procedure "Diving the wrecks and the sea caves."
@@ -165,21 +166,21 @@ region D rating=WILD die=d10 locations=12 {
 
 region E rating=WILD die=d8 locations=9 {
   ground forest "low jungle under a closed canopy, vine-choked ruins of the snake people's towns, a slow brown river"
-  place D east-north-east "4-5 miles"
+  place D east "5-8 miles"
   outline "The eastern jungle: the overgrown towns of the snake people's empire around the stepped pyramid, which stands over the canopy and is seen from the hills. Cult patrols and bought men walk its roads, and small lairs fill the ruins. The way into the pyramid is here."
   target Location.type Ruin="3+" Lair="2+"
 }
 
 region F rating=SAFE die=d6 locations=10 {
   ground grass "fishing beaches, terraced gardens and stilt-houses at a river mouth on the north shore"
-  place D north "4-5 miles"
+  place D north "14-18 miles"
   outline "The northern villages: two villages at a river mouth and a hunters' camp up the river, smaller and warier than the south. Fish, hill guides and word of the hill jungle are had here, at a higher price for anyone who has come from the south."
   design footprint="500 feet"
 }
 
 region G rating=WILD die=d6 locations=8 {
   ground scrub "windward headlands of scrub and grass above cliffs, the rim of an old volcanic crater"
-  place D west-north-west "4-5 miles"
+  place F south-west "6-9 miles"
   outline "The northern headlands: the island's windward corner, with a crater rim, sea-bird cliffs and the treasure hunters' second landing. Small lairs of flying beasts and a humanoid band's camp hold the high ground."
   target Location.type Lair="2+" Landmark="2+"
 }

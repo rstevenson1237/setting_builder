@@ -1446,6 +1446,10 @@ class Brief:
                 p(f"sheet {name} extent is W by H then {' | '.join(units)}")
             if "ground" in n.props and str(n.props["ground"]) not in terrains:
                 p(f"sheet {name} ground is a terrain: {' | '.join(terrains)}")
+            if "land" in n.props and str(n.props["land"]) != "island":
+                p(f"sheet {name} land is island: one island, its coast generated, in a sea")
+            if "land" in n.props and "ground" in n.props:
+                p(f"sheet {name} has land and ground: an island's ground off its regions is the sea")
             codes = str(n.props.get("regions", "")).split()
             if not codes:
                 p(f"sheet {name} lists no regions")
