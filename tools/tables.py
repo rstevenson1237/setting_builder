@@ -1492,20 +1492,28 @@ class Brief:
         return out
 
     def _design(self, n: kdl.Node, code: str):
-        """A `design` line: `fill` and `pad`, which every block design of the region starts from, and `footprint`, a
-        distance, the size its level's drawing is held near."""
+        """A `design` line: `fill` and `pad`, which every block design of the region starts from, and `footprint`, the
+        ground its block is laid out on: a distance (a square) or an outline in feet."""
         for k, v in n.props.items():
             if k == "footprint":
-                if unit_problem("distance", str(v), self.schema.setting_enums):
-                    self.problems.append(f"line {n.line}: design footprint is a distance, not {v!r}")
+                if unit_problem("distance", str(v), self.schema.setting_enums) and not OUTLINE_RE.fullmatch(str(v)):
+                    self.problems.append(f"line {n.line}: design footprint is a distance or an outline "
+                                         f"(\"rect W L\", \"circle R\", \"poly x,y ...\"), not {v!r}")
             elif problem := design_setting(k, str(v)):
                 self.problems.append(f"line {n.line}: design {problem}")
         self.designs[code] = n
 
-    def footprint(self, code: str) -> float | None:
-        """The size, in feet, a region's `design` line asks its level to be drawn near."""
-        m = DISTANCE_RE.fullmatch(str(self.designs[code].props.get("footprint", ""))) if code in self.designs else None
-        return float(m[1]) * UNIT_FEET.get(m[2], 1) if m else None
+    def footprint(self, code: str) -> tuple | None:
+        """The ground a region's `design` line lays its block out on, as an outline in feet round the block's centre:
+        a distance is a square of that side."""
+        v = str(self.designs[code].props.get("footprint", "")) if code in self.designs else ""
+        if m := DISTANCE_RE.fullmatch(v):
+            side = float(m[1]) * UNIT_FEET.get(m[2], 1)
+            return "rect", side, side
+        if OUTLINE_RE.fullmatch(v):
+            kind, *rest = v.split()
+            return ("poly", [tuple(float(c) for c in q.split(",")) for q in rest]) if kind == "poly" else (kind, *map(float, rest))
+        return None
 
     def _add(self, n: kdl.Node, rating: str, region: str | None):
         if t := self._read(n, rating, region):

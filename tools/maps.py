@@ -817,7 +817,7 @@ TOWN_CELLS = (5, 10, 20)        # feet to a settlement's cell, the finest that f
 MAX_TOWN = 240                  # cells across a settlement, artgen's limit
 TOWN_EDGE = 12                  # cells of ground beyond the wall
 WALL_GAP = 15                   # feet between the wall and the buildings it encloses
-BUILDING = {"Inn": "inn", "Merchant": "shop", "Bank": "shop", "Authority": "hall"}
+BUILDING = {"Inn": "inn", "Merchant": "shop", "Bank": "shop", "Authority": "hall", "Temple": "temple"}
 MYSTERY_MARK = {"Altar": "altar", "Statue": "statue", "Fountain": "fountain", "Throne": "throne"}   # a type with none draws none
 HAZARD_MARK = {"Pit": "pit", "Water": "pool", "Fire/Lava": "fire", "Broken/Weak Floor": "rubble", "Ravine/Climb": "pit",
                **dict.fromkeys(("Mechanical", "Spike", "Dart", "Hammer", "Gas", "Runes", "Field", "Attack"), "trap")}

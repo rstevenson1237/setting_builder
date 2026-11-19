@@ -6,15 +6,16 @@ members of a faction - with a garrison at an Authority, and what guards a Secret
 `patterns/Region_Schema.md`'s.
 
 ```kdl
-enum Safe_Type Inn Merchant Bank Market Authority Gate Secret
-// Gate: a way across the region's edge, where what stands at the Approach stands. Secret: a
+enum Safe_Type Inn Merchant Bank Market Authority Temple Gate Secret
+// Temple: a shrine, temple, sacred grove or burial ground. Gate: a way across the region's edge - a gate, or a landing
+// from the water - where what stands at the Approach stands. Secret: a
 // place or thing kept hidden, reached only by the Way that hangs it from another location.
 enum Purchase_Type menu service sale   // food and drink by the portion; a thing done for a party; goods handed over
 enum Contents_Type "Treasure I" "Treasure II" "Treasure III" "Treasure IV" "Treasure V" Magic Hoards Lore Keys "Unique Treasures" "Magical Tomes"
 enum Hazard_Type {
   Mechanical Pit Spike Dart Hammer Gas
   Magical Runes Field Attack
-  Environmental "Fire/Lava" Water Ice "Ravine/Climb" "Broken/Weak Floor"
+  Environmental "Fire/Lava" Water Tide Current Ice "Ravine/Climb" "Broken/Weak Floor" Poison Insects
 }
 enum Mystery_Type Altar Statue Fountain Fresco Tapestry Throne "Button/Lever/Switch/Keyhole" Mirror Flooring
 
@@ -191,7 +192,7 @@ folder Safe type=Safe_Type {
   Connections Way
   Ground Ground Feature At                         // written by code
   Design Design Fill Tie Street Fabric Void Place opt
-  top Inn Merchant Bank Market Authority Gate   // reached from the region itself, so never joined to one another
-  join Secret Inn Merchant Bank Market Authority Gate gate=Secret   // the only type that connects within its region, and the Way into it carries a Secret
+  top Inn Merchant Bank Market Authority Temple Gate   // reached from the region itself, so never joined to one another
+  join Secret Inn Merchant Bank Market Authority Temple Gate gate=Secret   // the only type that connects within its region, and the Way into it carries a Secret
 }
 ```

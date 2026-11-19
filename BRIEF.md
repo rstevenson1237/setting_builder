@@ -33,8 +33,9 @@ per map kind, how every map of that kind is drawn; a key a line leaves out keeps
 
 A `design` line in a region asks for its blocks to be designed before their tables are written (step 3e); a
 DANGEROUS region's always are. It holds `fill`, the share of a block's ground its rooms cover; `pad`, the ground
-kept clear round each room; and `footprint`, the level's target size in feet, the width its drawing comes as near
-as a readable layout allows.
+kept clear round each room; and `footprint`, the block's ground round its centre - a distance for a square, or
+`"rect W L"`, `"circle R"` or `"poly x,y x,y ..."` in feet - that a settlement is laid out on and a level's drawing comes
+as near as a readable layout allows.
 
 ```kdl
 // -- Framework levers ----------------------------------------------------------
@@ -66,6 +67,7 @@ safe {
   rate Merchant Dressing=1 Purchases="2-4" People="1-2" Rewards=0
   rate Bank Market Dressing=1 Purchases="1-3" People="1-2" Rewards=0
   rate Authority Dressing=1 Purchases="0-2" People="1-3" Garrison="0-1" Rewards=0
+  rate Temple Dressing=1 Purchases="0-1" People="1-2" Rewards=0
   rate Gate Dressing=1 Purchases="0-1" People="1-2" Rewards=0
   rate Secret Dressing=1 Purchases="0-1" People="0-1" Rewards=0 Challenges=0
   words Overview=120 View=90 Approach=90 Law=70 Arrival=50 Plan=90 Places=35 Tables=25
@@ -99,7 +101,7 @@ maps {
 setting {
   origin Island
   sheet Island square="1 miles" extent="24 by 54 miles" regions="A B C D E F G" land=island
-  test walks=3 "A jungle island in play, not in text, built fresh by the framework and transcribed from nothing: a party lands at the southern villages behind their great wall with a ship that will not wait forever and a partial map marking the serpent crown, trades for a guide, and crosses swamp, coast and hills to the northern villages and back, past cave men, dinosaurs, lizard men at war, mer people in the wrecks and pirates on the same hunt, across forbidden ground to a stepped pyramid where a cult of snake people, with bound men in both peoples' villages, is waking its god. Every location type, procedure kind and registry the framework has is used at least once."
+  test walks=3 "A jungle island in play, not in text, built fresh by the framework and transcribed from nothing: a party lands at the southern villages behind their great wall with a ship that will not wait forever and a partial map marking the serpent crown, trades for a guide, and crosses swamp, coast and hills to the northern villages and back, past cave men, dinosaurs, lizard men at war, mer people in the wrecks and pirates on the same hunt, across forbidden ground to a stepped pyramid where a cult of snake people, with bound men in both peoples' villages, is waking its god. Every procedure kind and registry the framework has is used at least once, and every location type the island has a place for."
   outline "A large island of jungle-covered hills ringed by reef. Two networks of tribal villages hold its coasts, one on the south shore and one on the north, and neither crosses the hills between. The centre is hill jungle where cave men hunt and dinosaurs graze and kill. Lizard men hold the southern swamps and are at war with the southern villages; mer people hold the sea caves and the wrecks on the western reef. In the eastern jungle a stepped pyramid stands over the trees, held by the last of the snake people and the cult of the god they serve. Small and medium lairs of beasts and humanoids are scattered through every wild region, and pirates and treasure hunters land wherever they please."
   pressure "The party's ship lies off the southern villages and sails home on a day set at landing, with or without them. The southern villages are losing the swamp war: each raid takes captives, and the lizard men sell them on to the pyramid. The snake people are feeding their god to wake it, buying captives from the lizard men and the pirates alike, and each sacrifice makes the pyramid's cult bolder. A pirate crew and a rival band of treasure hunters are on the island after the same gold, and either will take a party's map, boat or life for it. Those the cult takes and does not kill come home bound: they look and speak as before, wear a scale-mark hidden on the skin, and do what the snake people ask; some already sit in the chiefs' councils, north and south. Behind their wall the southern villages are safe from the island, and each night something huge comes to the wall's gate and is fed."
   history "The snake people raised the stepped pyramid and ruled the island from it, with the lizard men for soldiers and the tribes for labour and sacrifice."

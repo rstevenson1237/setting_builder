@@ -5,7 +5,8 @@ brief are `patterns/Region_Schema.md`'s.
 
 ```kdl
 enum Dangerous_Type High Medium Low
-enum Connection_Type Open Archway Broken Crude Wooden Banded Stone Iron Lift Chute   // Lift and Chute: a dwarven machine, with `climb` for the rise
+enum Connection_Type Open Archway Broken Crude Wooden Banded Stone Iron Hatch Ladder Rope Chute Lift   // Hatch: a door in a floor, deck or roof;
+// Ladder, Rope (a rope or a winch) and Chute (a slide or drop, one way down) climb, with `climb` for the rise; Lift: a machine
 enum Contents_Type "Treasure I" "Treasure II" "Treasure III" "Treasure IV" "Treasure V" Magic Hoards Lore Keys "Unique Treasures" "Magical Tomes"
 enum Purchase_Type menu service sale   // food and drink by the portion; a thing done for a party; goods handed over
 enum Part centre north north-east east south-east south south-west west north-west
@@ -14,7 +15,7 @@ enum Mystery_Type Altar Statue Fountain Fresco Tapestry Throne "Button/Lever/Swi
 enum Hazard_Type {
   Mechanical Pit Spike Dart Hammer Gas
   Magical Runes Field Attack
-  Environmental "Fire/Lava" Water Ice "Ravine/Climb" "Broken/Weak Floor"
+  Environmental "Fire/Lava" Water Tide Current Ice "Ravine/Climb" "Broken/Weak Floor" Poison Insects
 }
 
 node Seed {

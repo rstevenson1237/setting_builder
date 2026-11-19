@@ -9,7 +9,8 @@ enum Wild_Type Route Hidden Secret {
 }
 enum Hazard_Type {
   Ground "Rockfall/Slide" "Bog/Quicksand" "Cliff/Climb" Thorns
-  Water Ford Flood "Thin Ice"
+  Water Ford Flood "Thin Ice" Tide Current
+  Living Poison Insects
   Weather Storm Fog Cold Heat
 }
 enum Mystery_Type "Standing Stone" Cairn Spring Pool "Old Tree" Shrine "Carved Rock" Ring

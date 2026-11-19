@@ -920,6 +920,13 @@ class Space:
                         and abs(r.at[2] - self.sea[r.code]) > NEAR:
                     self.say("error", r.file, f"line {r.line}: {r.code} stands at {fmt(r.at[2])} feet, where its ground "
                                               f"on sheet {self.master} is {fmt(self.sea[r.code])}", r.code)
+            asked = next((c for c in self.brief.regions.get(r.code, kdl.Node("", 0)).children if c.name == "ground"), None)
+            m = tables.SPAN_RE.fullmatch(str(asked.props.get("height", ""))) if asked is not None else None
+            if m and self.world.regions[r.code].rating.upper() == "SAFE" and r.at[2] is not None:
+                low, high = (maps.feet(f"{v} {m.group(3)}") for v in (m.group(1), m.group(2) or m.group(1)))
+                if not low - 0.5 <= r.at[2] <= high + 0.5:
+                    self.say("error", r.file, f"line {r.line}: {r.code} stands at {fmt(r.at[2])} feet, outside the height "
+                                              f"{asked.props['height']} BRIEF.md's ground asks (step 3b)", r.code)
         for i, r in enumerate(regions):
             for q in regions[i + 1:]:
                 if (sheet := self.shared(r, q)) and sheet != self.master and None not in r.at[:2] + q.at[:2]:

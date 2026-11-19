@@ -118,7 +118,8 @@ class Settle:
         if self.problems:
             return
         self.size = size
-        span = max([d for *_, d in ties] + [max(max(v) for v in size.values())]) * 2
+        ground = tables.Brief(tables.Schema()).footprint(region.code)   # the ground BRIEF.md lays the block out on
+        span = max([d * 2 for *_, d in ties] + [max(max(v) for v in size.values()) * 2] + list(box(ground) or ()))
         self.cell = next((c for c in SETTLE_CELLS if span / c <= SETTLE_MOST), SETTLE_CELLS[-1])
         wild = region.rating.upper() == "WILD"
         kind = lambda t: "market" if t == "Market" else "ruin" if wild and t == "Ruin" else maps.BUILDING.get(t, "house")
@@ -138,7 +139,8 @@ class Settle:
         for b, poly in maps.breaking(region.code):
             xs, ys = [x for x, _ in poly], [y for _, y in poly]
             stands[b] = (((min(xs) + max(xs)) / 2 - way[0], way[1] - (min(ys) + max(ys)) / 2), (max(xs) - min(xs), max(ys) - min(ys)))
-        lo = [min(v[k] - z[k] / 2 for v, z in stands.values()) for k in (0, 1)]
+        edge = [(x, -y) for x, y in space.polygon(ground, 0, 0)] if ground else []   # east and south of the first location
+        lo = [min([v[k] - z[k] / 2 for v, z in stands.values()] + [p[k] for p in edge]) for k in (0, 1)]
         at = lambda c: {"x": round((stands[c][0][0] - stands[c][1][0] / 2 - lo[0]) / self.cell, 1),
                         "y": round((stands[c][0][1] - stands[c][1][1] / 2 - lo[1]) / self.cell, 1)}
         self.graph = {"id": f"{region.code}-{bid.split('.')[-1]}", "kind": "village", "ground": "sand" if wild else "grass",
@@ -152,6 +154,8 @@ class Settle:
                                if not {a, b} <= set(self.fixed)],
                       "streets": [{"past": words(n.props.get("past")), **({"kind": str(n.props["kind"])} if "kind" in n.props else {})}
                                   for n in mine("Street")]}
+        if edge:
+            self.graph["footprint"] = [round(v, 1) for x, y in edge for v in ((x - lo[0]) / self.cell, (y - lo[1]) / self.cell)]
         for k in ("streets", "ties"):
             if not self.graph[k]:
                 del self.graph[k]
@@ -413,15 +417,15 @@ SIZE_SLACK = (10.0, 0.10)       # feet, and a share of the target: how far a lev
 def sized(region, brief, bid: str, node) -> list[tuple[str, Path, str]]:
     """A planned level's drawn span against BRIEF.md's `footprint` for its region: a target the design meets as nearly
     as a readable layout allows, so a miss is a warning."""
-    want = brief.footprint(region.code)
+    want = box(brief.footprint(region.code))
     m = plan.block_map(region, node)[0] if want else None
     if m is None:
         return []
     w, h = plan.span(m)
-    if abs(max(w, h) - want) <= max(SIZE_SLACK[0], SIZE_SLACK[1] * want):
+    if all(abs(got - asked) <= max(SIZE_SLACK[0], SIZE_SLACK[1] * asked) for got, asked in ((w, want[0]), (h, want[1]))):
         return []
     return [("warning", region.dir / "Design.md", f"Design {bid} spans {w:g} by {h:g} feet, where BRIEF.md's footprint asks "
-             f"about {want:g}: shape the plan nearer it where the layout stays readable - step 3e")]
+             f"about {want[0]:g} by {want[1]:g}: shape the plan nearer it where the layout stays readable - step 3e")]
 
 
 # -- the commands ----------------------------------------------------------------------
