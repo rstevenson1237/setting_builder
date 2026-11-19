@@ -19,7 +19,8 @@ import space
 import tables
 from maps import BUILD, CACHE, artgen, blocks_of, built
 
-DOOR = {"Open": None, "Archway": None, "Broken": None, "Crude": None, "Lift": None, "Chute": None, "Iron": "portcullis"}
+DOOR = {"Open": None, "Archway": None, "Broken": None, "Crude": None, "Ladder": None, "Rope": None, "Chute": None, "Lift": None,
+        "Iron": "portcullis"}   # any other a door; a Hatch is drawn as one
 GAP = {"Archway": "arch"}       # a doorless way through a shared wall, else open
 ROUTED_WALL = 2.5               # a routed block's wall stroke, so a wall between two floors reads as one, its rock hatched
 

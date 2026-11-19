@@ -16,7 +16,7 @@ Faction A.6 faction="Pulunita" present=6 members="hireable paddlers and apprenti
 Person A.7 name="Hanuhato" form="tongue" role="guides' hall master" personality="dry, honest, superstitious" wants="Fee paid before leaving; none past the posts" knows="Trails north, camps, the cave men's ridges" member="Pulunita"
 Faction A.7 faction="Pulunita" present=5 members="guides waiting for hire, none for the east"
 Person A.8 name="Lokapawa" form="tongue" role="fish-store keeper" personality="gossipy, penny-wise, kind" wants="Iron or cloth, not coin" knows="Which huts burned, who is missing" member="Pulunita"
-Person A.9 name="Lokatiwa" form="tongue" role="coin-changer" personality="exact, wary, silent" wants="Old coin, weighed honestly, fees paid" knows="Whose coin is stolen; the chiefs' debts" member="Pulunita"
+Person A.9 name="Nguhahuna" form="tongue" role="ancestor-house keeper" personality="hushed, watchful, old" wants="The dead fed at dusk; strangers kept out" knows="Which villagers no longer feed the dead" member="Pulunita"
 Person A.10 name="Pulumano" form="tongue" role="senior chief" personality="slow, proud, haunted" wants="Raids ended, captives home; pays in canoes" knows="The war's start, the egg-stone's story" member="Pulunita" quest="The Raid's Captives"
 Person A.10 name="Kunotiwa" form="tongue" role="elder of the council" personality="mild, watchful, sorrowful" wants="The egg-stone returned, in secret" knows="The niche behind the hearth, the stone's story" member="Pulunita" quest="The Egg-Stone Returned"
 Person A.10 name="Hatokali" form="tongue" role="council speaker" personality="smooth, patient, unblinking" wants="The egg-stone kept; no deal with lizards" knows="What each chief fears; the cult's errands" member="Tuuzesh"

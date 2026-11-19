@@ -6,15 +6,16 @@ members of a faction - with a garrison at an Authority, and what guards a Secret
 `patterns/Region_Schema.md`'s.
 
 ```kdl
-enum Safe_Type Inn Merchant Bank Market Authority Gate Secret
-// Gate: a way across the region's edge, where what stands at the Approach stands. Secret: a
+enum Safe_Type Inn Merchant Bank Market Authority Temple Gate Secret
+// Temple: a shrine, temple, sacred grove or burial ground. Gate: a way across the region's edge - a gate, or a landing
+// from the water - where what stands at the Approach stands. Secret: a
 // place or thing kept hidden, reached only by the Way that hangs it from another location.
 enum Purchase_Type menu service sale   // food and drink by the portion; a thing done for a party; goods handed over
 enum Contents_Type "Treasure I" "Treasure II" "Treasure III" "Treasure IV" "Treasure V" Magic Hoards Lore Keys "Unique Treasures" "Magical Tomes"
 enum Hazard_Type {
   Mechanical Pit Spike Dart Hammer Gas
   Magical Runes Field Attack
-  Environmental "Fire/Lava" Water Ice "Ravine/Climb" "Broken/Weak Floor"
+  Environmental "Fire/Lava" Water Tide Current Ice "Ravine/Climb" "Broken/Weak Floor" Poison Insects
 }
 enum Mystery_Type Altar Statue Fountain Fresco Tapestry Throne "Button/Lever/Switch/Keyhole" Mirror Flooring
 
@@ -45,7 +46,7 @@ node Location {
   at string opt             // "way in" where it stands at the region's way in; else prose for the reader
   bearing Compass opt drawn // from its block's origin - the region's way in, unless the block states xyz - with distance; or xyz
   distance distance opt drawn
-  xyz point opt drawn       // its centre from its block's origin; z unset, it stands on its ground
+  xyz point opt drawn       // its centre from its block's origin, x,y,z
   against anchor opt drawn  // touching another location of its block, its xyz then a slide across the side and a gap along it
 }
 node Dressing {
@@ -145,7 +146,7 @@ node Way {
 node Block {               // a map of its own, and the enclosure drawn round its locations
   name string
   locations location list
-  xyz point opt drawn       // its centre from its region's way in; unset, it lies there
+  xyz point opt drawn       // its centre from its region's way in, x,y,z
   against anchor opt drawn  // touching another block of its region, its xyz then a slide and a gap
   outline outline opt drawn
   wall gloss opt            // its height and what stands on it
@@ -162,6 +163,7 @@ node Secret {              // the way into a Secret location: what opens it, wha
 node Ground {               // written by `tools/maps.py ground`, never by hand: the region as its sheet draws it
   sheet string              // its home sheet
   square string             // its way in on that sheet, as "column,row"
+  height feet               // the ground at its way in, above the sea
   ground string list        // the terrain its area holds, by share
 }
 node Feature {              // a river, road, hill or hollow in the region's area
@@ -190,7 +192,7 @@ folder Safe type=Safe_Type {
   Connections Way
   Ground Ground Feature At                         // written by code
   Design Design Fill Tie Street Fabric Void Place opt
-  top Inn Merchant Bank Market Authority Gate   // reached from the region itself, so never joined to one another
-  join Secret Inn Merchant Bank Market Authority Gate gate=Secret   // the only type that connects within its region, and the Way into it carries a Secret
+  top Inn Merchant Bank Market Authority Temple Gate   // reached from the region itself, so never joined to one another
+  join Secret Inn Merchant Bank Market Authority Temple Gate gate=Secret   // the only type that connects within its region, and the Way into it carries a Secret
 }
 ```

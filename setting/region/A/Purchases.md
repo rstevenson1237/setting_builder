@@ -17,7 +17,6 @@ Purchase A.8 type="sale" item="a day's rations" price="listed" per="each"
 Purchase A.8 type="sale" item="a waterskin" price="listed" per="each"
 Purchase A.8 type="sale" item="a torch of tarred reed" price="listed" per="each"
 Purchase A.8 type="sale" item="a flask of lamp oil" price="listed" per="each" limit="fish oil, smoky"
-Purchase A.9 type="service" item="old and foreign coin changed to cn" price="3% of the sum" per="a change"
-Purchase A.9 type="service" item="goods taken to resale" price="20% of the sum" per="a sale" limit="fish, hides and tools"
 Purchase A.10 type="service" item="the chiefs' word to open the gate" price="50 cn" per="a party" limit="refused to known thieves"
+Purchase A.9 type="service" item="the dead asked to watch a journey" price="5 cn" per="a party"
 ```

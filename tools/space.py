@@ -6,17 +6,19 @@
   python3 tools/space.py from CODE to CODE
   python3 tools/space.py section [--out FILE.svg] [--along x|y] [--heights N]
 
-x runs east, y north and z up, in feet, from the origin region's way in at its ground: BRIEF.md's
-`origin`, else the first region in the gazetteer. Each thing stands at a place in its parent's
-frame - a region in the setting's, a block in its region's, a location in its block's, or its
-region's where it is in none - and its absolute place adds its ancestors'. Plan (x and y) and
-height (z) are known apart: a room not yet placed stands on its block's floor at no known point.
+x runs east, y north and z up, in feet, from the origin: the centre of the sheet BRIEF.md's `origin`
+names - the master map - at the sea, else a point the regions' own places are stated from. Each
+thing states its place in its parent's frame - a region in the setting's, a block in its region's,
+a location in its block's, or its region's where it is in none - and its absolute place adds its
+ancestors'.
 
-A region's origin is its way in, a DANGEROUS region's its first block's centre; a block's is its
-centre, and a SAFE or WILD block lies at its region's origin; a location's is its centre. A
-region is placed from the origin through a sheet it shares with a placed region, or a join to
-one: a way's climb places it in height, its bearing and distance in plan, and a climbing way
-between two DANGEROUS blocks sets one block's centre over the other's. A thing placed `against`
+A SAFE or DANGEROUS region states x,y,z; a WILD one states x,y, and stands at the origin's level, so
+its locations' heights are their own. A region's point is its way in. Every block and location
+states x,y,z, but a WILD location on the master map may leave z to its ground there, and a WILD
+region's `elevation` bounds its locations' heights. Where a region states fewer axes than it should,
+the master sheet gives its plan and a SAFE one's ground, and a way's climb, bearing and distance
+from a placed region give the rest; a climbing way between two DANGEROUS blocks sets one block's
+centre over the other's. `settle` writes what these give. A thing placed `against`
 a sibling starts at its origin, slides across the side by its xyz, moves out along the side
 until their outlines last touch, then takes its xyz along the side as a gap; above or below,
 its floor meets the other's roof.
@@ -49,7 +51,6 @@ import tables                   # noqa: E402
 TOUCH = 1.0                     # square feet two outlines may share and still only touch
 CIRCLE = 128                    # sides of the polygon a circle is measured as
 NEAR = 10                       # feet a stated distance may miss by, or a tenth of it where more
-PLAN, HEIGHT = (0, 1), (2,)
 
 
 @dataclass
@@ -388,24 +389,30 @@ def refresh():
 
 
 def settle(only: str | None = None) -> list[str]:
-    """Writes `xyz` into Regions.md for each region that states no place of its own but whose
-    sheet or joins place it in full, rounded to whole feet; never moves a region that states
-    one. Returns what it wrote."""
+    """Writes `xyz` for each region, block and location that states fewer axes than it should but whose
+    sheet, joins, design or parent give them all, rounded to whole feet: a region's into Regions.md, a
+    block's into Blocks.md, a DANGEROUS room's into Dressing.md, any other location's into Locations.md
+    in place of a bearing and distance. Never moves an axis a thing states. Returns what it wrote."""
     import dungeon
     s, wrote = settled(), {}
-    for code, t in s.things.items():
-        if t.kind == "region" and code != s.origin and not t.anchor and t.by != "xyz" and None not in t.at \
-                and (only is None or code == only):
-            wrote[code] = (",".join(str(round(v)) for v in t.at), t.by)
-    if not wrote:
-        return []
-    lines = tables.GAZETTEER.read_text().split("\n")
-    for i, line in enumerate(lines):
-        if (m := re.match(r"Region (\S+) ", line)) and m[1] in wrote:
-            lines[i] = dungeon.with_prop(line, "xyz", f'"{wrote[m[1]][0]}"')
-    tables.GAZETTEER.write_text("\n".join(lines))
-    refresh()
-    return [f"{code} at {xyz}, from its {by}" for code, (xyz, by) in wrote.items()]
+    for t, axes, _ in s.missing:
+        got = t.at[:len(axes.split(","))]
+        if None not in got and (only is None or t.region == only):
+            name = {"region": "Region", "block": "Block"}.get(t.kind, "Dressing" if t.file.name == "Dressing.md" else "Location")
+            wrote.setdefault(t.file, {})[(name, t.code)] = (",".join(str(round(v)) for v in got), t.by)
+    said = []
+    for path, things in wrote.items():
+        lines = path.read_text().split("\n")
+        for i, line in enumerate(lines):
+            if (m := re.match(r"(\w+) (\S+) ", line)) and (m[1], m[2]) in things:
+                for k in ("bearing", "distance"):
+                    line = dungeon.without(line, k)
+                lines[i] = dungeon.with_prop(line, "xyz", f'"{things[(m[1], m[2])][0]}"')
+                said.append(f"{m[2]} at {things[(m[1], m[2])][0]}, by {things[(m[1], m[2])][1] or 'its place'}")
+        path.write_text("\n".join(lines))
+    if said:
+        refresh()
+    return said
 
 
 def offset(region, node: kdl.Node) -> tuple[float, float] | None:
@@ -445,45 +452,54 @@ class Space:
     # -- the tree, and each thing's place in its parent ---------------------------------
 
     def _build(self):
-        self.origin = self.brief.origin or next(iter(self.world.regions), None)
+        self.master = self.brief.origin if self.brief.origin in self.brief.sheets else None
+        self.missing: list[tuple[Thing, str, str]] = []     # (thing, the axes it should state, the step that writes them)
         rows = sc.read_tables(tables.SETTING / "Sheets.md")[0].dicts() if (tables.SETTING / "Sheets.md").exists() else []
         self.squares = {n: maps.Sheet(n, node).square for n, node in self.brief.sheets.items()}
         self.on = {}                                    # region -> {sheet: (column, row)}
+        self.sea = {}                                   # region -> the ground at its way in, above the sea
         for d in rows:
             self.on.setdefault(d["Region"], {})[d["Sheet"]] = tuple(float(v) for v in d["Way in"].split(","))
+        self.centre = {}                                # sheet -> its centre, in squares
+        for n, node in self.brief.sheets.items():
+            sh = maps.Sheet(n, node)
+            self.centre[n] = (sh.cols / 2, sh.rows / 2)
         gazetteer = {str(n.args[0]): n for n in tables.gazetteer() if n.args}
         for code, region in self.world.regions.items():
             g = gazetteer.get(code)
             r = self.things[code] = Thing(code, "region", code, None, file=tables.GAZETTEER, line=g.line if g else 0)
             self._shape(r, g)
-            if code == self.origin:
-                if g is not None and ("against" in g.props or "xyz" in g.props and point_of(g.props["xyz"])[:2] != [0, 0]):
-                    self.say("error", r.file, f"line {r.line}: {code} is BRIEF.md's origin, so its place is 0,0,0", code)
-                r.at, r.by = [0.0, 0.0, 0.0], "origin"
-            elif self._anchored(r, g):
-                pass
-            elif g is not None and (c := point_of(g.props.get("xyz"))):
-                r.at, r.by = [c[0], c[1], c[2] or 0.0], "xyz"
+            wild = region.rating.upper() == "WILD"
             danger = region.rating.upper() == "DANGEROUS"
-            dress = {str(n.args[0]): n for n in region.files.get("Dressing", []) if n.args}
             ground = {str(n.args[0]): n for n in region.files.get("Ground", []) if n.name == "At" and n.args}
-            way_in = next((c for c, n in region.locations().items() if str(n.props.get("at")) == "way in"), None)
+            g0 = next((n for n in region.files.get("Ground", []) if n.name == "Ground"), None)
+            if g0 is not None and "height" in g0.props:
+                self.sea[code] = float(g0.props["height"])
+            mapped = g0 is not None and self.master is not None and str(g0.props.get("sheet")) == self.master
+            c = point_of(g.props.get("xyz")) if g is not None else None
+            if c and wild and c[2] is not None:
+                self.say("error", r.file, f"line {r.line}: {code} is WILD and states a z: its locations take their "
+                                          f"heights from its ground, or state them", code)
+            if c:
+                r.at, r.by = [c[0], c[1], 0.0 if wild else c[2]], "xyz"
+            elif wild:
+                r.at[2] = 0.0                           # a WILD region's heights are its locations', above the origin
+            if not c or (c[2] is None and not wild):
+                self.missing.append((r, "x,y" if wild else "x,y,z", "3b" if code in self.on else "4a"))
+            dress = {str(n.args[0]): n for n in region.files.get("Dressing", []) if n.args}
             home = {}
             for i, (bid, block) in enumerate(maps.blocks_of(region).items()):
                 b = self.things[bid] = Thing(bid, "block", code, r, file=region.dir / "Blocks.md", line=block.line)
                 self._shape(b, block)
                 c = point_of(block.props.get("xyz"))
-                if danger and i == 0:
-                    if c or "against" in block.props:
-                        self.say("error", b.file, f"line {b.line}: {bid} is its region's first block, whose centre "
-                                                  f"is the region's origin: it states no xyz or against", bid)
-                    b.at, b.by = [0.0, 0.0, 0.0], "first block"
-                elif self._anchored(b, block):
+                if self._anchored(b, block):
                     pass
                 elif c:
-                    b.at, b.by = [c[0], c[1], c[2] or 0.0], "xyz"
-                elif not danger:
-                    b.at, b.by = [0.0, 0.0, 0.0], "region's way in"
+                    b.at, b.by = [c[0], c[1], c[2] if c[2] is not None else 0.0], "xyz"
+                elif not danger or i == 0:
+                    b.at, b.by = [0.0, 0.0, 0.0], "the region's origin"
+                if not b.anchor and (c is None or c[2] is None):
+                    self.missing.append((b, "x,y,z", "4a" if danger else "3f"))
                 for m in str(block.props.get("locations", "")).split(","):
                     home[m.strip()] = b
             conditions = region.seed("Conditions")
@@ -504,15 +520,21 @@ class Space:
                     if not self._anchored(t, d):
                         t.at = [c[0], c[1], c[2] or 0.0] if c else [None, None, 0.0]
                         t.by = by if c else ""
+                        if c is None or c[2] is None:
+                            self.missing.append((t, "x,y,z", "4a"))
                 else:
                     t.file, t.line = region.dir / "Locations.md", node.line
-                    if loc in ground and way_in in ground:
-                        t.ground = float(ground[loc].props["height"]) - float(ground[way_in].props["height"])
+                    floor = t.parent.at[2] if t.parent.kind == "block" and t.parent.at[2] is not None else 0.0
+                    if wild and mapped and loc in ground:   # its ground on the master map, from its parent's floor
+                        t.ground = float(ground[loc].props["height"]) - floor
                     if loc in designed and not forms(node):   # its tables state no place: the design's is
                         t.at, t.by = [designed[loc][0], designed[loc][1], None], "design"
-                        t.at[2] = t.ground
-                    elif not self._own(t, node) and t.at[2] is None:
-                        t.at[2] = t.ground
+                    else:
+                        self._own(t, node)
+                    if t.at[2] is None and not t.anchor:
+                        t.at[2] = t.ground if t.ground is not None else None if wild else 0.0
+                        if t.ground is None and forms(node) != ["way in"]:   # a way in is the region's point
+                            self.missing.append((t, "x,y,z", "3e" if loc in designed else "3d"))
                 self._shape(t, d, of_location=True)
             for i, n in enumerate(region.files.get("Stops", [])):
                 if n.args:
@@ -685,6 +707,8 @@ class Space:
         regions = [self.things[c] for c in self.world.regions if self.things[c].anchor is None]
         moved = False
         for r in regions:
+            moved |= self._from_master(r)
+        for r in regions:
             for q in regions:
                 if q is not r and (sheet := self.shared(r, q)):
                     moved |= self._from_sheet(r, q, sheet)
@@ -697,7 +721,25 @@ class Space:
         both = set(self.on.get(r.code, {})) & set(self.on.get(q.code, {}))
         return min(both, key=lambda s: self.squares[s]) if both else None
 
+    def _from_master(self, r: Thing) -> bool:
+        """A region on the master sheet: its way in's square from the sheet's centre, and a SAFE one's ground there."""
+        if self.master is None or self.master not in self.on.get(r.code, {}):
+            return False
+        done = False
+        if r.at[0] is None:
+            r.at[:2] = self.on_master(r.code)
+            r.by, done = f"sheet {self.master}", True
+        if r.at[2] is None and self.world.regions[r.code].rating.upper() == "SAFE" and r.code in self.sea:
+            r.at[2] = self.sea[r.code]
+            r.by, done = (r.by + "; " if r.by else "") + f"its ground on sheet {self.master}", True
+        return done
+
+    def on_master(self, code: str) -> list[float]:
+        (x, y), (cx, cy), sq = self.on[code][self.master], self.centre[self.master], self.squares[self.master]
+        return [(x - cx) * sq, (cy - y) * sq]
+
     def _from_sheet(self, r: Thing, q: Thing, sheet: str) -> bool:
+        """r's plan from q's, on a sheet they share; only the master map gives a height."""
         if r.at[0] is not None or q.at[0] is None:
             return False
         (xr, yr), (xq, yq), sq = self.on[r.code][sheet], self.on[q.code][sheet], self.squares[sheet]
@@ -730,18 +772,27 @@ class Space:
             r.by, done = (r.by + "; " if r.by else "") + f"plan {how}", True
         return done
 
+    def stairs_from(self, code: str) -> list[str]:
+        """The DANGEROUS rooms a stair from room `code` reaches: by a climbing Connection either way, or by a
+        design's Route with a stair, which is all there is before the Connections are written."""
+        far = []
+        for r in self.world.regions.values():
+            for n in r.files.get("Connections", []):
+                if n.args and self.stair(r, n) and code in (str(n.args[0]), str(n.props["to"])):
+                    far.append(str(n.props["to"]) if str(n.args[0]) == code else str(n.args[0]))
+            for n in r.files.get("Design", []):
+                ends = [e.split(":")[0].strip() for e in str(n.props.get("ends", "")).split(",")]
+                if n.name == "Route" and n.props.get("stair") and code in ends and len(ends) == 2:
+                    far.append(ends[1 - ends.index(code)])
+        rated = lambda c: (g := self.world.regions.get(c.split(".")[0])) is not None and g.rating.upper() == "DANGEROUS"
+        return [f for f in dict.fromkeys(far) if rated(f)]
+
     def pin(self, code: str) -> tuple[float, float, float, float] | None:
         """The room a way that climbs from room `code` reaches, as (east, north, width, length) from
         the centre of `code`'s block: from where both lie, else from the far room's own block,
         whose centre a stair's two blocks share until placed."""
         t = self.things.get(code)
-        region = self.world.regions.get(t.region if t else code.split(".")[0])
-        ways = [(region, n, str(n.props["to"])) for n in region.files.get("Connections", []) if n.args and str(n.args[0]) == code] if region else []
-        ways += [(r, n, str(n.args[0])) for r in self.world.regions.values() if r is not region        # a level written first reaches
-                 for n in r.files.get("Connections", []) if n.args and str(n.props.get("to")) == code]   # one not yet written
-        for r, n, far in ways:
-            if not self.stair(r, n):
-                continue
+        for far in self.stairs_from(code):
             f = self.things.get(far)
             if f is None or f.at[0] is None or f.outline is None:
                 continue
@@ -765,22 +816,34 @@ class Space:
 
     def _check(self):
         things = list(self.things.values())
-        for region in self.world.regions.values():
-            r = self.things[region.code]
-            for axes, name in ((PLAN, "plan"), (HEIGHT, "height")):
-                if r.at[axes[0]] is None:
-                    self.say("warning", r.file, f"{r.code} has no place in {name}: no sheet or join reaches it from a "
-                                                f"placed region (step 4a)", r.code)
-            for bid in maps.blocks_of(region):
-                if self.things[bid].at[0] is None:
-                    self.say("warning", self.things[bid].file, f"{bid} has no place: it states no xyz, and no climbing "
-                                                               f"way joins it to a placed block (step 4a)", bid)
+        for t, axes, step in self.missing:
+            where = f"{'line ' + str(t.line) + ': ' if t.line else ''}{t.code}"
+            got = t.at[:len(axes.split(","))]
+            if None in got:
+                self.say("warning", t.file, f"{where} states no xyz {axes}, and nothing gives it one (step {step})", t.code)
+            else:
+                self.say("warning", t.file, f"{where} states no xyz {axes}: {point(got)}, by {t.by or 'its place'} "
+                                            f"(step {step})", t.code)
+        self._elevations([t for t in things if t.kind == "location"])
         self._overlaps([t for t in things if t.kind == "location"])
         self._overlaps([t for t in things if t.kind == "block" and t.outline is not None])
         self._outside(things)
         self._voids([t for t in things if t.kind == "void"], [t for t in things if t.kind == "location"])
         self._ways()
         self._sheets()
+
+    def _elevations(self, locations: list[Thing]):
+        """Each WILD location's height within its region's `elevation`."""
+        gazetteer = {str(n.args[0]): n for n in tables.gazetteer() if n.args}
+        for t in locations:
+            g = gazetteer.get(t.region)
+            m = tables.SPAN_RE.fullmatch(str(g.props.get("elevation", ""))) if g is not None else None
+            if not m or (z := self.absolute(t)[2]) is None:
+                continue
+            low, high = (maps.feet(f"{v} {m.group(3)}") for v in (m.group(1), m.group(2) or m.group(1)))
+            if not low - 0.5 <= z <= high + 0.5:
+                self.say("error", t.file, f"{t.code} stands {fmt(z)} feet up, outside {t.region}'s elevation of "
+                                          f"{g.props['elevation']}", t.code)
 
     def _overlaps(self, group: list[Thing]):
         """No two blocks anywhere overlap, nor two locations of one region. Regions may: a
@@ -847,9 +910,26 @@ class Space:
 
     def _sheets(self):
         regions = [self.things[c] for c in self.world.regions]
+        for r in regions:
+            if self.master in self.on.get(r.code, {}) and r.by == "xyz":
+                want, sq = self.on_master(r.code), self.squares[self.master]
+                if math.dist(want, r.at[:2]) > sq:
+                    self.say("error", r.file, f"line {r.line}: {r.code} lies at {point(r.at[:2])}, where its way in on sheet "
+                                              f"{self.master} is {point(want)}", r.code)
+                if self.world.regions[r.code].rating.upper() == "SAFE" and r.code in self.sea and r.at[2] is not None \
+                        and abs(r.at[2] - self.sea[r.code]) > NEAR:
+                    self.say("error", r.file, f"line {r.line}: {r.code} stands at {fmt(r.at[2])} feet, where its ground "
+                                              f"on sheet {self.master} is {fmt(self.sea[r.code])}", r.code)
+            asked = next((c for c in self.brief.regions.get(r.code, kdl.Node("", 0)).children if c.name == "ground"), None)
+            m = tables.SPAN_RE.fullmatch(str(asked.props.get("height", ""))) if asked is not None else None
+            if m and self.world.regions[r.code].rating.upper() == "SAFE" and r.at[2] is not None:
+                low, high = (maps.feet(f"{v} {m.group(3)}") for v in (m.group(1), m.group(2) or m.group(1)))
+                if not low - 0.5 <= r.at[2] <= high + 0.5:
+                    self.say("error", r.file, f"line {r.line}: {r.code} stands at {fmt(r.at[2])} feet, outside the height "
+                                              f"{asked.props['height']} BRIEF.md's ground asks (step 3b)", r.code)
         for i, r in enumerate(regions):
             for q in regions[i + 1:]:
-                if (sheet := self.shared(r, q)) and None not in r.at[:2] + q.at[:2]:
+                if (sheet := self.shared(r, q)) and sheet != self.master and None not in r.at[:2] + q.at[:2]:
                     (xr, yr), (xq, yq), sq = self.on[r.code][sheet], self.on[q.code][sheet], self.squares[sheet]
                     want = ((xr - xq) * sq, -(yr - yq) * sq)
                     if math.dist(want, (r.at[0] - q.at[0], r.at[1] - q.at[1])) > sq:
@@ -992,7 +1072,7 @@ def main() -> int:
             print(svg)
         return 0
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
-    ap.add_argument("settle", nargs="?", choices=["settle"], help="write each region's place where it is derived")
+    ap.add_argument("settle", nargs="?", choices=["settle"], help="write each place a thing states too few axes of, where it is derived")
     ap.add_argument("region", nargs="?", help="with settle, that region alone")
     ap.add_argument("--only", metavar="REGION", help="one region's rows, and the problems touching it")
     args = ap.parse_args()

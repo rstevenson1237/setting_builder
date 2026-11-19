@@ -27,6 +27,6 @@ Connection HB.8 to="HB.14" type="Open"
 Connection HB.14 to="HB.8" type="Open"
 Connection HB.8 to="HB.9" type="Banded" { Lock key="The Scale Seal" }
 Connection HB.9 to="HB.8" type="Banded"
-Connection HB.1 to="HA.10" type="Open" climb=100 orientation="up the shaft stair"
+Connection HB.1 to="HA.10" type="Rope" climb=100 orientation="up the winch rope"
 Connection HB.13 to="HC.1" type="Open" climb=-60 orientation="down the cut stair"
 ```

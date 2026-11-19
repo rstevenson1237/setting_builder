@@ -1891,8 +1891,7 @@ def pins_of(lines, bid: str) -> dict:
         region = world.regions.get(c.split(".")[0])
         if region is None:                              # a plan tried outside the setting
             continue
-        far = [str(n.props["to"]) for n in region.files.get("Connections", []) if n.args and str(n.args[0]) == c
-               and n.props.get("climb") and str(n.props.get("to")) not in words(head.props.get("locations"))]
+        far = [f for f in space.settled().stairs_from(c) if f not in words(head.props.get("locations"))]
         if any(settled(f) for f in far) and (pin := space.settled().pin(c)):
             out[c] = (pin[0], pin[1])
     return out
@@ -1920,16 +1919,18 @@ def with_brief(lines: list[kdl.Node], code: str) -> list[kdl.Node]:
     """A region's Design lines with each Design's settings filled from BRIEF.md's `design` line for the region,
     where the Design states none of its own."""
     import tables
-    line = next((c for n in tables.brief_nodes() if n.name == "region" and n.args and str(n.args[0]) == code
-                 for c in n.children if c.name == "design"), None)
-    given = {k: v for k, v in (line.props.items() if line is not None else ()) if k in BRIEFED}
-    if not given:
+    asked = [c for n in tables.brief_nodes() if n.name == "region" and n.args and str(n.args[0]) == code
+             for c in n.children if c.name == "design"]
+    pick = lambda line: {k: v for k, v in (line.props.items() if line is not None else ()) if k in BRIEFED}
+    region = pick(next((c for c in asked if "block" not in c.props), None))
+    blocks = {str(c.props["block"]): pick(c) for c in asked if "block" in c.props}
+    if not region and not any(blocks.values()):
         return lines
     out = []
     for n in lines:
         if n.name == "Design":
             m = kdl.Node(n.name, n.line)
-            m.args, m.props, m.children = n.args, {**given, **n.props}, n.children
+            m.args, m.props, m.children = n.args, {**region, **blocks.get(str(n.args[0]) if n.args else "", {}), **n.props}, n.children
             n = m
         out.append(n)
     return out
@@ -2043,6 +2044,7 @@ def apply(code: str) -> list[str]:
             m = re.match(r"Dressing (\S+) ", line)
             if m and (pl := places.get(m[1])):
                 bits = str(pl.props["outline"]).split()
+                had = re.search(r'xyz="-?\d+,-?\d+,(-?\d+)"', line)       # its floor stays the tables'
                 for k in ("xyz", "width", "length", "shape", "outline"):
                     line = dungeon.without(line, k)
                 if bits[0] == "rect":
@@ -2053,7 +2055,7 @@ def apply(code: str) -> list[str]:
                     l = f"{max(y for _, y in pts) - min(y for _, y in pts):g}"
                 line = dungeon.with_prop(line, "width", w)
                 line = dungeon.with_prop(line, "length", l)
-                line = dungeon.with_prop(line, "xyz", f'"{pl.props["xyz"]}"')
+                line = dungeon.with_prop(line, "xyz", f'"{pl.props["xyz"]},{had[1] if had else 0}"')
                 if bits[0] == "poly":
                     line = dungeon.with_prop(line, "outline", f'"{pl.props["outline"]}"')
                 elif str(pl.props.get("shape", "rect")) != "rect":

@@ -9,7 +9,8 @@ enum Wild_Type Route Hidden Secret {
 }
 enum Hazard_Type {
   Ground "Rockfall/Slide" "Bog/Quicksand" "Cliff/Climb" Thorns
-  Water Ford Flood "Thin Ice"
+  Water Ford Flood "Thin Ice" Tide Current
+  Living Poison Insects
   Weather Storm Fog Cold Heat
 }
 enum Mystery_Type "Standing Stone" Cairn Spring Pool "Old Tree" Shrine "Carved Rock" Ring
@@ -50,7 +51,7 @@ node Location {
   at string opt             // "way in" where it stands at the region's way in; else prose for the reader
   bearing Compass opt drawn // from its block's origin - the region's way in, unless the block states xyz - with distance; or xyz
   distance distance opt drawn
-  xyz point opt drawn       // its centre from its block's origin; z unset, it stands on its ground
+  xyz point opt drawn       // its centre from its block's origin, x,y,z; z unset on the master map, it stands on its ground
   against anchor opt drawn  // touching another location of its block, its xyz then a slide across the side and a gap along it
 }
 node Dressing {
@@ -68,7 +69,7 @@ node Dressing {
 node Block {                // a map of its own: a place's buildings, where its locations stand, on the region's ground
   name string
   locations location list
-  xyz point opt drawn       // its centre from its region's way in; unset, it lies there
+  xyz point opt drawn       // its centre from its region's way in, x,y,z
   against anchor opt drawn  // touching another block of its region, its xyz then a slide and a gap
   outline outline opt drawn
   wall gloss opt            // drawn round the locations where stated; its height and what stands on it
@@ -157,6 +158,7 @@ node Secret {              // the way into a Secret location: what opens it, wha
 node Ground {               // written by `tools/maps.py ground`, never by hand: the region as its sheet draws it
   sheet string              // its home sheet
   square string             // its way in on that sheet, as "column,row"
+  height feet               // the ground at its way in, above the sea
   ground string list        // the terrain its area holds, by share
 }
 node Feature {              // a river, road, hill or hollow in the region's area

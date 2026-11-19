@@ -13,10 +13,11 @@ the converter, then built again.
 
 | Step | Command | Writes |
 |---|---|---|
-| 3b | `python3 tools/maps.py place` | `setting/Sheets.md`, `setting/[Sheet].json`, each region's `outline` and `xyz` |
+| 3b | `python3 tools/maps.py place` | `setting/Sheets.md`, `setting/[Sheet].json`, each region's `outline`, a WILD region's `elevation` |
 | 3b, 3g | `python3 tools/maps.py ground` | each placed region's `Ground.md` |
 | 3e | `python3 tools/design.py solve`, `accept` (the `block-design` and `block-plan` skills) | a designed block's places, in `Design.md`; `apply` writes a SAFE or WILD location's into `Locations.md` |
 | 4a | `python3 tools/design.py apply [Code]`, then `python3 tools/space.py settle [Code]` | each DANGEROUS room's `xyz`, size and shape, each block's `outline` |
+| 3b, 3g, 4a | `python3 tools/space.py settle` | the `xyz` each region, block and location owes, from the master map's centre at the sea |
 | any | `python3 tools/maps.py draw [--out DIR]` | `setting/region/[Code]/[Block].json`, and the SVGs with `--out` |
 
 A request `place` or `map check` reports unmet goes to `BRIEF.md`, not to a new seed. The

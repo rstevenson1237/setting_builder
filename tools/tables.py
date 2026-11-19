@@ -587,6 +587,10 @@ def value_problems(m: Member, v: str, enums: dict, words: dict):
     elif m.type in ("feet", "distance"):
         if msg := unit_problem(m.type, v, enums):
             yield msg
+    elif m.type == "span":
+        sp = SPAN_RE.fullmatch(v)
+        if not sp or sp.group(3) not in enums.get("Distance_Unit", {}):
+            yield f"{v!r} is not a distance or \"N-M unit\""
     elif m.type == "run":
         if not RUN_RE.fullmatch(v):
             yield f"{v!r} is not short, long, a count of squares or \"N feet\""
@@ -899,7 +903,7 @@ class Setting:
     def names(self):
         """(path, where, name, form, forms allowed) for every name the build holds: a being's
         in a schema field, a place's in the setting's title or the gazetteer, and a
-        location's with no form, which may only point at a coinage."""
+        location's or block's with no form, which may only point at a coinage."""
         out = []
         for r in self.regions.values():
             if r.folder is None:
@@ -914,7 +918,7 @@ class Setting:
                         if f := next((m for m in ms if m.type == "Name_Form"), None):
                             if node.props.get(f.name):
                                 out.append((path, where, name, str(node.props[f.name]), BEING_FORMS))
-                        elif node.name == "Location":
+                        elif node.name in ("Location", "Block"):     # a place's name points at a coinage
                             out.append((path, where, name, None, ()))
         for n in gazetteer():
             if n.args and {"name", "form"} <= set(n.props):
@@ -1374,6 +1378,7 @@ class Brief:
         self.schema, self.path, self.problems = schema, path, list(schema.brief_problems)
         self.targets, self.regions = [], {}
         self.designs: dict[str, kdl.Node] = {}          # a region's design line, by its code: its blocks are designed at step 3e
+        self.block_designs: dict[str, kdl.Node] = {}    # a design line naming one block, by the block's id
         self.files = self.setting = self.origin = None
         self.sheets: dict[str, kdl.Node] = {}
         self.looks, looks_problems = read_looks(path)
@@ -1428,9 +1433,7 @@ class Brief:
         terrains = self.terrains()
         for n in (self.setting.children if self.setting else []):
             if n.name == "origin":
-                self.origin = str(n.args[0]) if n.args else ""
-                if self.origin not in self.regions:
-                    out.append(f"line {n.line}: origin names a region, the one whose way in is (0,0,0)")
+                self.origin, origin_line = (str(n.args[0]) if n.args else ""), n.line
             if n.name != "sheet":
                 continue
             p = lambda msg, n=n: out.append(f"line {n.line}: {msg}")
@@ -1474,6 +1477,8 @@ class Brief:
                     if "height" in c.props and (not span or span.group(3) not in units
                                                 or float(span.group(2) or span.group(1)) < float(span.group(1))):
                         p('ground height is a distance or a range, low to high, of its area: height="300-1200 feet"')
+                    if "share" in c.props and not re.fullmatch(r"(\d{1,2}|100)%", str(c.props["share"])):
+                        p('ground share is the least of its area the terrain covers, "N%": share="70%"')
                 elif c.name == "place":
                     other = str(c.args[0]) if c.args else ""
                     span = SPAN_RE.fullmatch(str(c.args[2])) if len(c.args) == 3 else None
@@ -1485,23 +1490,45 @@ class Brief:
                     if len(c.args) != 3 or str(c.args[1]) not in compass or not span or span.group(3) not in units:
                         p(f"place is another region, a Compass direction and a distance: "
                           f'place A north "0-1 miles"')
+        if self.origin is not None and self.origin not in self.sheets:
+            out.append(f"line {origin_line}: origin names a sheet, the master map whose centre at the sea is (0,0,0)")
         return out
 
     def _design(self, n: kdl.Node, code: str):
-        """A `design` line: `fill` and `pad`, which every block design of the region starts from, and `footprint`, a
-        distance, the size its level's drawing is held near."""
+        """A `design` line: `fill` and `pad`, which every block design of the region starts from, and `footprint`, the
+        ground its block is laid out on: a distance (a square) or an outline in feet."""
         for k, v in n.props.items():
-            if k == "footprint":
-                if unit_problem("distance", str(v), self.schema.setting_enums):
-                    self.problems.append(f"line {n.line}: design footprint is a distance, not {v!r}")
+            if k == "block":
+                if not str(v).startswith(f"{code}."):
+                    self.problems.append(f"line {n.line}: design block names one of region {code}'s blocks, {code}.a and on")
+            elif k == "footprint":
+                if unit_problem("distance", str(v), self.schema.setting_enums) and not OUTLINE_RE.fullmatch(str(v)):
+                    self.problems.append(f"line {n.line}: design footprint is a distance or an outline "
+                                         f"(\"rect W L\", \"circle R\", \"poly x,y ...\"), not {v!r}")
             elif problem := design_setting(k, str(v)):
                 self.problems.append(f"line {n.line}: design {problem}")
-        self.designs[code] = n
+        if "block" in n.props:
+            self.block_designs[str(n.props["block"])] = n
+        else:
+            self.designs[code] = n
+        if code not in self.designs:                    # a region with only block lines still asks for a design
+            self.designs[code] = n
 
-    def footprint(self, code: str) -> float | None:
-        """The size, in feet, a region's `design` line asks its level to be drawn near."""
-        m = DISTANCE_RE.fullmatch(str(self.designs[code].props.get("footprint", ""))) if code in self.designs else None
-        return float(m[1]) * UNIT_FEET.get(m[2], 1) if m else None
+    def footprint(self, code: str, block: str | None = None) -> tuple | None:
+        """The ground a block is laid out on, from the `design` line naming it, else its region's: an outline in feet
+        round the block's centre, a distance a square of that side."""
+        line = self.block_designs.get(block) if block else None
+        if line is None:
+            line = self.designs.get(code)
+            line = None if line is not None and "block" in line.props else line
+        v = str(line.props.get("footprint", "")) if line is not None else ""
+        if m := DISTANCE_RE.fullmatch(v):
+            side = float(m[1]) * UNIT_FEET.get(m[2], 1)
+            return "rect", side, side
+        if OUTLINE_RE.fullmatch(v):
+            kind, *rest = v.split()
+            return ("poly", [tuple(float(c) for c in q.split(",")) for q in rest]) if kind == "poly" else (kind, *map(float, rest))
+        return None
 
     def _add(self, n: kdl.Node, rating: str, region: str | None):
         if t := self._read(n, rating, region):
@@ -1564,8 +1591,10 @@ class Brief:
     def realized(self, setting: Setting):
         """Per region, (target, label, wanted, got, of) for every target value applying to
         it; of is None where wanted is a count. A narrower target replaces a wider one's
-        value of the same key, never its other values."""
-        out = {}
+        value of the same key, never its other values. A rating's share is measured across
+        all the regions it applies to together, under the rating's name, so a share of a
+        few entries in one small region still asks something of the rating."""
+        out, pooled = {}, {}
         for r in setting.regions.values():
             best = {}
             for t in self.targets:
@@ -1575,9 +1604,17 @@ class Brief:
                     if rank >= 0 and rank >= best.get(k, (None, -1))[1]:
                         best[k] = (t, rank)
             won = {}
-            for k, (t, _) in best.items():
-                won.setdefault(id(t), (t, set()))[1].add(k[-1])
+            for k, (t, rank) in best.items():
+                if rank == 1 and SHARE_RE.fullmatch(t.wants[k[-1]]):
+                    pooled.setdefault((id(t), k[-1]), (t, []))[1].append(r)
+                else:
+                    won.setdefault(id(t), (t, set()))[1].add(k[-1])
             out[r.code] = [row for t, vs in won.values() for row in self._measure(t, r, vs)]
+        for (_, v), (t, regions) in pooled.items():
+            rows = [row for r in regions for row in self._measure(t, r, {v})]
+            if rows:
+                got, of = sum(row[3] for row in rows), sum(row[4] or 0 for row in rows)
+                out.setdefault(t.rating.upper(), []).append((t, rows[0][1], rows[0][2], got, of))
         return out
 
     def _measure(self, t: Target, r: Region, only: set[str]):

@@ -118,7 +118,8 @@ class Settle:
         if self.problems:
             return
         self.size = size
-        span = max([d for *_, d in ties] + [max(max(v) for v in size.values())]) * 2
+        ground = tables.Brief(tables.Schema()).footprint(region.code, bid)   # the ground BRIEF.md lays the block out on
+        span = max([d * 2 for *_, d in ties] + [max(max(v) for v in size.values()) * 2] + list(box(ground) or ()))
         self.cell = next((c for c in SETTLE_CELLS if span / c <= SETTLE_MOST), SETTLE_CELLS[-1])
         wild = region.rating.upper() == "WILD"
         kind = lambda t: "market" if t == "Market" else "ruin" if wild and t == "Ruin" else maps.BUILDING.get(t, "house")
@@ -138,7 +139,8 @@ class Settle:
         for b, poly in maps.breaking(region.code):
             xs, ys = [x for x, _ in poly], [y for _, y in poly]
             stands[b] = (((min(xs) + max(xs)) / 2 - way[0], way[1] - (min(ys) + max(ys)) / 2), (max(xs) - min(xs), max(ys) - min(ys)))
-        lo = [min(v[k] - z[k] / 2 for v, z in stands.values()) for k in (0, 1)]
+        edge = [(x, -y) for x, y in space.polygon(ground, 0, 0)] if ground else []   # east and south of the first location
+        lo = [min([v[k] - z[k] / 2 for v, z in stands.values()] + [p[k] for p in edge]) for k in (0, 1)]
         at = lambda c: {"x": round((stands[c][0][0] - stands[c][1][0] / 2 - lo[0]) / self.cell, 1),
                         "y": round((stands[c][0][1] - stands[c][1][1] / 2 - lo[1]) / self.cell, 1)}
         self.graph = {"id": f"{region.code}-{bid.split('.')[-1]}", "kind": "village", "ground": "sand" if wild else "grass",
@@ -152,6 +154,8 @@ class Settle:
                                if not {a, b} <= set(self.fixed)],
                       "streets": [{"past": words(n.props.get("past")), **({"kind": str(n.props["kind"])} if "kind" in n.props else {})}
                                   for n in mine("Street")]}
+        if edge:
+            self.graph["footprint"] = [round(v, 1) for x, y in edge for v in ((x - lo[0]) / self.cell, (y - lo[1]) / self.cell)]
         for k in ("streets", "ties"):
             if not self.graph[k]:
                 del self.graph[k]
@@ -244,7 +248,8 @@ def settle_apply(region) -> list[str]:
         m = re.match(r"Location (\S+) ", line)
         if m and (p := places.get(m[1])) and 'at="way in"' not in line:   # the way in is its place already
             had = space.point_of(re.search(r'xyz="([^"]*)"', line)[1]) if 'xyz="' in line else None
-            up = f",{had[2]:g}" if had and len(had) > 2 and had[2] else ""     # its height stays the tables'
+            z = had[2] if had and had[2] is not None else None if region.rating.upper() == "WILD" else 0.0
+            up = "" if z is None else f",{z:g}"     # its height stays the tables'; a WILD one's is its ground's
             for k in ("bearing", "distance", "against"):
                 line = dungeon.without(line, k)
             line = dungeon.with_prop(line, "xyz", f'"{p.props["xyz"]}{up}"')
@@ -331,7 +336,8 @@ def agree(region, bid: str, g: dict) -> list[tuple[str, str]]:
             out.append(("warning", f"{c} is not in {'Locations.md' if c not in locs else 'Dressing.md'} yet, and the design places it - "
                                    f"owed to step {'3d' if c not in locs else '4a'}"))
             continue
-        got = space.point_of(have.props.get("xyz")) if danger else list(space.offset(region, have) or []) or None
+        t = space.settled().things.get(c)                # a place in its block's frame, as the design states it
+        got = space.point_of(have.props.get("xyz")) if danger else (t.at[:2] if t is not None and None not in t.at[:2] else None)
         if got is None or math.dist(got[:2], want[:2]) > TOL:
             out.append(("error", f"{c} lies at {at(got)} in the tables and at {at(want)} in the design: run `python3 tools/design.py apply {region.code}` (step {owes}), or 3e if the design is wrong"))
         d = dress.get(c)
@@ -400,9 +406,28 @@ def check(world, brief) -> list[tuple[str, Path, str]]:
                 out.append(("error", path, f"line {node.line}: Design {bid} holds no Room: a DANGEROUS block is designed as a plan - owed to step 3e"))
             if approved:
                 out += [(level, path, msg) for level, msg in agree(region, bid, g)]
+            if danger and bid in plan.plans_of(region):
+                out += [("error" if approved else "warning", path, msg) for msg in stairs_meet(region, bid, g)]
             if approved and region.rating.upper() == "DANGEROUS" and bid in plan.plans_of(region):
                 out += [("warning", path, f"Design {bid}: {m}, the nearest a coherent layout allows - step 3e") for m in plan.goals_missed(region, bid)]
                 out += sized(region, brief, bid, g["design"])
+    return out
+
+
+def stairs_meet(region, bid: str, g: dict) -> list[str]:
+    """Each room a plan places with a stair to an approved level, and the room it meets there, not over one another."""
+    pins, sp, out = plan.pins_of(region.files.get("Design", []), bid), space.settled(), []
+    for c in pins:
+        place, got = g["places"].get(c), sp.pin(c)
+        size = box(space.outline_value(place.props.get("outline"))) if place is not None else None
+        at = space.point_of(place.props.get("xyz")) if place is not None else None
+        if not (size and at and got):
+            continue
+        x, y, w, l = got
+        if abs(at[0] - x) >= (size[0] + w) / 2 or abs(at[1] - y) >= (size[1] + l) / 2:
+            far = ", ".join(sp.stairs_from(c))
+            out.append(f"Design {bid}: {c} stands at {at[0]:g},{at[1]:g}, not over {far} at {x:g},{y:g}, which its stair "
+                       f"meets: solve the level again, held over it - owed to step 3e")
     return out
 
 
@@ -412,15 +437,15 @@ SIZE_SLACK = (10.0, 0.10)       # feet, and a share of the target: how far a lev
 def sized(region, brief, bid: str, node) -> list[tuple[str, Path, str]]:
     """A planned level's drawn span against BRIEF.md's `footprint` for its region: a target the design meets as nearly
     as a readable layout allows, so a miss is a warning."""
-    want = brief.footprint(region.code)
+    want = box(brief.footprint(region.code, bid))
     m = plan.block_map(region, node)[0] if want else None
     if m is None:
         return []
     w, h = plan.span(m)
-    if abs(max(w, h) - want) <= max(SIZE_SLACK[0], SIZE_SLACK[1] * want):
+    if all(abs(got - asked) <= max(SIZE_SLACK[0], SIZE_SLACK[1] * asked) for got, asked in ((w, want[0]), (h, want[1]))):
         return []
     return [("warning", region.dir / "Design.md", f"Design {bid} spans {w:g} by {h:g} feet, where BRIEF.md's footprint asks "
-             f"about {want:g}: shape the plan nearer it where the layout stays readable - step 3e")]
+             f"about {want[0]:g} by {want[1]:g}: shape the plan nearer it where the layout stays readable - step 3e")]
 
 
 # -- the commands ----------------------------------------------------------------------

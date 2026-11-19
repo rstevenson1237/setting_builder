@@ -22,9 +22,10 @@ value dice                    // Nd6 or Nd6+M; count= and bonus= bound it
 value percent                 // N%
 value feet                    // a whole number of feet, negative where a climb goes down
 value distance                // a number then a Distance_Unit: 40 feet, 1.5 miles
+value span                    // a distance, or a range of one: 400-2000 feet
 value run                     // a passage's length: short, long, a count of 10 ft squares, or "N feet"
-value point                   // "x,y" or "x,y,z": whole feet east, north and up of its frame's origin; west, south
-                              // and down where negative; z is 0 where unstated
+value point                   // "x,y" or "x,y,z": whole feet east, north and up of its parent's origin - the setting's
+                              // the master map's centre at the sea; west, south and down where negative
 value anchor                  // "CODE side": a sibling - a region, block or location under the same parent - then
                               // north, east, south, west, above or below
 value outline                 // "rect W L", "circle R" or "poly x,y x,y x,y ...": feet round the thing's origin; a
@@ -50,7 +51,10 @@ enum Distance_Unit feet yards miles
 enum Ground_Type deep water marsh sand desert grass scrub forest rock snow   // the terrains a sheet draws
 enum Time_Unit Round turn hour watch day week
 enum Slope flat gentle steep cliff
-enum Feature_Kind river road hill hollow
+enum Feature_Kind river creek road hill hollow crater lake lagoon reef cliff   // as the sheet's ground shows them: a creek is a
+// river of four squares or less; a crater a hollow above a quarter of the sheet's highest ground; a lake water the sheet's edge
+// does not reach; a lagoon shallow water with land near on seven sides of eight; a reef land of three squares or fewer apart
+// from the island; a cliff ground whose slope is a cliff, or steep beside the water
 enum Damage_Type Nuisance Damaging Lethal     // the count of Tests a hazard asks: 1, 2 or 3
 enum Reaction Hostile Wary Fearful Neutral Friendly
 enum Test Constitution Fate Sanity

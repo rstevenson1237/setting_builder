@@ -12,7 +12,7 @@ It never overrides a schema's rules or `STYLE.md`.
 
 A share is `"N%"`, at least that share of entries rounded down to whole entries, or `"<=N%"`,
 at most; a count is `N`, a range `"N-M"`, or `"N+"`, at least. A region's target replaces the
-rating's only for the values it names. A quoted line is prose, read by the
+rating's only for the values it names, and a rating's share is measured across all its regions together. A quoted line is prose, read by the
 step that writes what it names. The `test` line's `walks` is how many times step 5e walks it. A `target` is measured by `tools/metrics.py`; a `rate` is
 how many entries each location of a type holds in a table file; `words` is how long each
 field of a region's brief runs, or each item of a list field and each row of a table.
@@ -23,17 +23,20 @@ The maps are asked for here. `setting` holds a `sheet` per terrain map: its name
 (a distance), `extent` (`"W by H unit"`), `regions`, the codes it holds, and optionally `ground`,
 the terrain it is wherever no region's ground reaches, or `land=island`, one generated island in a sea,
 its land shared among its regions; a DANGEROUS region is on none.
-A region on a sheet may hold one `ground` line, a terrain its area must have, optionally a `height`
+A region on a sheet may hold one `ground` line, a terrain its area must have - at least 80% of it, or the `share` it
+states - optionally a `height`
 its area stands at (a distance or `"N-M unit"` above the sea), then prose the writing reads and the solver does not, and `place` lines: another region on a sheet
 with it, a compass direction, and a distance or `"N-M unit"` from that region's way in.
-`origin` names the region whose way in, at its ground, is (0,0,0): every region, block and
-location has a place from it, x east, y north, z up, in feet. `maps` holds one `look` line
+`origin` names the master map, the sheet whose centre at the sea is (0,0,0), x east, y north, z up, in
+feet; without one, the regions state their places from a point of their own. A WILD region's `height`
+is also the elevation its locations keep to. `maps` holds one `look` line
 per map kind, how every map of that kind is drawn; a key a line leaves out keeps today's drawing.
 
 A `design` line in a region asks for its blocks to be designed before their tables are written (step 3e); a
 DANGEROUS region's always are. It holds `fill`, the share of a block's ground its rooms cover; `pad`, the ground
-kept clear round each room; and `footprint`, the level's target size in feet, the width its drawing comes as near
-as a readable layout allows.
+kept clear round each room; and `footprint`, the block's ground round its centre - a distance for a square, or
+`"rect W L"`, `"circle R"` or `"poly x,y x,y ..."` in feet - that a settlement is laid out on and a level's drawing comes
+as near as a readable layout allows. A `design` line with `block` (`block="A.b"`) sets these for that block alone.
 
 ```kdl
 // -- Framework levers ----------------------------------------------------------
@@ -65,6 +68,7 @@ safe {
   rate Merchant Dressing=1 Purchases="2-4" People="1-2" Rewards=0
   rate Bank Market Dressing=1 Purchases="1-3" People="1-2" Rewards=0
   rate Authority Dressing=1 Purchases="0-2" People="1-3" Garrison="0-1" Rewards=0
+  rate Temple Dressing=1 Purchases="0-1" People="1-2" Rewards=0
   rate Gate Dressing=1 Purchases="0-1" People="1-2" Rewards=0
   rate Secret Dressing=1 Purchases="0-1" People="0-1" Rewards=0 Challenges=0
   words Overview=120 View=90 Approach=90 Law=70 Arrival=50 Plan=90 Places=35 Tables=25
@@ -96,9 +100,9 @@ maps {
 // -- This setting --------------------------------------------------------------
 
 setting {
-  origin A
+  origin Island
   sheet Island square="1 miles" extent="24 by 54 miles" regions="A B C D E F G" land=island
-  test walks=3 "A jungle island in play, not in text, built fresh by the framework and transcribed from nothing: a party lands at the southern villages behind their great wall with a ship that will not wait forever and a partial map marking the serpent crown, trades for a guide, and crosses swamp, coast and hills to the northern villages and back, past cave men, dinosaurs, lizard men at war, mer people in the wrecks and pirates on the same hunt, across forbidden ground to a stepped pyramid where a cult of snake people, with bound men in both peoples' villages, is waking its god. Every location type, procedure kind and registry the framework has is used at least once."
+  test walks=3 "A jungle island in play, not in text, built fresh by the framework and transcribed from nothing: a party lands at the southern villages behind their great wall with a ship that will not wait forever and a partial map marking the serpent crown, trades for a guide, and crosses swamp, coast and hills to the northern villages and back, past cave men, dinosaurs, lizard men at war, mer people in the wrecks and pirates on the same hunt, across forbidden ground to a stepped pyramid where a cult of snake people, with bound men in both peoples' villages, is waking its god. Every procedure kind and registry the framework has is used at least once, and every location type the island has a place for."
   outline "A large island of jungle-covered hills ringed by reef. Two networks of tribal villages hold its coasts, one on the south shore and one on the north, and neither crosses the hills between. The centre is hill jungle where cave men hunt and dinosaurs graze and kill. Lizard men hold the southern swamps and are at war with the southern villages; mer people hold the sea caves and the wrecks on the western reef. In the eastern jungle a stepped pyramid stands over the trees, held by the last of the snake people and the cult of the god they serve. Small and medium lairs of beasts and humanoids are scattered through every wild region, and pirates and treasure hunters land wherever they please."
   pressure "The party's ship lies off the southern villages and sails home on a day set at landing, with or without them. The southern villages are losing the swamp war: each raid takes captives, and the lizard men sell them on to the pyramid. The snake people are feeding their god to wake it, buying captives from the lizard men and the pirates alike, and each sacrifice makes the pyramid's cult bolder. A pirate crew and a rival band of treasure hunters are on the island after the same gold, and either will take a party's map, boat or life for it. Those the cult takes and does not kill come home bound: they look and speak as before, wear a scale-mark hidden on the skin, and do what the snake people ask; some already sit in the chiefs' councils, north and south. Behind their wall the southern villages are safe from the island, and each night something huge comes to the wall's gate and is fed."
   history "The snake people raised the stepped pyramid and ruled the island from it, with the lizard men for soldiers and the tribes for labour and sacrifice."
@@ -138,10 +142,12 @@ setting {
 }
 
 region A rating=SAFE die=d6 locations=12 {
-  ground grass "gardens, palm groves and cleared ground on the south shore, a lagoon behind a reef, stockades of sharpened logs"
+  ground grass height="100-200 feet" share="70%" "gardens, palm groves and cleared ground on the south shore, a lagoon behind a reef, stockades of sharpened logs"
   place D south "18-24 miles"
   outline "The southern villages: three stockaded villages on the south shore of a peninsula, cut off from the rest of the island by a great wall of stone and logs across its neck, built by their ancestors after the rising, with one great gate. The villages are joined by a shore path and canoes on the lagoon. The largest holds the chiefs' house, where the egg-stone is kept, and the beach where strangers' boats land and the party's ship lies at anchor. Guides, canoes, food and a guest house are had here for trade. The lizard men raid by water round the wall's ends, and the war is felt in burned huts and the watch on the lagoon; at the gate the villages leave food each night for the huge thing that comes to it."
-  design footprint="600 feet"
+  design footprint="500 feet"
+  design block="A.b" footprint="250 feet"
+  design block="A.c" footprint="200 feet"
   target Location.type Gate="1+"
   procedure "Hiring a guide and canoes."
   procedure "Passing the wall's gate, opened by the chiefs' word."
@@ -155,7 +161,7 @@ region B rating=WILD die=d8 locations=9 {
 }
 
 region C rating=WILD die=d8 locations=10 {
-  ground sand "beaches, sea cliffs and caves, and the western reef awash with broken hulls"
+  ground sand height="0-200 feet" "beaches, sea cliffs and caves, and the western reef awash with broken hulls"
   place D south-west "7-10 miles"
   outline "The wreck coast: the western shore and its reef, where the mer people hold sea caves and the wrecks of a dozen ships, the pirates keep an anchorage in a cove, and the treasure hunters have a beach camp. The way into the drowned galleon is here."
   target Location.type Lair="2+" Ruin="3+"
@@ -176,7 +182,7 @@ region E rating=WILD die=d8 locations=9 {
 }
 
 region F rating=SAFE die=d6 locations=10 {
-  ground grass "fishing beaches, terraced gardens and stilt-houses at a river mouth on the north shore"
+  ground grass height="100-200 feet" "fishing beaches, terraced gardens and stilt-houses at a river mouth on the north shore"
   place D north "14-18 miles"
   outline "The northern villages: two villages at a river mouth and a hunters' camp up the river, smaller and warier than the south. Fish, hill guides and word of the hill jungle are had here, at a higher price for anyone who has come from the south."
   design footprint="500 feet"
@@ -212,7 +218,7 @@ region HC rating=DANGEROUS die=d6 locations=8 {
 
 region I rating=DANGEROUS die=d6 locations=7 {
   outline "The drowned galleon: a medium lair, a great ship sunk across a reef gap off the wreck coast, its hold half in air, held by the mer people and a sea beast they keep, with the reef's best treasure aboard."
-  design fill="35-55%" footprint="120 feet"
+  design fill="35-55%" footprint="rect 50 140"
   target Location.type High=2 Medium=3 Low=2
   target Reward.contents Hoards=1
 }

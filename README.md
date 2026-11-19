@@ -80,7 +80,7 @@ Read these rather than a description of them.
   - `design.py` - step 3e: a block's `Design` solved and drawn, one solve accepted into `Design.md`, an approved design's places applied to the tables, and the design held to them. A DANGEROUS block is handed to `plan.py`; a SAFE or WILD block is laid out as a settlement by artgen over several seeds, each scored.
   - `plan.py` - a DANGEROUS block's plan: its layouts, rooms and routes placed on 10 ft squares and every route run between them, each place, facing, side and length a goal given up, and reported, before a way is left unrouted; the solve's map, and the places and ways `accept` writes.
   - `dungeon.py` - what the validator reports of a DANGEROUS block: its map read back through `dungeon check` and `dungeon facts`, held to the tables' ways.
-  - `space.py` - the dry fire: every region, block and location at a point in one space from the origin region's way in, x east, y north, z up, in feet, and what does not fit - unplaced things, overlaps, things outside their parent's outline, and ways whose climb, bearing or distance disagree with where their ends lie. `from` states one place from another; `section` draws the whole from the side, which the site's home page and the PDF embed.
+  - `space.py` - the dry fire: every region, block and location at a point in one space from the master map's centre at the sea, x east, y north, z up, in feet, and what does not fit - unplaced things, overlaps, things outside their parent's outline, and ways whose climb, bearing or distance disagree with where their ends lie. `from` states one place from another; `section` draws the whole from the side, which the site's home page and the PDF embed.
   - `maps.py` - draws maps from the setting through artgen. `place` puts each region on its sheets
     from `BRIEF.md`'s `sheet`, `ground` and `place` lines and writes `setting/Sheets.md` and each region's `outline` and `xyz`. `ground` writes each
     region's `Ground.md`; `draw` builds each block's map from its tables, never committed, and renders sheets, regions, blocks and cuts to SVG,
@@ -100,7 +100,7 @@ python3 tools/validate_setting.py --read-set [STEP]     # what a step reads, per
 python3 tools/validate_setting.py --skeleton STEP [REGION]   # the shape of what a step writes
 python3 tools/validate_setting.py --brief setting|REGION # BRIEF.md as a setting or region step reads it
 python3 tools/space.py [--only REGION]      # the dry fire: every place in the setting, and what does not fit
-python3 tools/space.py settle [REGION]      # write each region's place where its sheet or joins give it
+python3 tools/space.py settle [REGION]      # write each xyz a thing owes where its sheet, joins or design give it
 python3 tools/space.py from CODE to CODE     # how far, which way and how far up or down one place lies from another
 python3 tools/space.py section --out F.svg  # the setting from the side: every block floor to roof, every way between two
 python3 tools/design.py solve|accept|apply|check CODE   # step 3e: a block's design solved, accepted, applied to the tables, held to them

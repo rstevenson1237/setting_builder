@@ -63,7 +63,6 @@ Coined here:
 - Nalotewa = nalo + tewa - the tree-maker
 - Hanuhato = hanu + hato - the north-ground
 - Lokapawa = loka + pawa - the trade-hand
-- Lokatiwa = loka + tiwa - the white trade
 - Pulumano = pulu + mano - the red rock
 - Kunotiwa = kuno + tiwa - the white bone
 - Hatokali = hato + kali - the three grounds
@@ -80,6 +79,9 @@ Coined here:
 - Lemuki = lemu + -ki - the little river
 - Tiwahato = tiwa + hato - the white ground
 - Vakomano = vako + mano - the red swamp
+- Naloni = nalo + -ni - the tree place
+- Tiwani = tiwa + -ni - the white place
+- Nguhahuna = nguha + huna - the fire of the dead
 
 ## The Serpent Speech
 Spoken by: present - the snake people and their cult, the lizard men as an old soldiers' tongue, and cut into every stair of the pyramid.
