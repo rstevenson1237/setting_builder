@@ -27,5 +27,5 @@ Street F.a past="F.3, F.5, F.9, F.1"
 Street F.a past="F.2, F.6, F.4, F.9" kind="lane"
 Street F.a past="F.1, F.7" kind="path"
 Street F.a past="F.3, F.8" kind="lane"
-Fabric F.a kind=stilt-house share="40%"
+Fabric F.a kind=house share="40%"
 ```

@@ -16,8 +16,8 @@ Room HB.5 layout=hall width=40 length=40
 Room HB.6 layout=hall width=20 length=20
 Room HB.11 layout=hall width=30 length=30
 Room HB.8 width=60 length=40 facing=south
-Room HB.9 width=30 length=30 facing=south side=w
-Room HB.14 width=20 length=30 facing=south side=e
+Room HB.9 width=30 length=30 facing=south
+Room HB.14 width=20 length=30 facing=south
 Room HB.13 width=20 length=20 facing=south
 Route HB.a ends="HB.1, HB.2" kind=door
 Route HB.a ends="HB.2, HB.4"
