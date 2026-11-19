@@ -1,4 +1,4 @@
-Procedures of the Jungle Island
+Procedures of The Isle of the Serpent Crown
 
 ## Ruleset
 These procedures assume the light d6 ruleset and add only what it leaves to a setting.
@@ -11,9 +11,9 @@ These procedures assume the light d6 ruleset and add only what it leaves to a se
 ## Forced Dangers
 A hazard states a trigger, a Test, a count of Tests and a penalty. A Test of Constitution costs a Wound of a Type; a Test of Fate costs a named Condition; a Test of Sanity costs a Madness. A hazard that shows itself (a sign, a smell, a sound) gives a party the choice to avoid it; one that does not springs on whoever triggers it. The count follows the hazard's cost: Nuisance 1 Test, Damaging 2, Lethal 3.
 
-One failed Test costs a Wound. A Wound past a character's Maximum is death, and a first-level Maximum is low: one or two Wounds fell a first-level character. Poison is save or die at that level: a first-level character who fails any Test of a Lethal Poison dies, and takes no Wound. A Test of Sanity is called for only where a hazard or a creature names it, never by an ordinary beast.
+One failed Test costs a Wound. A Wound past a character's Maximum is death, and a first-level Maximum is low: one or two Wounds fell a first-level character. Poison is save or die at that level: a first-level character who fails any Test of a Lethal Poison dies, and takes no Wound. A Test of Sanity is called for only by the snake people's pyramid, their priests and the god under it, never by an ordinary beast or a living man.
 
-A party with no water for a day, or no food for three, takes a Wound of Exposure for each further day; a night in the open without shelter or a fire takes one Test of Fate for Exposed. Drowning, smoke and foul air cost Wounds of Suffocation. Fever from swamp water or a rotting wound is a Test of Fate for Diseased.
+A party with no water for a day, or no food for three, takes a Wound of Exposure for each further day; a night in the open without shelter or a fire takes one Test of Fate for Exposed. Drowning, smoke and foul air cost Wounds of Suffocation. Fever from swamp water, jungle water or a rotting wound is a Test of Fate for Diseased, which lasts until cured.
 
 ## Wounds
 ### Piercing
@@ -100,6 +100,7 @@ A Madness other than 4 lasts until a cleric lifts it.
 - **Burning** - a Test of Constitution each Round, Fire; ends when put out with water, earth or a cloak.
 - **Exposed** - Disadvantage on Combat and Skill rolls from heat, cold or wet; clears on a night's Rest in shelter.
 - **Parched** - Disadvantage on every roll; clears on a night's Rest with a full skin drunk.
+- **Lost** - the day's march ends where it began or at the wrong place; clears when a guide, a landmark or a surveyed route is found.
 
 ## Coin and Prices
 The common silver coin, cn, is the unit of every value in this setting, and a hundred cn weigh 1 wt. Copper pennies pay for a meal and the like, and are never counted. A gold piece, the homeland's or the old pirates' hoards', is worth 10 cn and weighs as a silver coin does. Old and foreign coin is changed to cn for a 3% fee; goods taken to resale fetch 80% of their value, a 20% fee. Villages trade in goods as readily as in coin, at the prices below.
@@ -132,6 +133,7 @@ The common silver coin, cn, is the unit of every value in this setting, and a hu
 | Porter | 10 cn |
 | Torchbearer | 15 cn |
 | Guide | 30 cn |
+| Reef pilot | 40 cn |
 | Paddler | 15 cn |
 | Mercenary, light | 30 cn |
 | Mercenary, heavy | 60 cn |
@@ -139,6 +141,8 @@ The common silver coin, cn, is the unit of every value in this setting, and a hu
 
 ## Time and Distance
 - **WILD regions** measure in yards and miles and keep time in watches of four hours, six to a day. A watch of travel covers 4 miles on a village road or a shore path, 2 off it through jungle or hill, and 1 through the worst ground (swamp channels, a drowned forest, a ravine, vine-choked ruin). A day lost to rest or storm covers nothing.
+- Overland, a party rolls an encounter check each watch of travel; a party without a guide takes a Test of Fate for Lost at the start of each day, and a party that crosses the western reef without a pilot who knows its passages is wrecked.
+- Boats are hired at the villages and at the pirates' anchorage; a boat moves 12 miles a watch under sail on open water and 4 under paddle in swamp channels.
 - **SAFE regions** measure in yards and keep time in watches.
 - **DANGEROUS regions** measure in feet indoors and keep time in turns, as the Tracker gives; a Round is one minute, and light that fails is darkness.
 - **Tracker** - a DANGEROUS turn is 10 minutes, 6 to an hour; a torch lasts 6 turns and a lantern's oil 24; Difficulty is rolled each turn on the region's die, and a 1 advances Danger one band toward 1.

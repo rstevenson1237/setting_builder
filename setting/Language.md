@@ -1,4 +1,4 @@
-Tongues of the Jungle Island
+Tongues of The Isle of the Serpent Crown
 
 ## The Common Tongue
 Spoken by: arrived - the party, the pirates and the treasure hunters, and a few traders in each village.
@@ -27,10 +27,10 @@ Roots:
 Coined here:
 
 ## The Island Tongue
-Spoken by: present - the southern and northern villages, in two accents.
+Spoken by: present - the southern and northern villages, one tongue in two accents and two words for each other.
 Consonants: h, k, l, m, n, ng, p, t, v, w
 Vowels: a, e, i, o, u
-Syllable: CV(n), a consonant then a vowel, closed only by n
+Syllable: CV(C), a consonant then a vowel, closed only by n
 Affixes: -ni - place; -le - water; -ki - smallness; -ta - plural; ne- - negation
 Roots:
 - hato - ground
@@ -51,6 +51,8 @@ Roots:
 - kali - a number, three
 - hanu - a direction, north
 Coined here:
+- Pulunita = pulu + -ni + -ta - the people of the stone place
+- Lemunita = lemu + -ni + -ta - the people of the river place
 
 ## The Serpent Speech
 Spoken by: present - the snake people and their cult, the lizard men as an old soldiers' tongue, and cut into every stair of the pyramid.
@@ -77,12 +79,14 @@ Roots:
 - kis - a number, three
 - tash - a direction, east
 Coined here:
+- Theshik = thesh + -ik - the little scales
+- Tuuzesh = tuuz + -esh - the serpent's own
 
 ## The Mer Speech
 Spoken by: present - the mer people, sung under water and spoken in air only as a broken trade-talk.
 Consonants: f, h, l, m, n, r, v, w, y
 Vowels: ae, ai, ao, ea, eu, ia, oa, oe, ua
-Syllable: (C)V(l), an optional consonant, a paired vowel, closed only by l
+Syllable: (C)V(C), a paired vowel, opened by a consonant or not, closed only by l
 Affixes: -ia - place; -ual - belonging; -vae - smallness; -eu - plural; hoa- - negation
 Roots:
 - neal - water, the sea
@@ -103,3 +107,4 @@ Roots:
 - ael - a direction, north
 - vaol - the deep
 Coined here:
+- Nealeu = neal + -eu - the sea folk
