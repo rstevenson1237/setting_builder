@@ -46,7 +46,8 @@ node Region file="setting/region/Regions.md" {   // opens with the region's code
 
 enum Safe_Kind steading thorp village town seat hold   // a household; a few; trades; a market and authority;
                                                         // a greater power's seat; a garrison with folk under its walls
-enum Terrain hills mountains plains forest swamp desert jungle coast underground   // one, or two in combination; underground: a cavern or delving under the surface
+enum Terrain hills mountains plains forest swamp desert jungle coast sea underground   // one, or two in combination; sea: open
+// water, a reef or a lagoon, its ground water or deep on its sheet; underground: a cavern or delving under the surface
 enum Dangerous_Kind collection "single holding"   // a worked complex in blocks, sized by its die; one occupant's home, sized by what it holds -
                                                   // a lair or a seat, never a complex of rooms with no master
 

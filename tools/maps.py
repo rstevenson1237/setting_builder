@@ -13,15 +13,17 @@ place    Reads BRIEF.md's `sheet` lines and each region's `ground` and `place` l
          miles, over one outline round them all, each Route a road through its stops, and
          no snow or desert; on a sheet with a `ground`, that terrain wherever no region's reaches,
          and no river; on a sheet with land=island, one island artgen generates, each region's way
-         in on its land and its ground over its share of it, half a square in from the coast. Every location is a keyed mark on its home sheet; one a
+         in on its land and its ground over its share of it, half a square in from the coast; a region whose ground
+         is water or deep, on the sea and over its share of the water near it, half a square out. Every location is a keyed mark on its home sheet; one a
          DANGEROUS region opens from is a cave mouth keyed with that region too. Writes
          `setting/[Sheet].json` per sheet and `setting/Sheets.md`, each region's area as its
          outline in Regions.md and a WILD region's ground height as its elevation, and the place
          of each region its sheet or joins now give (tools/space.py settle). A request that cannot be met is reported by its BRIEF.md
          line, and exits 1.
 ground   Reads each placed region's ground back from its home sheet and writes its
-         `Ground.md`: the region's way in and terrain, the rivers, roads and hills in its
-         area, and, once its Locations.md exists, the ground at each location. Run again
+         `Ground.md`: the region's way in, its height and terrain, the rivers, roads, hills and hollows in its
+         area, the nearest lakes, lagoons, reefs and cliffs, and, once its Locations.md exists, the ground at
+         each location. Run again
          after the locations are written. A location with no bearing and distance, or xyz, from
          the way in is listed and left out.
 draw     Builds each block's map, `setting/region/[Code]/[Block].json`, never committed, from its tables - a
@@ -67,6 +69,11 @@ SYNCED_MAP = ("edits", "require", "overlay")   # kept by artgen's map sync, hand
 REGIONAL = {"land": "inland", "sea": 0.0, "moisture": 0.6, "roughness": 0.3, "relief": 0.2, "rivers": 2,
             "simplify": 3, "feature": 40}  # broad country, few rivers and no sea, for a sheet in miles
 ISLAND = {**REGIONAL, "land": "island", "sea": 0.55, "moisture": 0.8, "roughness": 0.4, "relief": 0.5, "rivers": 3, "feature": 8}   # a sheet with land=island: the sea round one island
+SEA = ("water", "deep")          # the grounds a region on an island's sea may ask
+LAGOON_REACH = 2                # squares: a lagoon has land this near on seven of its eight sides, and is a square or more
+CREEK_MOST = 4                  # squares: a river this long or shorter is a creek
+NEAREST = 2                     # of each lake, lagoon, reef and cliff, the ones nearest a region's way in its Ground.md names
+REEF_MOST = 3                   # squares: a piece of land apart from the island this small or smaller is a reef
 ISLAND_STEP = 2                 # an island's land is read, and shared among its regions, in squares this many to a sheet's square
 ISLAND_BLEND = 2                # squares over which a region's ground fades, inside an island's coast
 BORDER_WAVE = 0.3              # how far a border between two regions on an island wanders, as a share of their reach
@@ -137,11 +144,11 @@ class Request:
 
 
 def solve(sheet: Sheet, radius: dict[str, float], requests: list[Request],
-          spread: dict[str, list[tuple[float, float]]], land: set | None = None) -> list[str]:
+          spread: dict[str, list[tuple[float, float]]], land: set | None = None, sea: set = frozenset()) -> list[str]:
     """Positions for sheet.codes, in sheet.at, meeting every request, keeping the areas
     apart and every located place on the sheet - and, given an island's land, its way in,
-    its located places and most of its area on it. A region no request names is centred.
-    Returns what is unmet, empty when all is met."""
+    its located places and most of its area on it, or for a region in `sea`, off it. A region
+    no request names is centred. Returns what is unmet, empty when all is met."""
     rng = random.Random(1)
     codes = sheet.codes
     reach = {c: [p for p in spread.get(c, [])] + [(sx * radius[c], sy * radius[c]) for sx in (-1, 1) for sy in (-1, 1)]
@@ -163,9 +170,10 @@ def solve(sheet: Sheet, radius: dict[str, float], requests: list[Request],
         if land is not None:
             for code in codes:
                 x, y = at[code]
-                c += sum(4 for dx, dy in [(0, 0)] + spread.get(code, []) if not on_land(land, x + dx, y + dy))
-                c += sum(0.5 for k in range(8) if not on_land(land, x + 0.7 * radius[code] * math.cos(k * math.pi / 4),
-                                                              y + 0.7 * radius[code] * math.sin(k * math.pi / 4)))
+                home = (lambda px, py: not on_land(land, px, py)) if code in sea else (lambda px, py: on_land(land, px, py))
+                c += sum(4 for dx, dy in [(0, 0)] + spread.get(code, []) if not home(x + dx, y + dy))
+                c += sum(0.5 for k in range(8) if not home(x + 0.7 * radius[code] * math.cos(k * math.pi / 4),
+                                                           y + 0.7 * radius[code] * math.sin(k * math.pi / 4)))
         return c
 
     best, best_cost = None, math.inf
@@ -222,7 +230,8 @@ def solve(sheet: Sheet, radius: dict[str, float], requests: list[Request],
                 out.append(f"{'line ' + ', '.join(lines) + ': ' if lines else ''}{a} and {b} cannot lie apart "
                            f"on {sheet.name}: their places leave no room")
     if land is not None:
-        out += [f"{c}'s way in is in the sea on {sheet.name}" for c in codes if not on_land(land, *sheet.at[c])]
+        out += [f"{c}'s way in is {'on land' if c in sea else 'in the sea'} on {sheet.name}" for c in codes
+                if on_land(land, *sheet.at[c]) == (c in sea)]
     return out
 
 
@@ -244,11 +253,15 @@ def land_cells(sheet: Sheet, seed: int) -> set[tuple[int, int]]:
     return {c for c, p in zip(cells, got) if p["terrain"] not in ("water", "deep")}
 
 
-def island_areas(sheet: Sheet, land: set, radius: dict, spread: dict, seed: int) -> dict[str, list[float]]:
+def island_areas(sheet: Sheet, land: set, radius: dict, spread: dict, seed: int, sea: set = frozenset()) -> dict[str, list[float]]:
     """Each region's area on an island, as a poly on the sheet: the land a step in from the coast,
     each square to the region nearest it for its size - from its way in or a located place - along a
-    wandering border, its largest piece."""
-    inner = {(x, y) for x, y in land if all((x + dx, y + dy) in land for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1)))}
+    wandering border, its largest piece. A region in `sea` shares the water a step out from the coast
+    the same way, no farther than its reach."""
+    side = ((1, 0), (-1, 0), (0, 1), (0, -1))
+    inner = {(x, y) for x, y in land if all((x + dx, y + dy) in land for dx, dy in side)}
+    water = {(x, y) for x in range(sheet.cols * ISLAND_STEP) for y in range(sheet.rows * ISLAND_STEP)
+             if (x, y) not in land and all((x + dx, y + dy) not in land for dx, dy in side)}
     codes = [c for c in sheet.codes if radius[c]]
     rng = random.Random(seed)
     wave = {c: [(rng.uniform(-0.6, 0.6), rng.uniform(-0.6, 0.6), rng.uniform(0, 2 * math.pi)) for _ in range(3)] for c in codes}
@@ -262,8 +275,12 @@ def island_areas(sheet: Sheet, land: set, radius: dict, spread: dict, seed: int)
         return d * (1 + BORDER_WAVE * sum(math.sin(fx * x + fy * y + ph) for fx, fy, ph in wave[c]) / 3)
 
     own = {c: set() for c in codes}
-    for x, y in inner:
-        own[min(codes, key=lambda c: far(c, (x + 0.5) / ISLAND_STEP, (y + 0.5) / ISLAND_STEP))].add((x, y))
+    for cells, mine in ((inner, [c for c in codes if c not in sea]), (water, [c for c in codes if c in sea])):
+        for x, y in cells if mine else ():
+            near = min(mine, key=lambda c: far(c, (x + 0.5) / ISLAND_STEP, (y + 0.5) / ISLAND_STEP))
+            if near not in sea or min(math.dist(((x + 0.5) / ISLAND_STEP, (y + 0.5) / ISLAND_STEP), q)
+                                      for q in reach[near]) <= radius[near]:
+                own[near].add((x, y))
     out = {}
     for c in codes:
         pieces, left = [], set(own[c])
@@ -522,6 +539,8 @@ def place(brief_path: Path, setting: Path) -> int:
         asks = [Request(c, p, sheet.square) for c in sheet.codes
                 for p in brief.regions[c].children if p.name == "place" and str(p.args[0]) in sheet.codes]
         target = setting / f"{sheet.name}.json"
+        sea = {c for c in sheet.codes if (g := next((n for n in brief.regions[c].children if n.name == "ground"), None))
+               is not None and g.args and str(g.args[0]) in SEA}         # a region whose ground is the sea
         if sheet.land != "island":
             unmet += solve(sheet, rad, asks, spread)
         walled = {c: box for c in sheet.codes if home[c] == sheet.name and world and c in world.regions
@@ -533,8 +552,8 @@ def place(brief_path: Path, setting: Path) -> int:
             missed, areas = [], None
             if s.land == "island":                      # an island: its regions placed on the land this seed makes
                 land = land_cells(s, seed)
-                missed = solve(s, rad, asks, spread, land)
-                areas = island_areas(s, land, rad, spread, seed)
+                missed = solve(s, rad, asks, spread, land, sea)
+                areas = island_areas(s, land, rad, spread, seed, sea)
                 placed[seed] = (dict(s.at), areas)
             marks = location_marks(world, s, home) if world else []
             routes = {c: lines for c in s.codes if s.square > LOCAL_SQUARE_FEET and home[c] == s.name
@@ -733,12 +752,18 @@ def ground_texts(brief_path: Path, setting: Path) -> tuple[dict[str, str], list[
 
         for kind, key in (("river", "rivers"), ("river", "generatedRivers"), ("road", "roads")):
             for f in whole.get(key, []):
+                kind = "creek" if kind == "river" and f.get("length", {}).get("map", 0) <= CREEK_MOST else kind
                 if line := seen(kind, f["points"], (f["points"][0], f["points"][-1])):
                     lines.append(line)
+        top = facts(file)["features"].get("highest", {}).get("height", 0)
         for kind, key in (("hill", "hilltops"), ("hollow", "hollows")):
             for f in sorted((f for f in whole.get(key, []) if math.dist(f["at"], (x, y)) <= reach),
                             key=lambda f: -f["height"] if kind == "hill" else f["height"])[:3]:
-                lines.append(seen(kind, [f["at"]], None) + f' height="{round(f["height"])}"')
+                k = "crater" if kind == "hollow" and f["height"] > top / 4 else kind
+                lines.append(seen(k, [f["at"]], None) + f' height="{round(f["height"])}"')
+        for kind, pieces in shapes(sheet, file).items():           # the lakes, lagoons, reefs and cliffs nearest it
+            near = sorted(pieces, key=lambda cells: min(math.dist(q, (x, y)) for q in cells))[:NEAREST]
+            lines += [line for cells in near if (line := seen(kind, cells, None))]
         located = world.regions[code].locations() if code in world.regions else {}
         spots = {}
         for loc, node in located.items():
@@ -757,6 +782,50 @@ def ground_texts(brief_path: Path, setting: Path) -> tuple[dict[str, str], list[
             lines.append(f'At {loc} ground="{pt["terrain"]}" height="{round(pt["height"])}" slope="{pt["slope"]["band"]}"')
         texts[code] = f"# Ground of {code} {gazetteer[code]['name']}\n\n```kdl\n" + "\n".join(lines) + "\n```\n"
     return texts, off, skipped
+
+
+def shapes(sheet: Sheet, file: Path) -> dict[str, list[list[tuple[float, float]]]]:
+    """The water and landforms a sheet's ground shows, each a list of pieces, each its squares' centres: a lake, water
+    not joined to the sheet's edge; a lagoon, shallow water with land within LAGOON_REACH squares on seven of its eight
+    sides; a reef, a piece of land apart from the largest, of REEF_MOST squares or fewer; a cliff, ground whose slope is a
+    cliff, or steep beside the water."""
+    k = ISLAND_STEP
+    cells = [(cx, cy) for cy in range(sheet.rows * k) for cx in range(sheet.cols * k)]
+    got = dict(zip(cells, facts(file, "--at", *[f"{(cx + 0.5) / k:g},{(cy + 0.5) / k:g}" for cx, cy in cells])["points"]))
+    wet = {c for c, p in got.items() if p["terrain"] in SEA}
+    near = lambda c: [(c[0] + dx, c[1] + dy) for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1)) if (c[0] + dx, c[1] + dy) in got]
+
+    def pieces(of: set) -> list[set]:
+        out, left = [], set(of)
+        while left:
+            todo, one = [left.pop()], set()
+            while todo:
+                c = todo.pop()
+                one.add(c)
+                for n in near(c):
+                    if n in left:
+                        left.discard(n)
+                        todo.append(n)
+            out.append(one)
+        return out
+
+    edge = lambda c: c[0] in (0, sheet.cols * k - 1) or c[1] in (0, sheet.rows * k - 1)
+    land = pieces(set(got) - wet)
+    main = max(land, key=len, default=set())
+
+    def walled(c) -> bool:
+        hits = 0
+        for dx, dy in ((1, 0), (1, 1), (0, 1), (-1, 1), (-1, 0), (-1, -1), (0, -1), (1, -1)):
+            hits += any((c[0] + dx * i, c[1] + dy * i) in got and (c[0] + dx * i, c[1] + dy * i) not in wet
+                        for i in range(1, LAGOON_REACH * k + 1))
+        return hits >= 7
+
+    centre = lambda one: [((cx + 0.5) / k, (cy + 0.5) / k) for cx, cy in one]
+    return {"lake": [centre(w) for w in pieces(wet) if not any(map(edge, w))],
+            "lagoon": [centre(w) for w in pieces({c for c in wet if got[c]["terrain"] == "water" and walled(c)}) if len(w) >= k * k],
+            "reef": [centre(l) for l in land if l is not main and len(l) <= REEF_MOST * k * k],
+            "cliff": [centre(c) for c in pieces({c for c, p in got.items() if p["slope"]["band"] == "cliff" or
+                                                 c not in wet and p["slope"]["band"] == "steep" and any(n in wet for n in near(c))})]}
 
 
 def ground(brief_path: Path, setting: Path) -> int:
