@@ -405,9 +405,28 @@ def check(world, brief) -> list[tuple[str, Path, str]]:
                 out.append(("error", path, f"line {node.line}: Design {bid} holds no Room: a DANGEROUS block is designed as a plan - owed to step 3e"))
             if approved:
                 out += [(level, path, msg) for level, msg in agree(region, bid, g)]
+            if danger and bid in plan.plans_of(region):
+                out += [("error" if approved else "warning", path, msg) for msg in stairs_meet(region, bid, g)]
             if approved and region.rating.upper() == "DANGEROUS" and bid in plan.plans_of(region):
                 out += [("warning", path, f"Design {bid}: {m}, the nearest a coherent layout allows - step 3e") for m in plan.goals_missed(region, bid)]
                 out += sized(region, brief, bid, g["design"])
+    return out
+
+
+def stairs_meet(region, bid: str, g: dict) -> list[str]:
+    """Each room a plan places with a stair to an approved level, and the room it meets there, not over one another."""
+    pins, sp, out = plan.pins_of(region.files.get("Design", []), bid), space.settled(), []
+    for c in pins:
+        place, got = g["places"].get(c), sp.pin(c)
+        size = box(space.outline_value(place.props.get("outline"))) if place is not None else None
+        at = space.point_of(place.props.get("xyz")) if place is not None else None
+        if not (size and at and got):
+            continue
+        x, y, w, l = got
+        if abs(at[0] - x) >= (size[0] + w) / 2 or abs(at[1] - y) >= (size[1] + l) / 2:
+            far = ", ".join(sp.stairs_from(c))
+            out.append(f"Design {bid}: {c} stands at {at[0]:g},{at[1]:g}, not over {far} at {x:g},{y:g}, which its stair "
+                       f"meets: solve the level again, held over it - owed to step 3e")
     return out
 
 
