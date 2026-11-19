@@ -10,5 +10,5 @@ Dressing HA.6 obvious="Cramped room of bunks, spears and a brazier" condition="s
 Dressing HA.7 obvious="Deep groove running down in the dark" condition="sticky" ambiance="flies, a slow drip" layout="long channel, side ledges, south end, north end" mark="Tuuzesh" width=10 length=40 xyz="50,-20,0" shape=hall
 Dressing HA.8 obvious="Roofless shrine round a burning altar" former="an emperor's throne room" condition="burning" ambiance="roaring fire, hissing, wind" layout="open floor, burning altar, carved frieze, west door" mark="Tuuzesh" left="The Snake People Raise the Pyramid" width=50 length=30 xyz="-10,-55,0"
 Dressing HA.9 obvious="Dry lamp-lit vestry, robes hung on pegs" condition="robed" ambiance="lamp-hiss, rustling cloth" layout="peg wall, robe chests, lamp stand, east door" mark="Tuuzesh" width=20 length=30 xyz="-65,-25,0"
-Dressing HA.10 obvious="Round room round a gaping shaft" condition="echoing" ambiance="echoes, rope-creak, cold updraught" layout="shaft, winch frame, coiled ropes, spiral stair" mark="Tuuzesh" width=30 length=30 xyz="50,-65,0" shape=round
+Dressing HA.10 obvious="Round room round a gaping shaft" condition="echoing" ambiance="echoes, rope-creak, cold updraught" layout="shaft, winch frame, coiled ropes" mark="Tuuzesh" width=30 length=30 xyz="50,-65,0" shape=round
 ```

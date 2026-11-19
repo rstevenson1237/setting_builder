@@ -24,5 +24,5 @@ Connection HA.10 to="HA.8" type="Open"
 Connection HA.8 to="HA.9" type="Open"
 Connection HA.9 to="HA.8" type="Open"
 Connection HA.1 to="E.9" type="Open" bearing="south" distance="100 feet" climb=-100 wall="south" orientation="down the stair"
-Connection HA.10 to="HB.1" type="Open" climb=-100 orientation="down the shaft stair"
+Connection HA.10 to="HB.1" type="Rope" climb=-100 orientation="down the winch rope"
 ```

@@ -215,7 +215,7 @@ region HC rating=DANGEROUS die=d6 locations=8 {
 
 region I rating=DANGEROUS die=d6 locations=7 {
   outline "The drowned galleon: a medium lair, a great ship sunk across a reef gap off the wreck coast, its hold half in air, held by the mer people and a sea beast they keep, with the reef's best treasure aboard."
-  design fill="35-55%" footprint="120 feet"
+  design fill="35-55%" footprint="rect 50 140"
   target Location.type High=2 Medium=3 Low=2
   target Reward.contents Hoards=1
 }
