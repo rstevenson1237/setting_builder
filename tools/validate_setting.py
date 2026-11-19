@@ -459,6 +459,11 @@ def check_directions(diag, path, src: str, lines: list[str]):
 FACTION_OCCUPANT_RE = re.compile(r"\((?:Hostile|Wary|Fearful|Neutral|Friendly), [^,()]+, Faction ?: [^)]+\)")
 
 
+def stems(text: str) -> set[str]:
+    """A text's words of four letters or more, each cut to its first five: "lifted" meets "lifts"."""
+    return {w[:5] for w in re.findall(r"[a-z]{4,}", text.lower())}
+
+
 def check_location_file(diag, path, region_code, num, stub, connected, all_locations,
                          mundane_edges, hidden_edges, conditions=None):
     """connected: the location has Connections entries, so its write-up carries Exits."""
@@ -568,12 +573,12 @@ def check_location_file(diag, path, region_code, num, stub, connected, all_locat
                 diag.error(path, f"Exits names {code} as {name!r}, but its actual name is {actual_name!r}")
             in_mundane = (src, code) in mundane_edges
             in_hidden = (src, code) in hidden_edges
-            if not in_mundane and in_hidden:
-                # Common, legitimate pattern: the far side of an already-triggered
-                # secret (a broken seal, a sprung passage) reads as a plain
-                # opening even though the graph marks the connection hidden.
-                # Worth a human glance, not an automatic failure.
-                diag.warn(path, f"Exits lists {src} -> {code} as mundane, but its Connection entry carries a Secret - confirm this is the far side of an already-triggered secret, not a template violation")
+            if in_hidden:
+                if not stems(desc) & hidden_edges[(src, code)]:
+                    # An exit that names neither its Secret's trigger nor its tell reads as a plain opening:
+                    # right only for the far side of a secret already sprung.
+                    diag.warn(path, f"Exits lists {src} -> {code} as a plain opening, but its Connection entry carries a Secret - "
+                                    f"name its trigger or tell, unless this is the far side of one already sprung")
             elif not in_mundane:
                 diag.error(path, f"Exits lists {src} -> {code}, but no Connection entry runs that way")
             if POSITION_RE.search(desc):
@@ -1604,9 +1609,9 @@ def main() -> int:
     all_loc_edges = [e for edges in region_edges.values() for e in edges]
     sides = [n for r in setting.regions.values() for n in r.files.get("Connections", [])
              if n.args and "to" in n.props]
-    hidden_edges = {(n.args[0], n.props["to"]) for n in sides
-                    if any(c.name == "Secret" for c in n.children)}
-    mundane_edges = {(n.args[0], n.props["to"]) for n in sides} - hidden_edges
+    hidden_edges = {(n.args[0], n.props["to"]): stems(" ".join(str(c.props.get(k, "")) for k in ("trigger", "tell")))
+                    for n in sides for c in n.children if c.name == "Secret"}     # each secret way: its trigger's and tell's words
+    mundane_edges = {(n.args[0], n.props["to"]) for n in sides} - hidden_edges.keys()
     stated = {n.args[0] for n in sides}
 
     check_region_edge_realization(diag, regions, all_loc_edges, all_locations)

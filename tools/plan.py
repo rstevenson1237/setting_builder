@@ -1891,8 +1891,7 @@ def pins_of(lines, bid: str) -> dict:
         region = world.regions.get(c.split(".")[0])
         if region is None:                              # a plan tried outside the setting
             continue
-        far = [str(n.props["to"]) for n in region.files.get("Connections", []) if n.args and str(n.args[0]) == c
-               and n.props.get("climb") and str(n.props.get("to")) not in words(head.props.get("locations"))]
+        far = [f for f in space.settled().stairs_from(c) if f not in words(head.props.get("locations"))]
         if any(settled(f) for f in far) and (pin := space.settled().pin(c)):
             out[c] = (pin[0], pin[1])
     return out

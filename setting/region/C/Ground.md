@@ -1,7 +1,7 @@
 # Ground of C The Wreck Coast
 
 ```kdl
-Ground C sheet="Island" square="7,30" ground="sand 84%, grass 10%, scrub 5%"
+Ground C sheet="Island" square="7,30" height="200" ground="sand 84%, grass 10%, scrub 5%"
 Feature C kind="river" bearing="north-north-east" distance="11.5 miles" runs="north-west"
 Feature C kind="hill" bearing="north-north-east" distance="12.5 miles" height="1400"
 Feature C kind="hill" bearing="north-east" distance="4.5 miles" height="1200"

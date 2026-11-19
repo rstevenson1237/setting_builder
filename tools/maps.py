@@ -743,10 +743,10 @@ def ground_texts(brief_path: Path, setting: Path) -> tuple[dict[str, str], list[
                 spots[loc] = (px, py)
             else:
                 off.append(loc)
-        if spots:
-            got = facts(file, "--at", *[f"{px:.1f},{py:.1f}" for px, py in spots.values()])["points"]
-            for loc, pt in zip(spots, got):
-                lines.append(f'At {loc} ground="{pt["terrain"]}" height="{round(pt["height"])}" slope="{pt["slope"]["band"]}"')
+        got = facts(file, "--at", f"{x:g},{y:g}", *[f"{px:.1f},{py:.1f}" for px, py in spots.values()])["points"]
+        lines[0] = lines[0].replace(" ground=", f' height="{round(got[0]["height"])}" ground=', 1)
+        for loc, pt in zip(spots, got[1:]):
+            lines.append(f'At {loc} ground="{pt["terrain"]}" height="{round(pt["height"])}" slope="{pt["slope"]["band"]}"')
         texts[code] = f"# Ground of {code} {gazetteer[code]['name']}\n\n```kdl\n" + "\n".join(lines) + "\n```\n"
     return texts, off, skipped
 

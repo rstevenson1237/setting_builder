@@ -15,8 +15,9 @@ height (z) are known apart: a room not yet placed stands on its block's floor at
 A region's origin is its way in, a DANGEROUS region's its first block's centre; a block's is its
 centre, and a SAFE or WILD block lies at its region's origin; a location's is its centre. A
 region is placed from the origin through a sheet it shares with a placed region, or a join to
-one: a way's climb places it in height, its bearing and distance in plan, and a climbing way
-between two DANGEROUS blocks sets one block's centre over the other's. A thing placed `against`
+one: a sheet places it in plan and, by the ground at each way in, in height; a way's climb places
+it in height, its bearing and distance in plan; and a climbing way between two DANGEROUS blocks
+sets one block's centre over the other's. A thing placed `against`
 a sibling starts at its origin, slides across the side by its xyz, moves out along the side
 until their outlines last touch, then takes its xyz along the side as a gap; above or below,
 its floor meets the other's roof.
@@ -449,6 +450,7 @@ class Space:
         rows = sc.read_tables(tables.SETTING / "Sheets.md")[0].dicts() if (tables.SETTING / "Sheets.md").exists() else []
         self.squares = {n: maps.Sheet(n, node).square for n, node in self.brief.sheets.items()}
         self.on = {}                                    # region -> {sheet: (column, row)}
+        self.sea = {}                                   # region -> the ground at its way in, above the sea
         for d in rows:
             self.on.setdefault(d["Region"], {})[d["Sheet"]] = tuple(float(v) for v in d["Way in"].split(","))
         gazetteer = {str(n.args[0]): n for n in tables.gazetteer() if n.args}
@@ -467,7 +469,8 @@ class Space:
             danger = region.rating.upper() == "DANGEROUS"
             dress = {str(n.args[0]): n for n in region.files.get("Dressing", []) if n.args}
             ground = {str(n.args[0]): n for n in region.files.get("Ground", []) if n.name == "At" and n.args}
-            way_in = next((c for c, n in region.locations().items() if str(n.props.get("at")) == "way in"), None)
+            if (g0 := next((n for n in region.files.get("Ground", []) if n.name == "Ground" and "height" in n.props), None)):
+                self.sea[code] = float(g0.props["height"])
             home = {}
             for i, (bid, block) in enumerate(maps.blocks_of(region).items()):
                 b = self.things[bid] = Thing(bid, "block", code, r, file=region.dir / "Blocks.md", line=block.line)
@@ -506,8 +509,8 @@ class Space:
                         t.by = by if c else ""
                 else:
                     t.file, t.line = region.dir / "Locations.md", node.line
-                    if loc in ground and way_in in ground:
-                        t.ground = float(ground[loc].props["height"]) - float(ground[way_in].props["height"])
+                    if loc in ground and code in self.sea:
+                        t.ground = float(ground[loc].props["height"]) - self.sea[code]
                     if loc in designed and not forms(node):   # its tables state no place: the design's is
                         t.at, t.by = [designed[loc][0], designed[loc][1], None], "design"
                         t.at[2] = t.ground
@@ -698,12 +701,15 @@ class Space:
         return min(both, key=lambda s: self.squares[s]) if both else None
 
     def _from_sheet(self, r: Thing, q: Thing, sheet: str) -> bool:
-        if r.at[0] is not None or q.at[0] is None:
-            return False
-        (xr, yr), (xq, yq), sq = self.on[r.code][sheet], self.on[q.code][sheet], self.squares[sheet]
-        r.at[:2] = [q.at[0] + (xr - xq) * sq, q.at[1] - (yr - yq) * sq]
-        r.by = f"sheet {sheet} from {q.code}"
-        return True
+        done = False
+        if r.at[0] is None and q.at[0] is not None:
+            (xr, yr), (xq, yq), sq = self.on[r.code][sheet], self.on[q.code][sheet], self.squares[sheet]
+            r.at[:2] = [q.at[0] + (xr - xq) * sq, q.at[1] - (yr - yq) * sq]
+            r.by, done = f"sheet {sheet} from {q.code}", True
+        if r.at[2] is None and q.at[2] is not None and r.code in self.sea and q.code in self.sea:
+            r.at[2] = q.at[2] + self.sea[r.code] - self.sea[q.code]
+            r.by, done = (r.by + "; " if r.by else "") + f"height on sheet {sheet} from {q.code}", True
+        return done
 
     def _from_join(self, region, n: kdl.Node, a: Thing, b: Thing, back: bool = False) -> bool:
         """Places a's region from b's across the way a to b, or b's from a's where `back`."""
@@ -730,18 +736,27 @@ class Space:
             r.by, done = (r.by + "; " if r.by else "") + f"plan {how}", True
         return done
 
+    def stairs_from(self, code: str) -> list[str]:
+        """The DANGEROUS rooms a stair from room `code` reaches: by a climbing Connection either way, or by a
+        design's Route with a stair, which is all there is before the Connections are written."""
+        far = []
+        for r in self.world.regions.values():
+            for n in r.files.get("Connections", []):
+                if n.args and self.stair(r, n) and code in (str(n.args[0]), str(n.props["to"])):
+                    far.append(str(n.props["to"]) if str(n.args[0]) == code else str(n.args[0]))
+            for n in r.files.get("Design", []):
+                ends = [e.split(":")[0].strip() for e in str(n.props.get("ends", "")).split(",")]
+                if n.name == "Route" and n.props.get("stair") and code in ends and len(ends) == 2:
+                    far.append(ends[1 - ends.index(code)])
+        rated = lambda c: (g := self.world.regions.get(c.split(".")[0])) is not None and g.rating.upper() == "DANGEROUS"
+        return [f for f in dict.fromkeys(far) if rated(f)]
+
     def pin(self, code: str) -> tuple[float, float, float, float] | None:
         """The room a way that climbs from room `code` reaches, as (east, north, width, length) from
         the centre of `code`'s block: from where both lie, else from the far room's own block,
         whose centre a stair's two blocks share until placed."""
         t = self.things.get(code)
-        region = self.world.regions.get(t.region if t else code.split(".")[0])
-        ways = [(region, n, str(n.props["to"])) for n in region.files.get("Connections", []) if n.args and str(n.args[0]) == code] if region else []
-        ways += [(r, n, str(n.args[0])) for r in self.world.regions.values() if r is not region        # a level written first reaches
-                 for n in r.files.get("Connections", []) if n.args and str(n.props.get("to")) == code]   # one not yet written
-        for r, n, far in ways:
-            if not self.stair(r, n):
-                continue
+        for far in self.stairs_from(code):
             f = self.things.get(far)
             if f is None or f.at[0] is None or f.outline is None:
                 continue
