@@ -2,7 +2,7 @@
 
 ```kdl
 Location E.1 name="The Serpent Road" tags="paved, vine-choked, straight" type="Route" xyz="4210,-370"
-Location E.2 name="The Gate Tower" tags="leaning, carved, moss-hung" type="Ruin" xyz="-16450,-1790"
+Location E.2 name="The Gate Tower" tags="leaning, carved, moss-hung" type="Ruin" xyz="-9730,-6110"
 Location E.3 name="The Burned Market" tags="scorched, tumbled, stalled" type="Ruin" xyz="2290,-8250"
 Location E.4 name="The Statue Court" tags="fallen, carved, hushed" type="Ruin" xyz="5100,8010"
 Location E.5 name="The Patrol Camp" tags="fire-lit, trampled, watched" type="Lair" xyz="4270,1260"

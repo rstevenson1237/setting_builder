@@ -369,7 +369,11 @@ def map_file(sheet: Sheet, seed: int, regions: dict, radius: dict, home: dict, s
     for code, (w, n, e, south) in walled.items():  # inside a region's walls, its own ground and no river
         x, y = sheet.at[code]
         ground = next((c for c in regions[code].children if c.name == "ground"), None)
-        poly = [round(v, 1) for p in ((w, n), (e, n), (e, south), (w, south)) for v in (x + p[0] / sheet.square, y + p[1] / sheet.square)]
+        half = sheet.square / 2                   # a square at least, so its ground can be measured on a sheet in miles
+        cx, cy = (w + e) / 2, (n + south) / 2
+        w, e = min(w, cx - half), max(e, cx + half)
+        n, south = min(n, cy - half), max(south, cy + half)
+        poly = [round(v, 2) for p in ((w, n), (e, n), (e, south), (w, south)) for v in (x + p[0] / sheet.square, y + p[1] / sheet.square)]
         if ground:
             m["require"].append({"id": f"{code}-walls", "kind": "terrain", "origin": "tables", "area": {"poly": poly},
                                  "terrain": str(ground.args[0]), "share": WALLED_SHARE})

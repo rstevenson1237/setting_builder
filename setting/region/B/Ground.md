@@ -1,15 +1,19 @@
 # Ground of B The Southern Swamps
 
 ```kdl
-Ground B sheet="Island" square="15,36" height="300" ground="marsh 88%, forest 12%"
-Feature B kind="hill" bearing="south-west" distance="7 miles" height="1100"
+Ground B sheet="Island" square="18,35" height="300" ground="marsh 81%, forest 16%"
+Feature B kind="road" bearing="south" distance="10 feet" runs="north-east"
+Feature B kind="road" bearing="west-north-west" distance="7.5 miles" runs="south-south-west"
+Feature B kind="road" bearing="north-north-west" distance="8.5 miles" runs="north-north-west"
+Feature B kind="road" bearing="north" distance="7 miles" runs="east-north-east"
+Feature B kind="hill" bearing="north-north-west" distance="8.5 miles" height="1200"
 At B.1 ground="marsh" height="300" slope="flat"
-At B.2 ground="marsh" height="200" slope="flat"
-At B.3 ground="marsh" height="300" slope="flat"
-At B.4 ground="marsh" height="300" slope="flat"
-At B.5 ground="marsh" height="300" slope="flat"
+At B.2 ground="marsh" height="300" slope="flat"
+At B.3 ground="marsh" height="400" slope="flat"
+At B.4 ground="marsh" height="400" slope="gentle"
+At B.5 ground="marsh" height="500" slope="gentle"
 At B.6 ground="marsh" height="300" slope="flat"
 At B.7 ground="marsh" height="300" slope="flat"
-At B.8 ground="marsh" height="400" slope="gentle"
+At B.8 ground="forest" height="600" slope="flat"
 At B.9 ground="marsh" height="300" slope="flat"
 ```

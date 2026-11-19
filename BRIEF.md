@@ -139,7 +139,7 @@ setting {
 }
 
 region A rating=SAFE die=d6 locations=12 {
-  ground grass "gardens, palm groves and cleared ground on the south shore, a lagoon behind a reef, stockades of sharpened logs"
+  ground grass height="100-200 feet" "gardens, palm groves and cleared ground on the south shore, a lagoon behind a reef, stockades of sharpened logs"
   place D south "18-24 miles"
   outline "The southern villages: three stockaded villages on the south shore of a peninsula, cut off from the rest of the island by a great wall of stone and logs across its neck, built by their ancestors after the rising, with one great gate. The villages are joined by a shore path and canoes on the lagoon. The largest holds the chiefs' house, where the egg-stone is kept, and the beach where strangers' boats land and the party's ship lies at anchor. Guides, canoes, food and a guest house are had here for trade. The lizard men raid by water round the wall's ends, and the war is felt in burned huts and the watch on the lagoon; at the gate the villages leave food each night for the huge thing that comes to it."
   design footprint="600 feet"
@@ -156,7 +156,7 @@ region B rating=WILD die=d8 locations=9 {
 }
 
 region C rating=WILD die=d8 locations=10 {
-  ground sand "beaches, sea cliffs and caves, and the western reef awash with broken hulls"
+  ground sand height="0-200 feet" "beaches, sea cliffs and caves, and the western reef awash with broken hulls"
   place D south-west "7-10 miles"
   outline "The wreck coast: the western shore and its reef, where the mer people hold sea caves and the wrecks of a dozen ships, the pirates keep an anchorage in a cove, and the treasure hunters have a beach camp. The way into the drowned galleon is here."
   target Location.type Lair="2+" Ruin="3+"
@@ -177,7 +177,7 @@ region E rating=WILD die=d8 locations=9 {
 }
 
 region F rating=SAFE die=d6 locations=10 {
-  ground grass "fishing beaches, terraced gardens and stilt-houses at a river mouth on the north shore"
+  ground grass height="100-200 feet" "fishing beaches, terraced gardens and stilt-houses at a river mouth on the north shore"
   place D north "14-18 miles"
   outline "The northern villages: two villages at a river mouth and a hunters' camp up the river, smaller and warier than the south. Fish, hill guides and word of the hill jungle are had here, at a higher price for anyone who has come from the south."
   design footprint="500 feet"
