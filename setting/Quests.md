@@ -1,0 +1,11 @@
+Quests of The Isle of the Serpent Crown
+
+| Name | Ask | Giver | Reluctance | Object | Obstacle | Terms | Points to |
+|---|---|---|---|---|---|---|---|
+| The Serpent Crown | retrieve | The party's own partial map, which marks the crown's place in the eastern jungle, and the tale that came with it. | turned back | The serpent crown, gold coiled round a green stone the size of a fist, on the last emperor's skull in HC.7. | guarded | share - "Carry it to the ship and its price is yours." | HC.7 |
+| The Raid's Captives | recover | Pulumano, the senior chief, at A.10, who asks any party that can handle a canoe. | unable | Captives taken in the last swamp raid, held for sale at B.9 before they go on to the pyramid's pens. | living | fee - "Canoes and a guide, without charge." | B.9 |
+| The Lost Hunters | find | Hanukali, the hunters' leader, at F.7, who asks southerners and northerners alike. | needed | A northern hunting party gone up the river trail into the hill jungle; what is left of its camp is at D.10. | misdescribed | fee - "Smoked fish, a guide and the council's thanks." | D.10 |
+| The Egg-Stone Returned | deliver | Kunotiwa, an elder, at A.10, who says nothing of it to the chiefs. | shamed | The egg-stone of the lizard men's god, from its niche at A.12 to the Egg Hummock at B.5. | guarded | favour - "A debt the council will honour, though it will not say so." | B.5 |
+| The Anchorage Cleared | destroy | Loalvae, the mer elder, at C.4, who sings the offer to any party that comes to the caves. | unable | The pirates' anchorage in the cove at C.2, and the crew that holds it. | contested | share - "A wreck's treasure, and the passages opened." | C.2 |
+| The Deserter's Half-Map | take | Aldous Crane, the treasure hunters' leader, at C.3, who describes the man and the coat. | turned back | Ellis Marr, who deserted with half the hunters' map and lodges at A.4. | watched | share - "Half the route to the pyramid, and silence about yours." | A.4 |
+| Proof for the Northern Council | verify | Tiwahato, the council elder, at F.9, who will not send spears without it. | unable | What the cult feeds its god, seen in the pens at HB.5 and at the altar in HC.2. | contested | favour - "The council's seal on a guide's hire, and its war party." | HB.5 |
