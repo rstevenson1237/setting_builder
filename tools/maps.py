@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Maps from the setting's tables, drawn by artgen (tools/artgen).
 
-  python3 tools/maps.py place [--brief PATH] [--setting DIR]
+  python3 tools/maps.py place [--brief PATH] [--setting DIR] [--reseed]
   python3 tools/maps.py ground [--brief PATH] [--setting DIR]
   python3 tools/maps.py draw [--brief PATH] [--setting DIR] [--out DIR] [--fit WxH[mm|px]]
 
@@ -19,7 +19,8 @@ place    Reads BRIEF.md's `sheet` lines and each region's `ground` and `place` l
          `setting/[Sheet].json` per sheet and `setting/Sheets.md`, each region's area as its
          outline in Regions.md and a WILD region's ground height as its elevation, and the place
          of each region its sheet or joins now give (tools/space.py settle). A request that cannot be met is reported by its BRIEF.md
-         line, and exits 1.
+         line, and exits 1. A sheet Sheets.md places already keeps its way ins and its seed, and
+         says what they now miss; --reseed solves them again, which moves every region on it.
 ground   Reads each placed region's ground back from its home sheet and writes its
          `Ground.md`: the region's way in, its height and terrain, the rivers, roads, hills and hollows in its
          area, the nearest lakes, lagoons, reefs and cliffs, and, once its Locations.md exists, the ground at
@@ -61,7 +62,14 @@ SQUARES_PER_LOCATION = 4        # the ground one location needs, in squares, bef
 MARK = {"Ruin": "ruin", "Lair": "camp", "Gate": "gate"}   # a location's symbol by type, else a point
 LOCATION_GROUND = 1.5           # squares round a location its region's ground must cover
 BLEND = 4                       # squares over which a region's ground fades into the country round it
-GROUND_SHARE = 0.8              # the share of its area a region's ground must cover
+GROUND_SHARE = 0.8              # the share of its area a region's ground must cover, where its ground line states no share
+
+
+def ground_share(regions: dict, code: str) -> float:
+    """The share of a region's area its ground must cover: its BRIEF.md ground line's `share`, else GROUND_SHARE."""
+    g = next((c for c in regions[code].children if c.name == "ground"), None) if code in regions else None
+    m = re.fullmatch(r"(\d+)%", str(g.props.get("share", ""))) if g is not None else None
+    return int(m[1]) / 100 if m else GROUND_SHARE
 WALLED_SHARE = 0.95             # and of the ground inside its walls
 SEPARATION = 0.6                # two areas' centres lie at least this much of their radii apart
 BEARING_SLACK = 15              # degrees either side of a compass point
@@ -361,7 +369,7 @@ def artgen(*args) -> subprocess.CompletedProcess:
 
 
 def map_file(sheet: Sheet, seed: int, regions: dict, radius: dict, home: dict, spread: dict,
-             marks: list[tuple[float, float, str, str]], walled: dict[str, list[float]],
+             marks: list[tuple[float, float, str, str]], walled: dict[str, tuple[str, list[float]]],
              routes: dict[str, list[list[tuple[float, float]]]], areas: dict[str, list[float]] | None = None) -> dict:
     local = sheet.square <= LOCAL_SQUARE_FEET
     circles = []                                  # (id, x, y, r, terrain): each area's ground
@@ -397,21 +405,23 @@ def map_file(sheet: Sheet, seed: int, regions: dict, radius: dict, home: dict, s
     for x, y, kind, label in marks:
         m["overlay"]["symbols"].append({"kind": kind, "x": x, "y": y, "origin": "tables"})
         m["overlay"]["labels"].append({"text": label, "x": round(x + 0.8, 1), "y": y, "kind": "place", "origin": "tables"})
-    for code, (w, n, e, south) in walled.items():  # inside a region's walls, its own ground and no river
+    for bid, (code, (w, n, e, south)) in walled.items():  # inside each block's walls, its region's ground and no river
         x, y = sheet.at[code]
         ground = next((c for c in regions[code].children if c.name == "ground"), None)
-        half = sheet.square / 2                   # a square at least, so its ground can be measured on a sheet in miles
-        cx, cy = (w + e) / 2, (n + south) / 2
-        w, e = min(w, cx - half), max(e, cx + half)
-        n, south = min(n, cy - half), max(south, cy + half)
         poly = [round(v, 2) for p in ((w, n), (e, n), (e, south), (w, south)) for v in (x + p[0] / sheet.square, y + p[1] / sheet.square)]
+        if min(e - w, south - n) < sheet.square / ISLAND_STEP:   # too small to measure on its sheet: its region's ground holds it
+            continue
         if ground:
-            m["require"].append({"id": f"{code}-walls", "kind": "terrain", "origin": "tables", "area": {"poly": poly},
+            m["require"].append({"id": f"{bid}-walls", "kind": "terrain", "origin": "tables", "area": {"poly": poly},
                                  "terrain": str(ground.args[0]), "share": WALLED_SHARE})
-        m["require"].append({"id": f"{code}-walls-clear", "kind": "clear", "origin": "tables", "area": {"poly": poly}})
+            if span := tables.SPAN_RE.fullmatch(str(ground.props.get("height", ""))):   # and at its region's height
+                low, high = (feet(f"{v} {span.group(3)}") for v in (span.group(1), span.group(2) or span.group(1)))
+                m["require"].append({"id": f"{bid}-walls-height", "kind": "height", "origin": "tables", "area": {"poly": poly},
+                                     "low": round(low), "high": round(high), "blend": BLEND})
+        m["require"].append({"id": f"{bid}-walls-clear", "kind": "clear", "origin": "tables", "area": {"poly": poly}})
     if areas is not None:                         # on an island, each region's ground over its share of the land
         m["require"] += [{"id": f"{code}-ground", "kind": "terrain", "origin": "tables", "terrain": c[4], "area": {"poly": areas[code]},
-                          "share": GROUND_SHARE, "blend": ISLAND_BLEND}
+                          "share": ground_share(regions, code), "blend": ISLAND_BLEND}
                          for c in circles if c[0].endswith("-ground") and (code := c[0][:-len("-ground")]) in areas]
         circles = []
     if not local:                                 # on a sheet in miles, one outline round the way in and every location
@@ -421,7 +431,7 @@ def map_file(sheet: Sheet, seed: int, regions: dict, radius: dict, home: dict, s
                                  "area": {"poly": hull([(x + LOCATION_GROUND * 2 * math.cos(a * math.pi / 4),
                                                          y + LOCATION_GROUND * 2 * math.sin(a * math.pi / 4))
                                                         for _, x, y, *_ in own for a in range(8)])},
-                                 "share": GROUND_SHARE, "blend": BLEND})
+                                 "share": ground_share(regions, code), "blend": BLEND})
         circles = []
     for r in [r for r in m["require"] if r["kind"] == "terrain" and r["id"].endswith("-ground")]:
         ground = next(c for c in regions[r["id"][:-len("-ground")]].children if c.name == "ground")
@@ -486,12 +496,13 @@ def temper(file: Path) -> None:
         file.write_text(json.dumps(m, indent=1))
 
 
-def draw_sheet(sheet: Sheet, target: Path, build) -> tuple[list[str], int]:
+def draw_sheet(sheet: Sheet, target: Path, build, keep: bool = False) -> tuple[list[str], int]:
     """Writes the sheet's map file with the first seed meeting every requirement, else the
-    seed missing fewest. Returns what is unmet, and the seed."""
+    seed missing fewest; with `keep`, its own seed whatever it misses. Returns what is unmet,
+    and the seed."""
     kept = json.loads(target.read_text()) if target.exists() else None
     first = kept["seed"] if kept else 1
-    seeds = [first] + [s for s in range(1, SEEDS + 1) if s != first]
+    seeds = [first] if keep and kept else [first] + [s for s in range(1, SEEDS + 1) if s != first]
     best = None
     with tempfile.TemporaryDirectory() as tmp:
         for seed in seeds:
@@ -523,7 +534,16 @@ def draw_sheet(sheet: Sheet, target: Path, build) -> tuple[list[str], int]:
     return best[0], best[1]
 
 
-def place(brief_path: Path, setting: Path) -> int:
+def placed_ins(setting: Path) -> dict[str, dict[str, tuple[int, int]]]:
+    """Each sheet's way ins as Sheets.md holds them, by sheet and region."""
+    out: dict[str, dict] = {}
+    if (setting / "Sheets.md").exists():
+        for d in sc.read_tables(setting / "Sheets.md")[0].dicts():
+            out.setdefault(d["Sheet"], {})[d["Region"]] = tuple(int(float(v)) for v in d["Way in"].split(","))
+    return out
+
+
+def place(brief_path: Path, setting: Path, reseed: bool = False) -> int:
     schema = tables.Schema(brief=brief_path)
     brief = tables.Brief(schema, brief_path)
     if brief.problems:
@@ -545,6 +565,7 @@ def place(brief_path: Path, setting: Path) -> int:
         radius[code] = max(3, math.ceil(math.sqrt(SQUARES_PER_LOCATION * n / math.pi)))
     world = world_for(setting) if (setting / "region" / "Regions.md").exists() else None
     unmet, table, outlines = [], [], {}
+    ins = {} if reseed else placed_ins(setting)     # a sheet placed already keeps its way ins and its seed
     for sheet in sheets.values():
         rad = {c: (radius[c] if home[c] == sheet.name else 0) for c in sheet.codes}
         spread = {c: located(world, c, sheet.square) for c in sheet.codes if home[c] == sheet.name}
@@ -555,18 +576,25 @@ def place(brief_path: Path, setting: Path) -> int:
         target = setting / f"{sheet.name}.json"
         sea = {c for c in sheet.codes if (g := next((n for n in brief.regions[c].children if n.name == "ground"), None))
                is not None and g.args and str(g.args[0]) in SEA}         # a region whose ground is the sea
+        held = ins.get(sheet.name) if set(ins.get(sheet.name, {})) == set(sheet.codes) else None
         if sheet.land != "island":
-            unmet += solve(sheet, rad, asks, spread)
-        walled = {c: box for c in sheet.codes if home[c] == sheet.name and world and c in world.regions
+            if held:
+                sheet.at = dict(held)
+            else:
+                unmet += solve(sheet, rad, asks, spread)
+        walled = {bid: (c, box) for c in sheet.codes if home[c] == sheet.name and world and c in world.regions
                   and world.regions[c].rating.upper() == "SAFE"
-                  for b in drawn_blocks(world.regions[c]).values() if (box := enclosure(world.regions[c], b)[2])}
+                  for bid, b in drawn_blocks(world.regions[c]).items() if (box := enclosure(world.regions[c], b)[2])}
         placed = {}
 
         def build(seed, s=sheet):                       # marks and routes stand where the regions do
             missed, areas = [], None
             if s.land == "island":                      # an island: its regions placed on the land this seed makes
                 land = land_cells(s, seed)
-                missed = solve(s, rad, asks, spread, land, sea)
+                if held and all(on_land(land, *held[c]) != (c in sea) for c in s.codes):
+                    s.at = dict(held)
+                else:
+                    missed = solve(s, rad, asks, spread, land, sea)
                 areas, shores = island_areas(s, land, rad, spread, seed, sea)
                 placed[seed] = (dict(s.at), shores)
             marks = location_marks(world, s, home) if world else []
@@ -574,7 +602,7 @@ def place(brief_path: Path, setting: Path) -> int:
                       and world and c in world.regions and (lines := route_lines(world.regions[c], s))}
             return map_file(s, seed, brief.regions, rad, home, spread, marks, walled, routes, areas), missed
 
-        problems, sheet.seed = draw_sheet(sheet, target, build)
+        problems, sheet.seed = draw_sheet(sheet, target, build, keep=held is not None)
         if sheet.seed in placed:
             sheet.at = placed[sheet.seed][0]
         for p in problems:
@@ -1639,10 +1667,13 @@ def main() -> int:
     ap.add_argument("--setting", type=Path, default=tables.SETTING)
     ap.add_argument("--out", type=Path)
     ap.add_argument("--fit", help=f"default {SITE_FIT} a sheet, {BLOCK_FIT} a block")
+    ap.add_argument("--reseed", action="store_true", help="place: draw every sheet afresh, its way ins and seed solved again")
     a = ap.parse_args()
     if a.command == "draw":
         return draw(a.brief, a.setting, a.out, a.fit)
-    return (place if a.command == "place" else ground)(a.brief, a.setting)
+    if a.command == "place":
+        return place(a.brief, a.setting, a.reseed)
+    return ground(a.brief, a.setting)
 
 
 if __name__ == "__main__":

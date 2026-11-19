@@ -1,8 +1,8 @@
 # Ground of D The Hill Jungle
 
 ```kdl
-Ground D sheet="Island" square="14,26" height="1000" ground="forest 94%, grass 6%"
-Feature D kind="river" bearing="west-north-west" distance="3.5 miles" runs="south-west"
+Ground D sheet="Island" square="14,26" height="1000" ground="forest 93%, grass 7%"
+Feature D kind="river" bearing="north-north-west" distance="7 miles" runs="north"
 Feature D kind="road" bearing="south-south-east" distance="9.5 miles" runs="north-east"
 Feature D kind="road" bearing="south-south-west" distance="7 miles" runs="south-south-west"
 Feature D kind="road" bearing="south" distance="10 feet" runs="north-north-west"

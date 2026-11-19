@@ -1,14 +1,14 @@
 # Ground of F Lemuni
 
 ```kdl
-Ground F sheet="Island" square="12,13" height="200" ground="grass 73%, forest 22%"
-Feature F kind="river" bearing="south" distance="10 miles" runs="south-west"
+Ground F sheet="Island" square="12,13" height="200" ground="grass 60%, forest 25%, marsh 8%"
+Feature F kind="river" bearing="west" distance="2 miles" runs="north"
 Feature F kind="road" bearing="south" distance="11.5 miles" runs="north-north-west"
 Feature F kind="road" bearing="south-west" distance="5.5 miles" runs="south-west"
 Feature F kind="hill" bearing="south-south-west" distance="10 miles" height="1200"
 Feature F kind="hill" bearing="east" distance="8.5 miles" height="600"
 Feature F kind="hill" bearing="north-east" distance="6.5 miles" height="400"
-Feature F kind="lagoon" bearing="north-east" distance="3 miles"
+Feature F kind="lagoon" bearing="north-north-east" distance="2.5 miles"
 Feature F kind="lagoon" bearing="south-east" distance="8 miles"
 Feature F kind="reef" bearing="east-north-east" distance="5.5 miles"
 Feature F kind="cliff" bearing="south-east" distance="8 miles"

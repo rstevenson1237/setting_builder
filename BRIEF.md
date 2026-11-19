@@ -23,7 +23,8 @@ The maps are asked for here. `setting` holds a `sheet` per terrain map: its name
 (a distance), `extent` (`"W by H unit"`), `regions`, the codes it holds, and optionally `ground`,
 the terrain it is wherever no region's ground reaches, or `land=island`, one generated island in a sea,
 its land shared among its regions; a DANGEROUS region is on none.
-A region on a sheet may hold one `ground` line, a terrain its area must have, optionally a `height`
+A region on a sheet may hold one `ground` line, a terrain its area must have - at least 80% of it, or the `share` it
+states - optionally a `height`
 its area stands at (a distance or `"N-M unit"` above the sea), then prose the writing reads and the solver does not, and `place` lines: another region on a sheet
 with it, a compass direction, and a distance or `"N-M unit"` from that region's way in.
 `origin` names the master map, the sheet whose centre at the sea is (0,0,0), x east, y north, z up, in
@@ -141,7 +142,7 @@ setting {
 }
 
 region A rating=SAFE die=d6 locations=12 {
-  ground grass height="100-200 feet" "gardens, palm groves and cleared ground on the south shore, a lagoon behind a reef, stockades of sharpened logs"
+  ground grass height="100-200 feet" share="70%" "gardens, palm groves and cleared ground on the south shore, a lagoon behind a reef, stockades of sharpened logs"
   place D south "18-24 miles"
   outline "The southern villages: three stockaded villages on the south shore of a peninsula, cut off from the rest of the island by a great wall of stone and logs across its neck, built by their ancestors after the rising, with one great gate. The villages are joined by a shore path and canoes on the lagoon. The largest holds the chiefs' house, where the egg-stone is kept, and the beach where strangers' boats land and the party's ship lies at anchor. Guides, canoes, food and a guest house are had here for trade. The lizard men raid by water round the wall's ends, and the war is felt in burned huts and the watch on the lagoon; at the gate the villages leave food each night for the huge thing that comes to it."
   design footprint="500 feet"
