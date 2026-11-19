@@ -13,7 +13,7 @@ Arrival:
 - A.2 - The party's ship's boats and master wait here; a beach watch and a drum meet every boat, and the ship sails on the day set at landing.
 - A.3 - A wall-end tower with watch canoes, burned huts beside it and a dead raider laid out; the way out by water to the swamp channels.
 
-Plan: A.10, the chiefs' house, stands at the centre. A street runs from the beach past the market A.5, A.10 and the watch house A.11 to the gate A.1; a lane runs to the fish stores A.8, another to the guest house A.4 and the guides' hall A.7; the canoe yard A.6 and the coin-changers' hut A.9 stand by the shore. A.12 lies behind A.10's hearth.
+Plan: In Puluni, at the lagoon's head, a street runs from the beach A.2 past the market A.5 and the chiefs' house A.10 to the watch house A.11, with lanes to the ancestor house A.9 and the guest house A.4; A.12 lies behind A.10's hearth. Naloni, two miles south on the lagoon, holds the canoe yard A.6 and the guides' hall A.7; Tiwani, on the east coast, the fish stores A.8. The gate A.1 and the wall's east end A.3 stand half a mile north.
 
 Places:
 - A.4 - Beds, meals and the keeper's talk; a deserter from the treasure hunters lodges here hoping for passage home.
@@ -21,7 +21,7 @@ Places:
 - A.6 - Canoes hired or bought, and paddlers; the builder wants iron.
 - A.7 - Guides and porters, and a coast chart; no guide crosses the serpent posts (Local Procedure: Hiring a Guide and Canoes).
 - A.8 - Rations, waterskins, torches and lamp oil; the keeper knows which huts burned.
-- A.9 - Coin changed for 3% and goods taken to resale for a fee of 20%; a strongbox is chained down.
+- A.9 - The dead are fed at dusk; for 5 cn the keeper asks them to watch a party's journey.
 - A.10 - Three council speakers sit here; one keeps the shirt laced to the throat. The chiefs' word costs 50 cn.
 - A.11 - Forty spearmen turn out to the drum; a lizard man is held in a cell, an ochre band across the throat.
 - A.12 - Scraped soot at the hearth marks a lifted stone; below, an old keeper sings beside a warm grey stone.

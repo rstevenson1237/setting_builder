@@ -3,7 +3,7 @@
 Three stockaded villages behind the great wall. Puluni, the largest, stands at the lagoon's head round the chiefs' house: the beach and the market on the lagoon side to the west, the ancestor house and the guest house beside the beach, and a street east past the chiefs' house to the watch house. Naloni, the canoe-makers' and guides' village, stands two miles south along the lagoon, its yard on the shore and the guides' hall behind it. Tiwani, the fishers' village, stands on the east coast round the fish stores.
 
 ```kdl
-Design A.a locations="A.10, A.2, A.4, A.5, A.9, A.11, A.12"
+Design A.a locations="A.10, A.2, A.4, A.5, A.9, A.11, A.12" seed=8 score="100" approved="2026-11-19"
 Fill A.a locations="A.10" width=50 length=40
 Fill A.a locations="A.2" width=40 length=80
 Fill A.a locations="A.4" width=40 length=30
@@ -21,14 +21,24 @@ Street A.a past="A.2, A.5, A.10, A.11"
 Street A.a past="A.5, A.9" kind="lane"
 Street A.a past="A.5, A.4" kind="lane"
 Fabric A.a kind=house share="40%"
-Design A.b locations="A.6, A.7"
+Design A.b locations="A.6, A.7" seed=1 score="100" approved="2026-11-19"
 Fill A.b locations="A.6" width=60 length=40
 Fill A.b locations="A.7" width=40 length=25
 Tie A.b from="A.6" to="A.7" bearing="east" distance="40 yards"
 Street A.b past="A.6, A.7"
 Fabric A.b kind=house share="40%"
-Design A.c locations="A.8"
+Design A.c locations="A.8" seed=3 score="100" approved="2026-11-19"
 Fill A.c locations="A.8" width=40 length=30
 Street A.c past="A.8"
 Fabric A.c kind=house share="50%"
+Place A.10 xyz="0,0" outline="rect 50 40" shape=rect
+Place A.2 xyz="-240,0" outline="rect 40 80" shape=rect
+Place A.4 xyz="-117,-117" outline="rect 40 30" shape=rect
+Place A.5 xyz="-120,0" outline="rect 70 50" shape=rect
+Place A.9 xyz="-106,106" outline="rect 30 20" shape=rect
+Place A.11 xyz="135,0" outline="rect 40 30" shape=rect
+Place A.12 xyz="-47,47" outline="rect 15 15" shape=rect
+Place A.6 xyz="0,0" outline="rect 60 40" shape=rect
+Place A.7 xyz="120,0" outline="rect 40 25" shape=rect
+Place A.8 xyz="0,0" outline="rect 40 30" shape=rect
 ```

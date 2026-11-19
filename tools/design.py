@@ -336,7 +336,8 @@ def agree(region, bid: str, g: dict) -> list[tuple[str, str]]:
             out.append(("warning", f"{c} is not in {'Locations.md' if c not in locs else 'Dressing.md'} yet, and the design places it - "
                                    f"owed to step {'3d' if c not in locs else '4a'}"))
             continue
-        got = space.point_of(have.props.get("xyz")) if danger else list(space.offset(region, have) or []) or None
+        t = space.settled().things.get(c)                # a place in its block's frame, as the design states it
+        got = space.point_of(have.props.get("xyz")) if danger else (t.at[:2] if t is not None and None not in t.at[:2] else None)
         if got is None or math.dist(got[:2], want[:2]) > TOL:
             out.append(("error", f"{c} lies at {at(got)} in the tables and at {at(want)} in the design: run `python3 tools/design.py apply {region.code}` (step {owes}), or 3e if the design is wrong"))
         d = dress.get(c)
