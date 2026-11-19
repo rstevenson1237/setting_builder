@@ -3,7 +3,7 @@
 Two villages of stilt-houses either side of a river's mouth with the council house on the nearer bank: a quay runs from the beach past the fish market and the council house to the river trail's head, a lane runs west to the guest house, the net-makers and the headland track, and a path runs up the bluff to the hunters' camp.
 
 ```kdl
-Design F.a locations="F.9, F.1, F.2, F.3, F.4, F.5, F.6, F.7, F.8, F.10"
+Design F.a locations="F.9, F.1, F.2, F.3, F.4, F.5, F.6, F.7, F.8, F.10" seed=1 score="100" approved="2026-11-19"
 Fill F.a locations="F.9" width=40 length=40
 Fill F.a locations="F.1" width=25 length=25
 Fill F.a locations="F.2" width=25 length=25
@@ -28,4 +28,14 @@ Street F.a past="F.2, F.6, F.4, F.9" kind="lane"
 Street F.a past="F.1, F.7" kind="path"
 Street F.a past="F.3, F.8" kind="lane"
 Fabric F.a kind=house share="40%"
+Place F.9 xyz="0,0" outline="rect 40 40" shape=rect
+Place F.1 xyz="0,-285" outline="rect 25 25" shape=rect
+Place F.2 xyz="-270,0" outline="rect 25 25" shape=rect
+Place F.3 xyz="0,225" outline="rect 70 30" shape=rect
+Place F.4 xyz="-97,-40" outline="rect 40 25" shape=rect
+Place F.5 xyz="85,85" outline="rect 60 40" shape=rect
+Place F.6 xyz="-165,0" outline="rect 40 25" shape=rect
+Place F.7 xyz="180,-180" outline="rect 50 40" shape=rect
+Place F.8 xyz="-117,117" outline="rect 50 25" shape=rect
+Place F.10 xyz="-47,-47" outline="rect 15 15" shape=rect
 ```
