@@ -50,9 +50,9 @@ files {
   Rumours die=12 T=4 P=3 F=3 U=2
   Bestiary specials-from=4                           // AD below which a Special is rare
   Factions count=7 marks=2                          // marks: identity marks each shows
-  Quests count=6
+  Quests count=7
   History events=4
-  Truths count=4
+  Truths count=5
   Language affixes="3-5" roots="15-20"               // per tongue
   Procedures wounds="Piercing Crushing Poison Fire Exposure Suffocation" madness=6 exchange="3%" resale="20%" {   // a Wound table per Wound_Type listed; madness: 6 for a d6 Madness table, 0 for none
     weather "1 storm, no boat puts out and travel inland is halved; 2 and 3 rain; 4 to 6 hot and still"
@@ -98,9 +98,9 @@ maps {
 setting {
   origin A
   sheet Island square="1 miles" extent="24 by 54 miles" regions="A B C D E F G" land=island
-  test walks=3 "A jungle island in play, not in text, built fresh by the framework and transcribed from nothing: a party lands at the southern villages with a ship that will not wait forever, trades for a guide, and crosses swamp, coast and hills to the northern villages and back, past cave men, dinosaurs, lizard men at war, mer people in the wrecks and pirates on the same hunt, to a stepped pyramid where a cult of snake people is waking its god. Every location type, procedure kind and registry the framework has is used at least once."
+  test walks=3 "A jungle island in play, not in text, built fresh by the framework and transcribed from nothing: a party lands at the southern villages behind their great wall with a ship that will not wait forever and a partial map marking the serpent crown, trades for a guide, and crosses swamp, coast and hills to the northern villages and back, past cave men, dinosaurs, lizard men at war, mer people in the wrecks and pirates on the same hunt, across forbidden ground to a stepped pyramid where a cult of snake people, with bound men in both peoples' villages, is waking its god. Every location type, procedure kind and registry the framework has is used at least once."
   outline "A large island of jungle-covered hills ringed by reef. Two networks of tribal villages hold its coasts, one on the south shore and one on the north, and neither crosses the hills between. The centre is hill jungle where cave men hunt and dinosaurs graze and kill. Lizard men hold the southern swamps and are at war with the southern villages; mer people hold the sea caves and the wrecks on the western reef. In the eastern jungle a stepped pyramid stands over the trees, held by the last of the snake people and the cult of the god they serve. Small and medium lairs of beasts and humanoids are scattered through every wild region, and pirates and treasure hunters land wherever they please."
-  pressure "The party's ship lies off the southern villages and sails home on a day set at landing, with or without them. The southern villages are losing the swamp war: each raid takes captives, and the lizard men sell them on to the pyramid. The snake people are feeding their god to wake it, buying captives from the lizard men and the pirates alike, and each sacrifice makes the pyramid's cult bolder. A pirate crew and a rival band of treasure hunters are on the island after the same gold, and either will take a party's map, boat or life for it."
+  pressure "The party's ship lies off the southern villages and sails home on a day set at landing, with or without them. The southern villages are losing the swamp war: each raid takes captives, and the lizard men sell them on to the pyramid. The snake people are feeding their god to wake it, buying captives from the lizard men and the pirates alike, and each sacrifice makes the pyramid's cult bolder. A pirate crew and a rival band of treasure hunters are on the island after the same gold, and either will take a party's map, boat or life for it. Those the cult takes and does not kill come home bound: they look and speak as before, wear a scale-mark hidden on the skin, and do what the snake people ask; some already sit in the chiefs' councils, north and south. Behind their wall the southern villages are safe from the island, and each night something huge comes to the wall's gate and is fed."
   history "The snake people raised the stepped pyramid and ruled the island from it, with the lizard men for soldiers and the tribes for labour and sacrifice."
   history "The tribes rose and burned the snake people's towns; the snake people withdrew into the pyramid and dwindled, and the lizard men went back to the swamps they had been set to hold."
   history "The victors split over the spoils into a northern people and a southern one, and the hill jungle between them was left to the beasts and the cave men."
@@ -108,6 +108,7 @@ setting {
   truth "The northern and southern villages speak one tongue and keep one story of the rising, and each blames the other for what was lost after it; each will trade with strangers, and neither will carry a stranger's word to the other."
   truth "The lizard men's war is over an egg-stone of their god the southern villages took in the rising and keep in their chief's house: returned, it ends the raids, and the southern chiefs will not give it up."
   truth "The mer people keep what the reef takes and trade only for what the sea cannot give them, iron and fire-worked things, and they want the pirates' anchorage gone from their water."
+  truth "The eastern jungle is forbidden ground to both peoples since the rising: no guide will cross into it, a villager who does is cast out, and a party known to have gone there loses its standing in the villages that learn of it."
   truth "The snake people's god is a living thing asleep under the pyramid, and each sacrifice brings it nearer waking; it is the end of the pyramid, not a thing a party can bargain with."
   procedures "Hazards are Tests of Constitution and Fate. Overland travel is by the day through jungle, swamp and hill, with an encounter check each watch; a party without a guide loses its way on a failed Test. Disease from the swamps and the jungle water is a Fate Test with a lasting Condition. Poison is Lethal at least once, in a hazard or a creature's Special. Boats are hired at the villages and the anchorage, and the reef wrecks any that crosses it without someone who knows the passages."
   tongue "the common tongue of the party, spoken by the pirates and the treasure hunters and by a few traders in each village"
@@ -120,13 +121,14 @@ setting {
   faction "the northern villages: the smaller tribe, fishers and hill hunters on the north shore, who trade with no one from the south"
   faction "the lizard men: enclaves in the southern swamps, the snake people's old soldiers, raiding the southern villages for the egg-stone and for captives"
   faction "the mer people: the sea caves and the wrecks of the western reef, keepers of the reef's treasure"
-  faction "the snake people's cult: the last snake people and the men they have bound, in the stepped pyramid, feeding their god"
+  faction "the snake people's cult: the last snake people and the men they have bound, in the stepped pyramid and hidden in both peoples' villages, feeding their god"
   faction "the pirates: one crew at an anchorage on the western coast, trading captives to the pyramid and hunting the reef's gold"
   faction "the treasure hunters: a rival expedition from the party's own homeland, after the pyramid's gold with a map of their own"
   relations "The southern and northern villages hold each other at Antipathy. The southern villages and the lizard men hold each other at Hatred. Both villages hold the cult at Hatred (fear)."
   relations "The cult holds the lizard men and the pirates Tolerated, as suppliers, and every other faction at Hatred. The lizard men hold the cult Neutral. The mer people hold the pirates at Hatred and the villages Neutral."
   relations "The pirates and the treasure hunters hold each other at Antipathy. Every pair not named is Neutral."
   rumours "Twelve, each pointing at a place or person: one at each faction, the pyramid, the god beneath it, the egg-stone, the reef's wrecks, and the cave men's hills. At least one is true and sounds false, and each P names which faction or place is wrong."
+  quest "the serpent crown, the snake emperors' crown of gold coiled round a green stone the size of a fist, marked on the party's partial map and kept in the god's sanctum"
   quest "captives taken in the last swamp raid, sought by the southern villages, who pay in guides and canoes"
   quest "a lost northern hunting party, last seen in the hill jungle, given at the northern villages"
   quest "the egg-stone, carried back to the lizard men to end the war, wanted by a southern elder who will not say so to the chiefs"
@@ -138,9 +140,11 @@ setting {
 region A rating=SAFE die=d6 locations=12 {
   ground grass "gardens, palm groves and cleared ground on the south shore, a lagoon behind a reef, stockades of sharpened logs"
   place D south "18-24 miles"
-  outline "The southern villages: three stockaded villages along the south shore, joined by a shore path and canoes on the lagoon. The largest holds the chiefs' house, where the egg-stone is kept, and the beach where strangers' boats land and the party's ship lies at anchor. Guides, canoes, food and a guest house are had here for trade; the war with the lizard men is felt in the burned huts and the watch on the swamp side."
+  outline "The southern villages: three stockaded villages on the south shore of a peninsula, cut off from the rest of the island by a great wall of stone and logs across its neck, built by their ancestors after the rising, with one great gate. The villages are joined by a shore path and canoes on the lagoon. The largest holds the chiefs' house, where the egg-stone is kept, and the beach where strangers' boats land and the party's ship lies at anchor. Guides, canoes, food and a guest house are had here for trade. The lizard men raid by water round the wall's ends, and the war is felt in burned huts and the watch on the lagoon; at the gate the villages leave food each night for the huge thing that comes to it."
   design footprint="600 feet"
+  target Location.type Gate="1+"
   procedure "Hiring a guide and canoes."
+  procedure "Passing the wall's gate, opened by the chiefs' word."
 }
 
 region B rating=WILD die=d8 locations=9 {
@@ -167,7 +171,7 @@ region D rating=WILD die=d10 locations=12 {
 region E rating=WILD die=d8 locations=9 {
   ground forest "low jungle under a closed canopy, vine-choked ruins of the snake people's towns, a slow brown river"
   place D east "5-8 miles"
-  outline "The eastern jungle: the overgrown towns of the snake people's empire around the stepped pyramid, which stands over the canopy and is seen from the hills. Cult patrols and bought men walk its roads, and small lairs fill the ruins. The way into the pyramid is here."
+  outline "The eastern jungle: forbidden ground, the overgrown towns of the snake people's empire around the stepped pyramid, which stands over the canopy and is seen from the hills. Boundary posts carved with serpents mark its edge, where guides turn back. Cult patrols and bound men walk its roads, and small lairs fill the ruins. The way into the pyramid is here."
   target Location.type Ruin="3+" Lair="2+"
 }
 
@@ -200,7 +204,7 @@ region HB rating=DANGEROUS die=d8 locations=14 {
 }
 
 region HC rating=DANGEROUS die=d6 locations=8 {
-  outline "The stepped pyramid, the god's sanctum: the sacrifice hall and the cavern below the pyramid where the god sleeps. Its god is a Named Creature."
+  outline "The stepped pyramid, the god's sanctum: the sacrifice hall and the cavern below the pyramid where the god sleeps, and the serpent crown on the last emperor's bones. Its god is a Named Creature, and the crown its Unique Treasure."
   design fill="25-45%" pad="0 feet" footprint="140 feet"
   target Location.type High=3 Medium=3 Low=2
   target Reward.contents "Unique Treasures"=1 "Magical Tomes"=1
