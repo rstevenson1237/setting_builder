@@ -1037,8 +1037,8 @@ def check_history_order(diag: Diagnostics, schema):
 
 
 def check_blocks(diag: Diagnostics, setting):
-    """Every location of a region with Blocks.md is in exactly one block with a route from its
-    entrance, and no way within a block climbs."""
+    """Every location of a region with Blocks.md is in one block at most - a DANGEROUS region's in exactly one, a SAFE
+    or WILD one's otherwise on its region's ground - with a route from its entrance, and no way within a block climbs."""
     import maps
     for code, region in setting.regions.items():
         blocks = maps.blocks_of(region)
@@ -1074,7 +1074,8 @@ def check_blocks(diag: Diagnostics, setting):
                     if room and float(n.props[k]) > room:
                         diag.error(region.dir / "Connections.md",
                                    f"{n.args[0]} to {n.props.get('to')}: its {k} {n.props[k]} exceeds {end}'s {room:g}")
-        for c in sorted(set(region.locations()) - set(owner), key=lambda c: int(c.split(".")[1])):
+        for c in sorted(set(region.locations()) - set(owner), key=lambda c: int(c.split(".")[1])) \
+                if region.rating.upper() == "DANGEROUS" else ():
             diag.error(path, f"{c} is in no block")
         for n in region.files.get("Connections", []):
             a, b = str(n.args[0]), str(n.props.get("to"))

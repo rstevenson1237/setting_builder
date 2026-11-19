@@ -1919,16 +1919,18 @@ def with_brief(lines: list[kdl.Node], code: str) -> list[kdl.Node]:
     """A region's Design lines with each Design's settings filled from BRIEF.md's `design` line for the region,
     where the Design states none of its own."""
     import tables
-    line = next((c for n in tables.brief_nodes() if n.name == "region" and n.args and str(n.args[0]) == code
-                 for c in n.children if c.name == "design"), None)
-    given = {k: v for k, v in (line.props.items() if line is not None else ()) if k in BRIEFED}
-    if not given:
+    asked = [c for n in tables.brief_nodes() if n.name == "region" and n.args and str(n.args[0]) == code
+             for c in n.children if c.name == "design"]
+    pick = lambda line: {k: v for k, v in (line.props.items() if line is not None else ()) if k in BRIEFED}
+    region = pick(next((c for c in asked if "block" not in c.props), None))
+    blocks = {str(c.props["block"]): pick(c) for c in asked if "block" in c.props}
+    if not region and not any(blocks.values()):
         return lines
     out = []
     for n in lines:
         if n.name == "Design":
             m = kdl.Node(n.name, n.line)
-            m.args, m.props, m.children = n.args, {**given, **n.props}, n.children
+            m.args, m.props, m.children = n.args, {**region, **blocks.get(str(n.args[0]) if n.args else "", {}), **n.props}, n.children
             n = m
         out.append(n)
     return out

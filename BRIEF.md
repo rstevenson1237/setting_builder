@@ -35,7 +35,7 @@ A `design` line in a region asks for its blocks to be designed before their tabl
 DANGEROUS region's always are. It holds `fill`, the share of a block's ground its rooms cover; `pad`, the ground
 kept clear round each room; and `footprint`, the block's ground round its centre - a distance for a square, or
 `"rect W L"`, `"circle R"` or `"poly x,y x,y ..."` in feet - that a settlement is laid out on and a level's drawing comes
-as near as a readable layout allows.
+as near as a readable layout allows. A `design` line with `block` (`block="A.b"`) sets these for that block alone.
 
 ```kdl
 // -- Framework levers ----------------------------------------------------------
@@ -144,7 +144,9 @@ region A rating=SAFE die=d6 locations=12 {
   ground grass height="100-200 feet" "gardens, palm groves and cleared ground on the south shore, a lagoon behind a reef, stockades of sharpened logs"
   place D south "18-24 miles"
   outline "The southern villages: three stockaded villages on the south shore of a peninsula, cut off from the rest of the island by a great wall of stone and logs across its neck, built by their ancestors after the rising, with one great gate. The villages are joined by a shore path and canoes on the lagoon. The largest holds the chiefs' house, where the egg-stone is kept, and the beach where strangers' boats land and the party's ship lies at anchor. Guides, canoes, food and a guest house are had here for trade. The lizard men raid by water round the wall's ends, and the war is felt in burned huts and the watch on the lagoon; at the gate the villages leave food each night for the huge thing that comes to it."
-  design footprint="600 feet"
+  design footprint="500 feet"
+  design block="A.b" footprint="250 feet"
+  design block="A.c" footprint="200 feet"
   target Location.type Gate="1+"
   procedure "Hiring a guide and canoes."
   procedure "Passing the wall's gate, opened by the chiefs' word."

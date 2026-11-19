@@ -1,8 +1,10 @@
 # Ground of G The Northern Headlands
 
 ```kdl
-Ground G sheet="Island" square="8,17" height="1000" ground="scrub 83%, grass 16%"
+Ground G sheet="Island" square="8,17" height="1000" ground="scrub 63%, grass 20%, forest 11%"
 Feature G kind="river" bearing="south-south-east" distance="6 miles" runs="south-west"
+Feature G kind="road" bearing="south-south-east" distance="20 miles" runs="north-east"
+Feature G kind="road" bearing="south" distance="15 miles" runs="south-south-west"
 Feature G kind="road" bearing="south-east" distance="9 miles" runs="north-north-west"
 Feature G kind="road" bearing="south-east" distance="14 miles" runs="east-north-east"
 Feature G kind="road" bearing="south" distance="10 feet" runs="south-west"

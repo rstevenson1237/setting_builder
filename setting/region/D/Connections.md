@@ -1,7 +1,7 @@
 # Connections of D The Hill Jungle
 
 ```kdl
-Way D.12 to="A.1" bearing="south" distance="11.3 miles" orientation="down to the gate"
+Way D.12 to="A.1" bearing="south" distance="13 miles" orientation="down to the gate"
 Way D.1 to="B.8" bearing="south" distance="7.5 miles" orientation="down into the swamp"
 Way D.2 to="C.10" bearing="south" distance="7.5 miles" orientation="down the ridge trail"
 Way D.11 to="E.1" bearing="east" distance="4 miles" orientation="past the posts"

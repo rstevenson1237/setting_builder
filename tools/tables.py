@@ -903,7 +903,7 @@ class Setting:
     def names(self):
         """(path, where, name, form, forms allowed) for every name the build holds: a being's
         in a schema field, a place's in the setting's title or the gazetteer, and a
-        location's with no form, which may only point at a coinage."""
+        location's or block's with no form, which may only point at a coinage."""
         out = []
         for r in self.regions.values():
             if r.folder is None:
@@ -918,7 +918,7 @@ class Setting:
                         if f := next((m for m in ms if m.type == "Name_Form"), None):
                             if node.props.get(f.name):
                                 out.append((path, where, name, str(node.props[f.name]), BEING_FORMS))
-                        elif node.name == "Location":
+                        elif node.name in ("Location", "Block"):     # a place's name points at a coinage
                             out.append((path, where, name, None, ()))
         for n in gazetteer():
             if n.args and {"name", "form"} <= set(n.props):
@@ -1378,6 +1378,7 @@ class Brief:
         self.schema, self.path, self.problems = schema, path, list(schema.brief_problems)
         self.targets, self.regions = [], {}
         self.designs: dict[str, kdl.Node] = {}          # a region's design line, by its code: its blocks are designed at step 3e
+        self.block_designs: dict[str, kdl.Node] = {}    # a design line naming one block, by the block's id
         self.files = self.setting = self.origin = None
         self.sheets: dict[str, kdl.Node] = {}
         self.looks, looks_problems = read_looks(path)
@@ -1495,18 +1496,30 @@ class Brief:
         """A `design` line: `fill` and `pad`, which every block design of the region starts from, and `footprint`, the
         ground its block is laid out on: a distance (a square) or an outline in feet."""
         for k, v in n.props.items():
-            if k == "footprint":
+            if k == "block":
+                if not str(v).startswith(f"{code}."):
+                    self.problems.append(f"line {n.line}: design block names one of region {code}'s blocks, {code}.a and on")
+            elif k == "footprint":
                 if unit_problem("distance", str(v), self.schema.setting_enums) and not OUTLINE_RE.fullmatch(str(v)):
                     self.problems.append(f"line {n.line}: design footprint is a distance or an outline "
                                          f"(\"rect W L\", \"circle R\", \"poly x,y ...\"), not {v!r}")
             elif problem := design_setting(k, str(v)):
                 self.problems.append(f"line {n.line}: design {problem}")
-        self.designs[code] = n
+        if "block" in n.props:
+            self.block_designs[str(n.props["block"])] = n
+        else:
+            self.designs[code] = n
+        if code not in self.designs:                    # a region with only block lines still asks for a design
+            self.designs[code] = n
 
-    def footprint(self, code: str) -> tuple | None:
-        """The ground a region's `design` line lays its block out on, as an outline in feet round the block's centre:
-        a distance is a square of that side."""
-        v = str(self.designs[code].props.get("footprint", "")) if code in self.designs else ""
+    def footprint(self, code: str, block: str | None = None) -> tuple | None:
+        """The ground a block is laid out on, from the `design` line naming it, else its region's: an outline in feet
+        round the block's centre, a distance a square of that side."""
+        line = self.block_designs.get(block) if block else None
+        if line is None:
+            line = self.designs.get(code)
+            line = None if line is not None and "block" in line.props else line
+        v = str(line.props.get("footprint", "")) if line is not None else ""
         if m := DISTANCE_RE.fullmatch(v):
             side = float(m[1]) * UNIT_FEET.get(m[2], 1)
             return "rect", side, side

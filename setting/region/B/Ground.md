@@ -1,7 +1,8 @@
 # Ground of B The Southern Swamps
 
 ```kdl
-Ground B sheet="Island" square="18,35" height="300" ground="marsh 81%, forest 16%"
+Ground B sheet="Island" square="18,35" height="300" ground="marsh 87%, forest 9%"
+Feature B kind="river" bearing="north-west" distance="12.5 miles" runs="south-west"
 Feature B kind="road" bearing="south" distance="10 feet" runs="north-east"
 Feature B kind="road" bearing="west-north-west" distance="7.5 miles" runs="south-south-west"
 Feature B kind="road" bearing="north-north-west" distance="8.5 miles" runs="north-north-west"
@@ -10,6 +11,7 @@ Feature B kind="hill" bearing="north-north-west" distance="8.5 miles" height="12
 Feature B kind="lake" bearing="south-south-west" distance="2.5 miles"
 Feature B kind="lagoon" bearing="south-south-west" distance="2.5 miles"
 Feature B kind="lagoon" bearing="south" distance="6.5 miles"
+Feature B kind="cliff" bearing="north" distance="12.5 miles"
 At B.1 ground="marsh" height="300" slope="flat"
 At B.2 ground="marsh" height="300" slope="flat"
 At B.3 ground="marsh" height="400" slope="flat"

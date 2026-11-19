@@ -257,7 +257,8 @@ def island_areas(sheet: Sheet, land: set, radius: dict, spread: dict, seed: int,
     """Each region's area on an island, as a poly on the sheet: the land a step in from the coast,
     each square to the region nearest it for its size - from its way in or a located place - along a
     wandering border, its largest piece. A region in `sea` shares the water a step out from the coast
-    the same way, no farther than its reach."""
+    the same way, no farther than its reach. Returns each area as its ground is asked over, and as its
+    outline: the same, out to the coast."""
     side = ((1, 0), (-1, 0), (0, 1), (0, -1))
     inner = {(x, y) for x, y in land if all((x + dx, y + dy) in land for dx, dy in side)}
     water = {(x, y) for x in range(sheet.cols * ISLAND_STEP) for y in range(sheet.rows * ISLAND_STEP)
@@ -281,17 +282,30 @@ def island_areas(sheet: Sheet, land: set, radius: dict, spread: dict, seed: int,
             if near not in sea or min(math.dist(((x + 0.5) / ISLAND_STEP, (y + 0.5) / ISLAND_STEP), q)
                                       for q in reach[near]) <= radius[near]:
                 own[near].add((x, y))
-    out = {}
-    for c in codes:
-        pieces, left = [], set(own[c])
+    shore = {c: set(cells) for c, cells in own.items()}   # and out to the coast: each coastal square its nearest owner's
+    edge = [q for q in land - inner]
+    for _ in range(2):
+        for q in edge:
+            if not any(q in v for v in shore.values()):
+                by = next((c for n in ((q[0] + dx, q[1] + dy) for dx, dy in side) for c in codes
+                           if c not in sea and n in shore[c]), None)
+                if by:
+                    shore[by].add(q)
+
+    def poly(cells: set) -> list[float] | None:
+        pieces, left = [], set(cells)
         while left:
             pieces.append(piece(left, min(left)))
             left -= pieces[-1]
-        if pieces:
-            most = max(pieces, key=len)
-            out[c] = [v / ISLAND_STEP for v in cell_outline(unpinched(most, max(most, key=lambda q: sum(n in most for n in (
-                (q[0] + 1, q[1]), (q[0] - 1, q[1]), (q[0], q[1] + 1), (q[0], q[1] - 1))))))]
-    return out
+        if not pieces:
+            return None
+        most = max(pieces, key=len)
+        return [v / ISLAND_STEP for v in cell_outline(unpinched(most, max(most, key=lambda q: sum(n in most for n in (
+            (q[0] + 1, q[1]), (q[0] - 1, q[1]), (q[0], q[1] + 1), (q[0], q[1] - 1))))))]
+
+    asked = {c: p for c in codes if (p := poly(own[c]))}
+    reach = {c: p for c in codes if (p := poly(shore[c]))}
+    return asked, reach
 
 
 def unpinched(cells: set, start: tuple[int, int]) -> set:
@@ -553,8 +567,8 @@ def place(brief_path: Path, setting: Path) -> int:
             if s.land == "island":                      # an island: its regions placed on the land this seed makes
                 land = land_cells(s, seed)
                 missed = solve(s, rad, asks, spread, land, sea)
-                areas = island_areas(s, land, rad, spread, seed, sea)
-                placed[seed] = (dict(s.at), areas)
+                areas, shores = island_areas(s, land, rad, spread, seed, sea)
+                placed[seed] = (dict(s.at), shores)
             marks = location_marks(world, s, home) if world else []
             routes = {c: lines for c in s.codes if s.square > LOCAL_SQUARE_FEET and home[c] == s.name
                       and world and c in world.regions and (lines := route_lines(world.regions[c], s))}

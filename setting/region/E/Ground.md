@@ -1,7 +1,7 @@
 # Ground of E The Eastern Jungle
 
 ```kdl
-Ground E sheet="Island" square="19,27" height="900" ground="forest 97%"
+Ground E sheet="Island" square="19,27" height="900" ground="forest 90%, marsh 8%"
 Feature E kind="river" bearing="west-north-west" distance="8.5 miles" runs="south-west"
 Feature E kind="road" bearing="south" distance="7 miles" runs="north-east"
 Feature E kind="road" bearing="west" distance="4 miles" runs="north-north-west"

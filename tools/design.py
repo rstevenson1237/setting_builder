@@ -118,7 +118,7 @@ class Settle:
         if self.problems:
             return
         self.size = size
-        ground = tables.Brief(tables.Schema()).footprint(region.code)   # the ground BRIEF.md lays the block out on
+        ground = tables.Brief(tables.Schema()).footprint(region.code, bid)   # the ground BRIEF.md lays the block out on
         span = max([d * 2 for *_, d in ties] + [max(max(v) for v in size.values()) * 2] + list(box(ground) or ()))
         self.cell = next((c for c in SETTLE_CELLS if span / c <= SETTLE_MOST), SETTLE_CELLS[-1])
         wild = region.rating.upper() == "WILD"
@@ -436,7 +436,7 @@ SIZE_SLACK = (10.0, 0.10)       # feet, and a share of the target: how far a lev
 def sized(region, brief, bid: str, node) -> list[tuple[str, Path, str]]:
     """A planned level's drawn span against BRIEF.md's `footprint` for its region: a target the design meets as nearly
     as a readable layout allows, so a miss is a warning."""
-    want = box(brief.footprint(region.code))
+    want = box(brief.footprint(region.code, bid))
     m = plan.block_map(region, node)[0] if want else None
     if m is None:
         return []
