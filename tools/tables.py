@@ -1576,8 +1576,10 @@ class Brief:
     def realized(self, setting: Setting):
         """Per region, (target, label, wanted, got, of) for every target value applying to
         it; of is None where wanted is a count. A narrower target replaces a wider one's
-        value of the same key, never its other values."""
-        out = {}
+        value of the same key, never its other values. A rating's share is measured across
+        all the regions it applies to together, under the rating's name, so a share of a
+        few entries in one small region still asks something of the rating."""
+        out, pooled = {}, {}
         for r in setting.regions.values():
             best = {}
             for t in self.targets:
@@ -1587,9 +1589,17 @@ class Brief:
                     if rank >= 0 and rank >= best.get(k, (None, -1))[1]:
                         best[k] = (t, rank)
             won = {}
-            for k, (t, _) in best.items():
-                won.setdefault(id(t), (t, set()))[1].add(k[-1])
+            for k, (t, rank) in best.items():
+                if rank == 1 and SHARE_RE.fullmatch(t.wants[k[-1]]):
+                    pooled.setdefault((id(t), k[-1]), (t, []))[1].append(r)
+                else:
+                    won.setdefault(id(t), (t, set()))[1].add(k[-1])
             out[r.code] = [row for t, vs in won.values() for row in self._measure(t, r, vs)]
+        for (_, v), (t, regions) in pooled.items():
+            rows = [row for r in regions for row in self._measure(t, r, {v})]
+            if rows:
+                got, of = sum(row[3] for row in rows), sum(row[4] or 0 for row in rows)
+                out.setdefault(t.rating.upper(), []).append((t, rows[0][1], rows[0][2], got, of))
         return out
 
     def _measure(self, t: Target, r: Region, only: set[str]):

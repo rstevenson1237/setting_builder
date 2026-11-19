@@ -5,13 +5,13 @@ Overview: A sacrifice hall cut in the pyramid's heart, with a stair down into a 
 Approach: The sanctum stair, from the halls above, is cut in the rock, lit by a bronze brazier and watched by two snake men; getting down means a fight on the stair or a way past the watch.
 
 Prizes:
-- HC.2 - Three to six snake men chant at a stained altar in a hall of gold leaf (Treasure III).
-- HC.6 - The god asleep over bones and old gold; the heap shifts underfoot (Named Creature: Zuuthtuuz).
+- HC.2 - Three to six snake men chant at a stained altar in a hall of gold leaf (Treasure III); a serpent ring lies at the altar's foot (Keys: The Serpent Ring).
+- HC.6 - The god asleep over bones and old gold; the heap shifts underfoot, and a locked iron gate bars the bier (Named Creature: Zuuthtuuz).
 - HC.7 - The last emperor's skull wears the serpent crown; lifting it stirs the god (Unique Treasure: The Serpent Crown).
 
 Places:
 - HC.1 - A cut landing under a brazier; slow breathing comes through the rock.
-- HC.3 - A ring of niches; four to ten captives chained and weeping.
+- HC.3 - A ring of niches; four to ten captives chained and weeping, and reliefs of the emperor's burial behind them (Lore: The Gallery Reliefs).
 - HC.4 - A narrow passage of stacked bones; the breathing grows louder at its end.
 - HC.5 - A small cold cell; a runed stone box holds a book (Magical Tome: The Hissing Litany).
 - HC.8 - A round pit rimmed with chains and bones, a deep drop into the dark.

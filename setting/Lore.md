@@ -20,3 +20,10 @@ Found at: I.2
 Voice: The galleon's captain, who blames the reef and the lights ashore for the wreck and says nothing of whose silver the ship carried.
 Does: hook, dating
 Text: A water-stained log in the common tongue: "Struck on the reef in the dark, a light ashore at the western cove showing where no light should be. Lost twelve men to the sea-folk's nets by dawn. The captain's chest holds the silver we were to deliver, and it will not be given up." A later entry in another hand breaks off mid-line.
+
+### The Gallery Reliefs
+Form: cut
+Found at: HC.3
+Voice: The last emperor's carvers, who show his burial as a victory and the gate as his gift to the god, and leave out the rising that drove him under the pyramid.
+Does: connection, hook
+Text: Carved panels behind the niches follow a crowned serpent-king down a stair to a gold bier beside a coiled god, a ring in the high priest's hand closing an iron gate between them. The glyphs in the serpent speech read: "The crown sleeps with the emperor and the Sleeper keeps them both; the ring opens to the priest alone." The last panel, half cut, shows the gate standing open.
