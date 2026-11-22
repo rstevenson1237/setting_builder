@@ -42,7 +42,8 @@ cite "Test of Fate" form="(Test of Fate, [Condition])" example="(Test of Fate, E
   with its `price` and `per` in the Feature that sells it, a menu or sale as the goods, a service as
   the act.
 - A Stop is a Feature named for its `feature`, in the route's order, saying how far along the
-  route it lies; one with a `to` says where its path leads, by that location's code.
+  route it lies, as `--location` measures it from the first stop; one with a `to` says where its path leads, by that
+  location's code.
 - A key is cited at the location it lies and at each location whose Lock names it.
 - A Feature that works magic does it once, or at a cost a party feels, per `GENRE.md`'s Magic
   level; a lasting boon is a Reward from the Magic table, never a fixture.

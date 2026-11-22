@@ -7,7 +7,7 @@ Approach: By the great gate at Puluni: a warden, the chiefs' word, a search. By 
 Terrain: Jungle hills and ravines. On a game trail a party covers 2 miles a watch and leaves a track a cave men's band can follow. In a clearing a party sees a dinosaur a bowshot off and is seen by it, and cannot hide. A ravine floods within a watch of rain, and a party in it takes a Test of Constitution against the water, a Wound of Suffocation on a failure.
 
 Ways:
-- D.1 - The hill trail climbs from the swamp's edge into the hills, 2 days end to end: the trail head, a track to the waterhole D.7, the clearing's edge D.3 and a cairn leading to the lost hunters' camp D.10.
+- D.1 - The hill trail climbs from the swamp's edge into the hills, 5.5 miles end to end: the trail head, a track to the waterhole D.7, the clearing's edge D.3 and a cairn leading to the lost hunters' camp D.10.
 
 Landmarks:
 - D.2 - Red hand-prints round smoky cave mouths in a ridge face; eight cave men hoot to call the band.

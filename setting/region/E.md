@@ -7,7 +7,7 @@ Approach: By the serpent posts from the hill jungle, carved serpents at the jung
 Terrain: Low jungle under a closed canopy. On the serpent roads worn stone is a road, 4 miles a watch, and every patrol uses it. Under the canopy light is dim at noon and dark by the second watch, a fire is seen through the leaves, and a party off the roads is Lost on a failed Test of Fate. A raft goes down the slow river at 2 miles a watch, in sight of both banks and every crocodile.
 
 Ways:
-- E.1 - The serpent road runs east from the posts D.11 to the pyramid, 4 watches end to end: the posts at the way in, patrol fires leading to E.5, the burned market E.3, the statue court E.4 and the pyramid's foot E.9.
+- E.1 - The serpent road runs east from the posts D.11 to the pyramid, 7 miles end to end: the posts at its start, patrol fires leading to E.5, the burned market E.3, the statue court E.4 and the pyramid's foot E.9.
 
 Landmarks:
 - E.2 - A leaning carved gate-tower hung with moss; grit falls from its stones.

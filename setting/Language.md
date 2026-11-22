@@ -76,7 +76,7 @@ Coined here:
 - Lemumano = lemu + mano - the red river
 - Pawakewi = pawa + kewi - the hand-vine
 - Hanukali = hanu + kali - the three norths
-- Lemuki = lemu + -ki - the little river
+- Nalole = nalo + -le - the tree on the water
 - Tiwahato = tiwa + hato - the white ground
 - Vakomano = vako + mano - the red swamp
 - Naloni = nalo + -ni - the tree place

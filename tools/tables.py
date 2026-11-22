@@ -511,6 +511,14 @@ def spelling_problems(path: Path = LANGUAGE) -> list[str]:
     return out
 
 
+def coinages_alike(path: Path = LANGUAGE) -> list[str]:
+    """Two coinages a referee would swap at the table: the same length, one letter apart."""
+    names = sorted({shown for _, shown in coinages(path)[0].values()})
+    return [f"{a} and {b} are one letter apart - a referee will swap them; coin one afresh"
+            for i, a in enumerate(names) for b in names[i + 1:]
+            if len(a) == len(b) and sum(x != y for x, y in zip(a.lower(), b.lower())) == 1]
+
+
 def tongues_alike(path: Path = LANGUAGE) -> list[str]:
     """What two tongues share that no two may: a syllable shape or a consonant inventory."""
     import site_common as sc
@@ -869,6 +877,8 @@ class Setting:
         known, problems = coinages()
         for msg in problems + tongues_alike() + spelling_problems():
             yield "error", LANGUAGE, msg
+        for msg in coinages_alike():
+            yield "warning", LANGUAGE, msg
         used: set[str] = set()
         has = lambda name: [n for n in known if re.search(rf"\b{re.escape(n)}\b", name, re.I)]
         for path, where, name, form, allowed in self.names():

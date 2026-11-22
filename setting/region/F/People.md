@@ -12,7 +12,7 @@ Faction F.5 faction="Lemunita" present=30 members="fishers and gutters bargainin
 Person F.6 name="Pawakewi" form="tongue" role="net-maker" personality="fussy, proud, humming" wants="Hemp and iron needles; trades nets" knows="Who buys rope for the hills" member="Lemunita"
 Person F.7 name="Hanukali" form="tongue" role="hunters' leader" personality="gruff, careful, grieving" wants="Proof of what took the lost hunters" knows="The river trail and the hunters' last camp" member="Lemunita" quest="The Lost Hunters"
 Faction F.7 faction="Lemunita" present=6 members="hill hunters with dogs and short bows"
-Person F.8 name="Lemuki" form="tongue" role="boatwright" personality="easygoing, cheerful, curious" wants="Iron nails, worked metal, tales of ships" knows="The coast's landings, east to the headland" member="Lemunita"
+Person F.8 name="Nalole" form="tongue" role="boatwright" personality="easygoing, cheerful, curious" wants="Iron nails, worked metal, tales of ships" knows="The coast's landings, east to the headland" member="Lemunita"
 Person F.9 name="Tiwahato" form="tongue" role="council elder" personality="grave, fair, tired" wants="Proof before the council sends spears" knows="What the council has heard, village by village" member="Lemunita" quest="Proof for the Northern Council"
 Person F.9 name="Vakomano" form="tongue" role="council speaker" personality="reasonable, smooth, unhurried" wants="No war party, and no southerners trusted" knows="What each elder fears; the cult's errands" member="Tuuzesh"
 ```

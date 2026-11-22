@@ -1565,6 +1565,46 @@ def report_pending(region_filter: str | None) -> int:
     return 0
 
 
+def stops_along(code: str) -> list[tuple[str, str]]:
+    """A Route's stops in order, each with how far along the route it lies from the first,
+    each leg measured straight between their places."""
+    import maps
+    import space
+    region = maps.world_for(SETTING).regions.get(code.split(".")[0])
+    stops = [n for n in (region.files.get("Stops", []) if region else []) if n.args and str(n.args[0]) == code]
+    at = [space.offset(region, n) for n in stops]
+    if len(stops) < 2 or None in at:
+        return []
+    out, run = [], 0.0
+    for k, n in enumerate(stops):
+        run += math.dist(at[k - 1], at[k]) if k else 0.0
+        miles = run / 5280
+        out.append((str(n.props.get("feature")), "at the start" if k == 0 else f"{miles:.1f} miles" if miles >= 0.1 else f"{round(run / 3)} yards"))
+    return out
+
+
+def check_stops_along(diag: Diagnostics, setting):
+    """Each Stop's Feature says how far along its route it lies, as `stops_along` measures it."""
+    for r in setting.regions.values():
+        for code in sorted({str(n.args[0]) for n in r.files.get("Stops", []) if n.args}):
+            path = r.dir / f"{code.split('.')[1]}.md"
+            if not path.exists():
+                continue
+            text = path.read_text()
+            for feature, said in stops_along(code):
+                m = re.search(rf"^\*\*(?:The )?{re.escape(feature.removeprefix('the '))}:\*\* ([^,;]*)", text, re.M | re.I)
+                if not m:
+                    continue
+                if said == "at the start":
+                    ok = "begins" in m[1] or "start" in m[1]
+                else:
+                    got = re.match(r"([\d.]+) (miles?|yards) along", m[1])
+                    want = float(said.split()[0]) * (1 if "mile" in said else 1 / 1760)
+                    ok = got is not None and abs(float(got[1]) * (1 if "mile" in got[2] else 1 / 1760) - want) <= 0.15
+                if not ok:
+                    diag.warn(path, f"{feature} lies {said} along the route, where the write-up says {m[1]!r} - owed to step 4b")
+
+
 def report_location(code: str) -> int:
     """Every entry the location holds, then every entry naming it."""
     regions = parse_regions(Diagnostics())
@@ -1575,6 +1615,8 @@ def report_location(code: str) -> int:
     own, named = setting.entries_at(code)
     for where, n in own:
         print(f"{where}: {kdl.dump(n)}")
+    if along := stops_along(code):
+        print("\nAlong the route, from its first stop: " + "; ".join(f"{f} {d}" for f, d in along))
     if named:
         print("\nNamed by:")
         for where, n in named:
@@ -1696,6 +1738,7 @@ def main() -> int:
     check_judgement_outputs(diag, setting.codes)
     check_rivers(diag, brief, setting.codes)
     check_quest_truths(diag, schema)
+    check_stops_along(diag, setting)
 
     # A location reached from the region itself is no part of the stated graph.
     top = {c for r in setting.regions.values() for c, n in r.locations().items()
