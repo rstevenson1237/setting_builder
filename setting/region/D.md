@@ -23,10 +23,10 @@ Landmarks:
 - D.12 - A high trampled ridge, the great wall's gate-tower far to the south; huge three-toed prints in the dung at dawn.
 
 Tables:
-d10 Encounter
-1. Hoots from a ridge call a band of cave men toward the party.
+d6 Encounter
+1. Hoots from a ridge call a band of cave men; or two hill hunters and a dog watch from the ferns.
 2. Thudding footfalls and a jungle gone silent: the clearings' tyrant is near.
 3. A shrill cry above; a pterodactyl circles and stoops on the smallest.
 4. Three-toed tracks and torn ferns lead to grazing triceratops who charge if their young are nearer.
-5. A python drops from a tree on what passes beneath.
+5. One of: a python drops from a tree; troglodytes' stench rises from a sinkhole; centipedes rustle in a deserted camp.
 6. A ravine floods in a watch of rain.

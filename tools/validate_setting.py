@@ -1203,6 +1203,9 @@ def check_region_fields(diag: Diagnostics, path: Path, r, holds: dict[str, list[
         for n in rows:
             if n != 6:
                 diag.error(path, f"the table has {n} rows - a d6 table has six")
+        for die in re.findall(r"^\s*d(\d+)\s", "\n".join(lines[start + 1:]), re.M):
+            if die != "6":
+                diag.error(path, f"the table is headed d{die} - a brief's table is a d6 - step 4e")
         cap = folder.words.get("Tables")
         for raw in lines[start + 1:] if cap else ():
             if re.match(r'^\d+[.)]\s', raw.strip()) and len(raw.split()) > cap + 1:

@@ -14,7 +14,6 @@ Confirmed on every item: templates/region/Region_Gazetteer.md, templates/region/
 
 ## Open Items
 - Brief.md and tools/templates.py: give the Tables field a row count, either one row per face of the stated die or a fixed d6 with the heading "d6". Rewrite B.md, C.md, D.md and E.md to match - template.
-- Procedures.md: add the encounter check's die and odds to the Encounters item, then fill them in at 2g - template.
 - Region.md: say that a Ruling cites a Procedures rule rather than restating it, and that a mirrored Entry's `stands` and `refused` are written from the side being entered - template.
 - Location.md: say a faction member's Feature shows one of the faction's Identity marks, and never the same invented tell twice - template.
 - Quests.md: when the Obstacle is `misdescribed`, require the truth to be written in the Object or under Truths - template, schema (see SchemaJudgementCheck).
@@ -24,3 +23,7 @@ Confirmed on every item: templates/region/Region_Gazetteer.md, templates/region/
 - Stops out of distance order, or a last Stop far short of the route's length - tools/validate_setting.py
 - A Feature sentence frame repeated across regions for faction members (same verb phrase on two Persons) - tools/metrics.py
 - An Entry `refused` that names a feature (a stair) its own `stands` denies - tools/validate_setting.py
+
+## Resolved since
+- Brief tables are d6: the skeleton heads them d6, Brief.md says a WILD Encounter table is rolled on a 1 of the Difficulty die and a row may offer several encounters, and the validator rejects any other die. B, C, D and E rewritten to match.
+- Encounter odds and Lost: decided not template gaps; Procedures.md's Encounters item names the Difficulty-die trigger.

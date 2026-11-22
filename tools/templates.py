@@ -396,7 +396,7 @@ def region_skeleton(schema: tb.Schema, shape: str, files: list[str], rating: str
                     items = holds.get(m.name) or ["[Location Code]"]
                     out += [f"{m.name}:"] + [f"- {i} - [...]" for i in items] + [""]
                 elif m.out == "table":
-                    out += ["Tables:", "[die, if rolled] [table name]", "1. [...]", "...", "6. [...]", ""]
+                    out += ["Tables:", "d6 [table name]", "1. [...]", "...", "6. [...]", ""]
                 else:
                     out += [f"{m.name}: [{m.type}]", ""]
             out.append(f"Drawn beside it, never written: {', '.join(f.drawn)}")

@@ -20,10 +20,10 @@ Landmarks:
 - E.9 - A vast stepped pyramid climbing out of the canopy, a snake man and two bound men on its first terrace, the south stair rising to HA.1.
 
 Tables:
-d8 Encounter
+d6 Encounter
 1. A patrol's torches cross the road ahead; bound men and a snake man.
 2. A fire seen through the leaves; patrol voices carry from the camp.
 3. Grit falls from the leaning tower; a party passing beneath is in its fall.
 4. A faint hissing in the head, and fallen statues in a hushed court.
-5. A python drops from the dark of a ruined temple.
+5. A python drops from a ruined temple's dark, or centipedes swarm from scorched market stalls.
 6. A tremor runs through the pyramid's stair and the birds fall silent.

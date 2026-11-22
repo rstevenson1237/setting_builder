@@ -21,7 +21,7 @@ Landmarks:
 - C.10 - A sheer cliff above the cove, a goat path to a lookout ledge.
 
 Tables:
-d8 Encounter
+d6 Encounter
 1. A pirate lookout sounds a horn, and a longboat comes to hail the party.
 2. A treasure hunters' surveyor hails the party and offers news for news.
 3. A three-note song under the water follows a boat toward the reef.

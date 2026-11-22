@@ -34,7 +34,9 @@ item for each location its `holds=` gives it, in code order, as `--skeleton 4e [
 Code]` lists them; one that holds none is left out. What `drawn` names - the Conditions
 among it - is never written here.
 
-A DANGEROUS region's Danger table is numbered 6 to 1 in that order, as
+A brief's table is a d6. A WILD region's Encounter table is rolled when its Difficulty die shows
+a 1; where the region holds more encounters than six rows, a row offers several, one of which is
+met. A DANGEROUS region's Danger table is numbered 6 to 1 in that order, as
 `setting/Procedures.md`'s bands run: 6 a sign a party notices, 1 the thing that acts.
 
 Every fact about a location names it by code. A fact no entry holds is an entry to add to

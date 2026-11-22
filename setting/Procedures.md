@@ -141,7 +141,7 @@ The common silver coin, cn, is the unit of every value in this setting, and a hu
 
 ## Time and Distance
 - **WILD regions** measure in yards and miles and keep time in watches of four hours, six to a day. A watch of travel covers 4 miles on a village road or a shore path, 2 off it through jungle or hill, and 1 through the worst ground (swamp channels, a drowned forest, a ravine, vine-choked ruin). A day lost to rest or storm covers nothing.
-- Overland, a party rolls an encounter check each watch of travel; a party without a guide takes a Test of Fate for Lost at the start of each day, and a party that crosses the western reef without a pilot who knows its passages is wrecked.
+- Overland, a 1 on the region's Difficulty die brings an encounter, rolled on the region's d6 Encounter table; a party without a guide takes a Test of Fate for Lost at the start of each day, and a party that crosses the western reef without a pilot who knows its passages is wrecked.
 - Boats are hired at the villages and at the pirates' anchorage; a boat moves 12 miles a watch under sail on open water and 4 under paddle in swamp channels.
 - **SAFE regions** measure in yards and keep time in watches.
 - **DANGEROUS regions** measure in feet indoors and keep time in turns, as the Tracker gives; a Round is one minute, and light that fails is darkness.

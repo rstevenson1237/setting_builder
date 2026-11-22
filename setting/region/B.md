@@ -22,10 +22,10 @@ Places:
 - B.9 - A reed-screened hummock where captives are held in staked pens for sale; reached by a path through the reeds from B.1.
 
 Tables:
-d8 Encounter
+d6 Encounter
 1. A raiding canoe passes close in the dark; a lantern or a fire must be put out.
 2. Leeches fasten on a wader crossing a still pool; fever follows from the water.
 3. A crocodile strikes a wader from the water's edge.
 4. A canoe patrol of lizard men closes from the reeds and nets those it finds.
-5. A python drops from a hummock's tree on what passes beneath.
+5. One of: a python drops from a hummock's tree; crabs seize a wader from the mud; centipedes swarm from a jammed log.
 6. Ochre handprints on the roots mark a raiding path; a paddle knocks across the water.

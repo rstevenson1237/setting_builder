@@ -19,8 +19,6 @@ Confirmed on every item: patterns/Common_Schema.md, patterns/Dangerous_Schema.md
 ## Open Items
 - Keys.Opens: name the locked Connection, or its `to` location - field.
 - Quests: add a `Truth` text field, required when the Obstacle is `misdescribed` or `misplaced` - field.
-- Procedures: add an encounter-check line (die and odds, per watch or turn) - gap.
-- Tables: let a Bestiary beast be the subject of a Hazard (a stampede, a tyrant's ground), or add a `Sign` challenge that a party avoids - gap.
 - Factions / Person: a `member` Person shows one of the faction's Identity marks, a test or a phrase a party can catch - comment.
 - Entry: write `stands`/`refused` from the side being entered, or split it into `near` and `far` - comment.
 - Stop.distance: in order, and no greater than the route's length - range.
@@ -30,3 +28,7 @@ Confirmed on every item: patterns/Common_Schema.md, patterns/Dangerous_Schema.md
 - Stops out of order, or beyond the route's length - tools/validate_setting.py
 - A Key row whose Opens is the Lock's `from` side - tools/validate_setting.py (once the field is changed)
 - A quest with obstacle `misdescribed` and no truth - tools/validate_setting.py
+
+## Resolved since
+- Encounter odds: decided not a gap. A WILD region's d6 Encounter table is rolled on a 1 of its Difficulty die, and Lost is the ruleset's own; `setting/Procedures.md` now says the first.
+- Dinosaurs as hazards: decided against. A hazard is triggered by an action; a dinosaur attacks unprompted, and its numbers already make it one to avoid.

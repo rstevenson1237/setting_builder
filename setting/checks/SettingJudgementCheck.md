@@ -62,7 +62,6 @@ Confirmed on every item: none in full. I read C, E, G and J by brief and a sampl
 - HA/HB shaft Entry: drop "up the stair" from `refused`; make the chain or the rope one thing - generator.
 - Rename one of Kunotewa / Kunotiwa and record it in Language.md - generator.
 - Add a rumour that points at the cult or the bound men, and place Tuuzesh's pass-phrase where a party can hear it - generator (4d), template.
-- Give dinosaurs a Hazard or Mystery form somewhere in D (a herd stampede at D.7, the tyrant's ground at D.3) - brief, template.
 
 ## Owed to a tool
 - Two location codes joined by a Way whose distance contradicts a "drops to" or "above" in either write-up - tools/space.py
@@ -70,3 +69,7 @@ Confirmed on every item: none in full. I read C, E, G and J by brief and a sampl
 - Two coined names within one letter of each other - tools/validate_setting.py
 - A Named Creature, Lore or Unique Treasure whose location's seed places it elsewhere - tools/validate_setting.py
 - A Key whose Feature names a container in a location other than its Lock's `to` - tools/validate_setting.py
+
+## Resolved since
+- Dinosaurs stay Encounters: a hazard is triggered by an action, and a dinosaur's numbers make it one to avoid.
+- The step 4 loop exited (Checked: trailers on the unchanged write-ups and briefs); the Wall Ridge text, the crown, the galleon's lock, HB.5, E.9, the shaft and the Kunotiwa name are fixed.
