@@ -2,7 +2,7 @@
 
 ```kdl
 Location G.1 name="The Shore Track" tags="narrow, cliff-edged, windy" type="Route" xyz="-490,-7100"
-Location G.2 name="The Hunters' Landing" tags="shingled, tented, guarded" type="Lair" xyz="-12350,-6100"
+Location G.2 name="The Hunters' Landing" tags="shingled, tented, guarded" type="Lair" xyz="-15622,-6321"
 Location G.3 name="The Crater Rim" tags="bare, wide, windy" type="Natural" xyz="11070,-16840"
 Location G.4 name="The Bird Cliffs" tags="white, screaming, sheer" type="Lair" xyz="-16300,-16190"
 Location G.5 name="The Cave Men's Camp" tags="smoky, skin-hung, noisy" type="Lair" xyz="5750,-25880"

@@ -2,7 +2,7 @@
 
 ```kdl
 Ground C sheet="Island" square="10,32" height="100" ground="sand 84%, grass 9%"
-Feature C kind="river" bearing="north" distance="12.5 miles" runs="north"
+Feature C kind="river" bearing="north-north-west" distance="6 miles" runs="south-west"
 Feature C kind="road" bearing="east-south-east" distance="8.5 miles" runs="north-east"
 Feature C kind="road" bearing="south" distance="10 feet" runs="south-south-west"
 Feature C kind="road" bearing="north-east" distance="6.5 miles" runs="north-north-west"

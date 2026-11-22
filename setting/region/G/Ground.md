@@ -2,7 +2,7 @@
 
 ```kdl
 Ground G sheet="Island" square="8,17" height="1000" ground="scrub 63%, grass 19%, forest 12%"
-Feature G kind="river" bearing="south-south-east" distance="1500 yards" runs="north"
+Feature G kind="river" bearing="south" distance="7 miles" runs="south-west"
 Feature G kind="road" bearing="south-south-east" distance="20 miles" runs="north-east"
 Feature G kind="road" bearing="south" distance="15 miles" runs="south-south-west"
 Feature G kind="road" bearing="south-east" distance="9 miles" runs="north-north-west"
@@ -17,7 +17,7 @@ Feature G kind="reef" bearing="north-east" distance="11 miles"
 Feature G kind="cliff" bearing="west-south-west" distance="3 miles"
 Feature G kind="cliff" bearing="south-west" distance="4 miles"
 At G.1 ground="scrub" height="1100" slope="flat"
-At G.2 ground="scrub" height="900" slope="gentle"
+At G.2 ground="forest" height="0" slope="gentle"
 At G.3 ground="scrub" height="1100" slope="flat"
 At G.4 ground="scrub" height="1000" slope="steep"
 At G.5 ground="scrub" height="1200" slope="flat"

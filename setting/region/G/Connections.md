@@ -4,5 +4,5 @@
 Way G.1 to="G.8" bearing="south-west" distance="4.6 miles" orientation="down a cleft"
 Way G.8 to="G.1" bearing="north-east" distance="4.6 miles" orientation="up the cleft"
 Way G.3 to="D.5" bearing="south-south-east" distance="4 miles" orientation="along the crater trail"
-Way G.1 to="F.2" bearing="north-east" distance="6.5 miles" orientation="along the shore track"
+Way G.1 to="F.2" bearing="north-east" distance="9.2 miles" orientation="along the shore track"
 ```

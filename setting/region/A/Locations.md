@@ -3,7 +3,7 @@
 ```kdl
 Location A.1 name="The Great Gate" tags="towering, barred, fed" type="Gate" xyz="0,-8450,0"
 Location A.2 name="The Lagoon Beach" tags="sandy, crowded, drummed" type="Gate" xyz="-240,0,0"
-Location A.3 name="The East Wall End" tags="stone-built, watched, sea-lapped" type="Gate" xyz="13200,-8450,0"
+Location A.3 name="The East Wall End" tags="stone-built, watched, sea-lapped" type="Gate" xyz="15312,-10560,-100"
 Location A.4 name="The Guest House" tags="thatched, smoky, hospitable" type="Inn" xyz="-117,-117,0"
 Location A.5 name="The Beach Market" tags="noisy, bartering, open" type="Market" xyz="-120,0,0"
 Location A.6 name="The Canoe Yard" tags="tarred, stacked, busy" type="Merchant" xyz="0,0,0"
