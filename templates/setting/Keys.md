@@ -13,5 +13,5 @@ field "Keys.Opens" from="Lock.key"
 
 ## Instructions
 Write each entry a table names and this file lacks, per `patterns/Setting_Schema.md`, with its
-Opens the locations whose Lock names it, and its Found at where the key will lie: a trip of
+Opens the locations its locks open into, each Lock's way's `to`, and its Found at where the key will lie: a trip of
 its own, never behind its lock.

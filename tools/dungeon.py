@@ -104,6 +104,16 @@ def defects(region, block: kdl.Node, m: dict) -> list[tuple[str, str]]:
     joined = {j for j in joined if j <= codes}
     wrong += [f"the tables join {a} and {b}, but the map draws no way between them" for a, b in sorted(map(sorted, ways - joined))]
     wrong += [f"the map joins {a} and {b}, which the tables do not" for a, b in sorted(map(sorted, joined - ways))]
+    pair = {(rid(str(n.args[0])), rid(str(n.props["to"]))): n for n in region.files.get("Connections", [])
+            if n.args and "to" in n.props}
+    for x in m.get("connections", []):                    # rooms that touch share one door: its two sides are one make
+        there, back = pair.get((x["a"], x["b"])), pair.get((x["b"], x["a"]))
+        if there is not None and back is not None:
+            look = lambda n: (str(n.props.get("type")), "Secret" in {k.name for k in n.children})
+            if look(there) != look(back):
+                wrong.append(f"{x['a']} and {x['b']} touch and share one door, but the tables give its sides "
+                             f"{look(there)[0]}{' (secret)' if look(there)[1] else ''} and "
+                             f"{look(back)[0]}{' (secret)' if look(back)[1] else ''} - make both one, or join them by a passage (step 3f)")
     leaving = sum(1 for n in region.files.get("Connections", [])
                   if n.args and str(n.args[0]) in members and str(n.props.get("to")) not in members)
     marks = sum(len(r.get("exits") or []) for r in facts.get("rooms", [])) + \

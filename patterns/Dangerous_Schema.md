@@ -129,7 +129,7 @@ node Reward {
 }
 node Connection {
   to location
-  type Connection_Type
+  type Connection_Type      // the door at this end: one door, the same both sides, where the rooms touch
   bearing Compass opt drawn // where the far end lies from this one, on a sloping way out of the block
   distance distance opt drawn   // with bearing; a way between two rooms of a block states neither
   climb feet opt            // up, or down where negative, where the way changes level

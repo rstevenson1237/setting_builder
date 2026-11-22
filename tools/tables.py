@@ -822,23 +822,27 @@ class Setting:
                                 out.setdefault((table, title), []).append((code, node.name))
         return out
 
-    def placements(self) -> dict[tuple[str, str, str], set[str]]:
+    def placements(self, opened: bool = False) -> dict[tuple[str, str, str], set[str]]:
         """(table, title, place field) -> the locations whose entries name that setting
-        entry through the node the field's from= names."""
+        entry through the node the field's from= names; with `opened`, a Lock's the location
+        its way opens into, which a Key's Opens names, rather than the one its door is cited at."""
         froms = {(table, m.props["from"]): m.name for table, fields in self.schema.fields.items()
                  for m in fields if "from" in m.props}
+        opens = {(str(n.args[0]), str(k.props.get("key"))): str(n.props["to"])   # a lock opens the way into its `to`
+                 for r in self.regions.values() for ns in r.files.values() for n in ns
+                 if n.args and "to" in n.props for k in n.children if k.name == "Lock"}
         out: dict[tuple[str, str, str], set[str]] = {}
         for (table, title), hits in self.namings().items():
             for code, node in hits:
                 if f := froms.get((table, node)):
-                    out.setdefault((table, title, f), set()).add(code)
+                    out.setdefault((table, title, f), set()).add(opens.get((code, title), code) if opened and node == "Lock" else code)
         return out
 
     def _check_placements(self):
         """Every place field with a from= against the tables, both ways, each owed to 4a: a
         location the tables place an entry at, to its field; a location the field names and
         no entry there holds, to a stub there."""
-        placed = self.placements()
+        placed = self.placements(opened=True)
         for table, fields in self.schema.fields.items():
             fields = [m for m in fields if "from" in m.props]
             entries = setting_entries(self.schema, table) if fields else None

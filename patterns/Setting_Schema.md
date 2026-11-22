@@ -225,7 +225,7 @@ table Keys entry file="setting/Keys.md" cite=Keys layout="rows" {
   Name text
   Form Key_Form
   "Found at" place from=Reward
-  Opens place from=Lock
+  Opens place from=Lock       // the location its lock opens into: its way's `to`
   Feature text                // which Feature it fits, and what it does
   Apart Apart
   Connection Key_Link list

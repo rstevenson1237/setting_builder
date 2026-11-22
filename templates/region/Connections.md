@@ -21,6 +21,9 @@ field "Block.locations" from="Location.type"
 One entry per side of every way between two locations, with `to`, `type`, `bearing` and
 `distance` set from this end (and `climb` where the way changes level); the far side's entry reverses the
 bearing. What stands in a way - an Encounter, Hazard, Mystery, Secret or Lock - is added with the tables.
+Each side's `type` is the door at its own end. Where the plan has the two rooms touch, the way is one
+door in their shared wall, and both sides give it the same `type` and the same Secret; where a passage
+joins them, each end is a door of its own, and its type, Secret and Lock are that end's.
 
 Every location is reachable from an entrance the seed's Entries name, and a way into a gated
 location carries the gate its folder's `join` line names. A way to another region joins only a
