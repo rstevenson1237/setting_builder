@@ -2,6 +2,7 @@
 
 ```kdl
 Ground B sheet="Island" square="18,35" height="300" ground="marsh 87%, forest 10%"
+Feature B kind="river" bearing="north-north-west" distance="12 miles" runs="north"
 Feature B kind="road" bearing="south" distance="10 feet" runs="north-east"
 Feature B kind="road" bearing="west-north-west" distance="7.5 miles" runs="south-south-west"
 Feature B kind="road" bearing="north-north-west" distance="8.5 miles" runs="north-north-west"

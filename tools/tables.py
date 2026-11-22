@@ -1479,6 +1479,12 @@ class Brief:
                         p('ground height is a distance or a range, low to high, of its area: height="300-1200 feet"')
                     if "share" in c.props and not re.fullmatch(r"(\d{1,2}|100)%", str(c.props["share"])):
                         p('ground share is the least of its area the terrain covers, "N%": share="70%"')
+                elif c.name == "river":
+                    codes = str(c.args[0]).split() if len(c.args) == 1 else []
+                    if len(codes) < 2 or not all(re.fullmatch(r"[A-Z]+\.\d+", x) for x in codes):
+                        p('river is two or more location codes, source first: river "D.10 F.1 F.3"')
+                    elif bad := [x for x in codes if x.split(".")[0] not in on]:
+                        p(f"river names {', '.join(bad)}, of a region on no sheet")
                 elif c.name == "place":
                     other = str(c.args[0]) if c.args else ""
                     span = SPAN_RE.fullmatch(str(c.args[2])) if len(c.args) == 3 else None

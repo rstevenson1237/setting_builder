@@ -1143,6 +1143,32 @@
       "tolerance": 1
     },
     {
+      "id": "F-river-1",
+      "kind": "path",
+      "path": "stream",
+      "origin": "tables",
+      "points": [
+        13.6,
+        24,
+        14.2,
+        21.9,
+        12.6,
+        19.7,
+        14.4,
+        17.6,
+        13.2,
+        15.4,
+        14,
+        13.2,
+        13.6,
+        11.1,
+        13.6,
+        11
+      ],
+      "tolerance": 1,
+      "delta": true
+    },
+    {
       "id": "A-ground",
       "kind": "terrain",
       "origin": "tables",

@@ -207,6 +207,16 @@ def walks_asked() -> int | None:
     return int(v) if v is not None and re.fullmatch(r"[1-9][0-9]*", str(v)) else None
 
 
+def check_rivers(diag: Diagnostics, brief, codes: set[str]):
+    """A BRIEF.md river runs through locations the tables hold."""
+    for code, region in brief.regions.items():
+        for n in region.children:
+            if n.name == "river" and n.args:
+                for c in str(n.args[0]).split():
+                    if c not in codes:
+                        diag.error(tables.BRIEF, f"line {n.line}: region {code} river names {c}, which no Locations.md holds - step 3b")
+
+
 def check_judgement_outputs(diag: Diagnostics, codes: set[str]):
     """A judgement check records findings and nothing else; the walk's routes and findings name real places and steps."""
     if not CHECKS.is_dir():
@@ -1673,6 +1683,7 @@ def main() -> int:
     check_lengths(diag, schema)
     check_reversals(diag, setting)
     check_judgement_outputs(diag, setting.codes)
+    check_rivers(diag, brief, setting.codes)
 
     # A location reached from the region itself is no part of the stated graph.
     top = {c for r in setting.regions.values() for c, n in r.locations().items()

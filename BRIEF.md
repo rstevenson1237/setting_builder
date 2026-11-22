@@ -32,6 +32,8 @@ feet; without one, the regions state their places from a point of their own. A W
 is also the elevation its locations keep to. `maps` holds one `look` line
 per map kind, how every map of that kind is drawn; a key a line leaves out keeps today's drawing.
 
+A `river` line holds location codes on the region's home sheet, source first: a river runs through each in turn and
+into the sea past the last.
 A `design` line in a region asks for its blocks to be designed before their tables are written (step 3e); a
 DANGEROUS region's always are. It holds `fill`, the share of a block's ground its rooms cover; `pad`, the ground
 kept clear round each room; and `footprint`, the block's ground round its centre - a distance for a square, or
@@ -186,6 +188,7 @@ region F rating=SAFE die=d6 locations=10 {
   place D north "14-18 miles"
   outline "The northern villages: two villages at a river mouth and a hunters' camp up the river, smaller and warier than the south. Fish, hill guides and word of the hill jungle are had here, at a higher price for anyone who has come from the south."
   design footprint="500 feet"
+  river "D.10 F.1 F.3"
 }
 
 region G rating=WILD die=d6 locations=8 {
