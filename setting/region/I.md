@@ -15,7 +15,7 @@ Places:
 - I.3 - A low gun deck of rotted planks that break underfoot.
 - I.5 - Eight mer people load nets with cargo; bales of silk lie stacked.
 - I.6 - A blackened galley; a cold stove and shelves of dishes.
-- I.7 - A foul bilge; four crabs lie in the muck, and a bolted strongroom holds the strongbox (Hoard: The Galleon's Strongbox).
+- I.7 - A foul bilge; four crabs lie in the muck beside a sunk iron strongbox (Hoard: The Galleon's Strongbox).
 
 Tables:
 d6 Danger

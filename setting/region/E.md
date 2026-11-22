@@ -17,7 +17,7 @@ Landmarks:
 - E.6 - A low shuttered hut with scale-marks scratched on the door; six bound men sit quiet inside.
 - E.7 - A domed temple hissing in the vine-dark; a python coils in its dome.
 - E.8 - A slow brown river under hanging branches, snagged logs hidden under the water.
-- E.9 - A vast stepped pyramid climbing out of the canopy, two snake men on its first terrace, the south stair rising to HA.1.
+- E.9 - A vast stepped pyramid climbing out of the canopy, a snake man and two bound men on its first terrace, the south stair rising to HA.1.
 
 Tables:
 d8 Encounter

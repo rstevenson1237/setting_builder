@@ -8,5 +8,5 @@ Encounter E.5 doing="resting round the fire, sentries out" reaction="Hostile" wa
 Encounter E.6 doing="sitting quiet in the shuttered hut" reaction="Neutral" want="a stranger's silence" know="the roads and the pyramid's stair" left="scale-marks inked over heart" { Creature bestiary="Tribesman" count=6 }
 Encounter E.7 doing="coiled in the dome's dark" reaction="Hostile" far="long hiss in dark" { Creature bestiary="Giant Python" count=1 }
 Hazard E.8 type="Ford" damage="Nuisance" test="Constitution" wound="Suffocation" sign="brown water, hidden logs"
-Encounter E.9 doing="standing watch on the first terrace" reaction="Hostile" want="no one near the stair" know="when the next captive comes" far="hissing on the stair" { Creature bestiary="Snake Man" count=2 }
+Encounter E.9 doing="standing watch on the first terrace" reaction="Hostile" want="no one near the stair" know="when the next captive comes" far="hissing on the stair" { Faction faction="Tuuzesh" present=3 members="two bound men and a snake man" }
 ```

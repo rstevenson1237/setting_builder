@@ -7,5 +7,5 @@ Dressing I.3 obvious="Low long deck of rotting gun-ports" condition="rotting" am
 Dressing I.4 obvious="Black water filling a vast echoing hold" condition="flooded" ambiance="slow ripples, echoes" layout="black water, ribs, sunken cargo, ladder" width=30 length=30 xyz="5,-45,0"
 Dressing I.5 obvious="Stacked crates, half-flooded, stripped in places" condition="half-flooded" ambiance="dripping, scuttling, damp" layout="crate stacks, wet floor, nets, ladder" mark="Nealeu" width=30 length=30 xyz="5,-15,0"
 Dressing I.6 obvious="Blackened galley, a cold stove and pans" condition="greasy" ambiance="drips, rancid smell" layout="stove, shelves, scullery, hatch" width=20 length=20 xyz="-20,0,0"
-Dressing I.7 obvious="Foul low bilge sloshing with dark water" condition="foul" ambiance="sloshing, creaking, rot-stench" layout="long bilge, ribs, strongroom, locked hatch" width=20 length=10 xyz="0,-65,0" shape=hall
+Dressing I.7 obvious="Foul low bilge sloshing with dark water" condition="foul" ambiance="sloshing, creaking, rot-stench" layout="long bilge, ribs, strongbox in the muck" width=20 length=10 xyz="0,-65,0" shape=hall
 ```
