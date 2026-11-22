@@ -207,6 +207,14 @@ def walks_asked() -> int | None:
     return int(v) if v is not None and re.fullmatch(r"[1-9][0-9]*", str(v)) else None
 
 
+def check_quest_truths(diag: Diagnostics, schema):
+    """A quest whose object is misdescribed or misplaced states what is so."""
+    for title, line, f in tables.setting_entries(schema, "Quests") or []:
+        if f.get("Obstacle", "").strip() in ("misdescribed", "misplaced") and not f.get("Truth", "").strip():
+            diag.warn(SETTING / "Quests.md", f"line {line}: {title} is {f['Obstacle'].strip()}, and its Truth does not say "
+                                             f"what is so - owed to step 4d")
+
+
 def check_rivers(diag: Diagnostics, brief, codes: set[str]):
     """A BRIEF.md river runs through locations the tables hold."""
     for code, region in brief.regions.items():
@@ -1687,6 +1695,7 @@ def main() -> int:
     check_reversals(diag, setting)
     check_judgement_outputs(diag, setting.codes)
     check_rivers(diag, brief, setting.codes)
+    check_quest_truths(diag, schema)
 
     # A location reached from the region itself is no part of the stated graph.
     top = {c for r in setting.regions.values() for c, n in r.locations().items()

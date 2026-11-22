@@ -35,7 +35,8 @@ cite "Test of Fate" form="(Test of Fate, [Condition])" example="(Test of Fate, E
 - A Person is a Feature named for them: what they want and know come out in what they say
   and do, never as a list, and a `quest` they hold is cited there; a Named Creature met by name is written
   the same way, from its entry's Asks, Knows and Quest. A `member` is the
-  referee's: the Feature shows only what the faction's Identity would show a party. A
+  referee's: the Feature shows one of the faction's Identity marks as a party could catch it - seen,
+  overheard, given away - and nothing else of the faction. A
   Garrison or a Faction's members are one Feature citing their Bestiary entry - the first of the
   faction's Fields - never the faction; the faction shows in its Identity. A Purchase is written
   with its `price` and `per` in the Feature that sells it, a menu or sale as the goods, a service as

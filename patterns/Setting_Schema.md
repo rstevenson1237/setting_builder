@@ -252,6 +252,7 @@ table Quests entry file="setting/Quests.md" cite=Quest layout="rows" {
   Reluctance Reluctance
   Object text                 // what, specifically
   Obstacle Obstacle
+  Truth text opt              // what is so, where the Obstacle is misdescribed or misplaced: the referee's answer
   Terms Pay                   // then the giver's own words
   "Points to" place none
 }
