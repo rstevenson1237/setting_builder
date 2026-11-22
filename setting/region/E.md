@@ -7,7 +7,7 @@ Approach: By the serpent posts from the hill jungle, carved serpents at the jung
 Terrain: Low jungle under a closed canopy. On the serpent roads worn stone is a road, 4 miles a watch, and every patrol uses it. Under the canopy light is dim at noon and dark by the second watch, a fire is seen through the leaves, and a party off the roads is Lost on a failed Test of Fate. A raft goes down the slow river at 2 miles a watch, in sight of both banks and every crocodile.
 
 Ways:
-- E.1 - The serpent road runs east from the posts D.11 to the pyramid, 4 watches end to end: the posts at the way in, patrol fires leading to E.5, the burned market E.3, the statue court E.4 and the pyramid's foot E.9.
+- E.1 - The serpent road runs east from the posts D.11 to the pyramid, 7 miles end to end: the posts at its start, patrol fires leading to E.5, the burned market E.3, the statue court E.4 and the pyramid's foot E.9.
 
 Landmarks:
 - E.2 - A leaning carved gate-tower hung with moss; grit falls from its stones.
@@ -17,13 +17,13 @@ Landmarks:
 - E.6 - A low shuttered hut with scale-marks scratched on the door; six bound men sit quiet inside.
 - E.7 - A domed temple hissing in the vine-dark; a python coils in its dome.
 - E.8 - A slow brown river under hanging branches, snagged logs hidden under the water.
-- E.9 - A vast stepped pyramid climbing out of the canopy, two snake men on its first terrace, the south stair rising to HA.1.
+- E.9 - A vast stepped pyramid climbing out of the canopy, a snake man and two bound men on its first terrace, the south stair rising to HA.1.
 
 Tables:
-d8 Encounter
+d6 Encounter
 1. A patrol's torches cross the road ahead; bound men and a snake man.
 2. A fire seen through the leaves; patrol voices carry from the camp.
 3. Grit falls from the leaning tower; a party passing beneath is in its fall.
 4. A faint hissing in the head, and fallen statues in a hushed court.
-5. A python drops from the dark of a ruined temple.
+5. A python drops from a ruined temple's dark, or centipedes swarm from scorched market stalls.
 6. A tremor runs through the pyramid's stair and the birds fall silent.

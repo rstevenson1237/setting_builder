@@ -36,5 +36,6 @@ value stating what the referee should conclude or the players should do.
 
 An Entry from a region this one joins is the same way seen from this side: its door, lock
 and what passing takes agree with the joined region's Entry for it, and a way a party can
-walk back up is never written as shut. A Ruling states only what this ground changes from
+walk back up is never written as shut. Its `stands` is what a party arriving on this side meets,
+and its `refused` what becomes of one turned back here - never the joined region's words copied. A Ruling states only what this ground changes from
 `setting/Procedures.md`'s Time and Distance.

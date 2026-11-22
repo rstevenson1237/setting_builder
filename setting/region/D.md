@@ -7,7 +7,7 @@ Approach: By the great gate at Puluni: a warden, the chiefs' word, a search. By 
 Terrain: Jungle hills and ravines. On a game trail a party covers 2 miles a watch and leaves a track a cave men's band can follow. In a clearing a party sees a dinosaur a bowshot off and is seen by it, and cannot hide. A ravine floods within a watch of rain, and a party in it takes a Test of Constitution against the water, a Wound of Suffocation on a failure.
 
 Ways:
-- D.1 - The hill trail climbs from the swamp's edge into the hills, 2 days end to end: the trail head, a track to the waterhole D.7, the clearing's edge D.3 and a cairn leading to the lost hunters' camp D.10.
+- D.1 - The hill trail climbs from the swamp's edge into the hills, 5.5 miles end to end: the trail head, a track to the waterhole D.7, the clearing's edge D.3 and a cairn leading to the lost hunters' camp D.10.
 
 Landmarks:
 - D.2 - Red hand-prints round smoky cave mouths in a ridge face; eight cave men hoot to call the band.
@@ -20,13 +20,13 @@ Landmarks:
 - D.9 - A still glade of ferns round a steaming spring whose water cures a Diseased drinker.
 - D.10 - Tattered tents round a cold ash ring; four centipedes nest in the rot.
 - D.11 - Weathered serpent posts at the jungle's edge, some freshly re-cut; a guide turns back here.
-- D.12 - A high cleared ridge above the great wall, huge three-toed prints in the dung at dawn.
+- D.12 - A high trampled ridge, the great wall's gate-tower far to the south; huge three-toed prints in the dung at dawn.
 
 Tables:
-d10 Encounter
-1. Hoots from a ridge call a band of cave men toward the party.
+d6 Encounter
+1. Hoots from a ridge call a band of cave men; or two hill hunters and a dog watch from the ferns.
 2. Thudding footfalls and a jungle gone silent: the clearings' tyrant is near.
 3. A shrill cry above; a pterodactyl circles and stoops on the smallest.
 4. Three-toed tracks and torn ferns lead to grazing triceratops who charge if their young are nearer.
-5. A python drops from a tree on what passes beneath.
+5. One of: a python drops from a tree; troglodytes' stench rises from a sinkhole; centipedes rustle in a deserted camp.
 6. A ravine floods in a watch of rain.

@@ -13,7 +13,7 @@ Arrival:
 - A.2 - The party's ship's boats and master wait here; a beach watch and a drum meet every boat, and the ship sails on the day set at landing.
 - A.3 - A wall-end tower with watch canoes, burned huts beside it and a dead raider laid out; the way out by water to the swamp channels.
 
-Plan: In Puluni, at the lagoon's head, a street runs from the beach A.2 past the market A.5 and the chiefs' house A.10 to the watch house A.11, with lanes to the ancestor house A.9 and the guest house A.4; A.12 lies behind A.10's hearth. Naloni, two miles south on the lagoon, holds the canoe yard A.6 and the guides' hall A.7; Tiwani, on the east coast, the fish stores A.8. The gate A.1 and the wall's east end A.3 stand half a mile north.
+Plan: In Puluni, at the lagoon's head, a street runs from the beach A.2 past the market A.5 and the chiefs' house A.10 to the watch house A.11, with lanes to the ancestor house A.9 and the guest house A.4; A.12 lies behind A.10's hearth. Naloni, two miles south on the lagoon, holds the canoe yard A.6 and the guides' hall A.7; Tiwani, on the east coast, the fish stores A.8. The gate A.1 stands 2.5 miles north-east; the wall runs 3 miles east to A.3.
 
 Places:
 - A.4 - Beds, meals and the keeper's talk; a deserter from the treasure hunters lodges here hoping for passage home.

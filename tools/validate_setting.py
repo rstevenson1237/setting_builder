@@ -207,6 +207,24 @@ def walks_asked() -> int | None:
     return int(v) if v is not None and re.fullmatch(r"[1-9][0-9]*", str(v)) else None
 
 
+def check_quest_truths(diag: Diagnostics, schema):
+    """A quest whose object is misdescribed or misplaced states what is so."""
+    for title, line, f in tables.setting_entries(schema, "Quests") or []:
+        if f.get("Obstacle", "").strip() in ("misdescribed", "misplaced") and not f.get("Truth", "").strip():
+            diag.warn(SETTING / "Quests.md", f"line {line}: {title} is {f['Obstacle'].strip()}, and its Truth does not say "
+                                             f"what is so - owed to step 4d")
+
+
+def check_rivers(diag: Diagnostics, brief, codes: set[str]):
+    """A BRIEF.md river runs through locations the tables hold."""
+    for code, region in brief.regions.items():
+        for n in region.children:
+            if n.name == "river" and n.args:
+                for c in str(n.args[0]).split():
+                    if c not in codes:
+                        diag.error(tables.BRIEF, f"line {n.line}: region {code} river names {c}, which no Locations.md holds - step 3b")
+
+
 def check_judgement_outputs(diag: Diagnostics, codes: set[str]):
     """A judgement check records findings and nothing else; the walk's routes and findings name real places and steps."""
     if not CHECKS.is_dir():
@@ -1193,6 +1211,9 @@ def check_region_fields(diag: Diagnostics, path: Path, r, holds: dict[str, list[
         for n in rows:
             if n != 6:
                 diag.error(path, f"the table has {n} rows - a d6 table has six")
+        for die in re.findall(r"^\s*d(\d+)\s", "\n".join(lines[start + 1:]), re.M):
+            if die != "6":
+                diag.error(path, f"the table is headed d{die} - a brief's table is a d6 - step 4e")
         cap = folder.words.get("Tables")
         for raw in lines[start + 1:] if cap else ():
             if re.match(r'^\d+[.)]\s', raw.strip()) and len(raw.split()) > cap + 1:
@@ -1544,6 +1565,46 @@ def report_pending(region_filter: str | None) -> int:
     return 0
 
 
+def stops_along(code: str) -> list[tuple[str, str]]:
+    """A Route's stops in order, each with how far along the route it lies from the first,
+    each leg measured straight between their places."""
+    import maps
+    import space
+    region = maps.world_for(SETTING).regions.get(code.split(".")[0])
+    stops = [n for n in (region.files.get("Stops", []) if region else []) if n.args and str(n.args[0]) == code]
+    at = [space.offset(region, n) for n in stops]
+    if len(stops) < 2 or None in at:
+        return []
+    out, run = [], 0.0
+    for k, n in enumerate(stops):
+        run += math.dist(at[k - 1], at[k]) if k else 0.0
+        miles = run / 5280
+        out.append((str(n.props.get("feature")), "at the start" if k == 0 else f"{miles:.1f} miles" if miles >= 0.1 else f"{round(run / 3)} yards"))
+    return out
+
+
+def check_stops_along(diag: Diagnostics, setting):
+    """Each Stop's Feature says how far along its route it lies, as `stops_along` measures it."""
+    for r in setting.regions.values():
+        for code in sorted({str(n.args[0]) for n in r.files.get("Stops", []) if n.args}):
+            path = r.dir / f"{code.split('.')[1]}.md"
+            if not path.exists():
+                continue
+            text = path.read_text()
+            for feature, said in stops_along(code):
+                m = re.search(rf"^\*\*(?:The )?{re.escape(feature.removeprefix('the '))}:\*\* ([^,;]*)", text, re.M | re.I)
+                if not m:
+                    continue
+                if said == "at the start":
+                    ok = "begins" in m[1] or "start" in m[1]
+                else:
+                    got = re.match(r"([\d.]+) (miles?|yards) along", m[1])
+                    want = float(said.split()[0]) * (1 if "mile" in said else 1 / 1760)
+                    ok = got is not None and abs(float(got[1]) * (1 if "mile" in got[2] else 1 / 1760) - want) <= 0.15
+                if not ok:
+                    diag.warn(path, f"{feature} lies {said} along the route, where the write-up says {m[1]!r} - owed to step 4b")
+
+
 def report_location(code: str) -> int:
     """Every entry the location holds, then every entry naming it."""
     regions = parse_regions(Diagnostics())
@@ -1554,6 +1615,8 @@ def report_location(code: str) -> int:
     own, named = setting.entries_at(code)
     for where, n in own:
         print(f"{where}: {kdl.dump(n)}")
+    if along := stops_along(code):
+        print("\nAlong the route, from its first stop: " + "; ".join(f"{f} {d}" for f, d in along))
     if named:
         print("\nNamed by:")
         for where, n in named:
@@ -1673,6 +1736,9 @@ def main() -> int:
     check_lengths(diag, schema)
     check_reversals(diag, setting)
     check_judgement_outputs(diag, setting.codes)
+    check_rivers(diag, brief, setting.codes)
+    check_quest_truths(diag, schema)
+    check_stops_along(diag, setting)
 
     # A location reached from the region itself is no part of the stated graph.
     top = {c for r in setting.regions.values() for c, n in r.locations().items()

@@ -2,7 +2,8 @@
 
 ```kdl
 Ground D sheet="Island" square="14,26" height="1000" ground="forest 93%, grass 7%"
-Feature D kind="river" bearing="north-north-west" distance="7 miles" runs="north"
+Feature D kind="river" bearing="north-north-west" distance="2 miles" runs="north"
+Feature D kind="river" bearing="west-north-west" distance="5.5 miles" runs="south-west"
 Feature D kind="road" bearing="south-south-east" distance="9.5 miles" runs="north-east"
 Feature D kind="road" bearing="south-south-west" distance="7 miles" runs="south-south-west"
 Feature D kind="road" bearing="south" distance="10 feet" runs="north-north-west"
@@ -12,6 +13,7 @@ Feature D kind="hill" bearing="north-west" distance="5.5 miles" height="1200"
 Feature D kind="hill" bearing="south-south-west" distance="1.5 miles" height="1200"
 Feature D kind="hill" bearing="west" distance="10.5 miles" height="900"
 Feature D kind="lake" bearing="south-south-east" distance="11.5 miles"
+Feature D kind="lake" bearing="north-north-west" distance="12 miles"
 Feature D kind="lagoon" bearing="north-north-east" distance="7.5 miles"
 Feature D kind="lagoon" bearing="west-north-west" distance="10.5 miles"
 Feature D kind="cliff" bearing="east-north-east" distance="7 miles"

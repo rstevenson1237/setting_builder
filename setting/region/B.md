@@ -4,10 +4,10 @@ Overview: Black channels and hummocks under mangrove and drowned trees, reed bed
 
 Approach: By water from Puluni, two watch canoes at the wall's end by day and one by night take slipping by or passing; a canoe caught is turned back to the lagoon. From the hill jungle, a lizard men's lookout in a tree on the last dry rise by day and a canoe patrol by night; the way takes a watch of wading under the lookout's eye, and a party driven back is followed to the hill's foot.
 
-Terrain: A swamp of mangrove, reed and mud. In the open channels a canoe covers 4 miles a watch, and a party without a paddler who knows them takes a Test of Fate for Lost each watch. On the hummocks on foot each crossing is a watch of the worst ground, and every day a Test of Fate against swamp fever, Diseased on a failure. At night raiding canoes work the channels, and a lit lantern or fire is seen from every hummock for a mile.
+Terrain: A swamp of mangrove, reed and mud. In the open channels a canoe covers 4 miles a watch, and a party without a paddler who knows them takes a Test of Fate for Lost. On the hummocks on foot each crossing is a watch of the worst ground, and every day a Test of Fate against swamp fever, Diseased on a failure. At night raiding canoes work the channels, and a lit lantern or fire is seen from every hummock for a mile.
 
 Ways:
-- B.1 - The black channel runs from the wall's end A.3 to the hummocks, 3 watches end to end: the channel mouth, a lizard men's fish weir, a fork with a lookout's fire, and the hummock landing from which a path through the reeds leads to B.9. A log jammed across it holds nesting giant centipedes.
+- B.1 - The black channel runs from the wall's end A.3 to the hummocks, 2.3 miles end to end: the channel mouth, a lizard men's fish weir, a fork with a lookout's fire, and the hummock landing from which a path through the reeds leads to B.9. A log jammed across it holds nesting giant centipedes.
 
 Landmarks:
 - B.2 - A still black pool under drowned mangroves, seen by its buzzing; giant leeches wait in the water.
@@ -22,10 +22,10 @@ Places:
 - B.9 - A reed-screened hummock where captives are held in staked pens for sale; reached by a path through the reeds from B.1.
 
 Tables:
-d8 Encounter
+d6 Encounter
 1. A raiding canoe passes close in the dark; a lantern or a fire must be put out.
 2. Leeches fasten on a wader crossing a still pool; fever follows from the water.
 3. A crocodile strikes a wader from the water's edge.
 4. A canoe patrol of lizard men closes from the reeds and nets those it finds.
-5. A python drops from a hummock's tree on what passes beneath.
+5. One of: a python drops from a hummock's tree; crabs seize a wader from the mud; centipedes swarm from a jammed log.
 6. Ochre handprints on the roots mark a raiding path; a paddle knocks across the water.

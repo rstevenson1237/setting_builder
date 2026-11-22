@@ -2,7 +2,7 @@ HA The Pyramid's Upper Temple
 
 Overview: Terraces of dressed stone climb a stepped pyramid out of the jungle, a stair on each face, and a shrine on top under the open sky. A party climbs the stair for the crown or a way down (Faction: Tuuzesh). Bound men carry captives up the stair at dusk, and each sacrifice makes the cult bolder. If a captive is carried up, blood runs down the channel to the shaft and the torches burn lower; if the shrine's fire is put out, the watch comes up the stair within the turn.
 
-Approach: The pyramid's foot, from the eastern jungle, has two bound men and a snake man on the first terrace by day and a patrol by night; a hundred feet of open stair in the jungle's sight. The shaft, from the halls below, has a winch worked by bound men and no stair; a hundred feet in the dark.
+Approach: The pyramid's foot, from the eastern jungle, has two bound men and a snake man on the first terrace by day and a patrol by night; a hundred feet of open stair in the jungle's sight. The shaft, from the halls below, has a winch worked by bound men and no stair; a hundred feet up the rope in the dark.
 
 Entrances:
 - HA.1 - The first terrace, open above the canopy; the south stair rises to it from E.9, and a stair mouth climbs north.

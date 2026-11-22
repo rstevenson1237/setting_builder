@@ -64,7 +64,7 @@ Coined here:
 - Hanuhato = hanu + hato - the north-ground
 - Lokapawa = loka + pawa - the trade-hand
 - Pulumano = pulu + mano - the red rock
-- Kunotiwa = kuno + tiwa - the white bone
+- Tuhatiwa = tuha + tiwa - the white rain
 - Hatokali = hato + kali - the three grounds
 - Tuhahuna = tuha + huna - the rain-fire
 - Kewikali = kewi + kali - the three vines
@@ -76,7 +76,7 @@ Coined here:
 - Lemumano = lemu + mano - the red river
 - Pawakewi = pawa + kewi - the hand-vine
 - Hanukali = hanu + kali - the three norths
-- Lemuki = lemu + -ki - the little river
+- Nalole = nalo + -le - the tree on the water
 - Tiwahato = tiwa + hato - the white ground
 - Vakomano = vako + mano - the red swamp
 - Naloni = nalo + -ni - the tree place

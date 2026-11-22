@@ -5,7 +5,7 @@ Encounter HB.2 doing="turning the cranks in shifts" reaction="Hostile" answers="
 Encounter HB.3 doing="drawing lots by the lamp" reaction="Hostile" answers="1 turn" far="spear-butts on stone" { Faction faction="Tuuzesh" present=6 members="two snake men and four bound men" }
 Encounter HB.4 doing="coiled in the vault above the hall" reaction="Hostile" far="sloughed skin on floor" { Creature bestiary="Giant Python" count=1 }
 Encounter HB.5 doing="crowded in the pens, chained" reaction="Fearful" want="rescue, or a quick death" know="who was taken from where" { Creature bestiary="Tribesman" count=8 }
-Encounter HB.5 doing="keeping the pens with whips" reaction="Hostile" answers="1 turn" { Faction faction="Tuuzesh" present=3 members="bound men with whips and keys" }
+Encounter HB.5 doing="keeping the pens with whips" reaction="Hostile" answers="1 turn" { Creature bestiary="Tribesman" count=3 }
 Encounter HB.7 doing="resting in bunks, armed" reaction="Hostile" answers="1 turn" far="snoring and a hiss" { Faction faction="Tuuzesh" present=8 members="six bound men and two snake men" }
 Encounter HB.8 doing="coiled in warm nest-beds" reaction="Hostile" answers="1 turn" far="long hiss in dark" { Creature bestiary="Snake Man" count=4 }
 Hazard HB.8 type="Gas" damage="Nuisance" test="Constitution" wound="Poison" { Secret trigger="disturbing the nest-beds" tell="sour musk, thick air" knows="the snake people" }

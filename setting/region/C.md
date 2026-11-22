@@ -7,7 +7,7 @@ Approach: By the great gate at Puluni, a warden and a watch, the chiefs' word an
 Terrain: Hard sand, scrub, sea cliffs and caves. On the beach at low tide a party walks 4 miles a watch on the hard sand; at high tide the beach is under water and the cliff path takes 2. Wading the reef at low water is the worst ground, with a Test of Constitution each watch against the coral's cuts, a Wound of Piercing on a failure. In a storm the surf breaks over the whole reef, no boat puts out and the wrecks are under water.
 
 Ways:
-- C.1 - The shore path runs from the gate A.1: 3 watches end to end, the first hard sand, the wave-cut arch with a path to C.8, the hunters' beach track to C.3 and the lookout cliff path to C.10. The pirates' cove C.2 lies beyond the dunes.
+- C.1 - The shore path runs from the gate A.1, 3.6 miles end to end: the first hard sand, the wave-cut arch with a path to C.8, the hunters' beach track to C.3 and the lookout cliff path to C.10. The pirates' cove C.2 lies beyond the dunes.
 
 Landmarks:
 - C.2 - A sheltered cove with a black ship at anchor and plank huts; twelve pirates drink round a beach fire.
@@ -21,7 +21,7 @@ Landmarks:
 - C.10 - A sheer cliff above the cove, a goat path to a lookout ledge.
 
 Tables:
-d8 Encounter
+d6 Encounter
 1. A pirate lookout sounds a horn, and a longboat comes to hail the party.
 2. A treasure hunters' surveyor hails the party and offers news for news.
 3. A three-note song under the water follows a boat toward the reef.

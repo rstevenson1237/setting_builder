@@ -7,7 +7,7 @@ Approach: By the crater trail from the hill jungle, a hunters' sentry at the lip
 Terrain: Windward scrub and grass above cliffs. At the cliff edge in a gale a Test of Constitution each watch, a Wound of Crushing on a failure at the foot. On the crater rim the open scrub is 2 miles a watch, and every fire and lantern is seen from the sea.
 
 Ways:
-- G.1 - The shore track runs along the cliff top from the northern villages F.2, 3 watches end to end: the windward point G.7, the hunters' landing G.2, the crater trail to G.3 and the bird cliffs G.4; a cleft leads down to the cliff cave G.8.
+- G.1 - The shore track runs along the cliff top from the northern villages F.2, 11 miles end to end: the windward point G.7, the hunters' landing G.2, the crater trail to G.3 and the bird cliffs G.4; a cleft leads down to the cliff cave G.8.
 
 Landmarks:
 - G.2 - A tented camp above a shingle landing, a new palisade half built; ten hunters hammer and watch.

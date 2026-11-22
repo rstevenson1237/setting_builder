@@ -53,7 +53,7 @@ format {
   a road, off it and through the worst ground; its Tracker line gives a DANGEROUS turn and
   how long a light lasts, which the PDF's turn tracker is drawn from.
 - **Weather** - spread as `BRIEF.md`'s `weather` sets; the setting writes what each is.
-- **Encounters** - distance, 1 an instant surprise to 6 signs or tracks only,
+- **Encounters** - that a WILD region's d6 Encounter table is rolled on a 1 of its Difficulty die; distance, 1 an instant surprise to 6 signs or tracks only,
   and the six Danger bands, 6 to 1, each in a line a region's Brief can instance. The party
   size numbers appearing are set for.
 - **Carousing** - spread as `BRIEF.md`'s `carousing` sets.

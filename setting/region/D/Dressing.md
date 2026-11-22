@@ -12,5 +12,5 @@ Dressing D.8 obvious="Hidden falls roaring into a slick ravine" condition="slick
 Dressing D.9 obvious="Still glade of ferns round a steaming spring" condition="dim" ambiance="steam, drips, small insects" width=400 length=300 layout="fern floor, warm spring, rotting logs"
 Dressing D.10 obvious="Tattered tents, cold ash, a snapped bow" former="a hunting camp" condition="abandoned" ambiance="flies, rotting hide, silence" width=200 length=150 layout="three collapsed tents, ash ring, scattered gear" mark="Lemunita"
 Dressing D.11 obvious="Carved serpent posts marking the jungle's edge" former="a snake empire's boundary" condition="re-carved" ambiance="creaking vines, no birds" width=300 length=60 layout="line of posts, bare track, vine curtain" mark="Tuuzesh" left="The Snake People Raise the Pyramid"
-Dressing D.12 obvious="High cleared ridge above the great wall" condition="cleared" ambiance="wind, drums, huge prints" width=600 length=200 layout="bare ridge, cleared slope, dung heaps, drop" left="The Victors Divide"
+Dressing D.12 obvious="High bare ridge, the great wall far south" condition="trampled" ambiance="wind, drums, huge prints" width=600 length=200 layout="bare ridge, trampled slope, dung heaps, trail south" left="The Victors Divide"
 ```

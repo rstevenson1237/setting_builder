@@ -12,5 +12,5 @@ Location D.8 name="The Ravine Falls" tags="roaring, slick, hidden" type="Natural
 Location D.9 name="The Fern Glade" tags="still, green, dim" type="Natural" xyz="10940,-12120"
 Location D.10 name="The Lost Hunters' Camp" tags="abandoned, tattered, ash-grey" type="Ruin" xyz="-2070,10470"
 Location D.11 name="The Serpent Posts" tags="carved, weathered, coiled" type="Ruin" xyz="10570,-8910"
-Location D.12 name="The Wall Ridge" tags="high, cleared, open" type="Natural" xyz="-10080,-24880"
+Location D.12 name="The Wall Ridge" tags="high, trampled, open" type="Natural" xyz="-10080,-24880"
 ```

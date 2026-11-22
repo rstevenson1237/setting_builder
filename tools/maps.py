@@ -79,6 +79,8 @@ REGIONAL = {"land": "inland", "sea": 0.0, "moisture": 0.6, "roughness": 0.3, "re
 ISLAND = {**REGIONAL, "land": "island", "sea": 0.55, "moisture": 0.8, "roughness": 0.4, "relief": 0.5, "rivers": 3, "feature": 8}   # a sheet with land=island: the sea round one island
 SEA = ("water", "deep")          # the grounds a region on an island's sea may ask
 LAGOON_REACH = 2                # squares: a lagoon has land this near on seven of its eight sides, and is a square or more
+MEANDER_STEP = 2               # squares between a river's bends
+MEANDER_SWING = 0.3             # how far a bend swings aside, as a share of the bend's length
 CREEK_MOST = 4                  # squares: a river this long or shorter is a creek
 NEAREST = 2                     # of each lake, lagoon, reef and cliff, the ones nearest a region's way in its Ground.md names
 REEF_MOST = 3                   # squares: a piece of land apart from the island this small or smaller is a reef
@@ -370,7 +372,8 @@ def artgen(*args) -> subprocess.CompletedProcess:
 
 def map_file(sheet: Sheet, seed: int, regions: dict, radius: dict, home: dict, spread: dict,
              marks: list[tuple[float, float, str, str]], walled: dict[str, tuple[str, list[float]]],
-             routes: dict[str, list[list[tuple[float, float]]]], areas: dict[str, list[float]] | None = None) -> dict:
+             routes: dict[str, list[list[tuple[float, float]]]], areas: dict[str, list[float]] | None = None,
+             rivers: dict[str, list[list[str]]] | None = None) -> dict:
     local = sheet.square <= LOCAL_SQUARE_FEET
     circles = []                                  # (id, x, y, r, terrain): each area's ground
     for code in sheet.codes:
@@ -402,6 +405,12 @@ def map_file(sheet: Sheet, seed: int, regions: dict, radius: dict, home: dict, s
         for i, line in enumerate(lines):
             m["require"].append({"id": f"{code}-route-{i + 1}", "kind": "path", "path": "road", "origin": "tables",
                                  "points": [round(v, 1) for p in line for v in p], "tolerance": 1})
+    at = {label.split()[0]: (x, y) for x, y, _, label in marks}
+    for code, lines in (rivers or {}).items():    # a region's river through the places it names, source first, into the sea
+        for i, line in enumerate(lines):
+            if len(pts := [at[c] for c in line if c in at]) >= 2:
+                m["require"].append({"id": f"{code}-river-{i + 1}", "kind": "path", "path": "stream", "origin": "tables",
+                                     "points": [v for p in meander(pts, seed + i) for v in p], "tolerance": 1, "delta": True})
     for x, y, kind, label in marks:
         m["overlay"]["symbols"].append({"kind": kind, "x": x, "y": y, "origin": "tables"})
         m["overlay"]["labels"].append({"text": label, "x": round(x + 0.8, 1), "y": y, "kind": "place", "origin": "tables"})
@@ -459,6 +468,22 @@ def map_file(sheet: Sheet, seed: int, regions: dict, radius: dict, home: dict, s
             m["require"].append({"id": c[0], "kind": "terrain", "origin": "tables", "area": {"circle": list(c[1:4])},
                                  "terrain": c[4], "share": GROUND_SHARE})
     return m
+
+
+def meander(points: list[tuple[float, float]], seed: int) -> list[tuple[float, float]]:
+    """A line through points that bends between them as a river does: a bend every MEANDER_STEP
+    squares, swung to either side by up to MEANDER_SWING of the leg, from the seed."""
+    rng, out = random.Random(seed), [points[0]]
+    for a, b in zip(points, points[1:]):
+        n = max(1, round(math.dist(a, b) / MEANDER_STEP))
+        side = rng.choice((-1, 1))
+        for k in range(1, n):
+            t, side = k / n, -side
+            off = side * rng.uniform(0.3, 1) * MEANDER_SWING * min(math.dist(a, b), 2 * MEANDER_STEP)
+            dx, dy = (b[0] - a[0]) / (math.dist(a, b) or 1), (b[1] - a[1]) / (math.dist(a, b) or 1)
+            out.append((round(a[0] + t * (b[0] - a[0]) - dy * off, 1), round(a[1] + t * (b[1] - a[1]) + dx * off, 1)))
+        out.append(b)
+    return out
 
 
 def hull(points: list[tuple[float, float]]) -> list[float]:
@@ -600,7 +625,9 @@ def place(brief_path: Path, setting: Path, reseed: bool = False) -> int:
             marks = location_marks(world, s, home) if world else []
             routes = {c: lines for c in s.codes if s.square > LOCAL_SQUARE_FEET and home[c] == s.name
                       and world and c in world.regions and (lines := route_lines(world.regions[c], s))}
-            return map_file(s, seed, brief.regions, rad, home, spread, marks, walled, routes, areas), missed
+            rivers = {c: [str(n.args[0]).split() for n in brief.regions[c].children if n.name == "river" and n.args]
+                      for c in s.codes if home[c] == s.name}
+            return map_file(s, seed, brief.regions, rad, home, spread, marks, walled, routes, areas, rivers), missed
 
         problems, sheet.seed = draw_sheet(sheet, target, build, keep=held is not None)
         if sheet.seed in placed:

@@ -1,6 +1,6 @@
 HC The God's Sanctum
 
-Overview: A sacrifice hall cut in the pyramid's heart, with a stair down into a cavern of raw rock where the god sleeps on a heap of old bones and the serpent crown. A party goes down for the crown, or to see what the cult feeds (Faction: Tuuzesh; Named Creature: Zuuthtuuz). Each sacrifice brings the god nearer waking, and the bound men carry the next captive down at dusk. If a captive is sacrificed on the altar the floor trembles and the god's breathing changes for a turn; if the crown is lifted the god stirs and the torches gutter.
+Overview: A sacrifice hall, a stair down to the god asleep on old bones, and past an iron gate the last emperor on a gold bier in the serpent crown. A party goes down for the crown, or to see what the cult feeds (Faction: Tuuzesh; Named Creature: Zuuthtuuz). Each sacrifice brings the god nearer waking, and the bound men carry the next captive down at dusk. If a captive is sacrificed on the altar the floor trembles and the god's breathing changes for a turn; if the crown is lifted the god stirs and the torches gutter.
 
 Approach: The sanctum stair, from the halls above, is cut in the rock, lit by a bronze brazier and watched by two snake men; getting down means a fight on the stair or a way past the watch.
 
