@@ -20,7 +20,7 @@ Landmarks:
 - D.9 - A still glade of ferns round a steaming spring whose water cures a Diseased drinker.
 - D.10 - Tattered tents round a cold ash ring; four centipedes nest in the rot.
 - D.11 - Weathered serpent posts at the jungle's edge, some freshly re-cut; a guide turns back here.
-- D.12 - A high cleared ridge above the great wall, huge three-toed prints in the dung at dawn.
+- D.12 - A high trampled ridge, the great wall's gate-tower far to the south; huge three-toed prints in the dung at dawn.
 
 Tables:
 d10 Encounter

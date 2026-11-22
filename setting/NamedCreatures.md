@@ -7,7 +7,7 @@ AD: 10d6+2
 Special: Its bite is Lethal (Test of Constitution, 3d, Crushing); its tread shakes loose earth and water.
 MA: 3
 Appears at: A.1, D.12
-Reacts: Comes down from the Wall Ridge at dusk, eats what is in the bowls at the gate's foot, and leaves by dawn; it takes whatever stands between it and the bowls.
+Reacts: Comes down out of the hills at dusk by the trail from the Wall Ridge, eats what is in the bowls at the gate's foot, and is back on the ridge by dawn; it takes whatever stands between it and the bowls.
 Wants: The food the villages set out, and to be left to eat it.
 Knows: none
 Description: A forty-foot reptile on two legs with a notched tail and a head as long as a man, the southern villages' name for it is the bone-maker. Its three-toed prints cross the cleared ground below the wall every dawn.
